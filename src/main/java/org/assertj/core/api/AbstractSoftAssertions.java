@@ -21,31 +21,32 @@ import java.util.List;
 import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Failures;
 
-public abstract class AbstractSoftAssertions implements SoftAssertionsProvider, InstanceOfAssertFactories {
+public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollector
+    implements SoftAssertionsProvider, InstanceOfAssertFactories {
 
   protected final SoftProxies proxies;
 
   public AbstractSoftAssertions() {
-    proxies = new SoftProxies();
+    // pass itself as an AssertionErrorCollector instance
+    proxies = new SoftProxies(this);
   }
 
-  private final AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
+  private static final AssertionErrorCreator ASSERTION_ERROR_CREATOR = new AssertionErrorCreator();
+
+  public static void assertAll(AssertionErrorCollector collector) {
+    List<AssertionError> errors = collector.assertionErrorsCollected();
+    if (!errors.isEmpty()) throw ASSERTION_ERROR_CREATOR.multipleSoftAssertionsError(errors);
+  }
 
   @Override
   public void assertAll() {
-    List<AssertionError> errors = assertionErrorsCollected();
-    if (!errors.isEmpty()) throw assertionErrorCreator.multipleSoftAssertionsError(errors);
+    assertAll(this);
   }
 
   @Override
   public <SELF extends Assert<? extends SELF, ? extends ACTUAL>, ACTUAL> SELF proxy(Class<SELF> assertClass,
                                                                                     Class<ACTUAL> actualClass, ACTUAL actual) {
     return proxies.createSoftAssertionProxy(assertClass, actualClass, actual);
-  }
-
-  @Override
-  public void collectAssertionError(AssertionError error) {
-    proxies.collectError(error);
   }
 
   /**
@@ -56,7 +57,7 @@ public abstract class AbstractSoftAssertions implements SoftAssertionsProvider, 
    */
   public void fail(String failureMessage) {
     AssertionError error = Failures.instance().failure(failureMessage);
-    proxies.collectError(error);
+    collectAssertionError(error);
   }
 
   /**
@@ -68,7 +69,7 @@ public abstract class AbstractSoftAssertions implements SoftAssertionsProvider, 
    */
   public void fail(String failureMessage, Object... args) {
     AssertionError error = Failures.instance().failure(format(failureMessage, args));
-    proxies.collectError(error);
+    collectAssertionError(error);
   }
 
   /**
@@ -81,7 +82,7 @@ public abstract class AbstractSoftAssertions implements SoftAssertionsProvider, 
   public void fail(String failureMessage, Throwable realCause) {
     AssertionError error = Failures.instance().failure(failureMessage);
     error.initCause(realCause);
-    proxies.collectError(error);
+    collectAssertionError(error);
   }
 
   /**
@@ -110,16 +111,12 @@ public abstract class AbstractSoftAssertions implements SoftAssertionsProvider, 
    */
   public void shouldHaveThrown(Class<? extends Throwable> throwableClass) {
     AssertionError error = Failures.instance().expectedThrowableNotThrown(throwableClass);
-    proxies.collectError(error);
+    collectAssertionError(error);
   }
 
-  /**
-   * Returns a copy of list of soft assertions collected errors.
-   * @return a copy of list of soft assertions collected errors.
-   */
   @Override
   public List<AssertionError> assertionErrorsCollected() {
-    return decorateErrorsCollected(proxies.errorsCollected());
+    return decorateErrorsCollected(super.assertionErrorsCollected());
   }
 
   /**
@@ -127,7 +124,7 @@ public abstract class AbstractSoftAssertions implements SoftAssertionsProvider, 
    * @return a copy of list of soft assertions collected errors.
    */
   public List<Throwable> errorsCollected() {
-    return decorateErrorsCollected(proxies.errorsCollected());
+    return decorateErrorsCollected(super.assertionErrorsCollected());
   }
 
   /**
@@ -138,23 +135,6 @@ public abstract class AbstractSoftAssertions implements SoftAssertionsProvider, 
   */
   protected <T extends Throwable> List<T> decorateErrorsCollected(List<? extends T> errors) {
     return addLineNumberToErrorMessages(errors);
-  }
-
-  /**
-   * Returns the result of last soft assertion which can be used to decide what the next one should be.
-   * <p>
-   * Example :
-   * <pre><code class='java'> Person person = ...
-   * SoftAssertions soft = new SoftAssertions();
-   * if (soft.assertThat(person.getAddress()).isNotNull().wasSuccess()) {
-   *     soft.assertThat(person.getAddress().getStreet()).isNotNull();
-   * }</code></pre>
-   *
-   * @return true if the last assertion was a success.
-   */
-  @Override
-  public boolean wasSuccess() {
-    return proxies.wasSuccess();
   }
 
   private <T extends Throwable> List<T> addLineNumberToErrorMessages(List<? extends T> errors) {

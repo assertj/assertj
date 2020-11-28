@@ -23,7 +23,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("FloatAssert isGreaterThanOrEqualTo")
-public class FloatAssert_isGreaterThanOrEqualTo_FloatWrapper_Test extends FloatAssertBaseTest {
+class FloatAssert_isGreaterThanOrEqualTo_FloatWrapper_Test extends FloatAssertBaseTest {
 
   private Float other = 1.0f;
 
@@ -39,7 +39,7 @@ public class FloatAssert_isGreaterThanOrEqualTo_FloatWrapper_Test extends FloatA
   }
 
   @Test
-  public void should_fail_when_comparing_negative_zero_to_positive_zero() {
+  void should_fail_when_comparing_negative_zero_to_positive_zero() {
     // GIVEN
     final Float positiveZero = 0.0f;
     final float negativeZero = -0.0f;
@@ -49,7 +49,7 @@ public class FloatAssert_isGreaterThanOrEqualTo_FloatWrapper_Test extends FloatA
   }
 
   @Test
-  public void should_pass_when_comparing_positive_zero_to_negative_zero() {
+  void should_pass_when_comparing_positive_zero_to_negative_zero() {
     // GIVEN
     final Float positiveZero = 0.0f;
     final Float negativeZero = -0.0f;
@@ -58,7 +58,7 @@ public class FloatAssert_isGreaterThanOrEqualTo_FloatWrapper_Test extends FloatA
   }
 
   @Test
-  public void should_honor_user_specified_comparator() {
+  void should_honor_user_specified_comparator() {
     // GIVEN
     final Float one = 1.0f;
     // THEN

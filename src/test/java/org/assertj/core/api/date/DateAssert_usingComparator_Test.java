@@ -13,48 +13,39 @@
 package org.assertj.core.api.date;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.util.Comparator;
 import java.util.Date;
-
 
 import org.assertj.core.api.DateAssert;
 import org.assertj.core.api.DateAssertBaseTest;
 import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.Objects;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link DateAssert#usingComparator(java.util.Comparator)}</code> and
  * <code>{@link DateAssert#usingDefaultComparator()}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
-public class DateAssert_usingComparator_Test extends DateAssertBaseTest {
+class DateAssert_usingComparator_Test extends DateAssertBaseTest {
 
-  @Mock
-  private Comparator<Date> comparator;
-
-  @BeforeEach
-  public void before() {
-    initMocks(this);
-  }
+  private Comparator<Date> comparator = alwaysEqual();
 
   @Test
-  public void using_default_comparator_test() {
+  void using_default_comparator_test() {
     assertions.usingDefaultComparator();
-    assertThat(Objects.instance()).isSameAs(getObjects(assertions));
+    assertThat(getObjects(assertions)).isSameAs(Objects.instance());
     assertThat(Dates.instance()).isSameAs(getDates(assertions));
   }
 
   @Test
-  public void using_custom_comparator_test() {
+  void using_custom_comparator_test() {
     // in that, we don't care of the comparator, the point to check is that we switch correctly of comparator
     assertions.usingComparator(comparator);
-    assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
-    assertThat(comparator).isSameAs(getDates(assertions).getComparator());
+    assertThat(getObjects(assertions).getComparator()).isSameAs(comparator);
+    assertThat(getDates(assertions).getComparator()).isSameAs(comparator);
   }
 }

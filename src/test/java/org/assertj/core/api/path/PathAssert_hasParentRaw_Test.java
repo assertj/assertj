@@ -20,17 +20,17 @@ import java.nio.file.Path;
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
 
-public class PathAssert_hasParentRaw_Test extends PathAssertBaseTest {
+class PathAssert_hasParentRaw_Test extends PathAssertBaseTest {
 
   private final Path expected = mock(Path.class);
 
   @Override
   protected PathAssert invoke_api_method() {
-	return assertions.hasParentRaw(expected);
+    return assertions.hasParentRaw(expected);
   }
 
   @Override
   protected void verify_internal_effects() {
-	verify(paths).assertHasParentRaw(getInfo(assertions), getActual(assertions), expected);
+    verify(paths).assertHasParentRaw(getInfo(assertions), getActual(assertions), expected);
   }
 }

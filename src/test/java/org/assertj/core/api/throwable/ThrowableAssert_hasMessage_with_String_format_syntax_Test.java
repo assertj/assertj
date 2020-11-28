@@ -19,7 +19,7 @@ import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.api.ThrowableAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class ThrowableAssert_hasMessage_with_String_format_syntax_Test extends ThrowableAssertBaseTest {
+class ThrowableAssert_hasMessage_with_String_format_syntax_Test extends ThrowableAssertBaseTest {
 
   @Override
   protected ThrowableAssert invoke_api_method() {
@@ -33,7 +33,7 @@ public class ThrowableAssert_hasMessage_with_String_format_syntax_Test extends T
   }
 
   @Test
-  public void should_throw_if_String_format_syntax_is_not_met() {
+  void should_throw_if_String_format_syntax_is_not_met() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertions.hasMessage("throwable message %s %s %s", "foo"));
   }
 

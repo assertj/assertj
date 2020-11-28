@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Chris Arnott
  */
-public class AtomicReferenceArrayAssert_containsSequence_List_Test extends AtomicReferenceArrayAssertBaseTest {
+class AtomicReferenceArrayAssert_containsSequence_List_Test extends AtomicReferenceArrayAssertBaseTest {
 
   @Override
   protected AtomicReferenceArrayAssert<Object> invoke_api_method() {
@@ -44,7 +44,7 @@ public class AtomicReferenceArrayAssert_containsSequence_List_Test extends Atomi
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_null() {
+  void should_throw_error_if_sequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       List<Object> nullList = null;
       assertions.containsSequence(nullList);

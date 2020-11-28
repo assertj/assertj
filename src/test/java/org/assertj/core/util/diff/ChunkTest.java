@@ -23,7 +23,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
-public class ChunkTest {
+class ChunkTest {
 
   private Chunk<String> chunk;
 
@@ -33,42 +33,42 @@ public class ChunkTest {
   }
 
   @Test
-  public void should_have_reflexive_equals() {
+  void should_have_reflexive_equals() {
     assertEqualsIsReflexive(chunk);
   }
 
   @Test
-  public void should_have_symmetric_equals() {
+  void should_have_symmetric_equals() {
     assertEqualsIsSymmetric(chunk, new Chunk<>(1, emptyList()));
   }
 
   @Test
-  public void should_have_transitive_equals() {
+  void should_have_transitive_equals() {
     assertEqualsIsTransitive(chunk, new Chunk<>(1, emptyList()), new Chunk<>(1, emptyList()));
   }
 
   @Test
-  public void should_maintain_equals_and_hashCode_contract() {
+  void should_maintain_equals_and_hashCode_contract() {
     assertMaintainsEqualsAndHashCodeContract(chunk, new Chunk<>(1, emptyList()));
   }
 
   @Test
-  public void should_not_be_equal_to_Object_of_different_type() {
+  void should_not_be_equal_to_Object_of_different_type() {
     assertThat(chunk.equals("8")).isFalse();
   }
 
   @Test
-  public void should_not_be_equal_to_null() {
+  void should_not_be_equal_to_null() {
     assertThat(chunk.equals(null)).isFalse();
   }
 
   @Test
-  public void should_not_be_equal_to_Chunk_with_different_value() {
+  void should_not_be_equal_to_Chunk_with_different_value() {
     assertThat(chunk.equals(new Chunk<>(2, emptyList()))).isFalse();
   }
 
   @Test
-  public void should_have_nice_toString_value() {
+  void should_have_nice_toString_value() {
     assertThat(chunk).hasToString("[position: 1, size: 0, lines: []]");
   }
 }

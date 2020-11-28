@@ -23,10 +23,10 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.internal.IntArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class IntArrays_assertHasSameSizeAs_with_Array_Test extends IntArraysBaseTest {
+class IntArrays_assertHasSameSizeAs_with_Array_Test extends IntArraysBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
     // WHEN
@@ -36,7 +36,7 @@ public class IntArrays_assertHasSameSizeAs_with_Array_Test extends IntArraysBase
   }
 
   @Test
-  public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
+  void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     // GIVEN
     AssertionInfo info = someInfo();
     String[] other = array("Solo", "Leia", "Yoda", "Luke");
@@ -48,7 +48,7 @@ public class IntArrays_assertHasSameSizeAs_with_Array_Test extends IntArraysBase
   }
 
   @Test
-  public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
+  void should_pass_if_size_of_actual_is_equal_to_expected_size() {
     arrays.assertHasSameSizeAs(someInfo(), actual, array("Solo", "Leia", "Luke"));
   }
 }

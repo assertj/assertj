@@ -27,7 +27,7 @@ import org.assertj.core.data.Offset;
  *
  * @author Joel Costigliola
  */
-public class BigDecimalAssert_isCloseTo_Test extends BigDecimalAssertBaseTest {
+class BigDecimalAssert_isCloseTo_Test extends BigDecimalAssertBaseTest {
 
   private final BigDecimal other = new BigDecimal(6);
   private final Offset<BigDecimal> offset = offset(BigDecimal.ONE);

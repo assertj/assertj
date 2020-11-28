@@ -24,10 +24,10 @@ import java.util.OptionalLong;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
-public class OptionalLongAssert_hasValue_Test {
+class OptionalLongAssert_hasValue_Test {
 
   @Test
-  public void should_fail_when_OptionalLong_is_null() {
+  void should_fail_when_OptionalLong_is_null() {
     // GIVEN
     OptionalLong nullActual = null;
     // THEN
@@ -35,12 +35,12 @@ public class OptionalLongAssert_hasValue_Test {
   }
 
   @Test
-  public void should_pass_if_OptionalLong_has_expected_value() {
+  void should_pass_if_OptionalLong_has_expected_value() {
     assertThat(OptionalLong.of(10L)).hasValue(10L);
   }
 
   @Test
-  public void should_fail_if_OptionalLong_does_not_have_expected_value() {
+  void should_fail_if_OptionalLong_does_not_have_expected_value() {
     // GIVEN
     OptionalLong actual = OptionalLong.of(5L);
     long expectedValue = 10L;
@@ -54,7 +54,7 @@ public class OptionalLongAssert_hasValue_Test {
   }
 
   @Test
-  public void should_fail_if_OptionalLong_is_empty() {
+  void should_fail_if_OptionalLong_is_empty() {
     // GIVEN
     long expectedValue = 10L;
     // WHEN

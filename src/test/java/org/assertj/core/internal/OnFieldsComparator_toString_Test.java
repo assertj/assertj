@@ -17,10 +17,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-public class OnFieldsComparator_toString_Test {
+class OnFieldsComparator_toString_Test {
 
   @Test
-  public void should_return_description_for_multiple_given_fields() {
+  void should_return_description_for_multiple_given_fields() {
     // GIVEN
     OnFieldsComparator actual = new OnFieldsComparator("a", "b");
     // THEN
@@ -30,7 +30,7 @@ public class OnFieldsComparator_toString_Test {
   }
 
   @Test
-  public void should_return_description_for_a_single_given_field() {
+  void should_return_description_for_a_single_given_field() {
     // GIVEN
     OnFieldsComparator actual = new OnFieldsComparator("a");
     // THEN

@@ -31,12 +31,12 @@ import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends ObjectArrayAssertBaseTest {
 
   private ObjectArrays arraysBefore;
 
   @BeforeEach
-  public void before() {
+  void before() {
     arraysBefore = getArrays(assertions);
   }
 
@@ -53,28 +53,28 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
   }
 
   @Test
-  public void successful_isEqualTo_assertion_using_field_by_field_element_comparator() {
+  void successful_isEqualTo_assertion_using_field_by_field_element_comparator() {
     Foo[] array1 = array(new Foo("id", 1));
     Foo[] array2 = array(new Foo("id", 1));
     assertThat(array1).usingFieldByFieldElementComparator().isEqualTo(array2);
   }
 
   @Test
-  public void successful_isIn_assertion_using_field_by_field_element_comparator() {
+  void successful_isIn_assertion_using_field_by_field_element_comparator() {
     Foo[] array1 = array(new Foo("id", 1));
     Foo[] array2 = array(new Foo("id", 1));
     assertThat(array1).usingFieldByFieldElementComparator().isIn(array2, array2);
   }
 
   @Test
-  public void successful_isEqualTo_assertion_using_field_by_field_element_comparator_with_heterogeneous_array() {
+  void successful_isEqualTo_assertion_using_field_by_field_element_comparator_with_heterogeneous_array() {
     Animal[] array1 = array(new Bird("White"), new Snake(15));
     Animal[] array2 = array(new Bird("White"), new Snake(15));
     assertThat(array1).usingFieldByFieldElementComparator().isEqualTo(array2);
   }
 
   @Test
-  public void successful_contains_assertion_using_field_by_field_element_comparator_with_heterogeneous_array() {
+  void successful_contains_assertion_using_field_by_field_element_comparator_with_heterogeneous_array() {
     Animal[] array1 = array(new Bird("White"), new Snake(15));
     assertThat(array1).usingFieldByFieldElementComparator()
                       .contains(new Snake(15), new Bird("White"))
@@ -85,20 +85,20 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
   }
 
   @Test
-  public void successful_isIn_assertion_using_field_by_field_element_comparator_with_heterogeneous_array() {
+  void successful_isIn_assertion_using_field_by_field_element_comparator_with_heterogeneous_array() {
     Animal[] array1 = array(new Bird("White"), new Snake(15));
     Animal[] array2 = array(new Bird("White"), new Snake(15));
     assertThat(array1).usingFieldByFieldElementComparator().isIn(array2, array2);
   }
 
   @Test
-  public void successful_containsExactly_assertion_using_field_by_field_element_comparator_with_heterogeneous_array() {
+  void successful_containsExactly_assertion_using_field_by_field_element_comparator_with_heterogeneous_array() {
     Animal[] array1 = array(new Bird("White"), new Snake(15));
     assertThat(array1).usingFieldByFieldElementComparator().containsExactly(new Bird("White"), new Snake(15));
   }
 
   @Test
-  public void successful_containsExactlyInAnyOrder_assertion_using_field_by_field_element_comparator_with_heterogeneous_array() {
+  void successful_containsExactlyInAnyOrder_assertion_using_field_by_field_element_comparator_with_heterogeneous_array() {
     Snake snake = new Snake(15);
     Animal[] array1 = array(new Bird("White"), snake, snake);
     assertThat(array1).usingFieldByFieldElementComparator().containsExactlyInAnyOrder(new Snake(15), new Bird("White"),
@@ -106,7 +106,7 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
   }
 
   @Test
-  public void successful_containsExactlyInAnyOrderElementsOf_assertion_using_field_by_field_element_comparator_with_heterogeneous_array() {
+  void successful_containsExactlyInAnyOrderElementsOf_assertion_using_field_by_field_element_comparator_with_heterogeneous_array() {
     Snake snake = new Snake(15);
     Animal[] array1 = array(new Bird("White"), snake, snake);
     assertThat(array1).usingFieldByFieldElementComparator().containsExactlyInAnyOrderElementsOf(
@@ -114,7 +114,7 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
   }
 
   @Test
-  public void successful_containsOnly_assertion_using_field_by_field_element_comparator_with_unordered_array() {
+  void successful_containsOnly_assertion_using_field_by_field_element_comparator_with_unordered_array() {
     Person goodObiwan = new Person("Obi-Wan", "Kenobi", "good man");
     Person badObiwan = new Person("Obi-Wan", "Kenobi", "bad man");
 
@@ -152,7 +152,7 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
   }
 
   @Test
-  public void failed_isEqualTo_assertion_using_field_by_field_element_comparator() {
+  void failed_isEqualTo_assertion_using_field_by_field_element_comparator() {
     Foo[] array1 = array(new Foo("id", 1));
     Foo[] array2 = array(new Foo("id", 2));
 
@@ -170,7 +170,7 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
   }
 
   @Test
-  public void failed_isIn_assertion_using_field_by_field_element_comparator() {
+  void failed_isIn_assertion_using_field_by_field_element_comparator() {
     Foo[] array1 = array(new Foo("id", 1));
     Foo[] array2 = array(new Foo("id", 2));
 
@@ -187,7 +187,7 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
   }
 
   @Test
-  public void should_be_able_to_use_a_comparator_for_specified_fields_of_elements_when_using_field_by_field_element_comparator() {
+  void should_be_able_to_use_a_comparator_for_specified_fields_of_elements_when_using_field_by_field_element_comparator() {
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
@@ -197,7 +197,7 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
   }
 
   @Test
-  public void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_when_using_field_by_field_element_comparator() {
+  void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_when_using_field_by_field_element_comparator() {
     Comparator<String> comparator = (o1, o2) -> o1.compareTo(o2);
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
@@ -209,7 +209,7 @@ public class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends O
   }
 
   @Test
-  public void should_be_able_to_use_a_comparator_for_element_fields_with_specified_type_when_using_field_by_field_element_comparator() {
+  void should_be_able_to_use_a_comparator_for_element_fields_with_specified_type_when_using_field_by_field_element_comparator() {
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "blue");
 

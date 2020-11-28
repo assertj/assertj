@@ -22,7 +22,7 @@ import org.assertj.core.api.ThrowableAssertBaseTest;
  *
  * @author Krishna Chaithanya Ganta
  */
-public class ThrowableAssert_hasStackTraceContaining_with_String_format_syntax_Test extends ThrowableAssertBaseTest {
+class ThrowableAssert_hasStackTraceContaining_with_String_format_syntax_Test extends ThrowableAssertBaseTest {
 
   @Override
   protected ThrowableAssert invoke_api_method() {

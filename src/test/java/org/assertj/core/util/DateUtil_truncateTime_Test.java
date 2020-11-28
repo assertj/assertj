@@ -12,11 +12,11 @@
  */
 package org.assertj.core.util;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.DateUtil.truncateTime;
 
-import static org.assertj.core.api.Assertions.*;
-
-import java.text.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.junit.jupiter.api.Test;
@@ -26,17 +26,17 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class DateUtil_truncateTime_Test {
+class DateUtil_truncateTime_Test {
 
   @Test
-  public void should_return_millisecond_of_date() throws ParseException {
+  void should_return_millisecond_of_date() throws ParseException {
     Date date = new SimpleDateFormat("dd/MM/yyyy'T'hh:mm:ss:SS").parse("26/08/1994T22:35:17:29");
     Date expectedDate = new SimpleDateFormat("dd/MM/yyyy").parse("26/08/1994");
     assertThat(truncateTime(date)).isEqualTo(expectedDate);
   }
 
   @Test
-  public void should_return_null_if_date_is_null() {
+  void should_return_null_if_date_is_null() {
     assertThat(truncateTime(null)).isNull();
   }
 

@@ -25,32 +25,32 @@ import org.junit.jupiter.api.Test;
  *
  * @author Marcel Overdijk
  */
-public class Strings_assertIsUpperCase_Test extends StringsBaseTest {
+class Strings_assertIsUpperCase_Test extends StringsBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_uppercase() {
+  void should_pass_if_actual_is_uppercase() {
     strings.assertUpperCase(someInfo(), "LEGO");
   }
 
   @Test
-  public void should_pass_if_actual_is_empty() {
+  void should_pass_if_actual_is_empty() {
     strings.assertUpperCase(someInfo(), "");
   }
 
   @Test
-  public void should_fail_if_actual_is_not_only_uppercase() {
+  void should_fail_if_actual_is_not_only_uppercase() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertUpperCase(someInfo(), "Lego"))
                                                    .withMessage(shouldBeUpperCase("Lego").create());
   }
 
   @Test
-  public void should_fail_if_actual_is_lowercase() {
+  void should_fail_if_actual_is_lowercase() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertUpperCase(someInfo(), "lego"))
                                                    .withMessage(shouldBeUpperCase("lego").create());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertUpperCase(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }

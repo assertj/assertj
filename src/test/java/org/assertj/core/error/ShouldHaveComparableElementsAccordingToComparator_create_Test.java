@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class ShouldHaveComparableElementsAccordingToComparator_create_Test {
+class ShouldHaveComparableElementsAccordingToComparator_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveComparableElementsAccordingToGivenComparator(array("b", "c", "a"),
                                                                                          new CaseInsensitiveStringComparator());

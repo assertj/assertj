@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Comparables_assertEqualByComparison_Test extends ComparablesBaseTest {
+class Comparables_assertEqualByComparison_Test extends ComparablesBaseTest {
 
   @Override
   protected Comparator<?> comparatorForCustomComparisonStrategy() {
@@ -46,13 +46,13 @@ public class Comparables_assertEqualByComparison_Test extends ComparablesBaseTes
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertEqualByComparison(someInfo(), null, 8))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_objects_are_equal() {
+  void should_pass_if_objects_are_equal() {
     BigDecimal a = new BigDecimal("10.0");
     BigDecimal e = new BigDecimal("10.000");
     // we use BigDecimal to ensure that 'compareTo' is being called, since BigDecimal is the only Comparable where
@@ -62,7 +62,7 @@ public class Comparables_assertEqualByComparison_Test extends ComparablesBaseTes
   }
 
   @Test
-  public void should_fail_if_objects_are_not_equal() {
+  void should_fail_if_objects_are_not_equal() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> comparables.assertEqualByComparison(info, "Luke", "Yoda"));
@@ -76,13 +76,13 @@ public class Comparables_assertEqualByComparison_Test extends ComparablesBaseTes
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparablesWithCustomComparisonStrategy.assertEqualByComparison(someInfo(), null, BigDecimal.ONE))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_objects_are_equal_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_objects_are_equal_whatever_custom_comparison_strategy_is() {
     BigDecimal a = new BigDecimal("10.0");
     BigDecimal e = new BigDecimal("10.000");
     // we use BigDecimal to ensure that 'compareTo' is being called, since BigDecimal is the only Comparable where
@@ -92,7 +92,7 @@ public class Comparables_assertEqualByComparison_Test extends ComparablesBaseTes
   }
 
   @Test
-  public void should_fail_if_objects_are_not_equal_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_objects_are_not_equal_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> comparablesWithCustomComparisonStrategy.assertEqualByComparison(info, "Luke", "Yoda"));

@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verify;
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  */
-public class ObjectArrayAssert_contains_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_contains_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {

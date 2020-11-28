@@ -26,9 +26,9 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Christian Rösch
  */
-public class Lists_newArrayList_withIterator_Test {
+class Lists_newArrayList_withIterator_Test {
   @Test
-  public void should_return_List_containing_all_elements_in_iterator() {
+  void should_return_List_containing_all_elements_in_iterator() {
     String[] expected = { "One", "Two" };
     Iterator<String> elements = asList(expected).iterator();
     ArrayList<String> list = Lists.newArrayList(elements);
@@ -36,13 +36,13 @@ public class Lists_newArrayList_withIterator_Test {
   }
 
   @Test
-  public void should_return_null_if_iterator_is_null() {
+  void should_return_null_if_iterator_is_null() {
     Iterator<?> elements = null;
     assertThat(Lists.newArrayList(elements)).isNull();
   }
 
   @Test
-  public void should_return_empty_List_if_iterator_is_empty() {
+  void should_return_empty_List_if_iterator_is_empty() {
     Iterator<String> elements = Collections.emptyIterator();
     ArrayList<String> list = Lists.newArrayList(elements);
     assertThat(list).isEmpty();

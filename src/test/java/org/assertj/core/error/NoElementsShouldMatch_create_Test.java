@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Filip Hrisafov
  */
-public class NoElementsShouldMatch_create_Test {
+class NoElementsShouldMatch_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = noElementsShouldMatch(list("Luke", "Yoda"), "Yoda",
                                                         PredicateDescription.GIVEN);
@@ -43,7 +43,7 @@ public class NoElementsShouldMatch_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_custom_description() {
+  void should_create_error_message_with_custom_description() {
     // GIVEN
     ErrorMessageFactory factory = noElementsShouldMatch(list("Luke", "Yoda"), "Yoda",
                                                         new PredicateDescription("custom"));

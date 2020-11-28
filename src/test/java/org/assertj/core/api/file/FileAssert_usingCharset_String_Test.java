@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * 
  * @author Olivier Michallat
  */
-public class FileAssert_usingCharset_String_Test extends FileAssertBaseTest {
+class FileAssert_usingCharset_String_Test extends FileAssertBaseTest {
 
   @Override
   protected FileAssert invoke_api_method() {

@@ -24,28 +24,26 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Nicolas François
  */
-public class AbstractAssert_equal_hashCode_Test {
+class AbstractAssert_equal_hashCode_Test {
 
   private ConcreteAssert assertions = new ConcreteAssert("myString");
 
   @Test
   @SuppressWarnings("deprecation")
-  public void should_fail_because_not_supported_operation() {
+  void should_fail_because_not_supported_operation() {
     assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> assertions.equals("anotherString"))
                                                                   .withMessageContaining("'equals' is not supported...maybe you intended to call 'isEqualTo'");
   }
 
   @Test
   @SuppressWarnings("deprecation")
-  public void should_not_fail_when_equals_exceptions_is_deactivated() {
+  void should_not_fail_when_equals_exceptions_is_deactivated() {
     AbstractAssert.throwUnsupportedExceptionOnEquals = false;
     assertions.equals("anotherString");
   }
 
-
   @Test
-  public void shouldReturnOneAsHashCode() {
+  void shouldReturnOneAsHashCode() {
     assertThat(assertions.hashCode()).isEqualTo(1);
   }
-
 }

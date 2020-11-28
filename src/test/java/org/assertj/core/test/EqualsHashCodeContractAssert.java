@@ -22,18 +22,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public final class EqualsHashCodeContractAssert {
 
   /**
-   * Verifies that the {@code equals} implementation of the given object returns {@code false} when the object is
-   * compared to {@code null}.
-   * @param obj the object to verify.
-   * @throws AssertionError if the {@code equals} implementation of the given objects returns {@code true} when the
-   * object compared to {@code null}.
-   * @see EqualsHashCodeContractTestCase#should_not_be_equal_to_null()
-   */
-  public static void assertIsNotEqualToNull(Object obj) {
-    assertThat(obj.equals(null)).isNull();
-  }
-
-  /**
    * Verifies that the {@code equals} implementation of the given object is reflexive: the object must be equal to
    * itself, which it would be at any given instance; unless you intentionally override the equals method to behave
    * otherwise.

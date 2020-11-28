@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
  * @author Marcin Zajączkowski
  */
 @DisplayName("OffsetDateTimeAssert isEqualTo")
-public class OffsetDateTimeAssert_isEqualTo_Test extends AbstractOffsetDateTimeAssertBaseTest {
+class OffsetDateTimeAssert_isEqualTo_Test extends AbstractOffsetDateTimeAssertBaseTest {
 
   private Object otherType = new Object();
 
@@ -56,12 +56,12 @@ public class OffsetDateTimeAssert_isEqualTo_Test extends AbstractOffsetDateTimeA
   }
 
   @Test
-  public void should_pass_if_actual_is_equal_to_offsetDateTime_with_different_offset() {
+  void should_pass_if_actual_is_equal_to_offsetDateTime_with_different_offset() {
     assertThat(REFERENCE_WITH_DIFFERENT_OFFSET).isEqualTo(REFERENCE);
   }
 
   @Test
-  public void should_pass_if_actual_is_equal_to_offsetDateTime_with_different_offset_as_a_Temporal() {
+  void should_pass_if_actual_is_equal_to_offsetDateTime_with_different_offset_as_a_Temporal() {
     // GIVEN
     Temporal reference = REFERENCE;
     // WHEN/THEN
@@ -69,7 +69,7 @@ public class OffsetDateTimeAssert_isEqualTo_Test extends AbstractOffsetDateTimeA
   }
 
   @Test
-  public void should_fail_if_actual_is_not_equal_to_offsetDateTime_with_different_offset() {
+  void should_fail_if_actual_is_not_equal_to_offsetDateTime_with_different_offset() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(AFTER_WITH_DIFFERENT_OFFSET).isEqualTo(REFERENCE));
     // THEN
@@ -79,7 +79,7 @@ public class OffsetDateTimeAssert_isEqualTo_Test extends AbstractOffsetDateTimeA
   }
 
   @Test
-  public void should_fail_if_offsetDateTime_as_string_parameter_is_null() {
+  void should_fail_if_offsetDateTime_as_string_parameter_is_null() {
     // GIVEN
     String otherOffsetDateTimeAsString = null;
     // WHEN
@@ -90,7 +90,7 @@ public class OffsetDateTimeAssert_isEqualTo_Test extends AbstractOffsetDateTimeA
   }
 
   @Test
-  public void should_pass_if_both_are_null() {
+  void should_pass_if_both_are_null() {
     // GIVEN
     OffsetDateTime nullActual = null;
     OffsetDateTime nullExpected = null;
@@ -99,7 +99,7 @@ public class OffsetDateTimeAssert_isEqualTo_Test extends AbstractOffsetDateTimeA
   }
 
   @Test
-  public void should_fail_if_given_string_parameter_cant_be_parsed() {
+  void should_fail_if_given_string_parameter_cant_be_parsed() {
     assertThatThrownBy(() -> assertions.isEqualTo("not an OffsetDateTime")).isInstanceOf(DateTimeParseException.class);
   }
 }

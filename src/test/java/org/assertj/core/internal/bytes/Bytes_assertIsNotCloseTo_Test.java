@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class Bytes_assertIsNotCloseTo_Test extends BytesBaseTest {
+class Bytes_assertIsNotCloseTo_Test extends BytesBaseTest {
 
   private static final Byte ZERO = 0;
   private static final Byte ONE = 1;
@@ -42,7 +42,7 @@ public class Bytes_assertIsNotCloseTo_Test extends BytesBaseTest {
       "1, -2, 2",
       "-1, 2, 2"
   })
-  public void should_pass_if_difference_is_greater_than_offset(byte actual, byte other, byte offset) {
+  void should_pass_if_difference_is_greater_than_offset(byte actual, byte other, byte offset) {
     bytes.assertIsNotCloseTo(someInfo(), actual, other, byLessThan(offset));
     bytes.assertIsNotCloseTo(someInfo(), actual, other, within(offset));
   }
@@ -55,7 +55,7 @@ public class Bytes_assertIsNotCloseTo_Test extends BytesBaseTest {
       "1, -1, 2",
       "-1, 1, 2"
   })
-  public void should_pass_if_difference_is_equal_to_strict_offset(byte actual, byte other, byte offset) {
+  void should_pass_if_difference_is_equal_to_strict_offset(byte actual, byte other, byte offset) {
     bytes.assertIsNotCloseTo(someInfo(), actual, other, byLessThan(offset));
   }
 
@@ -66,7 +66,7 @@ public class Bytes_assertIsNotCloseTo_Test extends BytesBaseTest {
       "1, 0, 2",
       "0, 1, 2"
   })
-  public void should_fail_if_actual_is_too_close_to_the_other_value(byte actual, byte other, byte offset) {
+  void should_fail_if_actual_is_too_close_to_the_other_value(byte actual, byte other, byte offset) {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> bytes.assertIsNotCloseTo(someInfo(), actual, other, byLessThan(offset)));
@@ -81,8 +81,8 @@ public class Bytes_assertIsNotCloseTo_Test extends BytesBaseTest {
       "1, 0, 2",
       "0, 1, 2"
   })
-  public void should_fail_if_actual_is_too_close_to_the_other_value_with_strict_offset(byte actual, byte other,
-                                                                                       byte offset) {
+  void should_fail_if_actual_is_too_close_to_the_other_value_with_strict_offset(byte actual, byte other,
+                                                                                byte offset) {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> bytes.assertIsNotCloseTo(info, actual, other, byLessThan(offset)));
@@ -97,7 +97,7 @@ public class Bytes_assertIsNotCloseTo_Test extends BytesBaseTest {
       "1, 0, 1",
       "1, 2, 1"
   })
-  public void should_fail_if_difference_is_equal_to_given_offset(byte actual, byte other, byte offset) {
+  void should_fail_if_difference_is_equal_to_given_offset(byte actual, byte other, byte offset) {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> bytes.assertIsNotCloseTo(someInfo(), actual, other, within(offset)));
@@ -107,18 +107,18 @@ public class Bytes_assertIsNotCloseTo_Test extends BytesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_expected_value_is_null() {
+  void should_fail_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> bytes.assertIsNotCloseTo(someInfo(), ONE, null, byLessThan(ONE)));
   }
 
   @Test
-  public void should_fail_if_offset_is_null() {
+  void should_fail_if_offset_is_null() {
     assertThatNullPointerException().isThrownBy(() -> bytes.assertIsNotCloseTo(someInfo(), ONE, ZERO, null));
   }
 

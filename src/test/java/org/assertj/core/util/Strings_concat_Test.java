@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
@@ -21,15 +21,15 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class Strings_concat_Test {
+class Strings_concat_Test {
 
   @Test
-  public void should_return_null_if_array_is_null() {
+  void should_return_null_if_array_is_null() {
     assertThat(Strings.concat((Object[]) null)).isNull();
   }
 
   @Test
-  public void should_concatenate_given_Strings() {
+  void should_concatenate_given_Strings() {
     assertThat(Strings.concat("One", "Two", "Three")).isEqualTo("OneTwoThree");
   }
 }

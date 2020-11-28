@@ -24,10 +24,10 @@ import java.time.OffsetTime;
 
 import org.junit.jupiter.api.Test;
 
-public class OffsetTimeAssert_isAfter_Test extends OffsetTimeAssertBaseTest {
+class OffsetTimeAssert_isAfter_Test extends OffsetTimeAssertBaseTest {
 
   @Test
-  public void test_isAfter_assertion() {
+  void test_isAfter_assertion() {
     // WHEN
     assertThat(AFTER).isAfter(REFERENCE);
     assertThat(AFTER).isAfter(REFERENCE.toString());
@@ -37,7 +37,7 @@ public class OffsetTimeAssert_isAfter_Test extends OffsetTimeAssertBaseTest {
   }
 
   @Test
-  public void test_isAfter_assertion_error_message() {
+  void test_isAfter_assertion_error_message() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(parse("03:00:05.123Z")).isAfter(parse("03:00:05.123456789Z")))
                                                    .withMessage(format("%n" +
                                                                        "Expecting:%n" +
@@ -47,7 +47,7 @@ public class OffsetTimeAssert_isAfter_Test extends OffsetTimeAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       OffsetTime actual = null;
       assertThat(actual).isAfter(OffsetTime.now());
@@ -55,13 +55,13 @@ public class OffsetTimeAssert_isAfter_Test extends OffsetTimeAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_offsetTime_parameter_is_null() {
+  void should_fail_if_offsetTime_parameter_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetTime.now()).isAfter((OffsetTime) null))
                                         .withMessage("The OffsetTime to compare actual with should not be null");
   }
 
   @Test
-  public void should_fail_if_offsetTime_as_string_parameter_is_null() {
+  void should_fail_if_offsetTime_as_string_parameter_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetTime.now()).isAfter((String) null))
                                         .withMessage("The String representing the OffsetTime to compare actual with should not be null");
   }

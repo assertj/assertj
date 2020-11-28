@@ -22,12 +22,12 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-public class Assertions_linesOf_Test {
+class Assertions_linesOf_Test {
 
   private static final List<String> EXPECTED_CONTENT = newArrayList("A text file encoded in UTF-8, with diacritics:", "é à");
 
   @Test
-  public void should_read_lines_of_file_with_UTF8_charset() {
+  void should_read_lines_of_file_with_UTF8_charset() {
     File file = new File("src/test/resources/utf8.txt");
     assertThat(linesOf(file, "UTF-8")).isEqualTo(EXPECTED_CONTENT);
     assertThat(linesOf(file, StandardCharsets.UTF_8)).isEqualTo(EXPECTED_CONTENT);

@@ -33,6 +33,7 @@ import static org.assertj.core.error.ShouldHaveMethods.shouldNotHaveMethods;
 import static org.assertj.core.error.ShouldHaveNoFields.shouldHaveNoDeclaredFields;
 import static org.assertj.core.error.ShouldHaveNoFields.shouldHaveNoPublicFields;
 import static org.assertj.core.error.ShouldHaveNoSuperclass.shouldHaveNoSuperclass;
+import static org.assertj.core.error.ShouldHavePackage.shouldHavePackage;
 import static org.assertj.core.error.ShouldHaveSuperclass.shouldHaveSuperclass;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.error.ShouldOnlyHaveFields.shouldOnlyHaveDeclaredFields;
@@ -581,4 +582,45 @@ public class Classes {
   private static void classParameterIsNotNull(Class<?> clazz) {
     requireNonNull(clazz, "The class to compare actual with should not be null");
   }
+
+  /**
+   * Verifies that the actual {@code Class} has the given {@code packageName}.
+   *
+   * @param info        contains information about the assertion.
+   * @param actual      the "actual" {@code Class}.
+   * @param packageName the package that must be declared in the class.
+   * @throws NullPointerException if {@code packageName} is {@code null}.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if {@code actual} does not have the given package name.
+   */
+  public void assertHasPackage(AssertionInfo info, Class<?> actual, String packageName) {
+    assertNotNull(info, actual);
+    requireNonNull(packageName, shouldNotBeNull("packageName").create());
+    Package actualPackage = actual.getPackage();
+
+    if (actualPackage == null || !actualPackage.getName().equals(packageName)) {
+      throw failures.failure(info, shouldHavePackage(actual, packageName));
+    }
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has the given {@code Package}.
+   *
+   * @param info     contains information about the assertion.
+   * @param actual   the "actual" {@code Class}.
+   * @param aPackage the package that must be declared in the class.
+   * @throws NullPointerException if {@code aPackage} is {@code null}.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if {@code actual} does not have the given package.
+   */
+  public void assertHasPackage(AssertionInfo info, Class<?> actual, Package aPackage) {
+    assertNotNull(info, actual);
+    requireNonNull(aPackage, shouldNotBeNull("aPackage").create());
+    Package actualPackage = actual.getPackage();
+
+    if (!aPackage.equals(actualPackage)) {
+      throw failures.failure(info, shouldHavePackage(actual, aPackage));
+    }
+  }
+
 }

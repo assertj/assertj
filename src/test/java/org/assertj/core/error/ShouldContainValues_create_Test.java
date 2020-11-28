@@ -24,9 +24,9 @@ import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
-public class ShouldContainValues_create_Test {
+class ShouldContainValues_create_Test {
   @Test
-  public void should_create_error_message_with_multiple_values() {
+  void should_create_error_message_with_multiple_values() {
     // GIVEN
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldContainValues(map, newLinkedHashSet("VeryOld", "Vader"));
@@ -41,7 +41,7 @@ public class ShouldContainValues_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_single_value() {
+  void should_create_error_message_with_single_value() {
     // GIVEN
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldContainValues(map, newLinkedHashSet("VeryOld"));

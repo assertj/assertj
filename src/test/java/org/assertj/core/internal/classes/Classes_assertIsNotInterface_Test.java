@@ -27,23 +27,23 @@ import org.junit.jupiter.api.Test;
  * 
  * @author William Delanoue
  */
-public class Classes_assertIsNotInterface_Test extends ClassesBaseTest {
+class Classes_assertIsNotInterface_Test extends ClassesBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     actual = null;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsNotInterface(someInfo(), actual))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_not_an_interface() {
+  void should_pass_if_actual_is_not_an_interface() {
     actual = Classes_assertIsNotInterface_Test.class;
     classes.assertIsNotInterface(someInfo(), actual);
   }
 
-  @Test()
-  public void should_fail_if_actual_is_an_interface() {
+  @Test
+  void should_fail_if_actual_is_an_interface() {
     actual = AssertionInfo.class;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsNotInterface(someInfo(), actual))
                                                    .withMessage(shouldNotBeInterface(actual).create());

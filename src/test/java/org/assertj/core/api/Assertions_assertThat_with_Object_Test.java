@@ -22,17 +22,17 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  */
-public class Assertions_assertThat_with_Object_Test {
+class Assertions_assertThat_with_Object_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     Object actual = new Object();
     AbstractObjectAssert<?, Object> assertions = Assertions.assertThat(actual);
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     Object actual = new Object();
     AbstractObjectAssert<?, Object> assertions = Assertions.assertThat(actual);
     assertThat(assertions.actual).isSameAs(actual);

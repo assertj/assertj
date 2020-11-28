@@ -28,10 +28,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class ShouldNotBeBetween_create_Test {
+class ShouldNotBeBetween_create_Test {
 
   @Test
-  public void should_create_error_message_with_period_boundaries_included() {
+  void should_create_error_message_with_period_boundaries_included() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotBeBetween(parse("2009-01-01"), parse("2011-01-01"), parse("2012-01-01"),
                                                      true, true);
@@ -46,7 +46,7 @@ public class ShouldNotBeBetween_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_period_lower_boundary_included() {
+  void should_create_error_message_with_period_lower_boundary_included() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotBeBetween(parse("2012-01-01"), parse("2011-01-01"), parse("2012-01-01"),
                                                      true, false);
@@ -61,7 +61,7 @@ public class ShouldNotBeBetween_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_period_upper_boundary_included() {
+  void should_create_error_message_with_period_upper_boundary_included() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotBeBetween(parse("2011-01-01"), parse("2011-01-01"), parse("2012-01-01"),
                                                      false, true);
@@ -76,7 +76,7 @@ public class ShouldNotBeBetween_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_period_boundaries_excluded() {
+  void should_create_error_message_with_period_boundaries_excluded() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotBeBetween(parse("2011-01-01"), parse("2011-01-01"), parse("2012-01-01"),
                                                      false, false);

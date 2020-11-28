@@ -17,7 +17,7 @@ import org.assertj.core.api.ByteArrayAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
-public class ByteArrayAssert_hasSizeGreaterThanOrEqualTo_Test extends ByteArrayAssertBaseTest {
+class ByteArrayAssert_hasSizeGreaterThanOrEqualTo_Test extends ByteArrayAssertBaseTest {
 
   @Override
   protected ByteArrayAssert invoke_api_method() {

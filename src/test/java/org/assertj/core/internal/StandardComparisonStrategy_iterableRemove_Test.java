@@ -12,13 +12,11 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.newArrayList;
-
-import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 
-import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -26,10 +24,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class StandardComparisonStrategy_iterableRemove_Test extends AbstractTest_StandardComparisonStrategy {
+class StandardComparisonStrategy_iterableRemove_Test extends AbstractTest_StandardComparisonStrategy {
 
   @Test
-  public void should_pass() {
+  void should_pass() {
     List<?> list = newArrayList("Sam", "Merry", null, "Frodo");
     assertThat(list.contains("Frodo")).isTrue();
     standardComparisonStrategy.iterableRemoves(list, "Frodo");
@@ -39,7 +37,7 @@ public class StandardComparisonStrategy_iterableRemove_Test extends AbstractTest
   }
 
   @Test
-  public void should_do_nothing_if_iterable_is_null() {
+  void should_do_nothing_if_iterable_is_null() {
     standardComparisonStrategy.iterableRemoves(null, "Sauron");
   }
 

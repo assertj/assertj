@@ -39,7 +39,7 @@ class AbstractAssert_describedAs_printed_to_console_Test {
   private final static PrintStream originalSystemOut = System.out;
   private final static boolean originalIsPrintAssertionsDescriptionEnabled = assertJConfig().printAssertionsDescription();
 
-  private final static Consumer<Description> originalConsumerDescription = assertJConfig().consumerDescription();
+  private final static Consumer<Description> originalDescriptionConsumer = assertJConfig().descriptionConsumer();
 
   private static Configuration assertJConfig() {
     return ConfigurationProvider.CONFIGURATION_PROVIDER.configuration();
@@ -56,7 +56,7 @@ class AbstractAssert_describedAs_printed_to_console_Test {
   void restoreOriginalState() {
     System.setOut(originalSystemOut);
     Assertions.setPrintAssertionsDescription(originalIsPrintAssertionsDescriptionEnabled);
-    Assertions.setConsumerDescription(originalConsumerDescription);
+    Assertions.setDescriptionConsumer(originalDescriptionConsumer);
   }
 
   @Test
@@ -112,7 +112,7 @@ class AbstractAssert_describedAs_printed_to_console_Test {
   @Test
   void should_be_printed_and_consumed_by_configured_description_consumer() {
     final StringBuffer consumedDescription = new StringBuffer("");
-    Assertions.setConsumerDescription(description -> consumedDescription.append(description.toString()));
+    Assertions.setDescriptionConsumer(description -> consumedDescription.append(description.toString()));
     String description = RandomStringUtils.randomAlphanumeric(20);
     // WHEN
     assertThat("abc").as("1" + description)

@@ -25,36 +25,36 @@ import org.assertj.core.api.Condition;
 import org.assertj.core.api.TestCondition;
 import org.junit.jupiter.api.Test;
 
-public class OptionalAssert_hasValueSatisfying_Condition_Test {
+class OptionalAssert_hasValueSatisfying_Condition_Test {
 
   private Condition<String> passingCondition = new TestCondition<>(true);
   private Condition<String> notPassingCondition = new TestCondition<>();
 
   @Test
-  public void should_fail_when_optional_is_null() {
+  void should_fail_when_optional_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<String>) null).hasValueSatisfying(passingCondition))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_when_optional_is_empty() {
+  void should_fail_when_optional_is_empty() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Optional.<String>empty()).hasValueSatisfying(passingCondition))
                                                    .withMessage(shouldBePresent(Optional.empty()).create());
   }
 
   @Test
-  public void should_fail_when_condition_is_null() {
+  void should_fail_when_condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(Optional.of("something")).hasValueSatisfying((Condition<String>) null))
                                     .withMessage("The condition to evaluate should not be null");
   }
 
   @Test
-  public void should_pass_when_condition_is_met() {
+  void should_pass_when_condition_is_met() {
     assertThat(Optional.of("something")).hasValueSatisfying(passingCondition);
   }
 
   @Test
-  public void should_fail_when_condition_is_not_met() {
+  void should_fail_when_condition_is_not_met() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Optional.of("something")).hasValueSatisfying(notPassingCondition))
                                                    .withMessage(shouldBe("something", notPassingCondition).create());
   }

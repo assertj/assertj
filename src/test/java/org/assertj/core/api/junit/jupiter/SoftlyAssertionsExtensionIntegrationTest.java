@@ -39,6 +39,7 @@ import org.junit.platform.testkit.engine.EventType;
 /**
  * Integration tests for {@link SoftlyExtension}.
  */
+@SuppressWarnings("deprecation")
 @DisplayName("JUnit Jupiter SoftlyExtension integration tests")
 class SoftlyAssertionsExtensionIntegrationTest extends AbstractSoftAssertionsExtensionIntegrationTests {
 

@@ -32,68 +32,68 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Strings_assertContains_Test extends StringsBaseTest {
+class Strings_assertContains_Test extends StringsBaseTest {
 
   @Test
-  public void should_fail_if_actual_does_not_contain_sequence() {
+  void should_fail_if_actual_does_not_contain_sequence() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContains(someInfo(), "Yoda", "Luke"))
                                                    .withMessage(shouldContain("Yoda", "Luke").create());
   }
 
   @Test
-  public void should_fail_if_actual_contains_sequence_but_in_different_case() {
+  void should_fail_if_actual_contains_sequence_but_in_different_case() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContains(someInfo(), "Yoda", "yo"))
                                                    .withMessage(shouldContain("Yoda", "yo").create());
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_null() {
+  void should_throw_error_if_sequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> strings.assertContains(someInfo(), "Yoda", (String) null))
                                                  .withMessage(charSequenceToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContains(someInfo(), null, "Yoda"))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_contains_sequence() {
+  void should_pass_if_actual_contains_sequence() {
     strings.assertContains(someInfo(), "Yoda", "Yo");
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_all_given_strings() {
+  void should_fail_if_actual_does_not_contain_all_given_strings() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContains(someInfo(), "Yoda", "Yo", "da", "Han"))
                                                    .withMessage(shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han")).create());
   }
 
   @Test
-  public void should_pass_if_actual_contains_all_given_strings() {
+  void should_pass_if_actual_contains_all_given_strings() {
     strings.assertContains(someInfo(), "Yoda", "Yo", "da");
   }
 
   @Test
-  public void should_pass_if_actual_contains_sequence_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_sequence_according_to_custom_comparison_strategy() {
     stringsWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), "Yoda", "Yo");
     stringsWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), "Yoda", "yo");
     stringsWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), "Yoda", "YO");
   }
 
   @Test
-  public void should_pass_if_actual_contains_all_given_strings_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_all_given_strings_according_to_custom_comparison_strategy() {
     stringsWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), "Yoda", "YO", "dA");
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_sequence_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_sequence_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), "Yoda", "Luke"))
                                                    .withMessage(shouldContain("Yoda", "Luke", comparisonStrategy).create());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_all_given_strings_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_all_given_strings_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), "Yoda", "Yo", "da", "Han"))
                                                    .withMessage(shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han"), comparisonStrategy).create());
   }

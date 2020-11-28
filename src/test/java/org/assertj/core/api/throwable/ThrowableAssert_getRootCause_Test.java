@@ -21,7 +21,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("ThrowableAssert getRootCause")
-public class ThrowableAssert_getRootCause_Test {
+class ThrowableAssert_getRootCause_Test {
 
   private Throwable rootCause = new NullPointerException();
   private Throwable cause = new RuntimeException(rootCause);

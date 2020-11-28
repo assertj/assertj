@@ -84,6 +84,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -331,9 +332,10 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not contain the given values.
    */
   public void assertContains(AssertionInfo info, Iterable<?> actual, Object[] values) {
-    if (commonCheckThatIterableAssertionSucceeds(info, actual, values)) return;
+    final List<?> actualAsList = newArrayList(actual);
+    if (commonCheckThatIterableAssertionSucceeds(info, actualAsList, values)) return;
     // check for elements in values that are missing in actual.
-    assertIterableContainsGivenValues(actual, values, info);
+    assertIterableContainsGivenValues(actualAsList, values, info);
   }
 
   private void assertIterableContainsGivenValues(Iterable<?> actual, Object[] values, AssertionInfo info) {
@@ -369,14 +371,15 @@ public class Iterables {
    *           {@code Iterable} contains values that are not in the given array.
    */
   public void assertContainsOnly(AssertionInfo info, Iterable<?> actual, Object[] expectedValues) {
-    if (commonCheckThatIterableAssertionSucceeds(info, actual, expectedValues)) return;
+    final List<?> actualAsList = newArrayList(actual);
+    if (commonCheckThatIterableAssertionSucceeds(info, actualAsList, expectedValues)) return;
 
     // after the for loop, unexpected = expectedValues - actual
-    List<Object> unexpectedValues = newArrayList(actual);
+    List<Object> unexpectedValues = newArrayList(actualAsList);
     // after the for loop, missing = actual - expectedValues
     List<Object> missingValues = newArrayList(expectedValues);
     for (Object expected : expectedValues) {
-      if (iterableContains(actual, expected)) {
+      if (iterableContains(actualAsList, expected)) {
         // since expected was found in actual:
         // -- it does not belong to the missing elements
         iterablesRemove(missingValues, expected);
@@ -386,7 +389,7 @@ public class Iterables {
     }
 
     if (!unexpectedValues.isEmpty() || !missingValues.isEmpty()) {
-      throw failures.failure(info, shouldContainOnly(actual, expectedValues,
+      throw failures.failure(info, shouldContainOnly(actualAsList, expectedValues,
                                                      missingValues, unexpectedValues,
                                                      comparisonStrategy));
     }
@@ -453,14 +456,46 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not contain the given sequence of objects.
    */
   public void assertContainsSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
-    if (commonCheckThatIterableAssertionSucceeds(info, actual, sequence)) return;
-    // check for elements in values that are missing in actual.
-    List<?> actualAsList = newArrayList(actual);
-    for (int i = 0; i < actualAsList.size(); i++) {
-      // look for given sequence in actual starting from current index (i)
-      if (containsSequenceAtGivenIndex(actualAsList, sequence, i)) return;
+    // perform the checks that would have been done in commonCheckThatIterableAssertionSucceeds but do them explicitly without
+    // having to create a new iterator on actual - which would break if actual were only singly-traversable.
+    checkNotNullIterables(info, actual, sequence);
+    // store the elements from actual that have been visited (because we don't know we can look ahead - the 'actual'
+    // might be singly-traversable) in a fixed-length LIFO having what is in effect a sliding window.
+    // So we store each element and slide for each new element until a match is found or until the 'actual' is
+    // exhausted. Of course if 'actual' really is infinite then this could take a while :-D
+    final Iterator<?> actualIterator = actual.iterator();
+    if (!actualIterator.hasNext() && sequence.length == 0) return;
+    failIfEmptySinceActualIsNotEmpty(sequence);
+    // we only store sequence.length entries from actual in the LIFO, no need for more.
+    Lifo lifo = new Lifo(sequence.length);
+    while (actualIterator.hasNext()) {
+      lifo.add(actualIterator.next());
+      if (lifo.matchesExactly(sequence)) return;
     }
     throw actualDoesNotContainSequence(info, actual, sequence);
+  }
+
+  private class Lifo {
+    private int maxSize;
+    private LinkedList<Object> stack;
+
+    Lifo(int maxSize) {
+      this.maxSize = maxSize;
+      stack = new LinkedList<>();
+    }
+
+    void add(final Object element) {
+      if (stack.size() == maxSize) stack.removeFirst();
+      stack.addLast(element);
+    }
+
+    boolean matchesExactly(Object[] sequence) {
+      if (stack.size() != sequence.length) return false;
+      for (int i = 0; i < sequence.length; i++) {
+        if (!areEqual(stack.get(i), sequence[i])) return false;
+      }
+      return true;
+    }
   }
 
   /**

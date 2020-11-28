@@ -40,7 +40,7 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Iterables_assertStartsWith_Test extends IterablesBaseTest {
+class Iterables_assertStartsWith_Test extends IterablesBaseTest {
 
   @Override
   @BeforeEach
@@ -50,30 +50,30 @@ public class Iterables_assertStartsWith_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_null() {
+  void should_throw_error_if_sequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> iterables.assertStartsWith(someInfo(), actual, null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_and_sequence_are_empty() {
+  void should_pass_if_actual_and_sequence_are_empty() {
     actual.clear();
     iterables.assertStartsWith(someInfo(), actual, emptyArray());
   }
 
   @Test
-  public void should_fail_if_sequence_to_look_for_is_empty_and_actual_is_not() {
+  void should_fail_if_sequence_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertStartsWith(someInfo(), actual, emptyArray()));
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertStartsWith(someInfo(), null, array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_sequence_is_bigger_than_actual() {
+  void should_fail_if_sequence_is_bigger_than_actual() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Yoda", "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
 
@@ -84,7 +84,7 @@ public class Iterables_assertStartsWith_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_start_with_sequence() {
+  void should_fail_if_actual_does_not_start_with_sequence() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Han", "C-3PO" };
 
@@ -95,7 +95,7 @@ public class Iterables_assertStartsWith_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_starts_with_first_elements_of_sequence_only() {
+  void should_fail_if_actual_starts_with_first_elements_of_sequence_only() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
 
@@ -110,17 +110,17 @@ public class Iterables_assertStartsWith_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_starts_with_sequence() {
+  void should_pass_if_actual_starts_with_sequence() {
     iterables.assertStartsWith(someInfo(), actual, array("Yoda", "Luke", "Leia"));
   }
 
   @Test
-  public void should_pass_if_actual_and_sequence_are_equal() {
+  void should_pass_if_actual_and_sequence_are_equal() {
     iterables.assertStartsWith(someInfo(), actual, array("Yoda", "Luke", "Leia", "Obi-Wan"));
   }
 
   @Test
-  public void should_pass_if_infinite_iterable_starts_with_given_sequence() {
+  void should_pass_if_infinite_iterable_starts_with_given_sequence() {
     iterables.assertStartsWith(someInfo(), infiniteListOfNumbers(), array(1, 2, 3, 4, 5));
   }
 
@@ -157,7 +157,7 @@ public class Iterables_assertStartsWith_Test extends IterablesBaseTest {
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_fail_if_actual_does_not_start_with_sequence_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_start_with_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Han", "C-3PO" };
 
@@ -168,7 +168,7 @@ public class Iterables_assertStartsWith_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_starts_with_first_elements_of_sequence_only_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_starts_with_first_elements_of_sequence_only_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "YODA", "luke", "Leia", "Obi-Wan", "Han" };
 
@@ -179,12 +179,12 @@ public class Iterables_assertStartsWith_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_starts_with_sequence_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_starts_with_sequence_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertStartsWith(someInfo(), actual, array("YODA", "luke", "Leia"));
   }
 
   @Test
-  public void should_pass_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertStartsWith(someInfo(), actual, array("Yoda", "LUke", "LeIA", "oBi-WaN"));
   }
 

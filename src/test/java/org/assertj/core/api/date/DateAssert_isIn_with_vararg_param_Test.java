@@ -14,17 +14,17 @@ package org.assertj.core.api.date;
 
 import static org.mockito.Mockito.verify;
 
+import java.time.Instant;
 import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
 
-
 /**
  * Tests for {@link DateAssert#isIn(Object...)} with vararg of Date or String.
- * 
+ *
  * @author Joel Costigliola
  */
-public class DateAssert_isIn_with_vararg_param_Test extends AbstractDateAssertWithDateArg_Test {
+class DateAssert_isIn_with_vararg_param_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {
@@ -36,9 +36,18 @@ public class DateAssert_isIn_with_vararg_param_Test extends AbstractDateAssertWi
     return assertions.isIn(dateAsString);
   }
 
+  protected DateAssert assertionInvocationWithInstantArg(Instant instant) {
+    return assertions.isIn(instant);
+  }
+
   @Override
   protected void verifyAssertionInvocation(Date date) {
     verify(objects).assertIsIn(getInfo(assertions), getActual(assertions), new Object[] { date });
+  }
+
+  @Override
+  protected DateAssert assertionInvocationWithInstantArg() {
+    return assertions.isIn(otherDate.toInstant());
   }
 
 }

@@ -24,33 +24,33 @@ import org.assertj.core.data.TolkienCharacterAssertFactory;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.Test;
 
-public class IterableAssert_filteredOn_in_Test extends IterableAssert_filtered_baseTest {
+class IterableAssert_filteredOn_in_Test extends IterableAssert_filtered_baseTest {
 
   @Test
-  public void should_apply_in_filter() {
+  void should_apply_in_filter() {
     assertThat(employees).filteredOn("age", in(800, 26)).containsOnly(yoda, obiwan, luke);
     assertThat(employees).filteredOn("age", in(800)).containsOnly(yoda, obiwan);
   }
 
   @Test
-  public void should_filter_iterable_under_test_on_property_not_backed_by_a_field_values() {
+  void should_filter_iterable_under_test_on_property_not_backed_by_a_field_values() {
     assertThat(employees).filteredOn("adult", in(false)).containsOnly(noname);
     assertThat(employees).filteredOn("adult", in(true)).containsOnly(yoda, obiwan, luke);
   }
 
   @Test
-  public void should_filter_iterable_under_test_on_public_field_values() {
+  void should_filter_iterable_under_test_on_public_field_values() {
     assertThat(employees).filteredOn("id", 1L).containsOnly(yoda);
   }
 
   @Test
-  public void should_filter_iterable_under_test_on_private_field_values() {
+  void should_filter_iterable_under_test_on_private_field_values() {
     assertThat(employees).filteredOn("city", in("New York")).containsOnly(yoda, obiwan, luke, noname);
     assertThat(employees).filteredOn("city", in("Paris")).isEmpty();
   }
 
   @Test
-  public void should_fail_if_filter_is_on_private_field_and_reading_private_field_is_disabled() {
+  void should_fail_if_filter_is_on_private_field_and_reading_private_field_is_disabled() {
     setAllowExtractingPrivateFields(false);
     try {
       assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
@@ -62,38 +62,37 @@ public class IterableAssert_filteredOn_in_Test extends IterableAssert_filtered_b
   }
 
   @Test
-  public void should_filter_stream_under_test_on_property_values() {
+  void should_filter_stream_under_test_on_property_values() {
     assertThat(employees.stream()).filteredOn("age", in(800))
                                   .containsOnly(yoda, obiwan);
   }
 
   @Test
-  public void should_filter_iterable_under_test_on_nested_property_values() {
+  void should_filter_iterable_under_test_on_nested_property_values() {
     assertThat(employees).filteredOn("name.first", in("Luke")).containsOnly(luke);
   }
 
   @Test
-  public void should_filter_iterable_under_test_on_nested_mixed_property_and_field_values() {
+  void should_filter_iterable_under_test_on_nested_mixed_property_and_field_values() {
     assertThat(employees).filteredOn("name.last", in("Vader")).isEmpty();
     assertThat(employees).filteredOn("name.last", in("Skywalker")).containsOnly(luke);
   }
 
   @Test
-  public void should_fail_if_given_property_or_field_name_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn(null, in(800)))
+  void should_fail_if_given_property_or_field_name_is_null() {
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn((String) null, in(800)))
                                         .withMessage("The property/field name to filter on should not be null or empty");
   }
 
   @Test
-  public void should_fail_if_given_property_or_field_name_is_empty() {
+  void should_fail_if_given_property_or_field_name_is_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn("", in(800)))
                                         .withMessage("The property/field name to filter on should not be null or empty");
   }
 
   @Test
-  public void should_fail_if_on_of_the_iterable_element_does_not_have_given_property_or_field() {
-    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).filteredOn("secret",
-                                                                                                          in("???")))
+  void should_fail_if_on_of_the_iterable_element_does_not_have_given_property_or_field() {
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).filteredOn("secret", in("???")))
                                                        .withMessageContaining("Can't find any field or property with name 'secret'");
   }
 
@@ -101,7 +100,7 @@ public class IterableAssert_filteredOn_in_Test extends IterableAssert_filtered_b
   // no need to write tests for all FilterOperators
 
   @Test
-  public void shoul_honor_AssertFactory_strongly_typed_navigation_assertions() {
+  void should_honor_AssertFactory_strongly_typed_navigation_assertions() {
     // GIVEN
     Iterable<TolkienCharacter> hobbits = hobbits();
     TolkienCharacterAssertFactory tolkienCharacterAssertFactory = new TolkienCharacterAssertFactory();
@@ -118,7 +117,7 @@ public class IterableAssert_filteredOn_in_Test extends IterableAssert_filtered_b
   }
 
   @Test
-  public void shoul_honor_ClassBased_strongly_typed_navigation_assertions() {
+  void should_honor_ClassBased_strongly_typed_navigation_assertions() {
     // GIVEN
     Iterable<TolkienCharacter> hobbits = hobbits();
     // THEN

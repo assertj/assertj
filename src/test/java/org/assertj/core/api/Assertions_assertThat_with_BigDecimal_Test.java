@@ -25,16 +25,16 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class Assertions_assertThat_with_BigDecimal_Test {
+class Assertions_assertThat_with_BigDecimal_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     AbstractBigDecimalAssert<?> assertions = Assertions.assertThat(ZERO);
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     AbstractBigDecimalAssert<?> assertions = Assertions.assertThat(ONE);
     assertThat(assertions.actual).isSameAs(ONE);
   }

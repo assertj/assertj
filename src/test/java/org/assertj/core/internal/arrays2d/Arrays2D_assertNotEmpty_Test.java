@@ -31,10 +31,10 @@ import org.junit.jupiter.params.provider.MethodSource;
  *
  * @author Maciej Wajcht
  */
-public class Arrays2D_assertNotEmpty_Test extends Arrays2D_BaseTest {
+class Arrays2D_assertNotEmpty_Test extends Arrays2D_BaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     int[][] actual = null;
     // WHEN
@@ -45,7 +45,7 @@ public class Arrays2D_assertNotEmpty_Test extends Arrays2D_BaseTest {
 
   @ParameterizedTest
   @MethodSource("should_fail_if_actual_is_empty_parameters")
-  public void should_fail_if_actual_is_empty(Object[][] actual) {
+  void should_fail_if_actual_is_empty(Object[][] actual) {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> arrays.assertNotEmpty(someInfo(), failures, actual));
     // THEN
@@ -61,7 +61,7 @@ public class Arrays2D_assertNotEmpty_Test extends Arrays2D_BaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_not_empty() {
+  void should_pass_if_actual_is_not_empty() {
     arrays.assertNotEmpty(someInfo(), failures, new int[][] { { 1 }, { 2 } });
     arrays.assertNotEmpty(someInfo(), failures, new int[][] { { 1 }, {} });
     arrays.assertNotEmpty(someInfo(), failures, new int[][] { {}, { 2 } });

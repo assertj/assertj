@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertIsInSameSecondAs_Test extends DatesBaseTest {
+class Dates_assertIsInSameSecondAs_Test extends DatesBaseTest {
 
   @Override
   protected void initActualDate() {
@@ -43,7 +43,7 @@ public class Dates_assertIsInSameSecondAs_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_same_second_as_given_date() {
+  void should_fail_if_actual_is_not_in_same_second_as_given_date() {
     AssertionInfo info = someInfo();
     Date other = parseDatetime("2011-01-01T03:15:02");
 
@@ -54,26 +54,26 @@ public class Dates_assertIsInSameSecondAs_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsInSameSecondAs(someInfo(), null, new Date()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_error_if_given_date_is_null() {
+  void should_throw_error_if_given_date_is_null() {
     assertThatNullPointerException().isThrownBy(() -> dates.assertIsInSameSecondAs(someInfo(), actual, null))
                                     .withMessage(dateToCompareActualWithIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_in_same_second_as_given_date() {
+  void should_pass_if_actual_is_in_same_second_as_given_date() {
     Date other = parseDatetime("2011-01-01T03:15:05");
     dates.assertIsInSameSecondAs(someInfo(), actual, other);
     dates.assertIsInSameSecondAs(someInfo(), actual, new Date(other.getTime() + 999));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_same_second_as_given_date_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_not_in_same_second_as_given_date_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     Date other = parseDatetime("2011-01-01T03:15:02");
 
@@ -84,13 +84,13 @@ public class Dates_assertIsInSameSecondAs_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInSameSecondAs(someInfo(), null, new Date()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInSameSecondAs(someInfo(),
                                                                                                                actual,
                                                                                                                null))
@@ -98,7 +98,7 @@ public class Dates_assertIsInSameSecondAs_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_in_same_second_as_given_date_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_is_in_same_second_as_given_date_whatever_custom_comparison_strategy_is() {
     Date other = parseDatetime("2011-01-01T03:15:05");
     datesWithCustomComparisonStrategy.assertIsInSameSecondAs(someInfo(), actual, other);
     datesWithCustomComparisonStrategy.assertIsInSameSecondAs(someInfo(), actual, new Date(other.getTime() + 999));

@@ -33,22 +33,22 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Maps_assertHasSize_Test extends MapsBaseTest {
+class Maps_assertHasSize_Test extends MapsBaseTest {
 
   @Test
-  public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
+  void should_pass_if_size_of_actual_is_equal_to_expected_size() {
     Map<?, ?> actual = mapOf(entry("name", "Yoda"), entry("job", "Yedi Master"));
     maps.assertHasSize(someInfo(), actual, 2);
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSize(someInfo(), null, 8))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
+  void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     AssertionInfo info = someInfo();
     Map<?, ?> actual = mapOf(entry("name", "Yoda"), entry("job", "Yedi Master"));
 

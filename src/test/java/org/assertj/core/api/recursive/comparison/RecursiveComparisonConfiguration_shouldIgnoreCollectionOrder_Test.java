@@ -13,8 +13,8 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.recursive.comparison.DualValueUtil.dualValueWithPath;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Lists.list;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.List;
@@ -28,64 +28,66 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class RecursiveComparisonConfiguration_shouldIgnoreCollectionOrder_Test {
+class RecursiveComparisonConfiguration_shouldIgnoreCollectionOrder_Test {
 
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
   }
 
   @ParameterizedTest(name = "{0} collection order should be ignored")
-  @MethodSource("should_ignore_collection_order_source")
-  public void should_ignore_collection_order(DualValue dualValue) {
+  @MethodSource
+  void should_ignore_collection_order(FieldLocation fieldLocation) {
     // GIVEN
     recursiveComparisonConfiguration.ignoreCollectionOrder(true);
     // WHEN
-    boolean ignored = recursiveComparisonConfiguration.shouldIgnoreCollectionOrder(dualValue);
+    boolean ignored = recursiveComparisonConfiguration.shouldIgnoreCollectionOrder(fieldLocation);
     // THEN
-    assertThat(ignored).as("%s collection order should be ignored", dualValue).isTrue();
+    assertThat(ignored).as("%s collection order should be ignored", fieldLocation).isTrue();
   }
 
-  private static Stream<DualValue> should_ignore_collection_order_source() {
-    return Stream.of(dualValueWithPath("name"),
-                     dualValueWithPath("name", "first"));
+  private static Stream<FieldLocation> should_ignore_collection_order() {
+    return Stream.of(fieldLocation("name"),
+                     fieldLocation("name", "first"));
+  }
+
+  private static FieldLocation fieldLocation(String... pathElements) {
+    return new FieldLocation(list(pathElements));
   }
 
   @Test
-  public void should_register_ignore_collection_order_in_fields_without_duplicates() {
+  void should_register_ignore_collection_order_in_fields_without_duplicates() {
     // GIVEN
     recursiveComparisonConfiguration.ignoreCollectionOrderInFields("foo", "bar", "foo.bar", "bar");
     // WHEN
-    Set<FieldLocation> fields = recursiveComparisonConfiguration.getIgnoredCollectionOrderInFields();
+    Set<String> fields = recursiveComparisonConfiguration.getIgnoredCollectionOrderInFields();
     // THEN
-    assertThat(fields).containsExactly(new FieldLocation("foo"),
-                                       new FieldLocation("bar"),
-                                       new FieldLocation("foo.bar"));
+    assertThat(fields).containsExactly("foo", "bar", "foo.bar");
   }
 
   @ParameterizedTest(name = "{0} collection order should be ignored with these fields {1}")
-  @MethodSource("should_ignore_collection_order_in_specified_fields_source")
-  public void should_ignore_collection_order_in_specified_fields(DualValue dualValue, String[] ignoredFields) {
+  @MethodSource
+  void should_ignore_collection_order_in_specified_fields(FieldLocation fieldLocation, String[] ignoredFields) {
     // GIVEN
     recursiveComparisonConfiguration.ignoreCollectionOrderInFields(ignoredFields);
     // WHEN
-    boolean ignored = recursiveComparisonConfiguration.shouldIgnoreCollectionOrder(dualValue);
+    boolean ignored = recursiveComparisonConfiguration.shouldIgnoreCollectionOrder(fieldLocation);
     // THEN
-    assertThat(ignored).as("%s collection order should be ignored with these fields %s", dualValue, ignoredFields)
+    assertThat(ignored).as("%s collection order should be ignored with these fields %s", fieldLocation, ignoredFields)
                        .isTrue();
   }
 
-  private static Stream<Arguments> should_ignore_collection_order_in_specified_fields_source() {
-    return Stream.of(arguments(dualValueWithPath("name"), array("name")),
-                     arguments(dualValueWithPath("name"), array("foo", "name", "foo")),
-                     arguments(dualValueWithPath("name", "first"), array("name.first")),
-                     arguments(dualValueWithPath("father", "name", "first"), array("father", "name.first", "father.name.first")));
+  private static Stream<Arguments> should_ignore_collection_order_in_specified_fields() {
+    return Stream.of(arguments(fieldLocation("name"), array("name")),
+                     arguments(fieldLocation("name"), array("foo", "name", "foo")),
+                     arguments(fieldLocation("name", "first"), array("name.first")),
+                     arguments(fieldLocation("father", "name", "first"), array("father", "name.first", "father.name.first")));
   }
 
   @Test
-  public void should_register_ignore_collection_order_in_fields_matching_regexes_without_replacing_previous() {
+  void should_register_ignore_collection_order_in_fields_matching_regexes_without_replacing_previous() {
     // WHEN
     recursiveComparisonConfiguration.ignoreCollectionOrderInFieldsMatchingRegexes("foo");
     recursiveComparisonConfiguration.ignoreCollectionOrderInFieldsMatchingRegexes("bar", "baz");
@@ -96,45 +98,44 @@ public class RecursiveComparisonConfiguration_shouldIgnoreCollectionOrder_Test {
   }
 
   @ParameterizedTest(name = "{0} collection order should be ignored with these regexes {1}")
-  @MethodSource("should_ignore_collection_order_in_fields_matching_specified_regexes_source")
-  public void should_ignore_collection_order_in_fields_matching_specified_regexes(DualValue dualValue, String[] regexes) {
+  @MethodSource
+  void should_ignore_collection_order_in_fields_matching_specified_regexes(FieldLocation fieldLocation, String[] regexes) {
     // GIVEN
     recursiveComparisonConfiguration.ignoreCollectionOrderInFieldsMatchingRegexes(regexes);
     // WHEN
-    boolean ignored = recursiveComparisonConfiguration.shouldIgnoreCollectionOrder(dualValue);
+    boolean ignored = recursiveComparisonConfiguration.shouldIgnoreCollectionOrder(fieldLocation);
     // THEN
-    assertThat(ignored).as("%s collection order should be ignored with these regexes %s", dualValue, regexes)
+    assertThat(ignored).as("%s collection order should be ignored with these regexes %s", fieldLocation, regexes)
                        .isTrue();
   }
 
-  private static Stream<Arguments> should_ignore_collection_order_in_fields_matching_specified_regexes_source() {
-    return Stream.of(arguments(dualValueWithPath("name"), array(".*name")),
-                     arguments(dualValueWithPath("name"), array("foo", "n.m.", "foo")),
-                     arguments(dualValueWithPath("name", "first"), array("name\\.first")),
-                     arguments(dualValueWithPath("name", "first"), array(".*first")),
-                     arguments(dualValueWithPath("name", "first"), array("name.*")),
-                     arguments(dualValueWithPath("father", "name", "first"),
-                               array("father", "name.first", "father\\.name\\.first")));
+  private static Stream<Arguments> should_ignore_collection_order_in_fields_matching_specified_regexes() {
+    return Stream.of(arguments(fieldLocation("name"), array(".*name")),
+                     arguments(fieldLocation("name"), array("foo", "n.m.", "foo")),
+                     arguments(fieldLocation("name", "first"), array("name\\.first")),
+                     arguments(fieldLocation("name", "first"), array(".*first")),
+                     arguments(fieldLocation("name", "first"), array("name.*")),
+                     arguments(fieldLocation("father", "name", "first"), array("father", "name.first", "father\\.name\\.first")));
   }
 
   @ParameterizedTest(name = "{0} collection order should be ignored")
-  @MethodSource("should_ignore_collection_order_in_fields_source")
-  public void should_ignore_collection_order_in_fields(DualValue dualValue) {
+  @MethodSource
+  void should_ignore_collection_order_in_fields(FieldLocation fieldLocation) {
     // GIVEN
     recursiveComparisonConfiguration.ignoreCollectionOrderInFieldsMatchingRegexes(".*name");
     recursiveComparisonConfiguration.ignoreCollectionOrderInFields("number");
     // WHEN
-    boolean ignored = recursiveComparisonConfiguration.shouldIgnoreCollectionOrder(dualValue);
+    boolean ignored = recursiveComparisonConfiguration.shouldIgnoreCollectionOrder(fieldLocation);
     // THEN
-    assertThat(ignored).as("%s collection order should be ignored", dualValue)
+    assertThat(ignored).as("%s collection order should be ignored", fieldLocation)
                        .isTrue();
   }
 
-  private static Stream<Arguments> should_ignore_collection_order_in_fields_source() {
-    return Stream.of(arguments(dualValueWithPath("name")),
-                     arguments(dualValueWithPath("number")),
-                     arguments(dualValueWithPath("surname")),
-                     arguments(dualValueWithPath("first", "name")));
+  private static Stream<Arguments> should_ignore_collection_order_in_fields() {
+    return Stream.of(arguments(fieldLocation("name")),
+                     arguments(fieldLocation("number")),
+                     arguments(fieldLocation("surname")),
+                     arguments(fieldLocation("first", "name")));
   }
 
 }

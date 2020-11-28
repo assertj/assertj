@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class Longs_assertIsNotCloseToPercentage_Test extends LongsBaseTest {
+class Longs_assertIsNotCloseToPercentage_Test extends LongsBaseTest {
 
   private static final Long ZERO = 0L;
   private static final Long ONE = 1L;
@@ -39,23 +39,23 @@ public class Longs_assertIsNotCloseToPercentage_Test extends LongsBaseTest {
   private static final Long ONE_HUNDRED = 100L;
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertIsNotCloseToPercentage(someInfo(), null, ONE, withPercentage(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_expected_value_is_null() {
+  void should_fail_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> longs.assertIsNotCloseToPercentage(someInfo(), ONE, null, withPercentage(ONE)));
   }
 
   @Test
-  public void should_fail_if_percentage_is_null() {
+  void should_fail_if_percentage_is_null() {
     assertThatNullPointerException().isThrownBy(() -> longs.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, null));
   }
 
   @Test
-  public void should_fail_if_percentage_is_negative() {
+  void should_fail_if_percentage_is_negative() {
     assertThatIllegalArgumentException().isThrownBy(() -> longs.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1L)));
   }
 
@@ -67,7 +67,7 @@ public class Longs_assertIsNotCloseToPercentage_Test extends LongsBaseTest {
       "-1, -11, 90",
       "0, -1, 99"
   })
-  public void should_pass_if_difference_is_greater_than_given_percentage(Long actual, Long other, Long percentage) {
+  void should_pass_if_difference_is_greater_than_given_percentage(Long actual, Long other, Long percentage) {
     longs.assertIsNotCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 
@@ -80,7 +80,7 @@ public class Longs_assertIsNotCloseToPercentage_Test extends LongsBaseTest {
       "-2, -1, 100",
       "-1, -2, 50"
   })
-  public void should_fail_if_difference_is_equal_to_given_percentage(Long actual, Long other, Long percentage) {
+  void should_fail_if_difference_is_equal_to_given_percentage(Long actual, Long other, Long percentage) {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> longs.assertIsNotCloseToPercentage(someInfo(), actual, other, withPercentage(percentage)));
@@ -91,7 +91,7 @@ public class Longs_assertIsNotCloseToPercentage_Test extends LongsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_too_close_to_expected_value() {
+  void should_fail_if_actual_is_too_close_to_expected_value() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> longs.assertIsNotCloseToPercentage(someInfo(), ONE, TEN, withPercentage(ONE_HUNDRED)));

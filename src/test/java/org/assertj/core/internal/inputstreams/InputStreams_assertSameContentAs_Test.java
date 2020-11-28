@@ -42,28 +42,28 @@ import org.junit.jupiter.api.Test;
  *
  * @author Matthieu Baechler
  */
-public class InputStreams_assertSameContentAs_Test extends InputStreamsBaseTest {
+class InputStreams_assertSameContentAs_Test extends InputStreamsBaseTest {
 
   @Test
-  public void should_throw_error_if_expected_is_null() {
+  void should_throw_error_if_expected_is_null() {
     assertThatNullPointerException().isThrownBy(() -> inputStreams.assertSameContentAs(someInfo(), actual, null))
                                     .withMessage("The InputStream to compare to should not be null");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> inputStreams.assertSameContentAs(someInfo(), null, expected))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_inputstreams_have_equal_content() throws IOException {
+  void should_pass_if_inputstreams_have_equal_content() throws IOException {
     when(diff.diff(actual, expected)).thenReturn(new ArrayList<>());
     inputStreams.assertSameContentAs(someInfo(), actual, expected);
   }
 
   @Test
-  public void should_throw_error_wrapping_caught_IOException() throws IOException {
+  void should_throw_error_wrapping_caught_IOException() throws IOException {
     IOException cause = new IOException();
     when(diff.diff(actual, expected)).thenThrow(cause);
 
@@ -74,7 +74,7 @@ public class InputStreams_assertSameContentAs_Test extends InputStreamsBaseTest 
   }
 
   @Test
-  public void should_fail_if_inputstreams_do_not_have_equal_content() throws IOException {
+  void should_fail_if_inputstreams_do_not_have_equal_content() throws IOException {
     List<Delta<String>> diffs = newArrayList((Delta<String>) mock(Delta.class));
     when(diff.diff(actual, expected)).thenReturn(diffs);
     AssertionInfo info = someInfo();

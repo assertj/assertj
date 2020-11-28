@@ -35,23 +35,23 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Filip Hrisafov
  */
-public class LongPredicateAssert_rejects_Test extends LongPredicateAssertBaseTest {
+class LongPredicateAssert_rejects_Test extends LongPredicateAssertBaseTest {
 
   @Test
-  public void should_fail_when_predicate_is_null() {
+  void should_fail_when_predicate_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((LongPredicate) null).rejects(1L, 2L, 3L))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_when_predicate_does_not_accept_value() {
+  void should_pass_when_predicate_does_not_accept_value() {
     LongPredicate predicate = val -> val <= 2;
 
     assertThat(predicate).rejects(3);
   }
 
   @Test
-  public void should_fail_when_predicate_accepts_value() {
+  void should_fail_when_predicate_accepts_value() {
     LongPredicate predicate = val -> val <= 2;
     Predicate<Long> wrapPredicate = predicate::test;
     long expectedValue = 2;
@@ -60,7 +60,7 @@ public class LongPredicateAssert_rejects_Test extends LongPredicateAssertBaseTes
   }
 
   @Test
-  public void should_fail_when_predicate_accepts_value_with_description() {
+  void should_fail_when_predicate_accepts_value_with_description() {
     LongPredicate predicate = val -> val <= 2;
     Predicate<Long> wrapPredicate = predicate::test;
     long expectedValue = 2;
@@ -69,7 +69,7 @@ public class LongPredicateAssert_rejects_Test extends LongPredicateAssertBaseTes
   }
 
   @Test
-  public void should_fail_when_predicate_accepts_some_value() {
+  void should_fail_when_predicate_accepts_some_value() {
     LongPredicate predicate = num -> num <= 2;
     long[] matchValues = new long[] { 1L, 2L, 3L };
     List<Long> matchValuesList = LongStream.of(matchValues).boxed().collect(Collectors.toList());
@@ -78,7 +78,7 @@ public class LongPredicateAssert_rejects_Test extends LongPredicateAssertBaseTes
   }
 
   @Test
-  public void should_pass_when_predicate_accepts_no_value() {
+  void should_pass_when_predicate_accepts_no_value() {
     LongPredicate predicate = num -> num <= 2;
 
     assertThat(predicate).rejects(3L, 4L, 5L);

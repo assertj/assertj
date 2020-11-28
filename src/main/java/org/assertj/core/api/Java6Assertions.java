@@ -299,6 +299,17 @@ public class Java6Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Boolean2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static Boolean2DArrayAssert assertThat(boolean[][] actual) {
+    return new Boolean2DArrayAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ByteAssert}</code>.
    *
    * @param actual the actual value.
@@ -326,6 +337,17 @@ public class Java6Assertions {
    */
   public static AbstractByteArrayAssert<?> assertThat(byte[] actual) {
     return new ByteArrayAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Byte2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static Byte2DArrayAssert assertThat(byte[][] actual) {
+    return new Byte2DArrayAssert(actual);
   }
 
   /**
@@ -456,6 +478,17 @@ public class Java6Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Double2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static Double2DArrayAssert assertThat(double[][] actual) {
+    return new Double2DArrayAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link FileAssert}</code>.
    *
    * @param actual the actual value.
@@ -516,6 +549,17 @@ public class Java6Assertions {
    */
   public static AbstractFloatArrayAssert<?> assertThat(float[] actual) {
     return new FloatArrayAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Float2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static Float2DArrayAssert assertThat(float[][] actual) {
+    return new Float2DArrayAssert(actual);
   }
 
   /**
@@ -758,6 +802,17 @@ public class Java6Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Long2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static Long2DArrayAssert assertThat(long[][] actual) {
+    return new Long2DArrayAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ObjectAssert}</code>.
    *
    * @param <T> the actual type
@@ -851,6 +906,18 @@ public class Java6Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Object2DArrayAssert}</code>.
+   *
+   * @param <T> the actual elements type
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static <T> Object2DArrayAssert<T> assertThat(T[][] actual) {
+    return new Object2DArrayAssert<>(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link MapAssert}</code>.
    * <p>
    * Returned type is {@link MapAssert} as it overrides method to annotate them with {@link SafeVarargs} avoiding
@@ -893,6 +960,17 @@ public class Java6Assertions {
    */
   public static AbstractShortArrayAssert<?> assertThat(short[] actual) {
     return new ShortArrayAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Short2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static Short2DArrayAssert assertThat(short[][] actual) {
+    return new Short2DArrayAssert(actual);
   }
 
   /**

@@ -23,7 +23,7 @@ import org.assertj.core.test.Jedi;
  *
  * @author Vladimir Chernikov
  */
-public class ObjectAssert_hasAllNullFieldsOrProperties_Test extends ObjectAssertBaseTest {
+class ObjectAssert_hasAllNullFieldsOrProperties_Test extends ObjectAssertBaseTest {
 
   @Override
   protected ObjectAssert<Jedi> invoke_api_method() {

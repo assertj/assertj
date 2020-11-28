@@ -21,22 +21,22 @@ import org.junit.jupiter.api.BeforeAll;
 /**
  * Tests for <code>{@link PathAssert#hasBinaryContent(byte[])}</code>.
  */
-public class PathAssert_hasBinaryContent_Test extends PathAssertBaseTest {
+class PathAssert_hasBinaryContent_Test extends PathAssertBaseTest {
 
   private static byte[] expected;
 
   @BeforeAll
-  public static void beforeOnce() {
-	expected = new byte[] { 0, 1 };
+  static void beforeOnce() {
+    expected = new byte[] { 0, 1 };
   }
 
   @Override
   protected PathAssert invoke_api_method() {
-	return assertions.hasBinaryContent(expected);
+    return assertions.hasBinaryContent(expected);
   }
 
   @Override
   protected void verify_internal_effects() {
-	verify(paths).assertHasBinaryContent(getInfo(assertions), getActual(assertions), expected);
+    verify(paths).assertHasBinaryContent(getInfo(assertions), getActual(assertions), expected);
   }
 }

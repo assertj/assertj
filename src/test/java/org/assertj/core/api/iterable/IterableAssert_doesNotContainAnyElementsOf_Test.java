@@ -24,7 +24,7 @@ import static org.assertj.core.util.Lists.newArrayList;
  * 
  * @author William Delanoue
  */
-public class IterableAssert_doesNotContainAnyElementsOf_Test extends IterableAssertBaseTest {
+class IterableAssert_doesNotContainAnyElementsOf_Test extends IterableAssertBaseTest {
 
   private final Iterable<String> values = newArrayList("Yoda", "Luke");
 

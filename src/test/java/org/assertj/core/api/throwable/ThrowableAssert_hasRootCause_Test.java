@@ -22,7 +22,7 @@ import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.api.ThrowableAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class ThrowableAssert_hasRootCause_Test extends ThrowableAssertBaseTest {
+class ThrowableAssert_hasRootCause_Test extends ThrowableAssertBaseTest {
 
   private Throwable npe = new NullPointerException();
 
@@ -37,7 +37,7 @@ public class ThrowableAssert_hasRootCause_Test extends ThrowableAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_and_expected_root_cause_have_different_types() {
+  void should_fail_if_actual_and_expected_root_cause_have_different_types() {
     // GIVEN
     Throwable rootCause = new IllegalStateException();
     Throwable cause = new RuntimeException(rootCause);

@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class IterableAssert_isEmpty_Test extends IterableAssertBaseTest {
+class IterableAssert_isEmpty_Test extends IterableAssertBaseTest {
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {

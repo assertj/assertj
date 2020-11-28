@@ -22,28 +22,28 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  */
-public class Assertions_assertThat_with_CharSequence_Test {
+class Assertions_assertThat_with_CharSequence_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     AbstractCharSequenceAssert<?, ?> assertions = Assertions.assertThat((CharSequence) "Yoda");
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_create_Assert_with_StringBuilder() {
+  void should_create_Assert_with_StringBuilder() {
     AbstractCharSequenceAssert<?, ?> assertions = Assertions.assertThat(new StringBuilder("Yoda"));
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_create_Assert_with_StringBuffer() {
+  void should_create_Assert_with_StringBuffer() {
     AbstractCharSequenceAssert<?, ?> assertions = Assertions.assertThat(new StringBuffer("Yoda"));
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     String actual = "Yoda";
     AbstractCharSequenceAssert<?, ?> assertions = Assertions.assertThat((CharSequence) actual);
     assertThat(assertions.actual).isSameAs(actual);

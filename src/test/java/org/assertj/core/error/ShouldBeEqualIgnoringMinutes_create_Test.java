@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alexander Bischof
  */
-public class ShouldBeEqualIgnoringMinutes_create_Test {
+class ShouldBeEqualIgnoringMinutes_create_Test {
 
   @Test
-  public void should_create_error_message_for_LocalTime() {
+  void should_create_error_message_for_LocalTime() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeEqualIgnoringMinutes(LocalTime.of(12, 0), LocalTime.of(12, 1));
     // WHEN
@@ -47,7 +47,7 @@ public class ShouldBeEqualIgnoringMinutes_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_OffsetTime() {
+  void should_create_error_message_for_OffsetTime() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeEqualIgnoringMinutes(OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC),
                                                                OffsetTime.of(12, 1, 0, 0, ZoneOffset.UTC));

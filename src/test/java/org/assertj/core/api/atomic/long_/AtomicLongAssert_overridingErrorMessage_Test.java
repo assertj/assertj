@@ -20,10 +20,10 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
-public class AtomicLongAssert_overridingErrorMessage_Test {
+class AtomicLongAssert_overridingErrorMessage_Test {
 
   @Test
-  public void should_honor_custom_error_message_set_with_withFailMessage() {
+  void should_honor_custom_error_message_set_with_withFailMessage() {
     // GIVEN
     String error = "ssss";
     // WHEN
@@ -34,7 +34,7 @@ public class AtomicLongAssert_overridingErrorMessage_Test {
   }
 
   @Test
-  public void should_honor_custom_error_message_set_with_overridingErrorMessage() {
+  void should_honor_custom_error_message_set_with_overridingErrorMessage() {
     // GIVEN
     String error = "ssss";
     // WHEN
@@ -45,7 +45,7 @@ public class AtomicLongAssert_overridingErrorMessage_Test {
   }
 
   @Test
-  public void should_honor_custom_error_message_set_with_withFailMessage_using_supplier() {
+  void should_honor_custom_error_message_set_with_withFailMessage_using_supplier() {
     // GIVEN
     String error = "ssss";
     // WHEN
@@ -56,7 +56,7 @@ public class AtomicLongAssert_overridingErrorMessage_Test {
   }
 
   @Test
-  public void should_honor_custom_error_message_set_with_overridingErrorMessage_using_supplier() {
+  void should_honor_custom_error_message_set_with_overridingErrorMessage_using_supplier() {
     // GIVEN
     String error = "ssss";
     // WHEN

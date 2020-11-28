@@ -30,10 +30,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Michal Kordas
  */
-public class ShouldHaveSameTime_create_Test {
+class ShouldHaveSameTime_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     Date actual = DateUtil.parseDatetime("2011-01-01T05:01:00");
     Date expected = DateUtil.parseDatetime("2011-01-01T05:01:01");

@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Nicolas François
  */
-public class IntegerAssert_isNotNegative_Test extends IntegerAssertBaseTest {
+class IntegerAssert_isNotNegative_Test extends IntegerAssertBaseTest {
 
   @Override
   protected IntegerAssert invoke_api_method() {

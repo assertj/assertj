@@ -24,16 +24,16 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Fail_fail_because_exception_should_have_thrown_Test {
+class Fail_fail_because_exception_should_have_thrown_Test {
 
   @Test
-  public void should_include_message_built_with_given_exception_name() {
+  void should_include_message_built_with_given_exception_name() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shouldHaveThrown(NullPointerException.class))
                                                    .withMessage("NullPointerException should have been thrown");
   }
 
   @Test
-  public void should_include_message_built_with_given_throwable_name() {
+  void should_include_message_built_with_given_throwable_name() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shouldHaveThrown(OutOfMemoryError.class))
                                                    .withMessage("OutOfMemoryError should have been thrown");
   }

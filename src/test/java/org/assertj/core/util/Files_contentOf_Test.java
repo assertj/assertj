@@ -29,23 +29,23 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Olivier Michallat
  */
-public class Files_contentOf_Test {
+class Files_contentOf_Test {
   private final File sampleFile = new File("src/test/resources/utf8.txt");
   private final String expectedContent = "A text file encoded in UTF-8, with diacritics:\né à";
 
   @Test
-  public void should_throw_exception_if_charset_is_null() {
+  void should_throw_exception_if_charset_is_null() {
     Charset charset = null;
     assertThatNullPointerException().isThrownBy(() -> Files.contentOf(new File("test"), charset));
   }
 
   @Test
-  public void should_throw_exception_if_charset_name_does_not_exist() {
+  void should_throw_exception_if_charset_name_does_not_exist() {
     assertThatIllegalArgumentException().isThrownBy(() -> Files.contentOf(new File("test"), "Klingon"));
   }
 
   @Test
-  public void should_throw_exception_if_file_not_found() {
+  void should_throw_exception_if_file_not_found() {
     File missingFile = new File("missing.txt");
     assertThat(missingFile.exists()).isFalse();
 
@@ -54,12 +54,12 @@ public class Files_contentOf_Test {
   }
 
   @Test
-  public void should_load_file_using_charset() {
+  void should_load_file_using_charset() {
     assertThat(Files.contentOf(sampleFile, StandardCharsets.UTF_8)).isEqualTo(expectedContent);
   }
 
   @Test
-  public void should_load_file_using_charset_name() {
+  void should_load_file_using_charset_name() {
     assertThat(Files.contentOf(sampleFile, "UTF-8")).isEqualTo(expectedContent);
   }
 }

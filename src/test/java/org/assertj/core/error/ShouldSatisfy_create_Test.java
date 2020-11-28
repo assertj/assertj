@@ -21,10 +21,10 @@ import org.assertj.core.api.TestCondition;
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldSatisfy_create_Test {
+class ShouldSatisfy_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldSatisfy("Yoda", new TestCondition<>("green lightsaber bearer"));
     // WHEN

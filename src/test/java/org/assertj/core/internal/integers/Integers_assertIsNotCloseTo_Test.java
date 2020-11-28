@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class Integers_assertIsNotCloseTo_Test extends IntegersBaseTest {
+class Integers_assertIsNotCloseTo_Test extends IntegersBaseTest {
 
   private static final Integer ZERO = 0;
   private static final Integer ONE = 1;
@@ -42,7 +42,7 @@ public class Integers_assertIsNotCloseTo_Test extends IntegersBaseTest {
       "1, -2, 2",
       "-1, 2, 2"
   })
-  public void should_pass_if_difference_is_greater_than_offset(int actual, int other, int offset) {
+  void should_pass_if_difference_is_greater_than_offset(int actual, int other, int offset) {
     integers.assertIsNotCloseTo(someInfo(), actual, other, byLessThan(offset));
     integers.assertIsNotCloseTo(someInfo(), actual, other, within(offset));
   }
@@ -55,7 +55,7 @@ public class Integers_assertIsNotCloseTo_Test extends IntegersBaseTest {
       "1, -1, 2",
       "-1, 1, 2"
   })
-  public void should_pass_if_difference_is_equal_to_strict_offset(int actual, int other, int offset) {
+  void should_pass_if_difference_is_equal_to_strict_offset(int actual, int other, int offset) {
     integers.assertIsNotCloseTo(someInfo(), actual, other, byLessThan(offset));
   }
 
@@ -66,7 +66,7 @@ public class Integers_assertIsNotCloseTo_Test extends IntegersBaseTest {
       "1, 0, 2",
       "0, 1, 2"
   })
-  public void should_fail_if_actual_is_too_close_to_the_other_value(int actual, int other, int offset) {
+  void should_fail_if_actual_is_too_close_to_the_other_value(int actual, int other, int offset) {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> integers.assertIsNotCloseTo(someInfo(), actual, other, byLessThan(offset)));
@@ -81,7 +81,7 @@ public class Integers_assertIsNotCloseTo_Test extends IntegersBaseTest {
       "1, 0, 2",
       "0, 1, 2"
   })
-  public void should_fail_if_actual_is_too_close_to_the_other_value_with_strict_offset(int actual, int other,
+  void should_fail_if_actual_is_too_close_to_the_other_value_with_strict_offset(int actual, int other,
                                                                                        int offset) {
     AssertionInfo info = someInfo();
 
@@ -97,7 +97,7 @@ public class Integers_assertIsNotCloseTo_Test extends IntegersBaseTest {
       "1, 0, 1",
       "1, 2, 1"
   })
-  public void should_fail_if_difference_is_equal_to_given_offset(int actual, int other, int offset) {
+  void should_fail_if_difference_is_equal_to_given_offset(int actual, int other, int offset) {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> integers.assertIsNotCloseTo(someInfo(), actual, other, within(offset)));
@@ -107,18 +107,18 @@ public class Integers_assertIsNotCloseTo_Test extends IntegersBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_expected_value_is_null() {
+  void should_fail_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> integers.assertIsNotCloseTo(someInfo(), ONE, null, byLessThan(ONE)));
   }
 
   @Test
-  public void should_fail_if_offset_is_null() {
+  void should_fail_if_offset_is_null() {
     assertThatNullPointerException().isThrownBy(() -> integers.assertIsNotCloseTo(someInfo(), ONE, ZERO, null));
   }
 

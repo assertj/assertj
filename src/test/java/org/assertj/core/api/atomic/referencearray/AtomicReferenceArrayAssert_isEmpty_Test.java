@@ -19,7 +19,7 @@ import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class AtomicReferenceArrayAssert_isEmpty_Test extends AtomicReferenceArrayAssertBaseTest {
+class AtomicReferenceArrayAssert_isEmpty_Test extends AtomicReferenceArrayAssertBaseTest {
 
   @Override
   protected AtomicReferenceArrayAssert<Object> invoke_api_method() {

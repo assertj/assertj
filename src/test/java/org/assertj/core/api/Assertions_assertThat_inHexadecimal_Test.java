@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Mariusz Smykula
  */
-public class Assertions_assertThat_inHexadecimal_Test {
+class Assertions_assertThat_inHexadecimal_Test {
 
   @Test
-  public void should_assert_byte_in_hexadecimal() {
+  void should_assert_byte_in_hexadecimal() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((byte) 2).inHexadecimal()
                                                                                          .isEqualTo((byte) 3))
                                                    .withMessage(shouldBeEqualMessage("0x02", "0x03"));
@@ -36,21 +36,21 @@ public class Assertions_assertThat_inHexadecimal_Test {
   }
 
   @Test
-  public void should_assert_signed_byte_in_hexadecimal() {
+  void should_assert_signed_byte_in_hexadecimal() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((byte) -2).inHexadecimal()
                                                                                           .isEqualTo((byte) 3))
                                                    .withMessage(shouldBeEqualMessage("0xFE", "0x03"));
   }
 
   @Test
-  public void should_assert_bytes_in_hexadecimal() {
+  void should_assert_bytes_in_hexadecimal() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new byte[] { 2, 3 }).inHexadecimal()
                                                                                                     .isEqualTo(new byte[] { 1 }))
                                                    .withMessage(shouldBeEqualMessage("[0x02, 0x03]", "[0x01]"));
   }
 
   @Test
-  public void should_assert_bytes_contains_in_hexadecimal() {
+  void should_assert_bytes_contains_in_hexadecimal() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new byte[] { 2, 3 }).inHexadecimal()
                                                                                                     .contains(new byte[] { 1 }))
                                                    .withMessage(format("%nExpecting byte[]:%n" +
@@ -62,21 +62,21 @@ public class Assertions_assertThat_inHexadecimal_Test {
   }
 
   @Test
-  public void should_assert_short_in_hexadecimal() {
+  void should_assert_short_in_hexadecimal() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((short) 2).inHexadecimal()
                                                                                           .isEqualTo((short) 3))
                                                    .withMessage(shouldBeEqualMessage("0x0002", "0x0003"));
   }
 
   @Test
-  public void should_assert_signed_short_in_hexadecimal() {
+  void should_assert_signed_short_in_hexadecimal() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((short) -2).inHexadecimal()
                                                                                            .isEqualTo((short) 3))
                                                    .withMessage(shouldBeEqualMessage("0xFFFE", "0x0003"));
   }
 
   @Test
-  public void should_assert_shorts_in_hexadecimal() {
+  void should_assert_shorts_in_hexadecimal() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new short[] { (short) 1,
         (short) 2 }).inHexadecimal().isEqualTo(new short[] { (short) 3 }))
                                                    .withMessage(shouldBeEqualMessage("[0x0001, 0x0002]",
@@ -84,13 +84,13 @@ public class Assertions_assertThat_inHexadecimal_Test {
   }
 
   @Test
-  public void should_assert_integer_in_hexadecimal() {
+  void should_assert_integer_in_hexadecimal() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(2).inHexadecimal().isEqualTo(3))
                                                    .withMessage(shouldBeEqualMessage("0x0000_0002", "0x0000_0003"));
   }
 
   @Test
-  public void should_assert_integers_in_hexadecimal() {
+  void should_assert_integers_in_hexadecimal() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new int[] { 1, 2 }).inHexadecimal()
                                                                                                    .isEqualTo(new int[] { 2 }))
                                                    .withMessage(shouldBeEqualMessage("[0x0000_0001, 0x0000_0002]",
@@ -98,7 +98,7 @@ public class Assertions_assertThat_inHexadecimal_Test {
   }
 
   @Test
-  public void should_assert_long_in_hexadecimal() {
+  void should_assert_long_in_hexadecimal() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Long.MAX_VALUE).inHexadecimal()
                                                                                                .isEqualTo(Long.MIN_VALUE))
                                                    .withMessage(shouldBeEqualMessage("0x7FFF_FFFF_FFFF_FFFF",
@@ -106,14 +106,14 @@ public class Assertions_assertThat_inHexadecimal_Test {
   }
 
   @Test
-  public void should_assert_signed_long_in_hexadecimal() {
+  void should_assert_signed_long_in_hexadecimal() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(-2L).inHexadecimal().isEqualTo(2L))
                                                    .withMessage(shouldBeEqualMessage("0xFFFF_FFFF_FFFF_FFFE",
                                                                                      "0x0000_0000_0000_0002"));
   }
 
   @Test
-  public void should_assert_longs_in_hexadecimal() {
+  void should_assert_longs_in_hexadecimal() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new long[] { -1L,
         2L }).inHexadecimal().isEqualTo(new long[] { 3L }))
                                                    .withMessage(shouldBeEqualMessage("[0xFFFF_FFFF_FFFF_FFFF, 0x0000_0000_0000_0002]",
@@ -121,13 +121,13 @@ public class Assertions_assertThat_inHexadecimal_Test {
   }
 
   @Test
-  public void should_assert_float_in_hexadecimal() {
+  void should_assert_float_in_hexadecimal() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(4.3f).inHexadecimal().isEqualTo(2.3f))
                                                    .withMessage(shouldBeEqualMessage("0x4089_999A", "0x4013_3333"));
   }
 
   @Test
-  public void should_assert_floats_in_hexadecimal() {
+  void should_assert_floats_in_hexadecimal() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new float[] { 4.3f, -2f }).inHexadecimal()
                                                                                                           .isEqualTo(new float[] {
                                                                                                               4.1f }))
@@ -136,14 +136,14 @@ public class Assertions_assertThat_inHexadecimal_Test {
   }
 
   @Test
-  public void should_assert_double_in_hexadecimal() {
+  void should_assert_double_in_hexadecimal() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(4.3d).inHexadecimal().isEqualTo(2.3d))
                                                    .withMessage(shouldBeEqualMessage("0x4011_3333_3333_3333",
                                                                                      "0x4002_6666_6666_6666"));
   }
 
   @Test
-  public void should_assert_doubles_in_hexadecimal() {
+  void should_assert_doubles_in_hexadecimal() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new double[] { 1d, 2d }).inHexadecimal()
                                                                                                         .isEqualTo(new double[] {
                                                                                                             3d }))
@@ -152,20 +152,20 @@ public class Assertions_assertThat_inHexadecimal_Test {
   }
 
   @Test
-  public void should_assert_collections_in_hexadecimal() {
+  void should_assert_collections_in_hexadecimal() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(list(1, 2)).inHexadecimal().isEqualTo(list(3)))
                                                    .withMessage(shouldBeEqualMessage("[0x0000_0001, 0x0000_0002]",
                                                                                      "[0x0000_0003]"));
   }
 
   @Test
-  public void should_assert_Character_in_hexadecimal() {
+  void should_assert_Character_in_hexadecimal() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat('a').inHexadecimal().isEqualTo('b'))
                                                    .withMessage(shouldBeEqualMessage("'0x0061'", "'0x0062'"));
   }
 
   @Test
-  public void should_assert_String_in_hexadecimal() {
+  void should_assert_String_in_hexadecimal() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat("a6c").inHexadecimal().isEqualTo("abc"))
                                                    .withMessage(shouldBeEqualMessage("\"['0x0061', '0x0036', '0x0063']\"",
                                                                                      "\"['0x0061', '0x0062', '0x0063']\""));

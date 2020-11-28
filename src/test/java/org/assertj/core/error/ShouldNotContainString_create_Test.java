@@ -36,10 +36,10 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  */
 @DisplayName("ShouldNotContainString create")
-public class ShouldNotContainString_create_Test {
+class ShouldNotContainString_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotContain("Yoda", "od", StandardComparisonStrategy.instance());
     // WHEN
@@ -53,7 +53,7 @@ public class ShouldNotContainString_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_custom_comparison_strategy() {
+  void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotContain("Yoda", "od",
                                                    new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
@@ -69,7 +69,7 @@ public class ShouldNotContainString_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_several_string_values() {
+  void should_create_error_message_with_several_string_values() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotContain("Yoda", array("od", "ya"), newSet("ya"),
                                                    StandardComparisonStrategy.instance());
@@ -86,7 +86,7 @@ public class ShouldNotContainString_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_ignoring_case() {
+  void should_create_error_message_for_ignoring_case() {
     // GIVEN
     ErrorMessageFactory factory = ShouldNotContainCharSequence.shouldNotContainIgnoringCase("Yoda", "OD");
     // WHEN
@@ -100,7 +100,7 @@ public class ShouldNotContainString_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_ignoring_case_with_multiple_findings() {
+  void should_create_error_message_for_ignoring_case_with_multiple_findings() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotContainIgnoringCase("Yoda", array("OD", "da", "Luke"), newSet("OD", "da"));
     // WHEN

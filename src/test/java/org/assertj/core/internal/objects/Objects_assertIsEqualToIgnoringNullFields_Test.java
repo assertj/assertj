@@ -44,10 +44,10 @@ import org.junit.jupiter.api.Test;
  * @author Nicolas François
  * @author Joel Costigliola
  */
-public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseTest {
+class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseTest {
 
   @Test
-  public void should_pass_when_fields_are_equal() {
+  void should_pass_when_fields_are_equal() {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Green");
     objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other, noFieldComparators(),
@@ -55,7 +55,7 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
   }
 
   @Test
-  public void should_pass_when_some_other_field_is_null_but_not_actual() {
+  void should_pass_when_some_other_field_is_null_but_not_actual() {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", null);
     objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other, noFieldComparators(),
@@ -63,7 +63,7 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
   }
 
   @Test
-  public void should_pass_when_fields_are_equal_even_if_objects_types_differ() {
+  void should_pass_when_fields_are_equal_even_if_objects_types_differ() {
     Person actual = new Person("Homer Simpson");
     CartoonCharacter other = new CartoonCharacter("Homer Simpson");
     objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other, noFieldComparators(),
@@ -71,7 +71,7 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
   }
 
   @Test
-  public void should_pass_when_private_fields_differ_but_are_not_compared() {
+  void should_pass_when_private_fields_differ_but_are_not_compared() {
     Assertions.setAllowComparingPrivateFields(false);
     TestClassWithRandomId actual = new TestClassWithRandomId("1", 1);
     TestClassWithRandomId other = new TestClassWithRandomId(null, 1);
@@ -83,7 +83,7 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
       Jedi other = new Jedi("Yoda", "Green");
       objects.assertIsEqualToIgnoringNullFields(someInfo(), null, other, noFieldComparators(), defaultTypeComparators());
@@ -91,7 +91,7 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
   }
 
   @Test
-  public void should_fail_when_some_actual_field_is_null_but_not_other() {
+  void should_fail_when_some_actual_field_is_null_but_not_other() {
     AssertionInfo info = someInfo();
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Yoda", "Green");
@@ -107,7 +107,7 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
   }
 
   @Test
-  public void should_fail_when_a_field_differ() {
+  void should_fail_when_a_field_differ() {
     AssertionInfo info = someInfo();
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Soda", "Green");
@@ -123,7 +123,7 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
   }
 
   @Test
-  public void should_fail_when_one_of_actual_field_to_compare_can_not_be_found_in_the_other_object() {
+  void should_fail_when_one_of_actual_field_to_compare_can_not_be_found_in_the_other_object() {
     assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
       Jedi actual = new Jedi("Yoda", "Green");
       Employee other = new Employee();
@@ -133,7 +133,7 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
   }
 
   @Test
-  public void should_pass_when_class_has_synthetic_field() {
+  void should_pass_when_class_has_synthetic_field() {
     InnerClass actual = new OuterClass().createInnerClass();
     InnerClass other = new OuterClass().createInnerClass();
 

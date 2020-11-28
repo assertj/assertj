@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author William Delanoue
  */
-public class Doubles_assertIsBetween_Test extends DoublesBaseTest {
+class Doubles_assertIsBetween_Test extends DoublesBaseTest {
 
   private static final Double ZERO = 0D;
   private static final Double ONE = 1D;
@@ -40,38 +40,38 @@ public class Doubles_assertIsBetween_Test extends DoublesBaseTest {
   private static final Double TEN = 10D;
   
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsBetween(someInfo(), null, ZERO, ONE))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_start_is_null() {
+  void should_fail_if_start_is_null() {
     assertThatNullPointerException().isThrownBy(() -> doubles.assertIsBetween(someInfo(), ONE, null, ONE));
   }
 
   @Test
-  public void should_fail_if_end_is_null() {
+  void should_fail_if_end_is_null() {
     assertThatNullPointerException().isThrownBy(() -> doubles.assertIsBetween(someInfo(), ONE, ZERO, null));
   }
 
   @Test
-  public void should_pass_if_actual_is_in_range() {
+  void should_pass_if_actual_is_in_range() {
     doubles.assertIsBetween(someInfo(), ONE, ZERO, TEN);
   }
 
   @Test
-  public void should_pass_if_actual_is_equal_to_range_start() {
+  void should_pass_if_actual_is_equal_to_range_start() {
     doubles.assertIsBetween(someInfo(), ONE, ONE, TEN);
   }
 
   @Test
-  public void should_pass_if_actual_is_equal_to_range_end() {
+  void should_pass_if_actual_is_equal_to_range_end() {
     doubles.assertIsBetween(someInfo(), ONE, ZERO, ONE);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_range_start() {
+  void should_fail_if_actual_is_not_in_range_start() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> doubles.assertIsBetween(info, ONE, TWO, TEN));
@@ -81,7 +81,7 @@ public class Doubles_assertIsBetween_Test extends DoublesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_range_end() {
+  void should_fail_if_actual_is_not_in_range_end() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> doubles.assertIsBetween(info, ONE, ZERO, ZERO));

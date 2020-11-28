@@ -19,11 +19,11 @@ import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link CharSequenceAssert#contains(CharSequence)}</code>.
+ * Tests for <code>{@link CharSequenceAssert#contains(CharSequence...)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class CharSequenceAssert_contains_CharSequence_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_contains_CharSequence_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {

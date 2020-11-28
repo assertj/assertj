@@ -23,29 +23,29 @@ import org.assertj.core.test.WithPlayerData;
 import org.junit.jupiter.api.Test;
 
 
-public class Filter_create_Test extends WithPlayerData {
+class Filter_create_Test extends WithPlayerData {
 
   @Test
-  public void should_create_filter_from_iterable() {
+  void should_create_filter_from_iterable() {
     Filters<Player> filter = filter(players);
     assertThat(filter.get()).isEqualTo(players);
   }
 
   @Test
-  public void should_create_filter_from_array() {
+  void should_create_filter_from_array() {
     Player[] playersArray = players.toArray(new Player[0]);
     Filters<Player> filter = filter(playersArray);
     assertThat(filter.get()).isEqualTo(players);
   }
 
   @Test
-  public void should_fail_if_constructor_iterable_parameter_is_null() {
+  void should_fail_if_constructor_iterable_parameter_is_null() {
     assertThatNullPointerException().isThrownBy(() -> filter((List<Player>) null))
                                     .withMessage("The iterable to filter should not be null");
   }
 
   @Test
-  public void should_fail_if_constructor_array_parameter_is_null() {
+  void should_fail_if_constructor_array_parameter_is_null() {
     assertThatNullPointerException().isThrownBy(() -> filter((Player[]) null))
                                     .withMessage("The array to filter should not be null");
   }

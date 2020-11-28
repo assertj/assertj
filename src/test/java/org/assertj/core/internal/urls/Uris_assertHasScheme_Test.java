@@ -24,20 +24,20 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class Uris_assertHasScheme_Test extends UrisBaseTest {
+class Uris_assertHasScheme_Test extends UrisBaseTest {
 
   @ParameterizedTest
   @CsvSource({
       "http://example.com/pages/,   http",
       "example.com/pages/,          "
   })
-  public void should_pass_if_actual_uri_has_the_given_scheme(URI uri, String expectedScheme) {
+  void should_pass_if_actual_uri_has_the_given_scheme(URI uri, String expectedScheme) {
     // WHEN/THEN
     uris.assertHasScheme(info, uri, expectedScheme);
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     URI uri = null;
     String expectedScheme = "http";
@@ -48,7 +48,7 @@ public class Uris_assertHasScheme_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_scheme_is_not_the_expected_scheme() {
+  void should_fail_if_actual_scheme_is_not_the_expected_scheme() {
     // GIVEN
     URI uri = URI.create("http://example.com/pages/");
     String expectedScheme = "ftp";

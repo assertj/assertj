@@ -24,10 +24,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("RecursiveComparisonAssert isNotEqualTo")
-public class RecursiveComparisonAssert_isNotEqualTo_Test extends RecursiveComparisonAssert_isNotEqualTo_BaseTest {
+class RecursiveComparisonAssert_isNotEqualTo_Test extends RecursiveComparisonAssert_isNotEqualTo_BaseTest {
 
   @Test
-  public void should_pass_when_either_actual_or_expected_is_null() {
+  void should_pass_when_either_actual_or_expected_is_null() {
     // GIVEN
     Person actual = null;
     Person other = new Person();
@@ -39,7 +39,7 @@ public class RecursiveComparisonAssert_isNotEqualTo_Test extends RecursiveCompar
   }
 
   @Test
-  public void should_fail_when_actual_and_expected_are_null() {
+  void should_fail_when_actual_and_expected_are_null() {
     // GIVEN
     Person actual = null;
     Person other = null;
@@ -50,7 +50,7 @@ public class RecursiveComparisonAssert_isNotEqualTo_Test extends RecursiveCompar
   }
 
   @Test
-  public void should_pass_when_expected_is_an_enum_and_actual_is_not() {
+  void should_pass_when_expected_is_an_enum_and_actual_is_not() {
     // GIVEN
     RecursiveComparisonAssert_isEqualTo_Test.LightString actual = new RecursiveComparisonAssert_isEqualTo_Test.LightString("GREEN");
     Light other = new Light(GREEN);
@@ -60,7 +60,7 @@ public class RecursiveComparisonAssert_isNotEqualTo_Test extends RecursiveCompar
   }
 
   @Test
-  public void should_fail_when_field_values_are_null() {
+  void should_fail_when_field_values_are_null() {
     // GIVEN
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Yoda", null);
@@ -72,7 +72,7 @@ public class RecursiveComparisonAssert_isNotEqualTo_Test extends RecursiveCompar
   }
 
   @Test
-  public void should_fail_when_fields_are_equal_even_if_objects_types_differ() {
+  void should_fail_when_fields_are_equal_even_if_objects_types_differ() {
     // GIVEN
     CartoonCharacter actual = new CartoonCharacter("Homer Simpson");
     Person other = new Person("Homer Simpson");
@@ -84,7 +84,7 @@ public class RecursiveComparisonAssert_isNotEqualTo_Test extends RecursiveCompar
   }
 
   @Test
-  public void should_fail_when_all_field_values_equal() {
+  void should_fail_when_all_field_values_equal() {
     // GIVEN
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Luke", "Green");
@@ -96,7 +96,7 @@ public class RecursiveComparisonAssert_isNotEqualTo_Test extends RecursiveCompar
   }
 
   @Test
-  public void should_fail_when_all_field_values_equal_and_no_fields_are_ignored() {
+  void should_fail_when_all_field_values_equal_and_no_fields_are_ignored() {
     // GIVEN
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Green");
@@ -108,7 +108,7 @@ public class RecursiveComparisonAssert_isNotEqualTo_Test extends RecursiveCompar
   }
 
   @Test
-  public void should_be_able_to_compare_objects_of_different_types() {
+  void should_be_able_to_compare_objects_of_different_types() {
     // GIVEN
     CartoonCharacter other = new CartoonCharacter("Homer Simpson");
     Person actual = new Person("Homer Simpson");
@@ -118,7 +118,7 @@ public class RecursiveComparisonAssert_isNotEqualTo_Test extends RecursiveCompar
   }
 
   @Test
-  public void should_be_able_to_use_a_comparator_for_specified_type() {
+  void should_be_able_to_use_a_comparator_for_specified_type() {
     // GIVEN
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi(new String("Yoda"), "Green");
@@ -129,7 +129,18 @@ public class RecursiveComparisonAssert_isNotEqualTo_Test extends RecursiveCompar
   }
 
   @Test
-  public void should_pass_when_one_property_or_field_to_compare_can_not_be_found() {
+  void should_be_able_to_use_a_BiPredicate_to_compare_specified_type() {
+    // GIVEN
+    Jedi actual = new Jedi("Yoda", "Green");
+    Jedi other = new Jedi(new String("Yoda"), "Green");
+    // THEN
+    assertThat(actual).usingRecursiveComparison()
+                      .withEqualsForType((o1, o2) -> false, String.class)
+                      .isNotEqualTo(other);
+  }
+
+  @Test
+  void should_pass_when_one_property_or_field_to_compare_can_not_be_found() {
     // GIVEN
     Jedi actual = new Jedi("Yoda", "Green");
     Person other = new Person("Yoda");
@@ -140,13 +151,24 @@ public class RecursiveComparisonAssert_isNotEqualTo_Test extends RecursiveCompar
   }
 
   @Test
-  public void should_be_able_to_use_a_comparator_for_specified_fields() {
+  void should_be_able_to_use_a_comparator_for_specified_fields() {
     // GIVEN
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", new String("Green"));
     // THEN
     assertThat(actual).usingRecursiveComparison()
                       .withComparatorForFields(NEVER_EQUALS_STRING, "lightSaberColor")
+                      .isNotEqualTo(other);
+  }
+
+  @Test
+  void should_be_able_to_use_a_BiPredicate_for_specified_fields() {
+    // GIVEN
+    Jedi actual = new Jedi("Yoda", "Green");
+    Jedi other = new Jedi("Yoda", new String("Green"));
+    // THEN
+    assertThat(actual).usingRecursiveComparison()
+                      .withEqualsForFields((o1, o2) -> false, "lightSaberColor")
                       .isNotEqualTo(other);
   }
 

@@ -24,7 +24,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
-public class Delta_equals_hashCode_Test {
+class Delta_equals_hashCode_Test {
 
   private Chunk<String> chunk;
   private Delta<String> delta;
@@ -36,37 +36,37 @@ public class Delta_equals_hashCode_Test {
   }
 
   @Test
-  public void should_have_reflexive_equals() {
+  void should_have_reflexive_equals() {
     assertEqualsIsReflexive(delta);
   }
 
   @Test
-  public void should_have_symmetric_equals() {
+  void should_have_symmetric_equals() {
     assertEqualsIsSymmetric(delta, new ChangeDelta<>(chunk, chunk));
   }
 
   @Test
-  public void should_have_transitive_equals() {
+  void should_have_transitive_equals() {
     assertEqualsIsTransitive(delta, new ChangeDelta<>(chunk, chunk), new ChangeDelta<>(chunk, chunk));
   }
 
   @Test
-  public void should_maintain_equals_and_hashCode_contract() {
+  void should_maintain_equals_and_hashCode_contract() {
     assertMaintainsEqualsAndHashCodeContract(delta, new ChangeDelta<>(chunk, chunk));
   }
 
   @Test
-  public void should_not_be_equal_to_Object_of_different_type() {
+  void should_not_be_equal_to_Object_of_different_type() {
     assertThat(delta.equals("8")).isFalse();
   }
 
   @Test
-  public void should_not_be_equal_to_null() {
+  void should_not_be_equal_to_null() {
     assertThat(delta.equals(null)).isFalse();
   }
 
   @Test
-  public void should_not_be_equal_to_Delta_with_different_value() {
+  void should_not_be_equal_to_Delta_with_different_value() {
     Chunk<String> chunk2 = new Chunk<>(5, Collections.emptyList());
     assertThat(delta.equals(new ChangeDelta<>(chunk2, chunk2))).isFalse();
   }

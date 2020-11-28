@@ -34,10 +34,10 @@ import org.junit.jupiter.api.Test;
  * @author Nicolas François
  * @author Joel Costigliola
  */
-public class ObjectArrays_assertHasSameSizeAs_with_Iterable_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertHasSameSizeAs_with_Iterable_Test extends ObjectArraysBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
     // WHEN
@@ -47,7 +47,7 @@ public class ObjectArrays_assertHasSameSizeAs_with_Iterable_Test extends ObjectA
   }
 
   @Test
-  public void should_fail_if_other_is_null() {
+  void should_fail_if_other_is_null() {
     // GIVEN
     Iterable<?> other = null;
     // WHEN
@@ -58,7 +58,7 @@ public class ObjectArrays_assertHasSameSizeAs_with_Iterable_Test extends ObjectA
   }
 
   @Test
-  public void should_fail_if_actual_size_is_not_equal_to_other_size() {
+  void should_fail_if_actual_size_is_not_equal_to_other_size() {
     // GIVEN
     AssertionInfo info = someInfo();
     List<String> other = list("Solo", "Leia");
@@ -70,7 +70,7 @@ public class ObjectArrays_assertHasSameSizeAs_with_Iterable_Test extends ObjectA
   }
 
   @Test
-  public void should_pass_if_actual_has_same_size_as_other() {
+  void should_pass_if_actual_has_same_size_as_other() {
     arrays.assertHasSameSizeAs(someInfo(), array("Solo", "Leia"), list("Solo", "Leia"));
   }
 }

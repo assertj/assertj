@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Cal027
  */
-public class ShortAssert_isEven_Test extends ShortAssertBaseTest {
+class ShortAssert_isEven_Test extends ShortAssertBaseTest {
 
   @Override
   protected ShortAssert invoke_api_method() {

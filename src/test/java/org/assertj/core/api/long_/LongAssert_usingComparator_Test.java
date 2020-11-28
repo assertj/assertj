@@ -13,27 +13,23 @@
 package org.assertj.core.api.long_;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.util.Comparator;
 
 import org.assertj.core.api.LongAssert;
 import org.assertj.core.api.LongAssertBaseTest;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
  * Tests for <code>{@link LongAssert#usingComparator(Comparator)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
 @DisplayName("LongAssert usingComparator")
-@ExtendWith(MockitoExtension.class)
 class LongAssert_usingComparator_Test extends LongAssertBaseTest {
 
-  @Mock
-  private Comparator<Long> comparator;
+  private Comparator<Long> comparator = alwaysEqual();
 
   @Override
   protected LongAssert invoke_api_method() {
@@ -43,8 +39,8 @@ class LongAssert_usingComparator_Test extends LongAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
-    assertThat(comparator).isSameAs(getLongs(assertions).getComparator());
+    assertThat(getObjects(assertions).getComparator()).isSameAs(comparator);
+    assertThat(getLongs(assertions).getComparator()).isSameAs(comparator);
   }
 
 }

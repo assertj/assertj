@@ -21,11 +21,11 @@ import org.junit.jupiter.api.Test;
  *
  * @author Yvonne Wang
  */
-public class BasicErrorMessageFactory_toString_Test {
+class BasicErrorMessageFactory_toString_Test {
 
 
   @Test
-  public void should_implement_toString() {
+  void should_implement_toString() {
     // WHEN
     BasicErrorMessageFactory factory = new BasicErrorMessageFactory("Hello %s", "Yoda");
     // THEN

@@ -25,16 +25,16 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class DateAssert_isToday_Test extends DateAssertBaseTest {
+class DateAssert_isToday_Test extends DateAssertBaseTest {
 
   @Test
-  public void should_verify_that_actual_is_today() {
+  void should_verify_that_actual_is_today() {
     assertions.isToday();
     verify(dates).assertIsToday(getInfo(assertions), getActual(assertions));
   }
 
   @Test
-  public void should_return_this() {
+  void should_return_this() {
     DateAssert returned = assertions.isToday();
     assertThat(returned).isSameAs(assertions);
   }

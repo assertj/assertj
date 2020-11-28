@@ -27,7 +27,7 @@ import org.assertj.core.api.IterableAssertBaseTest;
  * 
  * @author Joel Costigliola
  */
-public class IterableAssert_containsAll_Test extends IterableAssertBaseTest {
+class IterableAssert_containsAll_Test extends IterableAssertBaseTest {
 
   private List<Object> list = new ArrayList<>();
 

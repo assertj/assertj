@@ -30,21 +30,21 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Throwables_assertHasMessageStartingWith_Test extends ThrowablesBaseTest {
+class Throwables_assertHasMessageStartingWith_Test extends ThrowablesBaseTest {
 
   @Test
-  public void should_pass_if_actual_has_message_starting_with_expected_description() {
+  void should_pass_if_actual_has_message_starting_with_expected_description() {
     throwables.assertHasMessageStartingWith(someInfo(), actual, "Throwable");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasMessageStartingWith(someInfo(), null, "Throwable"))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_has_message_not_starting_with_expected_description() {
+  void should_fail_if_actual_has_message_not_starting_with_expected_description() {
     AssertionInfo info = someInfo();
     try {
       throwables.assertHasMessageStartingWith(info, actual, "expected start");
@@ -55,7 +55,7 @@ public class Throwables_assertHasMessageStartingWith_Test extends ThrowablesBase
   }
 
   @Test
-  public void should_fail_if_actual_has_null_message() {
+  void should_fail_if_actual_has_null_message() {
     AssertionInfo info = someInfo();
     Throwable actual = new Throwable((String) null);
     try {

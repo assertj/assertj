@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link Maps#assertHasEntrySatisfying(AssertionInfo, Map, Condition)}</code>.
  */
-public class Maps_assertHasEntrySatisfying_with_entry_condition_Test extends MapsBaseTest {
+class Maps_assertHasEntrySatisfying_with_entry_condition_Test extends MapsBaseTest {
 
   private Condition<Map.Entry<String, String>> greenColorCondition =
       new Condition<Map.Entry<String, String>>("green color condition") {
@@ -51,19 +51,19 @@ public class Maps_assertHasEntrySatisfying_with_entry_condition_Test extends Map
     };
 
   @Test
-  public void should_fail_if_entry_condition_is_null() {
+  void should_fail_if_entry_condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> maps.assertHasEntrySatisfying(someInfo(), actual, null))
                                     .withMessage("The condition to evaluate should not be null");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(someInfo(), null, greenColorCondition))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_any_entry_matching_the_given_condition() {
+  void should_fail_if_actual_does_not_contain_any_entry_matching_the_given_condition() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> maps.assertHasEntrySatisfying(info, actual, blackColorCondition));
@@ -73,7 +73,7 @@ public class Maps_assertHasEntrySatisfying_with_entry_condition_Test extends Map
   }
 
   @Test
-  public void should_pass_if_actual_contains_an_entry_matching_the_given_condition() {
+  void should_pass_if_actual_contains_an_entry_matching_the_given_condition() {
     maps.assertHasEntrySatisfying(someInfo(), actual, greenColorCondition);
   }
 }

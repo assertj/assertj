@@ -20,11 +20,11 @@ import org.assertj.core.internal.objects.data.Person;
 import org.assertj.core.internal.objects.data.PersonDto;
 import org.junit.jupiter.api.Test;
 
-public class RecursiveComparisonAssert_for_optionals_Test implements PersonData {
+class RecursiveComparisonAssert_for_optionals_Test implements PersonData {
 
   // verify we don't need to cast actual to an Object as before when only Object assertions provided usingRecursiveComparison()
   @Test
-  public void should_be_directly_usable_with_maps() {
+  void should_be_directly_usable_with_maps() {
     // GIVEN
     Optional<Person> person = Optional.of(new Person("Sheldon"));
     Optional<PersonDto> personDto = Optional.of(new PersonDto("Sheldon"));

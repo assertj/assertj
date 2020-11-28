@@ -12,8 +12,6 @@
  */
 package org.assertj.core.api.comparable;
 
-import static java.util.Collections.EMPTY_MAP;
-import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AbstractComparableAssert;
@@ -21,20 +19,17 @@ import org.assertj.core.api.AbstractComparableAssertBaseTest;
 import org.assertj.core.api.ConcreteComparableAssert;
 import org.assertj.core.api.ObjectAssert;
 
-
 /**
  * Test that {@link ObjectAssert} methods are available from {@link AbstractComparableAssert}
  */
-public class AbstractComparableAssert_canCallObjectAssertMethod_Test extends AbstractComparableAssertBaseTest {
+class AbstractComparableAssert_canCallObjectAssertMethod_Test extends AbstractComparableAssertBaseTest {
   @Override
   protected ConcreteComparableAssert invoke_api_method() {
-    return assertions.isEqualToComparingFieldByField(6);
+    return assertions.hasNoNullFieldsOrProperties();
   }
 
   @Override
-  @SuppressWarnings("unchecked")
   protected void verify_internal_effects() {
-    verify(objects).assertIsEqualToIgnoringGivenFields(getInfo(assertions), getActual(assertions), 6,
-                                                       EMPTY_MAP, defaultTypeComparators());
+    verify(objects).assertHasNoNullFieldsOrPropertiesExcept(getInfo(assertions), getActual(assertions));
   }
 }

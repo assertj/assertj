@@ -13,42 +13,31 @@
 package org.assertj.core.api.double_;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
-
-import java.util.Comparator;
-
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import org.assertj.core.api.DoubleAssert;
 import org.assertj.core.api.DoubleAssertBaseTest;
 import org.assertj.core.internal.Doubles;
 import org.assertj.core.internal.Objects;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link DoubleAssert#usingDefaultComparator()}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
-public class DoubleAssert_usingDefaultComparator_Test extends DoubleAssertBaseTest {
-
-  @Mock
-  private Comparator<Double> comparator;
-
-  @BeforeEach
-  public void before() {
-    initMocks(this);
-    assertions.usingComparator(comparator);
-  }
+class DoubleAssert_usingDefaultComparator_Test extends DoubleAssertBaseTest {
 
   @Override
   protected DoubleAssert invoke_api_method() {
-    return assertions.usingDefaultComparator();
+    return assertions.usingComparator(alwaysEqual())
+                     .usingDefaultComparator();
   }
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(Objects.instance()).isSameAs(getObjects(assertions));
-    assertThat(Doubles.instance()).isSameAs(getDoubles(assertions));
+    assertThat(getObjects(assertions)).isSameAs(Objects.instance());
+    assertThat(getObjects(assertions).getComparator()).isNull();
+    assertThat(getDoubles(assertions)).isSameAs(Doubles.instance());
+    assertThat(getDoubles(assertions).getComparator()).isNull();
   }
 }

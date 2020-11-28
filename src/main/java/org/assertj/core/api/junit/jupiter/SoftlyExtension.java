@@ -19,7 +19,6 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Optional;
 
-import org.assertj.core.annotations.Beta;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
@@ -52,7 +51,8 @@ import org.junit.platform.commons.support.HierarchyTraversalMode;
  *   <li>May exhibit unpredictable behaviour in concurrent test execution</li>
  * </ol>
  * <p>
- * If you hit such limitations, consider using {@link SoftAssertionsExtension} instead.
+ * <b>If you hit such limitations, consider using {@link SoftAssertionsExtension} instead, since 3.18.0,
+ * {@code SoftAssertionsExtension} supports field injection with neither of these two limitations.</b>
  * <p>
  * Example:
  * <pre><code> {@literal @}ExtendWith(SoftlyExtension.class)
@@ -85,8 +85,10 @@ import org.junit.platform.commons.support.HierarchyTraversalMode;
  *   }
  * } </code></pre>
  * @author Arthur Mita
+ * @deprecated This functionality (and more) has been rolled into {@link SoftAssertionsExtension}
+ * as of AssertJ 3.18.0.
  **/
-@Beta
+@Deprecated
 public class SoftlyExtension implements AfterTestExecutionCallback, TestInstancePostProcessor {
 
   private static final Namespace SOFTLY_EXTENSION_NAMESPACE = Namespace.create(SoftlyExtension.class);

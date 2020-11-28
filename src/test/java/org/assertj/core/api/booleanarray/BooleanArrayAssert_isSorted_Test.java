@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Joel Costigliola
  */
-public class BooleanArrayAssert_isSorted_Test extends BooleanArrayAssertBaseTest {
+class BooleanArrayAssert_isSorted_Test extends BooleanArrayAssertBaseTest {
 
   @Override
   protected BooleanArrayAssert invoke_api_method() {

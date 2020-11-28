@@ -30,11 +30,11 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class ShouldBeInstance_create_Test {
+class ShouldBeInstance_create_Test {
 
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeInstance("Yoda", File.class);
     // WHEN
@@ -50,7 +50,7 @@ public class ShouldBeInstance_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_stack_trace_for_throwable() {
+  void should_create_error_message_with_stack_trace_for_throwable() {
     // GIVEN
     IllegalArgumentException throwable = new IllegalArgumentException("Not a file");
     // WHEN
@@ -66,7 +66,7 @@ public class ShouldBeInstance_create_Test {
   }
 
   @Test
-  public void should_create_shouldBeInstanceButWasNull_error_message() {
+  void should_create_shouldBeInstanceButWasNull_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeInstanceButWasNull("other", File.class);
     // WHEN

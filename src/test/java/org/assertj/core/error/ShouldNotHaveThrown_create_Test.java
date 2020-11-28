@@ -21,10 +21,10 @@ import static org.assertj.core.util.Throwables.getStackTrace;
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldNotHaveThrown_create_Test {
+class ShouldNotHaveThrown_create_Test {
 
   @Test
-  public void should_create_error_message_with_stacktrace_of_exception() {
+  void should_create_error_message_with_stacktrace_of_exception() {
     // GIVEN
     Exception exception = new Exception("boom");
     ErrorMessageFactory factory = shouldNotHaveThrown(exception);

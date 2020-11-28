@@ -22,7 +22,7 @@ import org.assertj.core.api.InputStreamAssertBaseTest;
  *
  * @author Valeriy Vyrva
  */
-public class InputStreamAssert_hasDigest_AlgorithmString_Test extends InputStreamAssertBaseTest {
+class InputStreamAssert_hasDigest_AlgorithmString_Test extends InputStreamAssertBaseTest {
 
   private final String algorithm = "MD5";
   private final String expected = "";

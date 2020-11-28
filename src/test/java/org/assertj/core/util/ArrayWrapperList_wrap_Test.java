@@ -22,9 +22,9 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alex Ruiz
  */
-public class ArrayWrapperList_wrap_Test {
+class ArrayWrapperList_wrap_Test {
   @Test
-  public void should_create_ArrayWrapperList_if_array_is_not_null() {
+  void should_create_ArrayWrapperList_if_array_is_not_null() {
     int[] array = { 6, 8 };
     ArrayWrapperList list = ArrayWrapperList.wrap(array);
     assertThat(list).isNotNull();
@@ -32,12 +32,12 @@ public class ArrayWrapperList_wrap_Test {
   }
 
   @Test
-  public void should_return_null_if_array_is_null() {
+  void should_return_null_if_array_is_null() {
     assertThat(ArrayWrapperList.wrap(null)).isNull();
   }
 
   @Test
-  public void should_throw_error_if_parameter_is_not_array() {
+  void should_throw_error_if_parameter_is_not_array() {
     assertThatIllegalArgumentException().isThrownBy(() -> ArrayWrapperList.wrap("Yoda")).withMessage("The object to wrap should be an array");
   }
 }

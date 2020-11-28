@@ -16,7 +16,7 @@ import org.assertj.core.api.*;
 
 import static org.mockito.Mockito.*;
 
-public class AtomicReferenceArrayAssert_containsExactlyInAnyOrder_Test extends AtomicReferenceArrayAssertBaseTest {
+class AtomicReferenceArrayAssert_containsExactlyInAnyOrder_Test extends AtomicReferenceArrayAssertBaseTest {
   
   @Override
   protected AtomicReferenceArrayAssert<Object> invoke_api_method() {

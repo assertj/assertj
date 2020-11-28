@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verify;
  * @author Mikhail Mazursky
  * @author Nicolas François
  */
-public class AbstractAssert_isInstanceOfAny_Test extends AbstractAssertBaseTest {
+class AbstractAssert_isInstanceOfAny_Test extends AbstractAssertBaseTest {
   private final Class<?>[] types = { String.class, Object.class };
 
   @Override

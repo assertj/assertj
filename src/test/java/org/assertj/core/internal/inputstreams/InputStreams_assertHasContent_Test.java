@@ -41,22 +41,22 @@ import org.junit.jupiter.api.Test;
  *
  * @author Stephan Windmüller
  */
-public class InputStreams_assertHasContent_Test extends InputStreamsBaseTest {
+class InputStreams_assertHasContent_Test extends InputStreamsBaseTest {
 
   @Test
-  public void should_throw_error_if_expected_is_null() {
+  void should_throw_error_if_expected_is_null() {
     assertThatNullPointerException().isThrownBy(() -> inputStreams.assertHasContent(someInfo(), actual, null))
                                     .withMessage("The String to compare to should not be null");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> inputStreams.assertHasContent(someInfo(), null, ""))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_inputstream_and_string_have_equal_content() throws IOException {
+  void should_pass_if_inputstream_and_string_have_equal_content() throws IOException {
     // GIVEN
     given(diff.diff(actual, expected)).willReturn(emptyList());
     // THEN
@@ -64,7 +64,7 @@ public class InputStreams_assertHasContent_Test extends InputStreamsBaseTest {
   }
 
   @Test
-  public void should_throw_error_wrapping_caught_IOException() throws IOException {
+  void should_throw_error_wrapping_caught_IOException() throws IOException {
     // GIVEN
     IOException cause = new IOException();
     given(diff.diff(actual, expectedString)).willThrow(cause);
@@ -76,7 +76,7 @@ public class InputStreams_assertHasContent_Test extends InputStreamsBaseTest {
   }
 
   @Test
-  public void should_fail_if_inputstream_and_string_do_not_have_equal_content() throws IOException {
+  void should_fail_if_inputstream_and_string_do_not_have_equal_content() throws IOException {
     // GIVEN
     List<Delta<String>> diffs = list((Delta<String>) mock(Delta.class));
     given(diff.diff(actual, expectedString)).willReturn(diffs);

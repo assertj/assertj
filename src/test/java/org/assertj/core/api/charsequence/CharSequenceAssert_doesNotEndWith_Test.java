@@ -22,7 +22,7 @@ import org.assertj.core.api.CharSequenceAssertBaseTest;
  *
  * @author Michal Kordas
  */
-public class CharSequenceAssert_doesNotEndWith_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_doesNotEndWith_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {

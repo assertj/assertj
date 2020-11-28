@@ -24,82 +24,82 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 @Deprecated
-public class MapAssert_extracting_Test {
+class MapAssert_extracting_Test {
 
   private static final Object NAME = "name";
   private Map<Object, Object> map;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     map = new HashMap<>();
     map.put(NAME, "kawhi");
     map.put("age", 25);
   }
 
   @Test
-  public void should_allow_assertions_on_values_extracted_from_given_map_keys() {
+  void should_allow_assertions_on_values_extracted_from_given_map_keys() {
     assertThat(map).extracting(NAME, "age")
                    .contains("kawhi", 25);
   }
 
   @Test
-  public void should_allow_object_assertions_on_value_extracted_from_given_map_key() {
+  void should_allow_object_assertions_on_value_extracted_from_given_map_key() {
     assertThat(map).extracting(NAME)
                    .isEqualTo("kawhi");
   }
 
   @Test
-  public void should_allow_assertions_on_values_extracted_from_given_extractors() {
+  void should_allow_assertions_on_values_extracted_from_given_extractors() {
     assertThat(map).extracting(m -> m.get(NAME), m -> m.get("age"))
                    .contains("kawhi", 25);
   }
 
   @Test
-  public void should_allow_object_assertions_on_value_extracted_from_given_extractor() {
+  void should_allow_object_assertions_on_value_extracted_from_given_extractor() {
     assertThat(map).extracting(m -> m.get(NAME))
                    .isEqualTo("kawhi");
   }
 
   @Test
-  public void should_extract_null_element_from_unknown_key() {
+  void should_extract_null_element_from_unknown_key() {
     assertThat(map).extracting(NAME, "unknown")
                    .contains("kawhi", (Object) null);
   }
 
   @Test
-  public void should_extract_null_object_from_unknown_key() {
+  void should_extract_null_object_from_unknown_key() {
     assertThat(map).extracting("unknown")
                    .isNull();
   }
 
   @Test
-  public void should_use_key_names_as_description() {
+  void should_use_key_names_as_description() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(map).extracting(NAME, "age").isEmpty())
                                                    .withMessageContaining("[Extracted: name, age]");
   }
 
   @Test
-  public void should_use_key_name_as_description() {
+  void should_use_key_name_as_description() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(map).extracting(NAME).isNull())
                                                    .withMessageContaining("[Extracted: name]");
   }
 
   @Test
-  public void should_keep_existing_description_if_set_when_extracting_values_list() {
+  void should_keep_existing_description_if_set_when_extracting_values_list() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(map).as("check name and age")
                                                                                     .extracting(NAME, "age").isEmpty())
                                                    .withMessageContaining("[check name and age]");
   }
 
   @Test
-  public void should_keep_existing_description_if_set_when_extracting_value_object() {
+  void should_keep_existing_description_if_set_when_extracting_value_object() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(map).as("check name")
                                                                                     .extracting(NAME).isNull())
                                                    .withMessageContaining("[check name]");
   }
 
   @Test
-  public void should_fail_with_key_list_if_actual_is_null() {
+  void should_fail_with_key_list_if_actual_is_null() {
     // GIVEN
     map = null;
     // WHEN
@@ -109,7 +109,7 @@ public class MapAssert_extracting_Test {
   }
 
   @Test
-  public void should_fail_with_single_key_if_actual_is_null() {
+  void should_fail_with_single_key_if_actual_is_null() {
     // GIVEN
     map = null;
     // WHEN

@@ -22,12 +22,12 @@ import org.junit.jupiter.api.BeforeEach;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
-public class ObjectArrayAssert_allMatch_with_description_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_allMatch_with_description_Test extends ObjectArrayAssertBaseTest {
 
   private Predicate<Object> predicate;
 
   @BeforeEach
-  public void beforeOnce() {
+  void beforeOnce() {
     predicate = o -> o != null;
   }
 

@@ -22,7 +22,7 @@ import java.time.format.DateTimeParseException;
 import org.assertj.core.api.InstantAssert;
 import org.junit.jupiter.api.Test;
 
-public class InstantAssert_isBetween_with_String_parameters_Test extends org.assertj.core.api.InstantAssertBaseTest {
+class InstantAssert_isBetween_with_String_parameters_Test extends org.assertj.core.api.InstantAssertBaseTest {
 
   private Instant before = now.minusSeconds(1);
   private Instant after = now.plusSeconds(1);
@@ -38,7 +38,7 @@ public class InstantAssert_isBetween_with_String_parameters_Test extends org.ass
   }
 
   @Test
-  public void should_throw_a_DateTimeParseException_if_start_String_parameter_cant_be_converted() {
+  void should_throw_a_DateTimeParseException_if_start_String_parameter_cant_be_converted() {
     // GIVEN
     String abc = "abc";
     // WHEN
@@ -48,7 +48,7 @@ public class InstantAssert_isBetween_with_String_parameters_Test extends org.ass
   }
 
   @Test
-  public void should_throw_a_DateTimeParseException_if_end_String_parameter_cant_be_converted() {
+  void should_throw_a_DateTimeParseException_if_end_String_parameter_cant_be_converted() {
     // GIVEN
     String abc = "abc";
     // WHEN

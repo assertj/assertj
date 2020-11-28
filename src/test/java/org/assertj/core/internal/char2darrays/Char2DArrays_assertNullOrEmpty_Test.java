@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Maciej Wajcht
  */
-public class Char2DArrays_assertNullOrEmpty_Test extends Char2DArraysBaseTest {
+class Char2DArrays_assertNullOrEmpty_Test extends Char2DArraysBaseTest {
 
   @Test
-  public void should_delegate_to_Arrays2D() {
+  void should_delegate_to_Arrays2D() {
     // WHEN
     char2DArrays.assertNullOrEmpty(someInfo(), actual);
     // THEN

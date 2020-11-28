@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class FloatArrays_assertDoesNotHaveDuplicates_Test extends FloatArraysBaseTest {
+class FloatArrays_assertDoesNotHaveDuplicates_Test extends FloatArraysBaseTest {
 
   @Override
   protected void initActualArray() {
@@ -42,23 +42,23 @@ public class FloatArrays_assertDoesNotHaveDuplicates_Test extends FloatArraysBas
   }
 
   @Test
-  public void should_pass_if_actual_does_not_have_duplicates() {
+  void should_pass_if_actual_does_not_have_duplicates() {
     arrays.assertDoesNotHaveDuplicates(someInfo(), actual);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty() {
+  void should_pass_if_actual_is_empty() {
     arrays.assertDoesNotHaveDuplicates(someInfo(), emptyArray());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotHaveDuplicates(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_contains_duplicates() {
+  void should_fail_if_actual_contains_duplicates() {
     AssertionInfo info = someInfo();
     actual = arrayOf(6f, 8f, 6f, 8f);
 
@@ -69,23 +69,23 @@ public class FloatArrays_assertDoesNotHaveDuplicates_Test extends FloatArraysBas
   }
 
   @Test
-  public void should_pass_if_actual_does_not_have_duplicates_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_does_not_have_duplicates_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(), actual);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
     arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(), emptyArray());
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_contains_duplicates_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_duplicates_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     actual = arrayOf(6f, -8f, 6f, -8f);
 

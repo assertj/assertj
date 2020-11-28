@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class ShouldBeSortedAccordingToComparator_create_Test {
+class ShouldBeSortedAccordingToComparator_create_Test {
 
   @Test
-  public void should_create_error_message_with_comparator() {
+  void should_create_error_message_with_comparator() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeSortedAccordingToGivenComparator(1, array("b", "c", "A"),
                                                                            new CaseInsensitiveStringComparator());
@@ -43,7 +43,7 @@ public class ShouldBeSortedAccordingToComparator_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_private_static_comparator() {
+  void should_create_error_message_with_private_static_comparator() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeSortedAccordingToGivenComparator(1, array("b", "c", "a"), new StaticStringComparator());
     // WHEN

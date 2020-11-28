@@ -20,10 +20,10 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 
-public class Streams_stream_Test {
+class Streams_stream_Test {
 
   @Test
-  public void should_build_stream_from_iterable() {
+  void should_build_stream_from_iterable() {
     // GIVEN
     Iterable<String> iterable = list("a", "b", "c");
     // WHEN

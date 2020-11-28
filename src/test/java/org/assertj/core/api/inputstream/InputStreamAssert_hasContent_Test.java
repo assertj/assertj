@@ -24,12 +24,12 @@ import org.junit.jupiter.api.BeforeAll;
  *
  * @author Stephan Windmüller
  */
-public class InputStreamAssert_hasContent_Test extends InputStreamAssertBaseTest {
+class InputStreamAssert_hasContent_Test extends InputStreamAssertBaseTest {
 
   private static String expected;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     expected = "b";
   }
 

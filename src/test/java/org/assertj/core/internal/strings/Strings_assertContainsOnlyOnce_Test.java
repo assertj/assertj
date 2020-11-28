@@ -28,58 +28,58 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link Strings#assertContainsOnlyOnce(AssertionInfo, CharSequence, CharSequence)}</code>.
  */
-public class Strings_assertContainsOnlyOnce_Test extends StringsBaseTest {
+class Strings_assertContainsOnlyOnce_Test extends StringsBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_given_string_only_once() {
+  void should_pass_if_actual_contains_given_string_only_once() {
     strings.assertContainsOnlyOnce(someInfo(), "Yoda", "Yo");
   }
 
   @Test
-  public void should_fail_if_actual_contains_given_string_more_than_once() {
+  void should_fail_if_actual_contains_given_string_more_than_once() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsOnlyOnce(someInfo(), "Yodayoda", "oda"))
                                                    .withMessage(shouldContainOnlyOnce("Yodayoda", "oda", 2).create());
   }
 
   @Test
-  public void should_fail_if_actual_contains_sequence_only_once_but_in_different_case() {
+  void should_fail_if_actual_contains_sequence_only_once_but_in_different_case() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsOnlyOnce(someInfo(), "Yoda", "yo"))
                                                    .withMessage(shouldContainOnlyOnce("Yoda", "yo", 0).create());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_string() {
+  void should_fail_if_actual_does_not_contain_given_string() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsOnlyOnce(someInfo(), "Yoda", "Luke"))
                                                    .withMessage(shouldContainOnlyOnce("Yoda", "Luke", 0).create());
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_null() {
+  void should_throw_error_if_sequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> strings.assertContainsOnlyOnce(someInfo(), "Yoda", null))
                                     .withMessage(charSequenceToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsOnlyOnce(someInfo(), null, "Yoda"))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_contains_sequence_only_once_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_sequence_only_once_according_to_custom_comparison_strategy() {
     stringsWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(someInfo(), "Yoda", "Yo");
     stringsWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(someInfo(), "Yoda", "yo");
     stringsWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(someInfo(), "Yoda", "YO");
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_sequence_only_once_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_sequence_only_once_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(someInfo(), "Yoda", "Luke"))
                                                    .withMessage(shouldContainOnlyOnce("Yoda", "Luke", 0, comparisonStrategy).create());
   }
 
   @Test
-  public void should_fail_if_actual_contains_sequence_several_times_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_sequence_several_times_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(someInfo(), "Yoda", "Luke"))
                                                    .withMessage(shouldContainOnlyOnce("Yoda", "Luke", 0, comparisonStrategy).create());
   }

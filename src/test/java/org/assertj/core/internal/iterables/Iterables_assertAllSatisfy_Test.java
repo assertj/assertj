@@ -31,17 +31,17 @@ import org.assertj.core.error.ElementsShouldSatisfy.UnsatisfiedRequirement;
 import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class Iterables_assertAllSatisfy_Test extends IterablesBaseTest {
+class Iterables_assertAllSatisfy_Test extends IterablesBaseTest {
 
   private List<String> actual = newArrayList("Luke", "Leia", "Yoda");
 
   @Test
-  public void should_satisfy_single_requirement() {
+  void should_satisfy_single_requirement() {
     iterables.assertAllSatisfy(someInfo(), actual, s -> assertThat(s.length()).isEqualTo(4));
   }
 
   @Test
-  public void should_satisfy_multiple_requirements() {
+  void should_satisfy_multiple_requirements() {
     iterables.assertAllSatisfy(someInfo(), actual, s -> {
       assertThat(s.length()).isEqualTo(4);
       assertThat(s).doesNotContain("V");
@@ -49,7 +49,7 @@ public class Iterables_assertAllSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_according_to_requirements() {
+  void should_fail_according_to_requirements() {
     // GIVEN
     Consumer<String> restrictions = s -> {
       assertThat(s.length()).isEqualTo(4);
@@ -72,13 +72,13 @@ public class Iterables_assertAllSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_consumer_is_null() {
+  void should_fail_if_consumer_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(actual).allSatisfy(null))
                                     .withMessage("The Consumer<T> expressing the assertions requirements must not be null");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
       actual = null;
       assertThat(actual).allSatisfy(null);

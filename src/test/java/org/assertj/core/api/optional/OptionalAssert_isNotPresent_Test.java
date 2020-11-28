@@ -21,22 +21,22 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
-public class OptionalAssert_isNotPresent_Test {
+class OptionalAssert_isNotPresent_Test {
 
   @Test
-  public void should_pass_if_optional_is_empty() {
+  void should_pass_if_optional_is_empty() {
 	assertThat(Optional.empty()).isNotPresent();
   }
 
   @Test
-  public void should_fail_when_optional_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<String>) null).isNotPresent())
+  void should_fail_when_optional_is_null() {
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<String>) null).isNotPresent())
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_optional_is_present() {
-	Optional<String> actual = Optional.of("not-empty");
+  void should_fail_if_optional_is_present() {
+    Optional<String> actual = Optional.of("not-empty");
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isNotPresent())
                                                    .withMessage(shouldBeEmpty(actual).create());

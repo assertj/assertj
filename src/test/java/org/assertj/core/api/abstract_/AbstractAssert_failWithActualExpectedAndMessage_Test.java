@@ -28,7 +28,7 @@ import org.opentest4j.AssertionFailedError;
  * @author Joel Costigliola
  * @author Fr Jeremy Krieg
  */
-public class AbstractAssert_failWithActualExpectedAndMessage_Test {
+class AbstractAssert_failWithActualExpectedAndMessage_Test {
 
   private ConcreteAssert assertion;
 
@@ -36,12 +36,12 @@ public class AbstractAssert_failWithActualExpectedAndMessage_Test {
   private Object expected = "Expected";
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     assertion = new ConcreteAssert("foo");
   }
 
   @Test
-  public void should_fail_with_simple_message() {
+  void should_fail_with_simple_message() {
     // WHEN
     AssertionFailedError afe = expectAssertionFailedError(() -> assertion.failWithActualExpectedAndMessage(actual, expected,
                                                                                                            "fail"));
@@ -52,7 +52,7 @@ public class AbstractAssert_failWithActualExpectedAndMessage_Test {
   }
 
   @Test
-  public void should_fail_with_message_having_args() {
+  void should_fail_with_message_having_args() {
     // WHEN
     AssertionFailedError afe = expectAssertionFailedError(() -> assertion.failWithActualExpectedAndMessage(actual, expected,
                                                                                                            "fail %d %s %%s", 5,
@@ -64,7 +64,7 @@ public class AbstractAssert_failWithActualExpectedAndMessage_Test {
   }
 
   @Test
-  public void should_keep_description_set_by_user() {
+  void should_keep_description_set_by_user() {
     // WHEN
     AssertionFailedError afe = expectAssertionFailedError(() -> assertion.as("user description")
                                                                          .failWithActualExpectedAndMessage(actual, expected,
@@ -77,7 +77,7 @@ public class AbstractAssert_failWithActualExpectedAndMessage_Test {
   }
 
   @Test
-  public void should_keep_specific_error_message_and_description_set_by_user() {
+  void should_keep_specific_error_message_and_description_set_by_user() {
     // WHEN
     AssertionFailedError afe = expectAssertionFailedError(() -> assertion.as("test context")
                                                                          .overridingErrorMessage("my %d errors %s", 5, "!")

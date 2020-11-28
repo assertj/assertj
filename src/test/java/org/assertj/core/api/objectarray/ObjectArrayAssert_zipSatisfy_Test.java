@@ -22,13 +22,13 @@ import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 
-public class ObjectArrayAssert_zipSatisfy_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_zipSatisfy_Test extends ObjectArrayAssertBaseTest {
 
   private BiConsumer<Object, String> requirements;
   private String[] other;
 
   @BeforeEach
-  public void beforeOnce() {
+  void beforeOnce() {
     requirements = (o1, o2) -> assertThat(o1).hasSameHashCodeAs(o2);
   }
 

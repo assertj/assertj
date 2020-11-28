@@ -38,7 +38,7 @@ import org.opentest4j.AssertionFailedError;
  *
  * @author Filip Hrisafov
  */
-public class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
+class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
 
   private Description description;
   private ShouldBeEqual factory;
@@ -54,7 +54,7 @@ public class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
   }
 
   @Test
-  public void should_create_AssertionError_if_created_ComparisonFailure_and_AssertionFailedError_is_null() throws Exception {
+  void should_create_AssertionError_if_created_ComparisonFailure_and_AssertionFailedError_is_null() throws Exception {
     // GIVEN
     given(constructorInvoker.newInstance(anyString(), any(Class[].class), any(Object[].class))).willReturn(null);
     // WHEN
@@ -64,7 +64,7 @@ public class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
   }
 
   @Test
-  public void should_create_AssertionError_if_error_is_thrown_when_creating_ComparisonFailure() throws Exception {
+  void should_create_AssertionError_if_error_is_thrown_when_creating_ComparisonFailure() throws Exception {
     // GIVEN
     given(constructorInvoker.newInstance(anyString(), any(Class[].class),
                                          any(Object[].class))).willThrow(new AssertionError("Thrown on purpose"));
@@ -78,10 +78,13 @@ public class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
     verify(constructorInvoker, times(2)).newInstance(AssertionFailedError.class.getName(),
                                                      array(String.class, Object.class, Object.class),
                                                      format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."),
-                                                     "Yoda", "Luke");
+                                                     STANDARD_REPRESENTATION.toStringOf("Yoda"),
+                                                     STANDARD_REPRESENTATION.toStringOf("Luke"));
     verify(constructorInvoker).newInstance(ComparisonFailure.class.getName(),
                                            new Class<?>[] { String.class, String.class, String.class },
-                                           "[Jedi]", "\"Yoda\"", "\"Luke\"");
+                                           "[Jedi]",
+                                           STANDARD_REPRESENTATION.toStringOf("Yoda"),
+                                           STANDARD_REPRESENTATION.toStringOf("Luke"));
     assertThat(error).isNotInstanceOfAny(ComparisonFailure.class, AssertionFailedError.class)
                      .hasMessage(format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."));
   }

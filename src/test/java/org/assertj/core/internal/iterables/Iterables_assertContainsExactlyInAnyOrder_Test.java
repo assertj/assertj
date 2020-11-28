@@ -37,46 +37,46 @@ import org.junit.jupiter.api.Test;
  *
  * @author Lovro Pandzic
  */
-public class Iterables_assertContainsExactlyInAnyOrder_Test extends IterablesBaseTest {
+class Iterables_assertContainsExactlyInAnyOrder_Test extends IterablesBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_exactly_given_values() {
+  void should_pass_if_actual_contains_exactly_given_values() {
     iterables.assertContainsExactlyInAnyOrder(someInfo(), actual, array("Luke", "Yoda", "Leia"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly_with_null_elements() {
+  void should_pass_if_actual_contains_given_values_exactly_with_null_elements() {
     iterables.assertContainsExactlyInAnyOrder(someInfo(), actual, array("Leia", "Yoda", "Luke"));
     actual.add(null);
     iterables.assertContainsExactlyInAnyOrder(someInfo(), actual, array("Leia", null, "Yoda", "Luke"));
   }
 
   @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
+  void should_pass_if_actual_and_given_values_are_empty() {
     actual.clear();
     iterables.assertContainsExactlyInAnyOrder(someInfo(), actual, array());
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsExactlyInAnyOrder(someInfo(), actual, emptyArray()));
   }
 
   @Test
-  public void should_fail_if_expected_is_null() {
+  void should_fail_if_expected_is_null() {
     assertThatNullPointerException().isThrownBy(() -> iterables.assertContainsExactlyInAnyOrder(someInfo(), emptyList(),
                                                                                                 null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsExactlyInAnyOrder(someInfo(), null, emptyArray()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_exactly() {
+  void should_fail_if_actual_does_not_contain_given_values_exactly() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Yoda", "Han" };
 
@@ -88,14 +88,14 @@ public class Iterables_assertContainsExactlyInAnyOrder_Test extends IterablesBas
   }
 
   @Test
-  public void should_pass_if_actual_contains_all_given_values_in_different_order() {
+  void should_pass_if_actual_contains_all_given_values_in_different_order() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Leia", "Yoda" };
     iterables.assertContainsExactlyInAnyOrder(info, actual, expected);
   }
 
   @Test
-  public void should_fail_if_actual_contains_duplicates_and_expected_does_not() {
+  void should_fail_if_actual_contains_duplicates_and_expected_does_not() {
     AssertionInfo info = someInfo();
     actual = newArrayList("Luke", "Leia", "Luke");
     Object[] expected = { "Luke", "Leia" };
@@ -107,7 +107,7 @@ public class Iterables_assertContainsExactlyInAnyOrder_Test extends IterablesBas
         shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList("Luke"), StandardComparisonStrategy.instance())); }
 
   @Test
-  public void should_fail_if_expected_contains_duplicates_and_actual_does_not() {
+  void should_fail_if_expected_contains_duplicates_and_actual_does_not() {
     AssertionInfo info = someInfo();
     actual = newArrayList("Luke", "Leia");
     Object[] expected = { "Luke", "Leia", "Luke"};
@@ -124,13 +124,13 @@ public class Iterables_assertContainsExactlyInAnyOrder_Test extends IterablesBas
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_exactly_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(), actual,
                                                                          array("LUKE", "YODA", "Leia"));
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_exactly_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_given_values_exactly_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Yoda", "Han" };
 
@@ -142,14 +142,14 @@ public class Iterables_assertContainsExactlyInAnyOrder_Test extends IterablesBas
   }
 
   @Test
-  public void should_pass_if_actual_contains_all_given_values_in_different_order_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_all_given_values_in_different_order_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Leia", "Yoda" };
     iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual, expected);
   }
 
   @Test
-  public void should_fail_if_actual_contains_all_given_values_but_size_differ_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_all_given_values_but_size_differ_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     actual = newArrayList("Luke", "Leia", "Luke");
     Object[] expected = { "LUKE", "Leia" };

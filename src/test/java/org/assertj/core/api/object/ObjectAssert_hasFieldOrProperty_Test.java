@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Libor Ondrusek
  */
-public class ObjectAssert_hasFieldOrProperty_Test extends ObjectAssertBaseTest {
+class ObjectAssert_hasFieldOrProperty_Test extends ObjectAssertBaseTest {
 
   public static final String FIELD_NAME = "name"; // field in org.assertj.core.test.Person
 
@@ -43,7 +43,7 @@ public class ObjectAssert_hasFieldOrProperty_Test extends ObjectAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_field_or_property_does_not_exists() {
+  void should_fail_if_field_or_property_does_not_exists() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
       Jedi jedi = new Jedi("Yoda", "Blue");
       assertThat(jedi).hasFieldOrProperty("not_exists_in_jedi_object");
@@ -51,7 +51,7 @@ public class ObjectAssert_hasFieldOrProperty_Test extends ObjectAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_given_field_or_property_name_is_null() {
+  void should_fail_if_given_field_or_property_name_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> {
       Jedi jedi = new Jedi("Yoda", "Blue");
       assertThat(jedi).hasFieldOrProperty(null);

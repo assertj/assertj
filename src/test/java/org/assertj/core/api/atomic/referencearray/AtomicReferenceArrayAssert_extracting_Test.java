@@ -29,31 +29,31 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("deprecation")
-public class AtomicReferenceArrayAssert_extracting_Test {
+class AtomicReferenceArrayAssert_extracting_Test {
 
   private static Employee yoda;
   private static Employee luke;
   private static AtomicReferenceArray<Employee> employees;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     yoda = new Employee(1L, new Name("Yoda"), 800);
     luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
     employees = new AtomicReferenceArray<>(array(yoda, luke));
   }
 
   @Test
-  public void should_allow_assertions_on_property_values_extracted_from_given_iterable() {
+  void should_allow_assertions_on_property_values_extracted_from_given_iterable() {
     assertThat(employees).extracting("age").containsOnly(800, 26);
   }
 
   @Test
-  public void should_allow_assertions_on_property_values_extracted_from_given_iterable_with_extracted_type_defined() {
+  void should_allow_assertions_on_property_values_extracted_from_given_iterable_with_extracted_type_defined() {
     assertThat(employees).extracting("name", Name.class).containsOnly(new Name("Yoda"), new Name("Luke", "Skywalker"));
   }
 
   @Test
-  public void should_allow_assertions_on_field_values_extracted_from_given_iterable() {
+  void should_allow_assertions_on_field_values_extracted_from_given_iterable() {
     // basic types
     assertThat(employees).extracting("id").containsOnly(1L, 2L);
     // object
@@ -63,18 +63,18 @@ public class AtomicReferenceArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_throw_error_if_no_property_nor_field_with_given_name_can_be_extracted() {
+  void should_throw_error_if_no_property_nor_field_with_given_name_can_be_extracted() {
     assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).extracting("unknown"));
   }
 
   @Test
-  public void should_allow_assertions_on_multiple_extracted_values_from_given_iterable() {
+  void should_allow_assertions_on_multiple_extracted_values_from_given_iterable() {
     assertThat(employees).extracting("name.first", "age", "id").containsOnly(tuple("Yoda", 800, 1L),
                                                                              tuple("Luke", 26, 2L));
   }
 
   @Test
-  public void should_throw_error_if_one_property_or_field_can_not_be_extracted() {
+  void should_throw_error_if_one_property_or_field_can_not_be_extracted() {
     assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
       assertThat(employees).extracting("unknown", "age", "id").containsOnly(tuple("Yoda", 800, 1L),
                                                                             tuple("Luke", 26, 2L));
@@ -82,42 +82,42 @@ public class AtomicReferenceArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_extractor_assertions_extracted_from_given_array() {
+  void should_allow_assertions_on_extractor_assertions_extracted_from_given_array() {
     assertThat(employees).extracting(input -> input.getName().getFirst()).containsOnly("Yoda", "Luke");
   }
 
   @Test
-  public void should_use_property_field_names_as_description_when_extracting_simple_value_list() {
+  void should_use_property_field_names_as_description_when_extracting_simple_value_list() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(employees).extracting("name.first").isEmpty()).withMessageContaining("[Extracted: name.first]");
   }
 
   @Test
-  public void should_use_property_field_names_as_description_when_extracting_typed_simple_value_list() {
+  void should_use_property_field_names_as_description_when_extracting_typed_simple_value_list() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(employees).extracting("name.first", String.class).isEmpty()).withMessageContaining("[Extracted: name.first]");
   }
 
   @Test
-  public void should_use_property_field_names_as_description_when_extracting_tuples_list() {
+  void should_use_property_field_names_as_description_when_extracting_tuples_list() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(employees).extracting("name.first", "name.last").isEmpty()).withMessageContaining("[Extracted: name.first, name.last]");
   }
 
   @Test
-  public void should_keep_existing_description_if_set_when_extracting_typed_simple_value_list() {
+  void should_keep_existing_description_if_set_when_extracting_typed_simple_value_list() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(employees).as("check employees first name").extracting("name.first", String.class).isEmpty()).withMessageContaining("[check employees first name]");
   }
 
   @Test
-  public void should_keep_existing_description_if_set_when_extracting_tuples_list() {
+  void should_keep_existing_description_if_set_when_extracting_tuples_list() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(employees).as("check employees name").extracting("name.first", "name.last").isEmpty()).withMessageContaining("[check employees name]");
   }
 
   @Test
-  public void should_keep_existing_description_if_set_when_extracting_simple_value_list() {
+  void should_keep_existing_description_if_set_when_extracting_simple_value_list() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(employees).as("check employees first name").extracting("name.first").isEmpty()).withMessageContaining("[check employees first name]");
   }
 
   @Test
-  public void should_let_anonymous_class_extractor_runtime_exception_bubble_up() {
+  void should_let_anonymous_class_extractor_runtime_exception_bubble_up() {
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(employees).extracting(new Extractor<Employee, String>() {
       @Override
       public String extract(Employee employee) {
@@ -128,7 +128,7 @@ public class AtomicReferenceArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_let_anonymous_class_function_runtime_exception_bubble_up() {
+  void should_let_anonymous_class_function_runtime_exception_bubble_up() {
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(employees).extracting(new Function<Employee, String>() {
       @Override
       public String apply(Employee employee) {
@@ -139,7 +139,7 @@ public class AtomicReferenceArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_rethrow_throwing_extractor_checked_exception_as_a_runtime_exception() {
+  void should_rethrow_throwing_extractor_checked_exception_as_a_runtime_exception() {
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(employees).extracting(employee -> {
       if (employee.getAge() > 100) throw new Exception("age > 100");
       return employee.getName().getFirst();
@@ -147,7 +147,7 @@ public class AtomicReferenceArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_let_throwing_extractor_runtime_exception_bubble_up() {
+  void should_let_throwing_extractor_runtime_exception_bubble_up() {
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(employees).extracting(employee -> {
       if (employee.getAge() > 100) throw new RuntimeException("age > 100");
       return employee.getName().getFirst();
@@ -155,7 +155,7 @@ public class AtomicReferenceArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_allow_extracting_with_throwing_extractor() {
+  void should_allow_extracting_with_throwing_extractor() {
     assertThat(employees).extracting(employee -> {
       if (employee.getAge() < 20) throw new Exception("age < 20");
       return employee.getName().getFirst();
@@ -163,7 +163,7 @@ public class AtomicReferenceArrayAssert_extracting_Test {
   }
 
   @Test
-  public void should_allow_extracting_with_anonymous_class_throwing_extractor() {
+  void should_allow_extracting_with_anonymous_class_throwing_extractor() {
     assertThat(employees).extracting(new ThrowingExtractor<Employee, Object, Exception>() {
       @Override
       public Object extractThrows(Employee employee) throws Exception {

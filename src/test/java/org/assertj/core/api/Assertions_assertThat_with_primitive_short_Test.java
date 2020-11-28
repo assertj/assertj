@@ -21,16 +21,16 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class Assertions_assertThat_with_primitive_short_Test {
+class Assertions_assertThat_with_primitive_short_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     AbstractShortAssert<?> assertions = Assertions.assertThat((short) 8);
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     AbstractShortAssert<?> assertions = Assertions.assertThat((short) 8);
     assertThat(assertions.actual).isEqualTo(new Short((short) 8));
   }

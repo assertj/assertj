@@ -30,10 +30,10 @@ import org.junit.jupiter.api.Test;
  * Tests for
  * <code>{@link org.assertj.core.internal.Classes#assertHasDeclaredMethods(AssertionInfo, Class, String...)}</code>
  */
-public class Classes_assertHasDeclaredMethods_Test extends ClassesBaseTest {
+class Classes_assertHasDeclaredMethods_Test extends ClassesBaseTest {
 
   @BeforeEach
-  public void setupActual() {
+  void setupActual() {
     AnotherMethodsClass m = new AnotherMethodsClass();
     Strings.isNullOrEmpty(m.string); // causes a synthetic method in AnotherMethodsClass
     actual = AnotherMethodsClass.class;
@@ -49,25 +49,25 @@ public class Classes_assertHasDeclaredMethods_Test extends ClassesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_has_the_expected_declared_methods() {
+  void should_pass_if_actual_has_the_expected_declared_methods() {
     classes.assertHasDeclaredMethods(someInfo(), actual, "publicMethod", "protectedMethod", "privateMethod");
   }
 
   @Test
-  public void should_pass_if_actual_has_no_declared_methods_and_no_expected_methods_are_given() {
+  void should_pass_if_actual_has_no_declared_methods_and_no_expected_methods_are_given() {
     actual = Jedi.class;
     classes.assertHasDeclaredMethods(someInfo(), actual);
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     actual = null;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasDeclaredMethods(someInfo(), actual))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_has_some_declared_methods_and_no_expected_methods_are_given() {
+  void should_fail_if_actual_has_some_declared_methods_and_no_expected_methods_are_given() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasDeclaredMethods(someInfo(),
                                                                                                       actual))
                                                    .withMessage(format(shouldNotHaveMethods(actual, true,
@@ -76,8 +76,8 @@ public class Classes_assertHasDeclaredMethods_Test extends ClassesBaseTest {
                                                                                                        "protectedMethod")).create()));
   }
 
-  @Test()
-  public void should_fail_if_actual_does_not_have_the_expected_declared_methods() {
+  @Test
+  void should_fail_if_actual_does_not_have_the_expected_declared_methods() {
     String[] expected = new String[] { "missingMethod", "publicMethod" };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasDeclaredMethods(someInfo(),
                                                                                                       actual, expected))

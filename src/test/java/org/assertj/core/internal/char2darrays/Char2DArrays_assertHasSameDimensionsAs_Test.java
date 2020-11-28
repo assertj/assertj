@@ -24,10 +24,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Maciej Wajcht
  */
-public class Char2DArrays_assertHasSameDimensionsAs_Test extends Char2DArraysBaseTest {
+class Char2DArrays_assertHasSameDimensionsAs_Test extends Char2DArraysBaseTest {
 
   @Test
-  public void should_delegate_to_Arrays2D() {
+  void should_delegate_to_Arrays2D() {
     // GIVEN
     char[][] other = new char[][] { { 'a', 'b' }, { 'c', 'd' } };
     // WHEN

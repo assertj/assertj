@@ -23,10 +23,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link Assertions#assertThatObject(Object)}</code>.
  */
-public class Assertions_assertThatObject_Test {
+class Assertions_assertThatObject_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     // GIVEN
     Object actual = new Object();
     // WHEN
@@ -36,7 +36,7 @@ public class Assertions_assertThatObject_Test {
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     // GIVEN
     Object actual = new Object();
     // WHEN
@@ -47,7 +47,7 @@ public class Assertions_assertThatObject_Test {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_avoid_casting() {
+  void should_avoid_casting() {
     LinkedList<String> actual = new LinkedList<>(list("test"));
     // tests against actual require casts when using an overloaded assertThat that does not capture the type of actual
     assertThat(actual).matches(list -> ((LinkedList<String>) list).getFirst().equals("test"));

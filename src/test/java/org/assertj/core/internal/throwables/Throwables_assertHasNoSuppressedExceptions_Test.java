@@ -19,15 +19,15 @@ import static org.assertj.core.test.TestData.someInfo;
 import org.assertj.core.internal.ThrowablesBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class Throwables_assertHasNoSuppressedExceptions_Test extends ThrowablesBaseTest {
+class Throwables_assertHasNoSuppressedExceptions_Test extends ThrowablesBaseTest {
 
   @Test
-  public void should_pass_if_throwable_has_no_suppressed_exceptions() {
+  void should_pass_if_throwable_has_no_suppressed_exceptions() {
     throwables.assertHasNoSuppressedExceptions(someInfo(), new Throwable());
   }
 
   @Test
-  public void should_fail_if_throwable_has_suppressed_exceptions() {
+  void should_fail_if_throwable_has_suppressed_exceptions() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       Throwable actual = new Throwable();
       actual.addSuppressed(new IllegalArgumentException("Suppressed Message"));

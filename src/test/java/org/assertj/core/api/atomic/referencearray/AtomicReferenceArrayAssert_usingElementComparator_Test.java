@@ -13,24 +13,16 @@
 package org.assertj.core.api.atomic.referencearray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.util.Comparator;
 
 import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
-public class AtomicReferenceArrayAssert_usingElementComparator_Test extends AtomicReferenceArrayAssertBaseTest {
+class AtomicReferenceArrayAssert_usingElementComparator_Test extends AtomicReferenceArrayAssertBaseTest {
 
-  @Mock
-  private Comparator<Object> elementComparator;
-
-  @BeforeEach
-  public void before() {
-    initMocks(this);
-  }
+  private Comparator<Object> elementComparator = alwaysEqual();
 
   @Override
   protected AtomicReferenceArrayAssert<Object> invoke_api_method() {
@@ -39,7 +31,7 @@ public class AtomicReferenceArrayAssert_usingElementComparator_Test extends Atom
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(elementComparator).isSameAs(getArrays(assertions).getComparator());
+    assertThat(getArrays(assertions).getComparator()).isSameAs(elementComparator);
   }
 
 }

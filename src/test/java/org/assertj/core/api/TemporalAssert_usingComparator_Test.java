@@ -13,23 +13,19 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.time.temporal.Temporal;
 import java.util.Comparator;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-public class TemporalAssert_usingComparator_Test extends AbstractTemporalAssertBaseTest {
+@ExtendWith(MockitoExtension.class)
+class TemporalAssert_usingComparator_Test extends AbstractTemporalAssertBaseTest {
 
   @Mock
   private Comparator<Temporal> comparator;
-
-  @BeforeEach
-  public void before() {
-    initMocks(this);
-  }
 
   @Override
   protected ConcreteTemporalAssert invoke_api_method() {
@@ -38,7 +34,7 @@ public class TemporalAssert_usingComparator_Test extends AbstractTemporalAssertB
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(comparator).isSameAs(getComparables(assertions).getComparator());
-    assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
+    assertThat(getComparables(assertions).getComparator()).isSameAs(comparator);
+    assertThat(getObjects(assertions).getComparator()).isSameAs(comparator);
   }
 }

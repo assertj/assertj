@@ -28,26 +28,26 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class Doubles_assertIsNotNaN_Test extends DoublesBaseTest {
+class Doubles_assertIsNotNaN_Test extends DoublesBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_not_equal_to_NaN() {
+  void should_succeed_since_actual_is_not_equal_to_NaN() {
     doubles.assertIsNotNaN(someInfo(), 6d);
   }
 
   @Test
-  public void should_fail_since_actual_is_equal_to_NaN() {
+  void should_fail_since_actual_is_equal_to_NaN() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotNaN(someInfo(), Double.NaN))
                                                    .withMessage(format("%nExpecting:%n <NaN>%nnot to be equal to:%n <NaN>%n"));
   }
 
   @Test
-  public void should_succeed_since_actual_is_not_equal_to_NaN_whatever_custom_comparison_strategy_is() {
+  void should_succeed_since_actual_is_not_equal_to_NaN_whatever_custom_comparison_strategy_is() {
     doublesWithAbsValueComparisonStrategy.assertIsNotNaN(someInfo(), 6d);
   }
 
   @Test
-  public void should_fail_since_actual_is_equal_to_NaN_whatever_custom_comparison_strategy_is() {
+  void should_fail_since_actual_is_equal_to_NaN_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertIsNotNaN(someInfo(), Double.NaN))
                                                    .withMessage(format("%nExpecting:%n <NaN>%nnot to be equal to:%n <NaN>%n"));
   }

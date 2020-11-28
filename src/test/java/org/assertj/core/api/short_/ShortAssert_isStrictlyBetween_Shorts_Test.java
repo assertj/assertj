@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author William Delanoue
  */
-public class ShortAssert_isStrictlyBetween_Shorts_Test extends ShortAssertBaseTest {
+class ShortAssert_isStrictlyBetween_Shorts_Test extends ShortAssertBaseTest {
 
   @Override
   protected ShortAssert invoke_api_method() {

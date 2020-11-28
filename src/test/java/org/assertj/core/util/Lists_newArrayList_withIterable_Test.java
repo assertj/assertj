@@ -13,7 +13,7 @@
 package org.assertj.core.util;
 
 import static java.util.Arrays.asList;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 
@@ -24,9 +24,9 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Lists_newArrayList_withIterable_Test {
+class Lists_newArrayList_withIterable_Test {
   @Test
-  public void should_return_List_containing_all_elements_in_iterable() {
+  void should_return_List_containing_all_elements_in_iterable() {
     String[] expected = { "One", "Two" };
     Iterable<String> elements = asList(expected);
     ArrayList<String> list = Lists.newArrayList(elements);
@@ -34,13 +34,13 @@ public class Lists_newArrayList_withIterable_Test {
   }
 
   @Test
-  public void should_return_null_if_iterable_is_null() {
+  void should_return_null_if_iterable_is_null() {
     Iterable<?> elements = null;
     assertThat(Lists.newArrayList(elements)).isNull();
   }
 
   @Test
-  public void should_return_empty_List_if_iterable_is_empty() {
+  void should_return_empty_List_if_iterable_is_empty() {
     Iterable<String> elements = new ArrayList<>();
     ArrayList<String> list = Lists.newArrayList(elements);
     assertThat(list).isEmpty();

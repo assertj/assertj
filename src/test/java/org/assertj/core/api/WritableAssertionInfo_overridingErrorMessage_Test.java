@@ -17,10 +17,10 @@ import static org.assertj.core.api.BDDAssertions.thenIllegalStateException;
 
 import org.junit.jupiter.api.Test;
 
-public class WritableAssertionInfo_overridingErrorMessage_Test {
+class WritableAssertionInfo_overridingErrorMessage_Test {
 
   @Test
-  public void should_return_the_overriding_error_message_set_with_a_supplier() {
+  void should_return_the_overriding_error_message_set_with_a_supplier() {
     // GIVEN
     String message = "my first message";
     WritableAssertionInfo info = new WritableAssertionInfo();
@@ -31,7 +31,7 @@ public class WritableAssertionInfo_overridingErrorMessage_Test {
   }
 
   @Test
-  public void should_return_the_overriding_error_message_set_with_a_string() {
+  void should_return_the_overriding_error_message_set_with_a_string() {
     // GIVEN
     String message = "my first message";
     WritableAssertionInfo info = new WritableAssertionInfo();
@@ -42,7 +42,7 @@ public class WritableAssertionInfo_overridingErrorMessage_Test {
   }
 
   @Test
-  public void should_not_allow_overriding_error_message_with_a_supplier_and_then_a_string() {
+  void should_not_allow_overriding_error_message_with_a_supplier_and_then_a_string() {
     // GIVEN
     WritableAssertionInfo info = new WritableAssertionInfo();
     info.overridingErrorMessage(() -> "my first message");
@@ -52,7 +52,7 @@ public class WritableAssertionInfo_overridingErrorMessage_Test {
   }
 
   @Test
-  public void should_not_allow_overriding_error_message_with_a_string_and_then_a_supplier() {
+  void should_not_allow_overriding_error_message_with_a_string_and_then_a_supplier() {
     // GIVEN
     WritableAssertionInfo info = new WritableAssertionInfo();
     info.overridingErrorMessage("my first message");

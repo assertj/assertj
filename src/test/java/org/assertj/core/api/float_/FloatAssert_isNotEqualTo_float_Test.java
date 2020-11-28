@@ -34,7 +34,7 @@ import org.junit.jupiter.params.provider.CsvSource;
  *
  * @author Alex Ruiz
  */
-public class FloatAssert_isNotEqualTo_float_Test extends FloatAssertBaseTest {
+class FloatAssert_isNotEqualTo_float_Test extends FloatAssertBaseTest {
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @Override
@@ -53,12 +53,12 @@ public class FloatAssert_isNotEqualTo_float_Test extends FloatAssertBaseTest {
 
   @ParameterizedTest
   @CsvSource({ "1.0f, -1.0f", "NaN, NaN" })
-  public void should_pass_using_primitive_comparison(float actual, float expected) {
+  void should_pass_using_primitive_comparison(float actual, float expected) {
     assertThat(actual).isNotEqualTo(expected);
   }
 
   @Test
-  public void should_honor_user_specified_comparator() {
+  void should_honor_user_specified_comparator() {
     // GIVEN
     final float one = 1.0f;
     // THEN
@@ -67,7 +67,7 @@ public class FloatAssert_isNotEqualTo_float_Test extends FloatAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_floats_are_equal() {
+  void should_fail_if_floats_are_equal() {
     // GIVEN
     float actual = 0.0f;
     float expected = -0.0f;

@@ -24,32 +24,32 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link BigIntegers#assertIsNotPositive(AssertionInfo, BigInteger))}</code>.
  */
-public class BigIntegers_assertIsNotPositive_Test extends BigIntegersBaseTest {
+class BigIntegers_assertIsNotPositive_Test extends BigIntegersBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_not_positive() {
+  void should_succeed_since_actual_is_not_positive() {
     numbers.assertIsNotPositive(someInfo(), new BigInteger("-6"));
   }
 
   @Test
-  public void should_succeed_since_actual_is_zero() {
+  void should_succeed_since_actual_is_zero() {
     numbers.assertIsNotPositive(someInfo(), BigInteger.ZERO);
   }
 
   @Test
-  public void should_fail_since_actual_is_positive() {
+  void should_fail_since_actual_is_positive() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsNotPositive(someInfo(), new BigInteger("6")))
                                                    .withMessage(format("%nExpecting:%n <6>%nto be less than or equal to:%n <0> "));
   }
 
   @Test
-  public void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
+  void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), new BigInteger("-1")))
                                                    .withMessage(format("%nExpecting:%n <-1>%nto be less than or equal to:%n <0> when comparing values using AbsValueComparator"));
   }
 
   @Test
-  public void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
+  void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), BigInteger.ONE))
                                                    .withMessage(format("%nExpecting:%n <1>%nto be less than or equal to:%n <0> when comparing values using AbsValueComparator"));
   }

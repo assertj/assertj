@@ -12,10 +12,16 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ShouldHaveValue.shouldHaveValue;
+import static org.assertj.core.error.ShouldMatch.shouldMatch;
 import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue;
 
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
+import org.assertj.core.presentation.PredicateDescription;
 
 public class AtomicReferenceAssert<V> extends AbstractAssert<AtomicReferenceAssert<V>, AtomicReference<V>> {
 
@@ -24,53 +30,136 @@ public class AtomicReferenceAssert<V> extends AbstractAssert<AtomicReferenceAsse
   }
 
   /**
-   * Verifies that the actual atomic has the given value.
+   * Verifies that the atomic under test has the given value.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertion will pass
+   * <pre><code class='java'> // assertion succeeds
    * assertThat(new AtomicReference("foo")).hasValue("foo");
    *
-   * // assertion will fail
+   * // assertion fails
    * assertThat(new AtomicReference("foo")).hasValue("bar");</code></pre>
-   * 
+   *
    * @param expectedValue the expected value.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual atomic is {@code null}.
-   * @throws AssertionError if the actual atomic does not have the given value.
+   * @throws AssertionError if the atomic under test is {@code null}.
+   * @throws AssertionError if the atomic under test does not have the given value.
    * @since 2.7.0 / 3.7.0
    */
   public AtomicReferenceAssert<V> hasValue(V expectedValue) {
     isNotNull();
     V actualValue = actual.get();
     if (!objects.getComparisonStrategy().areEqual(actualValue, expectedValue)) {
-      throwAssertionError(shouldHaveValue(actual, expectedValue));
+      throw assertionError(shouldHaveValue(actual, expectedValue));
     }
     return myself;
   }
 
   /**
-   * Verifies that the actual atomic has not the given value.
+   * Verifies that the atomic under test does not have the given value.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertion will pass
+   * <pre><code class='java'> // assertion succeeds
    * assertThat(new AtomicReference("foo")).doesNotHaveValue("bar");
    *
-   * // assertion will fail
+   * // assertion fails
    * assertThat(new AtomicReference("foo")).doesNotHaveValue("foo");</code></pre>
-   * 
+   *
    * @param nonExpectedValue the value not expected.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual atomic is {@code null}.
-   * @throws AssertionError if the actual atomic has the given value.
-   * 
+   * @throws AssertionError if the atomic under test is {@code null}.
+   * @throws AssertionError if the atomic under test has the given value.
+   *
    * @since 2.7.0 / 3.7.0
    */
   public AtomicReferenceAssert<V> doesNotHaveValue(V nonExpectedValue) {
     isNotNull();
     V actualValue = actual.get();
     if (objects.getComparisonStrategy().areEqual(actualValue, nonExpectedValue)) {
-      throwAssertionError(shouldNotContainValue(actual, nonExpectedValue));
+      throw assertionError(shouldNotContainValue(actual, nonExpectedValue));
     }
+    return myself;
+  }
+
+  /**
+   * Verifies that the atomic under test has a value satisfying the given predicate.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds
+   * assertThat(new AtomicReference("foo")).hasValueMatching(result -&gt; result != null);
+   *
+   * // assertion fails
+   * assertThat(new AtomicReference("foo")).hasValueMatching(result -&gt; result == null); </code></pre>
+   *
+   * @param predicate the {@link Predicate} to apply on the resulting value.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given {@link Predicate} is null
+   * @throws AssertionError if the atomic under test is {@code null}.
+   * @throws AssertionError if the atomic under test value does not matches with the given predicate.
+   *
+   * @since 3.18.0
+   */
+  public AtomicReferenceAssert<V> hasValueMatching(Predicate<? super V> predicate) {
+    return hasValueMatching(predicate, PredicateDescription.GIVEN);
+  }
+
+  /**
+   * Verifies that the atomic under test has a value satisfying the given predicate, the string parameter is used in the error message
+   * to describe the predicate.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds
+   * assertThat(new AtomicReference("foo")).hasValueMatching(result -&gt; result != null, "expected not null");
+   *
+   * // assertion fails
+   * assertThat(new AtomicReference("foo")).hasValueMatching(result -&gt; result == null, "expected null");
+   * </code></pre>
+   *
+   * @param predicate   the {@link Predicate} to apply on the resulting value.
+   * @param description the {@link Predicate} description.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given {@link Predicate} is null
+   * @throws AssertionError if the atomic under test is {@code null}.
+   * @throws AssertionError if the atomic under test value does not matches with the given predicate.
+   *
+   * @since 3.18.0
+   */
+  public AtomicReferenceAssert<V> hasValueMatching(Predicate<? super V> predicate, String description) {
+    return hasValueMatching(predicate, new PredicateDescription(description));
+  }
+
+  private AtomicReferenceAssert<V> hasValueMatching(Predicate<? super V> predicate, PredicateDescription description) {
+    requireNonNull(predicate, "The predicate must not be null");
+    isNotNull();
+    V actualValue = actual.get();
+    if (!predicate.test(actualValue)) {
+      throw assertionError(shouldMatch(actualValue, predicate, description));
+    }
+    return myself;
+  }
+
+  /**
+   * Verifies that the atomic under test has a value satisfying the given requirements.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds
+   * assertThat(new AtomicReference("foo")).hasValueSatisfying(result -&gt; assertThat(result).isNotBlank());
+   *
+   * // assertion fails
+   * assertThat(new AtomicReference("foo")).hasValueSatisfying(result -&gt; assertThat(result).isBlank()); </code></pre>
+   *
+   * @param requirements to assert on the actual object - must not be null.
+   * @return this assertion object.
+   *
+   * @throws NullPointerException if the given {@link Consumer} is null
+   * @throws AssertionError if the atomic under test is {@code null}.
+   * @throws AssertionError if the atomic under test value does not satisfies with the given requirements.
+   *
+   * @since 3.18.0
+   */
+  public AtomicReferenceAssert<V> hasValueSatisfying(Consumer<? super V> requirements) {
+    requireNonNull(requirements, "The Consumer<? super V> expressing the assertions requirements must not be null");
+    isNotNull();
+    requirements.accept(actual.get());
     return myself;
   }
 

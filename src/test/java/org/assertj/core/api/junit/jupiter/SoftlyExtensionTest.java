@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+@SuppressWarnings("deprecation")
 @ExtendWith(SoftlyExtension.class)
 @DisplayName("SoftlyExtension")
 class SoftlyExtensionTest {

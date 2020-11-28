@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  */
-public class Assertions_assertThat_with_String_Test {
+class Assertions_assertThat_with_String_Test {
 
   @Test
   public void should_create_Assert() {

@@ -27,17 +27,17 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class DateUtil_minuteOf_Test {
+class DateUtil_minuteOf_Test {
 
   @Test
-  public void should_return_minute_of_date() throws ParseException {
+  void should_return_minute_of_date() throws ParseException {
     String dateAsString = "26/08/1994T22:35:00";
     Date date = new SimpleDateFormat("dd/MM/yyyy'T'hh:mm:ss").parse(dateAsString);
     assertThat(minuteOf(date)).isEqualTo(35);
   }
 
   @Test
-  public void should_throws_NullPointerException_if_date_parameter_is_null() {
+  void should_throws_NullPointerException_if_date_parameter_is_null() {
     assertThatNullPointerException().isThrownBy(() -> minuteOf(null));
   }
 

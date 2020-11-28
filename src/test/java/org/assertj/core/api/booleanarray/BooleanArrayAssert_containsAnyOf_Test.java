@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.BooleanArrayAssert;
 import org.assertj.core.api.BooleanArrayAssertBaseTest;
 
-public class BooleanArrayAssert_containsAnyOf_Test extends BooleanArrayAssertBaseTest {
+class BooleanArrayAssert_containsAnyOf_Test extends BooleanArrayAssertBaseTest {
 
   @Override
   protected BooleanArrayAssert invoke_api_method() {

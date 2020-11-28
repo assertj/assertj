@@ -22,7 +22,7 @@ import org.assertj.core.api.BigDecimalAssertBaseTest;
  *
  * @author Drummond Dawson
  */
-public class BigDecimalAssert_isOne_Test extends BigDecimalAssertBaseTest {
+class BigDecimalAssert_isOne_Test extends BigDecimalAssertBaseTest {
 
   @Override
   protected BigDecimalAssert invoke_api_method() {

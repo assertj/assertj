@@ -25,14 +25,14 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class WritableAssertionInfo_toString_Test {
+class WritableAssertionInfo_toString_Test {
 
   private Description description;
   private String overridingErrorMessage;
   private WritableAssertionInfo info;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     description = mock(Description.class);
     overridingErrorMessage = "Jedi";
     info = new WritableAssertionInfo();
@@ -41,7 +41,7 @@ public class WritableAssertionInfo_toString_Test {
   }
 
   @Test
-  public void should_implement_toString() {
+  void should_implement_toString() {
     when(description.value()).thenReturn("Yoda");
     assertThat(info).hasToString("WritableAssertionInfo[overridingErrorMessage='Jedi', description='Yoda', representation=StandardRepresentation]");
   }

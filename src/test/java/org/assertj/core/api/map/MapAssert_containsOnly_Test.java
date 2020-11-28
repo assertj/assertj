@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Jean-Christophe Gay
  */
-public class MapAssert_containsOnly_Test extends MapAssertBaseTest {
+class MapAssert_containsOnly_Test extends MapAssertBaseTest {
 
   final MapEntry<String, String>[] entries = array(entry("key1", "value1"), entry("key2", "value2"));
 
@@ -42,7 +42,7 @@ public class MapAssert_containsOnly_Test extends MapAssertBaseTest {
   }
   
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
      assertThat(map("key1", "value1", "key2", "value2")).containsOnly(entry("key1", "value1"), entry("key2", "value2"));
   }
 }

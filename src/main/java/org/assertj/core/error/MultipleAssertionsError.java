@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static java.util.stream.Collectors.toList;
-import static org.assertj.core.error.AssertionErrorMessagesAggregrator.aggregrateErrorMessages;
+import static org.assertj.core.error.AssertionErrorMessagesAggregator.aggregateErrorMessages;
 
 import java.util.List;
 
@@ -51,7 +51,7 @@ public class MultipleAssertionsError extends AssertionError {
     List<String> errorsMessage = errors.stream()
                                        .map(AssertionError::getMessage)
                                        .collect(toList());
-    return aggregrateErrorMessages(errorsMessage);
+    return aggregateErrorMessages(errorsMessage);
   }
 
 }

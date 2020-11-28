@@ -26,10 +26,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link ShouldHaveAtLeastOneElementOfType#shouldHaveAtLeastOneElementOfType(Object, Class)}</code>.
  */
-public class ShouldHaveOnlyElementsOfType_create_Test {
+class ShouldHaveOnlyElementsOfType_create_Test {
 
   @Test
-  public void should_create_error_message_for_iterable() {
+  void should_create_error_message_for_iterable() {
     // GIVEN
     List<Object> list = Lists.list("Yoda", 5L);
     ErrorMessageFactory factory = shouldHaveOnlyElementsOfType(list, String.class, Long.class);
@@ -46,7 +46,7 @@ public class ShouldHaveOnlyElementsOfType_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_array() {
+  void should_create_error_message_for_array() {
     // GIVEN
     Object[] array = new Object[] { "Yoda", 5L };
     ErrorMessageFactory factory = shouldHaveOnlyElementsOfType(array, String.class, Long.class);

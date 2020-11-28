@@ -18,7 +18,7 @@ import java.time.Instant;
 
 import org.assertj.core.api.InstantAssert;
 
-public class InstantAssert_isBetween_Test extends org.assertj.core.api.InstantAssertBaseTest {
+class InstantAssert_isBetween_Test extends org.assertj.core.api.InstantAssertBaseTest {
 
   private Instant before = now.minusSeconds(1);
   private Instant after = now.plusSeconds(1);

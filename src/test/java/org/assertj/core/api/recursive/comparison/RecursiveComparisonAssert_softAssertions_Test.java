@@ -23,7 +23,7 @@ import org.assertj.core.internal.objects.data.Person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class RecursiveComparisonAssert_softAssertions_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
+class RecursiveComparisonAssert_softAssertions_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
   private SoftAssertions softly;
 
@@ -35,7 +35,7 @@ public class RecursiveComparisonAssert_softAssertions_Test extends RecursiveComp
   }
 
   @Test
-  public void should_pass_with_soft_assertions() {
+  void should_pass_with_soft_assertions() {
     // GIVEN
     Person actual = new Person("John");
     actual.home.address.number = 1;
@@ -48,7 +48,7 @@ public class RecursiveComparisonAssert_softAssertions_Test extends RecursiveComp
   }
 
   @Test
-  public void should_report_all_errors_with_soft_assertions() {
+  void should_report_all_errors_with_soft_assertions() {
     // GIVEN
     Person john = new Person("John");
     john.home.address.number = 1;

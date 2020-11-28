@@ -30,15 +30,15 @@ import org.junit.jupiter.api.Test;
  * @author Marcin Zajączkowski
  */
 @DisplayName("LocalTimeAssert isNotEqualTo")
-public class LocalTimeAssert_isNotEqualTo_Test extends LocalTimeAssertBaseTest {
+class LocalTimeAssert_isNotEqualTo_Test extends LocalTimeAssertBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_not_equal_to_localTime_as_string_parameter() {
+  void should_pass_if_actual_is_not_equal_to_localTime_as_string_parameter() {
     assertThat(REFERENCE).isNotEqualTo(AFTER.toString());
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_localTime_as_string_parameter() {
+  void should_fail_if_actual_is_equal_to_localTime_as_string_parameter() {
     // WHEN
     ThrowingCallable code = () -> assertThat(REFERENCE).isNotEqualTo(REFERENCE.toString());
     // THEN
@@ -46,7 +46,7 @@ public class LocalTimeAssert_isNotEqualTo_Test extends LocalTimeAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_localTime_as_string_parameter_is_null() {
+  void should_fail_if_localTime_as_string_parameter_is_null() {
     // GIVEN
     String otherLocalTimeAsString = null;
     // WHEN

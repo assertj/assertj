@@ -28,10 +28,10 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Nikolaos Georgiou
  */
-public class LocalDateTimeAssert_isCloseToUtcNow_Test extends LocalDateTimeAssertBaseTest {
+class LocalDateTimeAssert_isCloseToUtcNow_Test extends LocalDateTimeAssertBaseTest {
 
   @Test
-  public void should_pass_when_executed_within_time_offset() {
+  void should_pass_when_executed_within_time_offset() {
     // GIVEN
     LocalDateTime now = now(systemUTC());
     // THEN
@@ -39,7 +39,7 @@ public class LocalDateTimeAssert_isCloseToUtcNow_Test extends LocalDateTimeAsser
   }
 
   @Test
-  public void should_fail_when_executed_after_time_offset() {
+  void should_fail_when_executed_after_time_offset() {
     // GIVEN
     LocalDateTime now = now(systemUTC()).minusSeconds(2);
     // WHEN
@@ -49,7 +49,7 @@ public class LocalDateTimeAssert_isCloseToUtcNow_Test extends LocalDateTimeAsser
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     LocalDateTime actual = null;
     // WHEN
@@ -59,7 +59,7 @@ public class LocalDateTimeAssert_isCloseToUtcNow_Test extends LocalDateTimeAsser
   }
 
   @Test
-  public void should_fail_if_offset_parameter_is_null() {
+  void should_fail_if_offset_parameter_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(now()).isCloseToUtcNow(null))
                                     .withMessage("The offset should not be null");
   }

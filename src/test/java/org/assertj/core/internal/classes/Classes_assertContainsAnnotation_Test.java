@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author William Delanoue
  */
-public class Classes_assertContainsAnnotation_Test extends ClassesBaseTest {
+class Classes_assertContainsAnnotation_Test extends ClassesBaseTest {
 
   @Target(ElementType.TYPE)
   @Retention(RetentionPolicy.RUNTIME)
@@ -48,7 +48,7 @@ public class Classes_assertContainsAnnotation_Test extends ClassesBaseTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     actual = null;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertContainsAnnotations(someInfo(), actual,
                                                                                                        Override.class))
@@ -57,7 +57,7 @@ public class Classes_assertContainsAnnotation_Test extends ClassesBaseTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_fail_if_expected_has_null_value() {
+  void should_fail_if_expected_has_null_value() {
     actual = AssertionInfo.class;
     assertThatNullPointerException().isThrownBy(() -> classes.assertContainsAnnotations(someInfo(), actual,
                                                                                         Override.class, null,
@@ -67,21 +67,21 @@ public class Classes_assertContainsAnnotation_Test extends ClassesBaseTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_pass_if_expected_is_empty() {
+  void should_pass_if_expected_is_empty() {
     actual = AssertionInfo.class;
     classes.assertContainsAnnotations(someInfo(), actual);
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_pass_if_actual_have_annotation() {
+  void should_pass_if_actual_have_annotation() {
     actual = AnnotatedClass.class;
     classes.assertContainsAnnotations(someInfo(), actual, MyAnnotation.class);
   }
 
   @SuppressWarnings("unchecked")
-  @Test()
-  public void should_fail_if_actual_does_not_contains_an_annotation() {
+  @Test
+  void should_fail_if_actual_does_not_contains_an_annotation() {
     actual = AnnotatedClass.class;
     Class<Annotation>[] expected = new Class[] { Override.class, Deprecated.class, MyAnnotation.class };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertContainsAnnotations(someInfo(),

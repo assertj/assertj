@@ -32,21 +32,21 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Floats_assertLessThan_Test extends FloatsBaseTest {
+class Floats_assertLessThan_Test extends FloatsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertLessThan(someInfo(), null, 8f))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_less_than_other() {
+  void should_pass_if_actual_is_less_than_other() {
     floats.assertLessThan(someInfo(), 6f, 8f);
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_other() {
+  void should_fail_if_actual_is_equal_to_other() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> floats.assertLessThan(info, 6f, 6f));
@@ -56,7 +56,7 @@ public class Floats_assertLessThan_Test extends FloatsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_greater_than_other() {
+  void should_fail_if_actual_is_greater_than_other() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> floats.assertLessThan(info, 8f, 6f));
@@ -66,18 +66,18 @@ public class Floats_assertLessThan_Test extends FloatsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertLessThan(someInfo(), null, 8f))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     floatsWithAbsValueComparisonStrategy.assertLessThan(someInfo(), 6f, -8f);
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> floatsWithAbsValueComparisonStrategy.assertLessThan(info, 6f, -6f));
@@ -87,7 +87,7 @@ public class Floats_assertLessThan_Test extends FloatsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> floatsWithAbsValueComparisonStrategy.assertLessThan(info, -8f, 6f));

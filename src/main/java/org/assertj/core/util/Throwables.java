@@ -64,7 +64,7 @@ public final class Throwables {
   public static void appendStackTraceInCurrentThreadToThrowable(Throwable t, String methodToStartFrom) {
     List<StackTraceElement> stackTrace = newArrayList(t.getStackTrace());
     stackTrace.addAll(stackTraceInCurrentThread(methodToStartFrom));
-    t.setStackTrace(stackTrace.toArray(new StackTraceElement[stackTrace.size()]));
+    t.setStackTrace(stackTrace.toArray(new StackTraceElement[0]));
   }
 
   private static List<StackTraceElement> stackTraceInCurrentThread(String methodToStartFrom) {
@@ -130,7 +130,7 @@ public final class Throwables {
       }
       previous = element;
     }
-    StackTraceElement[] newStackTrace = filtered.toArray(new StackTraceElement[filtered.size()]);
+    StackTraceElement[] newStackTrace = filtered.toArray(new StackTraceElement[0]);
     throwable.setStackTrace(newStackTrace);
   }
 

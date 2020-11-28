@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class DoubleArrayAssert_doesNotContain_Test extends DoubleArrayAssertBaseTest {
+class DoubleArrayAssert_doesNotContain_Test extends DoubleArrayAssertBaseTest {
 
   @Override
   protected DoubleArrayAssert invoke_api_method() {
@@ -39,7 +39,7 @@ public class DoubleArrayAssert_doesNotContain_Test extends DoubleArrayAssertBase
   }
 
   @Test
-  public void should_pass_with_precision_specified_as_last_argument() {
+  void should_pass_with_precision_specified_as_last_argument() {
     // GIVEN
     double[] actual = arrayOf(1.0, 2.0, 3.0);
     // THEN
@@ -47,7 +47,7 @@ public class DoubleArrayAssert_doesNotContain_Test extends DoubleArrayAssertBase
   }
 
   @Test
-  public void should_pass_with_precision_specified_in_comparator() {
+  void should_pass_with_precision_specified_in_comparator() {
     // GIVEN
     double[] actual = arrayOf(1.0, 2.0);
     // THEN

@@ -24,10 +24,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Maciej Wajcht
  */
-public class Int2DArrays_assertHasDimensions_Test extends Int2DArraysBaseTest {
+class Int2DArrays_assertHasDimensions_Test extends Int2DArraysBaseTest {
 
   @Test
-  public void should_delegate_to_Arrays2D() {
+  void should_delegate_to_Arrays2D() {
     // WHEN
     int2DArrays.assertHasDimensions(info, actual, 2, 3);
     // THEN

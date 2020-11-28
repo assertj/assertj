@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class Dates_assertIsInSameMinuteWindowAs_Test extends DatesBaseTest {
+class Dates_assertIsInSameMinuteWindowAs_Test extends DatesBaseTest {
 
   @Override
   protected void initActualDate() {
@@ -43,13 +43,13 @@ public class Dates_assertIsInSameMinuteWindowAs_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_in_same_minute_window_as_given_date() {
+  void should_pass_if_actual_is_in_same_minute_window_as_given_date() {
     dates.assertIsInSameMinuteWindowAs(someInfo(), actual, parseDatetime("2011-01-01T03:15:59"));
     dates.assertIsInSameMinuteWindowAs(someInfo(), actual, parseDatetime("2011-01-01T03:14:01"));
   }
 
   @Test
-  public void should_fail_if_actual_is_exactly_one_minute_away_from_given_date() {
+  void should_fail_if_actual_is_exactly_one_minute_away_from_given_date() {
     AssertionInfo info = someInfo();
     Date other = parseDatetime("2011-01-01T03:16:00");
 
@@ -60,7 +60,7 @@ public class Dates_assertIsInSameMinuteWindowAs_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_same_minute_window_as_given_date() {
+  void should_fail_if_actual_is_not_in_same_minute_window_as_given_date() {
     AssertionInfo info = someInfo();
     Date other = parseDatetime("2011-01-01T03:16:01");
 
@@ -71,19 +71,19 @@ public class Dates_assertIsInSameMinuteWindowAs_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsInSameMinuteWindowAs(someInfo(), null, new Date()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_error_if_given_date_is_null() {
+  void should_throw_error_if_given_date_is_null() {
     assertThatNullPointerException().isThrownBy(() -> dates.assertIsInSameMinuteWindowAs(someInfo(), actual, null))
                                     .withMessage(dateToCompareActualWithIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_same_minute_window_as_given_date_whatever_custom_comparison_strategy_is
+  void should_fail_if_actual_is_not_in_same_minute_window_as_given_date_whatever_custom_comparison_strategy_is
     () {
     AssertionInfo info = someInfo();
     Date other = parseDatetime("2011-01-01T03:13:59");
@@ -95,13 +95,13 @@ public class Dates_assertIsInSameMinuteWindowAs_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInSameMinuteWindowAs(someInfo(), null, new Date()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInSameMinuteWindowAs(someInfo(),
                                                                                                                      actual,
                                                                                                                      null))
@@ -109,7 +109,7 @@ public class Dates_assertIsInSameMinuteWindowAs_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_in_same_minute_window_as_given_date_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_is_in_same_minute_window_as_given_date_whatever_custom_comparison_strategy_is() {
     datesWithCustomComparisonStrategy.assertIsInSameMinuteWindowAs(someInfo(), actual,
                                                                    parseDatetime("2011-01-01T03:15:59"));
   }

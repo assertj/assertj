@@ -25,31 +25,31 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
-public class Iterable_generics_with_varargs_Test {
+class Iterable_generics_with_varargs_Test {
   
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @Test
-  public void testWithoutGenerics() {
-	List strings = asList("a", "b", "c");
-	assertThat(strings).contains("a", "b");
+  void testWithoutGenerics() {
+    List strings = asList("a", "b", "c");
+    assertThat(strings).contains("a", "b");
   }
 
   @Test
-  public void testConcreteType() {
-	List<String> strings = asList("a", "b", "c");
-	assertThat(strings).contains("a", "b");
+  void testConcreteType() {
+    List<String> strings = asList("a", "b", "c");
+    assertThat(strings).contains("a", "b");
   }
 
   @Test
   @Disabled
-  public void testListAssertWithGenerics() {
+  void testListAssertWithGenerics() {
     // List<? extends String> strings = asList("a", "b", "c");
     // does not compile as Java 8 is stricter with generics ...
     // assertThat(strings).contains("a", "b");
   }
 
   @Test
-  public void testListAssertWithGenericsAndExtracting() {
+  void testListAssertWithGenericsAndExtracting() {
     List<? extends String> strings = asList("a", "b", "c");
     Function<? super String, String> doubleFunction = new Function<String, String>() {
       @Override

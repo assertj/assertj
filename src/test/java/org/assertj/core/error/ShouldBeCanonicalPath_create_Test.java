@@ -24,10 +24,10 @@ import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
-public class ShouldBeCanonicalPath_create_Test {
+class ShouldBeCanonicalPath_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     final Path actual = mock(Path.class);
     ErrorMessageFactory factory = shouldBeCanonicalPath(actual);

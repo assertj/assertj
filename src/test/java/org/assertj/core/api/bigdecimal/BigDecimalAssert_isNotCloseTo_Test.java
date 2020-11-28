@@ -27,7 +27,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Chris Arnott
  */
-public class BigDecimalAssert_isNotCloseTo_Test extends BigDecimalAssertBaseTest {
+class BigDecimalAssert_isNotCloseTo_Test extends BigDecimalAssertBaseTest {
 
   private final BigDecimal other = new BigDecimal(6);
   private final Offset<BigDecimal> offset = offset(BigDecimal.ONE);

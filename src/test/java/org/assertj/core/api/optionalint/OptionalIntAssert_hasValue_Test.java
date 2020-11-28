@@ -24,10 +24,10 @@ import java.util.OptionalInt;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
-public class OptionalIntAssert_hasValue_Test {
+class OptionalIntAssert_hasValue_Test {
 
   @Test
-  public void should_fail_when_OptionalInt_is_null() {
+  void should_fail_when_OptionalInt_is_null() {
     // GIVEN
     OptionalInt nullActual = null;
     // THEN
@@ -35,12 +35,12 @@ public class OptionalIntAssert_hasValue_Test {
   }
 
   @Test
-  public void should_pass_if_OptionalInt_has_expected_value() {
+  void should_pass_if_OptionalInt_has_expected_value() {
     assertThat(OptionalInt.of(10)).hasValue(10);
   }
 
   @Test
-  public void should_fail_if_OptionalInt_does_not_have_expected_value() {
+  void should_fail_if_OptionalInt_does_not_have_expected_value() {
     // GIVEN
     OptionalInt actual = OptionalInt.of(5);
     int expectedValue = 10;
@@ -54,7 +54,7 @@ public class OptionalIntAssert_hasValue_Test {
   }
 
   @Test
-  public void should_fail_if_OptionalInt_is_empty() {
+  void should_fail_if_OptionalInt_is_empty() {
     // GIVEN
     int expectedValue = 10;
     // WHEN

@@ -30,7 +30,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class DoubleArrayAssert_doesNotContain_at_Index_Test extends DoubleArrayAssertBaseTest {
+class DoubleArrayAssert_doesNotContain_at_Index_Test extends DoubleArrayAssertBaseTest {
 
   private final Index index = someIndex();
 
@@ -45,7 +45,7 @@ public class DoubleArrayAssert_doesNotContain_at_Index_Test extends DoubleArrayA
   }
 
   @Test
-  public void should_pass_with_precision_specified_as_last_argument() {
+  void should_pass_with_precision_specified_as_last_argument() {
     // GIVEN
     double[] actual = arrayOf(1.0, 2.0);
     // THEN
@@ -53,7 +53,7 @@ public class DoubleArrayAssert_doesNotContain_at_Index_Test extends DoubleArrayA
   }
 
   @Test
-  public void should_pass_with_precision_specified_in_comparator() {
+  void should_pass_with_precision_specified_in_comparator() {
     // GIVEN
     double[] actual = arrayOf(1.0, 2.0);
     // THEN

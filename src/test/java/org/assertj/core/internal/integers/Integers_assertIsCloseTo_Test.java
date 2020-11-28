@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class Integers_assertIsCloseTo_Test extends IntegersBaseTest {
+class Integers_assertIsCloseTo_Test extends IntegersBaseTest {
 
   private static final Integer ZERO = 0;
   private static final Integer ONE = 1;
@@ -43,7 +43,7 @@ public class Integers_assertIsCloseTo_Test extends IntegersBaseTest {
       "-1, 1, 3",
       "0, 2, 5"
   })
-  public void should_pass_if_difference_is_less_than_given_offset(int actual, int expected, int offset) {
+  void should_pass_if_difference_is_less_than_given_offset(int actual, int expected, int offset) {
     integers.assertIsCloseTo(someInfo(), actual, expected, within(offset));
     integers.assertIsCloseTo(someInfo(), actual, expected, byLessThan(offset));
   }
@@ -56,7 +56,7 @@ public class Integers_assertIsCloseTo_Test extends IntegersBaseTest {
       "-1, 1, 2",
       "0, 2, 2"
   })
-  public void should_pass_if_difference_is_equal_to_given_offset(int actual, int expected, int offset) {
+  void should_pass_if_difference_is_equal_to_given_offset(int actual, int expected, int offset) {
     integers.assertIsCloseTo(someInfo(), actual, expected, within(offset));
   }
 
@@ -68,7 +68,7 @@ public class Integers_assertIsCloseTo_Test extends IntegersBaseTest {
       "-1, 1, 1",
       "0, 2, 1"
   })
-  public void should_fail_if_actual_is_not_close_enough_to_expected(int actual, int expected, int offset) {
+  void should_fail_if_actual_is_not_close_enough_to_expected(int actual, int expected, int offset) {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> integers.assertIsCloseTo(info, actual, expected, within(offset)));
@@ -85,7 +85,7 @@ public class Integers_assertIsCloseTo_Test extends IntegersBaseTest {
       "-1, 1, 2",
       "0, 2, 2"
   })
-  public void should_fail_if_difference_is_equal_to_the_given_strict_offset(int actual, int expected, int offset) {
+  void should_fail_if_difference_is_equal_to_the_given_strict_offset(int actual, int expected, int offset) {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> integers.assertIsCloseTo(info, actual, expected, byLessThan(offset)));
@@ -95,18 +95,18 @@ public class Integers_assertIsCloseTo_Test extends IntegersBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertIsCloseTo(someInfo(), null, ONE, within(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_expected_value_is_null() {
+  void should_fail_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> integers.assertIsCloseTo(someInfo(), ONE, null, within(ONE)));
   }
 
   @Test
-  public void should_fail_if_offset_is_null() {
+  void should_fail_if_offset_is_null() {
     assertThatNullPointerException().isThrownBy(() -> integers.assertIsCloseTo(someInfo(), ONE, ZERO, null));
   }
 

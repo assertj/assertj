@@ -12,31 +12,22 @@
  */
 package org.assertj.core.api.booleanarray;
 
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 import static org.mockito.Mockito.verify;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
-
 import org.assertj.core.api.BooleanArrayAssert;
 import org.assertj.core.api.BooleanArrayAssertBaseTest;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link BooleanArrayAssert#isSortedAccordingTo(Comparator)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
-public class BooleanArrayAssert_isSortedAccordingToComparator_Test extends BooleanArrayAssertBaseTest {
+class BooleanArrayAssert_isSortedAccordingToComparator_Test extends BooleanArrayAssertBaseTest {
 
-  @Mock
-  private Comparator<Boolean> comparator;
-
-  @BeforeEach
-  public void before() {
-    initMocks(this);
-  }
+  private Comparator<Boolean> comparator = alwaysEqual();
 
   @Override
   protected BooleanArrayAssert invoke_api_method() {

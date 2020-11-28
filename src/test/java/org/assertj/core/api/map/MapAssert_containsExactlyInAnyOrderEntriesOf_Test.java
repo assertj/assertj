@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Stefano Cordio
  */
-public class MapAssert_containsExactlyInAnyOrderEntriesOf_Test extends MapAssertBaseTest {
+class MapAssert_containsExactlyInAnyOrderEntriesOf_Test extends MapAssertBaseTest {
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {

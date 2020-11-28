@@ -23,7 +23,7 @@ import org.assertj.core.api.ConcreteAssert;
  *
  * @author Alex Ruiz
  */
-public class AbstractAssert_isNotEqualTo_Test extends AbstractAssertBaseTest {
+class AbstractAssert_isNotEqualTo_Test extends AbstractAssertBaseTest {
 
   @Override
   protected ConcreteAssert invoke_api_method() {

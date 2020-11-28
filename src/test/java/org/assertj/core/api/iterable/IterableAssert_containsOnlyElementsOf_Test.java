@@ -12,18 +12,21 @@
  */
 package org.assertj.core.api.iterable;
 
-import java.util.List;
-import org.assertj.core.api.ConcreteIterableAssert;
-import org.assertj.core.api.IterableAssertBaseTest;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
+import java.util.List;
+
+import org.assertj.core.api.ConcreteIterableAssert;
+import org.assertj.core.api.IterableAssertBaseTest;
+
 /**
  * Tests for <code>{@link org.assertj.core.api.AbstractIterableAssert#containsOnlyElementsOf(Iterable)} </code>.
- * 
+ *
  * @author Christopher Arnott
  */
-public class IterableAssert_containsOnlyElementsOf_Test extends IterableAssertBaseTest {
+@SuppressWarnings("deprecation")
+class IterableAssert_containsOnlyElementsOf_Test extends IterableAssertBaseTest {
 
   private final List<String> values = newArrayList("Yoda", "Luke");
 

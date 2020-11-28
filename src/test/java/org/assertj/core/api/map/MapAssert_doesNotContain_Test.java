@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Nicolas François
  */
-public class MapAssert_doesNotContain_Test extends MapAssertBaseTest {
+class MapAssert_doesNotContain_Test extends MapAssertBaseTest {
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {
@@ -43,7 +43,7 @@ public class MapAssert_doesNotContain_Test extends MapAssertBaseTest {
   }
   
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
      assertThat(map("key1", "value1")).doesNotContain(entry("key2", "value2"), entry("key3", "value3"));
   }
 }

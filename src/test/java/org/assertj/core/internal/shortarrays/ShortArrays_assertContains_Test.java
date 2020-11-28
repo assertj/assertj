@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class ShortArrays_assertContains_Test extends ShortArraysBaseTest {
+class ShortArrays_assertContains_Test extends ShortArraysBaseTest {
 
   private Arrays internalArrays;
 
@@ -43,7 +43,7 @@ public class ShortArrays_assertContains_Test extends ShortArraysBaseTest {
   }
 
   @Test
-  public void should_delegate_to_internal_Arrays() {
+  void should_delegate_to_internal_Arrays() {
     arrays.assertContains(someInfo(), actual, arrayOf(6, 8, 10));
     verify(internalArrays).assertContains(someInfo(), failures, actual, arrayOf(6, 8, 10));
   }

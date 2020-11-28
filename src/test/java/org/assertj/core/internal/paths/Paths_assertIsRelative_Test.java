@@ -22,16 +22,16 @@ import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 
-public class Paths_assertIsRelative_Test extends MockPathsBaseTest {
+class Paths_assertIsRelative_Test extends MockPathsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsRelative(info, null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_relative() {
+  void should_fail_if_actual_is_not_relative() {
     // This is the default, but make it explicit
     when(actual.isAbsolute()).thenReturn(true);
 
@@ -42,7 +42,7 @@ public class Paths_assertIsRelative_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_relative() {
+  void should_pass_if_actual_is_relative() {
     when(actual.isAbsolute()).thenReturn(false);
     paths.assertIsRelative(info, actual);
   }

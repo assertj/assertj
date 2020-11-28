@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Jean-Christophe Gay
  */
-public class CharArrayAssert_containsExactly_Test extends CharArrayAssertBaseTest {
+class CharArrayAssert_containsExactly_Test extends CharArrayAssertBaseTest {
 
   @Override
   protected CharArrayAssert invoke_api_method() {
@@ -39,8 +39,9 @@ public class CharArrayAssert_containsExactly_Test extends CharArrayAssertBaseTes
   }
 
   @Test
-  public void should_honor_the_given_element_comparator() {
+  void should_honor_the_given_element_comparator() {
     char[] actual = arrayOf('a', 'b');
     assertThat(actual).usingElementComparator(CaseInsensitiveCharacterComparator.instance)
                       .containsExactly('a', 'B');
-  }}
+  }
+}

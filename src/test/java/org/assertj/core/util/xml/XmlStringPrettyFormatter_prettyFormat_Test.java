@@ -29,7 +29,7 @@ import org.xml.sax.SAXParseException;
  * 
  * @author Joel Costigliola
  */
-public class XmlStringPrettyFormatter_prettyFormat_Test {
+class XmlStringPrettyFormatter_prettyFormat_Test {
 
   private final BigDecimal javaVersion = new BigDecimal(System.getProperty("java.specification.version"));
   private String expected_formatted_xml;
@@ -57,13 +57,13 @@ public class XmlStringPrettyFormatter_prettyFormat_Test {
   }
 
   @Test
-  public void should_format_xml_string_prettily() {
+  void should_format_xml_string_prettily() {
     String xmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><rss version=\"2.0\"><channel><title>Java Tutorials and Examples 1</title><language>en-us</language></channel></rss>";
     assertThat(xmlPrettyFormat(xmlString)).isEqualTo(expected_formatted_xml);
   }
 
   @Test
-  public void should_format_xml_string_without_xml_declaration_prettily() {
+  void should_format_xml_string_without_xml_declaration_prettily() {
     String xmlString = "<rss version=\"2.0\"><channel><title>Java Tutorials and Examples 1</title><language>en-us</language></channel></rss>";
     if (javaVersion.compareTo(new BigDecimal("9")) >= 0) {
       assertThat(xmlPrettyFormat(xmlString)).isEqualTo(expected_formatted_xml.substring("<?xml version='1.0' encoding='UTF-8'?>".length()));
@@ -73,19 +73,19 @@ public class XmlStringPrettyFormatter_prettyFormat_Test {
   }
 
   @Test
-  public void should_format_xml_string_with_space_and_newline_prettily() {
+  void should_format_xml_string_with_space_and_newline_prettily() {
     String xmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><rss version=\"2.0\"><channel>  <title>Java Tutorials and Examples 1</title>  \n\n<language>en-us</language>  </channel></rss>";
     assertThat(xmlPrettyFormat(xmlString)).isEqualTo(expected_formatted_xml);
   }
 
   @Test
-  public void should_throw_error_when_xml_string_is_null() {
+  void should_throw_error_when_xml_string_is_null() {
     assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> xmlPrettyFormat(null))
                                                              .withMessageStartingWith("Expecting XML String not to be null");
   }
 
   @Test
-  public void should_throw_error_when_xml_string_is_not_valid() {
+  void should_throw_error_when_xml_string_is_not_valid() {
     String xmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><rss version=\"2.0\"><channel><title>Java Tutorials and Examples 1</title><language>en-us</language></chnel></rss>";
     try {
       xmlPrettyFormat(xmlString);

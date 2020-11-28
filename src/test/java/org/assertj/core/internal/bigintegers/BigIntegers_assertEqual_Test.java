@@ -33,21 +33,21 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link BigIntegers#assertEqual(AssertionInfo, BigInteger, BigInteger)}</code>.
  */
-public class BigIntegers_assertEqual_Test extends BigIntegersBaseTest {
+class BigIntegers_assertEqual_Test extends BigIntegersBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertEqual(someInfo(), null, ONE))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_big_integers_are_equal() {
+  void should_pass_if_big_integers_are_equal() {
     numbers.assertEqual(someInfo(), ONE, ONE);
   }
 
   @Test
-  public void should_fail_if_big_integers_are_not_equal() {
+  void should_fail_if_big_integers_are_not_equal() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbers.assertEqual(info, ONE, TEN));
@@ -57,18 +57,18 @@ public class BigIntegers_assertEqual_Test extends BigIntegersBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertEqual(someInfo(), null, ONE))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_big_integers_are_equal_according_to_custom_comparison_strategy() {
+  void should_pass_if_big_integers_are_equal_according_to_custom_comparison_strategy() {
     numbersWithComparatorComparisonStrategy.assertEqual(someInfo(), ONE, ONE);
   }
 
   @Test
-  public void should_fail_if_big_integers_are_not_equal_according_to_custom_comparison_strategy() {
+  void should_fail_if_big_integers_are_not_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbersWithComparatorComparisonStrategy.assertEqual(info, TEN, ONE));

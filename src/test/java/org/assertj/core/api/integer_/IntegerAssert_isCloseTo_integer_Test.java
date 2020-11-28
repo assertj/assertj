@@ -19,7 +19,7 @@ import org.assertj.core.api.IntegerAssert;
 import org.assertj.core.api.IntegerAssertBaseTest;
 import org.assertj.core.data.Offset;
 
-public class IntegerAssert_isCloseTo_integer_Test extends IntegerAssertBaseTest {
+class IntegerAssert_isCloseTo_integer_Test extends IntegerAssertBaseTest {
 
   private final Offset<Integer> offset = offset(5);
   private final Integer value = 8;

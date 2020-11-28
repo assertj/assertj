@@ -34,21 +34,21 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Bytes_assertNotEqual_Test extends BytesBaseTest {
+class Bytes_assertNotEqual_Test extends BytesBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertNotEqual(someInfo(), null, (byte) 8))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_bytes_are_not_equal() {
+  void should_pass_if_bytes_are_not_equal() {
     bytes.assertNotEqual(someInfo(), (byte) 8, (byte) 6);
   }
 
   @Test
-  public void should_fail_if_bytes_are_equal() {
+  void should_fail_if_bytes_are_equal() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> bytes.assertNotEqual(info, (byte) 6, (byte) 6));
@@ -58,18 +58,18 @@ public class Bytes_assertNotEqual_Test extends BytesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertNotEqual(someInfo(), null, (byte) 8))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_bytes_are_not_equal_according_to_custom_comparison_strategy() {
+  void should_pass_if_bytes_are_not_equal_according_to_custom_comparison_strategy() {
     bytesWithAbsValueComparisonStrategy.assertNotEqual(someInfo(), (byte) 8, (byte) 6);
   }
 
   @Test
-  public void should_fail_if_bytes_are_equal_according_to_custom_comparison_strategy() {
+  void should_fail_if_bytes_are_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> bytesWithAbsValueComparisonStrategy.assertNotEqual(info, (byte) 6, (byte) -6));

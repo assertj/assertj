@@ -35,16 +35,16 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class Files_assertIsRelative_Test extends FilesBaseTest {
+class Files_assertIsRelative_Test extends FilesBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertIsRelative(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_relative_path() {
+  void should_fail_if_actual_is_not_relative_path() {
     when(actual.isAbsolute()).thenReturn(true);
     AssertionInfo info = someInfo();
 
@@ -55,7 +55,7 @@ public class Files_assertIsRelative_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_relative_path() {
+  void should_pass_if_actual_is_relative_path() {
     when(actual.isAbsolute()).thenReturn(false);
     files.assertIsRelative(someInfo(), actual);
   }

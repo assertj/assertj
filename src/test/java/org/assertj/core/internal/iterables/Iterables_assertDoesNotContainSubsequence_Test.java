@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Marcin Mikosik
  */
-public class Iterables_assertDoesNotContainSubsequence_Test extends IterablesBaseTest {
+class Iterables_assertDoesNotContainSubsequence_Test extends IterablesBaseTest {
 
   @Override
   @BeforeEach
@@ -48,63 +48,63 @@ public class Iterables_assertDoesNotContainSubsequence_Test extends IterablesBas
   }
 
   @Test
-  public void should_throw_error_if_subsequence_is_null() {
+  void should_throw_error_if_subsequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> iterables.assertDoesNotContainSubsequence(someInfo(), actual,
                                                                                                 null))
                                     .withMessage(nullSubsequence());
   }
 
   @Test
-  public void should_throw_error_if_subsequence_is_empty() {
+  void should_throw_error_if_subsequence_is_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> iterables.assertDoesNotContainSubsequence(someInfo(), actual,
                                                                                                     emptyArray()))
                                         .withMessage(emptySubsequence());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertDoesNotContainSubsequence(someInfo(), null, array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_subsequence_is_bigger_than_actual() {
+  void should_pass_if_subsequence_is_bigger_than_actual() {
     Object[] subsequence = { "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
     iterables.assertDoesNotContainSubsequence(someInfo(), actual, subsequence);
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_whole_subsequence() {
+  void should_pass_if_actual_does_not_contain_whole_subsequence() {
     Object[] subsequence = { "Han", "C-3PO" };
     iterables.assertDoesNotContainSubsequence(someInfo(), actual, subsequence);
   }
 
   @Test
-  public void should_pass_if_actual_contains_first_elements_of_subsequence_but_not_whole_subsequence() {
+  void should_pass_if_actual_contains_first_elements_of_subsequence_but_not_whole_subsequence() {
     Object[] subsequence = { "Luke", "Leia", "Han" };
     iterables.assertDoesNotContainSubsequence(someInfo(), actual, subsequence);
   }
 
   @Test
-  public void should_fail_if_actual_contains_subsequence_without_elements_between() {
+  void should_fail_if_actual_contains_subsequence_without_elements_between() {
     Object[] subsequence = array("Luke", "Leia");
     expectFailure(iterables, actual, subsequence, 1);
   }
 
   @Test
-  public void should_fail_if_actual_contains_subsequence_with_elements_between() {
+  void should_fail_if_actual_contains_subsequence_with_elements_between() {
     Object[] subsequence = array("Yoda", "Leia");
     expectFailure(iterables, actual, subsequence, 0);
   }
 
   @Test
-  public void should_fail_if_actual_and_subsequence_are_equal() {
+  void should_fail_if_actual_and_subsequence_are_equal() {
     Object[] subsequence = array("Yoda", "Luke", "Leia", "Obi-Wan");
     expectFailure(iterables, actual, subsequence, 0);
   }
 
   @Test
-  public void should_fail_if_actual_contains_both_partial_and_complete_subsequence() {
+  void should_fail_if_actual_contains_both_partial_and_complete_subsequence() {
     actual = newArrayList("Yoda", "Luke", "Yoda", "Obi-Wan");
     Object[] subsequence = array("Yoda", "Obi-Wan");
     expectFailure(iterables, actual, subsequence, 0);
@@ -115,25 +115,25 @@ public class Iterables_assertDoesNotContainSubsequence_Test extends IterablesBas
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_does_not_contain_whole_subsequence_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_does_not_contain_whole_subsequence_according_to_custom_comparison_strategy() {
     Object[] subsequence = { "Han", "C-3PO" };
     iterables.assertDoesNotContainSubsequence(someInfo(), actual, subsequence);
   }
 
   @Test
-  public void should_pass_if_actual_contains_first_elements_of_subsequence_but_not_whole_subsequence_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_first_elements_of_subsequence_but_not_whole_subsequence_according_to_custom_comparison_strategy() {
     Object[] subsequence = { "Luke", "LEIA", "Han" };
     iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainSubsequence(someInfo(), actual, subsequence);
   }
 
   @Test
-  public void should_fail_if_actual_contains_subsequence_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_subsequence_according_to_custom_comparison_strategy() {
     Object[] subsequence = array("yODa", "leia");
     expectFailure(iterablesWithCaseInsensitiveComparisonStrategy, actual, subsequence, 0);
   }
 
   @Test
-  public void should_fail_if_actual_and_subsequence_are_equal_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_and_subsequence_are_equal_according_to_custom_comparison_strategy() {
     Object[] subsequence = array("YODA", "luke", "lEIA", "Obi-wan");
     expectFailure(iterablesWithCaseInsensitiveComparisonStrategy, actual, subsequence, 0);
   }

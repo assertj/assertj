@@ -25,16 +25,16 @@ import java.nio.file.LinkOption;
 
 import org.junit.jupiter.api.Test;
 
-public class Paths_assertIsSymbolicLink_Test extends MockPathsBaseTest {
+class Paths_assertIsSymbolicLink_Test extends MockPathsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsSymbolicLink(info, null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_with_should_exist_error_if_actual_does_not_exist() {
+  void should_fail_with_should_exist_error_if_actual_does_not_exist() {
     when(nioFilesWrapper.exists(actual, LinkOption.NOFOLLOW_LINKS)).thenReturn(false);
 
     Throwable error = catchThrowable(() -> paths.assertIsSymbolicLink(info, actual));
@@ -44,7 +44,7 @@ public class Paths_assertIsSymbolicLink_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_exists_but_is_not_a_symbolic_link() {
+  void should_fail_if_actual_exists_but_is_not_a_symbolic_link() {
     when(nioFilesWrapper.exists(actual, LinkOption.NOFOLLOW_LINKS)).thenReturn(true);
     when(nioFilesWrapper.isSymbolicLink(actual)).thenReturn(false);
 
@@ -55,7 +55,7 @@ public class Paths_assertIsSymbolicLink_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_succeed_if_actual_is_a_symbolic_link() {
+  void should_succeed_if_actual_is_a_symbolic_link() {
     when(nioFilesWrapper.exists(actual, LinkOption.NOFOLLOW_LINKS)).thenReturn(true);
     when(nioFilesWrapper.isSymbolicLink(actual)).thenReturn(true);
     paths.assertIsSymbolicLink(info, actual);

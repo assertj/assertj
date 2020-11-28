@@ -13,9 +13,10 @@
 package org.assertj.core.util;
 
 import static java.io.File.separator;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Strings.concat;
-import static org.assertj.core.api.Assertions.*;
 
 import java.io.File;
 import java.util.List;
@@ -28,16 +29,16 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class Files_fileNamesIn_Test extends Files_TestCase {
+class Files_fileNamesIn_Test extends Files_TestCase {
 
   @Test
-  public void should_throw_error_if_directory_does_not_exist() {
+  void should_throw_error_if_directory_does_not_exist() {
     String path = concat("root", separator, "not_existing_dir");
     assertThatIllegalArgumentException().isThrownBy(() -> Files.fileNamesIn(path, false));
   }
 
   @Test
-  public void should_throw_error_if_path_does_not_belong_to_a_directory() throws Exception {
+  void should_throw_error_if_path_does_not_belong_to_a_directory() throws Exception {
     String fileName = "file_1";
     root.addFiles(fileName);
     String path = concat("root", separator, fileName);
@@ -45,13 +46,13 @@ public class Files_fileNamesIn_Test extends Files_TestCase {
   }
 
   @Test
-  public void should_return_names_of_files_in_given_directory_but_not_subdirectories() {
+  void should_return_names_of_files_in_given_directory_but_not_subdirectories() {
     String path = concat("root", separator, "dir_1");
     assertThatContainsFiles(newArrayList("file_1_1", "file_1_2"), Files.fileNamesIn(path, false));
   }
 
   @Test
-  public void should_return_names_of_files_in_given_directory_and_its_subdirectories() {
+  void should_return_names_of_files_in_given_directory_and_its_subdirectories() {
     String path = concat("root", separator, "dir_1");
     assertThatContainsFiles(newArrayList("file_1_1", "file_1_2", "file_1_1_1"), Files.fileNamesIn(path, true));
   }

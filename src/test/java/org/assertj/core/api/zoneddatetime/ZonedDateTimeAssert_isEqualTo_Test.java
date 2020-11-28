@@ -37,7 +37,7 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-public class ZonedDateTimeAssert_isEqualTo_Test extends AbstractZonedDateTimeAssertBaseTest {
+class ZonedDateTimeAssert_isEqualTo_Test extends AbstractZonedDateTimeAssertBaseTest {
 
   private Object otherType = new Object();
 
@@ -58,7 +58,7 @@ public class ZonedDateTimeAssert_isEqualTo_Test extends AbstractZonedDateTimeAss
   }
 
   @Test
-  public void should_pass_if_both_are_null() {
+  void should_pass_if_both_are_null() {
     // GIVEN
     ZonedDateTime nullActual = null;
     ZonedDateTime nullExpected = null;
@@ -67,7 +67,7 @@ public class ZonedDateTimeAssert_isEqualTo_Test extends AbstractZonedDateTimeAss
   }
 
   @Test
-  public void should_fail_if_offsetDateTime_as_string_parameter_is_null() {
+  void should_fail_if_offsetDateTime_as_string_parameter_is_null() {
     // GIVEN
     String otherZonedDateTimeAsString = null;
     // WHEN
@@ -78,12 +78,12 @@ public class ZonedDateTimeAssert_isEqualTo_Test extends AbstractZonedDateTimeAss
   }
 
   @Test
-  public void should_fail_if_given_string_parameter_cant_be_parsed() {
+  void should_fail_if_given_string_parameter_cant_be_parsed() {
     assertThatThrownBy(() -> assertions.isEqualTo("not a ZonedDateTime")).isInstanceOf(DateTimeParseException.class);
   }
 
   @Test
-  public void should_pass_if_actual_is_the_same_point_in_time_than_given_zonedDateTime_in_another_chronology() {
+  void should_pass_if_actual_is_the_same_point_in_time_than_given_zonedDateTime_in_another_chronology() {
     // GIVEN
     ChronoZonedDateTime<JapaneseDate> nowInJapaneseChronology = JapaneseChronology.INSTANCE.zonedDateTime(NOW);
     // WHEN/THEN
@@ -91,7 +91,7 @@ public class ZonedDateTimeAssert_isEqualTo_Test extends AbstractZonedDateTimeAss
   }
 
   @Test
-  public void should_pass_if_given_zonedDateTime_passed_as_Object() {
+  void should_pass_if_given_zonedDateTime_passed_as_Object() {
     // GIVEN
     Object nowInJapaneseChronology = JapaneseChronology.INSTANCE.zonedDateTime(NOW);
     // WHEN/THEN
@@ -99,7 +99,7 @@ public class ZonedDateTimeAssert_isEqualTo_Test extends AbstractZonedDateTimeAss
   }
 
   @Test
-  public void should_pass_if_actual_and_expected_correspond_to_the_same_instant_in_different_time_zones() {
+  void should_pass_if_actual_and_expected_correspond_to_the_same_instant_in_different_time_zones() {
     // GIVEN
     ZonedDateTime nowInParis = NOW.withZoneSameInstant(ZoneId.of("Europe/Paris"));
     ZonedDateTime nowInLA = NOW.withZoneSameInstant(ZoneId.of("America/Los_Angeles"));

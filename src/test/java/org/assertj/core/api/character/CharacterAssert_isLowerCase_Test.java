@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Yvonne Wang
  */
-public class CharacterAssert_isLowerCase_Test extends CharacterAssertBaseTest {
+class CharacterAssert_isLowerCase_Test extends CharacterAssertBaseTest {
 
   @Override
   protected CharacterAssert invoke_api_method() {

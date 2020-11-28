@@ -29,16 +29,16 @@ import org.assertj.core.internal.IterablesBaseTest;
 import org.assertj.core.presentation.PredicateDescription;
 import org.junit.jupiter.api.Test;
 
-public class Iterables_assertAnyMatch_Test extends IterablesBaseTest {
+class Iterables_assertAnyMatch_Test extends IterablesBaseTest {
 
   @Test
-  public void should_pass_if_an_element_satisfies_predicate() {
+  void should_pass_if_an_element_satisfies_predicate() {
     List<String> actual = newArrayList("123", "1234", "12345");
     iterables.assertAnyMatch(someInfo(), actual, s -> s.length() >= 5, PredicateDescription.GIVEN);
   }
 
   @Test
-  public void should_fail_if_predicate_is_not_met_by_any_elements() {
+  void should_fail_if_predicate_is_not_met_by_any_elements() {
     List<String> actual = newArrayList("Luke", "Leia", "Yoda");
     Predicate<String> startsWithM = s -> s.startsWith("M");
 
@@ -49,7 +49,7 @@ public class Iterables_assertAnyMatch_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_with_custom_description_if_predicate_is_met_by_no_element() {
+  void should_fail_with_custom_description_if_predicate_is_met_by_no_element() {
     List<String> actual = newArrayList("Luke", "Leia", "Yoda");
     Predicate<String> startsWithM = s -> s.startsWith("M");
 
@@ -60,7 +60,7 @@ public class Iterables_assertAnyMatch_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
       actual = null;
       iterables.assertAnyMatch(someInfo(), actual, String::isEmpty, PredicateDescription.GIVEN);
@@ -68,7 +68,7 @@ public class Iterables_assertAnyMatch_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_predicate_is_null() {
+  void should_throw_error_if_predicate_is_null() {
     assertThatNullPointerException().isThrownBy(() -> iterables.assertAnyMatch(someInfo(), actual, null,
                                                                                PredicateDescription.GIVEN))
                                     .withMessage("The predicate to evaluate should not be null");

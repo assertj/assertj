@@ -20,10 +20,10 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
-public class OptionalShouldContainInstanceOf_create_Test {
+class OptionalShouldContainInstanceOf_create_Test {
 
   @Test
-  public void should_create_error_message_with_empty() {
+  void should_create_error_message_with_empty() {
     // WHEN
     String errorMessage = shouldContainInstanceOf(Optional.empty(), Object.class).create();
     // THEN
@@ -33,7 +33,7 @@ public class OptionalShouldContainInstanceOf_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_expected_type() {
+  void should_create_error_message_with_expected_type() {
     // WHEN
     String errorMessage = shouldContainInstanceOf(Optional.of(Integer.MIN_VALUE), String.class).create();
     // THEN

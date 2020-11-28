@@ -25,7 +25,7 @@ import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class AtomicReferenceArrayAssert_containsAnyElementsOf_Test extends AtomicReferenceArrayAssertBaseTest {
+class AtomicReferenceArrayAssert_containsAnyElementsOf_Test extends AtomicReferenceArrayAssertBaseTest {
 
   private final List<Object> iterable = Arrays.asList(new Object(), "bar");
 
@@ -40,7 +40,7 @@ public class AtomicReferenceArrayAssert_containsAnyElementsOf_Test extends Atomi
   }
 
   @Test
-  public void should_allow_assertion_on_atomic_reference_array() {
+  void should_allow_assertion_on_atomic_reference_array() {
     // GIVEN
     AtomicReferenceArray<Object> objectArray = new AtomicReferenceArray<>(array("foo", "bar"));
     AtomicReferenceArray<String> stringArray = new AtomicReferenceArray<>(array("foo", "bar"));

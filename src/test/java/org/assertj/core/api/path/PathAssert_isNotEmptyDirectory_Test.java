@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Valeriy Vyrva
  */
-public class PathAssert_isNotEmptyDirectory_Test extends PathAssertBaseTest {
+class PathAssert_isNotEmptyDirectory_Test extends PathAssertBaseTest {
 
   @Override
   protected PathAssert invoke_api_method() {

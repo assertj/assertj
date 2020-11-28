@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class ShortArrayAssert_isEmpty_Test extends ShortArrayAssertBaseTest {
+class ShortArrayAssert_isEmpty_Test extends ShortArrayAssertBaseTest {
 
   @Override
   protected ShortArrayAssert invoke_api_method() {

@@ -25,12 +25,12 @@ import java.nio.file.Path;
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldBeDirectory_create_Test {
+class ShouldBeDirectory_create_Test {
 
   private static final TestDescription DESCRIPTION = new TestDescription("Test");
 
   @Test
-  public void should_create_error_message_for_Path() {
+  void should_create_error_message_for_Path() {
     // GIVEN
     final Path path = mock(Path.class);
     // WHEN
@@ -40,7 +40,7 @@ public class ShouldBeDirectory_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_File() {
+  void should_create_error_message_for_File() {
     final File file = new FakeFile("xyz");
     // WHEN
     String message = shouldBeDirectory(file).create(DESCRIPTION, STANDARD_REPRESENTATION);

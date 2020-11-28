@@ -26,12 +26,12 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
-public class ShouldContainExactly_create_Test {
+class ShouldContainExactly_create_Test {
 
   private static final ComparatorBasedComparisonStrategy CASE_INSENSITIVE_COMPARISON_STRATEGY = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance);
 
   @Test
-  public void should_display_missing_and_unexpected_elements() {
+  void should_display_missing_and_unexpected_elements() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainExactly(list("Yoda", "Han"), list("Luke", "Yoda"),
                                                        newLinkedHashSet("Luke"), newLinkedHashSet("Han"));
@@ -50,7 +50,7 @@ public class ShouldContainExactly_create_Test {
   }
 
   @Test
-  public void should_not_display_missing_elements_when_there_are_none() {
+  void should_not_display_missing_elements_when_there_are_none() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainExactly(list("Yoda", "Han"), list("Yoda"),
                                                        list(), list("Han"));
@@ -67,7 +67,7 @@ public class ShouldContainExactly_create_Test {
   }
 
   @Test
-  public void should_not_display_unexpected_elements_when_there_are_none() {
+  void should_not_display_unexpected_elements_when_there_are_none() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainExactly(list("Yoda"), list("Luke", "Yoda"),
                                                        newLinkedHashSet("Luke"), Collections.emptySet());
@@ -84,7 +84,7 @@ public class ShouldContainExactly_create_Test {
   }
 
   @Test
-  public void should_display_first_wrong_element_when_only_elements_order_differs() {
+  void should_display_first_wrong_element_when_only_elements_order_differs() {
     // GIVEN
     ErrorMessageFactory factory = elementsDifferAtIndex("Luke", "Han", 1);
     // WHEN
@@ -100,7 +100,7 @@ public class ShouldContainExactly_create_Test {
   // with custom comparison strategy
 
   @Test
-  public void should_display_missing_and_unexpected_elements_with_custom_comparison_strategy() {
+  void should_display_missing_and_unexpected_elements_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainExactly(list("Yoda", "Han"),
                                                        list("Luke", "Yoda"),
@@ -124,7 +124,7 @@ public class ShouldContainExactly_create_Test {
   }
 
   @Test
-  public void should_display_first_wrong_element_when_only_elements_order_differs_according_to_custom_comparison_strategy() {
+  void should_display_first_wrong_element_when_only_elements_order_differs_according_to_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = elementsDifferAtIndex("Luke", "Han", 1, CASE_INSENSITIVE_COMPARISON_STRATEGY);
     // WHEN
@@ -138,7 +138,7 @@ public class ShouldContainExactly_create_Test {
   }
 
   @Test
-  public void should_not_display_unexpected_elements_when_there_are_none_with_custom_comparison_strategy() {
+  void should_not_display_unexpected_elements_when_there_are_none_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainExactly(list("Yoda"),
                                                        list("Luke", "Yoda"),
@@ -159,7 +159,7 @@ public class ShouldContainExactly_create_Test {
   }
 
   @Test
-  public void should_not_display_missing_elements_when_there_are_none_with_custom_comparison_strategy() {
+  void should_not_display_missing_elements_when_there_are_none_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainExactly(list("Yoda", "Han"), list("Yoda"),
                                                        list(), list("Han"),

@@ -17,10 +17,10 @@ import static org.assertj.core.util.Arrays.isArrayTypePrimitive;
 
 import org.junit.jupiter.api.Test;
 
-public class Arrays_isArrayTypePrimitive_Test {
+class Arrays_isArrayTypePrimitive_Test {
 
   @Test
-  public void should_return_true_if_object_is_a_primitive_array() {
+  void should_return_true_if_object_is_a_primitive_array() {
     // GIVEN
     int[] o = new int[0];
     // WHEN
@@ -30,7 +30,7 @@ public class Arrays_isArrayTypePrimitive_Test {
   }
 
   @Test
-  public void should_return_false_if_object_is_an_object_array() {
+  void should_return_false_if_object_is_an_object_array() {
     // GIVEN
     Object[] o = new Object[0];
     // WHEN
@@ -40,7 +40,7 @@ public class Arrays_isArrayTypePrimitive_Test {
   }
 
   @Test
-  public void should_return_false_if_object_is_null() {
+  void should_return_false_if_object_is_null() {
     // GIVEN
     Object o = null;
     // WHEN
@@ -50,7 +50,7 @@ public class Arrays_isArrayTypePrimitive_Test {
   }
 
   @Test
-  public void should_return_false_if_object_is_not_an_array() {
+  void should_return_false_if_object_is_not_an_array() {
     // GIVEN
     String string = "I'm not an array";
     // WHEN

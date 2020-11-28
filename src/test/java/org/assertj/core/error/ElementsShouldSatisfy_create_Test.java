@@ -28,7 +28,7 @@ import org.assertj.core.error.ElementsShouldSatisfy.UnsatisfiedRequirement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ElementsShouldSatisfy_create_Test {
+class ElementsShouldSatisfy_create_Test {
 
   private AssertionInfo info;
 
@@ -38,7 +38,7 @@ public class ElementsShouldSatisfy_create_Test {
   }
 
   @Test
-  public void should_create_error_message_all() {
+  void should_create_error_message_all() {
     // GIVEN
     List<UnsatisfiedRequirement> unsatisfiedRequirements = list(unsatisfiedRequirement("Leia", "Leia mistake."),
                                                                 unsatisfiedRequirement("Luke", "Luke mistake."));
@@ -50,12 +50,14 @@ public class ElementsShouldSatisfy_create_Test {
                                    "Expecting all elements of:%n" +
                                    "  <[\"Leia\", \"Luke\", \"Yoda\"]>%n" +
                                    "to satisfy given requirements, but these elements did not:%n%n" +
-                                   "  <\"Leia\"> error: Leia mistake.%n%n" +
-                                   "  <\"Luke\"> error: Luke mistake."));
+                                   "  <\"Leia\">%n" +
+                                   "error: Leia mistake.%n%n" +
+                                   "  <\"Luke\">%n" +
+                                   "error: Luke mistake."));
   }
 
   @Test
-  public void should_create_error_message_all_and_escape_percent_correctly() {
+  void should_create_error_message_all_and_escape_percent_correctly() {
     // GIVEN
     List<UnsatisfiedRequirement> unsatisfiedRequirements = list(unsatisfiedRequirement("Leia%s", "Leia mistake."),
                                                                 unsatisfiedRequirement("Luke", "Luke mistake."));
@@ -67,12 +69,14 @@ public class ElementsShouldSatisfy_create_Test {
                                    "Expecting all elements of:%n" +
                                    "  <[\"Leia%%s\", \"Luke\", \"Yoda\"]>%n" +
                                    "to satisfy given requirements, but these elements did not:%n%n" +
-                                   "  <\"Leia%%s\"> error: Leia mistake.%n%n" +
-                                   "  <\"Luke\"> error: Luke mistake."));
+                                   "  <\"Leia%%s\">%n" +
+                                   "error: Leia mistake.%n%n" +
+                                   "  <\"Luke\">%n" +
+                                   "error: Luke mistake."));
   }
 
   @Test
-  public void should_create_error_message_any() {
+  void should_create_error_message_any() {
     // GIVEN
     List<UnsatisfiedRequirement> unsatisfiedRequirements = list(unsatisfiedRequirement("Leia", "Leia mistake."),
                                                                 unsatisfiedRequirement("Luke", "Luke mistake."));
@@ -84,12 +88,14 @@ public class ElementsShouldSatisfy_create_Test {
                                    "Expecting any element of:%n" +
                                    "  <[\"Luke\", \"Yoda\"]>%n" +
                                    "to satisfy the given assertions requirements but none did:%n%n" +
-                                   "  <\"Leia\"> error: Leia mistake.%n%n" +
-                                   "  <\"Luke\"> error: Luke mistake."));
+                                   "  <\"Leia\">%n" +
+                                   "error: Leia mistake.%n%n" +
+                                   "  <\"Luke\">%n" +
+                                   "error: Luke mistake."));
   }
 
   @Test
-  public void should_create_error_message_any_and_escape_percent_correctly() {
+  void should_create_error_message_any_and_escape_percent_correctly() {
     // GIVEN
     List<UnsatisfiedRequirement> unsatisfiedRequirements = list(unsatisfiedRequirement("Leia", "Leia mistake."),
                                                                 unsatisfiedRequirement("Luke", "Luke mistake."));
@@ -101,7 +107,9 @@ public class ElementsShouldSatisfy_create_Test {
                                    "Expecting any element of:%n" +
                                    "  <[\"Lu%%dke\", \"Yoda\"]>%n" +
                                    "to satisfy the given assertions requirements but none did:%n%n" +
-                                   "  <\"Leia\"> error: Leia mistake.%n%n" +
-                                   "  <\"Luke\"> error: Luke mistake."));
+                                   "  <\"Leia\">%n" +
+                                   "error: Leia mistake.%n%n" +
+                                   "  <\"Luke\">%n" +
+                                   "error: Luke mistake."));
   }
 }

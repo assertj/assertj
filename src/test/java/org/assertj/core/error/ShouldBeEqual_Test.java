@@ -15,16 +15,17 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
-public class ShouldBeEqual_Test {
+class ShouldBeEqual_Test {
 
   @Test
-  public void should_display_comparison_strategy_in_error_message() {
+  void should_display_comparison_strategy_in_error_message() {
     // GIVEN
     String actual = "Luke";
     String expected = "Yoda";
@@ -34,13 +35,31 @@ public class ShouldBeEqual_Test {
     // WHEN
     AssertionFailedError error = catchThrowableOfType(code, AssertionFailedError.class);
     // THEN
-    then(error.getActual().getValue()).isSameAs(actual);
-    then(error.getExpected().getValue()).isSameAs(expected);
+    then(error.getActual().getValue()).isEqualTo(STANDARD_REPRESENTATION.toStringOf(actual));
+    then(error.getExpected().getValue()).isEqualTo(STANDARD_REPRESENTATION.toStringOf(expected));
     then(error).hasMessage(format("[Jedi] %nExpecting:%n" +
                                   " <\"Luke\">%n" +
                                   "to be equal to:%n" +
                                   " <\"Yoda\">%n" +
                                   "when comparing values using CaseInsensitiveStringComparator%n" +
+                                  "but was not."));
+  }
+
+  @Test
+  void should_use_actual_and_expected_representation_in_AssertionFailedError_actual_and_expected_fields() {
+    // GIVEN
+    byte[] actual = new byte[] { 1, 2, 3 };
+    byte[] expected = new byte[] { 1, 2, 4 };
+    ThrowingCallable code = () -> then(actual).isEqualTo(expected);
+    // WHEN
+    AssertionFailedError error = catchThrowableOfType(code, AssertionFailedError.class);
+    // THEN
+    then(error.getActual().getValue()).isEqualTo("[1, 2, 3]");
+    then(error.getExpected().getValue()).isEqualTo("[1, 2, 4]");
+    then(error).hasMessage(format("%nExpecting:%n" +
+                                  " <[1, 2, 3]>%n" +
+                                  "to be equal to:%n" +
+                                  " <[1, 2, 4]>%n" +
                                   "but was not."));
   }
 

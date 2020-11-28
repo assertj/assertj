@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class ShouldBeGreater_create_Test {
+class ShouldBeGreater_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeGreater(6, 8);
     // WHEN
@@ -46,7 +46,7 @@ public class ShouldBeGreater_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_custom_comparison_strategy() {
+  void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeGreater(6, 8, new ComparatorBasedComparisonStrategy(new AbsValueComparator<Integer>()));
     // WHEN

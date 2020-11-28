@@ -22,7 +22,7 @@ import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class MapAssert_containsAllEntries_Test extends MapAssertBaseTest {
+class MapAssert_containsAllEntries_Test extends MapAssertBaseTest {
 
   final Map.Entry<String, String>[] entries = array(javaMapEntry("firstKey", "firstValue"),
                                                     javaMapEntry("secondKey", "secondValue"));
@@ -38,7 +38,7 @@ public class MapAssert_containsAllEntries_Test extends MapAssertBaseTest {
   }
 
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
     Map<String, String> actual = map("firstKey", "firstValue", "secondKey", "secondValue");
     assertThat(actual).containsAllEntriesOf(map("secondKey", "secondValue", "firstKey", "firstValue"));
   }

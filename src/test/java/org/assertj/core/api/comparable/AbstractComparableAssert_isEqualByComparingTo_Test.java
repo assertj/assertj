@@ -21,7 +21,7 @@ import org.assertj.core.api.ConcreteComparableAssert;
 /**
  * Tests for <code>{@link AbstractComparableAssert#isEqualByComparingTo(Comparable)}</code>.
  */
-public class AbstractComparableAssert_isEqualByComparingTo_Test extends AbstractComparableAssertBaseTest {
+class AbstractComparableAssert_isEqualByComparingTo_Test extends AbstractComparableAssertBaseTest {
 
   @Override
   protected ConcreteComparableAssert invoke_api_method() {

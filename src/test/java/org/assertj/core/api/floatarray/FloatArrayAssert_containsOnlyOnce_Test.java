@@ -27,7 +27,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class FloatArrayAssert_containsOnlyOnce_Test extends FloatArrayAssertBaseTest {
+class FloatArrayAssert_containsOnlyOnce_Test extends FloatArrayAssertBaseTest {
 
   @Override
   protected FloatArrayAssert invoke_api_method() {
@@ -40,7 +40,7 @@ public class FloatArrayAssert_containsOnlyOnce_Test extends FloatArrayAssertBase
   }
 
   @Test
-  public void should_pass_with_precision_specified_as_last_argument() {
+  void should_pass_with_precision_specified_as_last_argument() {
     // GIVEN
       float[] actual = arrayOf(1.0f, 2.0f, 3.0f);
     // THEN 
@@ -48,7 +48,7 @@ public class FloatArrayAssert_containsOnlyOnce_Test extends FloatArrayAssertBase
   }
 
   @Test
-  public void should_pass_with_precision_specified_in_comparator() {
+  void should_pass_with_precision_specified_in_comparator() {
     // GIVEN
       float[] actual = arrayOf(1.0f, 2.0f, 3.0f);
     // THEN

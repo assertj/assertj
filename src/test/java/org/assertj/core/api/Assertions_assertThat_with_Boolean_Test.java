@@ -22,16 +22,16 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class Assertions_assertThat_with_Boolean_Test {
+class Assertions_assertThat_with_Boolean_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     AbstractBooleanAssert<?> assertions = Assertions.assertThat(TRUE);
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     AbstractBooleanAssert<?> assertions = Assertions.assertThat(TRUE);
     assertThat(assertions.actual).isSameAs(TRUE);
   }

@@ -38,10 +38,10 @@ import org.junit.jupiter.params.provider.MethodSource;
  * @author Alexander Bischof
  * @author Dan Corder
  */
-public class Strings_assertEqualsIgnoringWhitespace_Test extends StringsBaseTest {
+class Strings_assertEqualsIgnoringWhitespace_Test extends StringsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null_and_expected_is_not() {
+  void should_fail_if_actual_is_null_and_expected_is_not() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> strings.assertEqualsIgnoringWhitespace(info, null, "Luke"));
@@ -51,13 +51,13 @@ public class Strings_assertEqualsIgnoringWhitespace_Test extends StringsBaseTest
   }
 
   @Test
-  public void should_fail_if_actual_is_not_null_and_expected_is_null() {
+  void should_fail_if_actual_is_not_null_and_expected_is_null() {
     assertThatNullPointerException().isThrownBy(() -> strings.assertEqualsIgnoringWhitespace(someInfo(), "Luke", null))
                                     .withMessage(charSequenceToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_both_Strings_are_not_equal_ignoring_whitespace() {
+  void should_fail_if_both_Strings_are_not_equal_ignoring_whitespace() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> strings.assertEqualsIgnoringWhitespace(info, "Yoda", "Luke"));
@@ -68,7 +68,7 @@ public class Strings_assertEqualsIgnoringWhitespace_Test extends StringsBaseTest
 
   @ParameterizedTest
   @MethodSource("equalIgnoringWhitespaceGenerator")
-  public void should_pass_if_both_Strings_are_equal_ignoring_whitespace(String actual, String expected) {
+  void should_pass_if_both_Strings_are_equal_ignoring_whitespace(String actual, String expected) {
     strings.assertEqualsIgnoringWhitespace(someInfo(), actual, expected);
   }
 
@@ -89,7 +89,7 @@ public class Strings_assertEqualsIgnoringWhitespace_Test extends StringsBaseTest
                      Arguments.of(" abc", "abc "));
   }
 
-  private void verifyFailureThrownWhenStringsAreNotEqualIgnoringWhitespace(AssertionInfo info, String actual,
+  void verifyFailureThrownWhenStringsAreNotEqualIgnoringWhitespace(AssertionInfo info, String actual,
                                                                            String expected) {
     verify(failures).failure(info, shouldBeEqualIgnoringWhitespace(actual, expected), actual, expected);
   }

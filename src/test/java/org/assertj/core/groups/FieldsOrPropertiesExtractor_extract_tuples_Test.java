@@ -30,7 +30,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class FieldsOrPropertiesExtractor_extract_tuples_Test {
+class FieldsOrPropertiesExtractor_extract_tuples_Test {
 
   private Employee yoda;
   private Employee luke;
@@ -45,20 +45,20 @@ public class FieldsOrPropertiesExtractor_extract_tuples_Test {
   }
 
   @Test
-  public void should_extract_tuples_from_fields_or_properties() {
+  void should_extract_tuples_from_fields_or_properties() {
     List<Tuple> extractedValues = extract(employees, byName("id", "age"));
     assertThat(extractedValues).containsOnly(tuple(1L, 800), tuple(2L, 26));
   }
 
   @Test
-  public void should_extract_tuples_with_consistent_iteration_order() {
+  void should_extract_tuples_with_consistent_iteration_order() {
     Set<Employee> employeeSet = new HashSet<>(employees);
     List<Tuple> extractedValues = extract(employeeSet, byName("id", "name.first", "age"));
     assertThat(extractedValues).containsOnly(tuple(1L, "Yoda", 800), tuple(2L, "Luke", 26));
   }
 
   @Test
-  public void should_extract_tuples_with_null_value_for_null_nested_field_or_property() {
+  void should_extract_tuples_with_null_value_for_null_nested_field_or_property() {
     luke.setName(null);
     assertThat(extract(employees, byName("id", "name.first", "age"))).containsOnly(tuple(1L, "Yoda", 800), tuple(2L, null, 26));
     assertThat(extract(employees, byName("name.first"))).containsOnly("Yoda", null);
@@ -66,18 +66,18 @@ public class FieldsOrPropertiesExtractor_extract_tuples_Test {
   }
 
   @Test
-  public void should_throw_error_when_no_property_nor_public_field_match_one_of_given_names() {
+  void should_throw_error_when_no_property_nor_public_field_match_one_of_given_names() {
     assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> extract(employees, byName("id", "age", "unknown")));
   }
 
   @Test
-  public void should_throw_exception_when_given_name_is_null() {
+  void should_throw_exception_when_given_name_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> extract(employees, byName((String[]) null)))
                                         .withMessage("The names of the fields/properties to read should not be null");
   }
 
   @Test
-  public void should_throw_exception_when_given_name_is_empty() {
+  void should_throw_exception_when_given_name_is_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> extract(employees, byName()))
                                         .withMessage("The names of the fields/properties to read should not be empty");
   }

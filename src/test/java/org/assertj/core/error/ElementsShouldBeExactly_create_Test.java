@@ -28,10 +28,10 @@ import org.junit.jupiter.api.Test;
  * @author Nicolas François
  * @author Joel Costigliola
  */
-public class ElementsShouldBeExactly_create_Test {
+class ElementsShouldBeExactly_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = elementsShouldBeExactly(list("Yoda", "Solo", "Leia"), 2, new TestCondition<>("a Jedi"));
     // WHEN

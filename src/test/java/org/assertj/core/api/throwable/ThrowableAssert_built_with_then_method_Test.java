@@ -19,31 +19,31 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
 // TODO build two throwable assert with then and assertThat and compare them.
-public class ThrowableAssert_built_with_then_method_Test {
+class ThrowableAssert_built_with_then_method_Test {
 
   @Test
-  public void should_build_ThrowableAssert_with_runtime_exception_thrown_by_callable_code() {
-	// check that actual exception is the one thrown by Callable<Void>#run
+  void should_build_ThrowableAssert_with_runtime_exception_thrown_by_callable_code() {
+    // check that actual exception is the one thrown by Callable<Void>#run
     thenThrownBy(new ThrowingCallable() {
-	  @Override
-	  public void call() {
-		throw new IllegalArgumentException("something was wrong");
-	  }
-	}).isInstanceOf(IllegalArgumentException.class).hasMessage("something was wrong");
+      @Override
+      public void call() {
+        throw new IllegalArgumentException("something was wrong");
+      }
+    }).isInstanceOf(IllegalArgumentException.class).hasMessage("something was wrong");
   }
 
   @Test
-  public void should_build_ThrowableAssert_with_throwable_thrown_by_callable_code() {
+  void should_build_ThrowableAssert_with_throwable_thrown_by_callable_code() {
     thenThrownBy(new ThrowingCallable() {
-	  @Override
-	  public void call() throws Exception {
-		throw new Exception("something was wrong");
-	  }
-	}).isInstanceOf(Exception.class).hasMessage("something was wrong");
+      @Override
+      public void call() throws Exception {
+        throw new Exception("something was wrong");
+      }
+    }).isInstanceOf(Exception.class).hasMessage("something was wrong");
   }
 
   @Test
-  public void should_fail_if_nothing_is_thrown_by_callable_code() {
+  void should_fail_if_nothing_is_thrown_by_callable_code() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       thenThrownBy(new ThrowingCallable() {
         @Override

@@ -23,10 +23,10 @@ import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
-public class ShouldHaveDateField_create_Test {
+class ShouldHaveDateField_create_Test {
 
   @Test
-  public void should_create_error_message_for_fields() {
+  void should_create_error_message_for_fields() {
     // GIVEN
     Date date = parse("2015-12-31");
     ErrorMessageFactory factory = shouldHaveDateField(date, "month", 10);

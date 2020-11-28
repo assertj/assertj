@@ -33,21 +33,21 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Nicolas François
  */
-public class Iterables_assertHasSameSizeAs_with_Array_Test extends IterablesBaseTest {
+class Iterables_assertHasSameSizeAs_with_Array_Test extends IterablesBaseTest {
 
   @Test
-  public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
+  void should_pass_if_size_of_actual_is_equal_to_expected_size() {
     iterables.assertHasSameSizeAs(someInfo(), newArrayList("Yoda", "Luke"), array("Solo", "Leia"));
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertHasSameSizeAs(someInfo(), null, newArrayList("Solo", "Leia")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_other_is_null() {
+  void should_fail_if_other_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       Iterable<?> other = null;
       iterables.assertHasSameSizeAs(someInfo(), newArrayList("Yoda", "Luke"), other);
@@ -55,7 +55,7 @@ public class Iterables_assertHasSameSizeAs_with_Array_Test extends IterablesBase
   }
 
   @Test
-  public void should_fail_if_actual_size_is_not_equal_to_other_size() {
+  void should_fail_if_actual_size_is_not_equal_to_other_size() {
     AssertionInfo info = someInfo();
     Collection<String> actual = newArrayList("Yoda");
     String[] other = array("Solo", "Luke", "Leia");
@@ -67,18 +67,18 @@ public class Iterables_assertHasSameSizeAs_with_Array_Test extends IterablesBase
   }
 
   @Test
-  public void should_pass_if_actual_has_same_size_as_other_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_has_same_size_as_other_whatever_custom_comparison_strategy_is() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertHasSameSizeAs(someInfo(), newArrayList("Luke", "Yoda"), array("Solo", "Leia"));
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertHasSameSizeAs(someInfo(), null, array("Solo", "Leia")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_other_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_other_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> {
       Iterable<?> other = null;
       iterables.assertHasSameSizeAs(someInfo(), newArrayList("Yoda", "Luke"), other);
@@ -86,7 +86,7 @@ public class Iterables_assertHasSameSizeAs_with_Array_Test extends IterablesBase
   }
 
   @Test
-  public void should_fail_if_actual_size_is_not_equal_to_other_size_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_size_is_not_equal_to_other_size_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     Collection<String> actual = newArrayList("Yoda");
     String[] other = array("Solo", "Luke", "Leia");

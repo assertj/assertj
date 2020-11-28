@@ -20,7 +20,7 @@ import org.assertj.core.api.ByteArrayAssert;
 import org.assertj.core.api.ByteArrayAssertBaseTest;
 import org.assertj.core.test.IntArrays;
 
-public class ByteArrayAssert_containsAnyOf_with_int_argument_Test extends ByteArrayAssertBaseTest {
+class ByteArrayAssert_containsAnyOf_with_int_argument_Test extends ByteArrayAssertBaseTest {
 
   @Override
   protected ByteArrayAssert invoke_api_method() {

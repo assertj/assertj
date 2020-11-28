@@ -35,20 +35,20 @@ import org.junit.jupiter.api.Test;
  * @author Brummolix
  */
 @DisplayName("Strings assertDoesNotContainIgnoringCase")
-public class Strings_assertDoesNotContainIgnoringCase_Test extends StringsBaseTest {
+class Strings_assertDoesNotContainIgnoringCase_Test extends StringsBaseTest {
 
   @Test
-  public void should_pass_if_actual_does_not_contain_value_ignoring_case() {
+  void should_pass_if_actual_does_not_contain_value_ignoring_case() {
     assertDoesNotContainIgnoringCase("Yoda", "no");
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_values_ignoring_case() {
+  void should_pass_if_actual_does_not_contain_values_ignoring_case() {
     assertDoesNotContainIgnoringCase("Yoda", "no", "also no");
   }
 
   @Test
-  public void should_fail_if_actual_contains_value() {
+  void should_fail_if_actual_contains_value() {
     // GIVEN
     String actual = "Yoda";
     // WHEN
@@ -58,7 +58,7 @@ public class Strings_assertDoesNotContainIgnoringCase_Test extends StringsBaseTe
   }
 
   @Test
-  public void should_fail_if_actual_contains_value_with_different_case() {
+  void should_fail_if_actual_contains_value_with_different_case() {
     // GIVEN
     String actual = "Yoda";
     // WHEN
@@ -68,7 +68,7 @@ public class Strings_assertDoesNotContainIgnoringCase_Test extends StringsBaseTe
   }
 
   @Test
-  public void should_fail_if_actual_contains_one_of_several_values() {
+  void should_fail_if_actual_contains_one_of_several_values() {
     // GIVEN
     String actual = "Yoda";
     // WHEN
@@ -79,7 +79,7 @@ public class Strings_assertDoesNotContainIgnoringCase_Test extends StringsBaseTe
   }
 
   @Test
-  public void should_fail_if_actual_contains_one_of_several_values_with_different_case() {
+  void should_fail_if_actual_contains_one_of_several_values_with_different_case() {
     // GIVEN
     String actual = "Yoda";
     // WHEN
@@ -90,7 +90,7 @@ public class Strings_assertDoesNotContainIgnoringCase_Test extends StringsBaseTe
   }
 
   @Test
-  public void should_fail_if_values_are_null() {
+  void should_fail_if_values_are_null() {
     // GIVEN
     CharSequence[] values = null;
     // WHEN
@@ -101,7 +101,7 @@ public class Strings_assertDoesNotContainIgnoringCase_Test extends StringsBaseTe
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     String actual = null;
     // WHEN
@@ -111,13 +111,13 @@ public class Strings_assertDoesNotContainIgnoringCase_Test extends StringsBaseTe
   }
 
   @Test
-  public void should_throw_error_if_values_are_empty() {
+  void should_throw_error_if_values_are_empty() {
     thenIllegalArgumentException().isThrownBy(() -> assertDoesNotContainIgnoringCase("Yoda"))
                                   .withMessage(arrayOfValuesToLookForIsEmpty());
   }
 
   @Test
-  public void should_throw_error_if_values_contains_null() {
+  void should_throw_error_if_values_contains_null() {
     // GIVEN
     CharSequence[] values = new CharSequence[] { "1", null };
     // WHEN

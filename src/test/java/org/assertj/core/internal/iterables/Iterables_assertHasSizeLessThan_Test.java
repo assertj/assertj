@@ -20,22 +20,22 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class Iterables_assertHasSizeLessThan_Test extends IterablesBaseTest {
+class Iterables_assertHasSizeLessThan_Test extends IterablesBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertHasSizeLessThan(someInfo(), null, 6))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_size_of_actual_is_not_less_than_boundary() {
+  void should_fail_if_size_of_actual_is_not_less_than_boundary() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertHasSizeLessThan(someInfo(), actual, 1))
                                                    .withMessage(shouldHaveSizeLessThan(actual, actual.size(), 1).create());
   }
 
   @Test
-  public void should_pass_if_size_of_actual_is_less_than_boundary() {
+  void should_pass_if_size_of_actual_is_less_than_boundary() {
     iterables.assertHasSizeLessThan(someInfo(), actual, 4);
   }
 }

@@ -35,16 +35,16 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class Files_assertIsDirectory_Test extends FilesBaseTest {
+class Files_assertIsDirectory_Test extends FilesBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertIsDirectory(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_directory() {
+  void should_fail_if_actual_is_not_directory() {
     when(actual.isDirectory()).thenReturn(false);
     AssertionInfo info = someInfo();
 
@@ -55,7 +55,7 @@ public class Files_assertIsDirectory_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_directory() {
+  void should_pass_if_actual_is_directory() {
     when(actual.isDirectory()).thenReturn(true);
     files.assertIsDirectory(someInfo(), actual);
   }

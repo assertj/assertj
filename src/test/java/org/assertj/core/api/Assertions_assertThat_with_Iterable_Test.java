@@ -23,16 +23,16 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Assertions_assertThat_with_Iterable_Test {
+class Assertions_assertThat_with_Iterable_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     AbstractIterableAssert<?, Iterable<? extends Object>, Object, ObjectAssert<Object>> assertThat = Assertions.assertThat(newLinkedHashSet());
     assertThat(assertThat).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     Iterable<String> names = newLinkedHashSet("Luke");
     assertThat(Assertions.assertThat(names).actual).isSameAs(names);
   }

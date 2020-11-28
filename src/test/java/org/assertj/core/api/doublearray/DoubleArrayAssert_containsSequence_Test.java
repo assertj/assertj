@@ -22,7 +22,7 @@ import org.assertj.core.api.DoubleArrayAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
 
-public class DoubleArrayAssert_containsSequence_Test extends DoubleArrayAssertBaseTest {
+class DoubleArrayAssert_containsSequence_Test extends DoubleArrayAssertBaseTest {
 
   @Override
   protected DoubleArrayAssert invoke_api_method() {
@@ -35,7 +35,7 @@ public class DoubleArrayAssert_containsSequence_Test extends DoubleArrayAssertBa
   }
   
   @Test
-  public void should_pass_with_precision_specified_as_last_argument() {
+  void should_pass_with_precision_specified_as_last_argument() {
     // GIVEN
     double[] actual = arrayOf(1.0, 2.0, 3.0);
     // THEN
@@ -43,7 +43,7 @@ public class DoubleArrayAssert_containsSequence_Test extends DoubleArrayAssertBa
   }
 
   @Test
-  public void should_pass_with_precision_specified_in_comparator() {
+  void should_pass_with_precision_specified_in_comparator() {
     // GIVEN
     double[] actual = arrayOf(1.0, 2.0, 3.0);
     // THEN

@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class Dates_assertIsInSameHourWindowAs_Test extends DatesBaseTest {
+class Dates_assertIsInSameHourWindowAs_Test extends DatesBaseTest {
 
   @Override
   protected void initActualDate() {
@@ -43,13 +43,13 @@ public class Dates_assertIsInSameHourWindowAs_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_in_same_hour_window_as_given_date() {
+  void should_pass_if_actual_is_in_same_hour_window_as_given_date() {
     dates.assertIsInSameHourWindowAs(someInfo(), actual, parseDatetime("2011-01-01T03:59:02"));
     dates.assertIsInSameHourWindowAs(someInfo(), actual, parseDatetime("2011-01-01T02:01:03"));
   }
 
   @Test
-  public void should_fail_if_time_difference_is_exactly_one_hour() {
+  void should_fail_if_time_difference_is_exactly_one_hour() {
     AssertionInfo info = someInfo();
     Date other = parseDatetime("2011-01-01T04:01:02");
 
@@ -60,7 +60,7 @@ public class Dates_assertIsInSameHourWindowAs_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_same_hour_window_as_given_date() {
+  void should_fail_if_actual_is_not_in_same_hour_window_as_given_date() {
     AssertionInfo info = someInfo();
     Date other = parseDatetime("2011-01-01T04:01:03");
 
@@ -71,19 +71,19 @@ public class Dates_assertIsInSameHourWindowAs_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsInSameHourWindowAs(someInfo(), null, new Date()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_error_if_given_date_is_null() {
+  void should_throw_error_if_given_date_is_null() {
     assertThatNullPointerException().isThrownBy(() -> dates.assertIsInSameHourWindowAs(someInfo(), actual, null))
                                     .withMessage(dateToCompareActualWithIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_same_hour_window_as_given_date_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_not_in_same_hour_window_as_given_date_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     Date other = parseDatetime("2011-01-01T04:01:03");
 
@@ -94,13 +94,13 @@ public class Dates_assertIsInSameHourWindowAs_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInSameHourWindowAs(someInfo(), null, new Date()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInSameHourWindowAs(someInfo(),
                                                                                                                    actual,
                                                                                                                    null))
@@ -108,7 +108,7 @@ public class Dates_assertIsInSameHourWindowAs_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_in_same_hour_window_as_given_date_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_is_in_same_hour_window_as_given_date_whatever_custom_comparison_strategy_is() {
     datesWithCustomComparisonStrategy.assertIsInSameHourWindowAs(someInfo(), actual,
                                                                  parseDatetime("2011-01-01T03:59:02"));
     datesWithCustomComparisonStrategy.assertIsInSameHourWindowAs(someInfo(), actual,

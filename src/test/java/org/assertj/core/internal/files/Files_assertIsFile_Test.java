@@ -35,16 +35,16 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class Files_assertIsFile_Test extends FilesBaseTest {
+class Files_assertIsFile_Test extends FilesBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertIsFile(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_file() {
+  void should_fail_if_actual_is_not_file() {
     when(actual.isFile()).thenReturn(false);
     AssertionInfo info = someInfo();
 
@@ -55,7 +55,7 @@ public class Files_assertIsFile_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_file() {
+  void should_pass_if_actual_is_file() {
     when(actual.isFile()).thenReturn(true);
     files.assertIsFile(someInfo(), actual);
   }

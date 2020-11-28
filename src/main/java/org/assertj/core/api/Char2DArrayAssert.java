@@ -46,7 +46,7 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
   }
 
   /**
-   * Verifies that the actual {@code char[][]} is deeply equal to the given one.
+   * Verifies that the actual {@code char[][]} is <b>deeply</b> equal to the given one.
    * <p>
    * Two array references are considered deeply equal if both
    * are {@code null} or if they refer to arrays that contain the same
@@ -99,7 +99,7 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
    * <p>
    * <b>WARNING!</b> This method will use {@code equals} to compare (it will compare arrays references only).<br>
    * Unless you specify a comparator with {@link #usingComparator(Comparator)}, it is advised to use
-   * {@link Char2DArrayAssert#isDeepEqualTo(Object)} instead.
+   * {@link #isDeepEqualTo(char[][])} instead.
    * <p>
    * Example:
    * <pre><code class='java'> char[][] array = {{'1', '2'}, {'3', '4'}}
@@ -147,11 +147,10 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
    * said otherwise it can have any number of rows but all rows must be empty.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertion will pass
+   * <pre><code class='java'> // assertions will pass
    * assertThat(new char[][] { {} }).isEmpty();
-   * assertThat(new char[][] { { } }).isNullOrEmpty();
    * // this is considered empty as there are no elements in the 2d array which is comprised of 3 empty rows.
-   * assertThat(new char[][] { { }, { }, { } }).isNullOrEmpty();
+   * assertThat(new char[][] { { }, { }, { } }).isEmpty();
    *
    * // assertions will fail
    * assertThat(new char[][] { {'a'}, {'b'} }).isEmpty();

@@ -57,7 +57,7 @@ public class WritableAssertionInfo implements AssertionInfo {
   @Override
   public String overridingErrorMessage() {
     // at this point we can have only one of overridingErrorMessageSupplier or overridingErrorMessage
-    return overridingErrorMessageSupplier != null ? (String) overridingErrorMessageSupplier.get() : overridingErrorMessage;
+    return overridingErrorMessageSupplier != null ? overridingErrorMessageSupplier.get() : overridingErrorMessage;
   }
 
   /**

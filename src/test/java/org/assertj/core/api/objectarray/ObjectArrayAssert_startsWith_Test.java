@@ -25,7 +25,7 @@ import org.assertj.core.api.ObjectArrayAssertBaseTest;
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  */
-public class ObjectArrayAssert_startsWith_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_startsWith_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {

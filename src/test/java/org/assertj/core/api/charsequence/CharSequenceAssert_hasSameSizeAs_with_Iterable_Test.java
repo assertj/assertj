@@ -27,12 +27,12 @@ import org.junit.jupiter.api.BeforeAll;
  * 
  * @author Nicolas François
  */
-public class CharSequenceAssert_hasSameSizeAs_with_Iterable_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_hasSameSizeAs_with_Iterable_Test extends CharSequenceAssertBaseTest {
 
   private static List<String> other;
   
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     other = newArrayList("Luke");
   }
 

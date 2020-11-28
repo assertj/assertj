@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class ShouldBeInSameMinuteWindow_create_Test {
+class ShouldBeInSameMinuteWindow_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeInSameMinuteWindow(parseDatetime("2011-01-01T05:00:00"),
                                                              parseDatetime("2011-01-01T05:02:01"));

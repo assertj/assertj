@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Nicolas François
  */
-public class Not_matches_Test {
+class Not_matches_Test {
 
   private TestCondition<Object> condition;
   private Condition<Object> not;
@@ -38,13 +38,13 @@ public class Not_matches_Test {
   }
 
   @Test
-  public void should_match_if_condition_does_not_match() {
+  void should_match_if_condition_does_not_match() {
     condition.shouldMatch(false);
     assertThat(not.matches("Yoda")).isTrue();
   }
 
   @Test
-  public void should_not_match_if_condition_matches() {
+  void should_not_match_if_condition_matches() {
     condition.shouldMatch(true);
     assertThat(not.matches("Yoda")).isFalse();
   }

@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author William Delanoue
  */
-public class IntegerAssert_isStrictlyBetween_Integers_Test extends IntegerAssertBaseTest {
+class IntegerAssert_isStrictlyBetween_Integers_Test extends IntegerAssertBaseTest {
 
   @Override
   protected IntegerAssert invoke_api_method() {

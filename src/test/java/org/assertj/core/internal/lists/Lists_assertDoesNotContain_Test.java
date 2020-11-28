@@ -40,39 +40,39 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Lists_assertDoesNotContain_Test extends ListsBaseTest {
+class Lists_assertDoesNotContain_Test extends ListsBaseTest {
 
   private static List<String> actual = newArrayList("Yoda", "Luke", "Leia");
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.assertDoesNotContain(someInfo(), null, "Yoda", someIndex()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_value_at_index() {
+  void should_pass_if_actual_does_not_contain_value_at_index() {
     lists.assertDoesNotContain(someInfo(), actual, "Yoda", atIndex(1));
   }
 
   @Test
-  public void should_pass_if_actual_is_empty() {
+  void should_pass_if_actual_is_empty() {
     lists.assertDoesNotContain(someInfo(), emptyList(), "Yoda", someIndex());
   }
 
   @Test
-  public void should_throw_error_if_index_is_null() {
+  void should_throw_error_if_index_is_null() {
     assertThatNullPointerException().isThrownBy(() -> lists.assertDoesNotContain(someInfo(), actual, "Yoda", null))
                                     .withMessage("Index should not be null");
   }
 
   @Test
-  public void should_pass_if_index_is_out_of_bounds() {
+  void should_pass_if_index_is_out_of_bounds() {
     lists.assertDoesNotContain(someInfo(), actual, "Yoda", atIndex(6));
   }
 
   @Test
-  public void should_fail_if_actual_contains_value_at_index() {
+  void should_fail_if_actual_contains_value_at_index() {
     AssertionInfo info = someInfo();
     Index index = atIndex(0);
 
@@ -83,12 +83,12 @@ public class Lists_assertDoesNotContain_Test extends ListsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_value_at_index_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_does_not_contain_value_at_index_according_to_custom_comparison_strategy() {
     listsWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(someInfo(), actual, "Yoda", atIndex(1));
   }
 
   @Test
-  public void should_fail_if_actual_contains_value_at_index_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_value_at_index_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Index index = atIndex(0);
 

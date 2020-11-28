@@ -26,21 +26,21 @@ import org.junit.jupiter.api.Test;
  *
  * @author Michal Kordas
  */
-public class Classes_assertIsFinal_Test extends ClassesBaseTest {
+class Classes_assertIsFinal_Test extends ClassesBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsFinal(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_a_final_class() {
+  void should_pass_if_actual_is_a_final_class() {
     classes.assertIsFinal(someInfo(), Math.class);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_a_final_class() {
+  void should_fail_if_actual_is_not_a_final_class() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsFinal(someInfo(), Object.class))
                                                    .withMessage(shouldBeFinal(Object.class).create());
   }

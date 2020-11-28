@@ -12,18 +12,17 @@
  */
 package org.assertj.core.api.abstract_;
 
+import static org.mockito.Mockito.verify;
+
 import org.assertj.core.api.AbstractAssertBaseTest;
 import org.assertj.core.api.ConcreteAssert;
 
-import static org.mockito.Mockito.verify;
-
-
 /**
- * Tests for <code>{@link ObjectAssert#isExactlyInstanceOf(Class))}</code>.
- * 
+ * Tests for <code>{@link AbstractAssert#isExactlyInstanceOf(Class))}</code>.
+ *
  * @author Nicolas François
  */
-public class AbstractAssert_isExactlyInstanceOf_Test extends AbstractAssertBaseTest {
+class AbstractAssert_isExactlyInstanceOf_Test extends AbstractAssertBaseTest {
 
   @Override
   protected ConcreteAssert invoke_api_method() {

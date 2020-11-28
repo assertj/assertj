@@ -23,17 +23,17 @@ import java.time.LocalTime;
 
 import org.junit.jupiter.api.Test;
 
-public class LocalTimeAssert_isEqualToIgnoringSeconds_Test {
+class LocalTimeAssert_isEqualToIgnoringSeconds_Test {
 
   private final LocalTime refLocalTime = LocalTime.of(23, 51, 0, 0);
 
   @Test
-  public void should_pass_if_actual_is_equal_to_other_ignoring_second_fields() {
-	assertThat(refLocalTime).isEqualToIgnoringSeconds(refLocalTime.plusSeconds(1));
+  void should_pass_if_actual_is_equal_to_other_ignoring_second_fields() {
+    assertThat(refLocalTime).isEqualToIgnoringSeconds(refLocalTime.plusSeconds(1));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_equal_to_given_localtimetime_with_second_ignored() {
+  void should_fail_if_actual_is_not_equal_to_given_localtimetime_with_second_ignored() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refLocalTime).isEqualToIgnoringSeconds(refLocalTime.plusMinutes(1)))
                                                    .withMessage(format("%nExpecting:%n" +
                                                                        "  <23:51>%n" +
@@ -43,7 +43,7 @@ public class LocalTimeAssert_isEqualToIgnoringSeconds_Test {
   }
 
   @Test
-  public void should_fail_as_seconds_fields_are_different_even_if_time_difference_is_less_than_a_second() {
+  void should_fail_as_seconds_fields_are_different_even_if_time_difference_is_less_than_a_second() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refLocalTime).isEqualToIgnoringSeconds(refLocalTime.minusNanos(1)))
                                                    .withMessage(format("%nExpecting:%n" +
                                                                        "  <23:51>%n" +
@@ -53,7 +53,7 @@ public class LocalTimeAssert_isEqualToIgnoringSeconds_Test {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       LocalTime actual = null;
       assertThat(actual).isEqualToIgnoringSeconds(LocalTime.now());
@@ -61,7 +61,7 @@ public class LocalTimeAssert_isEqualToIgnoringSeconds_Test {
   }
 
   @Test
-  public void should_throw_error_if_given_localtimetime_is_null() {
+  void should_throw_error_if_given_localtimetime_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(refLocalTime).isEqualToIgnoringSeconds(null))
                                         .withMessage(NULL_LOCAL_TIME_PARAMETER_MESSAGE);
   }

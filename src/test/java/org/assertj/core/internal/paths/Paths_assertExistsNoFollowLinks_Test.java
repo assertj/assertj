@@ -24,16 +24,16 @@ import java.nio.file.LinkOption;
 
 import org.junit.jupiter.api.Test;
 
-public class Paths_assertExistsNoFollowLinks_Test extends MockPathsBaseTest {
+class Paths_assertExistsNoFollowLinks_Test extends MockPathsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertExistsNoFollowLinks(info, null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_exist() {
+  void should_fail_if_actual_does_not_exist() {
     when(nioFilesWrapper.exists(actual, LinkOption.NOFOLLOW_LINKS)).thenReturn(false);
 
     Throwable error = catchThrowable(() -> paths.assertExistsNoFollowLinks(info, actual));
@@ -43,7 +43,7 @@ public class Paths_assertExistsNoFollowLinks_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_exists() {
+  void should_pass_if_actual_exists() {
     when(nioFilesWrapper.exists(actual, LinkOption.NOFOLLOW_LINKS)).thenReturn(true);
     paths.assertExistsNoFollowLinks(info, actual);
   }

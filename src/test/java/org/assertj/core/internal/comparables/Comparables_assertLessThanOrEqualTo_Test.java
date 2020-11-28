@@ -34,21 +34,21 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Comparables_assertLessThanOrEqualTo_Test extends ComparablesBaseTest {
+class Comparables_assertLessThanOrEqualTo_Test extends ComparablesBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertLessThanOrEqualTo(someInfo(), null, 8))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_less_than_other() {
+  void should_pass_if_actual_is_less_than_other() {
     comparables.assertLessThanOrEqualTo(someInfo(), 6, 8);
   }
 
   @Test
-  public void should_pass_if_actual_is_equal_to_other() {
+  void should_pass_if_actual_is_equal_to_other() {
     comparables.assertLessThanOrEqualTo(someInfo(), 6, 6);
     comparables.assertLessThanOrEqualTo(someInfo(), BigDecimal.TEN, BigDecimal.TEN);
     comparables.assertLessThanOrEqualTo(someInfo(), BigDecimal.TEN, new BigDecimal("10.000"));
@@ -56,7 +56,7 @@ public class Comparables_assertLessThanOrEqualTo_Test extends ComparablesBaseTes
   }
 
   @Test
-  public void should_fail_if_actual_is_greater_than_other() {
+  void should_fail_if_actual_is_greater_than_other() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> comparables.assertLessThanOrEqualTo(info, 8, 6));
@@ -70,17 +70,17 @@ public class Comparables_assertLessThanOrEqualTo_Test extends ComparablesBaseTes
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     comparablesWithCustomComparisonStrategy.assertLessThanOrEqualTo(someInfo(), -6, 8);
   }
 
   @Test
-  public void should_pass_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
     comparablesWithCustomComparisonStrategy.assertLessThanOrEqualTo(someInfo(), -6, 6);
   }
 
   @Test
-  public void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> comparablesWithCustomComparisonStrategy.assertLessThanOrEqualTo(info, -8, 6));

@@ -19,10 +19,10 @@ import static org.assertj.core.util.Throwables.getStackTrace;
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldHaveMessageMatchingRegex_create_Test {
+class ShouldHaveMessageMatchingRegex_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     String regex = "regex";
     RuntimeException actual = new RuntimeException("error %s message");

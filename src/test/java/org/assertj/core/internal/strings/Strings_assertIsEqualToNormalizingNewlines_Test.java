@@ -28,17 +28,17 @@ import org.junit.jupiter.api.Test;
  *
  * @author Mauricio Aniche
  */
-public class Strings_assertIsEqualToNormalizingNewlines_Test extends StringsBaseTest {
+class Strings_assertIsEqualToNormalizingNewlines_Test extends StringsBaseTest {
 
   @Test
-  public void should_pass_if_both_strings_are_equals_after_normalizing_newline() {
+  void should_pass_if_both_strings_are_equals_after_normalizing_newline() {
     strings.assertIsEqualToNormalizingNewlines(someInfo(), "Lord of the Rings\r\nis cool",
                                                "Lord of the Rings\nis cool");
     strings.assertIsEqualToNormalizingNewlines(someInfo(), "Lord of the Rings\nis cool", "Lord of the Rings\nis cool");
   }
 
   @Test
-  public void should_pass_if_comparing_string_with_only_newlines() {
+  void should_pass_if_comparing_string_with_only_newlines() {
     strings.assertIsEqualToNormalizingNewlines(someInfo(), "\n", "\r\n");
     strings.assertIsEqualToNormalizingNewlines(someInfo(), "\r\n", "\n");
     strings.assertIsEqualToNormalizingNewlines(someInfo(), "\r\n", "\r\n");
@@ -46,7 +46,7 @@ public class Strings_assertIsEqualToNormalizingNewlines_Test extends StringsBase
   }
 
   @Test
-  public void should_fail_if_newlines_are_different_in_both_strings() {
+  void should_fail_if_newlines_are_different_in_both_strings() {
     String actual = "Lord of the Rings\r\n\r\nis cool";
     String expected = "Lord of the Rings\nis cool";
 

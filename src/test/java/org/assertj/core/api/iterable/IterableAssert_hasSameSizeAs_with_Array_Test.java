@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Nicolas François
  */
-public class IterableAssert_hasSameSizeAs_with_Array_Test extends IterableAssertBaseTest {
+class IterableAssert_hasSameSizeAs_with_Array_Test extends IterableAssertBaseTest {
 
   String[] other = array("Solo, Leia");
 

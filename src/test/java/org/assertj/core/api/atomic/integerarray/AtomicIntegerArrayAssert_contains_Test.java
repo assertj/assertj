@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AtomicIntegerArrayAssert;
 import org.assertj.core.api.AtomicIntegerArrayAssertBaseTest;
 
-public class AtomicIntegerArrayAssert_contains_Test extends AtomicIntegerArrayAssertBaseTest {
+class AtomicIntegerArrayAssert_contains_Test extends AtomicIntegerArrayAssertBaseTest {
 
   @Override
   protected AtomicIntegerArrayAssert invoke_api_method() {

@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valeriy Vyrva
  */
-public class Maps_assertHasEntrySatisfyingConsumer_Test extends MapsBaseTest {
+class Maps_assertHasEntrySatisfyingConsumer_Test extends MapsBaseTest {
 
   private static final Pattern IS_DIGITS = Pattern.compile("^\\d+$");
 
@@ -51,24 +51,24 @@ public class Maps_assertHasEntrySatisfyingConsumer_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_contains_null_key_with_value_matching_condition() {
+  void should_pass_if_actual_contains_null_key_with_value_matching_condition() {
     maps.assertHasEntrySatisfying(someInfo(), actual, null, s -> assertThat(s).isNull());
   }
 
   @Test
-  public void should_pass_if_actual_contains_key_with_value_matching_condition() {
+  void should_pass_if_actual_contains_key_with_value_matching_condition() {
     maps.assertHasEntrySatisfying(someInfo(), actual, "name", s -> assertThat(s).startsWith("Yo"));
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(someInfo(), null, 8,
                                                                                                    o -> assertThat(o).isNotNull()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contains_key() {
+  void should_fail_if_actual_does_not_contains_key() {
     AssertionInfo info = someInfo();
     String key = "id";
 
@@ -79,13 +79,13 @@ public class Maps_assertHasEntrySatisfyingConsumer_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_contains_key_with_value_not_matching_condition() {
+  void should_fail_if_actual_contains_key_with_value_not_matching_condition() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(someInfo(), actual, "name", s -> assertThat(s).containsPattern(IS_DIGITS)))
                                                    .withMessage(shouldContainPattern("Yoda", IS_DIGITS.pattern()).create());
   }
 
   @Test
-  public void should_fail_if_actual_contains_null_key_with_value_does_not_matching_condition() {
+  void should_fail_if_actual_contains_null_key_with_value_does_not_matching_condition() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(someInfo(), actual, null, s -> assertThat(s).isNotNull()))
                                                    .withMessage(actualIsNull());
   }

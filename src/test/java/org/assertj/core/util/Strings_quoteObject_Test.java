@@ -21,15 +21,15 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class Strings_quoteObject_Test {
+class Strings_quoteObject_Test {
 
   @Test
-  public void should_not_quote_Object_that_is_not_String() {
+  void should_not_quote_Object_that_is_not_String() {
     assertThat(Strings.quote(9)).isEqualTo(9);
   }
 
   @Test
-  public void should_quote_Object_that_is_String() {
+  void should_quote_Object_that_is_String() {
     Object o = "Hello";
     assertThat(Strings.quote(o)).isEqualTo("'Hello'");
   }

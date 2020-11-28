@@ -24,10 +24,10 @@ import java.util.OptionalDouble;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
-public class OptionalDoubleAssert_hasValue_Test {
+class OptionalDoubleAssert_hasValue_Test {
 
   @Test
-  public void should_fail_when_optionalDouble_is_null() {
+  void should_fail_when_optionalDouble_is_null() {
     // GIVEN
     OptionalDouble nullActual = null;
     // THEN
@@ -35,12 +35,12 @@ public class OptionalDoubleAssert_hasValue_Test {
   }
 
   @Test
-  public void should_pass_if_optionalDouble_has_expected_value() {
+  void should_pass_if_optionalDouble_has_expected_value() {
     assertThat(OptionalDouble.of(10.0)).hasValue(10.0);
   }
 
   @Test
-  public void should_fail_if_optionalDouble_does_not_have_expected_value() {
+  void should_fail_if_optionalDouble_does_not_have_expected_value() {
     // GIVEN
     OptionalDouble actual = OptionalDouble.of(5.0);
     double expectedValue = 10.0;
@@ -54,7 +54,7 @@ public class OptionalDoubleAssert_hasValue_Test {
   }
 
   @Test
-  public void should_fail_if_optionalDouble_is_empty() {
+  void should_fail_if_optionalDouble_is_empty() {
     // GIVEN
     double expectedValue = 10.0;
     // WHEN

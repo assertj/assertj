@@ -20,10 +20,10 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
-public class AtomicReferenceAssert_customRepresentation_Test {
+class AtomicReferenceAssert_customRepresentation_Test {
 
   @Test
-  public void should_honor_customRepresentation() {
+  void should_honor_customRepresentation() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       AtomicReference<String> actual = new AtomicReference<>("foo");
       assertThat(actual).withRepresentation(new CustomRepresentation())

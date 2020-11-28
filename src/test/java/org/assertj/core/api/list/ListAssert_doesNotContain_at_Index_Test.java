@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class ListAssert_doesNotContain_at_Index_Test extends ListAssertBaseTest {
+class ListAssert_doesNotContain_at_Index_Test extends ListAssertBaseTest {
 
   private final Index index = someIndex();
 

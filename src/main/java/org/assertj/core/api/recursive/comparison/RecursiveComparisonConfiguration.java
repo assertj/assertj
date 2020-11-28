@@ -14,12 +14,13 @@ package org.assertj.core.api.recursive.comparison;
 
 import static java.lang.String.format;
 import static java.util.Arrays.stream;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.util.Lists.list;
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.core.util.Strings.join;
 import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
 
@@ -29,6 +30,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.BiPredicate;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -47,19 +49,19 @@ public class RecursiveComparisonConfiguration {
   private boolean ignoreAllActualNullFields = false;
   private boolean ignoreAllActualEmptyOptionalFields = false;
   private boolean ignoreAllExpectedNullFields = false;
-  private Set<FieldLocation> ignoredFields = new LinkedHashSet<>();
+  private Set<String> ignoredFields = new LinkedHashSet<>();
   private List<Pattern> ignoredFieldsRegexes = new ArrayList<>();
   private Set<Class<?>> ignoredTypes = new LinkedHashSet<>();
 
   // overridden equals method to ignore section
   private List<Class<?>> ignoredOverriddenEqualsForTypes = new ArrayList<>();
-  private List<FieldLocation> ignoredOverriddenEqualsForFields = new ArrayList<>();
+  private List<String> ignoredOverriddenEqualsForFields = new ArrayList<>();
   private List<Pattern> ignoredOverriddenEqualsForFieldsMatchingRegexes = new ArrayList<>();
-  private boolean ignoreAllOverriddenEquals = false;
+  private boolean ignoreAllOverriddenEquals = true;
 
   // ignore order in collections section
   private boolean ignoreCollectionOrder = false;
-  private Set<FieldLocation> ignoredCollectionOrderInFields = new LinkedHashSet<>();
+  private Set<String> ignoredCollectionOrderInFields = new LinkedHashSet<>();
   private List<Pattern> ignoredCollectionOrderInFieldsMatchingRegexes = new ArrayList<>();
 
   // registered comparators section
@@ -71,15 +73,15 @@ public class RecursiveComparisonConfiguration {
     this.ignoreAllActualNullFields = builder.ignoreAllActualNullFields;
     this.ignoreAllActualEmptyOptionalFields = builder.ignoreAllActualEmptyOptionalFields;
     this.ignoreAllExpectedNullFields = builder.ignoreAllExpectedNullFields;
-    this.ignoredFields = new LinkedHashSet<>(FieldLocation.from(builder.ignoredFields));
+    this.ignoredFields = newLinkedHashSet(builder.ignoredFields);
     ignoreFieldsMatchingRegexes(builder.ignoredFieldsMatchingRegexes);
     ignoreFieldsOfTypes(builder.ignoredTypes);
     ignoreOverriddenEqualsForTypes(builder.ignoredOverriddenEqualsForTypes);
-    this.ignoredOverriddenEqualsForFields = new ArrayList<>(FieldLocation.from(builder.ignoredOverriddenEqualsForFields));
+    this.ignoredOverriddenEqualsForFields = list(builder.ignoredOverriddenEqualsForFields);
     ignoreOverriddenEqualsForFieldsMatchingRegexes(builder.ignoredOverriddenEqualsForFieldsMatchingRegexes);
     this.ignoreAllOverriddenEquals = builder.ignoreAllOverriddenEquals;
     this.ignoreCollectionOrder = builder.ignoreCollectionOrder;
-    this.ignoredCollectionOrderInFields = new LinkedHashSet<>(FieldLocation.from(builder.ignoredCollectionOrderInFields));
+    this.ignoredCollectionOrderInFields = newLinkedHashSet(builder.ignoredCollectionOrderInFields);
     ignoreCollectionOrderInFieldsMatchingRegexes(builder.ignoredCollectionOrderInFieldsMatchingRegexes);
     this.typeComparators = builder.typeComparators;
     this.fieldComparators = builder.fieldComparators;
@@ -88,11 +90,11 @@ public class RecursiveComparisonConfiguration {
   public RecursiveComparisonConfiguration() {}
 
   public boolean hasComparatorForField(String fieldName) {
-    return fieldComparators.hasComparatorForField(new FieldLocation(fieldName));
+    return fieldComparators.hasComparatorForField(fieldName);
   }
 
   public Comparator<?> getComparatorForField(String fieldName) {
-    return fieldComparators.getComparatorForField(new FieldLocation(fieldName));
+    return fieldComparators.getComparatorForField(fieldName);
   }
 
   public FieldComparators getFieldComparators() {
@@ -175,12 +177,14 @@ public class RecursiveComparisonConfiguration {
   /**
    * Adds the given fields to the list of the object under test fields to ignore in the recursive comparison.
    * <p>
+   * The field are ignored by name, not by value.
+   * <p>
    * See {@link RecursiveComparisonAssert#ignoringFields(String...) RecursiveComparisonAssert#ignoringFields(String...)} for examples.
    *
    * @param fieldsToIgnore the fields of the object under test to ignore in the comparison.
    */
   public void ignoreFields(String... fieldsToIgnore) {
-    List<FieldLocation> fieldLocations = FieldLocation.from(fieldsToIgnore);
+    List<String> fieldLocations = list(fieldsToIgnore);
     ignoredFields.addAll(fieldLocations);
   }
 
@@ -208,7 +212,7 @@ public class RecursiveComparisonConfiguration {
    * @param types the types of the object under test to ignore in the comparison.
    */
   public void ignoreFieldsOfTypes(Class<?>... types) {
-    stream(types).map(type -> asWrapperIfPrimitiveType(type)).forEach(ignoredTypes::add);
+    stream(types).map(RecursiveComparisonConfiguration::asWrapperIfPrimitiveType).forEach(ignoredTypes::add);
   }
 
   private static Class<?> asWrapperIfPrimitiveType(Class<?> type) {
@@ -229,7 +233,7 @@ public class RecursiveComparisonConfiguration {
    *
    * @return the list of the object under test fields to ignore in the recursive comparison.
    */
-  public Set<FieldLocation> getIgnoredFields() {
+  public Set<String> getIgnoredFields() {
     return ignoredFields;
   }
 
@@ -252,6 +256,15 @@ public class RecursiveComparisonConfiguration {
   }
 
   /**
+   * Force a recursive comparison on all fields (except java types).
+   * <p>
+   * See {@link RecursiveComparisonAssert#usingOverriddenEquals()} for examples.
+   */
+  public void useOverriddenEquals() {
+    ignoreAllOverriddenEquals = false;
+  }
+
+  /**
    * Adds the given fields to the list of fields to force a recursive comparison on.
    * <p>
    * See {@link RecursiveComparisonAssert#ignoringOverriddenEqualsForFields(String...) RecursiveComparisonAssert#ignoringOverriddenEqualsForFields(String...)} for examples.
@@ -259,7 +272,7 @@ public class RecursiveComparisonConfiguration {
    * @param fields the fields to force a recursive comparison on.
    */
   public void ignoreOverriddenEqualsForFields(String... fields) {
-    List<FieldLocation> fieldLocations = FieldLocation.from(fields);
+    List<String> fieldLocations = list(fields);
     ignoredOverriddenEqualsForFields.addAll(fieldLocations);
   }
 
@@ -311,7 +324,7 @@ public class RecursiveComparisonConfiguration {
    * @param fieldsToIgnoreCollectionOrder the fields of the object under test to ignore collection order in the comparison.
    */
   public void ignoreCollectionOrderInFields(String... fieldsToIgnoreCollectionOrder) {
-    List<FieldLocation> fieldLocations = FieldLocation.from(fieldsToIgnoreCollectionOrder);
+    List<String> fieldLocations = list(fieldsToIgnoreCollectionOrder);
     ignoredCollectionOrderInFields.addAll(fieldLocations);
   }
 
@@ -320,7 +333,7 @@ public class RecursiveComparisonConfiguration {
    *
    * @return the list of the object under test fields to ignore collection order in the recursive comparison.
    */
-  public Set<FieldLocation> getIgnoredCollectionOrderInFields() {
+  public Set<String> getIgnoredCollectionOrderInFields() {
     return ignoredCollectionOrderInFields;
   }
 
@@ -349,46 +362,86 @@ public class RecursiveComparisonConfiguration {
   /**
    * Registers the given {@link Comparator} to compare the fields with the given type.
    * <p>
-   * Comparators specified by this method have less precedence than comparators added with {@link #registerComparatorForFields(Comparator, String...)}.
+   * Comparators registered with this method have less precedence than comparators registered with {@link #registerComparatorForFields(Comparator, String...)}.
+   * <p>
+   * Note that registering a {@link Comparator} for a given type will override the previously registered BiPredicate/Comparator (if any).
    * <p>
    * See {@link RecursiveComparisonAssert#withComparatorForType(Comparator, Class)} for examples.
    *
    * @param <T> the class type to register a comparator for
-   * @param comparator the {@link java.util.Comparator Comparator} to use to compare the given field
+   * @param comparator the {@link java.util.Comparator Comparator} to use to compare the given type
    * @param type the type to be compared with the given comparator.
+   * @throws NullPointerException if the given comparator is null.
    */
   public <T> void registerComparatorForType(Comparator<? super T> comparator, Class<T> type) {
+    requireNonNull(comparator, "Expecting a non null Comparator");
     typeComparators.put(type, comparator);
   }
 
   /**
-   * @deprecated Since 3.17.0 use {@link #registerComparatorForFields(Comparator, String...)} instead.
-   * @param comparator comparator to use
-   * @param fieldLocation the field location
+   * Registers the given {@link BiPredicate} to compare the fields with the given type.
+   * <p>
+   * BiPredicates specified with this method have less precedence than the ones registered with {@link #registerEqualsForFields(BiPredicate, String...)}
+   * or comparators registered with {@link #registerComparatorForFields(Comparator, String...)}.
+   * <p>
+   * Note that registering a {@link BiPredicate} for a given type will override the previously registered BiPredicate/Comparator (if any).
+   * <p>
+   * See {@link RecursiveComparisonAssert#withEqualsForType(BiPredicate, Class)} for examples.
+   *
+   * @param <T> the class type to register a comparator for
+   * @param equals the equals implementation to compare the given type
+   * @param type the type to be compared with the given equals implementation .
+   * @throws NullPointerException if the given BiPredicate is null.
+   * @since 3.17.0
    */
-  @Deprecated
-  public void registerComparatorForField(Comparator<?> comparator, FieldLocation fieldLocation) {
-    fieldComparators.registerComparator(fieldLocation, comparator);
+  @SuppressWarnings("unchecked")
+  public <T> void registerEqualsForType(BiPredicate<? super T, ? super T> equals, Class<T> type) {
+    registerComparatorForType(toComparator(equals), type);
   }
 
   /**
-   * Registers the given {@link Comparator} to compare the fields with the given locations.
+   * Registers the given {@link Comparator} to compare the fields at the given locations.
    * <p>
    * The fields must be specified from the root object, for example if {@code Foo} has a {@code Bar} field and both have an {@code id} field,
-   * one can register to a comparator for Foo and Bar's {@code id} by calling:
-   * <pre><code class='java'> registerComparatorForFields(idComparator, "foo.id", "bar.id")</code></pre>
+   * one can register a comparator for Foo and Bar's {@code id} by calling:
+   * <pre><code class='java'> registerComparatorForFields(idComparator, "foo.id", "foo.bar.id")</code></pre>
    * <p>
-   * Comparators specified by this method have precedence over comparators added with {@link #registerComparatorForType(Comparator, Class)}.
+   * Comparators registered with this method have precedence over comparators registered with {@link #registerComparatorForType(Comparator, Class)}.
+   * <p>
+   * Note that registering a {@link Comparator} for a given field will override the previously registered BiPredicate/Comparator (if any).
    * <p>
    * See {@link RecursiveComparisonAssert#withComparatorForFields(Comparator, String...) RecursiveComparisonAssert#withComparatorForFields(Comparator, String...)} for examples.
    *
    * @param comparator the {@link java.util.Comparator Comparator} to use to compare the given field
    * @param fieldLocations the locations from the root object of the fields the comparator should be used for
+   * @throws NullPointerException if the given comparator is null.
    */
   public void registerComparatorForFields(Comparator<?> comparator, String... fieldLocations) {
-    Stream.of(fieldLocations)
-          .map(FieldLocation::new)
-          .forEach(fieldLocation -> fieldComparators.registerComparator(fieldLocation, comparator));
+    requireNonNull(comparator, "Expecting a non null Comparator");
+    Stream.of(fieldLocations).forEach(fieldLocation -> fieldComparators.registerComparator(fieldLocation, comparator));
+  }
+
+  /**
+   * Registers the given {@link BiPredicate} to compare the fields at the given locations.
+   * <p>
+   * The fields must be specified from the root object, for example if {@code Foo} has a {@code Bar} field and both have an {@code id} field,
+   * one can register a BiPredicate for Foo and Bar's {@code id} by calling:
+   * <pre><code class='java'> registerEqualsForFields(idBiPredicate, "foo.id", "foo.bar.id")</code></pre>
+   * <p>
+   * BiPredicates registered with this method have precedence over the ones registered with {@link #registerEqualsForType(BiPredicate, Class)}
+   * or the comparators registered with {@link #registerComparatorForType(Comparator, Class)}.
+   * <p>
+   * Note that registering a {@link BiPredicate} for a given field will override the previously registered BiPredicate/Comparator (if any).
+   * <p>
+   * See {@link RecursiveComparisonAssert#withEqualsForFields(BiPredicate, String...) RecursiveComparisonAssert#withEqualsForFields(BiPredicate, String...)} for examples.
+   *
+   * @param equals the equals implementation to compare the given fields.
+   * @param fieldLocations the locations from the root object of the fields the comparator should be used for
+   * @throws NullPointerException if the given BiPredicate is null.
+   * @since 3.17.0
+   */
+  public void registerEqualsForFields(BiPredicate<?, ?> equals, String... fieldLocations) {
+    registerComparatorForFields(toComparator(equals), fieldLocations);
   }
 
   /**
@@ -415,7 +468,7 @@ public class RecursiveComparisonConfiguration {
     return ignoredOverriddenEqualsForTypes;
   }
 
-  public List<FieldLocation> getIgnoredOverriddenEqualsForFields() {
+  public List<String> getIgnoredOverriddenEqualsForFields() {
     return ignoredOverriddenEqualsForFields;
   }
 
@@ -423,7 +476,7 @@ public class RecursiveComparisonConfiguration {
     return ignoredOverriddenEqualsForFieldsMatchingRegexes;
   }
 
-  public Stream<Entry<FieldLocation, Comparator<?>>> comparatorByFields() {
+  public Stream<Entry<String, Comparator<?>>> comparatorByFields() {
     return fieldComparators.comparatorByFields();
   }
 
@@ -486,48 +539,43 @@ public class RecursiveComparisonConfiguration {
   }
 
   boolean shouldIgnore(DualValue dualValue) {
-    String concatenatedPath = dualValue.concatenatedPath;
-    return matchesAnIgnoredField(concatenatedPath)
-           || matchesAnIgnoredFieldRegex(concatenatedPath)
-           || shouldIgnoreFieldButWithoutNeedingEvaluatingFieldName(dualValue);
+    FieldLocation fieldLocation = dualValue.fieldLocation;
+    return matchesAnIgnoredField(fieldLocation)
+           || matchesAnIgnoredFieldRegex(fieldLocation)
+           || shouldIgnoreFieldBasedOnFieldValue(dualValue);
   }
 
   Set<String> getNonIgnoredActualFieldNames(DualValue dualValue) {
     Set<String> actualFieldsNames = Objects.getFieldsNames(dualValue.actual.getClass());
     // we are doing the same as shouldIgnore(DualValue dualValue) but in two steps for performance reasons:
     // - we filter first ignored field by names that don't need building DualValues
-    // - then we filter field DualValues with the remaining criteria (shouldIgnoreNotEvalutingFieldName)
+    // - then we filter field DualValues with the remaining criteria that need to get the field value
     // DualValues are built introspecting fields which is expensive.
     return actualFieldsNames.stream()
-                            // evaluate field name ignoring criteria
-                            .filter(fieldName -> !shouldIgnore(dualValue.path, fieldName))
+                            // evaluate field name ignoring criteria on dualValue field location + field name
+                            .filter(fieldName -> !shouldIgnoreFieldBasedOnFieldLocation(dualValue.fieldLocation.field(fieldName)))
                             .map(fieldName -> dualValueForField(dualValue, fieldName))
                             // evaluate field value ignoring criteria
-                            .filter(fieldDualValue -> !shouldIgnoreFieldButWithoutNeedingEvaluatingFieldName(fieldDualValue))
+                            .filter(fieldDualValue -> !shouldIgnoreFieldBasedOnFieldValue(fieldDualValue))
                             // back to field name
                             .map(DualValue::getFieldName)
                             .filter(fieldName -> !fieldName.isEmpty())
                             .collect(toSet());
   }
 
-  // non public stuff
+  // non accessible stuff
 
-  private boolean shouldIgnoreFieldButWithoutNeedingEvaluatingFieldName(DualValue dualValue) {
+  private boolean shouldIgnoreFieldBasedOnFieldValue(DualValue dualValue) {
     return matchesAnIgnoredNullField(dualValue)
            || matchesAnIgnoredFieldType(dualValue)
            || matchesAnIgnoredEmptyOptionalField(dualValue);
   }
 
-  private boolean shouldIgnore(List<String> parentConcatenatedPath, String fieldName) {
-    List<String> fieldConcatenatedPathList = newArrayList(parentConcatenatedPath);
-    fieldConcatenatedPathList.add(fieldName);
-    String fieldConcatenatedPath = join(fieldConcatenatedPathList).with(".");
-    return matchesAnIgnoredField(fieldConcatenatedPath) || matchesAnIgnoredFieldRegex(fieldConcatenatedPath);
+  private boolean shouldIgnoreFieldBasedOnFieldLocation(FieldLocation fieldLocation) {
+    return matchesAnIgnoredField(fieldLocation) || matchesAnIgnoredFieldRegex(fieldLocation);
   }
 
   private static DualValue dualValueForField(DualValue parentDualValue, String fieldName) {
-    List<String> path = newArrayList(parentDualValue.path);
-    path.add(fieldName);
     Object actualFieldValue = COMPARISON.getSimpleValue(fieldName, parentDualValue.actual);
     // no guarantees we have a field in expected named as fieldName
     Object expectedFieldValue;
@@ -538,7 +586,8 @@ public class RecursiveComparisonConfiguration {
       // but it works to evaluate if dualValue should be ignored with matchesAnIgnoredFieldType
       expectedFieldValue = null;
     }
-    return new DualValue(path, actualFieldValue, expectedFieldValue);
+    FieldLocation fieldLocation = parentDualValue.fieldLocation.field(fieldName);
+    return new DualValue(fieldLocation, actualFieldValue, expectedFieldValue);
   }
 
   boolean hasCustomComparator(DualValue dualValue) {
@@ -551,9 +600,12 @@ public class RecursiveComparisonConfiguration {
   }
 
   boolean shouldIgnoreOverriddenEqualsOf(DualValue dualValue) {
-    if (dualValue.isJavaType()) return false; // we must compare basic types otherwise the recursive comparison loops infinitely!
+    // we must compare java basic types otherwise the recursive comparison loops infinitely!
+    if (dualValue.isActualJavaType()) return false;
+    // enums don't have fields, comparing them field by field has no sense, we need to use equals which is overridden and final
+    if (dualValue.isActualAnEnum()) return false;
     return ignoreAllOverriddenEquals
-           || matchesAnIgnoredOverriddenEqualsField(dualValue)
+           || matchesAnIgnoredOverriddenEqualsField(dualValue.fieldLocation)
            || (dualValue.actual != null && shouldIgnoreOverriddenEqualsOf(dualValue.actual.getClass()));
   }
 
@@ -562,10 +614,10 @@ public class RecursiveComparisonConfiguration {
     return matchesAnIgnoredOverriddenEqualsRegex(clazz) || matchesAnIgnoredOverriddenEqualsType(clazz);
   }
 
-  boolean shouldIgnoreCollectionOrder(DualValue dualValue) {
+  boolean shouldIgnoreCollectionOrder(FieldLocation fieldLocation) {
     return ignoreCollectionOrder
-           || matchesAnIgnoredCollectionOrderInField(dualValue)
-           || matchesAnIgnoredCollectionOrderInFieldRegex(dualValue);
+           || matchesAnIgnoredCollectionOrderInField(fieldLocation)
+           || matchesAnIgnoredCollectionOrderInFieldRegex(fieldLocation);
   }
 
   private void describeIgnoredFieldsRegexes(StringBuilder description) {
@@ -598,13 +650,12 @@ public class RecursiveComparisonConfiguration {
   }
 
   private void describeOverriddenEqualsMethodsUsage(StringBuilder description, Representation representation) {
-    boolean isConfiguredToIgnoreSomeOverriddenEqualsMethods = isConfiguredToIgnoreSomeOverriddenEqualsMethods();
     String header = ignoreAllOverriddenEquals
-        ? "- no overridden equals methods were used in the comparison except for java types"
+        ? "- no overridden equals methods were used in the comparison (except for java types)"
         : "- overridden equals methods were used in the comparison";
     description.append(header);
-    if (isConfiguredToIgnoreSomeOverriddenEqualsMethods) {
-      description.append(format(ignoreAllOverriddenEquals ? " and:%n" : ", except for:%n"));
+    if (isConfiguredToIgnoreSomeButNotAllOverriddenEqualsMethods()) {
+      description.append(format(" except for:%n"));
       describeIgnoredOverriddenEqualsMethods(description, representation);
     } else {
       description.append(format("%n"));
@@ -631,10 +682,7 @@ public class RecursiveComparisonConfiguration {
   }
 
   private String describeIgnoredOverriddenEqualsForFields() {
-    List<String> fieldsDescription = ignoredOverriddenEqualsForFields.stream()
-                                                                     .map(FieldLocation::getFieldPath)
-                                                                     .collect(toList());
-    return join(fieldsDescription).with(", ");
+    return join(ignoredOverriddenEqualsForFields).with(", ");
   }
 
   private void describeIgnoreCollectionOrder(StringBuilder description) {
@@ -664,9 +712,8 @@ public class RecursiveComparisonConfiguration {
     return ignoredOverriddenEqualsForTypes.contains(clazz);
   }
 
-  private boolean matchesAnIgnoredOverriddenEqualsField(DualValue dualValue) {
-    return ignoredOverriddenEqualsForFields.stream()
-                                           .anyMatch(fieldLocation -> fieldLocation.matches(dualValue.concatenatedPath));
+  private boolean matchesAnIgnoredOverriddenEqualsField(FieldLocation fieldLocation) {
+    return ignoredOverriddenEqualsForFields.stream().anyMatch(fieldLocation::matches);
   }
 
   private boolean matchesAnIgnoredNullField(DualValue dualValue) {
@@ -679,9 +726,9 @@ public class RecursiveComparisonConfiguration {
            && dualValue.isActualFieldAnEmptyOptionalOfAnyType();
   }
 
-  private boolean matchesAnIgnoredFieldRegex(String fieldConcatenatedPath) {
+  private boolean matchesAnIgnoredFieldRegex(FieldLocation fieldLocation) {
     return ignoredFieldsRegexes.stream()
-                               .anyMatch(regex -> regex.matcher(fieldConcatenatedPath).matches());
+                               .anyMatch(regex -> regex.matcher(fieldLocation.getPathToUseInRules()).matches());
   }
 
   private boolean matchesAnIgnoredFieldType(DualValue dualValue) {
@@ -695,26 +742,21 @@ public class RecursiveComparisonConfiguration {
     return false;
   }
 
-  private boolean matchesAnIgnoredField(String fieldConcatenatedPath) {
-    return ignoredFields.stream()
-                        .anyMatch(fieldLocation -> fieldLocation.matches(fieldConcatenatedPath));
+  private boolean matchesAnIgnoredField(FieldLocation fieldLocation) {
+    return ignoredFields.stream().anyMatch(fieldLocation::matches);
   }
 
-  private boolean matchesAnIgnoredCollectionOrderInField(DualValue dualValue) {
-    return ignoredCollectionOrderInFields.stream()
-                                         .anyMatch(fieldLocation -> fieldLocation.matches(dualValue.concatenatedPath));
+  private boolean matchesAnIgnoredCollectionOrderInField(FieldLocation fieldLocation) {
+    return ignoredCollectionOrderInFields.stream().anyMatch(fieldLocation::matches);
   }
 
-  private boolean matchesAnIgnoredCollectionOrderInFieldRegex(DualValue dualValue) {
-    return ignoredCollectionOrderInFieldsMatchingRegexes.stream()
-                                                        .anyMatch(regex -> regex.matcher(dualValue.concatenatedPath).matches());
+  private boolean matchesAnIgnoredCollectionOrderInFieldRegex(FieldLocation fieldLocation) {
+    String pathToUseInRules = fieldLocation.getPathToUseInRules();
+    return ignoredCollectionOrderInFieldsMatchingRegexes.stream().anyMatch(regex -> regex.matcher(pathToUseInRules).matches());
   }
 
   private String describeIgnoredFields() {
-    List<String> fieldsDescription = ignoredFields.stream()
-                                                  .map(FieldLocation::getFieldPath)
-                                                  .collect(toList());
-    return join(fieldsDescription).with(", ");
+    return join(ignoredFields).with(", ");
   }
 
   private String describeIgnoredTypes() {
@@ -725,10 +767,7 @@ public class RecursiveComparisonConfiguration {
   }
 
   private String describeIgnoredCollectionOrderInFields() {
-    List<String> fieldsDescription = ignoredCollectionOrderInFields.stream()
-                                                                   .map(FieldLocation::getFieldPath)
-                                                                   .collect(toList());
-    return join(fieldsDescription).with(", ");
+    return join(ignoredCollectionOrderInFields).with(", ");
   }
 
   private String describeRegexes(List<Pattern> regexes) {
@@ -738,10 +777,11 @@ public class RecursiveComparisonConfiguration {
     return join(fieldsDescription).with(", ");
   }
 
-  private boolean isConfiguredToIgnoreSomeOverriddenEqualsMethods() {
-    return !ignoredOverriddenEqualsForFieldsMatchingRegexes.isEmpty()
-           || !ignoredOverriddenEqualsForTypes.isEmpty()
-           || !ignoredOverriddenEqualsForFields.isEmpty();
+  private boolean isConfiguredToIgnoreSomeButNotAllOverriddenEqualsMethods() {
+    boolean ignoreSomeOverriddenEqualsMethods = !ignoredOverriddenEqualsForFieldsMatchingRegexes.isEmpty()
+                                                || !ignoredOverriddenEqualsForTypes.isEmpty()
+                                                || !ignoredOverriddenEqualsForFields.isEmpty();
+    return !ignoreAllOverriddenEquals && ignoreSomeOverriddenEqualsMethods;
   }
 
   private void describeRegisteredComparatorByTypes(StringBuilder description) {
@@ -777,8 +817,8 @@ public class RecursiveComparisonConfiguration {
                     .forEach(description::append);
   }
 
-  private String formatRegisteredComparatorForField(Entry<FieldLocation, Comparator<?>> comparatorForField) {
-    return format("%s %s -> %s%n", INDENT_LEVEL_2, comparatorForField.getKey().getFieldPath(), comparatorForField.getValue());
+  private String formatRegisteredComparatorForField(Entry<String, Comparator<?>> comparatorForField) {
+    return format("%s %s -> %s%n", INDENT_LEVEL_2, comparatorForField.getKey(), comparatorForField.getValue());
   }
 
   private void describeTypeCheckingStrictness(StringBuilder description) {
@@ -1008,7 +1048,10 @@ public class RecursiveComparisonConfiguration {
     /**
      * Registers the given {@link Comparator} to compare the fields with the given type.
      * <p>
-     * Comparators specified by this method have less precedence than comparators added with {@link #withComparatorForFields(Comparator, String...)}.
+     * Comparators registered with this method have less precedence than comparators registered with {@link #withComparatorForFields(Comparator, String...)}
+     * or BiPredicate registered with  {@link #withEqualsForFields(BiPredicate, String...)}.
+     * <p>
+     * Note that registering a {@link Comparator} for a given type will override the previously registered BiPredicate/Comparator (if any).
      * <p>
      * See {@link RecursiveComparisonAssert#withComparatorForType(Comparator, Class)} for examples.
      *
@@ -1016,37 +1059,94 @@ public class RecursiveComparisonConfiguration {
      * @param comparator the {@link java.util.Comparator Comparator} to use to compare the given field
      * @param type the type to be compared with the given comparator.
      * @return this builder.
+     * @throws NullPointerException if the given Comparator is null.
      */
     public <T> Builder withComparatorForType(Comparator<? super T> comparator, Class<T> type) {
+      requireNonNull(comparator, "Expecting a non null Comparator");
       this.typeComparators.put(type, comparator);
       return this;
     }
 
     /**
-     * Registers the given {@link Comparator} to compare the fields with the given locations.
+     * Registers the given {@link BiPredicate} to compare the fields with the given type.
+     * <p>
+     * BiPredicates registered with this method have less precedence than the ones registered with {@link #withEqualsForFields(BiPredicate, String...)}
+     * or the comparators registered with {@link #withComparatorForFields(Comparator, String...)}.
+     * <p>
+     * Note that registering a {@link BiPredicate} for a given type will override the previously registered BiPredicate/Comparator (if any).
+     * <p>
+     * See {@link RecursiveComparisonAssert#withEqualsForType(BiPredicate, Class)} for examples.
+     *
+     * @param <T> the class type to register a BiPredicate for
+     * @param equals the {@link BiPredicate} to use to compare the given field
+     * @param type the type to be compared with the given comparator.
+     * @return this builder.
+     * @since 3.17.0
+     * @throws NullPointerException if the given BiPredicate is null.
+     */
+    @SuppressWarnings("unchecked")
+    public <T> Builder withEqualsForType(BiPredicate<? super T, ? super T> equals, Class<T> type) {
+      return withComparatorForType(toComparator(equals), type);
+    }
+
+    /**
+     * Registers the given {@link Comparator} to compare the fields at the given locations.
      * <p>
      * The fields must be specified from the root object, for example if {@code Foo} has a {@code Bar} field and both have an {@code id} field,
-     * one can register to a comparator for Foo and Bar's {@code id} by calling:
-     * <pre><code class='java'> registerComparatorForFields(idComparator, "foo.id", "bar.id")</code></pre>
+     * one can register a comparator for Foo and Bar's {@code id} by calling:
+     * <pre><code class='java'> registerComparatorForFields(idComparator, "foo.id", "foo.bar.id")</code></pre>
      * <p>
-     * Comparators specified by this method have precedence over comparators added with {@link #withComparatorForType(Comparator, Class)}.
+     * Comparators registered with this method have precedence over comparators registered with {@link #withComparatorForType(Comparator, Class)}
+     * or BiPredicate registered with {@link #withEqualsForType(BiPredicate, Class)}.
+     * <p>
+     * Note that registering a {@link Comparator} for a given field will override the previously registered BiPredicate/Comparator (if any).
      * <p>
      * See {@link RecursiveComparisonAssert#withComparatorForFields(Comparator, String...) RecursiveComparisonAssert#withComparatorForFields(Comparator comparator, String...fields)} for examples.
      *
      * @param comparator the {@link java.util.Comparator Comparator} to use to compare the given field
      * @param fields the fields the comparator should be used for
      * @return this builder.
+     * @throws NullPointerException if the given Comparator is null.
      */
     public Builder withComparatorForFields(Comparator<?> comparator, String... fields) {
-      Stream.of(fields)
-            .map(FieldLocation::new)
-            .forEach(fieldLocation -> fieldComparators.registerComparator(fieldLocation, comparator));
+      requireNonNull(comparator, "Expecting a non null Comparator");
+      Stream.of(fields).forEach(fieldLocation -> fieldComparators.registerComparator(fieldLocation, comparator));
       return this;
+    }
+
+    /**
+     * Registers the given {@link BiPredicate} to compare the fields at the given locations.
+     * <p>
+     * The fields must be specified from the root object, for example if {@code Foo} has a {@code Bar} field and both have an {@code id} field,
+     * one can register a BiPredicate for Foo and Bar's {@code id} by calling:
+     * <pre><code class='java'> withEqualsForFields(idBiPredicate, "foo.id", "foo.bar.id")</code></pre>
+     * <p>
+     * BiPredicates registered with this method have precedence over the ones registered with {@link #withEqualsForType(BiPredicate, Class)}
+     * or the comparators registered with {@link #withComparatorForType(Comparator, Class)}.
+     * <p>
+     * Note that registering a {@link BiPredicate} for a given field will override the previously registered BiPredicate/Comparator (if any).
+     * <p>
+     * See {@link RecursiveComparisonAssert#withEqualsForFields(BiPredicate, String...) RecursiveComparisonAssert#withEqualsForFields(BiPredicate equals, String...fields)} for examples.
+     *
+     * @param equals the {@link BiPredicate} to use to compare the given fields
+     * @param fields the fields the BiPredicate should be used for
+     * @return this builder.
+     * @since 3.17.0
+     * @throws NullPointerException if the given BiPredicate is null.
+     */
+    public Builder withEqualsForFields(BiPredicate<?, ?> equals, String... fields) {
+      return withComparatorForFields(toComparator(equals), fields);
     }
 
     public RecursiveComparisonConfiguration build() {
       return new RecursiveComparisonConfiguration(this);
     }
+  }
+
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  private static Comparator toComparator(BiPredicate equals) {
+    requireNonNull(equals, "Expecting a non null BiPredicate");
+    return (o1, o2) -> equals.test(o1, o2) ? 0 : 1;
   }
 
 }

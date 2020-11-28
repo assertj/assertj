@@ -12,9 +12,9 @@
  */
 package org.assertj.core.presentation;
 
+import static java.util.Objects.deepEquals;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
-import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Objects.hashCodeFor;
 
 import java.util.function.Predicate;
@@ -38,12 +38,12 @@ public class PredicateDescription {
    * @param description must not be null
    */
   public PredicateDescription(String description) {
-	requireNonNull(description, "The predicate description must not be null");
-	this.description = description;
+    requireNonNull(description, "The predicate description must not be null");
+    this.description = description;
   }
 
   public boolean isDefault() {
-	return DEFAULT.equals(description);
+    return DEFAULT.equals(description);
   }
 
   @Override
@@ -56,7 +56,7 @@ public class PredicateDescription {
       return false;
     }
     PredicateDescription description = (PredicateDescription) obj;
-    return areEqual(this.description, description.description);
+    return deepEquals(this.description, description.description);
   }
 
   @Override

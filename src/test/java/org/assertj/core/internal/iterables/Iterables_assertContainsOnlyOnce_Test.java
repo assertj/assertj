@@ -40,15 +40,15 @@ import org.junit.jupiter.api.Test;
  * 
  * @author William Delanoue
  */
-public class Iterables_assertContainsOnlyOnce_Test extends IterablesBaseTest {
+class Iterables_assertContainsOnlyOnce_Test extends IterablesBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_once() {
+  void should_pass_if_actual_contains_given_values_only_once() {
     iterables.assertContainsOnlyOnce(someInfo(), actual, array("Luke", "Yoda", "Leia"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_once_even_if_actual_type_is_not_comparable() {
+  void should_pass_if_actual_contains_given_values_only_once_even_if_actual_type_is_not_comparable() {
     // Rectangle class does not implement Comparable
     Rectangle r1 = new Rectangle(1, 1);
     Rectangle r2 = new Rectangle(2, 2);
@@ -56,18 +56,18 @@ public class Iterables_assertContainsOnlyOnce_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_once_with_null_element() {
+  void should_pass_if_actual_contains_given_values_only_once_with_null_element() {
     actual.add(null);
     iterables.assertContainsOnlyOnce(someInfo(), actual, array("Luke", null, "Yoda", "Leia", null));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_once_in_different_order() {
+  void should_pass_if_actual_contains_given_values_only_once_in_different_order() {
     iterables.assertContainsOnlyOnce(someInfo(), actual, array("Leia", "Yoda", "Luke"));
   }
 
   @Test
-  public void should_fail_if_actual_contains_given_values_more_than_once() {
+  void should_fail_if_actual_contains_given_values_more_than_once() {
     AssertionInfo info = someInfo();
     actual.addAll(newArrayList("Luke", "Luke", null, null));
     Object[] expected = { "Luke", "Luke", "Yoda", "Han", null };
@@ -80,7 +80,7 @@ public class Iterables_assertContainsOnlyOnce_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contains_null_value() {
+  void should_fail_if_actual_does_not_contains_null_value() {
     AssertionInfo info = someInfo();
     actual.addAll(newArrayList("Luke", "Luke"));
     Object[] expected = { null };
@@ -93,35 +93,35 @@ public class Iterables_assertContainsOnlyOnce_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_once_even_if_duplicated() {
+  void should_pass_if_actual_contains_given_values_only_once_even_if_duplicated() {
     iterables.assertContainsOnlyOnce(someInfo(), actual, array("Luke", "Luke", "Luke", "Yoda", "Leia"));
   }
 
   @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
+  void should_pass_if_actual_and_given_values_are_empty() {
     actual.clear();
     iterables.assertContainsOnlyOnce(someInfo(), actual, array());
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsOnlyOnce(someInfo(), actual, emptyArray()));
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null() {
+  void should_throw_error_if_array_of_values_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> iterables.assertContainsOnlyOnce(someInfo(), emptyList(), null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsOnlyOnce(someInfo(), null, array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_only_once() {
+  void should_fail_if_actual_does_not_contain_given_values_only_once() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Yoda", "Han" };
 
@@ -137,19 +137,19 @@ public class Iterables_assertContainsOnlyOnce_Test extends IterablesBaseTest {
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_once_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_only_once_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual,
         array("LUKE", "YODA", "Leia"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_once_in_different_order_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_only_once_in_different_order_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual,
         array("LEIA", "yoda", "LukE"));
   }
 
   @Test
-  public void should_fail_if_actual_contains_given_values_more_than_once_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_given_values_more_than_once_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     actual.addAll(newArrayList("Luke", "Luke"));
     Object[] expected = array("luke", "YOda", "LeIA");
@@ -162,7 +162,7 @@ public class Iterables_assertContainsOnlyOnce_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_contains_given_values_more_than_once_even_if_duplicated_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_given_values_more_than_once_even_if_duplicated_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     actual.addAll(newArrayList("LUKE"));
     Object[] expected = array("LUke", "LUke", "lukE", "YOda", "Leia", "Han");
@@ -176,7 +176,7 @@ public class Iterables_assertContainsOnlyOnce_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Yoda", "Han" };
 

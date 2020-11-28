@@ -18,31 +18,31 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
-public class ThrowableAssert_built_from_ThrowingCallable_Test {
+class ThrowableAssert_built_from_ThrowingCallable_Test {
 
   @Test
-  public void should_build_ThrowableAssert_with_runtime_exception_thrown_by_callable_code() {
-	// check that actual exception is the one thrown by ThrowingCallable()#run
-	assertThatThrownBy(new ThrowingCallable() {
-	  @Override
-	  public void call() {
-		throw new IllegalArgumentException("something was wrong");
-	  }
-	}).isInstanceOf(IllegalArgumentException.class).hasMessage("something was wrong");
+  void should_build_ThrowableAssert_with_runtime_exception_thrown_by_callable_code() {
+    // check that actual exception is the one thrown by ThrowingCallable()#run
+    assertThatThrownBy(new ThrowingCallable() {
+      @Override
+      public void call() {
+        throw new IllegalArgumentException("something was wrong");
+      }
+    }).isInstanceOf(IllegalArgumentException.class).hasMessage("something was wrong");
   }
 
   @Test
-  public void should_build_ThrowableAssert_with_throwable_thrown_by_callable_code() {
-	assertThatThrownBy(new ThrowingCallable() {
-	  @Override
-	  public void call() throws Exception {
-		throw new Exception("something was wrong");
-	  }
-	}).isInstanceOf(Exception.class).hasMessage("something was wrong");
+  void should_build_ThrowableAssert_with_throwable_thrown_by_callable_code() {
+    assertThatThrownBy(new ThrowingCallable() {
+      @Override
+      public void call() throws Exception {
+        throw new Exception("something was wrong");
+      }
+    }).isInstanceOf(Exception.class).hasMessage("something was wrong");
   }
 
   @Test
-  public void should_fail_if_nothing_is_thrown_by_callable_code() {
+  void should_fail_if_nothing_is_thrown_by_callable_code() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       assertThatThrownBy(new ThrowingCallable() {
         @Override

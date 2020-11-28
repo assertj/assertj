@@ -36,21 +36,21 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Iterables_assertEmpty_Test extends IterablesBaseTest {
+class Iterables_assertEmpty_Test extends IterablesBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_empty() {
+  void should_pass_if_actual_is_empty() {
     iterables.assertEmpty(someInfo(), emptyList());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertEmpty(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_has_elements() {
+  void should_fail_if_actual_has_elements() {
     AssertionInfo info = someInfo();
     Collection<String> actual = newArrayList("Yoda");
 
@@ -61,18 +61,18 @@ public class Iterables_assertEmpty_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertEmpty(someInfo(), emptyList());
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertEmpty(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_has_elements_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_has_elements_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     Collection<String> actual = newArrayList("Yoda");
 

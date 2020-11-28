@@ -35,13 +35,13 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Olivier Michallat
  */
-public class Diff_diff_File_String_Test {
+class Diff_diff_File_String_Test {
 
   private static Diff diff;
   private static TextFileWriter writer;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     diff = new Diff();
     writer = TextFileWriter.instance();
   }
@@ -49,13 +49,13 @@ public class Diff_diff_File_String_Test {
   private File actual;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     actual = Files.newTemporaryFile();
     actual.deleteOnExit();
   }
 
   @Test
-  public void should_return_empty_diff_list_if_file_and_string_have_equal_content() throws IOException {
+  void should_return_empty_diff_list_if_file_and_string_have_equal_content() throws IOException {
     String[] content = array("line0", "line1");
     writer.write(actual, content);
     String expected = String.format("line0%nline1");
@@ -64,7 +64,7 @@ public class Diff_diff_File_String_Test {
   }
 
   @Test
-  public void should_return_diffs_if_file_and_string_do_not_have_equal_content() throws IOException {
+  void should_return_diffs_if_file_and_string_do_not_have_equal_content() throws IOException {
     writer.write(actual, StandardCharsets.UTF_8, "Touché");
     String expected = "Touché";
     List<Delta<String>> diffs = diff.diff(actual, expected, StandardCharsets.ISO_8859_1);
@@ -77,7 +77,7 @@ public class Diff_diff_File_String_Test {
   }
 
   @Test
-  public void should_return_diffs_if_content_of_actual_is_shorter_than_content_of_expected() throws IOException {
+  void should_return_diffs_if_content_of_actual_is_shorter_than_content_of_expected() throws IOException {
     writer.write(actual, "line_0");
     String expected = String.format("line_0%nline_1");
     List<Delta<String>> diffs = diff.diff(actual, expected, Charset.defaultCharset());
@@ -87,7 +87,7 @@ public class Diff_diff_File_String_Test {
   }
 
   @Test
-  public void should_return_diffs_if_content_of_actual_is_longer_than_content_of_expected() throws IOException {
+  void should_return_diffs_if_content_of_actual_is_longer_than_content_of_expected() throws IOException {
     writer.write(actual, "line_0", "line_1");
     String expected = "line_0";
     List<Delta<String>> diffs = diff.diff(actual, expected, Charset.defaultCharset());

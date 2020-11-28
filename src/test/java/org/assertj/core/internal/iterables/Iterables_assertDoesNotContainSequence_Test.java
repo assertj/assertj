@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Chris Arnott
  */
-public class Iterables_assertDoesNotContainSequence_Test extends IterablesBaseTest {
+class Iterables_assertDoesNotContainSequence_Test extends IterablesBaseTest {
 
   @Override
   @BeforeEach
@@ -48,7 +48,7 @@ public class Iterables_assertDoesNotContainSequence_Test extends IterablesBaseTe
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_null() {
+  void should_throw_error_if_sequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       Object[] nullArray = null;
       iterables.assertDoesNotContainSequence(someInfo(), actual, nullArray);
@@ -56,41 +56,41 @@ public class Iterables_assertDoesNotContainSequence_Test extends IterablesBaseTe
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_empty() {
+  void should_throw_error_if_sequence_is_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> iterables.assertDoesNotContainSequence(someInfo(), actual,
                                                                                                  emptyArray()))
                                         .withMessage(emptySequence());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertDoesNotContainSequence(someInfo(), null, array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_sequence_is_bigger_than_actual() {
+  void should_pass_if_sequence_is_bigger_than_actual() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
     iterables.assertDoesNotContainSequence(info, actual, sequence);
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_the_whole_sequence() {
+  void should_pass_if_actual_does_not_contain_the_whole_sequence() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Han", "C-3PO" };
     iterables.assertDoesNotContainSequence(info, actual, sequence);
   }
 
   @Test
-  public void should_pass_if_actual_contains_the_first_elements_of_sequence_but_not_the_whole_sequence() {
+  void should_pass_if_actual_contains_the_first_elements_of_sequence_but_not_the_whole_sequence() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Luke", "Leia", "Han" };
     iterables.assertDoesNotContainSequence(info, actual, sequence);
   }
 
   @Test
-  public void should_fail_if_actual_contains_sequence() {
+  void should_fail_if_actual_contains_sequence() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Luke", "Leia" };
 
@@ -101,7 +101,7 @@ public class Iterables_assertDoesNotContainSequence_Test extends IterablesBaseTe
   }
 
   @Test
-  public void should_fail_if_actual_and_sequence_are_equal() {
+  void should_fail_if_actual_and_sequence_are_equal() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Yoda", "Luke", "Leia", "Obi-Wan" };
 
@@ -112,7 +112,7 @@ public class Iterables_assertDoesNotContainSequence_Test extends IterablesBaseTe
   }
 
   @Test
-  public void should_fail_if_actual_contains_both_partial_and_complete_sequence() {
+  void should_fail_if_actual_contains_both_partial_and_complete_sequence() {
     AssertionInfo info = someInfo();
     actual = newArrayList("Yoda", "Luke", "Yoda", "Obi-Wan");
     Object[] sequence = { "Yoda", "Obi-Wan" };
@@ -124,7 +124,7 @@ public class Iterables_assertDoesNotContainSequence_Test extends IterablesBaseTe
   }
 
   @Test
-  public void should_fail_if_actual_contains_sequence_that_specifies_multiple_times_the_same_value() {
+  void should_fail_if_actual_contains_sequence_that_specifies_multiple_times_the_same_value() {
     AssertionInfo info = someInfo();
     actual = newArrayList("a", "-", "b", "-", "c");
     Object[] sequence = { "a", "-", "b", "-", "c" };
@@ -140,21 +140,21 @@ public class Iterables_assertDoesNotContainSequence_Test extends IterablesBaseTe
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_does_not_contain_whole_sequence_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_does_not_contain_whole_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Han", "C-3PO" };
     iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainSequence(info, actual, sequence);
   }
 
   @Test
-  public void should_pass_if_actual_contains_first_elements_of_sequence_but_not_whole_sequence_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_first_elements_of_sequence_but_not_whole_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Luke", "Leia", "Han" };
     iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainSequence(info, actual, sequence);
   }
 
   @Test
-  public void should_fail_if_actual_contains_sequence_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "LUKe", "leia" };
 
@@ -165,7 +165,7 @@ public class Iterables_assertDoesNotContainSequence_Test extends IterablesBaseTe
   }
 
   @Test
-  public void should_fail_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "YODA", "luke", "lEIA", "Obi-wan" };
 

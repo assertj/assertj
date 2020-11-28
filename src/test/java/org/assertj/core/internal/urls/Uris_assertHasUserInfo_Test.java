@@ -22,10 +22,10 @@ import java.net.URI;
 import org.assertj.core.internal.UrisBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class Uris_assertHasUserInfo_Test extends UrisBaseTest {
+class Uris_assertHasUserInfo_Test extends UrisBaseTest {
 
   @Test
-  public void should_pass_if_actual_uri_has_no_user_info_and_given_user_info_is_null() {
+  void should_pass_if_actual_uri_has_no_user_info_and_given_user_info_is_null() {
     // GIVEN
     URI uri = URI.create("http://www.helloworld.org/index.html");
     String expectedUserInfo = null;
@@ -34,7 +34,7 @@ public class Uris_assertHasUserInfo_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_uri_has_the_expected_user_info() {
+  void should_pass_if_actual_uri_has_the_expected_user_info() {
     // GIVEN
     URI uri = URI.create("http://test:pass@www.helloworld.org/index.html");
     String expectedUserInfo = "test:pass";
@@ -43,7 +43,7 @@ public class Uris_assertHasUserInfo_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     URI uri = null;
     String expectedUserInfo = "http://test:pass@www.helloworld.org/index.html";
@@ -54,7 +54,7 @@ public class Uris_assertHasUserInfo_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URI_user_info_is_not_the_expected_user_info() {
+  void should_fail_if_actual_URI_user_info_is_not_the_expected_user_info() {
     // GIVEN
     URI uri = URI.create("http://test:pass@assertj.org/news");
     String expectedUserInfo = "test:ok";
@@ -65,7 +65,7 @@ public class Uris_assertHasUserInfo_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URI_has_no_user_info_and_expected_user_info_is_not_null() {
+  void should_fail_if_actual_URI_has_no_user_info_and_expected_user_info_is_not_null() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news");
     String expectedUserInfo = "test:pass";
@@ -76,7 +76,7 @@ public class Uris_assertHasUserInfo_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URI_has_a_user_info_and_expected_user_info_is_null() {
+  void should_fail_if_actual_URI_has_a_user_info_and_expected_user_info_is_null() {
     // GIVEN
     URI uri = URI.create("http://test:pass@assertj.org");
     String expectedUserInfo = null;

@@ -30,28 +30,28 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class Failures_failure_with_ErrorMessage_Test {
+class Failures_failure_with_ErrorMessage_Test {
 
   private WritableAssertionInfo info;
   private ErrorMessageFactory errorMessage;
   private Failures failures;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     info = new WritableAssertionInfo();
     errorMessage = mock(ErrorMessageFactory.class);
     failures = Failures.instance();
   }
 
   @Test
-  public void should_create_use_overriding_error_message_if_it_is_specified() {
+  void should_create_use_overriding_error_message_if_it_is_specified() {
     info.overridingErrorMessage("my message");
     AssertionError failure = failures.failure(info, errorMessage);
     assertThat(failure).hasMessage("my message");
   }
 
   @Test
-  public void should_use_ErrorMessage_when_overriding_error_message_is_not_specified() {
+  void should_use_ErrorMessage_when_overriding_error_message_is_not_specified() {
     Description description = new TestDescription("description");
     info.description(description);
     when(errorMessage.create(description, info.representation())).thenReturn("[description] my message");

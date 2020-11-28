@@ -23,7 +23,7 @@ import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
  *
  * @author Chris Arnott
  */
-public class AtomicReferenceArrayAssert_doesNotContainSequence_Test extends AtomicReferenceArrayAssertBaseTest {
+class AtomicReferenceArrayAssert_doesNotContainSequence_Test extends AtomicReferenceArrayAssertBaseTest {
 
   @Override
   protected AtomicReferenceArrayAssert<Object> invoke_api_method() {

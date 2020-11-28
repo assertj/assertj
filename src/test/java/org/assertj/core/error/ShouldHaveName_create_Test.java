@@ -26,10 +26,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Jean-Christophe Gay
  */
-public class ShouldHaveName_create_Test {
+class ShouldHaveName_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     File actual = new FakeFile("somewhere/actual-file".replace("/", File.separator));
     // WHEN

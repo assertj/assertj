@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
 
-public class MapAssert_hasSizeLessThan_Test extends MapAssertBaseTest {
+class MapAssert_hasSizeLessThan_Test extends MapAssertBaseTest {
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {

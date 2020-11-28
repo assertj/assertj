@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
-import static org.assertj.core.test.CharArrays.*;
+import static org.assertj.core.test.CharArrays.arrayOf;
 import static org.assertj.core.test.CharArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -35,16 +35,16 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class CharArrays_assertNotEmpty_Test extends CharArraysBaseTest {
+class CharArrays_assertNotEmpty_Test extends CharArraysBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertNotEmpty(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_empty() {
+  void should_fail_if_actual_is_empty() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> arrays.assertNotEmpty(info, emptyArray()));
@@ -54,7 +54,7 @@ public class CharArrays_assertNotEmpty_Test extends CharArraysBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_not_empty() {
+  void should_pass_if_actual_is_not_empty() {
     arrays.assertNotEmpty(someInfo(), arrayOf('a'));
   }
 }

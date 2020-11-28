@@ -32,11 +32,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("AbstractAssert describedAs")
-public class AbstractAssert_describedAs_consumed_by_configured_consumer_Test {
+class AbstractAssert_describedAs_consumed_by_configured_consumer_Test {
 
   private static String consumedDescription;
   private final static boolean originalIsPrintAssertionsDescriptionEnabled = assertJConfig().printAssertionsDescription();
-  private final static Consumer<Description> originalConsumerDescription = assertJConfig().consumerDescription();
+  private final static Consumer<Description> originalDescriptionConsumer = assertJConfig().descriptionConsumer();
   private final static Consumer<Description> DESCRIPTION_CONSUMER = description -> consumedDescription += format("%s/",
                                                                                                                  description);
 
@@ -45,24 +45,24 @@ public class AbstractAssert_describedAs_consumed_by_configured_consumer_Test {
   }
 
   @BeforeAll
-  public static void setUpStreams() {
+  static void setUpStreams() {
     Assertions.setPrintAssertionsDescription(true);
   }
 
   @BeforeEach
-  public void beforeEachTest() {
-    Assertions.setConsumerDescription(DESCRIPTION_CONSUMER);
+  void beforeEachTest() {
+    Assertions.setDescriptionConsumer(DESCRIPTION_CONSUMER);
     consumedDescription = "";
   }
 
   @AfterAll
-  public static void restoreOriginalState() {
+  static void restoreOriginalState() {
     Assertions.setPrintAssertionsDescription(originalIsPrintAssertionsDescriptionEnabled);
-    Assertions.setConsumerDescription(originalConsumerDescription);
+    Assertions.setDescriptionConsumer(originalDescriptionConsumer);
   }
 
   @Test
-  public void should_be_consumed_by_configured_description_consumer_on_successfull_assertions() {
+  void should_be_consumed_by_configured_description_consumer_on_successful_assertions() {
     // GIVEN
     String description = RandomStringUtils.random(20);
     // WHEN
@@ -77,7 +77,7 @@ public class AbstractAssert_describedAs_consumed_by_configured_consumer_Test {
   }
 
   @Test
-  public void should_be_consumed_by_configured_description_consumer_until_first_failed_assertion_included() {
+  void should_be_consumed_by_configured_description_consumer_until_first_failed_assertion_included() {
     // GIVEN
     String description = RandomStringUtils.random(20);
     // WHEN
@@ -93,7 +93,7 @@ public class AbstractAssert_describedAs_consumed_by_configured_consumer_Test {
   }
 
   @Test
-  public void should_be_consumed_by_configured_description_consumer_on_all_soft_assertions_failed_or_successful() {
+  void should_be_consumed_by_configured_description_consumer_on_all_soft_assertions_failed_or_successful() {
     // GIVEN
     String description = RandomStringUtils.random(20);
     SoftAssertions softly = new SoftAssertions();

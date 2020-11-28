@@ -33,48 +33,48 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link DoubleArrays#assertContainsExactlyInAnyOrder(AssertionInfo, double[], double[])}</code>.
  */
-public class DoubleArrays_assertContainsExactlyInAnyOrder_Test extends DoubleArraysBaseTest {
+class DoubleArrays_assertContainsExactlyInAnyOrder_Test extends DoubleArraysBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly_in_any_order() {
+  void should_pass_if_actual_contains_given_values_exactly_in_any_order() {
     arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, arrayOf(6d, 8d, 10d));
   }
 
   @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
+  void should_pass_if_actual_and_given_values_are_empty() {
     arrays.assertContainsExactlyInAnyOrder(someInfo(), emptyArray(), emptyArray());
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly_but_in_different_order() {
+  void should_pass_if_actual_contains_given_values_exactly_but_in_different_order() {
     AssertionInfo info = someInfo();
     arrays.assertContainsExactlyInAnyOrder(info, actual, arrayOf(6d, 10d, 8d));
   }
 
   @Test
-  public void should_fail_if_arrays_have_different_sizes() {
+  void should_fail_if_arrays_have_different_sizes() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, arrayOf(6d, 8d)));
   }
 
   @Test
-  public void should_fail_if_expected_is_empty_and_actual_is_not() {
+  void should_fail_if_expected_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, emptyArray()));
   }
 
   @Test
-  public void should_throw_error_if_expected_is_null() {
+  void should_throw_error_if_expected_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(), null, arrayOf(8d)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_exactly() {
+  void should_fail_if_actual_does_not_contain_given_values_exactly() {
     double[] expected = { 6d, 8d, 20d };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(),
                                                                                                             actual,
@@ -86,7 +86,7 @@ public class DoubleArrays_assertContainsExactlyInAnyOrder_Test extends DoubleArr
   }
 
   @Test
-  public void should_fail_if_actual_contains_all_given_values_but_size_differ() {
+  void should_fail_if_actual_contains_all_given_values_but_size_differ() {
     double[] expected = { 6d, 8d };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(),
                                                                                                             actual,
@@ -98,7 +98,7 @@ public class DoubleArrays_assertContainsExactlyInAnyOrder_Test extends DoubleArr
   }
 
   @Test
-  public void should_fail_if_actual_contains_duplicates_and_expected_does_not() {
+  void should_fail_if_actual_contains_duplicates_and_expected_does_not() {
     actual = arrayOf(1d, 2d, 3d);
     double[] expected = { 1d, 2d };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(),
@@ -111,7 +111,7 @@ public class DoubleArrays_assertContainsExactlyInAnyOrder_Test extends DoubleArr
   }
 
   @Test
-  public void should_fail_if_expected_contains_duplicates_and_actual_does_not() {
+  void should_fail_if_expected_contains_duplicates_and_actual_does_not() {
     actual = arrayOf(1d, 2d);
     double[] expected = {1d, 2d, 3d};
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, expected))
@@ -123,23 +123,23 @@ public class DoubleArrays_assertContainsExactlyInAnyOrder_Test extends DoubleArr
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly_in_any_order_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_exactly_in_any_order_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(), actual, arrayOf(6d, -8d, 10d));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly_in_different_order_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_exactly_in_different_order_according_to_custom_comparison_strategy() {
     double[] expected = { -6d, 10d, 8d };
     arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(), actual, expected);
   }
 
   @Test
-  public void should_fail_if_expected_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_expected_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(), actual, emptyArray()));
   }
 
   @Test
-  public void should_throw_error_if_expected_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_expected_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(),
                                                                                                                          actual,
                                                                                                                          null))
@@ -147,13 +147,13 @@ public class DoubleArrays_assertContainsExactlyInAnyOrder_Test extends DoubleArr
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(), null, arrayOf(-8d)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_exactly_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_given_values_exactly_according_to_custom_comparison_strategy() {
     double[] expected = { 6d, -8d, 20d };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(),
                                                                                                                                         actual,
@@ -165,7 +165,7 @@ public class DoubleArrays_assertContainsExactlyInAnyOrder_Test extends DoubleArr
   }
 
   @Test
-  public void should_fail_if_actual_contains_all_given_values_but_size_differ_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_all_given_values_but_size_differ_according_to_custom_comparison_strategy() {
     double[] expected = { 6d, 8d };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(),
                                                                                                                                         actual,
@@ -177,7 +177,7 @@ public class DoubleArrays_assertContainsExactlyInAnyOrder_Test extends DoubleArr
   }
 
   @Test
-  public void should_fail_if_actual_contains_duplicates_and_expected_does_not_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_duplicates_and_expected_does_not_according_to_custom_comparison_strategy() {
     actual = arrayOf(1d, 2d, 3d);
     double[] expected = { 1d, 2d };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(),
@@ -190,7 +190,7 @@ public class DoubleArrays_assertContainsExactlyInAnyOrder_Test extends DoubleArr
   }
 
   @Test
-  public void should_fail_if_expected_contains_duplicates_and_actual_does_not_according_to_custom_comparison_strategy() {
+  void should_fail_if_expected_contains_duplicates_and_actual_does_not_according_to_custom_comparison_strategy() {
     actual = arrayOf(1d, 2d);
     double[] expected = { 1d, 2d, 3d };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(),

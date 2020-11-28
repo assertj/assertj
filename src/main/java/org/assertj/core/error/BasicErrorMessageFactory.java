@@ -22,6 +22,7 @@ import static org.assertj.core.util.Objects.hashCodeFor;
 import static org.assertj.core.util.Strings.quote;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.presentation.Representation;
@@ -85,7 +86,7 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
       if (obj == null) return false;
       if (getClass() != obj.getClass()) return false;
       UnquotedString other = (UnquotedString) obj;
-      return string == null ? other.string == null : string.equals(other.string);
+      return Objects.equals(string, other.string);
     }
   }
 

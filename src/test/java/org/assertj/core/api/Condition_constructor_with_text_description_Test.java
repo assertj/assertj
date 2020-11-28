@@ -22,10 +22,10 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class Condition_constructor_with_text_description_Test {
+class Condition_constructor_with_text_description_Test {
 
   @Test
-  public void should_set_description() {
+  void should_set_description() {
     String text = "your eyes can deceive you; don't trust them";
     Condition<Object> condition = new Condition<Object>(text) {
       @Override
@@ -37,7 +37,7 @@ public class Condition_constructor_with_text_description_Test {
   }
 
   @Test
-  public void should_set_empty_description_if_description_is_null() {
+  void should_set_empty_description_if_description_is_null() {
     Condition<Object> condition = new Condition<Object>((String) null) {
       @Override
       public boolean matches(Object value) {

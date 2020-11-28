@@ -24,10 +24,10 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class Condition_constructor_with_description_Test {
+class Condition_constructor_with_description_Test {
 
   @Test
-  public void should_set_description() {
+  void should_set_description() {
     Description d = new TextDescription("always in motion is the future");
     Condition<Object> condition = new Condition<Object>(d) {
       @Override
@@ -39,7 +39,7 @@ public class Condition_constructor_with_description_Test {
   }
 
   @Test
-  public void should_set_empty_description_if_description_is_null() {
+  void should_set_empty_description_if_description_is_null() {
     Condition<Object> condition = new Condition<Object>((Description) null) {
       @Override
       public boolean matches(Object value) {

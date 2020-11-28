@@ -22,7 +22,7 @@ import static org.assertj.core.data.Offset.offset;
 import static org.mockito.Mockito.verify;
 
 
-public class BigIntegerAssert_isNotCloseTo_Test extends BigIntegerAssertBaseTest {
+class BigIntegerAssert_isNotCloseTo_Test extends BigIntegerAssertBaseTest {
 
   private final BigInteger other = new BigInteger("6");
   private final Offset<BigInteger> offset = offset(BigInteger.ONE);

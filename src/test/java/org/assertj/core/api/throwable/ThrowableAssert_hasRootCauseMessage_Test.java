@@ -19,7 +19,7 @@ import org.assertj.core.api.ThrowableAssertBaseTest;
 import org.junit.jupiter.api.DisplayName;
 
 @DisplayName("ThrowableAssert hasRootCauseMessage")
-public class ThrowableAssert_hasRootCauseMessage_Test extends ThrowableAssertBaseTest {
+class ThrowableAssert_hasRootCauseMessage_Test extends ThrowableAssertBaseTest {
 
   @Override
   protected ThrowableAssert invoke_api_method() {

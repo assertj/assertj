@@ -20,7 +20,7 @@ import org.assertj.core.api.UrlAssertBaseTest;
 /**
  * Test for <code>{@link org.assertj.core.api.UrlAssert#hasAuthority(String)}</code>.
  */
-public class UrlAssert_hasAuthority_Test extends UrlAssertBaseTest {
+class UrlAssert_hasAuthority_Test extends UrlAssertBaseTest {
   private String expected = "authority";
 
   @Override

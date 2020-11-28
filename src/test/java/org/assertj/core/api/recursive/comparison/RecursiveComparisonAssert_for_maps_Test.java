@@ -22,11 +22,11 @@ import org.assertj.core.internal.objects.data.PersonDto;
 import org.assertj.core.test.Person;
 import org.junit.jupiter.api.Test;
 
-public class RecursiveComparisonAssert_for_maps_Test {
+class RecursiveComparisonAssert_for_maps_Test {
 
   @Test
   // verify we don't need to cast actual to an Object as before when only Object assertions provided usingRecursiveComparison()
-  public void should_be_directly_usable_with_maps() {
+  void should_be_directly_usable_with_maps() {
     // GIVEN
     Person sheldon = new Person("Sheldon");
     Person leonard = new Person("Leonard");

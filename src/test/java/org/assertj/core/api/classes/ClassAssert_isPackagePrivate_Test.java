@@ -22,7 +22,7 @@ import org.junit.jupiter.api.DisplayName;
  * Tests for <code>{@link ClassAssert#isPackagePrivate()}</code>.
  */
 @DisplayName("ClassAssert isPackagePrivate")
-public class ClassAssert_isPackagePrivate_Test extends ClassAssertBaseTest {
+class ClassAssert_isPackagePrivate_Test extends ClassAssertBaseTest {
 
   @Override
   protected ClassAssert invoke_api_method() {

@@ -37,10 +37,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertIsInThePast_Test extends DatesBaseTest {
+class Dates_assertIsInThePast_Test extends DatesBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_not_in_the_past() {
+  void should_fail_if_actual_is_not_in_the_past() {
     AssertionInfo info = someInfo();
     // init actual so that it is in the future compared to the instant when we call dates.assertIsInThePast
     long oneSecond = 1000;
@@ -53,19 +53,19 @@ public class Dates_assertIsInThePast_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsInThePast(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_in_the_past() {
+  void should_pass_if_actual_is_in_the_past() {
     actual = parseDate("2000-01-01");
     dates.assertIsInThePast(someInfo(), actual);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_the_past_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_not_in_the_past_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     // set actual to a date in the future according to our comparison strategy (that compares only month and year)
     actual = parseDate("2111-01-01");
@@ -77,7 +77,7 @@ public class Dates_assertIsInThePast_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_today_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_today_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     // we want actual to "now" according to our comparison strategy (that compares only month and year)
     // => if we are at the end of the month we subtract one day instead of adding one
@@ -95,13 +95,13 @@ public class Dates_assertIsInThePast_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInThePast(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_in_the_past_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_in_the_past_according_to_custom_comparison_strategy() {
     actual = parseDate("2000-01-01");
     datesWithCustomComparisonStrategy.assertIsInThePast(someInfo(), actual);
   }

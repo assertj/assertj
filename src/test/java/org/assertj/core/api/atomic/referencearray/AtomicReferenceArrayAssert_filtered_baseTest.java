@@ -19,15 +19,16 @@ import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
 import org.junit.jupiter.api.BeforeEach;
 
-public class AtomicReferenceArrayAssert_filtered_baseTest {
+class AtomicReferenceArrayAssert_filtered_baseTest {
 
   protected Employee yoda;
   protected Employee obiwan;
   protected Employee luke;
   protected Employee noname;
   protected AtomicReferenceArray<Employee> employees;
+
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     yoda = new Employee(1L, new Name("Yoda"), 800);
     obiwan = new Employee(2L, new Name("Obi"), 800);
     luke = new Employee(3L, new Name("Luke", "Skywalker"), 26);

@@ -40,32 +40,32 @@ import org.junit.jupiter.api.Test;
  * @author Olivier Michallat
  * @author Joel Costigliola
  */
-public class Files_assertHasBinaryContent_Test extends FilesBaseTest {
+class Files_assertHasBinaryContent_Test extends FilesBaseTest {
 
   private static File actual;
   private static byte[] expected;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     // Does not matter if the values differ, the actual comparison is mocked in this test
     actual = new File("src/test/resources/actual_file.txt");
     expected = new byte[] {};
   }
 
   @Test
-  public void should_throw_error_if_expected_is_null() {
+  void should_throw_error_if_expected_is_null() {
     assertThatNullPointerException().isThrownBy(() -> files.assertHasBinaryContent(someInfo(), actual, null))
                                     .withMessage("The binary content to compare to should not be null");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasBinaryContent(someInfo(), null, expected))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_file() {
+  void should_fail_if_actual_is_not_file() {
     AssertionInfo info = someInfo();
     File notAFile = new File("xyz");
 
@@ -76,13 +76,13 @@ public class Files_assertHasBinaryContent_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_pass_if_file_has_expected_binary_content() throws IOException {
+  void should_pass_if_file_has_expected_binary_content() throws IOException {
     when(binaryDiff.diff(actual, expected)).thenReturn(BinaryDiffResult.noDiff());
     files.assertHasBinaryContent(someInfo(), actual, expected);
   }
 
   @Test
-  public void should_throw_error_wrapping_caught_IOException() throws IOException {
+  void should_throw_error_wrapping_caught_IOException() throws IOException {
     IOException cause = new IOException();
     when(binaryDiff.diff(actual, expected)).thenThrow(cause);
 
@@ -93,7 +93,7 @@ public class Files_assertHasBinaryContent_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_fail_if_file_does_not_have_expected_binary_content() throws IOException {
+  void should_fail_if_file_does_not_have_expected_binary_content() throws IOException {
     BinaryDiffResult diff = new BinaryDiffResult(15, (byte) 0xCA, (byte) 0xFE);
     when(binaryDiff.diff(actual, expected)).thenReturn(diff);
     AssertionInfo info = someInfo();

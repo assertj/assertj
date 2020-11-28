@@ -27,7 +27,7 @@ import org.assertj.core.api.ObjectArrayAssertBaseTest;
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  */
-public class ObjectArrayAssert_doesNotContainAnyElementsOf_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_doesNotContainAnyElementsOf_Test extends ObjectArrayAssertBaseTest {
 
   private final List<String> values = newArrayList("Yoda", "Luke");
 

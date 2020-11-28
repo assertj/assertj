@@ -21,30 +21,32 @@ import java.util.concurrent.CompletionStage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class Assertions_assertThat_with_CompletionStage_Test {
+class Assertions_assertThat_with_CompletionStage_Test {
 
   private CompletionStage<String> completionStage;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     completionStage = completedFuture("done");
   }
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     Object assertions = assertThat(completionStage);
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_initialise_actual() {
+  void should_initialise_actual() {
     CompletableFuture<String> actual = assertThat(completionStage).actual;
     assertThat(actual).isDone()
-                      .hasNotFailed();
+                      .isCompleted()
+                      .isNotCancelled()
+                      .isNotCompletedExceptionally();
   }
 
   @Test
-  public void should_allow_null() {
+  void should_allow_null() {
     CompletableFuture<String> actual = assertThat((CompletionStage<String>) null).actual;
     assertThat(actual).isNull();
   }

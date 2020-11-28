@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Filip Hrisafov
  */
-public class CharSequenceAssert_hasLineCount_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_hasLineCount_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {

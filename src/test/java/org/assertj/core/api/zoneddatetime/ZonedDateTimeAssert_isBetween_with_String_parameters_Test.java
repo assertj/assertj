@@ -22,7 +22,7 @@ import org.assertj.core.api.AbstractZonedDateTimeAssertBaseTest;
 import org.assertj.core.api.ZonedDateTimeAssert;
 import org.junit.jupiter.api.Test;
 
-public class ZonedDateTimeAssert_isBetween_with_String_parameters_Test
+class ZonedDateTimeAssert_isBetween_with_String_parameters_Test
     extends AbstractZonedDateTimeAssertBaseTest {
 
   @Override
@@ -36,7 +36,7 @@ public class ZonedDateTimeAssert_isBetween_with_String_parameters_Test
   }
 
   @Test
-  public void should_throw_a_DateTimeParseException_if_start_String_parameter_cant_be_converted() {
+  void should_throw_a_DateTimeParseException_if_start_String_parameter_cant_be_converted() {
     // GIVEN
     String abc = "abc";
     // WHEN
@@ -46,7 +46,7 @@ public class ZonedDateTimeAssert_isBetween_with_String_parameters_Test
   }
 
   @Test
-  public void should_throw_a_DateTimeParseException_if_end_String_parameter_cant_be_converted() {
+  void should_throw_a_DateTimeParseException_if_end_String_parameter_cant_be_converted() {
     // GIVEN
     String abc = "abc";
     // WHEN

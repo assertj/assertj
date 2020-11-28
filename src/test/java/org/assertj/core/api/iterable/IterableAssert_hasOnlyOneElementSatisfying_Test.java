@@ -24,16 +24,17 @@ import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.Test;
 
-public class IterableAssert_hasOnlyOneElementSatisfying_Test {
+@SuppressWarnings("deprecation")
+class IterableAssert_hasOnlyOneElementSatisfying_Test {
 
   @Test
-  public void succeeds_if_iterable_has_only_one_element_and_that_element_statisfies_the_given_assertion() {
+  void succeeds_if_iterable_has_only_one_element_and_that_element_statisfies_the_given_assertion() {
     List<Jedi> jedis = asList(new Jedi("Yoda", "red"));
     assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("Y"));
   }
 
   @Test
-  public void succeeds_if_iterable_has_only_one_element_and_that_element_statisfies_the_given_assertions() {
+  void succeeds_if_iterable_has_only_one_element_and_that_element_statisfies_the_given_assertions() {
     assertThat(asList(new Jedi("Yoda", "red"))).hasOnlyOneElementSatisfying(yoda -> {
       assertThat(yoda.getName()).isEqualTo("Yoda");
       assertThat(yoda.lightSaberColor).isEqualTo("red");
@@ -41,15 +42,15 @@ public class IterableAssert_hasOnlyOneElementSatisfying_Test {
   }
 
   @Test
-  public void fails_if_iterable_has_only_one_element_and_that_element_does_not_statisfy_the_given_assertion() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+  void fails_if_iterable_has_only_one_element_and_that_element_does_not_satisfy_the_given_assertion() {
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       List<Jedi> jedis = asList(new Jedi("Yoda", "red"));
       assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("L"));
     }).withMessage(format("%nExpecting:%n <\"Yoda\">%nto start with:%n <\"L\">%n"));
   }
 
   @Test
-  public void fails_if_iterable_has_only_one_element_and_that_element_does_not_statisfy_one_of_the_given_assertion() {
+  void fails_if_iterable_has_only_one_element_and_that_element_does_not_satisfy_one_of_the_given_assertion() {
     List<Jedi> jedis = asList(new Jedi("Yoda", "red"));
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> {
@@ -60,7 +61,7 @@ public class IterableAssert_hasOnlyOneElementSatisfying_Test {
   }
 
   @Test
-  public void fails_if_iterable_has_only_one_element_and_that_element_does_not_statisfy_the_soft_assertion() {
+  void fails_if_iterable_has_only_one_element_and_that_element_does_not_satisfy_the_soft_assertion() {
     List<Jedi> jedis = asList(new Jedi("Yoda", "red"));
 
     Throwable assertionError = catchThrowable(() -> {
@@ -77,7 +78,7 @@ public class IterableAssert_hasOnlyOneElementSatisfying_Test {
   }
 
   @Test
-  public void fails_if_iterable_has_more_than_one_element() {
+  void fails_if_iterable_has_more_than_one_element() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       List<Jedi> jedis = asList(new Jedi("Yoda", "red"), new Jedi("Luke", "green"));
       assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("Y"));

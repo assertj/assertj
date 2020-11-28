@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Martin Winandy
  */
-public class ShouldOnlyHaveElementsOfTypes_create_Test {
+class ShouldOnlyHaveElementsOfTypes_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldOnlyHaveElementsOfTypes(list("Yoda", 42, "Luke"),
                                                                 array(Number.class, Long.class),

@@ -12,13 +12,11 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.newArrayList;
-
-import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -26,10 +24,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class ComparatorBasedComparisonStrategy_iterableRemove_Test extends AbstractTest_ComparatorBasedComparisonStrategy {
+class ComparatorBasedComparisonStrategy_iterableRemove_Test extends AbstractTest_ComparatorBasedComparisonStrategy {
 
   @Test
-  public void should_remove_value_from_collections_since_it_matches_one_collections_element_according_to_given_comparator() {
+  void should_remove_value_from_collections_since_it_matches_one_collections_element_according_to_given_comparator() {
     List<String> hobbits = newArrayList("Merry", "Frodo", null, "Merry", "Sam");
     assertThat(caseInsensitiveComparisonStrategy.iterableContains(hobbits, "SAM")).isTrue();
     caseInsensitiveComparisonStrategy.iterableRemoves(hobbits, "Sam");
@@ -39,7 +37,7 @@ public class ComparatorBasedComparisonStrategy_iterableRemove_Test extends Abstr
   }
  
   @Test
-  public void should_not_remove_value_from_collections_since_it_does_not_match_any_collections_elements_according_to_given_comparator() {
+  void should_not_remove_value_from_collections_since_it_does_not_match_any_collections_elements_according_to_given_comparator() {
     List<String> hobbits = newArrayList("Merry", "Frodo", null, "Merry", "Sam");
     assertThat(caseInsensitiveComparisonStrategy.iterableContains(hobbits, "SAM")).isTrue();
     caseInsensitiveComparisonStrategy.iterableRemoves(hobbits, "SAM ");
@@ -47,7 +45,7 @@ public class ComparatorBasedComparisonStrategy_iterableRemove_Test extends Abstr
   }
 
   @Test
-  public void should_not_fail_if_collections_is_empty_or_null() {
+  void should_not_fail_if_collections_is_empty_or_null() {
     List<String> hobbits = newArrayList();
     caseInsensitiveComparisonStrategy.iterableRemoves(hobbits, "SAM");
     caseInsensitiveComparisonStrategy.iterableRemoves(null, "SAM ");

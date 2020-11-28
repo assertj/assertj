@@ -26,10 +26,10 @@ import java.util.Set;
 import org.assertj.core.internal.UrisBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
+class Uris_assertHasNoParameter_Test extends UrisBaseTest {
 
   @Test
-  public void should_pass_if_parameter_is_missing() {
+  void should_pass_if_parameter_is_missing() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news");
     String name = "article";
@@ -38,7 +38,7 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_parameter_is_present_without_value() {
+  void should_fail_if_parameter_is_present_without_value() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news?article");
     String name = "article";
@@ -50,7 +50,7 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_parameter_is_present_with_value() {
+  void should_fail_if_parameter_is_present_with_value() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news?article=10");
     String name = "article";
@@ -62,7 +62,7 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_parameter_is_present_multiple_times() {
+  void should_fail_if_parameter_is_present_multiple_times() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news?article&article=10");
     String name = "article";
@@ -74,7 +74,7 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_pass_if_parameter_without_value_is_missing() {
+  void should_pass_if_parameter_without_value_is_missing() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news");
     String name = "article";
@@ -84,7 +84,7 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_parameter_without_value_is_present() {
+  void should_fail_if_parameter_without_value_is_present() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news?article");
     String name = "article";
@@ -97,7 +97,7 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_pass_if_parameter_without_value_is_present_with_value() {
+  void should_pass_if_parameter_without_value_is_present_with_value() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news=10");
     String name = "article";
@@ -107,7 +107,7 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_pass_if_parameter_with_value_is_missing() {
+  void should_pass_if_parameter_with_value_is_missing() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news");
     String name = "article";
@@ -117,7 +117,7 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_pass_if_parameter_with_value_is_present_without_value() {
+  void should_pass_if_parameter_with_value_is_present_without_value() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news?article");
     String name = "article";
@@ -127,7 +127,7 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_pass_if_parameter_with_value_is_present_with_wrong_value() {
+  void should_pass_if_parameter_with_value_is_present_with_wrong_value() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news?article=11");
     String name = "article";
@@ -137,7 +137,7 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_parameter_with_value_is_present() {
+  void should_fail_if_parameter_with_value_is_present() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news?article=10");
     String name = "article";
@@ -150,7 +150,7 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_pass_if_uri_has_no_parameters() {
+  void should_pass_if_uri_has_no_parameters() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news");
     // WHEN/THEN
@@ -158,7 +158,7 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_uri_has_some_parameters() {
+  void should_fail_if_uri_has_some_parameters() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news?article=10&locked=false");
     Set<String> actualValues = newLinkedHashSet("article", "locked");
@@ -169,7 +169,7 @@ public class Uris_assertHasNoParameter_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_uri_has_one_parameter() {
+  void should_fail_if_uri_has_one_parameter() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news?article=10");
     Set<String> actualValues = newLinkedHashSet("article");

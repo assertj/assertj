@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author William Delanoue
  */
-public class FloatAssert_isBetween_Floats_Test extends FloatAssertBaseTest {
+class FloatAssert_isBetween_Floats_Test extends FloatAssertBaseTest {
 
   @Override
   protected FloatAssert invoke_api_method() {

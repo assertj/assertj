@@ -26,10 +26,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alexander Bischof
  */
-public class AbstractAssert_withFailMessage_Test {
+class AbstractAssert_withFailMessage_Test {
 
   @Test
-  public void should_delegate_to_overridingErrorMessage() {
+  void should_delegate_to_overridingErrorMessage() {
     // GIVEN
     AbstractAssert<?, ?> suT = spy(assertThat("test"));
     // WHEN
@@ -39,7 +39,7 @@ public class AbstractAssert_withFailMessage_Test {
   }
 
   @Test
-  public void should_delegate_to_overridingErrorMessage_using_supplier() {
+  void should_delegate_to_overridingErrorMessage_using_supplier() {
     // GIVEN
     AbstractAssert<?, ?> suT = spy(assertThat("test"));
     Supplier<String> supplier = () -> "test";

@@ -57,37 +57,37 @@ import org.junit.jupiter.api.Test;
  * @author sapradhan8
  * @author Pascal Schumacher
  */
-public class DeepDifference_Test {
+class DeepDifference_Test {
 
   @Test
-  public void testSameObject() {
+  void testSameObject() {
     Date date1 = new Date();
     Date date2 = date1;
     assertHaveNoDifferences(date1, date2);
   }
 
   @Test
-  public void testEqualsWithNull() {
+  void testEqualsWithNull() {
     Date date1 = new Date();
     assertHaveDifferences(null, date1);
     assertHaveDifferences(date1, null);
   }
 
   @Test
-  public void testBigDecimals() {
+  void testBigDecimals() {
     BigDecimal bigDecimal1 = new BigDecimal("42.5");
     BigDecimal bigDecimal2 = new BigDecimal("42.5");
     assertHaveNoDifferences(bigDecimal1, bigDecimal2);
   }
 
   @Test
-  public void testWithDifferentFields() {
+  void testWithDifferentFields() {
     assertHaveDifferences("one", 1);
     assertHaveDifferences(new Wrapper(new Wrapper("one")), new Wrapper("one"));
   }
 
   @Test
-  public void testPOJOequals() {
+  void testPOJOequals() {
     Class1 x = new Class1(true, tan(PI / 4), 1);
     Class1 y = new Class1(true, 1.0, 1);
     assertHaveNoDifferences(x, y);
@@ -101,7 +101,7 @@ public class DeepDifference_Test {
   }
 
   @Test
-  public void testPrimitiveArrays() {
+  void testPrimitiveArrays() {
     int[] array1 = { 2, 4, 5, 6, 3, 1, 3, 3, 5, 22 };
     int[] array2 = { 2, 4, 5, 6, 3, 1, 3, 3, 5, 22 };
 
@@ -116,7 +116,7 @@ public class DeepDifference_Test {
   }
 
   @Test
-  public void testOrderedCollection() {
+  void testOrderedCollection() {
     List<String> a = newArrayList("one", "two", "three", "four", "five");
     List<String> b = new LinkedList<>();
     b.addAll(a);
@@ -134,7 +134,7 @@ public class DeepDifference_Test {
   }
 
   @Test
-  public void testUnorderedCollection() {
+  void testUnorderedCollection() {
     Set<String> a = newLinkedHashSet("one", "two", "three", "four", "five");
     Set<String> b = newLinkedHashSet("three", "five", "one", "four", "two");
     assertHaveNoDifferences(a, b);
@@ -154,7 +154,7 @@ public class DeepDifference_Test {
   }
 
   @Test
-  public void testUnorderedCollectionWithCustomComparatorsByType() {
+  void testUnorderedCollectionWithCustomComparatorsByType() {
     TypeComparators comparatorsWithBigDecimalComparator = new TypeComparators();
     comparatorsWithBigDecimalComparator.put(BigDecimal.class, BIG_DECIMAL_COMPARATOR);
 
@@ -168,7 +168,7 @@ public class DeepDifference_Test {
   }
 
   @Test
-  public void testUnorderedCollectionWithCustomComparatorsByFieldName() {
+  void testUnorderedCollectionWithCustomComparatorsByFieldName() {
     SetWrapper a = new SetWrapper(newLinkedHashSet(new Wrapper("one"), new Wrapper("two")));
     SetWrapper b = new SetWrapper(newLinkedHashSet(new Wrapper("1"), new Wrapper("2")));
 
@@ -178,7 +178,7 @@ public class DeepDifference_Test {
   }
 
   @Test
-  public void testEquivalentMaps() {
+  void testEquivalentMaps() {
     Map<String, Integer> map1 = new LinkedHashMap<>();
     fillMap(map1);
     Map<String, Integer> map2 = new HashMap<>();
@@ -196,7 +196,7 @@ public class DeepDifference_Test {
   }
 
   @Test
-  public void testInequivalentMaps() {
+  void testInequivalentMaps() {
     Map<String, Integer> map1 = new TreeMap<>();
     fillMap(map1);
     Map<String, Integer> map2 = new HashMap<>();
@@ -232,7 +232,7 @@ public class DeepDifference_Test {
   }
 
   @Test
-  public void testEquivalentCollections() {
+  void testEquivalentCollections() {
     // ordered Collection
     Collection<String> col1 = new ArrayList<>();
     fillCollection(col1);
@@ -259,7 +259,7 @@ public class DeepDifference_Test {
   }
 
   @Test
-  public void testInequivalentCollections() {
+  void testInequivalentCollections() {
     Collection<String> col1 = new TreeSet<>();
     fillCollection(col1);
     Collection<String> col2 = new HashSet<>();
@@ -278,7 +278,7 @@ public class DeepDifference_Test {
   }
 
   @Test
-  public void testArray() {
+  void testArray() {
     Object[] a1 = new Object[] { "alpha", "bravo", "charlie", "delta" };
     Object[] a2 = new Object[] { "alpha", "bravo", "charlie", "delta" };
 
@@ -290,7 +290,7 @@ public class DeepDifference_Test {
   }
 
   @Test
-  public void testHasCustomMethod() {
+  void testHasCustomMethod() {
     assertThat(DeepDifference.hasCustomEquals(EmptyClass.class)).isFalse();
     assertThat(DeepDifference.hasCustomHashCode(Class1.class)).isFalse();
 
@@ -299,7 +299,7 @@ public class DeepDifference_Test {
   }
 
   @Test
-  public void shouldBeAbleToUseCustomComparatorForHashMap() {
+  void shouldBeAbleToUseCustomComparatorForHashMap() {
     class ObjectWithMapField {
       Map<Integer, Boolean> map;
     }

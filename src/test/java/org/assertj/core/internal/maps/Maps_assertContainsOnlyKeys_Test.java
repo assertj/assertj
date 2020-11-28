@@ -42,12 +42,12 @@ import org.junit.jupiter.api.Test;
  *
  * @author Christopher Arnott
  */
-public class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
+class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
 
   private static final String ARRAY_OF_KEYS = "array of keys";
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
     // WHEN
@@ -57,30 +57,30 @@ public class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_given_keys_array_is_null() {
+  void should_fail_if_given_keys_array_is_null() {
     assertThatNullPointerException().isThrownBy(() -> maps.assertContainsOnlyKeys(someInfo(), actual, (String[]) null))
                                     .withMessage(keysToLookForIsNull(ARRAY_OF_KEYS));
   }
 
   @Test
-  public void should_fail_if_given_keys_array_is_empty() {
+  void should_fail_if_given_keys_array_is_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> maps.assertContainsOnlyKeys(someInfo(), actual, emptyKeys()))
                                         .withMessage(keysToLookForIsEmpty(ARRAY_OF_KEYS));
   }
 
   @Test
-  public void should_pass_if_actual_and_given_keys_are_empty() {
+  void should_pass_if_actual_and_given_keys_are_empty() {
     maps.assertContainsOnlyKeys(someInfo(), emptyMap(), emptyKeys());
   }
 
   @Test
-  public void should_pass_if_actual_contains_only_expected_keys() {
+  void should_pass_if_actual_contains_only_expected_keys() {
     maps.assertContainsOnlyKeys(someInfo(), actual, "color", "name");
     maps.assertContainsOnlyKeys(someInfo(), actual, "name", "color");
   }
 
   @Test
-  public void should_fail_if_actual_contains_an_unexpected_key() {
+  void should_fail_if_actual_contains_an_unexpected_key() {
     // GIVEN
     AssertionInfo info = someInfo();
     String[] expectedKeys = { "name" };
@@ -91,7 +91,7 @@ public class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contains_all_expected_keys() {
+  void should_fail_if_actual_does_not_contains_all_expected_keys() {
     // GIVEN
     AssertionInfo info = someInfo();
     String[] expectedKeys = { "name", "color" };
@@ -103,7 +103,7 @@ public class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contains_all_expected_keys_and_contains_unexpected_one() {
+  void should_fail_if_actual_does_not_contains_all_expected_keys_and_contains_unexpected_one() {
     // GIVEN
     AssertionInfo info = someInfo();
     String[] expectedKeys = { "name", "color" };

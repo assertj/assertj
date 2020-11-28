@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 
 /**
- * See https://github.com/joel-costigliola/assertj-core/issues/1718.
+ * See https://github.com/assertj/assertj-core/issues/1718.
  *
  * This test ensures assertThat(list_of_1m_elements).containsOnly(...) is an O(N) rather than O(N^2)
  * operation. Given that the list has 1 million elements, O(N^2) is O(1000 billion), which should
@@ -37,11 +37,11 @@ import org.junit.jupiter.api.Timeout;
  * clearly distinguish .containsOnly(...) being O(N) or O(N^2) on any test agent, thus preventing
  * a regression of .containsOnly(...) back to O(N^2) complexity.
  */
-public class ContainsOnlyPerfTest {
+class ContainsOnlyPerfTest {
 
   @Test
   @Timeout(value = 5)
-  public void test_containsOnly_1mElements() {
+  void test_containsOnly_1mElements() {
     final ArrayList<Object> objects = new ArrayList<>();
     for (int i = 0; i < 1_000_000; i++) {
       objects.add(ThreadLocalRandom.current().nextBoolean());
@@ -51,7 +51,7 @@ public class ContainsOnlyPerfTest {
 
   @Test
   @Timeout(value = 5)
-  public void test_containsOnly_1mElements_usingCustomComparator() {
+  void test_containsOnly_1mElements_usingCustomComparator() {
     final ArrayList<Integer> objects = new ArrayList<>();
     for (int i = 0; i < 1_000_000; i++) {
       objects.add(ThreadLocalRandom.current().nextInt(2));

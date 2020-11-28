@@ -12,40 +12,31 @@
  */
 package org.assertj.core.api.objectarray;
 
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 import static org.mockito.Mockito.verify;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
-
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link ObjectArrayAssert#isSortedAccordingTo(Comparator)}</code>.
- * 
+ *
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class ObjectArrayAssert_isSortedAccordingToComparator_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_isSortedAccordingToComparator_Test extends ObjectArrayAssertBaseTest {
 
-  @Mock
-  private Comparator<Object> mockComparator;
-
-  @BeforeEach
-  public void before() {
-    initMocks(this);
-  }
+  private Comparator<Object> comparator = alwaysEqual();
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {
-    return assertions.isSortedAccordingTo(mockComparator);
+    return assertions.isSortedAccordingTo(comparator);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertIsSortedAccordingToComparator(getInfo(assertions), getActual(assertions), mockComparator);
+    verify(arrays).assertIsSortedAccordingToComparator(getInfo(assertions), getActual(assertions), comparator);
   }
 }

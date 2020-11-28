@@ -28,17 +28,17 @@ import org.junit.jupiter.api.Test;
  * @author Sandra Parsick
  * @author Georg Berky
  */
-public class Strings_assertHasSizeGreaterThanOrEqualTo_Test extends StringsBaseTest {
+class Strings_assertHasSizeGreaterThanOrEqualTo_Test extends StringsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     AssertionInfo info = someInfo();
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertHasSizeGreaterThanOrEqualTo(info, null, 3))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_size_of_actual_is_less_than_expected_size() {
+  void should_fail_if_size_of_actual_is_less_than_expected_size() {
     AssertionInfo info = someInfo();
     String actual = "Han";
 
@@ -48,12 +48,12 @@ public class Strings_assertHasSizeGreaterThanOrEqualTo_Test extends StringsBaseT
   }
 
   @Test
-  public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
+  void should_pass_if_size_of_actual_is_equal_to_expected_size() {
     strings.assertHasSizeGreaterThanOrEqualTo(someInfo(), "Han", 3);
   }
 
   @Test
-  public void should_pass_if_size_of_actual_is_greater_than_expected_size() {
+  void should_pass_if_size_of_actual_is_greater_than_expected_size() {
     strings.assertHasSizeGreaterThanOrEqualTo(someInfo(), "Han", 2);
   }
 }

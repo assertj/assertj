@@ -32,8 +32,7 @@ public interface SoftAssertionsProvider extends AssertionErrorCollector {
   /**
    * Creates a proxied assertion class of the given type. The returned value
    * is an assertion object compatible with the supplied assertion class, but
-   * instead of throwing errors it will collect them and store them using
-   * {@link #collectAssertionError(AssertionError) collectAssertionError()}.
+   * instead of throwing errors it will collect them and store.
    *
    * @param <SELF> The type of the assertion class
    * @param <ACTUAL> The type of the object-under-test
@@ -62,20 +61,6 @@ public interface SoftAssertionsProvider extends AssertionErrorCollector {
   }
 
   /**
-   * Returns the result of last soft assertion which can be used to decide what the next one should be.
-   * <p>
-   * Example :
-   * <pre><code class='java'> Person person = ...
-   * SoftAssertions soft = new SoftAssertions();
-   * if (soft.assertThat(person.getAddress()).isNotNull().wasSuccess()) {
-   *     soft.assertThat(person.getAddress().getStreet()).isNotNull();
-   * }</code></pre>
-   *
-   * @return true if the last assertion was a success.
-   */
-  boolean wasSuccess();
-
-  /**
    * Catch and collect assertion errors coming from standard and <b>custom</b> assertions.
    * <p>
    * Example :
@@ -89,6 +74,7 @@ public interface SoftAssertionsProvider extends AssertionErrorCollector {
   default void check(ThrowingRunnable assertion) {
     try {
       assertion.run();
+      succeeded();
     } catch (AssertionError error) {
       collectAssertionError(error);
     } catch (RuntimeException runtimeException) {
@@ -133,5 +119,4 @@ public interface SoftAssertionsProvider extends AssertionErrorCollector {
     softly.accept(assertions);
     assertions.assertAll();
   }
-
 }

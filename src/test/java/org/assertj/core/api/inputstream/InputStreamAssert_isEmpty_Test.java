@@ -22,7 +22,7 @@ import org.junit.jupiter.api.DisplayName;
  * Tests for <code>{@link InputStreamAssert#isEmpty()}</code>.
  */
 @DisplayName("InputStreamAssert isEmpty")
-public class InputStreamAssert_isEmpty_Test extends InputStreamAssertBaseTest {
+class InputStreamAssert_isEmpty_Test extends InputStreamAssertBaseTest {
 
   @Override
   protected InputStreamAssert invoke_api_method() {

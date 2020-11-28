@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alex Ruiz
  */
-public class FloatAssert_isNotZero_Test extends FloatAssertBaseTest {
+class FloatAssert_isNotZero_Test extends FloatAssertBaseTest {
 
   @Override
   protected FloatAssert invoke_api_method() {
@@ -39,7 +39,7 @@ public class FloatAssert_isNotZero_Test extends FloatAssertBaseTest {
   }
 
   @Test
-  public void should_pass_with_Float_negative_zero() {
+  void should_pass_with_Float_negative_zero() {
     // GIVEN
     final Float negativeZero = -0.0f;
     // THEN
@@ -47,7 +47,7 @@ public class FloatAssert_isNotZero_Test extends FloatAssertBaseTest {
   }
 
   @Test
-  public void should_fail_with_primitive_negative_zero() {
+  void should_fail_with_primitive_negative_zero() {
     // GIVEN
     final float negativeZero = -0.0f;
 
@@ -60,7 +60,7 @@ public class FloatAssert_isNotZero_Test extends FloatAssertBaseTest {
   }
 
   @Test
-  public void should_fail_with_primitive_positive_zero() {
+  void should_fail_with_primitive_positive_zero() {
     // GIVEN
     final float positiveZero = 0.0f;
 
@@ -73,7 +73,7 @@ public class FloatAssert_isNotZero_Test extends FloatAssertBaseTest {
   }
 
   @Test
-  public void should_fail_with_Float_positive_zero() {
+  void should_fail_with_Float_positive_zero() {
     // GIVEN
     final Float positiveZero = 0.0f;
 

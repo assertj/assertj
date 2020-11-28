@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Cal027
  */
-public class LongAssert_isOdd_Test extends LongAssertBaseTest {
+class LongAssert_isOdd_Test extends LongAssertBaseTest {
 
   @Override
   protected LongAssert invoke_api_method() {

@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Valeriy Vyrva
  */
-public class PathAssert_isDirectoryContaining_Predicate_Test extends PathAssertBaseTest {
+class PathAssert_isDirectoryContaining_Predicate_Test extends PathAssertBaseTest {
 
   private final Predicate<Path> filter = path -> path.getParent() != null;
 

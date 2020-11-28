@@ -35,24 +35,24 @@ import org.junit.jupiter.api.Test;
  * @author Mikhail Mazursky
  * @author Joel Costigliola
  */
-public class ObjectArrays_assertHave_Test extends ObjectArraysWithConditionBaseTest {
+class ObjectArrays_assertHave_Test extends ObjectArraysWithConditionBaseTest {
 
   @Test
-  public void should_pass_if_each_element_satisfies_condition() {
+  void should_pass_if_each_element_satisfies_condition() {
     actual = array("Yoda", "Luke");
     arrays.assertHave(someInfo(), actual, jediPower);
     verify(conditions).assertIsNotNull(jediPower);
   }
 
   @Test
-  public void should_throw_error_if_condition_is_null() {
+  void should_throw_error_if_condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertHave(someInfo(), actual, null))
                                     .withMessage("The condition to evaluate should not be null");
     verify(conditions).assertIsNotNull(null);
   }
 
   @Test
-  public void should_fail_if_Condition_is_not_met() {
+  void should_fail_if_Condition_is_not_met() {
     testCondition.shouldMatch(false);
     AssertionInfo info = someInfo();
     actual = array("Yoda", "Luke", "Leia");

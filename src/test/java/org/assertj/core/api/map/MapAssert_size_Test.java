@@ -21,11 +21,11 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-public class MapAssert_size_Test {
+class MapAssert_size_Test {
 
   @Test
   @SuppressWarnings("unchecked")
-  public void should_be_able_to_use_integer_assertions_on_size_the_map_size() {
+  void should_be_able_to_use_integer_assertions_on_size_the_map_size() {
     Map<String, String> stringToString = mapOf(entry("a", "1"), entry("b", "2"));
     // @format:off
     assertThat(stringToString).size().isGreaterThan(0)
@@ -35,7 +35,7 @@ public class MapAssert_size_Test {
   }
 
   @Test
-  public void should_have_an_helpful_error_message_when_size_is_used_on_a_null_map() {
+  void should_have_an_helpful_error_message_when_size_is_used_on_a_null_map() {
     Map<String, String> nullMap = null;
     assertThatNullPointerException().isThrownBy(() -> assertThat(nullMap).size().isGreaterThan(1))
                                     .withMessage("Can not perform assertions on the size of a null map.");

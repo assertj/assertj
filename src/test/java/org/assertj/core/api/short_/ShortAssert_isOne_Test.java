@@ -22,7 +22,7 @@ import org.assertj.core.api.ShortAssertBaseTest;
  *
  * @author Drummond Dawson
  */
-public class ShortAssert_isOne_Test extends ShortAssertBaseTest {
+class ShortAssert_isOne_Test extends ShortAssertBaseTest {
 
   @Override
   protected ShortAssert invoke_api_method() {

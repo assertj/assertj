@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class DoubleAssert_isEqualTo_DoubleWrapper_Test extends DoubleAssertBaseTest {
+class DoubleAssert_isEqualTo_DoubleWrapper_Test extends DoubleAssertBaseTest {
 
   @Override
   protected DoubleAssert invoke_api_method() {
@@ -39,12 +39,12 @@ public class DoubleAssert_isEqualTo_DoubleWrapper_Test extends DoubleAssertBaseT
 
   @ParameterizedTest
   @CsvSource({ "1.0d, 1.0d", "0.0d, 0.0d" })
-  public void should_pass_using_primitive_comparison(Double actual, Double expected) {
+  void should_pass_using_primitive_comparison(Double actual, Double expected) {
     assertThat(actual).isEqualTo(expected);
   }
 
   @Test
-  public void should_fail_when_comparing_negative_zero_to_positive_zero() {
+  void should_fail_when_comparing_negative_zero_to_positive_zero() {
     // GIVEN
     final Double positiveZero = 0.0d;
     final double negativeZero = -0.0d;
@@ -53,7 +53,7 @@ public class DoubleAssert_isEqualTo_DoubleWrapper_Test extends DoubleAssertBaseT
   }
 
   @Test
-  public void should_honor_user_specified_comparator() {
+  void should_honor_user_specified_comparator() {
     // GIVEN
     final Double one = 1.0d;
     // THEN

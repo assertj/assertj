@@ -41,7 +41,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  *
  * @author David Haccoun
  */
-public class Paths_assertIsDirectoryRecursivelyContaining_Predicate_Test extends PathsSimpleBaseTest {
+class Paths_assertIsDirectoryRecursivelyContaining_Predicate_Test extends PathsSimpleBaseTest {
 
   private static final String THE_GIVEN_FILTER_DESCRIPTION = "the given filter";
 

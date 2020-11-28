@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.UriAssert;
 import org.assertj.core.api.UriAssertBaseTest;
 
-public class UriAssert_hasParameter_String_String_Test extends UriAssertBaseTest {
+class UriAssert_hasParameter_String_String_Test extends UriAssertBaseTest {
   private final String name = "article";
   private final String value = "10";
 

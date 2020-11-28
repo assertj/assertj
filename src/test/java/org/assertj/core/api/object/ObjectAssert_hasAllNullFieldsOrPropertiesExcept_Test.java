@@ -23,7 +23,7 @@ import org.assertj.core.test.Jedi;
  *
  * @author Vladimir Chernikov
  */
-public class ObjectAssert_hasAllNullFieldsOrPropertiesExcept_Test extends ObjectAssertBaseTest {
+class ObjectAssert_hasAllNullFieldsOrPropertiesExcept_Test extends ObjectAssertBaseTest {
 
   private static final String FIELD_NAME = "color";
 

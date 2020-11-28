@@ -53,8 +53,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    */
   @Deprecated
   public SELF hasContentEqualTo(InputStream expected) {
-    inputStreams.assertSameContentAs(info, actual, expected);
-    return myself;
+    return hasSameContentAs(expected);
   }
 
   /**
@@ -81,7 +80,9 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
   }
 
   /**
-   * Verifies whether the content of the actual {@code InputStream} is empty.
+   * Verifies that the content of the actual {@code InputStream} is empty.
+   * <p>
+   * <b>Warning: this will consume the first byte of the {@code InputStream}.</b>
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -94,6 +95,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @throws NullPointerException if the given {@code InputStream} is {@code null}.
    * @throws AssertionError if the content of the actual {@code InputStream} is not empty.
    * @throws InputStreamsException if an I/O error occurs.
+   * @since 3.17.0
    */
   public SELF isEmpty() {
     inputStreams.assertIsEmpty(info, actual);
@@ -101,7 +103,9 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
   }
 
   /**
-   * Verifies whether the content of the actual {@code InputStream} is not empty.
+   * Verifies that the content of the actual {@code InputStream} is not empty.
+   * <p>
+   * <b>Warning: this will consume the first byte of the {@code InputStream}.</b>
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -114,6 +118,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @throws NullPointerException if the given {@code InputStream} is {@code null}.
    * @throws AssertionError if the content of the actual {@code InputStream} is empty.
    * @throws InputStreamsException if an I/O error occurs.
+   * @since 3.17.0
    */
   public SELF isNotEmpty() {
     inputStreams.assertIsNotEmpty(info, actual);
@@ -163,6 +168,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @throws AssertionError if the actual {@code InputStream} is {@code null}.
    * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the given binary content.
    * @throws InputStreamsException if an I/O error occurs.
+   * @since 3.16.0
    */
   public SELF hasBinaryContent(byte[] expected) {
     inputStreams.assertHasBinaryContent(info, actual, expected);

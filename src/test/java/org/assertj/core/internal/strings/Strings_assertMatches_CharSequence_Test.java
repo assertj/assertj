@@ -37,12 +37,12 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Strings_assertMatches_CharSequence_Test extends StringsBaseTest {
+class Strings_assertMatches_CharSequence_Test extends StringsBaseTest {
 
   private String actual = "Yoda";
 
   @Test
-  public void should_throw_error_if_regular_expression_is_null() {
+  void should_throw_error_if_regular_expression_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       String regex = null;
       strings.assertMatches(someInfo(), actual, regex);
@@ -50,30 +50,30 @@ public class Strings_assertMatches_CharSequence_Test extends StringsBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_syntax_of_regular_expression_is_invalid() {
+  void should_throw_error_if_syntax_of_regular_expression_is_invalid() {
     assertThatExceptionOfType(PatternSyntaxException.class).isThrownBy(() -> strings.assertMatches(someInfo(), actual,
                                                                                                    "*..."));
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMatches(someInfo(), null, matchAnything().pattern()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_match_regular_expression() {
+  void should_fail_if_actual_does_not_match_regular_expression() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMatches(someInfo(), actual, "Luke"))
                                                    .withMessage(shouldMatch(actual, "Luke").create());
   }
 
   @Test
-  public void should_pass_if_actual_matches_Pattern() {
+  void should_pass_if_actual_matches_Pattern() {
     strings.assertMatches(someInfo(), actual, "Yod.*");
   }
 
   @Test
-  public void should_throw_error_if_regular_expression_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_regular_expression_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> {
       String regex = null;
       stringsWithCaseInsensitiveComparisonStrategy.assertMatches(someInfo(), actual, regex);
@@ -81,20 +81,20 @@ public class Strings_assertMatches_CharSequence_Test extends StringsBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_syntax_of_regular_expression_is_invalid_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_syntax_of_regular_expression_is_invalid_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(PatternSyntaxException.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertMatches(someInfo(),
                                                                                                                                         actual,
                                                                                                                                         "*..."));
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertMatches(someInfo(), null, matchAnything().pattern()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_match_regular_expression_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_does_not_match_regular_expression_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> stringsWithCaseInsensitiveComparisonStrategy.assertMatches(info, actual, "Luke"));
@@ -104,7 +104,7 @@ public class Strings_assertMatches_CharSequence_Test extends StringsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_matches_Pattern_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_matches_Pattern_whatever_custom_comparison_strategy_is() {
     stringsWithCaseInsensitiveComparisonStrategy.assertMatches(someInfo(), actual, "Yod.*");
   }
 }

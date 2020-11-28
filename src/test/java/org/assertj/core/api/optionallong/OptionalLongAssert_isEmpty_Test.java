@@ -21,21 +21,21 @@ import java.util.OptionalLong;
 
 import org.junit.jupiter.api.Test;
 
-public class OptionalLongAssert_isEmpty_Test {
+class OptionalLongAssert_isEmpty_Test {
 
   @Test
-  public void should_pass_if_OptionalLong_is_empty() {
+  void should_pass_if_OptionalLong_is_empty() {
     assertThat(OptionalLong.empty()).isEmpty();
   }
 
   @Test
-  public void should_fail_when_OptionalLong_is_null() {
+  void should_fail_when_OptionalLong_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((OptionalLong) null).isEmpty())
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_OptionalLong_is_present() {
+  void should_fail_if_OptionalLong_is_present() {
     OptionalLong actual = OptionalLong.of(10L);
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isEmpty())

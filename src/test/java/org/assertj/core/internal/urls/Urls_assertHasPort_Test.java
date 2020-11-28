@@ -23,10 +23,10 @@ import java.net.URL;
 import org.assertj.core.internal.UrlsBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class Urls_assertHasPort_Test extends UrlsBaseTest {
+class Urls_assertHasPort_Test extends UrlsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     URL url = null;
     int expectedPort = 8080;
@@ -37,7 +37,7 @@ public class Urls_assertHasPort_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_url_has_the_given_port() throws MalformedURLException {
+  void should_pass_if_actual_url_has_the_given_port() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://example.com:8080/pages/");
     int expectedPort = 8080;
@@ -47,7 +47,7 @@ public class Urls_assertHasPort_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URL_port_is_not_the_given_port() throws MalformedURLException {
+  void should_fail_if_actual_URL_port_is_not_the_given_port() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://example.com:8080/pages/");
     int expectedPort = 8888;

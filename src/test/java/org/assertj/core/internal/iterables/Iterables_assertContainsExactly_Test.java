@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.internal.iterables.SinglyIterableFactory.createSinglyIterable;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
@@ -28,7 +29,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
@@ -41,78 +41,52 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
+class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_exactly_given_values() {
+  void should_pass_if_actual_contains_exactly_given_values() {
     iterables.assertContainsExactly(someInfo(), actual, array("Luke", "Yoda", "Leia"));
   }
 
   @Test
-  public void should_pass_if_nonrestartable_actual_contains_exactly_given_values() {
+  void should_pass_if_nonrestartable_actual_contains_exactly_given_values() {
     iterables.assertContainsExactly(someInfo(), createSinglyIterable(actual), array("Luke", "Yoda", "Leia"));
   }
 
-  private Iterable<String> createSinglyIterable(final List<String> values) {
-    // can't use Iterable<> for anonymous class in java 8
-    return new Iterable<String>() {
-      private boolean isIteratorCreated = false;
-
-      @Override
-      public Iterator<String> iterator() {
-        if (isIteratorCreated) throw new IllegalArgumentException("Cannot create two iterators on a singly-iterable sequence");
-        isIteratorCreated = true;
-        return new Iterator<String>() {
-          private final Iterator<String> listIterator = values.iterator();
-
-          @Override
-          public boolean hasNext() {
-            return listIterator.hasNext();
-          }
-
-          @Override
-          public String next() {
-            return listIterator.next();
-          }
-        };
-      }
-    };
-  }
-
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly_with_null_elements() {
+  void should_pass_if_actual_contains_given_values_exactly_with_null_elements() {
     iterables.assertContainsExactly(someInfo(), actual, array("Luke", "Yoda", "Leia"));
     actual.add(null);
     iterables.assertContainsExactly(someInfo(), actual, array("Luke", "Yoda", "Leia", null));
   }
 
   @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
+  void should_pass_if_actual_and_given_values_are_empty() {
     actual.clear();
     iterables.assertContainsExactly(someInfo(), actual, array());
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsExactly(someInfo(), actual,
                                                                                                      emptyArray()));
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null() {
+  void should_throw_error_if_array_of_values_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> iterables.assertContainsExactly(someInfo(), emptyList(), null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsExactly(someInfo(), null,
                                                                                                      array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_exactly() {
+  void should_fail_if_actual_does_not_contain_given_values_exactly() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Yoda", "Han" };
 
@@ -125,7 +99,7 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_contains_all_given_values_in_different_order() {
+  void should_fail_if_actual_contains_all_given_values_in_different_order() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Leia", "Yoda" };
 
@@ -136,7 +110,7 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_contains_all_given_values_but_size_differ() {
+  void should_fail_if_actual_contains_all_given_values_but_size_differ() {
     AssertionInfo info = someInfo();
     actual = newArrayList("Luke", "Leia", "Luke");
     Object[] expected = { "Luke", "Leia" };
@@ -153,13 +127,13 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_exactly_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactly(someInfo(), actual,
                                                                          array("LUKE", "YODA", "Leia"));
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_exactly_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_given_values_exactly_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Yoda", "Han" };
 
@@ -173,7 +147,7 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_contains_all_given_values_in_different_order_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_all_given_values_in_different_order_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Leia", "Yoda" };
 
@@ -185,7 +159,7 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_contains_all_given_values_but_size_differ_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_all_given_values_but_size_differ_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     actual = newArrayList("Luke", "Leia", "Luke");
     Object[] expected = { "LUKE", "Leia" };

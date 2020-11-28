@@ -13,40 +13,33 @@
 package org.assertj.core.api.atomic.integerarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
-
-import java.util.Comparator;
-
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import org.assertj.core.api.AtomicIntegerArrayAssert;
 import org.assertj.core.api.AtomicIntegerArrayAssertBaseTest;
 import org.assertj.core.internal.IntArrays;
 import org.assertj.core.internal.Objects;
 import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
-public class AtomicIntegerArrayAssert_usingDefaultElementComparator_Test extends AtomicIntegerArrayAssertBaseTest {
-
-  @Mock
-  private Comparator<Integer> comparator;
+class AtomicIntegerArrayAssert_usingDefaultElementComparator_Test extends AtomicIntegerArrayAssertBaseTest {
 
   private Objects objectsBefore;
 
   @BeforeEach
-  public void before() {
-    initMocks(this);
+  void before() {
     objectsBefore = getObjects(assertions);
-    assertions.usingElementComparator(comparator);
   }
 
   @Override
   protected AtomicIntegerArrayAssert invoke_api_method() {
-    return assertions.usingDefaultElementComparator();
+    return assertions.usingElementComparator(alwaysEqual())
+                     .usingDefaultElementComparator();
   }
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(objectsBefore).isSameAs(getObjects(assertions));
-    assertThat(IntArrays.instance()).isSameAs(getArrays(assertions));
+    assertThat(getArrays(assertions).getComparator()).isNull();
+    assertThat(getObjects(assertions)).isSameAs(objectsBefore);
+    assertThat(getArrays(assertions)).isSameAs(IntArrays.instance());
   }
 }

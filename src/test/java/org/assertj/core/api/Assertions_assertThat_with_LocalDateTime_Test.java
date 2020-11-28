@@ -25,16 +25,16 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-public class Assertions_assertThat_with_LocalDateTime_Test {
+class Assertions_assertThat_with_LocalDateTime_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     AbstractLocalDateTimeAssert<?> assertions = Assertions.assertThat(LocalDateTime.now());
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     LocalDateTime localDateTime = LocalDateTime.now();
     AbstractLocalDateTimeAssert<?> assertions = Assertions.assertThat(localDateTime);
     assertThat(assertions.getActual()).isSameAs(localDateTime);

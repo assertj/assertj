@@ -31,7 +31,7 @@ import static org.mockito.Mockito.verify;
  * @author Yvonne Wang
  * @author Mikhail Mazursky
  */
-public class AbstractAssert_isNotSameAs_Test extends AbstractAssertBaseTest{
+class AbstractAssert_isNotSameAs_Test extends AbstractAssertBaseTest {
 
   @Override
   protected ConcreteAssert invoke_api_method() {
@@ -44,14 +44,14 @@ public class AbstractAssert_isNotSameAs_Test extends AbstractAssertBaseTest{
   }
 
   @Test
-  public void should_be_loosely_typed1() {
+  void should_be_loosely_typed1() {
     List<String> expected = new ArrayList<>();
     List<? extends String> actual = new ArrayList<>();
     Assertions.assertThat(actual).isNotSameAs(expected);
   }
 
   @Test
-  public void should_be_loosely_typed2() {
+  void should_be_loosely_typed2() {
     List<? extends String> expected = new ArrayList<>();
     List<? extends String> actual = new ArrayList<>();
     Assertions.assertThat(actual).isNotSameAs(expected);

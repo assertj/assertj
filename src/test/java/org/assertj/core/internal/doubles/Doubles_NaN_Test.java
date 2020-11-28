@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Doubles_NaN_Test extends DoublesBaseTest {
+class Doubles_NaN_Test extends DoublesBaseTest {
 
   @Test
-  public void check_double_NaN_method() {
+  void check_double_NaN_method() {
     assertThat(NaN()).isCloseTo(Double.NaN, within(0d));
   }
 }

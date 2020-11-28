@@ -12,11 +12,11 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 import java.awt.Rectangle;
 
-import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.util.Employee;
 import org.junit.jupiter.api.Test;
 
@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class StandardComparisonStrategy_isLessThan_Test extends AbstractTest_StandardComparisonStrategy {
+class StandardComparisonStrategy_isLessThan_Test extends AbstractTest_StandardComparisonStrategy {
 
   @Test
-  public void should_pass() {
+  void should_pass() {
     Employee boss = new Employee(10000, 35);
     Employee young = new Employee(10000, 25);
     assertThat(standardComparisonStrategy.isLessThan(young, boss)).isTrue();
@@ -37,7 +37,7 @@ public class StandardComparisonStrategy_isLessThan_Test extends AbstractTest_Sta
   }
 
   @Test
-  public void should_fail_if_a_parameter_is_not_comparable() {
+  void should_fail_if_a_parameter_is_not_comparable() {
     assertThatIllegalArgumentException().isThrownBy(() -> {
       Rectangle r1 = new Rectangle(10, 20);
       Rectangle r2 = new Rectangle(20, 10);

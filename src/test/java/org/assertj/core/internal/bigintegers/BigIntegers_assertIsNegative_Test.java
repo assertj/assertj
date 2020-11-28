@@ -26,32 +26,32 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link BigIntegers#assertIsNegative(AssertionInfo, BigInteger)}</code>.
  */
-public class BigIntegers_assertIsNegative_Test extends BigIntegersBaseTest {
+class BigIntegers_assertIsNegative_Test extends BigIntegersBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_negative() {
+  void should_succeed_since_actual_is_negative() {
     numbers.assertIsNegative(someInfo(), new BigInteger("-1"));
   }
 
   @Test
-  public void should_fail_since_actual_is_not_negative() {
+  void should_fail_since_actual_is_not_negative() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsNegative(someInfo(), BigInteger.ONE))
                                                    .withMessage(format("%nExpecting:%n <1>%nto be less than:%n <0> "));
   }
 
   @Test
-  public void should_fail_since_actual_is_zero() {
+  void should_fail_since_actual_is_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsNegative(someInfo(), BigInteger.ZERO))
                                                    .withMessage(format("%nExpecting:%n <0>%nto be less than:%n <0> "));
   }
 
   @Test
-  public void should_succeed_since_actual_is_negative_according_to_custom_comparison_strategy() {
+  void should_succeed_since_actual_is_negative_according_to_custom_comparison_strategy() {
     numbersWithComparatorComparisonStrategy.assertIsNegative(someInfo(), new BigInteger("-1"));
   }
 
   @Test
-  public void should_fail_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
+  void should_fail_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertIsNegative(someInfo(), BigInteger.ONE))
                                                    .withMessage(format("%nExpecting:%n <1>%nto be less than:%n <0> when comparing values using BigIntegerComparator"));
   }

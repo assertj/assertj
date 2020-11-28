@@ -27,13 +27,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Yvonne Wang
  */
-public class ShouldNotHave_create_Test {
+class ShouldNotHave_create_Test {
 
   @BeforeEach
   public void setUp() {}
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotHave("Yoda", new TestCondition<>("red lightsaber"));
     // WHEN

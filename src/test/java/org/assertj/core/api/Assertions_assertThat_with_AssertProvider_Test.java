@@ -23,22 +23,22 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Tobias Liefke
  */
-public class Assertions_assertThat_with_AssertProvider_Test {
+class Assertions_assertThat_with_AssertProvider_Test {
 
   private TestedObject object;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
 	object = new TestedObject("Test");
   }
   
   @Test
-  public void should_allow_assert_provider_within_assertThat() {
+  void should_allow_assert_provider_within_assertThat() {
     assertThat(object).containsText("es");
   }
 
   @Test
-  public void should_use_assert_provider_directly() {
+  void should_use_assert_provider_directly() {
 	object.assertThat().containsText("es");
   }
   

@@ -21,11 +21,11 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class Arrays_asObjectArray_Test {
+class Arrays_asObjectArray_Test {
 
   @ParameterizedTest
   @MethodSource("dataProvider")
-  public void should_return_an_Object_array_corresponding_to_the_given_object(Object arrayAsObject, Object[] expected) {
+  void should_return_an_Object_array_corresponding_to_the_given_object(Object arrayAsObject, Object[] expected) {
     assertThat(asObjectArray(arrayAsObject)).isEqualTo(expected);
   }
 
@@ -39,7 +39,7 @@ public class Arrays_asObjectArray_Test {
 
   @ParameterizedTest
   @MethodSource("notArrays")
-  public void should_throw_IllegalArgumentException_if_given_object_is_not_an_array(final Object notArray,
+  void should_throw_IllegalArgumentException_if_given_object_is_not_an_array(final Object notArray,
                                                                                     final String error) {
     // WHEN
     Throwable throwable = arrayValuesCall(notArray);

@@ -21,10 +21,10 @@ import java.net.URL;
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldHaveAnchor_create_Test {
+class ShouldHaveAnchor_create_Test {
 
   @Test
-  public void should_create_error_message_for_has_anchor() throws Exception {
+  void should_create_error_message_for_has_anchor() throws Exception {
     // GIVEN
     URL uri = new URL("http://assertj.org/news#print");
     // WHEN
@@ -40,7 +40,7 @@ public class ShouldHaveAnchor_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_has_no_anchor() throws Exception {
+  void should_create_error_message_for_has_no_anchor() throws Exception {
     // GIVEN
     URL uri = new URL("http://assertj.org/news#print");
     // WHEN

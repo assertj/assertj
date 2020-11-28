@@ -18,16 +18,16 @@ import org.junit.jupiter.api.Test;
 
 // at least one test for Java6Assertions
 @SuppressWarnings("deprecation")
-public class Java6Assertions_assertThat_with_String_Test {
+class Java6Assertions_assertThat_with_String_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     AbstractCharSequenceAssert<?, ?> assertions = assertThat("Yoda");
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     String actual = "Yoda";
     AbstractCharSequenceAssert<?, ?> assertions = assertThat(actual);
     assertThat(assertions.actual).isSameAs(actual);

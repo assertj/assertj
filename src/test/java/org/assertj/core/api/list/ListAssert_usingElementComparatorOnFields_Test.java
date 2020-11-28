@@ -25,20 +25,20 @@ import org.assertj.core.internal.Lists;
 import org.assertj.core.internal.OnFieldsComparator;
 import org.junit.jupiter.api.BeforeEach;
 
-public class ListAssert_usingElementComparatorOnFields_Test extends ListAssertBaseTest {
+class ListAssert_usingElementComparatorOnFields_Test extends ListAssertBaseTest {
 
   private Lists listsBefore;
   private Iterables iterablesBefore;
 
   @BeforeEach
-  public void before() {
-	listsBefore = getLists(assertions);
-	iterablesBefore = getIterables(assertions);
+  void before() {
+    listsBefore = getLists(assertions);
+    iterablesBefore = getIterables(assertions);
   }
 
   @Override
   protected ListAssert<String> invoke_api_method() {
-	return assertions.usingElementComparatorOnFields("field");
+    return assertions.usingElementComparatorOnFields("field");
   }
 
   @Override

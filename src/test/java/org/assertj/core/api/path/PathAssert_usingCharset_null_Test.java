@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Test for <code>{@link PathAssert#usingCharset(Charset)}</code> when the provided charset is null.
  */
-public class PathAssert_usingCharset_null_Test extends PathAssertBaseTest {
+class PathAssert_usingCharset_null_Test extends PathAssertBaseTest {
 
   @Override
   @Test

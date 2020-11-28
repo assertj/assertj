@@ -26,17 +26,17 @@ import java.time.OffsetDateTime;
 
 import org.junit.jupiter.api.Test;
 
-public class OffsetDateTimeAssert_isEqualToIgnoringMinutes_Test {
+class OffsetDateTimeAssert_isEqualToIgnoringMinutes_Test {
 
   private final OffsetDateTime refOffsetDateTime = of(2000, 1, 1, 23, 0, 0, 0, UTC);
 
   @Test
-  public void should_pass_if_actual_is_equal_to_other_ignoring_minute_fields() {
+  void should_pass_if_actual_is_equal_to_other_ignoring_minute_fields() {
     assertThat(refOffsetDateTime).isEqualToIgnoringMinutes(refOffsetDateTime.plusMinutes(1));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_equal_to_given_offsetdatetime_with_minute_ignored() {
+  void should_fail_if_actual_is_not_equal_to_given_offsetdatetime_with_minute_ignored() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(refOffsetDateTime).isEqualToIgnoringMinutes(refOffsetDateTime.minusMinutes(1)));
     // THEN
@@ -48,7 +48,7 @@ public class OffsetDateTimeAssert_isEqualToIgnoringMinutes_Test {
   }
 
   @Test
-  public void should_fail_as_minutes_fields_are_different_even_if_time_difference_is_less_than_a_minute() {
+  void should_fail_as_minutes_fields_are_different_even_if_time_difference_is_less_than_a_minute() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(refOffsetDateTime).isEqualToIgnoringMinutes(refOffsetDateTime.minusNanos(1)));
     // THEN
@@ -60,7 +60,7 @@ public class OffsetDateTimeAssert_isEqualToIgnoringMinutes_Test {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     OffsetDateTime actual = null;
     // WHEN
@@ -70,7 +70,7 @@ public class OffsetDateTimeAssert_isEqualToIgnoringMinutes_Test {
   }
 
   @Test
-  public void should_throw_error_if_given_offsetdatetime_is_null() {
+  void should_throw_error_if_given_offsetdatetime_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(refOffsetDateTime).isEqualToIgnoringMinutes(null))
                                         .withMessage(NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE);
   }

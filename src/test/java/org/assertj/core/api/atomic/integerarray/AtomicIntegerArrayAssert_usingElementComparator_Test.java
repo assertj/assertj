@@ -13,7 +13,7 @@
 package org.assertj.core.api.atomic.integerarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicIntegerArray;
@@ -24,18 +24,15 @@ import org.assertj.core.internal.Objects;
 import org.assertj.core.util.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
-public class AtomicIntegerArrayAssert_usingElementComparator_Test extends AtomicIntegerArrayAssertBaseTest {
+class AtomicIntegerArrayAssert_usingElementComparator_Test extends AtomicIntegerArrayAssertBaseTest {
 
-  @Mock
-  private Comparator<Integer> comparator;
+  private Comparator<Integer> comparator = alwaysEqual();
 
   private Objects objectsBefore;
 
   @BeforeEach
-  public void before() {
-    initMocks(this);
+  void before() {
     objectsBefore = getObjects(assertions);
   }
 
@@ -47,12 +44,12 @@ public class AtomicIntegerArrayAssert_usingElementComparator_Test extends Atomic
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(objectsBefore).isSameAs(getObjects(assertions));
-    assertThat(comparator).isSameAs(getArrays(assertions).getComparator());
+    assertThat(getObjects(assertions)).isSameAs(objectsBefore);
+    assertThat(getArrays(assertions).getComparator()).isSameAs(comparator);
   }
 
   @Test
-  public void should_honor_the_given_element_comparator() {
+  void should_honor_the_given_element_comparator() {
     AtomicIntegerArray actual = new AtomicIntegerArray(new int[] { 1, 2, 3, 4 });
     assertThat(actual).usingElementComparator(new AbsValueComparator<Integer>()).containsExactly(-1, 2, 3, -4);
   }

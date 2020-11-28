@@ -20,11 +20,11 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
-import static org.assertj.core.test.TestData.*;
+import static org.assertj.core.test.TestData.someIndex;
+import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.FailureMessages.*;
-
-
+import static org.assertj.core.util.FailureMessages.actualIsEmpty;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -40,7 +40,7 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class ObjectArrays_assertContains_at_Index_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertContains_at_Index_Test extends ObjectArraysBaseTest {
 
   @Override
   protected void initActualArray() {
@@ -48,25 +48,25 @@ public class ObjectArrays_assertContains_at_Index_Test extends ObjectArraysBaseT
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), null, "Yoda", someIndex()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_empty() {
+  void should_fail_if_actual_is_empty() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), emptyArray(), "Yoda", someIndex()))
                                                    .withMessage(actualIsEmpty());
   }
 
   @Test
-  public void should_throw_error_if_Index_is_null() {
+  void should_throw_error_if_Index_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContains(someInfo(), actual, "Yoda", null))
                                     .withMessage("Index should not be null");
   }
 
   @Test
-  public void should_throw_error_if_Index_is_out_of_bounds() {
+  void should_throw_error_if_Index_is_out_of_bounds() {
     assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> arrays.assertContains(someInfo(),
                                                                                                       actual, "Yoda",
                                                                                                       atIndex(6)))
@@ -74,7 +74,7 @@ public class ObjectArrays_assertContains_at_Index_Test extends ObjectArraysBaseT
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_value_at_index() {
+  void should_fail_if_actual_does_not_contain_value_at_index() {
     AssertionInfo info = someInfo();
     Index index = atIndex(1);
 
@@ -85,12 +85,12 @@ public class ObjectArrays_assertContains_at_Index_Test extends ObjectArraysBaseT
   }
 
   @Test
-  public void should_pass_if_actual_contains_value_at_index() {
+  void should_pass_if_actual_contains_value_at_index() {
     arrays.assertContains(someInfo(), actual, "Luke", atIndex(1));
   }
 
   @Test
-  public void should_throw_error_if_Index_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_Index_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
                                                                                                         actual, "YODa",
                                                                                                         null))
@@ -98,7 +98,7 @@ public class ObjectArrays_assertContains_at_Index_Test extends ObjectArraysBaseT
   }
 
   @Test
-  public void should_throw_error_if_Index_is_out_of_bounds_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_Index_is_out_of_bounds_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
                                                                                                                                   actual,
                                                                                                                                   "YodA",
@@ -107,7 +107,7 @@ public class ObjectArrays_assertContains_at_Index_Test extends ObjectArraysBaseT
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_value_at_index_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_value_at_index_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Index index = atIndex(1);
 
@@ -118,7 +118,7 @@ public class ObjectArrays_assertContains_at_Index_Test extends ObjectArraysBaseT
   }
 
   @Test
-  public void should_pass_if_actual_contains_value_at_index_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_value_at_index_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, "LUKe", atIndex(1));
   }
 }

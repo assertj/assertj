@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * @author Sandra Parsick
  * @author Georg Berky
  */
-public class ThrowableAssert_hasMessageNotContaining_Test extends ThrowableAssertBaseTest {
+class ThrowableAssert_hasMessageNotContaining_Test extends ThrowableAssertBaseTest {
 
   @Override
   protected ThrowableAssert invoke_api_method() {

@@ -26,7 +26,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class Paths_assertHasFileName_Test extends PathsBaseTest {
+class Paths_assertHasFileName_Test extends PathsBaseTest {
 
   public static FileSystemResource resource;
 
@@ -38,7 +38,7 @@ public class Paths_assertHasFileName_Test extends PathsBaseTest {
   private static Path symlinkToExistingDirectory;
 
   @BeforeAll
-  public static void initPaths() throws IOException {
+  static void initPaths() throws IOException {
     resource = new FileSystemResource();
     final FileSystem fs = resource.getFileSystem();
 
@@ -59,40 +59,40 @@ public class Paths_assertHasFileName_Test extends PathsBaseTest {
   }
 
   @AfterAll
-  public static void tearDown() {
+  static void tearDown() {
     resource.close();
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasFileName(info, null, "file.txt"))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_given_file_name_is_null() {
+  void should_fail_if_given_file_name_is_null() {
     assertThatNullPointerException().isThrownBy(() -> paths.assertHasFileName(info, existingFile, null))
                                     .withMessage("expected fileName should not be null");
   }
 
   @Test
-  public void should_pass_if_actual_file_has_the_given_file_name() {
+  void should_pass_if_actual_file_has_the_given_file_name() {
     paths.assertHasFileName(info, existingFile, "gc.log");
   }
 
   @Test
-  public void should_pass_if_actual_non_existent_path_has_the_given_file_name() {
+  void should_pass_if_actual_non_existent_path_has_the_given_file_name() {
     paths.assertHasFileName(info, nonExistingPath, "fake.log");
   }
 
   @Test
-  public void should_pass_if_actual_symbolic_link_has_the_given_file_name() {
+  void should_pass_if_actual_symbolic_link_has_the_given_file_name() {
     paths.assertHasFileName(info, symlinkToNonExistingPath, "bad-symlink");
     paths.assertHasFileName(info, symlinkToExistingFile, "good-symlink");
   }
 
   @Test
-  public void should_pass_if_actual_directory_has_the_given_file_name() {
+  void should_pass_if_actual_directory_has_the_given_file_name() {
     paths.assertHasFileName(info, existingDirectory, "dir2");
   }
 }

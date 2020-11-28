@@ -23,10 +23,10 @@ import java.net.URL;
 import org.assertj.core.internal.UrlsBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class Urls_assertHasProtocol_Test extends UrlsBaseTest {
+class Urls_assertHasProtocol_Test extends UrlsBaseTest {
 
   @Test
-  public void should_pass_if_actual_uri_has_the_given_protocol() throws MalformedURLException {
+  void should_pass_if_actual_uri_has_the_given_protocol() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://example.com/pages/");
     String expectedProtocol = "http";
@@ -36,7 +36,7 @@ public class Urls_assertHasProtocol_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     URL url = null;
     String expectedProtocol = "http";
@@ -47,7 +47,7 @@ public class Urls_assertHasProtocol_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_protocol_is_not_the_expected_protocol() throws MalformedURLException {
+  void should_fail_if_actual_protocol_is_not_the_expected_protocol() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://example.com/pages/");
     String expectedProtocol = "ftp";

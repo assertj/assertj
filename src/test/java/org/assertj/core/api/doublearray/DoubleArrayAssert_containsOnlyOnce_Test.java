@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author William Delanoue
  */
-public class DoubleArrayAssert_containsOnlyOnce_Test extends DoubleArrayAssertBaseTest {
+class DoubleArrayAssert_containsOnlyOnce_Test extends DoubleArrayAssertBaseTest {
 
   @Override
   protected DoubleArrayAssert invoke_api_method() {
@@ -39,7 +39,7 @@ public class DoubleArrayAssert_containsOnlyOnce_Test extends DoubleArrayAssertBa
   }
 
   @Test
-  public void should_pass_with_precision_specified_as_last_argument() {
+  void should_pass_with_precision_specified_as_last_argument() {
     // GIVEN
     double[] actual = arrayOf(1.0, 2.0);
     // THEN 
@@ -47,7 +47,7 @@ public class DoubleArrayAssert_containsOnlyOnce_Test extends DoubleArrayAssertBa
   }
 
   @Test
-  public void should_pass_with_precision_specified_in_comparator() {
+  void should_pass_with_precision_specified_in_comparator() {
     // GIVEN
     double[] actual = arrayOf(1.0, 2.0);
     // THEN

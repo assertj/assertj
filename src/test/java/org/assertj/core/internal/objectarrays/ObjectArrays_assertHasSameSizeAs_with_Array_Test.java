@@ -32,10 +32,10 @@ import org.junit.jupiter.api.Test;
  * @author Nicolas François
  * @author Joel Costigliola
  */
-public class ObjectArrays_assertHasSameSizeAs_with_Array_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertHasSameSizeAs_with_Array_Test extends ObjectArraysBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
     // WHEN
@@ -45,7 +45,7 @@ public class ObjectArrays_assertHasSameSizeAs_with_Array_Test extends ObjectArra
   }
 
   @Test
-  public void should_fail_if_other_is_null() {
+  void should_fail_if_other_is_null() {
     // GIVEN
     String[] other = null;
     // WHEN
@@ -55,7 +55,7 @@ public class ObjectArrays_assertHasSameSizeAs_with_Array_Test extends ObjectArra
   }
 
   @Test
-  public void should_fail_if_actual_size_is_not_equal_to_other_size() {
+  void should_fail_if_actual_size_is_not_equal_to_other_size() {
     // GIVEN
     AssertionInfo info = someInfo();
     String[] other = array("Solo", "Leia");
@@ -67,7 +67,7 @@ public class ObjectArrays_assertHasSameSizeAs_with_Array_Test extends ObjectArra
   }
 
   @Test
-  public void should_pass_if_actual_has_same_size_as_other() {
+  void should_pass_if_actual_has_same_size_as_other() {
     arrays.assertHasSameSizeAs(someInfo(), array("Solo", "Leia"), array("Solo", "Leia"));
   }
 }

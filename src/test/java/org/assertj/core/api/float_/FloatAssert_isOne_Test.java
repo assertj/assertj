@@ -22,7 +22,7 @@ import org.assertj.core.api.FloatAssertBaseTest;
  *
  * @author Drummond Dawson
  */
-public class FloatAssert_isOne_Test extends FloatAssertBaseTest {
+class FloatAssert_isOne_Test extends FloatAssertBaseTest {
 
   @Override
   protected FloatAssert invoke_api_method() {

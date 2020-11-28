@@ -13,9 +13,9 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenCode;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -27,12 +27,12 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.MultipleFailuresError;
 
-public class AssertionErrorCreator_tryThrowingMultipleFailuresError_Test {
+class AssertionErrorCreator_tryThrowingMultipleFailuresError_Test {
 
   private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
 
   @Test
-  public void should_throw_MultipleFailuresError() {
+  void should_throw_MultipleFailuresError() {
     // GIVEN
     List<AssertionError> errors = list(new AssertionError(format("%nerror1")), new AssertionError(format("%nerror2")));
     // WHEN
@@ -49,7 +49,7 @@ public class AssertionErrorCreator_tryThrowingMultipleFailuresError_Test {
   }
 
   @Test
-  public void should_not_throw_MultipleFailuresError_when_failing_to_create_it() throws Exception {
+  void should_not_throw_MultipleFailuresError_when_failing_to_create_it() throws Exception {
     // GIVEN
     List<? extends AssertionError> errors = list(new AssertionError("error1"), new AssertionError("error2"));
     ConstructorInvoker constructorInvoker = mock(ConstructorInvoker.class);

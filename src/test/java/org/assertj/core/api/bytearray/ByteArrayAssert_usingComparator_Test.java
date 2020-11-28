@@ -13,33 +13,29 @@
 package org.assertj.core.api.bytearray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.util.Comparator;
-
 
 import org.assertj.core.api.ByteArrayAssert;
 import org.assertj.core.api.ByteArrayAssertBaseTest;
 import org.assertj.core.internal.ByteArrays;
 import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link ByteArrayAssert#usingComparator(java.util.Comparator)}</code>.
- * 
+ *
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class ByteArrayAssert_usingComparator_Test extends ByteArrayAssertBaseTest {
+class ByteArrayAssert_usingComparator_Test extends ByteArrayAssertBaseTest {
 
-  @Mock
-  private Comparator<byte[]> comparator;
+  private Comparator<byte[]> comparator = alwaysEqual();
 
   private ByteArrays arraysBefore;
 
   @BeforeEach
-  public void before() {
-    initMocks(this);
+  void before() {
     arraysBefore = getArrays(assertions);
   }
 
@@ -51,7 +47,7 @@ public class ByteArrayAssert_usingComparator_Test extends ByteArrayAssertBaseTes
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
-    assertThat(arraysBefore).isSameAs(getArrays(assertions));
+    assertThat(getObjects(assertions).getComparator()).isSameAs(comparator);
+    assertThat(getArrays(assertions)).isSameAs(arraysBefore);
   }
 }

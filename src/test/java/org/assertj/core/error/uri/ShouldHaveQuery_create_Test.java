@@ -22,10 +22,10 @@ import java.net.URL;
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldHaveQuery_create_Test {
+class ShouldHaveQuery_create_Test {
 
   @Test
-  public void should_create_error_message_for_uri_has_query() {
+  void should_create_error_message_for_uri_has_query() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news?type=beta");
     // WHEN
@@ -41,7 +41,7 @@ public class ShouldHaveQuery_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_url_has_query() {
+  void should_create_error_message_for_url_has_query() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news?type=beta");
     // WHEN
@@ -57,7 +57,7 @@ public class ShouldHaveQuery_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_has_no_query() {
+  void should_create_error_message_for_uri_has_no_query() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news?type=beta");
     // WHEN
@@ -71,7 +71,7 @@ public class ShouldHaveQuery_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_url_has_no_query() throws Exception {
+  void should_create_error_message_for_url_has_no_query() throws Exception {
     // GIVEN
     URL url = new URL("http://assertj.org/news?type=beta");
     // WHEN

@@ -21,17 +21,17 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.junit.jupiter.api.Test;
 
-public class AtomicReferenceAssert_hasValue_Test {
+class AtomicReferenceAssert_hasValue_Test {
 
   @Test
-  public void should_pass_when_actual_has_the_expected_value() {
+  void should_pass_when_actual_has_the_expected_value() {
     String initialValue = "foo";
     AtomicReference<String> actual = new AtomicReference<>(initialValue);
     assertThat(actual).hasValue(initialValue);
   }
 
   @Test
-  public void should_fail_when_actual_does_not_have_the_expected_value() {
+  void should_fail_when_actual_does_not_have_the_expected_value() {
     AtomicReference<String> actual = new AtomicReference<>("foo");
     String expectedValue = "bar";
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasValue(expectedValue))
@@ -39,7 +39,7 @@ public class AtomicReferenceAssert_hasValue_Test {
   }
 
   @Test
-  public void should_fail_when_actual_is_null() {
+  void should_fail_when_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
       AtomicReference<String> actual = null;
       assertThat(actual).hasValue("foo");

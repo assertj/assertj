@@ -25,7 +25,7 @@ import org.junit.jupiter.api.DisplayName;
  * @author Dan Avila
  */
 @DisplayName("ShortArrayAssert containsOnlyOnce (ints)")
-public class ShortArrayAssert_containsOnlyOnce_with_Integer_Argument_Test extends ShortArrayAssertNullTest {
+class ShortArrayAssert_containsOnlyOnce_with_Integer_Argument_Test extends ShortArrayAssertNullTest {
 
   @Override
   protected ShortArrayAssert invoke_api_method() {

@@ -12,11 +12,14 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.error.ShouldBeFinite.shouldBeFinite;
+import static org.assertj.core.error.ShouldBeInfinite.shouldBeInfinite;
+
 import org.assertj.core.api.AssertionInfo;
 
 /**
  * Base class of reusable assertions for real numbers (float and double).
- * 
+ *
  * @author Joel Costigliola
  */
 public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> extends Numbers<NUMBER> {
@@ -32,7 +35,7 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
   /**
    * Verifies that the actual value is equal to {@code NaN}.<br>
    * It does not rely on the custom comparisonStrategy (if one is set).
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the actual value.
    * @throws AssertionError if the actual value is not equal to {@code NaN}.
@@ -58,4 +61,19 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
     return value.compareTo(other) > 0;
   }
 
+  public void assertIsFinite(AssertionInfo info, NUMBER actual) {
+    assertNotNull(info, actual);
+    if (isFinite(actual)) return;
+    throw failures.failure(info, shouldBeFinite(actual));
+  }
+
+  protected abstract boolean isFinite(NUMBER value);
+
+  public void assertIsInfinite(AssertionInfo info, NUMBER actual) {
+    assertNotNull(info, actual);
+    if (isInfinite(actual)) return;
+    throw failures.failure(info, shouldBeInfinite(actual));
+  }
+
+  protected abstract boolean isInfinite(NUMBER value);
 }

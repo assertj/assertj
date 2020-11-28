@@ -34,10 +34,10 @@ import org.junit.jupiter.api.Test;
  * @author William Bakker
  */
 @DisplayName("Spliterators assertHasCharacteristics")
-public class Spliterators_assertHasOnlyCharacteristics_Test extends SpliteratorsBaseTest {
+class Spliterators_assertHasOnlyCharacteristics_Test extends SpliteratorsBaseTest {
 
   @Test
-  public void should_pass_if_spliterator_has_given_single_characteristic() {
+  void should_pass_if_spliterator_has_given_single_characteristic() {
     // GIVEN
     Spliterator<?> actual = createSpliterator(DISTINCT);
     // THEN
@@ -45,7 +45,7 @@ public class Spliterators_assertHasOnlyCharacteristics_Test extends Spliterators
   }
 
   @Test
-  public void should_pass_if_spliterator_has_only_given_characteristics() {
+  void should_pass_if_spliterator_has_only_given_characteristics() {
     // GIVEN
     Spliterator<?> actual = createSpliterator(DISTINCT | SORTED);
     // THEN
@@ -53,7 +53,7 @@ public class Spliterators_assertHasOnlyCharacteristics_Test extends Spliterators
   }
 
   @Test
-  public void should_fail_when_spliterator_is_null() {
+  void should_fail_when_spliterator_is_null() {
     // GIVEN
     Spliterator<?> nullActual = null;
     // WHEN
@@ -63,7 +63,7 @@ public class Spliterators_assertHasOnlyCharacteristics_Test extends Spliterators
   }
 
   @Test
-  public void should_fail_if_spliterator_has_additional_characteristic() {
+  void should_fail_if_spliterator_has_additional_characteristic() {
     // GIVEN
     Spliterator<?> actual = createSpliterator(Spliterator.SORTED | DISTINCT);
     // WHEN
@@ -78,7 +78,7 @@ public class Spliterators_assertHasOnlyCharacteristics_Test extends Spliterators
   }
 
   @Test
-  public void should_fail_if_spliterator_does_not_have_all_expected_characteristics() {
+  void should_fail_if_spliterator_does_not_have_all_expected_characteristics() {
     // GIVEN
     Spliterator<?> actual = createSpliterator(SORTED | ORDERED);
     // WHEN

@@ -32,7 +32,7 @@ import org.junit.jupiter.params.provider.CsvSource;
  * @author SUN Ting
  */
 @DisplayName("assertIsEqualToWithSortedQueryParameters")
-public class Urls_assertIsEqualToWithSortedQueryParameters_Test extends UrlsBaseTest {
+class Urls_assertIsEqualToWithSortedQueryParameters_Test extends UrlsBaseTest {
 
   // @format:off
   @ParameterizedTest
@@ -50,7 +50,7 @@ public class Urls_assertIsEqualToWithSortedQueryParameters_Test extends UrlsBase
       "https://example.com/path/to/page"
   })
   // @format:on
-  public void should_pass_if_urls_equivalent_regardless_of_parameters_order(String actual, String expected) throws Exception {
+  void should_pass_if_urls_equivalent_regardless_of_parameters_order(String actual, String expected) throws Exception {
     // GIVEN
     URL actualUrl = new URL(actual);
     URL expectedUrl = new URL(expected);
@@ -92,7 +92,7 @@ public class Urls_assertIsEqualToWithSortedQueryParameters_Test extends UrlsBase
       "https://example.com/path/to/page?"
   })
   // @format:on
-  public void should_fail_if_urls_different_regardless_of_parameters_order(String actual, String expected) throws Exception {
+  void should_fail_if_urls_different_regardless_of_parameters_order(String actual, String expected) throws Exception {
     // GIVEN
     URL actualUrl = new URL(actual);
     URL expectedUrl = new URL(expected);

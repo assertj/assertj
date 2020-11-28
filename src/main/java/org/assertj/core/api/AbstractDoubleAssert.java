@@ -46,12 +46,12 @@ import org.assertj.core.util.VisibleForTesting;
 public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SELF>> extends
     AbstractComparableAssert<SELF, Double> implements FloatingPointNumberAssert<SELF, Double> {
 
-  private static final Double NEGATIVE_ZERO = Double.valueOf(-0.0);
+  private static final Double NEGATIVE_ZERO = -0.0;
 
   @VisibleForTesting
   Doubles doubles = Doubles.instance();
 
-  private boolean isPrimitive;
+  private final boolean isPrimitive;
 
   public AbstractDoubleAssert(Double actual, Class<?> selfType) {
     super(actual, selfType);
@@ -510,8 +510,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
   /** {@inheritDoc} */
   @Override
   public SELF isEqualTo(Double expected, Offset<Double> offset) {
-    doubles.assertIsCloseTo(info, actual, expected, offset);
-    return myself;
+    return isCloseTo(expected, offset);
   }
 
   /**
@@ -548,8 +547,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * @throws AssertionError if the actual value is not equal to the given one.
    */
   public SELF isEqualTo(double expected, Offset<Double> offset) {
-    doubles.assertIsCloseTo(info, actual, expected, offset);
-    return myself;
+    return isCloseTo(expected, offset);
   }
 
   /**
@@ -857,4 +855,50 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
     return doubles.getComparator() == null;
   }
 
+  /**
+   * Verifies that the double value is a finite floating-point value.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertion succeeds
+   * assertThat(+1.0d).isFinite();
+   *
+   * // assertions fail
+   * assertThat(Double.NaN).isFinite();
+   * assertThat(Double.NEGATIVE_INFINITY).isFinite();
+   * assertThat(Double.POSITIVE_INFINITY).isFinite();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is not a finite floating-point value.
+   * @throws AssertionError if the actual value is null.
+   * @see #isInfinite()
+   * @since 3.19.0
+   */
+  @Override
+  public SELF isFinite() {
+    doubles.assertIsFinite(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the double value represents positive infinity or negative infinity.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(Double.NEGATIVE_INFINITY).isInfinite();
+   * assertThat(Double.POSITIVE_INFINITY).isInfinite();
+   *
+   * // assertions fail
+   * assertThat(+1.0d).isInfinite();
+   * assertThat(Double.NaN).isInfinite();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value doesn't represent the positive infinity nor negative infinity.
+   * @throws AssertionError if the actual value is null.
+   * @since 3.19.0
+   */
+  @Override
+  public SELF isInfinite() {
+    doubles.assertIsInfinite(info, actual);
+    return myself;
+  }
 }

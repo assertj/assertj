@@ -41,7 +41,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  *
  * @author David Haccoun
  */
-public class Files_assertIsDirectoryRecursivelyContaining_Predicate_Test extends FilesSimpleBaseTest {
+class Files_assertIsDirectoryRecursivelyContaining_Predicate_Test extends FilesSimpleBaseTest {
 
   private static final String THE_GIVEN_FILTER_DESCRIPTION = "the given filter";
 

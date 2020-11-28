@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author William Delanoue
  */
-public class ByteAssert_isStrictlyBetween_Bytes_Test extends ByteAssertBaseTest {
+class ByteAssert_isStrictlyBetween_Bytes_Test extends ByteAssertBaseTest {
 
   @Override
   protected ByteAssert invoke_api_method() {

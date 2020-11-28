@@ -22,7 +22,7 @@ import org.assertj.core.api.ByteAssertBaseTest;
  *
  * @author Drummond Dawson
  */
-public class ByteAssert_isOne_Test extends ByteAssertBaseTest {
+class ByteAssert_isOne_Test extends ByteAssertBaseTest {
 
   @Override
   protected ByteAssert invoke_api_method() {

@@ -26,7 +26,7 @@ import org.assertj.core.data.MapEntry;
  *
  * @author Filip Hrisafov
  */
-public class MapAssert_hasEntrySatisfying_with_key_and_condition_Test extends MapAssertBaseTest {
+class MapAssert_hasEntrySatisfying_with_key_and_condition_Test extends MapAssertBaseTest {
 
   final MapEntry<String, String>[] entries = array(entry("key1", "value1"));
 

@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Filip Hrisafov
  */
-public class ByteAssert_isCloseTo_primitive_byte_Test extends ByteAssertBaseTest {
+class ByteAssert_isCloseTo_primitive_byte_Test extends ByteAssertBaseTest {
 
   private final Offset<Byte> offset = offset((byte)5);
   private final byte value = (byte)8;

@@ -17,7 +17,10 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.verify;
 
+import java.util.List;
+
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
+import org.assertj.core.api.recursive.comparison.DualValue;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.internal.ObjectsBaseTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,11 +52,20 @@ public class RecursiveComparisonAssert_isEqualTo_BaseTest extends ObjectsBaseTes
     return expectAssertionError(() -> recursiveComparisonAssert.isEqualTo(expected));
   }
 
+  public static ComparisonDifference diff(List<String> path, Object actual, Object other) {
+    return new ComparisonDifference(new DualValue(path, actual, other));
+  }
+
+  public static ComparisonDifference diff(List<String> path, Object actual, Object other, String additionalInformation) {
+    return new ComparisonDifference(new DualValue(path, actual, other), additionalInformation);
+  }
+
   public static ComparisonDifference diff(String path, Object actual, Object other) {
-    return new ComparisonDifference(list(path), actual, other);
+    return new ComparisonDifference(new DualValue(list(path), actual, other));
   }
 
   public static ComparisonDifference diff(String path, Object actual, Object other, String additionalInformation) {
-    return new ComparisonDifference(list(path), actual, other, additionalInformation);
+    DualValue dualValue = new DualValue(list(path), actual, other);
+    return new ComparisonDifference(dualValue, additionalInformation);
   }
 }

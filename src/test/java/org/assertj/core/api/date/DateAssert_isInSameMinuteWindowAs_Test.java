@@ -18,13 +18,12 @@ import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
 
-
 /**
  * Tests for <code>{@link DateAssert#isInSameMinuteWindowAs(Date)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
-public class DateAssert_isInSameMinuteWindowAs_Test extends AbstractDateAssertWithDateArg_Test {
+class DateAssert_isInSameMinuteWindowAs_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {
@@ -39,6 +38,11 @@ public class DateAssert_isInSameMinuteWindowAs_Test extends AbstractDateAssertWi
   @Override
   protected void verifyAssertionInvocation(Date date) {
     verify(dates).assertIsInSameMinuteWindowAs(getInfo(assertions), getActual(assertions), date);
+  }
+
+  @Override
+  protected DateAssert assertionInvocationWithInstantArg() {
+    return assertions.isInSameMinuteWindowAs(otherDate.toInstant());
   }
 
 }

@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class IntegerAssert_isLessThan_int_Test extends IntegerAssertBaseTest {
+class IntegerAssert_isLessThan_int_Test extends IntegerAssertBaseTest {
 
   @Override
   protected IntegerAssert invoke_api_method() {

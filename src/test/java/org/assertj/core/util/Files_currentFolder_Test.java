@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class Files_currentFolder_Test extends Files_TestCase {
+class Files_currentFolder_Test extends Files_TestCase {
 
   @Test
-  public void should_return_current_folder() throws IOException {
+  void should_return_current_folder() throws IOException {
     File e = new File(".");
     File a = Files.currentFolder();
     assertThat(a.getCanonicalPath()).isEqualTo(e.getCanonicalPath());

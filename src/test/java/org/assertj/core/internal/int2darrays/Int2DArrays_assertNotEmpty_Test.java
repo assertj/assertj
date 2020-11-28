@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.int2darrays;
 
-import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -25,12 +24,12 @@ import org.junit.jupiter.api.Test;
  *
  * @author Maciej Wajcht
  */
-public class Int2DArrays_assertNotEmpty_Test extends Int2DArraysBaseTest {
+class Int2DArrays_assertNotEmpty_Test extends Int2DArraysBaseTest {
 
   @Test
-  public void should_delegate_to_Arrays2D() {
+  void should_delegate_to_Arrays2D() {
     // WHEN
-    int2DArrays.assertNotEmpty(someInfo(), actual);
+    int2DArrays.assertNotEmpty(info, actual);
     // THEN
     verify(arrays2d).assertNotEmpty(info, failures, actual);
   }

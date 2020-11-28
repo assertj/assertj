@@ -14,17 +14,18 @@ package org.assertj.core.api.date;
 
 import static org.mockito.Mockito.verify;
 
+import java.time.Instant;
 import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
 
-
 /**
- * Tests for {@link DateAssert#isBetween(Date, Date)} and {@link DateAssert#isBetween(String, String)}.
- * 
+ * Tests for {@link DateAssert#isBetween(Date, Date)}, {@link DateAssert#isBetween(String, String)} and
+ *  {@link DateAssert#isBetween(Instant, Instant)}.
+ *
  * @author Joel Costigliola
  */
-public class DateAssert_isBetween_Test extends AbstractDateAssertWithDateArg_Test {
+class DateAssert_isBetween_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {
@@ -34,6 +35,11 @@ public class DateAssert_isBetween_Test extends AbstractDateAssertWithDateArg_Tes
   @Override
   protected DateAssert assertionInvocationWithStringArg(String dateAsString) {
     return assertions.isBetween(dateAsString, dateAsString);
+  }
+
+  @Override
+  protected DateAssert assertionInvocationWithInstantArg() {
+    return assertions.isBetween(otherDate.toInstant(), otherDate.toInstant());
   }
 
   @Override

@@ -20,7 +20,7 @@ import org.assertj.core.api.ObjectArrayAssertBaseTest;
 /**
  * Tests for {@link ObjectArrayAssert#hasAtLeastOneElementOfType(Class)}.
  */
-public class ObjectArrayAssert_hasAtLeastOneElementOfType_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_hasAtLeastOneElementOfType_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {

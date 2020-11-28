@@ -22,10 +22,10 @@ import org.junit.jupiter.api.BeforeEach;
 /**
  * Tests for {@link DateAssert#isBetween(Date, Date, boolean, boolean)} and
  * {@link DateAssert#isBetween(String, String, boolean, boolean)}.
- * 
+ *
  * @author Joel Costigliola
  */
-public class DateAssert_isBetweenSpecifyingBoundariesInclusion_Test extends AbstractDateAssertWithDateArg_Test {
+class DateAssert_isBetweenSpecifyingBoundariesInclusion_Test extends AbstractDateAssertWithDateArg_Test {
 
   private boolean inclusiveStart;
   private boolean inclusiveEnd;
@@ -46,6 +46,11 @@ public class DateAssert_isBetweenSpecifyingBoundariesInclusion_Test extends Abst
   @Override
   protected DateAssert assertionInvocationWithStringArg(String dateAsString) {
     return assertions.isBetween(dateAsString, dateAsString, inclusiveStart, inclusiveEnd);
+  }
+
+  @Override
+  protected DateAssert assertionInvocationWithInstantArg() {
+    return assertions.isBetween(otherDate.toInstant(), otherDate.toInstant(), inclusiveStart, inclusiveEnd);
   }
 
   @Override

@@ -2749,9 +2749,42 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws IllegalArgumentException if the given predicate is {@code null}.
    */
   public SELF filteredOn(Predicate<? super ELEMENT> predicate) {
-    checkArgument(predicate != null, "The filter predicate should not be null");
-    List<ELEMENT> filteredList = stream(actual).filter(predicate).collect(toList());
-    return newObjectArrayAssert(filteredList);
+    return internalFilteredOn(predicate);
+  }
+
+  /**
+   * Filter the array under test into a list composed of the elements for which the result of the {@code function} is equal to {@code expectedValue}.
+   * <p>
+   * It allows to filter elements in more safe way than by using {@link #filteredOn(String, Object)} as it doesn't utilize introspection.
+   * <p>
+   * As an example, let's check all employees 800 years old (yes, special employees):
+   * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
+   * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
+   * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
+   * Employee noname = new Employee(4L, null, 50);
+   *
+   * Employee[] employees = new Employee[] { yoda, luke, obiwan, noname };
+   *
+   * assertThat(employees).filteredOn(Employee::getAge, 800)
+   *                      .containsOnly(yoda, obiwan);
+   *
+   * assertThat(employees).filteredOn(e -&gt; e.getName(), null)
+   *                      .containsOnly(noname);</code></pre>
+   *
+   * If you need more complex filter, use {@link #filteredOn(Predicate)} or {@link #filteredOn(Condition)}.
+   *
+   * @param <T> result type of the filter function
+   * @param function the filter function
+   * @param expectedValue the expected value of the filter function
+   * @return a new assertion object with the filtered list under test
+   * @throws IllegalArgumentException if the given function is {@code null}.
+   * @since 3.17.0
+   */
+  @CheckReturnValue
+  public <T> SELF filteredOn(Function<? super ELEMENT, T> function, T expectedValue) {
+    checkArgument(function != null, "The filter function should not be null");
+    // call internalFilteredOn to avoid double proxying in soft assertions
+    return internalFilteredOn(element -> java.util.Objects.equals(function.apply(element), expectedValue));
   }
 
   /**
@@ -3137,7 +3170,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     return myself;
   }
 
-  // to implement to return the corrct AbstractObjectArrayAssert subtype
+  // to implement to return the correct AbstractObjectArrayAssert subtype
   protected abstract SELF newObjectArrayAssert(ELEMENT[] array);
 
   /**
@@ -3160,4 +3193,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     return filteredList.toArray(actualCopy);
   }
 
+  private SELF internalFilteredOn(Predicate<? super ELEMENT> predicate) {
+    checkArgument(predicate != null, "The filter predicate should not be null");
+    List<ELEMENT> filteredList = stream(actual).filter(predicate).collect(toList());
+    return newObjectArrayAssert(filteredList);
+  }
 }

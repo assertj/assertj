@@ -20,7 +20,7 @@ import java.math.BigInteger;
 import static org.mockito.Mockito.verify;
 
 
-public class BigIntegerAssert_isEqualToWithLongParameter_Test extends BigIntegerAssertBaseTest {
+class BigIntegerAssert_isEqualToWithLongParameter_Test extends BigIntegerAssertBaseTest {
 
   private static final long LONG = 1L;
 

@@ -45,13 +45,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valeriy Vyrva
  */
-public class Paths_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends MockPathsBaseTest {
+class Paths_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends MockPathsBaseTest {
 
   private static final String JAVA_SOURCE_PATTERN = "regex:.+\\.java";
   private static final String JAVA_SOURCE_PATTERN_DESCRIPTION = format("the '%s' pattern", JAVA_SOURCE_PATTERN);
 
   @Test
-  public void should_pass_if_actual_does_not_contain_files_matching_the_given_pattern() {
+  void should_pass_if_actual_does_not_contain_files_matching_the_given_pattern() {
     // GIVEN
     Path file = mockRegularFile("root", "Test.class");
     List<Path> items = singletonList(file);
@@ -62,7 +62,7 @@ public class Paths_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends 
   }
 
   @Test
-  public void should_pass_if_actual_is_empty() {
+  void should_pass_if_actual_is_empty() {
     // GIVEN
     List<Path> items = emptyList();
     Path actual = mockDirectory("root", items);
@@ -72,7 +72,7 @@ public class Paths_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends 
   }
 
   @Test
-  public void should_throw_error_if_pattern_is_null() {
+  void should_throw_error_if_pattern_is_null() {
     // GIVEN
     String pattern = null;
     // THEN
@@ -81,7 +81,7 @@ public class Paths_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends 
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     Path actual = null;
     // WHEN
@@ -91,7 +91,7 @@ public class Paths_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends 
   }
 
   @Test
-  public void should_fail_if_actual_does_not_exist() {
+  void should_fail_if_actual_does_not_exist() {
     // GIVEN
     given(nioFilesWrapper.exists(actual)).willReturn(false);
     given(nioFilesWrapper.isDirectory(actual)).willReturn(false);
@@ -103,7 +103,7 @@ public class Paths_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends 
   }
 
   @Test
-  public void should_fail_if_actual_exists_but_is_not_directory() {
+  void should_fail_if_actual_exists_but_is_not_directory() {
     // GIVEN
     given(nioFilesWrapper.exists(actual)).willReturn(true);
     given(nioFilesWrapper.isDirectory(actual)).willReturn(false);
@@ -115,7 +115,7 @@ public class Paths_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends 
   }
 
   @Test
-  public void should_throw_runtime_error_wrapping_caught_IOException() throws IOException {
+  void should_throw_runtime_error_wrapping_caught_IOException() throws IOException {
     // GIVEN
     IOException cause = new IOException();
     given(nioFilesWrapper.exists(actual)).willReturn(true);
@@ -130,7 +130,7 @@ public class Paths_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends 
   }
 
   @Test
-  public void should_fail_if_one_actual_file_matches_the_given_pattern() {
+  void should_fail_if_one_actual_file_matches_the_given_pattern() {
     // GIVEN
     Path file = mockRegularFile("Test.java");
     List<Path> items = list(file);
@@ -143,7 +143,7 @@ public class Paths_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends 
   }
 
   @Test
-  public void should_fail_if_actual_contains_only_not_expected() {
+  void should_fail_if_actual_contains_only_not_expected() {
     // GIVEN
     Path file1 = mockRegularFile("Test.java");
     Path file2 = mockRegularFile("Utils.java");
@@ -157,7 +157,7 @@ public class Paths_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends 
   }
 
   @Test
-  public void should_fail_if_some_actual_files_match_the_filter() {
+  void should_fail_if_some_actual_files_match_the_filter() {
     // GIVEN
     Path file1 = mockRegularFile("Test.class");
     Path file2 = mockRegularFile("Test.java");

@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valeriy Vyrva
  */
-public class Digests_digestDiff_Test extends DigestsBaseTest {
+class Digests_digestDiff_Test extends DigestsBaseTest {
 
   private InputStream stream;
   private MessageDigest digest;
@@ -44,19 +44,19 @@ public class Digests_digestDiff_Test extends DigestsBaseTest {
   }
 
   @Test
-  public void should_fail_if_stream_is_null() {
+  void should_fail_if_stream_is_null() {
     assertThatNullPointerException().isThrownBy(() -> digestDiff(null, null, null))
                                     .withMessage("The stream should not be null");
   }
 
   @Test
-  public void should_fail_if_digest_is_null() {
+  void should_fail_if_digest_is_null() {
     assertThatNullPointerException().isThrownBy(() -> digestDiff(stream, null, null))
                                     .withMessage("The digest should not be null");
   }
 
   @Test
-  public void should_fail_if_expected_is_null() {
+  void should_fail_if_expected_is_null() {
     assertThatNullPointerException().isThrownBy(() -> digestDiff(stream, digest, null))
                                     .withMessage("The expected should not be null");
   }
@@ -64,7 +64,7 @@ public class Digests_digestDiff_Test extends DigestsBaseTest {
   // todo should_error_if_IO
 
   @Test
-  public void should_pass_if_stream_is_readable() throws IOException {
+  void should_pass_if_stream_is_readable() throws IOException {
     // GIVEN
     given(digest.digest()).willReturn(expected);
     // THEN
@@ -72,7 +72,7 @@ public class Digests_digestDiff_Test extends DigestsBaseTest {
   }
 
   @Test
-  public void should_pass_if_digest_is_MD5() throws IOException, NoSuchAlgorithmException {
+  void should_pass_if_digest_is_MD5() throws IOException, NoSuchAlgorithmException {
     // GIVEN
     InputStream inputStream = getClass().getResourceAsStream("/red.png");
     // WHEN
@@ -82,7 +82,7 @@ public class Digests_digestDiff_Test extends DigestsBaseTest {
   }
 
   @Test
-  public void should_pass_if_digest_is_MD5_and_updated() throws IOException, NoSuchAlgorithmException {
+  void should_pass_if_digest_is_MD5_and_updated() throws IOException, NoSuchAlgorithmException {
     // GIVEN
     InputStream inputStream = getClass().getResourceAsStream("/red.png");
     MessageDigest digest = MessageDigest.getInstance("MD5");

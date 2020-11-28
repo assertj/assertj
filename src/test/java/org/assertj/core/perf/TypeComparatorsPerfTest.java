@@ -20,7 +20,7 @@ import java.time.temporal.ChronoUnit;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-public class TypeComparatorsPerfTest {
+class TypeComparatorsPerfTest {
 
   // execution time for 1000000:
   // before change: ~700ms
@@ -30,7 +30,7 @@ public class TypeComparatorsPerfTest {
   // comment @Disabled to run the test
   @Disabled
   @Test
-  public void run_100_000_object_assertions() {
+  void run_100_000_object_assertions() {
     long start = System.currentTimeMillis();
     // GIVEN
     int total = 1_000_000;

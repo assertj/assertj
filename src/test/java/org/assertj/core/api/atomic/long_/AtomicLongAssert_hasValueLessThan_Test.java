@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AtomicLongAssert;
 import org.assertj.core.api.AtomicLongAssertBaseTest;
 
-public class AtomicLongAssert_hasValueLessThan_Test extends AtomicLongAssertBaseTest {
+class AtomicLongAssert_hasValueLessThan_Test extends AtomicLongAssertBaseTest {
 
   @Override
   protected AtomicLongAssert invoke_api_method() {

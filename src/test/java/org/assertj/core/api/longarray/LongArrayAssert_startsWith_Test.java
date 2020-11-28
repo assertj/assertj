@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class LongArrayAssert_startsWith_Test extends LongArrayAssertBaseTest {
+class LongArrayAssert_startsWith_Test extends LongArrayAssertBaseTest {
 
   @Override
   protected LongArrayAssert invoke_api_method() {

@@ -27,12 +27,12 @@ import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.MultipleFailuresError;
 
-public class AssertionErrorCreator_multipleAssertionsError_Test {
+class AssertionErrorCreator_multipleAssertionsError_Test {
 
   private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
 
   @Test
-  public void should_create_MultipleFailuresError_using_reflection() {
+  void should_create_MultipleFailuresError_using_reflection() {
     // GIVEN
     Description description = new TestDescription("description");
     List<? extends AssertionError> errors = list(new AssertionError("error1"), new AssertionError("error2"));
@@ -49,7 +49,7 @@ public class AssertionErrorCreator_multipleAssertionsError_Test {
   }
 
   @Test
-  public void should_create_MultipleAssertionsError_when_MultipleFailuresError_could_not_be_created() throws Exception {
+  void should_create_MultipleAssertionsError_when_MultipleFailuresError_could_not_be_created() throws Exception {
     // GIVEN
     Description description = new TestDescription("description");
     List<? extends AssertionError> errors = list(new AssertionError("error1"), new AssertionError("error2"));

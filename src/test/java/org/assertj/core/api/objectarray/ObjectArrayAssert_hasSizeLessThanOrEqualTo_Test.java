@@ -17,7 +17,7 @@ import org.assertj.core.api.ObjectArrayAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
-public class ObjectArrayAssert_hasSizeLessThanOrEqualTo_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_hasSizeLessThanOrEqualTo_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {

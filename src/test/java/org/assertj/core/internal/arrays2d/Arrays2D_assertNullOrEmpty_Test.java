@@ -26,10 +26,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Maciej Wajcht
  */
-public class Arrays2D_assertNullOrEmpty_Test extends Arrays2D_BaseTest {
+class Arrays2D_assertNullOrEmpty_Test extends Arrays2D_BaseTest {
 
   @Test
-  public void should_fail_if_array_is_not_null_and_is_not_empty() {
+  void should_fail_if_array_is_not_null_and_is_not_empty() {
     // GIVEN
     int[][] actual = { { 1, 2 }, { 6, 8 } };
     // WHEN
@@ -39,12 +39,12 @@ public class Arrays2D_assertNullOrEmpty_Test extends Arrays2D_BaseTest {
   }
 
   @Test
-  public void should_pass_if_array_is_null() {
+  void should_pass_if_array_is_null() {
     arrays.assertNullOrEmpty(someInfo(), failures, null);
   }
 
   @Test
-  public void should_pass_if_array_is_empty() {
+  void should_pass_if_array_is_empty() {
     arrays.assertNullOrEmpty(someInfo(), failures, new int[][] {});
     arrays.assertNullOrEmpty(someInfo(), failures, new int[][] { {} });
     arrays.assertNullOrEmpty(someInfo(), failures, new int[][] { {}, {}, {} });

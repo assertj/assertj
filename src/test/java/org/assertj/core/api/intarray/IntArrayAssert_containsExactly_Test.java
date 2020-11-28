@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Jean-Christophe Gay
  */
-public class IntArrayAssert_containsExactly_Test extends IntArrayAssertBaseTest {
+class IntArrayAssert_containsExactly_Test extends IntArrayAssertBaseTest {
 
   @Override
   protected IntArrayAssert invoke_api_method() {
@@ -39,7 +39,7 @@ public class IntArrayAssert_containsExactly_Test extends IntArrayAssertBaseTest 
   }
   
   @Test
-  public void should_honor_the_given_element_comparator() {
+  void should_honor_the_given_element_comparator() {
     int[] actual = new int[] { 1, 2, 3, 4 };
     assertThat(actual).usingElementComparator(new AbsValueComparator<Integer>()).containsExactly(-1, 2, 3, -4);
   }

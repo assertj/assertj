@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-public class OffsetTimeAssert_isNotEqualTo_Test extends OffsetTimeAssertBaseTest {
+class OffsetTimeAssert_isNotEqualTo_Test extends OffsetTimeAssertBaseTest {
 
   @Test
-  public void test_isNotEqualTo_assertion() {
+  void test_isNotEqualTo_assertion() {
     // WHEN
     assertThat(REFERENCE).isNotEqualTo(REFERENCE.plusHours(1).toString());
     // THEN
@@ -40,7 +40,7 @@ public class OffsetTimeAssert_isNotEqualTo_Test extends OffsetTimeAssertBaseTest
   }
 
   @Test
-  public void test_isNotEqualTo_assertion_error_message() {
+  void test_isNotEqualTo_assertion_error_message() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(OffsetTime.of(3, 0, 5, 0,
                                                                                               ZoneOffset.UTC)).isNotEqualTo("03:00:05Z"))
                                                    .withMessage(format("%n" +
@@ -51,7 +51,7 @@ public class OffsetTimeAssert_isNotEqualTo_Test extends OffsetTimeAssertBaseTest
   }
 
   @Test
-  public void should_fail_if_offsetTime_as_string_parameter_is_null() {
+  void should_fail_if_offsetTime_as_string_parameter_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetTime.now()).isNotEqualTo((String) null))
                                         .withMessage("The String representing the OffsetTime to compare actual with should not be null");
   }

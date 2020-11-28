@@ -48,7 +48,7 @@ import org.junit.jupiter.api.Test;
  * @author Olivier Michallat
  * @author Joel Costigliola
  */
-public class Paths_assertHasContent_Test extends PathsBaseTest {
+class Paths_assertHasContent_Test extends PathsBaseTest {
 
   private static Path path;
   private static String expected;
@@ -56,7 +56,7 @@ public class Paths_assertHasContent_Test extends PathsBaseTest {
   private Path mockPath;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     // Does not matter if the values differ, the actual comparison is mocked in this test
     path = new File("src/test/resources/actual_file.txt").toPath();
     expected = "xyz";
@@ -64,12 +64,12 @@ public class Paths_assertHasContent_Test extends PathsBaseTest {
   }
 
   @BeforeEach
-  public void init() {
+  void init() {
     mockPath = mock(Path.class);
   }
 
   @Test
-  public void should_pass_if_path_has_expected_text_content() throws IOException {
+  void should_pass_if_path_has_expected_text_content() throws IOException {
     when(diff.diff(path, expected, charset)).thenReturn(new ArrayList<>());
     when(nioFilesWrapper.exists(path)).thenReturn(true);
     when(nioFilesWrapper.isReadable(path)).thenReturn(true);
@@ -77,19 +77,19 @@ public class Paths_assertHasContent_Test extends PathsBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_expected_is_null() {
+  void should_throw_error_if_expected_is_null() {
     assertThatNullPointerException().isThrownBy(() -> paths.assertHasContent(someInfo(), path, null, charset))
                                     .withMessage("The text to compare to should not be null");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasContent(someInfo(), null, expected, charset))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_path_does_not_exist() {
+  void should_fail_if_actual_path_does_not_exist() {
     AssertionInfo info = someInfo();
     when(nioFilesWrapper.exists(mockPath)).thenReturn(false);
 
@@ -100,7 +100,7 @@ public class Paths_assertHasContent_Test extends PathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_not_a_readable_file() {
+  void should_fail_if_actual_is_not_a_readable_file() {
     AssertionInfo info = someInfo();
     when(nioFilesWrapper.exists(mockPath)).thenReturn(true);
     when(nioFilesWrapper.isReadable(mockPath)).thenReturn(false);
@@ -112,7 +112,7 @@ public class Paths_assertHasContent_Test extends PathsBaseTest {
   }
 
   @Test
-  public void should_throw_error_wrapping_caught_IOException() throws IOException {
+  void should_throw_error_wrapping_caught_IOException() throws IOException {
     IOException cause = new IOException();
     when(diff.diff(path, expected, charset)).thenThrow(cause);
     when(nioFilesWrapper.exists(path)).thenReturn(true);
@@ -124,7 +124,7 @@ public class Paths_assertHasContent_Test extends PathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_path_does_not_have_expected_text_content() throws IOException {
+  void should_fail_if_path_does_not_have_expected_text_content() throws IOException {
     @SuppressWarnings("unchecked")
     List<Delta<String>> diffs = newArrayList((Delta<String>) mock(Delta.class));
     when(diff.diff(path, expected, charset)).thenReturn(diffs);

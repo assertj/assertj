@@ -13,30 +13,21 @@
 package org.assertj.core.api.float_;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.util.Comparator;
 
-
 import org.assertj.core.api.FloatAssert;
 import org.assertj.core.api.FloatAssertBaseTest;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link FloatAssert#usingComparator(java.util.Comparator)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
-public class FloatAssert_usingComparator_Test extends FloatAssertBaseTest {
+class FloatAssert_usingComparator_Test extends FloatAssertBaseTest {
 
-  @Mock
-  private Comparator<Float> comparator;
-
-  @BeforeEach
-  public void before() {
-    initMocks(this);
-  }
+  private Comparator<Float> comparator = alwaysEqual();
 
   @Override
   protected FloatAssert invoke_api_method() {
@@ -46,7 +37,7 @@ public class FloatAssert_usingComparator_Test extends FloatAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
-    assertThat(comparator).isSameAs(getFloats(assertions).getComparator());
+    assertThat(getObjects(assertions).getComparator()).isSameAs(comparator);
+    assertThat(getFloats(assertions).getComparator()).isSameAs(comparator);
   }
 }

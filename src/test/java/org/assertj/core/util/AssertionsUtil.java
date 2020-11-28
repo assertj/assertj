@@ -40,7 +40,7 @@ public class AssertionsUtil {
     return assertThatExceptionOfType(AssertionError.class).isThrownBy(shouldRaiseAssertionError);
   }
 
-  public static void expectAssumptionViolatedException(ThrowingCallable shouldRaiseError) {
+  public static void expectAssumptionNotMetException(ThrowingCallable shouldRaiseError) {
     assertThatThrownBy(shouldRaiseError).isInstanceOf(AssumptionViolatedException.class);
   }
 

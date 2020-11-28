@@ -22,7 +22,7 @@ import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class MapAssert_containsOnly_with_Java_Util_MapEntry_Test extends MapAssertBaseTest {
+class MapAssert_containsOnly_with_Java_Util_MapEntry_Test extends MapAssertBaseTest {
 
   final Map.Entry<String, String>[] entries = array(javaMapEntry("key1", "value1"), javaMapEntry("key2", "value2"));
 
@@ -37,7 +37,7 @@ public class MapAssert_containsOnly_with_Java_Util_MapEntry_Test extends MapAsse
   }
   
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
      assertThat(map("key1", "value1", "key2", "value2")).containsOnly(javaMapEntry("key1", "value1"), javaMapEntry("key2", "value2"));
   }
 }

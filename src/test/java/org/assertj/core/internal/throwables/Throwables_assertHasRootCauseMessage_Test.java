@@ -24,12 +24,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Throwables assertHasRootCauseMessage")
-public class Throwables_assertHasRootCauseMessage_Test extends ThrowablesBaseTest {
+class Throwables_assertHasRootCauseMessage_Test extends ThrowablesBaseTest {
 
   private static final AssertionInfo INFO = someInfo();
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> throwables.assertHasRootCauseMessage(INFO, null, "message"));
     // THEN
@@ -37,7 +37,7 @@ public class Throwables_assertHasRootCauseMessage_Test extends ThrowablesBaseTes
   }
 
   @Test
-  public void should_fail_if_root_cause_is_null() {
+  void should_fail_if_root_cause_is_null() {
     // GIVEN
     Throwable error = new RuntimeException();
     // WHEN
@@ -47,7 +47,7 @@ public class Throwables_assertHasRootCauseMessage_Test extends ThrowablesBaseTes
   }
 
   @Test
-  public void should_fail_if_root_cause_has_no_message() {
+  void should_fail_if_root_cause_has_no_message() {
     // GIVEN
     Throwable root = new RuntimeException();
     Throwable error = new RuntimeException(root);
@@ -58,7 +58,7 @@ public class Throwables_assertHasRootCauseMessage_Test extends ThrowablesBaseTes
   }
 
   @Test
-  public void should_fail_if_root_cause_message_is_different() {
+  void should_fail_if_root_cause_message_is_different() {
     // GIVEN
     Throwable root = new RuntimeException("fail");
     Throwable error = new RuntimeException(root);
@@ -69,7 +69,7 @@ public class Throwables_assertHasRootCauseMessage_Test extends ThrowablesBaseTes
   }
 
   @Test
-  public void should_pass_if_throwable_has_root_cause_with_message_equal_to_expected() {
+  void should_pass_if_throwable_has_root_cause_with_message_equal_to_expected() {
     // GIVEN
     Throwable error = new RuntimeException(new RuntimeException("expected message"));
     // THEN
@@ -77,7 +77,7 @@ public class Throwables_assertHasRootCauseMessage_Test extends ThrowablesBaseTes
   }
 
   @Test
-  public void should_pass_if_actual_root_cause_has_no_message_and_expected_message_is_null() {
+  void should_pass_if_actual_root_cause_has_no_message_and_expected_message_is_null() {
     // GIVEN
     Throwable error = new RuntimeException(new RuntimeException());
     // THEN

@@ -22,7 +22,7 @@ import org.assertj.core.api.CharSequenceAssertBaseTest;
  * 
  * @author Filip Hrisafov
  */
-public class CharSequenceAssert_isBlank_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_isBlank_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {

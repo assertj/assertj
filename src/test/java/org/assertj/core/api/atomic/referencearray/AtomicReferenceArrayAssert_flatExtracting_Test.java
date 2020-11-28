@@ -28,7 +28,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("deprecation")
-public class AtomicReferenceArrayAssert_flatExtracting_Test {
+class AtomicReferenceArrayAssert_flatExtracting_Test {
   private CartoonCharacter bart;
   private CartoonCharacter lisa;
   private CartoonCharacter maggie;
@@ -46,7 +46,7 @@ public class AtomicReferenceArrayAssert_flatExtracting_Test {
   };
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     bart = new CartoonCharacter("Bart Simpson");
     lisa = new CartoonCharacter("Lisa Simpson");
     maggie = new CartoonCharacter("Maggie Simpson");
@@ -60,41 +60,41 @@ public class AtomicReferenceArrayAssert_flatExtracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_joined_lists_when_extracting_children_with_extractor() {
+  void should_allow_assertions_on_joined_lists_when_extracting_children_with_extractor() {
     AtomicReferenceArray<CartoonCharacter> cartoonCharacters = new AtomicReferenceArray<>(array(homer, fred));
     assertThat(cartoonCharacters).flatExtracting(childrenExtractor).containsOnly(bart, lisa, maggie, pebbles);
   }
 
   @Test
-  public void should_allow_assertions_on_joined_lists_when_extracting_children() {
+  void should_allow_assertions_on_joined_lists_when_extracting_children() {
     AtomicReferenceArray<CartoonCharacter> cartoonCharacters = new AtomicReferenceArray<>(array(homer, fred));
     assertThat(cartoonCharacters).flatExtracting(children).containsOnly(bart, lisa, maggie, pebbles);
   }
 
   @Test
-  public void should_allow_assertions_on_empty_result_lists_with_extractor() {
+  void should_allow_assertions_on_empty_result_lists_with_extractor() {
     AtomicReferenceArray<CartoonCharacter> childCharacters = new AtomicReferenceArray<>(array(bart, lisa, maggie));
     assertThat(childCharacters).flatExtracting(childrenExtractor).isEmpty();
   }
 
   @Test
-  public void should_allow_assertions_on_empty_result_lists() {
+  void should_allow_assertions_on_empty_result_lists() {
     AtomicReferenceArray<CartoonCharacter> childCharacters = new AtomicReferenceArray<>(array(bart, lisa, maggie));
     assertThat(childCharacters).flatExtracting(children).isEmpty();
   }
 
   @Test
-  public void should_throw_null_pointer_exception_when_extracting_from_null_with_extractor() {
+  void should_throw_null_pointer_exception_when_extracting_from_null_with_extractor() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(new AtomicReferenceArray<>(array(homer, null))).flatExtracting(childrenExtractor));
   }
 
   @Test
-  public void should_throw_null_pointer_exception_when_extracting_from_null() {
+  void should_throw_null_pointer_exception_when_extracting_from_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(new AtomicReferenceArray<>(array(homer, null))).flatExtracting(children));
   }
 
   @Test
-  public void should_rethrow_throwing_extractor_checked_exception_as_a_runtime_exception() {
+  void should_rethrow_throwing_extractor_checked_exception_as_a_runtime_exception() {
     AtomicReferenceArray<CartoonCharacter> childCharacters = new AtomicReferenceArray<>(array(bart, lisa, maggie));
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(childCharacters).flatExtracting(cartoonCharacter -> {
       if (cartoonCharacter.getChildren().isEmpty()) throw new Exception("no children");
@@ -103,7 +103,7 @@ public class AtomicReferenceArrayAssert_flatExtracting_Test {
   }
 
   @Test
-  public void should_let_throwing_extractor_runtime_exception_bubble_up() {
+  void should_let_throwing_extractor_runtime_exception_bubble_up() {
     AtomicReferenceArray<CartoonCharacter> childCharacters = new AtomicReferenceArray<>(array(bart, lisa, maggie));
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(childCharacters).flatExtracting(cartoonCharacter -> {
       if (cartoonCharacter.getChildren().isEmpty()) throw new RuntimeException("no children");
@@ -112,7 +112,7 @@ public class AtomicReferenceArrayAssert_flatExtracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_joined_lists_when_extracting_children_with_throwing_extractor() {
+  void should_allow_assertions_on_joined_lists_when_extracting_children_with_throwing_extractor() {
     AtomicReferenceArray<CartoonCharacter> cartoonCharacters = new AtomicReferenceArray<>(array(homer, fred));
     assertThat(cartoonCharacters).flatExtracting(cartoonCharacter -> {
       if (cartoonCharacter.getChildren().isEmpty()) throw new Exception("no children");
@@ -121,7 +121,7 @@ public class AtomicReferenceArrayAssert_flatExtracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_joined_lists_when_extracting_children_with_anonymous_class_throwing_extractor() {
+  void should_allow_assertions_on_joined_lists_when_extracting_children_with_anonymous_class_throwing_extractor() {
     AtomicReferenceArray<CartoonCharacter> cartoonCharacters = new AtomicReferenceArray<>(array(homer, fred));
     assertThat(cartoonCharacters).flatExtracting(new ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception>() {
       @Override

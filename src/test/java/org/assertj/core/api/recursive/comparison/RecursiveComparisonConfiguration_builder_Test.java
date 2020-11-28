@@ -12,19 +12,22 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
+import java.util.Comparator;
+import java.util.function.BiPredicate;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.RandomUtils;
 import org.assertj.core.test.AlwaysEqualComparator;
 import org.junit.jupiter.api.Test;
 
-public class RecursiveComparisonConfiguration_builder_Test {
+class RecursiveComparisonConfiguration_builder_Test {
 
   @Test
-  public void should_set_ignoreAllActualNullFields() {
+  void should_set_ignoreAllActualNullFields() {
     // GIVEN
     boolean value = RandomUtils.nextBoolean();
     // WHEN
@@ -36,7 +39,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_ignoreAllActualEmptyOptionalFields() {
+  void should_set_ignoreAllActualEmptyOptionalFields() {
     // GIVEN
     boolean value = RandomUtils.nextBoolean();
     // WHEN
@@ -48,7 +51,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_ignoreAllExpectedNullFields() {
+  void should_set_ignoreAllExpectedNullFields() {
     // GIVEN
     boolean value = RandomUtils.nextBoolean();
     // WHEN
@@ -60,7 +63,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_ignoreAllOverriddenEquals() {
+  void should_set_ignoreAllOverriddenEquals() {
     // GIVEN
     boolean value = RandomUtils.nextBoolean();
     // WHEN
@@ -72,7 +75,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_ignoreCollectionOrder() {
+  void should_set_ignoreCollectionOrder() {
     // GIVEN
     boolean value = RandomUtils.nextBoolean();
     // WHEN
@@ -84,7 +87,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_ignoreCollectionOrderInFields() {
+  void should_set_ignoreCollectionOrderInFields() {
     // GIVEN
     String[] values = { "foo", "bar" };
     // WHEN
@@ -92,12 +95,11 @@ public class RecursiveComparisonConfiguration_builder_Test {
                                                                                      .withIgnoredCollectionOrderInFields(values)
                                                                                      .build();
     // THEN
-    then(configuration.getIgnoredCollectionOrderInFields()).extracting(FieldLocation::getFieldPath)
-                                                           .containsExactly(values);
+    then(configuration.getIgnoredCollectionOrderInFields()).containsExactly(values);
   }
 
   @Test
-  public void should_set_ignoreCollectionOrderInFieldsMatchingRegexes() {
+  void should_set_ignoreCollectionOrderInFieldsMatchingRegexes() {
     // GIVEN
     String[] values = { "foo", "bar" };
     // WHEN
@@ -110,7 +112,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_ignoredFields() {
+  void should_set_ignoredFields() {
     // GIVEN
     String[] values = { "foo", "bar" };
     // WHEN
@@ -118,12 +120,11 @@ public class RecursiveComparisonConfiguration_builder_Test {
                                                                                      .withIgnoredFields(values)
                                                                                      .build();
     // THEN
-    then(configuration.getIgnoredFields()).extracting(FieldLocation::getFieldPath)
-                                          .containsExactly(values);
+    then(configuration.getIgnoredFields()).containsExactly(values);
   }
 
   @Test
-  public void should_set_ignoredFieldsRegexes() {
+  void should_set_ignoredFieldsRegexes() {
     // GIVEN
     String[] values = { "foo", "bar" };
     // WHEN
@@ -136,7 +137,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_ignoredOverriddenEqualsForFields() {
+  void should_set_ignoredOverriddenEqualsForFields() {
     // GIVEN
     String[] values = { "foo", "bar" };
     // WHEN
@@ -144,12 +145,11 @@ public class RecursiveComparisonConfiguration_builder_Test {
                                                                                      .withIgnoredOverriddenEqualsForFields(values)
                                                                                      .build();
     // THEN
-    then(configuration.getIgnoredOverriddenEqualsForFields()).extracting(FieldLocation::getFieldPath)
-                                                             .containsExactly(values);
+    then(configuration.getIgnoredOverriddenEqualsForFields()).containsExactly(values);
   }
 
   @Test
-  public void should_set_ignoredOverriddenEqualsForTypes() {
+  void should_set_ignoredOverriddenEqualsForTypes() {
     // GIVEN
     Class<?>[] values = { String.class, Long.class, int.class };
     // WHEN
@@ -161,7 +161,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_ignoredOverriddenEqualsRegexes() {
+  void should_set_ignoredOverriddenEqualsRegexes() {
     // GIVEN
     String[] values = { "foo", "bar" };
     // WHEN
@@ -174,7 +174,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_strictTypeCheckingMode() {
+  void should_set_strictTypeCheckingMode() {
     // GIVEN
     boolean value = RandomUtils.nextBoolean();
     // WHEN
@@ -186,7 +186,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_ignoredTypes() {
+  void should_set_ignoredTypes() {
     // GIVEN
     Class<?>[] values = { String.class, Long.class, Object.class, int.class };
     // WHEN
@@ -198,7 +198,7 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_comparatorForField() {
+  void should_set_comparatorForField() {
     // GIVEN
     String fooLocation = "foo";
     String barLocation = "foo.bar";
@@ -217,7 +217,74 @@ public class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
-  public void should_set_comparatorForType() {
+  void should_throw_NPE_if_given_comparator_for_fields_is_null() {
+    // GIVEN
+    Comparator<Integer> integerComparator = null;
+    // WHEN
+    Throwable throwable = catchThrowable(() -> RecursiveComparisonConfiguration.builder()
+                                                                               .withComparatorForFields(integerComparator,
+                                                                                                        "age"));
+    // THEN
+    then(throwable).isInstanceOf(NullPointerException.class)
+                   .hasMessage("Expecting a non null Comparator");
+  }
+
+  @Test
+  void should_throw_NPE_if_given_comparator_for_type_is_null() {
+    // GIVEN
+    Comparator<Integer> integerComparator = null;
+    // WHEN
+    Throwable throwable = catchThrowable(() -> RecursiveComparisonConfiguration.builder()
+                                                                               .withComparatorForType(integerComparator,
+                                                                                                      Integer.class));
+    // THEN
+    then(throwable).isInstanceOf(NullPointerException.class)
+                   .hasMessage("Expecting a non null Comparator");
+  }
+
+  @Test
+  void should_throw_NPE_if_given_BiPredicate_for_type_is_null() {
+    // GIVEN
+    BiPredicate<String, String> stringEquals = null;
+    // WHEN
+    Throwable throwable = catchThrowable(() -> RecursiveComparisonConfiguration.builder().withEqualsForType(stringEquals,
+                                                                                                            String.class));
+    // THEN
+    then(throwable).isInstanceOf(NullPointerException.class)
+                   .hasMessage("Expecting a non null BiPredicate");
+  }
+
+  @Test
+  void should_throw_NPE_if_given_BiPredicate_for_fields_is_null() {
+    // GIVEN
+    BiPredicate<String, String> stringEquals = null;
+    // WHEN
+    Throwable throwable = catchThrowable(() -> RecursiveComparisonConfiguration.builder().withEqualsForFields(stringEquals,
+                                                                                                              "id"));
+    // THEN
+    then(throwable).isInstanceOf(NullPointerException.class)
+                   .hasMessage("Expecting a non null BiPredicate");
+  }
+
+  @Test
+  void should_set_equalsForField() {
+    // GIVEN
+    String nameLocation = "name";
+    String titleLocation = "title";
+    BiPredicate<String, String> stringEquals = (String s1, String s2) -> s1.equalsIgnoreCase(s2);
+    // WHEN
+    RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
+                                                                                     .withEqualsForFields(stringEquals,
+                                                                                                          nameLocation,
+                                                                                                          titleLocation)
+                                                                                     .build();
+    // THEN
+    then(configuration.hasComparatorForField(nameLocation)).isTrue();
+    then(configuration.hasComparatorForField(titleLocation)).isTrue();
+  }
+
+  @Test
+  void should_set_comparatorForType() {
     // GIVEN
     AlwaysEqualComparator<String> alwaysEqualComparator = alwaysEqual();
     // WHEN
@@ -228,5 +295,19 @@ public class RecursiveComparisonConfiguration_builder_Test {
     // THEN
     then(configuration.hasComparatorForType(String.class)).isTrue();
     then(configuration.getComparatorForType(String.class)).isSameAs(alwaysEqualComparator);
+  }
+
+  @Test
+  void should_set_equalsForType() {
+    // GIVEN
+    BiPredicate<String, String> stringEquals = (String s1, String s2) -> s1.equalsIgnoreCase(s2);
+
+    // WHEN
+    RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
+                                                                                     .withEqualsForType(stringEquals,
+                                                                                                        String.class)
+                                                                                     .build();
+    // THEN
+    then(configuration.hasComparatorForType(String.class)).isTrue();
   }
 }

@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verify;
  * @author Mikhail Mazursky
  * @author Nicolas François
  */
-public class AbstractAssert_isInstanceOf_Test extends AbstractAssertBaseTest {
+class AbstractAssert_isInstanceOf_Test extends AbstractAssertBaseTest {
 
   @Override
   protected ConcreteAssert invoke_api_method() {

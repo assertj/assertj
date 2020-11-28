@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.ShortArrayAssert;
 import org.assertj.core.api.ShortArrayAssertBaseTest;
 
-public class ShortArrayAssert_containsAnyOf_Test extends ShortArrayAssertBaseTest {
+class ShortArrayAssert_containsAnyOf_Test extends ShortArrayAssertBaseTest {
 
   @Override
   protected ShortArrayAssert invoke_api_method() {

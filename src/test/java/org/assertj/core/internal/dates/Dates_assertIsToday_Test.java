@@ -36,10 +36,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertIsToday_Test extends DatesBaseTest {
+class Dates_assertIsToday_Test extends DatesBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_not_today() {
+  void should_fail_if_actual_is_not_today() {
     AssertionInfo info = someInfo();
     actual = parseDate("2111-01-01");
 
@@ -50,18 +50,18 @@ public class Dates_assertIsToday_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsToday(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_today() {
+  void should_pass_if_actual_is_today() {
     dates.assertIsToday(someInfo(), new Date());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_today_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_not_today_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     actual = parseDate("2111-01-01");
 
@@ -72,13 +72,13 @@ public class Dates_assertIsToday_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsToday(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_today_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_today_according_to_custom_comparison_strategy() {
     // we want actual to be different from today but still in the same month so that it is equal to today
     // according to our comparison strategy (that compares only month and year).
     // => if we are at the end of the month we subtract one day instead of adding one

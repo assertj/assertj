@@ -45,7 +45,7 @@ public class FieldByFieldComparator implements Comparator<Object> {
   }
 
   public FieldByFieldComparator() {
-    this(new TreeMap<String, Comparator<?>>(), defaultTypeComparators());
+    this(new TreeMap<>(), defaultTypeComparators());
   }
 
   @Override

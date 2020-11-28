@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verify;
  * @author Joel Costigliola
  * @author Nicolas François
  */
-public class AbstractAssert_isIn_with_vararg_Test extends AbstractAssertBaseTest {
+class AbstractAssert_isIn_with_vararg_Test extends AbstractAssertBaseTest {
 
   @Override
   protected ConcreteAssert invoke_api_method() {

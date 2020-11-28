@@ -20,10 +20,10 @@ import static org.assertj.core.error.ShouldHaveSuppressedException.shouldHaveSup
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldHaveSuppressedException_create_Test {
+class ShouldHaveSuppressedException_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     Throwable actual = new Throwable();
     actual.addSuppressed(new IllegalArgumentException("invalid arg"));

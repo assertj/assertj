@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Chris Arnott
  */
-public class DoubleAssert_isNotCloseToPercentage_Test extends DoubleAssertBaseTest {
+class DoubleAssert_isNotCloseToPercentage_Test extends DoubleAssertBaseTest {
 
     private final Percentage percentage = withPercentage(5.0);
     private final Double value = 10.0;

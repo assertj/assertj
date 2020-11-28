@@ -41,12 +41,12 @@ import org.junit.jupiter.params.provider.CsvSource;
  *
  * @author Chris Arnott
  */
-public class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
+class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
 
   private static final BigDecimal FIVE = new BigDecimal("5");
 
   @Test
-  public void should_pass_if_difference_is_greater_than_offset() {
+  void should_pass_if_difference_is_greater_than_offset() {
     numbers.assertIsNotCloseTo(someInfo(), TEN, ONE, byLessThan(ONE));
     numbers.assertIsNotCloseTo(someInfo(), TEN, ONE, within(ONE));
     numbers.assertIsNotCloseTo(someInfo(), TEN, ONE, offset(ONE));
@@ -59,13 +59,13 @@ public class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
       "-1.0, 1.0, 2.0",
       "0.0, 0.000000000000000000000001, 0.000000000000000000000001"
   })
-  public void should_pass_if_difference_is_equal_to_strict_offset(BigDecimal actual, BigDecimal expected,
-                                                                  BigDecimal offsetValue) {
+  void should_pass_if_difference_is_equal_to_strict_offset(BigDecimal actual, BigDecimal expected,
+                                                           BigDecimal offsetValue) {
     numbers.assertIsNotCloseTo(someInfo(), actual, expected, byLessThan(offsetValue));
   }
 
   @Test
-  public void should_fail_if_difference_is_less_than_given_offset() {
+  void should_fail_if_difference_is_less_than_given_offset() {
     BigDecimal fiveDotOne = new BigDecimal("5.1");
     AssertionInfo info = someInfo();
 
@@ -76,7 +76,7 @@ public class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
   }
 
   @Test
-  public void should_fail_if_difference_is_less_than_given_strict_offset() {
+  void should_fail_if_difference_is_less_than_given_strict_offset() {
     BigDecimal fiveDotOne = new BigDecimal("5.1");
     AssertionInfo info = someInfo();
 
@@ -96,8 +96,8 @@ public class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
       "0.0, 0.000000000000000000000001, 0.000000000000000000000001",
       "-0.000000000000000000000001, -0.000000000000000000000001, 0.0"
   })
-  public void should_fail_if_difference_is_equal_to_given_offset(BigDecimal actual, BigDecimal expected,
-                                                                 BigDecimal offsetValue) {
+  void should_fail_if_difference_is_equal_to_given_offset(BigDecimal actual, BigDecimal expected,
+                                                          BigDecimal offsetValue) {
     AssertionInfo info = someInfo();
     Offset<BigDecimal> offset = within(offsetValue);
 
@@ -109,36 +109,36 @@ public class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_expected_value_is_null() {
+  void should_fail_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> numbers.assertIsNotCloseTo(someInfo(), ONE, null, byLessThan(ONE)));
   }
 
   @Test
-  public void should_fail_if_offset_is_null() {
+  void should_fail_if_offset_is_null() {
     assertThatNullPointerException().isThrownBy(() -> numbers.assertIsNotCloseTo(someInfo(), ONE, ZERO, null));
   }
 
   // with comparison strategy
 
   @Test
-  public void should_pass_if_difference_is_greater_than_offset_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_difference_is_greater_than_offset_whatever_custom_comparison_strategy_is() {
     numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(someInfo(), TEN, ONE, byLessThan(ONE));
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_big_decimals_are_equal_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_big_decimals_are_equal_whatever_custom_comparison_strategy_is() {
     BigDecimal fiveDotZero = new BigDecimal("5.0");
     AssertionInfo info = someInfo();
 
@@ -155,9 +155,9 @@ public class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
       "-1.0, 1.0, 2.0",
       "0.0, 0.000000000000000000000001, 0.000000000000000000000001"
   })
-  public void should_pass_if_difference_is_equal_to_strict_offset_whatever_custom_comparison_strategy_is(BigDecimal actual,
-                                                                                                         BigDecimal expected,
-                                                                                                         BigDecimal offsetValue) {
+  void should_pass_if_difference_is_equal_to_strict_offset_whatever_custom_comparison_strategy_is(BigDecimal actual,
+                                                                                                  BigDecimal expected,
+                                                                                                  BigDecimal offsetValue) {
     numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(someInfo(), actual, expected, byLessThan(offsetValue));
   }
 

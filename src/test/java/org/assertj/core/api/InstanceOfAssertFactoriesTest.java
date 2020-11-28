@@ -17,6 +17,7 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.InstanceOfAssertFactories.ARRAY;
+import static org.assertj.core.api.InstanceOfAssertFactories.ARRAY_2D;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_BOOLEAN;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_INTEGER_ARRAY;
@@ -32,8 +33,10 @@ import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_STAMPED_REFE
 import static org.assertj.core.api.InstanceOfAssertFactories.BIG_DECIMAL;
 import static org.assertj.core.api.InstanceOfAssertFactories.BIG_INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN;
+import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.BYTE;
+import static org.assertj.core.api.InstanceOfAssertFactories.BYTE_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.BYTE_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHARACTER;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_2D_ARRAY;
@@ -44,12 +47,14 @@ import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETABLE_FUTURE;
 import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETION_STAGE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
+import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.DURATION;
 import static org.assertj.core.api.InstanceOfAssertFactories.FILE;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT;
+import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.FUTURE;
 import static org.assertj.core.api.InstanceOfAssertFactories.INPUT_STREAM;
@@ -66,6 +71,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE_TIME;
 import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_TIME;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG;
+import static org.assertj.core.api.InstanceOfAssertFactories.LONG_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_ADDER;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_PREDICATE;
@@ -81,6 +87,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.PATH;
 import static org.assertj.core.api.InstanceOfAssertFactories.PERIOD;
 import static org.assertj.core.api.InstanceOfAssertFactories.PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT;
+import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.SPLITERATOR;
 import static org.assertj.core.api.InstanceOfAssertFactories.STREAM;
@@ -371,6 +378,16 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
+  void boolean_2d_array_factory_should_allow_boolean_2d_array_assertions() {
+    // GIVEN
+    Object value = new boolean[][] {{ true, false }, { false, true }};
+    // WHEN
+    Boolean2DArrayAssert result = assertThat(value).asInstanceOf(BOOLEAN_2D_ARRAY);
+    // THEN
+    result.hasDimensions(2, 2);
+  }
+
+  @Test
   void byte_factory_should_allow_byte_assertions() {
     // GIVEN
     Object value = (byte) 0;
@@ -388,6 +405,16 @@ class InstanceOfAssertFactoriesTest {
     AbstractByteArrayAssert<?> result = assertThat(value).asInstanceOf(BYTE_ARRAY);
     // THEN
     result.containsExactly(0, 1);
+  }
+
+  @Test
+  void byte_2d_array_factory_should_allow_byte_2d_array_assertions() {
+    // GIVEN
+    Object value = new byte[][] {{ 0, 1 }, { 2, 3 }};
+    // WHEN
+    Byte2DArrayAssert result = assertThat(value).asInstanceOf(BYTE_2D_ARRAY);
+    // THEN
+    result.hasDimensions(2, 2);
   }
 
   @Test
@@ -451,6 +478,16 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
+  void double_2d_array_factory_should_allow_double_2d_array_assertions() {
+    // GIVEN
+    Object value = new double[][] {{ 0.0, 1.0 }, { 2.0, 3.0 }};
+    // WHEN
+    Double2DArrayAssert result = assertThat(value).asInstanceOf(DOUBLE_2D_ARRAY);
+    // THEN
+    result.hasDimensions(2, 2);
+  }
+
+  @Test
   void file_factory_should_allow_file_assertions() {
     // GIVEN
     Object value = new File("random-file-which-does-not-exist");
@@ -511,6 +548,16 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
+  void float_2d_array_factory_should_allow_float_2d_array_assertions() {
+    // GIVEN
+    Object value = new float[][] {{ 0.0f, 1.0f }, { 2.0f, 3.0f }};
+    // WHEN
+    Float2DArrayAssert result = assertThat(value).asInstanceOf(FLOAT_2D_ARRAY);
+    // THEN
+    result.hasDimensions(2, 2);
+  }
+
+  @Test
   void integer_factory_should_allow_integer_assertions() {
     // GIVEN
     Object value = 0;
@@ -561,6 +608,16 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
+  void long_2d_array_factory_should_allow_long_2d_array_assertions() {
+    // GIVEN
+    Object value = new long[][] {{ 0L, 1L }, { 2L, 3L }};
+    // WHEN
+    Long2DArrayAssert result = assertThat(value).asInstanceOf(LONG_2D_ARRAY);
+    // THEN
+    result.hasDimensions(2, 2);
+  }
+
+  @Test
   void type_factory_should_allow_typed_object_assertions() {
     // GIVEN
     Object value = "string";
@@ -578,6 +635,16 @@ class InstanceOfAssertFactoriesTest {
     ObjectArrayAssert<Object> result = assertThat(value).asInstanceOf(ARRAY);
     // THEN
     result.containsExactly(0, "");
+  }
+
+  @Test
+  void array_2d_factory_should_allow_2d_array_assertions() {
+    // GIVEN
+    Object value = new Object[][] {{ 0, "" }, { 3.0, 'b'}};
+    // WHEN
+    Object2DArrayAssert<Object> result = assertThat(value).asInstanceOf(ARRAY_2D);
+    // THEN
+    result.hasDimensions(2, 2);
   }
 
   @Test
@@ -608,6 +675,16 @@ class InstanceOfAssertFactoriesTest {
     AbstractShortArrayAssert<?> result = assertThat(value).asInstanceOf(SHORT_ARRAY);
     // THEN
     result.containsExactly((short) 0, (short) 1);
+  }
+
+  @Test
+  void short_2d_array_factory_should_allow_short_2d_array_assertions() {
+    // GIVEN
+    Object value = new short[][] {{ 0, 1 }, { 2, 3 }};
+    // WHEN
+    Short2DArrayAssert result = assertThat(value).asInstanceOf(SHORT_2D_ARRAY);
+    // THEN
+    result.hasDimensions(2, 2);
   }
 
   @Test

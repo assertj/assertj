@@ -29,78 +29,78 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Strings_assertEqualsIgnoringCase_Test extends StringsBaseTest {
+class Strings_assertEqualsIgnoringCase_Test extends StringsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null_and_expected_is_not() {
+  void should_fail_if_actual_is_null_and_expected_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertEqualsIgnoringCase(someInfo(), null, "Luke"))
                                                    .withMessage(shouldBeEqual(null, "Luke").create());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_null_and_expected_is() {
+  void should_fail_if_actual_is_not_null_and_expected_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertEqualsIgnoringCase(someInfo(), "Luke", null))
                                                    .withMessage(shouldBeEqual("Luke", null).create());
   }
 
   @Test
-  public void should_fail_if_both_Strings_are_not_equal_regardless_of_case() {
+  void should_fail_if_both_Strings_are_not_equal_regardless_of_case() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertEqualsIgnoringCase(someInfo(), "Yoda", "Luke"))
                                                    .withMessage(shouldBeEqual("Yoda", "Luke").create());
   }
 
   @Test
-  public void should_pass_if_both_Strings_are_null() {
+  void should_pass_if_both_Strings_are_null() {
     strings.assertEqualsIgnoringCase(someInfo(), null, null);
   }
 
   @Test
-  public void should_pass_if_both_Strings_are_the_same() {
+  void should_pass_if_both_Strings_are_the_same() {
     String s = "Yoda";
     strings.assertEqualsIgnoringCase(someInfo(), s, s);
   }
 
   @Test
-  public void should_pass_if_both_Strings_are_equal_but_not_same() {
+  void should_pass_if_both_Strings_are_equal_but_not_same() {
     strings.assertEqualsIgnoringCase(someInfo(), "Yoda", new String(arrayOf('Y', 'o', 'd', 'a')));
   }
 
   @Test
-  public void should_pass_if_both_Strings_are_equal_ignoring_case() {
+  void should_pass_if_both_Strings_are_equal_ignoring_case() {
     strings.assertEqualsIgnoringCase(someInfo(), "Yoda", "YODA");
   }
 
   @Test
-  public void should_fail_if_actual_is_null_and_expected_is_not_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_and_expected_is_not_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertEqualsIgnoringCase(someInfo(), null, "Luke"))
                                                    .withMessage(shouldBeEqual(null, "Luke").create());
   }
 
   @Test
-  public void should_fail_if_both_Strings_are_not_equal_regardless_of_case_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_both_Strings_are_not_equal_regardless_of_case_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertEqualsIgnoringCase(someInfo(), "Yoda", "Luke"))
                                                    .withMessage(shouldBeEqual("Yoda", "Luke").create());
   }
 
   @Test
-  public void should_pass_if_both_Strings_are_null_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_both_Strings_are_null_whatever_custom_comparison_strategy_is() {
     stringsWithCaseInsensitiveComparisonStrategy.assertEqualsIgnoringCase(someInfo(), null, null);
   }
 
   @Test
-  public void should_pass_if_both_Strings_are_the_same_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_both_Strings_are_the_same_whatever_custom_comparison_strategy_is() {
     String s = "Yoda";
     stringsWithCaseInsensitiveComparisonStrategy.assertEqualsIgnoringCase(someInfo(), s, s);
   }
 
   @Test
-  public void should_pass_if_both_Strings_are_equal_but_not_same_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_both_Strings_are_equal_but_not_same_whatever_custom_comparison_strategy_is() {
     stringsWithCaseInsensitiveComparisonStrategy.assertEqualsIgnoringCase(someInfo(), "Yoda", new String(
         arrayOf('Y', 'o', 'd', 'a')));
   }
 
   @Test
-  public void should_pass_if_both_Strings_are_equal_ignoring_case_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_both_Strings_are_equal_ignoring_case_whatever_custom_comparison_strategy_is() {
     stringsWithCaseInsensitiveComparisonStrategy.assertEqualsIgnoringCase(someInfo(), "Yoda", "YODA");
   }
 }

@@ -25,7 +25,7 @@ import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class Strings_assertJavaBlank_Test extends StringsBaseTest {
+class Strings_assertJavaBlank_Test extends StringsBaseTest {
 
   public static Stream<String> blank() {
     return Stream.of(" ",
@@ -37,7 +37,7 @@ public class Strings_assertJavaBlank_Test extends StringsBaseTest {
 
   @ParameterizedTest
   @MethodSource("blank")
-  public void should_pass_string_is_blank(String actual) {
+  void should_pass_string_is_blank(String actual) {
     strings.assertJavaBlank(someInfo(), actual);
   }
 
@@ -53,7 +53,7 @@ public class Strings_assertJavaBlank_Test extends StringsBaseTest {
 
   @ParameterizedTest
   @MethodSource("notBlank")
-  public void should_fail_if_string_is_not_blank(String actual) {
+  void should_fail_if_string_is_not_blank(String actual) {
     Throwable error = catchThrowable(() -> strings.assertJavaBlank(someInfo(), actual));
 
     assertThat(error).isInstanceOf(AssertionError.class);

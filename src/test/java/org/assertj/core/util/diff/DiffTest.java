@@ -21,10 +21,10 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-public class DiffTest {
+class DiffTest {
 
   @Test
-  public void testDiff_Insert() {
+  void testDiff_Insert() {
     Patch<String> patch = DiffUtils.diff(newArrayList("hhh"), newArrayList("hhh", "jjj", "kkk"));
 
     List<Delta<String>> deltas = patch.getDeltas();
@@ -36,7 +36,7 @@ public class DiffTest {
   }
 
   @Test
-  public void testDiff_Delete() {
+  void testDiff_Delete() {
     Patch<String> patch = DiffUtils.diff(newArrayList("ddd", "fff", "ggg"), newArrayList("ggg"));
 
     List<Delta<String>> deltas = patch.getDeltas();
@@ -48,7 +48,7 @@ public class DiffTest {
   }
 
   @Test
-  public void testDiff_Change() {
+  void testDiff_Change() {
     List<String> changeTest_from = newArrayList("aaa", "bbb", "ccc");
     List<String> changeTest_to = newArrayList("aaa", "zzz", "ccc");
 
@@ -63,14 +63,14 @@ public class DiffTest {
   }
 
   @Test
-  public void testDiff_EmptyList() {
+  void testDiff_EmptyList() {
     Patch<Object> patch = DiffUtils.diff(emptyList(), emptyList());
 
     assertThat(patch.getDeltas().size()).isEqualTo(0);
   }
 
   @Test
-  public void testDiff_EmptyListWithNonEmpty() {
+  void testDiff_EmptyListWithNonEmpty() {
     List<String> emptyList = Collections.emptyList();
     Patch<String> patch = DiffUtils.diff(emptyList, newArrayList("aaa"));
 

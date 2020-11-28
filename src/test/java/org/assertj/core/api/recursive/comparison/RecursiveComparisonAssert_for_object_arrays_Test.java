@@ -23,13 +23,13 @@ import org.assertj.core.internal.objects.data.Person;
 import org.assertj.core.internal.objects.data.PersonDto;
 import org.junit.jupiter.api.Test;
 
-public class RecursiveComparisonAssert_for_object_arrays_Test {
+class RecursiveComparisonAssert_for_object_arrays_Test {
 
   private Person[] actual = { new Person("Sheldon"), new Person("Leonard") };
 
   // verify we don't need to cast actual to an Object as before when only Object assertions provided usingRecursiveComparison()
   @Test
-  public void should_be_directly_usable_with_iterables() {
+  void should_be_directly_usable_with_iterables() {
     // GIVEN
     PersonDto[] expected = { new PersonDto("Sheldon"), new PersonDto("Leonard") };
     // WHEN/THEN
@@ -38,7 +38,7 @@ public class RecursiveComparisonAssert_for_object_arrays_Test {
   }
 
   @Test
-  public void should_propagate_comparator_by_type() {
+  void should_propagate_comparator_by_type() {
     // GIVEN
     Comparator<String> alwayEqualsString = ALWAY_EQUALS_STRING;
     // WHEN

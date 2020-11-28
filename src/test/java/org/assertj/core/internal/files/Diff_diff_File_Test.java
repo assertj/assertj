@@ -34,13 +34,13 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Yvonne Wang
  */
-public class Diff_diff_File_Test {
+class Diff_diff_File_Test {
 
   private static Diff diff;
   private static TextFileWriter writer;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     diff = new Diff();
     writer = TextFileWriter.instance();
   }
@@ -49,7 +49,7 @@ public class Diff_diff_File_Test {
   private File expected;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     actual = Files.newTemporaryFile();
     actual.deleteOnExit();
     expected = Files.newTemporaryFile();
@@ -57,7 +57,7 @@ public class Diff_diff_File_Test {
   }
 
   @Test
-  public void should_return_empty_diff_list_if_files_have_equal_content() throws IOException {
+  void should_return_empty_diff_list_if_files_have_equal_content() throws IOException {
     String[] content = array("line0", "line1");
     writer.write(actual, content);
     writer.write(expected, content);
@@ -66,7 +66,7 @@ public class Diff_diff_File_Test {
   }
 
   @Test
-  public void should_return_diffs_if_files_do_not_have_equal_content() throws IOException {
+  void should_return_diffs_if_files_do_not_have_equal_content() throws IOException {
     writer.write(actual, "line_0", "line_1");
     writer.write(expected, "line0", "line1");
     List<Delta<String>> diffs = diff.diff(actual, defaultCharset(), expected, defaultCharset());
@@ -81,7 +81,7 @@ public class Diff_diff_File_Test {
   }
 
   @Test
-  public void should_return_multiple_diffs_if_files_contain_multiple_differences() throws IOException {
+  void should_return_multiple_diffs_if_files_contain_multiple_differences() throws IOException {
     writer.write(actual, "line_0", "line1", "line_2");
     writer.write(expected, "line0", "line1", "line2");
     List<Delta<String>> diffs = diff.diff(actual, defaultCharset(), expected, defaultCharset());
@@ -99,7 +99,7 @@ public class Diff_diff_File_Test {
   }
 
   @Test
-  public void should_be_able_to_detect_mixed_differences() throws IOException {
+  void should_be_able_to_detect_mixed_differences() throws IOException {
     // @format:off
     writer.write(actual,   "line1",                     "line2", "line3", "line4", "line5", "line 9", "line 10", "line 11");
     writer.write(expected, "line1", "line1a", "line1b", "line2", "line3", "line7", "line5");
@@ -121,7 +121,7 @@ public class Diff_diff_File_Test {
   }
 
   @Test
-  public void should_return_diffs_if_content_of_actual_is_shorter_than_content_of_expected() throws IOException {
+  void should_return_diffs_if_content_of_actual_is_shorter_than_content_of_expected() throws IOException {
     writer.write(actual, "line_0");
     writer.write(expected, "line_0", "line_1");
     List<Delta<String>> diffs = diff.diff(actual, defaultCharset(), expected, defaultCharset());
@@ -131,7 +131,7 @@ public class Diff_diff_File_Test {
   }
 
   @Test
-  public void should_return_diffs_if_content_of_actual_is_longer_than_content_of_expected() throws IOException {
+  void should_return_diffs_if_content_of_actual_is_longer_than_content_of_expected() throws IOException {
     writer.write(actual, "line_0", "line_1");
     writer.write(expected, "line_0");
     List<Delta<String>> diffs = diff.diff(actual, defaultCharset(), expected, defaultCharset());

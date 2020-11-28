@@ -41,32 +41,32 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valeriy Vyrva
  */
-public class InputStreams_assertHasDigest_AlgorithmString_Test extends InputStreamsBaseTest {
+class InputStreams_assertHasDigest_AlgorithmString_Test extends InputStreamsBaseTest {
   private static final String MD5 = "MD5";
   private final String expected = "";
   private static final String RED_PNG_DIGEST = "3AC1AFA2A89B7E4F1866502877BF1DC5";
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> inputStreams.assertHasDigest(INFO, null, MD5, expected))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_error_if_digest_is_null() {
+  void should_throw_error_if_digest_is_null() {
     assertThatNullPointerException().isThrownBy(() -> inputStreams.assertHasDigest(INFO, null, (MessageDigest) null,
                                                                                    expected))
                                     .withMessage("The message digest algorithm should not be null");
   }
 
   @Test
-  public void should_throw_error_if_expected_is_null() {
+  void should_throw_error_if_expected_is_null() {
     assertThatNullPointerException().isThrownBy(() -> inputStreams.assertHasDigest(INFO, null, MD5, (byte[]) null))
                                     .withMessage("The binary representation of digest to compare to should not be null");
   }
 
   @Test
-  public void should_throw_error_wrapping_caught_IOException() throws IOException {
+  void should_throw_error_wrapping_caught_IOException() throws IOException {
     // GIVEN
     IOException cause = new IOException();
     actual = mock(InputStream.class);
@@ -79,7 +79,7 @@ public class InputStreams_assertHasDigest_AlgorithmString_Test extends InputStre
   }
 
   @Test
-  public void should_fail_if_actual_does_not_have_expected_digest() throws NoSuchAlgorithmException {
+  void should_fail_if_actual_does_not_have_expected_digest() throws NoSuchAlgorithmException {
     // GIVEN
     actual = getClass().getResourceAsStream("/red.png");
     // WHEN
@@ -90,7 +90,7 @@ public class InputStreams_assertHasDigest_AlgorithmString_Test extends InputStre
   }
 
   @Test
-  public void should_pass_if_actual_has_expected_digest() {
+  void should_pass_if_actual_has_expected_digest() {
     // GIVEN
     actual = getClass().getResourceAsStream("/red.png");
     // THEN

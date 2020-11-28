@@ -20,7 +20,7 @@ import org.assertj.core.api.UrlAssertBaseTest;
 /**
  * Test for <code>{@link org.assertj.core.api.UrlAssert#hasUserInfo(String)}  </code>.
  */
-public class UrlAssert_hasUserInfo_Test extends UrlAssertBaseTest {
+class UrlAssert_hasUserInfo_Test extends UrlAssertBaseTest {
   private  String expected = "user-info";
 
   @Override

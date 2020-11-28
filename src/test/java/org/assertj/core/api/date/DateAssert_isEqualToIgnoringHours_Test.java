@@ -12,18 +12,19 @@
  */
 package org.assertj.core.api.date;
 
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-import org.assertj.core.api.DateAssert;
 import static org.mockito.Mockito.verify;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+import org.assertj.core.api.DateAssert;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.DateAssert#isEqualToIgnoringHours(java.util.Date)}</code>.
  *
  * @author William Delanoue
  */
-public class DateAssert_isEqualToIgnoringHours_Test extends AbstractDateAssertWithDateArg_Test {
+class DateAssert_isEqualToIgnoringHours_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {
@@ -33,6 +34,11 @@ public class DateAssert_isEqualToIgnoringHours_Test extends AbstractDateAssertWi
   @Override
   protected DateAssert assertionInvocationWithStringArg(String date) {
     return assertions.isEqualToIgnoringHours(date);
+  }
+
+  @Override
+  protected DateAssert assertionInvocationWithInstantArg() {
+    return assertions.isEqualToIgnoringHours(otherDate.toInstant());
   }
 
   @Override

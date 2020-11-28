@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class ShortArrayAssert_doesNotContain_Test extends ShortArrayAssertBaseTest {
+class ShortArrayAssert_doesNotContain_Test extends ShortArrayAssertBaseTest {
 
   @Override
   protected ShortArrayAssert invoke_api_method() {

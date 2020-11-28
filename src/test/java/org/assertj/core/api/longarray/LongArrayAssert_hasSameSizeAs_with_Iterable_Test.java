@@ -26,7 +26,7 @@ import org.assertj.core.api.LongArrayAssertBaseTest;
  * 
  * @author Nicolas François
  */
-public class LongArrayAssert_hasSameSizeAs_with_Iterable_Test extends LongArrayAssertBaseTest {
+class LongArrayAssert_hasSameSizeAs_with_Iterable_Test extends LongArrayAssertBaseTest {
 
   private final List<String> other = newArrayList("Yoda", "Luke");
 

@@ -19,7 +19,7 @@ import java.util.function.BiConsumer;
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
 
-public class MapAssert_noneSatisfy_Test extends MapAssertBaseTest {
+class MapAssert_noneSatisfy_Test extends MapAssertBaseTest {
 
   private BiConsumer<Object, Object> requirements = (k, v) -> {};
 

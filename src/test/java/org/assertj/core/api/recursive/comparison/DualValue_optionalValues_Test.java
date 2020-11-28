@@ -27,12 +27,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class DualValue_optionalValues_Test {
+class DualValue_optionalValues_Test {
 
   private static final List<String> PATH = list("foo", "bar");
 
   @Test
-  public void isActualFieldAnOptional_should_return_true_when_actual_is_an_optional() {
+  void isActualFieldAnOptional_should_return_true_when_actual_is_an_optional() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, Optional.empty(), "abc");
     // WHEN
@@ -43,7 +43,7 @@ public class DualValue_optionalValues_Test {
 
   @ParameterizedTest
   @MethodSource("nonOptional")
-  public void isActualFieldAnOptional_should_return_false_when_actual_is_not_an_optional(Object actualField) {
+  void isActualFieldAnOptional_should_return_false_when_actual_is_not_an_optional(Object actualField) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, Pair.of(1, "a"), actualField);
     // WHEN
@@ -53,7 +53,7 @@ public class DualValue_optionalValues_Test {
   }
 
   @Test
-  public void isActualFieldAnOptionalInt_should_return_true_when_actual_is_an_optionalInt() {
+  void isActualFieldAnOptionalInt_should_return_true_when_actual_is_an_optionalInt() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, OptionalInt.empty(), "abc");
     // WHEN
@@ -64,7 +64,7 @@ public class DualValue_optionalValues_Test {
 
   @ParameterizedTest
   @MethodSource("nonOptional")
-  public void isActualFieldAnOptionalInt_should_return_false_when_actual_is_not_an_optionalInt(Object actualField) {
+  void isActualFieldAnOptionalInt_should_return_false_when_actual_is_not_an_optionalInt(Object actualField) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, Pair.of(1, "a"), actualField);
     // WHEN
@@ -74,7 +74,7 @@ public class DualValue_optionalValues_Test {
   }
 
   @Test
-  public void isActualFieldAnOptionalLong_should_return_true_when_actual_is_an_optionalLong() {
+  void isActualFieldAnOptionalLong_should_return_true_when_actual_is_an_optionalLong() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, OptionalLong.empty(), "abc");
     // WHEN
@@ -85,7 +85,7 @@ public class DualValue_optionalValues_Test {
 
   @ParameterizedTest
   @MethodSource("nonOptional")
-  public void isActualFieldAnOptionalLong_should_return_false_when_actual_is_not_an_optionalLong(Object actualField) {
+  void isActualFieldAnOptionalLong_should_return_false_when_actual_is_not_an_optionalLong(Object actualField) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, Pair.of(1, "a"), actualField);
     // WHEN
@@ -95,7 +95,7 @@ public class DualValue_optionalValues_Test {
   }
 
   @Test
-  public void isActualFieldAnOptionalDouble_should_return_true_when_actual_is_an_optionalDouble() {
+  void isActualFieldAnOptionalDouble_should_return_true_when_actual_is_an_optionalDouble() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, OptionalDouble.empty(), "abc");
     // WHEN
@@ -106,7 +106,7 @@ public class DualValue_optionalValues_Test {
 
   @ParameterizedTest
   @MethodSource("nonOptional")
-  public void isActualFieldAnOptionalDouble_should_return_false_when_actual_is_not_an_optionalDouble(Object actualField) {
+  void isActualFieldAnOptionalDouble_should_return_false_when_actual_is_not_an_optionalDouble(Object actualField) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, Pair.of(1, "a"), actualField);
     // WHEN
@@ -116,7 +116,7 @@ public class DualValue_optionalValues_Test {
   }
 
   @Test
-  public void isExpectedFieldAnOptional_should_return_true_when_expected_is_an_optional() {
+  void isExpectedFieldAnOptional_should_return_true_when_expected_is_an_optional() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "abc", Optional.of(""));
     // WHEN
@@ -127,7 +127,7 @@ public class DualValue_optionalValues_Test {
 
   @ParameterizedTest
   @MethodSource("nonOptional")
-  public void isExpectedFieldAnOptional_should_return_false_when_expected_is_not_an_optional(Object expectedField) {
+  void isExpectedFieldAnOptional_should_return_false_when_expected_is_not_an_optional(Object expectedField) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, Pair.of(1, "a"), expectedField);
     // WHEN
@@ -142,7 +142,7 @@ public class DualValue_optionalValues_Test {
 
   @ParameterizedTest
   @MethodSource("emptyOptionals")
-  public void isActualFieldAnEmptyOptionalOfAnyType_should_return_true_when_actual_is_an_empty_optional(Object optional) {
+  void isActualFieldAnEmptyOptionalOfAnyType_should_return_true_when_actual_is_an_empty_optional(Object optional) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, optional, "abc");
     // WHEN
@@ -153,7 +153,7 @@ public class DualValue_optionalValues_Test {
 
   @ParameterizedTest
   @MethodSource("populatedOptionals")
-  public void isActualFieldAnEmptyOptionalOfAnyType_should_return_false_when_actual_is_a_populated_optional(Object optional) {
+  void isActualFieldAnEmptyOptionalOfAnyType_should_return_false_when_actual_is_a_populated_optional(Object optional) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, optional, "abc");
     // WHEN

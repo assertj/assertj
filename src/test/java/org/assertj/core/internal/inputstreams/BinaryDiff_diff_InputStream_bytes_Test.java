@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
  * @author Olivier Michallat, Stefan Birkner
  */
 @DisplayName("BinaryDiff diff(InputStream)")
-public class BinaryDiff_diff_InputStream_bytes_Test {
+class BinaryDiff_diff_InputStream_bytes_Test {
 
   private static final BinaryDiff BINARY_DIFF = new BinaryDiff();
 
@@ -37,7 +37,7 @@ public class BinaryDiff_diff_InputStream_bytes_Test {
   private byte[] expected;
 
   @Test
-  public void should_return_no_diff_if_inputstream_content_is_equal_to_byte_array() throws IOException {
+  void should_return_no_diff_if_inputstream_content_is_equal_to_byte_array() throws IOException {
     // GIVEN
     actual = stream(0xCA, 0xFE, 0xBA, 0xBE);
     expected = bytes(0xCA, 0xFE, 0xBA, 0xBE);
@@ -48,7 +48,7 @@ public class BinaryDiff_diff_InputStream_bytes_Test {
   }
 
   @Test
-  public void should_return_diff_if_inputstreams_differ_on_one_byte() throws IOException {
+  void should_return_diff_if_inputstreams_differ_on_one_byte() throws IOException {
     // GIVEN
     actual = stream(0xCA, 0xFE, 0xBA, 0xBE);
     expected = bytes(0xCA, 0xFE, 0xBE, 0xBE);
@@ -62,7 +62,7 @@ public class BinaryDiff_diff_InputStream_bytes_Test {
   }
 
   @Test
-  public void should_return_diff_if_actual_is_shorter() throws IOException {
+  void should_return_diff_if_actual_is_shorter() throws IOException {
     // GIVEN
     expected = bytes(0xCA, 0xFE, 0xBA, 0xBE);
     actual = stream(0xCA, 0xFE, 0xBA);
@@ -76,7 +76,7 @@ public class BinaryDiff_diff_InputStream_bytes_Test {
   }
 
   @Test
-  public void should_return_diff_if_expected_is_shorter() throws IOException {
+  void should_return_diff_if_expected_is_shorter() throws IOException {
     // GIVEN
     actual = stream(0xCA, 0xFE, 0xBA, 0xBE);
     expected = bytes(0xCA, 0xFE, 0xBA);

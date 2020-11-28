@@ -18,13 +18,12 @@ import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
 
-
 /**
  * Tests for <code>{@link DateAssert#isAfter(Date)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
-public class DateAssert_isAfter_Test extends AbstractDateAssertWithDateArg_Test {
+class DateAssert_isAfter_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {
@@ -39,6 +38,11 @@ public class DateAssert_isAfter_Test extends AbstractDateAssertWithDateArg_Test 
   @Override
   protected void verifyAssertionInvocation(Date date) {
     verify(dates).assertIsAfter(getInfo(assertions), getActual(assertions), date);
+  }
+
+  @Override
+  protected DateAssert assertionInvocationWithInstantArg() {
+    return assertions.isAfter(otherDate.toInstant());
   }
 
 }

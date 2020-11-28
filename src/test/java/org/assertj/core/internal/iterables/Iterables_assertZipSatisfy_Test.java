@@ -33,17 +33,17 @@ import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
 import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class Iterables_assertZipSatisfy_Test extends IterablesBaseTest {
+class Iterables_assertZipSatisfy_Test extends IterablesBaseTest {
 
   private List<String> other = newArrayList("LUKE", "YODA", "LEIA");
 
   @Test
-  public void should_satisfy_single_zip_requirement() {
+  void should_satisfy_single_zip_requirement() {
     iterables.assertZipSatisfy(someInfo(), actual, other, (s1, s2) -> assertThat(s1).isEqualToIgnoringCase(s2));
   }
 
   @Test
-  public void should_satisfy_compound_zip_requirements() {
+  void should_satisfy_compound_zip_requirements() {
     iterables.assertZipSatisfy(someInfo(), actual, other, (s1, s2) -> {
       assertThat(s1).isEqualToIgnoringCase(s2);
       assertThat(s1).startsWith(firstChar(s2));
@@ -51,14 +51,14 @@ public class Iterables_assertZipSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_pass_if_both_iterables_are_empty() {
+  void should_pass_if_both_iterables_are_empty() {
     actual.clear();
     other.clear();
     iterables.assertZipSatisfy(someInfo(), actual, other, (s1, s2) -> assertThat(s1).isEqualToIgnoringCase(s2));
   }
 
   @Test
-  public void should_fail_according_to_requirements() {
+  void should_fail_according_to_requirements() {
     // GIVEN
     ThrowingCallable assertion = () -> iterables.assertZipSatisfy(someInfo(), actual, other,
                                                                   (s1, s2) -> assertThat(s1).startsWith(s2));
@@ -73,7 +73,7 @@ public class Iterables_assertZipSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_when_compared_iterables_have_different_sizes() {
+  void should_fail_when_compared_iterables_have_different_sizes() {
     // GIVEN
     other.add("Vader");
     // WHEN
@@ -84,13 +84,13 @@ public class Iterables_assertZipSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_consumer_is_null() {
+  void should_fail_if_consumer_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(actual).zipSatisfy(other, null))
                                     .withMessage("The BiConsumer expressing the assertions requirements must not be null");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
     // WHEN
@@ -101,7 +101,7 @@ public class Iterables_assertZipSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_other_is_null() {
+  void should_fail_if_other_is_null() {
     // GIVEN
     other = null;
     // WHEN

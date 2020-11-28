@@ -13,45 +13,31 @@
 package org.assertj.core.api.long_;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.Comparator;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import org.assertj.core.api.LongAssert;
 import org.assertj.core.api.LongAssertBaseTest;
 import org.assertj.core.internal.Longs;
 import org.assertj.core.internal.Objects;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
  * Tests for <code>{@link LongAssert#usingDefaultComparator()}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
 @DisplayName("LongAssert usingDefaultComparator")
-@ExtendWith(MockitoExtension.class)
 class LongAssert_usingDefaultComparator_Test extends LongAssertBaseTest {
-
-  @Mock
-  private Comparator<Long> comparator;
-
-  @BeforeEach
-  void before() {
-    assertions.usingComparator(comparator);
-  }
 
   @Override
   protected LongAssert invoke_api_method() {
-    return assertions.usingDefaultComparator();
+    return assertions.usingComparator(alwaysEqual()).usingDefaultComparator();
   }
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(Objects.instance()).isSameAs(getObjects(assertions));
-    assertThat(Longs.instance()).isSameAs(getLongs(assertions));
+    assertThat(getObjects(assertions)).isSameAs(Objects.instance());
+    assertThat(getLongs(assertions)).isSameAs(Longs.instance());
   }
 
 }

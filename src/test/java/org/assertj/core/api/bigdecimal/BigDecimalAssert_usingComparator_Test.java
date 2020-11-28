@@ -13,32 +13,23 @@
 package org.assertj.core.api.bigdecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.math.BigDecimal;
 import java.util.Comparator;
 
-
 import org.assertj.core.api.BigDecimalAssert;
 import org.assertj.core.api.BigDecimalAssertBaseTest;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link BigDecimalAssert#usingComparator(java.util.Comparator)}</code>.
- * 
+ *
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class BigDecimalAssert_usingComparator_Test extends BigDecimalAssertBaseTest {
+class BigDecimalAssert_usingComparator_Test extends BigDecimalAssertBaseTest {
 
-  @Mock
-  private Comparator<BigDecimal> comparator;
-
-  @BeforeEach
-  public void before() {
-    initMocks(this);
-  }
+  private Comparator<BigDecimal> comparator = alwaysEqual();
 
   @Override
   protected BigDecimalAssert invoke_api_method() {
@@ -48,7 +39,7 @@ public class BigDecimalAssert_usingComparator_Test extends BigDecimalAssertBaseT
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
-    assertThat(comparator).isSameAs(getComparables(assertions).getComparator());
+    assertThat(getObjects(assertions).getComparator()).isSameAs(comparator);
+    assertThat(getComparables(assertions).getComparator()).isSameAs(comparator);
   }
 }

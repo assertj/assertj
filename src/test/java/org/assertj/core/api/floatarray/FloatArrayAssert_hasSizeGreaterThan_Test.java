@@ -17,7 +17,7 @@ import org.assertj.core.api.FloatArrayAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
-public class FloatArrayAssert_hasSizeGreaterThan_Test extends FloatArrayAssertBaseTest {
+class FloatArrayAssert_hasSizeGreaterThan_Test extends FloatArrayAssertBaseTest {
 
   @Override
   protected FloatArrayAssert invoke_api_method() {

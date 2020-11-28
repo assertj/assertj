@@ -36,40 +36,40 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Iterables_assertContainsAll_Test extends IterablesBaseTest {
+class Iterables_assertContainsAll_Test extends IterablesBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_all_iterable_values() {
+  void should_pass_if_actual_contains_all_iterable_values() {
     iterables.assertContainsAll(someInfo(), actual, newArrayList("Luke"));
     // order does not matter
     iterables.assertContainsAll(someInfo(), actual, newArrayList("Leia", "Yoda"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_all_iterable_values_more_than_once() {
+  void should_pass_if_actual_contains_all_iterable_values_more_than_once() {
     actual.addAll(newArrayList("Luke", "Luke"));
     iterables.assertContainsAll(someInfo(), actual, newArrayList("Luke"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_all_iterable_values_even_if_duplicated() {
+  void should_pass_if_actual_contains_all_iterable_values_even_if_duplicated() {
     iterables.assertContainsAll(someInfo(), actual, newArrayList("Luke", "Luke"));
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null() {
+  void should_throw_error_if_array_of_values_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> iterables.assertContainsAll(someInfo(), actual, null))
                                     .withMessage(iterableToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsAll(someInfo(), null, newArrayList("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_values() {
+  void should_fail_if_actual_does_not_contain_values() {
     AssertionInfo info = someInfo();
     List<String> expected = newArrayList("Han", "Luke");
 
@@ -84,33 +84,33 @@ public class Iterables_assertContainsAll_Test extends IterablesBaseTest {
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_contains_all_iterable_values_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_all_iterable_values_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAll(someInfo(), actual, newArrayList("LUKE"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_all_iterable_values_in_different_order_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_all_iterable_values_in_different_order_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAll(someInfo(), actual, newArrayList("LEIA", "yODa"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_all_all_iterable_values_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_all_all_iterable_values_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAll(someInfo(), actual, newArrayList("luke", "YODA"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_all_iterable_values_more_than_once_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_all_iterable_values_more_than_once_according_to_custom_comparison_strategy() {
     actual.addAll(newArrayList("Luke", "Luke"));
     iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAll(someInfo(), actual, newArrayList("LUke"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_all_iterable_values_even_if_duplicated_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_all_iterable_values_even_if_duplicated_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAll(someInfo(), actual, newArrayList("LUke", "LuKe"));
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_values_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_values_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     List<String> expected = newArrayList("Han", "LUKE");
 

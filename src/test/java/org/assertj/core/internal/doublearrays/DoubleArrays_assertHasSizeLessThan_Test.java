@@ -12,30 +12,30 @@
  */
 package org.assertj.core.internal.doublearrays;
 
-import org.assertj.core.internal.DoubleArraysBaseTest;
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveSizeLessThan.shouldHaveSizeLessThan;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-public class DoubleArrays_assertHasSizeLessThan_Test extends DoubleArraysBaseTest {
+import org.assertj.core.internal.DoubleArraysBaseTest;
+import org.junit.jupiter.api.Test;
+
+class DoubleArrays_assertHasSizeLessThan_Test extends DoubleArraysBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSizeLessThan(someInfo(), null, 6))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_size_of_actual_is_not_less_than_boundary() {
+  void should_fail_if_size_of_actual_is_not_less_than_boundary() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSizeLessThan(someInfo(), actual, 1))
                                                    .withMessage(shouldHaveSizeLessThan(actual, actual.length, 1).create());
   }
 
   @Test
-  public void should_pass_if_size_of_actual_is_less_than_boundary() {
+  void should_pass_if_size_of_actual_is_less_than_boundary() {
     arrays.assertHasSizeLessThan(someInfo(), actual, 4);
   }
 }

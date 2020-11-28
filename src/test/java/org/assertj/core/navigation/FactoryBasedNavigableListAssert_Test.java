@@ -21,7 +21,7 @@ import org.assertj.core.api.FactoryBasedNavigableListAssert;
 import org.assertj.core.test.Vehicle;
 import org.assertj.core.test.VehicleAssert;
 
-public class FactoryBasedNavigableListAssert_Test extends BaseNavigableListAssert_Test {
+class FactoryBasedNavigableListAssert_Test extends BaseNavigableListAssert_Test {
 
   @Override
   protected FactoryBasedNavigableListAssert<?, List<Vehicle>, Vehicle, VehicleAssert> buildNavigableAssert() {

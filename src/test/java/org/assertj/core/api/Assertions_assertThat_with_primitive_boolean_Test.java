@@ -21,16 +21,16 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class Assertions_assertThat_with_primitive_boolean_Test {
+class Assertions_assertThat_with_primitive_boolean_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     AbstractBooleanAssert<?> assertions = Assertions.assertThat(true);
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     AbstractBooleanAssert<?> assertions = Assertions.assertThat(true);
     assertThat(assertions.actual).isEqualTo(true);
   }

@@ -24,17 +24,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("RecursiveComparisonConfiguration getNonIgnoredActualFieldNames")
-public class RecursiveComparisonConfiguration_getActualNonIgnoreFields_Test {
+class RecursiveComparisonConfiguration_getActualNonIgnoreFields_Test {
 
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
   }
 
   @Test
-  public void should_compute_ignored_fields() {
+  void should_compute_ignored_fields() {
     // GIVEN
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes(".*umber");
     recursiveComparisonConfiguration.ignoreFields("people.name");

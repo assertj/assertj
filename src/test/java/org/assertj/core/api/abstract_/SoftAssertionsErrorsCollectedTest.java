@@ -22,11 +22,11 @@ import org.junit.jupiter.api.Test;
  * This tests that classes extended from {@link StandardSoftAssertionsProvider} will have access to the list of
  * collected errors that the various proxies have collected.
  */
-public class SoftAssertionsErrorsCollectedTest {
+class SoftAssertionsErrorsCollectedTest {
   private final SoftAssertions softly = new SoftAssertions();
 
   @Test
-  public void return_empty_list_of_errors() {
+  void return_empty_list_of_errors() {
     // GIVEN
     Object objectToTest = null;
     // WHEN
@@ -37,7 +37,7 @@ public class SoftAssertionsErrorsCollectedTest {
   }
 
   @Test
-  public void returns_nonempty_list_of_errors() {
+  void returns_nonempty_list_of_errors() {
     // GIVEN
     Object objectToTest = null;
     // WHEN

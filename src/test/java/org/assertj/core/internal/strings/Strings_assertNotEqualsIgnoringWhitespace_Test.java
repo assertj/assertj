@@ -35,10 +35,10 @@ import org.junit.jupiter.params.provider.MethodSource;
  *
  * @author Dan Corder
  */
-public class Strings_assertNotEqualsIgnoringWhitespace_Test extends StringsBaseTest {
+class Strings_assertNotEqualsIgnoringWhitespace_Test extends StringsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_not_null_and_expected_is_null() {
+  void should_fail_if_actual_is_not_null_and_expected_is_null() {
     assertThatNullPointerException().isThrownBy(() -> strings.assertNotEqualsIgnoringWhitespace(someInfo(), "Luke",
                                                                                                 null))
                                     .withMessage(charSequenceToLookForIsNull());
@@ -46,7 +46,7 @@ public class Strings_assertNotEqualsIgnoringWhitespace_Test extends StringsBaseT
 
   @ParameterizedTest
   @MethodSource("notEqualIgnoringWhitespaceGenerator")
-  public void should_pass_if_both_Strings_are_not_equal_ignoring_whitespace(String actual, String expected) {
+  void should_pass_if_both_Strings_are_not_equal_ignoring_whitespace(String actual, String expected) {
     strings.assertNotEqualsIgnoringWhitespace(someInfo(), actual, expected);
   }
 
@@ -58,7 +58,7 @@ public class Strings_assertNotEqualsIgnoringWhitespace_Test extends StringsBaseT
 
   @ParameterizedTest
   @MethodSource("equalIgnoringWhitespaceGenerator")
-  public void should_fail_if_both_Strings_are_equal_ignoring_whitespace(String actual, String expected) {
+  void should_fail_if_both_Strings_are_equal_ignoring_whitespace(String actual, String expected) {
     Throwable error = catchThrowable(() -> strings.assertNotEqualsIgnoringWhitespace(someInfo(), actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);

@@ -21,7 +21,7 @@ import org.assertj.core.internal.LongArraysBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class LongArrays_assertContainsAnyOf_Test extends LongArraysBaseTest {
+class LongArrays_assertContainsAnyOf_Test extends LongArraysBaseTest {
 
   private Arrays internalArrays;
 
@@ -34,7 +34,7 @@ public class LongArrays_assertContainsAnyOf_Test extends LongArraysBaseTest {
   }
 
   @Test
-  public void should_delegate_to_internal_Arrays() {
+  void should_delegate_to_internal_Arrays() {
     arrays.assertContainsAnyOf(someInfo(), actual, new long[] { 1, 2, 3 });
     verify(internalArrays).assertContainsAnyOf(someInfo(), failures, actual, new long[] { 1, 2, 3 });
   }

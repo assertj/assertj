@@ -28,26 +28,26 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Doubles_assertIsNotZero_Test extends DoublesBaseTest {
+class Doubles_assertIsNotZero_Test extends DoublesBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_not_zero() {
+  void should_succeed_since_actual_is_not_zero() {
     doubles.assertIsNotZero(someInfo(), 2.0);
   }
 
   @Test
-  public void should_fail_since_actual_is_zero() {
+  void should_fail_since_actual_is_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotZero(someInfo(), 0.0))
                                                    .withMessage(format("%nExpecting:%n <0.0>%nnot to be equal to:%n <0.0>%n"));
   }
 
   @Test
-  public void should_succeed_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
+  void should_succeed_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
     doublesWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 2.0d);
   }
 
   @Test
-  public void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
+  void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0.0d))
                                                    .withMessage(format("%nExpecting:%n <0.0>%nnot to be equal to:%n <0.0>%n"));
   }

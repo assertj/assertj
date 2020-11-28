@@ -26,10 +26,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Yvonne Wang
  */
-public class AnyOf_toString_Test {
+class AnyOf_toString_Test {
 
   @Test
-  public void should_implement_toString_showing_descriptions_of_inner_Conditions() {
+  void should_implement_toString_showing_descriptions_of_inner_Conditions() {
     // GIVEN
     TestCondition<Object> condition1 = new TestCondition<>("Condition 1");
     TestCondition<Object> condition2 = new TestCondition<>("Condition 2");
@@ -42,7 +42,7 @@ public class AnyOf_toString_Test {
   }
 
   @Test
-  public void should_implement_toString_showing_descriptions_of_inner_Conditions_list() {
+  void should_implement_toString_showing_descriptions_of_inner_Conditions_list() {
     // GIVEN
     TestCondition<Object> condition1 = new TestCondition<>("Condition 1");
     TestCondition<Object> condition2 = new TestCondition<>("Condition 2");

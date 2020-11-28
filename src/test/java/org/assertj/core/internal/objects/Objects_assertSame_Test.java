@@ -32,16 +32,16 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Objects_assertSame_Test extends ObjectsBaseTest {
+class Objects_assertSame_Test extends ObjectsBaseTest {
 
   @Test
-  public void should_pass_if_objects_are_same() {
+  void should_pass_if_objects_are_same() {
     Object actual = new Object();
     objects.assertSame(someInfo(), actual, actual);
   }
 
   @Test
-  public void should_fail_if_objects_are_not_same() {
+  void should_fail_if_objects_are_not_same() {
     AssertionInfo info = someInfo();
     Object a = new Person("Yoda");
     Object e = new Person("Yoda");

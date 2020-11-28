@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Yvonne Wang
  */
-public class CharacterAssert_isLessThanOrEqualTo_char_Test extends CharacterAssertBaseTest {
+class CharacterAssert_isLessThanOrEqualTo_char_Test extends CharacterAssertBaseTest {
 
   @Override
   protected CharacterAssert invoke_api_method() {

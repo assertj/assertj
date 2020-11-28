@@ -22,10 +22,10 @@ import java.net.URL;
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldHavePath_create_Test {
+class ShouldHavePath_create_Test {
 
   @Test
-  public void should_create_error_message_for_uri() {
+  void should_create_error_message_for_uri() {
     // WHEN
     String error = shouldHavePath(URI.create("http://assertj.org/news"), "/foo").create(new TestDescription("TEST"));
     // THEN
@@ -39,7 +39,7 @@ public class ShouldHavePath_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_url() throws Exception {
+  void should_create_error_message_for_url() throws Exception {
     // WHEN
     String error = shouldHavePath(new URL("http://assertj.org/news"), "/foo").create(new TestDescription("TEST"));
     // THEN
@@ -53,7 +53,7 @@ public class ShouldHavePath_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_uri_has_no_path() {
+  void should_create_error_message_for_uri_has_no_path() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news?type=beta");
     // WHEN
@@ -67,7 +67,7 @@ public class ShouldHavePath_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_url_has_no_path() throws Exception {
+  void should_create_error_message_for_url_has_no_path() throws Exception {
     // GIVEN
     URL url = new URL("http://assertj.org/news?type=beta");
     // WHEN

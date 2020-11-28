@@ -17,10 +17,10 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 
 import org.junit.jupiter.api.Test;
 
-public class OnFieldsComparator_creation_Test {
+class OnFieldsComparator_creation_Test {
 
   @Test
-  public void should_create_comparator_using_fields() {
+  void should_create_comparator_using_fields() {
     OnFieldsComparator comparator = new OnFieldsComparator("a", "b");
     assertThat(comparator).isNotNull();
     assertThat(comparator.getFields()).containsExactly("a", "b");
@@ -28,42 +28,42 @@ public class OnFieldsComparator_creation_Test {
 
   @SuppressWarnings("unused")
   @Test
-  public void should_fail_if_no_fields_are_given() {
+  void should_fail_if_no_fields_are_given() {
     assertThatIllegalArgumentException().isThrownBy(() -> new OnFieldsComparator())
                                         .withMessage("No fields/properties specified");
   }
 
   @SuppressWarnings("unused")
   @Test
-  public void should_fail_if_null_array_fields_is_given() {
+  void should_fail_if_null_array_fields_is_given() {
     assertThatIllegalArgumentException().isThrownBy(() -> new OnFieldsComparator((String[]) null))
                                         .withMessage("No fields/properties specified");
   }
 
   @SuppressWarnings("unused")
   @Test
-  public void should_fail_if_empty_array_fields_is_given() {
+  void should_fail_if_empty_array_fields_is_given() {
     assertThatIllegalArgumentException().isThrownBy(() -> new OnFieldsComparator(new String[0]))
                                         .withMessage("No fields/properties specified");
   }
 
   @SuppressWarnings("unused")
   @Test
-  public void should_fail_if_some_fields_are_null() {
+  void should_fail_if_some_fields_are_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> new OnFieldsComparator("a", null))
                                         .withMessage("Null/blank fields/properties are invalid, fields/properties were [\"a\", null]");
   }
 
   @SuppressWarnings("unused")
   @Test
-  public void should_fail_if_some_fields_are_empty() {
+  void should_fail_if_some_fields_are_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> new OnFieldsComparator("a", ""))
                                         .withMessage("Null/blank fields/properties are invalid, fields/properties were [\"a\", \"\"]");
   }
 
   @SuppressWarnings("unused")
   @Test
-  public void should_fail_if_some_fields_are_blank() {
+  void should_fail_if_some_fields_are_blank() {
     assertThatIllegalArgumentException().isThrownBy(() -> new OnFieldsComparator("a", " "))
                                         .withMessage("Null/blank fields/properties are invalid, fields/properties were [\"a\", \" \"]");
   }

@@ -20,10 +20,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
-public class AtomicBooleanAssert_customRepresentation_Test {
+class AtomicBooleanAssert_customRepresentation_Test {
 
   @Test
-  public void should_honor_customRepresentation() {
+  void should_honor_customRepresentation() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicBoolean(true)).withRepresentation(new CustomRepresentation())
                                                                                                         .isEqualTo(false))
                                                    .withMessageContaining("@true@");

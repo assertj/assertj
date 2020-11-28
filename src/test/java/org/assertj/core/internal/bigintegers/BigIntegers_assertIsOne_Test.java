@@ -26,26 +26,26 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link BigIntegers#assertIsOne(AssertionInfo, BigInteger)}</code>.
  */
-public class BigIntegers_assertIsOne_Test extends BigIntegersBaseTest {
+class BigIntegers_assertIsOne_Test extends BigIntegersBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_one() {
+  void should_succeed_since_actual_is_one() {
     numbers.assertIsOne(someInfo(), BigInteger.ONE);
   }
 
   @Test
-  public void should_fail_since_actual_is_not_one() {
+  void should_fail_since_actual_is_not_one() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsOne(someInfo(), BigInteger.ZERO))
                                                    .withMessage(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
   }
 
   @Test
-  public void should_succeed_since_actual_is_one_whatever_custom_comparison_strategy_is() {
+  void should_succeed_since_actual_is_one_whatever_custom_comparison_strategy_is() {
     numbersWithComparatorComparisonStrategy.assertIsOne(someInfo(), BigInteger.ONE);
   }
 
   @Test
-  public void should_fail_since_actual_is_not_one_whatever_custom_comparison_strategy_is() {
+  void should_fail_since_actual_is_not_one_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertIsOne(someInfo(), BigInteger.ZERO))
                                                    .withMessage(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
   }

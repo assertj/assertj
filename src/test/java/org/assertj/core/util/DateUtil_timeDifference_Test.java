@@ -26,10 +26,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class DateUtil_timeDifference_Test {
+class DateUtil_timeDifference_Test {
 
   @Test
-  public void should_return_dates_time_difference() {
+  void should_return_dates_time_difference() {
     final Date date1 = parseDatetimeWithMs("2003-04-26T03:01:02.999");
     final Date date2 = parseDatetimeWithMs("2003-04-26T03:01:02.888");
     assertThat(timeDifference(date1, date2)).isEqualTo(111);
@@ -37,13 +37,13 @@ public class DateUtil_timeDifference_Test {
   }
 
   @Test
-  public void should_throws_IllegalArgumentException_if_first_date_parameter_is_null() {
+  void should_throws_IllegalArgumentException_if_first_date_parameter_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> timeDifference(new Date(), null))
                                         .withMessage("Expecting date parameter not to be null");
   }
 
   @Test
-  public void should_throws_IllegalArgumentException_if_second_date_parameter_is_null() {
+  void should_throws_IllegalArgumentException_if_second_date_parameter_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> timeDifference(null, new Date()))
                                         .withMessage("Expecting date parameter not to be null");
   }

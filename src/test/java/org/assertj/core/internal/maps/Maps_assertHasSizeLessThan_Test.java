@@ -20,22 +20,22 @@ import static org.assertj.core.error.ShouldHaveSizeLessThan.shouldHaveSizeLessTh
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-public class Maps_assertHasSizeLessThan_Test extends MapsBaseTest {
+class Maps_assertHasSizeLessThan_Test extends MapsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSizeLessThan(someInfo(), null, 6))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_size_of_actual_is_not_less_than_boundary() {
+  void should_fail_if_size_of_actual_is_not_less_than_boundary() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSizeLessThan(someInfo(), actual, 1))
                                                    .withMessage(shouldHaveSizeLessThan(actual, actual.size(), 1).create());
   }
 
   @Test
-  public void should_pass_if_size_of_actual_is_less_than_boundary() {
+  void should_pass_if_size_of_actual_is_less_than_boundary() {
     maps.assertHasSizeLessThan(someInfo(), actual, 4);
   }
 }

@@ -18,17 +18,17 @@ import static org.assertj.core.util.Lists.list;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class SoftAssertions_assertAlso_Test extends BaseAssertionsTest {
+class SoftAssertions_assertAlso_Test extends BaseAssertionsTest {
 
   private SoftAssertions softly;
 
   @BeforeEach
-  public void beforeEachTest() {
+  void beforeEachTest() {
     softly = new SoftAssertions();
   }
 
   @Test
-  public void all_composed_assertions_should_pass() {
+  void all_composed_assertions_should_pass() {
     // GIVEN
     SoftAssertions delegate = new SoftAssertions();
     delegate.assertThat(1).isEqualTo(1);
@@ -43,7 +43,7 @@ public class SoftAssertions_assertAlso_Test extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_return_failure_for_failed_composed_assertions() {
+  void should_return_failure_for_failed_composed_assertions() {
     // GIVEN some soft assertions
     softly.assertThat(1).isEqualTo(1);
     assertThat(softly.wasSuccess()).isTrue();

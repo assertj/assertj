@@ -36,7 +36,7 @@ import org.junit.jupiter.params.provider.ValueSource;
  *
  * @author David Haccoun
  */
-public class Files_assertIsDirectoryRecursivelyContaining_SyntaxAndPattern_Test extends FilesSimpleBaseTest {
+class Files_assertIsDirectoryRecursivelyContaining_SyntaxAndPattern_Test extends FilesSimpleBaseTest {
 
   private static final String TXT_EXTENSION_PATTERN = "regex:.+\\.txt";
   private static final String TXT_EXTENSION_PATTERN_DESCRIPTION = format("the '%s' pattern", TXT_EXTENSION_PATTERN);

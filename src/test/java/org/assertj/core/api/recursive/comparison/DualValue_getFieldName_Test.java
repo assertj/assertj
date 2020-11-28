@@ -20,10 +20,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("DualValue getFieldName")
-public class DualValue_getFieldName_Test {
+class DualValue_getFieldName_Test {
 
   @Test
-  public void should_return_top_level_field_name() {
+  void should_return_top_level_field_name() {
     // GIVEN
     DualValue dualValue = new DualValue(list("foo"), "", "");
     // WHEN
@@ -33,7 +33,7 @@ public class DualValue_getFieldName_Test {
   }
 
   @Test
-  public void should_return_nested_field_name() {
+  void should_return_nested_field_name() {
     // GIVEN
     DualValue dualValue = new DualValue(list("foo", "bar"), "", "");
     // WHEN
@@ -43,7 +43,7 @@ public class DualValue_getFieldName_Test {
   }
 
   @Test
-  public void should_return_empty_for_root_objects() {
+  void should_return_empty_for_root_objects() {
     // GIVEN
     DualValue dualValue = new DualValue(emptyList(), "", "");
     // WHEN

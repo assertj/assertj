@@ -52,7 +52,7 @@ import org.junit.jupiter.api.Test;
 public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends ObjectsBaseTest {
 
   @Test
-  public void should_be_able_to_compare_objects_recursively() {
+  void should_be_able_to_compare_objects_recursively() {
     Person actual = new Person();
     actual.name = "John";
     actual.home.address.number = 1;
@@ -66,7 +66,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
   }
 
   @Test
-  public void should_be_able_to_compare_objects_of_different_types_recursively() {
+  void should_be_able_to_compare_objects_of_different_types_recursively() {
     Person actual = new Person();
     actual.name = "John";
     actual.home.address.number = 1;
@@ -81,7 +81,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
 
   @Test
   @SuppressWarnings("deprecation") // test for deprecated method
-  public void should_be_able_to_compare_objects_recursively_using_some_precision_for_numerical_types() {
+  void should_be_able_to_compare_objects_recursively_using_some_precision_for_numerical_types() {
     Giant goliath = new Giant();
     goliath.name = "Goliath";
     goliath.height = 3.0;
@@ -96,7 +96,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
 
   @Test
   @SuppressWarnings("deprecation") // test for deprecated method
-  public void should_be_able_to_compare_objects_recursively_using_given_comparator_for_specified_field() {
+  void should_be_able_to_compare_objects_recursively_using_given_comparator_for_specified_field() {
     Giant goliath = new Giant();
     goliath.name = "Goliath";
     goliath.height = 3.0;
@@ -111,7 +111,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
 
   @Test
   @SuppressWarnings("deprecation") // test for deprecated method
-  public void should_be_able_to_compare_objects_recursively_using_given_comparator_for_specified_nested_field() {
+  void should_be_able_to_compare_objects_recursively_using_given_comparator_for_specified_nested_field() {
     Giant goliath = new Giant();
     goliath.name = "Goliath";
     goliath.height = 3.0;
@@ -128,7 +128,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
   }
 
   @Test
-  public void should_be_able_to_compare_objects_with_cycles_recursively() {
+  void should_be_able_to_compare_objects_with_cycles_recursively() {
     FriendlyPerson actual = new FriendlyPerson();
     actual.name = "John";
     actual.home.address.number = 1;
@@ -155,7 +155,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
   }
 
   @Test
-  public void should_fail_when_fields_differ() {
+  void should_fail_when_fields_differ() {
     AssertionInfo info = someInfo();
 
     Person actual = new Person();
@@ -176,7 +176,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
   }
 
   @Test
-  public void should_fail_when_fields_of_child_objects_differ() {
+  void should_fail_when_fields_of_child_objects_differ() {
     AssertionInfo info = someInfo();
 
     Person actual = new Person();
@@ -201,7 +201,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
 
   @Test
   @SuppressWarnings("deprecation") // test for deprecated method
-  public void should_have_error_message_with_differences_and_path_to_differences() {
+  void should_have_error_message_with_differences_and_path_to_differences() {
     Person actual = new Person();
     actual.name = "Jack";
     actual.home.address.number = 1;
@@ -225,7 +225,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
 
   @Test
   @SuppressWarnings("deprecation") // test for deprecated method
-  public void should_have_error_message_with_path_to_difference_when_difference_is_in_collection() {
+  void should_have_error_message_with_path_to_difference_when_difference_is_in_collection() {
     FriendlyPerson actual = new FriendlyPerson();
     FriendlyPerson friendOfActual = new FriendlyPerson();
     friendOfActual.home.address.number = 99;
@@ -248,7 +248,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
   }
 
   @Test
-  public void should_not_use_equal_implementation_of_objects_to_compare() {
+  void should_not_use_equal_implementation_of_objects_to_compare() {
     AssertionInfo info = someInfo();
 
     EqualPerson actual = new EqualPerson();
@@ -272,7 +272,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
 
   @Test
   @SuppressWarnings("deprecation") // test for deprecated method
-  public void should_fail_when_comparing_unsorted_with_sorted_set() {
+  void should_fail_when_comparing_unsorted_with_sorted_set() {
     WithCollection<String> actual = new WithCollection<>(new LinkedHashSet<String>());
     actual.collection.add("bar");
     actual.collection.add("foo");
@@ -290,7 +290,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
 
   @Test
   @SuppressWarnings("deprecation") // test for deprecated method
-  public void should_fail_when_comparing_sorted_with_unsorted_set() {
+  void should_fail_when_comparing_sorted_with_unsorted_set() {
     WithCollection<String> actual = new WithCollection<>(new TreeSet<String>());
     actual.collection.add("bar");
     actual.collection.add("foo");
@@ -308,7 +308,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
 
   @Test
   @SuppressWarnings("deprecation") // test for deprecated method
-  public void should_fail_when_comparing_unsorted_with_sorted_map() {
+  void should_fail_when_comparing_unsorted_with_sorted_map() {
     WithMap<Long, Boolean> actual = new WithMap<>(new LinkedHashMap<>());
     actual.map.put(1L, true);
     actual.map.put(2L, false);
@@ -326,7 +326,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
 
   @Test
   @SuppressWarnings("deprecation") // test for deprecated method
-  public void should_fail_when_comparing_sorted_with_unsorted_map() {
+  void should_fail_when_comparing_sorted_with_unsorted_map() {
     WithMap<Long, Boolean> actual = new WithMap<>(new TreeMap<Long, Boolean>());
     actual.map.put(1L, true);
     actual.map.put(2L, false);
@@ -344,7 +344,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
 
   @Test
   @SuppressWarnings("deprecation") // test for deprecated method
-  public void should_handle_null_field_with_field_comparator() {
+  void should_handle_null_field_with_field_comparator() {
     // GIVEN
     Patient adam = new Patient(null);
     Patient eve = new Patient(new Timestamp(3L));
@@ -355,7 +355,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
 
   @Test
   @SuppressWarnings("deprecation") // test for deprecated method
-  public void should_handle_null_field_with_type_comparator() {
+  void should_handle_null_field_with_type_comparator() {
     // GIVEN
     Patient adam = new Patient(null);
     Patient eve = new Patient(new Timestamp(3L));
@@ -366,7 +366,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
 
   @Test
   @SuppressWarnings("deprecation") // test for deprecated method
-  public void should_not_bother_with_comparators_when_fields_are_the_same() {
+  void should_not_bother_with_comparators_when_fields_are_the_same() {
     // GIVEN
     Timestamp dateOfBirth = new Timestamp(3L);
     Patient adam = new Patient(dateOfBirth);
@@ -377,7 +377,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
   }
 
   @Test
-  public void should_treat_date_as_equal_to_timestamp() {
+  void should_treat_date_as_equal_to_timestamp() {
     Person actual = new Person();
     actual.name = "Fred";
     actual.dateOfBirth = new Date(1000L);
@@ -391,7 +391,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
   }
 
   @Test
-  public void should_treat_timestamp_as_equal_to_date_when_registering_a_Date_symmetric_comparator() {
+  void should_treat_timestamp_as_equal_to_date_when_registering_a_Date_symmetric_comparator() {
     Person actual = new Person();
     actual.name = "Fred";
     actual.dateOfBirth = new Timestamp(1000L);
@@ -410,7 +410,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
   }
 
   @Test
-  public void should_treat_timestamp_as_equal_to_date_when_registering_a_Date_symmetric_comparator_for_field() {
+  void should_treat_timestamp_as_equal_to_date_when_registering_a_Date_symmetric_comparator_for_field() {
     Person actual = new Person();
     actual.name = "Fred";
     actual.dateOfBirth = new Timestamp(1000L);
@@ -426,7 +426,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
   }
 
   @Test
-  public void should_be_able_to_compare_objects_with_percentages() {
+  void should_be_able_to_compare_objects_with_percentages() {
     Person actual = new Person();
     actual.name = "foo";
 
@@ -444,7 +444,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
 
   @Test
   @SuppressWarnings("deprecation") // test for deprecated method
-  public void should_report_missing_property() {
+  void should_report_missing_property() {
     // GIVEN
     Human joe = new Human();
     joe.name = "joe";

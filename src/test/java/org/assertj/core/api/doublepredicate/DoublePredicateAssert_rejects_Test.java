@@ -34,22 +34,22 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Filip Hrisafov
  */
-public class DoublePredicateAssert_rejects_Test extends DoublePredicateAssertBaseTest {
+class DoublePredicateAssert_rejects_Test extends DoublePredicateAssertBaseTest {
 
   @Test
-  public void should_fail_when_predicate_is_null() {
+  void should_fail_when_predicate_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((DoublePredicate) null).rejects(1.0, 2.0, 3.0))
                                                    .withMessage(actualIsNull());
   }
   @Test
-  public void should_pass_when_predicate_does_not_accept_value() {
+  void should_pass_when_predicate_does_not_accept_value() {
     DoublePredicate predicate = val -> val <= 2;
 
     assertThat(predicate).rejects(3.0);
   }
 
   @Test
-  public void should_fail_when_predicate_accepts_value() {
+  void should_fail_when_predicate_accepts_value() {
     DoublePredicate predicate = val -> val <= 2;
     Predicate<Double> wrapPredicate = predicate::test;
     double expectedValue = 2.0;
@@ -58,7 +58,7 @@ public class DoublePredicateAssert_rejects_Test extends DoublePredicateAssertBas
   }
 
   @Test
-  public void should_fail_when_predicate_accepts_value_with_string_description() {
+  void should_fail_when_predicate_accepts_value_with_string_description() {
     DoublePredicate predicate = val -> val <= 2;
     Predicate<Double> wrapPredicate = predicate::test;
     double expectedValue = 2.0;
@@ -67,7 +67,7 @@ public class DoublePredicateAssert_rejects_Test extends DoublePredicateAssertBas
   }
 
   @Test
-  public void should_fail_when_predicate_accepts_some_value() {
+  void should_fail_when_predicate_accepts_some_value() {
     DoublePredicate predicate = num -> num <= 2;
     double[] matchValues = new double[] { 1.0, 2.0, 3.0 };
     List<Double> matchValuesList = DoubleStream.of(matchValues).boxed().collect(Collectors.toList());
@@ -76,7 +76,7 @@ public class DoublePredicateAssert_rejects_Test extends DoublePredicateAssertBas
   }
 
   @Test
-  public void should_pass_when_predicate_accepts_no_value() {
+  void should_pass_when_predicate_accepts_no_value() {
     DoublePredicate predicate = num -> num <= 2;
 
     assertThat(predicate).rejects(3.0, 4.0, 5.0);

@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Yvonne Wang
  */
-public class BasicErrorMessageFactory_create_Test {
+class BasicErrorMessageFactory_create_Test {
 
   private MessageFormatter formatter;
   private BasicErrorMessageFactory factory;
@@ -44,7 +44,7 @@ public class BasicErrorMessageFactory_create_Test {
   }
 
   @Test
-  public void should_implement_toString() {
+  void should_implement_toString() {
     // GIVEN
     Description description = new TestDescription("Test");
     Representation representation = new StandardRepresentation();
@@ -57,7 +57,7 @@ public class BasicErrorMessageFactory_create_Test {
   }
 
   @Test
-  public void should_create_error_with_configured_representation() {
+  void should_create_error_with_configured_representation() {
     // GIVEN
     Description description = new TestDescription("Test");
     String formattedMessage = "[Test] Hello Yoda";
@@ -70,7 +70,7 @@ public class BasicErrorMessageFactory_create_Test {
   }
 
   @Test
-  public void should_create_error_with_empty_description_and_configured_representation() {
+  void should_create_error_with_empty_description_and_configured_representation() {
     Description description = emptyDescription();
     String formattedMessage = "[] Hello Yoda";
     given(formatter.format(description, CONFIGURATION_PROVIDER.representation(), "Hello %s",

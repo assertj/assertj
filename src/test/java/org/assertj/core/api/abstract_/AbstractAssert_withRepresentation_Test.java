@@ -20,23 +20,23 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
-public class AbstractAssert_withRepresentation_Test {
+class AbstractAssert_withRepresentation_Test {
 
   @Test
-  public void should_throw_error_if_description_is_null() {
+  void should_throw_error_if_description_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(new Example()).withRepresentation(null))
                                     .withMessage("The representation to use should not be null.");
   }
 
   @Test
-  public void should_be_able_to_use_a_custom_representation_for_error_messages() {
+  void should_be_able_to_use_a_custom_representation_for_error_messages() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
       assertThat(new Example()).withRepresentation(new CustomRepresentation()).isNull();
     }).withMessage(format("%nExpecting:%n <Example>%nto be equal to:%n <null>%nbut was not."));
   }
 
   @Test
-  public void should_be_able_to_override_an_existing_representation() {
+  void should_be_able_to_override_an_existing_representation() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat("foo").withRepresentation(new CustomRepresentation())
                                                                                       .startsWith("bar"))
                                                    .withMessageContaining("$foo$").withMessageContaining("$bar$");

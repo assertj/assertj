@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Jean-Christophe Gay
  */
-public class DoubleArrayAssert_containsExactly_Test extends DoubleArrayAssertBaseTest {
+class DoubleArrayAssert_containsExactly_Test extends DoubleArrayAssertBaseTest {
 
   @Override
   protected DoubleArrayAssert invoke_api_method() {
@@ -40,7 +40,7 @@ public class DoubleArrayAssert_containsExactly_Test extends DoubleArrayAssertBas
   }
 
   @Test
-  public void should_pass_with_precision_specified_as_last_argument() {
+  void should_pass_with_precision_specified_as_last_argument() {
     // GIVEN
     double[] actual = arrayOf(1.0, 2.0);
     // THEN
@@ -49,7 +49,7 @@ public class DoubleArrayAssert_containsExactly_Test extends DoubleArrayAssertBas
   }
   
   @Test
-  public void should_pass_when_multiple_expected_values_are_the_same_according_to_the_given_precision() {
+  void should_pass_when_multiple_expected_values_are_the_same_according_to_the_given_precision() {
     // GIVEN
     double[] actual = arrayOf(-1.71, -1.51, -1.51);
     // THEN
@@ -57,7 +57,7 @@ public class DoubleArrayAssert_containsExactly_Test extends DoubleArrayAssertBas
   }
   
   @Test
-  public void should_pass_with_precision_specified_in_comparator() {
+  void should_pass_with_precision_specified_in_comparator() {
     // GIVEN
     double[] actual = arrayOf(1.0, 2.0, 2.0, 2.09);
     // THEN

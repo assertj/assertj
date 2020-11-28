@@ -27,7 +27,7 @@ import org.assertj.core.data.Index;
  *
  * @author Jacek Jackowiak
  */
-public class ListAssert_satisfies_at_index_Test extends ListAssertBaseTest {
+class ListAssert_satisfies_at_index_Test extends ListAssertBaseTest {
 
   private final Index index = someIndex();
   private final Consumer<String> consumer = str -> assertThat(str).isNotEmpty();

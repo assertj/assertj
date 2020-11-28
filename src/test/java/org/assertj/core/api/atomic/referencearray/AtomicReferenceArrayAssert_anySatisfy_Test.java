@@ -22,12 +22,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
-public class AtomicReferenceArrayAssert_anySatisfy_Test extends AtomicReferenceArrayAssertBaseTest {
+class AtomicReferenceArrayAssert_anySatisfy_Test extends AtomicReferenceArrayAssertBaseTest {
 
   private Consumer<Object> restrictions;
 
   @BeforeEach
-  public void beforeOnce() {
+  void beforeOnce() {
     restrictions = o -> assertThat(o).isNotNull();
   }
 

@@ -25,15 +25,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("InstantAssert isNotIn")
-public class InstantAssert_isNotIn_Test extends InstantAssertBaseTest {
+class InstantAssert_isNotIn_Test extends InstantAssertBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_not_in_dates_as_string_parameter() {
+  void should_pass_if_actual_is_not_in_dates_as_string_parameter() {
     assertThat(REFERENCE).isNotIn(AFTER.toString(), BEFORE.toString());
   }
 
   @Test
-  public void should_fail_if_actual_is_in_dates_as_string_array_parameter() {
+  void should_fail_if_actual_is_in_dates_as_string_array_parameter() {
     // WHEN
     ThrowingCallable code = () -> assertThat(REFERENCE).isNotIn(REFERENCE.toString(), AFTER.toString());
     // THEN
@@ -41,7 +41,7 @@ public class InstantAssert_isNotIn_Test extends InstantAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_dates_as_string_array_parameter_is_null() {
+  void should_fail_if_dates_as_string_array_parameter_is_null() {
     // GIVEN
     String[] otherInstantsAsString = null;
     // WHEN
@@ -51,7 +51,7 @@ public class InstantAssert_isNotIn_Test extends InstantAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_dates_as_string_array_parameter_is_empty() {
+  void should_fail_if_dates_as_string_array_parameter_is_empty() {
     // GIVEN
     String[] otherInstantsAsString = new String[0];
     // WHEN

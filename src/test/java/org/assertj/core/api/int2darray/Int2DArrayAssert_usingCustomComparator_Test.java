@@ -37,7 +37,7 @@ class Int2DArrayAssert_usingCustomComparator_Test extends Int2DArrayAssertBaseTe
   }
 
   @Test
-  public void should_honor_comparator() {
+  void should_honor_comparator() {
     assertThat(new int[][] {}).usingComparator(ALWAYS_EQUAL)
                               .isEqualTo(new int[][] { { 1, 2 }, { 3, 4 } });
   }

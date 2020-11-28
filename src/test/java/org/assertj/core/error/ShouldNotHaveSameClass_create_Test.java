@@ -25,15 +25,15 @@ import org.junit.jupiter.api.Test;
  *
  * @author Nicolas François
  */
-public class ShouldNotHaveSameClass_create_Test {
+class ShouldNotHaveSameClass_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotHaveSameClass("Yoda", "Luke");
     // WHEN
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n <\"Yoda\">%nnot to have not the same class as:%n <\"Luke\"> (java.lang.String)"));
+    then(message).isEqualTo(format("[Test] %nExpecting:%n <\"Yoda\">%nnot to have the same class as:%n <\"Luke\"> (java.lang.String)"));
   }
 }

@@ -33,17 +33,17 @@ import org.junit.jupiter.api.Test;
  * @author Mikhail Mazursky
  * @author Joel Costigliola
  */
-public class Iterables_assertAre_Test extends IterablesWithConditionsBaseTest {
+class Iterables_assertAre_Test extends IterablesWithConditionsBaseTest {
 
   @Test
-  public void should_pass_if_each_element_satisfies_condition() {
+  void should_pass_if_each_element_satisfies_condition() {
     actual = newArrayList("Yoda", "Luke");
     iterables.assertAre(someInfo(), actual, jedi);
     verify(conditions).assertIsNotNull(jedi);
   }
 
   @Test
-  public void should_throw_error_if_condition_is_null() {
+  void should_throw_error_if_condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       actual = newArrayList("Yoda", "Luke");
       iterables.assertAre(someInfo(), actual, null);
@@ -52,7 +52,7 @@ public class Iterables_assertAre_Test extends IterablesWithConditionsBaseTest {
   }
 
   @Test
-  public void should_fail_if_condition_is_not_met() {
+  void should_fail_if_condition_is_not_met() {
     testCondition.shouldMatch(false);
     AssertionInfo info = someInfo();
     actual = newArrayList("Yoda", "Luke", "Leia");

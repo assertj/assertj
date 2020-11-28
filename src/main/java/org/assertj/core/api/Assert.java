@@ -39,11 +39,11 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * Verifies that the actual value is equal to the given one.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeed
    * assertThat(&quot;abc&quot;).isEqualTo(&quot;abc&quot;);
    * assertThat(new HashMap&lt;String, Integer&gt;()).isEqualTo(new HashMap&lt;String, Integer&gt;());
    *
-   * // assertions will fail
+   * // assertions fail
    * assertThat(&quot;abc&quot;).isEqualTo(&quot;123&quot;);
    * assertThat(new ArrayList&lt;String&gt;()).isEqualTo(1);</code></pre>
    *
@@ -57,11 +57,11 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * Verifies that the actual value is not equal to the given one.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeed
    * assertThat(&quot;abc&quot;).isNotEqualTo(&quot;123&quot;);
    * assertThat(new ArrayList&lt;String&gt;()).isNotEqualTo(1);
    *
-   * // assertions will fail
+   * // assertions fail
    * assertThat(&quot;abc&quot;).isNotEqualTo(&quot;abc&quot;);
    * assertThat(new HashMap&lt;String, Integer&gt;()).isNotEqualTo(new HashMap&lt;String, Integer&gt;());</code></pre>
    *
@@ -76,10 +76,10 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * <p>
    * Example:
    * <pre><code class='java'> String value = null;
-   * // assertion will pass
+   * // assertion succeeds
    * assertThat(value).isNull();
    *
-   * // assertions will fail
+   * // assertions fail
    * assertThat(&quot;abc&quot;).isNull();
    * assertThat(new HashMap&lt;String, Integer&gt;()).isNull();</code></pre>
    *
@@ -91,11 +91,11 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * Verifies that the actual value is not {@code null}.
   * <p>
    * Example:
-   * <pre><code class='java'> // assertion will pass
+   * <pre><code class='java'> // assertions succeed
    * assertThat(&quot;abc&quot;).isNotNull();
    * assertThat(new HashMap&lt;String, Integer&gt;()).isNotNull();
    *
-   * // assertion will fail
+   * // assertions fails
    * String value = null;
    * assertThat(value).isNotNull();</code></pre>
    *
@@ -156,10 +156,10 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * Example:
    * <pre><code class='java'> Ring[] elvesRings = new Ring[] { vilya, nenya, narya };
    *
-   * // assertion will pass:
+   * // assertion succeeds
    * assertThat(nenya).isIn(elvesRings);
    *
-   * // assertions will fail:
+   * // assertions fail
    * assertThat(oneRing).isIn(elvesRings);
    * assertThat(oneRing).isIn(new Ring[0]);</code></pre>
    *
@@ -178,11 +178,11 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * Example:
    * <pre><code class='java'> Ring[] elvesRings = new Ring[] { vilya, nenya, narya };
    *
-   * // assertions will pass:
+   * // assertions succeed
    * assertThat(oneRing).isNotIn(elvesRings);
    * assertThat(oneRing).isNotIn(new Ring[0]);
    *
-   * // assertion will fail:
+   * // assertions fails:
    * assertThat(nenya).isNotIn(elvesRings);</code></pre>
    *
    * @param values the given array to search the actual value in.
@@ -200,10 +200,10 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * Example:
    * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = list(vilya, nenya, narya);
    *
-   * // assertion will pass:
+   * // assertion succeeds
    * assertThat(nenya).isIn(elvesRings);
    *
-   * // assertions will fail:
+   * // assertions fail:
    * assertThat(oneRing).isIn(elvesRings);
    * assertThat(oneRing).isIn(emptyList());</code></pre>
    *
@@ -222,11 +222,11 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * Example:
    * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = list(vilya, nenya, narya);
    *
-   * // assertions will pass:
+   * // assertions succeed:
    * assertThat(oneRing).isNotIn(elvesRings);
    * assertThat(oneRing).isNotIn(emptyList());
    *
-   * // assertion will fail:
+   * // assertions fails:
    * assertThat(nenya).isNotIn(elvesRings);</code></pre>
    *
    * @param values the given iterable to search the actual value in.
@@ -289,14 +289,14 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * Additional factories can be created with custom {@code InstanceOfAssertFactory} instances.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeeds
    * Object string = &quot;abc&quot;;
    * assertThat(string).asInstanceOf(InstanceOfAssertFactories.STRING).startsWith(&quot;ab&quot;);
    *
    * Object integer = 1;
    * assertThat(integer).asInstanceOf(InstanceOfAssertFactories.INTEGER).isNotZero();
    *
-   * // assertion will fail
+   * // assertions fails
    * assertThat(&quot;abc&quot;).asInstanceOf(InstanceOfAssertFactories.INTEGER);</code></pre>
    *
    * @param <ASSERT>                the type of the resulting {@code Assert}.
@@ -315,12 +315,12 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * Verifies that the actual value is an instance of the given type.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeed
    * assertThat(&quot;abc&quot;).isInstanceOf(String.class);
    * assertThat(new HashMap&lt;String, Integer&gt;()).isInstanceOf(HashMap.class);
    * assertThat(new HashMap&lt;String, Integer&gt;()).isInstanceOf(Map.class);
    *
-   * // assertions will fail
+   * // assertions fail
    * assertThat(1).isInstanceOf(String.class);
    * assertThat(new ArrayList&lt;String&gt;()).isInstanceOf(LinkedList.class);</code></pre>
    *
@@ -372,12 +372,12 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * Verifies that the actual value is an instance of any of the given types.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeed
    * assertThat(&quot;abc&quot;).isInstanceOfAny(String.class, Integer.class);
    * assertThat(new ArrayList&lt;String&gt;()).isInstanceOfAny(LinkedList.class, ArrayList.class);
    * assertThat(new HashMap&lt;String, Integer&gt;()).isInstanceOfAny(TreeMap.class, Map.class);
    *
-   * // assertions will fail
+   * // assertions fail
    * assertThat(1).isInstanceOfAny(Double.class, Float.class);
    * assertThat(new ArrayList&lt;String&gt;()).isInstanceOfAny(LinkedList.class, Vector.class);</code></pre>
    *
@@ -394,11 +394,11 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * Verifies that the actual value is not an instance of the given type.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeed
    * assertThat(1).isNotInstanceOf(Double.class);
    * assertThat(new ArrayList&lt;String&gt;()).isNotInstanceOf(LinkedList.class);
    *
-   * // assertions will fail
+   * // assertions fail
    * assertThat(&quot;abc&quot;).isNotInstanceOf(String.class);
    * assertThat(new HashMap&lt;String, Integer&gt;()).isNotInstanceOf(HashMap.class);
    * assertThat(new HashMap&lt;String, Integer&gt;()).isNotInstanceOf(Map.class);</code></pre>
@@ -415,11 +415,11 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * Verifies that the actual value is not an instance of any of the given types.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeed
    * assertThat(1).isNotInstanceOfAny(Double.class, Float.class);
    * assertThat(new ArrayList&lt;String&gt;()).isNotInstanceOfAny(LinkedList.class, Vector.class);
    *
-   * // assertions will fail
+   * // assertions fail
    * assertThat(1).isNotInstanceOfAny(Double.class, Integer.class);
    * assertThat(new ArrayList&lt;String&gt;()).isNotInstanceOfAny(LinkedList.class, ArrayList.class);
    * assertThat(new HashMap&lt;String, Integer&gt;()).isNotInstanceOfAny(TreeMap.class, Map.class);</code></pre>
@@ -437,12 +437,12 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * Verifies that the actual value has the same class as the given object.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeed
    * assertThat(1).hasSameClassAs(2);
    * assertThat(&quot;abc&quot;).hasSameClassAs(&quot;123&quot;);
    * assertThat(new ArrayList&lt;String&gt;()).hasSameClassAs(new ArrayList&lt;Integer&gt;());
    *
-   * // assertions will fail
+   * // assertions fail
    * assertThat(1).hasSameClassAs(&quot;abc&quot;);
    * assertThat(new ArrayList&lt;String&gt;()).hasSameClassAs(new LinkedList&lt;String&gt;());</code></pre>
    *
@@ -476,11 +476,11 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * Verifies that the actual value does not have the same class as the given object.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeed
    * assertThat(1).doesNotHaveSameClassAs(&quot;abc&quot;);
    * assertThat(new ArrayList&lt;String&gt;()).doesNotHaveSameClassAs(new LinkedList&lt;String&gt;());
    *
-   * // assertions will fail
+   * // assertions fail
    * assertThat(1).doesNotHaveSameClassAs(2);
    * assertThat(&quot;abc&quot;).doesNotHaveSameClassAs(&quot;123&quot;);
    * assertThat(new ArrayList&lt;String&gt;()).doesNotHaveSameClassAs(new ArrayList&lt;Integer&gt;());</code></pre>
@@ -497,12 +497,12 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * Verifies that the actual value is <b>exactly</b> an instance of the given type.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeed
    * assertThat(&quot;abc&quot;).isExactlyInstanceOf(String.class);
    * assertThat(new ArrayList&lt;String&gt;()).isExactlyInstanceOf(ArrayList.class);
    * assertThat(new HashMap&lt;String, Integer&gt;()).isExactlyInstanceOf(HashMap.class);
    *
-   * // assertions will fail
+   * // assertions fail
    * assertThat(1).isExactlyInstanceOf(String.class);
    * assertThat(new ArrayList&lt;String&gt;()).isExactlyInstanceOf(List.class);
    * assertThat(new HashMap&lt;String, Integer&gt;()).isExactlyInstanceOf(Map.class);</code></pre>
@@ -519,12 +519,12 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * Verifies that the actual value is not <b>exactly</b> an instance of given type.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeed
    * assertThat(1).isNotExactlyInstanceOf(String.class);
    * assertThat(new ArrayList&lt;String&gt;()).isNotExactlyInstanceOf(List.class);
    * assertThat(new HashMap&lt;String, Integer&gt;()).isNotExactlyInstanceOf(Map.class);
    *
-   * // assertions will fail
+   * // assertions fail
    * assertThat(&quot;abc&quot;).isNotExactlyInstanceOf(String.class);
    * assertThat(new ArrayList&lt;String&gt;()).isNotExactlyInstanceOf(ArrayList.class);
    * assertThat(new HashMap&lt;String, Integer&gt;()).isNotExactlyInstanceOf(HashMap.class);</code></pre>
@@ -541,11 +541,11 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * Verifies that the actual value type is in given types.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeed
    * assertThat(new HashMap&lt;String, Integer&gt;()).isOfAnyClassIn(HashMap.class, TreeMap.class);
    * assertThat(new ArrayList&lt;String&gt;()).isOfAnyClassIn(ArrayList.class, LinkedList.class);
    *
-   * // assertions will fail
+   * // assertions fail
    * assertThat(new HashMap&lt;String, Integer&gt;()).isOfAnyClassIn(TreeMap.class, Map.class);
    * assertThat(new ArrayList&lt;String&gt;()).isOfAnyClassIn(LinkedList.class, List.class);</code></pre>
    *
@@ -561,11 +561,11 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * Verifies that the actual value type is not in given types.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeed
    * assertThat(new HashMap&lt;String, Integer&gt;()).isNotOfAnyClassIn(Map.class, TreeMap.class);
    * assertThat(new ArrayList&lt;String&gt;()).isNotOfAnyClassIn(LinkedList.class, List.class);
    *
-   * // assertions will fail
+   * // assertions fail
    * assertThat(new HashMap&lt;String, Integer&gt;()).isNotOfAnyClassIn(HashMap.class, TreeMap.class);
    * assertThat(new ArrayList&lt;String&gt;()).isNotOfAnyClassIn(ArrayList.class, LinkedList.class);</code></pre>
    *
@@ -585,12 +585,12 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * Example :
    * <pre><code class='java'> Object sortedListAsObject = Arrays.asList(1, 2, 3);
    *
-   * // assertion will pass
+   * // assertion succeeds
    * assertThat(sortedListAsObject).asList().isSorted();
    *
    * Object unsortedListAsObject = Arrays.asList(3, 1, 2);
    *
-   * // assertion will fail
+   * // assertions fails
    * assertThat(unsortedListAsObject).asList().isSorted();</code></pre>
    *
    * @return a list assertion object
@@ -604,10 +604,10 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * Example :
    * <pre><code class='java'> Object stringAsObject = "hello world";
    *
-   * // assertion will pass
+   * // assertion succeeds
    * assertThat(stringAsObject).asString().contains("hello");
    *
-   * // assertion will fail
+   * // assertions fails
    * assertThat(stringAsObject).asString().contains("holla");</code></pre>
    *
    * @return a string assertion object
@@ -724,12 +724,12 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * Verifies that the actual object has the same hashCode as the given object.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeed
    * assertThat(42L).hasSameHashCodeAs(42L);
    * assertThat(&quot;The Force&quot;).hasSameHashCodeAs(&quot;The Force&quot;);
    * assertThat(new Jedi(&quot;Yoda&quot;, &quot;Blue&quot;)).hasSameHashCodeAs(new Jedi(&quot;Yoda&quot;, &quot;Blue&quot;));
    *
-   * // assertions will fail
+   * // assertions fail
    * assertThat(42L).hasSameHashCodeAs(2501L);
    * assertThat(null).hasSameHashCodeAs(&quot;The Force&quot;);
    * assertThat(&quot;The Force&quot;).hasSameHashCodeAs(null);</code></pre>
@@ -745,4 +745,29 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @since 2.9.0
    */
   SELF hasSameHashCodeAs(Object other);
+
+  /**
+   * Verifies that the actual object does not have the same hashCode as the given object.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(42L).doesNotHaveSameHashCodeAs(2501L);
+   * assertThat(&quot;The Force&quot;).doesNotHaveSameHashCodeAs(null);
+   *
+   * // assertions fail
+   * assertThat(42L).doesNotHaveSameHashCodeAs(42L);
+   * assertThat(&quot;The Force&quot;).doesNotHaveSameHashCodeAs(&quot;The Force&quot;);
+   * assertThat(new Jedi(&quot;Yoda&quot;, &quot;Blue&quot;)).doesNotHaveSameHashCodeAs(new Jedi(&quot;Yoda&quot;, &quot;Blue&quot;)); </code></pre>
+   *
+   * @param other the object to check hashCode against.
+   *
+   * @return this assertion object.
+   *
+   * @throws AssertionError if the actual object is null.
+   * @throws NullPointerException if the other object is null.
+   * @throws AssertionError if the actual object has the same hashCode as the given object.
+   *
+   * @since 3.19.0
+   */
+  SELF doesNotHaveSameHashCodeAs(Object other);
 }

@@ -13,10 +13,8 @@
 package org.assertj.core.api;
 
 import static java.lang.String.format;
-import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Spliterators.emptySpliterator;
-import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,6 +24,7 @@ import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
+import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.assertj.core.data.TolkienCharacter.Race.ELF;
 import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
@@ -65,7 +64,6 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicIntegerArray;
@@ -96,14 +94,13 @@ import org.assertj.core.test.Animal;
 import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.Name;
 import org.assertj.core.test.Person;
-import org.assertj.core.util.Lists;
 import org.assertj.core.util.VisibleForTesting;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.MultipleFailuresError;
 
-public class BDDSoftAssertionsTest extends BaseAssertionsTest {
+class BDDSoftAssertionsTest extends BaseAssertionsTest {
 
   private BDDSoftAssertions softly;
 
@@ -123,7 +120,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   private Function<? super CartoonCharacter, ? extends Collection<CartoonCharacter>> childrenExtractor;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     softly = new BDDSoftAssertions();
 
     bart = new CartoonCharacter("Bart Simpson");
@@ -139,9 +136,9 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     fred = new CartoonCharacter("Fred Flintstone");
     fred.getChildren().add(pebbles);
 
-    List<String> names = asList("Dave", "Jeff");
+    List<String> names = list("Dave", "Jeff");
     LinkedHashSet<String> jobs = newLinkedHashSet("Plumber", "Builder");
-    Iterable<String> cities = asList("Dover", "Boston", "Paris");
+    Iterable<String> cities = list("Dover", "Boston", "Paris");
     int[] ranks = { 1, 2, 3 };
 
     iterableMap = new LinkedHashMap<>();
@@ -159,43 +156,15 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void all_assertions_should_pass() {
+  void all_assertions_should_pass() {
     softly.then(1).isEqualTo(1);
-    softly.then(Lists.newArrayList(1, 2)).containsOnly(1, 2);
+    softly.then(list(1, 2)).containsOnly(1, 2);
     softly.assertAll();
-  }
-
-  @Test
-  public void should_return_success_of_last_assertion() {
-    softly.then(true).isFalse();
-    softly.then(true).isEqualTo(true);
-    assertThat(softly.wasSuccess()).isTrue();
-  }
-
-  @Test
-  public void should_return_success_of_last_assertion_with_nested_calls() {
-    softly.then(true).isFalse();
-    softly.then(true).isTrue(); // isTrue() calls isEqualTo(true)
-    assertThat(softly.wasSuccess()).isTrue();
-  }
-
-  @Test
-  public void should_return_failure_of_last_assertion() {
-    softly.then(true).isTrue();
-    softly.then(true).isEqualTo(false);
-    assertThat(softly.wasSuccess()).isFalse();
-  }
-
-  @Test
-  public void should_return_failure_of_last_assertion_with_nested_calls() {
-    softly.then(true).isTrue();
-    softly.then(true).isFalse(); // isFalse() calls isEqualTo(false)
-    assertThat(softly.wasSuccess()).isFalse();
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_be_able_to_catch_exceptions_thrown_by_map_assertions() {
+  void should_be_able_to_catch_exceptions_thrown_by_map_assertions() {
     // GIVEN
     Map<String, String> map = mapOf(MapEntry.entry("54", "55"));
     // WHEN
@@ -215,43 +184,43 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
 
   @SuppressWarnings({ "unchecked", "deprecation" })
   @Test
-  public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() throws MalformedURLException {
+  void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() throws MalformedURLException {
     // GIVEN
     softly.then(BigDecimal.ZERO).isEqualTo(BigDecimal.ONE);
     softly.then(Boolean.FALSE).isTrue();
     softly.then(false).isTrue();
     softly.then(new boolean[] { false }).isEqualTo(new boolean[] { true });
-    softly.then(new Byte((byte) 0)).isEqualTo((byte) 1);
+    softly.then(Byte.valueOf((byte) 0)).isEqualTo((byte) 1);
     softly.then((byte) 2).inHexadecimal().isEqualTo((byte) 3);
     softly.then(new byte[] { 4 }).isEqualTo(new byte[] { 5 });
-    softly.then(new Character((char) 65)).isEqualTo(new Character((char) 66));
+    softly.then(Character.valueOf((char) 65)).isEqualTo(Character.valueOf((char) 66));
     softly.then((char) 67).isEqualTo((char) 68);
     softly.then(new char[] { 69 }).isEqualTo(new char[] { 70 });
     softly.then(new StringBuilder("a")).isEqualTo(new StringBuilder("b"));
     softly.then(Object.class).isEqualTo(String.class);
     softly.then(parseDatetime("1999-12-31T23:59:59")).isEqualTo(parseDatetime("2000-01-01T00:00:01"));
-    softly.then(new Double(6.0d)).isEqualTo(new Double(7.0d));
+    softly.then(Double.valueOf(6.0d)).isEqualTo(Double.valueOf(7.0d));
     softly.then(8.0d).isEqualTo(9.0d);
     softly.then(new double[] { 10.0d }).isEqualTo(new double[] { 11.0d });
     softly.then(new File("a"))
           .overridingErrorMessage(format("%nExpecting:%n <File(a)>%nto be equal to:%n <File(b)>%nbut was not."))
           .isEqualTo(new File("b"));
-    softly.then(new Float(12f)).isEqualTo(new Float(13f));
+    softly.then(Float.valueOf(12f)).isEqualTo(Float.valueOf(13f));
     softly.then(14f).isEqualTo(15f);
     softly.then(new float[] { 16f }).isEqualTo(new float[] { 17f });
     softly.then(new ByteArrayInputStream(new byte[] { (byte) 65 }))
           .hasSameContentAs(new ByteArrayInputStream(new byte[] { (byte) 66 }));
-    softly.then(new Integer(20)).isEqualTo(new Integer(21));
+    softly.then(Integer.valueOf(20)).isEqualTo(Integer.valueOf(21));
     softly.then(22).isEqualTo(23);
     softly.then(new int[] { 24 }).isEqualTo(new int[] { 25 });
-    softly.then((Iterable<String>) Lists.newArrayList("26")).isEqualTo(Lists.newArrayList("27"));
-    softly.then(Lists.newArrayList("28").iterator()).isExhausted();
-    softly.then(Lists.newArrayList("30")).isEqualTo(Lists.newArrayList("31"));
-    softly.then(new Long(32L)).isEqualTo(new Long(33L));
+    softly.then((Iterable<String>) list("26")).isEqualTo(list("27"));
+    softly.then(list("28").iterator()).isExhausted();
+    softly.then(list("30")).isEqualTo(list("31"));
+    softly.then(Long.valueOf(32L)).isEqualTo(new Long(33L));
     softly.then(34L).isEqualTo(35L);
     softly.then(new long[] { 36L }).isEqualTo(new long[] { 37L });
     softly.then(mapOf(MapEntry.entry("38", "39"))).isEqualTo(mapOf(MapEntry.entry("40", "41")));
-    softly.then(new Short((short) 42)).isEqualTo(new Short((short) 43));
+    softly.then(Short.valueOf((short) 42)).isEqualTo(Short.valueOf((short) 43));
     softly.then((short) 44).isEqualTo((short) 45);
     softly.then(new short[] { (short) 46 }).isEqualTo(new short[] { (short) 47 });
     softly.then("48").isEqualTo("49");
@@ -312,8 +281,8 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     List<String> errors = error.getFailures().stream().map(Object::toString).collect(toList());
     assertThat(errors).hasSize(62);
     assertThat(errors.get(0)).contains(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
-    assertThat(errors.get(1)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
-    assertThat(errors.get(2)).contains(format("%nExpecting:%n <false>%nto be equal to:%n <true>%nbut was not."));
+    assertThat(errors.get(1)).contains(format("%nExpecting value to be true but was false"));
+    assertThat(errors.get(2)).contains(format("%nExpecting value to be true but was false"));
     assertThat(errors.get(3)).contains(format("%nExpecting:%n <[false]>%nto be equal to:%n <[true]>%nbut was not."));
     assertThat(errors.get(4)).contains(format("%nExpecting:%n <0>%nto be equal to:%n <1>%nbut was not."));
     assertThat(errors.get(5)).contains(format("%nExpecting:%n <0x02>%nto be equal to:%n <0x03>%nbut was not."));
@@ -400,7 +369,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_pass_when_using_extracting_with_object() {
+  void should_pass_when_using_extracting_with_object() {
     // GIVEN
     Name name = name("John", "Doe");
     // WHEN
@@ -418,9 +387,9 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_pass_when_using_extracting_with_list() {
+  void should_pass_when_using_extracting_with_list() {
     // GIVEN
-    List<Name> names = asList(Name.name("John", "Doe"), name("Jane", "Doe"));
+    List<Name> names = list(Name.name("John", "Doe"), name("Jane", "Doe"));
     // WHEN
     softly.then(names)
           .extracting("first")
@@ -476,9 +445,9 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_pass_when_using_extracting_with_iterable() {
+  void should_pass_when_using_extracting_with_iterable() {
 
-    Iterable<Name> names = asList(name("John", "Doe"), name("Jane", "Doe"));
+    Iterable<Name> names = list(name("John", "Doe"), name("Jane", "Doe"));
 
     try (AutoCloseableBDDSoftAssertions softly = new AutoCloseableBDDSoftAssertions()) {
       softly.then(names)
@@ -520,7 +489,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_work_when_using_extracting_with_array() {
+  void should_work_when_using_extracting_with_array() {
 
     Name[] namesAsArray = { name("John", "Doe"), name("Jane", "Doe") };
 
@@ -564,9 +533,9 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_work_with_flat_extracting() {
+  void should_work_with_flat_extracting() {
     // GIVEN
-    List<CartoonCharacter> characters = asList(homer, fred);
+    List<CartoonCharacter> characters = list(homer, fred);
     CartoonCharacter[] charactersAsArray = characters.toArray(new CartoonCharacter[0]);
     // WHEN
     softly.then(characters)
@@ -589,9 +558,9 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_collect_all_errors_when_using_extracting() {
+  void should_collect_all_errors_when_using_extracting() {
     // GIVEN
-    List<Name> names = asList(name("John", "Doe"), name("Jane", "Doe"));
+    List<Name> names = list(name("John", "Doe"), name("Jane", "Doe"));
     // WHEN
     softly.then(names)
           .extracting("first")
@@ -609,9 +578,9 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_collect_all_errors_when_using_flat_extracting() {
+  void should_collect_all_errors_when_using_flat_extracting() {
     // GIVEN
-    List<CartoonCharacter> characters = asList(homer, fred);
+    List<CartoonCharacter> characters = list(homer, fred);
     // WHEN
     softly.then(characters)
           .flatExtracting(CartoonCharacter::getChildren)
@@ -625,7 +594,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_collect_all_errors_when_using_filtering() {
+  void should_collect_all_errors_when_using_filtering() {
     // GIVEN
     LinkedHashSet<CartoonCharacter> dads = newLinkedHashSet(homer, fred);
     // WHEN
@@ -641,7 +610,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_collect_all_errors_when_using_predicate_filtering() {
+  void should_collect_all_errors_when_using_predicate_filtering() {
     // GIVEN
     LinkedHashSet<CartoonCharacter> dads = newLinkedHashSet(homer, fred);
     // WHEN
@@ -657,7 +626,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_work_with_comparable() {
+  void should_work_with_comparable() {
     // GIVEN
     ComparableExample example1 = new ComparableExample(0);
     ComparableExample example2 = new ComparableExample(0);
@@ -672,7 +641,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_work_with_stream() {
+  void should_work_with_stream() {
     // WHEN
     softly.then(Stream.of("a", "b", "c")).contains("a", "foo");
     softly.then(IntStream.of(1, 2, 3)).contains(2, 4, 6);
@@ -688,22 +657,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_work_with_CompletionStage() {
-    // GIVEN
-    CompletionStage<String> completionStage = completedFuture("done");
-    // WHEN
-    softly.then(completionStage).isDone();
-    softly.then(completionStage).hasNotFailed();
-    softly.then(completionStage).isCancelled();
-    completionStage = null;
-    softly.then(completionStage).isNull();
-    // THEN
-    assertThat(softly.errorsCollected()).hasSize(1);
-    assertThat(softly.errorsCollected().get(0)).hasMessageContaining("cancelled");
-  }
-
-  @Test
-  public void should_work_with_predicate() {
+  void should_work_with_predicate() {
     // GIVEN
     Predicate<String> lowercasePredicate = s -> s.equals(s.toLowerCase());
     // WHEN
@@ -715,7 +669,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_work_with_optional() {
+  void should_work_with_optional() {
     // GIVEN
     Optional<String> optional = Optional.of("Gandalf");
     // WHEN
@@ -725,7 +679,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_work_with_optional_chained_with_map() {
+  void should_work_with_optional_chained_with_map() {
     // GIVEN
     Optional<String> optional = Optional.of("Gandalf");
     // WHEN
@@ -738,7 +692,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_collect_all_errors_when_using_map() {
+  void should_collect_all_errors_when_using_map() {
     // GIVEN
     Optional<String> optional = Optional.of("Gandalf");
     // WHEN
@@ -753,7 +707,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_collect_all_errors_when_using_flatMap() {
+  void should_collect_all_errors_when_using_flatMap() {
     // GIVEN
     Optional<String> optional = Optional.of("Gandalf");
     // WHEN
@@ -767,7 +721,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_propagate_AssertionError_from_nested_proxied_calls() {
+  void should_propagate_AssertionError_from_nested_proxied_calls() {
     // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
     softly.then(emptyList()).first();
     // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
@@ -780,6 +734,10 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then(emptyList()).element(1);
     // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
     softly.then(emptyList()).element(1, as(STRING));
+    // the nested proxied call to assertHasSize() throw an Assertion error that must be propagated to the caller.
+    softly.then(emptyList()).singleElement();
+    // the nested proxied call to assertHasSize() throw an Assertion error that must be propagated to the caller.
+    softly.then(emptyList()).singleElement(as(STRING));
     // nested proxied call to throwAssertionError when checking that is optional is present
     softly.then(Optional.empty()).contains("Foo");
     // nested proxied call to isNotNull
@@ -787,7 +745,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // nested proxied call to isCompleted
     softly.then(new CompletableFuture<String>()).isCompletedWithValue("done");
     // it must be caught by softly.assertAll()
-    assertThat(softly.errorsCollected()).hasSize(9);
+    assertThat(softly.errorsCollected()).hasSize(11);
   }
 
   // bug #447
@@ -798,7 +756,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void check_477_bugfix() {
+  void check_477_bugfix() {
     // GIVEN
     TolkienHero frodo = new TolkienHero();
     TolkienHero samnullGamgee = null;
@@ -854,41 +812,43 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     public TolkienHeroesAssert then(TolkienHero actual) {
       return proxy(TolkienHeroesAssert.class, TolkienHero.class, actual);
     }
+
+    @Override
+    public void onAssertionErrorCollected(AssertionError assertionError) {
+      System.out.println(assertionError);
+    }
   }
 
   @Test
-  public void should_return_failure_after_fail() {
+  void should_return_failure_after_fail() {
     // GIVEN
     String failureMessage = "Should not reach here";
     // WHEN
     softly.fail(failureMessage);
     // THEN
-    assertThat(softly.wasSuccess()).isFalse();
     assertThat(softly.errorsCollected()).hasSize(1);
     assertThat(softly.errorsCollected().get(0)).hasMessageStartingWith(failureMessage);
   }
 
   @Test
-  public void should_return_failure_after_fail_with_parameters() {
+  void should_return_failure_after_fail_with_parameters() {
     // GIVEN
     String failureMessage = "Should not reach %s or %s";
     // WHEN
     softly.fail(failureMessage, "here", "here");
     // THEN
-    assertThat(softly.wasSuccess()).isFalse();
     assertThat(softly.errorsCollected()).hasSize(1);
     assertThat(softly.errorsCollected().get(0)).hasMessageStartingWith("Should not reach here or here");
   }
 
   @Test
-  public void should_return_failure_after_fail_with_throwable() {
+  void should_return_failure_after_fail_with_throwable() {
     // GIVEN
     String failureMessage = "Should not reach here";
     IllegalStateException realCause = new IllegalStateException();
     // WHEN
     softly.fail(failureMessage, realCause);
     // THEN
-    assertThat(softly.wasSuccess()).isFalse();
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).hasSize(1);
     assertThat(errorsCollected.get(0)).hasMessageStartingWith(failureMessage);
@@ -896,18 +856,17 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_return_failure_after_shouldHaveThrown() {
+  void should_return_failure_after_shouldHaveThrown() {
     // WHEN
     softly.shouldHaveThrown(IllegalArgumentException.class);
     // THEN
-    assertThat(softly.wasSuccess()).isFalse();
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).hasSize(1);
     assertThat(errorsCollected.get(0)).hasMessageStartingWith("IllegalArgumentException should have been thrown");
   }
 
   @Test
-  public void should_assert_using_assertSoftly() {
+  void should_assert_using_assertSoftly() {
     assertThatThrownBy(() -> assertSoftly(assertions -> {
       assertions.assertThat(true).isFalse();
       assertions.assertThat(42).isEqualTo("meaning of life");
@@ -918,7 +877,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_work_with_atomic() {
+  void should_work_with_atomic() {
     // WHEN
     // simple atomic value
     softly.then(new AtomicBoolean(true)).isTrue().isFalse();
@@ -942,7 +901,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void should_fix_bug_1146() {
+  void should_fix_bug_1146() {
     // GIVEN
     Map<String, String> numbers = mapOf(entry("one", "1"),
                                         entry("two", "2"),
@@ -959,9 +918,9 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void iterable_soft_assertions_should_work_with_navigation_methods() {
+  void iterable_soft_assertions_should_work_with_navigation_methods() {
     // GIVEN
-    Iterable<Name> names = asList(name("John", "Doe"), name("Jane", "Doe"));
+    Iterable<Name> names = list(name("John", "Doe"), name("Jane", "Doe"));
     // WHEN
     softly.then(names)
           .size()
@@ -995,9 +954,9 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void list_soft_assertions_should_work_with_navigation_methods() {
+  void list_soft_assertions_should_work_with_navigation_methods() {
     // GIVEN
-    List<Name> names = asList(name("John", "Doe"), name("Jane", "Doe"));
+    List<Name> names = list(name("John", "Doe"), name("Jane", "Doe"));
     // WHEN
     softly.then(names)
           .size()
@@ -1028,15 +987,53 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(3)).hasMessageContaining("first element");
     assertThat(errorsCollected.get(4)).hasMessageContaining("element(0)");
     assertThat(errorsCollected.get(5)).hasMessageContaining("last element");
+  }
+
+  @Test
+  void iterable_soft_assertions_should_work_with_singleElement_navigation() {
+    // GIVEN
+    Iterable<Name> names = list(name("Jane", "Doe"));
+    // WHEN
+    softly.then(names)
+          .as("single element")
+          .singleElement()
+          .isNotNull();
+    softly.then(names)
+          .singleElement()
+          .as("single element")
+          .isNull();
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).singleElement(as(THROWABLE))
+                               .hasMessageContaining("single element");
+  }
+
+  @Test
+  void list_soft_assertions_should_work_with_singleElement_navigation() {
+    // GIVEN
+    List<Name> names = list(name("Jane", "Doe"));
+    // WHEN
+    softly.then(names)
+          .as("single element")
+          .singleElement()
+          .isNotNull();
+    softly.then(names)
+          .singleElement()
+          .as("single element")
+          .isNull();
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).singleElement(as(THROWABLE))
+                               .hasMessageContaining("single element");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
   @SuppressWarnings("unchecked")
   @Test
-  public void iterable_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
+  void iterable_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
-    Iterable<Name> names = asList(name("John", "Doe"), name("Jane", "Doe"));
-    Iterable<CartoonCharacter> characters = asList(homer, fred);
+    Iterable<Name> names = list(name("John", "Doe"), name("Jane", "Doe"));
+    Iterable<CartoonCharacter> characters = list(homer, fred);
     softly.then(names)
           .extracting(throwingFirstNameExtractor)
           .contains("gandalf")
@@ -1144,9 +1141,40 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .filteredOnAssertions(name -> assertThat(name.first).startsWith("Jo"))
           .as("filteredOn with consumer")
           .hasSize(5);
+    softly.then(characters)
+          .flatMap(childrenExtractor)
+          .as("using flatMap on Iterable")
+          .containsAnyOf(homer, fred);
+    softly.then(characters)
+          .flatMap(CartoonCharacter::getChildrenWithException)
+          .as("using flatMap on Iterable with exception")
+          .containsExactlyInAnyOrder(homer, fred);
+    softly.then(names)
+          .flatMap(firstNameFunction, lastNameFunction)
+          .as("flatMap with multiple Extractors")
+          .contains("John", "Jane", "Doe")
+          .contains("Sauron");
+    softly.then(names)
+          .flatMap(throwingFirstNameExtractor, throwingLastNameExtractor)
+          .as("flatMap with multiple ThrowingExtractors")
+          .contains("John", "Jane", "Doe")
+          .contains("Sauron");
+    softly.then(names)
+          .map(throwingFirstNameExtractor)
+          .as("map with ThrowingExtractor")
+          .contains("frodo");
+    softly.then(names)
+          .map(firstNameFunction)
+          .as("map with function")
+          .contains("sam");
+    softly.then(names)
+          .map(firstNameFunction, lastNameFunction)
+          .as("map with multiple functions")
+          .contains(tuple("John", "Doe"))
+          .contains(tuple("Frodo", "Baggins"));
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(33);
+    assertThat(errorsCollected).hasSize(40);
     assertThat(errorsCollected.get(0)).hasMessageContaining("gandalf");
     assertThat(errorsCollected.get(1)).hasMessageContaining("frodo");
     assertThat(errorsCollected.get(2)).hasMessageContaining("foo")
@@ -1181,15 +1209,22 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(30)).hasMessageContaining("using flatExtracting(String... fieldOrPropertyNames)");
     assertThat(errorsCollected.get(31)).hasMessageContaining("using flatExtracting(String fieldOrPropertyName)");
     assertThat(errorsCollected.get(32)).hasMessageContaining("filteredOn with consumer");
+    assertThat(errorsCollected.get(33)).hasMessageContaining("using flatMap on Iterable");
+    assertThat(errorsCollected.get(34)).hasMessageContaining("using flatMap on Iterable with exception");
+    assertThat(errorsCollected.get(35)).hasMessageContaining("flatMap with multiple Extractors");
+    assertThat(errorsCollected.get(36)).hasMessageContaining("flatMap with multiple ThrowingExtractors");
+    assertThat(errorsCollected.get(37)).hasMessageContaining("map with ThrowingExtractor");
+    assertThat(errorsCollected.get(38)).hasMessageContaining("map with function");
+    assertThat(errorsCollected.get(39)).hasMessageContaining("map with multiple functions");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
   @SuppressWarnings("unchecked")
   @Test
-  public void list_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
+  void list_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
-    List<Name> names = asList(name("John", "Doe"), name("Jane", "Doe"));
-    List<CartoonCharacter> characters = asList(homer, fred);
+    List<Name> names = list(name("John", "Doe"), name("Jane", "Doe"));
+    List<CartoonCharacter> characters = list(homer, fred);
     // WHEN
     softly.then(names)
           .extracting(Name::getFirst)
@@ -1298,9 +1333,40 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .filteredOnAssertions(name -> assertThat(name.first).startsWith("Jo"))
           .as("filteredOn with consumer")
           .hasSize(5);
+    softly.then(names)
+          .flatMap(firstNameFunction, lastNameFunction)
+          .as("flatMap with multiple Extractors")
+          .contains("John", "Jane", "Doe")
+          .contains("Sauron");
+    softly.then(names)
+          .flatMap(throwingFirstNameExtractor, throwingLastNameExtractor)
+          .as("flatMap with multiple ThrowingExtractors")
+          .contains("John", "Jane", "Doe")
+          .contains("Sauron");
+    softly.then(characters)
+          .flatMap(CartoonCharacter::getChildren)
+          .as("using flatMap on Iterable")
+          .containsAnyOf(homer, fred);
+    softly.then(characters)
+          .flatMap(CartoonCharacter::getChildrenWithException)
+          .as("using flatMap on Iterable with exception")
+          .containsExactlyInAnyOrder(homer, fred);
+    softly.then(names)
+          .map(throwingFirstNameExtractor)
+          .as("using map with ThrowingExtractor")
+          .contains("frodo");
+    softly.then(names)
+          .map(firstNameFunction)
+          .as("map with function")
+          .contains("sam");
+    softly.then(names)
+          .map(firstNameFunction, lastNameFunction)
+          .as("map with multiple functions")
+          .contains(tuple("John", "Doe"))
+          .contains(tuple("Frodo", "Baggins"));
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(33);
+    assertThat(errorsCollected).hasSize(40);
     assertThat(errorsCollected.get(0)).hasMessageContaining("gandalf");
     assertThat(errorsCollected.get(1)).hasMessageContaining("frodo");
     assertThat(errorsCollected.get(2)).hasMessageContaining("foo")
@@ -1335,12 +1401,19 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(30)).hasMessageContaining("using flatExtracting(String... fieldOrPropertyNames)");
     assertThat(errorsCollected.get(31)).hasMessageContaining("using flatExtracting(String fieldOrPropertyName)");
     assertThat(errorsCollected.get(32)).hasMessageContaining("filteredOn with consumer");
+    assertThat(errorsCollected.get(33)).hasMessageContaining("flatMap with multiple Extractors");
+    assertThat(errorsCollected.get(34)).hasMessageContaining("flatMap with multiple ThrowingExtractors");
+    assertThat(errorsCollected.get(35)).hasMessageContaining("using flatMap on Iterable");
+    assertThat(errorsCollected.get(36)).hasMessageContaining("using flatMap on Iterable with exception");
+    assertThat(errorsCollected.get(37)).hasMessageContaining("using map with ThrowingExtractor");
+    assertThat(errorsCollected.get(38)).hasMessageContaining("map with function");
+    assertThat(errorsCollected.get(39)).hasMessageContaining("map with multiple functions");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
   @SuppressWarnings("unchecked")
   @Test
-  public void object_array_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
+  void object_array_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
     Name[] names = array(name("John", "Doe"), name("Jane", "Doe"));
     CartoonCharacter[] characters = array(homer, fred);
@@ -1476,7 +1549,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
   @SuppressWarnings("unchecked")
   @Test
-  public void class_soft_assertions_should_report_errors_on_final_methods() {
+  void class_soft_assertions_should_report_errors_on_final_methods() {
     // GIVEN
     Class<AnnotatedClass> actual = AnnotatedClass.class;
     // WHEN
@@ -1493,11 +1566,11 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
   @SuppressWarnings("unchecked")
   @Test
-  public void object_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
+  void object_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
     Name name = name("John", "Doe");
     Object alphabet = "abcdefghijklmnopqrstuvwxyz";
-    Object vowels = asList("a", "e", "i", "o", "u");
+    Object vowels = list("a", "e", "i", "o", "u");
     // WHEN
     softly.then(name)
           .extracting("first", "last")
@@ -1539,7 +1612,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
   @SuppressWarnings("unchecked")
   @Test
-  public void map_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
+  void map_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
     Map<String, String> map = mapOf(entry("a", "1"), entry("b", "2"), entry("c", "3"));
     // WHEN
@@ -1591,7 +1664,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void map_soft_assertions_should_work_with_navigation_methods() {
+  void map_soft_assertions_should_work_with_navigation_methods() {
     // GIVEN
     Map<String, String> map = mapOf(entry("a", "1"), entry("b", "2"), entry("c", "3"));
     // WHEN
@@ -1623,7 +1696,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void predicate_soft_assertions_should_report_errors_on_final_methods() {
+  void predicate_soft_assertions_should_report_errors_on_final_methods() {
     // GIVEN
     Predicate<MapEntry<String, String>> ballSportPredicate = sport -> sport.value.contains("ball");
     // WHEN
@@ -1638,7 +1711,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void soft_assertions_should_work_with_satisfiesAnyOf() {
+  void soft_assertions_should_work_with_satisfiesAnyOf() {
     // GIVEN
     TolkienCharacter legolas = TolkienCharacter.of("Legolas", 1000, ELF);
     Consumer<TolkienCharacter> isHobbit = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(HOBBIT);
@@ -1657,10 +1730,10 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void soft_assertions_should_work_with_thenObject() {
+  void soft_assertions_should_work_with_thenObject() {
     // GIVEN
     TolkienCharacter legolas = TolkienCharacter.of("Legolas", 1000, ELF);
-    Deque<TolkienCharacter> characters = new LinkedList<>(asList(legolas));
+    Deque<TolkienCharacter> characters = new LinkedList<>(list(legolas));
     Consumer<Deque<TolkienCharacter>> isFirstHobbit = tolkienCharacters -> assertThat(tolkienCharacters.getFirst()
                                                                                                        .getRace()).isEqualTo(HOBBIT);
     Consumer<Deque<TolkienCharacter>> isFirstMan = tolkienCharacters -> assertThat(tolkienCharacters.getFirst()
@@ -1679,7 +1752,7 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  public void soft_assertions_should_work_with_asInstanceOf() {
+  void soft_assertions_should_work_with_asInstanceOf() {
     // GIVEN
     Object s = "abc";
     // WHEN

@@ -18,7 +18,7 @@ We appreciate your effort and to make sure that your pull request is easy to rev
 * Put GIVEN WHEN THEN steps in each test, favoring `BDDAssertions.then` instead of `Assertions.assertThat` for assertions in the THEN step. Steps can be combined or omitted if a separate step does not provide much benefit to test readability, just ensure that the WHEN step (either single or combined) contains the test target.
 * Use `AssertionUtil.expectAssertionError` for tests expecting to get an `AssertionError`  - see `OptionalAssert_containsInstanceOf_Test` as an example..
 * Use static import when it makes the code more readable.
-* If possible, add a (fun) code example in [assertj-examples](https://github.com/joel-costigliola/assertj-examples) and use it in the javadoc.
+* If possible, add a (fun) code example in [assertj-examples](https://github.com/assertj/assertj-examples) and use it in the javadoc.
 
 A good unit test to use as a reference is `OptionalAssert_containsInstanceOf_Test`. Here's a sample below:
 
@@ -53,11 +53,11 @@ class OptionalAssert_containsInstanceOf_Test extends BaseTest {
 
 It's ok not to follow some of the rules described above if you have a good reason not to (use your best judgement)
 
-[assertj-examples](https://github.com/joel-costigliola/assertj-examples) shows how to efficiently use AssertJ through fun unit test examples, it can be seen as AssertJs living documentation.
+[assertj-examples](https://github.com/assertj/assertj-examples) shows how to efficiently use AssertJ through fun unit test examples, it can be seen as AssertJs living documentation.
 
-## Rebase your PR on master (no merge!)
+## Rebase your PR on main (no merge!)
 
-We prefer integrating PR by squashing all the commits and rebase it to master, if you PR has diverged and needs to integrate with master, please rebase on master but do not merge as it will prevent rebasing later on.
+We prefer integrating PR by squashing all the commits and rebase it to main, if you PR has diverged and needs to integrate with main, please rebase on main but do not merge as it will prevent rebasing later on.
 
 ## Naming conventions with some examples:
 
@@ -90,8 +90,7 @@ A good javadoc example taken from [`AbstractCharSequenceAssert.containsSequence`
  * assertThat(book).containsSequence("{", "title", "A Game of Thrones", "}");
  *
  * // ... but this one fails as "author" must come after "A Game of Thrones"
- * assertThat(book).containsSequence("{", "author", "A Game of Thrones", "}");
- * </code></pre>
+ * assertThat(book).containsSequence("{", "author", "A Game of Thrones", "}"); </code></pre>
  *
  * @param values the Strings to look for, in order.
  * @return {@code this} assertion object.

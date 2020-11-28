@@ -25,32 +25,32 @@ import org.junit.jupiter.api.Test;
  *
  * @author Marcel Overdijk
  */
-public class Strings_assertIsLowerCase_Test extends StringsBaseTest {
+class Strings_assertIsLowerCase_Test extends StringsBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_lowercase() {
+  void should_pass_if_actual_is_lowercase() {
     strings.assertLowerCase(someInfo(), "lego");
   }
 
   @Test
-  public void should_pass_if_actual_is_empty() {
+  void should_pass_if_actual_is_empty() {
     strings.assertLowerCase(someInfo(), "");
   }
 
   @Test
-  public void should_fail_if_actual_is_not_fully_lowercase() {
+  void should_fail_if_actual_is_not_fully_lowercase() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertLowerCase(someInfo(), "Lego"))
                                                    .withMessage(shouldBeLowerCase("Lego").create());
   }
 
   @Test
-  public void should_fail_if_actual_is_uppercase() {
+  void should_fail_if_actual_is_uppercase() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertLowerCase(someInfo(), "LEGO"))
                                                    .withMessage(shouldBeLowerCase("LEGO").create());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertLowerCase(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }

@@ -34,25 +34,25 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Jean-Christophe Gay
  */
-public class Files_assertHasExtension_Test extends FilesBaseTest {
+class Files_assertHasExtension_Test extends FilesBaseTest {
 
   private String expectedExtension = "java";
 
   @Test
-  public void should_throw_error_if_actual_is_null() {
+  void should_throw_error_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasExtension(someInfo(), null,
                                                                                               expectedExtension))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_npe_if_extension_is_null() {
+  void should_throw_npe_if_extension_is_null() {
     assertThatNullPointerException().isThrownBy(() -> files.assertHasExtension(someInfo(), actual, null))
                                     .withMessage("The expected extension should not be null.");
   }
 
   @Test
-  public void should_throw_error_if_actual_is_not_a_file() {
+  void should_throw_error_if_actual_is_not_a_file() {
     AssertionInfo info = someInfo();
     when(actual.isFile()).thenReturn(false);
 
@@ -63,7 +63,7 @@ public class Files_assertHasExtension_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_actual_does_not_have_the_expected_extension() {
+  void should_throw_error_if_actual_does_not_have_the_expected_extension() {
     AssertionInfo info = someInfo();
     when(actual.isFile()).thenReturn(true);
     when(actual.getName()).thenReturn("file.png");
@@ -75,7 +75,7 @@ public class Files_assertHasExtension_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_has_expected_extension() {
+  void should_pass_if_actual_has_expected_extension() {
     when(actual.isFile()).thenReturn(true);
     when(actual.getName()).thenReturn("file.java");
     files.assertHasExtension(someInfo(), actual, expectedExtension);

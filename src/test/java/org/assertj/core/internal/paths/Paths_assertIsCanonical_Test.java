@@ -27,16 +27,16 @@ import java.nio.file.Path;
 import org.assertj.core.api.exception.PathsException;
 import org.junit.jupiter.api.Test;
 
-public class Paths_assertIsCanonical_Test extends MockPathsBaseTest {
+class Paths_assertIsCanonical_Test extends MockPathsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsCanonical(info, null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_PathsException_on_io_error() throws IOException {
+  void should_throw_PathsException_on_io_error() throws IOException {
     final IOException exception = new IOException();
     when(actual.toRealPath()).thenThrow(exception);
 
@@ -46,7 +46,7 @@ public class Paths_assertIsCanonical_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_real_path_differs_from_actual() throws IOException {
+  void should_fail_if_actual_real_path_differs_from_actual() throws IOException {
     final Path other = mock(Path.class);
     when(actual.toRealPath()).thenReturn(other);
 
@@ -57,7 +57,7 @@ public class Paths_assertIsCanonical_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_succeed_if_actual_real_path_is_same_as_actual() throws IOException {
+  void should_succeed_if_actual_real_path_is_same_as_actual() throws IOException {
     when(actual.toRealPath()).thenReturn(actual);
     paths.assertIsCanonical(info, actual);
   }

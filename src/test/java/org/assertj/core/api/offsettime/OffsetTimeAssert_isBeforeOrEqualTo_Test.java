@@ -28,10 +28,10 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-public class OffsetTimeAssert_isBeforeOrEqualTo_Test extends OffsetTimeAssertBaseTest {
+class OffsetTimeAssert_isBeforeOrEqualTo_Test extends OffsetTimeAssertBaseTest {
 
   @Test
-  public void test_isBeforeOrEqual_assertion() {
+  void test_isBeforeOrEqual_assertion() {
     // WHEN
     assertThat(BEFORE).isBeforeOrEqualTo(REFERENCE);
     assertThat(BEFORE).isBeforeOrEqualTo(REFERENCE.toString());
@@ -42,13 +42,13 @@ public class OffsetTimeAssert_isBeforeOrEqualTo_Test extends OffsetTimeAssertBas
   }
 
   @Test
-  public void test_isBeforeOrEqual_assertion_error_message() {
+  void test_isBeforeOrEqual_assertion_error_message() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(REFERENCE).isBeforeOrEqualTo(BEFORE))
                                                    .withMessage(shouldBeBeforeOrEqualTo(REFERENCE, BEFORE).create());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       OffsetTime actual = null;
       assertThat(actual).isBeforeOrEqualTo(OffsetTime.now());
@@ -56,13 +56,13 @@ public class OffsetTimeAssert_isBeforeOrEqualTo_Test extends OffsetTimeAssertBas
   }
 
   @Test
-  public void should_fail_if_offsetTime_parameter_is_null() {
+  void should_fail_if_offsetTime_parameter_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetTime.now()).isBeforeOrEqualTo((OffsetTime) null))
                                         .withMessage("The OffsetTime to compare actual with should not be null");
   }
 
   @Test
-  public void should_fail_if_offsetTime_as_string_parameter_is_null() {
+  void should_fail_if_offsetTime_as_string_parameter_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetTime.now()).isBeforeOrEqualTo((String) null))
                                         .withMessage("The String representing the OffsetTime to compare actual with should not be null");
   }

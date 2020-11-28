@@ -23,10 +23,10 @@ import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.Test;
 
 
-public class Filter_with_property_not_in_given_values_Test extends WithPlayerData {
+class Filter_with_property_not_in_given_values_Test extends WithPlayerData {
 
   @Test
-  public void should_filter_iterable_elements_with_property_not_in_given_values() {
+  void should_filter_iterable_elements_with_property_not_in_given_values() {
     Iterable<Player> filteredPlayers = filter(players).with("team").notIn("Los Angeles Lakers", "Miami Heat").get();
     assertThat(filteredPlayers).containsOnly(jordan, duncan);
     // players is not modified
@@ -39,13 +39,13 @@ public class Filter_with_property_not_in_given_values_Test extends WithPlayerDat
   }
 
   @Test
-  public void should_fail_if_property_to_filter_on_is_null() {
+  void should_fail_if_property_to_filter_on_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> filter(players).with(null).notIn("foo", "bar"))
                                         .withMessage("The property/field name to filter on should not be null or empty");
   }
 
   @Test
-  public void should_fail_if_elements_to_filter_do_not_have_property_used_by_filter() {
+  void should_fail_if_elements_to_filter_do_not_have_property_used_by_filter() {
     assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> filter(players).with("country").in("France",
                                                                                                             "Italy"))
                                                        .withMessageContaining("Can't find any field or property with name 'country'");

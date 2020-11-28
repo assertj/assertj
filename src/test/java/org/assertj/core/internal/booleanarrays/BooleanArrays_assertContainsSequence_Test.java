@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class BooleanArrays_assertContainsSequence_Test extends BooleanArraysBaseTest {
+class BooleanArrays_assertContainsSequence_Test extends BooleanArraysBaseTest {
 
   @Override
   @BeforeEach
@@ -48,31 +48,31 @@ public class BooleanArrays_assertContainsSequence_Test extends BooleanArraysBase
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsSequence(someInfo(), null, arrayOf(true)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_null() {
+  void should_throw_error_if_sequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsSequence(someInfo(),
                                                                                     actual, null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
+  void should_pass_if_actual_and_given_values_are_empty() {
     actual = emptyArray();
     arrays.assertContainsSequence(someInfo(), actual, emptyArray());
   }
   
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsSequence(someInfo(), actual, emptyArray()));
   }
 
   @Test
-  public void should_fail_if_sequence_is_bigger_than_actual() {
+  void should_fail_if_sequence_is_bigger_than_actual() {
     AssertionInfo info = someInfo();
     boolean[] sequence = { true, true, true, false, false, false };
 
@@ -83,14 +83,14 @@ public class BooleanArrays_assertContainsSequence_Test extends BooleanArraysBase
   }
 
   @Test
-  public void should_pass_if_actual_contains_full_sequence_even_if_partial_sequence_is_found_before() {
+  void should_pass_if_actual_contains_full_sequence_even_if_partial_sequence_is_found_before() {
     AssertionInfo info = someInfo();
     boolean[] sequence = { false, true };
     arrays.assertContainsSequence(info, actual, sequence);
   }
 
   @Test
-  public void should_fail_if_actual_contains_first_elements_of_sequence() {
+  void should_fail_if_actual_contains_first_elements_of_sequence() {
     AssertionInfo info = someInfo();
     boolean[] sequence = { true, true };
 
@@ -105,12 +105,12 @@ public class BooleanArrays_assertContainsSequence_Test extends BooleanArraysBase
   }
 
   @Test
-  public void should_pass_if_actual_contains_sequence() {
+  void should_pass_if_actual_contains_sequence() {
     arrays.assertContainsSequence(someInfo(), actual, arrayOf(true, false));
   }
 
   @Test
-  public void should_pass_if_actual_and_sequence_are_equal() {
+  void should_pass_if_actual_and_sequence_are_equal() {
     arrays.assertContainsSequence(someInfo(), actual, arrayOf(true, false, false, true));
   }
 }

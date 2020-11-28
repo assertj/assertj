@@ -35,21 +35,21 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Booleans_assertNotEqual_Test extends BooleansBaseTest {
+class Booleans_assertNotEqual_Test extends BooleansBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> booleans.assertNotEqual(someInfo(), null, false))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_bytes_are_not_equal() {
+  void should_pass_if_bytes_are_not_equal() {
     booleans.assertNotEqual(someInfo(), TRUE, false);
   }
 
   @Test
-  public void should_fail_if_bytes_are_equal() {
+  void should_fail_if_bytes_are_equal() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> booleans.assertNotEqual(info, TRUE, true));

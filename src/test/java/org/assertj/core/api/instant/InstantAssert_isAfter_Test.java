@@ -25,20 +25,20 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("InstantAssert isAfter")
-public class InstantAssert_isAfter_Test extends InstantAssertBaseTest {
+class InstantAssert_isAfter_Test extends InstantAssertBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_after_date_parameter() {
+  void should_pass_if_actual_is_after_date_parameter() {
     assertThat(AFTER).isAfter(REFERENCE);
   }
 
   @Test
-  public void should_pass_if_actual_is_after_date_as_string_parameter() {
+  void should_pass_if_actual_is_after_date_as_string_parameter() {
     assertThat(AFTER).isAfter(REFERENCE.toString());
   }
 
   @Test
-  public void should_fail_if_actual_is_before_date_parameter() {
+  void should_fail_if_actual_is_before_date_parameter() {
     // WHEN
     ThrowingCallable code = () -> assertThat(BEFORE).isAfter(REFERENCE);
     // THEN
@@ -46,7 +46,7 @@ public class InstantAssert_isAfter_Test extends InstantAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_before_date_as_string_parameter() {
+  void should_fail_if_actual_is_before_date_as_string_parameter() {
     // WHEN
     ThrowingCallable code = () -> assertThat(BEFORE).isAfter(REFERENCE.toString());
     // THEN
@@ -54,7 +54,7 @@ public class InstantAssert_isAfter_Test extends InstantAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_date_parameter() {
+  void should_fail_if_actual_is_equal_to_date_parameter() {
     // WHEN
     ThrowingCallable code = () -> assertThat(REFERENCE).isAfter(REFERENCE);
     // THEN
@@ -62,7 +62,7 @@ public class InstantAssert_isAfter_Test extends InstantAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_date_as_string_parameter() {
+  void should_fail_if_actual_is_equal_to_date_as_string_parameter() {
     // WHEN
     ThrowingCallable code = () -> assertThat(REFERENCE).isAfter(REFERENCE.toString());
     // THEN
@@ -70,7 +70,7 @@ public class InstantAssert_isAfter_Test extends InstantAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     Instant instant = null;
     // WHEN
@@ -80,7 +80,7 @@ public class InstantAssert_isAfter_Test extends InstantAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_date_parameter_is_null() {
+  void should_fail_if_date_parameter_is_null() {
     // GIVEN
     Instant otherInstant = null;
     // WHEN
@@ -91,7 +91,7 @@ public class InstantAssert_isAfter_Test extends InstantAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_date_as_string_parameter_is_null() {
+  void should_fail_if_date_as_string_parameter_is_null() {
     // GIVEN
     String otherInstantAsString = null;
     // WHEN

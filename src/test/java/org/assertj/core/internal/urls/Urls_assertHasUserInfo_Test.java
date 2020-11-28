@@ -23,10 +23,10 @@ import java.net.URL;
 import org.assertj.core.internal.UrlsBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class Urls_assertHasUserInfo_Test extends UrlsBaseTest {
+class Urls_assertHasUserInfo_Test extends UrlsBaseTest {
 
   @Test
-  public void should_pass_if_actual_url_has_no_user_info_and_given_user_info_is_null() throws MalformedURLException {
+  void should_pass_if_actual_url_has_no_user_info_and_given_user_info_is_null() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://www.helloworld.org/index.html");
     String expectedUserInfo = null;
@@ -36,7 +36,7 @@ public class Urls_assertHasUserInfo_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_url_has_the_expected_user_info() throws MalformedURLException {
+  void should_pass_if_actual_url_has_the_expected_user_info() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://test:pass@www.helloworld.org/index.html");
     String expectedUserInfo = "test:pass";
@@ -46,7 +46,7 @@ public class Urls_assertHasUserInfo_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     URL url = null;
     String expectedUserInfo = "http://test:pass@www.helloworld.org/index.html";
@@ -57,7 +57,7 @@ public class Urls_assertHasUserInfo_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URL_user_info_is_not_the_expected_user_info() throws MalformedURLException {
+  void should_fail_if_actual_URL_user_info_is_not_the_expected_user_info() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://test:pass@assertj.org/news");
     String expectedUserInfo = "test:ok";
@@ -68,7 +68,7 @@ public class Urls_assertHasUserInfo_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URL_has_no_user_info_and_expected_user_info_is_not_null()
+  void should_fail_if_actual_URL_has_no_user_info_and_expected_user_info_is_not_null()
                                                                                               throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://assertj.org/news");
@@ -80,7 +80,7 @@ public class Urls_assertHasUserInfo_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URL_has_a_user_info_and_expected_user_info_is_null() throws MalformedURLException {
+  void should_fail_if_actual_URL_has_a_user_info_and_expected_user_info_is_null() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://test:pass@assertj.org");
     String expectedUserInfo = null;

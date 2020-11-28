@@ -30,14 +30,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link Strings#assertDoesNotContainPattern(AssertionInfo, CharSequence, Pattern)}</code>.
  */
-public class Strings_assertDoesNotContainPattern_Pattern_Test extends StringsBaseTest {
+class Strings_assertDoesNotContainPattern_Pattern_Test extends StringsBaseTest {
 
   private static final String CONTAINED_PATTERN = "y.*u?";
   private static final String NOT_CONTAINED_PATTERN = "Y.*U?";
   private static final String ACTUAL = "No soup for you!";
 
   @Test
-  public void should_throw_error_if_pattern_is_null() {
+  void should_throw_error_if_pattern_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       Pattern nullPattern = null;
       strings.assertDoesNotContainPattern(someInfo(), ACTUAL, nullPattern);
@@ -45,24 +45,24 @@ public class Strings_assertDoesNotContainPattern_Pattern_Test extends StringsBas
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotContainPattern(someInfo(), null, matchAnything()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_contains_pattern() {
+  void should_fail_if_actual_contains_pattern() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotContainPattern(someInfo(), ACTUAL, Pattern.compile(CONTAINED_PATTERN)))
                                                    .withMessage(shouldNotContainPattern(ACTUAL, CONTAINED_PATTERN).create());
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_pattern() {
+  void should_pass_if_actual_does_not_contain_pattern() {
     strings.assertDoesNotContainPattern(someInfo(), ACTUAL, Pattern.compile(NOT_CONTAINED_PATTERN));
   }
 
   @Test
-  public void should_throw_error_if_pattern_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_pattern_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> {
       Pattern nullPattern = null;
       stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContainPattern(someInfo(), ACTUAL, nullPattern);
@@ -70,13 +70,13 @@ public class Strings_assertDoesNotContainPattern_Pattern_Test extends StringsBas
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContainPattern(someInfo(), null, matchAnything()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_contains_pattern_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_contains_pattern_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
       stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContainPattern(someInfo(), ACTUAL,
                                                                                Pattern.compile(CONTAINED_PATTERN));
@@ -84,7 +84,7 @@ public class Strings_assertDoesNotContainPattern_Pattern_Test extends StringsBas
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_pattern_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_does_not_contain_pattern_whatever_custom_comparison_strategy_is() {
     stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContainPattern(someInfo(), ACTUAL,
                                                                              Pattern.compile(NOT_CONTAINED_PATTERN));
   }

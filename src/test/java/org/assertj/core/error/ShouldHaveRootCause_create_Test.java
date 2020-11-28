@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
  * @author Jack Gough
  */
 @DisplayName("ShouldHaveRootCause create")
-public class ShouldHaveRootCause_create_Test {
+class ShouldHaveRootCause_create_Test {
 
   private static final TestDescription DESCRIPTION = new TestDescription("TEST");
 
@@ -48,13 +48,13 @@ public class ShouldHaveRootCause_create_Test {
   }
 
   @Test
-  public void should_fail_if_expected_message_is_null() {
+  void should_fail_if_expected_message_is_null() {
     thenIllegalArgumentException().isThrownBy(() -> shouldHaveRootCauseWithMessage(new Exception(), null, null))
                                   .withMessage("expected root cause message should not be null");
   }
 
   @Test
-  public void should_create_error_message_for_expected_without_actual() {
+  void should_create_error_message_for_expected_without_actual() {
     // GIVEN
     Throwable actualCause = null;
     Throwable actual = new RuntimeException();
@@ -75,7 +75,7 @@ public class ShouldHaveRootCause_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_unequal_types() {
+  void should_create_error_message_for_unequal_types() {
     // GIVEN
     Throwable actualCause = new IllegalArgumentException("one");
     Throwable actual = new RuntimeException(actualCause);
@@ -95,7 +95,7 @@ public class ShouldHaveRootCause_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_unequal_messages() {
+  void should_create_error_message_for_unequal_messages() {
     // GIVEN
     Throwable actualCause = new RuntimeException("wibble");
     Throwable actual = new RuntimeException(actualCause);
@@ -115,7 +115,7 @@ public class ShouldHaveRootCause_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_unequal_types_and_messages() {
+  void should_create_error_message_for_unequal_types_and_messages() {
     // GIVEN
     Throwable actualCause = new RuntimeException("wibble");
     Throwable actual = new RuntimeException(actualCause);
@@ -139,7 +139,7 @@ public class ShouldHaveRootCause_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_null_root_cause() {
+  void should_create_error_message_for_null_root_cause() {
     // GIVEN
     Throwable actual = new RuntimeException();
     String expectedMessage = "wobble";
@@ -157,7 +157,7 @@ public class ShouldHaveRootCause_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_actual_message_unequal_to_expected() {
+  void should_create_error_message_for_actual_message_unequal_to_expected() {
     // GIVEN
     Throwable actualCause = new RuntimeException("wibble");
     Throwable actual = new RuntimeException(actualCause);

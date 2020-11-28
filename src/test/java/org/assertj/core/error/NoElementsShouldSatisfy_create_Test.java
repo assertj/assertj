@@ -21,10 +21,10 @@ import static org.assertj.core.util.Lists.list;
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
-public class NoElementsShouldSatisfy_create_Test {
+class NoElementsShouldSatisfy_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = noElementsShouldSatisfy(list("Luke", "Leia", "Yoda"), list("Luke", "Leia"));
     // WHEN
@@ -38,7 +38,7 @@ public class NoElementsShouldSatisfy_create_Test {
   }
 
   @Test
-  public void should_create_error_message_percent() {
+  void should_create_error_message_percent() {
     // GIVEN
     ErrorMessageFactory factory = noElementsShouldSatisfy(list("Luke", "Leia%s", "Yoda"), list("Luke", "Leia%s"));
     // WHEN

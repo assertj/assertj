@@ -34,39 +34,39 @@ import org.junit.jupiter.api.Test;
  *
  * @author Filip Hrisafov
  */
-public class Classes_assertHasOnlyPublicFields_Test extends ClassesBaseTest {
+class Classes_assertHasOnlyPublicFields_Test extends ClassesBaseTest {
 
   private static final LinkedHashSet<String> EMPTY_STRING_SET = Sets.newLinkedHashSet();
 
   @BeforeEach
-  public void setupActual() {
+  void setupActual() {
     actual = AnnotatedClass.class;
   }
 
   @Test
-  public void should_pass_if_class_has_all_the_expected_public_fields() {
+  void should_pass_if_class_has_all_the_expected_public_fields() {
     classes.assertHasOnlyPublicFields(someInfo(), actual, "publicField", "publicField2");
   }
 
   @Test
-  public void should_pass_if_class_has_all_the_expected_public_fields_whatever_the_order_is() {
+  void should_pass_if_class_has_all_the_expected_public_fields_whatever_the_order_is() {
     classes.assertHasOnlyPublicFields(someInfo(), actual, "publicField2", "publicField");
   }
 
   @Test
-  public void should_pass_if_class_has_no_public_fields_and_none_are_expected() {
+  void should_pass_if_class_has_no_public_fields_and_none_are_expected() {
     classes.assertHasOnlyPublicFields(someInfo(), NoField.class);
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     actual = null;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasOnlyPublicFields(someInfo(), actual))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_some_public_fields_are_not_present_in_the_expected_fields() {
+  void should_fail_if_some_public_fields_are_not_present_in_the_expected_fields() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasOnlyPublicFields(someInfo(),
                                                                                                        actual,
                                                                                                        "publicField"))
@@ -77,7 +77,7 @@ public class Classes_assertHasOnlyPublicFields_Test extends ClassesBaseTest {
   }
 
   @Test
-  public void should_fail_if_some_public_fields_are_missing() {
+  void should_fail_if_some_public_fields_are_missing() {
     String[] expected = new String[] { "missingField", "publicField", "publicField2" };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasOnlyPublicFields(someInfo(),
                                                                                                        actual,
@@ -89,7 +89,7 @@ public class Classes_assertHasOnlyPublicFields_Test extends ClassesBaseTest {
   }
 
   @Test
-  public void should_fail_if_fields_are_protected_or_private() {
+  void should_fail_if_fields_are_protected_or_private() {
     String[] expected = new String[] { "publicField", "publicField2", "protectedField", "privateField" };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasOnlyPublicFields(someInfo(),
                                                                                                        actual,
@@ -102,7 +102,7 @@ public class Classes_assertHasOnlyPublicFields_Test extends ClassesBaseTest {
   }
 
   @Test
-  public void should_fail_if_fields_are_not_found_and_not_expected() {
+  void should_fail_if_fields_are_not_found_and_not_expected() {
     String[] expected = new String[] { "publicField", "protectedField", "privateField" };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasOnlyPublicFields(someInfo(),
                                                                                                        actual,
@@ -115,7 +115,7 @@ public class Classes_assertHasOnlyPublicFields_Test extends ClassesBaseTest {
   }
 
   @Test
-  public void should_fail_if_no_public_fields_are_expected_and_class_has_some() {
+  void should_fail_if_no_public_fields_are_expected_and_class_has_some() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasOnlyPublicFields(someInfo(), actual))
                                                    .withMessage(shouldHaveNoPublicFields(actual,
                                                                                          newLinkedHashSet("publicField",

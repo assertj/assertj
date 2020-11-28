@@ -16,7 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
-import static org.assertj.core.util.AssertionsUtil.expectAssumptionViolatedException;
+import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.error.AssertJMultipleFailuresError;
@@ -28,12 +29,12 @@ import org.opentest4j.AssertionFailedError;
  * Tests for <code>{@link org.assertj.core.api.ByteArrayAssert#asHexString()}</code>.
  */
 @DisplayName("ByteArrayAssert asHexString")
-public class ByteArrayAssert_asHexString_Test {
+class ByteArrayAssert_asHexString_Test {
 
   private static final byte[] BYTES = new byte[] { -1, 0, 1 };
 
   @Test
-  public void should_pass() {
+  void should_pass() {
     // GIVEN
     // WHEN / THEN
     assertThat(BYTES).asHexString()
@@ -42,7 +43,7 @@ public class ByteArrayAssert_asHexString_Test {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_match() {
+  void should_fail_if_actual_does_not_match() {
     // GIVEN
     byte[] actual = new byte[] { -1, 0, 1 };
     // WHEN
@@ -57,7 +58,17 @@ public class ByteArrayAssert_asHexString_Test {
   }
 
   @Test
-  public void should_pass_with_soft_assertions() {
+  void should_fail_if_actual_is_null() {
+    // GIVEN
+    byte[] bytes = null;
+    // WHEN
+    AssertionError error = expectAssertionError(() -> assertThat(bytes).asHexString());
+    // THEN
+    assertThat(error).hasMessage(actualIsNull());
+  }
+
+  @Test
+  void should_pass_with_soft_assertions() {
     // GIVEN
     SoftAssertions softly = new SoftAssertions();
     // WHEN / THEN
@@ -66,7 +77,7 @@ public class ByteArrayAssert_asHexString_Test {
   }
 
   @Test
-  public void should_fail_with_soft_assertions_capturing_all_errors() {
+  void should_fail_with_soft_assertions_capturing_all_errors() {
     // GIVEN
     SoftAssertions softly = new SoftAssertions();
     // WHEN
@@ -89,12 +100,12 @@ public class ByteArrayAssert_asHexString_Test {
   }
 
   @Test
-  public void should_ignore_test_when_assumption_for_internally_created_hex_string_assertion_fails() {
-    expectAssumptionViolatedException(() -> assumeThat(BYTES).asHexString().isEqualTo("other"));
+  void should_ignore_test_when_assumption_for_internally_created_hex_string_assertion_fails() {
+    expectAssumptionNotMetException(() -> assumeThat(BYTES).asHexString().isEqualTo("other"));
   }
 
   @Test
-  public void should_run_test_when_assumption_for_internally_created_string_passes() {
+  void should_run_test_when_assumption_for_internally_created_string_passes() {
     assertThatCode(() -> assumeThat(BYTES).asHexString().startsWith("FF")).doesNotThrowAnyException();
   }
 

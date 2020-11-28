@@ -26,12 +26,12 @@ import org.junit.jupiter.api.BeforeAll;
  * 
  * @author Yvonne Wang
  */
-public class AbstractAssert_isIn_with_array_Test extends AbstractAssertBaseTest {
+class AbstractAssert_isIn_with_array_Test extends AbstractAssertBaseTest {
 
   private static Object[] values;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     values = array("Yoda", "Luke");
   }
 

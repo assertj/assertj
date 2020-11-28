@@ -31,10 +31,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class ShouldBeAfterOrEqualTo_create_Test {
+class ShouldBeAfterOrEqualTo_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeAfterOrEqualTo(parse("2011-01-01"), parse("2012-01-01"));
     // WHEN
@@ -48,7 +48,7 @@ public class ShouldBeAfterOrEqualTo_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_comparison_strategy() {
+  void should_create_error_message_with_comparison_strategy() {
     // GIVEN
     ComparatorBasedComparisonStrategy comparisonStrategy = new ComparatorBasedComparisonStrategy(NEVER_EQUALS);
     ErrorMessageFactory factory = shouldBeAfterOrEqualTo(parse("2011-01-01"), parse("2012-01-01"), comparisonStrategy);

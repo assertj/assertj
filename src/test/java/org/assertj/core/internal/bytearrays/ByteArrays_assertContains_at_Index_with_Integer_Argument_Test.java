@@ -36,28 +36,28 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link ByteArrays#assertContains(AssertionInfo, byte[], int, Index)}</code>.
  */
-public class ByteArrays_assertContains_at_Index_with_Integer_Argument_Test extends ByteArraysBaseTest {
+class ByteArrays_assertContains_at_Index_with_Integer_Argument_Test extends ByteArraysBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), null, 8, someIndex()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_empty() {
+  void should_fail_if_actual_is_empty() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), emptyArray(), 8, someIndex()))
                                                    .withMessage(actualIsEmpty());
   }
 
   @Test
-  public void should_throw_error_if_Index_is_null() {
+  void should_throw_error_if_Index_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContains(someInfo(), actual, 8, null))
                                     .withMessage("Index should not be null");
   }
 
   @Test
-  public void should_throw_error_if_Index_is_out_of_bounds() {
+  void should_throw_error_if_Index_is_out_of_bounds() {
     assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> arrays.assertContains(someInfo(),
                                                                                                       actual, 8,
                                                                                                       atIndex(6)))
@@ -65,7 +65,7 @@ public class ByteArrays_assertContains_at_Index_with_Integer_Argument_Test exten
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_value_at_index() {
+  void should_fail_if_actual_does_not_contain_value_at_index() {
     AssertionInfo info = someInfo();
     Index index = atIndex(1);
 
@@ -77,24 +77,24 @@ public class ByteArrays_assertContains_at_Index_with_Integer_Argument_Test exten
   }
 
   @Test
-  public void should_pass_if_actual_contains_value_at_index() {
+  void should_pass_if_actual_contains_value_at_index() {
     arrays.assertContains(someInfo(), actual, 8, atIndex(1));
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), null, -8, someIndex()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), emptyArray(), -8, someIndex()))
                                                    .withMessage(actualIsEmpty());
   }
 
   @Test
-  public void should_throw_error_if_Index_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_Index_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
                                                                                                         actual, -8,
                                                                                                         null))
@@ -102,7 +102,7 @@ public class ByteArrays_assertContains_at_Index_with_Integer_Argument_Test exten
   }
 
   @Test
-  public void should_throw_error_if_Index_is_out_of_bounds_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_Index_is_out_of_bounds_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
                                                                                                                                   actual,
                                                                                                                                   -8,
@@ -111,7 +111,7 @@ public class ByteArrays_assertContains_at_Index_with_Integer_Argument_Test exten
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_value_at_index_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_value_at_index_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Index index = atIndex(1);
 
@@ -123,7 +123,7 @@ public class ByteArrays_assertContains_at_Index_with_Integer_Argument_Test exten
   }
 
   @Test
-  public void should_pass_if_actual_contains_value_at_index_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_value_at_index_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, -8, atIndex(1));
   }
 }

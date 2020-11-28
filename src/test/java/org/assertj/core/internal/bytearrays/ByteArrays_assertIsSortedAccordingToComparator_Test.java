@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class ByteArrays_assertIsSortedAccordingToComparator_Test extends ByteArraysBaseTest {
+class ByteArrays_assertIsSortedAccordingToComparator_Test extends ByteArraysBaseTest {
 
   private Comparator<Byte> byteDescendingOrderComparator;
   private Comparator<Byte> byteAscendingOrderComparator;
@@ -53,29 +53,29 @@ public class ByteArrays_assertIsSortedAccordingToComparator_Test extends ByteArr
   }
 
   @Test
-  public void should_pass_if_actual_is_sorted_according_to_given_comparator() {
+  void should_pass_if_actual_is_sorted_according_to_given_comparator() {
     arrays.assertIsSortedAccordingToComparator(someInfo(), actual, byteDescendingOrderComparator);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty_whatever_given_comparator_is() {
+  void should_pass_if_actual_is_empty_whatever_given_comparator_is() {
     arrays.assertIsSortedAccordingToComparator(someInfo(), emptyArray(), byteDescendingOrderComparator);
     arrays.assertIsSortedAccordingToComparator(someInfo(), emptyArray(), byteAscendingOrderComparator);
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), null, byteDescendingOrderComparator))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_comparator_is_null() {
+  void should_fail_if_comparator_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), emptyArray(), null));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_sorted_according_to_given_comparator() {
+  void should_fail_if_actual_is_not_sorted_according_to_given_comparator() {
     AssertionInfo info = someInfo();
     actual = new byte[] { 3, 2, 1, 9 };
 

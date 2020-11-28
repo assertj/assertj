@@ -31,7 +31,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class FloatArrayAssert_contains_at_Index_Test extends FloatArrayAssertBaseTest {
+class FloatArrayAssert_contains_at_Index_Test extends FloatArrayAssertBaseTest {
 
   private final Index index = someIndex();
 
@@ -46,7 +46,7 @@ public class FloatArrayAssert_contains_at_Index_Test extends FloatArrayAssertBas
   }
 
   @Test
-  public void should_pass_with_precision_specified_as_last_argument() {
+  void should_pass_with_precision_specified_as_last_argument() {
     // GIVEN
     float[] actual = arrayOf(1.0f, 2.0f);
     // THEN
@@ -54,7 +54,7 @@ public class FloatArrayAssert_contains_at_Index_Test extends FloatArrayAssertBas
   }
 
   @Test
-  public void should_pass_with_precision_specified_in_comparator() {
+  void should_pass_with_precision_specified_in_comparator() {
     // GIVEN
     float[] actual = arrayOf(1.0f, 2.0f);
     // THEN

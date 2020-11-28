@@ -28,10 +28,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Nicolas François
  */
-public class ShouldBeOfClassIn_Test {
+class ShouldBeOfClassIn_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeOfClassIn("Yoda", list(Long.class, File.class));
     // WHEN

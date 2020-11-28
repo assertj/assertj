@@ -24,15 +24,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("LocalDateAssert isToday")
-public class LocalDateAssert_isToday_Test extends LocalDateAssertBaseTest {
+class LocalDateAssert_isToday_Test extends LocalDateAssertBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_today() {
+  void should_pass_if_actual_is_today() {
     assertThat(REFERENCE).isToday();
   }
 
   @Test
-  public void should_fail_if_actual_is_before_today() {
+  void should_fail_if_actual_is_before_today() {
     // WHEN
     ThrowingCallable code = () -> assertThat(BEFORE).isToday();
     // THEN
@@ -40,7 +40,7 @@ public class LocalDateAssert_isToday_Test extends LocalDateAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_after_today() {
+  void should_fail_if_actual_is_after_today() {
     // WHEN
     ThrowingCallable code = () -> assertThat(AFTER).isToday();
     // THEN
@@ -48,7 +48,7 @@ public class LocalDateAssert_isToday_Test extends LocalDateAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     LocalDate actual = null;
     // WHEN

@@ -27,23 +27,23 @@ import org.junit.jupiter.api.Test;
  * 
  * @author William Delanoue
  */
-public class Classes_assertIsAnnotation_Test extends ClassesBaseTest {
+class Classes_assertIsAnnotation_Test extends ClassesBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     actual = null;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsAnnotation(someInfo(), actual))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_an_annotation() {
+  void should_pass_if_actual_is_an_annotation() {
     actual = Override.class;
     classes.assertIsAnnotation(someInfo(), actual);
   }
 
-  @Test()
-  public void should_fail_if_actual_is_not_an_annotation() {
+  @Test
+  void should_fail_if_actual_is_not_an_annotation() {
     actual = Classes_assertIsAnnotation_Test.class;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsAnnotation(someInfo(), actual))
                                                    .withMessage(shouldBeAnnotation(actual).create());

@@ -36,28 +36,28 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class DoubleArrays_assertContains_at_Index_Test extends DoubleArraysBaseTest {
+class DoubleArrays_assertContains_at_Index_Test extends DoubleArraysBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), null, 8d, someIndex()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_empty() {
+  void should_fail_if_actual_is_empty() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), emptyArray(), 8d, someIndex()))
                                                    .withMessage(actualIsEmpty());
   }
 
   @Test
-  public void should_throw_error_if_Index_is_null() {
+  void should_throw_error_if_Index_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContains(someInfo(), actual, 8d, null))
                                     .withMessage("Index should not be null");
   }
 
   @Test
-  public void should_throw_error_if_Index_is_out_of_bounds() {
+  void should_throw_error_if_Index_is_out_of_bounds() {
     assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> arrays.assertContains(someInfo(),
                                                                                                       actual, 8d,
                                                                                                       atIndex(6)))
@@ -65,7 +65,7 @@ public class DoubleArrays_assertContains_at_Index_Test extends DoubleArraysBaseT
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_value_at_index() {
+  void should_fail_if_actual_does_not_contain_value_at_index() {
     double value = 6;
     Index index = atIndex(1);
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), actual, value, index))
@@ -73,24 +73,24 @@ public class DoubleArrays_assertContains_at_Index_Test extends DoubleArraysBaseT
   }
 
   @Test
-  public void should_pass_if_actual_contains_value_at_index() {
+  void should_pass_if_actual_contains_value_at_index() {
     arrays.assertContains(someInfo(), actual, 8d, atIndex(1));
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), null, -8d, someIndex()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), emptyArray(), -8d, someIndex()))
                                                    .withMessage(actualIsEmpty());
   }
 
   @Test
-  public void should_throw_error_if_Index_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_Index_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
                                                                                                         actual, -8d,
                                                                                                         null))
@@ -98,7 +98,7 @@ public class DoubleArrays_assertContains_at_Index_Test extends DoubleArraysBaseT
   }
 
   @Test
-  public void should_throw_error_if_Index_is_out_of_bounds_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_Index_is_out_of_bounds_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
                                                                                                                                   actual,
                                                                                                                                   -8d,
@@ -107,7 +107,7 @@ public class DoubleArrays_assertContains_at_Index_Test extends DoubleArraysBaseT
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_value_at_index_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_value_at_index_according_to_custom_comparison_strategy() {
     double value = 6;
     Index index = atIndex(1);
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, value, index))
@@ -115,7 +115,7 @@ public class DoubleArrays_assertContains_at_Index_Test extends DoubleArraysBaseT
   }
 
   @Test
-  public void should_pass_if_actual_contains_value_at_index_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_value_at_index_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, -8d, atIndex(1));
   }
 }

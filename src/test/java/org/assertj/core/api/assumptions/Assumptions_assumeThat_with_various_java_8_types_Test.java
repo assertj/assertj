@@ -14,9 +14,9 @@ package org.assertj.core.api.assumptions;
 
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.api.Assumptions.assumeThatCode;
+import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -41,11 +41,10 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class Assumptions_assumeThat_with_various_java_8_types_Test {
+class Assumptions_assumeThat_with_various_java_8_types_Test {
 
   public static Stream<AssumptionRunner<?>> provideAssumptionsRunners() {
     return Stream.of(
@@ -295,13 +294,13 @@ public class Assumptions_assumeThat_with_various_java_8_types_Test {
 
   @ParameterizedTest
   @MethodSource("provideAssumptionsRunners")
-  public void should_ignore_test_when_assumption_fails(AssumptionRunner<?> assumptionRunner) {
-    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(assumptionRunner::runFailingAssumption);
+  void should_ignore_test_when_assumption_fails(AssumptionRunner<?> assumptionRunner) {
+    expectAssumptionNotMetException(assumptionRunner::runFailingAssumption);
   }
 
   @ParameterizedTest
   @MethodSource("provideAssumptionsRunners")
-  public void should_run_test_when_assumption_passes(AssumptionRunner<?> assumptionRunner) {
+  void should_run_test_when_assumption_passes(AssumptionRunner<?> assumptionRunner) {
     assertThatCode(assumptionRunner::runPassingAssumption).doesNotThrowAnyException();
   }
 

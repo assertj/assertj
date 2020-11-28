@@ -33,17 +33,17 @@ import org.junit.jupiter.api.Test;
  * @author Mikhail Mazursky
  * @author Joel Costigliola
  */
-public class Iterables_assertDoNotHave_Test extends IterablesWithConditionsBaseTest {
+class Iterables_assertDoNotHave_Test extends IterablesWithConditionsBaseTest {
 
   @Test
-  public void should_pass_if_each_element_not_satisfies_condition() {
+  void should_pass_if_each_element_not_satisfies_condition() {
     actual = newArrayList("Solo", "Leia");
     iterables.assertDoNotHave(someInfo(), actual, jediPower);
     verify(conditions).assertIsNotNull(jediPower);
   }
 
   @Test
-  public void should_throw_error_if_condition_is_null() {
+  void should_throw_error_if_condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       actual = newArrayList("Solo", "Leia");
       iterables.assertDoNotHave(someInfo(), actual, null);
@@ -52,7 +52,7 @@ public class Iterables_assertDoNotHave_Test extends IterablesWithConditionsBaseT
   }
 
   @Test
-  public void should_fail_if_condition_is_met() {
+  void should_fail_if_condition_is_met() {
     testCondition.shouldMatch(false);
     AssertionInfo info = someInfo();
     actual = newArrayList("Solo", "Leia", "Yoda");

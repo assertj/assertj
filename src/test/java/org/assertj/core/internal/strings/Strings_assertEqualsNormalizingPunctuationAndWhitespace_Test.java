@@ -31,7 +31,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  *
  * @author Harisha Talanki
  */
-public class Strings_assertEqualsNormalizingPunctuationAndWhitespace_Test extends StringsBaseTest {
+class Strings_assertEqualsNormalizingPunctuationAndWhitespace_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_expected_string_is_empty() {
@@ -59,7 +59,7 @@ public class Strings_assertEqualsNormalizingPunctuationAndWhitespace_Test extend
 
   @ParameterizedTest
   @MethodSource("equalNormalizingPunctuationAndWhitespaceGenerator")
-  public void should_pass_if_both_Strings_are_equal_normalizing_punctuation_and_whitespace(String actual, String expected) {
+  void should_pass_if_both_Strings_are_equal_normalizing_punctuation_and_whitespace(String actual, String expected) {
     strings.assertEqualsNormalizingPunctuationAndWhitespace(someInfo(), actual, expected);
   }
 

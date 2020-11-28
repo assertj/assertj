@@ -19,17 +19,17 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link Assertions#assertThat(Comparable)}</code>.
  */
-public class Assertions_assertThat_with_Comparable_Test {
+class Assertions_assertThat_with_Comparable_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     SomeComparable comparable = new SomeComparable();
     AbstractComparableAssert<?, SomeComparable> assertions = Assertions.assertThat(comparable);
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     SomeComparable comparable = new SomeComparable();
     AbstractComparableAssert<?, SomeComparable> assertions = Assertions.assertThat(comparable);
     assertThat(assertions.actual).isSameAs(comparable);

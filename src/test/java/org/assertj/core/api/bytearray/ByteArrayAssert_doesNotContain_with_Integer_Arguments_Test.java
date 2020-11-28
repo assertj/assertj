@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verify;
 /**
  * Tests for <code>{@link ByteArrayAssert#doesNotContain(int...)}</code>.
  */
-public class ByteArrayAssert_doesNotContain_with_Integer_Arguments_Test extends ByteArrayAssertBaseTest {
+class ByteArrayAssert_doesNotContain_with_Integer_Arguments_Test extends ByteArrayAssertBaseTest {
 
   @Override
   protected ByteArrayAssert invoke_api_method() {
@@ -38,7 +38,7 @@ public class ByteArrayAssert_doesNotContain_with_Integer_Arguments_Test extends 
   }
 
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
     assertThat(new byte[] { 1, 2}).doesNotContain(3, 4);
   }
 }

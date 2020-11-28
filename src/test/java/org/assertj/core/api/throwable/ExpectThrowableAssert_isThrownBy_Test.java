@@ -19,10 +19,10 @@ import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.Test;
 
-public class ExpectThrowableAssert_isThrownBy_Test {
+class ExpectThrowableAssert_isThrownBy_Test {
 
   @Test
-  public void should_build_ExpectThrowableAssert_with_exception_thrown_by_lambda() {
+  void should_build_ExpectThrowableAssert_with_exception_thrown_by_lambda() {
     NoSuchElementException ex = new NoSuchElementException("no such element!");
     // @format:off
     assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> {throw ex;})
@@ -32,7 +32,7 @@ public class ExpectThrowableAssert_isThrownBy_Test {
   }
 
   @Test
-  public void should_allow_to_check_exception_thrown_by_lambda() {
+  void should_allow_to_check_exception_thrown_by_lambda() {
     // @format:off
     Throwable exceptionWithCause = new NoSuchElementException("this too 234").initCause(new IllegalArgumentException("The cause"));
     assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> { throw exceptionWithCause;})
@@ -51,7 +51,7 @@ public class ExpectThrowableAssert_isThrownBy_Test {
   }
 
   @Test
-  public void should_fail_if_nothing_is_thrown_by_lambda() {
+  void should_fail_if_nothing_is_thrown_by_lambda() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> {}))
                                                    .withMessage(format("%nExpecting code to raise a throwable."));
   }

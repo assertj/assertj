@@ -37,7 +37,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alexander Bischof
  */
-public class IterableAssert_flatExtracting_with_String_parameter_Test {
+class IterableAssert_flatExtracting_with_String_parameter_Test {
 
   private CartoonCharacter bart;
   private CartoonCharacter lisa;
@@ -47,7 +47,7 @@ public class IterableAssert_flatExtracting_with_String_parameter_Test {
   private CartoonCharacter fred;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     bart = new CartoonCharacter("Bart Simpson");
     lisa = new CartoonCharacter("Lisa Simpson");
     maggie = new CartoonCharacter("Maggie Simpson");
@@ -61,32 +61,32 @@ public class IterableAssert_flatExtracting_with_String_parameter_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_joined_lists_when_extracting_children() {
+  void should_allow_assertions_on_joined_lists_when_extracting_children() {
     assertThat(newArrayList(homer, fred)).flatExtracting("children").containsOnly(bart, lisa, maggie, pebbles);
   }
 
   @Test
-  public void should_allow_assertions_on_joined_lists_when_extracting_children_array() {
+  void should_allow_assertions_on_joined_lists_when_extracting_children_array() {
     assertThat(newArrayList(homer, fred)).flatExtracting("childrenArray").containsOnly(bart, lisa, maggie, pebbles);
   }
 
   @Test
-  public void should_allow_assertions_on_empty_result_lists() {
+  void should_allow_assertions_on_empty_result_lists() {
     assertThat(newArrayList(bart, lisa, maggie)).flatExtracting("children").isEmpty();
   }
 
   @Test
-  public void should_throw_exception_when_extracting_from_null() {
+  void should_throw_exception_when_extracting_from_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(newArrayList(homer, null)).flatExtracting("children"));
   }
 
   @Test
-  public void should_throw_exception_when_extracted_value_is_not_an_array_or_an_iterable() {
+  void should_throw_exception_when_extracted_value_is_not_an_array_or_an_iterable() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(newArrayList(homer, fred)).flatExtracting("name")).withMessage("Flat extracting expects extracted values to be Iterables or arrays but was a String");
   }
 
   @Test
-  public void flatExtracting_should_keep_assertion_state() {
+  void flatExtracting_should_keep_assertion_state() {
     // GIVEN
     AlwaysEqualComparator<CartoonCharacter> cartoonCharacterAlwaysEqualComparator = alwaysEqual();
     // WHEN
@@ -112,7 +112,7 @@ public class IterableAssert_flatExtracting_with_String_parameter_Test {
   }
 
   @Test
-  public void flatExtracting_with_multiple_properties_should_keep_assertion_state() {
+  void flatExtracting_with_multiple_properties_should_keep_assertion_state() {
     // WHEN
     // not all comparators are used but we want to test that they are passed correctly after extracting
     // @format:off

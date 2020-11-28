@@ -23,7 +23,7 @@ import org.assertj.core.api.LongArrayAssertBaseTest;
  * 
  * @author Marcin Mikosik
  */
-public class LongArrayAssert_containsSubsequence_Test extends LongArrayAssertBaseTest {
+class LongArrayAssert_containsSubsequence_Test extends LongArrayAssertBaseTest {
 
   @Override
   protected LongArrayAssert invoke_api_method() {

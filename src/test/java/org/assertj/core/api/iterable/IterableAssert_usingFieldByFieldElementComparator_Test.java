@@ -33,12 +33,12 @@ import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class IterableAssert_usingFieldByFieldElementComparator_Test extends IterableAssertBaseTest {
+class IterableAssert_usingFieldByFieldElementComparator_Test extends IterableAssertBaseTest {
 
   private Iterables iterablesBefore;
 
   @BeforeEach
-  public void before() {
+  void before() {
     iterablesBefore = getIterables(assertions);
   }
 
@@ -55,28 +55,28 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
   }
 
   @Test
-  public void successful_isEqualTo_assertion_using_field_by_field_element_comparator() {
+  void successful_isEqualTo_assertion_using_field_by_field_element_comparator() {
     List<Foo> list1 = singletonList(new Foo("id", 1));
     List<Foo> list2 = singletonList(new Foo("id", 1));
     assertThat(list1).usingFieldByFieldElementComparator().isEqualTo(list2);
   }
 
   @Test
-  public void successful_isIn_assertion_using_field_by_field_element_comparator() {
+  void successful_isIn_assertion_using_field_by_field_element_comparator() {
     List<Foo> list1 = singletonList(new Foo("id", 1));
     List<Foo> list2 = singletonList(new Foo("id", 1));
     assertThat(list1).usingFieldByFieldElementComparator().isIn(singletonList(list2));
   }
 
   @Test
-  public void successful_isEqualTo_assertion_using_field_by_field_element_comparator_with_heterogeneous_list() {
+  void successful_isEqualTo_assertion_using_field_by_field_element_comparator_with_heterogeneous_list() {
     List<Animal> list1 = newArrayList(new Bird("White"), new Snake(15));
     List<Animal> list2 = newArrayList(new Bird("White"), new Snake(15));
     assertThat(list1).usingFieldByFieldElementComparator().isEqualTo(list2);
   }
 
   @Test
-  public void successful_contains_assertion_using_field_by_field_element_comparator_with_heterogeneous_list() {
+  void successful_contains_assertion_using_field_by_field_element_comparator_with_heterogeneous_list() {
     List<Animal> list1 = newArrayList(new Bird("White"), new Snake(15));
     assertThat(list1).usingFieldByFieldElementComparator()
                      .contains(new Snake(15), new Bird("White"))
@@ -87,20 +87,20 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
   }
 
   @Test
-  public void successful_isIn_assertion_using_field_by_field_element_comparator_with_heterogeneous_list() {
+  void successful_isIn_assertion_using_field_by_field_element_comparator_with_heterogeneous_list() {
     List<Animal> list1 = newArrayList(new Bird("White"), new Snake(15));
     List<Animal> list2 = newArrayList(new Bird("White"), new Snake(15));
     assertThat(list1).usingFieldByFieldElementComparator().isIn(singletonList(list2));
   }
 
   @Test
-  public void successful_containsExactly_assertion_using_field_by_field_element_comparator_with_heterogeneous_list() {
+  void successful_containsExactly_assertion_using_field_by_field_element_comparator_with_heterogeneous_list() {
     List<Animal> list1 = newArrayList(new Bird("White"), new Snake(15));
     assertThat(list1).usingFieldByFieldElementComparator().containsExactly(new Bird("White"), new Snake(15));
   }
 
   @Test
-  public void successful_containsExactlyInAnyOrder_assertion_using_field_by_field_element_comparator_with_heterogeneous_list() {
+  void successful_containsExactlyInAnyOrder_assertion_using_field_by_field_element_comparator_with_heterogeneous_list() {
     Snake snake = new Snake(15);
     List<Animal> list1 = newArrayList(new Bird("White"), snake, snake);
     assertThat(list1).usingFieldByFieldElementComparator().containsExactlyInAnyOrder(new Snake(15), new Bird("White"),
@@ -108,7 +108,7 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
   }
 
   @Test
-  public void successful_containsExactlyInAnyOrderElementsOf_assertion_using_field_by_field_element_comparator_with_heterogeneous_list() {
+  void successful_containsExactlyInAnyOrderElementsOf_assertion_using_field_by_field_element_comparator_with_heterogeneous_list() {
     Snake snake = new Snake(15);
     List<Animal> list1 = newArrayList(new Bird("White"), snake, snake);
     assertThat(list1).usingFieldByFieldElementComparator().containsExactlyInAnyOrderElementsOf(
@@ -118,7 +118,7 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
   }
 
   @Test
-  public void successful_containsOnly_assertion_using_field_by_field_element_comparator_with_unordered_list() {
+  void successful_containsOnly_assertion_using_field_by_field_element_comparator_with_unordered_list() {
     // GIVEN
     Person goodObiwan = new Person("Obi-Wan", "Kenobi", "good man");
     Person badObiwan = new Person("Obi-Wan", "Kenobi", "bad man");
@@ -130,7 +130,7 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
   }
 
   @Test
-  public void failed_isEqualTo_assertion_using_field_by_field_element_comparator() {
+  void failed_isEqualTo_assertion_using_field_by_field_element_comparator() {
     List<Foo> list1 = singletonList(new Foo("id", 1));
     List<Foo> list2 = singletonList(new Foo("id", 2));
 
@@ -148,7 +148,7 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
   }
 
   @Test
-  public void failed_isIn_assertion_using_field_by_field_element_comparator() {
+  void failed_isIn_assertion_using_field_by_field_element_comparator() {
     List<Foo> list1 = singletonList(new Foo("id", 1));
     List<Foo> list2 = singletonList(new Foo("id", 2));
 
@@ -165,7 +165,7 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
   }
 
   @Test
-  public void should_be_able_to_use_a_comparator_for_specified_fields_of_elements_when_using_field_by_field_element_comparator() {
+  void should_be_able_to_use_a_comparator_for_specified_fields_of_elements_when_using_field_by_field_element_comparator() {
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
@@ -175,7 +175,7 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
   }
 
   @Test
-  public void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_when_using_field_by_field_element_comparator() {
+  void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_when_using_field_by_field_element_comparator() {
     Comparator<String> comparator = (o1, o2) -> o1.compareTo(o2);
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
@@ -187,7 +187,7 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
   }
 
   @Test
-  public void should_be_able_to_use_a_comparator_for_element_fields_with_specified_type_when_using_field_by_field_element_comparator() {
+  void should_be_able_to_use_a_comparator_for_element_fields_with_specified_type_when_using_field_by_field_element_comparator() {
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "blue");
 

@@ -26,7 +26,7 @@ import static org.mockito.Mockito.*;
  *
  * @author Adam Ruka
  */
-public class MapAssert_hasSameSizeAs_with_Map_Test extends MapAssertBaseTest {
+class MapAssert_hasSameSizeAs_with_Map_Test extends MapAssertBaseTest {
   private final Map<?, ?> other = Maps.mapOf(entry("name", "Yoda"), entry("job", "Jedi Master"));
 
   @Override

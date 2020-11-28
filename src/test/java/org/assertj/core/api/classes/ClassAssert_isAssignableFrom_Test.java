@@ -22,7 +22,7 @@ import org.assertj.core.api.ClassAssertBaseTest;
  * 
  * @author William Delanoue
  */
-public class ClassAssert_isAssignableFrom_Test extends ClassAssertBaseTest {
+class ClassAssert_isAssignableFrom_Test extends ClassAssertBaseTest {
 
   @Override
   protected ClassAssert invoke_api_method() {

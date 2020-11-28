@@ -33,10 +33,10 @@ import org.junit.jupiter.params.provider.MethodSource;
  *
  * @author Dan Corder
  */
-public class Strings_assertNotEqualsNormalizingWhitespace_Test extends StringsBaseTest {
+class Strings_assertNotEqualsNormalizingWhitespace_Test extends StringsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_not_null_and_expected_is_null() {
+  void should_fail_if_actual_is_not_null_and_expected_is_null() {
     assertThatNullPointerException().isThrownBy(() -> strings.assertNotEqualsNormalizingWhitespace(someInfo(), "Luke",
                                                                                                    null))
                                     .withMessage(charSequenceToLookForIsNull());
@@ -44,7 +44,7 @@ public class Strings_assertNotEqualsNormalizingWhitespace_Test extends StringsBa
 
   @ParameterizedTest
   @MethodSource("notEqualNormalizingWhitespaceGenerator")
-  public void should_pass_if_both_Strings_are_not_equal_after_whitespace_is_normalized(String actual, String expected) {
+  void should_pass_if_both_Strings_are_not_equal_after_whitespace_is_normalized(String actual, String expected) {
     strings.assertNotEqualsNormalizingWhitespace(someInfo(), actual, expected);
   }
 
@@ -57,7 +57,7 @@ public class Strings_assertNotEqualsNormalizingWhitespace_Test extends StringsBa
 
   @ParameterizedTest
   @MethodSource("equalNormalizingWhitespaceGenerator")
-  public void should_fail_if_both_Strings_are_equal_after_whitespace_is_normalized(String actual, String expected) {
+  void should_fail_if_both_Strings_are_equal_after_whitespace_is_normalized(String actual, String expected) {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertNotEqualsNormalizingWhitespace(someInfo(),
                                                                                                                   actual,
                                                                                                                   expected))

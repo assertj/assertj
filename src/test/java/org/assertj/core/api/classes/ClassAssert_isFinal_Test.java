@@ -22,7 +22,7 @@ import org.assertj.core.api.ClassAssertBaseTest;
  *
  * @author Michal Kordas
  */
-public class ClassAssert_isFinal_Test extends ClassAssertBaseTest {
+class ClassAssert_isFinal_Test extends ClassAssertBaseTest {
 
   @Override
   protected ClassAssert invoke_api_method() {

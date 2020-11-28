@@ -24,10 +24,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class ShouldBeEqual_assertj_elements_stack_trace_filtering_Test {
+class ShouldBeEqual_assertj_elements_stack_trace_filtering_Test {
 
   @Test
-  public void assertj_elements_should_be_removed_from_assertion_error_stack_trace() {
+  void assertj_elements_should_be_removed_from_assertion_error_stack_trace() {
     // GIVEN
     Fail.setRemoveAssertJRelatedElementsFromStackTrace(true);
     // WHEN
@@ -38,7 +38,7 @@ public class ShouldBeEqual_assertj_elements_stack_trace_filtering_Test {
   }
 
   @Test
-  public void assertj_elements_should_be_kept_in_assertion_error_stack_trace() {
+  void assertj_elements_should_be_kept_in_assertion_error_stack_trace() {
     // GIVEN
     Fail.setRemoveAssertJRelatedElementsFromStackTrace(false);
     // WHEN

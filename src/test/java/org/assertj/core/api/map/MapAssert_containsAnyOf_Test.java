@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.verify;
 
 
-public class MapAssert_containsAnyOf_Test extends MapAssertBaseTest {
+class MapAssert_containsAnyOf_Test extends MapAssertBaseTest {
 
   final MapEntry<String, String>[] entries = array(entry("key1", "value1"), entry("key2", "value2"));
 
@@ -39,7 +39,7 @@ public class MapAssert_containsAnyOf_Test extends MapAssertBaseTest {
   }
   
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
      assertThat(map("key1", "value1", "key2", "value2")).containsAnyOf(entry("key2", "value2"));
   }
 }

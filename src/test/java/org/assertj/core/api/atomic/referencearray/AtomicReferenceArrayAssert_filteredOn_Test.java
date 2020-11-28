@@ -20,35 +20,36 @@ import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.Test;
 
-public class AtomicReferenceArrayAssert_filteredOn_Test extends AtomicReferenceArrayAssert_filtered_baseTest {
+class AtomicReferenceArrayAssert_filteredOn_Test extends AtomicReferenceArrayAssert_filtered_baseTest {
 
   @Test
-  public void should_filter_object_array_under_test_on_property_values() {
+  void should_filter_object_array_under_test_on_property_values() {
     assertThat(employees).filteredOn("age", 800).containsOnly(yoda, obiwan);
   }
 
   @Test
-  public void should_filter_object_array_under_test_on_property_not_backed_by_a_field_values() {
+  void should_filter_object_array_under_test_on_property_not_backed_by_a_field_values() {
     assertThat(employees).filteredOn("adult", false).containsOnly(noname);
     assertThat(employees).filteredOn("adult", true).containsOnly(yoda, obiwan, luke);
   }
 
   @Test
-  public void should_filter_object_array_under_test_on_public_field_values() {
+  void should_filter_object_array_under_test_on_public_field_values() {
     assertThat(employees).filteredOn("id", 1L).containsOnly(yoda);
   }
 
   @Test
-  public void should_filter_object_array_under_test_on_private_field_values() {
+  void should_filter_object_array_under_test_on_private_field_values() {
     assertThat(employees).filteredOn("city", "New York").containsOnly(yoda, obiwan, luke, noname);
     assertThat(employees).filteredOn("city", "Paris").isEmpty();
   }
 
   @Test
-  public void should_fail_if_filter_is_on_private_field_and_reading_private_field_is_disabled() {
+  void should_fail_if_filter_is_on_private_field_and_reading_private_field_is_disabled() {
     setAllowExtractingPrivateFields(false);
     try {
       assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
@@ -60,48 +61,45 @@ public class AtomicReferenceArrayAssert_filteredOn_Test extends AtomicReferenceA
   }
 
   @Test
-  public void should_filter_object_array_under_test_on_nested_property_values() {
+  void should_filter_object_array_under_test_on_nested_property_values() {
     assertThat(employees).filteredOn("name.first", "Luke").containsOnly(luke);
   }
 
   @Test
-  public void should_filter_object_array_under_test_on_nested_mixed_property_and_field_values() {
+  void should_filter_object_array_under_test_on_nested_mixed_property_and_field_values() {
     assertThat(employees).filteredOn("name.last", "Vader").isEmpty();
     assertThat(employees).filteredOn("name.last", "Skywalker").containsOnly(luke);
   }
 
   @Test
-  public void should_fail_if_given_property_or_field_name_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn(null, 800))
+  void should_fail_if_given_property_or_field_name_is_null() {
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn((String) null, 800))
                                         .withMessage("The property/field name to filter on should not be null or empty");
   }
 
   @Test
-  public void should_fail_if_given_property_or_field_name_is_empty() {
+  void should_fail_if_given_property_or_field_name_is_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn("", 800))
                                         .withMessage("The property/field name to filter on should not be null or empty");
   }
 
   @Test
-  public void should_fail_if_given_expected_value_is_null() {
+  void should_fail_if_given_expected_value_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn("name", null))
                                         .withMessage(format("The expected value should not be null.%n"
                                                             + "If you were trying to filter on a null value, please use filteredOnNull(String propertyOrFieldName) instead"));
   }
 
   @Test
-  public void should_fail_if_on_of_the_object_array_element_does_not_have_given_property_or_field() {
-    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).filteredOn("secret",
-                                                                                                          "???"))
+  void should_fail_if_on_of_the_object_array_element_does_not_have_given_property_or_field() {
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).filteredOn("secret", "???"))
                                                        .withMessageContaining("Can't find any field or property with name 'secret'");
   }
 
   @Test
-  public void should_fail_if_filter_operators_are_combined() {
-    assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> assertThat(employees).filteredOn("age",
-                                                                                                                     not(in(800)))
-                                                                                                         .containsOnly(luke,
-                                                                                                                       noname))
+  void should_fail_if_filter_operators_are_combined() {
+    ThrowingCallable code = () -> assertThat(employees).filteredOn("age", not(in(800))).containsOnly(luke, noname);
+    assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(code)
                                                                   .withMessageStartingWith("Combining operator is not supported");
   }
 }

@@ -24,31 +24,31 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class Condition_as_String_Test {
+class Condition_as_String_Test {
 
   private Condition<Object> condition;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     condition = new TestCondition<>();
   }
 
   @Test
-  public void should_set_description() {
+  void should_set_description() {
     String description = someTextDescription();
     condition.as(description);
     assertThat(condition.description.value()).isEqualTo(description);
   }
 
   @Test
-  public void should_return_empty_description_if_no_description_was_set() {
+  void should_return_empty_description_if_no_description_was_set() {
     String description = null;
     condition.as(description);
     assertThat(condition.description().value()).isEmpty();
   }
 
   @Test
-  public void should_return_same_condition() {
+  void should_return_same_condition() {
     Condition<Object> returnedCondition = condition.as(someTextDescription());
     assertThat(returnedCondition).isSameAs(condition);
   }

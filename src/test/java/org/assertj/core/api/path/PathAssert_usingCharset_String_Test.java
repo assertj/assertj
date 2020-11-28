@@ -21,7 +21,7 @@ import org.assertj.core.api.PathAssertBaseTest;
 /**
  * Test for <code>{@link PathAssert#usingCharset(String)}</code>.
  */
-public class PathAssert_usingCharset_String_Test extends PathAssertBaseTest {
+class PathAssert_usingCharset_String_Test extends PathAssertBaseTest {
 
   @Override
   protected PathAssert invoke_api_method() {

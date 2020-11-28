@@ -23,7 +23,7 @@ import org.assertj.core.api.MapAssertBaseTest;
  *
  * @author dorzey
  */
-public class MapAssert_doesNotContainKeys_Test extends MapAssertBaseTest {
+class MapAssert_doesNotContainKeys_Test extends MapAssertBaseTest {
 
   final Object[] keys = array("key1", "key2");
 
@@ -34,6 +34,6 @@ public class MapAssert_doesNotContainKeys_Test extends MapAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-	verify(maps).assertDoesNotContainKeys(getInfo(assertions), getActual(assertions), keys);
+    verify(maps).assertDoesNotContainKeys(getInfo(assertions), getActual(assertions), keys);
   }
 }

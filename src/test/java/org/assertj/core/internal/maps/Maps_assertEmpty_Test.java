@@ -39,21 +39,21 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Maps_assertEmpty_Test extends MapsBaseTest {
+class Maps_assertEmpty_Test extends MapsBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_empty() {
+  void should_pass_if_actual_is_empty() {
     maps.assertEmpty(someInfo(), emptyMap());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertEmpty(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_has_elements() {
+  void should_fail_if_actual_has_elements() {
     AssertionInfo info = someInfo();
     Map<?, ?> actual = mapOf(entry("name", "Yoda"));
 

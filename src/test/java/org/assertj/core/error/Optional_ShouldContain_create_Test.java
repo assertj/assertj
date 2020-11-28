@@ -24,10 +24,10 @@ import java.util.OptionalLong;
 
 import org.junit.jupiter.api.Test;
 
-public class Optional_ShouldContain_create_Test {
+class Optional_ShouldContain_create_Test {
 
   @Test
-  public void should_create_error_message_when_value_not_present() {
+  void should_create_error_message_when_value_not_present() {
     // WHEN
     String errorMessage = shouldContain(10).create();
     // THEN
@@ -37,7 +37,7 @@ public class Optional_ShouldContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // WHEN
     String errorMessage = shouldContain(Optional.of(20), 10).create();
     // THEN
@@ -49,7 +49,7 @@ public class Optional_ShouldContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_when_optional_empty() {
+  void should_create_error_message_when_optional_empty() {
     // WHEN
     String errorMessage = shouldContain(Optional.empty(), 10).create();
     // THEN
@@ -59,7 +59,7 @@ public class Optional_ShouldContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_optionaldouble() {
+  void should_create_error_message_with_optionaldouble() {
     // WHEN
     String errorMessage = shouldContain(OptionalDouble.of(20.0), 10.0).create();
     // THEN
@@ -71,7 +71,7 @@ public class Optional_ShouldContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_empty_optionaldouble() {
+  void should_create_error_message_with_empty_optionaldouble() {
     // WHEN
     String errorMessage = shouldContain(OptionalDouble.empty(), 10.0).create();
     // THEN
@@ -81,7 +81,7 @@ public class Optional_ShouldContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_optionalint() {
+  void should_create_error_message_with_optionalint() {
     // WHEN
     String errorMessage = shouldContain(OptionalInt.of(20), 10).create();
     // THEN
@@ -93,7 +93,7 @@ public class Optional_ShouldContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_empty_optionalint() {
+  void should_create_error_message_with_empty_optionalint() {
     // WHEN
     String errorMessage = shouldContain(OptionalInt.empty(), 10).create();
     // THEN
@@ -103,7 +103,7 @@ public class Optional_ShouldContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_optionallong() {
+  void should_create_error_message_with_optionallong() {
     // WHEN
     String errorMessage = shouldContain(OptionalLong.of(20L), 10L).create();
     // THEN
@@ -115,7 +115,7 @@ public class Optional_ShouldContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_empty_optionallong() {
+  void should_create_error_message_with_empty_optionallong() {
     // WHEN
     String errorMessage = shouldContain(OptionalLong.empty(), 10L).create();
     // THEN
@@ -125,7 +125,7 @@ public class Optional_ShouldContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_different_instances() {
+  void should_create_error_message_for_different_instances() {
     // WHEN
     String errorMessage = shouldContainSame(Optional.of(10), 10).create();
     // THEN

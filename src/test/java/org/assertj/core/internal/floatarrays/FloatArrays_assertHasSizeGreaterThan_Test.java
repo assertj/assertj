@@ -20,22 +20,22 @@ import static org.assertj.core.error.ShouldHaveSizeGreaterThan.shouldHaveSizeGre
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-public class FloatArrays_assertHasSizeGreaterThan_Test extends FloatArraysBaseTest {
+class FloatArrays_assertHasSizeGreaterThan_Test extends FloatArraysBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSizeGreaterThan(someInfo(), null, 6))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_size_of_actual_is_not_greater_than_boundary() {
+  void should_fail_if_size_of_actual_is_not_greater_than_boundary() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSizeGreaterThan(someInfo(), actual, 6))
                                                    .withMessage(shouldHaveSizeGreaterThan(actual, actual.length, 6).create());
   }
 
   @Test
-  public void should_pass_if_size_of_actual_is_greater_than_boundary() {
+  void should_pass_if_size_of_actual_is_greater_than_boundary() {
     arrays.assertHasSizeGreaterThan(someInfo(), actual, 1);
   }
 }

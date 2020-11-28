@@ -21,12 +21,12 @@ import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 import org.assertj.core.api.TestCondition;
 import org.junit.jupiter.api.BeforeEach;
 
-public class AtomicReferenceArrayAssert_haveExactly_Test extends AtomicReferenceArrayAssertBaseTest {
+class AtomicReferenceArrayAssert_haveExactly_Test extends AtomicReferenceArrayAssertBaseTest {
 
   private Condition<Object> condition;
 
   @BeforeEach
-  public void before() {
+  void before() {
     condition = new TestCondition<>();
   }
 

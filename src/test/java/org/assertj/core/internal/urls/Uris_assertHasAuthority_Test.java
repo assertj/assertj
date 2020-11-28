@@ -22,10 +22,10 @@ import java.net.URI;
 import org.assertj.core.internal.UrisBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class Uris_assertHasAuthority_Test extends UrisBaseTest {
+class Uris_assertHasAuthority_Test extends UrisBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     URI uri = null;
     String expectedAuthority = "http://www.helloworld.org";
@@ -36,7 +36,7 @@ public class Uris_assertHasAuthority_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_uri_has_the_expected_authority() {
+  void should_pass_if_actual_uri_has_the_expected_authority() {
     // GIVEN
     URI uri = URI.create("http://www.helloworld.org:8080");
     String expectedAuthority = "www.helloworld.org:8080";
@@ -45,7 +45,7 @@ public class Uris_assertHasAuthority_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_uri_with_path_has_the_expected_authority() {
+  void should_pass_if_actual_uri_with_path_has_the_expected_authority() {
     // GIVEN
     URI uri = URI.create("http://www.helloworld.org:8080/pages");
     String expectedAuthority = "www.helloworld.org:8080";
@@ -54,7 +54,7 @@ public class Uris_assertHasAuthority_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_authority_is_not_the_expected_one_because_ports_differ() {
+  void should_fail_if_actual_authority_is_not_the_expected_one_because_ports_differ() {
     // GIVEN
     URI uri = URI.create("http://example.com:8080/pages/");
     String expectedAuthority = "example.com:8888";
@@ -65,7 +65,7 @@ public class Uris_assertHasAuthority_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_authority_is_not_the_expected_one_because_hosts_differ() {
+  void should_fail_if_actual_authority_is_not_the_expected_one_because_hosts_differ() {
     // GIVEN
     URI uri = URI.create("http://example.com:8080/pages/");
     String expectedAuthority = "example.org:8080";

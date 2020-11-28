@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author William Delanoue
  */
-public class DoubleAssert_isBetween_Doubles_Test extends DoubleAssertBaseTest {
+class DoubleAssert_isBetween_Doubles_Test extends DoubleAssertBaseTest {
 
   @Override
   protected DoubleAssert invoke_api_method() {

@@ -20,7 +20,7 @@ import org.assertj.core.data.Index;
 
 import static org.mockito.Mockito.verify;
 
-public class AtomicLongArrayAssert_doesNotContain_at_Index_Test extends AtomicLongArrayAssertBaseTest {
+class AtomicLongArrayAssert_doesNotContain_at_Index_Test extends AtomicLongArrayAssertBaseTest {
 
   private final Index index = someIndex();
 

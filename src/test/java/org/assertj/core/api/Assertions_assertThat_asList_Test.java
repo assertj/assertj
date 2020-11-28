@@ -25,23 +25,23 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for Assert.asList() methods
  */
-public class Assertions_assertThat_asList_Test {
+class Assertions_assertThat_asList_Test {
 
   @Test
-  public void should_pass_list_asserts_on_list_objects_with_asList() {
+  void should_pass_list_asserts_on_list_objects_with_asList() {
     Object listAsObject = asList(1, 2, 3);
     assertThat(listAsObject).asList().isSorted();
   }
 
   @Test
-  public void should_pass_list_asserts_on_list_strings_with_asList() {
+  void should_pass_list_asserts_on_list_strings_with_asList() {
     List<String> listAsObject = asList("a", "b", "c");
     assertThat(listAsObject).asList().isSorted()
                             .last().isEqualTo("c");
   }
 
   @Test
-  public void should_fail_list_asserts_on_non_list_objects_even_with_asList() {
+  void should_fail_list_asserts_on_non_list_objects_even_with_asList() {
     Object nonList = new Object();
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(nonList).asList().isSorted())
@@ -49,7 +49,7 @@ public class Assertions_assertThat_asList_Test {
   }
 
   @Test
-  public void should_keep_existing_description_set_before_calling_asList() {
+  void should_keep_existing_description_set_before_calling_asList() {
     // GIVEN
     Object listAsObject = asList(1, 2, 3);
     // WHEN

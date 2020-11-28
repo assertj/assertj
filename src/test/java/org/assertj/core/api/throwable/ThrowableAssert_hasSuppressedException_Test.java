@@ -19,7 +19,7 @@ import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.api.ThrowableAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class ThrowableAssert_hasSuppressedException_Test extends ThrowableAssertBaseTest {
+class ThrowableAssert_hasSuppressedException_Test extends ThrowableAssertBaseTest {
 
   private Throwable npe = new NullPointerException();
 
@@ -35,7 +35,7 @@ public class ThrowableAssert_hasSuppressedException_Test extends ThrowableAssert
   }
 
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
     // GIVEN
     Throwable actual = new Throwable();
     

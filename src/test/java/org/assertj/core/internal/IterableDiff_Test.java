@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Billy Yuan
  */
-public class IterableDiff_Test {
+class IterableDiff_Test {
 
   private List<String> actual;
   private List<String> expected;
@@ -39,7 +39,7 @@ public class IterableDiff_Test {
   }
 
   @Test
-  public void should_not_report_any_differences_between_two_identical_iterables() {
+  void should_not_report_any_differences_between_two_identical_iterables() {
     // GIVEN
     actual = newArrayList("#", "$");
     expected = newArrayList("#", "$");
@@ -50,7 +50,7 @@ public class IterableDiff_Test {
   }
 
   @Test
-  public void should_not_report_any_differences_between_two_iterables_with_elements_in_a_different_order() {
+  void should_not_report_any_differences_between_two_iterables_with_elements_in_a_different_order() {
     // GIVEN
     actual = newArrayList("#", "$");
     expected = newArrayList("$", "#");
@@ -61,7 +61,7 @@ public class IterableDiff_Test {
   }
 
   @Test
-  public void should_not_report_any_differences_between_two_iterables_with_duplicate_elements_in_a_different_order() {
+  void should_not_report_any_differences_between_two_iterables_with_duplicate_elements_in_a_different_order() {
     // GIVEN
     actual = newArrayList("#", "#", "$", "$");
     expected = newArrayList("$", "$", "#", "#");
@@ -72,7 +72,7 @@ public class IterableDiff_Test {
   }
 
   @Test
-  public void should_report_difference_between_two_different_iterables_without_duplicate_elements() {
+  void should_report_difference_between_two_different_iterables_without_duplicate_elements() {
     // GIVEN
     actual = newArrayList("A", "B", "C");
     expected = newArrayList("X", "Y", "Z");
@@ -85,7 +85,7 @@ public class IterableDiff_Test {
   }
 
   @Test
-  public void should_report_difference_between_two_different_iterables_with_duplicate_elements() {
+  void should_report_difference_between_two_different_iterables_with_duplicate_elements() {
     // GIVEN
     actual = newArrayList("#", "#", "$");
     expected = newArrayList("$", "$", "#");
@@ -98,7 +98,7 @@ public class IterableDiff_Test {
   }
 
   @Test
-  public void should_not_report_any_differences_between_two_case_sensitive_iterables_according_to_custom_comparison_strategy() {
+  void should_not_report_any_differences_between_two_case_sensitive_iterables_according_to_custom_comparison_strategy() {
     // GIVEN
     comparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance);
     actual = newArrayList("a", "b", "C", "D");
@@ -110,7 +110,7 @@ public class IterableDiff_Test {
   }
 
   @Test
-  public void should_not_report_any_differences_between_two_same_iterables_with_custom_objects() {
+  void should_not_report_any_differences_between_two_same_iterables_with_custom_objects() {
     // GIVEN
     Foo foo1 = new Foo();
     Foo foo2 = new Foo();
@@ -124,7 +124,7 @@ public class IterableDiff_Test {
   }
 
   @Test
-  public void should_report_difference_between_two_iterables_with_duplicate_objects() {
+  void should_report_difference_between_two_iterables_with_duplicate_objects() {
     // GIVEN
     Foo foo1 = new Foo();
     Foo foo2 = new Foo();

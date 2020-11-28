@@ -25,7 +25,7 @@ import org.assertj.core.api.CharSequenceAssertBaseTest;
  * @author Billy Yuan
  */
 
-public class CharSequenceAssert_doesNotContain_several_String_as_Iterable_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_doesNotContain_several_String_as_Iterable_Test extends CharSequenceAssertBaseTest {
   @Override
   protected CharSequenceAssert invoke_api_method() {
     return assertions.doesNotContain(Arrays.<CharSequence> asList("od", "do"));

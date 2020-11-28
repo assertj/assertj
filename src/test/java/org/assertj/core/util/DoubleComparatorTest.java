@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class DoubleComparatorTest {
+class DoubleComparatorTest {
 
   private static DoubleComparator comparator = new DoubleComparator(0.01d);
 
@@ -42,7 +42,7 @@ public class DoubleComparatorTest {
     "-1.0, -1.001",
     ","
   })
-  public void should_be_equal_if_difference_is_less_than_or_equal_to_epsilon(Double actual, Double other) {
+  void should_be_equal_if_difference_is_less_than_or_equal_to_epsilon(Double actual, Double other) {
     assertThat(nearlyEqual(actual, other)).as("comparing %f to %f with epsilon %f", actual, other,
                                               comparator.getEpsilon())
                                           .isTrue();
@@ -59,7 +59,7 @@ public class DoubleComparatorTest {
     ", 1.0",
     "1.0,"
   })
-  public void should_not_be_equal_if_difference_is_more_than_epsilon(Double actual, Double other) {
+  void should_not_be_equal_if_difference_is_more_than_epsilon(Double actual, Double other) {
     assertThat(nearlyEqual(actual, other)).as("comparing %f to %f with epsilon %f", actual, other,
                                               comparator.getEpsilon())
                                           .isFalse();
@@ -70,7 +70,7 @@ public class DoubleComparatorTest {
       "Infinity, Infinity",
       "-Infinity, -Infinity"
   })
-  public void should_be_equal_if_both_values_are_infinity_of_same_sign(Double actual, Double other) {
+  void should_be_equal_if_both_values_are_infinity_of_same_sign(Double actual, Double other) {
     assertThat(nearlyEqual(actual, other)).as("comparing %f to %f", actual, other).isTrue();
   }
 
@@ -79,12 +79,12 @@ public class DoubleComparatorTest {
       "Infinity, -Infinity",
       "-Infinity, Infinity"
   })
-  public void should_not_be_equal_if_both_values_are_infinity_of_opposite_signs(Double actual, Double other) {
+  void should_not_be_equal_if_both_values_are_infinity_of_opposite_signs(Double actual, Double other) {
     assertThat(nearlyEqual(actual, other)).as("comparing %f to %f", actual, other).isFalse();
   }
 
   @Test
-  public void should_not_be_equal_if_not_a_number() {
+  void should_not_be_equal_if_not_a_number() {
     assertThat(nearlyEqual(Double.NaN, Double.NaN)).isFalse();
   }
 }

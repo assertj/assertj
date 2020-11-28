@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.ByteArrayAssert;
 import org.assertj.core.api.ByteArrayAssertBaseTest;
 
-public class ByteArrayAssert_containsAnyOf_Test extends ByteArrayAssertBaseTest {
+class ByteArrayAssert_containsAnyOf_Test extends ByteArrayAssertBaseTest {
 
   @Override
   protected ByteArrayAssert invoke_api_method() {

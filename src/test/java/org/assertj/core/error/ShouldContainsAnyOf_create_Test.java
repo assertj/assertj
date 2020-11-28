@@ -23,10 +23,10 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
-public class ShouldContainsAnyOf_create_Test {
+class ShouldContainsAnyOf_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainAnyOf(list("Yoda", "Han", "Han"), list("Vador", "Leia"));
     // WHEN
@@ -41,7 +41,7 @@ public class ShouldContainsAnyOf_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_custom_comparison_strategy() {
+  void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainAnyOf(list("Yoda", "Han", "Han"), list("Vador", "Leia"),
                                                      new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));

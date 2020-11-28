@@ -12,18 +12,22 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.error.ShouldBeFalse.shouldBeFalse;
+import static org.assertj.core.error.ShouldBeTrue.shouldBeTrue;
+
 import java.util.Comparator;
 
 import org.assertj.core.internal.Booleans;
+import org.assertj.core.internal.Failures;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Boolean}s.
- * 
+ *
  * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
- * 
+ *
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author David DIDIER
@@ -50,13 +54,15 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
    * // assertions will fail
    * assertThat(false).isTrue();
    * assertThat(Boolean.FALSE).isTrue();</code></pre>
-   * 
+   *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not {@code true}.
    */
   public SELF isTrue() {
-    return isEqualTo(true);
+    objects.assertNotNull(info, actual);
+    if (actual) return myself;
+    throw Failures.instance().failure(info, shouldBeTrue(actual), actual, true);
   }
 
   /**
@@ -70,13 +76,15 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
    * // assertions will fail
    * assertThat(true).isFalse();
    * assertThat(Boolean.TRUE).isFalse();</code></pre>
-   * 
+   *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not {@code false}.
    */
   public SELF isFalse() {
-    return isEqualTo(false);
+    objects.assertNotNull(info, actual);
+    if (actual == false) return myself;
+    throw Failures.instance().failure(info, shouldBeFalse(actual), actual, false);
   }
 
   /**
@@ -86,11 +94,11 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
    * <pre><code class='java'> // assertions will pass
    * assertThat(true).isEqualTo(true);
    * assertThat(Boolean.FALSE).isEqualTo(false);
-   * 
+   *
    * // assertions will fail
    * assertThat(true).isEqualTo(false);
    * assertThat(Boolean.TRUE).isEqualTo(false);</code></pre>
-   * 
+   *
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -112,7 +120,7 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
    * // assertions will fail
    * assertThat(true).isNotEqualTo(true);
    * assertThat(Boolean.FALSE).isNotEqualTo(false);</code></pre>
-   * 
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -137,7 +145,7 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
 
   /**
    * Do not use this method.
-   * 
+   *
    * @deprecated Custom Comparator is not supported for Boolean comparison.
    * @throws UnsupportedOperationException if this method is called.
    */

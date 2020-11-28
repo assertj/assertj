@@ -28,10 +28,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class ShouldBeBetween_create_Test {
+class ShouldBeBetween_create_Test {
 
   @Test
-  public void should_create_error_message_with_period_boundaries_included() {
+  void should_create_error_message_with_period_boundaries_included() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeBetween(parse("2010-01-01"), parse("2011-01-01"), parse("2012-01-01"), true, true);
     // WHEN
@@ -45,7 +45,7 @@ public class ShouldBeBetween_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_period_lower_boundary_included() {
+  void should_create_error_message_with_period_lower_boundary_included() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeBetween(parse("2010-01-01"), parse("2011-01-01"), parse("2012-01-01"), true, false);
     // WHEN
@@ -59,7 +59,7 @@ public class ShouldBeBetween_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_period_upper_boundary_included() {
+  void should_create_error_message_with_period_upper_boundary_included() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeBetween(parse("2010-01-01"), parse("2011-01-01"), parse("2012-01-01"), false, true);
     // WHEN
@@ -73,7 +73,7 @@ public class ShouldBeBetween_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_period_boundaries_excluded() {
+  void should_create_error_message_with_period_boundaries_excluded() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeBetween(parse("2010-01-01"), parse("2011-01-01"), parse("2012-01-01"), false, false);
     // WHEN
@@ -87,7 +87,7 @@ public class ShouldBeBetween_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_comparison_strategy() {
+  void should_create_error_message_with_comparison_strategy() {
     // GIVEN
     ComparatorBasedComparisonStrategy comparisonStrategy = new ComparatorBasedComparisonStrategy(NEVER_EQUALS);
     ErrorMessageFactory factory = shouldBeBetween(parse("2010-01-01"), parse("2011-01-01"), parse("2012-01-01"), false, false,

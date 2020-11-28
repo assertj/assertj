@@ -27,14 +27,14 @@ import org.junit.jupiter.api.Test;
  *
  * @author Jean-Christophe Gay
  */
-public class ShouldHaveExtension_create_Test {
+class ShouldHaveExtension_create_Test {
 
   private final String expectedExtension = "java";
 
   private File actual = new FakeFile("actual-file.png");
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     then(createMessage("png")).isEqualTo(format("[TEST] %n" +
                                                 "Expecting%n" +
                                                 "  <" + actual + ">%n" +
@@ -45,7 +45,7 @@ public class ShouldHaveExtension_create_Test {
   }
 
   @Test
-  public void should_create_error_message_when_actual_does_not_have_extension() {
+  void should_create_error_message_when_actual_does_not_have_extension() {
     then(createMessage(null)).isEqualTo(format("[TEST] %n" +
                                                "Expecting%n" +
                                                "  <" + actual + ">%n" +

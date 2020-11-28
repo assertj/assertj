@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  * @author Alex Ruiz
  * @author Nicolas François
  */
-public class MapAssert_hasSize_Test extends MapAssertBaseTest {
+class MapAssert_hasSize_Test extends MapAssertBaseTest {
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {

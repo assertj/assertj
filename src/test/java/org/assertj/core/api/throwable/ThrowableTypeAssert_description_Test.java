@@ -28,10 +28,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class ThrowableTypeAssert_description_Test {
+class ThrowableTypeAssert_description_Test {
 
   @BeforeAll
-  public static void beforeAll() {
+  static void beforeAll() {
     Assertions.setRemoveAssertJRelatedElementsFromStackTrace(false);
   }
 
@@ -45,7 +45,7 @@ public class ThrowableTypeAssert_description_Test {
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void should_contain_provided_description_if_nothing_is_thrown_by_lambda(Function<ThrowableTypeAssert<?>, ThrowableTypeAssert<?>> descriptionAdder) {
+  void should_contain_provided_description_if_nothing_is_thrown_by_lambda(Function<ThrowableTypeAssert<?>, ThrowableTypeAssert<?>> descriptionAdder) {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> descriptionAdder.apply(assertThatExceptionOfType(NoSuchElementException.class))
                                                                                      .isThrownBy(() -> {}))
                                                    .withMessage(format("[test description] %nExpecting code to raise a throwable."));
@@ -53,7 +53,7 @@ public class ThrowableTypeAssert_description_Test {
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void should_contain_provided_description_when_exception_type_is_wrong(Function<ThrowableTypeAssert<?>, ThrowableTypeAssert<?>> descriptionAdder) {
+  void should_contain_provided_description_when_exception_type_is_wrong(Function<ThrowableTypeAssert<?>, ThrowableTypeAssert<?>> descriptionAdder) {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> descriptionAdder.apply(assertThatExceptionOfType(NoSuchElementException.class))
                                                                                      .isThrownBy(() -> {
                                                                                        throw new IllegalArgumentException();
@@ -67,7 +67,7 @@ public class ThrowableTypeAssert_description_Test {
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void should_contain_provided_description_when_exception_message_is_wrong(Function<ThrowableTypeAssert<?>, ThrowableTypeAssert<?>> descriptionAdder) {
+  void should_contain_provided_description_when_exception_message_is_wrong(Function<ThrowableTypeAssert<?>, ThrowableTypeAssert<?>> descriptionAdder) {
     IllegalArgumentException exception = new IllegalArgumentException("some cause");
     assertThatAssertionErrorIsThrownBy(() -> {
       descriptionAdder.apply(assertThatIllegalArgumentException()).isThrownBy(() -> {

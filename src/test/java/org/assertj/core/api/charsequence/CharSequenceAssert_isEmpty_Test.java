@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class CharSequenceAssert_isEmpty_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_isEmpty_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {

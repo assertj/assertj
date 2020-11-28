@@ -27,10 +27,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alexander Bischof
  */
-public class ShouldBeEqualWithinPercentage_create_Test {
+class ShouldBeEqualWithinPercentage_create_Test {
 
   @Test
-  public void should_create_error_message_with_int_percentage_displayed_as_int() {
+  void should_create_error_message_with_int_percentage_displayed_as_int() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeEqualWithinPercentage(12.0, 10.0, withPercentage(10), 2d);
     // WHEN
@@ -46,7 +46,7 @@ public class ShouldBeEqualWithinPercentage_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_double_percentage_displayed_as_int() {
+  void should_create_error_message_with_double_percentage_displayed_as_int() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeEqualWithinPercentage(12.0, 10.0, withPercentage(10.0), 2d);
     // WHEN
@@ -62,7 +62,7 @@ public class ShouldBeEqualWithinPercentage_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_percentage_as_double() {
+  void should_create_error_message_with_percentage_as_double() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeEqualWithinPercentage(12.0, 10.0, withPercentage(0.5), 2d);
     // WHEN

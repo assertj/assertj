@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Chris Arnott
  */
-public class ObjectArrayAssert_doesNotContainsSubsequence_List_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_doesNotContainsSubsequence_List_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {
@@ -44,7 +44,7 @@ public class ObjectArrayAssert_doesNotContainsSubsequence_List_Test extends Obje
   }
 
   @Test
-  public void should_throw_error_if_subsequence_is_null() {
+  void should_throw_error_if_subsequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       List<Object> nullList = null;
       assertions.doesNotContainSubsequence(nullList);

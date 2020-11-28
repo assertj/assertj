@@ -37,7 +37,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class DateAssert_with_string_based_date_representation_Test extends DateAssertBaseTest {
+class DateAssert_with_string_based_date_representation_Test extends DateAssertBaseTest {
 
   @Override
   @AfterEach
@@ -46,7 +46,7 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
   }
 
   @Test
-  public void date_assertion_using_default_date_string_representation() {
+  void date_assertion_using_default_date_string_representation() {
 
     // datetime with ms is supported
     final Date date1timeWithMS = parseDatetimeWithMs("2003-04-26T03:01:02.999");
@@ -63,7 +63,7 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
   }
 
   @Test
-  public void date_assertion_should_support_timestamp_string_representation() throws ParseException {
+  void date_assertion_should_support_timestamp_string_representation() throws ParseException {
     Date date = DateUtil.newTimestampDateFormat().parse("2015-05-08 11:30:00.560");
     String timestampAsString = DateUtil.newTimestampDateFormat().format(new Timestamp(date.getTime()));
 
@@ -71,7 +71,7 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
   }
 
   @Test
-  public void date_assertion_should_support_date_with_utc_time_zone_string_representation() throws ParseException {
+  void date_assertion_should_support_date_with_utc_time_zone_string_representation() throws ParseException {
     SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     isoFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
     Date date = isoFormat.parse("2003-04-26T00:00:00");
@@ -80,7 +80,7 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
   }
 
   @Test
-  public void date_assertion_should_support_date_with_ms_and_utc_time_zone_string_representation() throws ParseException {
+  void date_assertion_should_support_date_with_ms_and_utc_time_zone_string_representation() throws ParseException {
     // GIVEN
     SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
     isoFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -91,7 +91,7 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
   }
 
   @Test
-  public void date_assertion_should_support_date_with_utc_time_zone_in_different_time_zone_string_representation() throws ParseException {
+  void date_assertion_should_support_date_with_utc_time_zone_in_different_time_zone_string_representation() throws ParseException {
     SimpleDateFormat isoDateFormatUtc = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     isoDateFormatUtc.setTimeZone(TimeZone.getTimeZone("UTC"));
 
@@ -105,7 +105,7 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
   }
 
   @Test
-  public void should_fail_if_given_date_string_representation_cant_be_parsed_with_default_date_formats() {
+  void should_fail_if_given_date_string_representation_cant_be_parsed_with_default_date_formats() {
     final String dateAsString = "2003/04/26";
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new Date()).isEqualTo(dateAsString))
                                                    .withMessage(format("Failed to parse 2003/04/26 with any of these date formats:%n"
@@ -119,14 +119,14 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
   }
 
   @Test
-  public void date_assertion_using_custom_date_string_representation() {
+  void date_assertion_using_custom_date_string_representation() {
     final Date date = DateUtil.parse("2003-04-26");
     assertThat(date).withDateFormat("yyyy/MM/dd").isEqualTo("2003/04/26");
     assertThat(date).isEqualTo("2003/04/26");
   }
 
   @Test
-  public void should_fail_if_given_date_string_representation_cant_be_parsed_with_any_custom_date_formats() {
+  void should_fail_if_given_date_string_representation_cant_be_parsed_with_any_custom_date_formats() {
     final Date date = DateUtil.parse("2003-04-26");
     registerCustomDateFormat("yyyy/MM/dd'T'HH:mm:ss");
     // registering again has no effect
@@ -146,7 +146,7 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
   }
 
   @Test
-  public void date_assertion_using_custom_date_string_representation_then_switching_back_to_defaults_date_formats() {
+  void date_assertion_using_custom_date_string_representation_then_switching_back_to_defaults_date_formats() {
     final Date date = DateUtil.parse("2003-04-26");
     // chained assertions
     assertThat(date).withDateFormat("yyyy/MM/dd").isEqualTo("2003/04/26")
@@ -157,7 +157,7 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
   }
 
   @Test
-  public void use_custom_date_formats_set_from_Assertions_entry_point() {
+  void use_custom_date_formats_set_from_Assertions_entry_point() {
     // GIVEN
     final Date date = DateUtil.parse("2003-04-26");
 
@@ -193,7 +193,7 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
   }
 
   @Test
-  public void use_custom_date_formats_first_then_defaults_to_parse_a_date() {
+  void use_custom_date_formats_first_then_defaults_to_parse_a_date() {
     // GIVEN
     // using default formats should work
     final Date date = DateUtil.parse("2003-04-26");

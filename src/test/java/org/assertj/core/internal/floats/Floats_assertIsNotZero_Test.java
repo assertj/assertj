@@ -27,26 +27,26 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Floats_assertIsNotZero_Test extends FloatsBaseTest {
+class Floats_assertIsNotZero_Test extends FloatsBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_not_zero() {
+  void should_succeed_since_actual_is_not_zero() {
     floats.assertIsNotZero(someInfo(), 2.0f);
   }
 
   @Test
-  public void should_fail_since_actual_is_zero() {
+  void should_fail_since_actual_is_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotZero(someInfo(), 0.0f))
                                                    .withMessage(format("%nExpecting:%n <0.0f>%nnot to be equal to:%n <0.0f>%n"));
   }
 
   @Test
-  public void should_succeed_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
+  void should_succeed_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
     floatsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 2.0f);
   }
 
   @Test
-  public void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
+  void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0.0f))
                                                    .withMessage(format("%nExpecting:%n <0.0f>%nnot to be equal to:%n <0.0f>%n"));
   }

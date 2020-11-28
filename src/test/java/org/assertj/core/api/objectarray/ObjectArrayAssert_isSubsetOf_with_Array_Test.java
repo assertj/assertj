@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link ObjectArrayAssert#isSubsetOf(Object[])}</code>.
  */
-public class ObjectArrayAssert_isSubsetOf_with_Array_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_isSubsetOf_with_Array_Test extends ObjectArrayAssertBaseTest {
 
   private final Object [] values = array("Yoda", "Luke");
 
@@ -40,7 +40,7 @@ public class ObjectArrayAssert_isSubsetOf_with_Array_Test extends ObjectArrayAss
   }
   
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
     assertThat(array("Luke", "Yoda")).isSubsetOf("Yoda", "Luke", "Chewbacca");
   }
 }

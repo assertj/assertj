@@ -32,10 +32,10 @@ import org.junit.jupiter.api.Test;
  * @author Willima Telloue
  * @author Joel Costigliola
  */
-public class ShouldContainKeys_create_Test {
+class ShouldContainKeys_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldContainKeys(map, newLinkedHashSet("name"));
@@ -46,7 +46,7 @@ public class ShouldContainKeys_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_multiple_keys() {
+  void should_create_error_message_with_multiple_keys() {
     // GIVEN
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldContainKeys(map, newLinkedHashSet("name", "color"));

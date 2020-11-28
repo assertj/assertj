@@ -38,7 +38,7 @@ import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class IterableAssert_flatExtracting_with_multiple_extractors_Test {
+class IterableAssert_flatExtracting_with_multiple_extractors_Test {
 
   private final List<TolkienCharacter> fellowshipOfTheRing = new ArrayList<>();
 
@@ -49,7 +49,7 @@ public class IterableAssert_flatExtracting_with_multiple_extractors_Test {
   private static final ThrowingExtractor<TolkienCharacter, Integer, Exception> ageThrowingExtractor = TolkienCharacter::getAge;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     fellowshipOfTheRing.add(TolkienCharacter.of("Frodo", 33, HOBBIT));
     fellowshipOfTheRing.add(TolkienCharacter.of("Sam", 38, HOBBIT));
     fellowshipOfTheRing.add(TolkienCharacter.of("Gandalf", 2020, MAIA));
@@ -61,7 +61,7 @@ public class IterableAssert_flatExtracting_with_multiple_extractors_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_multiple_extracted_values_flattened_in_a_single_list() {
+  void should_allow_assertions_on_multiple_extracted_values_flattened_in_a_single_list() {
     assertThat(fellowshipOfTheRing).flatExtracting("age", "name")
                                    .as("extract ages and names")
                                    .containsSequence(33, "Frodo", 38, "Sam");
@@ -72,30 +72,30 @@ public class IterableAssert_flatExtracting_with_multiple_extractors_Test {
   }
 
   @Test
-  public void should_throw_IllegalArgumentException_when_no_fields_or_properties_are_specified() {
+  void should_throw_IllegalArgumentException_when_no_fields_or_properties_are_specified() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(fellowshipOfTheRing).flatExtracting(new String[0]));
   }
 
   @Test
-  public void should_throw_IllegalArgumentException_when_null_fields_or_properties_vararg() {
+  void should_throw_IllegalArgumentException_when_null_fields_or_properties_vararg() {
     String[] fields = null;
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(fellowshipOfTheRing).flatExtracting(fields));
   }
 
   @Test
-  public void should_throw_IllegalArgumentException_when_extracting_from_null() {
+  void should_throw_IllegalArgumentException_when_extracting_from_null() {
     fellowshipOfTheRing.add(null);
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(fellowshipOfTheRing).flatExtracting("age", "name"));
   }
 
   @Test
-  public void should_throw_IllegalArgumentException_when_extracting_from_null_extractors() {
+  void should_throw_IllegalArgumentException_when_extracting_from_null_extractors() {
     fellowshipOfTheRing.add(null);
     assertThatNullPointerException().isThrownBy(() -> assertThat(fellowshipOfTheRing).flatExtracting(age, name));
   }
 
   @Test
-  public void should_allow_assertions_on_multiple_extracted_values_using_throwingextractor() {
+  void should_allow_assertions_on_multiple_extracted_values_using_throwingextractor() {
     assertThat(fellowshipOfTheRing).flatExtracting(input -> {
       if (input.getAge() < 20) {
         throw new Exception("age < 20");
@@ -111,7 +111,7 @@ public class IterableAssert_flatExtracting_with_multiple_extractors_Test {
   }
 
   @Test
-  public void flatExtracting_with_multiple_extractors_should_keep_assertion_state() {
+  void flatExtracting_with_multiple_extractors_should_keep_assertion_state() {
     // WHEN
     // not all comparators are used but we want to test that they are passed correctly after extracting
     // @format:off
@@ -135,7 +135,7 @@ public class IterableAssert_flatExtracting_with_multiple_extractors_Test {
   }
 
   @Test
-  public void flatExtracting_with_multiple_ThrowingExtractors_should_keep_assertion_state() {
+  void flatExtracting_with_multiple_ThrowingExtractors_should_keep_assertion_state() {
     // WHEN
     // not all comparators are used but we want to test that they are passed correctly after extracting
     // @format:off

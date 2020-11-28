@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class LongArrayAssert_contains_at_Index_Test extends LongArrayAssertBaseTest {
+class LongArrayAssert_contains_at_Index_Test extends LongArrayAssertBaseTest {
 
   private final Index index = someIndex();
 

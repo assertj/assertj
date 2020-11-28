@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.UriAssert;
 import org.assertj.core.api.UriAssertBaseTest;
 
-public class UriAssert_hasNoParameters_Test extends UriAssertBaseTest {
+class UriAssert_hasNoParameters_Test extends UriAssertBaseTest {
 
   @Override
   protected UriAssert invoke_api_method() {

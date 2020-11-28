@@ -35,20 +35,20 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link BooleanArrays#assertContainsExactly(AssertionInfo, boolean[], boolean[])}</code>.
  */
-public class BooleanArrays_assertContainsExactly_Test extends BooleanArraysBaseTest {
+class BooleanArrays_assertContainsExactly_Test extends BooleanArraysBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly() {
+  void should_pass_if_actual_contains_given_values_exactly() {
     arrays.assertContainsExactly(someInfo(), actual, arrayOf(true, false));
   }
 
   @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
+  void should_pass_if_actual_and_given_values_are_empty() {
     arrays.assertContainsExactly(someInfo(), emptyArray(), emptyArray());
   }
 
   @Test
-  public void should_fail_if_actual_contains_given_values_exactly_but_in_different_order() {
+  void should_fail_if_actual_contains_given_values_exactly_but_in_different_order() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, arrayOf(false, true)));
@@ -58,30 +58,30 @@ public class BooleanArrays_assertContainsExactly_Test extends BooleanArraysBaseT
   }
 
   @Test
-  public void should_fail_if_arrays_have_different_sizes() {
+  void should_fail_if_arrays_have_different_sizes() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, arrayOf(true)));
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, emptyArray()));
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null() {
+  void should_throw_error_if_array_of_values_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsExactly(someInfo(),
                                                                                    actual, null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), null, arrayOf(true)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_exactly() {
+  void should_fail_if_actual_does_not_contain_given_values_exactly() {
     AssertionInfo info = someInfo();
     boolean[] expected = { true, true };
 
@@ -93,7 +93,7 @@ public class BooleanArrays_assertContainsExactly_Test extends BooleanArraysBaseT
   }
 
   @Test
-  public void should_fail_if_actual_contains_all_given_values_but_size_differ() {
+  void should_fail_if_actual_contains_all_given_values_but_size_differ() {
     AssertionInfo info = someInfo();
     boolean[] actual = { true, true };
     boolean[] expected = { true };

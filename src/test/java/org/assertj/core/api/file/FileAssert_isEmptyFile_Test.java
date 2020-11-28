@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
  * Tests for <code>{@link FileAssert#isEmpty()}</code>.
  */
 @DisplayName("FileAssert isEmptyFile")
-public class FileAssert_isEmptyFile_Test extends FileAssertBaseTest {
+class FileAssert_isEmptyFile_Test extends FileAssertBaseTest {
 
   @Override
   protected FileAssert invoke_api_method() {

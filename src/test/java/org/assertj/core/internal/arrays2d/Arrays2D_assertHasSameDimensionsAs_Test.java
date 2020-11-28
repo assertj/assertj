@@ -30,12 +30,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class Arrays2D_assertHasSameDimensionsAs_Test extends Arrays2D_BaseTest {
+class Arrays2D_assertHasSameDimensionsAs_Test extends Arrays2D_BaseTest {
 
   private char[][] actual = new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } };
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
     // WHEN
@@ -48,7 +48,7 @@ public class Arrays2D_assertHasSameDimensionsAs_Test extends Arrays2D_BaseTest {
 
   @ParameterizedTest
   @MethodSource("should_fail_if_arrays_first_dimensions_differ_parameters")
-  public void should_fail_if_arrays_first_dimensions_differ(String[][] other) {
+  void should_fail_if_arrays_first_dimensions_differ(String[][] other) {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
@@ -66,8 +66,8 @@ public class Arrays2D_assertHasSameDimensionsAs_Test extends Arrays2D_BaseTest {
 
   @ParameterizedTest
   @MethodSource("should_fail_if_any_array_rows_dimensions_differ_parameters")
-  public void should_fail_if_any_array_rows_dimensions_differ(String[][] other, int rowIndex, int expectedRowSize,
-                                                              Object actualRow, Object expectedRow) {
+  void should_fail_if_any_array_rows_dimensions_differ(String[][] other, int rowIndex, int expectedRowSize,
+                                                       Object actualRow, Object expectedRow) {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
@@ -91,7 +91,7 @@ public class Arrays2D_assertHasSameDimensionsAs_Test extends Arrays2D_BaseTest {
   }
 
   @Test
-  public void should_pass_if_arrays_have_the_dimensions() {
+  void should_pass_if_arrays_have_the_dimensions() {
     arrays.assertHasSameDimensionsAs(someInfo(), actual, new String[][] { { "a", "b", "c" }, { "d", "e", "f" } });
   }
 }

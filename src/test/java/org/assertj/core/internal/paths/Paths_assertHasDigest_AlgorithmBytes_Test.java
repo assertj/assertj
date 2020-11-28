@@ -42,19 +42,19 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valeriy Vyrva
  */
-public class Paths_assertHasDigest_AlgorithmBytes_Test extends MockPathsBaseTest {
+class Paths_assertHasDigest_AlgorithmBytes_Test extends MockPathsBaseTest {
   private final String algorithm = "MD5";
   private final byte[] expected = new byte[0];
   private final String real = "3AC1AFA2A89B7E4F1866502877BF1DC5";
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasDigest(info, null, algorithm, expected))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_with_should_exist_error_if_actual_does_not_exist() {
+  void should_fail_with_should_exist_error_if_actual_does_not_exist() {
     // GIVEN
     given(nioFilesWrapper.exists(actual)).willReturn(false);
     // WHEN
@@ -64,7 +64,7 @@ public class Paths_assertHasDigest_AlgorithmBytes_Test extends MockPathsBaseTest
   }
 
   @Test
-  public void should_fail_if_actual_exists_but_is_not_file() {
+  void should_fail_if_actual_exists_but_is_not_file() {
     // GIVEN
     given(nioFilesWrapper.exists(actual)).willReturn(true);
     given(nioFilesWrapper.isRegularFile(actual)).willReturn(false);
@@ -75,7 +75,7 @@ public class Paths_assertHasDigest_AlgorithmBytes_Test extends MockPathsBaseTest
   }
 
   @Test
-  public void should_fail_if_actual_exists_but_is_not_readable() {
+  void should_fail_if_actual_exists_but_is_not_readable() {
     // GIVEN
     given(nioFilesWrapper.exists(actual)).willReturn(true);
     given(nioFilesWrapper.isRegularFile(actual)).willReturn(true);
@@ -87,19 +87,19 @@ public class Paths_assertHasDigest_AlgorithmBytes_Test extends MockPathsBaseTest
   }
 
   @Test
-  public void should_throw_error_if_digest_is_null() {
+  void should_throw_error_if_digest_is_null() {
     assertThatNullPointerException().isThrownBy(() -> paths.assertHasDigest(INFO, null, (MessageDigest) null, expected))
                                     .withMessage("The message digest algorithm should not be null");
   }
 
   @Test
-  public void should_throw_error_if_expected_is_null() {
+  void should_throw_error_if_expected_is_null() {
     assertThatNullPointerException().isThrownBy(() -> paths.assertHasDigest(INFO, null, algorithm, (byte[]) null))
                                     .withMessage("The binary representation of digest to compare to should not be null");
   }
 
   @Test
-  public void should_throw_error_wrapping_caught_IOException() throws IOException {
+  void should_throw_error_wrapping_caught_IOException() throws IOException {
     // GIVEN
     IOException cause = new IOException();
     given(nioFilesWrapper.exists(actual)).willReturn(true);
@@ -114,7 +114,7 @@ public class Paths_assertHasDigest_AlgorithmBytes_Test extends MockPathsBaseTest
   }
 
   @Test
-  public void should_throw_error_wrapping_caught_NoSuchAlgorithmException() {
+  void should_throw_error_wrapping_caught_NoSuchAlgorithmException() {
     // GIVEN
     String unknownDigestAlgorithm = "UnknownDigestAlgorithm";
     // WHEN
@@ -125,7 +125,7 @@ public class Paths_assertHasDigest_AlgorithmBytes_Test extends MockPathsBaseTest
   }
 
   @Test
-  public void should_fail_if_actual_does_not_have_expected_digest() throws IOException, NoSuchAlgorithmException {
+  void should_fail_if_actual_does_not_have_expected_digest() throws IOException, NoSuchAlgorithmException {
     // GIVEN
     InputStream stream = getClass().getResourceAsStream("/red.png");
     given(nioFilesWrapper.exists(actual)).willReturn(true);
@@ -140,7 +140,7 @@ public class Paths_assertHasDigest_AlgorithmBytes_Test extends MockPathsBaseTest
   }
 
   @Test
-  public void should_pass_if_actual_has_expected_digest() throws IOException {
+  void should_pass_if_actual_has_expected_digest() throws IOException {
     // GIVEN
     InputStream stream = getClass().getResourceAsStream("/red.png");
     given(nioFilesWrapper.exists(actual)).willReturn(true);

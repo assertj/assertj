@@ -24,23 +24,23 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alexander Bischof
  */
-public class Assertions_assertThat_with_URI_Test {
+class Assertions_assertThat_with_URI_Test {
 
   private static URI uri;
 
   @BeforeAll
-  public static void beforeClass() {
+  static void beforeClass() {
     uri = URI.create("http://www.helloworld.org:8080/pages");
   }
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     AbstractUriAssert<?> assertions = Assertions.assertThat(uri);
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     AbstractUriAssert<?> assertions = Assertions.assertThat(uri);
     assertThat(assertions.actual).isSameAs(uri);
   }

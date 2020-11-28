@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.api.ThrowableAssertBaseTest;
 
-public class ThrowableAssert_hasCauseReference_Test extends ThrowableAssertBaseTest {
+class ThrowableAssert_hasCauseReference_Test extends ThrowableAssertBaseTest {
 
   private Throwable npe = new NullPointerException();
 

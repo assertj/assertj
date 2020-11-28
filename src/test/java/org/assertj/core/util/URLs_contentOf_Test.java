@@ -12,8 +12,8 @@
  */
 package org.assertj.core.util;
 
-
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.io.File;
 import java.io.UncheckedIOException;
@@ -21,8 +21,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import org.junit.jupiter.api.Test;
 
 /*
  * Tests for {@link URLs#contentOf(File, Charset)} and {@link URLs#contentOf(File, String)}.
@@ -30,13 +29,13 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
  * @author Turbo87
  * @author dorzey
  */
-public class URLs_contentOf_Test {
+class URLs_contentOf_Test {
 
   private final URL sampleResourceURL = ClassLoader.getSystemResource("utf8.txt");
   private final String expectedContent = "A text file encoded in UTF-8, with diacritics:\né à";
 
   @Test
-  public void should_throw_exception_if_url_not_found() {
+  void should_throw_exception_if_url_not_found() {
     File missingFile = new File("missing.txt");
     assertThat(missingFile.exists()).isFalse();
 
@@ -45,12 +44,12 @@ public class URLs_contentOf_Test {
   }
 
   @Test
-  public void should_load_resource_from_url_using_charset() {
+  void should_load_resource_from_url_using_charset() {
     assertThat(URLs.contentOf(sampleResourceURL, StandardCharsets.UTF_8)).isEqualTo(expectedContent);
   }
 
   @Test
-  public void should_load_resource_from_url_using_charset_name() {
+  void should_load_resource_from_url_using_charset_name() {
     assertThat(URLs.contentOf(sampleResourceURL, "UTF-8")).isEqualTo(expectedContent);
   }
 }

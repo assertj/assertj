@@ -23,7 +23,7 @@ import org.assertj.core.api.AtomicLongArrayAssertBaseTest;
 import org.assertj.core.util.AbsValueComparator;
 import org.junit.jupiter.api.Test;
 
-public class AtomicLongArrayAssert_hasArray_Test extends AtomicLongArrayAssertBaseTest {
+class AtomicLongArrayAssert_hasArray_Test extends AtomicLongArrayAssertBaseTest {
 
   @Override
   protected AtomicLongArrayAssert invoke_api_method() {
@@ -36,7 +36,7 @@ public class AtomicLongArrayAssert_hasArray_Test extends AtomicLongArrayAssertBa
   }
   
   @Test
-  public void should_honor_the_given_element_comparator() {
+  void should_honor_the_given_element_comparator() {
     AtomicLongArray actual = new AtomicLongArray(new long[] { 1, 2, 3});
     assertThat(actual).usingElementComparator(new AbsValueComparator<Long>()).hasArray(new long[] { -1, 2, 3});
   }

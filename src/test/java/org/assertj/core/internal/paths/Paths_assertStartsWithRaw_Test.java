@@ -23,22 +23,22 @@ import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 
-public class Paths_assertStartsWithRaw_Test extends MockPathsBaseTest {
+class Paths_assertStartsWithRaw_Test extends MockPathsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertStartsWithRaw(info, null, other))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_other_is_null() {
+  void should_fail_if_other_is_null() {
     assertThatNullPointerException().isThrownBy(() -> paths.assertStartsWithRaw(info, actual, null))
                                     .withMessage("the expected start path should not be null");
   }
 
   @Test
-  public void should_fail_if_actual_does_not_start_with_other() {
+  void should_fail_if_actual_does_not_start_with_other() {
     // This is the default, but let's make this explicit
     when(actual.startsWith(other)).thenReturn(false);
 
@@ -49,7 +49,7 @@ public class Paths_assertStartsWithRaw_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_succeed_if_actual_starts_with_other() {
+  void should_succeed_if_actual_starts_with_other() {
     when(actual.startsWith(other)).thenReturn(true);
 
     paths.assertStartsWithRaw(info, actual, other);

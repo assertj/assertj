@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
 
-public class CharSequenceAssert_isEqualToIgnoringNewLines_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_isEqualToIgnoringNewLines_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {

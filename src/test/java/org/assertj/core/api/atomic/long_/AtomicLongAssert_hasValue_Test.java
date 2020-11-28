@@ -21,17 +21,17 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.junit.jupiter.api.Test;
 
-public class AtomicLongAssert_hasValue_Test {
+class AtomicLongAssert_hasValue_Test {
 
   @Test
-  public void should_pass_when_actual_has_the_expected_value() {
+  void should_pass_when_actual_has_the_expected_value() {
     long initialValue = 123L;
     AtomicLong actual = new AtomicLong(initialValue);
     assertThat(actual).hasValue(initialValue);
   }
 
   @Test
-  public void should_fail_when_actual_does_not_have_the_expected_value() {
+  void should_fail_when_actual_does_not_have_the_expected_value() {
     AtomicLong actual = new AtomicLong(123L);
     long expectedValue = 1234L;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasValue(expectedValue))
@@ -39,7 +39,7 @@ public class AtomicLongAssert_hasValue_Test {
   }
 
   @Test
-  public void should_fail_when_actual_is_null() {
+  void should_fail_when_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
       AtomicLong actual = null;
       assertThat(actual).hasValue(1234L);

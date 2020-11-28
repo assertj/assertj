@@ -21,10 +21,10 @@ import java.net.URI;
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldHaveFragment_create_Test {
+class ShouldHaveFragment_create_Test {
 
   @Test
-  public void should_create_error_message_for_has_fragment() {
+  void should_create_error_message_for_has_fragment() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news#print");
     // WHEN
@@ -40,7 +40,7 @@ public class ShouldHaveFragment_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_has_no_fragment() {
+  void should_create_error_message_for_has_no_fragment() {
     // GIVEN
     URI uri = URI.create("http://assertj.org/news#print");
     // WHEN

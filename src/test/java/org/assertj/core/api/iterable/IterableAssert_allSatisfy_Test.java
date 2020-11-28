@@ -21,12 +21,12 @@ import java.util.function.Consumer;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
-public class IterableAssert_allSatisfy_Test extends IterableAssertBaseTest {
+class IterableAssert_allSatisfy_Test extends IterableAssertBaseTest {
 
   private Consumer<Object> restrictions;
 
   @BeforeEach
-  public void beforeOnce() {
+  void beforeOnce() {
     restrictions = o -> assertThat(o).isNotNull();
   }
 

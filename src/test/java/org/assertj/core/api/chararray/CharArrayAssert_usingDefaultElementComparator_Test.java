@@ -13,46 +13,39 @@
 package org.assertj.core.api.chararray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
-
-import java.util.Comparator;
-
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import org.assertj.core.api.CharArrayAssert;
 import org.assertj.core.api.CharArrayAssertBaseTest;
 import org.assertj.core.internal.CharArrays;
 import org.assertj.core.internal.Objects;
 import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link CharArrayAssert#usingDefaultElementComparator()}</code>.
- * 
+ *
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class CharArrayAssert_usingDefaultElementComparator_Test extends CharArrayAssertBaseTest {
-
-  @Mock
-  private Comparator<Character> comparator;
+class CharArrayAssert_usingDefaultElementComparator_Test extends CharArrayAssertBaseTest {
 
   private Objects objectsBefore;
 
   @BeforeEach
-  public void before() {
-    initMocks(this);
+  void before() {
     objectsBefore = getObjects(assertions);
-    assertions.usingElementComparator(comparator);
   }
 
   @Override
   protected CharArrayAssert invoke_api_method() {
-    return assertions.usingDefaultElementComparator();
+    return assertions.usingElementComparator(alwaysEqual())
+                     .usingDefaultElementComparator();
   }
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(objectsBefore).isSameAs(getObjects(assertions));
-    assertThat(CharArrays.instance()).isSameAs(getArrays(assertions));
+    assertThat(getObjects(assertions)).isSameAs(objectsBefore);
+    assertThat(getArrays(assertions)).isSameAs(CharArrays.instance());
+    assertThat(getArrays(assertions).getComparator()).isNull();
   }
 }

@@ -21,7 +21,7 @@ import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class AtomicReferenceArrayAssert_isNullOrEmpty_Test extends AtomicReferenceArrayAssertBaseTest {
+class AtomicReferenceArrayAssert_isNullOrEmpty_Test extends AtomicReferenceArrayAssertBaseTest {
 
   @Override
   protected AtomicReferenceArrayAssert<Object> invoke_api_method() {
@@ -41,7 +41,7 @@ public class AtomicReferenceArrayAssert_isNullOrEmpty_Test extends AtomicReferen
   }
   
   @Test
-  public void should_pass_if_AtomicReferenceArray_is_null() {
+  void should_pass_if_AtomicReferenceArray_is_null() {
     AtomicReferenceArray<Object> array = null;
     assertThat(array).isNullOrEmpty();
   }

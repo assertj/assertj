@@ -28,12 +28,12 @@ import org.junit.jupiter.api.Test;
  *
  * @author Nicolas François
  */
-public class ShouldBeEqualComparingOnlyGivenFields_create_Test {
+class ShouldBeEqualComparingOnlyGivenFields_create_Test {
 
   private ErrorMessageFactory factory;
 
   @Test
-  public void should_create_error_message_with_all_fields_differences() {
+  void should_create_error_message_with_all_fields_differences() {
     // GIVEN
     factory = shouldBeEqualComparingOnlyGivenFields(new Jedi("Luke", "blue"), list("name", "lightSaberColor"),
                                                     list("Luke", "blue"), list("Yoda", "green"),
@@ -54,7 +54,7 @@ public class ShouldBeEqualComparingOnlyGivenFields_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_single_field_difference() {
+  void should_create_error_message_with_single_field_difference() {
     // GIVEN
     factory = shouldBeEqualComparingOnlyGivenFields(new Jedi("Yoda", "green"), list("lightSaberColor"),
                                                     list("green"), list("blue"),

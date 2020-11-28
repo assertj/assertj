@@ -18,11 +18,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-public class RecursiveFieldByFieldComparator_toString_Test {
+class RecursiveFieldByFieldComparator_toString_Test {
 
   @Test
   @SuppressWarnings("unchecked")
-  public void should_return_description_of_RecursiveFieldByFieldComparator() {
+  void should_return_description_of_RecursiveFieldByFieldComparator() {
     // GIVEN
     RecursiveFieldByFieldComparator actual = new RecursiveFieldByFieldComparator(EMPTY_MAP, new TypeComparators());
     // THEN

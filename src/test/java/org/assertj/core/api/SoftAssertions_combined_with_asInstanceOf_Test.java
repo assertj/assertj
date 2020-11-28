@@ -29,8 +29,10 @@ import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_STAMPED_REFE
 import static org.assertj.core.api.InstanceOfAssertFactories.BIG_DECIMAL;
 import static org.assertj.core.api.InstanceOfAssertFactories.BIG_INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN;
+import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.BYTE;
+import static org.assertj.core.api.InstanceOfAssertFactories.BYTE_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.BYTE_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHARACTER;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_2D_ARRAY;
@@ -41,12 +43,14 @@ import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETABLE_FUTURE;
 import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETION_STAGE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
+import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.DURATION;
 import static org.assertj.core.api.InstanceOfAssertFactories.FILE;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT;
+import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.FUTURE;
 import static org.assertj.core.api.InstanceOfAssertFactories.INPUT_STREAM;
@@ -62,6 +66,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.LIST;
 import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE_TIME;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG;
+import static org.assertj.core.api.InstanceOfAssertFactories.LONG_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_ADDER;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_PREDICATE;
@@ -77,6 +82,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.PATH;
 import static org.assertj.core.api.InstanceOfAssertFactories.PERIOD;
 import static org.assertj.core.api.InstanceOfAssertFactories.PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT;
+import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
@@ -141,18 +147,18 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertionsTest {
+class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertionsTest {
 
   private SoftAssertions softly;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     Assertions.setRemoveAssertJRelatedElementsFromStackTrace(false);
     softly = new SoftAssertions();
   }
 
   @Test
-  public void soft_assertions_should_work() {
+  void soft_assertions_should_work() {
     // GIVEN
     Object value = "abc";
     // WHEN
@@ -168,7 +174,7 @@ public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertio
 
   @ParameterizedTest(name = "with {1}")
   @MethodSource("should_work_with_any_InstanceOfFactory_source")
-  public void should_work_with_any_InstanceOfFactory(Object actual, InstanceOfAssertFactory<?, ?> instanceOfAssertFactory) {
+  void should_work_with_any_InstanceOfFactory(Object actual, InstanceOfAssertFactory<?, ?> instanceOfAssertFactory) {
     softly.assertThat(actual).asInstanceOf(instanceOfAssertFactory);
   }
 
@@ -193,9 +199,11 @@ public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertio
                      arguments(BigInteger.ONE, BIG_INTEGER),
                      arguments(true, BOOLEAN),
                      arguments(new boolean[0], BOOLEAN_ARRAY),
+                     arguments(new boolean[0][0], BOOLEAN_2D_ARRAY),
                      arguments((byte) 1, BYTE),
                      arguments(Byte.valueOf("1"), BYTE),
                      arguments(new byte[0], BYTE_ARRAY),
+                     arguments(new byte[0][0], BYTE_2D_ARRAY),
                      arguments(new char[0], CHAR_ARRAY),
                      arguments(new char[0][0], CHAR_2D_ARRAY),
                      arguments(charSequence, CHAR_SEQUENCE),
@@ -208,6 +216,7 @@ public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertio
                      arguments(0d, DOUBLE),
                      arguments(Double.valueOf(0d), DOUBLE),
                      arguments(new double[0], DOUBLE_ARRAY),
+                     arguments(new double[0][0], DOUBLE_2D_ARRAY),
                      arguments((DoublePredicate) d -> d == 0.0, DOUBLE_PREDICATE),
                      arguments(DoubleStream.empty(), DOUBLE_STREAM),
                      arguments(Duration.ZERO, DURATION),
@@ -215,6 +224,7 @@ public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertio
                      arguments(new File("foo"), FILE),
                      arguments(Float.valueOf("0.0"), FLOAT),
                      arguments(new float[0], FLOAT_ARRAY),
+                     arguments(new float[0][0], FLOAT_2D_ARRAY),
                      arguments(future, FUTURE),
                      arguments(new ByteArrayInputStream("stream".getBytes()), INPUT_STREAM),
                      arguments(Instant.now(), INSTANT),
@@ -231,6 +241,7 @@ public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertio
                      arguments(5L, LONG),
                      arguments(new LongAdder(), LONG_ADDER),
                      arguments(new long[0], LONG_ARRAY),
+                     arguments(new long[0][0], LONG_2D_ARRAY),
                      arguments((LongPredicate) l -> l == 0, LONG_PREDICATE),
                      arguments(LongStream.empty(), LONG_STREAM),
                      arguments(newHashMap("k", "v"), MAP),
@@ -244,6 +255,7 @@ public class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertio
                      arguments((Predicate<String>) s -> s.isEmpty(), PREDICATE),
                      arguments(Short.MIN_VALUE, SHORT),
                      arguments(new short[0], SHORT_ARRAY),
+                     arguments(new short[0][0], SHORT_2D_ARRAY),
                      arguments(Stream.empty(), STREAM),
                      arguments("foo", STRING),
                      arguments(new StringBuffer(), STRING_BUFFER),

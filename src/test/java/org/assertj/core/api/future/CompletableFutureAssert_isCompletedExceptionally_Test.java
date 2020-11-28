@@ -24,10 +24,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("CompletableFutureAssert isCompletedExceptionally")
-public class CompletableFutureAssert_isCompletedExceptionally_Test {
+class CompletableFutureAssert_isCompletedExceptionally_Test {
 
   @Test
-  public void should_pass_if_completable_future_is_completed_exceptionally() {
+  void should_pass_if_completable_future_is_completed_exceptionally() {
     // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     // WHEN
@@ -37,7 +37,7 @@ public class CompletableFutureAssert_isCompletedExceptionally_Test {
   }
 
   @Test
-  public void should_fail_when_completable_future_is_null() {
+  void should_fail_when_completable_future_is_null() {
     // GIVEN
     CompletableFuture<String> future = null;
     // WHEN
@@ -47,7 +47,7 @@ public class CompletableFutureAssert_isCompletedExceptionally_Test {
   }
 
   @Test
-  public void should_fail_if_completable_future_is_not_completed_exceptionally() {
+  void should_fail_if_completable_future_is_not_completed_exceptionally() {
     // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     // WHEN
