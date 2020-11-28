@@ -16,15 +16,22 @@ import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldSatisfy.shouldSatisfy;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.util.Lists.newArrayList;
 
 import org.assertj.core.api.TestCondition;
+import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests for <code>{@link ShouldSatisfy#create(Description)}</code>.
+ */
+@DisplayName("ShouldSatisfy create")
 class ShouldSatisfy_create_Test {
 
   @Test
-  void should_create_error_message() {
+  void should_create_error_message_if_condition_is_not_satisfied() {
     // GIVEN
     ErrorMessageFactory factory = shouldSatisfy("Yoda", new TestCondition<>("green lightsaber bearer"));
     // WHEN
@@ -35,5 +42,18 @@ class ShouldSatisfy_create_Test {
                                    + "  <\"Yoda\">%n"
                                    + "to satisfy:%n"
                                    + "  <green lightsaber bearer>"));
+  }
+
+  @Test
+  public void should_create_error_message_if_consumers_are_not_all_satisfied() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldSatisfy(newArrayList("Luke", "Leia", "Yoda"));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n"
+                                   + "Expecting:%n"
+                                   + "  <[\"Luke\", \"Leia\", \"Yoda\"]>%n"
+                                   + "to satisfy all the consumers."));
   }
 }

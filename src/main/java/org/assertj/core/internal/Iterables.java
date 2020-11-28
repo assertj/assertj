@@ -55,6 +55,7 @@ import static org.assertj.core.error.ShouldNotContainNull.shouldNotContainNull;
 import static org.assertj.core.error.ShouldNotContainSequence.shouldNotContainSequence;
 import static org.assertj.core.error.ShouldNotContainSubsequence.shouldNotContainSubsequence;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
+import static org.assertj.core.error.ShouldSatisfy.shouldSatisfy;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.error.ZippedElementsShouldSatisfy.zippedElementsShouldSatisfy;
 import static org.assertj.core.internal.Arrays.assertIsArray;
@@ -90,6 +91,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.AssertionInfo;
@@ -1142,6 +1144,59 @@ public class Iterables {
                                                                          .collect(toList());
     if (!unsatisfiedRequirements.isEmpty())
       throw failures.failure(info, elementsShouldSatisfy(actual, unsatisfiedRequirements, info));
+  }
+
+  /**
+   * Verifies that all given consumers can be satisfied by elements in the iterable under test with
+   * an element at most satisfying one consumer. No order requirement.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param consumers the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
+   * @throws NullPointerException if the given consumers array or var args comsumers is {@code null}.
+   * @throws AssertionError if the given {@code Iterable} is {@code null}.
+   * @throws AssertionError if any {@code Consumer} in the consumers cannot be satisfied by elements in the given {@code Iterable}.
+   */
+  @SafeVarargs
+  public final <E> void assertSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E>... consumers) {
+    assertNotNull(info, actual);
+    requireNonNull(consumers, "The Consumer<? super E>... expressing the assertions consumers must not be null");
+    for (Consumer<? super E> consumer : consumers)
+      requireNonNull(consumer, "The element in consumers must not be null");
+
+    List<E>[] satisfiedElementsLists = stream(consumers)
+                                                        .map(listFilteredBySatisfiedElements(actual))
+                                                        .<List<E>> toArray(List[]::new);
+
+    if (!isSatisfied(satisfiedElementsLists, 0))
+      throw failures.failure(info, shouldSatisfy(actual));
+  }
+
+  private <E> Function<? super Consumer<? super E>, List<E>> listFilteredBySatisfiedElements(Iterable<? extends E> actual) {
+    return consumer -> stream(actual).filter(byPassingAssertions(consumer)).collect(toList());
+  }
+
+  private static <E> boolean isSatisfied(List<E>[] satisfiedElementsLists, int begin) {
+    // recursively test whether we can find any specific matching strategy that can meet the requirements
+    if (begin == satisfiedElementsLists.length) return true;   // all consumers have been satisfied
+    if (satisfiedElementsLists[begin].isEmpty()) return false;   // no satisfied element for consumers[begin]
+
+    for (E element : satisfiedElementsLists[begin]) {
+      List<Integer> removedElementRowIndices = newArrayList();
+      for (int i = begin + 1; i < satisfiedElementsLists.length; i++) {
+        if (satisfiedElementsLists[i].remove(element)) {
+          removedElementRowIndices.add(i);
+        }
+      }
+
+      // Check whether remaining consumers can be satisfied
+      if (isSatisfied(satisfiedElementsLists, begin + 1)) return true;
+
+      for (int i : removedElementRowIndices) {
+        satisfiedElementsLists[i].add(element); // restore the array
+      }
+    }
+    return false;
   }
 
   private static <E> Optional<UnsatisfiedRequirement> failsRequirements(Consumer<? super E> requirements, E element) {

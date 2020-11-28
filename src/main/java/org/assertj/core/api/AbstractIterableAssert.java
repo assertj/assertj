@@ -3311,6 +3311,46 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
+  /**
+   * Verifies that all given consumers can be satisfied by elements in the iterable under test with
+   * an element at most satisfying one consumer. No order requirement.
+   * <p>
+   * This assertion is to test whether there are enough elements in the iterable and whether any order of elements exists that can satisfy all consumers.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>
+   * List&lt;String&gt; starWarsCharacterNames = newArrayList("Luke", "Leia", "Yoda");
+   *
+   * // this assertion succeeds:
+   * assertThat(starWarsCharacterNames ).satisfy(
+   *     name --&gt; assertThat(name).contains("L"), // matches "Luke" and "Leia"
+   *     name --&gt; {
+   *       assertThat(name).hasSize(4);
+   *       assertThat(name).doesNotContain("a"); // matches "Luke", thus 1st consumer can only match "Leia"
+   *     });
+   *
+   * // these assertions fail:
+   * assertThat(starWarsCharacterNames ).satisfy(
+   *     name --&gt; assertThat(name).doesNotContain("L"), 
+   *     name --&gt; assertThat(name).doesNotContain("L"));
+   *
+   * assertThat(starWarsCharacterNames ).satisfy(
+   *     name --&gt; assertThat(name).contains("L"), 
+   *     name --&gt; assertThat(name).contains("L"), 
+   *     name --&gt; assertThat(name).contains("L"));</code></pre>
+   *
+   * @param consumers the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
+   * @return this assertion object.
+   * @throws NullPointerException if the given consumers is {@code null}.
+   *
+   * @since 3.17.0
+   */
+  @SafeVarargs
+  public final SELF satisfy(Consumer<? super ELEMENT>... consumers) {
+    iterables.assertSatisfy(info, actual, consumers);
+    return myself;
+  }
+
   @Override
   public SELF anyMatch(Predicate<? super ELEMENT> predicate) {
     iterables.assertAnyMatch(info, actual, predicate, PredicateDescription.GIVEN);
