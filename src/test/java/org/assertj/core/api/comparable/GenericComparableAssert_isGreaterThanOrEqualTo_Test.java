@@ -20,7 +20,7 @@ import org.assertj.core.api.GenericComparableAssertBaseTest;
 /**
  * Tests for <code>{@link org.assertj.core.api.GenericComparableAssert#isGreaterThanOrEqualTo(Comparable)}</code>.
  */
-public class GenericComparableAssert_isGreaterThanOrEqualTo_Test extends GenericComparableAssertBaseTest {
+class GenericComparableAssert_isGreaterThanOrEqualTo_Test extends GenericComparableAssertBaseTest {
 
   @Override
   protected GenericComparableAssert<Integer> invoke_api_method() {

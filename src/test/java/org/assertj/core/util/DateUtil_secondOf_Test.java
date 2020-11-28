@@ -27,17 +27,17 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class DateUtil_secondOf_Test {
+class DateUtil_secondOf_Test {
 
   @Test
-  public void should_return_second_of_date() throws ParseException {
+  void should_return_second_of_date() throws ParseException {
     String dateAsString = "26/08/1994T22:35:17";
     Date date = new SimpleDateFormat("dd/MM/yyyy'T'hh:mm:ss").parse(dateAsString);
     assertThat(secondOf(date)).isEqualTo(17);
   }
 
   @Test
-  public void should_throws_NullPointerException_if_date_parameter_is_null() {
+  void should_throws_NullPointerException_if_date_parameter_is_null() {
     assertThatNullPointerException().isThrownBy(() -> secondOf(null));
   }
 

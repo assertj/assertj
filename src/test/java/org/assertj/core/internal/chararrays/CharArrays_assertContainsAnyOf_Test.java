@@ -21,7 +21,7 @@ import org.assertj.core.internal.CharArraysBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class CharArrays_assertContainsAnyOf_Test extends CharArraysBaseTest {
+class CharArrays_assertContainsAnyOf_Test extends CharArraysBaseTest {
 
   private Arrays internalArrays;
 
@@ -34,7 +34,7 @@ public class CharArrays_assertContainsAnyOf_Test extends CharArraysBaseTest {
   }
 
   @Test
-  public void should_delegate_to_internal_Arrays() {
+  void should_delegate_to_internal_Arrays() {
     arrays.assertContainsAnyOf(someInfo(), actual, new char[] { 'a', 'b', 'c' });
     verify(internalArrays).assertContainsAnyOf(someInfo(), failures, actual, new char[] { 'a', 'b', 'c' });
   }

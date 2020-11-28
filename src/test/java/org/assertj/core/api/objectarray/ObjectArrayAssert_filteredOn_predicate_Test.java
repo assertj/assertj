@@ -20,15 +20,15 @@ import java.util.function.Predicate;
 import org.assertj.core.test.Employee;
 import org.junit.jupiter.api.Test;
 
-public class ObjectArrayAssert_filteredOn_predicate_Test extends ObjectArrayAssert_filtered_baseTest {
+class ObjectArrayAssert_filteredOn_predicate_Test extends ObjectArrayAssert_filtered_baseTest {
 
   @Test
-  public void should_filter_iterable_under_test_on_predicate() {
+  void should_filter_iterable_under_test_on_predicate() {
     assertThat(employees).filteredOn(employee -> employee.getAge() > 100).containsOnly(yoda, obiwan);
   }
 
   @Test
-  public void should_fail_if_given_predicate_is_null() {
+  void should_fail_if_given_predicate_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> {
       Predicate<? super Employee> predicate = null;
       assertThat(employees).filteredOn(predicate);

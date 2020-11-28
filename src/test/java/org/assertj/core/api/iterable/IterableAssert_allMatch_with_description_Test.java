@@ -21,12 +21,12 @@ import org.junit.jupiter.api.BeforeEach;
 
 import static org.mockito.Mockito.verify;
 
-public class IterableAssert_allMatch_with_description_Test extends IterableAssertBaseTest {
+class IterableAssert_allMatch_with_description_Test extends IterableAssertBaseTest {
 
   private Predicate<Object> predicate;
 
   @BeforeEach
-  public void beforeOnce() {
+  void beforeOnce() {
     predicate = o -> o != null;
   }
 

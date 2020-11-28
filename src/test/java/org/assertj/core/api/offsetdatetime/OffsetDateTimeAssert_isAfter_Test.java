@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
  * @author Marcin Zajączkowski
  */
 @DisplayName("OffsetDateTimeAssert isAfter")
-public class OffsetDateTimeAssert_isAfter_Test extends AbstractOffsetDateTimeAssertBaseTest {
+class OffsetDateTimeAssert_isAfter_Test extends AbstractOffsetDateTimeAssertBaseTest {
 
   @Override
   protected OffsetDateTimeAssert invoke_api_method() {
@@ -51,12 +51,12 @@ public class OffsetDateTimeAssert_isAfter_Test extends AbstractOffsetDateTimeAss
   }
 
   @Test
-  public void should_pass_if_actual_is_after_offsetDateTime_parameter_with_different_offset() {
+  void should_pass_if_actual_is_after_offsetDateTime_parameter_with_different_offset() {
     assertThat(AFTER_WITH_DIFFERENT_OFFSET).isAfter(REFERENCE);
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_offsetDateTime_parameter_with_different_offset() {
+  void should_fail_if_actual_is_equal_to_offsetDateTime_parameter_with_different_offset() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(REFERENCE_WITH_DIFFERENT_OFFSET).isAfter(REFERENCE));
     // THEN
@@ -64,7 +64,7 @@ public class OffsetDateTimeAssert_isAfter_Test extends AbstractOffsetDateTimeAss
   }
 
   @Test
-  public void should_fail_if_actual_is_before_offsetDateTime_parameter_with_different_offset() {
+  void should_fail_if_actual_is_before_offsetDateTime_parameter_with_different_offset() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(BEFORE_WITH_DIFFERENT_OFFSET).isAfter(REFERENCE));
     // THEN
@@ -72,7 +72,7 @@ public class OffsetDateTimeAssert_isAfter_Test extends AbstractOffsetDateTimeAss
   }
 
   @Test
-  public void should_fail_if_offsetDateTime_parameter_is_null() {
+  void should_fail_if_offsetDateTime_parameter_is_null() {
     // GIVEN
     OffsetDateTime otherOffsetDateTime = null;
     // WHEN
@@ -83,7 +83,7 @@ public class OffsetDateTimeAssert_isAfter_Test extends AbstractOffsetDateTimeAss
   }
 
   @Test
-  public void should_fail_if_offsetDateTime_as_string_parameter_is_null() {
+  void should_fail_if_offsetDateTime_as_string_parameter_is_null() {
     // GIVEN
     String otherOffsetDateTimeAsString = null;
     // WHEN
@@ -94,7 +94,7 @@ public class OffsetDateTimeAssert_isAfter_Test extends AbstractOffsetDateTimeAss
   }
 
   @Test
-  public void should_fail_if_given_string_parameter_cant_be_parsed() {
+  void should_fail_if_given_string_parameter_cant_be_parsed() {
     assertThatThrownBy(() -> assertions.isAfter("not a OffsetDateTime")).isInstanceOf(DateTimeParseException.class);
   }
 }

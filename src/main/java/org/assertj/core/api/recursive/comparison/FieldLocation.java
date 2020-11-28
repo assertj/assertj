@@ -12,60 +12,86 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
-import static java.util.stream.Collectors.toList;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.unmodifiableList;
+import static java.util.stream.Collectors.joining;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Stream;
 
+/**
+ * Represents the path to a given field. Immutable
+ */
 // TODO should understand Map keys as field
-public class FieldLocation implements Comparable<FieldLocation> {
+// TODO rename to FieldPath?
+public final class FieldLocation implements Comparable<FieldLocation> {
 
-  private String fieldPath;
-  // private boolean whereverInGraph = false;
-  // private boolean matches(Field field, Field parent); ?
+  private final String pathToUseInRules;
+  private final List<String> decomposedPath; // TODO is it useful?
 
-  @Override
-  public int compareTo(final FieldLocation other) {
-    return fieldPath.compareTo(other.fieldPath);
+  public FieldLocation(List<String> path) {
+    decomposedPath = unmodifiableList(Objects.requireNonNull(path, "path cannot be null"));
+    pathToUseInRules = pathToUseInRules(decomposedPath);
+  }
+
+  boolean matches(String fieldPath) {
+    return pathToUseInRules.equals(fieldPath);
+  }
+
+  public List<String> getDecomposedPath() {
+    return decomposedPath;
+  }
+
+  public String getPathToUseInRules() {
+    return pathToUseInRules;
+  }
+
+  FieldLocation field(String field) {
+    List<String> decomposedPathWithField = new ArrayList<>(decomposedPath);
+    decomposedPathWithField.add(field);
+    return new FieldLocation(decomposedPathWithField);
   }
 
   @Override
-  public boolean equals(final Object other) {
-    if (!(other instanceof FieldLocation)) return false;
-    FieldLocation castOther = (FieldLocation) other;
-    return Objects.equals(fieldPath, castOther.fieldPath);
+  public int compareTo(final FieldLocation other) {
+    return pathToUseInRules.compareTo(other.pathToUseInRules);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (!(obj instanceof FieldLocation)) return false;
+    FieldLocation that = (FieldLocation) obj;
+    return Objects.equals(pathToUseInRules, that.pathToUseInRules)
+           && Objects.equals(decomposedPath, that.decomposedPath);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(fieldPath);
-  }
-
-  public FieldLocation(String fieldPath) {
-    Objects.requireNonNull(fieldPath, "a field path can't be null");
-    this.fieldPath = fieldPath;
-  }
-
-  public String getFieldPath() {
-    return fieldPath;
+    return Objects.hash(pathToUseInRules, decomposedPath);
   }
 
   @Override
   public String toString() {
-    return String.format("FieldLocation [fieldPath=%s]", fieldPath);
+    return String.format("FieldLocation [pathToUseInRules=%s, decomposedPath=%s]", pathToUseInRules, decomposedPath);
   }
 
-  public boolean matches(String concatenatedPath) {
-    return fieldPath.equals(concatenatedPath);
+  private static String pathToUseInRules(List<String> path) {
+    // remove the array subpath, so person.children.[2].name -> person.children.name
+    // rules for ignoring fields don't apply at the element level (ex: children.[2]) but at the group level (ex: children).
+    return path.stream()
+               .filter(subpath -> !subpath.startsWith("["))
+               .collect(joining("."));
   }
 
-  static List<FieldLocation> from(String... fieldPaths) {
-    return Stream.of(fieldPaths).map(FieldLocation::new).collect(toList());
+  public String getFieldName() {
+    if (decomposedPath.isEmpty()) return "";
+    return decomposedPath.get(decomposedPath.size() - 1);
   }
 
-  public static FieldLocation fielLocation(String fieldPath) {
-    return new FieldLocation(fieldPath);
+  static FieldLocation rootFieldLocation() {
+    return new FieldLocation(emptyList());
   }
 
 }

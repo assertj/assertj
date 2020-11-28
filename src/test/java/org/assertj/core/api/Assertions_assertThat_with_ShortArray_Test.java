@@ -22,16 +22,16 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class Assertions_assertThat_with_ShortArray_Test {
+class Assertions_assertThat_with_ShortArray_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     AbstractShortArrayAssert<?> assertions = Assertions.assertThat(emptyArray());
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     short[] actual = emptyArray();
     AbstractShortArrayAssert<?> assertions = Assertions.assertThat(actual);
     assertThat(assertions.actual).isSameAs(actual);

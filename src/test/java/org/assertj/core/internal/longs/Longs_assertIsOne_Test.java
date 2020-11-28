@@ -26,26 +26,26 @@ import org.junit.jupiter.api.Test;
  *
  * @author Drummond Dawson
  */
-public class Longs_assertIsOne_Test extends LongsBaseTest {
+class Longs_assertIsOne_Test extends LongsBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_one() {
-    longs.assertIsZero(someInfo(), 0L);
+  void should_succeed_since_actual_is_one() {
+    longs.assertIsOne(someInfo(), 1L);
   }
 
   @Test
-  public void should_fail_since_actual_is_not_one() {
+  void should_fail_since_actual_is_not_one() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertIsOne(someInfo(), 0L))
                                                    .withMessage(format("%nExpecting:%n <0L>%nto be equal to:%n <1L>%nbut was not."));
   }
 
   @Test
-  public void should_succeed_since_actual_is_not_one_whatever_custom_comparison_strategy_is() {
+  void should_succeed_since_actual_is_not_one_whatever_custom_comparison_strategy_is() {
     longsWithAbsValueComparisonStrategy.assertIsOne(someInfo(), 1L);
   }
 
   @Test
-  public void should_fail_since_actual_is_one_whatever_custom_comparison_strategy_is() {
+  void should_fail_since_actual_is_one_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertIsOne(someInfo(), 0L))
                                                    .withMessage(format("%nExpecting:%n <0L>%nto be equal to:%n <1L>%nbut was not."));
   }

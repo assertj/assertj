@@ -26,7 +26,7 @@ import org.assertj.core.api.BooleanArrayAssertBaseTest;
  * 
  * @author Nicolas François
  */
-public class BooleanArrayAssert_hasSameSizeAs_with_Iterable_Test extends BooleanArrayAssertBaseTest {
+class BooleanArrayAssert_hasSameSizeAs_with_Iterable_Test extends BooleanArrayAssertBaseTest {
 
   private final List<String> other = newArrayList("Yoda", "Luke");
 

@@ -17,10 +17,10 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import org.assertj.core.api.Fail;
 import org.junit.jupiter.api.Test;
 
-public class Fail_fail_withMessage_and_parameters_Test {
+class Fail_fail_withMessage_and_parameters_Test {
 
   @Test
-  public void should_include_message_when_failing() {
+  void should_include_message_when_failing() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> Fail.fail("Failed %s", ":("))
                                                    .withMessage("Failed :(");
   }

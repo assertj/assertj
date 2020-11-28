@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alexander Bischof
  */
-public class ShouldHaveSameHourAs_create_Test {
+class ShouldHaveSameHourAs_create_Test {
 
   @Test
-  public void should_create_error_message_localtime() {
+  void should_create_error_message_localtime() {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveSameHourAs(LocalTime.of(12, 0), LocalTime.of(13, 0));
     // WHEN
@@ -42,7 +42,7 @@ public class ShouldHaveSameHourAs_create_Test {
   }
 
   @Test
-  public void should_create_error_message_offset() {
+  void should_create_error_message_offset() {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveSameHourAs(OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC),
                                                        OffsetTime.of(13, 0, 0, 0, ZoneOffset.UTC));

@@ -12,14 +12,13 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.assertj.core.api.Assertions.*;
 
 import java.util.ArrayList;
 
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -27,10 +26,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class ComparatorBasedComparisonStrategy_duplicatesFrom_Test extends AbstractTest_ComparatorBasedComparisonStrategy {
+class ComparatorBasedComparisonStrategy_duplicatesFrom_Test extends AbstractTest_ComparatorBasedComparisonStrategy {
 
   @Test
-  public void should_return_existing_duplicates() {
+  void should_return_existing_duplicates() {
     Iterable<?> duplicates = caseInsensitiveComparisonStrategy.duplicatesFrom(newArrayList("Merry", "Frodo", "Merry", "Sam", "FrODO",
         null, null));
     assertThat(sizeOf(duplicates)).isEqualTo(3);
@@ -40,19 +39,19 @@ public class ComparatorBasedComparisonStrategy_duplicatesFrom_Test extends Abstr
   }
 
   @Test
-  public void should_not_return_any_duplicates() {
+  void should_not_return_any_duplicates() {
     Iterable<?> duplicates = caseInsensitiveComparisonStrategy.duplicatesFrom(newArrayList("Frodo", "Sam", "Gandalf"));
     assertThat(isNullOrEmpty(duplicates)).isTrue();
   }
 
   @Test
-  public void should_not_return_any_duplicates_if_collection_is_empty() {
+  void should_not_return_any_duplicates_if_collection_is_empty() {
     Iterable<?> duplicates = caseInsensitiveComparisonStrategy.duplicatesFrom(new ArrayList<>());
     assertThat(isNullOrEmpty(duplicates)).isTrue();
   }
 
   @Test
-  public void should_not_return_any_duplicates_if_collection_is_null() {
+  void should_not_return_any_duplicates_if_collection_is_null() {
     Iterable<?> duplicates = caseInsensitiveComparisonStrategy.duplicatesFrom(null);
     assertThat(isNullOrEmpty(duplicates)).isTrue();
   }

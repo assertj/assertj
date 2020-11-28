@@ -29,15 +29,15 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class Throwables_assertHasMessage_Test extends ThrowablesBaseTest {
+class Throwables_assertHasMessage_Test extends ThrowablesBaseTest {
 
   @Test
-  public void should_pass_if_actual_has_expected_message() {
+  void should_pass_if_actual_has_expected_message() {
     throwables.assertHasMessage(someInfo(), actual, "Throwable message");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     AssertionInfo info = someInfo();
     Throwable actual = null;
@@ -46,7 +46,7 @@ public class Throwables_assertHasMessage_Test extends ThrowablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_has_not_expected_message() {
+  void should_fail_if_actual_has_not_expected_message() {
     // GIVEN
     AssertionInfo info = someInfo();
     String expectedMessage = "expected message";

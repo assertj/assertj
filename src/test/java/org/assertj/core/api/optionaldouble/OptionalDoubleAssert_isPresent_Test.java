@@ -21,21 +21,21 @@ import java.util.OptionalDouble;
 
 import org.junit.jupiter.api.Test;
 
-public class OptionalDoubleAssert_isPresent_Test {
+class OptionalDoubleAssert_isPresent_Test {
 
   @Test
-  public void should_pass_when_optionaldouble_is_present() {
+  void should_pass_when_optionaldouble_is_present() {
     assertThat(OptionalDouble.of(10.0)).isPresent();
   }
 
   @Test
-  public void should_fail_when_optionaldouble_is_empty() {
+  void should_fail_when_optionaldouble_is_empty() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(OptionalDouble.empty()).isPresent())
                                                    .withMessage(shouldBePresent(OptionalDouble.empty()).create());
   }
 
   @Test
-  public void should_fail_when_optionaldouble_is_null() {
+  void should_fail_when_optionaldouble_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((OptionalDouble) null).isPresent())
                                                    .withMessage(actualIsNull());
   }

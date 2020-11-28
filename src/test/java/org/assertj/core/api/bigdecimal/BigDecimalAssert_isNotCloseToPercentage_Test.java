@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Chris Arnott
  */
-public class BigDecimalAssert_isNotCloseToPercentage_Test extends BigDecimalAssertBaseTest {
+class BigDecimalAssert_isNotCloseToPercentage_Test extends BigDecimalAssertBaseTest {
 
   private final Percentage percentage = withPercentage(5);
     private final BigDecimal value = BigDecimal.TEN;

@@ -23,7 +23,7 @@ import org.assertj.core.api.ObjectArrayAssertBaseTest;
  *
  * @author Chris Arnott
  */
-public class ObjectArrayAssert_doesNotContainSequence_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_doesNotContainSequence_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {

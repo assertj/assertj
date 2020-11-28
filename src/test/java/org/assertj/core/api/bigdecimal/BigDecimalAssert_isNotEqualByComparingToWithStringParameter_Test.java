@@ -24,7 +24,7 @@ import org.assertj.core.api.BigDecimalAssertBaseTest;
  *
  * @author Guillaume Husta
  */
-public class BigDecimalAssert_isNotEqualByComparingToWithStringParameter_Test extends BigDecimalAssertBaseTest {
+class BigDecimalAssert_isNotEqualByComparingToWithStringParameter_Test extends BigDecimalAssertBaseTest {
 
   @Override
   protected BigDecimalAssert invoke_api_method() {

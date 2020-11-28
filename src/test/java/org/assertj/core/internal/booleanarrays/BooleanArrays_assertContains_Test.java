@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class BooleanArrays_assertContains_Test extends BooleanArraysBaseTest {
+class BooleanArrays_assertContains_Test extends BooleanArraysBaseTest {
 
   private Arrays internalArrays;
 
@@ -43,7 +43,7 @@ public class BooleanArrays_assertContains_Test extends BooleanArraysBaseTest {
   }
 
   @Test
-  public void should_delegate_to_internal_Arrays() {
+  void should_delegate_to_internal_Arrays() {
     arrays.assertContains(someInfo(), actual, arrayOf(true, false));
     verify(internalArrays).assertContains(someInfo(), failures, actual, arrayOf(true, false));
   }

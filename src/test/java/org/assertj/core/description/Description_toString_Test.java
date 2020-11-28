@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Yvonne Wang
  */
-public class Description_toString_Test {
+class Description_toString_Test {
 
   private ValueSource valueSource;
   private Description description;
@@ -36,7 +36,7 @@ public class Description_toString_Test {
   }
 
   @Test
-  public void should_return_value_in_toString() {
+  void should_return_value_in_toString() {
     when(valueSource.value()).thenReturn("Yoda");
     assertThat(description).hasToString("Yoda");
   }

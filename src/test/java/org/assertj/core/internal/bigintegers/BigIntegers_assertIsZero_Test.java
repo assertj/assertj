@@ -26,26 +26,26 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link BigIntegers#assertIsZero(AssertionInfo, BigInteger)}</code>.
  */
-public class BigIntegers_assertIsZero_Test extends BigIntegersBaseTest {
+class BigIntegers_assertIsZero_Test extends BigIntegersBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_zero() {
+  void should_succeed_since_actual_is_zero() {
     numbers.assertIsZero(someInfo(), BigInteger.ZERO);
   }
 
   @Test
-  public void should_fail_since_actual_is_not_zero() {
+  void should_fail_since_actual_is_not_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsZero(someInfo(), BigInteger.ONE))
                                                    .withMessage(format("%nExpecting:%n <1>%nto be equal to:%n <0>%nbut was not."));
   }
 
   @Test
-  public void should_succeed_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
+  void should_succeed_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
     numbersWithComparatorComparisonStrategy.assertIsZero(someInfo(), BigInteger.ZERO);
   }
 
   @Test
-  public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
+  void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertIsZero(someInfo(), BigInteger.ONE))
                                                    .withMessage(format("%nExpecting:%n <1>%nto be equal to:%n <0>%nbut was not."));
   }

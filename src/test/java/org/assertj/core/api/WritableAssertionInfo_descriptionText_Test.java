@@ -25,22 +25,22 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Yvonne Wang
  */
-public class WritableAssertionInfo_descriptionText_Test {
+class WritableAssertionInfo_descriptionText_Test {
 
   private WritableAssertionInfo info;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     info = new WritableAssertionInfo();
   }
 
   @Test
-  public void should_return_empty_if_no_description_was_set() {
+  void should_return_empty_if_no_description_was_set() {
     assertThat(info.descriptionText()).isEmpty();
   }
 
   @Test
-  public void should_return_text_of_description() {
+  void should_return_text_of_description() {
     Description description = mock(Description.class);
     info.description(description);
     when(description.value()).thenReturn("Yoda");

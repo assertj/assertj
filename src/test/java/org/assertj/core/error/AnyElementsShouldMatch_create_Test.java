@@ -22,10 +22,10 @@ import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
-public class AnyElementsShouldMatch_create_Test {
+class AnyElementsShouldMatch_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = anyElementShouldMatch(list("Luke", "Yoda"),
                                                         new PredicateDescription("Yoda violates some restrictions"));
@@ -39,7 +39,7 @@ public class AnyElementsShouldMatch_create_Test {
   }
 
   @Test
-  public void should_create_error_message_given() {
+  void should_create_error_message_given() {
     // GIVEN
     ErrorMessageFactory factory = anyElementShouldMatch(list("Luke", "Yoda"), PredicateDescription.GIVEN);
     // WHEN

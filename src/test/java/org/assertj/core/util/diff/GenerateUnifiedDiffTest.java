@@ -23,7 +23,7 @@ import java.util.List;
 import org.assertj.core.util.Files;
 import org.junit.jupiter.api.Test;
 
-public class GenerateUnifiedDiffTest {
+class GenerateUnifiedDiffTest {
 
   /** File separator. */
   private static final String FS = File.separator;
@@ -39,7 +39,7 @@ public class GenerateUnifiedDiffTest {
   }
 
   @Test
-  public void testGenerateUnified() {
+  void testGenerateUnified() {
     List<String> origLines = fileToLines("original.txt");
     List<String> revLines = fileToLines("revised.txt");
 
@@ -47,7 +47,7 @@ public class GenerateUnifiedDiffTest {
   }
 
   @Test
-  public void testGenerateUnifiedWithOneDelta() {
+  void testGenerateUnifiedWithOneDelta() {
     List<String> origLines = fileToLines("one_delta_test_original.txt");
     List<String> revLines = fileToLines("one_delta_test_revised.txt");
 
@@ -55,7 +55,7 @@ public class GenerateUnifiedDiffTest {
   }
 
   @Test
-  public void testGenerateUnifiedDiffWithoutAnyDeltas() {
+  void testGenerateUnifiedDiffWithoutAnyDeltas() {
     List<String> test = Arrays.asList("abc");
 
     Patch<String> patch = DiffUtils.diff(test, test);
@@ -64,7 +64,7 @@ public class GenerateUnifiedDiffTest {
   }
 
   @Test
-  public void testDiff_Issue10() {
+  void testDiff_Issue10() {
     List<String> baseLines = fileToLines("issue10_base.txt");
     List<String> patchLines = fileToLines("issue10_patch.txt");
     Patch<String> p = DiffUtils.parseUnifiedDiff(patchLines);
@@ -73,7 +73,7 @@ public class GenerateUnifiedDiffTest {
   }
 
   @Test
-  public void testPatchWithNoDeltas() {
+  void testPatchWithNoDeltas() {
     List<String> lines1 = fileToLines("issue11_1.txt");
     List<String> lines2 = fileToLines("issue11_2.txt");
 
@@ -81,7 +81,7 @@ public class GenerateUnifiedDiffTest {
   }
 
   @Test
-  public void testDiff5() {
+  void testDiff5() {
     List<String> lines1 = fileToLines("5A.txt");
     List<String> lines2 = fileToLines("5B.txt");
 
@@ -89,7 +89,7 @@ public class GenerateUnifiedDiffTest {
   }
 
   @Test
-  public void testDiffWithHeaderLineInText() {
+  void testDiffWithHeaderLineInText() {
     List<String> original = new ArrayList<>();
     List<String> revised = new ArrayList<>();
 

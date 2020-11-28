@@ -27,7 +27,7 @@ import java.util.function.Supplier;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class Assertions_assertThatExceptionOfType_Test {
+class Assertions_assertThatExceptionOfType_Test {
 
   private static <E> Supplier<E> s(Supplier<E> supplier) {
     return supplier;
@@ -53,14 +53,14 @@ public class Assertions_assertThatExceptionOfType_Test {
 
   @ParameterizedTest
   @MethodSource("data")
-  public void should_create_ExpectThrowableAssert(Supplier<ThrowableTypeAssert<? extends Exception>> assertionGenerator) {
+  void should_create_ExpectThrowableAssert(Supplier<ThrowableTypeAssert<? extends Exception>> assertionGenerator) {
     ThrowableTypeAssert<? extends Exception> assertions = assertionGenerator.get();
     assertThat(assertions).isNotNull();
   }
 
   @ParameterizedTest
   @MethodSource("data")
-  public void should_pass_ExceptionType(Supplier<ThrowableTypeAssert<? extends Exception>> assertionGenerator,
+  void should_pass_ExceptionType(Supplier<ThrowableTypeAssert<? extends Exception>> assertionGenerator,
                                         Class<? extends Exception> exceptionType) {
     ThrowableTypeAssert<? extends Exception> assertions = assertionGenerator.get();
     assertThat(assertions.expectedThrowableType).isSameAs(exceptionType);
@@ -68,7 +68,7 @@ public class Assertions_assertThatExceptionOfType_Test {
 
   @ParameterizedTest
   @MethodSource("data")
-  public void should_create_ChainedThrowableAssert(Supplier<ThrowableTypeAssert<? extends Exception>> assertionGenerator,
+  void should_create_ChainedThrowableAssert(Supplier<ThrowableTypeAssert<? extends Exception>> assertionGenerator,
                                                    @SuppressWarnings("unused") Class<? extends Exception> exceptionType,
                                                    Supplier<? extends Exception> exceptionBuilder) {
     ThrowableAssertAlternative<? extends Exception> assertions = assertionGenerator.get().isThrownBy(() -> {
@@ -79,7 +79,7 @@ public class Assertions_assertThatExceptionOfType_Test {
 
   @ParameterizedTest
   @MethodSource("data")
-  public void should_pass_thrown_exception_to_ChainedThrowableAssert(Supplier<ThrowableTypeAssert<? extends Exception>> assertionGenerator,
+  void should_pass_thrown_exception_to_ChainedThrowableAssert(Supplier<ThrowableTypeAssert<? extends Exception>> assertionGenerator,
                                                                      @SuppressWarnings("unused") Class<? extends Exception> exceptionType,
                                                                      Supplier<? extends Exception> exceptionBuilder) {
     Exception exception = exceptionBuilder.get();

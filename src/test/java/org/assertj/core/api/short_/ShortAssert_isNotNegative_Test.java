@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Nicolas François
  */
-public class ShortAssert_isNotNegative_Test extends ShortAssertBaseTest {
+class ShortAssert_isNotNegative_Test extends ShortAssertBaseTest {
 
   @Override
   protected ShortAssert invoke_api_method() {

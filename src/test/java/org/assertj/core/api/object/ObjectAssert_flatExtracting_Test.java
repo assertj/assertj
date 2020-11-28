@@ -22,12 +22,12 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ObjectAssert_flatExtracting_Test {
+class ObjectAssert_flatExtracting_Test {
 
   private Map<String, List<String>> mapOfList;
 
   @BeforeEach
-  public void beforeEachTest() {
+  void beforeEachTest() {
     mapOfList = new LinkedHashMap<>();
     mapOfList.put("name", asList("Dave", "Jeff"));
     mapOfList.put("job", asList("Plumber", "Builder"));
@@ -35,7 +35,7 @@ public class ObjectAssert_flatExtracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_flattened_values_extracted_from_given_map_keys() {
+  void should_allow_assertions_on_flattened_values_extracted_from_given_map_keys() {
     assertThat(mapOfList).flatExtracting("name", "job", "city")
                          .containsExactly("Dave", "Jeff", "Plumber", "Builder", "Dover", "Boston", "Paris");
     // order of values is the order of key then key values
@@ -44,7 +44,7 @@ public class ObjectAssert_flatExtracting_Test {
   }
 
   @Test
-  public void should_extract_null_from_unknown_key() {
+  void should_extract_null_from_unknown_key() {
     assertThat(mapOfList).flatExtracting("name", "id", "city")
                          .containsExactly("Dave", "Jeff", null, "Dover", "Boston", "Paris");
     assertThat(mapOfList).flatExtracting("foo", "bar")

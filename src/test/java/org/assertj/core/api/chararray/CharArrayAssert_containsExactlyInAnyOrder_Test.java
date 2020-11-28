@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link org.assertj.core.api.CharArrayAssert#containsExactlyInAnyOrder(char...)}</code>.
  */
-public class CharArrayAssert_containsExactlyInAnyOrder_Test extends CharArrayAssertBaseTest {
+class CharArrayAssert_containsExactlyInAnyOrder_Test extends CharArrayAssertBaseTest {
 
   @Override
   protected CharArrayAssert invoke_api_method() {
@@ -36,7 +36,7 @@ public class CharArrayAssert_containsExactlyInAnyOrder_Test extends CharArrayAss
   }
 
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
      assertThat(new char[] { 'a', 'b', 'b' }).containsExactlyInAnyOrder('b', 'b', 'a');
   }
 }

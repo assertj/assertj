@@ -26,37 +26,37 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Nicolas François
  */
-public class Bytes_assertIsNotNegative_Test extends BytesBaseTest {
+class Bytes_assertIsNotNegative_Test extends BytesBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_not_negative() {
+  void should_succeed_since_actual_is_not_negative() {
     bytes.assertIsNotNegative(someInfo(), (byte) 6);
   }
 
   @Test
-  public void should_succeed_since_actual_is_zero() {
+  void should_succeed_since_actual_is_zero() {
     bytes.assertIsNotNegative(someInfo(), (byte) 0);
   }
 
   @Test
-  public void should_fail_since_actual_is_negative() {
+  void should_fail_since_actual_is_negative() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsNotNegative(someInfo(), (byte) -6))
                                                    .withMessage(format("%nExpecting:%n <-6>%nto be greater than or equal to:%n <0> "));
   }
 
   @Test
-  public void should_fail_since_actual_is_negative_in_hex_representation() {
+  void should_fail_since_actual_is_negative_in_hex_representation() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsNotNegative(someHexInfo(), (byte) 0xFA))
                                                    .withMessage(format("%nExpecting:%n <0xFA>%nto be greater than or equal to:%n <0x00> "));
   }
 
   @Test
-  public void should_succeed_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
+  void should_succeed_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
     bytesWithAbsValueComparisonStrategy.assertIsNotNegative(someInfo(), (byte) -1);
   }
 
   @Test
-  public void should_succeed_since_actual_positive_is_not_negative_according_to_custom_comparison_strategy() {
+  void should_succeed_since_actual_positive_is_not_negative_according_to_custom_comparison_strategy() {
     bytesWithAbsValueComparisonStrategy.assertIsNotNegative(someInfo(), (byte) 1);
   }
 

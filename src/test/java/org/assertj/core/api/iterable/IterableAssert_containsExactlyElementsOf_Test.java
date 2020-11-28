@@ -25,7 +25,7 @@ import org.assertj.core.api.IterableAssertBaseTest;
  * 
  * @author Jean-Christophe Gay
  */
-public class IterableAssert_containsExactlyElementsOf_Test extends IterableAssertBaseTest {
+class IterableAssert_containsExactlyElementsOf_Test extends IterableAssertBaseTest {
 
   private final List<String> values = newArrayList("Yoda", "Luke");
 

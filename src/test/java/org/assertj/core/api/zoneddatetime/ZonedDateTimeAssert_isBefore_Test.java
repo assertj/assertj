@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-public class ZonedDateTimeAssert_isBefore_Test extends AbstractZonedDateTimeAssertBaseTest {
+class ZonedDateTimeAssert_isBefore_Test extends AbstractZonedDateTimeAssertBaseTest {
 
   @Override
   protected ZonedDateTimeAssert invoke_api_method() {
@@ -45,7 +45,7 @@ public class ZonedDateTimeAssert_isBefore_Test extends AbstractZonedDateTimeAsse
 
 
   @Test
-  public void should_fail_if_zonedDateTime_parameter_is_null() {
+  void should_fail_if_zonedDateTime_parameter_is_null() {
     // GIVEN
     ZonedDateTime otherZonedDateTime = null;
     // WHEN
@@ -56,7 +56,7 @@ public class ZonedDateTimeAssert_isBefore_Test extends AbstractZonedDateTimeAsse
   }
 
   @Test
-  public void should_fail_if_zonedDateTime_as_string_parameter_is_null() {
+  void should_fail_if_zonedDateTime_as_string_parameter_is_null() {
     // GIVEN
     String otherZonedDateTimeAsString = null;
     // WHEN
@@ -67,7 +67,7 @@ public class ZonedDateTimeAssert_isBefore_Test extends AbstractZonedDateTimeAsse
   }
 
   @Test
-  public void should_fail_if_given_string_parameter_cant_be_parsed() {
+  void should_fail_if_given_string_parameter_cant_be_parsed() {
     assertThatThrownBy(() -> assertions.isBefore("not a ZonedDateTime")).isInstanceOf(DateTimeParseException.class);
   }
 

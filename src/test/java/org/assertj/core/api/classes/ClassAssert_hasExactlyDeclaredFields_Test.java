@@ -22,7 +22,7 @@ import org.assertj.core.api.ClassAssertBaseTest;
  *
  * @author Filip Hrisafov
  */
-public class ClassAssert_hasExactlyDeclaredFields_Test extends ClassAssertBaseTest {
+class ClassAssert_hasExactlyDeclaredFields_Test extends ClassAssertBaseTest {
 
   @Override
   protected ClassAssert invoke_api_method() {

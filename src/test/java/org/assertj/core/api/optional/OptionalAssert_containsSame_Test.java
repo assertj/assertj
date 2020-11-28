@@ -23,29 +23,29 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
-public class OptionalAssert_containsSame_Test {
+class OptionalAssert_containsSame_Test {
 
   @Test
-  public void should_fail_when_optional_is_null() {
+  void should_fail_when_optional_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<String>) null).containsSame("something"))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_expected_value_is_null() {
+  void should_fail_if_expected_value_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(Optional.of("something")).containsSame(null))
                                         .withMessage("The expected value should not be <null>.");
   }
 
   @Test
-  public void should_pass_if_optional_contains_the_expected_object_reference() {
+  void should_pass_if_optional_contains_the_expected_object_reference() {
     String containedAndExpected = "something";
 
     assertThat(Optional.of(containedAndExpected)).containsSame(containedAndExpected);
   }
 
   @Test
-  public void should_fail_if_optional_does_not_contain_the_expected_object_reference() {
+  void should_fail_if_optional_does_not_contain_the_expected_object_reference() {
     Optional<String> actual = Optional.of("not-expected");
     String expectedValue = "something";
 
@@ -54,7 +54,7 @@ public class OptionalAssert_containsSame_Test {
   }
 
   @Test
-  public void should_fail_if_optional_contains_equal_but_not_same_value() {
+  void should_fail_if_optional_contains_equal_but_not_same_value() {
     Optional<String> actual = Optional.of(new String("something"));
     String expectedValue = "something";
 
@@ -63,7 +63,7 @@ public class OptionalAssert_containsSame_Test {
   }
 
   @Test
-  public void should_fail_if_optional_is_empty() {
+  void should_fail_if_optional_is_empty() {
     String expectedValue = "something";
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Optional.empty()).containsSame(expectedValue))

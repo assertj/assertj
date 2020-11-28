@@ -27,26 +27,26 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Integers_assertIsPositive_Test extends IntegersBaseTest {
+class Integers_assertIsPositive_Test extends IntegersBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_positive() {
+  void should_succeed_since_actual_is_positive() {
     integers.assertIsPositive(someInfo(), 6);
   }
 
   @Test
-  public void should_fail_since_actual_is_not_positive() {
+  void should_fail_since_actual_is_not_positive() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertIsPositive(someInfo(), -6))
                                                    .withMessage(format("%nExpecting:%n <-6>%nto be greater than:%n <0> "));
   }
 
   @Test
-  public void should_succeed_since_actual_is_positive_according_to_custom_comparison_strategy() {
+  void should_succeed_since_actual_is_positive_according_to_custom_comparison_strategy() {
     integersWithAbsValueComparisonStrategy.assertIsPositive(someInfo(), -1);
   }
 
   @Test
-  public void should_fail_since_actual_is_not_positive_according_to_custom_comparison_strategy() {
+  void should_fail_since_actual_is_not_positive_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integersWithAbsValueComparisonStrategy.assertIsPositive(someInfo(),
                                                                                                                              0))
                                                    .withMessage(format("%nExpecting:%n <0>%nto be greater than:%n <0> when comparing values using AbsValueComparator"));

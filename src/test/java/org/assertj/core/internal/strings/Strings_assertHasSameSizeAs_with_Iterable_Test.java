@@ -31,12 +31,12 @@ import org.junit.jupiter.api.Test;
  *
  * @author Nicolas François
  */
-public class Strings_assertHasSameSizeAs_with_Iterable_Test extends StringsBaseTest {
+class Strings_assertHasSameSizeAs_with_Iterable_Test extends StringsBaseTest {
 
   private String actual = "Han";
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
     // WHEN
@@ -46,7 +46,7 @@ public class Strings_assertHasSameSizeAs_with_Iterable_Test extends StringsBaseT
   }
 
   @Test
-  public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
+  void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     // GIVEN
     AssertionInfo info = someInfo();
     List<String> other = list("Solo", "Leia");
@@ -58,7 +58,7 @@ public class Strings_assertHasSameSizeAs_with_Iterable_Test extends StringsBaseT
   }
 
   @Test
-  public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
+  void should_pass_if_size_of_actual_is_equal_to_expected_size() {
     strings.assertHasSameSizeAs(someInfo(), actual, list("Solo", "Leia", "Yoda"));
   }
 }

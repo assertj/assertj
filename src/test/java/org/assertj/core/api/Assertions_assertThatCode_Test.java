@@ -19,10 +19,10 @@ import static org.assertj.core.error.ShouldNotHaveThrown.shouldNotHaveThrown;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
-public class Assertions_assertThatCode_Test {
+class Assertions_assertThatCode_Test {
 
   @Test
-  public void can_invoke_late_assertion_on_assertThatCode() {
+  void can_invoke_late_assertion_on_assertThatCode() {
     // Given
     ThrowingCallable boom = raisingException("boom");
 
@@ -32,7 +32,7 @@ public class Assertions_assertThatCode_Test {
   }
 
   @Test
-  public void should_fail_when_asserting_no_exception_raised_but_exception_occurs() {
+  void should_fail_when_asserting_no_exception_raised_but_exception_occurs() {
     // Given
     Exception exception = new Exception("boom");
     ThrowingCallable boom = raisingException(exception);
@@ -45,7 +45,7 @@ public class Assertions_assertThatCode_Test {
   }
 
   @Test
-  public void can_use_description_in_error_message() {
+  void can_use_description_in_error_message() {
     // Given
     ThrowingCallable boom = raisingException("boom");
 
@@ -56,7 +56,7 @@ public class Assertions_assertThatCode_Test {
   }
 
   @Test
-  public void error_message_contains_stacktrace() {
+  void error_message_contains_stacktrace() {
     // Given
     Exception exception = new Exception("boom");
     ThrowingCallable boom = raisingException(exception);
@@ -68,7 +68,7 @@ public class Assertions_assertThatCode_Test {
   }
 
   @Test
-  public void should_succeed_when_asserting_no_exception_raised_and_no_exception_occurs() {
+  void should_succeed_when_asserting_no_exception_raised_and_no_exception_occurs() {
     // Given
     ThrowingCallable silent = () -> {
     };

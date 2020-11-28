@@ -26,22 +26,22 @@ import java.util.OptionalLong;
  * @author Mikhail Mazursky
  * @author Alexander Bischof
  */
-public class Assertions_assertThat_with_OptionalLong_Test {
+class Assertions_assertThat_with_OptionalLong_Test {
 
     private OptionalLong actual;
 
     @BeforeEach
-    public void before(){
+    void before(){
         actual = OptionalLong.of(10L);
     }
 
     @Test
-    public void should_create_Assert() {
+    void should_create_Assert() {
         assertThat(Assertions.assertThat(actual)).isNotNull();
     }
 
     @Test
-    public void should_pass_actual() {
+    void should_pass_actual() {
         assertThat(actual).isSameAs(Assertions.assertThat(actual).actual);
     }
 }

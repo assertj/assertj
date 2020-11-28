@@ -23,7 +23,7 @@ import org.assertj.core.api.ByteArrayAssertBaseTest;
  * 
  * @author Marcin Mikosik
  */
-public class ByteArrayAssert_containsSubsequence_Test extends ByteArrayAssertBaseTest {
+class ByteArrayAssert_containsSubsequence_Test extends ByteArrayAssertBaseTest {
 
   @Override
   protected ByteArrayAssert invoke_api_method() {

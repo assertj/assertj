@@ -27,7 +27,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author William Delanoue
  */
-public class MapAssert_containsEntry_Test extends MapAssertBaseTest {
+class MapAssert_containsEntry_Test extends MapAssertBaseTest {
 
   final MapEntry<String, String>[] entries = array(entry("key1", "value1"));
 

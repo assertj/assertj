@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class DoubleArrays_assertIsSorted_Test extends DoubleArraysBaseTest {
+class DoubleArrays_assertIsSorted_Test extends DoubleArraysBaseTest {
 
   @Override
   protected void initActualArray() {
@@ -38,58 +38,58 @@ public class DoubleArrays_assertIsSorted_Test extends DoubleArraysBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_sorted_in_ascending_order() {
+  void should_pass_if_actual_is_sorted_in_ascending_order() {
     arrays.assertIsSorted(someInfo(), actual);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty() {
+  void should_pass_if_actual_is_empty() {
     arrays.assertIsSorted(someInfo(), emptyArray());
   }
 
   @Test
-  public void should_pass_if_actual_contains_only_one_element() {
+  void should_pass_if_actual_contains_only_one_element() {
     arrays.assertIsSorted(someInfo(), arrayOf(1.0));
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSorted(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_sorted_in_ascending_order() {
+  void should_fail_if_actual_is_not_sorted_in_ascending_order() {
     actual = arrayOf(1.0, 3.0, 2.0);
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSorted(someInfo(), actual))
                                                    .withMessage(shouldBeSorted(1, actual).create());
   }
 
   @Test
-  public void should_pass_if_actual_is_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
     actual = arrayOf(1.0, -2.0, 3.0, -4.0, 4.0);
     arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), actual);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
     arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), emptyArray());
   }
 
   @Test
-  public void should_pass_if_actual_contains_only_one_element_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_only_one_element_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), arrayOf(1.0));
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(),
                                                                                                                        null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_not_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
     actual = arrayOf(1.0, 3.0, 2.0);
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(),
                                                                                                                        actual))

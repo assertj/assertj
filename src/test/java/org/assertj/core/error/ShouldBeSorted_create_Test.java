@@ -27,10 +27,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class ShouldBeSorted_create_Test {
+class ShouldBeSorted_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeSorted(1, array("b", "c", "a"));
     // WHEN
@@ -40,7 +40,7 @@ public class ShouldBeSorted_create_Test {
   }
 
   @Test
-  public void should_fail_if_object_parameter_is_not_an_array() {
+  void should_fail_if_object_parameter_is_not_an_array() {
     thenIllegalArgumentException().isThrownBy(() -> shouldBeSorted(1, "not an array"));
   }
 }

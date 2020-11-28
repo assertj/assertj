@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
  * collected errors that the various proxies have collected.
  */
 @DisplayName("Multiple custom SoftAssertions")
-public class SoftAssertionsMultipleProjectsTest {
+class SoftAssertionsMultipleProjectsTest {
 
   static class NotClassy {
 
@@ -87,7 +87,7 @@ public class SoftAssertionsMultipleProjectsTest {
   private final UberSoftAssertions softly = new UberSoftAssertions();
 
   @Test
-  public void should_return_an_empty_list_of_errors_for_passing_assertions() {
+  void should_return_an_empty_list_of_errors_for_passing_assertions() {
     // GIVEN succesfull assertions
     softly.assertThat(notClassy).isNotClassy();
     softly.assertThat(classy).isClassy();
@@ -100,7 +100,7 @@ public class SoftAssertionsMultipleProjectsTest {
   }
 
   @Test
-  public void should_return_errors_in_the_order_they_were_asserted() {
+  void should_return_errors_in_the_order_they_were_asserted() {
     // GIVEN
     softly.assertThat(notClassy).isClassy();
     softly.assertThat(classy).isNotClassy();

@@ -23,10 +23,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests navigating a generated Assert class with a List property
  */
-public class ClassBasedNavigableList_withDefault_Test {
+class ClassBasedNavigableList_withDefault_Test {
 
   @Test
-  public void should_use_ObjectAssert_by_default() {
+  void should_use_ObjectAssert_by_default() {
     List<String> list = newArrayList("one", "two", "three");
 
     assertThat(list).first().isEqualTo("one");
@@ -35,7 +35,7 @@ public class ClassBasedNavigableList_withDefault_Test {
   }
 
   @Test
-  public void should_honor_list_assertions() {
+  void should_honor_list_assertions() {
     List<String> list = newArrayList("one", "two", "three");
 
     assertThat(list).contains("one", atIndex(0))

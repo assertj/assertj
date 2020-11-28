@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link org.assertj.core.api.LongArrayAssert#containsExactlyInAnyOrder(long...)}</code>.
  */
-public class LongArrayAssert_containsExactlyInAnyOrder_Test extends LongArrayAssertBaseTest {
+class LongArrayAssert_containsExactlyInAnyOrder_Test extends LongArrayAssertBaseTest {
 
   @Override
   protected LongArrayAssert invoke_api_method() {
@@ -36,7 +36,7 @@ public class LongArrayAssert_containsExactlyInAnyOrder_Test extends LongArrayAss
   }
 
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
      assertThat(new long[] { 1L, 2L, 2L }).containsExactlyInAnyOrder(2L, 2L, 1L);
   }
 }

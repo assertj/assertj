@@ -25,7 +25,6 @@ import org.junit.jupiter.api.Test;
 class Assertions_as_with_InstanceOfAssertFactory_Test {
 
   @Test
-  @SuppressWarnings("unchecked")
   void should_return_the_given_assert_factory() {
     // GIVEN
     InstanceOfAssertFactory<?, AbstractAssert<?, ?>> assertFactory = mock(InstanceOfAssertFactory.class);

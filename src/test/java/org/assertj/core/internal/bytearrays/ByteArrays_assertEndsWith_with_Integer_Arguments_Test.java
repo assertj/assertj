@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link ByteArrays#assertEndsWith(AssertionInfo, byte[], int[])}</code>.
  */
-public class ByteArrays_assertEndsWith_with_Integer_Arguments_Test extends ByteArraysBaseTest {
+class ByteArrays_assertEndsWith_with_Integer_Arguments_Test extends ByteArraysBaseTest {
 
   @Override
   protected void initActualArray() {
@@ -42,30 +42,30 @@ public class ByteArrays_assertEndsWith_with_Integer_Arguments_Test extends ByteA
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_null() {
+  void should_throw_error_if_sequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertEndsWith(someInfo(), actual, (int[]) null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
+  void should_pass_if_actual_and_given_values_are_empty() {
     actual = emptyArray();
     arrays.assertContains(someInfo(), actual, IntArrays.emptyArray());
   }
   
   @Test
-  public void should_pass_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
+  void should_pass_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     arrays.assertEndsWith(someInfo(), actual, IntArrays.emptyArray());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertEndsWith(someInfo(), null, IntArrays.arrayOf(8)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_sequence_is_bigger_than_actual() {
+  void should_fail_if_sequence_is_bigger_than_actual() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> arrays.assertEndsWith(info, actual, IntArrays.arrayOf(6, 8, 10, 12, 20, 22)));
@@ -75,7 +75,7 @@ public class ByteArrays_assertEndsWith_with_Integer_Arguments_Test extends ByteA
   }
 
   @Test
-  public void should_fail_if_actual_does_not_end_with_sequence() {
+  void should_fail_if_actual_does_not_end_with_sequence() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> arrays.assertEndsWith(info, actual, IntArrays.arrayOf(20, 22)));
@@ -85,7 +85,7 @@ public class ByteArrays_assertEndsWith_with_Integer_Arguments_Test extends ByteA
   }
 
   @Test
-  public void should_fail_if_actual_ends_with_first_elements_of_sequence_only() {
+  void should_fail_if_actual_ends_with_first_elements_of_sequence_only() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> arrays.assertEndsWith(info, actual, IntArrays.arrayOf(6, 20, 22)));
@@ -95,17 +95,17 @@ public class ByteArrays_assertEndsWith_with_Integer_Arguments_Test extends ByteA
   }
 
   @Test
-  public void should_pass_if_actual_ends_with_sequence() {
+  void should_pass_if_actual_ends_with_sequence() {
     arrays.assertEndsWith(someInfo(), actual, IntArrays.arrayOf(8, 10, 12));
   }
 
   @Test
-  public void should_pass_if_actual_and_sequence_are_equal() {
+  void should_pass_if_actual_and_sequence_are_equal() {
     arrays.assertEndsWith(someInfo(), actual, IntArrays.arrayOf(6, 8, 10, 12));
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(),
                                                                                                                              actual,
                                                                                                                              (int[]) null))
@@ -113,18 +113,18 @@ public class ByteArrays_assertEndsWith_with_Integer_Arguments_Test extends ByteA
   }
 
   @Test
-  public void should_pass_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
     arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), actual, IntArrays.emptyArray());
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), null, IntArrays.arrayOf(-8)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_sequence_is_bigger_than_actual_according_to_custom_comparison_strategy() {
+  void should_fail_if_sequence_is_bigger_than_actual_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, IntArrays.arrayOf(6, -8, 10, 12, 20, 22)));
@@ -134,7 +134,7 @@ public class ByteArrays_assertEndsWith_with_Integer_Arguments_Test extends ByteA
   }
 
   @Test
-  public void should_fail_if_actual_does_not_end_with_sequence_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_end_with_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, IntArrays.arrayOf(20, 22)));
@@ -144,7 +144,7 @@ public class ByteArrays_assertEndsWith_with_Integer_Arguments_Test extends ByteA
   }
 
   @Test
-  public void should_fail_if_actual_ends_with_first_elements_of_sequence_only_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_ends_with_first_elements_of_sequence_only_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, IntArrays.arrayOf(6, 20, 22)));
@@ -154,12 +154,12 @@ public class ByteArrays_assertEndsWith_with_Integer_Arguments_Test extends ByteA
   }
 
   @Test
-  public void should_pass_if_actual_ends_with_sequence_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_ends_with_sequence_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), actual, IntArrays.arrayOf(-8, 10, 12));
   }
 
   @Test
-  public void should_pass_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), actual, IntArrays.arrayOf(6, -8, 10, 12));
   }
 }

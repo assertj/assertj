@@ -21,16 +21,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.jupiter.api.Test;
 
-public class AtomicIntegerAssert_doesNotHaveValue_Test {
+class AtomicIntegerAssert_doesNotHaveValue_Test {
 
   @Test
-  public void should_pass_when_actual_does_not_have_the_expected_value() {
+  void should_pass_when_actual_does_not_have_the_expected_value() {
     AtomicInteger actual = new AtomicInteger(123);
     assertThat(actual).doesNotHaveValue(456);
   }
 
   @Test
-  public void should_fail_when_actual_has_the_expected_value() {
+  void should_fail_when_actual_has_the_expected_value() {
     int value = 123;
     AtomicInteger actual = new AtomicInteger(value);
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).doesNotHaveValue(value))
@@ -38,7 +38,7 @@ public class AtomicIntegerAssert_doesNotHaveValue_Test {
   }
 
   @Test
-  public void should_fail_when_actual_is_null() {
+  void should_fail_when_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
       AtomicInteger actual = null;
       assertThat(actual).doesNotHaveValue(1234);

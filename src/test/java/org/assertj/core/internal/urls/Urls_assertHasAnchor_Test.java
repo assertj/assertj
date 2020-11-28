@@ -25,20 +25,20 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class Urls_assertHasAnchor_Test extends UrlsBaseTest {
+class Urls_assertHasAnchor_Test extends UrlsBaseTest {
 
   @ParameterizedTest
   @CsvSource({
       "http://www.helloworld.org/pages/index.html#print,   print",
       "http://www.helloworld.org/index.html#print,         print"
   })
-  public void should_pass_if_actual_url_has_the_given_anchor(URL url, String expectedAnchor) {
+  void should_pass_if_actual_url_has_the_given_anchor(URL url, String expectedAnchor) {
     // WHEN/THEN
     urls.assertHasAnchor(info, url, expectedAnchor);
   }
 
   @Test
-  public void should_pass_if_actual_url_has_no_anchor_and_given_is_null() throws MalformedURLException {
+  void should_pass_if_actual_url_has_no_anchor_and_given_is_null() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://www.helloworld.org/index.html");
     String expectedAnchor = null;
@@ -47,7 +47,7 @@ public class Urls_assertHasAnchor_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     URL url = null;
     String expectedAnchor = "http://www.helloworld.org/index.html#print";
@@ -58,7 +58,7 @@ public class Urls_assertHasAnchor_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URL_has_not_the_expected_anchor() throws MalformedURLException {
+  void should_fail_if_actual_URL_has_not_the_expected_anchor() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://example.com/index.html#print");
     String expectedAnchor = "foo";
@@ -69,7 +69,7 @@ public class Urls_assertHasAnchor_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URL_has_no_anchor_and_expected_anchor_is_not_null() throws MalformedURLException {
+  void should_fail_if_actual_URL_has_no_anchor_and_expected_anchor_is_not_null() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://example.com/index.html");
     String expectedAnchor = "print";
@@ -80,7 +80,7 @@ public class Urls_assertHasAnchor_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URL_has_anchor_and_expected_anchor_is_null() throws MalformedURLException {
+  void should_fail_if_actual_URL_has_anchor_and_expected_anchor_is_null() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://example.com/index.html#print");
     String expectedAnchor = null;
@@ -91,7 +91,7 @@ public class Urls_assertHasAnchor_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_actual_url_has_no_anchor() throws MalformedURLException {
+  void should_throw_error_if_actual_url_has_no_anchor() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://www.helloworld.org/index.html");
     String expectedAnchor = "print";

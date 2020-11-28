@@ -35,10 +35,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertIsInSameYearAs_Test extends DatesBaseTest {
+class Dates_assertIsInSameYearAs_Test extends DatesBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_not_in_same_year_as_given_date() {
+  void should_fail_if_actual_is_not_in_same_year_as_given_date() {
     AssertionInfo info = someInfo();
     Date other = parseDate("2000-01-01");
 
@@ -49,24 +49,24 @@ public class Dates_assertIsInSameYearAs_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsInSameYearAs(someInfo(), null, new Date()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_error_if_given_date_is_null() {
+  void should_throw_error_if_given_date_is_null() {
     assertThatNullPointerException().isThrownBy(() -> dates.assertIsInSameYearAs(someInfo(), actual, null))
                                                          .withMessage(dateToCompareActualWithIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_in_same_year_as_given_date() {
+  void should_pass_if_actual_is_in_same_year_as_given_date() {
     dates.assertIsInSameYearAs(someInfo(), actual, parseDate("2011-05-11"));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_same_year_as_given_date_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_not_in_same_year_as_given_date_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     Date other = parseDate("2000-01-01");
 
@@ -77,13 +77,13 @@ public class Dates_assertIsInSameYearAs_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInSameYearAs(someInfo(), null, new Date()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInSameYearAs(someInfo(),
                                                                                                              actual,
                                                                                                              null))
@@ -91,7 +91,7 @@ public class Dates_assertIsInSameYearAs_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_in_same_year_as_given_date_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_is_in_same_year_as_given_date_whatever_custom_comparison_strategy_is() {
     datesWithCustomComparisonStrategy.assertIsInSameYearAs(someInfo(), actual, parseDate("2011-05-11"));
   }
 

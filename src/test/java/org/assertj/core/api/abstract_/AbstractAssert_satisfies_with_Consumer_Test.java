@@ -23,14 +23,14 @@ import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class AbstractAssert_satisfies_with_Consumer_Test {
+class AbstractAssert_satisfies_with_Consumer_Test {
 
   private Jedi yoda;
   private Jedi luke;
   private Consumer<Jedi> jediRequirements;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     yoda = new Jedi("Yoda", "Green");
     luke = new Jedi("Luke Skywalker", "Green");
     jediRequirements = jedi -> {
@@ -40,25 +40,25 @@ public class AbstractAssert_satisfies_with_Consumer_Test {
   }
 
   @Test
-  public void should_satisfy_single_requirement() {
+  void should_satisfy_single_requirement() {
     assertThat(yoda).satisfies(jedi -> assertThat(jedi.lightSaberColor).isEqualTo("Green"));
   }
 
   @Test
-  public void should_satisfy_multiple_requirements() {
+  void should_satisfy_multiple_requirements() {
     assertThat(yoda).satisfies(jediRequirements);
     assertThat(luke).satisfies(jediRequirements);
   }
 
   @Test
-  public void should_fail_according_to_requirements() {
+  void should_fail_according_to_requirements() {
     Jedi vader = new Jedi("Vader", "Red");
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(vader).satisfies(jediRequirements))
                                                    .withMessage(format("[check light saber] %nExpecting:%n <\"Red\">%nto be equal to:%n <\"Green\">%nbut was not."));
   }
 
   @Test
-  public void should_fail_if_consumer_is_null() {
+  void should_fail_if_consumer_is_null() {
     Consumer<Jedi> nullRequirements = null;
     assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).satisfies(nullRequirements))
                                     .withMessage("The Consumer<T> expressing the assertions requirements must not be null");

@@ -21,16 +21,16 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class Assertions_assertThat_with_primitive_byte_Test {
+class Assertions_assertThat_with_primitive_byte_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     AbstractByteAssert<?> assertions = Assertions.assertThat((byte) 0);
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     AbstractByteAssert<?> assertions = Assertions.assertThat((byte) 8);
     assertThat(assertions.actual).isEqualTo(new Byte((byte) 8));
   }

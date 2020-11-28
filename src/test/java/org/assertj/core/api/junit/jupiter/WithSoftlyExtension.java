@@ -15,6 +15,7 @@ package org.assertj.core.api.junit.jupiter;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+@SuppressWarnings("deprecation")
 @ExtendWith(SoftlyExtension.class)
 class WithSoftlyExtension {
 

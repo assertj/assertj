@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Yvonne Wang
  */
-public class ShouldBeFile_create_Test {
+class ShouldBeFile_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeFile(new FakeFile("xyz"));
     // WHEN

@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Nicolas François
  */
-public class DoubleAssert_isNotNegative_Test extends DoubleAssertBaseTest {
+class DoubleAssert_isNotNegative_Test extends DoubleAssertBaseTest {
 
   @Override
   protected DoubleAssert invoke_api_method() {

@@ -19,7 +19,7 @@ import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 import org.assertj.core.api.TestCondition;
 
-public class AtomicReferenceArrayAssert_areAtLeastOne_Test extends AtomicReferenceArrayAssertBaseTest {
+class AtomicReferenceArrayAssert_areAtLeastOne_Test extends AtomicReferenceArrayAssertBaseTest {
   private static final Condition<Object> condition = new TestCondition<>();
 
   @Override

@@ -24,10 +24,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("CompletableFutureAssert isNotCancelled")
-public class CompletableFutureAssert_isNotCancelled_Test {
+class CompletableFutureAssert_isNotCancelled_Test {
 
   @Test
-  public void should_pass_if_completable_future_is_cancelled() {
+  void should_pass_if_completable_future_is_cancelled() {
     // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     // THEN
@@ -35,7 +35,7 @@ public class CompletableFutureAssert_isNotCancelled_Test {
   }
 
   @Test
-  public void should_fail_when_completable_future_is_null() {
+  void should_fail_when_completable_future_is_null() {
     // GIVEN
     CompletableFuture<String> future = null;
     // WHEN
@@ -45,7 +45,7 @@ public class CompletableFutureAssert_isNotCancelled_Test {
   }
 
   @Test
-  public void should_fail_if_completable_future_is_not_cancelled() {
+  void should_fail_if_completable_future_is_not_cancelled() {
     // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(true);

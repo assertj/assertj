@@ -33,21 +33,21 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Floats_assertEqual_Test extends FloatsBaseTest {
+class Floats_assertEqual_Test extends FloatsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertEqual(someInfo(), null, 8f))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_floats_are_equal() {
+  void should_pass_if_floats_are_equal() {
     floats.assertEqual(someInfo(), 8f, 8f);
   }
 
   @Test
-  public void should_fail_if_floats_are_not_equal() {
+  void should_fail_if_floats_are_not_equal() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> floats.assertEqual(info, 6f, 8f));
@@ -57,18 +57,18 @@ public class Floats_assertEqual_Test extends FloatsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertEqual(someInfo(), null, 8f))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_floats_are_equal_according_to_custom_comparison_strategy() {
+  void should_pass_if_floats_are_equal_according_to_custom_comparison_strategy() {
     floatsWithAbsValueComparisonStrategy.assertEqual(someInfo(), -8f, 8f);
   }
 
   @Test
-  public void should_fail_if_floats_are_not_equal_according_to_custom_comparison_strategy() {
+  void should_fail_if_floats_are_not_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> floatsWithAbsValueComparisonStrategy.assertEqual(info, 6f, -8f));

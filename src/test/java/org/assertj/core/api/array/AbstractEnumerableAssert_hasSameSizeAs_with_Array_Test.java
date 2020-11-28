@@ -26,34 +26,34 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class AbstractEnumerableAssert_hasSameSizeAs_with_Array_Test {
+class AbstractEnumerableAssert_hasSameSizeAs_with_Array_Test {
 
   @Test
-  public void should_pass_if_actual_primitive_array_has_same_size_as_other_object_array() {
+  void should_pass_if_actual_primitive_array_has_same_size_as_other_object_array() {
     assertThat(new byte[]{1, 2}).hasSameSizeAs(new Byte[]{2, 3});
     assertThat(new int[]{1, 2}).hasSameSizeAs(new String[]{"1", "2"});
   }
 
   @Test
-  public void should_pass_if_actual_primitive_array_has_same_size_as_other_primitive_array() {
+  void should_pass_if_actual_primitive_array_has_same_size_as_other_primitive_array() {
     assertThat(new byte[]{1, 2}).hasSameSizeAs(new byte[]{2, 3});
     assertThat(new byte[]{1, 2}).hasSameSizeAs(new int[]{2, 3});
   }
 
   @Test
-  public void should_pass_if_actual_object_array_has_same_size_as_other_object_array() {
+  void should_pass_if_actual_object_array_has_same_size_as_other_object_array() {
     assertThat(new String[]{"1", "2"}).hasSameSizeAs(new Byte[]{2, 3});
     assertThat(new String[]{"1", "2"}).hasSameSizeAs(new String[]{"1", "2"});
   }
 
   @Test
-  public void should_pass_if_actual_object_array_has_same_size_as_other_primitive_array() {
+  void should_pass_if_actual_object_array_has_same_size_as_other_primitive_array() {
     assertThat(new String[]{"1", "2"}).hasSameSizeAs(new byte[]{2, 3});
     assertThat(new String[]{"1", "2"}).hasSameSizeAs(new int[]{2, 3});
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
       final byte[] actual = null;
       assertThat(actual).hasSameSizeAs(new byte[]{2, 3});
@@ -61,13 +61,13 @@ public class AbstractEnumerableAssert_hasSameSizeAs_with_Array_Test {
   }
 
   @Test
-  public void should_fail_if_other_is_not_an_array() {
+  void should_fail_if_other_is_not_an_array() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new byte[]{1, 2}).hasSameSizeAs("a string"))
                                                    .withMessage(format("%nExpecting an array but was:<\"a string\">"));
   }
 
   @Test
-  public void should_fail_if_size_of_actual_has_same_as_other_array() {
+  void should_fail_if_size_of_actual_has_same_as_other_array() {
     final byte[] actual = new byte[]{1, 2};
     final byte[] other = new byte[]{1, 2, 3};
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasSameSizeAs(other))

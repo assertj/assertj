@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author William Delanoue
  */
-public class LongArrayAssert_containsOnlyOnce_Test extends LongArrayAssertBaseTest {
+class LongArrayAssert_containsOnlyOnce_Test extends LongArrayAssertBaseTest {
 
   @Override
   protected LongArrayAssert invoke_api_method() {

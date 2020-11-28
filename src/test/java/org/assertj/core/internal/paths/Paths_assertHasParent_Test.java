@@ -29,12 +29,13 @@ import org.assertj.core.api.exception.PathsException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class Paths_assertHasParent_Test extends MockPathsBaseTest {
+class Paths_assertHasParent_Test extends MockPathsBaseTest {
 
   private Path canonicalActual;
   private Path expected;
   private Path canonicalExpected;
 
+  @Override
   @BeforeEach
   public void init() {
     super.init();
@@ -44,19 +45,19 @@ public class Paths_assertHasParent_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasParent(info, null, expected))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_given_parent_is_null() {
+  void should_fail_if_given_parent_is_null() {
     assertThatNullPointerException().isThrownBy(() -> paths.assertHasParent(info, actual, null))
                                     .withMessage("expected parent path should not be null");
   }
 
   @Test
-  public void should_fail_if_actual_cannot_be_canonicalized() throws IOException {
+  void should_fail_if_actual_cannot_be_canonicalized() throws IOException {
     final IOException exception = new IOException();
     when(actual.toRealPath()).thenThrow(exception);
 
@@ -66,7 +67,7 @@ public class Paths_assertHasParent_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_expected_parent_cannot_be_canonicalized() throws IOException {
+  void should_fail_if_expected_parent_cannot_be_canonicalized() throws IOException {
     final IOException exception = new IOException();
 
     when(actual.toRealPath()).thenReturn(canonicalActual);
@@ -78,7 +79,7 @@ public class Paths_assertHasParent_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_has_no_parent() throws IOException {
+  void should_fail_if_actual_has_no_parent() throws IOException {
     when(actual.toRealPath()).thenReturn(canonicalActual);
     when(expected.toRealPath()).thenReturn(canonicalExpected);
 
@@ -92,7 +93,7 @@ public class Paths_assertHasParent_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_parent_is_not_expected_parent() throws IOException {
+  void should_fail_if_actual_parent_is_not_expected_parent() throws IOException {
     final Path actualParent = mock(Path.class);
 
     when(actual.toRealPath()).thenReturn(canonicalActual);
@@ -107,7 +108,7 @@ public class Paths_assertHasParent_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_succeed_if_canonical_actual_has_expected_parent() throws IOException {
+  void should_succeed_if_canonical_actual_has_expected_parent() throws IOException {
     when(actual.toRealPath()).thenReturn(canonicalActual);
     when(expected.toRealPath()).thenReturn(canonicalExpected);
 

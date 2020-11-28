@@ -68,7 +68,7 @@ public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
     }
 
     public String describe(AssertionInfo info) {
-      return format("  <%s> error: %s", info.representation().toStringOf(elementNotSatisfyingRequirements), errorMessage);
+      return format("  <%s>%nerror: %s", info.representation().toStringOf(elementNotSatisfyingRequirements), errorMessage);
     }
 
     @Override

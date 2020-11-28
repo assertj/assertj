@@ -27,32 +27,32 @@ import org.junit.jupiter.api.Test;
  *
  * @author Nicolas François
  */
-public class Integers_assertIsNotPositive_Test extends IntegersBaseTest {
+class Integers_assertIsNotPositive_Test extends IntegersBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_not_positive() {
+  void should_succeed_since_actual_is_not_positive() {
     integers.assertIsNotPositive(someInfo(), -6);
   }
 
   @Test
-  public void should_succeed_since_actual_is_zero() {
+  void should_succeed_since_actual_is_zero() {
     integers.assertIsNotPositive(someInfo(), 0);
   }
 
   @Test
-  public void should_fail_since_actual_is_positive() {
+  void should_fail_since_actual_is_positive() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertIsNotPositive(someInfo(), 6))
                                                    .withMessage(format("%nExpecting:%n <6>%nto be less than or equal to:%n <0> "));
   }
 
   @Test
-  public void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
+  void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), -1))
                                                    .withMessage(format("%nExpecting:%n <-1>%nto be less than or equal to:%n <0> when comparing values using AbsValueComparator"));
   }
 
   @Test
-  public void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
+  void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), 1))
                                                    .withMessage(format("%nExpecting:%n <1>%nto be less than or equal to:%n <0> when comparing values using AbsValueComparator"));
   }

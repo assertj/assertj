@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Nicolas François
  */
-public class Not_toString_Test {
+class Not_toString_Test {
 
   private TestCondition<Object> condition;
   private Condition<Object> not;
@@ -37,7 +37,7 @@ public class Not_toString_Test {
   }
 
   @Test
-  public void should_implement_toString_showing_descriptions_of_inner_Conditions() {
+  void should_implement_toString_showing_descriptions_of_inner_Conditions() {
     String expected = "not :<Jedi>";
     assertThat(not).hasToString(expected);
   }

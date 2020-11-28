@@ -24,12 +24,12 @@ import org.junit.jupiter.api.Test;
  *
  * @author Mike Gilchrist
  */
-public class ShouldHaveCauseReference_create_Test {
+class ShouldHaveCauseReference_create_Test {
 
   private static final TestDescription DESCRIPTION = new TestDescription("TEST");
 
   @Test
-  public void should_create_error_message_for_expected_without_actual() {
+  void should_create_error_message_for_expected_without_actual() {
     // GIVEN
     Throwable actualCause = null;
     Throwable expectedCause = new RuntimeException("hello");
@@ -44,7 +44,7 @@ public class ShouldHaveCauseReference_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_expected_with_actual() {
+  void should_create_error_message_for_expected_with_actual() {
     // GIVEN
     Throwable actualCause = new NullPointerException();
     Throwable expectedCause = new RuntimeException("hello");

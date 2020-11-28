@@ -18,13 +18,12 @@ import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
 
-
 /**
  * Tests for <code>{@link DateAssert#isBefore(java.util.Date)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
-public class DateAssert_isBefore_Test extends AbstractDateAssertWithDateArg_Test {
+class DateAssert_isBefore_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {
@@ -39,6 +38,11 @@ public class DateAssert_isBefore_Test extends AbstractDateAssertWithDateArg_Test
   @Override
   protected void verifyAssertionInvocation(Date date) {
     verify(dates).assertIsBefore(getInfo(assertions), getActual(assertions), date);
+  }
+
+  @Override
+  protected DateAssert assertionInvocationWithInstantArg() {
+    return assertions.isBefore(otherDate.toInstant());
   }
 
 }

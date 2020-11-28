@@ -22,9 +22,9 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Throwables_removeAssertJElementFromStackTrace_Test {
+class Throwables_removeAssertJElementFromStackTrace_Test {
   @Test
-  public void should_add_stack_trace_of_current_thread() {
+  void should_add_stack_trace_of_current_thread() {
     try {
       throw new AssertJThrowable();
     } catch (AssertJThrowable throwable) {

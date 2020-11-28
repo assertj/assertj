@@ -27,10 +27,10 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-public class ZonedDateTimeAssert_isNotIn_Test extends ZonedDateTimeAssertBaseTest {
+class ZonedDateTimeAssert_isNotIn_Test extends ZonedDateTimeAssertBaseTest {
 
   @Test
-  public void isNotIn_should_compare_datetimes_in_actual_timezone() {
+  void isNotIn_should_compare_datetimes_in_actual_timezone() {
     ZonedDateTime utcDateTime = ZonedDateTime.of(2013, 6, 10, 0, 0, 0, 0, ZoneOffset.UTC);
     ZoneId cestTimeZone = ZoneId.of("Europe/Berlin");
     ZonedDateTime cestDateTime = ZonedDateTime.of(2013, 6, 10, 0, 0, 0, 0, cestTimeZone);

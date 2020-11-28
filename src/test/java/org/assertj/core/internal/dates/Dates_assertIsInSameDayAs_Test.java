@@ -23,7 +23,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Dates;
@@ -36,10 +35,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertIsInSameDayAs_Test extends DatesBaseTest {
+class Dates_assertIsInSameDayAs_Test extends DatesBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_not_in_same_day_as_given_date() {
+  void should_fail_if_actual_is_not_in_same_day_as_given_date() {
     AssertionInfo info = someInfo();
     Date other = parseDate("2011-01-02");
 
@@ -50,24 +49,24 @@ public class Dates_assertIsInSameDayAs_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsInSameDayAs(someInfo(), null, new Date()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_error_if_given_date_is_null() {
+  void should_throw_error_if_given_date_is_null() {
     assertThatNullPointerException().isThrownBy(() -> dates.assertIsInSameDayAs(someInfo(), actual, null))
                                     .withMessage(dateToCompareActualWithIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_in_same_day_as_given_date() {
+  void should_pass_if_actual_is_in_same_day_as_given_date() {
     dates.assertIsInSameDayAs(someInfo(), actual, parseDate("2011-01-01"));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_same_day_as_given_date_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_not_in_same_day_as_given_date_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     Date other = parseDate("2011-01-02");
 
@@ -78,13 +77,13 @@ public class Dates_assertIsInSameDayAs_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInSameDayAs(someInfo(), null, new Date()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInSameDayAs(someInfo(),
                                                                                                                                  actual,
                                                                                                                                  null))
@@ -92,7 +91,7 @@ public class Dates_assertIsInSameDayAs_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_in_same_day_as_given_date_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_is_in_same_day_as_given_date_whatever_custom_comparison_strategy_is() {
     datesWithCustomComparisonStrategy.assertIsInSameDayAs(someInfo(), actual, parseDate("2011-01-01"));
   }
 

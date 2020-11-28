@@ -33,13 +33,13 @@ import org.junit.jupiter.api.Test;
  * Tests for <code>{@link ObjectAssert#extracting(String)}</code> and <code>{@link ObjectAssert#extracting(String[])}</code>.
  */
 @DisplayName("ObjectAssert.extracting")
-public class ObjectAssert_extracting_Test {
+class ObjectAssert_extracting_Test {
 
   private Employee luke;
   private Employee leia;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
     luke.setAttribute("side", "light");
     leia = new Employee(2L, new Name("Leia", "Skywalker"), 26);
@@ -48,7 +48,7 @@ public class ObjectAssert_extracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_property_extracted_from_given_object_by_name() {
+  void should_allow_assertions_on_property_extracted_from_given_object_by_name() {
     assertThat(luke).extracting("id")
                     .isNotNull();
     assertThat(luke).extracting("name.first")
@@ -56,7 +56,7 @@ public class ObjectAssert_extracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_array_of_properties_extracted_from_given_object_by_name() {
+  void should_allow_assertions_on_array_of_properties_extracted_from_given_object_by_name() {
     assertThat(luke).extracting("id", "name")
                     .hasSize(2)
                     .doesNotContainNull();
@@ -66,13 +66,13 @@ public class ObjectAssert_extracting_Test {
   }
 
   @Test
-  public void should_allow_assertion_on_mixed_properties_or_fields_with_nested_map_values() {
+  void should_allow_assertion_on_mixed_properties_or_fields_with_nested_map_values() {
     assertThat(luke).extracting("id", "name.last", "attributes.side", "relations.sister", "relations.sister.relations.brother.id")
                     .containsExactly(2L, "Skywalker", "light", leia, 2L);
   }
 
   @Test
-  public void should_follow_map_get_behavior_for_unknown_key() {
+  void should_follow_map_get_behavior_for_unknown_key() {
     assertThat(luke).extracting("attributes.unknown_key",
                                 "relations.sister",
                                 "relations.sista",
@@ -82,7 +82,7 @@ public class ObjectAssert_extracting_Test {
   }
 
   @Test
-  public void should_use_property_field_name_as_description_when_extracting_single_property() {
+  void should_use_property_field_name_as_description_when_extracting_single_property() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(luke).extracting("name.first").isNull());
     // THEN
@@ -90,7 +90,7 @@ public class ObjectAssert_extracting_Test {
   }
 
   @Test
-  public void should_use_property_field_names_as_description_when_extracting_tuples_list() {
+  void should_use_property_field_names_as_description_when_extracting_tuples_list() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(luke).extracting("name.first", "name.last")
                                                                                .isEmpty());
@@ -99,7 +99,7 @@ public class ObjectAssert_extracting_Test {
   }
 
   @Test
-  public void should_keep_existing_description_if_set_when_extracting_single_property() {
+  void should_keep_existing_description_if_set_when_extracting_single_property() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(luke).as("check luke first name")
                                                                                .extracting("name.first")
@@ -109,7 +109,7 @@ public class ObjectAssert_extracting_Test {
   }
 
   @Test
-  public void should_keep_existing_description_if_set_when_extracting_tuples_list() {
+  void should_keep_existing_description_if_set_when_extracting_tuples_list() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(luke).as("check luke first and last name")
                                                                                .extracting("name.first", "name.last")
@@ -119,7 +119,7 @@ public class ObjectAssert_extracting_Test {
   }
 
   @Test
-  public void should_allow_to_specify_type_comparator_after_using_extracting_with_single_parameter_on_object() {
+  void should_allow_to_specify_type_comparator_after_using_extracting_with_single_parameter_on_object() {
     // GIVEN
     Person obiwan = new Person("Obi-Wan");
     obiwan.setHeight(new BigDecimal("1.820"));
@@ -134,7 +134,7 @@ public class ObjectAssert_extracting_Test {
   }
 
   @Test
-  public void should_allow_to_specify_type_comparator_after_using_extracting_with_multiple_parameters_on_object() {
+  void should_allow_to_specify_type_comparator_after_using_extracting_with_multiple_parameters_on_object() {
     // GIVEN
     Person obiwan = new Person("Obi-Wan");
     obiwan.setHeight(new BigDecimal("1.820"));

@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class DoubleAssert_isGreaterThan_double_Test extends DoubleAssertBaseTest {
+class DoubleAssert_isGreaterThan_double_Test extends DoubleAssertBaseTest {
 
   @Override
   protected DoubleAssert invoke_api_method() {

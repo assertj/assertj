@@ -24,16 +24,16 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-public class Assertions_assertThat_with_ZonedDateTime_Test {
+class Assertions_assertThat_with_ZonedDateTime_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     AbstractZonedDateTimeAssert<?> assertions = Assertions.assertThat(ZonedDateTime.now());
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     ZonedDateTime dateTime = ZonedDateTime.now();
     AbstractZonedDateTimeAssert<?>  assertions = Assertions.assertThat(dateTime);
     assertThat(assertions.getActual()).isSameAs(dateTime);

@@ -24,10 +24,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("CompletableFutureAssert isDone")
-public class CompletableFutureAssert_isDone_Test {
+class CompletableFutureAssert_isDone_Test {
 
   @Test
-  public void should_pass_if_completable_future_is_done() {
+  void should_pass_if_completable_future_is_done() {
     // GIVEN
     CompletableFuture<String> future = CompletableFuture.completedFuture("done");
     // THEN
@@ -35,7 +35,7 @@ public class CompletableFutureAssert_isDone_Test {
   }
 
   @Test
-  public void should_fail_when_completable_future_is_null() {
+  void should_fail_when_completable_future_is_null() {
     // GIVEN
     CompletableFuture<String> future = null;
     // WHEN
@@ -45,7 +45,7 @@ public class CompletableFutureAssert_isDone_Test {
   }
 
   @Test
-  public void should_fail_if_completable_future_is_not_done() {
+  void should_fail_if_completable_future_is_not_done() {
     // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     // WHEN

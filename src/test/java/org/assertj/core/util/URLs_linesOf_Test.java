@@ -12,7 +12,9 @@
  */
 package org.assertj.core.util;
 
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.util.Lists.newArrayList;
 
 import java.io.File;
 import java.io.UncheckedIOException;
@@ -21,9 +23,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.util.Lists.newArrayList;
+import org.junit.jupiter.api.Test;
 
 /*
  * Tests for {@link URLs#linesOf(File, Charset)} and {@link URLs#linesOf(File, String)}.
@@ -31,14 +31,14 @@ import static org.assertj.core.util.Lists.newArrayList;
  * @author Turbo87
  * @author dorzey
  */
-public class URLs_linesOf_Test {
+class URLs_linesOf_Test {
 
   private static final URL SAMPLE_RESOURCE_URL = ClassLoader.getSystemResource("utf8.txt");
 
   private static final List<String> EXPECTED_CONTENT = newArrayList("A text file encoded in UTF-8, with diacritics:", "é à");
 
   @Test
-  public void should_throw_exception_if_url_not_found() {
+  void should_throw_exception_if_url_not_found() {
     File missingFile = new File("missing.txt");
     assertThat(missingFile).doesNotExist();
 
@@ -46,12 +46,12 @@ public class URLs_linesOf_Test {
   }
 
   @Test
-  public void should_pass_if_resource_file_is_split_into_lines() {
+  void should_pass_if_resource_file_is_split_into_lines() {
     assertThat(URLs.linesOf(SAMPLE_RESOURCE_URL, StandardCharsets.UTF_8)).isEqualTo(EXPECTED_CONTENT);
   }
 
   @Test
-  public void should_pass_if_resource_file_is_split_into_lines_using_charset() {
+  void should_pass_if_resource_file_is_split_into_lines_using_charset() {
     assertThat(URLs.linesOf(SAMPLE_RESOURCE_URL, "UTF-8")).isEqualTo(EXPECTED_CONTENT);
   }
 }

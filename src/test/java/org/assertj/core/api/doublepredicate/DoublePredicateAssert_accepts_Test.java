@@ -29,16 +29,16 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Filip Hrisafov
  */
-public class DoublePredicateAssert_accepts_Test extends DoublePredicateAssertBaseTest {
+class DoublePredicateAssert_accepts_Test extends DoublePredicateAssertBaseTest {
 
   @Test
-  public void should_fail_when_predicate_is_null() {
+  void should_fail_when_predicate_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((DoublePredicate) null).accepts(1.0, 2.0, 3.0))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_when_predicate_does_not_accept_all_values() {
+  void should_fail_when_predicate_does_not_accept_all_values() {
     DoublePredicate predicate = val -> val <= 2;
     double[] matchValues = new double[] { 1.0, 2.0, 3.0 };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).accepts(matchValues))
@@ -46,7 +46,7 @@ public class DoublePredicateAssert_accepts_Test extends DoublePredicateAssertBas
   }
 
   @Test
-  public void should_pass_when_predicate_accepts_all_values() {
+  void should_pass_when_predicate_accepts_all_values() {
     DoublePredicate predicate = val -> val <= 2;
 
     assertThat(predicate).accepts(1.0, 2.0);

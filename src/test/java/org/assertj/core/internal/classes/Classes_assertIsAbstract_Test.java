@@ -39,7 +39,7 @@ class Classes_assertIsAbstract_Test extends ClassesBaseTest {
     classes.assertIsAbstract(someInfo(), actual);
   }
 
-  @Test()
+  @Test
   void should_fail_if_actual_is_not_abstract() {
     // GIVEN
     actual = String.class;

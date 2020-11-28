@@ -33,22 +33,22 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class Conditions_assertDoesNotHave_Test extends ConditionsBaseTest {
+class Conditions_assertDoesNotHave_Test extends ConditionsBaseTest {
 
   @Test
-  public void should_throw_error_if_Condition_is_null() {
+  void should_throw_error_if_Condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> conditions.assertDoesNotHave(someInfo(), actual, null))
                                     .withMessage("The condition to evaluate should not be null");
   }
 
   @Test
-  public void should_pass_if_Condition_is_not_met() {
+  void should_pass_if_Condition_is_not_met() {
     condition.shouldMatch(false);
     conditions.assertDoesNotHave(someInfo(), actual, condition);
   }
 
   @Test
-  public void should_fail_if_Condition_is_met() {
+  void should_fail_if_Condition_is_met() {
     condition.shouldMatch(true);
     AssertionInfo info = someInfo();
 

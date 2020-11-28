@@ -27,17 +27,17 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class DateUtil_yearOf_Test {
+class DateUtil_yearOf_Test {
 
   @Test
-  public void should_return_year_of_date() throws ParseException {
+  void should_return_year_of_date() throws ParseException {
     String dateAsString = "26/08/1994";
     Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateAsString);
     assertThat(yearOf(date)).isEqualTo(1994);
   }
 
   @Test
-  public void should_throws_NullPointerException_if_date_parameter_is_null() {
+  void should_throws_NullPointerException_if_date_parameter_is_null() {
     assertThatNullPointerException().isThrownBy(() -> yearOf(null));
   }
 

@@ -13,14 +13,12 @@
 package org.assertj.core.api.objectarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.util.Comparator;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link ObjectArrayAssert#usingElementComparator(Comparator)}</code>.
@@ -28,15 +26,9 @@ import org.mockito.Mock;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class ObjectArrayAssert_usingElementComparator_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_usingElementComparator_Test extends ObjectArrayAssertBaseTest {
 
-  @Mock
-  private Comparator<Object> elementComparator;
-
-  @BeforeEach
-  public void before() {
-    initMocks(this);
-  }
+  private Comparator<Object> elementComparator = alwaysEqual();
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {
@@ -45,7 +37,7 @@ public class ObjectArrayAssert_usingElementComparator_Test extends ObjectArrayAs
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(elementComparator).isSameAs(getArrays(assertions).getComparator());
+    assertThat(getArrays(assertions).getComparator()).isSameAs(elementComparator);
   }
 
 }

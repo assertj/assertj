@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
  * @author Nicolas François
  * @author Joel Costigliola
  */
-public class ElementsShouldBeAtLeast_create_Test {
+class ElementsShouldBeAtLeast_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = elementsShouldBeAtLeast(list("Yoda", "Solo", "Leia"), 2, new TestCondition<>("a Jedi"));
     // WHEN

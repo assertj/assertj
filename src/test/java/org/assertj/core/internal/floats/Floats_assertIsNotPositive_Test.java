@@ -25,33 +25,33 @@ import org.junit.jupiter.api.Test;
  *
  * @author Nicolas François
  */
-public class Floats_assertIsNotPositive_Test extends FloatsBaseTest {
+class Floats_assertIsNotPositive_Test extends FloatsBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_not_positive() {
+  void should_succeed_since_actual_is_not_positive() {
 	floats.assertIsNotPositive(someInfo(), -6f);
   }
 
   @Test
-  public void should_succeed_since_actual_is_zero() {
+  void should_succeed_since_actual_is_zero() {
 	floats.assertIsNotPositive(someInfo(), 0f);
   }
 
   @Test
-  public void should_fail_since_actual_is_positive() {
+  void should_fail_since_actual_is_positive() {
 	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotPositive(someInfo(), 6f))
                                                    .withMessage(format("%nExpecting:%n <6.0f>%nto be less than or equal to:%n <0.0f> "));
   }
 
   @Test
-  public void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), -1f))
+  void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), -1f))
                                                    .withMessage(format("%nExpecting:%n <-1.0f>%nto be less than or equal to:%n <0.0f> when comparing values using AbsValueComparator"));
   }
 
   @Test
-  public void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), 1f))
+  void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), 1f))
                                                    .withMessage(format("%nExpecting:%n <1.0f>%nto be less than or equal to:%n <0.0f> when comparing values using AbsValueComparator"));
   }
 

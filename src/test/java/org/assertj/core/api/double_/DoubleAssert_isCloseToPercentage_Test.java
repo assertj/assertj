@@ -19,7 +19,7 @@ import org.assertj.core.data.Percentage;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.mockito.Mockito.verify;
 
-public class DoubleAssert_isCloseToPercentage_Test extends DoubleAssertBaseTest {
+class DoubleAssert_isCloseToPercentage_Test extends DoubleAssertBaseTest {
 
     private final Percentage percentage = withPercentage(5.0);
     private final Double value = 10.0;

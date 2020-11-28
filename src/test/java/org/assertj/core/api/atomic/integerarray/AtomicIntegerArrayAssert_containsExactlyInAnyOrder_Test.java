@@ -22,7 +22,7 @@ import org.assertj.core.api.AtomicIntegerArrayAssert;
 import org.assertj.core.api.AtomicIntegerArrayAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class AtomicIntegerArrayAssert_containsExactlyInAnyOrder_Test extends AtomicIntegerArrayAssertBaseTest {
+class AtomicIntegerArrayAssert_containsExactlyInAnyOrder_Test extends AtomicIntegerArrayAssertBaseTest {
 
   @Override
   protected AtomicIntegerArrayAssert invoke_api_method() {
@@ -35,7 +35,7 @@ public class AtomicIntegerArrayAssert_containsExactlyInAnyOrder_Test extends Ato
   }
 
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
      assertThat(new AtomicIntegerArray(new int[] { 1, 2, 2 })).containsExactlyInAnyOrder(2, 2, 1);
   }
 }

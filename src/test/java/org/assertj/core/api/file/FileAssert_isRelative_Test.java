@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Yvonne Wang
  */
-public class FileAssert_isRelative_Test extends FileAssertBaseTest {
+class FileAssert_isRelative_Test extends FileAssertBaseTest {
   @Override
   protected FileAssert invoke_api_method() {
     return assertions.isRelative();

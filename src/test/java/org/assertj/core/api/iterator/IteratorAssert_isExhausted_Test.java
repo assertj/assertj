@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Stephan Windmüller
  */
-public class IteratorAssert_isExhausted_Test extends IteratorAssertBaseTest {
+class IteratorAssert_isExhausted_Test extends IteratorAssertBaseTest {
 
   @Override
   protected IteratorAssert<Object> invoke_api_method() {
@@ -45,13 +45,13 @@ public class IteratorAssert_isExhausted_Test extends IteratorAssertBaseTest {
   }
 
   @Test
-  public void should_pass_for_exhausted_iterator() {
+  void should_pass_for_exhausted_iterator() {
     Iterator<Object> iterator = emptyList().iterator();
     assertThat(iterator).isExhausted();
   }
 
   @Test
-  public void should_fail_if_actual_has_at_least_one_element() {
+  void should_fail_if_actual_has_at_least_one_element() {
     // GIVEN
     Iterator<Integer> iterator = newArrayList(1).iterator();
     // WHEN
@@ -61,7 +61,7 @@ public class IteratorAssert_isExhausted_Test extends IteratorAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     Iterator<Object> iterator = null;
     // WHEN

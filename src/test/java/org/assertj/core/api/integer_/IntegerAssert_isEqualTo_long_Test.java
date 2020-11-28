@@ -17,7 +17,7 @@ import org.assertj.core.api.IntegerAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
-public class IntegerAssert_isEqualTo_long_Test extends IntegerAssertBaseTest {
+class IntegerAssert_isEqualTo_long_Test extends IntegerAssertBaseTest {
 
   @Override
   protected IntegerAssert invoke_api_method() {

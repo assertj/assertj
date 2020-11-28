@@ -29,14 +29,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class Throwables_assertHasRootCause_Test extends ThrowablesBaseTest {
+class Throwables_assertHasRootCause_Test extends ThrowablesBaseTest {
 
   private static final AssertionInfo INFO = someInfo();
 
   @SuppressWarnings("unused")
   @ParameterizedTest(name = "{2}: throwable = {0} / expected root cause = {1}")
   @MethodSource("passingData")
-  public void should_pass_if_root_cause_is_expected(Throwable throwable,
+  void should_pass_if_root_cause_is_expected(Throwable throwable,
                                                     Throwable expectedRootCause,
                                                     String testDescription) {
     // WHEN
@@ -56,7 +56,7 @@ public class Throwables_assertHasRootCause_Test extends ThrowablesBaseTest {
   @SuppressWarnings("unused")
   @ParameterizedTest(name = "{2}: throwable = {0} / expected = {1}")
   @MethodSource("failingData")
-  public void should_fail_if_root_cause_is_unexpected(final Throwable actualRootCause,
+  void should_fail_if_root_cause_is_unexpected(final Throwable actualRootCause,
                                                       final Throwable unexpectedRootCause,
                                                       String testDescription) {
     // GIVEN
@@ -78,7 +78,7 @@ public class Throwables_assertHasRootCause_Test extends ThrowablesBaseTest {
   // @format:on
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     final Throwable throwable = null;
     final Throwable expected = new Throwable();
@@ -89,7 +89,7 @@ public class Throwables_assertHasRootCause_Test extends ThrowablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_expected_root_cause_is_null() {
+  void should_fail_if_expected_root_cause_is_null() {
     // GIVEN
     Throwable rootCause = new NullPointerException();
     final Throwable throwable = withRootCause(rootCause);

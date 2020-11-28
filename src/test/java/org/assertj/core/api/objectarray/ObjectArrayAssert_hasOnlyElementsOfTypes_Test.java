@@ -22,7 +22,7 @@ import org.assertj.core.api.ObjectArrayAssertBaseTest;
  * 
  * @author Martin Winandy
  */
-public class ObjectArrayAssert_hasOnlyElementsOfTypes_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_hasOnlyElementsOfTypes_Test extends ObjectArrayAssertBaseTest {
 
   private final Class<?>[] types = { CharSequence.class };
 

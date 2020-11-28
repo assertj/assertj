@@ -45,6 +45,7 @@ import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.error.ShouldNotBeOfClassIn.shouldNotBeOfClassIn;
 import static org.assertj.core.error.ShouldNotBeSame.shouldNotBeSame;
 import static org.assertj.core.error.ShouldNotHaveSameClass.shouldNotHaveSameClass;
+import static org.assertj.core.error.ShouldNotHaveSameHashCode.shouldNotHaveSameHashCode;
 import static org.assertj.core.internal.CommonValidations.checkTypeIsNotNull;
 import static org.assertj.core.internal.DeepDifference.determineDifferences;
 import static org.assertj.core.util.Lists.list;
@@ -865,6 +866,24 @@ public class Objects {
     assertNotNull(info, actual);
     requireNonNull(other, "The object used to compare actual's hash code with should not be null");
     if (actual.hashCode() != other.hashCode()) throw failures.failure(info, shouldHaveSameHashCode(actual, other));
+  }
+
+  /**
+   * Asserts that the actual object does not the same hashCode as the given object.
+   *
+   * @param <A> the actual type
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param other the object to check hashCode against.
+   *
+   * @throws AssertionError if the actual object is null.
+   * @throws AssertionError if the given object is null.
+   * @throws AssertionError if the actual object has the same hashCode as the given object.
+   */
+  public <A> void assertDoesNotHaveSameHashCodeAs(AssertionInfo info, A actual, Object other) {
+    assertNotNull(info, actual);
+    requireNonNull(other, "The object used to compare actual's hash code with should not be null");
+    if (actual.hashCode() == other.hashCode()) throw failures.failure(info, shouldNotHaveSameHashCode(actual, other));
   }
 
   public static class ByFieldsComparison {

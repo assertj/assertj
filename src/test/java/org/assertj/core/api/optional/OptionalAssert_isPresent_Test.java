@@ -21,21 +21,21 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
-public class OptionalAssert_isPresent_Test {
+class OptionalAssert_isPresent_Test {
 
   @Test
-  public void should_pass_when_optional_is_present() {
-	assertThat(Optional.of("present")).isPresent();
+  void should_pass_when_optional_is_present() {
+    assertThat(Optional.of("present")).isPresent();
   }
 
   @Test
-  public void should_fail_when_optional_is_empty() {
+  void should_fail_when_optional_is_empty() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Optional.empty()).isPresent())
                                                    .withMessage(shouldBePresent(Optional.empty()).create());
   }
 
   @Test
-  public void should_fail_when_optional_is_null() {
+  void should_fail_when_optional_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<String>) null).isPresent())
                                                    .withMessage(actualIsNull());
   }

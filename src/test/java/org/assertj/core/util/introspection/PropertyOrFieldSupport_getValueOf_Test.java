@@ -26,7 +26,7 @@ import org.assertj.core.test.Name;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class PropertyOrFieldSupport_getValueOf_Test {
+class PropertyOrFieldSupport_getValueOf_Test {
 
   private PropertyOrFieldSupport propertyOrFieldSupport;
   private Employee yoda;
@@ -39,56 +39,56 @@ public class PropertyOrFieldSupport_getValueOf_Test {
   }
 
   @Test
-  public void should_extract_property_value() {
+  void should_extract_property_value() {
     Object value = propertyOrFieldSupport.getValueOf("age", yoda);
 
     assertThat(value).isEqualTo(800);
   }
 
   @Test
-  public void should_extract_property_with_no_corresponding_field() {
+  void should_extract_property_with_no_corresponding_field() {
     Object value = propertyOrFieldSupport.getValueOf("adult", yoda);
 
     assertThat(value).isEqualTo(true);
   }
 
   @Test
-  public void should_prefer_properties_over_fields() {
+  void should_prefer_properties_over_fields() {
     Object extractedValue = propertyOrFieldSupport.getValueOf("name", employeeWithOverriddenName("Overridden Name"));
 
     assertThat(extractedValue).isEqualTo(new Name("Overridden Name"));
   }
 
   @Test
-  public void should_extract_public_field_values_as_no_property_matches_given_name() {
+  void should_extract_public_field_values_as_no_property_matches_given_name() {
     Object value = propertyOrFieldSupport.getValueOf("id", yoda);
 
     assertThat(value).isEqualTo(1L);
   }
 
   @Test
-  public void should_extract_private_field_values_as_no_property_matches_given_name() {
+  void should_extract_private_field_values_as_no_property_matches_given_name() {
     Object value = propertyOrFieldSupport.getValueOf("city", yoda);
 
     assertThat(value).isEqualTo("New York");
   }
 
   @Test
-  public void should_fallback_to_field_if_exception_has_been_thrown_on_property_access() {
+  void should_fallback_to_field_if_exception_has_been_thrown_on_property_access() {
     Object extractedValue = propertyOrFieldSupport.getValueOf("name", employeeWithBrokenName("Name"));
 
     assertThat(extractedValue).isEqualTo(new Name("Name"));
   }
 
   @Test
-  public void should_return_null_if_one_of_nested_property_or_field_value_is_null() {
+  void should_return_null_if_one_of_nested_property_or_field_value_is_null() {
     Object value = propertyOrFieldSupport.getValueOf("surname.first", yoda);
 
     assertThat(value).isNull();
   }
 
   @Test
-  public void should_extract_nested_property_field_combinations() {
+  void should_extract_nested_property_field_combinations() {
     Employee darth = new Employee(1L, new Name("Darth", "Vader"), 100);
     Employee luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
     darth.field = luke;
@@ -99,7 +99,7 @@ public class PropertyOrFieldSupport_getValueOf_Test {
   }
 
   @Test
-  public void should_extract_value_from_nested_map() {
+  void should_extract_value_from_nested_map() {
     Employee darth = new Employee(1L, new Name("Darth", "Vader"), 100);
     darth.setAttribute("side", "dark");
 
@@ -108,18 +108,18 @@ public class PropertyOrFieldSupport_getValueOf_Test {
   }
 
   @Test
-  public void should_extract_nested_property_field_within_nested_map() {
+  void should_extract_nested_property_field_within_nested_map() {
     Object value = propertyOrFieldSupport.getValueOf("relations.padawan.name.first", yoda);
     assertThat(value).isEqualTo("Luke");
   }
 
   @Test
-  public void should_throw_error_when_no_property_nor_field_match_given_name() {
+  void should_throw_error_when_no_property_nor_field_match_given_name() {
     assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> propertyOrFieldSupport.getValueOf("unknown", yoda));
   }
 
   @Test
-  public void should_throw_error_when_no_property_nor_public_field_match_given_name_if_extraction_is_limited_to_public_fields() {
+  void should_throw_error_when_no_property_nor_public_field_match_given_name_if_extraction_is_limited_to_public_fields() {
     assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
       propertyOrFieldSupport = new PropertyOrFieldSupport(new PropertySupport(),
                                                           FieldSupport.EXTRACTION_OF_PUBLIC_FIELD_ONLY);
@@ -129,30 +129,30 @@ public class PropertyOrFieldSupport_getValueOf_Test {
   }
 
   @Test
-  public void should_throw_exception_when_given_property_or_field_name_is_null() {
+  void should_throw_exception_when_given_property_or_field_name_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> propertyOrFieldSupport.getValueOf(null, yoda))
                                         .withMessage("The name of the property/field to read should not be null");
   }
 
   @Test
-  public void should_throw_exception_when_given_name_is_empty() {
+  void should_throw_exception_when_given_name_is_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> propertyOrFieldSupport.getValueOf("", yoda))
                                         .withMessage("The name of the property/field to read should not be empty");
   }
 
   @Test
-  public void should_throw_exception_if_property_cannot_be_extracted_due_to_runtime_exception_during_property_access() {
+  void should_throw_exception_if_property_cannot_be_extracted_due_to_runtime_exception_during_property_access() {
     assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> propertyOrFieldSupport.getValueOf("adult",
                                                                                                            brokenEmployee()));
   }
 
   @Test
-  public void should_throw_exception_if_no_object_is_given() {
+  void should_throw_exception_if_no_object_is_given() {
     assertThatIllegalArgumentException().isThrownBy(() -> propertyOrFieldSupport.getValueOf("name", null));
   }
 
   @Test
-  public void should_extract_single_value_from_maps_by_key() {
+  void should_extract_single_value_from_maps_by_key() {
     String key1 = "key1";
     String key2 = "key2";
     Map<String, Employee> map1 = new HashMap<>();
@@ -173,21 +173,21 @@ public class PropertyOrFieldSupport_getValueOf_Test {
   }
 
   @Test
-  public void should_extract_field_value_if_only_static_getter_matches_name() {
+  void should_extract_field_value_if_only_static_getter_matches_name() {
     Object value = propertyOrFieldSupport.getValueOf("city", new StaticPropertyEmployee());
 
     assertThat(value).isEqualTo("New York");
   }
 
   @Test
-  public void should_extract_field_value_if_only_static_is_method_matches_name() {
+  void should_extract_field_value_if_only_static_is_method_matches_name() {
     Object value = propertyOrFieldSupport.getValueOf("tall", new StaticBooleanPropertyEmployee());
 
     assertThat(value).isEqualTo(false);
   }
 
   @Test
-  public void should_extract_field_value_if_only_static_bare_method_matches_name() {
+  void should_extract_field_value_if_only_static_bare_method_matches_name() {
     Object value = propertyOrFieldSupport.getValueOf("city", new StaticBarePropertyEmployee());
 
     assertThat(value).isEqualTo("New York");

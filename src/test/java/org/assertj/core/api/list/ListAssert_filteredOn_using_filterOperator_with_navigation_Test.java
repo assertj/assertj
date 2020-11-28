@@ -20,13 +20,13 @@ import org.assertj.core.data.TolkienCharacterAssert;
 import org.assertj.core.data.TolkienCharacterAssertFactory;
 import org.junit.jupiter.api.Test;
 
-public class ListAssert_filteredOn_using_filterOperator_with_navigation_Test extends ListAssert_filteredOn_BaseTest {
+class ListAssert_filteredOn_using_filterOperator_with_navigation_Test extends ListAssert_filteredOn_BaseTest {
 
   // these tests validate any FilterOperator with strongly typed navigation assertions
   // no need to write tests for all FilterOperators
 
   @Test
-  public void shoul_honor_AssertFactory_strongly_typed_navigation_assertions() {
+  void should_honor_AssertFactory_strongly_typed_navigation_assertions() {
     // GIVEN
     Iterable<TolkienCharacter> hobbits = hobbits();
     TolkienCharacterAssertFactory tolkienCharacterAssertFactory = new TolkienCharacterAssertFactory();
@@ -43,7 +43,7 @@ public class ListAssert_filteredOn_using_filterOperator_with_navigation_Test ext
   }
 
   @Test
-  public void shoul_honor_ClassBased_strongly_typed_navigation_assertions() {
+  void should_honor_ClassBased_strongly_typed_navigation_assertions() {
     // GIVEN
     Iterable<TolkienCharacter> hobbits = hobbits();
     // THEN

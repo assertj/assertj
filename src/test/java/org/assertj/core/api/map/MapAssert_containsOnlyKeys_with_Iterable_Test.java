@@ -27,7 +27,7 @@ import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class MapAssert_containsOnlyKeys_with_Iterable_Test extends MapAssertBaseTest {
+class MapAssert_containsOnlyKeys_with_Iterable_Test extends MapAssertBaseTest {
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {

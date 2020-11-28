@@ -22,12 +22,12 @@ import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 
-public class ObjectArrayAssert_noneSatisfy_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_noneSatisfy_Test extends ObjectArrayAssertBaseTest {
 
   private Consumer<Object> restrictions;
 
   @BeforeEach
-  public void beforeOnce() {
+  void beforeOnce() {
     restrictions = element -> assertThat(element).isNotNull();
   }
 

@@ -20,8 +20,6 @@ import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGiv
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
 
 import java.util.Comparator;
@@ -39,7 +37,7 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class ObjectArrays_assertIsSortedAccordingToComparator_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertIsSortedAccordingToComparator_Test extends ObjectArraysBaseTest {
 
   private Comparator<String> stringDescendingOrderComparator;
   private Comparator<Object> comparator;
@@ -54,29 +52,29 @@ public class ObjectArrays_assertIsSortedAccordingToComparator_Test extends Objec
   }
 
   @Test
-  public void should_pass_if_actual_is_sorted_according_to_given_comparator() {
+  void should_pass_if_actual_is_sorted_according_to_given_comparator() {
     arrays.assertIsSortedAccordingToComparator(someInfo(), actual, stringDescendingOrderComparator);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty_whatever_given_comparator_is() {
+  void should_pass_if_actual_is_empty_whatever_given_comparator_is() {
     arrays.assertIsSortedAccordingToComparator(someInfo(), new String[0], stringDescendingOrderComparator);
     arrays.assertIsSortedAccordingToComparator(someInfo(), new String[0], comparator);
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), null, comparator))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_comparator_is_null() {
+  void should_fail_if_comparator_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), array(), null));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_sorted_according_to_given_comparator() {
+  void should_fail_if_actual_is_not_sorted_according_to_given_comparator() {
     AssertionInfo info = someInfo();
     actual = array("Yoda", "Vador", "Leia", "Leia", "Luke");
 

@@ -22,12 +22,12 @@ import org.assertj.core.api.ObjectArrayAssertBaseTest;
 import org.assertj.core.presentation.PredicateDescription;
 import org.junit.jupiter.api.BeforeEach;
 
-public class ObjectArrayAssert_anyMatch_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_anyMatch_Test extends ObjectArrayAssertBaseTest {
 
   private Predicate<Object> predicate;
 
   @BeforeEach
-  public void beforeOnce() {
+  void beforeOnce() {
     predicate = o -> o != null;
   }
 

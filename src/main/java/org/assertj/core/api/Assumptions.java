@@ -33,6 +33,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Iterator;
@@ -69,6 +70,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.ClassLoadingStrategyFactory.ClassLoadingStrategyPair;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.util.CheckReturnValue;
@@ -221,6 +223,17 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Boolean2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  public static Boolean2DArrayAssert assumeThat(boolean[][] actual) {
+    return asAssumption(Boolean2DArrayAssert.class, boolean[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ByteAssert}</code> assumption.
    *
    * @param actual the actual value.
@@ -254,6 +267,17 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Byte2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  public static Byte2DArrayAssert assumeThat(byte[][] actual) {
+    return asAssumption(Byte2DArrayAssert.class, byte[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link CharacterAssert}</code> assumption.
    *
    * @param actual the actual value.
@@ -284,6 +308,17 @@ public class Assumptions {
    */
   public static AbstractCharArrayAssert<?> assumeThat(char[] actual) {
     return asAssumption(CharArrayAssert.class, char[].class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Char2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  public static Char2DArrayAssert assumeThat(char[][] actual) {
+    return asAssumption(Char2DArrayAssert.class, char[][].class, actual);
   }
 
   /**
@@ -353,6 +388,17 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Short2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  public static Short2DArrayAssert assumeThat(short[][] actual) {
+    return asAssumption(Short2DArrayAssert.class, short[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link IntegerAssert}</code> assumption.
    *
    * @param actual the actual value.
@@ -383,6 +429,17 @@ public class Assumptions {
    */
   public static AbstractIntArrayAssert<?> assumeThat(int[] actual) {
     return asAssumption(IntArrayAssert.class, int[].class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Int2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  public static Int2DArrayAssert assumeThat(int[][] actual) {
+    return asAssumption(Int2DArrayAssert.class, int[][].class, actual);
   }
 
   /**
@@ -419,6 +476,17 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Long2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  public static Long2DArrayAssert assumeThat(long[][] actual) {
+    return asAssumption(Long2DArrayAssert.class, long[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link FloatAssert}</code> assumption.
    *
    * @param actual the actual value.
@@ -452,6 +520,17 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Float2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  public static Float2DArrayAssert assumeThat(float[][] actual) {
+    return asAssumption(Float2DArrayAssert.class, float[][].class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link DoubleAssert}</code> assumption.
    *
    * @param actual the actual value.
@@ -482,6 +561,17 @@ public class Assumptions {
    */
   public static AbstractDoubleArrayAssert<?> assumeThat(double[] actual) {
     return asAssumption(DoubleArrayAssert.class, double[].class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Double2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  public static Double2DArrayAssert assumeThat(double[][] actual) {
+    return asAssumption(Double2DArrayAssert.class, double[][].class, actual);
   }
 
   /**
@@ -764,6 +854,19 @@ public class Assumptions {
   @SuppressWarnings("unchecked")
   public static <T> ProxyableObjectArrayAssert<T> assumeThat(T[] actual) {
     return asAssumption(ProxyableObjectArrayAssert.class, Object[].class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Object2DArrayAssert}</code> assumption.
+   *
+   * @param <T> the type of elements.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  @SuppressWarnings("unchecked")
+  public static <T> Object2DArrayAssert<T> assumeThat(T[][] actual) {
+    return asAssumption(Object2DArrayAssert.class, Object[][].class, actual);
   }
 
   /**
@@ -1081,6 +1184,17 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of {@link PeriodAssert} assumption.
+   *
+   * @param actual the Period to test
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  public static AbstractPeriodAssert<?> assumeThat(Period actual) {
+    return asAssumption(PeriodAssert.class, Period.class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ListAssert}</code> assumption from the given {@link Stream}.
    *
    * @param <ELEMENT> the type of elements.
@@ -1164,32 +1278,33 @@ public class Assumptions {
   @SuppressWarnings("unchecked")
   private static <ASSERTION> Class<? extends ASSERTION> createAssumptionClass(Class<ASSERTION> assertClass) {
     SimpleKey cacheKey = new SimpleKey(assertClass);
-    return (Class<ASSERTION>) CACHE.findOrInsert(Assumptions.class.getClassLoader(),
+    return (Class<ASSERTION>) CACHE.findOrInsert(assertClass.getClassLoader(),
                                                  cacheKey,
                                                  () -> generateAssumptionClass(assertClass));
   }
 
   protected static <ASSERTION> Class<? extends ASSERTION> generateAssumptionClass(Class<ASSERTION> assertionType) {
+    ClassLoadingStrategyPair strategy = classLoadingStrategy(assertionType);
     return BYTE_BUDDY.subclass(assertionType)
                      // TODO ignore non assertion methods ?
                      .method(any())
                      .intercept(ASSUMPTION)
                      .make()
-                     .load(Assumptions.class.getClassLoader(), classLoadingStrategy(assertionType))
+                     .load(strategy.getClassLoader(), strategy.getClassLoadingStrategy())
                      .getLoaded();
   }
 
   private static RuntimeException assumptionNotMet(AssertionError assertionError) throws ReflectiveOperationException {
-    Class<?> assumptionClass = getAssumptionClass("org.junit.AssumptionViolatedException");
+    Class<?> assumptionClass = getAssumptionClass("org.testng.SkipException");
+    if (assumptionClass != null) return assumptionNotMet(assumptionClass, assertionError);
+
+    assumptionClass = getAssumptionClass("org.junit.AssumptionViolatedException");
     if (assumptionClass != null) return assumptionNotMet(assumptionClass, assertionError);
 
     assumptionClass = getAssumptionClass("org.opentest4j.TestAbortedException");
     if (assumptionClass != null) return assumptionNotMet(assumptionClass, assertionError);
 
-    assumptionClass = getAssumptionClass("org.testng.SkipException");
-    if (assumptionClass != null) return assumptionNotMet(assumptionClass, assertionError);
-
-    throw new IllegalStateException("Assumptions require JUnit, opentest4j or TestNG on the classpath");
+    throw new IllegalStateException("Assumptions require TestNG, JUnit or opentest4j on the classpath");
   }
 
   private static Class<?> getAssumptionClass(String className) {

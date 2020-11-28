@@ -20,17 +20,17 @@ import java.util.concurrent.atomic.AtomicLongArray;
 
 import org.junit.jupiter.api.Test;
 
-public class AtomicLongArray_assertions_Test {
+class AtomicLongArray_assertions_Test {
 
   @Test
-  public void should_accept_null_atomicLongArray() {
+  void should_accept_null_atomicLongArray() {
     AtomicLongArray actual = null;
     assertThat(actual).isNull();
     then((AtomicLongArray) null).isNull();
   }
 
   @Test
-  public void should_be_able_to_use_any_long_array_assertions() {
+  void should_be_able_to_use_any_long_array_assertions() {
     AtomicLongArray actual = new AtomicLongArray(new long[] { 1, 2, 3, 4 });
     assertThat(actual).startsWith(1, 2)
                       .contains(3, atIndex(2))

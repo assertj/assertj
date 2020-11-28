@@ -31,17 +31,17 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import com.google.common.collect.Multimap;
 
-public class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Test {
+class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Test {
 
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
   }
 
   @Test
-  public void should_ignore_all_overridden_equals_for_non_java_types() {
+  void should_ignore_all_overridden_equals_for_non_java_types() {
     // GIVEN
     DualValue dualValue = new DualValue(list("foo"), new Person(), new Person());
     recursiveComparisonConfiguration.ignoreAllOverriddenEquals();
@@ -54,7 +54,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Tes
 
   @ParameterizedTest
   @MethodSource("ignoringAllOverriddenEqualsExceptBasicTypes")
-  public void should_ignore_all_overridden_equals_except_java_types(Object value) {
+  void should_ignore_all_overridden_equals_except_basic_types(Object value) {
     // GIVEN
     DualValue dualValue = new DualValue(list("foo"), value, value);
     recursiveComparisonConfiguration.ignoreAllOverriddenEquals();
@@ -66,12 +66,12 @@ public class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Tes
   }
 
   private static Stream<Object> ignoringAllOverriddenEqualsExceptBasicTypes() {
-    return Stream.of("foo", 23, 2.0, 123L, true, Byte.MIN_VALUE, new Object(), new Date());
+    return Stream.of("foo", 23, 2.0, 123L, true, Byte.MIN_VALUE, new Object(), new Date(), Color.BLUE);
   }
 
   @ParameterizedTest(name = "{0} overridden equals should be ignored with these regexes {1}")
   @MethodSource("ignoringOverriddenEqualsByRegexesSource")
-  public void should_ignore_overridden_equals_by_regexes(Class<?> clazz, String[] fieldRegexes) {
+  void should_ignore_overridden_equals_by_regexes(Class<?> clazz, String[] fieldRegexes) {
     // GIVEN
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes(fieldRegexes);
     // WHEN
@@ -89,7 +89,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Tes
 
   @ParameterizedTest(name = "{0} overridden equals should be ignored for these types {1}")
   @MethodSource("ignoringOverriddenEqualsForTypesSource")
-  public void should_ignore_overridden_equals_by_types(Class<?> clazz, List<Class<?>> types) {
+  void should_ignore_overridden_equals_by_types(Class<?> clazz, List<Class<?>> types) {
     // GIVEN
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(types.toArray(new Class[0]));
     // WHEN
@@ -106,7 +106,7 @@ public class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Tes
 
   @ParameterizedTest(name = "{0} overridden equals should be ignored for these fields {1}")
   @MethodSource("ignoringOverriddenEqualsForFieldsSource")
-  public void should_ignore_overridden_equals_by_fields(DualValue dualValue, String[] fields) {
+  void should_ignore_overridden_equals_by_fields(DualValue dualValue, String[] fields) {
     // GIVEN
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields(fields);
     // WHEN

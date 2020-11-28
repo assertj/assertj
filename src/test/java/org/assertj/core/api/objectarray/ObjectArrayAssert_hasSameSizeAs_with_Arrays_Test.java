@@ -27,22 +27,22 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class ObjectArrayAssert_hasSameSizeAs_with_Arrays_Test {
+class ObjectArrayAssert_hasSameSizeAs_with_Arrays_Test {
 
   @Test
-  public void should_pass_if_actual_object_array_has_same_size_as_other_object_array() {
+  void should_pass_if_actual_object_array_has_same_size_as_other_object_array() {
     assertThat(new String[]{"1", "2"}).hasSameSizeAs(new Byte[]{2, 3});
     assertThat(new String[]{"1", "2"}).hasSameSizeAs(new String[]{"1", "2"});
   }
 
   @Test
-  public void should_pass_if_actual_object_array_has_same_size_as_other_primitive_array() {
+  void should_pass_if_actual_object_array_has_same_size_as_other_primitive_array() {
     assertThat(new String[]{"1", "2"}).hasSameSizeAs(new byte[]{2, 3});
     assertThat(new String[]{"1", "2"}).hasSameSizeAs(new int[]{2, 3});
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
       final String[] actual = null;
       assertThat(actual).hasSameSizeAs(new String[]{"1"});
@@ -50,13 +50,13 @@ public class ObjectArrayAssert_hasSameSizeAs_with_Arrays_Test {
   }
 
   @Test
-  public void should_fail_if_other_is_not_an_array() {
+  void should_fail_if_other_is_not_an_array() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new byte[]{1, 2}).hasSameSizeAs("a string"))
                                                    .withMessage(format("%nExpecting an array but was:<\"a string\">"));
   }
 
   @Test
-  public void should_fail_if_size_of_actual_has_same_as_other_array() {
+  void should_fail_if_size_of_actual_has_same_as_other_array() {
     final String[] actual = array("Luke", "Yoda");
     final String[] other = array("Yoda");
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasSameSizeAs(other))

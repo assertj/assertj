@@ -25,7 +25,7 @@ import org.assertj.core.api.PathAssertBaseTest;
  *
  * @author Valeriy Vyrva
  */
-public class PathAssert_hasDigest_DigestBytes_Test extends PathAssertBaseTest {
+class PathAssert_hasDigest_DigestBytes_Test extends PathAssertBaseTest {
 
   private final MessageDigest digest = mock(MessageDigest.class);
   private final byte[] expected = new byte[0];

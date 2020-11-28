@@ -28,12 +28,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class Throwables_assertHasCauseReference_Test extends ThrowablesBaseTest {
+class Throwables_assertHasCauseReference_Test extends ThrowablesBaseTest {
 
   private static final AssertionInfo INFO = someInfo();
 
   @Test
-  public void should_pass_if_actual_cause_and_expected_cause_are_the_same_instance() {
+  void should_pass_if_actual_cause_and_expected_cause_are_the_same_instance() {
     // GIVEN
     Throwable cause = new IllegalArgumentException("wibble");
     Throwable throwable = withCause(cause);
@@ -44,7 +44,7 @@ public class Throwables_assertHasCauseReference_Test extends ThrowablesBaseTest 
   }
 
   @Test
-  public void should_pass_if_both_actual_and_expected_causes_are_null() {
+  void should_pass_if_both_actual_and_expected_causes_are_null() {
     // GIVEN
     Throwable cause = null;
     Throwable throwable = withCause(cause);
@@ -57,7 +57,7 @@ public class Throwables_assertHasCauseReference_Test extends ThrowablesBaseTest 
   @SuppressWarnings("unused")
   @ParameterizedTest(name = "{2}: cause = {0} / expected = {1}")
   @MethodSource("failingData")
-  public void should_fail_if_cause_is_not_same_as_expected(final Throwable cause,
+  void should_fail_if_cause_is_not_same_as_expected(final Throwable cause,
                                                            final Throwable expected,
                                                            String testDescription) {
     // GIVEN
@@ -76,7 +76,7 @@ public class Throwables_assertHasCauseReference_Test extends ThrowablesBaseTest 
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     final Throwable throwable = null;
     final Throwable cause = new Throwable();

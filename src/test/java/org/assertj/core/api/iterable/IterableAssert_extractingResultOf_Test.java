@@ -42,21 +42,21 @@ import org.junit.jupiter.api.Test;
  *
  * @author Michał Piotrkowski
  */
-public class IterableAssert_extractingResultOf_Test {
+class IterableAssert_extractingResultOf_Test {
 
   private static FluentJedi yoda;
   private static FluentJedi vader;
   private static Iterable<FluentJedi> jedis;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     yoda = new FluentJedi(new Name("Yoda"), 800, false);
     vader = new FluentJedi(new Name("Darth Vader"), 50, true);
     jedis = newArrayList(yoda, vader);
   }
 
   @Test
-  public void should_allow_assertions_on_method_invocation_result_extracted_from_given_iterable() {
+  void should_allow_assertions_on_method_invocation_result_extracted_from_given_iterable() {
     // extract method result
     assertThat(jedis).extractingResultOf("age").containsOnly(800, 50);
     // extract if method result is primitive
@@ -68,25 +68,25 @@ public class IterableAssert_extractingResultOf_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_method_invocation_result_extracted_from_given_iterable_with_enforcing_return_type() {
+  void should_allow_assertions_on_method_invocation_result_extracted_from_given_iterable_with_enforcing_return_type() {
     assertThat(jedis).extractingResultOf("name", Name.class).containsOnly(new Name("Yoda"), new Name("Darth Vader"));
   }
 
   @Test
-  public void should_throw_error_if_no_method_with_given_name_can_be_extracted() {
+  void should_throw_error_if_no_method_with_given_name_can_be_extracted() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(jedis).extractingResultOf("unknown"))
                                         .withMessage("Can't find method 'unknown' in class FluentJedi.class. Make sure public method exists and accepts no arguments!");
   }
 
   @Test
-  public void should_use_method_name_as_description_when_extracting_result_of_method_list() {
+  void should_use_method_name_as_description_when_extracting_result_of_method_list() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extractingResultOf("age")
                                                                                       .isEmpty())
                                                    .withMessageContaining("[Extracted: result of age()]");
   }
 
   @Test
-  public void should_use_method_name_as_description_when_extracting_typed_result_of_method_list() {
+  void should_use_method_name_as_description_when_extracting_typed_result_of_method_list() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extractingResultOf("age",
                                                                                                           Integer.class)
                                                                                       .isEmpty())
@@ -94,7 +94,7 @@ public class IterableAssert_extractingResultOf_Test {
   }
 
   @Test
-  public void extractingResultOf_should_keep_assertion_state() {
+  void extractingResultOf_should_keep_assertion_state() {
     // WHEN
     // not all comparators are used but we want to test that they are passed correctly after extracting
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
@@ -118,7 +118,7 @@ public class IterableAssert_extractingResultOf_Test {
   }
 
   @Test
-  public void strongly_typed_extractingResultOf_should_keep_assertion_state() {
+  void strongly_typed_extractingResultOf_should_keep_assertion_state() {
     // WHEN
     // not all comparators are used but we want to test that they are passed correctly after extracting
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")

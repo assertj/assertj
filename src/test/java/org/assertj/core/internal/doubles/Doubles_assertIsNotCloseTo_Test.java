@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
+class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
 
   private static final Double ZERO = 0d;
   private static final Double ONE = 1d;
@@ -42,7 +42,7 @@ public class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
   private static final Double TEN = 10d;
 
   @Test
-  public void should_pass_if_difference_is_more_than_given_offset() {
+  void should_pass_if_difference_is_more_than_given_offset() {
     doubles.assertIsNotCloseTo(someInfo(), ONE, THREE, byLessThan(ONE));
     doubles.assertIsNotCloseTo(someInfo(), ONE, THREE, within(ONE));
     doubles.assertIsNotCloseTo(someInfo(), ONE, TEN, byLessThan(TWO));
@@ -50,48 +50,48 @@ public class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
   }
 
   @Test
-  public void should_pass_if_difference_is_equal_to_the_given_strict_offset() {
+  void should_pass_if_difference_is_equal_to_the_given_strict_offset() {
     doubles.assertIsNotCloseTo(someInfo(), ONE, TWO, byLessThan(ONE));
     doubles.assertIsNotCloseTo(someInfo(), TWO, ONE, byLessThan(ONE));
   }
 
   @Test
-  public void should_pass_if_actual_is_POSITIVE_INFINITY_and_expected_is_not() {
+  void should_pass_if_actual_is_POSITIVE_INFINITY_and_expected_is_not() {
     doubles.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, ONE, byLessThan(ONE));
     doubles.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, ONE, within(ONE));
   }
 
   @Test
-  public void should_pass_if_actual_is_POSITIVE_INFINITY_and_expected_is_NEGATIVE_INFINITY() {
+  void should_pass_if_actual_is_POSITIVE_INFINITY_and_expected_is_NEGATIVE_INFINITY() {
     doubles.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, NEGATIVE_INFINITY, byLessThan(ONE));
     doubles.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, NEGATIVE_INFINITY, within(ONE));
   }
 
   @Test
-  public void should_pass_if_actual_is_NEGATIVE_INFINITY_and_expected_is_not() {
+  void should_pass_if_actual_is_NEGATIVE_INFINITY_and_expected_is_not() {
     doubles.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, ONE, byLessThan(ONE));
     doubles.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, ONE, within(ONE));
   }
 
   @Test
-  public void should_pass_if_actual_is_NEGATIVE_INFINITY_and_expected_is_POSITIVE_INFINITY() {
+  void should_pass_if_actual_is_NEGATIVE_INFINITY_and_expected_is_POSITIVE_INFINITY() {
     doubles.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, POSITIVE_INFINITY, byLessThan(ONE));
     doubles.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, POSITIVE_INFINITY, within(ONE));
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_expected_value_is_null() {
+  void should_fail_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> doubles.assertIsNotCloseTo(someInfo(), ONE, null, byLessThan(ONE)));
   }
 
   @Test
-  public void should_fail_if_offset_is_null() {
+  void should_fail_if_offset_is_null() {
     assertThatNullPointerException().isThrownBy(() -> doubles.assertIsNotCloseTo(someInfo(), ONE, ZERO, null));
   }
 
@@ -101,7 +101,7 @@ public class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
       "1.0, 0.0, 1.0",
       "1.0, 2.0, 1.0"
   })
-  public void should_fail_if_difference_is_equal_to_given_offset(Double actual, Double other, Double offset) {
+  void should_fail_if_difference_is_equal_to_given_offset(Double actual, Double other, Double offset) {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> doubles.assertIsNotCloseTo(someInfo(), actual, other, within(offset)));
@@ -111,7 +111,7 @@ public class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
   }
   
   @Test
-  public void should_fail_if_actual_is_too_close_to_expected_value() {
+  void should_fail_if_actual_is_too_close_to_expected_value() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> doubles.assertIsNotCloseTo(info, ONE, TWO, within(TEN)));
@@ -121,7 +121,7 @@ public class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_too_close_to_expected_value_with_strict_offset() {
+  void should_fail_if_actual_is_too_close_to_expected_value_with_strict_offset() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> doubles.assertIsNotCloseTo(info, ONE, TWO, byLessThan(TEN)));
@@ -131,17 +131,17 @@ public class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_and_expected_are_NaN() {
+  void should_fail_if_actual_and_expected_are_NaN() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseTo(someInfo(), NaN, NaN, within(ONE)));
   }
 
   @Test
-  public void should_fail_if_actual_and_expected_are_POSITIVE_INFINITY() {
+  void should_fail_if_actual_and_expected_are_POSITIVE_INFINITY() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, POSITIVE_INFINITY, within(ONE)));
   }
 
   @Test
-  public void should_fail_if_actual_and_expected_are_NEGATIVE_INFINITY() {
+  void should_fail_if_actual_and_expected_are_NEGATIVE_INFINITY() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, NEGATIVE_INFINITY, within(ONE)));
   }
 

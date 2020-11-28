@@ -12,11 +12,11 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.awt.Rectangle;
 
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -24,10 +24,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class ComparatorBasedComparisonStrategy_isLessThanOrEqualTo_Test extends AbstractTest_ComparatorBasedComparisonStrategy {
+class ComparatorBasedComparisonStrategy_isLessThanOrEqualTo_Test extends AbstractTest_ComparatorBasedComparisonStrategy {
 
   @Test
-  public void should_pass() {
+  void should_pass() {
     String string = "string";
     String greaterString = "STRINGA";
     assertThat(caseInsensitiveComparisonStrategy.isLessThanOrEqualTo(string, greaterString)).isTrue();
@@ -40,7 +40,7 @@ public class ComparatorBasedComparisonStrategy_isLessThanOrEqualTo_Test extends 
   }
 
   @Test
-  public void should_fail_if_a_parameter_is_not_comparable() {
+  void should_fail_if_a_parameter_is_not_comparable() {
     assertThatExceptionOfType(ClassCastException.class).isThrownBy(() -> caseInsensitiveComparisonStrategy.isLessThanOrEqualTo(new Rectangle(),
                                                                                                                                new Rectangle()));
   }

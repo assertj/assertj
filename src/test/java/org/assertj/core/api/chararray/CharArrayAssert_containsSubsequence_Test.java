@@ -23,7 +23,7 @@ import org.assertj.core.api.CharArrayAssertBaseTest;
  * 
  * @author Marcin Mikosik
  */
-public class CharArrayAssert_containsSubsequence_Test extends CharArrayAssertBaseTest {
+class CharArrayAssert_containsSubsequence_Test extends CharArrayAssertBaseTest {
 
   @Override
   protected CharArrayAssert invoke_api_method() {

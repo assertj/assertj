@@ -23,7 +23,7 @@ import org.assertj.core.api.CharSequenceAssertBaseTest;
  *
  * @author Billy Yuan
  */
-public class CharSequenceAssert_containsSequence_with_var_args_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_containsSequence_with_var_args_Test extends CharSequenceAssertBaseTest {
   @Override
   protected CharSequenceAssert invoke_api_method() {
     return assertions.containsSequence("od", "do");

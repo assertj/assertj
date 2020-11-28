@@ -22,7 +22,7 @@ import org.assertj.core.api.CharSequenceAssertBaseTest;
  * 
  * @author Alex Ruiz
  */
-public class CharSequenceAssert_isEqualToIgnoringCase_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_isEqualToIgnoringCase_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {

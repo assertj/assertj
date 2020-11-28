@@ -37,7 +37,7 @@ import org.junit.jupiter.api.Test;
  * @author Nicolas François
  * @author Joel Costigliola
  */
-public class Maps_assertDoesNotContainValue_Test extends MapsBaseTest {
+class Maps_assertDoesNotContainValue_Test extends MapsBaseTest {
 
   @Override
   @BeforeEach
@@ -47,23 +47,23 @@ public class Maps_assertDoesNotContainValue_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_value() {
+  void should_pass_if_actual_contains_given_value() {
     maps.assertDoesNotContainValue(someInfo(), actual, "veryOld");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertDoesNotContainValue(someInfo(), null, "veryOld"))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_success_if_value_is_null() {
+  void should_success_if_value_is_null() {
     maps.assertDoesNotContainValue(someInfo(), actual, null);
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_value() {
+  void should_fail_if_actual_does_not_contain_value() {
     AssertionInfo info = someInfo();
     String value = "Yoda";
 

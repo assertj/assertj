@@ -33,12 +33,12 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class Strings_assertDoesNotMatch_CharSequence_Test extends StringsBaseTest {
+class Strings_assertDoesNotMatch_CharSequence_Test extends StringsBaseTest {
 
   private String actual = "Yoda";
 
   @Test
-  public void should_throw_error_if_regular_expression_is_null() {
+  void should_throw_error_if_regular_expression_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       String pattern = null;
       strings.assertDoesNotMatch(someInfo(), actual, pattern);
@@ -46,31 +46,31 @@ public class Strings_assertDoesNotMatch_CharSequence_Test extends StringsBaseTes
   }
 
   @Test
-  public void should_throw_error_if_syntax_of_regular_expression_is_invalid() {
+  void should_throw_error_if_syntax_of_regular_expression_is_invalid() {
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> strings.assertDoesNotMatch(someInfo(), actual,
                                                                                                   "*..."));
   }
 
   @Test
-  public void should_fail_if_actual_matches_regular_expression() {
+  void should_fail_if_actual_matches_regular_expression() {
     String regex = matchAnything().pattern();
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotMatch(someInfo(), actual, regex))
                                                    .withMessage(shouldNotMatch(actual, regex).create());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotMatch(someInfo(), null, matchAnything().pattern()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_does_not_match_regular_expression() {
+  void should_pass_if_actual_does_not_match_regular_expression() {
     strings.assertDoesNotMatch(someInfo(), actual, "Luke");
   }
 
   @Test
-  public void should_throw_error_if_regular_expression_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_regular_expression_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> {
       String pattern = null;
       stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(), actual, pattern);
@@ -78,27 +78,27 @@ public class Strings_assertDoesNotMatch_CharSequence_Test extends StringsBaseTes
   }
 
   @Test
-  public void should_throw_error_if_syntax_of_regular_expression_is_invalid_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_syntax_of_regular_expression_is_invalid_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(PatternSyntaxException.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(),
                                                                                                                                              actual,
                                                                                                                                              "*..."));
   }
 
   @Test
-  public void should_fail_if_actual_matches_regular_expression_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_matches_regular_expression_whatever_custom_comparison_strategy_is() {
     String regex = matchAnything().pattern();
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(), actual, regex))
                                                    .withMessage(shouldNotMatch(actual, regex).create());
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(), null, matchAnything().pattern()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_does_not_match_regular_expression_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_does_not_match_regular_expression_whatever_custom_comparison_strategy_is() {
     stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(), actual, "Luke");
   }
 }

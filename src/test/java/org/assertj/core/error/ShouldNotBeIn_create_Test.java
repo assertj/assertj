@@ -31,10 +31,10 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class ShouldNotBeIn_create_Test {
+class ShouldNotBeIn_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotBeIn("Luke", array("Luke", "Leia"));
     // WHEN
@@ -48,7 +48,7 @@ public class ShouldNotBeIn_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_custom_comparison_strategy() {
+  void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotBeIn("Luke", array("Luke", "Leia"),
                                                 new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));

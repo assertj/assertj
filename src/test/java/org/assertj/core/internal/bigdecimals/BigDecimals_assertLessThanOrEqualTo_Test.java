@@ -34,31 +34,31 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class BigDecimals_assertLessThanOrEqualTo_Test extends BigDecimalsBaseTest {
+class BigDecimals_assertLessThanOrEqualTo_Test extends BigDecimalsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertLessThanOrEqualTo(someInfo(), null, ONE))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_less_than_other() {
+  void should_pass_if_actual_is_less_than_other() {
     numbers.assertLessThanOrEqualTo(someInfo(), ONE, TEN);
   }
 
   @Test
-  public void should_pass_if_actual_is_equal_to_other() {
+  void should_pass_if_actual_is_equal_to_other() {
     numbers.assertLessThanOrEqualTo(someInfo(), ONE, ONE);
   }
 
   @Test
-  public void should_pass_if_actual_is_equal_to_other_by_comparison() {
-	numbers.assertLessThanOrEqualTo(someInfo(), ONE, new BigDecimal("1.00"));
+  void should_pass_if_actual_is_equal_to_other_by_comparison() {
+    numbers.assertLessThanOrEqualTo(someInfo(), ONE, new BigDecimal("1.00"));
   }  
  
   @Test
-  public void should_fail_if_actual_is_less_than_other() {
+  void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbers.assertLessThanOrEqualTo(info, TEN, ONE));
@@ -72,17 +72,17 @@ public class BigDecimals_assertLessThanOrEqualTo_Test extends BigDecimalsBaseTes
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     numbersWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(someInfo(), ONE, TEN.negate());
   }
 
   @Test
-  public void should_pass_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
     numbersWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(someInfo(), ONE.negate(), ONE);
   }
 
   @Test
-  public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(info, TEN.negate(), ONE));

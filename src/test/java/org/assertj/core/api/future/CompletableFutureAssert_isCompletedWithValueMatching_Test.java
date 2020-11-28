@@ -24,10 +24,10 @@ import java.util.concurrent.CompletableFuture;
 
 import org.junit.jupiter.api.Test;
 
-public class CompletableFutureAssert_isCompletedWithValueMatching_Test {
+class CompletableFutureAssert_isCompletedWithValueMatching_Test {
 
   @Test
-  public void should_pass_if_completable_future_is_completed() {
+  void should_pass_if_completable_future_is_completed() {
     // GIVEN
     CompletableFuture<String> future = completedFuture("done");
     // THEN
@@ -35,7 +35,7 @@ public class CompletableFutureAssert_isCompletedWithValueMatching_Test {
   }
 
   @Test
-  public void should_fail_when_completable_future_is_null() {
+  void should_fail_when_completable_future_is_null() {
     // GIVEN
     CompletableFuture<String> future = null;
     // WHEN
@@ -45,7 +45,7 @@ public class CompletableFutureAssert_isCompletedWithValueMatching_Test {
   }
 
   @Test
-  public void should_fail_if_result_does_not_match() {
+  void should_fail_if_result_does_not_match() {
     // GIVEN
     CompletableFuture<String> future = CompletableFuture.completedFuture("done");
     // WHEN
@@ -57,7 +57,7 @@ public class CompletableFutureAssert_isCompletedWithValueMatching_Test {
   }
 
   @Test
-  public void should_print_advice_without_description() {
+  void should_print_advice_without_description() {
     // GIVEN
     CompletableFuture<String> future = CompletableFuture.completedFuture("done");
     // WHEN
@@ -69,7 +69,7 @@ public class CompletableFutureAssert_isCompletedWithValueMatching_Test {
   }
 
   @Test
-  public void should_fail_if_completable_future_is_incomplete() {
+  void should_fail_if_completable_future_is_incomplete() {
     // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     // WHEN
@@ -79,7 +79,7 @@ public class CompletableFutureAssert_isCompletedWithValueMatching_Test {
   }
 
   @Test
-  public void should_fail_if_completable_future_has_failed() {
+  void should_fail_if_completable_future_has_failed() {
     // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     future.completeExceptionally(new RuntimeException());
@@ -92,7 +92,7 @@ public class CompletableFutureAssert_isCompletedWithValueMatching_Test {
   }
 
   @Test
-  public void should_fail_if_completable_future_was_cancelled() {
+  void should_fail_if_completable_future_was_cancelled() {
     // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(true);

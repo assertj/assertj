@@ -22,10 +22,10 @@ import java.net.URI;
 import org.assertj.core.internal.UrisBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class Uris_assertHasPort_Test extends UrisBaseTest {
+class Uris_assertHasPort_Test extends UrisBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     URI uri = null;
     int expectedPort = 8080;
@@ -36,7 +36,7 @@ public class Uris_assertHasPort_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_uri_has_the_given_port() {
+  void should_pass_if_actual_uri_has_the_given_port() {
     // GIVEN
     URI uri = URI.create("http://example.com:8080/pages/");
     int expectedPort = 8080;
@@ -45,7 +45,7 @@ public class Uris_assertHasPort_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URI_port_is_not_the_given_port() {
+  void should_fail_if_actual_URI_port_is_not_the_given_port() {
     // GIVEN
     URI uri = URI.create("http://example.com:8080/pages/");
     int expectedPort = 8888;

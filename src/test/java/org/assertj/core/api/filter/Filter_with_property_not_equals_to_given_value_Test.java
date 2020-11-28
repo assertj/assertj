@@ -23,10 +23,10 @@ import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.Test;
 
 
-public class Filter_with_property_not_equals_to_given_value_Test extends WithPlayerData {
+class Filter_with_property_not_equals_to_given_value_Test extends WithPlayerData {
 
   @Test
-  public void should_filter_iterable_elements_with_property_not_equals_to_given_value() {
+  void should_filter_iterable_elements_with_property_not_equals_to_given_value() {
     Iterable<Player> nonOKCPlayers = filter(players).with("team").notEqualsTo("Chicago Bulls").get();
     assertThat(nonOKCPlayers).containsOnly(kobe, duncan, magic);
     // players is not modified
@@ -39,13 +39,13 @@ public class Filter_with_property_not_equals_to_given_value_Test extends WithPla
   }
 
   @Test
-  public void should_fail_if_property_to_filter_on_is_null() {
+  void should_fail_if_property_to_filter_on_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> filter(players).with(null).notEqualsTo("foo"))
                                         .withMessage("The property/field name to filter on should not be null or empty");
   }
 
   @Test
-  public void should_fail_if_elements_to_filter_do_not_have_property_used_by_filter() {
+  void should_fail_if_elements_to_filter_do_not_have_property_used_by_filter() {
     assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> filter(players).with("country")
                                                                                         .notEqualsTo("France"))
                                                        .withMessageContaining("Can't find any field or property with name 'country'");

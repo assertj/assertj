@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author dorzey
  */
-public class Maps_assertDoesNotContainKeys_Test extends MapsBaseTest {
+class Maps_assertDoesNotContainKeys_Test extends MapsBaseTest {
 
   @Override
   @BeforeEach
@@ -41,23 +41,23 @@ public class Maps_assertDoesNotContainKeys_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_given_keys() {
+  void should_pass_if_actual_does_not_contain_given_keys() {
     maps.assertDoesNotContainKeys(someInfo(), actual, "age");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertDoesNotContainKeys(someInfo(), null, "name", "color"))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_key_is_null() {
+  void should_pass_if_key_is_null() {
     maps.assertDoesNotContainKeys(someInfo(), actual, (String) null);
   }
 
   @Test
-  public void should_fail_if_actual_contains_key() {
+  void should_fail_if_actual_contains_key() {
     AssertionInfo info = someInfo();
     String key = "name";
 
@@ -68,7 +68,7 @@ public class Maps_assertDoesNotContainKeys_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_contains_keys() {
+  void should_fail_if_actual_contains_keys() {
     AssertionInfo info = someInfo();
     String key1 = "name";
     String key2 = "color";

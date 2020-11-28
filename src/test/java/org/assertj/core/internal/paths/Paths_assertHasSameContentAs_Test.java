@@ -43,14 +43,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link Paths#assertHasSameContentAs(AssertionInfo, Path, Charset, Path, Charset)}</code>.
  */
-public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
+class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
 
   private static final Charset CHARSET = defaultCharset();
   private Path actual;
   private Path expected;
 
   @BeforeEach
-  public void setUpOnce() throws IOException {
+  void setUpOnce() throws IOException {
     // Does not matter if the values differ, the actual comparison is mocked in this test
     actual = createTempPathWithContent("foo", CHARSET);
     expected = createTempPathWithContent("bar", CHARSET);
@@ -61,7 +61,7 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_pass_if_path_has_same_textual_content_as_expected() throws IOException {
+  void should_pass_if_path_has_same_textual_content_as_expected() throws IOException {
     // GIVEN
     given(diff.diff(actual, CHARSET, expected, CHARSET)).willReturn(emptyList());
     // WHEN/THEN
@@ -69,7 +69,7 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_expected_is_null() {
+  void should_throw_error_if_expected_is_null() {
     // GIVEN
     Path nullExpected = null;
     // WHEN
@@ -81,7 +81,7 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     Path path = null;
     // WHEN
@@ -92,7 +92,7 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_path_does_not_exist() {
+  void should_fail_if_actual_path_does_not_exist() {
     // GIVEN
     AssertionInfo info = someInfo();
     given(nioFilesWrapper.exists(actual)).willReturn(false);
@@ -103,7 +103,7 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_not_a_readable_file() {
+  void should_fail_if_actual_is_not_a_readable_file() {
     // GIVEN
     given(nioFilesWrapper.isReadable(actual)).willReturn(false);
     // WHEN
@@ -113,7 +113,7 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_expected_path_is_does_not_exist() {
+  void should_fail_if_expected_path_is_does_not_exist() {
     // GIVEN
     given(nioFilesWrapper.exists(expected)).willReturn(false);
     // WHEN
@@ -125,7 +125,7 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_expected_path_is_not_readable() {
+  void should_fail_if_expected_path_is_not_readable() {
     // GIVEN
     given(nioFilesWrapper.isReadable(expected)).willReturn(false);
     // WHEN
@@ -137,7 +137,7 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_throw_error_wrapping_caught_IOException() throws IOException {
+  void should_throw_error_wrapping_caught_IOException() throws IOException {
     // GIVEN
     IOException cause = new IOException();
     given(diff.diff(actual, CHARSET, expected, CHARSET)).willThrow(cause);
@@ -150,7 +150,7 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_and_given_path_does_not_have_the_same_content() throws IOException {
+  void should_fail_if_actual_and_given_path_does_not_have_the_same_content() throws IOException {
     // GIVEN
     List<Delta<String>> diffs = list((Delta<String>) mock(Delta.class));
     given(diff.diff(actual, CHARSET, expected, CHARSET)).willReturn(diffs);

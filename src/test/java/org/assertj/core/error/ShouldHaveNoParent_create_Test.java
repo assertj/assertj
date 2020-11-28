@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
  * @author Jean-Christophe Gay
  * @author Francis Galiegue
  */
-public class ShouldHaveNoParent_create_Test {
+class ShouldHaveNoParent_create_Test {
 
   private TestDescription description;
   private Representation representation;
@@ -47,7 +47,7 @@ public class ShouldHaveNoParent_create_Test {
   }
 
   @Test
-  public void should_create_error_message_when_file_has_a_parent() {
+  void should_create_error_message_when_file_has_a_parent() {
     // GIVEN
     final File file = mock(File.class);
     final FakeFile parent = new FakeFile("unexpected.parent");
@@ -61,7 +61,7 @@ public class ShouldHaveNoParent_create_Test {
   }
 
   @Test
-  public void should_create_error_message_when_path_has_a_parent() {
+  void should_create_error_message_when_path_has_a_parent() {
     // GIVEN
     final Path path = mock(Path.class);
     final Path parent = mock(Path.class);

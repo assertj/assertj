@@ -12,8 +12,8 @@
  */
 package org.assertj.core.util;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.assertj.core.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,32 +26,32 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class IterableUtil_isNullOrEmpty_Test {
+class IterableUtil_isNullOrEmpty_Test {
   @Test
-  public void should_return_true_if_Collection_is_empty() {
+  void should_return_true_if_Collection_is_empty() {
     Iterable<String> c = new ArrayList<>();
     assertThat(IterableUtil.isNullOrEmpty(c)).isTrue();
   }
 
   @Test
-  public void should_return_false_if_Collection_has_elements() {
+  void should_return_false_if_Collection_has_elements() {
     Iterable<String> c = newArrayList("Frodo");
     assertThat(IterableUtil.isNullOrEmpty(c)).isFalse();
   }
 
   @Test
-  public void should_return_true_if_Iterable_is_empty() {
+  void should_return_true_if_Iterable_is_empty() {
     Iterable<String> i = new StringIterable();
     assertThat(IterableUtil.isNullOrEmpty(i)).isTrue();
   }
 
   @Test
-  public void should_return_true_if_Iterable_is_null() {
+  void should_return_true_if_Iterable_is_null() {
     assertThat(IterableUtil.isNullOrEmpty(null)).isTrue();
   }
 
   @Test
-  public void should_return_false_if_Iterable_has_elements() {
+  void should_return_false_if_Iterable_has_elements() {
     Iterable<String> i = new StringIterable("Frodo");
     assertThat(IterableUtil.isNullOrEmpty(i)).isFalse();
   }

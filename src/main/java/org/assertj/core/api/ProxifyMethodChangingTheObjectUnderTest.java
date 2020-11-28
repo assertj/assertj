@@ -31,6 +31,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Iterator;
@@ -132,6 +133,7 @@ public class ProxifyMethodChangingTheObjectUnderTest {
     if (currentAssert instanceof DoubleArrayAssert) return double[].class;
     if (currentAssert instanceof DoublePredicateAssert) return DoublePredicate.class;
     if (currentAssert instanceof DurationAssert) return Duration.class;
+    if (currentAssert instanceof PeriodAssert) return Period.class;
     if (currentAssert instanceof FileAssert) return File.class;
     if (currentAssert instanceof FloatAssert) return Float.class;
     if (currentAssert instanceof FloatArrayAssert) return float[].class;

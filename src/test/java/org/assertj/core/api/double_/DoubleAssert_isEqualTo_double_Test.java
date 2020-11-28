@@ -35,7 +35,7 @@ import org.junit.jupiter.params.provider.CsvSource;
  * @author Alex Ruiz
  */
 @DisplayName("DoubleAssert isEqualTo with double")
-public class DoubleAssert_isEqualTo_double_Test extends DoubleAssertBaseTest {
+class DoubleAssert_isEqualTo_double_Test extends DoubleAssertBaseTest {
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @Override
@@ -55,12 +55,12 @@ public class DoubleAssert_isEqualTo_double_Test extends DoubleAssertBaseTest {
 
   @ParameterizedTest
   @CsvSource({ "1.0d, 1.0d", "0.0d, 0.0d", "0.0d, -0.0d", "-0.0d, 0.0d" })
-  public void should_pass_using_primitive_comparison(double actual, double expected) {
+  void should_pass_using_primitive_comparison(double actual, double expected) {
     assertThat(actual).isEqualTo(expected);
   }
 
   @Test
-  public void should_honor_user_specified_comparator() {
+  void should_honor_user_specified_comparator() {
     // GIVEN
     final double one = 1.0d;
     // THEN
@@ -69,7 +69,7 @@ public class DoubleAssert_isEqualTo_double_Test extends DoubleAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_doubles_are_not_equal() {
+  void should_fail_if_doubles_are_not_equal() {
     // GIVEN
     double actual = 6.0;
     double expected = 7.0;
@@ -84,7 +84,7 @@ public class DoubleAssert_isEqualTo_double_Test extends DoubleAssertBaseTest {
   }
 
   @Test
-  public void should_fail_with_clear_error_message_when_both_doubles_are_NaN() {
+  void should_fail_with_clear_error_message_when_both_doubles_are_NaN() {
     // GIVEN
     double actual = Double.NaN;
     double expected = Double.NaN;

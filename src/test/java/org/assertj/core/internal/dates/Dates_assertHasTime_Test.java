@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
  * @author Guillaume Girou
  * @author Nicolas François
  */
-public class Dates_assertHasTime_Test extends DatesBaseTest {
+class Dates_assertHasTime_Test extends DatesBaseTest {
 
   @Override
   protected void initActualDate() {
@@ -44,18 +44,18 @@ public class Dates_assertHasTime_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertHasTime(someInfo(), null, 1))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_has_same_time() {
+  void should_pass_if_actual_has_same_time() {
     dates.assertHasTime(someInfo(), actual, 42L);
   }
 
-  @Test()
-  public void should_fail_if_actual_has_not_same_time() {
+  @Test
+  void should_fail_if_actual_has_not_same_time() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> dates.assertHasTime(someInfo(), actual, 24L));

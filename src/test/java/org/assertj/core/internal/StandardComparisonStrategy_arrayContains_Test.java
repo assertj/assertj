@@ -12,11 +12,10 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.util.Arrays.array;
 
-import static org.assertj.core.api.Assertions.*;
-
-import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -24,10 +23,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class StandardComparisonStrategy_arrayContains_Test extends AbstractTest_StandardComparisonStrategy {
+class StandardComparisonStrategy_arrayContains_Test extends AbstractTest_StandardComparisonStrategy {
 
   @Test
-  public void should_return_true_if_array_contains_value() {
+  void should_return_true_if_array_contains_value() {
     String[] hobbits = array("Merry", "Frodo", null, "Merry", "Sam");
     assertThat(standardComparisonStrategy.arrayContains(hobbits, "Sam")).isTrue();
     assertThat(standardComparisonStrategy.arrayContains(hobbits, "Merry")).isTrue();
@@ -35,7 +34,7 @@ public class StandardComparisonStrategy_arrayContains_Test extends AbstractTest_
   }
 
   @Test
-  public void should_return_false_if_array_does_not_contain_value() {
+  void should_return_false_if_array_does_not_contain_value() {
     String[] hobbits = array("Merry", "Frodo", "Merry", "Sam");
     assertThat(standardComparisonStrategy.arrayContains(hobbits, "Pippin")).isFalse();
     assertThat(standardComparisonStrategy.arrayContains(hobbits, "SAM ")).isFalse();
@@ -43,12 +42,12 @@ public class StandardComparisonStrategy_arrayContains_Test extends AbstractTest_
   }
 
   @Test
-  public void should_return_false_if_array_is_empty() {
+  void should_return_false_if_array_is_empty() {
     assertThat(standardComparisonStrategy.arrayContains(new String[] {}, "Pippin")).isFalse();
   }
 
   @Test
-  public void should_fail_if_first_parameter_is_not_an_array() {
+  void should_fail_if_first_parameter_is_not_an_array() {
     assertThatIllegalArgumentException().isThrownBy(() -> standardComparisonStrategy.arrayContains("not an array", "Pippin"));
   }
 

@@ -35,16 +35,16 @@ import static org.mockito.Mockito.when;
  * 
  * @author Jean-Christophe Gay
  */
-public class Files_assertHasNoParent_Test extends FilesBaseTest {
+class Files_assertHasNoParent_Test extends FilesBaseTest {
 
   @Test
-  public void should_throw_error_if_actual_is_null() {
+  void should_throw_error_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasNoParent(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_has_parent() {
+  void should_fail_if_actual_has_parent() {
     AssertionInfo info = someInfo();
     when(actual.getParentFile()).thenReturn(mock(File.class));
 
@@ -55,7 +55,7 @@ public class Files_assertHasNoParent_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_has_no_parent() {
+  void should_pass_if_actual_has_no_parent() {
     when(actual.getParentFile()).thenReturn(null);
     files.assertHasNoParent(someInfo(), actual);
   }

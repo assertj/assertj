@@ -14,13 +14,15 @@ package org.assertj.core.api.recursive.comparison;
 
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TUPLE;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.function.BiPredicate;
 
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.TypeComparators;
@@ -28,17 +30,17 @@ import org.assertj.core.util.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class RecursiveComparisonConfiguration_comparatorByType_Test {
+class RecursiveComparisonConfiguration_comparatorByType_Test {
 
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
   }
 
   @Test
-  public void should_have_default_comparator_by_types() {
+  void should_have_default_comparator_by_types() {
     // WHEN
     TypeComparators typeComparators = recursiveComparisonConfiguration.getTypeComparators();
     // THEN
@@ -47,16 +49,40 @@ public class RecursiveComparisonConfiguration_comparatorByType_Test {
   }
 
   @Test
-  public void should_register_given_comparator_per_types() {
+  void should_register_given_comparator_per_types() {
     // GIVEN
     AbsValueComparator<Integer> integerComparator = new AbsValueComparator<>();
     recursiveComparisonConfiguration.registerComparatorForType(integerComparator, Integer.class);
-    recursiveComparisonConfiguration.registerComparatorForType(ALWAY_EQUALS_TUPLE, Tuple.class);
+    recursiveComparisonConfiguration.registerEqualsForType((Tuple t1, Tuple t2) -> false, Tuple.class);
     recursiveComparisonConfiguration.registerComparatorForType(ALWAY_EQUALS, Double.class);
     // THEN
     assertThat(recursiveComparisonConfiguration.getComparatorForType(Integer.class)).isSameAs(integerComparator);
-    assertThat(recursiveComparisonConfiguration.getComparatorForType(Tuple.class)).isSameAs(ALWAY_EQUALS_TUPLE);
+    assertThat(recursiveComparisonConfiguration.getComparatorForType(Tuple.class)).isNotNull();
     assertThat(recursiveComparisonConfiguration.getComparatorForType(Double.class)).isSameAs(ALWAY_EQUALS);
+  }
+
+  @Test
+  void should_throw_NPE_if_given_comparator_is_null() {
+    // GIVEN
+    Comparator<Integer> integerComparator = null;
+    // WHEN
+    Throwable throwable = catchThrowable(() -> recursiveComparisonConfiguration.registerComparatorForType(integerComparator,
+                                                                                                          Integer.class));
+    // THEN
+    then(throwable).isInstanceOf(NullPointerException.class)
+                   .hasMessage("Expecting a non null Comparator");
+  }
+
+  @Test
+  void should_throw_NPE_if_given_BiPredicate_is_null() {
+    // GIVEN
+    BiPredicate<Double, Double> doubleEquals = null;
+    // WHEN
+    Throwable throwable = catchThrowable(() -> recursiveComparisonConfiguration.registerEqualsForType(doubleEquals,
+                                                                                                      Double.class));
+    // THEN
+    then(throwable).isInstanceOf(NullPointerException.class)
+                   .hasMessage("Expecting a non null BiPredicate");
   }
 
 }

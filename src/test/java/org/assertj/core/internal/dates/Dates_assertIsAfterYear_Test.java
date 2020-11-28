@@ -32,10 +32,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertIsAfterYear_Test extends DatesBaseTest {
+class Dates_assertIsAfterYear_Test extends DatesBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_not_strictly_after_given_year() {
+  void should_fail_if_actual_is_not_strictly_after_given_year() {
     AssertionInfo info = someInfo();
     int year = 2020;
 
@@ -46,7 +46,7 @@ public class Dates_assertIsAfterYear_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_year_is_equals_to_given_year() {
+  void should_fail_if_actual_year_is_equals_to_given_year() {
     AssertionInfo info = someInfo();
     parseDate("2011-01-01");
     int year = 2011;
@@ -58,18 +58,18 @@ public class Dates_assertIsAfterYear_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsAfterYear(someInfo(), null, 2010))
+  void should_fail_if_actual_is_null() {
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsAfterYear(someInfo(), null, 2010))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_strictly_after_given_year() {
-	dates.assertIsAfterYear(someInfo(), actual, 2010);
+  void should_pass_if_actual_is_strictly_after_given_year() {
+    dates.assertIsAfterYear(someInfo(), actual, 2010);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_strictly_after_given_year_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_not_strictly_after_given_year_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     int year = 2020;
 
@@ -80,7 +80,7 @@ public class Dates_assertIsAfterYear_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_year_is_equals_to_given_year_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_year_is_equals_to_given_year_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     parseDate("2011-01-01");
     int year = 2011;
@@ -92,14 +92,14 @@ public class Dates_assertIsAfterYear_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsAfterYear(someInfo(), null, 2010))
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsAfterYear(someInfo(), null, 2010))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_strictly_after_given_year_whatever_custom_comparison_strategy_is() {
-	datesWithCustomComparisonStrategy.assertIsAfterYear(someInfo(), actual, 2000);
+  void should_pass_if_actual_is_strictly_after_given_year_whatever_custom_comparison_strategy_is() {
+    datesWithCustomComparisonStrategy.assertIsAfterYear(someInfo(), actual, 2000);
   }
 
 }

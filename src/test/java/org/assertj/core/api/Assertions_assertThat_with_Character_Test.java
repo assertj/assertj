@@ -21,17 +21,17 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class Assertions_assertThat_with_Character_Test {
+class Assertions_assertThat_with_Character_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     Character a = 'a';
     AbstractCharacterAssert<?> assertions = Assertions.assertThat(a);
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     Character b = 'b';
     AbstractCharacterAssert<?> assertions = Assertions.assertThat(b);
     assertThat(assertions.actual).isSameAs(b);

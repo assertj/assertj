@@ -31,15 +31,15 @@ import org.junit.jupiter.api.Test;
  * @author Marcin Zajączkowski
  */
 @DisplayName("LocalDateTimeAssert isIn")
-public class LocalDateTimeAssert_isIn_Test extends LocalDateTimeAssertBaseTest {
+class LocalDateTimeAssert_isIn_Test extends LocalDateTimeAssertBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_in_dateTimes_as_string_array_parameter() {
+  void should_pass_if_actual_is_in_dateTimes_as_string_array_parameter() {
     assertThat(REFERENCE).isIn(REFERENCE.toString(), AFTER.toString());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_dateTimes_as_string_array_parameter() {
+  void should_fail_if_actual_is_not_in_dateTimes_as_string_array_parameter() {
     // WHEN
     ThrowingCallable code = () -> assertThat(REFERENCE).isIn(BEFORE.toString(), AFTER.toString());
     // THEN
@@ -47,7 +47,7 @@ public class LocalDateTimeAssert_isIn_Test extends LocalDateTimeAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_dateTimes_as_string_array_parameter_is_null() {
+  void should_fail_if_dateTimes_as_string_array_parameter_is_null() {
     // GIVEN
     String[] otherDateTimesAsString = null;
     // WHEN
@@ -58,7 +58,7 @@ public class LocalDateTimeAssert_isIn_Test extends LocalDateTimeAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_dateTimes_as_string_array_parameter_is_empty() {
+  void should_fail_if_dateTimes_as_string_array_parameter_is_empty() {
     // GIVEN
     String[] otherDateTimesAsString = new String[0];
     // WHEN

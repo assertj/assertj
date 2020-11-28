@@ -32,7 +32,7 @@ import org.junit.jupiter.params.provider.CsvSource;
  *
  * @author Alex Ruiz
  */
-public class DoubleAssert_isLessThanOrEqualTo_double_Test extends DoubleAssertBaseTest {
+class DoubleAssert_isLessThanOrEqualTo_double_Test extends DoubleAssertBaseTest {
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @Override
@@ -51,12 +51,12 @@ public class DoubleAssert_isLessThanOrEqualTo_double_Test extends DoubleAssertBa
 
   @ParameterizedTest(name = "verify {0} <= {1} assertion succeeds")
   @CsvSource({ "1.0d, 1.0d", "0.0d, -0.0d", "-0.0d, 0.0d", "0.0d, 1.0d", "-1.0d, 0.0d" })
-  public void should_pass_using_primitive_comparison(double actual, double expected) {
+  void should_pass_using_primitive_comparison(double actual, double expected) {
     assertThat(actual).isLessThanOrEqualTo(expected);
   }
 
   @Test
-  public void should_honor_user_specified_comparator() {
+  void should_honor_user_specified_comparator() {
     // GIVEN
     final double one = 1.0d;
     // THEN
@@ -65,7 +65,7 @@ public class DoubleAssert_isLessThanOrEqualTo_double_Test extends DoubleAssertBa
   }
 
   @Test
-  public void should_fail_if_actual_is_greater_than_expected() {
+  void should_fail_if_actual_is_greater_than_expected() {
     // GIVEN
     double actual = 8.0;
     double expected = 7.0;

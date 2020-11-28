@@ -13,40 +13,32 @@
 package org.assertj.core.api.list;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.util.Comparator;
 import java.util.List;
 
 import org.assertj.core.api.ListAssert;
 import org.assertj.core.api.ListAssertBaseTest;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link ListAssert#usingComparator(java.util.Comparator)}</code> and
  * <code>{@link ListAssert#usingDefaultComparator()}</code>.
- * 
+ *
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class ListAssert_usingComparator_Test extends ListAssertBaseTest {
+class ListAssert_usingComparator_Test extends ListAssertBaseTest {
 
-  @Mock
-  private Comparator<List<? extends String>> comparator;
-
-  @BeforeEach
-  public void before() {
-	initMocks(this);
-  }
+  private Comparator<List<? extends String>> comparator = alwaysEqual();
 
   @Override
   protected ListAssert<String> invoke_api_method() {
-	return assertions.usingComparator(comparator);
+    return assertions.usingComparator(comparator);
   }
 
   @Override
   protected void verify_internal_effects() {
-	assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
+    assertThat(getObjects(assertions).getComparator()).isSameAs(comparator);
   }
 }

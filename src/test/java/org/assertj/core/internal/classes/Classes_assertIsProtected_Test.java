@@ -20,21 +20,21 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import org.assertj.core.internal.ClassesBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class Classes_assertIsProtected_Test extends ClassesBaseTest {
+class Classes_assertIsProtected_Test extends ClassesBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsProtected(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_a_protected_class() {
+  void should_pass_if_actual_is_a_protected_class() {
     classes.assertIsProtected(someInfo(), MethodsClass.class);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_a_protected_class() {
+  void should_fail_if_actual_is_not_a_protected_class() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsProtected(someInfo(), Object.class))
                                                    .withMessage(shouldBeProtected(Object.class).create());
   }

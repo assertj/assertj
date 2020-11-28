@@ -22,16 +22,16 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class Assertions_assertThat_with_FloatArray_Test {
+class Assertions_assertThat_with_FloatArray_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     AbstractFloatArrayAssert<?> assertions = Assertions.assertThat(emptyArray());
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     float[] actual = emptyArray();
     AbstractFloatArrayAssert<?> assertions = Assertions.assertThat(actual);
     assertThat(assertions.actual).isSameAs(actual);

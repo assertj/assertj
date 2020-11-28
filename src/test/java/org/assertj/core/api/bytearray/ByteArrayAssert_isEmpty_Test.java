@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class ByteArrayAssert_isEmpty_Test extends ByteArrayAssertBaseTest {
+class ByteArrayAssert_isEmpty_Test extends ByteArrayAssertBaseTest {
 
   @Override
   protected ByteArrayAssert invoke_api_method() {

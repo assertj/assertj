@@ -22,7 +22,7 @@ import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
  * 
  * @author Martin Winandy
  */
-public class AtomicReferenceArrayAssert_hasOnlyElementsOfTypes_Test extends AtomicReferenceArrayAssertBaseTest {
+class AtomicReferenceArrayAssert_hasOnlyElementsOfTypes_Test extends AtomicReferenceArrayAssertBaseTest {
 
   private final Class<?>[] types = { CharSequence.class };
 

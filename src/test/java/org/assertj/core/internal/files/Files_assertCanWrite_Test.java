@@ -36,16 +36,16 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * 
  */
-public class Files_assertCanWrite_Test extends FilesBaseTest {
+class Files_assertCanWrite_Test extends FilesBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertCanWrite(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_can_not_write() {
+  void should_fail_if_can_not_write() {
     when(actual.canWrite()).thenReturn(false);
     AssertionInfo info = someInfo();
 
@@ -56,7 +56,7 @@ public class Files_assertCanWrite_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_can_write() {
+  void should_pass_if_actual_can_write() {
     when(actual.canWrite()).thenReturn(true);
     files.assertCanWrite(someInfo(), actual);
   }

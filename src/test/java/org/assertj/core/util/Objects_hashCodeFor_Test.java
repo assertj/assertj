@@ -26,21 +26,21 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Objects_hashCodeFor_Test {
+class Objects_hashCodeFor_Test {
 
   @Test
-  public void should_return_hashCode_of_given_Object() {
+  void should_return_hashCode_of_given_Object() {
     assertThat(hashCodeFor("Yoda")).isEqualTo("Yoda".hashCode());
   }
 
   @Test
-  public void should_return_hashCode_of_intarray(){
+  void should_return_hashCode_of_intarray(){
     int[] intArray = new int[] { 1,2,3 };
     assertThat(hashCodeFor(intArray)).isEqualTo(intArray.hashCode());
   }
 
   @Test
-  public void should_return_Arrays_deepHashCode_of_given_array() {
+  void should_return_Arrays_deepHashCode_of_given_array() {
     String[][] array = new String[][] { array("Yoda") };
     assertThat(hashCodeFor(array)).isEqualTo(deepHashCode(array));
     int[][] intArray = new int[][] { new int[] { 5 } };
@@ -48,7 +48,7 @@ public class Objects_hashCodeFor_Test {
   }
 
   @Test
-  public void should_return_zero_if_Object_is_null() {
+  void should_return_zero_if_Object_is_null() {
 	assertThat(hashCodeFor(null)).isZero();
   }
 }

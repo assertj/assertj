@@ -13,42 +13,31 @@
 package org.assertj.core.api.float_;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
-
-import java.util.Comparator;
-
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import org.assertj.core.api.FloatAssert;
 import org.assertj.core.api.FloatAssertBaseTest;
 import org.assertj.core.internal.Floats;
 import org.assertj.core.internal.Objects;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link FloatAssert#usingDefaultComparator()}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
-public class FloatAssert_usingDefaultComparator_Test extends FloatAssertBaseTest {
-
-  @Mock
-  private Comparator<Float> comparator;
-
-  @BeforeEach
-  public void before() {
-    initMocks(this);
-    assertions.usingComparator(comparator);
-  }
+class FloatAssert_usingDefaultComparator_Test extends FloatAssertBaseTest {
 
   @Override
   protected FloatAssert invoke_api_method() {
-    return assertions.usingDefaultComparator();
+    return assertions.usingComparator(alwaysEqual())
+                     .usingDefaultComparator();
   }
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(Objects.instance()).isSameAs(getObjects(assertions));
-    assertThat(Floats.instance()).isSameAs(getFloats(assertions));
+    assertThat(getObjects(assertions)).isSameAs(Objects.instance());
+    assertThat(getObjects(assertions).getComparator()).isNull();
+    assertThat(getFloats(assertions)).isSameAs(Floats.instance());
+    assertThat(getFloats(assertions).getComparator()).isNull();
   }
 }

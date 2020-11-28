@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Chris Arnott
  */
-public class DoubleAssert_isNotCloseTo_double_Test extends DoubleAssertBaseTest {
+class DoubleAssert_isNotCloseTo_double_Test extends DoubleAssertBaseTest {
 
   private final Offset<Double> offset = offset(5.0);
   private final Double value = 8.0;

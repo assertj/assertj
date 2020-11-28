@@ -24,23 +24,23 @@ import org.junit.jupiter.api.Test;
  *
  * @author Filip Hrisafov
  */
-public class Assertions_assertThat_with_DoublePredicate_Test {
+class Assertions_assertThat_with_DoublePredicate_Test {
 
   private DoublePredicate actual;
 
   @BeforeEach
-  public void before() {
+  void before() {
     actual = value -> value == 1;
   }
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     DoublePredicateAssert assertions = Assertions.assertThat(actual);
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     DoublePredicateAssert assertions = Assertions.assertThat(actual);
     assertThat(actual).isSameAs(assertions.actual);
   }

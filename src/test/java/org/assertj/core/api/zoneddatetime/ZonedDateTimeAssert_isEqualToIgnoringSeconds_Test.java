@@ -25,17 +25,17 @@ import java.time.ZonedDateTime;
 
 import org.junit.jupiter.api.Test;
 
-public class ZonedDateTimeAssert_isEqualToIgnoringSeconds_Test {
+class ZonedDateTimeAssert_isEqualToIgnoringSeconds_Test {
 
   private final ZonedDateTime refDatetime = ZonedDateTime.of(2000, 1, 1, 23, 51, 0, 0, UTC);
 
   @Test
-  public void should_pass_if_actual_is_equal_to_other_ignoring_second_fields() {
+  void should_pass_if_actual_is_equal_to_other_ignoring_second_fields() {
     assertThat(refDatetime).isEqualToIgnoringSeconds(refDatetime.plusSeconds(1));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_equal_to_given_datetime_with_second_ignored() {
+  void should_fail_if_actual_is_not_equal_to_given_datetime_with_second_ignored() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(refDatetime).isEqualToIgnoringSeconds(refDatetime.plusMinutes(1)));
     // THEN
@@ -48,7 +48,7 @@ public class ZonedDateTimeAssert_isEqualToIgnoringSeconds_Test {
   }
 
   @Test
-  public void should_fail_as_seconds_fields_are_different_even_if_time_difference_is_less_than_a_second() {
+  void should_fail_as_seconds_fields_are_different_even_if_time_difference_is_less_than_a_second() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(refDatetime).isEqualToIgnoringSeconds(refDatetime.minusNanos(1)));
     // THEN
@@ -61,7 +61,7 @@ public class ZonedDateTimeAssert_isEqualToIgnoringSeconds_Test {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     ZonedDateTime actual = null;
     // WHEN
@@ -71,7 +71,7 @@ public class ZonedDateTimeAssert_isEqualToIgnoringSeconds_Test {
   }
 
   @Test
-  public void should_throw_error_if_given_datetime_is_null() {
+  void should_throw_error_if_given_datetime_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(refDatetime).isEqualToIgnoringSeconds(null))
                                         .withMessage(NULL_DATE_TIME_PARAMETER_MESSAGE);
   }

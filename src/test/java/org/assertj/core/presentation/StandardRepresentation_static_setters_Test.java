@@ -19,16 +19,16 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Filip Hrisafov
  */
-public class StandardRepresentation_static_setters_Test extends AbstractBaseRepresentationTest {
+class StandardRepresentation_static_setters_Test extends AbstractBaseRepresentationTest {
 
   @Test
-  public void should_fail_on_invalid_maxElementsForPrinting() {
+  void should_fail_on_invalid_maxElementsForPrinting() {
     assertThatIllegalArgumentException().isThrownBy(() -> StandardRepresentation.setMaxElementsForPrinting(0))
                                         .withMessage("maxElementsForPrinting must be >= 1, but was 0");
   }
 
   @Test
-  public void should_fail_on_invalid_maxLengthForSingleLineDescription() {
+  void should_fail_on_invalid_maxLengthForSingleLineDescription() {
     assertThatIllegalArgumentException().isThrownBy(() -> StandardRepresentation.setMaxLengthForSingleLineDescription(0))
                                         .withMessage("maxLengthForSingleLineDescription must be > 0 but was 0");
   }

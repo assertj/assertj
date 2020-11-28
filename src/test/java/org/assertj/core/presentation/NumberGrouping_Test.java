@@ -12,35 +12,35 @@
  */
 package org.assertj.core.presentation;
 
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Mariusz Smykula
  */
-public class NumberGrouping_Test {
+class NumberGrouping_Test {
 
   @Test
-  public void should_group_words_in_byte_hex_value() {
+  void should_group_words_in_byte_hex_value() {
     String hexLiteral = NumberGrouping.toHexLiteral("CA");
     assertThat(hexLiteral).isEqualTo("CA");
   }
 
   @Test
-  public void should_group_words_in_hex_value() {
+  void should_group_words_in_hex_value() {
     String hexLiteral = NumberGrouping.toHexLiteral("01234567");
     assertThat(hexLiteral).isEqualTo("0123_4567");
   }
 
   @Test
-  public void should_group_bytes_in_integer() {
+  void should_group_bytes_in_integer() {
     String literals = NumberGrouping.toBinaryLiteral("00000000000000000000000000000011");
     assertThat(literals).isEqualTo("00000000_00000000_00000000_00000011");
   }
 
   @Test
-  public void should_group_bytes_in_short() {
+  void should_group_bytes_in_short() {
     String literals = NumberGrouping.toBinaryLiteral("1000000000000011");
     assertThat(literals).isEqualTo("10000000_00000011");
   }

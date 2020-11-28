@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * @author Billy Yuan
  */
 
-public class CharSequenceAssert_doesNotContain_several_String_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_doesNotContain_several_String_Test extends CharSequenceAssertBaseTest {
   @Override
   protected CharSequenceAssert invoke_api_method() {
     return assertions.doesNotContain("od", "do");

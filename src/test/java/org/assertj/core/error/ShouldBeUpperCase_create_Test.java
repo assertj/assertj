@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alex Ruiz
  */
-public class ShouldBeUpperCase_create_Test {
+class ShouldBeUpperCase_create_Test {
 
   @Test
-  public void should_create_error_message_for_character() {
+  void should_create_error_message_for_character() {
     // WHEN
     String message = shouldBeUpperCase('a').create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
@@ -36,7 +36,7 @@ public class ShouldBeUpperCase_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_string() {
+  void should_create_error_message_for_string() {
     // WHEN
     String message = shouldBeUpperCase("abc").create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN

@@ -34,7 +34,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  *
  * @author Alex Ruiz
  */
-public class MessageFormatter_format_Test {
+class MessageFormatter_format_Test {
 
   private DescriptionFormatter descriptionFormatter;
   private MessageFormatter messageFormatter;
@@ -47,18 +47,18 @@ public class MessageFormatter_format_Test {
   }
 
   @Test
-  public void should_throw_error_if_format_string_is_null() {
+  void should_throw_error_if_format_string_is_null() {
     thenNullPointerException().isThrownBy(() -> messageFormatter.format(null, null, null));
   }
 
   @Test
-  public void should_throw_error_if_args_array_is_null() {
+  void should_throw_error_if_args_array_is_null() {
     Object[] args = null;
     thenNullPointerException().isThrownBy(() -> messageFormatter.format(null, null, "", args));
   }
 
   @Test
-  public void should_format_message() {
+  void should_format_message() {
     // GIVEN
     Description description = new TextDescription("Test");
     // WHEN
@@ -70,7 +70,7 @@ public class MessageFormatter_format_Test {
 
   @ParameterizedTest
   @MethodSource("messages")
-  public void should_format_message_and_correctly_escape_percentage(String input, String formatted) {
+  void should_format_message_and_correctly_escape_percentage(String input, String formatted) {
     // GIVEN
     Description description = new TextDescription("Test");
     // WHEN

@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class BooleanArrayAssert_doesNotHaveDuplicates_Test extends BooleanArrayAssertBaseTest {
+class BooleanArrayAssert_doesNotHaveDuplicates_Test extends BooleanArrayAssertBaseTest {
 
   @Override
   protected BooleanArrayAssert invoke_api_method() {

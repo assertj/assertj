@@ -46,24 +46,24 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Bo Gotthardt
  */
-public class Lists_assertHas_Test extends ListsBaseTest {
+class Lists_assertHas_Test extends ListsBaseTest {
 
   private static TestCondition<String> condition;
   private static List<String> actual = newArrayList("Yoda", "Luke", "Leia");
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     condition = new TestCondition<>();
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.assertHas(someInfo(), null, condition, someIndex()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_empty() {
+  void should_fail_if_actual_is_empty() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
       List<String> empty = emptyList();
       lists.assertHas(someInfo(), empty, condition, someIndex());
@@ -71,26 +71,26 @@ public class Lists_assertHas_Test extends ListsBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_Index_is_null() {
+  void should_throw_error_if_Index_is_null() {
     assertThatNullPointerException().isThrownBy(() -> lists.assertHas(someInfo(), actual, condition, null))
                                     .withMessage("Index should not be null");
   }
 
   @Test
-  public void should_throw_error_if_Index_is_out_of_bounds() {
+  void should_throw_error_if_Index_is_out_of_bounds() {
     assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> lists.assertHas(someInfo(), actual,
                                                                                                 condition, atIndex(6)))
                                                               .withMessageContaining(format("Index should be between <0> and <2> (inclusive) but was:%n <6>"));
   }
 
   @Test
-  public void should_throw_error_if_Condition_is_null() {
+  void should_throw_error_if_Condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> lists.assertHas(someInfo(), actual, null, someIndex()))
                                     .withMessage("The condition to evaluate should not be null");
   }
 
   @Test
-  public void should_fail_if_actual_does_not_satisfy_condition_at_index() {
+  void should_fail_if_actual_does_not_satisfy_condition_at_index() {
     condition.shouldMatch(false);
     AssertionInfo info = someInfo();
     Index index = atIndex(1);
@@ -102,7 +102,7 @@ public class Lists_assertHas_Test extends ListsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_satisfies_condition_at_index() {
+  void should_pass_if_actual_satisfies_condition_at_index() {
     condition.shouldMatch(true);
     lists.assertHas(someInfo(), actual, condition, someIndex());
   }

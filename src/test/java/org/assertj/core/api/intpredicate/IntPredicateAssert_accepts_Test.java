@@ -31,16 +31,16 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Filip Hrisafov
  */
-public class IntPredicateAssert_accepts_Test extends IntPredicateAssertBaseTest {
+class IntPredicateAssert_accepts_Test extends IntPredicateAssertBaseTest {
 
   @Test
-  public void should_fail_when_predicate_is_null() {
+  void should_fail_when_predicate_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((IntPredicate) null).accepts(1, 2, 3))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_when_predicate_does_not_accept_value() {
+  void should_fail_when_predicate_does_not_accept_value() {
     IntPredicate predicate = val -> val <= 2;
     Predicate<Integer> wrapPredicate = predicate::test;
     int expectedValue = 3;
@@ -49,7 +49,7 @@ public class IntPredicateAssert_accepts_Test extends IntPredicateAssertBaseTest 
   }
 
   @Test
-  public void should_fail_when_predicate_does_not_accept_value_with_string_description() {
+  void should_fail_when_predicate_does_not_accept_value_with_string_description() {
     IntPredicate predicate = val -> val <= 2;
     Predicate<Integer> wrapPredicate = predicate::test;
     int expectedValue = 3;
@@ -58,14 +58,14 @@ public class IntPredicateAssert_accepts_Test extends IntPredicateAssertBaseTest 
   }
 
   @Test
-  public void should_pass_when_predicate_accepts_value() {
+  void should_pass_when_predicate_accepts_value() {
     IntPredicate predicate = val -> val <= 2;
 
     assertThat(predicate).accepts(1);
   }
 
   @Test
-  public void should_fail_when_predicate_does_not_accept_values() {
+  void should_fail_when_predicate_does_not_accept_values() {
     IntPredicate predicate = val -> val <= 2;
     int[] matchValues = new int[] { 1, 2, 3 };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).accepts(matchValues))
@@ -73,7 +73,7 @@ public class IntPredicateAssert_accepts_Test extends IntPredicateAssertBaseTest 
   }
 
   @Test
-  public void should_pass_when_predicate_accepts_all_values() {
+  void should_pass_when_predicate_accepts_all_values() {
     IntPredicate predicate = val -> val <= 2;
 
     assertThat(predicate).accepts(1, 2);

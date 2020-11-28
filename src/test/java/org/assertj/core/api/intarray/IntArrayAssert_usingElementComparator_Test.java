@@ -13,33 +13,29 @@
 package org.assertj.core.api.intarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.util.Comparator;
-
 
 import org.assertj.core.api.IntArrayAssert;
 import org.assertj.core.api.IntArrayAssertBaseTest;
 import org.assertj.core.internal.Objects;
 import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link IntArrayAssert#usingElementComparator(Comparator)}</code>.
- * 
+ *
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class IntArrayAssert_usingElementComparator_Test extends IntArrayAssertBaseTest {
+class IntArrayAssert_usingElementComparator_Test extends IntArrayAssertBaseTest {
 
-  @Mock
-  private Comparator<Integer> comparator;
+  private Comparator<Integer> comparator = alwaysEqual();
 
   private Objects objectsBefore;
 
   @BeforeEach
-  public void before() {
-    initMocks(this);
+  void before() {
     objectsBefore = getObjects(assertions);
   }
 
@@ -51,7 +47,7 @@ public class IntArrayAssert_usingElementComparator_Test extends IntArrayAssertBa
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(objectsBefore).isSameAs(getObjects(assertions));
-    assertThat(comparator).isSameAs(getArrays(assertions).getComparator());
+    assertThat(getObjects(assertions)).isSameAs(objectsBefore);
+    assertThat(getArrays(assertions).getComparator()).isSameAs(comparator);
   }
 }

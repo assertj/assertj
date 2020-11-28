@@ -27,15 +27,15 @@ import org.junit.jupiter.api.Test;
  * Only test String based assertion (tests with {@link LocalDate} are already defined in assertj-core)
  */
 @DisplayName("LocalDateAssert isNotEqualTo")
-public class LocalDateAssert_isNotEqualTo_Test extends LocalDateAssertBaseTest {
+class LocalDateAssert_isNotEqualTo_Test extends LocalDateAssertBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_not_equal_to_date_as_string_parameter() {
+  void should_pass_if_actual_is_not_equal_to_date_as_string_parameter() {
     assertThat(REFERENCE).isNotEqualTo(AFTER.toString());
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_date_as_string_parameter() {
+  void should_fail_if_actual_is_equal_to_date_as_string_parameter() {
     // WHEN
     ThrowingCallable code = () -> assertThat(REFERENCE).isNotEqualTo(REFERENCE.toString());
     // THEN
@@ -43,7 +43,7 @@ public class LocalDateAssert_isNotEqualTo_Test extends LocalDateAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_date_as_string_parameter_is_null() {
+  void should_fail_if_date_as_string_parameter_is_null() {
     // GIVEN
     String otherLocalDateAsString = null;
     // WHEN

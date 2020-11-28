@@ -27,7 +27,7 @@ import java.nio.file.Path;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class Paths_assertHasParentRaw_Test extends MockPathsBaseTest {
+class Paths_assertHasParentRaw_Test extends MockPathsBaseTest {
 
   private Path expectedParent;
 
@@ -39,19 +39,19 @@ public class Paths_assertHasParentRaw_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasParentRaw(info, null, expectedParent))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_provided_parent_is_null() {
+  void should_fail_if_provided_parent_is_null() {
     assertThatNullPointerException().isThrownBy(() -> paths.assertHasParentRaw(info, actual, null))
                                     .withMessage("expected parent path should not be null");
   }
 
   @Test
-  public void should_fail_if_actual_has_no_parent() {
+  void should_fail_if_actual_has_no_parent() {
     // This is the default, but...
     when(actual.getParent()).thenReturn(null);
 
@@ -62,7 +62,7 @@ public class Paths_assertHasParentRaw_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_parent_is_not_expected_parent() {
+  void should_fail_if_actual_parent_is_not_expected_parent() {
     final Path actualParent = mock(Path.class);
     when(actual.getParent()).thenReturn(actualParent);
 
@@ -73,7 +73,7 @@ public class Paths_assertHasParentRaw_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_succeed_if_parent_is_expected_parent() {
+  void should_succeed_if_parent_is_expected_parent() {
     when(actual.getParent()).thenReturn(expectedParent);
 
     paths.assertHasParentRaw(info, actual, expectedParent);

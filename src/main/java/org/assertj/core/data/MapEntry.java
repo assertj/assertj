@@ -25,7 +25,7 @@ import java.util.Objects;
  *
  * @author Yvonne Wang
  */
-public class MapEntry<K, V> implements Map.Entry<K, V> {
+public final class MapEntry<K, V> implements Map.Entry<K, V> {
 
   public final K key;
   public final V value;
@@ -50,15 +50,15 @@ public class MapEntry<K, V> implements Map.Entry<K, V> {
 
   @Override
   public boolean equals(Object object) {
+    if (this == object) return true;
     if (!(object instanceof Map.Entry)) return false;
     Map.Entry<?, ?> that = (Map.Entry<?, ?>) object;
-    return Objects.equals(this.getKey(), that.getKey())
-           && Objects.equals(this.getValue(), that.getValue());
+    return Objects.equals(key, that.getKey()) && Objects.equals(value, that.getValue());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(getKey()) ^ Objects.hashCode(getValue());
+    return Objects.hash(key, value);
   }
 
   @Override
@@ -87,4 +87,5 @@ public class MapEntry<K, V> implements Map.Entry<K, V> {
   public V setValue(V value) {
     throw new UnsupportedOperationException();
   }
+
 }

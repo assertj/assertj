@@ -32,12 +32,12 @@ import org.junit.jupiter.api.Test;
  *
  * @author Yvonne Wang
  */
-public class ShouldNotExist_create_Test {
+class ShouldNotExist_create_Test {
 
   private static final TestDescription TEST_DESCRIPTION = new TestDescription("Test");
 
   @Test
-  public void should_create_error_message_for_File_object() {
+  void should_create_error_message_for_File_object() {
     // GIVEN
     final FakeFile file = new FakeFile("xyz");
     // WHEN
@@ -47,7 +47,7 @@ public class ShouldNotExist_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_Path_object() {
+  void should_create_error_message_for_Path_object() {
     // GIVEN
     final Path path = mock(Path.class);
     // WHEN

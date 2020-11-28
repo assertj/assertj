@@ -33,17 +33,17 @@ class ChronoZonedDateTimeByInstantComparatorTest {
   }
 
   @Test
-  public void should_have_one_instance() {
+  void should_have_one_instance() {
     assertThat(comparator).isSameAs(ChronoZonedDateTimeByInstantComparator.getInstance());
   }
 
   @Test
-  public void should_have_description() {
+  void should_have_description() {
     assertThat(comparator.description()).isEqualTo("ChronoZonedDateTime.timeLineOrder()");
   }
 
   @Test
-  public void should_disregard_time_zone_difference() {
+  void should_disregard_time_zone_difference() {
     ZonedDateTime now = ZonedDateTime.now();
     ZonedDateTime inParis = now.withZoneSameInstant(ZoneId.of("Europe/Paris"));
     ZonedDateTime inNewYork = now.withZoneSameInstant(ZoneId.of("America/New_York"));
@@ -53,7 +53,7 @@ class ChronoZonedDateTimeByInstantComparatorTest {
   }
 
   @Test
-  public void should_disregard_chronology_difference() {
+  void should_disregard_chronology_difference() {
     ZonedDateTime now = ZonedDateTime.now();
     ZonedDateTime inTokyo = now.withZoneSameInstant(ZoneId.of("Asia/Tokyo"));
     ChronoZonedDateTime<JapaneseDate> inTokyoJapanese = JapaneseChronology.INSTANCE.zonedDateTime(now);

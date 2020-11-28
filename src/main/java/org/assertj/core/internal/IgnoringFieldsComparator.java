@@ -24,7 +24,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
 
 public class IgnoringFieldsComparator extends FieldByFieldComparator {
 
-  private String[] fields;
+  private final String[] fields;
 
   public IgnoringFieldsComparator(Map<String, Comparator<?>> comparatorByPropertyOrField,
                                   TypeComparators comparatorByType, String... fields) {
@@ -33,7 +33,7 @@ public class IgnoringFieldsComparator extends FieldByFieldComparator {
   }
 
   public IgnoringFieldsComparator(String... fields) {
-    this(new HashMap<String, Comparator<?>>(), defaultTypeComparators(), fields);
+    this(new HashMap<>(), defaultTypeComparators(), fields);
   }
 
   @VisibleForTesting

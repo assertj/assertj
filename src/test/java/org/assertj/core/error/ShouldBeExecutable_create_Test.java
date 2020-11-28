@@ -30,12 +30,12 @@ import org.junit.jupiter.api.Test;
  * @author Olivier Demeijer
  *
  */
-public class ShouldBeExecutable_create_Test {
+class ShouldBeExecutable_create_Test {
 
   private static final TestDescription TEST_DESCRIPTION = new TestDescription("Test");
 
   @Test
-  public void should_create_error_message_for_File() {
+  void should_create_error_message_for_File() {
     // GIVEN
     FakeFile file = new FakeFile("xyz");
     ErrorMessageFactory factory = shouldBeExecutable(file);
@@ -46,7 +46,7 @@ public class ShouldBeExecutable_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_Path() {
+  void should_create_error_message_for_Path() {
     // GIVEN
     final Path path = mock(Path.class);
     ErrorMessageFactory factory = shouldBeExecutable(path);

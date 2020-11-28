@@ -15,6 +15,7 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
+import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContainIgnoringCase;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.internal.util.collections.Sets.newSet;
@@ -24,6 +25,7 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -33,10 +35,11 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class ShouldNotContainString_create_Test {
+@DisplayName("ShouldNotContainString create")
+class ShouldNotContainString_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotContain("Yoda", "od", StandardComparisonStrategy.instance());
     // WHEN
@@ -50,7 +53,7 @@ public class ShouldNotContainString_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_custom_comparison_strategy() {
+  void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotContain("Yoda", "od",
                                                    new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
@@ -66,7 +69,7 @@ public class ShouldNotContainString_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_several_string_values() {
+  void should_create_error_message_with_several_string_values() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotContain("Yoda", array("od", "ya"), newSet("ya"),
                                                    StandardComparisonStrategy.instance());
@@ -81,4 +84,35 @@ public class ShouldNotContainString_create_Test {
                                    "but found:%n" +
                                    " <[\"ya\"]>%n"));
   }
+
+  @Test
+  void should_create_error_message_for_ignoring_case() {
+    // GIVEN
+    ErrorMessageFactory factory = ShouldNotContainCharSequence.shouldNotContainIgnoringCase("Yoda", "OD");
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   " <\"Yoda\">%n" +
+                                   "not to contain (ignoring case):%n" +
+                                   " <\"OD\">%n"));
+  }
+
+  @Test
+  void should_create_error_message_for_ignoring_case_with_multiple_findings() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldNotContainIgnoringCase("Yoda", array("OD", "da", "Luke"), newSet("OD", "da"));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   " <\"Yoda\">%n" +
+                                   "not to contain (ignoring case):%n" +
+                                   " <[\"OD\", \"da\", \"Luke\"]>%n" +
+                                   "but found:%n" +
+                                   " <[\"OD\", \"da\"]>%n"));
+  }
+
 }

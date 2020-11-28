@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link ByteArrays#assertContainsSequence(AssertionInfo, byte[], int[])}</code>.
  */
-public class ByteArrays_assertContainsSequence_with_Integer_Arguments_Test extends ByteArraysBaseTest {
+class ByteArrays_assertContainsSequence_with_Integer_Arguments_Test extends ByteArraysBaseTest {
 
   @Override
   protected void initActualArray() {
@@ -43,30 +43,30 @@ public class ByteArrays_assertContainsSequence_with_Integer_Arguments_Test exten
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsSequence(someInfo(), null, IntArrays.arrayOf(8)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_null() {
+  void should_throw_error_if_sequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsSequence(someInfo(), actual, (int[]) null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
+  void should_pass_if_actual_and_given_values_are_empty() {
     actual = emptyArray();
     arrays.assertContainsSequence(someInfo(), actual, IntArrays.emptyArray());
   }
   
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsSequence(someInfo(), actual, IntArrays.emptyArray()));
   }
 
   @Test
-  public void should_fail_if_sequence_is_bigger_than_actual() {
+  void should_fail_if_sequence_is_bigger_than_actual() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> arrays.assertContainsSequence(info, actual, IntArrays.arrayOf(6, 8, 10, 12, 20, 22)));
@@ -76,7 +76,7 @@ public class ByteArrays_assertContainsSequence_with_Integer_Arguments_Test exten
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_whole_sequence() {
+  void should_fail_if_actual_does_not_contain_whole_sequence() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> arrays.assertContainsSequence(info, actual, IntArrays.arrayOf(6, 20)));
@@ -86,7 +86,7 @@ public class ByteArrays_assertContainsSequence_with_Integer_Arguments_Test exten
   }
 
   @Test
-  public void should_fail_if_actual_contains_first_elements_of_sequence() {
+  void should_fail_if_actual_contains_first_elements_of_sequence() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> arrays.assertContainsSequence(info, actual, IntArrays.arrayOf(6, 20, 22)));
@@ -96,23 +96,23 @@ public class ByteArrays_assertContainsSequence_with_Integer_Arguments_Test exten
   }
 
   @Test
-  public void should_pass_if_actual_contains_sequence() {
+  void should_pass_if_actual_contains_sequence() {
     arrays.assertContainsSequence(someInfo(), actual, IntArrays.arrayOf(6, 8));
   }
 
   @Test
-  public void should_pass_if_actual_and_sequence_are_equal() {
+  void should_pass_if_actual_and_sequence_are_equal() {
     arrays.assertContainsSequence(someInfo(), actual, IntArrays.arrayOf(6, 8, 10, 12));
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), null, IntArrays.arrayOf(-8)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(),
                                                                                                                                      actual,
                                                                                                                                      (int[]) null))
@@ -120,14 +120,14 @@ public class ByteArrays_assertContainsSequence_with_Integer_Arguments_Test exten
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(),
                                                                                                                                actual,
                                                                                                                                IntArrays.emptyArray()));
   }
 
   @Test
-  public void should_fail_if_sequence_is_bigger_than_actual_according_to_custom_comparison_strategy() {
+  void should_fail_if_sequence_is_bigger_than_actual_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, IntArrays.arrayOf(6, -8, 10, 12, 20, 22)));
@@ -137,7 +137,7 @@ public class ByteArrays_assertContainsSequence_with_Integer_Arguments_Test exten
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_whole_sequence_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_whole_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, IntArrays.arrayOf(6, 20)));
@@ -147,7 +147,7 @@ public class ByteArrays_assertContainsSequence_with_Integer_Arguments_Test exten
   }
 
   @Test
-  public void should_fail_if_actual_contains_first_elements_of_sequence_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_first_elements_of_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, IntArrays.arrayOf(6, 20, 22)));
@@ -157,12 +157,12 @@ public class ByteArrays_assertContainsSequence_with_Integer_Arguments_Test exten
   }
 
   @Test
-  public void should_pass_if_actual_contains_sequence_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_sequence_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, IntArrays.arrayOf(6, -8));
   }
 
   @Test
-  public void should_pass_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, IntArrays.arrayOf(6, -8, 10, 12));
   }
 }

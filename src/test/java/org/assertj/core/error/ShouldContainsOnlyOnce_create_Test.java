@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author William Delanoue
  */
-public class ShouldContainsOnlyOnce_create_Test {
+class ShouldContainsOnlyOnce_create_Test {
 
   private ErrorMessageFactory factory;
 
@@ -41,7 +41,7 @@ public class ShouldContainsOnlyOnce_create_Test {
   }
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
@@ -56,7 +56,7 @@ public class ShouldContainsOnlyOnce_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_custom_comparison_strategy() {
+  void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     factory = shouldContainsOnlyOnce(list("Yoda", "Han"), list("Luke", "Yoda"),
                                      newLinkedHashSet("Luke"), newLinkedHashSet("Han"),
@@ -77,7 +77,7 @@ public class ShouldContainsOnlyOnce_create_Test {
   }
 
   @Test
-  public void should_create_error_message_without_not_found_elements() {
+  void should_create_error_message_without_not_found_elements() {
     // GIVEN
     factory = shouldContainsOnlyOnce(list("Yoda", "Han", "Han"), list("Yoda"), newLinkedHashSet(), newLinkedHashSet("Han"));
     // WHEN
@@ -92,7 +92,7 @@ public class ShouldContainsOnlyOnce_create_Test {
   }
 
   @Test
-  public void should_create_error_message_without_elements_found_many_times() {
+  void should_create_error_message_without_elements_found_many_times() {
     // GIVEN
     factory = shouldContainsOnlyOnce(list("Yoda", "Han"), list("Luke"), newLinkedHashSet("Luke"), newLinkedHashSet());
     // WHEN

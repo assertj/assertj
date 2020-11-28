@@ -33,6 +33,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalUnit;
 import java.util.Comparator;
@@ -83,6 +84,7 @@ import org.assertj.core.condition.AllOf;
 import org.assertj.core.condition.AnyOf;
 import org.assertj.core.condition.DoesNotHave;
 import org.assertj.core.condition.Not;
+import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.data.Index;
 import org.assertj.core.data.MapEntry;
@@ -346,6 +348,17 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link Boolean2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static Boolean2DArrayAssert assertThat(boolean[][] actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ByteAssert}</code>.
    *
    * @param actual the actual value.
@@ -376,6 +389,17 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link Byte2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static Byte2DArrayAssert assertThat(byte[][] actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link CharacterAssert}</code>.
    *
    * @param actual the actual value.
@@ -392,6 +416,17 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   public static AbstractCharArrayAssert<?> assertThat(char[] actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link CharArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static Char2DArrayAssert assertThat(char[][] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -442,6 +477,17 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   public static AbstractDoubleArrayAssert<?> assertThat(double[] actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Double2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static Double2DArrayAssert assertThat(double[][] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -525,6 +571,28 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   public static AbstractIntArrayAssert<?> assertThat(int[] actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Int2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static Int2DArrayAssert assertThat(int[][] actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Float2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static Float2DArrayAssert assertThat(float[][] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -728,6 +796,17 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link Long2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static Long2DArrayAssert assertThat(long[][] actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ObjectAssert}</code>.
    *
    * @param <T> the type of the actual value.
@@ -746,6 +825,18 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   public static <T> ObjectArrayAssert<T> assertThat(T[] actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Object2DArrayAssert}</code>.
+   *
+   * @param <T> the actual's elements type.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static <T> Object2DArrayAssert<T> assertThat(T[][] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -776,6 +867,17 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   public static AbstractShortArrayAssert<?> assertThat(short[] actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Short2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static Short2DArrayAssert assertThat(short[][] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -868,6 +970,17 @@ public class Assertions implements InstanceOfAssertFactories {
    * @since 3.15.0
    */
   public static AbstractDurationAssert<?> assertThat(Duration actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link PeriodAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static AbstractPeriodAssert<?> assertThat(Period actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -1246,12 +1359,28 @@ public class Assertions implements InstanceOfAssertFactories {
    *           .withMessage("boom!"); </code></pre>
    *
    * This method is more or less the same of {@link #assertThatThrownBy(ThrowableAssert.ThrowingCallable)} but in a more natural way.
+   *
    * @param <T> the exception type.
    * @param exceptionType the exception type class.
    * @return the created {@link ThrowableTypeAssert}.
    */
   public static <T extends Throwable> ThrowableTypeAssert<T> assertThatExceptionOfType(final Class<? extends T> exceptionType) {
     return AssertionsForClassTypes.assertThatExceptionOfType(exceptionType);
+  }
+
+  /**
+   * Entry point to check that no exception of any type is thrown by a given {@code throwingCallable}.
+   * <p>
+   * Example:
+   * <pre><code class='java'>assertThatNoException().isThrownBy(() -&gt; System.out.println("OK"));</code></pre>
+   *
+   * This method is more or less the same of {@code assertThatCode(...).doesNotThrowAnyException();} but in a more natural way.
+   *
+   * @return the created {@link NotThrownAssert}.
+   * @since 3.17.0
+   */
+  public static NotThrownAssert assertThatNoException() {
+    return AssertionsForClassTypes.assertThatNoException();
   }
 
   /**
@@ -1387,20 +1516,18 @@ public class Assertions implements InstanceOfAssertFactories {
 
   /**
    * In error messages, sets the threshold when iterable/array formatting will be on one line (if their String description
-   * is less than this parameter) or it will be formatted with one element per line.
+   * length &lt;= this parameter) or it will be formatted with one element per line.
    * <p>
-   * The following array will be formatted on one line as its length &lt; 80:
+   * The default value for maxLengthForSingleLineDescription is {@value Configuration#MAX_LENGTH_FOR_SINGLE_LINE_DESCRIPTION}.
+   * <p>
+   * The following array will be formatted on one line as its length &lt;= 80:
    * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice");
-   *
    * // formatted as:
-   *
    * ["A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice"]</code></pre>
    * whereas this array is formatted on multiple lines (one element per line)
    *
    * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice", "Guards! Guards! (Discworld)");
-   *
    * // formatted as:
-   *
    * ["A Game of Thrones",
    *  "The Lord of the Rings",
    *  "Assassin's Apprentice",
@@ -1413,26 +1540,21 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
-   * In error messages, sets the threshold for how many elements from one iterable/array/map will be included in the
-   * in the description.
-   *
-   * E.q. When this method is called with a value of {@code 3}.
+   * Sets the maximum number of elements to display in error messages for iterables, arrays and map .
    * <p>
-   * The following array will be formatted entirely as it's length is &lt;= 3:
+   * Example with a value of {@code 4}.
+   * <p>
+   * The following array will be formatted entirely as it's length is &lt;= 4:
    * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice");
-   *
    * // formatted as:
-   *
    * ["A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice"]</code></pre>
    *
-   * whereas this array is formatted only with it's first 3 elements, followed by {@code ...}:
-   * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice", "Guards! Guards!");
-   *
+   * whereas for this 6 elements array, only the first and last two elements are displayed (4 in total):
+   * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice", "Guards! Guards!", "The Lies of Locke Lamora", "Aux Ombres d’Abyme");
    * // formatted as:
+   * ["A Game of Thrones", "The Lord of the Rings", ... "The Lies of Locke Lamora", "Aux Ombres d’Abyme"]</code></pre>
    *
-   * ["A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice", ...]</code></pre>
-   *
-   * @param maxElementsForPrinting the maximum elements that would be printed from one iterable/array/map
+   * @param maxElementsForPrinting the maximum elements that would be printed for iterables, arrays and maps.
    * @since 2.6.0 / 3.6.0
    */
   public static void setMaxElementsForPrinting(int maxElementsForPrinting) {
@@ -1444,7 +1566,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * <p>
    * The printed assertions description include all the successful assertions description and respectively the first failed one for standard assertions and all failed ones for soft assertions.
    * <p>
-   * If you want to process the description differently, create a {@link Consumer Consumer&lt;Description&gt;} and register it with {@link #setConsumerDescription(Consumer)}.
+   * If you want to process the description differently, create a {@link Consumer Consumer&lt;Description&gt;} and register it with {@link #setDescriptionConsumer(Consumer)}.
    *
    * @param printAssertionsDescription whether to print assertions description.
    * @since 3.17.0
@@ -1457,12 +1579,14 @@ public class Assertions implements InstanceOfAssertFactories {
    * All assertions description will be consumed by the given {@link Consumer Consumer&lt;Description&gt;} allowing for example to record them in a file.
    * <p>
    * The consumed descriptions include all the successful assertions description and respectively the first failed one for standard assertions and all failed ones for soft assertions.
+   * <p>
+   * To unset the descriptionConsumer, call {@code setDescriptionConsumer(null);}
    *
    * @param descriptionConsumer the {@link Description} consumer
    * @since 3.17.0
    */
-  public static void setConsumerDescription(Consumer<Description> descriptionConsumer) {
-    AbstractAssert.setConsumerDescription(descriptionConsumer);
+  public static void setDescriptionConsumer(Consumer<Description> descriptionConsumer) {
+    AbstractAssert.setDescriptionConsumer(descriptionConsumer);
   }
 
   // ------------------------------------------------------------------------------------------------------
@@ -1815,6 +1939,19 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static TemporalUnitOffset within(long value, TemporalUnit unit) {
     return new TemporalUnitWithinOffset(value, unit);
+  }
+
+  /**
+   * Syntactic sugar method to use with {@link AbstractDurationAssert#isCloseTo(Duration, Duration)} assertion.
+   * <p>
+   * Example:
+   * <pre><code class='java'> assertThat(Duration.ofMinutes(2)).isCloseTo(Duration.ofMinutes(3), withMarginOf(Duration.ofMinutes(1)));</code></pre>
+   *
+   * @param allowedDifference the allowed difference {@link Duration}.
+   * @return the given value.
+   */
+  public static Duration withMarginOf(Duration allowedDifference) {
+    return allowedDifference;
   }
 
   /**

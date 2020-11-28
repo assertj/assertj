@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+@SuppressWarnings("deprecation")
 @DisplayName("SoftlyExtension inheriting SoftAssertions field")
 class InheritingSoftlyExtensionFieldTest extends WithSoftlyExtension {
 

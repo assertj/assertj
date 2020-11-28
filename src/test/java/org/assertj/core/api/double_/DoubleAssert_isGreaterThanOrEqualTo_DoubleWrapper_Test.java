@@ -23,7 +23,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("DoubleAssert isGreaterThanOrEqualTo")
-public class DoubleAssert_isGreaterThanOrEqualTo_DoubleWrapper_Test extends DoubleAssertBaseTest {
+class DoubleAssert_isGreaterThanOrEqualTo_DoubleWrapper_Test extends DoubleAssertBaseTest {
 
   private Double other = 1.0D;
 
@@ -39,7 +39,7 @@ public class DoubleAssert_isGreaterThanOrEqualTo_DoubleWrapper_Test extends Doub
   }
 
   @Test
-  public void should_fail_when_comparing_negative_zero_to_positive_zero() {
+  void should_fail_when_comparing_negative_zero_to_positive_zero() {
     // GIVEN
     final Double positiveZero = 0.0d;
     final double negativeZero = -0.0d;
@@ -49,7 +49,7 @@ public class DoubleAssert_isGreaterThanOrEqualTo_DoubleWrapper_Test extends Doub
   }
 
   @Test
-  public void should_pass_when_comparing_positive_zero_to_negative_zero() {
+  void should_pass_when_comparing_positive_zero_to_negative_zero() {
     // GIVEN
     final Double positiveZero = 0.0d;
     final Double negativeZero = -0.0d;
@@ -58,7 +58,7 @@ public class DoubleAssert_isGreaterThanOrEqualTo_DoubleWrapper_Test extends Doub
   }
 
   @Test
-  public void should_honor_user_specified_comparator() {
+  void should_honor_user_specified_comparator() {
     // GIVEN
     final Double one = 1.0d;
     // THEN

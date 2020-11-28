@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.StringAssert;
 import org.assertj.core.api.StringAssertBaseTest;
 
-public class StringAssert_isStrictlyBetween_Test extends StringAssertBaseTest {
+class StringAssert_isStrictlyBetween_Test extends StringAssertBaseTest {
 
   @Override
   protected StringAssert invoke_api_method() {

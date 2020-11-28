@@ -17,7 +17,6 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.api.Assertions.withinPercentage;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.assertj.core.error.ShouldBeEqualWithinPercentage.shouldBeEqualWithinPercentage;
@@ -31,30 +30,30 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class Bytes_assertIsCloseToPercentage_Test extends BytesBaseTest {
+class Bytes_assertIsCloseToPercentage_Test extends BytesBaseTest {
 
   private static final Byte ZERO = 0;
   private static final Byte ONE = 1;
   private static final Byte TEN = 10;
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsCloseToPercentage(someInfo(), null, ONE, withPercentage(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_expected_value_is_null() {
+  void should_fail_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> bytes.assertIsCloseToPercentage(someInfo(), ONE, null, withPercentage(ONE)));
   }
 
   @Test
-  public void should_fail_if_percentage_is_null() {
+  void should_fail_if_percentage_is_null() {
     assertThatNullPointerException().isThrownBy(() -> bytes.assertIsCloseToPercentage(someInfo(), ONE, ZERO, null));
   }
 
   @Test
-  public void should_fail_if_percentage_is_negative() {
+  void should_fail_if_percentage_is_negative() {
     assertThatIllegalArgumentException().isThrownBy(() -> bytes.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1)));
   }
 
@@ -66,7 +65,7 @@ public class Bytes_assertIsCloseToPercentage_Test extends BytesBaseTest {
     "-1, -2, 100",
     "0, -1, 110"
   })
-  public void should_pass_if_difference_is_less_than_given_percentage(Byte actual, Byte other, Byte percentage) {
+  void should_pass_if_difference_is_less_than_given_percentage(Byte actual, Byte other, Byte percentage) {
     bytes.assertIsCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 
@@ -79,12 +78,12 @@ public class Bytes_assertIsCloseToPercentage_Test extends BytesBaseTest {
     "-2, -1, 100",
     "-1, -2, 50"
   })
-  public void should_pass_if_difference_is_equal_to_given_percentage(Byte actual, Byte other, Byte percentage) {
+  void should_pass_if_difference_is_equal_to_given_percentage(Byte actual, Byte other, Byte percentage) {
     bytes.assertIsCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_close_enough_to_expected_value() {
+  void should_fail_if_actual_is_not_close_enough_to_expected_value() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> bytes.assertIsCloseToPercentage(someInfo(), ONE, TEN, withPercentage(TEN)));

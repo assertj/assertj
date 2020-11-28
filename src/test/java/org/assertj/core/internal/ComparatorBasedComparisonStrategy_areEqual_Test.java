@@ -12,9 +12,9 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -22,37 +22,37 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class ComparatorBasedComparisonStrategy_areEqual_Test extends AbstractTest_ComparatorBasedComparisonStrategy {
+class ComparatorBasedComparisonStrategy_areEqual_Test extends AbstractTest_ComparatorBasedComparisonStrategy {
 
   @Test
-  public void should_return_true_if_objects_are_equal_according_to_comparison_strategy() {
+  void should_return_true_if_objects_are_equal_according_to_comparison_strategy() {
     assertThat(caseInsensitiveComparisonStrategy.areEqual("Yoda", "Yoda")).isTrue();
     assertThat(caseInsensitiveComparisonStrategy.areEqual("Yoda", "YODA")).isTrue();
     assertThat(caseInsensitiveComparisonStrategy.areEqual("YOda", "YodA")).isTrue();
   }
 
   @Test
-  public void should_return_true_if_both_objects_are_null() {
+  void should_return_true_if_both_objects_are_null() {
     assertThat(caseInsensitiveComparisonStrategy.areEqual(null, null)).isTrue();
   }
 
   @Test
-  public void should_return_false_if_first_object_is_null_and_second_is_not() {
+  void should_return_false_if_first_object_is_null_and_second_is_not() {
     assertThat(caseInsensitiveComparisonStrategy.areEqual(null, "Yoda")).isFalse();
   }
 
   @Test
-  public void should_return_false_if_second_object_is_null_and_first_is_not() {
+  void should_return_false_if_second_object_is_null_and_first_is_not() {
     assertThat(caseInsensitiveComparisonStrategy.areEqual("Yoda", null)).isFalse();
   }
 
   @Test
-  public void should_return_false_if_objects_are_not_equal_according_to_comparison_strategy() {
+  void should_return_false_if_objects_are_not_equal_according_to_comparison_strategy() {
     assertThat(caseInsensitiveComparisonStrategy.areEqual("Yoda", "Yod")).isFalse();
   }
 
   @Test
-  public void should_fail_if_objects_are_not_mutually_comparable() {
+  void should_fail_if_objects_are_not_mutually_comparable() {
     assertThatExceptionOfType(ClassCastException.class).isThrownBy(() -> assertThat(caseInsensitiveComparisonStrategy.areEqual("Yoda",
                                                                                                                                5)).isFalse());
   }

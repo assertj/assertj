@@ -20,7 +20,7 @@ import org.assertj.core.data.Index;
 
 import static org.mockito.Mockito.verify;
 
-public class AtomicReferenceArrayAssert_contains_at_Index_Test extends AtomicReferenceArrayAssertBaseTest {
+class AtomicReferenceArrayAssert_contains_at_Index_Test extends AtomicReferenceArrayAssertBaseTest {
 
   private final Index index = someIndex();
 

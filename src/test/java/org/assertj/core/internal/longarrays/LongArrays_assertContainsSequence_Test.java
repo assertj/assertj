@@ -37,7 +37,7 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class LongArrays_assertContainsSequence_Test extends LongArraysBaseTest {
+class LongArrays_assertContainsSequence_Test extends LongArraysBaseTest {
 
   @Override
   protected void initActualArray() {
@@ -45,30 +45,30 @@ public class LongArrays_assertContainsSequence_Test extends LongArraysBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsSequence(someInfo(), null, arrayOf(8L)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_null() {
+  void should_throw_error_if_sequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsSequence(someInfo(), actual, null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
+  void should_pass_if_actual_and_given_values_are_empty() {
     actual = emptyArray();
     arrays.assertContainsSequence(someInfo(), actual, emptyArray());
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsSequence(someInfo(), actual, emptyArray()));
   }
 
   @Test
-  public void should_fail_if_sequence_is_bigger_than_actual() {
+  void should_fail_if_sequence_is_bigger_than_actual() {
     AssertionInfo info = someInfo();
     long[] sequence = { 6L, 8L, 10L, 12L, 20L, 22L };
 
@@ -79,7 +79,7 @@ public class LongArrays_assertContainsSequence_Test extends LongArraysBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_whole_sequence() {
+  void should_fail_if_actual_does_not_contain_whole_sequence() {
     AssertionInfo info = someInfo();
     long[] sequence = { 6L, 20L };
 
@@ -90,7 +90,7 @@ public class LongArrays_assertContainsSequence_Test extends LongArraysBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_contains_first_elements_of_sequence() {
+  void should_fail_if_actual_contains_first_elements_of_sequence() {
     AssertionInfo info = someInfo();
     long[] sequence = { 6L, 20L, 22L };
 
@@ -105,23 +105,23 @@ public class LongArrays_assertContainsSequence_Test extends LongArraysBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_contains_sequence() {
+  void should_pass_if_actual_contains_sequence() {
     arrays.assertContainsSequence(someInfo(), actual, arrayOf(6L, 8L));
   }
 
   @Test
-  public void should_pass_if_actual_and_sequence_are_equal() {
+  void should_pass_if_actual_and_sequence_are_equal() {
     arrays.assertContainsSequence(someInfo(), actual, arrayOf(6L, 8L, 10L, 12L));
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), null, arrayOf(-8L)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(),
                                                                                                                 actual,
                                                                                                                 null))
@@ -129,12 +129,12 @@ public class LongArrays_assertContainsSequence_Test extends LongArraysBaseTest {
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, emptyArray()));
   }
 
   @Test
-  public void should_fail_if_sequence_is_bigger_than_actual_according_to_custom_comparison_strategy() {
+  void should_fail_if_sequence_is_bigger_than_actual_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     long[] sequence = { 6L, -8L, 10L, 12L, 20L, 22L };
 
@@ -145,7 +145,7 @@ public class LongArrays_assertContainsSequence_Test extends LongArraysBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_whole_sequence_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_whole_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     long[] sequence = { 6L, 20L };
 
@@ -156,7 +156,7 @@ public class LongArrays_assertContainsSequence_Test extends LongArraysBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_contains_first_elements_of_sequence_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_first_elements_of_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     long[] sequence = { 6L, 20L, 22L };
 
@@ -167,12 +167,12 @@ public class LongArrays_assertContainsSequence_Test extends LongArraysBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_contains_sequence_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_sequence_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, arrayOf(6L, -8L));
   }
 
   @Test
-  public void should_pass_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, arrayOf(6L, -8L, 10L, 12L));
   }
 }

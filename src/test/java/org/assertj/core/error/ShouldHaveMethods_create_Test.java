@@ -30,10 +30,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link ShouldHaveMethods}</code>
  */
-public class ShouldHaveMethods_create_Test {
+class ShouldHaveMethods_create_Test {
 
   @Test
-  public void should_create_error_message_for_methods() {
+  void should_create_error_message_for_methods() {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveMethods(Person.class, false,
                                                     newTreeSet("getName", "getAddress"),
@@ -51,7 +51,7 @@ public class ShouldHaveMethods_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_declared_methods() {
+  void should_create_error_message_for_declared_methods() {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveMethods(Person.class, true,
                                                     newTreeSet("getName", "getAddress"),
@@ -69,7 +69,7 @@ public class ShouldHaveMethods_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_shouldNotHave_PublicDeclared_Methods() {
+  void should_create_error_message_for_shouldNotHave_PublicDeclared_Methods() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotHaveMethods(Person.class,
                                                        Modifier.toString(Modifier.PUBLIC), true,
@@ -85,7 +85,7 @@ public class ShouldHaveMethods_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_shouldNotHave_Public_Methods() {
+  void should_create_error_message_for_shouldNotHave_Public_Methods() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotHaveMethods(Person.class,
                                                        Modifier.toString(Modifier.PUBLIC), false,
@@ -101,7 +101,7 @@ public class ShouldHaveMethods_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_shouldNotHave_Declared_Methods() {
+  void should_create_error_message_for_shouldNotHave_Declared_Methods() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotHaveMethods(Person.class, true, newTreeSet("getName"));
     // WHEN
@@ -115,7 +115,7 @@ public class ShouldHaveMethods_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_shouldNotHaveMethods() {
+  void should_create_error_message_for_shouldNotHaveMethods() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotHaveMethods(Person.class, false, newTreeSet("getName"));
     // WHEN
@@ -129,7 +129,7 @@ public class ShouldHaveMethods_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_shouldHaveMethods_with_non_matching_modifier() {
+  void should_create_error_message_for_shouldHaveMethods_with_non_matching_modifier() {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveMethods(Person.class, false,
                                                     newTreeSet("finalize"),

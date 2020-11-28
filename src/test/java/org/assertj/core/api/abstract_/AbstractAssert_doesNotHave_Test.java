@@ -27,12 +27,12 @@ import org.junit.jupiter.api.BeforeAll;
  * 
  * @author Yvonne Wang
  */
-public class AbstractAssert_doesNotHave_Test extends AbstractAssertBaseTest {
+class AbstractAssert_doesNotHave_Test extends AbstractAssertBaseTest {
 
   private static Condition<Object> condition;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     condition = new TestCondition<>();
   }
 

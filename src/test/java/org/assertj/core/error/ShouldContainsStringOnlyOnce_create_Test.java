@@ -24,7 +24,7 @@ import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ShouldContainsStringOnlyOnce_create_Test {
+class ShouldContainsStringOnlyOnce_create_Test {
 
   private ErrorMessageFactory factoryWithSeveralOccurrences;
   private ErrorMessageFactory factoryWithNoOccurrence;
@@ -36,7 +36,7 @@ public class ShouldContainsStringOnlyOnce_create_Test {
   }
 
   @Test
-  public void should_create_error_message_when_string_to_search_appears_several_times() {
+  void should_create_error_message_when_string_to_search_appears_several_times() {
     // WHEN
     String message = factoryWithSeveralOccurrences.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
@@ -44,7 +44,7 @@ public class ShouldContainsStringOnlyOnce_create_Test {
   }
 
   @Test
-  public void should_create_error_message_when_string_to_search_does_not_appear() {
+  void should_create_error_message_when_string_to_search_does_not_appear() {
     // WHEN
     String message = factoryWithNoOccurrence.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
@@ -52,7 +52,7 @@ public class ShouldContainsStringOnlyOnce_create_Test {
   }
 
   @Test
-  public void should_create_error_message_when_string_to_search_does_not_appear_with_custom_comparison_strategy() {
+  void should_create_error_message_when_string_to_search_does_not_appear_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnlyOnce("aaamoDifmoifaabbbmotfaaa", "MOtif", 0,
                                                         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
@@ -63,7 +63,7 @@ public class ShouldContainsStringOnlyOnce_create_Test {
   }
 
   @Test
-  public void should_create_error_message_when_string_to_search_appears_several_times_with_custom_comparison_strategy() {
+  void should_create_error_message_when_string_to_search_appears_several_times_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnlyOnce("aaamotIFmoTifaabbbmotifaaa", "MOtif", 3,
                                                         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));

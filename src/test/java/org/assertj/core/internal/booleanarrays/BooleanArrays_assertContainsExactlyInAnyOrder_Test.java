@@ -35,36 +35,36 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link BooleanArrays#assertContainsExactlyInAnyOrder(AssertionInfo, boolean[], boolean[])}</code>.
  */
-public class BooleanArrays_assertContainsExactlyInAnyOrder_Test extends BooleanArraysBaseTest {
+class BooleanArrays_assertContainsExactlyInAnyOrder_Test extends BooleanArraysBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly_in_any_order() {
+  void should_pass_if_actual_contains_given_values_exactly_in_any_order() {
     arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, arrayOf(true, false));
   }
 
   @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
+  void should_pass_if_actual_and_given_values_are_empty() {
     arrays.assertContainsExactlyInAnyOrder(someInfo(), emptyArray(), emptyArray());
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly_but_in_different_order() {
+  void should_pass_if_actual_contains_given_values_exactly_but_in_different_order() {
     AssertionInfo info = someInfo();
     arrays.assertContainsExactlyInAnyOrder(info, actual, arrayOf(false, true));
   }
 
   @Test
-  public void should_fail_if_arrays_have_different_sizes() {
+  void should_fail_if_arrays_have_different_sizes() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, arrayOf(true)));
   }
 
   @Test
-  public void should_fail_if_expected_is_empty_and_actual_is_not() {
+  void should_fail_if_expected_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(), actual, emptyArray()));
   }
 
   @Test
-  public void should_throw_error_if_expected_is_null() {
+  void should_throw_error_if_expected_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(),
                                                                                              actual,
                                                                                              null))
@@ -72,13 +72,13 @@ public class BooleanArrays_assertContainsExactlyInAnyOrder_Test extends BooleanA
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(), null, arrayOf(true)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_exactly() {
+  void should_fail_if_actual_does_not_contain_given_values_exactly() {
     AssertionInfo info = someInfo();
     boolean[] expected = {true, true};
 
@@ -90,7 +90,7 @@ public class BooleanArrays_assertContainsExactlyInAnyOrder_Test extends BooleanA
   }
 
   @Test
-  public void should_fail_if_actual_contains_all_given_values_but_size_differ() {
+  void should_fail_if_actual_contains_all_given_values_but_size_differ() {
     AssertionInfo info = someInfo();
     boolean[] expected = {true};
 
@@ -103,7 +103,7 @@ public class BooleanArrays_assertContainsExactlyInAnyOrder_Test extends BooleanA
   }
 
   @Test
-  public void should_fail_if_actual_contains_duplicates_and_expected_does_not() {
+  void should_fail_if_actual_contains_duplicates_and_expected_does_not() {
     AssertionInfo info = someInfo();
     actual = arrayOf(true, false, true);
     boolean[] expected = {true, false};
@@ -116,7 +116,7 @@ public class BooleanArrays_assertContainsExactlyInAnyOrder_Test extends BooleanA
   }
 
   @Test
-  public void should_fail_if_expected_contains_duplicates_and_actual_does_not() {
+  void should_fail_if_expected_contains_duplicates_and_actual_does_not() {
     AssertionInfo info = someInfo();
     actual = arrayOf(true, false);
     boolean[] expected = {true, false, true};

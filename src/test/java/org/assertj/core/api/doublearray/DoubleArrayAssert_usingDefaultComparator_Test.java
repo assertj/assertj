@@ -13,46 +13,39 @@
 package org.assertj.core.api.doublearray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
-
-import java.util.Comparator;
-
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import org.assertj.core.api.DoubleArrayAssert;
 import org.assertj.core.api.DoubleArrayAssertBaseTest;
 import org.assertj.core.internal.DoubleArrays;
 import org.assertj.core.internal.Objects;
 import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link DoubleArrayAssert#usingDefaultComparator()}</code>.
- * 
+ *
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class DoubleArrayAssert_usingDefaultComparator_Test extends DoubleArrayAssertBaseTest {
-
-  @Mock
-  private Comparator<double[]> comparator;
+class DoubleArrayAssert_usingDefaultComparator_Test extends DoubleArrayAssertBaseTest {
 
   private DoubleArrays arraysBefore;
 
   @BeforeEach
-  public void before() {
-    initMocks(this);
-    assertions.usingComparator(comparator);
+  void before() {
     arraysBefore = getArrays(assertions);
   }
 
   @Override
   protected DoubleArrayAssert invoke_api_method() {
-    return assertions.usingDefaultComparator();
+    return assertions.usingComparator(alwaysEqual())
+                     .usingDefaultComparator();
   }
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(Objects.instance()).isSameAs(getObjects(assertions));
-    assertThat(arraysBefore).isSameAs(getArrays(assertions));
+    assertThat(getObjects(assertions).getComparator()).isNull();
+    assertThat(getObjects(assertions)).isSameAs(Objects.instance());
+    assertThat(getArrays(assertions)).isSameAs(arraysBefore);
   }
 }

@@ -31,28 +31,28 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class Failures_failure_with_AssertionErrorFactory_Test {
+class Failures_failure_with_AssertionErrorFactory_Test {
 
   private WritableAssertionInfo info;
   private AssertionErrorFactory errorFactory;
   private Failures failures;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     info = new WritableAssertionInfo();
     errorFactory = mock(AssertionErrorFactory.class);
     failures = Failures.instance();
   }
 
   @Test
-  public void should_create_own_AssertionError_when_overriding_error_message_is_specified() {
+  void should_create_own_AssertionError_when_overriding_error_message_is_specified() {
     info.overridingErrorMessage("my message");
     AssertionError failure = failures.failure(info, errorFactory);
     assertThat(failure).hasMessage("my message");
   }
 
   @Test
-  public void should_use_AssertionErrorFactory_when_overriding_error_message_is_not_specified() {
+  void should_use_AssertionErrorFactory_when_overriding_error_message_is_not_specified() {
     MyOwnAssertionError expectedError = new MyOwnAssertionError("[description] my message");
     Description description = new TestDescription("description");
     info.description(description);

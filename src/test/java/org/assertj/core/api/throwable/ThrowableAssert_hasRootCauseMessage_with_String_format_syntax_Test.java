@@ -21,7 +21,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("ThrowableAssert hasRootCauseMessageWithStringFormat")
-public class ThrowableAssert_hasRootCauseMessage_with_String_format_syntax_Test extends ThrowableAssertBaseTest {
+class ThrowableAssert_hasRootCauseMessage_with_String_format_syntax_Test extends ThrowableAssertBaseTest {
 
   @Override
   protected ThrowableAssert invoke_api_method() {
@@ -35,7 +35,7 @@ public class ThrowableAssert_hasRootCauseMessage_with_String_format_syntax_Test 
   }
 
   @Test
-  public void should_throw_if_String_format_syntax_is_not_met() {
+  void should_throw_if_String_format_syntax_is_not_met() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertions.hasRootCauseMessage("%s %s", "message"));
   }
 }

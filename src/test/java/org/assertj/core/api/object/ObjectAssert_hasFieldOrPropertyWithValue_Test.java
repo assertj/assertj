@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Libor Ondrusek
  */
-public class ObjectAssert_hasFieldOrPropertyWithValue_Test extends ObjectAssertBaseTest {
+class ObjectAssert_hasFieldOrPropertyWithValue_Test extends ObjectAssertBaseTest {
 
   public static final String FIELD_NAME = "name"; // field in org.assertj.core.test.Person
   public static final String FIELD_VALUE = "Yoda"; // field value in org.assertj.core.test.Person
@@ -45,14 +45,14 @@ public class ObjectAssert_hasFieldOrPropertyWithValue_Test extends ObjectAssertB
   }
 
   @Test
-  public void should_pass_if_both_are_null() {
+  void should_pass_if_both_are_null() {
     Jedi jedi = new Jedi(null, "Blue");
 
     assertThat(jedi).hasFieldOrPropertyWithValue(FIELD_NAME, null);
   }
 
   @Test
-  public void should_fail_if_given_field_or_property_does_not_exist() {
+  void should_fail_if_given_field_or_property_does_not_exist() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
       Jedi jedi = new Jedi("Yoda", "Blue");
       assertThat(jedi).hasFieldOrPropertyWithValue("not_exists_in_jedi_object", FIELD_VALUE);
@@ -60,7 +60,7 @@ public class ObjectAssert_hasFieldOrPropertyWithValue_Test extends ObjectAssertB
   }
 
   @Test
-  public void should_fail_if_field_or_property_value_is_not_equal_to_the_expected_value() {
+  void should_fail_if_field_or_property_value_is_not_equal_to_the_expected_value() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
       Jedi jedi = new Jedi("Yoda", "Blue");
       assertThat(jedi).hasFieldOrPropertyWithValue(FIELD_NAME, 1000);
@@ -68,7 +68,7 @@ public class ObjectAssert_hasFieldOrPropertyWithValue_Test extends ObjectAssertB
   }
 
   @Test
-  public void should_fail_if_field_or_property_value_is_not_null_when_expected_value_is() {
+  void should_fail_if_field_or_property_value_is_not_null_when_expected_value_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
       Jedi jedi = new Jedi("Yoda", "Blue");
       assertThat(jedi).hasFieldOrPropertyWithValue(FIELD_NAME, null);
@@ -76,7 +76,7 @@ public class ObjectAssert_hasFieldOrPropertyWithValue_Test extends ObjectAssertB
   }
 
   @Test
-  public void should_fail_when_property_or_field_value_is_null_and_expected_value_is_not() {
+  void should_fail_when_property_or_field_value_is_null_and_expected_value_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
       Jedi jedi = new Jedi(null, "Blue");
       assertThat(jedi).hasFieldOrPropertyWithValue(FIELD_NAME, FIELD_VALUE);
@@ -84,7 +84,7 @@ public class ObjectAssert_hasFieldOrPropertyWithValue_Test extends ObjectAssertB
   }
 
   @Test
-  public void should_fail_if_given_field_or_property_name_is_null() {
+  void should_fail_if_given_field_or_property_name_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> {
       Jedi jedi = new Jedi("Yoda", "Blue");
       assertThat(jedi).hasFieldOrPropertyWithValue(null, FIELD_VALUE);

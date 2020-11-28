@@ -27,26 +27,26 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Longs_assertIsPositive_Test extends LongsBaseTest {
+class Longs_assertIsPositive_Test extends LongsBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_positive() {
+  void should_succeed_since_actual_is_positive() {
     longs.assertIsPositive(someInfo(), 6L);
   }
 
   @Test
-  public void should_fail_since_actual_is_not_positive() {
+  void should_fail_since_actual_is_not_positive() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertIsPositive(someInfo(), -6L))
                                                    .withMessage(format("%nExpecting:%n <-6L>%nto be greater than:%n <0L> "));
   }
 
   @Test
-  public void should_succeed_since_actual_is_positive_according_to_custom_comparison_strategy() {
+  void should_succeed_since_actual_is_positive_according_to_custom_comparison_strategy() {
     longsWithAbsValueComparisonStrategy.assertIsPositive(someInfo(), -1L);
   }
 
   @Test
-  public void should_fail_since_actual_is_not_positive_according_to_custom_comparison_strategy() {
+  void should_fail_since_actual_is_not_positive_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertIsPositive(someInfo(),
                                                                                                                           0L))
                                                    .withMessage(format("%nExpecting:%n <0L>%nto be greater than:%n <0L> when comparing values using AbsValueComparator"));

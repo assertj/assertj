@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  */
 @DisplayName("ShouldHaveSize create:")
-public class ShouldHaveSize_create_Test {
+class ShouldHaveSize_create_Test {
 
   private ErrorMessageFactory factory;
 
@@ -41,7 +41,7 @@ public class ShouldHaveSize_create_Test {
   }
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
@@ -49,7 +49,7 @@ public class ShouldHaveSize_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_hexadecimal_representation() {
+  void should_create_error_message_with_hexadecimal_representation() {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new HexadecimalRepresentation());
     // THEN
@@ -57,7 +57,7 @@ public class ShouldHaveSize_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_incorrect_file_size() {
+  void should_create_error_message_for_incorrect_file_size() {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveSize(new FakeFile("ab%sc"), 3L);
     // WHEN

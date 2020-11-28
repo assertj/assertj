@@ -32,12 +32,12 @@ import org.junit.jupiter.api.Test;
  * @author Nikolaos Georgiou
  */
 @DisplayName("FileAssert hasSameTextualContentAs")
-public class FileAssert_hasSameTextualContentAs_Test extends FileAssertBaseTest {
+class FileAssert_hasSameTextualContentAs_Test extends FileAssertBaseTest {
 
   private static File expected;
 
   @BeforeAll
-  public static void beforeOnce() {
+  static void beforeOnce() {
     expected = new File("xyz");
   }
 
@@ -52,7 +52,7 @@ public class FileAssert_hasSameTextualContentAs_Test extends FileAssertBaseTest 
   }
 
   @Test
-  public void should_use_charset_specified_by_usingCharset_to_read_actual_file_content() throws Exception {
+  void should_use_charset_specified_by_usingCharset_to_read_actual_file_content() throws Exception {
     // GIVEN
     File actual = createTempFileWithContent("Gerçek", TURKISH_CHARSET);
     File expected = createTempFileWithContent("Gerçek", defaultCharset);
@@ -61,7 +61,7 @@ public class FileAssert_hasSameTextualContentAs_Test extends FileAssertBaseTest 
   }
 
   @Test
-  public void should_allow_charset_to_be_specified_for_reading_expected_file_content() throws Exception {
+  void should_allow_charset_to_be_specified_for_reading_expected_file_content() throws Exception {
     // GIVEN
     File actual = createTempFileWithContent("Gerçek", defaultCharset);
     File expected = createTempFileWithContent("Gerçek", TURKISH_CHARSET);

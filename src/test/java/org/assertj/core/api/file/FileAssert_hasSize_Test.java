@@ -22,7 +22,7 @@ import org.assertj.core.api.FileAssertBaseTest;
  *
  * @author Krishna Chaithanya Ganta
  */
-public class FileAssert_hasSize_Test extends FileAssertBaseTest {
+class FileAssert_hasSize_Test extends FileAssertBaseTest {
 
   private long expected = 123L;
 

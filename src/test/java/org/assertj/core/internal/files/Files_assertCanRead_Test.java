@@ -36,16 +36,16 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * 
  */
-public class Files_assertCanRead_Test extends FilesBaseTest {
+class Files_assertCanRead_Test extends FilesBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertCanRead(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_can_not_read() {
+  void should_fail_if_can_not_read() {
     when(actual.canRead()).thenReturn(false);
     AssertionInfo info = someInfo();
 
@@ -56,7 +56,7 @@ public class Files_assertCanRead_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_can_read() {
+  void should_pass_if_actual_can_read() {
     when(actual.canRead()).thenReturn(true);
     files.assertCanRead(someInfo(), actual);
   }

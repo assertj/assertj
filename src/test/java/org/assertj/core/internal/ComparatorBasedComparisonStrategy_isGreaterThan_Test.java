@@ -12,12 +12,13 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.awt.Rectangle;
 
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -25,10 +26,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class ComparatorBasedComparisonStrategy_isGreaterThan_Test extends AbstractTest_ComparatorBasedComparisonStrategy {
+class ComparatorBasedComparisonStrategy_isGreaterThan_Test extends AbstractTest_ComparatorBasedComparisonStrategy {
 
   @Test
-  public void verify_that_isGreaterThan_delegates_to_compare_method() {
+  void verify_that_isGreaterThan_delegates_to_compare_method() {
     caseInsensitiveStringComparator = mock(CaseInsensitiveStringComparator.class);
     caseInsensitiveComparisonStrategy = new ComparatorBasedComparisonStrategy(caseInsensitiveStringComparator);
     String s1 = "string1";
@@ -38,7 +39,7 @@ public class ComparatorBasedComparisonStrategy_isGreaterThan_Test extends Abstra
   }
 
   @Test
-  public void should_pass() {
+  void should_pass() {
     String string = "stringA";
     String lesserUpperString = "STRING";
     assertThat(caseInsensitiveComparisonStrategy.isGreaterThan(string, lesserUpperString)).isTrue();
@@ -51,7 +52,7 @@ public class ComparatorBasedComparisonStrategy_isGreaterThan_Test extends Abstra
   }
 
   @Test
-  public void should_fail_if_a_parameter_is_not_comparable() {
+  void should_fail_if_a_parameter_is_not_comparable() {
     assertThatExceptionOfType(ClassCastException.class).isThrownBy(() -> caseInsensitiveComparisonStrategy.isGreaterThan(new Rectangle(),
                                                                                                                          new Rectangle()));
   }

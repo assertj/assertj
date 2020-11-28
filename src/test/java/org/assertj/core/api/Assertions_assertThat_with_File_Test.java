@@ -24,23 +24,23 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Yvonne Wang
  */
-public class Assertions_assertThat_with_File_Test {
+class Assertions_assertThat_with_File_Test {
 
   private static File actual;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     actual = new File("xyz");
   }
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     AbstractFileAssert<?> assertions = Assertions.assertThat(actual);
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     AbstractFileAssert<?> assertions = Assertions.assertThat(actual);
     assertThat(assertions.actual).isSameAs(actual);
   }

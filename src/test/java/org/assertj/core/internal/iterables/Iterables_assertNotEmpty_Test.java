@@ -36,21 +36,21 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Iterables_assertNotEmpty_Test extends IterablesBaseTest {
+class Iterables_assertNotEmpty_Test extends IterablesBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_not_empty() {
+  void should_pass_if_actual_is_not_empty() {
     iterables.assertNotEmpty(someInfo(), newArrayList("Luke"));
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertNotEmpty(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_empty() {
+  void should_fail_if_actual_is_empty() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> iterables.assertNotEmpty(info, emptyList()));
@@ -60,18 +60,18 @@ public class Iterables_assertNotEmpty_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_not_empty_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_is_not_empty_whatever_custom_comparison_strategy_is() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertNotEmpty(someInfo(), newArrayList("Luke"));
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertNotEmpty(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertNotEmpty(info, emptyList()));

@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
  * @author Marcin Zajączkowski
  */
 @DisplayName("LocalDateTimeAssert isAfter")
-public class LocalDateTimeAssert_isAfter_Test extends AbstractLocalDateTimeAssertBaseTest {
+class LocalDateTimeAssert_isAfter_Test extends AbstractLocalDateTimeAssertBaseTest {
 
   @Override
   protected LocalDateTimeAssert invoke_api_method() {
@@ -47,7 +47,7 @@ public class LocalDateTimeAssert_isAfter_Test extends AbstractLocalDateTimeAsser
   }
 
   @Test
-  public void should_fail_if_localDateTime_parameter_is_null() {
+  void should_fail_if_localDateTime_parameter_is_null() {
     // GIVEN
     LocalDateTime otherDateTime = null;
     // WHEN
@@ -58,7 +58,7 @@ public class LocalDateTimeAssert_isAfter_Test extends AbstractLocalDateTimeAsser
   }
 
   @Test
-  public void should_fail_if_localDateTime_as_string_parameter_is_null() {
+  void should_fail_if_localDateTime_as_string_parameter_is_null() {
     // GIVEN
     String otherDateTimeAsString = null;
     // WHEN
@@ -69,7 +69,7 @@ public class LocalDateTimeAssert_isAfter_Test extends AbstractLocalDateTimeAsser
   }
 
   @Test
-  public void should_fail_if_given_string_parameter_cant_be_parsed() {
+  void should_fail_if_given_string_parameter_cant_be_parsed() {
     assertThatThrownBy(() -> assertions.isAfter("not a LocalDateTime")).isInstanceOf(DateTimeParseException.class);
   }
 }

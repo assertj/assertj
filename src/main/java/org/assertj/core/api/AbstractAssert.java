@@ -32,6 +32,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.configuration.ConfigurationProvider;
@@ -64,7 +65,7 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, ACTUAL> implements Assert<SELF, ACTUAL> {
 
-  // https://github.com/joel-costigliola/assertj-core/issues/1128
+  // https://github.com/assertj/assertj-core/issues/1128
   public static boolean throwUnsupportedExceptionOnEquals = true;
 
   private static final String ORG_ASSERTJ = "org.assert";
@@ -115,13 +116,35 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   }
 
   /**
-   * Utility method to ease writing custom assertions classes using {@link String#format(String, Object...)} specifiers
+   * Throw an assertion error based on information in this assertion. Equivalent to:
+   * <pre><code class='java'>throw failure(errorMessage, arguments);</code></pre>
+   * <p>
+   * This method is a thin wrapper around {@link #failure(String, Object...) failure()} - see that method for a more detailed
+   * description.
+   * <p>
+   * Note that generally speaking, using {@link #failure(String, Object...) failure()} directly is preferable to using this
+   * wrapper method, as the compiler and other code analysis tools will be able to tell that the statement will never return
+   * normally and respond appropriately.
+   *
+   * @param errorMessage the error message to format
+   * @param arguments the arguments referenced by the format specifiers in the errorMessage string.
+   * @see #failWithActualExpectedAndMessage(Object, Object, String, Object...)
+   * @see #failure(String, Object...)
+   */
+  protected void failWithMessage(String errorMessage, Object... arguments) {
+    throw failure(errorMessage, arguments);
+  }
+
+  /**
+   * Generate a custom assertion error using the information in this assertion.
+   * <p>
+   * This is a utility method to ease writing custom assertions classes using {@link String#format(String, Object...)} specifiers
    * in error message.
    * <p>
    * Moreover, this method honors any description set with {@link #as(String, Object...)} or overridden error message
    * defined by the user with {@link #overridingErrorMessage(String, Object...)}.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> public TolkienCharacterAssert hasName(String name) {
    *   // check that actual TolkienCharacter we want to make assertions on is not null.
    *   isNotNull();
@@ -137,9 +160,11 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * @param errorMessage the error message to format
    * @param arguments the arguments referenced by the format specifiers in the errorMessage string.
-   * @see #failWithActualExpectedAndMessage(Object, Object, String, Object...)
+   * @see #failureWithActualExpected(Object, Object, String, Object...)
+   * @see #failWithMessage(String, Object...)
+   * @return The generated assertion error.
    */
-  protected void failWithMessage(String errorMessage, Object... arguments) {
+  protected AssertionError failure(String errorMessage, Object... arguments) {
     AssertionError assertionError = Failures.instance().failureIfErrorMessageIsOverridden(info);
     if (assertionError == null) {
       // error message was not overridden, build it.
@@ -148,11 +173,35 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     }
     Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     removeCustomAssertRelatedElementsFromStackTraceIfNeeded(assertionError);
-    throw assertionError;
+    return assertionError;
   }
 
   /**
-   * Utility method to ease writing custom assertions classes using {@link String#format(String, Object...)} specifiers
+   * Throw an assertion error based on information in this assertion. Equivalent to:
+   * <pre><code class='java'>throw failureWithActualExpected(actual, expected, errorMessageFormat, arguments);</code></pre>
+   * <p>
+   * This method is a thin wrapper around {@link #failureWithActualExpected(Object, Object, String, Object...) failureWithActualExpected()} -
+   * see that method for a more detailed description. Note that generally speaking, using
+   * {@link #failureWithActualExpected(Object, Object, String, Object...) failureWithActualExpected()} directly is
+   * preferable to using this wrapper method, as the compiler and other code analysis tools will be able to tell that the
+   * statement will never return normally and respond appropriately.
+   *
+   * @param actual the actual object that was found during the test
+   * @param expected the object that was expected
+   * @param errorMessageFormat the error message to format
+   * @param arguments the arguments referenced by the format specifiers in the errorMessage string.
+   * @see #failWithMessage(String, Object...)
+   * @see #failureWithActualExpected(Object, Object, String, Object...)
+   */
+  protected void failWithActualExpectedAndMessage(Object actual, Object expected, String errorMessageFormat,
+                                                  Object... arguments) {
+    throw failureWithActualExpected(actual, expected, errorMessageFormat, arguments);
+  }
+
+  /**
+   * Generate a custom assertion error using the information in this assertion, using the given actual and expected values.
+   * <p>
+   * This is a utility method to ease writing custom assertions classes using {@link String#format(String, Object...)} specifiers
    * in error message with actual and expected values.
    * <p>
    * Moreover, this method honors any description set with {@link #as(String, Object...)} or overridden error message
@@ -168,7 +217,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    *   // check condition
    *   if (!actual.getName().equals(name)) {
-   *     failWithActualExpectedAndMessage(actual.getName(), name, &quot;Expected character's name to be &lt;%s&gt; but was &lt;%s&gt;&quot;, name, actual.getName());
+   *     throw failureWithActualExpected(actual.getName(), name, &quot;Expected character's name to be &lt;%s&gt; but was &lt;%s&gt;&quot;, name, actual.getName());
    *   }
    *
    *   // return the current assertion for method chaining
@@ -179,17 +228,19 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @param expected the object that was expected
    * @param errorMessageFormat the error message to format
    * @param arguments the arguments referenced by the format specifiers in the errorMessage string.
-   * @see #failWithMessage(String, Object...)
+   * @return The generated assertion error.
+   * @see #failure(String, Object...)
+   * @see #failWithActualExpectedAndMessage(Object, Object, String, Object...)
    */
-  protected void failWithActualExpectedAndMessage(Object actual, Object expected, String errorMessageFormat,
-                                                  Object... arguments) {
+  protected AssertionError failureWithActualExpected(Object actual, Object expected, String errorMessageFormat,
+                                                     Object... arguments) {
     String errorMessage = Optional.ofNullable(info.overridingErrorMessage())
                                   .orElse(format(errorMessageFormat, arguments));
     String description = MessageFormatter.instance().format(info.description(), info.representation(), errorMessage);
     AssertionError assertionError = assertionErrorCreator.assertionError(description, actual, expected);
     Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     removeCustomAssertRelatedElementsFromStackTraceIfNeeded(assertionError);
-    throw assertionError;
+    return assertionError;
   }
 
   /**
@@ -229,12 +280,10 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return getClass().getName().startsWith(ORG_ASSERTJ);
   }
 
-  private boolean isElementOfCustomAssert(StackTraceElement stackTraceElement) {
+  protected boolean isElementOfCustomAssert(StackTraceElement stackTraceElement) {
     Class<?> currentAssertClass = getClass();
     while (currentAssertClass != AbstractAssert.class) {
-      if (stackTraceElement.getClassName().equals(currentAssertClass.getName())) {
-        return true;
-      }
+      if (stackTraceElement.getClassName().equals(currentAssertClass.getName())) return true;
       currentAssertClass = currentAssertClass.getSuperclass();
     }
     return false;
@@ -557,6 +606,27 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   }
 
   /**
+   * Overrides AssertJ default error message by the given one.
+   * <p>
+   * The new error message is only built if the assertion fails (by consuming the given supplier), this is useful if building messages is expensive.
+   * <p>
+   * You must set the message <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks
+   * the call chain by throwing an {@link AssertionError}.
+   * <p>
+   * Example :
+   * <pre><code class='java'>assertThat(player.isRookie()).overridingErrorMessage(() -&gt; &quot;Expecting Player to be a rookie but was not.&quot;)
+   *                             .isTrue();</code></pre>
+   *
+   * @param supplier the supplier supplies error message that will replace the default one provided by Assertj.
+   * @return this assertion object.
+   */
+  @CheckReturnValue
+  public SELF overridingErrorMessage(Supplier<String> supplier) {
+    info.overridingErrorMessage(supplier);
+    return myself;
+  }
+
+  /**
    * Alternative method for {@link AbstractAssert#overridingErrorMessage}
    * <p>
    * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks
@@ -572,6 +642,25 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @CheckReturnValue
   public SELF withFailMessage(String newErrorMessage, Object... args) {
     return overridingErrorMessage(newErrorMessage, args);
+  }
+
+  /**
+   * Alternative method for {@link AbstractAssert#overridingErrorMessage}
+   * <p>
+   * The new error message is only built if the assertion fails (by consuming the given supplier), this is useful if building messages is expensive.
+   * <p>
+   * You must set the message <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks
+   * the call chain by throwing an {@link AssertionError}.
+   * <p>
+   * Example:
+   * <pre><code class='java'>assertThat(player.isRookie()).withFailMessage(() -&gt; &quot;Expecting Player to be a rookie but was not.&quot;)
+   *                              .isTrue();</code></pre>
+   * @param supplier the supplier supplies error message that will replace the default one provided by Assertj.
+   * @return this assertion object.
+   */
+  @CheckReturnValue
+  public SELF withFailMessage(Supplier<String> supplier) {
+    return overridingErrorMessage(supplier);
   }
 
   /** {@inheritDoc} */
@@ -852,8 +941,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return assertionErrorCreator.multipleAssertionsError(info.description(), assertionErrors);
   }
 
-  @SuppressWarnings("unchecked")
-  private boolean satisfiesAssertions(@SuppressWarnings("rawtypes") Consumer assertions) {
+  private boolean satisfiesAssertions(Consumer<ACTUAL> assertions) {
     try {
       assertions.accept(actual);
     } catch (AssertionError e) {
@@ -862,8 +950,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return true;
   }
 
-  @SuppressWarnings("unchecked")
-  private AssertionError catchAssertionError(@SuppressWarnings("rawtypes") Consumer assertions) {
+  private AssertionError catchAssertionError(Consumer<ACTUAL> assertions) {
     try {
       assertions.accept(actual);
     } catch (AssertionError assertionError) {
@@ -888,7 +975,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     AbstractAssert.printAssertionsDescription = printAssertionsDescription;
   }
 
-  public static void setConsumerDescription(Consumer<Description> descriptionConsumer) {
+  public static void setDescriptionConsumer(Consumer<Description> descriptionConsumer) {
     AbstractAssert.descriptionConsumer = descriptionConsumer;
   }
 
@@ -896,6 +983,13 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @Override
   public SELF hasSameHashCodeAs(Object other) {
     objects.assertHasSameHashCodeAs(info, actual, other);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public SELF doesNotHaveSameHashCodeAs(Object other) {
+    objects.assertDoesNotHaveSameHashCodeAs(info, actual, other);
     return myself;
   }
 

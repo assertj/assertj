@@ -17,17 +17,17 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
 
-public class PathAssert_hasFileName_Test extends PathAssertBaseTest {
+class PathAssert_hasFileName_Test extends PathAssertBaseTest {
   
   private final String other = "file.txt";
 
   @Override
   protected PathAssert invoke_api_method() {
-	return assertions.hasFileName(other);
+    return assertions.hasFileName(other);
   }
 
   @Override
   protected void verify_internal_effects() {
-	verify(paths).assertHasFileName(getInfo(assertions), getActual(assertions), other);
+    verify(paths).assertHasFileName(getInfo(assertions), getActual(assertions), other);
   }
 }

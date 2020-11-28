@@ -31,17 +31,17 @@ class OffsetDateTimeByInstantComparatorTest {
   }
 
   @Test
-  public void should_have_one_instance() {
+  void should_have_one_instance() {
     assertThat(comparator).isSameAs(OffsetDateTimeByInstantComparator.getInstance());
   }
 
   @Test
-  public void should_have_description() {
+  void should_have_description() {
     assertThat(comparator.description()).isEqualTo("OffsetDateTime.timeLineOrder()");
   }
 
   @Test
-  public void should_disregard_time_zone_difference() {
+  void should_disregard_time_zone_difference() {
     ZonedDateTime now = ZonedDateTime.now();
     OffsetDateTime inParis = now.withZoneSameInstant(ZoneId.of("Europe/Paris")).toOffsetDateTime();
     OffsetDateTime inNewYork = now.withZoneSameInstant(ZoneId.of("America/New_York")).toOffsetDateTime();

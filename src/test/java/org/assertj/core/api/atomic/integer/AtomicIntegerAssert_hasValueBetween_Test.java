@@ -18,7 +18,7 @@ import org.assertj.core.api.AtomicIntegerAssert;
 import org.assertj.core.api.AtomicIntegerAssertBaseTest;
 
 
-public class AtomicIntegerAssert_hasValueBetween_Test extends AtomicIntegerAssertBaseTest {
+class AtomicIntegerAssert_hasValueBetween_Test extends AtomicIntegerAssertBaseTest {
 
   @Override
   protected AtomicIntegerAssert invoke_api_method() {

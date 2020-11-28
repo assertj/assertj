@@ -32,58 +32,58 @@ import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.MapsBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class Maps_assertContainsAnyOf_Test extends MapsBaseTest {
+class Maps_assertContainsAnyOf_Test extends MapsBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_one_of_the_given_entries_but_not_the_others() {
+  void should_pass_if_actual_contains_one_of_the_given_entries_but_not_the_others() {
     maps.assertContainsAnyOf(someInfo(), actual, array(entry("name", "Yoda"), entry("name", "Vador")));
   }
 
   @Test
-  public void should_pass_if_actual_contains_one_of_the_given_entries() {
+  void should_pass_if_actual_contains_one_of_the_given_entries() {
     maps.assertContainsAnyOf(someInfo(), actual, array(entry("name", "Yoda")));
   }
 
   @Test
-  public void should_pass_if_actual_contains_all_given_entries() {
+  void should_pass_if_actual_contains_all_given_entries() {
     maps.assertContainsAnyOf(someInfo(), actual, array(entry("name", "Yoda"), entry("color", "green")));
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_pass_if_actual_and_given_entries_are_empty() {
+  void should_pass_if_actual_and_given_entries_are_empty() {
     actual = new HashMap<>();
     maps.assertContainsAnyOf(someInfo(), actual, new MapEntry[0]);
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_throw_error_if_array_of_entries_to_look_for_is_empty_and_the_map_under_test_is_not() {
+  void should_throw_error_if_array_of_entries_to_look_for_is_empty_and_the_map_under_test_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContainsAnyOf(someInfo(), actual, new MapEntry[0]));
   }
 
   @Test
-  public void should_throw_error_if_array_of_entries_to_look_for_is_null() {
+  void should_throw_error_if_array_of_entries_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> maps.assertContainsAnyOf(someInfo(), actual, null))
                                     .withMessage(entriesToLookForIsNull());
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_throw_error_if_entry_is_null() {
+  void should_throw_error_if_entry_is_null() {
     MapEntry<String, String>[] entries = new MapEntry[] { null };
     assertThatNullPointerException().isThrownBy(() -> maps.assertContainsAnyOf(someInfo(), actual, entries))
                                     .withMessage(entryToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContainsAnyOf(someInfo(), null, array(entry("name", "Yoda"))))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_any_of_the_given_entries() {
+  void should_fail_if_actual_does_not_contain_any_of_the_given_entries() {
     AssertionInfo info = someInfo();
     MapEntry<String, String>[] expected = array(entry("name", "Vador"), entry("job", "Jedi"));
 

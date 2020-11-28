@@ -23,7 +23,7 @@ import org.assertj.core.api.ObjectArrayAssertBaseTest;
  *
  * @author Filip Hrisafov
  */
-public class ObjectArrayAssert_containsExactlyInAnyOrderElementsOf_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_containsExactlyInAnyOrderElementsOf_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {

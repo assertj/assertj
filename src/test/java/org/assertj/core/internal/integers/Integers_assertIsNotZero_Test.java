@@ -28,26 +28,26 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Integers_assertIsNotZero_Test extends IntegersBaseTest {
+class Integers_assertIsNotZero_Test extends IntegersBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_not_zero() {
+  void should_succeed_since_actual_is_not_zero() {
     integers.assertIsNotZero(someInfo(), 2);
   }
 
   @Test
-  public void should_fail_since_actual_is_zero() {
+  void should_fail_since_actual_is_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertIsNotZero(someInfo(), 0))
                                                    .withMessage(format("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n"));
   }
 
   @Test
-  public void should_succeed_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
+  void should_succeed_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
     integersWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 1);
   }
 
   @Test
-  public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
+  void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integersWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0))
                                                    .withMessage(format("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n"));
   }

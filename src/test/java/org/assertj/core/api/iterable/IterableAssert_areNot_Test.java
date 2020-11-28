@@ -26,12 +26,12 @@ import org.junit.jupiter.api.BeforeAll;
  * 
  * @author Nicolas François
  */
-public class IterableAssert_areNot_Test extends IterableAssertBaseTest {
+class IterableAssert_areNot_Test extends IterableAssertBaseTest {
 
   private static Condition<Object> condition;
 
   @BeforeAll
-  public static void beforeOnce() {
+  static void beforeOnce() {
     condition = new TestCondition<>();
   }
 

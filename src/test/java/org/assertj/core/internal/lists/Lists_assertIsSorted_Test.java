@@ -36,39 +36,39 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Lists_assertIsSorted_Test extends ListsBaseTest {
+class Lists_assertIsSorted_Test extends ListsBaseTest {
 
   private List<String> actual = newArrayList("Leia", "Luke", "Luke", "Vador", "Yoda");
 
   @Test
-  public void should_pass_if_actual_is_sorted_in_ascending_order() {
+  void should_pass_if_actual_is_sorted_in_ascending_order() {
     lists.assertIsSorted(someInfo(), actual);
   }
 
   @Test
-  public void should_pass_if_actual_is_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
     actual = newArrayList("leia", "LUKE", "luke", "Vador", "Yoda");
     listsWithCaseInsensitiveComparisonStrategy.assertIsSorted(someInfo(), actual);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty() {
+  void should_pass_if_actual_is_empty() {
     lists.assertIsSorted(someInfo(), newArrayList());
   }
 
   @Test
-  public void should_pass_if_actual_contains_only_one_comparable_element() {
+  void should_pass_if_actual_contains_only_one_comparable_element() {
     lists.assertIsSorted(someInfo(), newArrayList("Obiwan"));
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.assertIsSorted(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_sorted_in_ascending_order() {
+  void should_fail_if_actual_is_not_sorted_in_ascending_order() {
     AssertionInfo info = someInfo();
     actual = newArrayList("Luke", "Yoda", "Leia");
 
@@ -79,7 +79,7 @@ public class Lists_assertIsSorted_Test extends ListsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_not_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_not_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     actual = newArrayList("Luke", "Yoda", "Leia");
 
@@ -90,7 +90,7 @@ public class Lists_assertIsSorted_Test extends ListsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_has_only_one_non_comparable_element() {
+  void should_fail_if_actual_has_only_one_non_comparable_element() {
     AssertionInfo info = someInfo();
     List<Object> actual = newArrayList(new Object());
 
@@ -101,7 +101,7 @@ public class Lists_assertIsSorted_Test extends ListsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_has_some_non_comparable_elements() {
+  void should_fail_if_actual_has_some_non_comparable_elements() {
     AssertionInfo info = someInfo();
     List<Object> actual = newArrayList("bar", new Object(), "foo");
 
@@ -112,7 +112,7 @@ public class Lists_assertIsSorted_Test extends ListsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_has_some_not_mutually_comparable_elements() {
+  void should_fail_if_actual_has_some_not_mutually_comparable_elements() {
     AssertionInfo info = someInfo();
     List<Object> actual = newArrayList();
     actual.add("bar");

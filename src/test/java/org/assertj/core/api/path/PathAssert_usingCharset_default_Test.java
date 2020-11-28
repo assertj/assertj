@@ -22,16 +22,16 @@ import org.assertj.core.api.PathAssertBaseTest;
 /**
  * Tests the default charset for <code>{@link PathAssert}</code>.
  */
-public class PathAssert_usingCharset_default_Test extends PathAssertBaseTest {
+class PathAssert_usingCharset_default_Test extends PathAssertBaseTest {
 
   @Override
   protected PathAssert invoke_api_method() {
-	// do nothing
-	return assertions;
+    // do nothing
+    return assertions;
   }
 
   @Override
   protected void verify_internal_effects() {
-	assertThat(getCharset(assertions)).isEqualTo(Charset.defaultCharset());
+    assertThat(getCharset(assertions)).isEqualTo(Charset.defaultCharset());
   }
 }

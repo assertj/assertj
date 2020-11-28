@@ -19,10 +19,10 @@ import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Test;
 
-public class BigDecimalComparatorTest {
+class BigDecimalComparatorTest {
 
   @Test
-  public void should_consider_null_to_be_less_than_non_bull() {
+  void should_consider_null_to_be_less_than_non_bull() {
     // GIVEN
     BigDecimal bigDecimal1 = null;
     BigDecimal bigDecimal2 = BigDecimal.ZERO;
@@ -33,7 +33,7 @@ public class BigDecimalComparatorTest {
   }
 
   @Test
-  public void should_consider_non_null_to_be_greater_than_null() {
+  void should_consider_non_null_to_be_greater_than_null() {
     // GIVEN
     BigDecimal bigDecimal1 = BigDecimal.ZERO;
     BigDecimal bigDecimal2 = null;
@@ -44,7 +44,7 @@ public class BigDecimalComparatorTest {
   }
 
   @Test
-  public void should_return_0_when_both_BigDecimal_are_null() {
+  void should_return_0_when_both_BigDecimal_are_null() {
     // GIVEN
     BigDecimal bigDecimal1 = null;
     BigDecimal bigDecimal2 = null;
@@ -55,7 +55,7 @@ public class BigDecimalComparatorTest {
   }
 
   @Test
-  public void should_compare_BigDecimal_with_natural_comparator() {
+  void should_compare_BigDecimal_with_natural_comparator() {
     // GIVEN
     BigDecimal bigDecimal1 = new BigDecimal("0.0");
     BigDecimal bigDecimal2 = new BigDecimal("0.000000");

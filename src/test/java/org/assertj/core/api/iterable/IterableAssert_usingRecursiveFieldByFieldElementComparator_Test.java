@@ -29,12 +29,12 @@ import org.assertj.core.internal.Iterables;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class IterableAssert_usingRecursiveFieldByFieldElementComparator_Test extends IterableAssertBaseTest {
+class IterableAssert_usingRecursiveFieldByFieldElementComparator_Test extends IterableAssertBaseTest {
 
   private Iterables iterablesBefore;
 
   @BeforeEach
-  public void before() {
+  void before() {
     iterablesBefore = getIterables(assertions);
   }
 
@@ -51,21 +51,21 @@ public class IterableAssert_usingRecursiveFieldByFieldElementComparator_Test ext
   }
 
   @Test
-  public void successful_isEqualTo_assertion_using_recursive_field_by_field_element_comparator() {
+  void successful_isEqualTo_assertion_using_recursive_field_by_field_element_comparator() {
     List<Foo> list1 = singletonList(new Foo("id", new Bar(1)));
     List<Foo> list2 = singletonList(new Foo("id", new Bar(1)));
     assertThat(list1).usingRecursiveFieldByFieldElementComparator().isEqualTo(list2);
   }
 
   @Test
-  public void successful_isIn_assertion_using_recursive_field_by_field_element_comparator() {
+  void successful_isIn_assertion_using_recursive_field_by_field_element_comparator() {
     List<Foo> list1 = singletonList(new Foo("id", new Bar(1)));
     List<Foo> list2 = singletonList(new Foo("id", new Bar(1)));
     assertThat(list1).usingRecursiveFieldByFieldElementComparator().isIn(singletonList(list2));
   }
 
   @Test
-  public void failed_isEqualTo_assertion_using_recursive_field_by_field_element_comparator() {
+  void failed_isEqualTo_assertion_using_recursive_field_by_field_element_comparator() {
     List<Foo> list1 = singletonList(new Foo("id", new Bar(1)));
     List<Foo> list2 = singletonList(new Foo("id", new Bar(2)));
 
@@ -83,7 +83,7 @@ public class IterableAssert_usingRecursiveFieldByFieldElementComparator_Test ext
   }
 
   @Test
-  public void failed_isIn_assertion_using_recursive_field_by_field_element_comparator() {
+  void failed_isIn_assertion_using_recursive_field_by_field_element_comparator() {
     List<Foo> list1 = singletonList(new Foo("id", new Bar(1)));
     List<Foo> list2 = singletonList(new Foo("id", new Bar(2)));
 
@@ -100,7 +100,7 @@ public class IterableAssert_usingRecursiveFieldByFieldElementComparator_Test ext
   }
 
   @Test
-  public void should_be_able_to_use_a_comparator_for_specified_fields_of_elements_when_using_recursive_field_by_field_element_comparator() {
+  void should_be_able_to_use_a_comparator_for_specified_fields_of_elements_when_using_recursive_field_by_field_element_comparator() {
     Foo actual = new Foo("1", new Bar(1));
     Foo other = new Foo("1", new Bar(2));
     final class AlwaysEqualIntegerComparator implements Comparator<Integer> {
@@ -116,7 +116,7 @@ public class IterableAssert_usingRecursiveFieldByFieldElementComparator_Test ext
   }
 
   @Test
-  public void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_when_using_recursive_field_by_field_element_comparator() {
+  void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_when_using_recursive_field_by_field_element_comparator() {
     Comparator<String> comparator = (o1, o2) -> o1.compareTo(o2);
     Foo actual = new Foo("1", new Bar(1));
     Foo other = new Foo("2", new Bar(1));
@@ -128,7 +128,7 @@ public class IterableAssert_usingRecursiveFieldByFieldElementComparator_Test ext
   }
 
   @Test
-  public void should_be_able_to_use_a_comparator_for_element_fields_with_specified_type_when_using_recursive_field_by_field_element_comparator() {
+  void should_be_able_to_use_a_comparator_for_element_fields_with_specified_type_when_using_recursive_field_by_field_element_comparator() {
     Foo actual = new Foo("1", new Bar(1));
     Foo other = new Foo("2", new Bar(1));
 

@@ -13,10 +13,10 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-
 import static org.assertj.core.util.DateUtil.formatAsDatetimeWithMs;
 
 import java.time.temporal.Temporal;
+import java.time.temporal.TemporalAmount;
 import java.util.Date;
 
 /**
@@ -51,16 +51,26 @@ public class ShouldBeCloseTo extends BasicErrorMessageFactory {
     return new ShouldBeCloseTo(actual, other, differenceDescription);
   }
 
+  public static ErrorMessageFactory shouldBeCloseTo(TemporalAmount actual, TemporalAmount other, TemporalAmount allowedDifference,
+                                                    TemporalAmount difference) {
+    return new ShouldBeCloseTo(actual, other, allowedDifference, difference);
+  }
+
   private ShouldBeCloseTo(Date actual, Date other, long deltaInMilliseconds, long difference) {
     // format Date up to the given ms, because default format is the second, thus dates with a difference less than 1s
     // seems equal in the error message.
     // Use standard formatting to avoid calling ToString.toStringOf for long that adds a 'L' (like 100L) to
     // differentiate integer from long (here there is no ambiguity).
-    super(format("%nExpecting:%n <%s>%nto be close to:%n <%s>%nby less than %sms but difference was %sms",
-        formatAsDatetimeWithMs(actual), formatAsDatetimeWithMs(other), deltaInMilliseconds, difference));
+    super(format("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%nby less than %sms but difference was %sms",
+                 formatAsDatetimeWithMs(actual), formatAsDatetimeWithMs(other), deltaInMilliseconds, difference));
   }
 
   private ShouldBeCloseTo(Temporal actual, Temporal other, String differenceDescription) {
-    super(format("%nExpecting:%n <%s>%nto be close to:%n <%s>%n%s", actual, other, differenceDescription));
+    super(format("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%n%s", actual, other, differenceDescription));
+  }
+
+  private ShouldBeCloseTo(TemporalAmount actual, TemporalAmount other, TemporalAmount offset, TemporalAmount difference) {
+    super(format("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%nwithin %s but difference was %s", actual, other, offset,
+                 difference));
   }
 }

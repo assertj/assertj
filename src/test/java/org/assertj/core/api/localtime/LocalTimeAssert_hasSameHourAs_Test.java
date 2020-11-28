@@ -23,17 +23,17 @@ import java.time.LocalTime;
 
 import org.junit.jupiter.api.Test;
 
-public class LocalTimeAssert_hasSameHourAs_Test {
+class LocalTimeAssert_hasSameHourAs_Test {
 
   private final LocalTime refLocalTime = LocalTime.of(23, 0, 0, 0);
 
   @Test
-  public void should_pass_if_actual_andexpected_have_same_hour() {
-	assertThat(refLocalTime).hasSameHourAs(refLocalTime.plusMinutes(1));
+  void should_pass_if_actual_andexpected_have_same_hour() {
+    assertThat(refLocalTime).hasSameHourAs(refLocalTime.plusMinutes(1));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_equal_to_given_localtimetime_with_minute_ignored() {
+  void should_fail_if_actual_is_not_equal_to_given_localtimetime_with_minute_ignored() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refLocalTime).hasSameHourAs(refLocalTime.minusMinutes(1)))
                                                    .withMessage(format("%n" +
                                                                        "Expecting:%n" +
@@ -44,7 +44,7 @@ public class LocalTimeAssert_hasSameHourAs_Test {
   }
 
   @Test
-  public void should_fail_as_minutes_fields_are_different_even_if_time_difference_is_less_than_a_minute() {
+  void should_fail_as_minutes_fields_are_different_even_if_time_difference_is_less_than_a_minute() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refLocalTime).hasSameHourAs(refLocalTime.minusNanos(1)))
                                                    .withMessage(format("%n" +
                                                                        "Expecting:%n" +
@@ -55,7 +55,7 @@ public class LocalTimeAssert_hasSameHourAs_Test {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       LocalTime actual = null;
       assertThat(actual).hasSameHourAs(LocalTime.now());
@@ -63,7 +63,7 @@ public class LocalTimeAssert_hasSameHourAs_Test {
   }
 
   @Test
-  public void should_throw_error_if_given_localtimetime_is_null() {
+  void should_throw_error_if_given_localtimetime_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(refLocalTime).hasSameHourAs(null))
                                         .withMessage(NULL_LOCAL_TIME_PARAMETER_MESSAGE);
   }

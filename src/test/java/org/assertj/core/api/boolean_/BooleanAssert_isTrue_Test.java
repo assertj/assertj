@@ -12,26 +12,62 @@
  */
 package org.assertj.core.api.boolean_;
 
-import org.assertj.core.api.BooleanAssert;
-import org.assertj.core.api.BooleanAssertBaseTest;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.description.EmptyTextDescription.emptyDescription;
+import static org.assertj.core.error.ShouldBeTrue.shouldBeTrue;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
-import static org.mockito.Mockito.verify;
+import org.junit.jupiter.api.Test;
 
+class BooleanAssert_isTrue_Test {
 
-/**
- * Tests for <code>{@link BooleanAssert#isTrue()}</code>.
- * 
- * @author Alex Ruiz
- */
-public class BooleanAssert_isTrue_Test extends BooleanAssertBaseTest {
-
-  @Override
-  protected BooleanAssert invoke_api_method() {
-    return assertions.isTrue();
+  @Test
+  void should_fail_if_actual_is_null() {
+    // GIVEN
+    Boolean actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> then(actual).isTrue());
+    // THEN
+    then(assertionError).hasMessage(shouldNotBeNull().create());
   }
 
-  @Override
-  protected void verify_internal_effects() {
-    verify(booleans).assertEqual(getInfo(assertions), getActual(assertions), true);
+  @Test
+  void should_pass_if_primitive_boolean_is_true() {
+    // GIVEN
+    boolean actual = true;
+    // WHEN/THEN
+    then(actual).isTrue();
   }
+
+  @Test
+  void should_pass_if_Boolean_is_true() {
+    // GIVEN
+    Boolean actual = true;
+    // WHEN/THEN
+    then(actual).isTrue();
+  }
+
+  @Test
+  void should_fail_if_primitive_boolean_is_false() {
+    // GIVEN
+    boolean actual = false;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isTrue());
+    // THEN
+    then(assertionError).hasMessage(shouldBeTrue(actual).create(emptyDescription(), STANDARD_REPRESENTATION));
+  }
+
+  @Test
+  void should_fail_if_Boolean_is_false() {
+    // GIVEN
+    Boolean actual = false;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isTrue());
+    // THEN
+    then(assertionError).hasMessage(shouldBeTrue(actual).create(emptyDescription(), STANDARD_REPRESENTATION));
+  }
+
 }

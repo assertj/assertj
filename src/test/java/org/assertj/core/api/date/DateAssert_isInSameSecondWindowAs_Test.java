@@ -18,13 +18,12 @@ import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
 
-
 /**
  * Tests for <code>{@link DateAssert#isInSameSecondWindowAs(Date)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
-public class DateAssert_isInSameSecondWindowAs_Test extends AbstractDateAssertWithDateArg_Test {
+class DateAssert_isInSameSecondWindowAs_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {
@@ -39,6 +38,11 @@ public class DateAssert_isInSameSecondWindowAs_Test extends AbstractDateAssertWi
   @Override
   protected void verifyAssertionInvocation(Date date) {
     verify(dates).assertIsInSameSecondWindowAs(getInfo(assertions), getActual(assertions), date);
+  }
+
+  @Override
+  protected DateAssert assertionInvocationWithInstantArg() {
+    return assertions.isInSameSecondWindowAs(otherDate.toInstant());
   }
 
 }

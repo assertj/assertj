@@ -12,18 +12,20 @@
  */
 package org.assertj.core.api.date;
 
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-import org.assertj.core.api.DateAssert;
 import static org.mockito.Mockito.verify;
 
+import java.time.Instant;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+import org.assertj.core.api.DateAssert;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.DateAssert#isEqualToIgnoringMinutes(java.util.Date)}</code>.
  *
  * @author William Delanoue
  */
-public class DateAssert_isEqualToIgnoringMinutes_Test extends AbstractDateAssertWithDateArg_Test {
+class DateAssert_isEqualToIgnoringMinutes_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {
@@ -35,9 +37,18 @@ public class DateAssert_isEqualToIgnoringMinutes_Test extends AbstractDateAssert
     return assertions.isEqualToIgnoringMinutes(date);
   }
 
+  protected DateAssert assertionInvocationWithInstantArg(Instant instant) {
+    return assertions.isEqualToIgnoringMinutes(instant);
+  }
+
   @Override
   protected void verifyAssertionInvocation(Date date) {
     verify(dates).assertIsEqualWithPrecision(getInfo(assertions), getActual(assertions), date, TimeUnit.MINUTES);
+  }
+
+  @Override
+  protected DateAssert assertionInvocationWithInstantArg() {
+    return assertions.isEqualToIgnoringMinutes(otherDate.toInstant());
   }
 
 }

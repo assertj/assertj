@@ -24,7 +24,7 @@ import org.assertj.core.api.TestCondition;
  *
  * @author Adam Ruka
  */
-public class IterableAssert_haveAtLeastOne_Test extends IterableAssertBaseTest {
+class IterableAssert_haveAtLeastOne_Test extends IterableAssertBaseTest {
   private static final Condition<Object> condition = new TestCondition<>();
 
   @Override

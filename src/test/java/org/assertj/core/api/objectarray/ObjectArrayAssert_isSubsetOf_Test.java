@@ -28,7 +28,7 @@ import org.assertj.core.api.ObjectArrayAssertBaseTest;
  * @author Joel Costigliola
  * @author Maciej Jaskowski
  */
-public class ObjectArrayAssert_isSubsetOf_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_isSubsetOf_Test extends ObjectArrayAssertBaseTest {
 
   private final List<String> values = newArrayList("Yoda", "Luke");
 

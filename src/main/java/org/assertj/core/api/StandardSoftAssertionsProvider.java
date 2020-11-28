@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -180,6 +181,17 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
    */
   default DurationAssert assertThat(Duration actual) {
     return proxy(DurationAssert.class, Duration.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link PeriodAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default PeriodAssert assertThat(Period actual) {
+    return proxy(PeriodAssert.class, Period.class, actual);
   }
 
   /**

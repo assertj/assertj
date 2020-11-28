@@ -22,10 +22,10 @@ import java.net.URL;
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldHaveAuthority_create_Test {
+class ShouldHaveAuthority_create_Test {
 
   @Test
-  public void should_create_error_message_for_uri() {
+  void should_create_error_message_for_uri() {
     // GIVEN
     URI uri = URI.create("http://assertj.org:8080/news");
     // WHEN
@@ -41,7 +41,7 @@ public class ShouldHaveAuthority_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_url() throws Exception {
+  void should_create_error_message_for_url() throws Exception {
     // GIVEN
     URL url = new URL("http://assertj.org:8080/news");
     // WHEN

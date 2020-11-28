@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Marko Bekhta
  */
-public class IterableAssert_containsAnyElementsOf_Test extends IterableAssertBaseTest {
+class IterableAssert_containsAnyElementsOf_Test extends IterableAssertBaseTest {
 
   private final List<Object> iterable = Arrays.asList(new Object(), "bar");
 
@@ -44,7 +44,7 @@ public class IterableAssert_containsAnyElementsOf_Test extends IterableAssertBas
   }
 
   @Test
-  public void should_compile_as_containsAnyElementsOf_declares_bounded_wildcard_parameter() {
+  void should_compile_as_containsAnyElementsOf_declares_bounded_wildcard_parameter() {
     // GIVEN
     Iterable<String> iterable = list("some_value", "some_different_value");
     // THEN

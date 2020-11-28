@@ -13,7 +13,6 @@
 package org.assertj.core.data;
 
 import static java.util.Objects.requireNonNull;
-import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.util.Objects;
@@ -26,7 +25,7 @@ import java.util.Objects;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class Offset<T extends Number> {
+public final class Offset<T extends Number> {
 
   public final T value;
   /**
@@ -88,15 +87,14 @@ public class Offset<T extends Number> {
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
-    if (obj == null) return false;
-    if (getClass() != obj.getClass()) return false;
+    if (!(obj instanceof Offset)) return false;
     Offset<?> other = (Offset<?>) obj;
-    return strict == other.strict && areEqual(value, other.value);
+    return strict == other.strict && Objects.equals(value, other.value);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(value);
+    return Objects.hash(value, strict);
   }
 
   @Override

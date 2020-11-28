@@ -14,9 +14,11 @@ package org.assertj.core.internal;
 
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
+import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
 import static org.assertj.core.error.ShouldHaveDigest.shouldHaveDigest;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
+import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.internal.Digests.digestDiff;
 
 import java.io.IOException;
@@ -77,6 +79,41 @@ public class InputStreams {
     } catch (IOException e) {
       String msg = format("Unable to compare contents of InputStreams:%n  <%s>%nand:%n  <%s>", actual, expected);
       throw new InputStreamsException(msg, e);
+    }
+  }
+
+  /**
+   * Asserts that the given InputStreams is empty.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the "actual" InputStream.
+   * @throws AssertionError if {@code actual} is not empty.
+   * @throws InputStreamsException if an I/O error occurs.
+   */
+  public void assertIsEmpty(AssertionInfo info, InputStream actual) {
+    assertNotNull(info, actual);
+    try {
+      if (actual.read() == -1) return;
+      throw failures.failure(info, shouldBeEmpty(actual));
+    } catch (IOException e) {
+      throw new InputStreamsException("Unable to read contents of InputStreams actual", e);
+    }
+  }
+
+  /**
+   * Asserts that the given InputStreams is not empty.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the "actual" InputStream.
+   * @throws AssertionError if {@code actual} is not empty.
+   * @throws InputStreamsException if an I/O error occurs.
+   */
+  public void assertIsNotEmpty(AssertionInfo info, InputStream actual) {
+    assertNotNull(info, actual);
+    try {
+      if (actual.read() == -1) throw failures.failure(info, shouldNotBeEmpty());
+    } catch (IOException e) {
+      throw new InputStreamsException("Unable to read contents of InputStreams actual", e);
     }
   }
 

@@ -21,34 +21,34 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import org.assertj.core.internal.MapsBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class Maps_assertHasSizeBetween_Test extends MapsBaseTest {
+class Maps_assertHasSizeBetween_Test extends MapsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSizeBetween(someInfo(), null, 0, 6))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_illegal_argument_exception_if_lower_boundary_is_greater_than_higher_boundary() {
+  void should_throw_illegal_argument_exception_if_lower_boundary_is_greater_than_higher_boundary() {
     assertThatIllegalArgumentException().isThrownBy(() -> maps.assertHasSizeBetween(someInfo(), actual, 4, 2))
                                         .withMessage("The higher boundary <2> must be greater than the lower boundary <4>.");
   }
 
   @Test
-  public void should_fail_if_size_of_actual_is_not_greater_than_or_equal_to_lower_boundary() {
+  void should_fail_if_size_of_actual_is_not_greater_than_or_equal_to_lower_boundary() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSizeBetween(someInfo(), actual, 4, 6))
                                                    .withMessage(shouldHaveSizeBetween(actual, actual.size(), 4, 6).create());
   }
 
   @Test
-  public void should_fail_if_size_of_actual_is_not_less_than_higher_boundary() {
+  void should_fail_if_size_of_actual_is_not_less_than_higher_boundary() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSizeBetween(someInfo(), actual, 0, 1))
                                                    .withMessage(shouldHaveSizeBetween(actual, actual.size(), 0, 1).create());
   }
 
   @Test
-  public void should_pass_if_size_of_actual_is_between_boundaries() {
+  void should_pass_if_size_of_actual_is_between_boundaries() {
     maps.assertHasSizeBetween(someInfo(), actual, 1, 6);
     maps.assertHasSizeBetween(someInfo(), actual, actual.size(), actual.size());
   }

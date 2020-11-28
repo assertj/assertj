@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Florent Biville
  */
-public class Iterables_assertEndsWith_Test extends IterablesBaseTest {
+class Iterables_assertEndsWith_Test extends IterablesBaseTest {
 
   @Override
   @BeforeEach
@@ -49,30 +49,30 @@ public class Iterables_assertEndsWith_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_null() {
+  void should_throw_error_if_sequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> iterables.assertEndsWith(someInfo(), actual, null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_and_sequence_are_empty() {
+  void should_pass_if_actual_and_sequence_are_empty() {
     actual.clear();
     iterables.assertEndsWith(someInfo(), actual, emptyArray());
   }
   
   @Test
-  public void should_pass_if_sequence_to_look_for_is_empty_and_actual_is_not() {
+  void should_pass_if_sequence_to_look_for_is_empty_and_actual_is_not() {
     iterables.assertEndsWith(someInfo(), actual, emptyArray());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertEndsWith(someInfo(), null, array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_sequence_is_bigger_than_actual() {
+  void should_fail_if_sequence_is_bigger_than_actual() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Yoda", "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
 
@@ -83,7 +83,7 @@ public class Iterables_assertEndsWith_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_end_with_sequence() {
+  void should_fail_if_actual_does_not_end_with_sequence() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Han", "C-3PO" };
 
@@ -94,7 +94,7 @@ public class Iterables_assertEndsWith_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_ends_with_first_elements_of_sequence_only_but_not_whole_sequence() {
+  void should_fail_if_actual_ends_with_first_elements_of_sequence_only_but_not_whole_sequence() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
 
@@ -105,7 +105,7 @@ public class Iterables_assertEndsWith_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_sequence_is_smaller_than_end_of_actual() {
+  void should_fail_if_sequence_is_smaller_than_end_of_actual() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Luke", "Leia" };
 
@@ -120,12 +120,12 @@ public class Iterables_assertEndsWith_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_ends_with_sequence() {
+  void should_pass_if_actual_ends_with_sequence() {
     iterables.assertEndsWith(someInfo(), actual, array("Luke", "Leia", "Obi-Wan"));
   }
 
   @Test
-  public void should_pass_if_actual_and_sequence_are_equal() {
+  void should_pass_if_actual_and_sequence_are_equal() {
     iterables.assertEndsWith(someInfo(), actual, array("Yoda", "Luke", "Leia", "Obi-Wan"));
   }
 
@@ -134,17 +134,17 @@ public class Iterables_assertEndsWith_Test extends IterablesBaseTest {
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_ends_with_sequence_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_ends_with_sequence_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertEndsWith(someInfo(), actual, array("luke", "LEIA", "Obi-Wan"));
   }
 
   @Test
-  public void should_pass_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertEndsWith(someInfo(), actual, array("YOda", "LUke", "Leia", "OBI-Wan"));
   }
 
   @Test
-  public void should_fail_if_actual_does_not_end_with_sequence_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_end_with_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Han", "C-3PO" };
 
@@ -155,7 +155,7 @@ public class Iterables_assertEndsWith_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_ends_with_first_elements_of_sequence_only_but_not_whole_sequence_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_ends_with_first_elements_of_sequence_only_but_not_whole_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
 

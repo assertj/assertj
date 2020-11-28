@@ -17,7 +17,7 @@ import java.io.File;
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements is not empty failed. A group of
  * elements can be a collection, an array, {@code String} or a {@code File}.
- * 
+ *
  * @author Alex Ruiz
  */
 public class ShouldNotBeEmpty extends BasicErrorMessageFactory {
@@ -32,11 +32,11 @@ public class ShouldNotBeEmpty extends BasicErrorMessageFactory {
     return INSTANCE;
   }
 
-   /**
-   * Creates a new <code>{@link ShouldNotBeEmpty}</code>.
-   * @param actual the actual file in the failed assertion.
-   * @return the created {@code ErrorMessageFactory}.
-   */
+  /**
+  * Creates a new <code>{@link ShouldNotBeEmpty}</code>.
+  * @param actual the actual file in the failed assertion.
+  * @return the created {@code ErrorMessageFactory}.
+  */
   public static ErrorMessageFactory shouldNotBeEmpty(File actual) {
     return new ShouldNotBeEmpty("%nExpecting file <%s> not to be empty", actual);
   }

@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
@@ -23,24 +23,24 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Objects_castIfBelongsToType_Test {
+class Objects_castIfBelongsToType_Test {
 
   @Test
-  public void should_return_object_casted_to_given_type() {
+  void should_return_object_casted_to_given_type() {
     Object o = "Frodo";
     String casted = Objects.castIfBelongsToType(o, String.class);
     assertThat(o).isSameAs(casted);
   }
 
   @Test
-  public void should_return_null_if_object_does_not_belong_to_given_type() {
+  void should_return_null_if_object_does_not_belong_to_given_type() {
     Object o = 4;
     String casted = Objects.castIfBelongsToType(o, String.class);
     assertThat(casted).isNull();
   }
 
   @Test
-  public void should_return_null_if_object_is_null() {
+  void should_return_null_if_object_is_null() {
     assertThat(Objects.castIfBelongsToType(null, String.class)).isNull();
   }
 }

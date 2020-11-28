@@ -21,23 +21,23 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.junit.jupiter.api.Test;
 
-public class AtomicBooleanAssert_isFalse_Test {
+class AtomicBooleanAssert_isFalse_Test {
 
   @Test
-  public void should_pass_when_actual_value_is_false() {
+  void should_pass_when_actual_value_is_false() {
     AtomicBoolean actual = new AtomicBoolean(false);
     assertThat(actual).isFalse();
   }
 
   @Test
-  public void should_fail_when_actual_value_is_false() {
+  void should_fail_when_actual_value_is_false() {
     AtomicBoolean actual = new AtomicBoolean(true);
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isFalse())
                                                    .withMessage(shouldHaveValue(actual, false).create());
   }
 
   @Test
-  public void should_fail_when_actual_is_null() {
+  void should_fail_when_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
       AtomicBoolean actual = null;
       assertThat(actual).isFalse();

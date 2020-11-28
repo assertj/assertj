@@ -22,16 +22,16 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link Assertions#assertThat(LocalDate)}</code>.
  */
-public class Assertions_assertThat_with_LocalDate_Test {
+class Assertions_assertThat_with_LocalDate_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     AbstractLocalDateAssert<?> assertions = Assertions.assertThat(LocalDate.now());
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     LocalDate localDate = LocalDate.now();
     AbstractLocalDateAssert<?> assertions = Assertions.assertThat(localDate);
     assertThat(assertions.getActual()).isSameAs(localDate);

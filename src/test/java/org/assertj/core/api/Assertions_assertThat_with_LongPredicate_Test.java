@@ -24,23 +24,23 @@ import org.junit.jupiter.api.Test;
  *
  * @author Filip Hrisafov
  */
-public class Assertions_assertThat_with_LongPredicate_Test {
+class Assertions_assertThat_with_LongPredicate_Test {
 
   private LongPredicate actual;
 
   @BeforeEach
-  public void before() {
+  void before() {
     actual = value -> value == 1;
   }
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     LongPredicateAssert assertions = Assertions.assertThat(actual);
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     LongPredicateAssert assertions = Assertions.assertThat(actual);
     assertThat(actual).isSameAs(assertions.actual);
   }

@@ -28,24 +28,24 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Libor Ondrusek
  */
-public class Throwables_assertHasMessageMatching_Test extends ThrowablesBaseTest {
+class Throwables_assertHasMessageMatching_Test extends ThrowablesBaseTest {
 
   public static final String REGEX = "Given id='\\d{2,4}' not exists";
 
   @Test
-  public void should_pass_if_throwable_message_matches_given_regex() {
+  void should_pass_if_throwable_message_matches_given_regex() {
     actual = new RuntimeException("Given id='259' not exists");
     throwables.assertHasMessageMatching(someInfo(), actual, REGEX);
   }
 
   @Test
-  public void should_pass_if_throwable_message_is_empty_and_regex_is_too() {
+  void should_pass_if_throwable_message_is_empty_and_regex_is_too() {
     actual = new RuntimeException("");
     throwables.assertHasMessageMatching(someInfo(), actual, "");
   }
 
   @Test
-  public void should_fail_if_throwable_message_does_not_match_given_regex() {
+  void should_fail_if_throwable_message_does_not_match_given_regex() {
     AssertionInfo info = someInfo();
     try {
       throwables.assertHasMessageMatching(info, actual, REGEX);
@@ -56,13 +56,13 @@ public class Throwables_assertHasMessageMatching_Test extends ThrowablesBaseTest
   }
 
   @Test
-  public void should_fail_if_given_regex_is_null() {
+  void should_fail_if_given_regex_is_null() {
     assertThatNullPointerException().isThrownBy(() -> throwables.assertHasMessageMatching(someInfo(), actual, null))
                                     .withMessage("regex must not be null");
   }
 
   @Test
-  public void should_fail_if_throwable_does_not_have_a_message() {
+  void should_fail_if_throwable_does_not_have_a_message() {
     actual = new RuntimeException();
     AssertionInfo info = someInfo();
     try {

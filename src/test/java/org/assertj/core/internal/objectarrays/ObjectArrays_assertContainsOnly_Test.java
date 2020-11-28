@@ -36,55 +36,55 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class ObjectArrays_assertContainsOnly_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertContainsOnly_Test extends ObjectArraysBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only() {
+  void should_pass_if_actual_contains_given_values_only() {
     actual = array("Luke", null, "Yoda", null, "Leia");
     arrays.assertContainsOnly(someInfo(), actual, array("Luke", "Yoda", "Leia", null));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_in_different_order() {
+  void should_pass_if_actual_contains_given_values_only_in_different_order() {
     arrays.assertContainsOnly(someInfo(), actual, array("Leia", "Yoda", "Luke"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_more_than_once() {
+  void should_pass_if_actual_contains_given_values_only_more_than_once() {
     actual = array("Luke", "Yoda", "Leia", "Luke", "Luke");
     arrays.assertContainsOnly(someInfo(), actual, array("Luke", "Yoda", "Leia"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_even_if_duplicated() {
+  void should_pass_if_actual_contains_given_values_only_even_if_duplicated() {
     arrays.assertContainsOnly(someInfo(), actual, array("Luke", "Luke", "Luke", "Yoda", "Leia"));
   }
 
   @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
+  void should_pass_if_actual_and_given_values_are_empty() {
     actual = new String[0];
     arrays.assertContainsOnly(someInfo(), actual, emptyArray());
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnly(someInfo(), actual, emptyArray()));
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null() {
+  void should_throw_error_if_array_of_values_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsOnly(someInfo(), actual, null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnly(someInfo(), null, array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_only() {
+  void should_fail_if_actual_does_not_contain_given_values_only() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Yoda", "Han" };
 
@@ -95,35 +95,35 @@ public class ObjectArrays_assertContainsOnly_Test extends ObjectArraysBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_only_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, array("LUKE", "YOda", "LeiA"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_in_different_order_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_only_in_different_order_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, array("LeiA", "YOda", "LUKE"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_more_than_once_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_only_more_than_once_according_to_custom_comparison_strategy() {
     actual = array("Luke", "Yoda", "Leia", "Luke", "Luke");
     arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, array("LUKE", "YOda", "LeiA"));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_even_if_duplicated_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_only_even_if_duplicated_according_to_custom_comparison_strategy() {
     actual = array("Luke", "Yoda", "Leia", "LUke");
     arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual,
                                                           array("LUke", "LUKE", "LuKE", "YOda", "LeiA"));
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, emptyArray()));
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(),
                                                                                                             actual,
                                                                                                             null))
@@ -131,13 +131,13 @@ public class ObjectArrays_assertContainsOnly_Test extends ObjectArraysBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), null, array("YOda")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] expected = { "LUKE", "YOda", "Han" };
 

@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class LongArrayAssert_isNullOrEmpty_Test extends LongArrayAssertBaseTest {
+class LongArrayAssert_isNullOrEmpty_Test extends LongArrayAssertBaseTest {
 
   @Override
   protected LongArrayAssert invoke_api_method() {

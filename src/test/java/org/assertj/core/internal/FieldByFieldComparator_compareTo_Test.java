@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class FieldByFieldComparator_compareTo_Test {
+class FieldByFieldComparator_compareTo_Test {
 
   private FieldByFieldComparator fieldByFieldComparator;
 
@@ -27,32 +27,32 @@ public class FieldByFieldComparator_compareTo_Test {
   }
 
   @Test
-  public void should_return_true_if_both_Objects_are_null() {
+  void should_return_true_if_both_Objects_are_null() {
     assertThat(fieldByFieldComparator.compare(null, null)).isZero();
   }
 
   @Test
-  public void should_return_true_if_Objects_are_equal() {
+  void should_return_true_if_Objects_are_equal() {
     assertThat(fieldByFieldComparator.compare(new JarJar("Yoda"), new JarJar("Yoda"))).isZero();
   }
 
   @Test
-  public void should_return_false_if_Objects_are_not_equal() {
+  void should_return_false_if_Objects_are_not_equal() {
     assertThat(fieldByFieldComparator.compare(new JarJar("Yoda"), new JarJar("HanSolo"))).isNotZero();
   }
 
   @Test
-  public void should_return_are_not_equal_if_first_Object_is_null_and_second_is_not() {
+  void should_return_are_not_equal_if_first_Object_is_null_and_second_is_not() {
     assertThat(fieldByFieldComparator.compare(null, new JarJar("Yoda"))).isNotZero();
   }
 
   @Test
-  public void should_return_are_not_equal_if_second_Object_is_null_and_first_is_not() {
+  void should_return_are_not_equal_if_second_Object_is_null_and_first_is_not() {
     assertThat(fieldByFieldComparator.compare(new JarJar("Yoda"), null)).isNotZero();
   }
 
   @Test
-  public void should_return_are_not_equal_if_Objects_do_not_have_the_same_properties() {
+  void should_return_are_not_equal_if_Objects_do_not_have_the_same_properties() {
     assertThat(fieldByFieldComparator.compare(new JarJar("Yoda"), 2)).isNotZero();
   }
 

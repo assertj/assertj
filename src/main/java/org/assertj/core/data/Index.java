@@ -12,16 +12,15 @@
  */
 package org.assertj.core.data;
 
-import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
 import static org.assertj.core.util.Preconditions.checkArgument;
-
 
 /**
  * A positive index.
  *
  * @author Alex Ruiz
  */
-public class Index {
+public final class Index {
+
   public final int value;
 
   /**
@@ -42,27 +41,20 @@ public class Index {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    return value == ((Index) obj).value;
+    if (this == obj) return true;
+    if (!(obj instanceof Index)) return false;
+    Index other = (Index) obj;
+    return value == other.value;
   }
 
   @Override
   public int hashCode() {
-    int result = 1;
-    result = HASH_CODE_PRIME * result + value;
-    return result;
+    return Integer.hashCode(value);
   }
 
   @Override
   public String toString() {
     return String.format("%s[value=%d]", getClass().getSimpleName(), value);
   }
+
 }

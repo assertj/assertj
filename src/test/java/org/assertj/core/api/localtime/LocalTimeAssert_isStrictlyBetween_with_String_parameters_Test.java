@@ -22,7 +22,7 @@ import java.time.format.DateTimeParseException;
 import org.assertj.core.api.LocalTimeAssert;
 import org.junit.jupiter.api.Test;
 
-public class LocalTimeAssert_isStrictlyBetween_with_String_parameters_Test
+class LocalTimeAssert_isStrictlyBetween_with_String_parameters_Test
     extends org.assertj.core.api.LocalTimeAssertBaseTest {
 
   private LocalTime before = now.minusSeconds(1);
@@ -39,7 +39,7 @@ public class LocalTimeAssert_isStrictlyBetween_with_String_parameters_Test
   }
 
   @Test
-  public void should_throw_a_DateTimeParseException_if_start_String_parameter_cant_be_converted() {
+  void should_throw_a_DateTimeParseException_if_start_String_parameter_cant_be_converted() {
     // GIVEN
     String abc = "abc";
     // WHEN
@@ -49,7 +49,7 @@ public class LocalTimeAssert_isStrictlyBetween_with_String_parameters_Test
   }
 
   @Test
-  public void should_throw_a_DateTimeParseException_if_end_String_parameter_cant_be_converted() {
+  void should_throw_a_DateTimeParseException_if_end_String_parameter_cant_be_converted() {
     // GIVEN
     String abc = "abc";
     // WHEN

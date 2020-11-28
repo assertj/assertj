@@ -27,12 +27,12 @@ import org.junit.jupiter.api.BeforeEach;
  * @author Nicolas François
  * @author Mikhail Mazursky
  */
-public class ObjectArrayAssert_have_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_have_Test extends ObjectArrayAssertBaseTest {
 
   private Condition<Object> condition;
 
   @BeforeEach
-  public void before() {
+  void before() {
     condition = new TestCondition<>();
   }
 

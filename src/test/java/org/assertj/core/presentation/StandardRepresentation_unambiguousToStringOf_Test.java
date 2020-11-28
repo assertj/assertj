@@ -52,38 +52,38 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alexandre Dutra
  */
-public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepresentationTest {
+class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepresentationTest {
 
   private static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
 
   @Test
-  public void should_return_null_if_object_is_null() {
+  void should_return_null_if_object_is_null() {
     assertThat(unambiguousToStringOf(null)).isNull();
   }
 
   @Test
-  public void should_quote_String() {
+  void should_quote_String() {
     String obj = "Hello";
     assertThat(unambiguousToStringOf(obj)).isEqualTo(format("\"Hello\" (String@%s)",
                                                             toHexString(System.identityHashCode(obj))));
   }
 
   @Test
-  public void should_quote_empty_String() {
+  void should_quote_empty_String() {
     String obj = "";
     assertThat(unambiguousToStringOf(obj)).isEqualTo(format("\"\" (String@%s)",
                                                             toHexString(System.identityHashCode(obj))));
   }
 
   @Test
-  public void should_return_toString_of_File() {
+  void should_return_toString_of_File() {
     File obj = new MyTestFile("/someFile.txt");
     assertThat(unambiguousToStringOf(obj)).isEqualTo(format("/someFile.txt (MyTestFile@%s)",
                                                             toHexString(System.identityHashCode(obj))));
   }
 
   @Test
-  public void should_return_toString_of_anonymous_class() {
+  void should_return_toString_of_anonymous_class() {
     Object obj = new Object() {
       @Override
       public String toString() {
@@ -96,20 +96,20 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
   }
 
   @Test
-  public void should_return_toString_of_Class_with_its_name() {
+  void should_return_toString_of_Class_with_its_name() {
     assertThat(unambiguousToStringOf(Object.class)).isEqualTo(format("java.lang.Object (Class@%s)",
                                                                      toHexString(System.identityHashCode(Object.class))));
   }
 
   @Test
-  public void should_return_toString_of_Collection_of_String() {
+  void should_return_toString_of_Collection_of_String() {
     Collection<String> collection = list("s1", "s2");
     assertThat(unambiguousToStringOf(collection)).isEqualTo(format("[\"s1\", \"s2\"] (ArrayList@%s)",
                                                                    toHexString(System.identityHashCode(collection))));
   }
 
   @Test
-  public void should_return_toString_of_Collection_of_arrays() {
+  void should_return_toString_of_Collection_of_arrays() {
     List<Boolean[]> collection = list(array(true, false),
                                       array(true, false, true));
     assertThat(unambiguousToStringOf(collection)).isEqualTo(format("[[true, false], [true, false, true]] (ArrayList@%s)",
@@ -117,17 +117,19 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
   }
 
   @Test
-  public void should_return_toString_of_Collection_of_arrays_up_to_the_maximum_allowed_elements() {
+  void should_return_toString_of_Collection_of_arrays_up_to_the_maximum_allowed_elements() {
     List<Boolean[]> collection = list(array(true, false),
-                                      array(true, false, true),
+                                      array(true),
+                                      array(true, false),
+                                      array(true, false, true, false, true),
                                       array(true, true));
-    StandardRepresentation.setMaxElementsForPrinting(2);
-    assertThat(unambiguousToStringOf(collection)).isEqualTo(format("[[true, false], [true, false, ...], ...] (ArrayList@%s)",
+    StandardRepresentation.setMaxElementsForPrinting(4);
+    assertThat(unambiguousToStringOf(collection)).isEqualTo(format("[[true, false], [true], ... [true, false, ... false, true], [true, true]] (ArrayList@%s)",
                                                                    toHexString(System.identityHashCode(collection))));
   }
 
   @Test
-  public void should_return_toString_of_Collection_of_Collections() {
+  void should_return_toString_of_Collection_of_Collections() {
     Collection<List<String>> collection = list(
                                                list("s1", "s2"),
                                                list("s3", "s4", "s5"));
@@ -136,17 +138,19 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
   }
 
   @Test
-  public void should_return_toString_of_Collection_of_Collections_up_to_the_maximum_allowed_elements() {
+  void should_return_toString_of_Collection_of_Collections_up_to_the_maximum_allowed_elements() {
     Collection<List<String>> collection = list(list("s1", "s2"),
-                                               list("s3", "s4", "s5"),
-                                               list("s6", "s7"));
+                                               list("s3", "s4", "s5", "s6", "s7"),
+                                               list("s8", "s9"),
+                                               list("s10", "s11"),
+                                               list("s12"));
     StandardRepresentation.setMaxElementsForPrinting(2);
-    assertThat(unambiguousToStringOf(collection)).isEqualTo(format("[[\"s1\", \"s2\"], [\"s3\", \"s4\", ...], ...] (ArrayList@%s)",
+    assertThat(unambiguousToStringOf(collection)).isEqualTo(format("[[\"s1\", \"s2\"], ... [\"s12\"]] (ArrayList@%s)",
                                                                    toHexString(System.identityHashCode(collection))));
   }
 
   @Test
-  public void should_return_toString_of_Map() {
+  void should_return_toString_of_Map() {
     Map<String, String> map = new LinkedHashMap<>();
     map.put("key1", "value1");
     map.put("key2", "value2");
@@ -155,14 +159,14 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
   }
 
   @Test
-  public void should_return_toString_of_array() {
+  void should_return_toString_of_array() {
     String[] array = array("s1", "s2");
     assertThat(unambiguousToStringOf(array)).isEqualTo(format("[\"s1\", \"s2\"] (String[]@%s)",
                                                               toHexString(System.identityHashCode(array))));
   }
 
   @Test
-  public void should_return_toString_of_array_of_arrays() {
+  void should_return_toString_of_array_of_arrays() {
     String[][] array = array(array("s1", "s2"),
                              array("s3", "s4", "s5"));
     assertThat(unambiguousToStringOf(array)).isEqualTo(format("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]] (String[][]@%s)",
@@ -170,57 +174,59 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
   }
 
   @Test
-  public void should_return_toString_of_array_of_arrays_up_to_the_maximum_allowed_elements() {
+  void should_return_toString_of_array_of_arrays_up_to_the_maximum_allowed_elements() {
     String[][] array = array(array("s1", "s2"),
-                             array("s3", "s4", "s5"),
-                             array("s6", "s7"));
-    StandardRepresentation.setMaxElementsForPrinting(2);
-    assertThat(unambiguousToStringOf(array)).isEqualTo(format("[[\"s1\", \"s2\"], [\"s3\", \"s4\", ...], ...] (String[][]@%s)",
+                             array("s3", "s4", "s5", "s6", "s7"),
+                             array("s8", "s9"),
+                             array("s10", "s11"),
+                             array("s12"));
+    StandardRepresentation.setMaxElementsForPrinting(4);
+    assertThat(unambiguousToStringOf(array)).isEqualTo(format("[[\"s1\", \"s2\"], [\"s3\", \"s4\", ... \"s6\", \"s7\"], ... [\"s10\", \"s11\"], [\"s12\"]] (String[][]@%s)",
                                                               toHexString(System.identityHashCode(array))));
   }
 
   @Test
-  public void should_return_toString_of_array_of_Class() {
+  void should_return_toString_of_array_of_Class() {
     Class<?>[] array = { String.class, File.class };
     assertThat(unambiguousToStringOf(array)).isEqualTo(format("[java.lang.String, java.io.File] (Class[]@%s)",
                                                               toHexString(System.identityHashCode(array))));
   }
 
   @Test
-  public void should_return_toString_of_calendar() {
+  void should_return_toString_of_calendar() {
     GregorianCalendar calendar = new GregorianCalendar(2011, Calendar.JANUARY, 18, 23, 53, 17);
     assertThat(unambiguousToStringOf(calendar)).isEqualTo("2011-01-18T23:53:17 (java.util.GregorianCalendar)");
   }
 
   @Test
-  public void should_return_toString_of_date() {
+  void should_return_toString_of_date() {
     Date date = new GregorianCalendar(2011, Calendar.JUNE, 18, 23, 53, 17).getTime();
     assertThat(unambiguousToStringOf(date)).isEqualTo("2011-06-18T23:53:17.000 (java.util.Date)");
   }
 
   @Test
-  public void should_return_toString_of_AtomicReference() {
+  void should_return_toString_of_AtomicReference() {
     AtomicReference<String> atomicReference = new AtomicReference<>("actual");
     assertThat(unambiguousToStringOf(atomicReference)).isEqualTo(format("AtomicReference[\"actual\"] (AtomicReference@%s)",
                                                                         toHexString(System.identityHashCode(atomicReference))));
   }
 
   @Test
-  public void should_return_toString_of_AtomicMarkableReference() {
+  void should_return_toString_of_AtomicMarkableReference() {
     AtomicMarkableReference<String> atomicMarkableReference = new AtomicMarkableReference<>("actual", true);
     assertThat(unambiguousToStringOf(atomicMarkableReference)).isEqualTo(format("AtomicMarkableReference[marked=true, reference=\"actual\"] (AtomicMarkableReference@%s)",
                                                                                 toHexString(System.identityHashCode(atomicMarkableReference))));
   }
 
   @Test
-  public void should_return_toString_of_AtomicStampedReference() {
+  void should_return_toString_of_AtomicStampedReference() {
     AtomicStampedReference<String> atomicStampedReference = new AtomicStampedReference<>("actual", 123);
     assertThat(unambiguousToStringOf(atomicStampedReference)).isEqualTo(format("AtomicStampedReference[stamp=123, reference=\"actual\"] (AtomicStampedReference@%s)",
                                                                                toHexString(System.identityHashCode(atomicStampedReference))));
   }
 
   @Test
-  public void should_return_toString_of_AtomicIntegerFieldUpdater() {
+  void should_return_toString_of_AtomicIntegerFieldUpdater() {
     AtomicIntegerFieldUpdater<Person> updater = AtomicIntegerFieldUpdater.newUpdater(Person.class, "age");
     assertThat(unambiguousToStringOf(updater)).isEqualTo(format("AtomicIntegerFieldUpdater (%s@%s)",
                                                                 updater.getClass().getSimpleName(),
@@ -228,7 +234,7 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
   }
 
   @Test
-  public void should_return_toString_of_AtomicLongFieldUpdater() {
+  void should_return_toString_of_AtomicLongFieldUpdater() {
     AtomicLongFieldUpdater<Person> updater = AtomicLongFieldUpdater.newUpdater(Person.class, "account");
     assertThat(unambiguousToStringOf(updater)).isEqualTo(format("AtomicLongFieldUpdater (%s@%s)",
                                                                 updater.getClass().getSimpleName(),
@@ -236,7 +242,7 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
   }
 
   @Test
-  public void should_return_toString_of_AtomicReferenceFieldUpdater() {
+  void should_return_toString_of_AtomicReferenceFieldUpdater() {
     AtomicReferenceFieldUpdater<Person, String> updater = newUpdater(Person.class, String.class, "name");
     assertThat(unambiguousToStringOf(updater)).isEqualTo(format("AtomicReferenceFieldUpdater (%s@%s)",
                                                                 updater.getClass().getSimpleName(),
@@ -244,7 +250,7 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
   }
 
   @Test
-  public void toString_with_anonymous_comparator() {
+  void toString_with_anonymous_comparator() {
     @SuppressWarnings("unused")
     Comparator<String> anonymousComparator = new Comparator<String>() {
       @Override
@@ -258,7 +264,7 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
   }
 
   @Test
-  public void toString_with_lambda_comparator() {
+  void toString_with_lambda_comparator() {
     Comparator<String> lambda = (s1, s2) -> s1.length() - s2.length();
     assertThat(unambiguousToStringOf(lambda)).isEqualTo(format("%s (%s@%s)",
                                                                lambda.getClass().getSimpleName(),
@@ -267,7 +273,7 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
   }
 
   @Test
-  public void toString_with_builtin_comparator() {
+  void toString_with_builtin_comparator() {
     Comparator<String> comparator = Comparator.comparingInt(String::length);
     assertThat(unambiguousToStringOf(comparator)).isEqualTo(format("%s (%s@%s)",
                                                                    comparator.getClass().getSimpleName(),
@@ -276,7 +282,7 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
   }
 
   @Test
-  public void toString_with_anonymous_comparator_overriding_toString() {
+  void toString_with_anonymous_comparator_overriding_toString() {
     @SuppressWarnings("unused")
     Comparator<String> anonymousComparator = new Comparator<String>() {
       @Override
@@ -295,28 +301,28 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
   }
 
   @Test
-  public void toString_with_comparator_not_overriding_toString() {
+  void toString_with_comparator_not_overriding_toString() {
     StringTestComparator obj = new StringTestComparator();
     assertThat(unambiguousToStringOf(obj)).isEqualTo(format("StringTestComparator (StringTestComparator@%s)",
                                                             toHexString(System.identityHashCode(obj))));
   }
 
   @Test
-  public void toString_with_comparator_overriding_toString() {
+  void toString_with_comparator_overriding_toString() {
     OtherStringTestComparator obj = new OtherStringTestComparator();
     assertThat(unambiguousToStringOf(obj)).isEqualTo(format("other String comparator (OtherStringTestComparator@%s)",
                                                             toHexString(System.identityHashCode(obj))));
   }
 
   @Test
-  public void toString_with_comparator_overriding_toString_and_having_at() {
+  void toString_with_comparator_overriding_toString_and_having_at() {
     OtherStringTestComparatorWithAt obj = new OtherStringTestComparatorWithAt();
     assertThat(unambiguousToStringOf(obj)).isEqualTo(format("other String comparator with @ (OtherStringTestComparatorWithAt@%s)",
                                                             toHexString(System.identityHashCode(obj))));
   }
 
   @Test
-  public void should_format_longs_and_integers() {
+  void should_format_longs_and_integers() {
     Long l = 20L;
     Integer i = 20;
     assertThat(unambiguousToStringOf(l)).isNotEqualTo(unambiguousToStringOf(i));
@@ -325,7 +331,7 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
   }
 
   @Test
-  public void should_format_bytes_chars_and_shorts() {
+  void should_format_bytes_chars_and_shorts() {
     Byte b = (byte) 20;
     Character c = (char) 20;
     Short s = (short) 20;
@@ -339,7 +345,7 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
   }
 
   @Test
-  public void should_format_doubles_and_floats() {
+  void should_format_doubles_and_floats() {
     Float f = 20.0f;
     Double d = 20.0d;
     assertThat(unambiguousToStringOf(f)).isNotEqualTo(unambiguousToStringOf(d));
@@ -348,36 +354,36 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
   }
 
   @Test
-  public void should_format_tuples() {
+  void should_format_tuples() {
     Tuple tuple = tuple(1, 2, 3);
     assertThat(unambiguousToStringOf(tuple)).isEqualTo(format("(1, 2, 3) (Tuple@%s)",
                                                               toHexString(System.identityHashCode(tuple))));
   }
 
   @Test
-  public void should_format_tuples_up_to_the_maximum_allowed_elements() {
+  void should_format_tuples_up_to_the_maximum_allowed_elements() {
     StandardRepresentation.setMaxElementsForPrinting(2);
-    Tuple tuple = tuple(1, 2, 3);
-    assertThat(unambiguousToStringOf(tuple)).isEqualTo(format("(1, 2, ...) (Tuple@%s)",
+    Tuple tuple = tuple(1, 2, 3, 4, 5);
+    assertThat(unambiguousToStringOf(tuple)).isEqualTo(format("(1, ... 5) (Tuple@%s)",
                                                               toHexString(System.identityHashCode(tuple))));
   }
 
   @Test
-  public void should_format_simple_date_format() {
+  void should_format_simple_date_format() {
     SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
     assertThat(unambiguousToStringOf(sdf)).isEqualTo(format("ddMMyyyy (SimpleDateFormat@%s)",
                                                             toHexString(System.identityHashCode(sdf))));
   }
 
   @Test
-  public void should_format_assertj_map_entry() {
+  void should_format_assertj_map_entry() {
     MapEntry<String, Integer> entry = entry("A", 1);
     assertThat(unambiguousToStringOf(entry)).isEqualTo(format("MapEntry[key=\"A\", value=1] (MapEntry@%s)",
                                                               toHexString(System.identityHashCode(entry))));
   }
 
   @Test
-  public void should_return_unambiguousToStringOf_method() throws NoSuchMethodException {
+  void should_return_unambiguousToStringOf_method() throws NoSuchMethodException {
     Method method = GenericClass.class.getDeclaredMethod("someGenericMethod", Person.class, List.class, Object.class);
     assertThat(unambiguousToStringOf(method)).isEqualTo(format("%s (Method@%s)",
                                                                method.toGenericString(),
@@ -385,12 +391,12 @@ public class StandardRepresentation_unambiguousToStringOf_Test extends AbstractB
   }
 
   @Test
-  public void should_disambiguate_non_equal_objects_with_same_hash_code_and_toString_representations() {
+  void should_disambiguate_non_equal_objects_with_same_hash_code_and_toString_representations() {
     assertThat(unambiguousToStringOf(new Ambiguous(0, 1))).isNotEqualTo(unambiguousToStringOf(new Ambiguous(0, 2)));
   }
 
   @Test
-  public void isEqualTo_should_show_disambiguated_objects_with_same_hash_code_and_toString_representations() {
+  void isEqualTo_should_show_disambiguated_objects_with_same_hash_code_and_toString_representations() {
     // GIVEN
     Ambiguous ambiguous1 = new Ambiguous(0, 1);
     Ambiguous ambiguous2 = new Ambiguous(0, 2);

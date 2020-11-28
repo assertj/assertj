@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
 
@@ -24,20 +24,20 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class Objects_namesOf_Test {
+class Objects_namesOf_Test {
 
   @Test
-  public void should_return_empty_array_if_type_array_is_null() {
+  void should_return_empty_array_if_type_array_is_null() {
     assertThat(0).isEqualTo(Objects.namesOf((Class<?>[]) null).length);
   }
 
   @Test
-  public void should_return_empty_array_if_type_array_is_empty() {
+  void should_return_empty_array_if_type_array_is_empty() {
     assertThat(0).isEqualTo(Objects.namesOf(new Class<?>[0]).length);
   }
 
   @Test
-  public void should_return_class_names() {
+  void should_return_class_names() {
     String[] e = { String.class.getName(), Integer.class.getName() };
     String[] a = Objects.namesOf(String.class, Integer.class);
     assertThat(Arrays.equals(e, a))

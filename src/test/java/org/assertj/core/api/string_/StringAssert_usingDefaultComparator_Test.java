@@ -22,10 +22,10 @@ import org.assertj.core.internal.Strings;
 import org.assertj.core.util.CaseInsensitiveCharSequenceComparator;
 import org.junit.jupiter.api.BeforeEach;
 
-public class StringAssert_usingDefaultComparator_Test extends StringAssertBaseTest {
+class StringAssert_usingDefaultComparator_Test extends StringAssertBaseTest {
 
   @BeforeEach
-  public void before() {
+  void before() {
     assertions.usingComparator(CaseInsensitiveCharSequenceComparator.instance);
   }
 

@@ -36,7 +36,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("IterableAssert usingComparatorForType")
-public class IterableAssert_usingComparatorForType_Test extends IterableAssertBaseTest {
+class IterableAssert_usingComparatorForType_Test extends IterableAssertBaseTest {
 
   private Jedi actual = new Jedi("Yoda", "green");
   private Jedi other = new Jedi("Luke", "blue");
@@ -44,7 +44,7 @@ public class IterableAssert_usingComparatorForType_Test extends IterableAssertBa
   private Iterables iterablesBefore;
 
   @BeforeEach
-  public void before() {
+  void before() {
     iterablesBefore = getIterables(assertions);
   }
 
@@ -63,7 +63,7 @@ public class IterableAssert_usingComparatorForType_Test extends IterableAssertBa
   }
 
   @Test
-  public void should_be_able_to_use_a_comparator_for_specified_types() {
+  void should_be_able_to_use_a_comparator_for_specified_types() {
     // GIVEN
     List<Object> list = asList("some", "other", new BigDecimal(42));
     // THEN
@@ -75,7 +75,7 @@ public class IterableAssert_usingComparatorForType_Test extends IterableAssertBa
   }
 
   @Test
-  public void should_use_comparator_for_type_when_using_element_comparator_ignoring_fields() {
+  void should_use_comparator_for_type_when_using_element_comparator_ignoring_fields() {
     assertThat(asList(actual, "some")).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
                                       .usingElementComparatorIgnoringFields("name")
                                       .isNotEmpty()
@@ -84,28 +84,28 @@ public class IterableAssert_usingComparatorForType_Test extends IterableAssertBa
   }
 
   @Test
-  public void should_use_comparator_for_type_when_using_element_comparator_on_fields() {
+  void should_use_comparator_for_type_when_using_element_comparator_on_fields() {
     assertThat(asList(actual, "some")).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
                                       .usingElementComparatorOnFields("name", "lightSaberColor")
                                       .contains(other, "any");
   }
 
   @Test
-  public void should_use_comparator_for_type_when_using_field_by_field_element_comparator() {
+  void should_use_comparator_for_type_when_using_field_by_field_element_comparator() {
     assertThat(asList(actual, "some")).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
                                       .usingFieldByFieldElementComparator()
                                       .contains(other, "any");
   }
 
   @Test
-  public void should_use_comparator_for_type_when_using_recursive_field_by_field_element_comparator() {
+  void should_use_comparator_for_type_when_using_recursive_field_by_field_element_comparator() {
     assertThat(asList(actual, "some")).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
                                       .usingRecursiveFieldByFieldElementComparator()
                                       .contains(other, "any");
   }
 
   @Test
-  public void should_only_use_comparator_on_fields_element_but_not_the_element_itself() {
+  void should_only_use_comparator_on_fields_element_but_not_the_element_itself() {
     // GIVEN
     List<Comparable<? extends Comparable<?>>> list = list(actual, "some");
     // WHEN
@@ -128,7 +128,7 @@ public class IterableAssert_usingComparatorForType_Test extends IterableAssertBa
   }
 
   @Test
-  public void should_use_comparator_set_last_on_elements() {
+  void should_use_comparator_set_last_on_elements() {
     assertThat(asList(actual, actual)).usingComparatorForElementFieldsWithType(NEVER_EQUALS_STRING, String.class)
                                       .usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
                                       .usingFieldByFieldElementComparator()
@@ -136,7 +136,7 @@ public class IterableAssert_usingComparatorForType_Test extends IterableAssertBa
   }
 
   @Test
-  public void should_be_able_to_replace_a_registered_comparator_by_type() {
+  void should_be_able_to_replace_a_registered_comparator_by_type() {
     assertThat(asList(actual, actual)).usingComparatorForType(NEVER_EQUALS_STRING, String.class)
                                       .usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
                                       .usingFieldByFieldElementComparator()
@@ -144,7 +144,7 @@ public class IterableAssert_usingComparatorForType_Test extends IterableAssertBa
   }
 
   @Test
-  public void should_be_able_to_replace_a_registered_comparator_by_field() {
+  void should_be_able_to_replace_a_registered_comparator_by_field() {
     // @format:off
     assertThat(asList(actual, actual)).usingComparatorForElementFieldsWithNames(NEVER_EQUALS_STRING, "name", "lightSaberColor")
                                       .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name", "lightSaberColor")
@@ -154,7 +154,7 @@ public class IterableAssert_usingComparatorForType_Test extends IterableAssertBa
   }
 
   @Test
-  public void should_fail_because_of_comparator_set_last() {
+  void should_fail_because_of_comparator_set_last() {
     // WHEN
     AssertionError error = expectAssertionError(() -> {
       assertThat(asList(actual, actual)).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)

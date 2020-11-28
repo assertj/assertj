@@ -30,6 +30,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalUnit;
 import java.util.Date;
@@ -245,6 +246,18 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link Object2DArrayAssert}</code>.
+   *
+   * @param <T> the actual's elements type.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default <T> Object2DArrayAssert<T> assertThat(final T[][] actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
    * Returns the given assertion. This method improves code readability by surrounding the given assertion with
    * <code>assertThat</code>.
    * <p>
@@ -351,6 +364,17 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   default AbstractLongArrayAssert<?> assertThat(final long[] actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Long2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default Long2DArrayAssert assertThat(final long[][] actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -610,6 +634,17 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link Short2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default Short2DArrayAssert assertThat(final short[][] actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ShortAssert}</code>.
    *
    * @param actual the actual value.
@@ -646,6 +681,17 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   default AbstractCharArrayAssert<?> assertThat(final char[] actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Char2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default Char2DArrayAssert assertThat(final char[][] actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -800,6 +846,17 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link Boolean2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default Boolean2DArrayAssert assertThat(final boolean[][] actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ByteAssert}</code>.
    *
    * @param actual the actual value.
@@ -826,6 +883,17 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   default AbstractByteArrayAssert<?> assertThat(final byte[] actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Byte2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default Byte2DArrayAssert assertThat(final byte[][] actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -903,12 +971,34 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link Int2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default Int2DArrayAssert assertThat(final int[][] actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link FloatAssert}</code>.
    *
    * @param actual the actual value.
    * @return the created assertion object.
    */
   default AbstractFloatAssert<?> assertThat(final Float actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Float2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default Float2DArrayAssert assertThat(final float[][] actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -1179,6 +1269,17 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link Double2DArrayAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default Double2DArrayAssert assertThat(final double[][] actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
    * Only delegate to {@link Properties#extractProperty(String)} so that Assertions offers a full feature entry point
    * to
    * all AssertJ features (but you can use {@link Properties} if you prefer).
@@ -1439,6 +1540,19 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    */
   default TemporalUnitOffset within(long value, TemporalUnit unit) {
     return Assertions.within(value, unit);
+  }
+
+  /**
+   * Syntactic sugar method to use with {@link AbstractDurationAssert#isCloseTo(Duration, Duration)} assertion.
+   * <p>
+   * Example:
+   * <pre><code class='java'> assertThat(Duration.ofMinutes(2)).isCloseTo(Duration.ofMinutes(3), withMarginOf(Duration.ofMinutes(1)));</code></pre>
+   *
+   * @param allowedDifference the allowed difference {@link Duration}.
+   * @return the given value.
+   */
+  default Duration withMarginOf(Duration allowedDifference) {
+    return allowedDifference;
   }
 
   /**
@@ -1879,26 +1993,21 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
-   * In error messages, sets the threshold for how many elements from one iterable/array/map will be included in the
-   * in the description.
-   *
-   * E.q. When this method is called with a value of {@code 3}.
+   * Sets the maximum number of elements to display in error messages for iterables, arrays and map .
    * <p>
-   * The following array will be formatted entirely as it's length is &lt;= 3:
+   * Example with a value of {@code 4}.
+   * <p>
+   * The following array will be formatted entirely as it's length is &lt;= 4:
    * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice");
-   *
    * // formatted as:
-   *
    * ["A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice"]</code></pre>
    *
-   * whereas this array is formatted only with it's first 3 elements, followed by {@code ...}:
-   * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice", "Guards! Guards!");
-   *
+   * whereas for this 6 elements array, only the first and last two elements are displayed (4 in total):
+   * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice", "Guards! Guards!", "The Lies of Locke Lamora", "Aux Ombres d’Abyme");
    * // formatted as:
+   * ["A Game of Thrones", "The Lord of the Rings", ... "The Lies of Locke Lamora", "Aux Ombres d’Abyme"]</code></pre>
    *
-   * ["A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice", ...]</code></pre>
-   *
-   * @param maxElementsForPrinting the maximum elements that would be printed from one iterable/array/map
+   * @param maxElementsForPrinting the maximum elements that would be printed for iterables, arrays and maps.
    * @since 3.9.0
    */
   default void setMaxElementsForPrinting(int maxElementsForPrinting) {
@@ -1910,7 +2019,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * <p>
    * The printed assertions description include all the successful assertions description and respectively the first failed one for standard assertions and all failed ones for soft assertions.
    * <p>
-   * If you want to process the description differently, create a {@link Consumer Consumer&lt;Description&gt;} and register it with {@link #setConsumerDescription(Consumer)}.
+   * If you want to process the description differently, create a {@link Consumer Consumer&lt;Description&gt;} and register it with {@link #setDescriptionConsumer(Consumer)}.
    *
    * @param printAssertionsDescription whether to print assertions description.
    * @since 3.17.0
@@ -1927,8 +2036,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param descriptionConsumer the {@link Description} consumer
    * @since 3.17.0
    */
-  static void setConsumerDescription(Consumer<Description> descriptionConsumer) {
-    Assertions.setConsumerDescription(descriptionConsumer);
+  static void setDescriptionConsumer(Consumer<Description> descriptionConsumer) {
+    Assertions.setDescriptionConsumer(descriptionConsumer);
   }
 
   /**
@@ -2256,6 +2365,17 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link PeriodAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  default AbstractPeriodAssert<?> assertThat(final Period actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link OffsetTimeAssert}</code>.
    *
    * @param offsetTime the actual value.
@@ -2497,12 +2617,28 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *           .withMessage("boom!"); </code></pre>
    *
    * This method is more or less the same of {@link #assertThatThrownBy(ThrowableAssert.ThrowingCallable)} but in a more natural way.
+   *
    * @param <T> the exception type.
    * @param exceptionType the exception type class.
    * @return the created {@link ThrowableTypeAssert}.
    */
   default <T extends Throwable> ThrowableTypeAssert<T> assertThatExceptionOfType(final Class<? extends T> exceptionType) {
     return Assertions.assertThatExceptionOfType(exceptionType);
+  }
+
+  /**
+   * Entry point to check that no exception of any type is thrown by a given {@code throwingCallable}.
+   * <p>
+   * Example:
+   * <pre><code class='java'>assertThatNoException().isThrownBy(() -&gt; { System.out.println("OK"); });</code></pre>
+   *
+   * This method is more or less the same of {@code assertThatCode(...).doesNotThrowAnyException();} but in a more natural way.
+   *
+   * @return the created {@link NotThrownAssert}.
+   * @since 3.17.0
+   */
+  default NotThrownAssert assertThatNoException() {
+    return Assertions.assertThatNoException();
   }
 
   /**

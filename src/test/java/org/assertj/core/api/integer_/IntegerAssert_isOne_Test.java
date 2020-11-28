@@ -22,7 +22,7 @@ import org.assertj.core.api.IntegerAssertBaseTest;
  *
  * @author Drummond Dawson
  */
-public class IntegerAssert_isOne_Test extends IntegerAssertBaseTest {
+class IntegerAssert_isOne_Test extends IntegerAssertBaseTest {
 
   @Override
   protected IntegerAssert invoke_api_method() {

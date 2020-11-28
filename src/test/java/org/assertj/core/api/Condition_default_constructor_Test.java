@@ -22,10 +22,10 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class Condition_default_constructor_Test {
+class Condition_default_constructor_Test {
 
   @Test
-  public void should_use_class_simple_name_as_description() {
+  void should_use_class_simple_name_as_description() {
     Condition<Object> condition = new Condition<Object>() {
       @Override
       public boolean matches(Object value) {

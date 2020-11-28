@@ -39,10 +39,10 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class ShouldNotContain_create_Test {
+class ShouldNotContain_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotContain(list("Yoda"), list("Luke", "Yoda"),
                                                    newLinkedHashSet("Yoda"));
@@ -59,7 +59,7 @@ public class ShouldNotContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_custom_comparison_strategy() {
+  void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotContain(list("Yoda"),
                                                    list("Luke", "Yoda"),
@@ -78,7 +78,7 @@ public class ShouldNotContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_file_directory() {
+  void should_create_error_message_for_file_directory() {
     // GIVEN
     File directory = mock(File.class);
     given(directory.getAbsolutePath()).willReturn("root");
@@ -94,7 +94,7 @@ public class ShouldNotContain_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_path_directory() {
+  void should_create_error_message_for_path_directory() {
     // GIVEN
     Path directory = mock(Path.class);
     given(directory.toString()).willReturn("root");

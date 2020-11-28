@@ -21,13 +21,13 @@ import org.assertj.core.test.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class AtomicReferenceArrayAssert_filteredOn_condition_Test extends AtomicReferenceArrayAssert_filtered_baseTest {
+class AtomicReferenceArrayAssert_filteredOn_condition_Test extends AtomicReferenceArrayAssert_filtered_baseTest {
 
   protected Condition<Employee> oldEmployees;
 
   @Override
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     super.setUp();
     oldEmployees = new Condition<Employee>("old employees") {
       @Override
@@ -38,18 +38,19 @@ public class AtomicReferenceArrayAssert_filteredOn_condition_Test extends Atomic
   }
 
   @Test
-  public void should_filter_object_array_under_test_on_condition() {
+  void should_filter_object_array_under_test_on_condition() {
     assertThat(employees).filteredOn(oldEmployees).containsOnly(yoda, obiwan);
   }
 
   @Test
-  public void should_filter_object_array_under_test_on_combined_condition() {
+  void should_filter_object_array_under_test_on_combined_condition() {
     assertThat(employees).filteredOn(not(oldEmployees)).contains(luke, noname);
   }
 
   @Test
-  public void should_fail_if_given_condition_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn(null))
+  void should_fail_if_given_condition_is_null() {
+    Condition<Employee> condition = null;
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(employees).filteredOn(condition))
                                         .withMessage("The filter condition should not be null");
   }
 

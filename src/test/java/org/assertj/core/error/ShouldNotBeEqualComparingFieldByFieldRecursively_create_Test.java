@@ -22,12 +22,12 @@ import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.Representation;
 import org.junit.jupiter.api.Test;
 
-public class ShouldNotBeEqualComparingFieldByFieldRecursively_create_Test {
+class ShouldNotBeEqualComparingFieldByFieldRecursively_create_Test {
   private static final TextDescription TEST_DESCRIPTION = new TextDescription("Test");
   private static final Representation REPRESENTATION = CONFIGURATION_PROVIDER.representation();
 
   @Test
-  public void should_show_error_message() {
+  void should_show_error_message() {
     // GIVEN
     RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
     String message = shouldNotBeEqualComparingFieldByFieldRecursively("Yoda", "Luke",
@@ -47,7 +47,7 @@ public class ShouldNotBeEqualComparingFieldByFieldRecursively_create_Test {
   }
 
   @Test
-  public void should_show_error_message_with_custom_comparison_configuration() {
+  void should_show_error_message_with_custom_comparison_configuration() {
     // GIVEN
     RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(String.class);
@@ -69,7 +69,7 @@ public class ShouldNotBeEqualComparingFieldByFieldRecursively_create_Test {
   }
 
   @Test
-  public void should_show_two_null_object_error_message() {
+  void should_show_two_null_object_error_message() {
     // GIVEN
     String message = shouldNotBeEqualComparingFieldByFieldRecursively(null).create(TEST_DESCRIPTION, REPRESENTATION);
     // THEN
@@ -78,7 +78,7 @@ public class ShouldNotBeEqualComparingFieldByFieldRecursively_create_Test {
   }
 
   @Test
-  public void should_show_same_object_error_message() {
+  void should_show_same_object_error_message() {
     // GIVEN
     String message = shouldNotBeEqualComparingFieldByFieldRecursively("Luke").create(TEST_DESCRIPTION, REPRESENTATION);
     // THEN

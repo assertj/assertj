@@ -28,10 +28,10 @@ import org.junit.jupiter.api.Test;
  * Tests for <code>{@link ShouldSatisfy#create(Description)}</code>.
  */
 @DisplayName("ShouldSatisfy create")
-public class ShouldSatisfy_create_Test {
+class ShouldSatisfy_create_Test {
 
   @Test
-  public void should_create_error_message_if_condition_is_not_satisfied() {
+  void should_create_error_message_if_condition_is_not_satisfied() {
     // GIVEN
     ErrorMessageFactory factory = shouldSatisfy("Yoda", new TestCondition<>("green lightsaber bearer"));
     // WHEN

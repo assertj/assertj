@@ -24,7 +24,7 @@ import org.assertj.core.api.CharSequenceAssertBaseTest;
  *
  * @author André Diermann
  */
-public class CharSequenceAssert_contains_several_String_as_Iterable_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_contains_several_String_as_Iterable_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {

@@ -12,9 +12,10 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.util.DateUtil.*;
-
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.util.DateUtil.formatAsDatetime;
+import static org.assertj.core.util.DateUtil.parseDatetime;
 
 import java.util.Date;
 
@@ -25,21 +26,21 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class DateUtil_parse_date_time_Test {
+class DateUtil_parse_date_time_Test {
 
   @Test
-  public void should_parse_string_with_date_time_format() {
+  void should_parse_string_with_date_time_format() {
     Date date = parseDatetime("1994-08-26T00:00:00");
     assertThat(formatAsDatetime(date)).isEqualTo("1994-08-26T00:00:00");
   }
 
   @Test
-  public void should_return_null_if_string_to_parse_is_null() {
+  void should_return_null_if_string_to_parse_is_null() {
     assertThat(parseDatetime(null)).isNull();
   }
 
   @Test
-  public void should_fail_if_string_does_not_respect_date_format() {
+  void should_fail_if_string_does_not_respect_date_format() {
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(parseDatetime("invalid date format")).isNull());
   }
 

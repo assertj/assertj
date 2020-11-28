@@ -19,7 +19,7 @@ import org.assertj.core.api.AtomicIntegerArrayAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
-public class AtomicIntegerArrayAssert_doesNotContain_Test extends AtomicIntegerArrayAssertBaseTest {
+class AtomicIntegerArrayAssert_doesNotContain_Test extends AtomicIntegerArrayAssertBaseTest {
 
   @Override
   protected AtomicIntegerArrayAssert invoke_api_method() {

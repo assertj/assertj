@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alexander Bischof
  */
-public class ShouldBeEqualIgnoringNanos_create_Test {
+class ShouldBeEqualIgnoringNanos_create_Test {
 
   @Test
-  public void should_create_error_message_for_LocalTime() {
+  void should_create_error_message_for_LocalTime() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeEqualIgnoringNanos(LocalTime.of(12, 0), LocalTime.of(13, 0));
     // WHEN
@@ -47,7 +47,7 @@ public class ShouldBeEqualIgnoringNanos_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_OffsetTime() {
+  void should_create_error_message_for_OffsetTime() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeEqualIgnoringNanos(OffsetTime.of(12, 0, 0, 0, UTC), OffsetTime.of(13, 0, 0, 0, UTC));
     // WHEN

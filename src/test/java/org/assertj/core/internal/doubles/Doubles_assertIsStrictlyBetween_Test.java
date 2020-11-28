@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author William Delanoue
  */
-public class Doubles_assertIsStrictlyBetween_Test extends DoublesBaseTest {
+class Doubles_assertIsStrictlyBetween_Test extends DoublesBaseTest {
 
   private static final Double ZERO = 0D;
   private static final Double ONE = 1D;
@@ -41,28 +41,28 @@ public class Doubles_assertIsStrictlyBetween_Test extends DoublesBaseTest {
   private static final Double TEN = 10D;
   
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsStrictlyBetween(someInfo(), null, ZERO, ONE))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_start_is_null() {
+  void should_fail_if_start_is_null() {
     assertThatNullPointerException().isThrownBy(() -> doubles.assertIsStrictlyBetween(someInfo(), ONE, null, ONE));
   }
 
   @Test
-  public void should_fail_if_end_is_null() {
+  void should_fail_if_end_is_null() {
     assertThatNullPointerException().isThrownBy(() -> doubles.assertIsStrictlyBetween(someInfo(), ONE, ZERO, null));
   }
 
   @Test
-  public void should_pass_if_actual_is_in_range() {
+  void should_pass_if_actual_is_in_range() {
     doubles.assertIsStrictlyBetween(someInfo(), ONE, ZERO, TEN);
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_range_start() {
+  void should_fail_if_actual_is_equal_to_range_start() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> doubles.assertIsStrictlyBetween(info, ONE, ONE, TEN));
@@ -72,7 +72,7 @@ public class Doubles_assertIsStrictlyBetween_Test extends DoublesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_range_end() {
+  void should_fail_if_actual_is_equal_to_range_end() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> doubles.assertIsStrictlyBetween(info, ONE, ZERO, ONE));
@@ -82,7 +82,7 @@ public class Doubles_assertIsStrictlyBetween_Test extends DoublesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_range_start() {
+  void should_fail_if_actual_is_not_in_range_start() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> doubles.assertIsStrictlyBetween(info, ONE, TWO, TEN));
@@ -92,7 +92,7 @@ public class Doubles_assertIsStrictlyBetween_Test extends DoublesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_range_end() {
+  void should_fail_if_actual_is_not_in_range_end() {
     assertThatIllegalArgumentException().isThrownBy(() -> doubles.assertIsStrictlyBetween(someInfo(), ONE, ZERO, ZERO))
                                         .withMessage("The end value <0.0> must not be less than or equal to the start value <0.0>!");
   }

@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Yvonne Wang
  */
-public class ShouldNotBe_create_Test {
+class ShouldNotBe_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotBe("Yoda", new TestCondition<String>("Sith"));
     // WHEN

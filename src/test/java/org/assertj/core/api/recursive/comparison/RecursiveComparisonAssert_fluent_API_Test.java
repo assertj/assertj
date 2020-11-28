@@ -15,12 +15,10 @@ package org.assertj.core.api.recursive.comparison;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
-import static org.assertj.core.api.recursive.comparison.FieldLocation.fielLocation;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.test.AlwaysDifferentComparator.alwaysDifferent;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TUPLE;
 import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.sql.Timestamp;
@@ -36,12 +34,12 @@ import org.assertj.core.test.AlwaysDifferentComparator;
 import org.assertj.core.test.AlwaysEqualComparator;
 import org.junit.jupiter.api.Test;
 
-public class RecursiveComparisonAssert_fluent_API_Test {
+class RecursiveComparisonAssert_fluent_API_Test {
 
   private final static Object ACTUAL = "";
 
   @Test
-  public void usingRecursiveComparison_should_set_a_default_RecursiveComparisonConfiguration() {
+  void usingRecursiveComparison_should_set_a_default_RecursiveComparisonConfiguration() {
     // WHEN
     RecursiveComparisonConfiguration recursiveComparisonConfiguration = assertThat(ACTUAL).usingRecursiveComparison()
                                                                                           .getRecursiveComparisonConfiguration();
@@ -56,12 +54,12 @@ public class RecursiveComparisonAssert_fluent_API_Test {
     assertThat(recursiveComparisonConfiguration.getIgnoredFieldsRegexes()).isEmpty();
     assertThat(recursiveComparisonConfiguration.getIgnoredOverriddenEqualsForFields()).isEmpty();
     assertThat(recursiveComparisonConfiguration.getIgnoredOverriddenEqualsForTypes()).isEmpty();
-    assertThat(recursiveComparisonConfiguration.getIgnoredOverriddenEqualsRegexes()).isEmpty();
+    assertThat(recursiveComparisonConfiguration.getIgnoredOverriddenEqualsForFieldsMatchingRegexes()).isEmpty();
     assertThat(recursiveComparisonConfiguration.hasCustomComparators()).isTrue();
   }
 
   @Test
-  public void should_allow_to_enable_strict_mode_comparison() {
+  void should_allow_to_enable_strict_mode_comparison() {
     // GIVEN
     RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
     // WHEN
@@ -73,7 +71,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_use_its_own_RecursiveComparisonConfiguration() {
+  void should_allow_to_use_its_own_RecursiveComparisonConfiguration() {
     // GIVEN
     RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
     // WHEN
@@ -84,7 +82,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_ignore_all_actual_null_fields() {
+  void should_allow_to_ignore_all_actual_null_fields() {
     // WHEN
     RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
                                                                        .ignoringActualNullFields()
@@ -94,7 +92,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_ignore_all_actual_empty_optional_fields() {
+  void should_allow_to_ignore_all_actual_empty_optional_fields() {
     // WHEN
     RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
                                                                        .ignoringActualEmptyOptionalFields()
@@ -104,7 +102,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_ignore_fields() {
+  void should_allow_to_ignore_fields() {
     // GIVEN
     String field1 = "foo";
     String field2 = "foo.bar";
@@ -113,11 +111,11 @@ public class RecursiveComparisonAssert_fluent_API_Test {
                                                                        .ignoringFields(field1, field2)
                                                                        .getRecursiveComparisonConfiguration();
     // THEN
-    assertThat(configuration.getIgnoredFields()).containsExactly(fielLocation(field1), fielLocation(field2));
+    assertThat(configuration.getIgnoredFields()).containsExactly(field1, field2);
   }
 
   @Test
-  public void should_allow_to_ignore_fields_matching_regexes() {
+  void should_allow_to_ignore_fields_matching_regexes() {
     // GIVEN
     String regex1 = "foo";
     String regex2 = ".*foo.*";
@@ -131,7 +129,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_ignore_fields_of_the_given_types() {
+  void should_allow_to_ignore_fields_of_the_given_types() {
     // GIVEN
     Class<?> type1 = UUID.class;
     Class<?> type2 = String.class;
@@ -144,7 +142,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_ignore_overridden_equals_for_fields() {
+  void should_allow_to_ignore_overridden_equals_for_fields() {
     // GIVEN
     String field1 = "foo";
     String field2 = "foo.bar";
@@ -153,25 +151,26 @@ public class RecursiveComparisonAssert_fluent_API_Test {
                                                                        .ignoringOverriddenEqualsForFields(field1, field2)
                                                                        .getRecursiveComparisonConfiguration();
     // THEN
-    assertThat(configuration.getIgnoredOverriddenEqualsForFields()).containsExactly(fielLocation(field1), fielLocation(field2));
+    assertThat(configuration.getIgnoredOverriddenEqualsForFields()).containsExactly(field1, field2);
   }
 
   @Test
-  public void should_allow_to_ignore_overridden_equals_by_regexes() {
+  void should_allow_to_ignore_overridden_equals_by_regexes() {
     // GIVEN
     String regex1 = "foo";
     String regex2 = ".*foo.*";
     // WHEN
     RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
-                                                                       .ignoringOverriddenEqualsForFieldsMatchingRegexes(regex1, regex2)
+                                                                       .ignoringOverriddenEqualsForFieldsMatchingRegexes(regex1,
+                                                                                                                         regex2)
                                                                        .getRecursiveComparisonConfiguration();
     // THEN
-    assertThat(configuration.getIgnoredOverriddenEqualsRegexes()).extracting(Pattern::pattern)
-                                                                 .containsExactly(regex1, regex2);
+    assertThat(configuration.getIgnoredOverriddenEqualsForFieldsMatchingRegexes()).extracting(Pattern::pattern)
+                                                                                  .containsExactly(regex1, regex2);
   }
 
   @Test
-  public void should_allow_to_ignore_overridden_equals_for_types() {
+  void should_allow_to_ignore_overridden_equals_for_types() {
     // GIVEN
     Class<String> type1 = String.class;
     Class<Date> type2 = Date.class;
@@ -184,7 +183,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_ignore_collection_order() {
+  void should_allow_to_ignore_collection_order() {
     // WHEN
     RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
                                                                        .ignoringCollectionOrder()
@@ -194,7 +193,7 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_ignore_collection_order_in_fields() {
+  void should_allow_to_ignore_collection_order_in_fields() {
     // GIVEN
     String field1 = "foo";
     String field2 = "foo.bar";
@@ -203,17 +202,18 @@ public class RecursiveComparisonAssert_fluent_API_Test {
                                                                        .ignoringCollectionOrderInFields(field1, field2)
                                                                        .getRecursiveComparisonConfiguration();
     // THEN
-    assertThat(configuration.getIgnoredCollectionOrderInFields()).containsExactly(fielLocation(field1), fielLocation(field2));
+    assertThat(configuration.getIgnoredCollectionOrderInFields()).containsExactly(field1, field2);
   }
 
   @Test
-  public void should_allow_to_ignore_collection_order_in_fields_matching_regexes() {
+  void should_allow_to_ignore_collection_order_in_fields_matching_regexes() {
     // GIVEN
     String regex1 = "foo";
     String regex2 = ".*foo.*";
     // WHEN
     RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
-                                                                       .ignoringCollectionOrderInFieldsMatchingRegexes(regex1, regex2)
+                                                                       .ignoringCollectionOrderInFieldsMatchingRegexes(regex1,
+                                                                                                                       regex2)
                                                                        .getRecursiveComparisonConfiguration();
     // THEN
     assertThat(configuration.getIgnoredCollectionOrderInFieldsMatchingRegexes()).extracting(Pattern::pattern)
@@ -221,11 +221,12 @@ public class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
-  public void should_allow_to_register_field_comparators() {
+  void should_allow_to_register_field_comparators() {
     // GIVEN
     String field1 = "foo";
     String field2 = "foo.bar";
     String field3 = "bar";
+    String field4 = "baz";
     AlwaysEqualComparator<?> alwaysEqualComparator = alwaysEqual();
     AlwaysDifferentComparator<?> alwaysDifferentComparator = alwaysDifferent();
     // WHEN
@@ -233,62 +234,71 @@ public class RecursiveComparisonAssert_fluent_API_Test {
     RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
                                                                        .withComparatorForFields(alwaysEqualComparator, field1, field3)
                                                                        .withComparatorForFields(alwaysDifferentComparator, field2)
+                                                                       .withEqualsForFields((o1, o2) -> true, field4)
                                                                        .getRecursiveComparisonConfiguration();
     // @format:on
     // THEN
-    assertThat(configuration.comparatorByFields()).containsExactly(entry(fielLocation(field3), alwaysEqualComparator),
-                                                                   entry(fielLocation(field1), alwaysEqualComparator),
-                                                                   entry(fielLocation(field2), alwaysDifferentComparator));
+    assertThat(configuration.comparatorByFields()).hasSize(4)
+                                                  .contains(entry(field3, alwaysEqualComparator),
+                                                            entry(field1, alwaysEqualComparator),
+                                                            entry(field2, alwaysDifferentComparator));
+    assertThat(configuration.comparatorByFields()).anyMatch(entry -> entry.getKey().equals(field4) && entry.getValue() != null);
   }
 
   @Test
-  public void should_allow_to_register_type_comparators() {
+  void should_allow_to_register_type_comparators() {
     // GIVEN
     Class<String> type1 = String.class;
     Class<Timestamp> type2 = Timestamp.class;
     Class<Tuple> type3 = Tuple.class;
     // WHEN
-    // @format:off
     RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
                                                                        .withComparatorForType(ALWAY_EQUALS_STRING, type1)
                                                                        .withComparatorForType(ALWAY_EQUALS_TIMESTAMP, type2)
-                                                                       .withComparatorForType(ALWAY_EQUALS_TUPLE, type3)
+                                                                       .withEqualsForType((o1, o2) -> true, type3)
                                                                        .getRecursiveComparisonConfiguration();
-    // @format:on
     // THEN
     assertThat(configuration.comparatorByTypes()).contains(entry(type1, ALWAY_EQUALS_STRING),
-                                                           entry(type2, ALWAY_EQUALS_TIMESTAMP),
-                                                           entry(type3, ALWAY_EQUALS_TUPLE));
+                                                           entry(type2, ALWAY_EQUALS_TIMESTAMP));
+    assertThat(configuration.comparatorByTypes()).anyMatch(entry -> entry.getKey().equals(type3) && entry.getValue() != null);
   }
 
   @Test
-  public void should_allow_to_override_field_comparator() {
+  void should_allow_to_override_field_comparator() {
     // GIVEN
-    String field = "foo.bar";
+    String field1 = "foo.bar";
+    String field2 = "foo.baz";
     AlwaysEqualComparator<?> alwaysEqualComparator = alwaysEqual();
     AlwaysDifferentComparator<?> alwaysDifferentComparator = alwaysDifferent();
     // WHEN
     RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
-                                                                       .withComparatorForFields(alwaysEqualComparator, field)
-                                                                       .withComparatorForFields(alwaysDifferentComparator, field)
+                                                                       .withComparatorForFields(alwaysEqualComparator, field1)
+                                                                       .withComparatorForFields(alwaysDifferentComparator, field1)
+                                                                       .withComparatorForFields(alwaysEqualComparator, field2)
+                                                                       .withEqualsForFields((o1, o2) -> false, field2)
                                                                        .getRecursiveComparisonConfiguration();
     // THEN
-    assertThat(configuration.getComparatorForField(field)).isSameAs(alwaysDifferentComparator);
+    assertThat(configuration.getComparatorForField(field1)).isSameAs(alwaysDifferentComparator);
+    assertThat(configuration.getComparatorForField(field2)).isNotSameAs(alwaysEqualComparator);
   }
 
   @Test
-  public void should_allow_to_override_type_comparator() {
+  void should_allow_to_override_type_comparator() {
     // GIVEN
-    Class<?> type = String.class;
+    Class<?> type1 = String.class;
+    Class<?> type2 = Tuple.class;
     AlwaysEqualComparator<Object> alwaysEqualComparator = alwaysEqual();
     AlwaysDifferentComparator<Object> alwaysDifferentComparator = alwaysDifferent();
     // WHEN
     RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
-                                                                       .withComparatorForType(alwaysEqualComparator, type)
-                                                                       .withComparatorForType(alwaysDifferentComparator, type)
+                                                                       .withComparatorForType(alwaysEqualComparator, type1)
+                                                                       .withComparatorForType(alwaysDifferentComparator, type1)
+                                                                       .withComparatorForType(alwaysEqualComparator, type2)
+                                                                       .withEqualsForType((o1, o2) -> false, type2)
                                                                        .getRecursiveComparisonConfiguration();
     // THEN
-    assertThat(configuration.getComparatorForType(type)).isSameAs(alwaysDifferentComparator);
+    assertThat(configuration.getComparatorForType(type1)).isSameAs(alwaysDifferentComparator);
+    assertThat(configuration.getComparatorForType(type2)).isNotSameAs(alwaysEqualComparator);
   }
 
 }

@@ -16,25 +16,25 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.atIndex;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import java.util.List;
 import java.util.stream.LongStream;
 
 import org.junit.jupiter.api.Test;
 
-public class Assertions_assertThat_with_LongStream_Test {
+class Assertions_assertThat_with_LongStream_Test {
 
   private LongStream intStream = LongStream.empty();
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     Object assertions = assertThat(LongStream.of(823952L, 1947230585L));
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_assert_on_size() {
+  void should_assert_on_size() {
     assertThat(LongStream.empty()).isEmpty();
     assertThat(LongStream.of(123L, 5674L, 363L)).isNotEmpty()
                                                 .hasSize(3);
@@ -42,7 +42,7 @@ public class Assertions_assertThat_with_LongStream_Test {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_initialise_actual() {
+  void should_initialise_actual() {
     LongStream iterator = LongStream.of(823952L, 1947230585L);
     List<? extends Long> actual = assertThat(iterator).actual;
     assertThat((List<Long>) actual).contains(823952L, atIndex(0))
@@ -50,58 +50,58 @@ public class Assertions_assertThat_with_LongStream_Test {
   }
 
   @Test
-  public void should_allow_null() {
+  void should_allow_null() {
     assertThat(assertThat((LongStream) null).actual).isNull();
   }
 
   @Test
-  public void isEqualTo_should_honor_comparing_the_same_mocked_stream() {
+  void isEqualTo_should_honor_comparing_the_same_mocked_stream() {
     LongStream stream = mock(LongStream.class);
     assertThat(stream).isEqualTo(stream);
   }
 
   @Test
-  public void stream_can_be_asserted_twice() {
+  void stream_can_be_asserted_twice() {
     LongStream names = LongStream.of(823952L, 1947230585L);
     assertThat(names).containsExactly(823952L, 1947230585L)
                      .containsExactly(823952L, 1947230585L);
   }
 
   @Test
-  public void should_not_consume_stream_when_asserting_non_null() {
+  void should_not_consume_stream_when_asserting_non_null() {
     LongStream stream = mock(LongStream.class);
     assertThat(stream).isNotNull();
-    verifyZeroInteractions(stream);
+    verifyNoInteractions(stream);
   }
 
   @Test
-  public void isInstanceOf_should_check_the_original_stream_without_consuming_it() {
+  void isInstanceOf_should_check_the_original_stream_without_consuming_it() {
     LongStream stream = mock(LongStream.class);
     assertThat(stream).isInstanceOf(LongStream.class);
-    verifyZeroInteractions(stream);
+    verifyNoInteractions(stream);
   }
 
   @Test
-  public void isInstanceOfAny_should_check_the_original_stream_without_consuming_it() {
+  void isInstanceOfAny_should_check_the_original_stream_without_consuming_it() {
     LongStream stream = mock(LongStream.class);
     assertThat(stream).isInstanceOfAny(LongStream.class, String.class);
-    verifyZeroInteractions(stream);
+    verifyNoInteractions(stream);
   }
 
   @Test
-  public void isOfAnyClassIn_should_check_the_original_stream_without_consuming_it() {
+  void isOfAnyClassIn_should_check_the_original_stream_without_consuming_it() {
     LongStream stream = mock(LongStream.class);
     assertThat(stream).isOfAnyClassIn(Double.class, stream.getClass());
   }
 
   @Test
-  public void isExactlyInstanceOf_should_check_the_original_stream() {
+  void isExactlyInstanceOf_should_check_the_original_stream() {
     // factory creates use internal classes
     assertThat(intStream).isExactlyInstanceOf(intStream.getClass());
   }
 
   @Test
-  public void isNotExactlyInstanceOf_should_check_the_original_stream() {
+  void isNotExactlyInstanceOf_should_check_the_original_stream() {
     assertThat(intStream).isNotExactlyInstanceOf(LongStream.class);
 
     Throwable error = catchThrowable(() -> assertThat(intStream).isNotExactlyInstanceOf(intStream.getClass()));
@@ -110,34 +110,34 @@ public class Assertions_assertThat_with_LongStream_Test {
   }
 
   @Test
-  public void isNotInstanceOf_should_check_the_original_stream() {
+  void isNotInstanceOf_should_check_the_original_stream() {
     assertThat(intStream).isNotInstanceOf(Long.class);
   }
 
   @Test
-  public void isNotInstanceOfAny_should_check_the_original_stream() {
+  void isNotInstanceOfAny_should_check_the_original_stream() {
     assertThat(intStream).isNotInstanceOfAny(Long.class, String.class);
   }
 
   @Test
-  public void isNotOfAnyClassIn_should_check_the_original_stream() {
+  void isNotOfAnyClassIn_should_check_the_original_stream() {
     assertThat(intStream).isNotOfAnyClassIn(Long.class, String.class);
   }
 
   @Test
-  public void isSameAs_should_check_the_original_stream_without_consuming_it() {
+  void isSameAs_should_check_the_original_stream_without_consuming_it() {
     LongStream stream = mock(LongStream.class);
     assertThat(stream).isSameAs(stream);
-    verifyZeroInteractions(stream);
+    verifyNoInteractions(stream);
   }
 
   @Test
-  public void isNotSameAs_should_check_the_original_stream_without_consuming_it() {
+  void isNotSameAs_should_check_the_original_stream_without_consuming_it() {
     LongStream stream = mock(LongStream.class);
     try {
       assertThat(stream).isNotSameAs(stream);
     } catch (AssertionError e) {
-      verifyZeroInteractions(stream);
+      verifyNoInteractions(stream);
       return;
     }
     Assertions.fail("Expected assertionError, because assert notSame on same stream.");

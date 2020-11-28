@@ -23,10 +23,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Christian Rösch
  */
-public class Preconditions_checkNotNullOrEmpty_GenericArray_Test {
+class Preconditions_checkNotNullOrEmpty_GenericArray_Test {
 
   @Test
-  public void should_throw_IllegalArgumentException_if_array_is_empty() {
+  void should_throw_IllegalArgumentException_if_array_is_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> {
       String[] array = new String[0];
       Preconditions.checkNotNullOrEmpty(array);
@@ -34,7 +34,7 @@ public class Preconditions_checkNotNullOrEmpty_GenericArray_Test {
   }
 
   @Test
-  public void should_throw_NullPointerException_if_array_is_null() {
+  void should_throw_NullPointerException_if_array_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       String[] array = null;
       Preconditions.checkNotNullOrEmpty(array);
@@ -42,7 +42,7 @@ public class Preconditions_checkNotNullOrEmpty_GenericArray_Test {
   }
 
   @Test
-  public void should_return_array_if_it_is_not_null_nor_empty() {
+  void should_return_array_if_it_is_not_null_nor_empty() {
     String[] array = new String[] { "a" };
     String[] result = Preconditions.checkNotNullOrEmpty(array);
 

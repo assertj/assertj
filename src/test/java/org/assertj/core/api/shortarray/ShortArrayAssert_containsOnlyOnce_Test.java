@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author William Delanoue
  */
-public class ShortArrayAssert_containsOnlyOnce_Test extends ShortArrayAssertBaseTest {
+class ShortArrayAssert_containsOnlyOnce_Test extends ShortArrayAssertBaseTest {
 
   @Override
   protected ShortArrayAssert invoke_api_method() {

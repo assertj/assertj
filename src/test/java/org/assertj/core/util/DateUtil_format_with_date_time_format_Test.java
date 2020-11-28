@@ -12,12 +12,14 @@
  */
 package org.assertj.core.util;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.DateUtil.formatAsDatetime;
 
-import static org.assertj.core.api.Assertions.*;
-
-import java.text.*;
-import java.util.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import org.junit.jupiter.api.Test;
 
@@ -26,29 +28,29 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class DateUtil_format_with_date_time_format_Test {
+class DateUtil_format_with_date_time_format_Test {
 
   @Test
-  public void should_format_date_with_date_time_format() throws ParseException {
+  void should_format_date_with_date_time_format() throws ParseException {
     String dateAsString = "26/08/1994";
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     assertThat(formatAsDatetime(formatter.parse(dateAsString))).isEqualTo("1994-08-26T00:00:00");
   }
 
   @Test
-  public void should_return_null_if_date_is_null() {
+  void should_return_null_if_date_is_null() {
     assertThat(formatAsDatetime((Date) null)).isNull();
   }
 
   @Test
-  public void should_format_calendar_with_date_time_format() {
+  void should_format_calendar_with_date_time_format() {
     Calendar calendar = new GregorianCalendar();
     calendar.set(2011, 04, 15, 14, 59, 33);
     assertThat(formatAsDatetime(calendar)).isEqualTo("2011-05-15T14:59:33");
   }
 
   @Test
-  public void should_return_null_if_calendar_is_null() {
+  void should_return_null_if_calendar_is_null() {
     assertThat(formatAsDatetime((Calendar) null)).isNull();
   }
 

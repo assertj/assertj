@@ -28,12 +28,12 @@ import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class IterableAssert_usingElementComparatorIgnoringFields_Test extends IterableAssertBaseTest {
+class IterableAssert_usingElementComparatorIgnoringFields_Test extends IterableAssertBaseTest {
 
   private Iterables iterablesBefore;
 
   @BeforeEach
-  public void before() {
+  void before() {
     iterablesBefore = getIterables(assertions);
   }
 
@@ -53,7 +53,7 @@ public class IterableAssert_usingElementComparatorIgnoringFields_Test extends It
   }
 
   @Test
-  public void should_be_able_to_use_a_comparator_for_specified_fields_of_elements_when_using_element_comparator_ignoring_fields() {
+  void should_be_able_to_use_a_comparator_for_specified_fields_of_elements_when_using_element_comparator_ignoring_fields() {
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
@@ -63,7 +63,7 @@ public class IterableAssert_usingElementComparatorIgnoringFields_Test extends It
   }
 
   @Test
-  public void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_using_element_comparator_ignoring_fields() {
+  void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_using_element_comparator_ignoring_fields() {
     Comparator<String> comparator = (o1, o2) -> o1.compareTo(o2);
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
@@ -75,7 +75,7 @@ public class IterableAssert_usingElementComparatorIgnoringFields_Test extends It
   }
 
   @Test
-  public void should_be_able_to_use_a_comparator_for_element_fields_with_specified_type_using_element_comparator_ignoring_fields() {
+  void should_be_able_to_use_a_comparator_for_element_fields_with_specified_type_using_element_comparator_ignoring_fields() {
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "blue");
 

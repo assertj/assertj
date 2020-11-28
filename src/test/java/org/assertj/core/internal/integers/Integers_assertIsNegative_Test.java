@@ -28,27 +28,27 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Integers_assertIsNegative_Test extends IntegersBaseTest {
+class Integers_assertIsNegative_Test extends IntegersBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_negative() {
+  void should_succeed_since_actual_is_negative() {
     integers.assertIsNegative(someInfo(), -6);
   }
 
   @Test
-  public void should_fail_since_actual_is_not_negative() {
+  void should_fail_since_actual_is_not_negative() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertIsNegative(someInfo(), 6))
                                                    .withMessage(format("%nExpecting:%n <6>%nto be less than:%n <0> "));
   }
 
   @Test
-  public void should_fail_since_actual_can_not_be_negative_according_to_custom_comparison_strategy() {
+  void should_fail_since_actual_can_not_be_negative_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integersWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), -1))
                                                    .withMessage(format("%nExpecting:%n <-1>%nto be less than:%n <0> when comparing values using AbsValueComparator"));
   }
 
   @Test
-  public void should_fail_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
+  void should_fail_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integersWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), 1))
                                                    .withMessage(format("%nExpecting:%n <1>%nto be less than:%n <0> when comparing values using AbsValueComparator"));
   }

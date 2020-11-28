@@ -36,17 +36,17 @@ import org.junit.jupiter.api.Test;
  * @author Nicolas François
  * @author Mikhail Mazursky
  */
-public class Objects_assertIsIn_with_Iterable_Test extends ObjectsBaseTest {
+class Objects_assertIsIn_with_Iterable_Test extends ObjectsBaseTest {
 
   private static Iterable<String> values;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     values = list("Yoda", "Leia");
   }
 
   @Test
-  public void should_throw_NullPointerException_if_Iterable_is_null() {
+  void should_throw_NullPointerException_if_Iterable_is_null() {
     // GIVEN
     Iterable<String> nullIterable = null;
     // THEN
@@ -55,7 +55,7 @@ public class Objects_assertIsIn_with_Iterable_Test extends ObjectsBaseTest {
   }
 
   @Test
-  public void should_fail_if_given_Iterable_is_empty() {
+  void should_fail_if_given_Iterable_is_empty() {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
@@ -65,17 +65,17 @@ public class Objects_assertIsIn_with_Iterable_Test extends ObjectsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_in_given_Iterable() {
+  void should_pass_if_actual_is_in_given_Iterable() {
     objects.assertIsIn(someInfo(), "Yoda", values);
   }
 
   @Test
-  public void should_pass_if_actual_is_null_and_array_contains_null() {
+  void should_pass_if_actual_is_null_and_array_contains_null() {
     objects.assertIsIn(someInfo(), null, list("Yoda", null));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_Iterable() {
+  void should_fail_if_actual_is_not_in_Iterable() {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
@@ -85,12 +85,12 @@ public class Objects_assertIsIn_with_Iterable_Test extends ObjectsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_in_Iterable_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_in_Iterable_according_to_custom_comparison_strategy() {
     objectsWithCustomComparisonStrategy.assertIsIn(someInfo(), "YODA", values);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_Iterable_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_not_in_Iterable_according_to_custom_comparison_strategy() {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN

@@ -21,7 +21,7 @@ import java.util.Comparator;
 import org.assertj.core.api.AbstractZonedDateTimeAssertBaseTest;
 import org.assertj.core.api.ZonedDateTimeAssert;
 
-public class ZonedDateTimeAssert_usingComparator_Test extends AbstractZonedDateTimeAssertBaseTest {
+class ZonedDateTimeAssert_usingComparator_Test extends AbstractZonedDateTimeAssertBaseTest {
 
   private Comparator<ZonedDateTime> testComparator = ChronoZonedDateTime::compareTo;
 

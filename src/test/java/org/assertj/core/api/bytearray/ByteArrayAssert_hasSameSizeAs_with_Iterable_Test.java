@@ -26,7 +26,7 @@ import org.assertj.core.api.ByteArrayAssertBaseTest;
  * 
  * @author Nicolas François
  */
-public class ByteArrayAssert_hasSameSizeAs_with_Iterable_Test extends ByteArrayAssertBaseTest {
+class ByteArrayAssert_hasSameSizeAs_with_Iterable_Test extends ByteArrayAssertBaseTest {
 
   private final List<String> other = newArrayList("Yoda", "Luke");
 

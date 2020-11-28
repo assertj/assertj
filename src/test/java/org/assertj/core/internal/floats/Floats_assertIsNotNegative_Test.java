@@ -25,31 +25,31 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Nicolas François
  */
-public class Floats_assertIsNotNegative_Test extends FloatsBaseTest {
+class Floats_assertIsNotNegative_Test extends FloatsBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_not_negative() {
+  void should_succeed_since_actual_is_not_negative() {
     floats.assertIsNotNegative(someInfo(), 6f);
   }
 
   @Test
-  public void should_succeed_since_actual_is_zero() {
+  void should_succeed_since_actual_is_zero() {
     floats.assertIsNotNegative(someInfo(), 0f);
   }
 
   @Test
-  public void should_fail_since_actual_is_negative() {
+  void should_fail_since_actual_is_negative() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotNegative(someInfo(), -6f))
                                                    .withMessage(format("%nExpecting:%n <-6.0f>%nto be greater than or equal to:%n <0.0f> "));
   }
 
   @Test
-  public void should_succeed_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
+  void should_succeed_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
     floatsWithAbsValueComparisonStrategy.assertIsNotNegative(someInfo(), -1f);
   }
 
   @Test
-  public void should_succeed_since_actual_positive_is_not_negative_according_to_custom_comparison_strategy() {
+  void should_succeed_since_actual_positive_is_not_negative_according_to_custom_comparison_strategy() {
     floatsWithAbsValueComparisonStrategy.assertIsNotNegative(someInfo(), 1f);
   }
 

@@ -21,7 +21,7 @@ import org.assertj.core.util.Introspection_getProperty_Test.Example;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-public class Assertions_useRepresentation_Test {
+class Assertions_useRepresentation_Test {
 
   private CustomRepresentation customRepresentation = new CustomRepresentation();
 

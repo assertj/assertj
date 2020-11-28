@@ -13,19 +13,18 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
+import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
 import org.assertj.core.internal.objects.data.Person;
-import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.api.Test;
 
-public class RecursiveComparisonAssert_assumptions_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
+class RecursiveComparisonAssert_assumptions_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
   @Test
-  public void should_ignore_test_when_one_of_the_assumption_fails() {
+  void should_ignore_test_when_one_of_the_assumption_fails() {
     // GIVEN
     Person actual = new Person("John");
     actual.home.address.number = 1;
@@ -35,12 +34,12 @@ public class RecursiveComparisonAssert_assumptions_Test extends RecursiveCompari
     unexpected.home.address.number = 2;
     // THEN
     assumeThat(actual).usingRecursiveComparison().isEqualTo(expected);
-    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(actual).usingRecursiveComparison()
-                                                                                                    .isEqualTo(unexpected));
+    expectAssumptionNotMetException(() -> assumeThat(actual).usingRecursiveComparison()
+                                                            .isEqualTo(unexpected));
   }
 
   @Test
-  public void should_run_test_when_all_assumptions_are_met() {
+  void should_run_test_when_all_assumptions_are_met() {
     // GIVEN
     Person actual = new Person("John");
     actual.home.address.number = 1;

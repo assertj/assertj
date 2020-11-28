@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Chris Arnott
  */
-public class FloatAssert_isNotCloseTo_float_Test extends FloatAssertBaseTest {
+class FloatAssert_isNotCloseTo_float_Test extends FloatAssertBaseTest {
 
   private final Offset<Float> offset = offset(5f);
 

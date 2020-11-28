@@ -26,7 +26,7 @@ import org.assertj.core.api.ObjectAssert;
  * 
  * @author Nicolas François
  */
-public class AbstractAssert_isNotOfAnyClassIn_Test extends AbstractAssertBaseTest {
+class AbstractAssert_isNotOfAnyClassIn_Test extends AbstractAssertBaseTest {
 
   @Override
   protected ConcreteAssert invoke_api_method() {

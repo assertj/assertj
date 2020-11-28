@@ -28,10 +28,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class ShouldBeInSameYear_create_Test {
+class ShouldBeInSameYear_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeInSameYear(parse("2010-01-01"), parse("2011-01-01"));
     // WHEN

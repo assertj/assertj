@@ -26,13 +26,13 @@ import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class DualValue_iterableValues_Test {
+class DualValue_iterableValues_Test {
 
   private static final List<String> PATH = list("foo", "bar");
 
   @ParameterizedTest
   @MethodSource("orderedCollections")
-  public void isActualFieldAnOrderedCollection_should_return_true_when_actual_is_an_ordered_collection(Iterable<?> actual) {
+  void isActualFieldAnOrderedCollection_should_return_true_when_actual_is_an_ordered_collection(Iterable<?> actual) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, actual, "");
     // WHEN
@@ -43,7 +43,7 @@ public class DualValue_iterableValues_Test {
 
   @ParameterizedTest
   @MethodSource("orderedCollections")
-  public void isExpectedFieldAnOrderedCollection_should_return_true_when_expected_is_an_ordered_collection(Iterable<?> expected) {
+  void isExpectedFieldAnOrderedCollection_should_return_true_when_expected_is_an_ordered_collection(Iterable<?> expected) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", expected);
     // WHEN
@@ -58,7 +58,7 @@ public class DualValue_iterableValues_Test {
 
   @ParameterizedTest
   @MethodSource("nonOrdered")
-  public void isActualFieldAnOrderedCollection_should_return_false_when_actual_is_not_an_ordered_collection(Object actual) {
+  void isActualFieldAnOrderedCollection_should_return_false_when_actual_is_not_an_ordered_collection(Object actual) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, actual, "");
     // WHEN
@@ -69,7 +69,7 @@ public class DualValue_iterableValues_Test {
 
   @ParameterizedTest
   @MethodSource("nonOrdered")
-  public void isExpectedFieldAnOrderedCollection_should_return_false_when_expected_is_not_an_ordered_collection(Object expected) {
+  void isExpectedFieldAnOrderedCollection_should_return_false_when_expected_is_not_an_ordered_collection(Object expected) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", expected);
     // WHEN
@@ -84,7 +84,7 @@ public class DualValue_iterableValues_Test {
 
   @ParameterizedTest
   @MethodSource("iterables")
-  public void isActualFieldAnIterable_should_return_true_when_actual_is_an_ordered_collection(Object actual) {
+  void isActualFieldAnIterable_should_return_true_when_actual_is_an_ordered_collection(Object actual) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, actual, "");
     // WHEN
@@ -95,7 +95,7 @@ public class DualValue_iterableValues_Test {
 
   @ParameterizedTest
   @MethodSource("iterables")
-  public void isExpectedFieldAnIterable_should_return_true_when_expected_is_an_iterable(Object expected) {
+  void isExpectedFieldAnIterable_should_return_true_when_expected_is_an_iterable(Object expected) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", expected);
     // WHEN
@@ -110,7 +110,7 @@ public class DualValue_iterableValues_Test {
 
   @ParameterizedTest
   @MethodSource("nonIterables")
-  public void isActualFieldAnIterable_should_return_false_when_actual_is_not_an_iterable(Object actual) {
+  void isActualFieldAnIterable_should_return_false_when_actual_is_not_an_iterable(Object actual) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, actual, "");
     // WHEN
@@ -121,7 +121,7 @@ public class DualValue_iterableValues_Test {
 
   @ParameterizedTest
   @MethodSource("nonIterables")
-  public void isExpectedFieldAnIterable_should_return_false_when_expected_is_not_an_iterable(Object expected) {
+  void isExpectedFieldAnIterable_should_return_false_when_expected_is_not_an_iterable(Object expected) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", expected);
     // WHEN

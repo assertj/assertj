@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Chris Arnott
  */
-public class LongAssert_isNotCloseToPercentage_long_Test extends LongAssertBaseTest {
+class LongAssert_isNotCloseToPercentage_long_Test extends LongAssertBaseTest {
 
     private final Percentage percentage = withPercentage(5L);
     private final Long value = 10L;

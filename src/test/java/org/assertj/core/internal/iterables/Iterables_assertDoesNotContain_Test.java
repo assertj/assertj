@@ -43,41 +43,41 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Iterables_assertDoesNotContain_Test extends IterablesBaseTest {
+class Iterables_assertDoesNotContain_Test extends IterablesBaseTest {
 
   private static List<String> actual = newArrayList("Luke", "Yoda", "Leia");
 
   @Test
-  public void should_pass_if_actual_does_not_contain_given_values() {
+  void should_pass_if_actual_does_not_contain_given_values() {
     iterables.assertDoesNotContain(someInfo(), actual, array("Han"));
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated() {
+  void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated() {
     iterables.assertDoesNotContain(someInfo(), actual, array("Han", "Han", "Anakin"));
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
+  void should_throw_error_if_array_of_values_to_look_for_is_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> iterables.assertDoesNotContain(someInfo(), actual,
                                                                                          emptyArray()))
                                         .withMessage(valuesToLookForIsEmpty());
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null() {
+  void should_throw_error_if_array_of_values_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> iterables.assertDoesNotContain(someInfo(), emptyList(), null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertDoesNotContain(someInfo(), null, array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_contains_given_values() {
+  void should_fail_if_actual_contains_given_values() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Yoda", "Han" };
 
@@ -92,18 +92,18 @@ public class Iterables_assertDoesNotContain_Test extends IterablesBaseTest {
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_does_not_contain_given_values_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_does_not_contain_given_values_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(someInfo(), actual, array("Han"));
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(someInfo(), actual,
                                                                         array("Han", "Han", "Anakin"));
   }
 
   @Test
-  public void should_fail_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] expected = { "LuKe", "YODA", "Han" };
 

@@ -30,21 +30,21 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Throwables_assertHasMessageEnding_Test extends ThrowablesBaseTest {
+class Throwables_assertHasMessageEnding_Test extends ThrowablesBaseTest {
 
   @Test
-  public void should_pass_if_actual_has_message_ending_with_expected_description() {
+  void should_pass_if_actual_has_message_ending_with_expected_description() {
     throwables.assertHasMessageEndingWith(someInfo(), actual, "sage");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasMessageEndingWith(someInfo(), null, "Throwable"))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_has_message_not_ending_with_expected_description() {
+  void should_fail_if_actual_has_message_not_ending_with_expected_description() {
     AssertionInfo info = someInfo();
     try {
       throwables.assertHasMessageEndingWith(info, actual, "expected end");

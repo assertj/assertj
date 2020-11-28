@@ -18,7 +18,7 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Float}</code>s.
- * 
+ *
  * @author Drummond Dawson
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -30,7 +30,7 @@ public class Floats extends RealNumbers<Float> {
 
   /**
    * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
-   * 
+   *
    * @return the singleton instance of this class based on {@link StandardComparisonStrategy}.
    */
   public static Floats instance() {
@@ -64,5 +64,15 @@ public class Floats extends RealNumbers<Float> {
   @Override
   protected Float absDiff(Float actual, Float other) {
     return abs(other.floatValue() - actual.floatValue());
+  }
+
+  @Override
+  protected boolean isFinite(Float value) {
+    return Float.isFinite(value);
+  }
+
+  @Override
+  protected boolean isInfinite(Float value) {
+    return Float.isInfinite(value);
   }
 }

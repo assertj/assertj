@@ -22,53 +22,53 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class Assertions_assertThat_with_primitive_int_Test {
+class Assertions_assertThat_with_primitive_int_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     AbstractIntegerAssert<?> assertions = Assertions.assertThat(0);
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     AbstractIntegerAssert<?> assertions = Assertions.assertThat(8);
     assertThat(assertions.actual).isEqualTo(new Integer(8));
   }
 
   @Test
-  public void should_pass_when_expected_long_equals_actual_int() {
+  void should_pass_when_expected_long_equals_actual_int() {
     assertThat(123).isEqualTo(123L);
   }
 
   @Test
-  public void should_pass_if_expected_long_is_Integer_MAX_and_actual_is_too() {
+  void should_pass_if_expected_long_is_Integer_MAX_and_actual_is_too() {
     int actual = Integer.MAX_VALUE;
     long expected = Integer.MAX_VALUE;
     assertThat(actual).isEqualTo(expected);
   }
 
   @Test
-  public void should_fail_if_expected_long_is_Integer_MAX_plus_one() {
+  void should_fail_if_expected_long_is_Integer_MAX_plus_one() {
     int actual = Integer.MAX_VALUE;
     long expected = Integer.MAX_VALUE + 1;
     assertThatThrownBy(() -> assertThat(actual).isEqualTo(expected));
   }
 
   @Test
-  public void should_fail_if_expected_long_is_Integer_MIN_minus_one() {
+  void should_fail_if_expected_long_is_Integer_MIN_minus_one() {
     int actual = Integer.MIN_VALUE;
     long expected = Integer.MIN_VALUE - 1;
     assertThatThrownBy(() -> assertThat(actual).isEqualTo(expected));
   }
 
   @Test
-  public void should_fail_if_expected_long_is_different_from_actual_int() {
+  void should_fail_if_expected_long_is_different_from_actual_int() {
     assertThatThrownBy(() -> assertThat(123).isEqualTo(456L));
   }
 
   @Test
-  public void should_pass_if_expected_long_is_Integer_MIN_and_actual_is_too() {
+  void should_pass_if_expected_long_is_Integer_MIN_and_actual_is_too() {
     int actual = Integer.MIN_VALUE;
     long expected = Integer.MIN_VALUE;
     assertThat(actual).isEqualTo(expected);

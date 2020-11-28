@@ -34,26 +34,26 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Longs_assertLessThanOrEqualTo_Test extends LongsBaseTest {
+class Longs_assertLessThanOrEqualTo_Test extends LongsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertLessThanOrEqualTo(someInfo(), null, 8L))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_less_than_other() {
+  void should_pass_if_actual_is_less_than_other() {
     longs.assertLessThanOrEqualTo(someInfo(), 6L, 8L);
   }
 
   @Test
-  public void should_pass_if_actual_is_equal_to_other() {
+  void should_pass_if_actual_is_equal_to_other() {
     longs.assertLessThanOrEqualTo(someInfo(), 6L, 6L);
   }
 
   @Test
-  public void should_fail_if_actual_is_greater_than_other() {
+  void should_fail_if_actual_is_greater_than_other() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> longs.assertLessThanOrEqualTo(info, 8L, 6L));
@@ -63,23 +63,23 @@ public class Longs_assertLessThanOrEqualTo_Test extends LongsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(someInfo(), null, 8L))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     longsWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(someInfo(), 6L, -8L);
   }
 
   @Test
-  public void should_pass_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
     longsWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(someInfo(), 6L, -6L);
   }
 
   @Test
-  public void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> longsWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(info, -8L, 6L));

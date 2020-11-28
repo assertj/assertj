@@ -23,11 +23,11 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Christian Rösch
  */
-public class Preconditions_checkNotNullOrEmpty_String_String_Test {
+class Preconditions_checkNotNullOrEmpty_String_String_Test {
   private final static String CUSTOM_MESSAGE = "Wow, that's an error dude ..";
 
   @Test
-  public void should_throw_illegalargumentexception_if_string_is_empty() {
+  void should_throw_illegalargumentexception_if_string_is_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> {
       String string = "";
       Preconditions.checkNotNullOrEmpty(string, CUSTOM_MESSAGE);
@@ -35,7 +35,7 @@ public class Preconditions_checkNotNullOrEmpty_String_String_Test {
   }
 
   @Test
-  public void should_throw_nullpointerexception_if_string_is_null() {
+  void should_throw_nullpointerexception_if_string_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       String string = null;
       Preconditions.checkNotNullOrEmpty(string, CUSTOM_MESSAGE);
@@ -43,7 +43,7 @@ public class Preconditions_checkNotNullOrEmpty_String_String_Test {
   }
 
   @Test
-  public void should_return_string_if_it_is_not_null_nor_empty() {
+  void should_return_string_if_it_is_not_null_nor_empty() {
     String string = "a";
     CharSequence result = Preconditions.checkNotNullOrEmpty(string, CUSTOM_MESSAGE);
 

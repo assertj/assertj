@@ -24,23 +24,23 @@ import org.junit.jupiter.api.Test;
  *
  * @author Filip Hrisafov
  */
-public class Assertions_assertThat_with_Predicate_Test {
+class Assertions_assertThat_with_Predicate_Test {
 
   private Predicate<String> actual;
 
   @BeforeEach
-  public void before() {
+  void before() {
     actual = value -> value.equals("something");
   }
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     PredicateAssert<String> assertions = Assertions.assertThat(actual);
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     PredicateAssert<String> assertions = Assertions.assertThat(actual);
     assertThat(actual).isSameAs(assertions.actual);
   }

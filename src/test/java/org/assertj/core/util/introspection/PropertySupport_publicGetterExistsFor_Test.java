@@ -19,7 +19,7 @@ import org.assertj.core.util.introspection.beans.SuperHero;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class PropertySupport_publicGetterExistsFor_Test {
+class PropertySupport_publicGetterExistsFor_Test {
 
   private PropertySupport propertySupport = PropertySupport.instance();
   private Person bruceWayne;
@@ -34,14 +34,14 @@ public class PropertySupport_publicGetterExistsFor_Test {
   }
 
   @Test
-  public void should_return_true_if_public_getter_exists_for_field() {
+  void should_return_true_if_public_getter_exists_for_field() {
     assertThat(propertySupport.publicGetterExistsFor("archenemy", batman)).as("check archenemy").isTrue();
     // with inherited public getter
     assertThat(propertySupport.publicGetterExistsFor("name", batman)).as("check name").isTrue();
   }
 
   @Test
-  public void should_return_false_if_public_getter_does_not_exist() {
+  void should_return_false_if_public_getter_does_not_exist() {
     // getter exists but is package visible
     assertThat(propertySupport.publicGetterExistsFor("trueIdentity", batman)).as("package visible getter").isFalse();
     assertThat(propertySupport.publicGetterExistsFor("realJob", batman)).as("with non existing getter").isFalse();

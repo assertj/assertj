@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Valeriy Vyrva
  */
-public class FileAssert_isDirectoryNotContaining_SyntaxAndPattern_Test extends FileAssertBaseTest {
+class FileAssert_isDirectoryNotContaining_SyntaxAndPattern_Test extends FileAssertBaseTest {
 
   private final String syntaxAndPattern = "glob:*.java";
 

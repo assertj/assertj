@@ -20,16 +20,16 @@ import java.util.concurrent.atomic.AtomicLongArray;
 
 import org.junit.jupiter.api.Test;
 
-public class Arrays_array_Test {
+class Arrays_array_Test {
 
   @Test
-  public void should_return_parameter() {
+  void should_return_parameter() {
     Object[] array = { "one", "two" };
     assertThat(array).isSameAs(Arrays.array(array));
   }
 
   @Test
-  public void should_return_an_int_array_from_AtomicIntegerArray() {
+  void should_return_an_int_array_from_AtomicIntegerArray() {
     // GIVEN
     int[] expected = new int[] { 1, 2, 3, 4 };
     AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(expected);
@@ -40,7 +40,7 @@ public class Arrays_array_Test {
   }
 
   @Test
-  public void should_return_null_if_given_a_null_AtomicIntegerArray() {
+  void should_return_null_if_given_a_null_AtomicIntegerArray() {
     // GIVEN
     AtomicIntegerArray atomicIntegerArray = null;
     // WHEN
@@ -50,7 +50,7 @@ public class Arrays_array_Test {
   }
   
   @Test
-  public void should_return_an_long_array_from_AtomicLongArray() {
+  void should_return_an_long_array_from_AtomicLongArray() {
     // GIVEN
     long[] expected = new long[] { 1, 2, 3, 4 };
     AtomicLongArray atomicLongArray = new AtomicLongArray(expected);
@@ -61,7 +61,7 @@ public class Arrays_array_Test {
   }
   
   @Test
-  public void should_return_null_if_given_a_null_AtomicLongArray() {
+  void should_return_null_if_given_a_null_AtomicLongArray() {
     // GIVEN
     AtomicLongArray atomicLongArray = null;
     // WHEN

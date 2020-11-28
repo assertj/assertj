@@ -20,8 +20,8 @@ import static org.assertj.core.api.ClassLoadingStrategyFactory.classLoadingStrat
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 
+import org.assertj.core.api.ClassLoadingStrategyFactory.ClassLoadingStrategyPair;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 
 import net.bytebuddy.ByteBuddy;
@@ -74,6 +74,7 @@ class SoftProxies {
                                                                                             .or(named("overridingErrorMessage"))
                                                                                             .or(named("removeCustomAssertRelatedElementsFromStackTraceIfNeeded"))
                                                                                             .or(named("succeedsWithin"))
+                                                                                            .or(named("failsWithin"))
                                                                                             .or(named("usingComparator"))
                                                                                             .or(named("usingDefaultComparator"))
                                                                                             .or(named("usingElementComparator"))
@@ -95,18 +96,10 @@ class SoftProxies {
 
   private static final TypeCache<TypeCache.SimpleKey> CACHE = new TypeCache.WithInlineExpunction<>(Sort.SOFT);
 
-  private final ErrorCollector collector = new ErrorCollector();
+  private ErrorCollector collector;
 
-  public boolean wasSuccess() {
-    return collector.wasSuccess();
-  }
-
-  void collectError(AssertionError error) {
-    collector.addError(error);
-  }
-
-  List<AssertionError> errorsCollected() {
-    return collector.errors();
+  public SoftProxies(AssertionErrorCollector assertionErrorCollector) {
+    collector = new ErrorCollector(assertionErrorCollector);
   }
 
   <SELF extends Assert<? extends SELF, ? extends ACTUAL>, ACTUAL> SELF createSoftAssertionProxy(Class<SELF> assertClass,
@@ -127,7 +120,7 @@ class SoftProxies {
   @SuppressWarnings("unchecked")
   private static <ASSERT extends Assert<?, ?>> Class<ASSERT> createSoftAssertionProxyClass(Class<ASSERT> assertClass) {
     SimpleKey cacheKey = new SimpleKey(assertClass);
-    return (Class<ASSERT>) CACHE.findOrInsert(SoftProxies.class.getClassLoader(), cacheKey,
+    return (Class<ASSERT>) CACHE.findOrInsert(assertClass.getClassLoader(), cacheKey,
                                               () -> generateProxyClass(assertClass));
   }
 
@@ -171,6 +164,7 @@ class SoftProxies {
   }
 
   static <V> Class<? extends V> generateProxyClass(Class<V> assertClass) {
+    ClassLoadingStrategyPair strategy = classLoadingStrategy(assertClass);
     return BYTE_BUDDY.subclass(assertClass)
                      .defineField(ProxifyMethodChangingTheObjectUnderTest.FIELD_NAME,
                                   ProxifyMethodChangingTheObjectUnderTest.class,
@@ -186,14 +180,11 @@ class SoftProxies {
                      .intercept(FieldAccessor.ofField(ProxifyMethodChangingTheObjectUnderTest.FIELD_NAME).setsArgumentAt(0)
                                              .andThen(FieldAccessor.ofField(ErrorCollector.FIELD_NAME).setsArgumentAt(1)))
                      .make()
-                     // Use ClassLoader of soft assertion class to allow ByteBuddy to always find it.
-                     // This is needed in OSGI runtime when custom soft assertion is defined outside of assertj bundle.
-                     .load(assertClass.getClassLoader(), classLoadingStrategy(assertClass))
+                     .load(strategy.getClassLoader(), strategy.getClassLoadingStrategy())
                      .getLoaded();
   }
 
   private static Junction<MethodDescription> methodsNamed(String name) {
     return named(name);
   }
-
 }

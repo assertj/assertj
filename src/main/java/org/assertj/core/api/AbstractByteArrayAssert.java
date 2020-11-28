@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Hexadecimals.toHexString;
 
+import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.Comparator;
 
@@ -754,6 +755,9 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
   /**
    * Verifies that the actual group contains only the given values and nothing else, <b>in order</b>.
    * <p>
+   * <b>Warning</b>: for performance reason, this assertion compares arrays directly meaning that <b>it does not honor element
+   * comparator</b> set with {@link #usingElementComparator(Comparator)}.
+   * <p>
    * Example :
    * <pre><code class='java'> // assertion will pass
    * assertThat(new byte[] { 1, 2, 3 }).containsExactly((byte) 1, (byte) 2, (byte) 3);
@@ -772,7 +776,12 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    *                              or values are the same but the order is not.
    */
   public SELF containsExactly(byte... values) {
-    arrays.assertContainsExactly(info, actual, values);
+    // In #1801 we changed objects.assertEqual to arrays.assertContainsExactly to get a better error message but it came with
+    // significant performance degradation as #1898 showed.
+    // We can't get the best of both approaches even if we call assertContainsExactly only when assertEqual, assertContainsExactly
+    // would take a long time to compute the diff between both arrays.
+    // We can at least solve the representation of byte[] arrays so that they show the bytes
+    objects.assertEqual(info, actual, values);
     return myself;
   }
 
@@ -940,6 +949,67 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
   public AbstractStringAssert<?> asHexString() {
     objects.assertNotNull(info, actual);
     return assertThat(toHexString(actual));
+  }
+
+  /**
+   * Converts the actual byte[] under test to a String and returns assertions for the computed String
+   * allowing String specific assertions from this call.
+   * <p>
+   * The byte[] conversion to a String by decoding the specified bytes using the platform's default charset.
+   * <p>
+   * Example :
+   * <pre><code class='java'> byte[] bytes = new byte[] { -1, 0, 1 };
+   *
+   * // assertions will pass
+   * assertThat(bytes).asString()
+   *                  .startsWith("FF")
+   *                  .isEqualTo("FF0001");
+   *
+   * // assertion will fail
+   * assertThat(bytes).asString()
+   *                  .isEqualTo("FF0000");</code></pre>
+   *
+   * @return a String assertion object
+   *
+   * @since 3.17.0
+   */
+  @Override
+  @CheckReturnValue
+  public AbstractStringAssert<?> asString() {
+    objects.assertNotNull(info, actual);
+    String actualAsString = new String(actual);
+    return assertThat(actualAsString);
+  }
+
+  /**
+   * Converts the actual byte[] under test to a String by decoding the specified bytes using the given charset
+   * and returns assertions for the computed String
+   * allowing String specific assertions from this call.
+   * <p>
+   * The byte[] conversion to a String by decoding the specified bytes using the platform's default charset.
+   * <p>
+   * Example :
+   * <pre><code class='java'> byte[] bytes = new byte[] { -1, 0, 1 };
+   *
+   * // assertions will pass
+   * assertThat(bytes).asString()
+   *                  .startsWith("FF")
+   *                  .isEqualTo("FF0001");
+   *
+   * // assertion will fail
+   * assertThat(bytes).asString()
+   *                  .isEqualTo("FF0000");</code></pre>
+   *
+   * @param charset the {@link Charset} to interpret the bytes to a String
+   * @return a String assertion object
+   *
+   * @since 3.17.0
+   */
+  @CheckReturnValue
+  public AbstractStringAssert<?> asString(Charset charset) {
+    objects.assertNotNull(info, actual);
+    String actualAsString = new String(actual, charset);
+    return assertThat(actualAsString);
   }
 
   /**

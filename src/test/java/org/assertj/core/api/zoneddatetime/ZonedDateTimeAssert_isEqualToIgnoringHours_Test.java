@@ -26,17 +26,17 @@ import java.time.ZonedDateTime;
 
 import org.junit.jupiter.api.Test;
 
-public class ZonedDateTimeAssert_isEqualToIgnoringHours_Test {
+class ZonedDateTimeAssert_isEqualToIgnoringHours_Test {
 
   private final ZonedDateTime refDatetime = ZonedDateTime.of(2000, 1, 2, 0, 0, 0, 0, UTC);
 
   @Test
-  public void should_pass_if_actual_is_equal_to_other_ignoring_hours() {
+  void should_pass_if_actual_is_equal_to_other_ignoring_hours() {
     assertThat(refDatetime).isEqualToIgnoringHours(refDatetime.plusHours(1));
   }
 
   @Test
-  public void should_pass_if_actual_is_equal_to_other_ignoring_hours_in_different_timezone() {
+  void should_pass_if_actual_is_equal_to_other_ignoring_hours_in_different_timezone() {
     // GIVEN
     ZonedDateTime utcDateTime = ZonedDateTime.of(2013, 6, 10, 0, 0, 0, 0, UTC);
     ZoneId cestTimeZone = ZoneId.of("Europe/Berlin");
@@ -60,7 +60,7 @@ public class ZonedDateTimeAssert_isEqualToIgnoringHours_Test {
   }
 
   @Test
-  public void should_fail_if_actual_is_not_equal_to_given_datetime_with_hours_ignored() {
+  void should_fail_if_actual_is_not_equal_to_given_datetime_with_hours_ignored() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(refDatetime).isEqualToIgnoringHours(refDatetime.minusHours(1)));
     // THEN
@@ -68,7 +68,7 @@ public class ZonedDateTimeAssert_isEqualToIgnoringHours_Test {
   }
 
   @Test
-  public void should_fail_as_hours_fields_are_different_even_if_time_difference_is_less_than_a_hour() {
+  void should_fail_as_hours_fields_are_different_even_if_time_difference_is_less_than_a_hour() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(refDatetime).isEqualToIgnoringHours(refDatetime.minusNanos(1)));
     // THEN
@@ -77,7 +77,7 @@ public class ZonedDateTimeAssert_isEqualToIgnoringHours_Test {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     ZonedDateTime actual = null;
     // WHEN
@@ -87,7 +87,7 @@ public class ZonedDateTimeAssert_isEqualToIgnoringHours_Test {
   }
 
   @Test
-  public void should_throw_error_if_given_datetime_is_null() {
+  void should_throw_error_if_given_datetime_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(refDatetime).isEqualToIgnoringHours(null))
                                         .withMessage(NULL_DATE_TIME_PARAMETER_MESSAGE);
   }

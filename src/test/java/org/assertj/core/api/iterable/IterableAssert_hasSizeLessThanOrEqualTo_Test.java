@@ -17,7 +17,7 @@ import org.assertj.core.api.IterableAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
-public class IterableAssert_hasSizeLessThanOrEqualTo_Test extends IterableAssertBaseTest {
+class IterableAssert_hasSizeLessThanOrEqualTo_Test extends IterableAssertBaseTest {
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {

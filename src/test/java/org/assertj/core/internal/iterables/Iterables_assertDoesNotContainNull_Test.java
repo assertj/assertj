@@ -35,29 +35,29 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Iterables_assertDoesNotContainNull_Test extends IterablesBaseTest {
+class Iterables_assertDoesNotContainNull_Test extends IterablesBaseTest {
 
   private List<String> actual = newArrayList("Luke", "Yoda");
 
   @Test
-  public void should_pass_if_actual_does_not_contain_null() {
+  void should_pass_if_actual_does_not_contain_null() {
     iterables.assertDoesNotContainNull(someInfo(), actual);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty() {
+  void should_pass_if_actual_is_empty() {
     actual = newArrayList();
     iterables.assertDoesNotContainNull(someInfo(), actual);
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertDoesNotContainNull(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_contains_null() {
+  void should_fail_if_actual_contains_null() {
     AssertionInfo info = someInfo();
     actual = newArrayList("Luke", "Yoda", null);
 
@@ -68,24 +68,24 @@ public class Iterables_assertDoesNotContainNull_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_null_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_does_not_contain_null_whatever_custom_comparison_strategy_is() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainNull(someInfo(), actual);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
     actual = newArrayList();
     iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainNull(someInfo(), actual);
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainNull(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_contains_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_contains_null_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     actual = newArrayList("Luke", "Yoda", null);
 

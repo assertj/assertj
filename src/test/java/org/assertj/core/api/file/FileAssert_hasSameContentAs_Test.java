@@ -22,12 +22,12 @@ import org.assertj.core.api.FileAssertBaseTest;
 import org.junit.jupiter.api.BeforeAll;
 
 // tested in FileAssert_hasSameTextualContentAs_Test as hasSameContentAs is deprecated in favor of hasSameTextualContentAs
-public class FileAssert_hasSameContentAs_Test extends FileAssertBaseTest {
+class FileAssert_hasSameContentAs_Test extends FileAssertBaseTest {
 
   private static File expected;
 
   @BeforeAll
-  public static void beforeOnce() {
+  static void beforeOnce() {
     expected = new File("xyz");
   }
 

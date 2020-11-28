@@ -20,10 +20,10 @@ import static org.assertj.core.error.ShouldNotContainPattern.shouldNotContainPat
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldNotContainPattern_create_Test {
+class ShouldNotContainPattern_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotContainPattern("Frodo", "Fr.do");
     // WHEN

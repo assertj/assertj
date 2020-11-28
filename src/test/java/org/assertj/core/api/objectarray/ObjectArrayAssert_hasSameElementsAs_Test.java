@@ -20,7 +20,7 @@ import java.util.List;
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
 
-public class ObjectArrayAssert_hasSameElementsAs_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_hasSameElementsAs_Test extends ObjectArrayAssertBaseTest {
 
   private final List<String> values = newArrayList("Yoda", "Luke");
 

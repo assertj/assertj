@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class FloatAssert_isEqualTo_with_offset_Test extends FloatAssertBaseTest {
+class FloatAssert_isEqualTo_with_offset_Test extends FloatAssertBaseTest {
 
   private final Offset<Float> offset = offset(5f);
   private final Float expected = new Float(8f);

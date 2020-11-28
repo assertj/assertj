@@ -13,30 +13,21 @@
 package org.assertj.core.api.short_;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.util.Comparator;
 
-
 import org.assertj.core.api.ShortAssert;
 import org.assertj.core.api.ShortAssertBaseTest;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link ShortAssert#usingComparator(java.util.Comparator)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
-public class ShortAssert_usingComparator_Test extends ShortAssertBaseTest {
+class ShortAssert_usingComparator_Test extends ShortAssertBaseTest {
 
-  @Mock
-  private Comparator<Short> comparator;
-
-  @BeforeEach
-  public void before() {
-    initMocks(this);
-  }
+  private Comparator<Short> comparator = alwaysEqual();
 
   @Override
   protected ShortAssert invoke_api_method() {
@@ -46,7 +37,7 @@ public class ShortAssert_usingComparator_Test extends ShortAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
-    assertThat(comparator).isSameAs(getShorts(assertions).getComparator());
+    assertThat(getObjects(assertions).getComparator()).isSameAs(comparator);
+    assertThat(getShorts(assertions).getComparator()).isSameAs(comparator);
   }
 }

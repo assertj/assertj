@@ -27,12 +27,12 @@ import java.time.OffsetDateTime;
 
 import org.junit.jupiter.api.Test;
 
-public class OffsetDateTimeAssert_isEqualToIgnoringTimezone_Test {
+class OffsetDateTimeAssert_isEqualToIgnoringTimezone_Test {
 
   private final OffsetDateTime actual = OffsetDateTime.of(2000, 1, 5, 12, 0, 0, 0, MAX);
 
   @Test
-  public void should_pass_if_actual_is_equal_to_other_ignoring_timezone_fields() {
+  void should_pass_if_actual_is_equal_to_other_ignoring_timezone_fields() {
     // GIVEN
     OffsetDateTime offsetDateTime = of(2000, 1, 5, 12, 0, 0, 0, UTC);
     // THEN
@@ -40,7 +40,7 @@ public class OffsetDateTimeAssert_isEqualToIgnoringTimezone_Test {
   }
 
   @Test
-  public void should_fail_if_actual_is_not_equal_to_given_OffsetDateTime_with_timezone_ignored() {
+  void should_fail_if_actual_is_not_equal_to_given_OffsetDateTime_with_timezone_ignored() {
     // GIVEN
     OffsetDateTime offsetDateTime = OffsetDateTime.of(2000, 1, 5, 12, 1, 0, 0, UTC);
     // WHEN
@@ -54,7 +54,7 @@ public class OffsetDateTimeAssert_isEqualToIgnoringTimezone_Test {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     OffsetDateTime actual = null;
     // WHEN
@@ -64,7 +64,7 @@ public class OffsetDateTimeAssert_isEqualToIgnoringTimezone_Test {
   }
 
   @Test
-  public void should_throw_error_if_given_OffsetDateTimetime_is_null() {
+  void should_throw_error_if_given_OffsetDateTimetime_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(actual).isEqualToIgnoringTimezone(null))
                                         .withMessage(NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE);
   }

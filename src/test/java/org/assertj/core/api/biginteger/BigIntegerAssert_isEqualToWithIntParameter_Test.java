@@ -20,7 +20,7 @@ import java.math.BigInteger;
 import static org.mockito.Mockito.verify;
 
 
-public class BigIntegerAssert_isEqualToWithIntParameter_Test extends BigIntegerAssertBaseTest {
+class BigIntegerAssert_isEqualToWithIntParameter_Test extends BigIntegerAssertBaseTest {
 
   private static final int INT = 1;
 

@@ -25,23 +25,23 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Matthieu Baechler
  */
-public class Assertions_assertThat_with_InputStream_Test {
+class Assertions_assertThat_with_InputStream_Test {
 
   private static InputStream actual;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     actual = new ByteArrayInputStream(new byte[0]);
   }
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     AbstractInputStreamAssert<?, ? extends InputStream> assertions = Assertions.assertThat(actual);
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     AbstractInputStreamAssert<?, ? extends InputStream> assertions = Assertions.assertThat(actual);
     assertThat(assertions.actual).isSameAs(actual);
   }

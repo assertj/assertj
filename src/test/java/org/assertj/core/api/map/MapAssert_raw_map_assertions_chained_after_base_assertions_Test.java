@@ -22,12 +22,12 @@ import org.assertj.core.description.Description;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-public class MapAssert_raw_map_assertions_chained_after_base_assertions_Test {
+class MapAssert_raw_map_assertions_chained_after_base_assertions_Test {
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @Disabled
   @Test
-  public void raw_map_mixing_assertions_from_AbstractAssert_and_AbstractMapAssert() {
+  void raw_map_mixing_assertions_from_AbstractAssert_and_AbstractMapAssert() {
     Description description = emptyDescription();
 
     Map map1 = new java.util.HashMap();
@@ -73,8 +73,8 @@ public class MapAssert_raw_map_assertions_chained_after_base_assertions_Test {
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @Test
-  public void test_bug_485() {
-    // https://github.com/joel-costigliola/assertj-core/issues/485
+  void test_bug_485() {
+    // https://github.com/assertj/assertj-core/issues/485
     Map map1 = new java.util.HashMap<>();
     map1.put("Key1", "Value1");
     map1.put("Key2", "Value2");

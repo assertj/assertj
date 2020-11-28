@@ -12,27 +12,18 @@
  */
 package org.assertj.core.api.biginteger;
 
-import org.assertj.core.api.BigIntegerAssert;
-import org.assertj.core.api.BigIntegerAssertBaseTest;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.math.BigInteger;
 import java.util.Comparator;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
+import org.assertj.core.api.BigIntegerAssert;
+import org.assertj.core.api.BigIntegerAssertBaseTest;
 
+class BigIntegerAssert_usingComparator_Test extends BigIntegerAssertBaseTest {
 
-public class BigIntegerAssert_usingComparator_Test extends BigIntegerAssertBaseTest {
-
-  @Mock
-  private Comparator<BigInteger> comparator;
-
-  @BeforeEach
-  public void before() {
-    initMocks(this);
-  }
+  private Comparator<BigInteger> comparator = alwaysEqual();
 
   @Override
   protected BigIntegerAssert invoke_api_method() {
@@ -42,7 +33,7 @@ public class BigIntegerAssert_usingComparator_Test extends BigIntegerAssertBaseT
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
-    assertThat(comparator).isSameAs(getComparables(assertions).getComparator());
+    assertThat(getObjects(assertions).getComparator()).isSameAs(comparator);
+    assertThat(getComparables(assertions).getComparator()).isSameAs(comparator);
   }
 }

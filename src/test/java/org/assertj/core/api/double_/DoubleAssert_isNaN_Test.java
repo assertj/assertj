@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Yvonne Wang
  */
-public class DoubleAssert_isNaN_Test extends DoubleAssertBaseTest {
+class DoubleAssert_isNaN_Test extends DoubleAssertBaseTest {
 
   @Override
   protected DoubleAssert invoke_api_method() {

@@ -20,7 +20,7 @@ import org.assertj.core.api.UriAssertBaseTest;
 /**
  * Test for <code>{@link org.assertj.core.api.UriAssert#hasPort(int)}</code>.
  */
-public class UriAssert_hasPort_Test extends UriAssertBaseTest {
+class UriAssert_hasPort_Test extends UriAssertBaseTest {
   private final int expected = 8080;
 
   @Override

@@ -26,12 +26,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class RecursiveComparisonAssert_isEqualTo_with_optional_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
+class RecursiveComparisonAssert_isEqualTo_with_optional_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
   @ParameterizedTest
   @MethodSource("sameBooks")
-  public void should_pass_when_comparing_optional_fields_recursively_and_not_using_optional_equals(BookWithOptionalCoAuthor actual,
-                                                                                                   BookWithOptionalCoAuthor expected) {
+  void should_pass_when_comparing_optional_fields_recursively_and_not_using_optional_equals(BookWithOptionalCoAuthor actual,
+                                                                                            BookWithOptionalCoAuthor expected) {
     assertThat(actual).usingRecursiveComparison()
                       .isEqualTo(expected);
   }
@@ -46,9 +46,9 @@ public class RecursiveComparisonAssert_isEqualTo_with_optional_Test extends Recu
 
   @ParameterizedTest(name = "author 1 {0} / author 2 {1} / path {2} / value 1 {3}/ value 2 {4}")
   @MethodSource("differentBookWithOptionalCoAuthors")
-  public void should_fail_when_comparing_different_optional_fields(BookWithOptionalCoAuthor actual,
-                                                                   BookWithOptionalCoAuthor expected, String path, Object value1,
-                                                                   Object value2) {
+  void should_fail_when_comparing_different_optional_fields(BookWithOptionalCoAuthor actual,
+                                                            BookWithOptionalCoAuthor expected, String path, Object value1,
+                                                            Object value2) {
     // WHEN
     compareRecursivelyFailsAsExpected(actual, expected);
     // THEN
@@ -77,7 +77,7 @@ public class RecursiveComparisonAssert_isEqualTo_with_optional_Test extends Recu
   }
 
   @Test
-  public void should_fail_when_comparing_non_optional_expected_field_with_optional_actual_field() {
+  void should_fail_when_comparing_non_optional_expected_field_with_optional_actual_field() {
     // GIVEN
     Author pratchett = new Author("Terry Pratchett");
     BookWithOptionalCoAuthor actual = new BookWithOptionalCoAuthor(pratchett.name);
@@ -93,7 +93,7 @@ public class RecursiveComparisonAssert_isEqualTo_with_optional_Test extends Recu
   }
 
   @Test
-  public void should_fail_when_comparing_optional_expected_field_with_non_optional_actual_field() {
+  void should_fail_when_comparing_optional_expected_field_with_non_optional_actual_field() {
     // GIVEN
     Author pratchett = new Author("Terry Pratchett");
     BookWithCoAuthor actual = new BookWithCoAuthor(pratchett);

@@ -31,15 +31,15 @@ import org.junit.jupiter.api.Test;
  * @author Marcin Zajączkowski
  */
 @DisplayName("LocalDateAssert isEqualTo")
-public class LocalDateAssert_isEqualTo_Test extends LocalDateAssertBaseTest {
+class LocalDateAssert_isEqualTo_Test extends LocalDateAssertBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_equal_to_date_as_string_parameter() {
+  void should_pass_if_actual_is_equal_to_date_as_string_parameter() {
     assertThat(REFERENCE).isEqualTo(REFERENCE.toString());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_equal_to_date_as_string_parameter() {
+  void should_fail_if_actual_is_not_equal_to_date_as_string_parameter() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(AFTER).isEqualTo(REFERENCE.toString()));
     // THEN
@@ -49,7 +49,7 @@ public class LocalDateAssert_isEqualTo_Test extends LocalDateAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_date_as_string_parameter_is_null() {
+  void should_fail_if_date_as_string_parameter_is_null() {
     // GIVEN
     String otherLocalDateAsString = null;
     // WHEN

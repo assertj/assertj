@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AbstractLocalDateTimeAssertBaseTest;
 import org.assertj.core.api.LocalDateTimeAssert;
 
-public class LocalDateTimeAssert_isBetween_Test extends AbstractLocalDateTimeAssertBaseTest {
+class LocalDateTimeAssert_isBetween_Test extends AbstractLocalDateTimeAssertBaseTest {
 
   @Override
   protected LocalDateTimeAssert invoke_api_method() {

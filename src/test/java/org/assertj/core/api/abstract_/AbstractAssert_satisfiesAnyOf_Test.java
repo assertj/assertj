@@ -34,7 +34,7 @@ import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
-public class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
+class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
 
   private TolkienCharacter frodo = TolkienCharacter.of("Frodo", 33, HOBBIT);
   private TolkienCharacter legolas = TolkienCharacter.of("Legolas", 1000, ELF);
@@ -69,7 +69,7 @@ public class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
   }
 
   @Test
-  public void should_pass_when_one_of_the_given_assertions_group_is_met() {
+  void should_pass_when_one_of_the_given_assertions_group_is_met() {
     assertThat(frodo).satisfiesAnyOf(isHobbit, isElf);
     assertThat(legolas).satisfiesAnyOf(isHobbit, isElf, isDwarf)
                        .satisfiesAnyOf(isHobbit, isElf);
@@ -78,7 +78,7 @@ public class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
   }
 
   @Test
-  public void should_pass_when_all_of_the_given_assertions_groups_are_met() {
+  void should_pass_when_all_of_the_given_assertions_groups_are_met() {
     // GIVEN
     Consumer<TolkienCharacter> namesStartsWithF = tolkienCharacter -> assertThat(tolkienCharacter.getName()).startsWith("F");
     // THEN
@@ -87,7 +87,7 @@ public class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_all_of_the_given_assertions_groups_fail() {
+  void should_fail_if_all_of_the_given_assertions_groups_fail() {
     // GIVEN
     TolkienCharacter boromir = TolkienCharacter.of("Boromir", 45, MAN);
     // WHEN
@@ -97,13 +97,13 @@ public class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
   }
 
   @Test
-  public void should_throw_an_IllegalArgumentException_if_one_of_the_given_assertions_group_is_null() {
+  void should_throw_an_IllegalArgumentException_if_one_of_the_given_assertions_group_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(frodo).satisfiesAnyOf(isHobbit, null))
                                         .withMessage("No assertions group should be null");
   }
 
   @Test
-  public void should_honor_description() {
+  void should_honor_description() {
     // GIVEN
     Consumer<String> isEmpty = string -> assertThat(string).isEmpty();
     Consumer<String> endsWithZ = string -> assertThat(string).endsWith("Z");
@@ -115,7 +115,7 @@ public class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
   }
 
   @Test
-  public void should_not_honor_overriding_error_message() {
+  void should_not_honor_overriding_error_message() {
     // GIVEN
     Consumer<String> isEmpty = string -> assertThat(string).overridingErrorMessage("fail empty").isEmpty();
     Consumer<String> endsWithZ = string -> assertThat(string).endsWith("Z");

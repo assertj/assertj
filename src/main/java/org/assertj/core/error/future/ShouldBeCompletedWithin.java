@@ -17,7 +17,7 @@ import static org.assertj.core.util.Throwables.getStackTrace;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.error.BasicErrorMessageFactory;
@@ -37,21 +37,21 @@ public class ShouldBeCompletedWithin extends BasicErrorMessageFactory {
                                                            + "to be completed within %s %s.%n%n"
                                                            + "exception caught while trying to get the future result: ";
 
-  public static ErrorMessageFactory shouldBeCompletedWithin(CompletableFuture<?> actual, Duration duration, Exception exception) {
+  public static ErrorMessageFactory shouldBeCompletedWithin(Future<?> actual, Duration duration, Exception exception) {
     return new ShouldBeCompletedWithin(actual, duration, exception);
   }
 
-  public static ErrorMessageFactory shouldBeCompletedWithin(CompletableFuture<?> actual, long timeout, TimeUnit timeUnit,
+  public static ErrorMessageFactory shouldBeCompletedWithin(Future<?> actual, long timeout, TimeUnit timeUnit,
                                                             Exception exception) {
     return new ShouldBeCompletedWithin(actual, timeout, timeUnit, exception);
   }
 
-  private ShouldBeCompletedWithin(CompletableFuture<?> actual, Duration duration, Exception exception) {
+  private ShouldBeCompletedWithin(Future<?> actual, Duration duration, Exception exception) {
     // don't put the stack trace as a parameter to avoid AssertJ default String formatting
     super(SHOULD_BE_COMPLETED_WITHIN_DURATION + escapePercent(getStackTrace(exception)), actual, duration);
   }
 
-  private ShouldBeCompletedWithin(CompletableFuture<?> actual, long timeout, TimeUnit timeUnit, Exception exception) {
+  private ShouldBeCompletedWithin(Future<?> actual, long timeout, TimeUnit timeUnit, Exception exception) {
     // don't put the stack trace as a parameter to avoid AssertJ default String formatting
     // ChronoUnit toString looks better than TimeUnit
     super(SHOULD_BE_COMPLETED_WITHIN + escapePercent(getStackTrace(exception)), actual, timeout, toChronoUnit(timeUnit));

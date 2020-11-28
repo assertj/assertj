@@ -19,16 +19,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Tests for <code>{@link Assertions#assertThat(StringBuffer)}</code>.
  */
-public class Assertions_assertThat_with_StringBuffer_Test {
+class Assertions_assertThat_with_StringBuffer_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     AbstractCharSequenceAssert<?, ?> assertions = Assertions.assertThat(new StringBuffer("Yoda"));
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     StringBuffer actual = new StringBuffer("Yoda");
     AbstractCharSequenceAssert<?, ?> assertions = Assertions.assertThat(actual);
     assertThat(assertions.actual).isSameAs(actual);

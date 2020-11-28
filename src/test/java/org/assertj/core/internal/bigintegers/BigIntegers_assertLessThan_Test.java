@@ -17,7 +17,6 @@ import static java.math.BigInteger.TEN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.data.Percentage.withPercentage;
 import static org.assertj.core.error.ShouldBeLess.shouldBeLess;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -33,21 +32,21 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link BigIntegers#assertLessThan(AssertionInfo, BigInteger, BigInteger)}</code>.
  */
-public class BigIntegers_assertLessThan_Test extends BigIntegersBaseTest {
+class BigIntegers_assertLessThan_Test extends BigIntegersBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertLessThan(someInfo(), null, ONE))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_less_than_other() {
+  void should_pass_if_actual_is_less_than_other() {
     numbers.assertLessThan(someInfo(), ONE, TEN);
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_other() {
+  void should_fail_if_actual_is_equal_to_other() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbers.assertLessThan(info, TEN, TEN));
@@ -57,7 +56,7 @@ public class BigIntegers_assertLessThan_Test extends BigIntegersBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_other_by_comparison() {
+  void should_fail_if_actual_is_equal_to_other_by_comparison() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbers.assertLessThan(info, TEN, new BigInteger("10")));
@@ -67,7 +66,7 @@ public class BigIntegers_assertLessThan_Test extends BigIntegersBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_less_than_other() {
+  void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbers.assertLessThan(info, TEN, ONE));
@@ -81,12 +80,12 @@ public class BigIntegers_assertLessThan_Test extends BigIntegersBaseTest {
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     numbersWithAbsValueComparisonStrategy.assertLessThan(someInfo(), ONE, TEN.negate());
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertLessThan(info, TEN.negate(), TEN));
@@ -96,7 +95,7 @@ public class BigIntegers_assertLessThan_Test extends BigIntegersBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertLessThan(info, TEN.negate(), ONE));

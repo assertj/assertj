@@ -22,7 +22,7 @@ import org.apache.commons.lang3.RandomUtils;
 public class DualValueUtil {
 
   static DualValue dualValueWithPath(String... pathElements) {
-    return new DualValue(list(pathElements), new Object(), new Object());
+    return new DualValue(list(pathElements), "foo", "bar");
   }
 
   static List<String> randomPath() {

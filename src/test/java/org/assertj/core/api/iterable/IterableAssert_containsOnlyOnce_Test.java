@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author William Delanoue
  */
-public class IterableAssert_containsOnlyOnce_Test extends IterableAssertBaseTest {
+class IterableAssert_containsOnlyOnce_Test extends IterableAssertBaseTest {
 
   private final Object[] values = { "Yoda", "Luke" };
 

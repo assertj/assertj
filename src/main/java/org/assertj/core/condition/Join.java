@@ -69,7 +69,7 @@ public abstract class Join<T> extends Condition<T> {
   }
 
   private static <T> T checkNotNullConditions(T conditions) {
-    return requireNonNull(conditions, conditionsIsNull());
+    return requireNonNull(conditions, "The given conditions should not be null");
   }
 
   /**
@@ -77,10 +77,6 @@ public abstract class Join<T> extends Condition<T> {
    * @return the prefix to use to build the description.
    */
   public abstract String descriptionPrefix();
-
-  private static String conditionsIsNull() {
-    return "The given conditions should not be null";
-  }
 
   private static <T> T notNull(T condition) {
     return requireNonNull(condition, "The given conditions should not have null entries");

@@ -55,7 +55,7 @@ public class Configuration {
   private int maxLengthForSingleLineDescription = MAX_LENGTH_FOR_SINGLE_LINE_DESCRIPTION;
   private int maxElementsForPrinting = MAX_ELEMENTS_FOR_PRINTING;
   private boolean printAssertionsDescription = PRINT_ASSERTIONS_DESCRIPTION_ENABLED;
-  private Consumer<Description> consumerDescription = null;
+  private Consumer<Description> descriptionConsumer = null;
 
   /**
    * @return the default {@link Representation} that is used within AssertJ.
@@ -254,10 +254,11 @@ public class Configuration {
   }
 
   /**
-   * Returns the maximum length for an iterable/array to be displayed on one line.
+   * Returns how many elements at most from one iterable/array/map will be displayed in error messages.
+   * <p>
    * Default is {@value #MAX_ELEMENTS_FOR_PRINTING}.
    * <p>
-   * See {@link Assertions#setMaxLengthForSingleLineDescription(int)} for a detailed description.
+   * See {@link Assertions#setMaxElementsForPrinting(int)} for a detailed description.
    *
    * @return the maximum length for an iterable/array to be displayed on one line.
    */
@@ -266,9 +267,9 @@ public class Configuration {
   }
 
   /**
-   * Returns the maximum length for an iterable/array to be displayed on one line.
+   * Sets the threshold for how many elements at most from one iterable/array/map will be displaye in error messages.
    * <p>
-   * See {@link Assertions#setMaxLengthForSingleLineDescription(int)} for a detailed description.
+   * See {@link Assertions#setMaxElementsForPrinting(int)} for a detailed description.
    * <p>
    * Note that this change will only be effective once {@link #apply()} or {@link #applyAndDisplay()} is called.
    *
@@ -286,12 +287,12 @@ public class Configuration {
     this.printAssertionsDescription = printAssertionsDescription;
   }
 
-  public Consumer<Description> consumerDescription() {
-    return consumerDescription;
+  public Consumer<Description> descriptionConsumer() {
+    return descriptionConsumer;
   }
 
-  public void setConsumerDescription(Consumer<Description> consumerDescription) {
-    this.consumerDescription = consumerDescription;
+  public void setDescriptionConsumer(Consumer<Description> descriptionConsumer) {
+    this.descriptionConsumer = descriptionConsumer;
   }
 
   /**
@@ -306,7 +307,7 @@ public class Configuration {
     Assertions.setMaxLengthForSingleLineDescription(maxLengthForSingleLineDescription());
     Assertions.setRemoveAssertJRelatedElementsFromStackTrace(removeAssertJRelatedElementsFromStackTraceEnabled());
     Assertions.useRepresentation(representation());
-    Assertions.setConsumerDescription(consumerDescription());
+    Assertions.setDescriptionConsumer(descriptionConsumer());
     Assertions.setPrintAssertionsDescription(printAssertionsDescription());
     additionalDateFormats().forEach(Assertions::registerCustomDateFormat);
   }
@@ -330,7 +331,7 @@ public class Configuration {
                   "- maxLengthForSingleLineDescription ............... = %s%n" +
                   "- maxElementsForPrinting .......................... = %s%n" +
                   "- printAssertionsDescription ...................... = %s%n" +
-                  "- consumerDescription ............................. = %s%n" +
+                  "- descriptionConsumer ............................. = %s%n" +
                   "- removeAssertJRelatedElementsFromStackTraceEnabled = %s%n",
                   getClass().getName(),
                   representation(),
@@ -342,7 +343,7 @@ public class Configuration {
                   maxLengthForSingleLineDescription(),
                   maxElementsForPrinting(),
                   printAssertionsDescription(),
-                  consumerDescription(),
+                  descriptionConsumer(),
                   removeAssertJRelatedElementsFromStackTraceEnabled());
   }
 

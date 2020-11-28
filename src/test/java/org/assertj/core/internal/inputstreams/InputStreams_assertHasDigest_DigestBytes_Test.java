@@ -39,32 +39,32 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valeriy Vyrva
  */
-public class InputStreams_assertHasDigest_DigestBytes_Test extends InputStreamsBaseTest {
+class InputStreams_assertHasDigest_DigestBytes_Test extends InputStreamsBaseTest {
 
   private final MessageDigest digest = mock(MessageDigest.class);
   private final byte[] expected = new byte[0];
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> inputStreams.assertHasDigest(INFO, null, digest, expected))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_error_if_digest_is_null() {
+  void should_throw_error_if_digest_is_null() {
     assertThatNullPointerException().isThrownBy(() -> inputStreams.assertHasDigest(INFO, null, (MessageDigest) null,
                                                                                    expected))
                                     .withMessage("The message digest algorithm should not be null");
   }
 
   @Test
-  public void should_throw_error_if_expected_is_null() {
+  void should_throw_error_if_expected_is_null() {
     assertThatNullPointerException().isThrownBy(() -> inputStreams.assertHasDigest(INFO, null, digest, (byte[]) null))
                                     .withMessage("The binary representation of digest to compare to should not be null");
   }
 
   @Test
-  public void should_throw_error_wrapping_caught_IOException() throws IOException {
+  void should_throw_error_wrapping_caught_IOException() throws IOException {
     // GIVEN
     IOException cause = new IOException();
     actual = mock(InputStream.class);
@@ -77,7 +77,7 @@ public class InputStreams_assertHasDigest_DigestBytes_Test extends InputStreamsB
   }
 
   @Test
-  public void should_fail_if_actual_does_not_have_expected_digest() {
+  void should_fail_if_actual_does_not_have_expected_digest() {
     // GIVEN
     actual = getClass().getResourceAsStream("/red.png");
     given(digest.digest()).willReturn(new byte[] { 0, 1 });
@@ -88,7 +88,7 @@ public class InputStreams_assertHasDigest_DigestBytes_Test extends InputStreamsB
   }
 
   @Test
-  public void should_pass_if_actual_has_expected_digest() {
+  void should_pass_if_actual_has_expected_digest() {
     // GIVEN
     actual = getClass().getResourceAsStream("/red.png");
     given(digest.digest()).willReturn(expected);

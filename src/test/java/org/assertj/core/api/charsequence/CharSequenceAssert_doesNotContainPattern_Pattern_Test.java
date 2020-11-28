@@ -24,12 +24,12 @@ import static org.mockito.Mockito.verify;
 /**
  * Tests for <code>{@link CharSequenceAssert#doesNotContainPattern(Pattern)}</code>.
  */
-public class CharSequenceAssert_doesNotContainPattern_Pattern_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_doesNotContainPattern_Pattern_Test extends CharSequenceAssertBaseTest {
 
   private static Pattern pattern;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     pattern = matchAnything();
   }
 

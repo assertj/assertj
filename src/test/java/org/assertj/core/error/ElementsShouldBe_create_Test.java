@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
  * @author Nicolas François
  * @author Joel Costigliola
  */
-public class ElementsShouldBe_create_Test {
+class ElementsShouldBe_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = elementsShouldBe(list("Yoda", "Luke", "Leia"), list("Leia"),
                                                    new TestCondition<>("a Jedi"));

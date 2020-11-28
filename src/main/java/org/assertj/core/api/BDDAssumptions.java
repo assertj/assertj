@@ -29,6 +29,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Iterator;
@@ -189,6 +190,35 @@ public final class BDDAssumptions {
   }
 
   /**
+   * Creates a new assumption's instance for a <code>boolean</code>s' two-dimensional array.
+   * <p>
+   * Examples:
+   * <p>
+   * Executed test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_met_the_test_is_executed() {
+   *   given(new boolean[][] {{true, true}, {false, false}}).contains(new boolean[] {true, true}, atIndex(0));
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
+   * <p>
+   * Skipped test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_not_met_the_test_is_skipped() {
+   *   given(new boolean[][] {{true, true}, {false, false}}).contains(new boolean[] {true, true}, atIndex(1));
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
+   *
+   * @param actual the actual <code>boolean</code>s' two-dimensional array to be validated.
+   * @return the {@link Boolean2DArrayAssert} assertion object to be used for validation.
+   * @since 3.17.0
+   */
+  public static Boolean2DArrayAssert given(boolean[][] actual) {
+    return assumeThat(actual);
+  }
+
+  /**
    * Creates a new assumption's instance for a <code>byte</code> value.
    * <p>
    * Examples:
@@ -272,6 +302,35 @@ public final class BDDAssumptions {
    * @since 3.14.0
    */
   public static AbstractByteArrayAssert<?> given(byte[] actual) {
+    return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance for a <code>byte</code>s' two-dimensional array.
+   * <p>
+   * Examples:
+   * <p>
+   * Executed test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_met_the_test_is_executed() {
+   *   given(new byte[][] {{1, 2}, {3, 4}}).contains(new byte[] {1, 2)}, atIndex(0));
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
+   * <p>
+   * Skipped test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_not_met_the_test_is_skipped() {
+   *   given(new byte[][] {{1, 2}, {3, 4}}).contains(new byte[] {1, 2)}, atIndex(1));
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
+   *
+   * @param actual the actual bytes' two-dimensional array to be validated.
+   * @return the {@link Byte2DArrayAssert} assertion object to be used for validation.
+   * @since 3.17.0
+   */
+  public static Byte2DArrayAssert given(byte[][] actual) {
     return assumeThat(actual);
   }
 
@@ -363,6 +422,35 @@ public final class BDDAssumptions {
   }
 
   /**
+   * Creates a new assumption's instance for a <code>short</code>s' two-dimensional array.
+   * <p>
+   * Examples:
+   * <p>
+   * Executed test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_met_the_test_is_executed() {
+   *   given(new short[][] {{1, 2}, {3, 4}}).contains(new short[] {1, 2}, atIndex(0));
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
+   * <p>
+   * Skipped test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_not_met_the_test_is_skipped() {
+   *   given(new short[][] {{1, 2}, {3, 4}}).contains(new short[] {1, 2}, atIndex(1));
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
+   *
+   * @param actual the actual <code>short</code>s' two-dimensional array to be validated.
+   * @return the {@link Short2DArrayAssert} assertion object to be used for validation.
+   * @since 3.17.0
+   */
+  public static Short2DArrayAssert given(short[][] actual) {
+    return assumeThat(actual);
+  }
+
+  /**
    * Creates a new assumption's instance for an <code>int</code> value.
    * <p>
    * Examples:
@@ -446,6 +534,35 @@ public final class BDDAssumptions {
    * @since 3.14.0
    */
   public static AbstractIntArrayAssert<?> given(int[] actual) {
+    return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance for an <code>int</code>s' two-dimensional array.
+   * <p>
+   * Examples:
+   * <p>
+   * Executed test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_met_the_test_is_executed() {
+   *   given(new int[][] {{1, 2}, {3, 4}}).contains(new int[] {1, 2}, atIndex(0));
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
+   * <p>
+   * Skipped test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_not_met_the_test_is_skipped() {
+   *   given(new int[][] {{1, 2}, {3, 4}}).contains(new int[] {1, 2}, atIndex(1));
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
+   *
+   * @param actual the actual <code>int</code>s' two-dimensional array to be validated.
+   * @return the {@link Int2DArrayAssert} assertion object to be used for validation.
+   * @since 3.17.0
+   */
+  public static Int2DArrayAssert given(int[][] actual) {
     return assumeThat(actual);
   }
 
@@ -566,6 +683,35 @@ public final class BDDAssumptions {
   }
 
   /**
+   * Creates a new assumption's instance for a <code>long</code>s' two-dimensional array.
+   * <p>
+   * Examples:
+   * <p>
+   * Executed test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_met_the_test_is_executed() {
+   *   given(new long[][] {{1, 2}, {3, 4}}).contains(new long[] {1, 2}, atIndex(0));
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
+   * <p>
+   * Skipped test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_not_met_the_test_is_skipped() {
+   *   given(new long[][] {{1, 2}, {3, 4}}).contains(new long[] {1, 2}, atIndex(1));
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
+   *
+   * @param actual the actual <code>long</code>s' two-dimensional array to be validated.
+   * @return the {@link Long2DArrayAssert} assertion object to be used for validation.
+   * @since 3.17.0
+   */
+  public static Long2DArrayAssert given(long[][] actual) {
+    return assumeThat(actual);
+  }
+
+  /**
    * Creates a new assumption's instance for a <code>float</code> value.
    * <p>
    * Examples:
@@ -653,6 +799,35 @@ public final class BDDAssumptions {
   }
 
   /**
+   * Creates a new assumption's instance for a <code>float</code>s' two-dimensional array.
+   * <p>
+   * Examples:
+   * <p>
+   * Executed test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_met_the_test_is_executed() {
+   *   given(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}}).contains(new float[] {1.0f, 2.0f}, atIndex(0));
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
+   * <p>
+   * Skipped test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_not_met_the_test_is_skipped() {
+   *   given(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}}).contains(new float[] {1.0f, 2.0f}, atIndex(1));
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
+   *
+   * @param actual the actual <code>float</code>s' two-dimensional array to be validated.
+   * @return the {@link Float2DArrayAssert} assertion object to be used for validation.
+   * @since 3.17.0
+   */
+  public static Float2DArrayAssert given(float[][] actual) {
+    return assumeThat(actual);
+  }
+
+  /**
    * Creates a new assumption's instance for a <code>double</code> value.
    * <p>
    * Examples:
@@ -736,6 +911,35 @@ public final class BDDAssumptions {
    * @since 3.14.0
    */
   public static AbstractDoubleArrayAssert<?> given(double[] actual) {
+    return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance for an <code>double</code>s' two-dimensional array.
+   * <p>
+   * Examples:
+   * <p>
+   * Executed test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_met_the_test_is_executed() {
+   *   given(new double[][] {{1.0, 2.0}, {3.0, 4.0}}).contains(new double[] {1.0, 2.0}, atIndex(0));
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
+   * <p>
+   * Skipped test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_not_met_the_test_is_skipped() {
+   *   given(new double[][] {{1.0, 2.0}, {3.0, 4.0}}).contains(new double[] {1.0, 2.0}, atIndex(1));
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
+   *
+   * @param actual the actual <code>double</code>s' two-dimensional array to be validated.
+   * @return the {@link Double2DArrayAssert} assertion object to be used for validation.
+   * @since 3.17.0
+   */
+  public static Double2DArrayAssert given(double[][] actual) {
     return assumeThat(actual);
   }
 
@@ -852,6 +1056,35 @@ public final class BDDAssumptions {
    * @since 3.14.0
    */
   public static AbstractCharArrayAssert<?> given(char[] actual) {
+    return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance for an <code>char</code>s' two-dimensional array.
+   * <p>
+   * Examples:
+   * <p>
+   * Executed test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_met_the_test_is_executed() {
+   *   given(new char[][] {{'A', 'B'}, {'C', 'D'}}).contains(new char[] {'A', 'B'}, atIndex(0));
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
+   * <p>
+   * Skipped test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_not_met_the_test_is_skipped() {
+   *   given(new char[][] {{'A', 'B'}, {'C', 'D'}}).contains(new char[] {'A', 'B'}, atIndex(1));
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
+   *
+   * @param actual the actual <code>char</code>s' two-dimensional array to be validated.
+   * @return the {@link Char2DArrayAssert} assertion object to be used for validation.
+   * @since 3.17.0
+   */
+  public static Char2DArrayAssert given(char[][] actual) {
     return assumeThat(actual);
   }
 
@@ -1061,6 +1294,36 @@ public final class BDDAssumptions {
    * @since 3.14.0
    */
   public static <T> ProxyableObjectArrayAssert<T> given(T[] actual) {
+    return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance for an objects' two-dimensional array.
+   * <p>
+   * Examples:
+   * <p>
+   * Executed test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_met_the_test_is_executed() {
+   *   given(new String[][] {{"A", "B"}, {"C", "D"}}).contains(new String[] {"A", "B"}, atIndex(0));
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
+   * <p>
+   * Skipped test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_not_met_the_test_is_skipped() {
+   *  given(new String[][] {{"A", "B"}, {"C", "D"}}).contains(new String[] {"A", "B"}, atIndex(1));
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
+   *
+   * @param <T> the type of elements of the actual objects' two-dimensional array.
+   * @param actual the actual objects' two-dimensional array to be validated..
+   * @return the {@link Object2DArrayAssert} assertion object to be used for validation.
+   * @since 3.17.0
+   */
+  public static <T> Object2DArrayAssert<T> given(T[][] actual) {
     return assumeThat(actual);
   }
 
@@ -2410,6 +2673,17 @@ public final class BDDAssumptions {
    * @since 3.15.0
    */
   public static AbstractDurationAssert<?> given(Duration actual) {
+    return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance for a {@link java.time.Period} value.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.17.0
+   */
+  public static AbstractPeriodAssert<?> given(Period actual) {
     return assumeThat(actual);
   }
 

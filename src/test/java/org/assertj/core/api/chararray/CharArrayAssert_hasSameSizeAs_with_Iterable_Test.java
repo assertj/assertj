@@ -26,7 +26,7 @@ import org.assertj.core.api.CharArrayAssertBaseTest;
  * 
  * @author Nicolas François
  */
-public class CharArrayAssert_hasSameSizeAs_with_Iterable_Test extends CharArrayAssertBaseTest {
+class CharArrayAssert_hasSameSizeAs_with_Iterable_Test extends CharArrayAssertBaseTest {
 
   private final List<String> other = newArrayList("Yoda", "Luke");
 

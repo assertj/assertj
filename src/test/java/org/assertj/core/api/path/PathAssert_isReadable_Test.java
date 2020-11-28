@@ -17,15 +17,15 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
 
-public class PathAssert_isReadable_Test extends PathAssertBaseTest {
+class PathAssert_isReadable_Test extends PathAssertBaseTest {
 
   @Override
   protected PathAssert invoke_api_method() {
-	return assertions.isReadable();
+    return assertions.isReadable();
   }
 
   @Override
   protected void verify_internal_effects() {
-	verify(paths).assertIsReadable(getInfo(assertions), getActual(assertions));
+    verify(paths).assertIsReadable(getInfo(assertions), getActual(assertions));
   }
 }

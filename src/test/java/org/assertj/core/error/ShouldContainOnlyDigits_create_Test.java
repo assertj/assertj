@@ -23,10 +23,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link org.assertj.core.error.ShouldContainOnlyDigits#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  */
-public class ShouldContainOnlyDigits_create_Test {
+class ShouldContainOnlyDigits_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnlyDigits("10$", '$', 2);
     // WHEN
@@ -40,7 +40,7 @@ public class ShouldContainOnlyDigits_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_empty_string() {
+  void should_create_error_message_for_empty_string() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnlyDigits("");
     // WHEN

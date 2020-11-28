@@ -25,18 +25,18 @@ import java.time.ZonedDateTime;
 
 import org.junit.jupiter.api.Test;
 
-public class ZonedDateTimeAssert_isEqualToIgnoringNanoseconds_Test {
+class ZonedDateTimeAssert_isEqualToIgnoringNanoseconds_Test {
 
   private final ZonedDateTime refDatetime = ZonedDateTime.of(2000, 1, 1, 0, 0, 1, 0, UTC);
 
   @Test
-  public void should_pass_if_actual_is_equal_to_other_ignoring_nanosecond_fields() {
+  void should_pass_if_actual_is_equal_to_other_ignoring_nanosecond_fields() {
     assertThat(refDatetime).isEqualToIgnoringNanos(refDatetime.withNano(55));
     assertThat(refDatetime).isEqualToIgnoringNanos(refDatetime.plusNanos(1));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_equal_to_given_datetime_with_nanoseconds_ignored() {
+  void should_fail_if_actual_is_not_equal_to_given_datetime_with_nanoseconds_ignored() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(refDatetime).isEqualToIgnoringNanos(refDatetime.plusSeconds(1)));
     // THEN
@@ -49,7 +49,7 @@ public class ZonedDateTimeAssert_isEqualToIgnoringNanoseconds_Test {
   }
 
   @Test
-  public void should_fail_as_seconds_fields_are_different_even_if_time_difference_is_less_than_a_second() {
+  void should_fail_as_seconds_fields_are_different_even_if_time_difference_is_less_than_a_second() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(refDatetime).isEqualToIgnoringNanos(refDatetime.minusNanos(1)));
     // THEN
@@ -62,7 +62,7 @@ public class ZonedDateTimeAssert_isEqualToIgnoringNanoseconds_Test {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     ZonedDateTime actual = null;
     // WHEN
@@ -73,7 +73,7 @@ public class ZonedDateTimeAssert_isEqualToIgnoringNanoseconds_Test {
   }
 
   @Test
-  public void should_throw_error_if_given_datetime_is_null() {
+  void should_throw_error_if_given_datetime_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(refDatetime).isEqualToIgnoringNanos(null))
                                         .withMessage(NULL_DATE_TIME_PARAMETER_MESSAGE);
   }

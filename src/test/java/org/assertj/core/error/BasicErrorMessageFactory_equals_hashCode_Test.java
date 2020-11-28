@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Yvonne Wang
  */
-public class BasicErrorMessageFactory_equals_hashCode_Test {
+class BasicErrorMessageFactory_equals_hashCode_Test {
 
   private static BasicErrorMessageFactory factory;
 
@@ -37,44 +37,44 @@ public class BasicErrorMessageFactory_equals_hashCode_Test {
   }
 
   @Test
-  public void should_have_reflexive_equals() {
+  void should_have_reflexive_equals() {
     assertEqualsIsReflexive(factory);
   }
 
   @Test
-  public void should_have_symmetric_equals() {
+  void should_have_symmetric_equals() {
     assertEqualsIsSymmetric(factory, new BasicErrorMessageFactory("Hello %s", "Yoda"));
   }
 
   @Test
-  public void should_have_transitive_equals() {
+  void should_have_transitive_equals() {
     BasicErrorMessageFactory obj2 = new BasicErrorMessageFactory("Hello %s", "Yoda");
     BasicErrorMessageFactory obj3 = new BasicErrorMessageFactory("Hello %s", "Yoda");
     assertEqualsIsTransitive(factory, obj2, obj3);
   }
 
   @Test
-  public void should_maintain_equals_and_hashCode_contract() {
+  void should_maintain_equals_and_hashCode_contract() {
     assertMaintainsEqualsAndHashCodeContract(factory, new BasicErrorMessageFactory("Hello %s", "Yoda"));
   }
 
   @Test
-  public void should_not_be_equal_to_Object_of_different_type() {
+  void should_not_be_equal_to_Object_of_different_type() {
     then(factory.equals("Yoda")).isFalse();
   }
 
   @Test
-  public void should_not_be_equal_to_null() {
+  void should_not_be_equal_to_null() {
     then(factory.equals(null)).isFalse();
   }
 
   @Test
-  public void should_not_be_equal_to_BasicErrorMessage_with_different_format() {
+  void should_not_be_equal_to_BasicErrorMessage_with_different_format() {
     then(factory.equals(new BasicErrorMessageFactory("How are you, %s?", "Yoda"))).isFalse();
   }
 
   @Test
-  public void should_not_be_equal_to_BasicErrorMessage_with_different_arguments() {
+  void should_not_be_equal_to_BasicErrorMessage_with_different_arguments() {
     then(factory.equals(new BasicErrorMessageFactory("Hello %s", "Luke"))).isFalse();
   }
 }

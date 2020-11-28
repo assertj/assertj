@@ -67,6 +67,12 @@ public abstract class AbstractDateAssertWithDateArg_Test extends DateAssertBaseT
   }
 
   @Test
+  public void should_verify_assertion_with_instant_arg() {
+    DateAssert assertion = assertionInvocationWithInstantArg();
+    if (assertion != null) verifyAssertionInvocation(otherDate);
+  }
+
+  @Test
   public void should_verify_assertion_with_date_arg_string_with_default_format() {
     assertionInvocationWithStringArg(dateAsStringWithDefaultFormat);
     verifyAssertionInvocation(parse(dateAsStringWithDefaultFormat));
@@ -108,6 +114,13 @@ public abstract class AbstractDateAssertWithDateArg_Test extends DateAssertBaseT
    * @return the DateAssert instance called
    */
   protected abstract DateAssert assertionInvocationWithDateArg();
+
+  /**
+   * Overrides to invoke the {@link DateAssert} assertion method under test with the {@link #otherDate} attribute.
+   *
+   * @return the DateAssert instance called
+   */
+  protected abstract DateAssert assertionInvocationWithInstantArg();
 
   /**
    * Overrides to invoke the {@link DateAssert} assertion method under test with the given date as String.

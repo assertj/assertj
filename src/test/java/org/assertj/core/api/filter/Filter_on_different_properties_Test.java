@@ -21,10 +21,10 @@ import org.assertj.core.test.WithPlayerData;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.Test;
 
-public class Filter_on_different_properties_Test extends WithPlayerData {
+class Filter_on_different_properties_Test extends WithPlayerData {
 
   @Test
-  public void should_filter_iterable_elements_on_different_properties() {
+  void should_filter_iterable_elements_on_different_properties() {
     // rose and durant have 5 rebounds per game but only rose does not play in OKC
     Iterable<Player> filteredPlayers = filter(players).with("reboundsPerGame").equalsTo(5)
                                                       .and("team").notEqualsTo("Chicago Bulls").get();
@@ -32,7 +32,7 @@ public class Filter_on_different_properties_Test extends WithPlayerData {
   }
 
   @Test
-  public void should_fail_if_elements_to_filter_do_not_have_one_of_the_property_or_field_used_by_filter() {
+  void should_fail_if_elements_to_filter_do_not_have_one_of_the_property_or_field_used_by_filter() {
     assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> filter(players).with("reboundsPerGame")
                                                                                         .equalsTo(5)
                                                                                         .and("numberOfTitle")

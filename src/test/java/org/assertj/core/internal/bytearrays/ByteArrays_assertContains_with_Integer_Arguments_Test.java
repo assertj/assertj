@@ -32,59 +32,59 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link ByteArrays#assertContains(AssertionInfo, byte[], int[])}</code>.
  */
-public class ByteArrays_assertContains_with_Integer_Arguments_Test extends ByteArraysBaseTest {
+class ByteArrays_assertContains_with_Integer_Arguments_Test extends ByteArraysBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_given_values() {
+  void should_pass_if_actual_contains_given_values() {
     arrays.assertContains(someInfo(), actual, IntArrays.arrayOf(6));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_in_different_order() {
+  void should_pass_if_actual_contains_given_values_in_different_order() {
     arrays.assertContains(someInfo(), actual, IntArrays.arrayOf(8, 10));
   }
 
   @Test
-  public void should_pass_if_actual_contains_all_given_values() {
+  void should_pass_if_actual_contains_all_given_values() {
     arrays.assertContains(someInfo(), actual, IntArrays.arrayOf(6, 8, 10));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_more_than_once() {
+  void should_pass_if_actual_contains_given_values_more_than_once() {
     actual = ByteArrays.arrayOf(6, 8, 10, 10, 8);
     arrays.assertContains(someInfo(), actual, IntArrays.arrayOf(8));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_even_if_duplicated() {
+  void should_pass_if_actual_contains_given_values_even_if_duplicated() {
     arrays.assertContains(someInfo(), actual, IntArrays.arrayOf(6, 6));
   }
 
   @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
+  void should_pass_if_actual_and_given_values_are_empty() {
     actual = ByteArrays.emptyArray();
     arrays.assertContains(someInfo(), actual, IntArrays.emptyArray());
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), actual, IntArrays.emptyArray()));
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null() {
+  void should_throw_error_if_array_of_values_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContains(someInfo(), actual, (int[]) null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), null, IntArrays.arrayOf(8)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_values() {
+  void should_fail_if_actual_does_not_contain_values() {
     AssertionInfo info = someInfo();
     byte[] expected = { 6, 8, 9 };
 
@@ -95,38 +95,38 @@ public class ByteArrays_assertContains_with_Integer_Arguments_Test extends ByteA
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, IntArrays.arrayOf(6));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_in_different_order_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_in_different_order_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, IntArrays.arrayOf(-8, 10));
   }
 
   @Test
-  public void should_pass_if_actual_contains_all_given_values_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_all_given_values_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, IntArrays.arrayOf(6, -8, 10));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_more_than_once_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_more_than_once_according_to_custom_comparison_strategy() {
     actual = ByteArrays.arrayOf(6, -8, 10, 10, -8);
     arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, IntArrays.arrayOf(-8));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, IntArrays.arrayOf(6, 6));
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, IntArrays.emptyArray()));
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
                                                                                                                              actual,
                                                                                                                              (int[]) null))
@@ -134,13 +134,13 @@ public class ByteArrays_assertContains_with_Integer_Arguments_Test extends ByteA
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), null, IntArrays.arrayOf(-8)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_values_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_values_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContains(info, actual, IntArrays.arrayOf(6, -8, 9)));

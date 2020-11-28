@@ -18,11 +18,11 @@ import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
 
 /**
- * Tests for <code>{@link CharSequenceAssert#doesNotContain(CharSequence)}</code>.
+ * Tests for <code>{@link CharSequenceAssert#doesNotContain(CharSequence...)}</code>.
  *
  * @author Alex Ruiz
  */
-public class CharSequenceAssert_doesNotContain_CharSequence_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_doesNotContain_CharSequence_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {

@@ -19,36 +19,37 @@ import org.assertj.core.data.Offset;
  * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY" target="_blank">Emulating
  *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
  * @param <ACTUAL> the type of the "actual" value.
- * 
+ *
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author Mikhail Mazursky
  */
-public interface FloatingPointNumberAssert<SELF extends  FloatingPointNumberAssert<SELF, ACTUAL>, ACTUAL extends Number> extends NumberAssert<SELF, ACTUAL> {
+public interface FloatingPointNumberAssert<SELF extends FloatingPointNumberAssert<SELF, ACTUAL>, ACTUAL extends Number>
+    extends NumberAssert<SELF, ACTUAL> {
 
   /**
    * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
    * This assertion is the same as {@link #isCloseTo(Number, Offset)}.
    * <p>
-   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * When <i>abs(actual - expected) == offset value</i>, the assertion:
    * <ul>
    * <li><b>succeeds</b> when using {@link Assertions#within(Double)} or {@link Assertions#offset(Double)}</li>
    * <li><b>fails</b> when using {@link Assertions#byLessThan(Double)} or {@link Offset#strictOffset(Number)}</li>
    * </ul>
    * <p>
    * Examples:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeed
    * assertThat(8.1).isEqualTo(8.0, within(0.2));
-   * assertThat(8.1).isEqualTo(8.0, offset(0.2)); // alias of within 
+   * assertThat(8.1).isEqualTo(8.0, offset(0.2)); // alias of within
    * assertThat(8.1).isEqualTo(8.0, byLessThan(0.2)); // strict
    *
-   * // assertions succeed when the difference == offset value ...  
+   * // assertions succeed when the difference == offset value ...
    * assertThat(8.1).isEqualTo(8.0, within(0.1));
    * assertThat(8.1).isEqualTo(8.0, offset(0.1));
    * // ... except when using byLessThan which is strict
    * assertThat(8.1).isEqualTo(8.0, byLessThan(0.1)); // strict =&gt; fail
-   * 
+   *
    * // this assertions also fails
    * assertThat(8.1).isEqualTo(8.0, within(0.001));</code></pre>
    *
@@ -66,7 +67,7 @@ public interface FloatingPointNumberAssert<SELF extends  FloatingPointNumberAsse
    * If difference is equal to offset value, assertion is considered valid.
    * <p>
    * Example with double:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(8.1).isCloseTo(new Double(8.0), within(0.2));
    *
    * // you can use offset if you prefer
@@ -93,13 +94,13 @@ public interface FloatingPointNumberAssert<SELF extends  FloatingPointNumberAsse
    * If the difference is equal to the offset value, the assertion fails.
    * <p>
    * Example with double:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(8.3).isNotCloseTo(new Double(8.0), byLessThan(0.2));
    *
    * // you can use offset if you prefer
    * assertThat(8.3).isNotCloseTo(new Double(8.0), offset(0.2));
    *
-   * // assertions will fail
+   * // assertions fail
    * assertThat(8.1).isNotCloseTo(new Double(8.0), byLessThan(0.1));
    * assertThat(8.1).isNotCloseTo(new Double(8.0), byLessThan(0.2));</code></pre>
    *
@@ -119,15 +120,15 @@ public interface FloatingPointNumberAssert<SELF extends  FloatingPointNumberAsse
    * Verifies that the actual value is equal to {@code NaN}.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeed
    * assertThat(Double.NaN).isNaN();
    * assertThat(0.0 / 0.0).isNaN();
    * assertThat(0.0F * Float.POSITIVE_INFINITY).isNaN();
-   * 
-   * // assertions will fail
+   *
+   * // assertions fail
    * assertThat(1.0).isNaN();
    * assertThat(-1.0F).isNaN();</code></pre>
-   * 
+   *
    * @return this assertion object.
    * @throws AssertionError if the actual value is not equal to {@code NaN}.
    */
@@ -137,17 +138,22 @@ public interface FloatingPointNumberAssert<SELF extends  FloatingPointNumberAsse
    * Verifies that the actual value is not equal to {@code NaN}.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeed
    * assertThat(1.0).isNotNaN();
    * assertThat(-1.0F).isNotNaN();
-   * 
-   * // assertions will fail
+   *
+   * // assertions fail
    * assertThat(Double.NaN).isNotNaN();
    * assertThat(0.0 / 0.0).isNotNaN();
    * assertThat(0.0F * Float.POSITIVE_INFINITY).isNotNaN();</code></pre>
-   * 
+   *
    * @return this assertion object.
    * @throws AssertionError if the actual value is equal to {@code NaN}.
    */
   SELF isNotNaN();
+
+  SELF isFinite();
+
+  SELF isInfinite();
+
 }

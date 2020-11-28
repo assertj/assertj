@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Olivier Michallat
  */
-public class FileAssert_usingCharset_String_invalid_Test extends FileAssertBaseTest {
+class FileAssert_usingCharset_String_invalid_Test extends FileAssertBaseTest {
 
   @Override
   @Test

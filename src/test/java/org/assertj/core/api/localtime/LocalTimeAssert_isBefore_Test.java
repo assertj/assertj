@@ -30,20 +30,20 @@ import org.junit.jupiter.api.Test;
  * @author Marcin Zajączkowski
  */
 @DisplayName("LocalTimeAssert isBefore")
-public class LocalTimeAssert_isBefore_Test extends LocalTimeAssertBaseTest {
+class LocalTimeAssert_isBefore_Test extends LocalTimeAssertBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_before_localTime_parameter() {
+  void should_pass_if_actual_is_before_localTime_parameter() {
     assertThat(BEFORE).isBefore(REFERENCE);
   }
 
   @Test
-  public void should_pass_if_actual_is_before_localTime_as_string_parameter() {
+  void should_pass_if_actual_is_before_localTime_as_string_parameter() {
     assertThat(BEFORE).isBefore(REFERENCE.toString());
   }
 
   @Test
-  public void should_fail_if_actual_is_after_localTime_parameter() {
+  void should_fail_if_actual_is_after_localTime_parameter() {
     // WHEN
     ThrowingCallable code = () -> assertThat(AFTER).isBefore(REFERENCE);
     // THEN
@@ -51,7 +51,7 @@ public class LocalTimeAssert_isBefore_Test extends LocalTimeAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_after_localTime_as_string_parameter() {
+  void should_fail_if_actual_is_after_localTime_as_string_parameter() {
     // WHEN
     ThrowingCallable code = () -> assertThat(AFTER).isBefore(REFERENCE.toString());
     // THEN
@@ -59,7 +59,7 @@ public class LocalTimeAssert_isBefore_Test extends LocalTimeAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_localTime_parameter() {
+  void should_fail_if_actual_is_equal_to_localTime_parameter() {
     // WHEN
     ThrowingCallable code = () -> assertThat(REFERENCE).isBefore(REFERENCE);
     // THEN
@@ -67,7 +67,7 @@ public class LocalTimeAssert_isBefore_Test extends LocalTimeAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_localTime_as_string_parameter() {
+  void should_fail_if_actual_is_equal_to_localTime_as_string_parameter() {
     // WHEN
     ThrowingCallable code = () -> assertThat(REFERENCE).isBefore(REFERENCE.toString());
     // THEN
@@ -75,7 +75,7 @@ public class LocalTimeAssert_isBefore_Test extends LocalTimeAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     LocalTime actual = null;
     // WHEN
@@ -85,7 +85,7 @@ public class LocalTimeAssert_isBefore_Test extends LocalTimeAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_localTime_parameter_is_null() {
+  void should_fail_if_localTime_parameter_is_null() {
     // GIVEN
     LocalTime otherLocalTime = null;
     // WHEN
@@ -96,7 +96,7 @@ public class LocalTimeAssert_isBefore_Test extends LocalTimeAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_localTime_as_string_parameter_is_null() {
+  void should_fail_if_localTime_as_string_parameter_is_null() {
     // GIVEN
     String otherLocalTimeAsString = null;
     // WHEN

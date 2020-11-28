@@ -30,23 +30,23 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Filip Hrisafov
  */
-public class Iterables_assertNoneMatch_Test extends IterablesBaseTest {
+class Iterables_assertNoneMatch_Test extends IterablesBaseTest {
 
   @Test
-  public void should_pass_if_each_element_does_not_satisfy_the_predicate() {
+  void should_pass_if_each_element_does_not_satisfy_the_predicate() {
     List<String> actual = newArrayList("123", "1234", "12345");
     iterables.assertNoneMatch(someInfo(), actual, s -> s.length() < 3, PredicateDescription.GIVEN);
   }
 
   @Test
-  public void should_throw_error_if_predicate_is_null() {
+  void should_throw_error_if_predicate_is_null() {
     assertThatNullPointerException().isThrownBy(() -> iterables.assertNoneMatch(someInfo(), actual, null,
                                                                                 PredicateDescription.GIVEN))
                                     .withMessage("The predicate to evaluate should not be null");
   }
 
   @Test
-  public void should_fail_if_predicate_is_met() {
+  void should_fail_if_predicate_is_met() {
     List<String> actual = newArrayList("Luke", "Leia", "Yoda");
     Predicate<? super String> predicate = s -> s.startsWith("L");
 
@@ -57,7 +57,7 @@ public class Iterables_assertNoneMatch_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_with_custom_description_if_predicate_is_not_met() {
+  void should_fail_with_custom_description_if_predicate_is_not_met() {
     List<String> actual = newArrayList("Luke", "Leia", "Yoda");
     Predicate<? super String> predicate = s -> s.startsWith("L");
 

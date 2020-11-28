@@ -21,7 +21,7 @@ import org.assertj.core.internal.FloatArraysBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class FloatArrays_assertContainsAnyOf_Test extends FloatArraysBaseTest {
+class FloatArrays_assertContainsAnyOf_Test extends FloatArraysBaseTest {
 
   private Arrays internalArrays;
 
@@ -34,7 +34,7 @@ public class FloatArrays_assertContainsAnyOf_Test extends FloatArraysBaseTest {
   }
 
   @Test
-  public void should_delegate_to_internal_Arrays() {
+  void should_delegate_to_internal_Arrays() {
     arrays.assertContainsAnyOf(someInfo(), actual, new float[] { 1, 2.0f, 3 });
     verify(internalArrays).assertContainsAnyOf(someInfo(), failures, actual, new float[] { 1, 2, 3 });
   }

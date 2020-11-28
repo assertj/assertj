@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class BooleanArrayAssert_usingDefaultElementComparator_Test extends BooleanArrayAssertBaseTest {
+class BooleanArrayAssert_usingDefaultElementComparator_Test extends BooleanArrayAssertBaseTest {
 
   @Override
   @Test

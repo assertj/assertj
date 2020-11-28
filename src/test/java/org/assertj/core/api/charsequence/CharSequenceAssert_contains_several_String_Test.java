@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Joel Costigliola
  */
-public class CharSequenceAssert_contains_several_String_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_contains_several_String_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {

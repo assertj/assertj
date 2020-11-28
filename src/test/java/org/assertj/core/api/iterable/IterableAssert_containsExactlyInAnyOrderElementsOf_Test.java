@@ -24,7 +24,7 @@ import org.assertj.core.util.Lists;
  *
  * @author Filip Hrisafov
  */
-public class IterableAssert_containsExactlyInAnyOrderElementsOf_Test extends IterableAssertBaseTest {
+class IterableAssert_containsExactlyInAnyOrderElementsOf_Test extends IterableAssertBaseTest {
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {

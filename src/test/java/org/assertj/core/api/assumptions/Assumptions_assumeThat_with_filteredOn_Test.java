@@ -14,36 +14,36 @@ package org.assertj.core.api.assumptions;
 
 import static com.google.common.collect.Sets.newHashSet;
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assumptions.assumeThat;
+import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 
 import java.util.Set;
 
 import org.assertj.core.test.Jedi;
-import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class Assumptions_assumeThat_with_filteredOn_Test {
+class Assumptions_assumeThat_with_filteredOn_Test {
 
   private Set<Jedi> jedis;
   private Jedi yoda;
   private Jedi luke;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     yoda = new Jedi("Yoda", "green");
     luke = new Jedi("Luke", "green");
     jedis = newHashSet(yoda, luke);
   }
 
   @Test
-  public void should_run_test_when_assumption_with_filtered_elements_passes() {
+  void should_run_test_when_assumption_with_filtered_elements_passes() {
     assertThatCode(() -> assumeThat(jedis).filteredOn("name", "Luke").contains(luke)).doesNotThrowAnyException();
   }
 
   @Test
-  public void should_ignore_test_when_assumption_with_filtered_elements_fails() {
-    assertThatExceptionOfType(AssumptionViolatedException.class).isThrownBy(() -> assumeThat(jedis).filteredOn("name", "Luke").contains(yoda));
+  void should_ignore_test_when_assumption_with_filtered_elements_fails() {
+    expectAssumptionNotMetException(() -> assumeThat(jedis).filteredOn("name", "Luke")
+                                                           .contains(yoda));
   }
 }

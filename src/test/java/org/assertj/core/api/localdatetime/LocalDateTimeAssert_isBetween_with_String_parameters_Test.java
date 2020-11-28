@@ -22,7 +22,7 @@ import org.assertj.core.api.AbstractLocalDateTimeAssertBaseTest;
 import org.assertj.core.api.LocalDateTimeAssert;
 import org.junit.jupiter.api.Test;
 
-public class LocalDateTimeAssert_isBetween_with_String_parameters_Test extends AbstractLocalDateTimeAssertBaseTest {
+class LocalDateTimeAssert_isBetween_with_String_parameters_Test extends AbstractLocalDateTimeAssertBaseTest {
 
   @Override
   protected LocalDateTimeAssert invoke_api_method() {
@@ -35,7 +35,7 @@ public class LocalDateTimeAssert_isBetween_with_String_parameters_Test extends A
   }
 
   @Test
-  public void should_throw_a_DateTimeParseException_if_start_String_parameter_cant_be_converted() {
+  void should_throw_a_DateTimeParseException_if_start_String_parameter_cant_be_converted() {
     // GIVEN
     String abc = "abc";
     // WHEN
@@ -45,7 +45,7 @@ public class LocalDateTimeAssert_isBetween_with_String_parameters_Test extends A
   }
 
   @Test
-  public void should_throw_a_DateTimeParseException_if_end_String_parameter_cant_be_converted() {
+  void should_throw_a_DateTimeParseException_if_end_String_parameter_cant_be_converted() {
     // GIVEN
     String abc = "abc";
     // WHEN

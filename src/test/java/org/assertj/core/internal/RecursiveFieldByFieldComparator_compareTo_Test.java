@@ -17,36 +17,36 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-public class RecursiveFieldByFieldComparator_compareTo_Test {
+class RecursiveFieldByFieldComparator_compareTo_Test {
 
   @SuppressWarnings("unchecked")
   private static final RecursiveFieldByFieldComparator RECURSIVE_FIELD_BY_FIELD_COMPARATOR = new RecursiveFieldByFieldComparator(EMPTY_MAP,
                                                                                                                                  new TypeComparators());
 
   @Test
-  public void should_return_true_if_Objects_are_equal() {
+  void should_return_true_if_Objects_are_equal() {
     assertThat(RECURSIVE_FIELD_BY_FIELD_COMPARATOR.compare(new Foo("id", new Bar(1)),
                                                            new Foo("id", new Bar(1)))).isZero();
   }
 
   @Test
-  public void should_return_false_if_Objects_are_not_equal() {
+  void should_return_false_if_Objects_are_not_equal() {
     assertThat(RECURSIVE_FIELD_BY_FIELD_COMPARATOR.compare(new Foo("id", new Bar(1)),
                                                            new Foo("id", new Bar(2)))).isNotZero();
   }
 
   @Test
-  public void should_return_are_not_equal_if_first_Object_is_null_and_second_is_not() {
+  void should_return_are_not_equal_if_first_Object_is_null_and_second_is_not() {
     assertThat(RECURSIVE_FIELD_BY_FIELD_COMPARATOR.compare(null, new Foo("id", new Bar(1)))).isNotZero();
   }
 
   @Test
-  public void should_return_are_not_equal_if_second_Object_is_null_and_first_is_not() {
+  void should_return_are_not_equal_if_second_Object_is_null_and_first_is_not() {
     assertThat(RECURSIVE_FIELD_BY_FIELD_COMPARATOR.compare(new Foo("id", new Bar(1)), null)).isNotZero();
   }
 
   @Test
-  public void should_return_are_not_equal_if_Objects_do_not_have_the_same_properties() {
+  void should_return_are_not_equal_if_Objects_do_not_have_the_same_properties() {
     assertThat(RECURSIVE_FIELD_BY_FIELD_COMPARATOR.compare(new Foo("id", new Bar(1)), 2)).isNotZero();
   }
 

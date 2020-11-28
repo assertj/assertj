@@ -20,7 +20,7 @@ import org.assertj.core.api.UriAssertBaseTest;
 /**
  * Test for <code>{@link org.assertj.core.api.UriAssert#hasQuery(String)} </code>.
  */
-public class UriAssert_hasQuery_Test extends UriAssertBaseTest {
+class UriAssert_hasQuery_Test extends UriAssertBaseTest {
   private String expected = "query";
 
   @Override

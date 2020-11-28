@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link org.assertj.core.api.BooleanArrayAssert#containsExactlyInAnyOrder(boolean...)}</code>.
  */
-public class BooleanArrayAssert_containsExactlyInAnyOrder_Test extends BooleanArrayAssertBaseTest {
+class BooleanArrayAssert_containsExactlyInAnyOrder_Test extends BooleanArrayAssertBaseTest {
 
   @Override
   protected BooleanArrayAssert invoke_api_method() {
@@ -36,7 +36,7 @@ public class BooleanArrayAssert_containsExactlyInAnyOrder_Test extends BooleanAr
   }
 
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
      assertThat(new boolean[] { true, false, false }).containsExactlyInAnyOrder(false, false, true);
   }
 }

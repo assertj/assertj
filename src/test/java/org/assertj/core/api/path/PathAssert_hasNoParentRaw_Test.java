@@ -17,15 +17,15 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
 
-public class PathAssert_hasNoParentRaw_Test extends PathAssertBaseTest {
+class PathAssert_hasNoParentRaw_Test extends PathAssertBaseTest {
   
   @Override
   protected PathAssert invoke_api_method() {
-	return assertions.hasNoParentRaw();
+    return assertions.hasNoParentRaw();
   }
 
   @Override
   protected void verify_internal_effects() {
-	verify(paths).assertHasNoParentRaw(getInfo(assertions), getActual(assertions));
+    verify(paths).assertHasNoParentRaw(getInfo(assertions), getActual(assertions));
   }
 }

@@ -2,45 +2,38 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>assertj-core</artifactId>
-  <version>3.16.2-SNAPSHOT</version>
+  <version>3.18.2-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>AssertJ fluent assertions</name>
   <description>Rich and fluent assertions for testing for Java</description>
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent-pom</artifactId>
-    <version>2.2.7</version>
+    <version>2.2.8</version>
     <relativePath />
   </parent>
-  <mailingLists>
-    <mailingList>
-      <name>AssertJ Group</name>
-      <post>http://groups.google.com/group/assertj</post>
-      <subscribe>http://groups.google.com/group/assertj</subscribe>
-      <unsubscribe>http://groups.google.com/group/assertj</unsubscribe>
-    </mailingList>
-  </mailingLists>
   <scm>
-    <developerConnection>scm:git:git@github.com:joel-costigliola/assertj-core.git</developerConnection>
-    <connection>scm:git:git@github.com:joel-costigliola/assertj-core.git</connection>
-    <url>git@github.com:joel-costigliola/assertj-core</url>
+    <developerConnection>scm:git:git@github.com:assertj/assertj-core.git</developerConnection>
+    <connection>scm:git:git@github.com:assertj/assertj-core.git</connection>
+    <url>git@github.com:assertj/assertj-core</url>
     <tag>HEAD</tag>
   </scm>
   <issueManagement>
     <system>github</system>
-    <url>https://github.com/joel-costigliola/assertj-core/issues</url>
+    <url>https://github.com/assertj/assertj-core/issues</url>
   </issueManagement>
 
   <properties>
     <javadocAdditionalOptions>-html5 --allow-script-in-comments --no-module-directories</javadocAdditionalOptions>
-    <byte-buddy.version>1.10.10</byte-buddy.version>
-    <bnd.version>5.0.1</bnd.version>
+    <byte-buddy.version>1.10.18</byte-buddy.version>
+    <opentest4j.version>1.2.0</opentest4j.version>
+    <bnd.version>5.2.0</bnd.version>
     <!-- Dependency versions overriding -->
-    <junit.version>4.13</junit.version>
-    <junit-jupiter.version>5.6.2</junit-jupiter.version>
-    <mockito.version>3.3.3</mockito.version>
+    <junit.version>4.13.1</junit.version>
+    <junit-jupiter.version>5.6.3</junit-jupiter.version>
+    <mockito.version>3.6.28</mockito.version>
     <!-- Plugin versions overriding -->
-    <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
   </properties>
 
   <dependencyManagement>
@@ -63,7 +56,7 @@
       <dependency>
         <groupId>org.opentest4j</groupId>
         <artifactId>opentest4j</artifactId>
-        <version>1.2.0</version>
+        <version>${opentest4j.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -75,10 +68,7 @@
       <scope>provided</scope>
       <optional>true</optional>
       <exclusions>
-        <!--
-        This has to be excluded because it's subjecting the code to the
-        incorrect version of certain hamcrest packages.
-        -->
+        <!-- This has to be excluded because it's subjecting the code to the incorrect version of certain hamcrest packages. -->
         <exclusion>
           <groupId>org.hamcrest</groupId>
           <artifactId>hamcrest-core</artifactId>
@@ -139,6 +129,12 @@
       <artifactId>mockito-junit-jupiter</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.11.3</version>
+      <scope>test</scope>
+    </dependency>
     <!-- NEEDED! Unlike File, a Path is not linked to the JRE's filesystem. In order to accurately test assertions, we need
       a decent JSR 203 implementation which lets us test our assertions. Right now, this is memoryfilesystem (https://github.com/marschall/memoryfilesystem).
       Another choice would be jimfs from Google (https://github.com/google/jimfs), but its support for reading/writing file attributes
@@ -152,25 +148,31 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>29.0-jre</version>
+      <version>30.0-jre</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.10</version>
+      <version>3.11</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.6</version>
+      <version>2.8.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>nl.jqno.equalsverifier</groupId>
       <artifactId>equalsverifier</artifactId>
-      <version>3.3</version>
+      <version>3.5</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.platform</groupId>
+      <artifactId>org.eclipse.osgi</artifactId>
+      <version>3.16.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -216,14 +218,17 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <argLine>${argLine}</argLine>
+          <argLine>-Dfile.encoding=${project.build.sourceEncoding} ${argLine}</argLine>
           <trimStackTrace>false</trimStackTrace>
+          <excludes>
+            <exclude>org/assertj/core/osgi/**</exclude>
+          </excludes>
         </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.3</version>
+        <version>3.2.4</version>
         <executions>
           <!-- STEP 2: execute maven shade to rename bytebuddy -->
           <execution>
@@ -237,13 +242,16 @@
                 <relocation>
                   <pattern>net.bytebuddy</pattern>
                   <shadedPattern>org.assertj.core.internal.bytebuddy</shadedPattern>
+                  <excludes>
+                    <exclude>net/bytebuddy/experimental</exclude>
+                  </excludes>
                 </relocation>
               </relocations>
               <filters>
                 <filter>
-                  <artifact>*:*</artifact>
+                  <artifact>net.bytebuddy:*</artifact>
                   <excludes>
-                    <exclude>META-INF/versions/**</exclude>
+                    <exclude>META-INF/**</exclude>
                   </excludes>
                 </filter>
               </filters>
@@ -298,9 +306,28 @@
                   !org.assertj.core.internal.*,\
                   org.assertj.core.*
                 -noclassforname: true
-                -removeheaders: Bnd-LastModified,Private-Package
+                -noextraheaders: true
+                -snapshot: SNAPSHOT
+                -removeheaders: Private-Package
                 -fixupmessages: \
                   "Classes found in the wrong directory...";is:=ignore
+              ]]></bnd>
+            </configuration>
+          </execution>
+          <!-- Integration Test Configuration -->
+          <execution>
+            <id>bnd-process-tests</id>
+            <phase>process-test-classes</phase>
+            <goals>
+              <goal>bnd-process-tests</goal>
+            </goals>
+            <configuration>
+              <includeClassesDir>false</includeClassesDir>
+              <bnd><![CDATA[
+                -includepackage: org.assertj.core.osgi.*
+                -noextraheaders: true
+                -snapshot: SNAPSHOT
+                -removeheaders: Private-Package
               ]]></bnd>
             </configuration>
           </execution>
@@ -309,7 +336,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
-        <version>3.0.0</version><!--$NO-MVN-MAN-VER$-->
+        <version>3.0.0</version><!--$NO-MVN-MAN-VER$ -->
         <executions>
           <!-- STEP 5: detach the primary artifact so we can re-execute maven-jar-plugin -->
           <execution>
@@ -365,6 +392,21 @@
               <archive>
                 <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
               </archive>
+            </configuration>
+          </execution>
+          <execution>
+            <id>test-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>test-jar</goal>
+            </goals>
+            <configuration>
+              <archive>
+                <manifestFile>${project.build.testOutputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+              </archive>
+              <includes>
+                <include>org/assertj/core/osgi/**</include>
+              </includes>
             </configuration>
           </execution>
         </executions>
@@ -435,7 +477,7 @@
         <configuration>
           <!-- Explicitly set Javadoc locale to English -->
           <locale>en_US</locale>
-          <!-- needed to fix javadoc on java 11+ https://github.com/joel-costigliola/assertj-core/issues/1403 -->
+          <!-- needed to fix javadoc on java 11+ https://github.com/assertj/assertj-core/issues/1403 -->
           <source>8</source>
           <!-- (1) CSS file location -->
           <stylesheetfile>${project.build.directory}/javadoc-stylesheet/assertj-javadoc-min.css</stylesheetfile>
@@ -445,19 +487,19 @@
           <show>private</show>
           <footer><![CDATA[
             <link rel="stylesheet" href="./assertj-javadoc.css"">
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.4.0/highlight.min.js"></script>
             <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
         ]]></footer>
         </configuration>
       </plugin>
+      <!-- Resolve bundles for OSGi integration tests -->
       <plugin>
-        <!-- Verify that additional OSGi package imports didn't sneak in. -->
         <groupId>biz.aQute.bnd</groupId>
         <artifactId>bnd-resolver-maven-plugin</artifactId>
         <version>${bnd.version}</version>
         <executions>
           <execution>
-            <id>verify-osgi-metadata</id>
+            <id>osgi-integration-resolving</id>
             <phase>pre-integration-test</phase>
             <goals>
               <goal>resolve</goal>
@@ -466,9 +508,73 @@
               <bndruns>
                 <bndrun>verify.bndrun</bndrun>
               </bndruns>
+              <bundles>
+                <bundle>target/${project.build.finalName}-tests.jar</bundle>
+              </bundles>
               <failOnChanges>false</failOnChanges>
               <reportOptional>false</reportOptional>
+              <includeDependencyManagement>true</includeDependencyManagement>
+              <scopes>
+                <scope>provided</scope>
+                <scope>compile</scope>
+                <scope>runtime</scope>
+                <scope>test</scope>
+              </scopes>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Run OSGi integration tests -->
+      <plugin>
+        <groupId>biz.aQute.bnd</groupId>
+        <artifactId>bnd-testing-maven-plugin</artifactId>
+        <version>${bnd.version}</version>
+        <executions>
+          <execution>
+            <id>osgi-integration-testing</id>
+            <goals>
+              <goal>testing</goal>
+            </goals>
+            <configuration>
+              <bndruns>
+                <bndrun>verify.bndrun</bndrun>
+              </bndruns>
+              <bundles>
+                <bundle>target/${project.build.finalName}-tests.jar</bundle>
+              </bundles>
+              <failOnChanges>false</failOnChanges>
+              <includeDependencyManagement>true</includeDependencyManagement>
+              <resolve>false</resolve>
+              <scopes>
+                <scope>provided</scope>
+                <scope>compile</scope>
+                <scope>runtime</scope>
+                <scope>test</scope>
+              </scopes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-invoker-plugin</artifactId>
+        <version>3.2.1</version>
+        <configuration>
+          <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
+          <settingsFile>src/it/settings.xml</settingsFile>
+          <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
+          <goals>
+            <goal>clean</goal>
+            <goal>test</goal>
+          </goals>
+        </configuration>
+        <executions>
+          <execution>
+            <id>integration-test</id>
+            <goals>
+              <goal>install</goal>
+              <goal>run</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
@@ -476,9 +582,9 @@
     <pluginManagement>
       <plugins>
         <plugin>
-            <groupId>net.alchim31.maven</groupId>
-            <artifactId>yuicompressor-maven-plugin</artifactId>
-            <version>1.5.1</version>
+          <groupId>net.alchim31.maven</groupId>
+          <artifactId>yuicompressor-maven-plugin</artifactId>
+          <version>1.5.1</version>
         </plugin>
         <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build
           itself. -->
@@ -548,15 +654,6 @@
       </build>
     </profile>
     <profile>
-      <id>java11+</id>
-      <activation>
-        <jdk>[11,)</jdk>
-      </activation>
-      <properties>
-        <sonar.skip>false</sonar.skip>
-      </properties>
-    </profile>
-    <profile>
       <id>java13+</id>
       <activation>
         <jdk>[13,)</jdk>
@@ -565,5 +662,15 @@
         <javadocAdditionalOptions>-html5 --allow-script-in-comments</javadocAdditionalOptions>
       </properties>
     </profile>
+    <profile>
+      <id>java16+</id>
+      <activation>
+        <jdk>[16,)</jdk>
+      </activation>
+      <properties>
+        <argLine>-Dnet.bytebuddy.experimental=true</argLine>
+      </properties>
+    </profile>
   </profiles>
+
 </project>

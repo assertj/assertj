@@ -25,7 +25,7 @@ import org.assertj.core.api.BigDecimalAssertBaseTest;
  * 
  * @author William Delanoue
  */
-public class BigDecimalAssert_isBetween_Test extends BigDecimalAssertBaseTest {
+class BigDecimalAssert_isBetween_Test extends BigDecimalAssertBaseTest {
 
   @Override
   protected BigDecimalAssert invoke_api_method() {

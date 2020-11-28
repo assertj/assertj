@@ -22,22 +22,22 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
-public class OptionalAssert_hasValueSatisfying_Test {
+class OptionalAssert_hasValueSatisfying_Test {
 
   @Test
-  public void should_fail_when_optional_is_null() {
+  void should_fail_when_optional_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<String>) null).hasValueSatisfying(s -> {}))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_when_optional_is_empty() {
+  void should_fail_when_optional_is_empty() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Optional.empty()).hasValueSatisfying(o -> {}))
                                                    .withMessage(shouldBePresent(Optional.empty()).create());
   }
 
   @Test
-  public void should_pass_when_consumer_passes() {
+  void should_pass_when_consumer_passes() {
     assertThat(Optional.of("something")).hasValueSatisfying(s -> assertThat(s).isEqualTo("something")
                                                                               .startsWith("some")
                                                                               .endsWith("thing"));
@@ -45,7 +45,7 @@ public class OptionalAssert_hasValueSatisfying_Test {
   }
 
   @Test
-  public void should_fail_from_consumer() {
+  void should_fail_from_consumer() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Optional.of("something else")).hasValueSatisfying(s -> assertThat(s).isEqualTo("something")))
                                                    .withMessage(format("%nExpecting:%n <\"something else\">%nto be equal to:%n <\"something\">%nbut was not."));
   }

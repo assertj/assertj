@@ -20,21 +20,21 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
-public class OptionalAssert_map_Test {
+class OptionalAssert_map_Test {
 
   @Test
-  public void should_fail_when_optional_is_null() {
+  void should_fail_when_optional_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<String>) null).map(String::length))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_when_optional_is_empty() {
+  void should_pass_when_optional_is_empty() {
     assertThat(Optional.<String> empty()).map(String::length).isEmpty();
   }
 
   @Test
-  public void should_pass_when_optional_contains_a_value() {
+  void should_pass_when_optional_contains_a_value() {
     assertThat(Optional.of("42")).map(String::length).contains(2);
     assertThat(Optional.of("42")).map(s -> null).isEmpty();
   }

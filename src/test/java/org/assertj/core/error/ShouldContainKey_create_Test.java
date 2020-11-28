@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link ShouldContainKey#create(Description)}</code>.
  */
-public class ShouldContainKey_create_Test {
+class ShouldContainKey_create_Test {
 
   @Test
-  public void should_create_error_message_with_key_condition() {
+  void should_create_error_message_with_key_condition() {
     // GIVEN
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldContainKey(map, new TestCondition<>("test condition"));

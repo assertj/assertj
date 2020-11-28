@@ -13,30 +13,22 @@
 package org.assertj.core.api.boolean_;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.util.Comparator;
 
 import org.assertj.core.api.BooleanAssert;
 import org.assertj.core.api.BooleanAssertBaseTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link BooleanAssert#usingComparator(java.util.Comparator)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
-public class BooleanAssert_usingComparator_Test extends BooleanAssertBaseTest {
+class BooleanAssert_usingComparator_Test extends BooleanAssertBaseTest {
 
-  @Mock
-  private Comparator<Boolean> comparator;
-
-  @BeforeEach
-  public void before() {
-    initMocks(this);
-  }
+  private Comparator<Boolean> comparator = alwaysEqual();
 
   @Override
   @Test

@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Filip Hrisafov
  */
-public class ByteArrayAssert_containsOnlyOnce_with_Integer_Arguments_Test extends ByteArrayAssertBaseTest {
+class ByteArrayAssert_containsOnlyOnce_with_Integer_Arguments_Test extends ByteArrayAssertBaseTest {
 
   @Override
   protected ByteArrayAssert invoke_api_method() {

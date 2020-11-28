@@ -20,27 +20,27 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class Iterables_assertHasSizeGreaterThanOrEqualTo_Test extends IterablesBaseTest {
+class Iterables_assertHasSizeGreaterThanOrEqualTo_Test extends IterablesBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertHasSizeGreaterThanOrEqualTo(someInfo(), null, 6))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_size_of_actual_is_not_greater_than_or_equal_to_boundary() {
+  void should_fail_if_size_of_actual_is_not_greater_than_or_equal_to_boundary() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertHasSizeGreaterThanOrEqualTo(someInfo(), actual, 6))
                                                    .withMessage(shouldHaveSizeGreaterThanOrEqualTo(actual, actual.size(), 6).create());
   }
 
   @Test
-  public void should_pass_if_size_of_actual_is_greater_than_boundary() {
+  void should_pass_if_size_of_actual_is_greater_than_boundary() {
     iterables.assertHasSizeGreaterThanOrEqualTo(someInfo(), actual, 1);
   }
 
   @Test
-  public void should_pass_if_size_of_actual_is_equal_to_boundary() {
+  void should_pass_if_size_of_actual_is_equal_to_boundary() {
     iterables.assertHasSizeGreaterThanOrEqualTo(someInfo(), actual, actual.size());
   }
 }

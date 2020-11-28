@@ -27,18 +27,18 @@ import org.assertj.core.internal.objects.data.PersonDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class RecursiveComparisonAssert_for_iterables_Test {
+class RecursiveComparisonAssert_for_iterables_Test {
 
   private Set<Person> actual;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     actual = newLinkedHashSet(new Person("Sheldon"), new Person("Leonard"));
   }
 
   // verify we don't need to cast actual to an Object as before when only Object assertions provided usingRecursiveComparison()
   @Test
-  public void should_be_directly_usable_with_iterables() {
+  void should_be_directly_usable_with_iterables() {
     // GIVEN
     Set<PersonDto> expected = newHashSet(new PersonDto("Sheldon"), new PersonDto("Leonard"));
     // WHEN/THEN
@@ -47,7 +47,7 @@ public class RecursiveComparisonAssert_for_iterables_Test {
   }
 
   @Test
-  public void should_propagate_comparator_by_type() {
+  void should_propagate_comparator_by_type() {
     // GIVEN
     Comparator<String> alwayEqualsString = ALWAY_EQUALS_STRING;
     // WHEN

@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Valeriy Vyrva
  */
-public class FileAssert_isDirectoryNotContaining_Predicate_Test extends FileAssertBaseTest {
+class FileAssert_isDirectoryNotContaining_Predicate_Test extends FileAssertBaseTest {
 
   private final Predicate<File> filter = path -> path.getParent() != null;
 

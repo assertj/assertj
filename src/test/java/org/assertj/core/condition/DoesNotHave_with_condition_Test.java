@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Nicolas François
  */
-public class DoesNotHave_with_condition_Test {
+class DoesNotHave_with_condition_Test {
 
   @Test
-  public void should_create_new_doesNotHave_with_passed_Condition() {
+  void should_create_new_doesNotHave_with_passed_Condition() {
     TestCondition<Object> condition = new TestCondition<>();
     Condition<Object> created = doesNotHave(condition);
     assertThat(created.getClass()).isEqualTo(DoesNotHave.class);

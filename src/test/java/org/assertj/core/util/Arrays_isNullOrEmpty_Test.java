@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
@@ -21,19 +21,19 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class Arrays_isNullOrEmpty_Test {
+class Arrays_isNullOrEmpty_Test {
   @Test
-  public void should_return_true_if_array_is_empty() {
+  void should_return_true_if_array_is_empty() {
     assertThat(Arrays.isNullOrEmpty(new String[0])).isTrue();
   }
 
   @Test
-  public void should_return_true_if_array_is_null() {
+  void should_return_true_if_array_is_null() {
     assertThat(Arrays.isNullOrEmpty(null)).isTrue();
   }
 
   @Test
-  public void should_return_false_if_array_has_elements() {
+  void should_return_false_if_array_has_elements() {
     assertThat(Arrays.isNullOrEmpty(new String[] { "Tuzi" })).isFalse();
   }
 }

@@ -28,15 +28,15 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
+class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
   @ParameterizedTest(name = "{0}: actual={1} / expected={2}")
   @MethodSource("should_pass_for_objects_with_the_same_data_when_collection_order_is_ignored_source")
   @SuppressWarnings("unused")
-  public void should_pass_for_objects_with_the_same_data_when_collection_order_is_ignored(String description,
-                                                                                          Object actual,
-                                                                                          Object expected) {
+  void should_pass_for_objects_with_the_same_data_when_collection_order_is_ignored(String description,
+                                                                                   Object actual,
+                                                                                   Object expected) {
     assertThat(actual).usingRecursiveComparison()
                       .ignoringCollectionOrder()
                       .isEqualTo(expected);
@@ -72,7 +72,7 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
   }
 
   @Test
-  public void should_fail_when_actual_differs_from_expected_even_when_collection_order_is_ignored() {
+  void should_fail_when_actual_differs_from_expected_even_when_collection_order_is_ignored() {
     // GIVEN
     FriendlyPerson actual = friend("Sherlock Holmes");
     actual.home.address.number = 1;
@@ -90,17 +90,17 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     compareRecursivelyFailsAsExpected(actual, expected);
 
     // THEN
-    ComparisonDifference comparisonDifference = new ComparisonDifference(list("home.address.number"), 1, 2);
+    ComparisonDifference comparisonDifference = new ComparisonDifference(new DualValue(list("home.address.number"), 1, 2));
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, comparisonDifference);
   }
 
   @ParameterizedTest(name = "{0}: actual={1} / expected={2} / ignore collection order in fields={3}")
   @MethodSource("should_pass_for_objects_with_the_same_data_when_collection_order_is_ignored_in_specified_fields_source")
   @SuppressWarnings("unused")
-  public void should_pass_for_objects_with_the_same_data_when_collection_order_is_ignored_in_specified_fields(String description,
-                                                                                                              Object actual,
-                                                                                                              Object expected,
-                                                                                                              String[] fieldsToIgnoreCollectionOrder) {
+  void should_pass_for_objects_with_the_same_data_when_collection_order_is_ignored_in_specified_fields(String description,
+                                                                                                       Object actual,
+                                                                                                       Object expected,
+                                                                                                       String[] fieldsToIgnoreCollectionOrder) {
     assertThat(actual).usingRecursiveComparison()
                       .ignoringCollectionOrderInFields(fieldsToIgnoreCollectionOrder)
                       .isEqualTo(expected);
@@ -136,7 +136,7 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
   }
 
   @Test
-  public void should_fail_when_actual_differs_from_expected_even_when_collection_order_is_ignored_in_some_fields() {
+  void should_fail_when_actual_differs_from_expected_even_when_collection_order_is_ignored_in_some_fields() {
     // GIVEN
     FriendlyPerson actual = friend("Sherlock Holmes");
     actual.friends.add(friend("Molly Hooper"));
@@ -165,10 +165,10 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
   @ParameterizedTest(name = "{0}: actual={1} / expected={2} / ignore collection order in fields matching regexes={3}")
   @MethodSource("should_pass_for_objects_with_the_same_data_when_collection_order_is_ignored_in_fields_matching_specified_regexes_source")
   @SuppressWarnings("unused")
-  public void should_pass_for_objects_with_the_same_data_when_collection_order_is_ignored_in_fields_matching_specified_regexes(String description,
-                                                                                                                               Object actual,
-                                                                                                                               Object expected,
-                                                                                                                               String[] regexes) {
+  void should_pass_for_objects_with_the_same_data_when_collection_order_is_ignored_in_fields_matching_specified_regexes(String description,
+                                                                                                                        Object actual,
+                                                                                                                        Object expected,
+                                                                                                                        String[] regexes) {
     assertThat(actual).usingRecursiveComparison()
                       .ignoringCollectionOrderInFieldsMatchingRegexes(regexes)
                       .isEqualTo(expected);
@@ -206,7 +206,7 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
   }
 
   @Test
-  public void should_fail_when_actual_differs_from_expected_even_when_collection_order_is_ignored_in_fields_matching_some_regexes() {
+  void should_fail_when_actual_differs_from_expected_even_when_collection_order_is_ignored_in_fields_matching_some_regexes() {
     // GIVEN
     FriendlyPerson actual = friend("Sherlock Holmes");
     FriendlyPerson actualFriend = friend("Dr. John Watson");
@@ -233,7 +233,7 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
   }
 
   @Test
-  public void should_fix_1854() {
+  void should_fix_1854() {
     // Original Lists
     List<Integer> listA = list(1, 2);
     List<Integer> listB = list(1, 2);
@@ -320,7 +320,7 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
    * If listA and listB contained non wrapped basic types then == is enough to differentiate them.
    */
   @Test
-  public void should_fix_1854_minimal_test() {
+  void should_fix_1854_minimal_test() {
     // GIVEN
     List<Integer> listA = list(1, 2);
     List<Integer> listB = list(1, 2);
@@ -335,7 +335,7 @@ public class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
   }
 
   @Test
-  public void should_fix_1854_with_non_wrapped_basic_types() {
+  void should_fix_1854_with_non_wrapped_basic_types() {
     // GIVEN
     FriendlyPerson p1 = friend("Sherlock Holmes");
     FriendlyPerson p2 = friend("Watson");

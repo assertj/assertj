@@ -26,7 +26,7 @@ import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ShouldHaveValue_create_Test {
+class ShouldHaveValue_create_Test {
 
   private static final TestDescription TEST_DESCRIPTION = new TestDescription("TEST");
   private Person joe;
@@ -40,7 +40,7 @@ public class ShouldHaveValue_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_AtomicIntegerFieldUpdater() {
+  void should_create_error_message_for_AtomicIntegerFieldUpdater() {
     // GIVEN
     AtomicIntegerFieldUpdater<Person> updater = AtomicIntegerFieldUpdater.newUpdater(Person.class, "age");
     // WHEN
@@ -56,7 +56,7 @@ public class ShouldHaveValue_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_AtomicLongFieldUpdater() {
+  void should_create_error_message_for_AtomicLongFieldUpdater() {
     // GIVEN
     AtomicLongFieldUpdater<Person> updater = AtomicLongFieldUpdater.newUpdater(Person.class, "account");
     // WHEN
@@ -73,7 +73,7 @@ public class ShouldHaveValue_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_AtomicReferenceFieldUpdater() {
+  void should_create_error_message_for_AtomicReferenceFieldUpdater() {
     // GIVEN
     AtomicReferenceFieldUpdater<Person, String> updater = newUpdater(Person.class, String.class, "name");
     // WHEN

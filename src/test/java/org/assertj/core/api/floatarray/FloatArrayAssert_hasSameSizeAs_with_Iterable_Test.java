@@ -26,7 +26,7 @@ import org.assertj.core.api.FloatArrayAssertBaseTest;
  * 
  * @author Nicolas François
  */
-public class FloatArrayAssert_hasSameSizeAs_with_Iterable_Test extends FloatArrayAssertBaseTest {
+class FloatArrayAssert_hasSameSizeAs_with_Iterable_Test extends FloatArrayAssertBaseTest {
 
   private final List<String> other = newArrayList("Yoda", "Luke");
 

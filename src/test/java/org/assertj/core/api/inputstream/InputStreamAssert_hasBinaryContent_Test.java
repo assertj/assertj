@@ -21,12 +21,12 @@ import org.junit.jupiter.api.BeforeAll;
 /**
  * Tests for <code>{@link InputStreamAssert#hasBinaryContent(byte[])}</code>.
  */
-public class InputStreamAssert_hasBinaryContent_Test extends InputStreamAssertBaseTest {
+class InputStreamAssert_hasBinaryContent_Test extends InputStreamAssertBaseTest {
 
   private static byte[] expected;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     expected = new byte[] { 1, 2 };
   }
 

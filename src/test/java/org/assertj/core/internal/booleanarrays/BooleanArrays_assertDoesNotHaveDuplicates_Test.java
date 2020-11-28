@@ -36,26 +36,26 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class BooleanArrays_assertDoesNotHaveDuplicates_Test extends BooleanArraysBaseTest {
+class BooleanArrays_assertDoesNotHaveDuplicates_Test extends BooleanArraysBaseTest {
 
   @Test
-  public void should_pass_if_actual_does_not_have_duplicates() {
+  void should_pass_if_actual_does_not_have_duplicates() {
     arrays.assertDoesNotHaveDuplicates(someInfo(), actual);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty() {
+  void should_pass_if_actual_is_empty() {
     arrays.assertDoesNotHaveDuplicates(someInfo(), emptyArray());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotHaveDuplicates(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_contains_duplicates() {
+  void should_fail_if_actual_contains_duplicates() {
     actual = arrayOf(true, true, false);
     AssertionInfo info = someInfo();
 

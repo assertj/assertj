@@ -25,11 +25,11 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class Files_delete_Test extends Files_TestCase {
+class Files_delete_Test extends Files_TestCase {
 
   @SuppressWarnings("deprecation")
   @Test
-  public void should_delete_folder() throws IOException {
+  void should_delete_folder() throws IOException {
     FolderFixture dir3 = new FolderFixture("dir_3");
     dir3.addFiles("file_3_1").addFiles("file_3_2").addFiles("file_3_2");
     dir3.addFolder("dir_3_1").addFiles("file_3_1_1").addFiles("file_3_1_2");

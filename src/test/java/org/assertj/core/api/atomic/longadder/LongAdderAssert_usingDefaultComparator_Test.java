@@ -29,7 +29,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
  * Tests for <code>{@link LongAdderAssert#usingDefaultComparator()}</code>.
- * 
+ *
  * @author Stefano Cordio
  */
 @DisplayName("LongAdderAssert usingDefaultComparator")
@@ -51,8 +51,8 @@ class LongAdderAssert_usingDefaultComparator_Test extends LongAdderAssertBaseTes
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(Objects.instance()).isSameAs(getObjects(assertions));
-    assertThat(Longs.instance()).isSameAs(getLongs(assertions));
+    assertThat(getObjects(assertions)).isSameAs(Objects.instance());
+    assertThat(getLongs(assertions)).isSameAs(Longs.instance());
   }
 
 }

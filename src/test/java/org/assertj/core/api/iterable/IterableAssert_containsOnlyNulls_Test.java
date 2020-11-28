@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Billy Yuan
  */
-public class IterableAssert_containsOnlyNulls_Test extends IterableAssertBaseTest {
+class IterableAssert_containsOnlyNulls_Test extends IterableAssertBaseTest {
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {
     return assertions.containsOnlyNulls();

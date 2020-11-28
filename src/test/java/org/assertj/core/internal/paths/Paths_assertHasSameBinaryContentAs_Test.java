@@ -37,14 +37,14 @@ import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
+class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
 
   private Path actual;
   private Path expected;
   private byte[] expectedBytes;
 
   @BeforeEach
-  public void setUpOnce() throws IOException {
+  void setUpOnce() throws IOException {
     // Does not matter if the values differ, the actual comparison is mocked in this test
     actual = createTempPathWithContent("foo", defaultCharset());
     expected = createTempPathWithContent("bar", defaultCharset());
@@ -56,7 +56,7 @@ public class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
   }
 
   @Test
-  public void should_pass_if_path_has_same_binary_content_as_expected() throws IOException {
+  void should_pass_if_path_has_same_binary_content_as_expected() throws IOException {
     // GIVEN
     given(binaryDiff.diff(actual, expectedBytes)).willReturn(noDiff());
     // WHEN/THEN
@@ -64,7 +64,7 @@ public class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_expected_is_null() {
+  void should_throw_error_if_expected_is_null() {
     // GIVEN
     Path nullExpected = null;
     // WHEN
@@ -75,7 +75,7 @@ public class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     Path path = null;
     // WHEN
@@ -85,7 +85,7 @@ public class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_path_does_not_exist() {
+  void should_fail_if_actual_path_does_not_exist() {
     // GIVEN
     given(nioFilesWrapper.exists(actual)).willReturn(false);
     // WHEN
@@ -95,7 +95,7 @@ public class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_not_readable() {
+  void should_fail_if_actual_is_not_readable() {
     // GIVEN
     when(nioFilesWrapper.isReadable(actual)).thenReturn(false);
     // WHEN
@@ -105,7 +105,7 @@ public class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_expected_path_is_does_not_exist() {
+  void should_fail_if_expected_path_is_does_not_exist() {
     // GIVEN
     when(nioFilesWrapper.exists(expected)).thenReturn(false);
     // WHEN
@@ -116,7 +116,7 @@ public class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_expected_path_is_not_readable() {
+  void should_fail_if_expected_path_is_not_readable() {
     // GIVEN
     when(nioFilesWrapper.isReadable(expected)).thenReturn(false);
     // WHEN
@@ -127,7 +127,7 @@ public class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
   }
 
   @Test
-  public void should_throw_error_wrapping_caught_IOException() throws IOException {
+  void should_throw_error_wrapping_caught_IOException() throws IOException {
     // GIVEN
     IOException cause = new IOException();
     given(binaryDiff.diff(actual, expectedBytes)).willThrow(cause);
@@ -139,7 +139,7 @@ public class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_path_does_not_have_expected_binary_content() throws IOException {
+  void should_fail_if_path_does_not_have_expected_binary_content() throws IOException {
     // GIVEN
     BinaryDiffResult diff = new BinaryDiffResult(15, (byte) 0xCA, (byte) 0xFE);
     when(binaryDiff.diff(actual, expectedBytes)).thenReturn(diff);

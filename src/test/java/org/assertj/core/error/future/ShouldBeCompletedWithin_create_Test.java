@@ -23,10 +23,10 @@ import java.util.concurrent.TimeUnit;
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldBeCompletedWithin_create_Test {
+class ShouldBeCompletedWithin_create_Test {
 
   @Test
-  public void should_create_error_message_with_duration() {
+  void should_create_error_message_with_duration() {
     // GIVEN
     CompletableFuture<Object> actual = new CompletableFuture<>();
     Duration duration = Duration.ofMillis(70_001);
@@ -44,7 +44,7 @@ public class ShouldBeCompletedWithin_create_Test {
   }
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     CompletableFuture<Object> actual = new CompletableFuture<>();
     Exception exception = new Exception("boom");

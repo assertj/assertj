@@ -21,11 +21,11 @@ import org.assertj.core.test.Vehicle;
 import org.assertj.core.test.VehicleAssert;
 import org.junit.jupiter.api.Test;
 
-public abstract class BaseNavigableListAssert_Test
+abstract class BaseNavigableListAssert_Test
     extends GenericNavigableAssert_Test<List<Vehicle>, AbstractListAssert<?, List<Vehicle>, Vehicle, VehicleAssert>> {
 
   @Test
-  public void should_honor_list_assertions() {
+  void should_honor_list_assertions() {
     vehiclesAssert.contains(expectedVehicles.get(1), atIndex(1));
   }
 

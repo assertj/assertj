@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
  * 
  * @author Lovro Pandzic
  */
-public class ObjectArrayAssert_containsExactlyInAnyOrder_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_containsExactlyInAnyOrder_Test extends ObjectArrayAssertBaseTest {
   
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {

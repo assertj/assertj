@@ -28,25 +28,25 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Alex Ruiz
  */
-public class IterableUtil_sizeOf_Test {
+class IterableUtil_sizeOf_Test {
   @Test
-  public void should_return_zero_if_iterable_is_empty() {
+  void should_return_zero_if_iterable_is_empty() {
     assertThat(IterableUtil.sizeOf(new ArrayList<>())).isEqualTo(0);
   }
 
   @Test
-  public void should_throws_exception_if_iterable_is_null() {
+  void should_throws_exception_if_iterable_is_null() {
     assertThatNullPointerException().isThrownBy(() -> IterableUtil.sizeOf(null));
   }
 
   @Test
-  public void should_return_iterable_size() {
+  void should_return_iterable_size() {
     List<String> list = newArrayList("Frodo", "Sam");
     assertThat(IterableUtil.sizeOf(list)).isEqualTo(2);
   }
 
   @Test
-  public void should_return_correct_size_for_non_collection_iterable() {
+  void should_return_correct_size_for_non_collection_iterable() {
     Iterable<Throwable> sqlException = new SQLException(new Exception(new Exception()));
     assertThat(IterableUtil.sizeOf(sqlException)).isEqualTo(3);
   }

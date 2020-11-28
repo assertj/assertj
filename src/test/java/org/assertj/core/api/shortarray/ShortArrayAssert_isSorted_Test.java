@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Joel Costigliola
  */
-public class ShortArrayAssert_isSorted_Test extends ShortArrayAssertBaseTest {
+class ShortArrayAssert_isSorted_Test extends ShortArrayAssertBaseTest {
 
   @Override
   protected ShortArrayAssert invoke_api_method() {

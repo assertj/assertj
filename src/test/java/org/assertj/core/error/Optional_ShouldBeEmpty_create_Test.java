@@ -25,10 +25,10 @@ import java.util.OptionalLong;
 
 import org.junit.jupiter.api.Test;
 
-public class Optional_ShouldBeEmpty_create_Test {
+class Optional_ShouldBeEmpty_create_Test {
 
   @Test
-  public void should_create_error_message_for_optional() {
+  void should_create_error_message_for_optional() {
     // WHEN
     String errorMessage = shouldBeEmpty(Optional.of("not-empty")).create();
     // THEN
@@ -36,14 +36,14 @@ public class Optional_ShouldBeEmpty_create_Test {
   }
 
   @Test
-  public void should_fail_with_empty_optional() {
+  void should_fail_with_empty_optional() {
     // WHEN
     // THEN
     thenExceptionOfType(NoSuchElementException.class).isThrownBy(() -> shouldBeEmpty(Optional.empty()).create());
   }
 
   @Test
-  public void should_create_error_message_for_optionaldouble() {
+  void should_create_error_message_for_optionaldouble() {
     // WHEN
     String errorMessage = shouldBeEmpty(OptionalDouble.of(1)).create();
     // THEN
@@ -51,7 +51,7 @@ public class Optional_ShouldBeEmpty_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_optionalint() {
+  void should_create_error_message_for_optionalint() {
     // WHEN
     String errorMessage = shouldBeEmpty(OptionalInt.of(1)).create();
     // THEN
@@ -59,7 +59,7 @@ public class Optional_ShouldBeEmpty_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_optionallong() {
+  void should_create_error_message_for_optionallong() {
     // WHEN
     String errorMessage = shouldBeEmpty(OptionalLong.of(1L)).create();
     // THEN

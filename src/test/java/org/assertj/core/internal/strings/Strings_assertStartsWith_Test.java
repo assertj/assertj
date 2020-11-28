@@ -33,10 +33,10 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Strings_assertStartsWith_Test extends StringsBaseTest {
+class Strings_assertStartsWith_Test extends StringsBaseTest {
 
   @Test
-  public void should_fail_if_actual_does_not_start_with_prefix() {
+  void should_fail_if_actual_does_not_start_with_prefix() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> strings.assertStartsWith(info, "Yoda", "Luke"));
@@ -46,24 +46,24 @@ public class Strings_assertStartsWith_Test extends StringsBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_prefix_is_null() {
+  void should_throw_error_if_prefix_is_null() {
     assertThatNullPointerException().isThrownBy(() -> strings.assertStartsWith(someInfo(), "Yoda", null))
                                     .withMessage("The given prefix should not be null");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertStartsWith(someInfo(), null, "Yoda"))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_starts_with_prefix() {
+  void should_pass_if_actual_starts_with_prefix() {
     strings.assertStartsWith(someInfo(), "Yoda", "Yo");
   }
 
   @Test
-  public void should_pass_if_actual_starts_with_prefix_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_starts_with_prefix_according_to_custom_comparison_strategy() {
     stringsWithCaseInsensitiveComparisonStrategy.assertStartsWith(someInfo(), "Yoda", "Y");
     stringsWithCaseInsensitiveComparisonStrategy.assertStartsWith(someInfo(), "Yoda", "Yo");
     stringsWithCaseInsensitiveComparisonStrategy.assertStartsWith(someInfo(), "Yoda", "Yod");
@@ -73,7 +73,7 @@ public class Strings_assertStartsWith_Test extends StringsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_start_with_prefix_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_start_with_prefix_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> stringsWithCaseInsensitiveComparisonStrategy.assertStartsWith(info, "Yoda", "Luke"));

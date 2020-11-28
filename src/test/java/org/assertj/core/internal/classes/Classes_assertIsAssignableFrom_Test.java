@@ -29,36 +29,36 @@ import org.junit.jupiter.api.Test;
  * 
  * @author William Delanoue
  */
-public class Classes_assertIsAssignableFrom_Test extends ClassesBaseTest {
+class Classes_assertIsAssignableFrom_Test extends ClassesBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_assignable_from() {
+  void should_pass_if_actual_is_assignable_from() {
     actual = Jedi.class;
     classes.assertIsAssignableFrom(someInfo(), actual, HumanJedi.class);
   }
 
   @Test
-  public void should_fail_if_given_classes_are_empty() {
+  void should_fail_if_given_classes_are_empty() {
     actual = Jedi.class;
     assertThatIllegalArgumentException().isThrownBy(() -> classes.assertIsAssignableFrom(someInfo(), actual))
                                         .withMessage("Expecting at least one Class to be specified");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     actual = null;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsAssignableFrom(someInfo(), actual))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_is_assignable_from_int() {
+  void should_pass_if_actual_is_assignable_from_int() {
     actual = int.class;
     classes.assertIsAssignableFrom(someInfo(), actual, int.class);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_assignable_from() {
+  void should_fail_if_actual_is_not_assignable_from() {
     actual = HumanJedi.class;
     Class<?>[] expected = new Class[] { HumanJedi.class, Jedi.class };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsAssignableFrom(someInfo(), actual, expected))

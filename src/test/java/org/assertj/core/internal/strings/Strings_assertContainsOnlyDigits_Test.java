@@ -24,30 +24,30 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link org.assertj.core.internal.Strings#assertContainsOnlyDigits(AssertionInfo info, CharSequence actual)}</code>.
  */
-public class Strings_assertContainsOnlyDigits_Test extends StringsBaseTest {
+class Strings_assertContainsOnlyDigits_Test extends StringsBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_only_digits() {
+  void should_pass_if_actual_contains_only_digits() {
     strings.assertContainsOnlyDigits(someInfo(), "10");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsOnlyDigits(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_contains_any_non_digit_character() {
+  void should_fail_if_actual_contains_any_non_digit_character() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsOnlyDigits(someInfo(), "10$"))
                                                    .withMessage(shouldContainOnlyDigits("10$", '$', 2).create());
   }
 
   /**
-   * See <a href="https://github.com/joel-costigliola/assertj-core/pull/342">discussion on failing the assertion for empty CharSequence</a>
+   * See <a href="https://github.com/assertj/assertj-core/pull/342">discussion on failing the assertion for empty CharSequence</a>
    */
   @Test
-  public void should_fail_if_actual_is_empty() {
+  void should_fail_if_actual_is_empty() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsOnlyDigits(someInfo(), ""))
                                                    .withMessage(shouldContainOnlyDigits("").create());
   }

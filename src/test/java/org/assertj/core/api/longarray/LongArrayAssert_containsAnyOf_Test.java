@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.LongArrayAssert;
 import org.assertj.core.api.LongArrayAssertBaseTest;
 
-public class LongArrayAssert_containsAnyOf_Test extends LongArrayAssertBaseTest {
+class LongArrayAssert_containsAnyOf_Test extends LongArrayAssertBaseTest {
 
   @Override
   protected LongArrayAssert invoke_api_method() {

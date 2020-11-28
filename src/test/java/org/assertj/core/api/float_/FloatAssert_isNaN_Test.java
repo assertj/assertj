@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Yvonne Wang
  */
-public class FloatAssert_isNaN_Test extends FloatAssertBaseTest {
+class FloatAssert_isNaN_Test extends FloatAssertBaseTest {
 
   @Override
   protected FloatAssert invoke_api_method() {

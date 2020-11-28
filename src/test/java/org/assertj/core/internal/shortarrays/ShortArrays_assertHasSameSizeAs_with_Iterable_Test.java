@@ -32,10 +32,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Nicolas François
  */
-public class ShortArrays_assertHasSameSizeAs_with_Iterable_Test extends ShortArraysBaseTest {
+class ShortArrays_assertHasSameSizeAs_with_Iterable_Test extends ShortArraysBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
     // WHEN
@@ -45,7 +45,7 @@ public class ShortArrays_assertHasSameSizeAs_with_Iterable_Test extends ShortArr
   }
 
   @Test
-  public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
+  void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     // GIVEN
     AssertionInfo info = someInfo();
     List<String> other = list("Solo", "Leia");
@@ -57,7 +57,7 @@ public class ShortArrays_assertHasSameSizeAs_with_Iterable_Test extends ShortArr
   }
 
   @Test
-  public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
+  void should_pass_if_size_of_actual_is_equal_to_expected_size() {
     arrays.assertHasSameSizeAs(someInfo(), actual, list("Solo", "Leia", "Luke"));
   }
 }

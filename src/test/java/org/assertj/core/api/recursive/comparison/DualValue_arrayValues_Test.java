@@ -23,12 +23,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class DualValue_arrayValues_Test {
+class DualValue_arrayValues_Test {
 
   private static final List<String> PATH = list("foo", "bar");
 
   @Test
-  public void isActualFieldAnArray_should_return_true_when_actual_is_an_array() {
+  void isActualFieldAnArray_should_return_true_when_actual_is_an_array() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, array("a", "b"), "");
     // WHEN
@@ -40,7 +40,7 @@ public class DualValue_arrayValues_Test {
   @ParameterizedTest
   @NullSource
   @ValueSource(strings = { "abc" })
-  public void isActualFieldAnArray_should_return_false_when_actual_is_not_an_array(String actual) {
+  void isActualFieldAnArray_should_return_false_when_actual_is_not_an_array(String actual) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, actual, "");
     // WHEN
@@ -50,7 +50,7 @@ public class DualValue_arrayValues_Test {
   }
 
   @Test
-  public void isExpectedFieldAnArray_should_return_true_when_expected_is_an_array() {
+  void isExpectedFieldAnArray_should_return_true_when_expected_is_an_array() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", array("a", "b"));
     // WHEN
@@ -62,7 +62,7 @@ public class DualValue_arrayValues_Test {
   @ParameterizedTest
   @NullSource
   @ValueSource(strings = { "abc" })
-  public void isExpectedFieldAnArray_should_return_false_when_expected_is_not_an_array(String expected) {
+  void isExpectedFieldAnArray_should_return_false_when_expected_is_not_an_array(String expected) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", expected);
     // WHEN

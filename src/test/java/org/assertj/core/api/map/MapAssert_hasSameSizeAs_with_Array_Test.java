@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Nicolas François
  */
-public class MapAssert_hasSameSizeAs_with_Array_Test extends MapAssertBaseTest {
+class MapAssert_hasSameSizeAs_with_Array_Test extends MapAssertBaseTest {
 
   private final String[] other = array("Yoda", "Luke");
 

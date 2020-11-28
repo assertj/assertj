@@ -18,7 +18,7 @@ import java.time.LocalTime;
 
 import org.assertj.core.api.LocalTimeAssert;
 
-public class LocalTimeAssert_isBetween_Test extends org.assertj.core.api.LocalTimeAssertBaseTest {
+class LocalTimeAssert_isBetween_Test extends org.assertj.core.api.LocalTimeAssertBaseTest {
 
   private LocalTime before = now.minusSeconds(1);
   private LocalTime after = now.plusSeconds(1);

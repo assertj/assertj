@@ -21,7 +21,7 @@ import org.assertj.core.api.MapAssertBaseTest;
 /**
  * Tests for <code>{@link MapAssert#hasEntrySatisfying(Condition, Condition)}</code>.
  */
-public class MapAssert_hasEntrySatisfying_with_key_and_value_conditions_Test extends MapAssertBaseTest {
+class MapAssert_hasEntrySatisfying_with_key_and_value_conditions_Test extends MapAssertBaseTest {
 
   private final Condition<Object> keyCondition = new Condition<Object>() {
     @Override

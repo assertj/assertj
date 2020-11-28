@@ -22,7 +22,7 @@ import java.time.format.DateTimeParseException;
 import org.assertj.core.api.LocalDateAssert;
 import org.junit.jupiter.api.Test;
 
-public class LocalDateAssert_isStrictlyBetween_with_String_parameters_Test extends org.assertj.core.api.LocalDateAssertBaseTest {
+class LocalDateAssert_isStrictlyBetween_with_String_parameters_Test extends org.assertj.core.api.LocalDateAssertBaseTest {
 
   private LocalDate before = now.minusDays(1);
   private LocalDate after = now.plusDays(1);
@@ -38,7 +38,7 @@ public class LocalDateAssert_isStrictlyBetween_with_String_parameters_Test exten
   }
 
   @Test
-  public void should_throw_a_DateTimeParseException_if_start_String_parameter_cant_be_converted() {
+  void should_throw_a_DateTimeParseException_if_start_String_parameter_cant_be_converted() {
     // GIVEN
     String abc = "abc";
     // WHEN
@@ -48,7 +48,7 @@ public class LocalDateAssert_isStrictlyBetween_with_String_parameters_Test exten
   }
 
   @Test
-  public void should_throw_a_DateTimeParseException_if_end_String_parameter_cant_be_converted() {
+  void should_throw_a_DateTimeParseException_if_end_String_parameter_cant_be_converted() {
     // GIVEN
     String abc = "abc";
     // WHEN

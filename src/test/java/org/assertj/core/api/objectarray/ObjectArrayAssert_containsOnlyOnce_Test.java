@@ -23,7 +23,7 @@ import org.assertj.core.api.ObjectArrayAssertBaseTest;
  * 
  * @author William Delanoue
  */
-public class ObjectArrayAssert_containsOnlyOnce_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_containsOnlyOnce_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {

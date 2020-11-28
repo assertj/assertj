@@ -28,6 +28,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Iterator;
@@ -88,6 +89,18 @@ public interface WithAssumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Object2DArrayAssert}</code> assumption.
+   *
+   * @param <T> the type of elements.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  default <T> Object2DArrayAssert<T> assumeThat(final T[][] actual) {
+    return Assumptions.assumeThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link MapAssert}</code> assumption.
    *
    * @param <K> the type of keys in the map.
@@ -141,6 +154,17 @@ public interface WithAssumptions {
    * @since 2.9.0 / 3.9.0
    */
   default AbstractLongArrayAssert<?> assumeThat(final long[] actual) {
+    return Assumptions.assumeThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Long2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  default Long2DArrayAssert assumeThat(final long[][] actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -407,6 +431,17 @@ public interface WithAssumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Short2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  default Short2DArrayAssert assumeThat(final short[][] actual) {
+    return Assumptions.assumeThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ShortAssert}</code> assumption.
    *
    * @param actual the actual value.
@@ -447,6 +482,17 @@ public interface WithAssumptions {
    * @since 2.9.0 / 3.9.0
    */
   default AbstractCharArrayAssert<?> assumeThat(final char[] actual) {
+    return Assumptions.assumeThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Char2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  default Char2DArrayAssert assumeThat(final char[][] actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -522,6 +568,17 @@ public interface WithAssumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Boolean2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  default Boolean2DArrayAssert assumeThat(final boolean[][] actual) {
+    return Assumptions.assumeThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ByteAssert}</code> assumption.
    *
    * @param actual the actual value.
@@ -551,6 +608,17 @@ public interface WithAssumptions {
    * @since 2.9.0 / 3.9.0
    */
   default AbstractByteArrayAssert<?> assumeThat(final byte[] actual) {
+    return Assumptions.assumeThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Byte2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  default Byte2DArrayAssert assumeThat(final byte[][] actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -634,6 +702,17 @@ public interface WithAssumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link Int2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  default Int2DArrayAssert assumeThat(final int[][] actual) {
+    return Assumptions.assumeThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link FloatAssert}</code> assumption.
    *
    * @param actual the actual value.
@@ -641,6 +720,17 @@ public interface WithAssumptions {
    * @since 2.9.0 / 3.9.0
    */
   default AbstractFloatAssert<?> assumeThat(final Float actual) {
+    return Assumptions.assumeThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Float2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  default Float2DArrayAssert assumeThat(final float[][] actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -764,6 +854,17 @@ public interface WithAssumptions {
    * @since 2.9.0 / 3.9.0
    */
   default AbstractDoubleArrayAssert<?> assumeThat(final double[] actual) {
+    return Assumptions.assumeThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link Double2DArrayAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  default Double2DArrayAssert assumeThat(final double[][] actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -903,6 +1004,17 @@ public interface WithAssumptions {
    */
   default AbstractDurationAssert<?> assumeThat(final Duration duration) {
     return Assumptions.assumeThat(duration);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link PeriodAssert}</code> assumption.
+   *
+   * @param period the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.17.0
+   */
+  default AbstractPeriodAssert<?> assumeThat(final Period period) {
+    return Assumptions.assumeThat(period);
   }
 
   /**

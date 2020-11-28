@@ -19,13 +19,12 @@ import java.util.Date;
 
 import org.assertj.core.api.DateAssert;
 
-
 /**
  * Tests for {@link DateAssert#isIn(java.util.Collection))} with Collection of Date or String.
- * 
+ *
  * @author Joel Costigliola
  */
-public class DateAssert_isNotIn_with_collection_param_Test extends AbstractDateAssertWithDateArg_Test {
+class DateAssert_isNotIn_with_collection_param_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {
@@ -40,6 +39,12 @@ public class DateAssert_isNotIn_with_collection_param_Test extends AbstractDateA
   @Override
   protected void verifyAssertionInvocation(Date date) {
     verify(objects).assertIsNotIn(getInfo(assertions), getActual(assertions), newArrayList(date));
+  }
+
+  @Override
+  protected DateAssert assertionInvocationWithInstantArg() {
+    // isNotInWithInstanCollection is not implemented (a bit too specific)
+    return null;
   }
 
 }

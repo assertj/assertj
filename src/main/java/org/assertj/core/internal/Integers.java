@@ -20,8 +20,9 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Drummond Dawson
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Cal027
  */
-public class Integers extends Numbers<Integer> {
+public class Integers extends Numbers<Integer> implements WholeNumbers<Integer> {
 
   private static final Integers INSTANCE = new Integers();
 
@@ -63,4 +64,8 @@ public class Integers extends Numbers<Integer> {
     return value > other;
   }
 
+  @Override
+  public boolean isEven(Integer number) {
+    return (number & one()) == zero();
+  }
 }

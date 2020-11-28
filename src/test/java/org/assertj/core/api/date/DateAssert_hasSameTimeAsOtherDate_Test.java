@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alexander Bischof
  */
-public class DateAssert_hasSameTimeAsOtherDate_Test extends DateAssertBaseTest {
+class DateAssert_hasSameTimeAsOtherDate_Test extends DateAssertBaseTest {
 
   @Test
-  public void should_verify_that_actual_has_time_equals_to_expected() {
+  void should_verify_that_actual_has_time_equals_to_expected() {
     Date date = new Date();
     Timestamp timestamp = new java.sql.Timestamp(date.getTime());
     assertThat(date).hasSameTimeAs(timestamp);
@@ -40,13 +40,13 @@ public class DateAssert_hasSameTimeAsOtherDate_Test extends DateAssertBaseTest {
   }
 
   @Test
-  public void should_fail_when_actual_is_null() {
+  void should_fail_when_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Date) null).hasSameTimeAs(new Date()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_exception_when_date_is_null() {
+  void should_throw_exception_when_date_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(new Date()).hasSameTimeAs((Date) null))
                                     .withMessage(dateToCompareActualWithIsNull());
   }

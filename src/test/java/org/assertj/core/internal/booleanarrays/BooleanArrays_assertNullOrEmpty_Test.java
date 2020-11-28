@@ -33,10 +33,10 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class BooleanArrays_assertNullOrEmpty_Test extends BooleanArraysBaseTest {
+class BooleanArrays_assertNullOrEmpty_Test extends BooleanArraysBaseTest {
 
   @Test
-  public void should_fail_if_array_is_not_null_and_is_not_empty() {
+  void should_fail_if_array_is_not_null_and_is_not_empty() {
     AssertionInfo info = someInfo();
     boolean[] actual = { true, false };
 
@@ -47,12 +47,12 @@ public class BooleanArrays_assertNullOrEmpty_Test extends BooleanArraysBaseTest 
   }
 
   @Test
-  public void should_pass_if_array_is_null() {
+  void should_pass_if_array_is_null() {
     arrays.assertNullOrEmpty(someInfo(), null);
   }
 
   @Test
-  public void should_pass_if_array_is_empty() {
+  void should_pass_if_array_is_empty() {
     arrays.assertNullOrEmpty(someInfo(), emptyArray());
   }
 }

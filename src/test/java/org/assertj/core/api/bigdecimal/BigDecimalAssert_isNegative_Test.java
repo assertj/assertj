@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class BigDecimalAssert_isNegative_Test extends BigDecimalAssertBaseTest {
+class BigDecimalAssert_isNegative_Test extends BigDecimalAssertBaseTest {
 
   @Override
   protected BigDecimalAssert invoke_api_method() {

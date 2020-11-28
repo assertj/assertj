@@ -24,10 +24,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("shouldBeEqualToWithSortedQueryParameters")
-public class ShouldBeEqualToWithSortedQueryParameters_create_Test {
+class ShouldBeEqualToWithSortedQueryParameters_create_Test {
 
   @Test
-  public void should_create_error_message() throws MalformedURLException {
+  void should_create_error_message() throws MalformedURLException {
     // GIVEN
     URL actual = new URL("https://example2.com/path/to/page?name=ferret&color=purple");
     URL expected = new URL("https://example.com/path/to/page?color=purple&name=ferret");

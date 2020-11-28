@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Joel Costigliola
  */
-public class DoubleArrayAssert_isSorted_Test extends DoubleArrayAssertBaseTest {
+class DoubleArrayAssert_isSorted_Test extends DoubleArrayAssertBaseTest {
 
   @Override
   protected DoubleArrayAssert invoke_api_method() {

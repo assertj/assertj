@@ -25,17 +25,17 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 
 
-public class LocalDateTimeAssert_isEqualToIgnoringSeconds_Test {
+class LocalDateTimeAssert_isEqualToIgnoringSeconds_Test {
 
   private final LocalDateTime refLocalDateTime = LocalDateTime.of(2000, 1, 1, 23, 51, 0, 0);
 
   @Test
-  public void should_pass_if_actual_is_equal_to_other_ignoring_second_fields() {
+  void should_pass_if_actual_is_equal_to_other_ignoring_second_fields() {
     assertThat(refLocalDateTime).isEqualToIgnoringSeconds(refLocalDateTime.plusSeconds(1));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_equal_to_given_localdatetime_with_second_ignored() {
+  void should_fail_if_actual_is_not_equal_to_given_localdatetime_with_second_ignored() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(refLocalDateTime).isEqualToIgnoringSeconds(refLocalDateTime.plusMinutes(1)));
     // THEN
@@ -43,7 +43,7 @@ public class LocalDateTimeAssert_isEqualToIgnoringSeconds_Test {
   }
 
   @Test
-  public void should_fail_as_seconds_fields_are_different_even_if_time_difference_is_less_than_a_second() {
+  void should_fail_as_seconds_fields_are_different_even_if_time_difference_is_less_than_a_second() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(refLocalDateTime).isEqualToIgnoringSeconds(refLocalDateTime.minusNanos(1)));
     // THEN
@@ -51,7 +51,7 @@ public class LocalDateTimeAssert_isEqualToIgnoringSeconds_Test {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     LocalDateTime actual = null;
     // WHEN
@@ -62,7 +62,7 @@ public class LocalDateTimeAssert_isEqualToIgnoringSeconds_Test {
   }
 
   @Test
-  public void should_throw_error_if_given_localdatetime_is_null() {
+  void should_throw_error_if_given_localdatetime_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(refLocalDateTime).isEqualToIgnoringSeconds(null))
                                         .withMessage(NULL_LOCAL_DATE_TIME_PARAMETER_MESSAGE);
   }

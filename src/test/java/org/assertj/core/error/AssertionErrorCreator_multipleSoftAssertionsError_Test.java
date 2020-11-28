@@ -26,12 +26,12 @@ import org.assertj.core.api.SoftAssertionError;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.MultipleFailuresError;
 
-public class AssertionErrorCreator_multipleSoftAssertionsError_Test {
+class AssertionErrorCreator_multipleSoftAssertionsError_Test {
 
   private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
 
   @Test
-  public void should_create_AssertJMultipleFailuresError_using_reflection() {
+  void should_create_AssertJMultipleFailuresError_using_reflection() {
     // GIVEN
     List<AssertionError> errors = list(new AssertionError(format("%nerror1")), new AssertionError(format("%nerror2")));
     // WHEN
@@ -48,7 +48,7 @@ public class AssertionErrorCreator_multipleSoftAssertionsError_Test {
   }
 
   @Test
-  public void should_create_SoftAssertionError_when_MultipleFailuresError_could_not_be_created() throws Exception {
+  void should_create_SoftAssertionError_when_MultipleFailuresError_could_not_be_created() throws Exception {
     // GIVEN
     List<? extends AssertionError> errors = list(new AssertionError("error1"), new AssertionError("error2"));
     ConstructorInvoker constructorInvoker = mock(ConstructorInvoker.class);

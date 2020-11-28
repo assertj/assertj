@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class BooleanAssert_isEqualTo_boolean_Test extends BooleanAssertBaseTest {
+class BooleanAssert_isEqualTo_boolean_Test extends BooleanAssertBaseTest {
 
   @Override
   protected BooleanAssert invoke_api_method() {

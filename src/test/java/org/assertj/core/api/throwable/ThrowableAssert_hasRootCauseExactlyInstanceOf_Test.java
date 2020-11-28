@@ -22,7 +22,7 @@ import org.assertj.core.api.ThrowableAssertBaseTest;
  * 
  * @author Jean-Christophe Gay
  */
-public class ThrowableAssert_hasRootCauseExactlyInstanceOf_Test extends ThrowableAssertBaseTest {
+class ThrowableAssert_hasRootCauseExactlyInstanceOf_Test extends ThrowableAssertBaseTest {
 
   @Override
   protected ThrowableAssert invoke_api_method() {

@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Joel Costigliola
  */
-public class DateAssert_hasDayOfWeek_Test extends AbstractDateAssertWithOneIntArg_Test {
+class DateAssert_hasDayOfWeek_Test extends AbstractDateAssertWithOneIntArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithOneIntArg() {

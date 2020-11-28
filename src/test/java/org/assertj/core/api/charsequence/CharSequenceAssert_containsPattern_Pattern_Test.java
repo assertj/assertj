@@ -26,12 +26,12 @@ import org.junit.jupiter.api.BeforeAll;
  * 
  * @author Pierre Templier
  */
-public class CharSequenceAssert_containsPattern_Pattern_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_containsPattern_Pattern_Test extends CharSequenceAssertBaseTest {
 
   private static Pattern pattern;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     pattern = matchAnything();
   }
 

@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-public class ZonedDateTimeAssert_isNotIn_errors_Test extends ZonedDateTimeAssertBaseTest {
+class ZonedDateTimeAssert_isNotIn_errors_Test extends ZonedDateTimeAssertBaseTest {
 
   @Test
-  public void test_isNotIn_assertion() {
+  void test_isNotIn_assertion() {
     // WHEN
     assertThat(REFERENCE).isNotIn(REFERENCE.plusNanos(1).toString(), REFERENCE.plusNanos(2).toString());
     // THEN
@@ -40,7 +40,7 @@ public class ZonedDateTimeAssert_isNotIn_errors_Test extends ZonedDateTimeAssert
   }
 
   @Test
-  public void test_isNotIn_assertion_error_message() {
+  void test_isNotIn_assertion_error_message() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0,
                                                                                                  UTC)).isNotIn(ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC).toString(), ZonedDateTime.of(2012, 1, 1, 3, 3, 3, 0, UTC).toString()))
                                                    .withMessage(format("%nExpecting:%n <2000-01-05T03:00:05Z (java.time.ZonedDateTime)>%nnot to be in:%n"
@@ -49,13 +49,13 @@ public class ZonedDateTimeAssert_isNotIn_errors_Test extends ZonedDateTimeAssert
   }
 
   @Test
-  public void should_fail_if_dateTimes_as_string_array_parameter_is_null() {
+  void should_fail_if_dateTimes_as_string_array_parameter_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(ZonedDateTime.now()).isNotIn((String[]) null))
                                         .withMessage("The given ZonedDateTime array should not be null");
   }
 
   @Test
-  public void should_fail_if_dateTimes_as_string_array_parameter_is_empty() {
+  void should_fail_if_dateTimes_as_string_array_parameter_is_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(ZonedDateTime.now()).isNotIn(new String[0]))
                                         .withMessage("The given ZonedDateTime array should not be empty");
   }

@@ -40,7 +40,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valeriy Vyrva
  */
-public class Maps_assertHasEntrySatisfyingCondition_Test extends MapsBaseTest {
+class Maps_assertHasEntrySatisfyingCondition_Test extends MapsBaseTest {
 
   private static final Pattern IS_DIGITS = Pattern.compile("^\\d+$");
 
@@ -71,13 +71,13 @@ public class Maps_assertHasEntrySatisfyingCondition_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(someInfo(), null, 8, isDigits))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_key() {
+  void should_fail_if_actual_does_not_contain_key() {
     AssertionInfo info = someInfo();
     String key = "id";
 
@@ -88,7 +88,7 @@ public class Maps_assertHasEntrySatisfyingCondition_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_contains_key_with_value_not_matching_condition() {
+  void should_fail_if_actual_contains_key_with_value_not_matching_condition() {
     AssertionInfo info = someInfo();
     String key = "name";
 
@@ -99,7 +99,7 @@ public class Maps_assertHasEntrySatisfyingCondition_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_contains_null_key_with_value_not_matching_condition() {
+  void should_fail_if_actual_contains_null_key_with_value_not_matching_condition() {
     AssertionInfo info = someInfo();
     String key = null;
 
@@ -110,13 +110,13 @@ public class Maps_assertHasEntrySatisfyingCondition_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_contains_null_key_with_value_match_condition() {
+  void should_pass_if_actual_contains_null_key_with_value_match_condition() {
     AssertionInfo info = someInfo();
     maps.assertHasEntrySatisfying(info, actual, null, isNull);
   }
 
   @Test
-  public void should_pass_if_actual_contains_key_with_value_match_condition() {
+  void should_pass_if_actual_contains_key_with_value_match_condition() {
     AssertionInfo info = someInfo();
     String key = "name";
     maps.assertHasEntrySatisfying(info, actual, key, isNotDigits);

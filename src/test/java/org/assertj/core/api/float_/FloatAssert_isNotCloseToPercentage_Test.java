@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Chris Arnott
  */
-public class FloatAssert_isNotCloseToPercentage_Test extends FloatAssertBaseTest {
+class FloatAssert_isNotCloseToPercentage_Test extends FloatAssertBaseTest {
 
     private final Percentage percentage = withPercentage(5.0f);
     private final Float value = 10.0f;

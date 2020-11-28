@@ -22,12 +22,12 @@ import org.assertj.core.test.WithPlayerData;
 import org.junit.jupiter.api.Test;
 
 
-public class Filter_being_condition_Test extends WithPlayerData {
+class Filter_being_condition_Test extends WithPlayerData {
 
   private PotentialMvpCondition potentialMvp = new PotentialMvpCondition();
 
   @Test
-  public void should_filter_iterable_elements_satisfying_condition() {
+  void should_filter_iterable_elements_satisfying_condition() {
     Iterable<Player> potentialMvpPlayers = filter(players).being(potentialMvp).get();
     assertThat(potentialMvpPlayers).containsOnly(jordan);
     // players is not modified
@@ -35,7 +35,7 @@ public class Filter_being_condition_Test extends WithPlayerData {
   }
 
   @Test
-  public void should_fail_if_filter_condition_is_null() {
+  void should_fail_if_filter_condition_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> filter(players).being(null))
                                         .withMessage("The filter condition should not be null");
   }

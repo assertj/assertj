@@ -41,28 +41,28 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class BooleanArrays_assertContains_at_Index_Test extends BooleanArraysBaseTest {
+class BooleanArrays_assertContains_at_Index_Test extends BooleanArraysBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), null, true, someIndex()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_empty() {
+  void should_fail_if_actual_is_empty() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), emptyArray(), true, someIndex()))
                                                    .withMessage(actualIsEmpty());
   }
 
   @Test
-  public void should_throw_error_if_Index_is_null() {
+  void should_throw_error_if_Index_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContains(someInfo(), actual, true, null))
                                     .withMessage("Index should not be null");
   }
 
   @Test
-  public void should_throw_error_if_Index_is_out_of_bounds() {
+  void should_throw_error_if_Index_is_out_of_bounds() {
     assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> arrays.assertContains(someInfo(),
                                                                                                       actual, true,
                                                                                                       atIndex(6)))
@@ -70,7 +70,7 @@ public class BooleanArrays_assertContains_at_Index_Test extends BooleanArraysBas
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_value_at_index() {
+  void should_fail_if_actual_does_not_contain_value_at_index() {
     AssertionInfo info = someInfo();
     boolean value = true;
     Index index = atIndex(1);
@@ -82,7 +82,7 @@ public class BooleanArrays_assertContains_at_Index_Test extends BooleanArraysBas
   }
 
   @Test
-  public void should_pass_if_actual_contains_value_at_index() {
+  void should_pass_if_actual_contains_value_at_index() {
     arrays.assertContains(someInfo(), actual, false, atIndex(1));
   }
 }

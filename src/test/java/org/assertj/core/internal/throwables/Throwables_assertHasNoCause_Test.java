@@ -30,21 +30,21 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Throwables_assertHasNoCause_Test extends ThrowablesBaseTest {
+class Throwables_assertHasNoCause_Test extends ThrowablesBaseTest {
 
   @Test
-  public void should_pass_if_actual_has_no_cause() {
+  void should_pass_if_actual_has_no_cause() {
     throwables.assertHasNoCause(someInfo(), actual);
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasNoCause(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_has_a_cause() {
+  void should_fail_if_actual_has_a_cause() {
     AssertionInfo info = someInfo();
     Throwable throwableWithCause = new Throwable(new NullPointerException());
     try {

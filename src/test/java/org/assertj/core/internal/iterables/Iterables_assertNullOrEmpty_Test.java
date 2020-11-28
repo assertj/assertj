@@ -34,20 +34,20 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class Iterables_assertNullOrEmpty_Test extends IterablesBaseTest {
+class Iterables_assertNullOrEmpty_Test extends IterablesBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_null() {
+  void should_pass_if_actual_is_null() {
     iterables.assertNullOrEmpty(someInfo(), null);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty() {
+  void should_pass_if_actual_is_empty() {
     iterables.assertNullOrEmpty(someInfo(), emptyList());
   }
 
   @Test
-  public void should_fail_if_actual_has_elements() {
+  void should_fail_if_actual_has_elements() {
     AssertionInfo info = someInfo();
     Collection<String> actual = newArrayList("Yoda");
 
@@ -58,17 +58,17 @@ public class Iterables_assertNullOrEmpty_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertNullOrEmpty(someInfo(), null);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertNullOrEmpty(someInfo(), emptyList());
   }
 
   @Test
-  public void should_fail_if_actual_has_elements_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_has_elements_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     Collection<String> actual = newArrayList("Yoda");
 

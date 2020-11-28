@@ -21,15 +21,15 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class Strings_append_Test {
+class Strings_append_Test {
 
   @Test
-  public void should_append_String() {
+  void should_append_String() {
     assertThat(Strings.append("c").to("ab")).isEqualTo("abc");
   }
 
   @Test
-  public void should_not_append_String_if_already_present() {
+  void should_not_append_String_if_already_present() {
     assertThat(Strings.append("c").to("abc")).isEqualTo("abc");
   }
 }

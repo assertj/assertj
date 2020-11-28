@@ -54,7 +54,8 @@ public interface NavigationMethodBaseTest<ASSERT extends AbstractAssert<ASSERT, 
     // THEN
     then(result).hasFieldOrPropertyWithValue("objects", extractObjectField(assertion))
                 .extracting(AbstractAssert::getWritableAssertionInfo)
-                .isEqualToComparingFieldByField(assertion.info);
+                .usingRecursiveComparison()
+                .isEqualTo(assertion.info);
   }
 
   static Object extractObjectField(AbstractAssert<?, ?> assertion) {

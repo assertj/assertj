@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Chris Arnott
  */
-public class IterableAssert_doesNotContainSubsequence_List_Test extends IterableAssertBaseTest {
+class IterableAssert_doesNotContainSubsequence_List_Test extends IterableAssertBaseTest {
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {
@@ -45,7 +45,7 @@ public class IterableAssert_doesNotContainSubsequence_List_Test extends Iterable
   }
 
   @Test
-  public void should_throw_error_if_subsequence_is_null() {
+  void should_throw_error_if_subsequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       List<Object> nullList = null;
       assertions.doesNotContainSubsequence(nullList);

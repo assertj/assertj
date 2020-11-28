@@ -20,7 +20,7 @@ import org.assertj.core.api.UriAssertBaseTest;
 /**
  * Test for <code>{@link org.assertj.core.api.UriAssert#hasFragment(String)} </code>.
  */
-public class UriAssert_hasFragment_Test extends UriAssertBaseTest {
+class UriAssert_hasFragment_Test extends UriAssertBaseTest {
   private String expected = "fragment";
 
   @Override

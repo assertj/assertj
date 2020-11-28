@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Yvonne Wang
  */
-public class AllOf_allOf_with_array_Test {
+class AllOf_allOf_with_array_Test {
 
   @Test
-  public void should_create_new_AllOf_with_passed_Conditions() {
+  void should_create_new_AllOf_with_passed_Conditions() {
     Condition<Object>[] conditions = array(new TestCondition<>(), new TestCondition<>());
     Condition<Object> created = AllOf.allOf(conditions);
     assertThat(created.getClass()).isEqualTo(AllOf.class);

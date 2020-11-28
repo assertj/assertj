@@ -19,28 +19,28 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.Test;
 
-public class ThrowableAssert_built_from_lambda_Test {
+class ThrowableAssert_built_from_lambda_Test {
 
   @Test
-  public void should_build_ThrowableAssert_with_runtime_exception_thrown_by_lambda() {
-	assertThatThrownBy(() -> {
-	  throw new IllegalArgumentException("something was wrong");
-	}).isInstanceOf(IllegalArgumentException.class)
-	  .hasMessage("something was wrong");
+  void should_build_ThrowableAssert_with_runtime_exception_thrown_by_lambda() {
+    assertThatThrownBy(() -> {
+      throw new IllegalArgumentException("something was wrong");
+    }).isInstanceOf(IllegalArgumentException.class)
+      .hasMessage("something was wrong");
   }
 
   @Test
-  public void should_build_ThrowableAssert_with_checked_exception_thrown_by_lambda() {
-	Jedi yoda = new Jedi("Yoda", "Green");
-	// @format:off
-	assertThatThrownBy(() -> { throw new Exception(yoda + " is no Sith"); })
-	  .isInstanceOf(Exception.class)
-	  .hasMessage(yoda + " is no Sith");
-	// @format:on
+  void should_build_ThrowableAssert_with_checked_exception_thrown_by_lambda() {
+    Jedi yoda = new Jedi("Yoda", "Green");
+    // @format:off
+    assertThatThrownBy(() -> { throw new Exception(yoda + " is no Sith"); })
+      .isInstanceOf(Exception.class)
+      .hasMessage(yoda + " is no Sith");
+    // @format:on
   }
 
   @Test
-  public void should_fail_if_nothing_is_thrown_by_lambda() {
+  void should_fail_if_nothing_is_thrown_by_lambda() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThatThrownBy(() -> {}))
                                                    .withMessage(format("%nExpecting code to raise a throwable."));
   }

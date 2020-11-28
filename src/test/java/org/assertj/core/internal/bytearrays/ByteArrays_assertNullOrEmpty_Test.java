@@ -33,10 +33,10 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class ByteArrays_assertNullOrEmpty_Test extends ByteArraysBaseTest {
+class ByteArrays_assertNullOrEmpty_Test extends ByteArraysBaseTest {
 
   @Test
-  public void should_fail_if_array_is_not_null_and_is_not_empty() {
+  void should_fail_if_array_is_not_null_and_is_not_empty() {
     AssertionInfo info = someInfo();
     byte[] actual = { 6, 8 };
 
@@ -47,12 +47,12 @@ public class ByteArrays_assertNullOrEmpty_Test extends ByteArraysBaseTest {
   }
 
   @Test
-  public void should_pass_if_array_is_null() {
+  void should_pass_if_array_is_null() {
     arrays.assertNullOrEmpty(someInfo(), null);
   }
 
   @Test
-  public void should_pass_if_array_is_empty() {
+  void should_pass_if_array_is_empty() {
     arrays.assertNullOrEmpty(someInfo(), emptyArray());
   }
 }

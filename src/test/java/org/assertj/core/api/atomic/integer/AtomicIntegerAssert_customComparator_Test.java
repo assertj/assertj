@@ -19,10 +19,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.assertj.core.util.AbsValueComparator;
 import org.junit.jupiter.api.Test;
 
-public class AtomicIntegerAssert_customComparator_Test {
+class AtomicIntegerAssert_customComparator_Test {
 
   @Test
-  public void should_honor_custom_comparator() {
+  void should_honor_custom_comparator() {
     assertThat(new AtomicInteger(1)).usingComparator(new AbsValueComparator<AtomicInteger>()).hasValueLessThanOrEqualTo(-1);
   }
   

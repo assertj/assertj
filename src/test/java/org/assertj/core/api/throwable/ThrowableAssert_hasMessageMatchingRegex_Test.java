@@ -22,7 +22,7 @@ import org.assertj.core.api.ThrowableAssertBaseTest;
  * 
  * @author Libor Ondrusek
  */
-public class ThrowableAssert_hasMessageMatchingRegex_Test extends ThrowableAssertBaseTest {
+class ThrowableAssert_hasMessageMatchingRegex_Test extends ThrowableAssertBaseTest {
 
   public static final String REGEX = "Given id='\\d{2,4}' not exists";
 

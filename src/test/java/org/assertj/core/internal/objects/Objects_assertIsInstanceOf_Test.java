@@ -37,34 +37,34 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Objects_assertIsInstanceOf_Test extends ObjectsBaseTest {
+class Objects_assertIsInstanceOf_Test extends ObjectsBaseTest {
 
   private static Person actual;
 
   @BeforeAll
-  public static void setUpOnce() {
+  static void setUpOnce() {
     actual = new Person("Yoda");
   }
 
   @Test
-  public void should_pass_if_actual_is_instance_of_type() {
+  void should_pass_if_actual_is_instance_of_type() {
     objects.assertIsInstanceOf(someInfo(), actual, Person.class);
   }
 
   @Test
-  public void should_throw_error_if_type_is_null() {
+  void should_throw_error_if_type_is_null() {
     assertThatNullPointerException().isThrownBy(() -> objects.assertIsInstanceOf(someInfo(), actual, null))
                                     .withMessage("The given type should not be null");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> objects.assertIsInstanceOf(someInfo(), null, Object.class))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_instance_of_type() {
+  void should_fail_if_actual_is_not_instance_of_type() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> objects.assertIsInstanceOf(info, actual, String.class));

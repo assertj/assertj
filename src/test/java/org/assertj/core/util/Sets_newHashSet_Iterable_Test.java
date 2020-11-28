@@ -24,9 +24,9 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Christian Rösch
  */
-public class Sets_newHashSet_Iterable_Test {
+class Sets_newHashSet_Iterable_Test {
   @Test
-  public void should_return_Set_containing_iterable_elements() {
+  void should_return_Set_containing_iterable_elements() {
     String[] array = new String[] { "A", "b", "C" };
     Iterable<String> iterable = Arrays.asList(array);
 
@@ -35,7 +35,7 @@ public class Sets_newHashSet_Iterable_Test {
   }
 
   @Test
-  public void should_return_null_if_Iterable_is_null() {
+  void should_return_null_if_Iterable_is_null() {
     Iterable<String> iterable = null;
     assertThat(Sets.newHashSet(iterable)).isNull();
   }

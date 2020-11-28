@@ -29,12 +29,12 @@ import org.assertj.core.test.Employee;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
-public class ObjectArrayAssert_filteredOnAssertions_Test extends ObjectArrayAssert_filtered_baseTest {
+class ObjectArrayAssert_filteredOnAssertions_Test extends ObjectArrayAssert_filtered_baseTest {
 
   private static Consumer<? super TolkienCharacter> nameStartingWithFro = hobbit -> assertThat(hobbit.getName()).startsWith("Fro");
 
   @Test
-  public void should_filter_iterable_under_test_verifying_given_assertions() {
+  void should_filter_iterable_under_test_verifying_given_assertions() {
     assertThat(employees).filteredOnAssertions(employee -> assertThat(employee.getAge()).isGreaterThan(100))
                          .containsOnly(yoda, obiwan);
     assertThat(newLinkedHashSet(employees)).filteredOnAssertions(employee -> assertThat(employee.getAge()).isGreaterThan(100))
@@ -42,7 +42,7 @@ public class ObjectArrayAssert_filteredOnAssertions_Test extends ObjectArrayAsse
   }
 
   @Test
-  public void should_fail_if_given_consumer_is_null() {
+  void should_fail_if_given_consumer_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> {
       Consumer<? super Employee> consumer = null;
       assertThat(employees).filteredOnAssertions(consumer);
@@ -50,7 +50,7 @@ public class ObjectArrayAssert_filteredOnAssertions_Test extends ObjectArrayAsse
   }
 
   @Test
-  public void shoul_honor_AssertFactory_strongly_typed_navigation_assertions() {
+  void should_honor_AssertFactory_strongly_typed_navigation_assertions() {
     // GIVEN
     Iterable<TolkienCharacter> hobbits = hobbits();
     TolkienCharacterAssertFactory tolkienCharacterAssertFactory = new TolkienCharacterAssertFactory();
@@ -67,7 +67,7 @@ public class ObjectArrayAssert_filteredOnAssertions_Test extends ObjectArrayAsse
   }
 
   @Test
-  public void shoul_honor_ClassBased_strongly_typed_navigation_assertions() {
+  void should_honor_ClassBased_strongly_typed_navigation_assertions() {
     // GIVEN
     Iterable<TolkienCharacter> hobbits = hobbits();
     // THEN
@@ -83,7 +83,7 @@ public class ObjectArrayAssert_filteredOnAssertions_Test extends ObjectArrayAsse
   }
 
   @Test
-  public void should_keep_assertion_state() {
+  void should_keep_assertion_state() {
     // GIVEN
     Iterable<String> names = asList("John", "Doe", "Jane", "Doe");
     // WHEN

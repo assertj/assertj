@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Adam Ruka
  */
-public class Maps_assertHasSameSizeAs_with_Map_Test extends MapsBaseTest {
+class Maps_assertHasSameSizeAs_with_Map_Test extends MapsBaseTest {
 
   @Override
   @BeforeEach
@@ -45,7 +45,7 @@ public class Maps_assertHasSameSizeAs_with_Map_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
     // WHEN
@@ -55,7 +55,7 @@ public class Maps_assertHasSameSizeAs_with_Map_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_other_is_null() {
+  void should_fail_if_other_is_null() {
     // GIVEN
     Map<?, ?> other = null;
     // WHEN
@@ -66,7 +66,7 @@ public class Maps_assertHasSameSizeAs_with_Map_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_size_of_actual_is_not_equal_to_size_of_other() {
+  void should_fail_if_size_of_actual_is_not_equal_to_size_of_other() {
     // GIVEN
     AssertionInfo info = someInfo();
     Map<?, ?> other = mapOf(entry("name", "Solo"));
@@ -78,7 +78,7 @@ public class Maps_assertHasSameSizeAs_with_Map_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
+  void should_pass_if_size_of_actual_is_equal_to_expected_size() {
     maps.assertHasSameSizeAs(someInfo(), actual, mapOf(entry("name", "Solo"), entry("job", "Smuggler")));
   }
 }

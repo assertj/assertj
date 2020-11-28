@@ -34,7 +34,7 @@ import org.junit.jupiter.params.provider.CsvSource;
  *
  * @author Alex Ruiz
  */
-public class DoubleAssert_isNotEqualTo_double_Test extends DoubleAssertBaseTest {
+class DoubleAssert_isNotEqualTo_double_Test extends DoubleAssertBaseTest {
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @Override
@@ -53,12 +53,12 @@ public class DoubleAssert_isNotEqualTo_double_Test extends DoubleAssertBaseTest 
 
   @ParameterizedTest
   @CsvSource({ "1.0, -1.0", "NaN, NaN" })
-  public void should_pass_using_primitive_comparison(double actual, double expected) {
+  void should_pass_using_primitive_comparison(double actual, double expected) {
     assertThat(actual).isNotEqualTo(expected);
   }
 
   @Test
-  public void should_honor_user_specified_comparator() {
+  void should_honor_user_specified_comparator() {
     // GIVEN
     final double one = 1.0d;
     // THEN
@@ -67,7 +67,7 @@ public class DoubleAssert_isNotEqualTo_double_Test extends DoubleAssertBaseTest 
   }
 
   @Test
-  public void should_fail_if_doubles_are_equal() {
+  void should_fail_if_doubles_are_equal() {
     // GIVEN
     double actual = 0.0;
     double expected = -0.0;

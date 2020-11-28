@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link Maps#assertHasKeySatisfying(AssertionInfo, Map, Condition)}</code>.
  */
-public class Maps_assertHasKeySatisfying_Test extends MapsBaseTest {
+class Maps_assertHasKeySatisfying_Test extends MapsBaseTest {
 
   private Condition<String> isColor = new Condition<String>("is color condition") {
     @Override
@@ -49,19 +49,19 @@ public class Maps_assertHasKeySatisfying_Test extends MapsBaseTest {
   };
 
   @Test
-  public void should_fail_if_condition_is_null() {
+  void should_fail_if_condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> maps.assertHasKeySatisfying(someInfo(), actual, null))
                                     .withMessage("The condition to evaluate should not be null");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasKeySatisfying(someInfo(), null, isColor))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_any_key_matching_the_given_condition() {
+  void should_fail_if_actual_does_not_contain_any_key_matching_the_given_condition() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> maps.assertHasKeySatisfying(info, actual, isAge));
@@ -71,7 +71,7 @@ public class Maps_assertHasKeySatisfying_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_contains_a_key_matching_the_given_condition() {
+  void should_pass_if_actual_contains_a_key_matching_the_given_condition() {
     maps.assertHasKeySatisfying(someInfo(), actual, isColor);
   }
 }

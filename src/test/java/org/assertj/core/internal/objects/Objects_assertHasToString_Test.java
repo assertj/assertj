@@ -29,7 +29,7 @@ import org.assertj.core.test.Person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class Objects_assertHasToString_Test extends ObjectsBaseTest {
+class Objects_assertHasToString_Test extends ObjectsBaseTest {
 
   private Person actual;
 
@@ -42,12 +42,12 @@ public class Objects_assertHasToString_Test extends ObjectsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_toString_is_the_expected_String() {
+  void should_pass_if_actual_toString_is_the_expected_String() {
     objects.assertHasToString(someInfo(), actual, "foo");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     Object object = null;
     // WHEN
@@ -57,7 +57,7 @@ public class Objects_assertHasToString_Test extends ObjectsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_toString_is_not_the_expected_String() {
+  void should_fail_if_actual_toString_is_not_the_expected_String() {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN

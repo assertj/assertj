@@ -29,15 +29,15 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Objects_assertNull_Test extends ObjectsBaseTest {
+class Objects_assertNull_Test extends ObjectsBaseTest {
 
   @Test
-  public void should_pass_if_object_is_null() {
+  void should_pass_if_object_is_null() {
     objects.assertNull(someInfo(), null);
   }
 
   @Test
-  public void should_fail_if_object_is_not_null() {
+  void should_fail_if_object_is_not_null() {
     AssertionInfo info = someInfo();
     Object actual = new Object();
 

@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Michal Kordas
  */
-public class DateAssert_setLenientDateParsing_Test extends DateAssertBaseTest {
+class DateAssert_setLenientDateParsing_Test extends DateAssertBaseTest {
 
   @Override
   @BeforeEach
@@ -40,7 +40,7 @@ public class DateAssert_setLenientDateParsing_Test extends DateAssertBaseTest {
   }
 
   @Test
-  public void should_parse_date_leniently() {
+  void should_parse_date_leniently() {
     final Date date = parse("2001-02-03");
     assertThat(date).isEqualTo("2001-01-34");
     assertThat(date).isEqualTo("2001-02-02T24:00:00");
@@ -48,32 +48,32 @@ public class DateAssert_setLenientDateParsing_Test extends DateAssertBaseTest {
   }
 
   @Test
-  public void should_parse_date_time_leniently() {
+  void should_parse_date_time_leniently() {
     final Date dateTime = parseDatetime("2001-02-03T04:05:06");
     assertThat(dateTime).isEqualTo("2001-02-03T04:05:05.1000");
     assertThat(dateTime).isEqualTo("2001-02-03T04:04:66");
   }
 
   @Test
-  public void should_parse_date_time_with_milliseconds_leniently() {
+  void should_parse_date_time_with_milliseconds_leniently() {
     final Date dateTimeWithMs = parseDatetimeWithMs("2001-02-03T04:05:06.700");
     assertThat(dateTimeWithMs).isEqualTo("2001-02-03T04:05:07.-300");
   }
 
   @Test
-  public void should_parse_date_time_leniently_using_custom_date_string_representation() {
+  void should_parse_date_time_leniently_using_custom_date_string_representation() {
     final Date date = parse("2001-02-03");
     assertThat(date).withDateFormat("yyyy/MM/dd").isEqualTo("2001/01/34");
   }
 
   @Test
-  public void should_fail_if_given_date_string_representation_cant_be_parsed() {
+  void should_fail_if_given_date_string_representation_cant_be_parsed() {
     final String dateAsString = "2001/02/03";
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new Date()).isEqualTo(dateAsString));
   }
 
   @Test
-  public void should_fail_if_date_can_be_parsed_leniently_but_lenient_mode_is_disabled() {
+  void should_fail_if_date_can_be_parsed_leniently_but_lenient_mode_is_disabled() {
     final Date date = parse("2001-02-03");
     setLenientDateParsing(false);
     try {

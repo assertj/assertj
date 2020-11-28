@@ -27,23 +27,23 @@ import java.util.Map;
 import org.assertj.core.internal.ObjectArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class ObjectArrays_assertDoesNotHaveAnyElementsOfTypes_Test extends ObjectArraysBaseTest {
+class ObjectArrays_assertDoesNotHaveAnyElementsOfTypes_Test extends ObjectArraysBaseTest {
 
   private static final Object[] array = { 6, 7.0, 8L };
 
   @Test
-  public void should_pass_if_actual_does_not_have_any_elements_of_the_unexpected_types() {
+  void should_pass_if_actual_does_not_have_any_elements_of_the_unexpected_types() {
     arrays.assertDoesNotHaveAnyElementsOfTypes(someInfo(), array, array(Float.class, BigDecimal.class));
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotHaveAnyElementsOfTypes(someInfo(), null, Integer.class))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_one_element_is_one_of_the_unexpected_types() {
+  void should_fail_if_one_element_is_one_of_the_unexpected_types() {
     // GIVEN
     Map<Class<?>, List<Object>> nonMatchingElementsByType = new LinkedHashMap<>();
     nonMatchingElementsByType.put(Long.class, newArrayList(8L));
@@ -58,7 +58,7 @@ public class ObjectArrays_assertDoesNotHaveAnyElementsOfTypes_Test extends Objec
   }
 
   @Test
-  public void should_fail_if_one_element_type_is_a_subclass_one_of_the_unexpected_types() {
+  void should_fail_if_one_element_type_is_a_subclass_one_of_the_unexpected_types() {
     // GIVEN
     Map<Class<?>, List<Object>> nonMatchingElementsByType = new LinkedHashMap<>();
     nonMatchingElementsByType.put(Number.class, newArrayList(6, 7.0, 8L));

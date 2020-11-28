@@ -32,33 +32,33 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Strings_assertNotEmpty_Test extends StringsBaseTest {
+class Strings_assertNotEmpty_Test extends StringsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertNotEmpty(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_empty() {
+  void should_fail_if_actual_is_empty() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertNotEmpty(someInfo(), ""))
                                                    .withMessage(shouldNotBeEmpty().create());
   }
 
   @Test
-  public void should_pass_if_actual_is_not_empty() {
+  void should_pass_if_actual_is_not_empty() {
     strings.assertNotEmpty(someInfo(), "Yoda");
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertNotEmpty(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> stringsWithCaseInsensitiveComparisonStrategy.assertNotEmpty(info, ""));
@@ -68,7 +68,7 @@ public class Strings_assertNotEmpty_Test extends StringsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_not_empty_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_is_not_empty_whatever_custom_comparison_strategy_is() {
     stringsWithCaseInsensitiveComparisonStrategy.assertNotEmpty(someInfo(), "Yoda");
   }
 }

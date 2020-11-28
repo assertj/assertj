@@ -25,32 +25,32 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Nicolas François
  */
-public class Doubles_assertIsNotPositive_Test extends DoublesBaseTest {
+class Doubles_assertIsNotPositive_Test extends DoublesBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_not_positive() {
+  void should_succeed_since_actual_is_not_positive() {
     doubles.assertIsNotPositive(someInfo(), -6d);
   }
 
   @Test
-  public void should_succeed_since_actual_is_zero() {
+  void should_succeed_since_actual_is_zero() {
     doubles.assertIsNotPositive(someInfo(), 0d);
   }
 
   @Test
-  public void should_fail_since_actual_is_positive() {
+  void should_fail_since_actual_is_positive() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotPositive(someInfo(), 6d))
                                                    .withMessage(format("%nExpecting:%n <6.0>%nto be less than or equal to:%n <0.0> "));
   }
 
   @Test
-  public void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
+  void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), -1d))
                                                    .withMessage(format("%nExpecting:%n <-1.0>%nto be less than or equal to:%n <0.0> when comparing values using AbsValueComparator"));
   }
 
   @Test
-  public void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
+  void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), 1d))
                                                    .withMessage(format("%nExpecting:%n <1.0>%nto be less than or equal to:%n <0.0> when comparing values using AbsValueComparator"));
   }

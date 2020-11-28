@@ -21,7 +21,7 @@ import org.assertj.core.data.Index;
 import static org.mockito.Mockito.verify;
 
 
-public class AtomicLongArrayAssert_contains_at_Index_Test extends AtomicLongArrayAssertBaseTest {
+class AtomicLongArrayAssert_contains_at_Index_Test extends AtomicLongArrayAssertBaseTest {
   private final Index index = someIndex();
 
   @Override

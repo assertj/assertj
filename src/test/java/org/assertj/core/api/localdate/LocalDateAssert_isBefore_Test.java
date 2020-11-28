@@ -30,20 +30,20 @@ import org.junit.jupiter.api.Test;
  * @author Marcin Zajączkowski
  */
 @DisplayName("LocalDateAssert isBefore")
-public class LocalDateAssert_isBefore_Test extends LocalDateAssertBaseTest {
+class LocalDateAssert_isBefore_Test extends LocalDateAssertBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_before_date_parameter() {
+  void should_pass_if_actual_is_before_date_parameter() {
     assertThat(BEFORE).isBefore(REFERENCE);
   }
 
   @Test
-  public void should_pass_if_actual_is_before_date_as_string_parameter() {
+  void should_pass_if_actual_is_before_date_as_string_parameter() {
     assertThat(BEFORE).isBefore(REFERENCE.toString());
   }
 
   @Test
-  public void should_fail_if_actual_is_after_date_parameter() {
+  void should_fail_if_actual_is_after_date_parameter() {
     // WHEN
     ThrowingCallable code = () -> assertThat(AFTER).isBefore(REFERENCE);
     // THEN
@@ -51,7 +51,7 @@ public class LocalDateAssert_isBefore_Test extends LocalDateAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_after_date_as_string_parameter() {
+  void should_fail_if_actual_is_after_date_as_string_parameter() {
     // WHEN
     ThrowingCallable code = () -> assertThat(AFTER).isBefore(REFERENCE.toString());
     // THEN
@@ -59,7 +59,7 @@ public class LocalDateAssert_isBefore_Test extends LocalDateAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_date_parameter() {
+  void should_fail_if_actual_is_equal_to_date_parameter() {
     // WHEN
     ThrowingCallable code = () -> assertThat(REFERENCE).isBefore(REFERENCE);
     // THEN
@@ -67,7 +67,7 @@ public class LocalDateAssert_isBefore_Test extends LocalDateAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_equal_to_date_as_string_parameter() {
+  void should_fail_if_actual_is_equal_to_date_as_string_parameter() {
     // WHEN
     ThrowingCallable code = () -> assertThat(REFERENCE).isBefore(REFERENCE.toString());
     // THEN
@@ -75,7 +75,7 @@ public class LocalDateAssert_isBefore_Test extends LocalDateAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     LocalDate localDate = null;
     // WHEN
@@ -85,7 +85,7 @@ public class LocalDateAssert_isBefore_Test extends LocalDateAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_date_parameter_is_null() {
+  void should_fail_if_date_parameter_is_null() {
     // GIVEN
     LocalDate otherLocalDate = null;
     // WHEN
@@ -96,7 +96,7 @@ public class LocalDateAssert_isBefore_Test extends LocalDateAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_date_as_string_parameter_is_null() {
+  void should_fail_if_date_as_string_parameter_is_null() {
     // GIVEN
     String otherLocalDateAsString = null;
     // WHEN

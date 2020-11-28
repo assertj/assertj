@@ -20,10 +20,10 @@ import java.util.HashSet;
 
 import org.junit.jupiter.api.Test;
 
-public class IterableAssert_size_Test {
+class IterableAssert_size_Test {
 
   @Test
-  public void should_be_able_to_use_integer_assertions_on_iterable_size() {
+  void should_be_able_to_use_integer_assertions_on_iterable_size() {
     Iterable<String> strings = new HashSet<>(asList("a", "b", "c"));
     // @format:off
     assertThat(strings).size().isGreaterThan(0)
@@ -39,7 +39,7 @@ public class IterableAssert_size_Test {
   }
 
   @Test
-  public void should_have_an_helpful_error_message_when_size_is_used_on_a_null_iterable() {
+  void should_have_an_helpful_error_message_when_size_is_used_on_a_null_iterable() {
     Iterable<Integer> nullList = null;
     assertThatNullPointerException().isThrownBy(() -> assertThat(nullList).size().isGreaterThan(1))
                                     .withMessage("Can not perform assertions on the size of a null iterable.");

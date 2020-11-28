@@ -25,12 +25,12 @@ import org.junit.jupiter.api.BeforeAll;
  * Tests for <code>{@link PathAssert#hasSameContentAs(java.nio.file.Path)}</code>.
  */
 // deprecated in favor of hasSameTextualContentAs
-public class PathAssert_hasSameContentAs_Test extends PathAssertBaseTest {
+class PathAssert_hasSameContentAs_Test extends PathAssertBaseTest {
 
   private static Path expected;
 
   @BeforeAll
-  public static void beforeOnce() {
+  static void beforeOnce() {
     expected = mock(Path.class);
   }
 

@@ -30,10 +30,10 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Strings_assertNullOrEmpty_Test extends StringsBaseTest {
+class Strings_assertNullOrEmpty_Test extends StringsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_not_null_and_is_not_empty() {
+  void should_fail_if_actual_is_not_null_and_is_not_empty() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> strings.assertNullOrEmpty(info, "Yoda"));
@@ -43,17 +43,17 @@ public class Strings_assertNullOrEmpty_Test extends StringsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_null() {
+  void should_pass_if_actual_is_null() {
     strings.assertNullOrEmpty(someInfo(), null);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty() {
+  void should_pass_if_actual_is_empty() {
     strings.assertNullOrEmpty(someInfo(), "");
   }
 
   @Test
-  public void should_fail_if_actual_is_not_null_and_is_not_empty_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_not_null_and_is_not_empty_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> stringsWithCaseInsensitiveComparisonStrategy.assertNullOrEmpty(info, "Yoda"));
@@ -63,12 +63,12 @@ public class Strings_assertNullOrEmpty_Test extends StringsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     stringsWithCaseInsensitiveComparisonStrategy.assertNullOrEmpty(someInfo(), null);
   }
 
   @Test
-  public void should_pass_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
     stringsWithCaseInsensitiveComparisonStrategy.assertNullOrEmpty(someInfo(), "");
   }
 }

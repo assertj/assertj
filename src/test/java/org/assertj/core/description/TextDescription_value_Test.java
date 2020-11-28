@@ -14,7 +14,6 @@ package org.assertj.core.description;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -23,22 +22,22 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class TextDescription_value_Test {
+class TextDescription_value_Test {
 
   @Test
-  public void should_return_value() {
+  void should_return_value() {
     TextDescription description = new TextDescription("Robin");
     assertThat(description.value()).isEqualTo(description.value);
   }
 
   @Test
-  public void should_return_formatted_value() {
+  void should_return_formatted_value() {
     TextDescription description = new TextDescription("Robin %s", "Hood");
     assertThat(description.value()).isEqualTo("Robin Hood");
   }
 
   @Test
-  public void should_not_format_curly_brace() {
+  void should_not_format_curly_brace() {
     TextDescription description = new TextDescription("{} Robin %s", "Hood");
     assertThat(description.value()).isEqualTo("{} Robin Hood");
   }

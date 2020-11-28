@@ -26,7 +26,7 @@ import org.assertj.core.api.MapAssertBaseTest;
  * 
  * @author Nicolas François
  */
-public class MapAssert_hasSameSizeAs_with_Iterable_Test extends MapAssertBaseTest {
+class MapAssert_hasSameSizeAs_with_Iterable_Test extends MapAssertBaseTest {
 
   private final List<String> other = newArrayList("Yoda", "Luke");
 

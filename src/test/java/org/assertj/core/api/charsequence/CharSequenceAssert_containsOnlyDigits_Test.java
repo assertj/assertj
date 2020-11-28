@@ -20,7 +20,7 @@ import org.assertj.core.api.CharSequenceAssertBaseTest;
 /**
  * Tests for <code>{@link org.assertj.core.api.CharSequenceAssert#containsOnlyDigits()}</code>.
  */
-public class CharSequenceAssert_containsOnlyDigits_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_containsOnlyDigits_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {

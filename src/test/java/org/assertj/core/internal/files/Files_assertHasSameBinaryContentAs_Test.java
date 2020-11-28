@@ -34,14 +34,14 @@ import org.assertj.core.internal.FilesBaseTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
+class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
 
   private static File actual;
   private static File expected;
   private static byte[] expectedBytes;
 
   @BeforeAll
-  public static void setUpOnce() throws IOException {
+  static void setUpOnce() throws IOException {
     // Does not matter if the values differ, the actual comparison is mocked in this test
     actual = new File("src/test/resources/actual_file.txt");
     expected = new File("src/test/resources/expected_file.txt");
@@ -49,7 +49,7 @@ public class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_pass_if_file_has_expected_binary_content() throws IOException {
+  void should_pass_if_file_has_expected_binary_content() throws IOException {
     // GIVEN
     given(binaryDiff.diff(actual, expectedBytes)).willReturn(noDiff());
     // WHEN/THEN
@@ -57,7 +57,7 @@ public class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_expected_is_null() {
+  void should_throw_error_if_expected_is_null() {
     // GIVEN
     File nullExpected = null;
     // WHEN
@@ -68,7 +68,7 @@ public class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     File file = null;
     // WHEN
@@ -78,7 +78,7 @@ public class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_not_a_file() {
+  void should_fail_if_actual_is_not_a_file() {
     // GIVEN
     File notAFile = new File("xyz");
     // WHEN
@@ -88,7 +88,7 @@ public class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_fail_if_expected_is_not_a_file() {
+  void should_fail_if_expected_is_not_a_file() {
     // GIVEN
     File notAFile = new File("xyz");
     // WHEN
@@ -99,7 +99,7 @@ public class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_throw_error_wrapping_caught_IOException() throws IOException {
+  void should_throw_error_wrapping_caught_IOException() throws IOException {
     // GIVEN
     IOException cause = new IOException();
     given(binaryDiff.diff(actual, expectedBytes)).willThrow(cause);
@@ -111,7 +111,7 @@ public class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_fail_if_file_does_not_have_expected_binary_content() throws IOException {
+  void should_fail_if_file_does_not_have_expected_binary_content() throws IOException {
     // GIVEN
     BinaryDiffResult diff = new BinaryDiffResult(15, (byte) 0xCA, (byte) 0xFE);
     when(binaryDiff.diff(actual, expectedBytes)).thenReturn(diff);

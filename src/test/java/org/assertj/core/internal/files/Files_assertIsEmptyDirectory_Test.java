@@ -38,10 +38,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valeriy Vyrva
  */
-public class Files_assertIsEmptyDirectory_Test extends FilesBaseTest {
+class Files_assertIsEmptyDirectory_Test extends FilesBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_empty() {
+  void should_pass_if_actual_is_empty() {
     // GIVEN
     List<File> items = emptyList();
     File actual = mockDirectory(items, "root");
@@ -50,7 +50,7 @@ public class Files_assertIsEmptyDirectory_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_not_empty() {
+  void should_fail_if_actual_is_not_empty() {
     // GIVEN
     File file = mockRegularFile("root", "Test.class");
     List<File> items = list(file);
@@ -62,7 +62,7 @@ public class Files_assertIsEmptyDirectory_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     File actual = null;
     // WHEN
@@ -72,7 +72,7 @@ public class Files_assertIsEmptyDirectory_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_exist() {
+  void should_fail_if_actual_does_not_exist() {
     // GIVEN
     given(actual.exists()).willReturn(false);
     // WHEN
@@ -82,7 +82,7 @@ public class Files_assertIsEmptyDirectory_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_exists_but_is_not_a_directory() {
+  void should_fail_if_actual_exists_but_is_not_a_directory() {
     // GIVEN
     given(actual.exists()).willReturn(true);
     given(actual.isDirectory()).willReturn(false);
@@ -93,7 +93,7 @@ public class Files_assertIsEmptyDirectory_Test extends FilesBaseTest {
   }
 
   @Test
-  public void should_throw_error_on_null_listing() {
+  void should_throw_error_on_null_listing() {
     // GIVEN
     given(actual.exists()).willReturn(true);
     given(actual.isDirectory()).willReturn(true);

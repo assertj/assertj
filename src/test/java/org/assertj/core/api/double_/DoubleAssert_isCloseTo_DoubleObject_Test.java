@@ -19,7 +19,7 @@ import org.assertj.core.api.DoubleAssert;
 import org.assertj.core.api.DoubleAssertBaseTest;
 import org.assertj.core.data.Offset;
 
-public class DoubleAssert_isCloseTo_DoubleObject_Test extends DoubleAssertBaseTest {
+class DoubleAssert_isCloseTo_DoubleObject_Test extends DoubleAssertBaseTest {
 
   private final Offset<Double> offset = offset(5.0);
   private final Double value = 8.0;

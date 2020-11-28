@@ -25,7 +25,7 @@ import org.assertj.core.api.FileAssertBaseTest;
  * 
  * @author Olivier Michallat
  */
-public class FileAssert_usingCharset_default_Test extends FileAssertBaseTest {
+class FileAssert_usingCharset_default_Test extends FileAssertBaseTest {
 
   @Override
   protected FileAssert invoke_api_method() {

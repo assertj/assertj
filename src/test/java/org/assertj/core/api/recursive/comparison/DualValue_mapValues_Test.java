@@ -28,13 +28,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedMap;
 
-public class DualValue_mapValues_Test {
+class DualValue_mapValues_Test {
 
   private static final List<String> PATH = list("foo", "bar");
 
   @ParameterizedTest
   @MethodSource("maps")
-  public void isActualFieldAMap_should_return_true_when_actual_is_not_an_iterable(Object actual) {
+  void isActualFieldAMap_should_return_true_when_actual_is_not_an_iterable(Object actual) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, actual, "");
     // WHEN
@@ -45,7 +45,7 @@ public class DualValue_mapValues_Test {
 
   @ParameterizedTest
   @MethodSource("maps")
-  public void isExpectedFieldAMap_should_return_true_when_expected_is_not_an_iterable(Object expected) {
+  void isExpectedFieldAMap_should_return_true_when_expected_is_not_an_iterable(Object expected) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", expected);
     // WHEN
@@ -64,7 +64,7 @@ public class DualValue_mapValues_Test {
 
   @ParameterizedTest
   @MethodSource("nonMaps")
-  public void isActualFieldAMap_should_return_false_when_actual_is_not_an_iterable(Object actual) {
+  void isActualFieldAMap_should_return_false_when_actual_is_not_an_iterable(Object actual) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, actual, singletonMap("a", "b"));
     // WHEN
@@ -75,7 +75,7 @@ public class DualValue_mapValues_Test {
 
   @ParameterizedTest
   @MethodSource("nonMaps")
-  public void isExpectedFieldAMap_should_return_false_when_expected_is_not_an_iterable(Object expected) {
+  void isExpectedFieldAMap_should_return_false_when_expected_is_not_an_iterable(Object expected) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, singletonMap("a", "b"), expected);
     // WHEN

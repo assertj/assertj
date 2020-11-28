@@ -17,7 +17,7 @@ import org.assertj.core.api.CharArrayAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
-public class CharArrayAssert_hasSizeGreaterThanOrEqualTo_Test extends CharArrayAssertBaseTest {
+class CharArrayAssert_hasSizeGreaterThanOrEqualTo_Test extends CharArrayAssertBaseTest {
 
   @Override
   protected CharArrayAssert invoke_api_method() {

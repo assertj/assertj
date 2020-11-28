@@ -49,9 +49,8 @@ public class ShouldBeEqual implements AssertionErrorFactory {
                                                                                    Object.class);
   protected final Object actual;
   protected final Object expected;
-  @VisibleForTesting
-  final MessageFormatter messageFormatter = MessageFormatter.instance();
-  private final ComparisonStrategy comparisonStrategy;
+  protected final MessageFormatter messageFormatter = MessageFormatter.instance();
+  protected final ComparisonStrategy comparisonStrategy;
   private Representation representation;
   @VisibleForTesting
   ConstructorInvoker constructorInvoker = new ConstructorInvoker();
@@ -85,8 +84,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
     return new ShouldBeEqual(actual, expected, comparisonStrategy, representation);
   }
 
-  @VisibleForTesting
-  ShouldBeEqual(Object actual, Object expected, ComparisonStrategy comparisonStrategy, Representation representation) {
+  protected ShouldBeEqual(Object actual, Object expected, ComparisonStrategy comparisonStrategy, Representation representation) {
     this.actual = actual;
     this.expected = expected;
     this.comparisonStrategy = comparisonStrategy;
@@ -120,22 +118,22 @@ public class ShouldBeEqual implements AssertionErrorFactory {
     // comparison strategy in the assertion error message to make it clear to the user it was used.
     if (comparisonStrategy.isStandard() && !actualAndExpectedHaveSameStringRepresentation()) {
       // comparison strategy is standard -> try to build an AssertionFailedError used in JUnit 5 that is nicely displayed in IDEs
-      AssertionError assertionFailedError = assertionFailedError(message);
-      // assertionFailedError != null means that JUnit 5 and opentest4j was in the classpath
+      AssertionError assertionFailedError = assertionFailedError(message, representation);
+      // assertionFailedError != null means that JUnit 5 and opentest4j are in the classpath
       if (assertionFailedError != null) return assertionFailedError;
-      // Junit5 was not used, try to build a JUnit ComparisonFailure that is nicely displayed in IDEs
+      // Junit5 was not used, try to build a JUnit 4 ComparisonFailure that is nicely displayed in IDEs
       AssertionError error = comparisonFailure(description);
       // error != null means that JUnit 4 was in the classpath and we build a ComparisonFailure.
       if (error != null) return error;
     }
-    AssertionError assertionFailedError = assertionFailedError(message);
+    AssertionError assertionFailedError = assertionFailedError(message, representation);
     // assertionFailedError != null means that JUnit 5 and opentest4j was in the classpath
     if (assertionFailedError != null) return assertionFailedError;
     // No JUnit in the classpath => fall back to default error message
     return Failures.instance().failure(message);
   }
 
-  private boolean actualAndExpectedHaveSameStringRepresentation() {
+  protected boolean actualAndExpectedHaveSameStringRepresentation() {
     return Objects.equals(representation.toStringOf(actual), representation.toStringOf(expected));
   }
 
@@ -149,7 +147,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    *          of object
    * @return the error message from description using {@link #expected} and {@link #actual} "smart" representation.
    */
-  private String smartErrorMessage(Description description, Representation representation) {
+  protected String smartErrorMessage(Description description, Representation representation) {
     if (actualAndExpectedHaveSameStringRepresentation()) {
       // This happens for example when actual = 42f and expected = 42d, which will give this error:
       // actual : "42" and expected : "42".
@@ -176,7 +174,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    * @return the error message from description using {@link #detailedExpected()} and {@link #detailedActual()}
    *         <b>detailed</b> representation.
    */
-  private String defaultDetailedErrorMessage(Description description, Representation representation) {
+  protected String defaultDetailedErrorMessage(Description description, Representation representation) {
     if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy)
       return messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR,
                                      detailedActual(), detailedExpected(), comparisonStrategy);
@@ -184,13 +182,13 @@ public class ShouldBeEqual implements AssertionErrorFactory {
                                    detailedExpected());
   }
 
-  private AssertionError assertionFailedError(String message) {
+  private AssertionError assertionFailedError(String message, Representation representation) {
     try {
       Object o = constructorInvoker.newInstance("org.opentest4j.AssertionFailedError",
                                                 MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR,
                                                 message,
-                                                expected,
-                                                actual);
+                                                representation.toStringOf(expected),
+                                                representation.toStringOf(actual));
       if (o instanceof AssertionError) {
         AssertionError assertionError = (AssertionError) o;
         Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
@@ -222,11 +220,11 @@ public class ShouldBeEqual implements AssertionErrorFactory {
     return array(description, representation.toStringOf(expected), representation.toStringOf(actual));
   }
 
-  private String detailedActual() {
+  protected String detailedActual() {
     return representation.unambiguousToStringOf(actual);
   }
 
-  private String detailedExpected() {
+  protected String detailedExpected() {
     return representation.unambiguousToStringOf(expected);
   }
 

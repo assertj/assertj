@@ -29,7 +29,7 @@ import org.assertj.core.api.IterableAssertBaseTest;
  * @author Joel Costigliola
  * @author Maciej Jaskowski
  */
-public class IterableAssert_isSubsetOf_Test extends IterableAssertBaseTest {
+class IterableAssert_isSubsetOf_Test extends IterableAssertBaseTest {
 
   private final List<String> values = newArrayList("Yoda", "Luke");
 

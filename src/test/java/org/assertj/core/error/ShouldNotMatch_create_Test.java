@@ -13,8 +13,8 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.BDDAssertions.thenNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenNullPointerException;
 import static org.assertj.core.error.ShouldNotMatch.shouldNotMatch;
 
 import org.assertj.core.description.TextDescription;
@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Filip Hrisafov
  */
-public class ShouldNotMatch_create_Test {
+class ShouldNotMatch_create_Test {
 
   @Test
-  public void should_create_error_message_with_default_predicate_description() {
+  void should_create_error_message_with_default_predicate_description() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotMatch("Yoda", color -> color.equals("green"), PredicateDescription.GIVEN);
     // WHEN
@@ -38,7 +38,7 @@ public class ShouldNotMatch_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_predicate_description() {
+  void should_create_error_message_with_predicate_description() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotMatch("Yoda", (String color) -> color.equals("green"),
                                                  new PredicateDescription("green light saber"));
@@ -49,7 +49,7 @@ public class ShouldNotMatch_create_Test {
   }
 
   @Test
-  public void should_fail_if_predicate_description_is_null() {
+  void should_fail_if_predicate_description_is_null() {
     thenNullPointerException().isThrownBy(() -> shouldNotMatch("Yoda", color -> color.equals("green"), null))
                               .withMessage("The predicate description must not be null");
   }

@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Filip Hrisfaov
  */
-public class ObjectArrayAssert_doesNotContainSubsequence_Test extends ObjectArrayAssertBaseTest {
+class ObjectArrayAssert_doesNotContainSubsequence_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {

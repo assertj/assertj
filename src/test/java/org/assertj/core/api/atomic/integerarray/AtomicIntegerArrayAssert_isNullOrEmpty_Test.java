@@ -21,7 +21,7 @@ import org.assertj.core.api.AtomicIntegerArrayAssert;
 import org.assertj.core.api.AtomicIntegerArrayAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class AtomicIntegerArrayAssert_isNullOrEmpty_Test extends AtomicIntegerArrayAssertBaseTest {
+class AtomicIntegerArrayAssert_isNullOrEmpty_Test extends AtomicIntegerArrayAssertBaseTest {
 
   @Override
   protected AtomicIntegerArrayAssert invoke_api_method() {
@@ -41,7 +41,7 @@ public class AtomicIntegerArrayAssert_isNullOrEmpty_Test extends AtomicIntegerAr
   }
   
   @Test
-  public void should_pass_if_AtomicIntegerArray_is_null() {
+  void should_pass_if_AtomicIntegerArray_is_null() {
     AtomicIntegerArray array = null;
     assertThat(array).isNullOrEmpty();
   }

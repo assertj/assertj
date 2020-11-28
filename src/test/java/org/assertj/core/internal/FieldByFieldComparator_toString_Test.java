@@ -20,7 +20,7 @@ import org.assertj.core.util.BigDecimalComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class FieldByFieldComparator_toString_Test {
+class FieldByFieldComparator_toString_Test {
 
   private FieldByFieldComparator fieldByFieldComparator;
 
@@ -30,14 +30,14 @@ public class FieldByFieldComparator_toString_Test {
   }
 
   @Test
-  public void should_return_description_of_FieldByFieldComparator_without_field_comparators() {
+  void should_return_description_of_FieldByFieldComparator_without_field_comparators() {
     assertThat(fieldByFieldComparator).hasToString(format("field/property by field/property comparator on all fields/properties%n"
                                                           + "Comparators used:%n"
                                                           + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}"));
   }
 
   @Test
-  public void should_return_description_of_FieldByFieldComparator_with_field_comparators() {
+  void should_return_description_of_FieldByFieldComparator_with_field_comparators() {
     // GIVEN
     fieldByFieldComparator.comparatorsByPropertyOrField.put("weight", new BigDecimalComparator());
     fieldByFieldComparator.comparatorsByPropertyOrField.put("name", ALWAY_EQUALS_STRING);

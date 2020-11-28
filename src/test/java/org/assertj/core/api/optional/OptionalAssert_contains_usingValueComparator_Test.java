@@ -23,31 +23,31 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
-public class OptionalAssert_contains_usingValueComparator_Test {
+class OptionalAssert_contains_usingValueComparator_Test {
 
   private static Comparator<Foo> FOO_COMPARATOR = (o1, o2) -> o1.getValue().toLowerCase()
                                                         .compareTo(o2.getValue().toLowerCase());
 
   @Test
-  public void should_fail_when_optional_is_null() {
+  void should_fail_when_optional_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<Foo>) null).usingValueComparator(FOO_COMPARATOR).contains(new Foo("something")))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_expected_value_is_null() {
+  void should_fail_if_expected_value_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(Optional.of(new Foo("something"))).usingValueComparator(FOO_COMPARATOR)
                                                                                                        .contains(null))
                                         .withMessage("The expected value should not be <null>.");
   }
 
   @Test
-  public void should_pass_if_optional_contains_expected_value() {
+  void should_pass_if_optional_contains_expected_value() {
     assertThat(Optional.of(new Foo("something"))).usingValueComparator(FOO_COMPARATOR).contains(new Foo("SoMething"));
   }
 
   @Test
-  public void should_fail_if_optional_does_not_contain_expected_value() {
+  void should_fail_if_optional_does_not_contain_expected_value() {
     Optional<Foo> actual = Optional.of(new Foo("something"));
     Foo expectedValue = new Foo("something else");
 
@@ -56,7 +56,7 @@ public class OptionalAssert_contains_usingValueComparator_Test {
   }
 
   @Test
-  public void should_fail_if_optional_is_empty() {
+  void should_fail_if_optional_is_empty() {
     Foo expectedValue = new Foo("test");
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{

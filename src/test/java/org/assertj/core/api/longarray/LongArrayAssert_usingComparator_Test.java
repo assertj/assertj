@@ -13,33 +13,29 @@
 package org.assertj.core.api.longarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.util.Comparator;
-
 
 import org.assertj.core.api.LongArrayAssert;
 import org.assertj.core.api.LongArrayAssertBaseTest;
 import org.assertj.core.internal.LongArrays;
 import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link LongArrayAssert#usingComparator(java.util.Comparator)}</code>.
- * 
+ *
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class LongArrayAssert_usingComparator_Test extends LongArrayAssertBaseTest {
+class LongArrayAssert_usingComparator_Test extends LongArrayAssertBaseTest {
 
-  @Mock
-  private Comparator<long[]> comparator;
+  private Comparator<long[]> comparator = alwaysEqual();
 
   private LongArrays arraysBefore;
 
   @BeforeEach
-  public void before() {
-    initMocks(this);
+  void before() {
     arraysBefore = getArrays(assertions);
   }
 
@@ -51,7 +47,7 @@ public class LongArrayAssert_usingComparator_Test extends LongArrayAssertBaseTes
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
-    assertThat(arraysBefore).isSameAs(getArrays(assertions));
+    assertThat(getObjects(assertions).getComparator()).isSameAs(comparator);
+    assertThat(getArrays(assertions)).isSameAs(arraysBefore);
   }
 }

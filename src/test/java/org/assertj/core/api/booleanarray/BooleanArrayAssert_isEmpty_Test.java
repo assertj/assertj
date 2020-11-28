@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class BooleanArrayAssert_isEmpty_Test extends BooleanArrayAssertBaseTest {
+class BooleanArrayAssert_isEmpty_Test extends BooleanArrayAssertBaseTest {
 
   @Override
   protected BooleanArrayAssert invoke_api_method() {

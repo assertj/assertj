@@ -37,7 +37,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("deprecation")
-public class ObjectArrayAssert_flatExtracting_Test {
+class ObjectArrayAssert_flatExtracting_Test {
   private CartoonCharacter bart;
   private CartoonCharacter lisa;
   private CartoonCharacter maggie;
@@ -57,7 +57,7 @@ public class ObjectArrayAssert_flatExtracting_Test {
   };
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     bart = new CartoonCharacter("Bart Simpson");
     lisa = new CartoonCharacter("Lisa Simpson");
     maggie = new CartoonCharacter("Maggie Simpson");
@@ -71,47 +71,47 @@ public class ObjectArrayAssert_flatExtracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_joined_lists_when_extracting_children_with_extractor() {
+  void should_allow_assertions_on_joined_lists_when_extracting_children_with_extractor() {
     assertThat(array(homer, fred)).flatExtracting(childrenExtractor).containsOnly(bart, lisa, maggie, pebbles);
   }
 
   @Test
-  public void should_allow_assertions_on_joined_lists_when_extracting_children() {
+  void should_allow_assertions_on_joined_lists_when_extracting_children() {
     assertThat(array(homer, fred)).flatExtracting(children).containsOnly(bart, lisa, maggie, pebbles);
   }
 
   @Test
-  public void should_allow_assertions_on_empty_result_lists_with_extractor() {
+  void should_allow_assertions_on_empty_result_lists_with_extractor() {
     assertThat(array(bart, lisa, maggie)).flatExtracting(childrenExtractor).isEmpty();
   }
 
   @Test
-  public void should_allow_assertions_on_empty_result_lists() {
+  void should_allow_assertions_on_empty_result_lists() {
     assertThat(array(bart, lisa, maggie)).flatExtracting(children).isEmpty();
   }
 
   @Test
-  public void should_throw_null_pointer_exception_when_extracting_from_null_with_extractor() {
+  void should_throw_null_pointer_exception_when_extracting_from_null_with_extractor() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(array(homer, null)).flatExtracting(childrenExtractor));
   }
 
   @Test
-  public void should_throw_null_pointer_exception_when_extracting_from_null() {
+  void should_throw_null_pointer_exception_when_extracting_from_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(array(homer, null)).flatExtracting(children));
   }
 
   @Test
-  public void should_keep_existing_description_if_set_when_extracting_using_property() {
+  void should_keep_existing_description_if_set_when_extracting_using_property() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(array(homer)).as("expected description").flatExtracting("children").isEmpty()).withMessageContaining("[expected description]");
   }
 
   @Test
-  public void should_keep_existing_description_if_set_when_extracting_using_extractor() {
+  void should_keep_existing_description_if_set_when_extracting_using_extractor() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(array(homer)).as("expected description").flatExtracting(childrenExtractor).isEmpty()).withMessageContaining("[expected description]");
   }
 
   @Test
-  public void should_rethrow_throwing_extractor_checked_exception_as_a_runtime_exception() {
+  void should_rethrow_throwing_extractor_checked_exception_as_a_runtime_exception() {
     CartoonCharacter[] childCharacters = array(bart, lisa, maggie);
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(childCharacters).flatExtracting(cartoonCharacter -> {
       if (cartoonCharacter.getChildren().isEmpty()) throw new Exception("no children");
@@ -120,7 +120,7 @@ public class ObjectArrayAssert_flatExtracting_Test {
   }
 
   @Test
-  public void should_let_throwing_extractor_runtime_exception_bubble_up() {
+  void should_let_throwing_extractor_runtime_exception_bubble_up() {
     CartoonCharacter[] childCharacters = array(bart, lisa, maggie);
     assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(childCharacters).flatExtracting(cartoonCharacter -> {
       if (cartoonCharacter.getChildren().isEmpty()) throw new RuntimeException("no children");
@@ -129,7 +129,7 @@ public class ObjectArrayAssert_flatExtracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_joined_lists_when_extracting_children_with_throwing_extractor() {
+  void should_allow_assertions_on_joined_lists_when_extracting_children_with_throwing_extractor() {
     CartoonCharacter[] cartoonCharacters = array(homer, fred);
     assertThat(cartoonCharacters).flatExtracting(cartoonCharacter -> {
       if (cartoonCharacter.getChildren().isEmpty()) throw new Exception("no children");
@@ -138,7 +138,7 @@ public class ObjectArrayAssert_flatExtracting_Test {
   }
 
   @Test
-  public void should_allow_assertions_on_joined_lists_when_extracting_children_with_anonymous_class_throwing_extractor() {
+  void should_allow_assertions_on_joined_lists_when_extracting_children_with_anonymous_class_throwing_extractor() {
     CartoonCharacter[] cartoonCharacters = array(homer, fred);
     assertThat(cartoonCharacters).flatExtracting(new ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception>() {
       @Override
@@ -150,7 +150,7 @@ public class ObjectArrayAssert_flatExtracting_Test {
   }
 
   @Test
-  public void flatExtracting_should_keep_assertion_state_with_extractor() {
+  void flatExtracting_should_keep_assertion_state_with_extractor() {
     // GIVEN
     AlwaysEqualComparator<CartoonCharacter> cartoonCharacterAlwaysEqualComparator = alwaysEqual();
     // WHEN
@@ -176,7 +176,7 @@ public class ObjectArrayAssert_flatExtracting_Test {
   }
 
   @Test
-  public void flatExtracting_should_keep_assertion_state() {
+  void flatExtracting_should_keep_assertion_state() {
     // GIVEN
     AlwaysEqualComparator<CartoonCharacter> cartoonCharacterAlwaysEqualComparator = alwaysEqual();
     // WHEN
@@ -202,7 +202,7 @@ public class ObjectArrayAssert_flatExtracting_Test {
   }
 
   @Test
-  public void flatExtracting_with_ThrowingExtractor_should_keep_assertion_state() {
+  void flatExtracting_with_ThrowingExtractor_should_keep_assertion_state() {
     // GIVEN
     AlwaysEqualComparator<CartoonCharacter> cartoonCharacterAlwaysEqualComparator = alwaysEqual();
     // WHEN

@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author William Delanoue
  */
-public class CharArrayAssert_containsOnlyOnce_Test extends CharArrayAssertBaseTest {
+class CharArrayAssert_containsOnlyOnce_Test extends CharArrayAssertBaseTest {
 
   @Override
   protected CharArrayAssert invoke_api_method() {

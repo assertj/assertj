@@ -26,18 +26,18 @@ import java.time.OffsetDateTime;
 
 import org.junit.jupiter.api.Test;
 
-public class OffsetDateTimeAssert_isEqualToIgnoringNanoseconds_Test {
+class OffsetDateTimeAssert_isEqualToIgnoringNanoseconds_Test {
 
   private final OffsetDateTime refOffsetDateTime = of(2000, 1, 1, 0, 0, 1, 0, UTC);
 
   @Test
-  public void should_pass_if_actual_is_equal_to_other_ignoring_nanosecond_fields() {
+  void should_pass_if_actual_is_equal_to_other_ignoring_nanosecond_fields() {
     assertThat(refOffsetDateTime).isEqualToIgnoringNanos(refOffsetDateTime.withNano(55));
     assertThat(refOffsetDateTime).isEqualToIgnoringNanos(refOffsetDateTime.plusNanos(1));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_equal_to_given_offsetdatetime_with_nanoseconds_ignored() {
+  void should_fail_if_actual_is_not_equal_to_given_offsetdatetime_with_nanoseconds_ignored() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(refOffsetDateTime).isEqualToIgnoringNanos(refOffsetDateTime.plusSeconds(1)));
     // THEN
@@ -49,7 +49,7 @@ public class OffsetDateTimeAssert_isEqualToIgnoringNanoseconds_Test {
   }
 
   @Test
-  public void should_fail_as_seconds_fields_are_different() {
+  void should_fail_as_seconds_fields_are_different() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(refOffsetDateTime).isEqualToIgnoringNanos(refOffsetDateTime.minusNanos(1)));
     // THEN
@@ -62,7 +62,7 @@ public class OffsetDateTimeAssert_isEqualToIgnoringNanoseconds_Test {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     OffsetDateTime actual = null;
     // WHEN
@@ -72,7 +72,7 @@ public class OffsetDateTimeAssert_isEqualToIgnoringNanoseconds_Test {
   }
 
   @Test
-  public void should_throw_error_if_given_offsetdatetime_is_null() {
+  void should_throw_error_if_given_offsetdatetime_is_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(refOffsetDateTime).isEqualToIgnoringNanos(null))
                                         .withMessage(NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE);
   }

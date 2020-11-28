@@ -42,30 +42,30 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Lists_assertContains_Test extends ListsBaseTest {
+class Lists_assertContains_Test extends ListsBaseTest {
 
   private static List<String> actual = newArrayList("Yoda", "Luke", "Leia");
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.assertContains(someInfo(), null, "Yoda", someIndex()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_empty() {
+  void should_fail_if_actual_is_empty() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.assertContains(someInfo(), emptyList(), "Yoda", someIndex()))
                                                    .withMessage(actualIsEmpty());
   }
 
   @Test
-  public void should_throw_error_if_Index_is_null() {
+  void should_throw_error_if_Index_is_null() {
     assertThatNullPointerException().isThrownBy(() -> lists.assertContains(someInfo(), actual, "Yoda", null))
                                     .withMessage("Index should not be null");
   }
 
   @Test
-  public void should_throw_error_if_Index_is_out_of_bounds() {
+  void should_throw_error_if_Index_is_out_of_bounds() {
     assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> lists.assertContains(someInfo(), actual,
                                                                                                      "Yoda",
                                                                                                      atIndex(6)))
@@ -73,7 +73,7 @@ public class Lists_assertContains_Test extends ListsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_value_at_index() {
+  void should_fail_if_actual_does_not_contain_value_at_index() {
     AssertionInfo info = someInfo();
     Index index = atIndex(1);
 
@@ -84,19 +84,19 @@ public class Lists_assertContains_Test extends ListsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_contains_value_at_index() {
+  void should_pass_if_actual_contains_value_at_index() {
     lists.assertContains(someInfo(), actual, "Luke", atIndex(1));
   }
 
   @Test
-  public void should_pass_if_actual_contains_value_at_index_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_value_at_index_according_to_custom_comparison_strategy() {
     listsWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), actual, "Luke", atIndex(1));
     listsWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), actual, "luke", atIndex(1));
     listsWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), actual, "LUKE", atIndex(1));
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_value_at_index_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_value_at_index_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Index index = atIndex(1);
 

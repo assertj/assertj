@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class IntArrayAssert_containsSequence_Test extends IntArrayAssertBaseTest {
+class IntArrayAssert_containsSequence_Test extends IntArrayAssertBaseTest {
 
   @Override
   protected IntArrayAssert invoke_api_method() {

@@ -23,7 +23,7 @@ import org.assertj.core.api.AtomicIntegerArrayAssertBaseTest;
 import org.assertj.core.util.AbsValueComparator;
 import org.junit.jupiter.api.Test;
 
-public class AtomicIntegerArrayAssert_hasArray_Test extends AtomicIntegerArrayAssertBaseTest {
+class AtomicIntegerArrayAssert_hasArray_Test extends AtomicIntegerArrayAssertBaseTest {
 
   @Override
   protected AtomicIntegerArrayAssert invoke_api_method() {
@@ -36,7 +36,7 @@ public class AtomicIntegerArrayAssert_hasArray_Test extends AtomicIntegerArrayAs
   }
   
   @Test
-  public void should_honor_the_given_element_comparator() {
+  void should_honor_the_given_element_comparator() {
     AtomicIntegerArray actual = new AtomicIntegerArray(new int[] { 1, 2, 3});
     assertThat(actual).usingElementComparator(new AbsValueComparator<Integer>()).hasArray(new int[] { -1, 2, 3});
   }

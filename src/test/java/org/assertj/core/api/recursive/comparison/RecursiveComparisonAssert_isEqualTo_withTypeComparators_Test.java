@@ -25,6 +25,7 @@ import java.sql.Timestamp;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Map;
+import java.util.function.BiPredicate;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
@@ -43,16 +44,16 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
+class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
     extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
   @SuppressWarnings("unused")
   @ParameterizedTest(name = "{3}: actual={0} / expected={1} - comparatorsByType: {2}")
   @MethodSource("recursivelyEqualObjectsWhenUsingTypeComparators")
-  public void should_pass_for_objects_with_the_same_data_when_using_registered_comparator_by_types(Object actual,
-                                                                                                   Object expected,
-                                                                                                   Map<Class<?>, Comparator<Object>> comparatorByTypes,
-                                                                                                   String testDescription) {
+  void should_pass_for_objects_with_the_same_data_when_using_registered_comparator_by_types(Object actual,
+                                                                                            Object expected,
+                                                                                            Map<Class<?>, Comparator<Object>> comparatorByTypes,
+                                                                                            String testDescription) {
     // GIVEN
     comparatorByTypes.entrySet().stream()
                      .forEach(entry -> recursiveComparisonConfiguration.registerComparatorForType(entry.getValue(),
@@ -60,6 +61,26 @@ public class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
     // THEN
     assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .isEqualTo(expected);
+  }
+
+  @SuppressWarnings("unused")
+  @ParameterizedTest(name = "{3}: actual={0} / expected={1} - comparatorsByType: {2}")
+  @MethodSource("recursivelyEqualObjectsWhenUsingTypeComparators")
+  void should_pass_for_objects_with_the_same_data_when_using_registered_equals_by_types(Object actual,
+                                                                                        Object expected,
+                                                                                        Map<Class<?>, Comparator<Object>> comparatorByTypes,
+                                                                                        String testDescription) {
+    // GIVEN
+    comparatorByTypes.entrySet().stream()
+                     .forEach(entry -> recursiveComparisonConfiguration.registerEqualsForType(asBiPredicate(entry.getValue()),
+                                                                                              entry.getKey()));
+    // THEN
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                      .isEqualTo(expected);
+  }
+
+  private static BiPredicate<Object, Object> asBiPredicate(Comparator<Object> comparator) {
+    return (Object o1, Object o2) -> comparator.compare(o1, o2) == 0;
   }
 
   private static Stream<Arguments> recursivelyEqualObjectsWhenUsingTypeComparators() {
@@ -96,7 +117,7 @@ public class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
   }
 
   @Test
-  public void should_fail_when_actual_differs_from_expected_when_using_comparators_by_type() {
+  void should_fail_when_actual_differs_from_expected_when_using_comparators_by_type() {
     // GIVEN
     Person actual = new Person("John");
     actual.home.address.number = 1;
@@ -112,7 +133,7 @@ public class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
     // register comparators for some type that will fail the comparison
     recursiveComparisonConfiguration.registerComparatorForType(new AlwaysDifferentComparator<>(), Person.class);
     recursiveComparisonConfiguration.registerComparatorForType(new AlwaysDifferentComparator<>(), Date.class);
-    recursiveComparisonConfiguration.registerComparatorForType(new AlwaysDifferentComparator<>(), Address.class);
+    recursiveComparisonConfiguration.registerEqualsForType((Address a1, Address a2) -> false, Address.class);
 
     // WHEN
     compareRecursivelyFailsAsExpected(actual, expected);
@@ -126,7 +147,7 @@ public class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
   }
 
   @Test
-  public void should_be_able_to_compare_objects_recursively_using_some_precision_for_numerical_types() {
+  void should_be_able_to_compare_objects_recursively_using_some_precision_for_numerical_types() {
     // GIVEN
     Giant goliath = new Giant();
     goliath.name = "Goliath";
@@ -140,10 +161,13 @@ public class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
     assertThat(goliath).usingRecursiveComparison()
                        .withComparatorForType(new AtPrecisionComparator<>(0.2), Double.class)
                        .isEqualTo(goliathTwin);
+    assertThat(goliath).usingRecursiveComparison()
+                       .withEqualsForType((d1, d2) -> Math.abs(d1 - d2) < 0.2, Double.class)
+                       .isEqualTo(goliathTwin);
   }
 
   @Test
-  public void should_handle_null_field_with_type_comparator() {
+  void should_handle_null_field_with_type_comparator() {
     // GIVEN
     Patient actual = new Patient(null);
     Patient expected = new Patient(new Timestamp(3L));
@@ -151,10 +175,13 @@ public class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
     assertThat(actual).usingRecursiveComparison()
                       .withComparatorForType(ALWAY_EQUALS_TIMESTAMP, Timestamp.class)
                       .isEqualTo(expected);
+    assertThat(actual).usingRecursiveComparison()
+                      .withEqualsForType((o1, o2) -> true, Timestamp.class)
+                      .isEqualTo(expected);
   }
 
   @Test
-  public void should_ignore_comparators_when_fields_are_the_same() {
+  void should_ignore_comparators_when_fields_are_the_same() {
     // GIVEN
     Timestamp dateOfBirth = new Timestamp(3L);
     Patient actual = new Patient(dateOfBirth);
@@ -163,10 +190,13 @@ public class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
     assertThat(actual).usingRecursiveComparison()
                       .withComparatorForType(NEVER_EQUALS, Timestamp.class)
                       .isEqualTo(expected);
+    assertThat(actual).usingRecursiveComparison()
+                      .withEqualsForType((o1, o2) -> false, Timestamp.class)
+                      .isEqualTo(expected);
   }
 
   @Test
-  public void should_treat_timestamp_as_equal_to_date_when_registering_a_Date_symmetric_comparator() {
+  void should_treat_timestamp_as_equal_to_date_when_registering_a_Date_symmetric_comparator() {
     // GIVEN
     Person actual = new Person("Fred");
     actual.dateOfBirth = new Timestamp(1000L);
@@ -182,7 +212,7 @@ public class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
   }
 
   @Test
-  public void ignoringOverriddenEquals_should_not_interfere_with_comparators_by_type() {
+  void ignoringOverriddenEquals_should_not_interfere_with_comparators_by_type() {
     // GIVEN
     Person actual = new Person("Fred");
     actual.neighbour = new AlwaysEqualPerson();
@@ -193,6 +223,10 @@ public class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
     // THEN
     assertThat(actual).usingRecursiveComparison()
                       .withComparatorForType(ALWAY_EQUALS, AlwaysEqualPerson.class) // fails if commented
+                      .ignoringOverriddenEqualsForFields("neighbour")
+                      .isEqualTo(expected);
+    assertThat(actual).usingRecursiveComparison()
+                      .withEqualsForType((o1, o2) -> true, AlwaysEqualPerson.class) // fails if commented
                       .ignoringOverriddenEqualsForFields("neighbour")
                       .isEqualTo(expected);
   }

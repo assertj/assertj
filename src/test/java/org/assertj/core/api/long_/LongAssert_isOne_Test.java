@@ -22,7 +22,7 @@ import org.assertj.core.api.LongAssertBaseTest;
  *
  * @author Drummond Dawson
  */
-public class LongAssert_isOne_Test extends LongAssertBaseTest {
+class LongAssert_isOne_Test extends LongAssertBaseTest {
 
   @Override
   protected LongAssert invoke_api_method() {

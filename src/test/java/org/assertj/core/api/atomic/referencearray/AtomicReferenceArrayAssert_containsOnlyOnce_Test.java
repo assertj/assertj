@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 
-public class AtomicReferenceArrayAssert_containsOnlyOnce_Test extends AtomicReferenceArrayAssertBaseTest {
+class AtomicReferenceArrayAssert_containsOnlyOnce_Test extends AtomicReferenceArrayAssertBaseTest {
 
   @Override
   protected AtomicReferenceArrayAssert<Object> invoke_api_method() {

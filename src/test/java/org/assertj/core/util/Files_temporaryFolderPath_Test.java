@@ -13,8 +13,8 @@
 package org.assertj.core.util;
 
 import static java.io.File.separator;
-import static org.assertj.core.util.Strings.append;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Strings.append;
 
 import org.junit.jupiter.api.Test;
 
@@ -24,10 +24,10 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class Files_temporaryFolderPath_Test extends Files_TestCase {
+class Files_temporaryFolderPath_Test extends Files_TestCase {
 
   @Test
-  public void should_find_path_of_temporary_folder() {
+  void should_find_path_of_temporary_folder() {
     String a = Files.temporaryFolderPath();
     String e = append(separator).to(systemTemporaryFolder());
     assertThat(a).isEqualTo(e);

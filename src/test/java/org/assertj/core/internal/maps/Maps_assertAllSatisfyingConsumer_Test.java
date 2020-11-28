@@ -34,7 +34,7 @@ import org.assertj.core.test.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class Maps_assertAllSatisfyingConsumer_Test extends MapsBaseTest {
+class Maps_assertAllSatisfyingConsumer_Test extends MapsBaseTest {
 
   private Map<String, Player> greatPlayers;
 
@@ -46,7 +46,7 @@ public class Maps_assertAllSatisfyingConsumer_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_pass_if_all_entries_satisfy_the_given_requirements() {
+  void should_pass_if_all_entries_satisfy_the_given_requirements() {
     maps.assertAllSatisfy(someInfo(), greatPlayers, (team, player) -> {
       assertThat(team).isIn("Lakers", "Bulls", "Spurs");
       assertThat(player.getPointsPerGame()).isGreaterThan(18);
@@ -54,7 +54,7 @@ public class Maps_assertAllSatisfyingConsumer_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_map_is_empty() {
+  void should_pass_if_actual_map_is_empty() {
     // GIVEN
     greatPlayers.clear();
     // WHEN THEN
@@ -62,7 +62,7 @@ public class Maps_assertAllSatisfyingConsumer_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_one_entry_does_not_satisfy_the_given_requirements() {
+  void should_fail_if_one_entry_does_not_satisfy_the_given_requirements() {
     // WHEN
     AssertionError error = expectAssertionError(() -> maps.assertAllSatisfy(someInfo(), greatPlayers, (team, player) -> {
       assertThat(team).isIn("Lakers", "Bulls", "Spurs");
@@ -75,7 +75,7 @@ public class Maps_assertAllSatisfyingConsumer_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_report_all_the_entries_not_satisfying_the_given_requirements() {
+  void should_report_all_the_entries_not_satisfying_the_given_requirements() {
     // WHEN
     AssertionError error = expectAssertionError(() -> maps.assertAllSatisfy(someInfo(), greatPlayers, (team, player) -> {
       assertThat(team).isIn("Lakers", "Bulls", "Spurs");
@@ -89,7 +89,7 @@ public class Maps_assertAllSatisfyingConsumer_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // WHEN
     AssertionError error = expectAssertionError(() -> maps.assertAllSatisfy(someInfo(), null, (team, player) -> {}));
     // THEN
@@ -97,7 +97,7 @@ public class Maps_assertAllSatisfyingConsumer_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_given_requirements_are_null() {
+  void should_fail_if_given_requirements_are_null() {
     assertThatNullPointerException().isThrownBy(() -> maps.assertAllSatisfy(someInfo(), greatPlayers, null))
                                     .withMessage("The BiConsumer<K, V> expressing the assertions requirements must not be null");
   }

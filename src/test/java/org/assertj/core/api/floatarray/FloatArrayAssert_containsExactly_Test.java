@@ -22,7 +22,7 @@ import org.assertj.core.api.FloatArrayAssert;
 import org.assertj.core.api.FloatArrayAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class FloatArrayAssert_containsExactly_Test extends FloatArrayAssertBaseTest {
+class FloatArrayAssert_containsExactly_Test extends FloatArrayAssertBaseTest {
 
   @Override
   protected FloatArrayAssert invoke_api_method() {
@@ -35,7 +35,7 @@ public class FloatArrayAssert_containsExactly_Test extends FloatArrayAssertBaseT
   }
 
   @Test
-  public void should_pass_with_precision_specified_as_last_argument() {
+  void should_pass_with_precision_specified_as_last_argument() {
     // GIVEN
     float[] actual = arrayOf(1.0f, 2.0f);
     // THEN
@@ -43,7 +43,7 @@ public class FloatArrayAssert_containsExactly_Test extends FloatArrayAssertBaseT
   }
 
   @Test
-  public void should_pass_when_multiple_expected_values_are_the_same_according_to_the_given_precision() {
+  void should_pass_when_multiple_expected_values_are_the_same_according_to_the_given_precision() {
     // GIVEN
     float[] actual = arrayOf(-1.71f, -1.51f, -1.51f);
     // THEN
@@ -51,7 +51,7 @@ public class FloatArrayAssert_containsExactly_Test extends FloatArrayAssertBaseT
   }
 
   @Test
-  public void should_pass_with_precision_specified_in_comparator() {
+  void should_pass_with_precision_specified_in_comparator() {
     // GIVEN
     float[] actual = arrayOf(1.0f, 2.0f);
     // THEN

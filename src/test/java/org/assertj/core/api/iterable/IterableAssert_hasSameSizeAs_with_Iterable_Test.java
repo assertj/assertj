@@ -27,7 +27,7 @@ import org.assertj.core.api.IterableAssertBaseTest;
  * 
  * @author Nicolas François
  */
-public class IterableAssert_hasSameSizeAs_with_Iterable_Test extends IterableAssertBaseTest {
+class IterableAssert_hasSameSizeAs_with_Iterable_Test extends IterableAssertBaseTest {
 
   List<String> other = newArrayList("Solo, Leia");
 

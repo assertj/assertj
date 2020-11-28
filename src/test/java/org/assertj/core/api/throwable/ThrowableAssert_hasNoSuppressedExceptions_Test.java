@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for {@link org.assertj.core.api.ThrowableAssert#hasNoSuppressedExceptions()}.
  */
-public class ThrowableAssert_hasNoSuppressedExceptions_Test extends ThrowableAssertBaseTest {
+class ThrowableAssert_hasNoSuppressedExceptions_Test extends ThrowableAssertBaseTest {
 
   @Override
   protected ThrowableAssert invoke_api_method() {
@@ -35,7 +35,7 @@ public class ThrowableAssert_hasNoSuppressedExceptions_Test extends ThrowableAss
   }
 
   @Test
-  public void invoke_api_like_user() {
+  void invoke_api_like_user() {
     assertThat(new Throwable()).hasNoSuppressedExceptions();
   }
 }

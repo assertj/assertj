@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alex Ruiz
  */
-public class ShouldBeInstanceOfAny_create_Test {
+class ShouldBeInstanceOfAny_create_Test {
 
 
   @BeforeEach
@@ -38,7 +38,7 @@ public class ShouldBeInstanceOfAny_create_Test {
   }
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     Class<?>[] types = { File.class, Pattern.class };
     ErrorMessageFactory factory = shouldBeInstanceOfAny("Yoda", types);
@@ -55,7 +55,7 @@ public class ShouldBeInstanceOfAny_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_stack_trace_for_throwable() {
+  void should_create_error_message_with_stack_trace_for_throwable() {
     // GIVEN
     IllegalArgumentException throwable = new IllegalArgumentException("Not in a list");
     Class<?>[] types = { NullPointerException.class, IllegalStateException.class };

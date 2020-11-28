@@ -24,9 +24,9 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class ShouldHaveComparableElements_create_Test {
+class ShouldHaveComparableElements_create_Test {
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveMutuallyComparableElements(new Object[] { "b", Integer.valueOf(5), "a" });
     // WHEN

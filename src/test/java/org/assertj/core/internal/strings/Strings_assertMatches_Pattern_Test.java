@@ -37,12 +37,12 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Strings_assertMatches_Pattern_Test extends StringsBaseTest {
+class Strings_assertMatches_Pattern_Test extends StringsBaseTest {
 
   private String actual = "Yoda";
 
   @Test
-  public void should_throw_error_if_Pattern_is_null() {
+  void should_throw_error_if_Pattern_is_null() {
     assertThatNullPointerException().isThrownBy(() -> {
       Pattern pattern = null;
       strings.assertMatches(someInfo(), actual, pattern);
@@ -50,24 +50,24 @@ public class Strings_assertMatches_Pattern_Test extends StringsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMatches(someInfo(), null, matchAnything()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_match_Pattern() {
+  void should_fail_if_actual_does_not_match_Pattern() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMatches(someInfo(), actual, Pattern.compile("Luke")))
                                                    .withMessage(shouldMatch(actual, "Luke").create());
   }
 
   @Test
-  public void should_pass_if_actual_matches_Pattern() {
+  void should_pass_if_actual_matches_Pattern() {
     strings.assertMatches(someInfo(), actual, Pattern.compile("Yod.*"));
   }
 
   @Test
-  public void should_throw_error_if_Pattern_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_Pattern_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> {
       Pattern pattern = null;
       stringsWithCaseInsensitiveComparisonStrategy.assertMatches(someInfo(), actual, pattern);
@@ -75,13 +75,13 @@ public class Strings_assertMatches_Pattern_Test extends StringsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertMatches(someInfo(), null, matchAnything()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_match_Pattern_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_does_not_match_Pattern_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> stringsWithCaseInsensitiveComparisonStrategy.assertMatches(info, actual, Pattern.compile("Luke")));
@@ -91,7 +91,7 @@ public class Strings_assertMatches_Pattern_Test extends StringsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_matches_Pattern_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_matches_Pattern_whatever_custom_comparison_strategy_is() {
     stringsWithCaseInsensitiveComparisonStrategy.assertMatches(someInfo(), actual, Pattern.compile("Yod.*"));
   }
 }

@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Nicolas François
  */
-public class IterableAssert_containsExactly_Test extends IterableAssertBaseTest {
+class IterableAssert_containsExactly_Test extends IterableAssertBaseTest {
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {

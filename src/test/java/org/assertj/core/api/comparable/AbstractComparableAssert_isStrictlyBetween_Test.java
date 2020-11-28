@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AbstractComparableAssertBaseTest;
 import org.assertj.core.api.ConcreteComparableAssert;
 
-public class AbstractComparableAssert_isStrictlyBetween_Test extends AbstractComparableAssertBaseTest {
+class AbstractComparableAssert_isStrictlyBetween_Test extends AbstractComparableAssertBaseTest {
 
   @Override
   protected ConcreteComparableAssert invoke_api_method() {

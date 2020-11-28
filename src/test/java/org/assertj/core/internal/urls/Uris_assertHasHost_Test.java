@@ -22,10 +22,10 @@ import java.net.URI;
 import org.assertj.core.internal.UrisBaseTest;
 import org.junit.jupiter.api.Test;
 
-public class Uris_assertHasHost_Test extends UrisBaseTest {
+class Uris_assertHasHost_Test extends UrisBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     URI uri = null;
     String expectedHost = "www.helloworld.org";
@@ -36,7 +36,7 @@ public class Uris_assertHasHost_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_URI_has_the_given_host() {
+  void should_pass_if_actual_URI_has_the_given_host() {
     // GIVEN
     URI uri = URI.create("http://www.helloworld.org");
     String expectedHost = "www.helloworld.org";
@@ -45,7 +45,7 @@ public class Uris_assertHasHost_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_URI_with_path_has_the_given_host() {
+  void should_pass_if_actual_URI_with_path_has_the_given_host() {
     // GIVEN
     URI uri = URI.create("http://www.helloworld.org/pages");
     String expectedHost = "www.helloworld.org";
@@ -54,7 +54,7 @@ public class Uris_assertHasHost_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URI_has_not_the_expected_host() {
+  void should_fail_if_actual_URI_has_not_the_expected_host() {
     // GIVEN
     URI uri = URI.create("http://example.com/pages/");
     String expectedHost = "example.org";

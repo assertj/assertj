@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Chris Arnott
  */
-public class IntegerAssert_isNotCloseToPercentage_integer_Test extends IntegerAssertBaseTest {
+class IntegerAssert_isNotCloseToPercentage_integer_Test extends IntegerAssertBaseTest {
 
     private final Percentage percentage = withPercentage(5);
     private final Integer value = 10;

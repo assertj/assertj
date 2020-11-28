@@ -22,7 +22,7 @@ import org.assertj.core.api.FileAssertBaseTest;
  *
  * @author Valeriy Vyrva
  */
-public class FileAssert_hasDigest_AlgorithmString_Test extends FileAssertBaseTest {
+class FileAssert_hasDigest_AlgorithmString_Test extends FileAssertBaseTest {
 
   private final String algorithm = "MD5";
   private final String expected = "";

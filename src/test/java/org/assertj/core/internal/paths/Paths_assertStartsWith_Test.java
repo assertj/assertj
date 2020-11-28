@@ -29,11 +29,12 @@ import org.assertj.core.api.exception.PathsException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class Paths_assertStartsWith_Test extends MockPathsBaseTest {
+class Paths_assertStartsWith_Test extends MockPathsBaseTest {
 
   private Path canonicalActual;
   private Path canonicalOther;
 
+  @Override
   @BeforeEach
   public void init() {
     super.init();
@@ -42,19 +43,19 @@ public class Paths_assertStartsWith_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertStartsWith(info, null, other))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_other_is_null() {
+  void should_fail_if_other_is_null() {
     assertThatNullPointerException().isThrownBy(() -> paths.assertStartsWith(info, actual, null))
                                     .withMessage("the expected start path should not be null");
   }
 
   @Test
-  public void should_throw_PathsException_if_actual_cannot_be_resolved() throws IOException {
+  void should_throw_PathsException_if_actual_cannot_be_resolved() throws IOException {
     final IOException exception = new IOException();
     when(actual.toRealPath()).thenThrow(exception);
 
@@ -64,7 +65,7 @@ public class Paths_assertStartsWith_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_throw_PathsException_if_other_cannot_be_resolved() throws IOException {
+  void should_throw_PathsException_if_other_cannot_be_resolved() throws IOException {
     final IOException exception = new IOException();
     when(actual.toRealPath()).thenReturn(canonicalActual);
     when(other.toRealPath()).thenThrow(exception);
@@ -75,7 +76,7 @@ public class Paths_assertStartsWith_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_start_with_other() throws IOException {
+  void should_fail_if_actual_does_not_start_with_other() throws IOException {
     when(actual.toRealPath()).thenReturn(canonicalActual);
     when(other.toRealPath()).thenReturn(canonicalOther);
     // This is the default, but let's make this explicit
@@ -88,7 +89,7 @@ public class Paths_assertStartsWith_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_succeed_if_actual_starts_with_other() throws IOException {
+  void should_succeed_if_actual_starts_with_other() throws IOException {
     when(actual.toRealPath()).thenReturn(canonicalActual);
     when(other.toRealPath()).thenReturn(canonicalOther);
 

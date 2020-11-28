@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Yvonne Wang
  */
-public class ShouldExist_create_Test {
+class ShouldExist_create_Test {
 
   private TestDescription description;
 
@@ -44,7 +44,7 @@ public class ShouldExist_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_File() {
+  void should_create_error_message_for_File() {
     // WHEN
     String actualMessage = shouldExist(new FakeFile("xyz")).create(description, STANDARD_REPRESENTATION);
     // THEN
@@ -52,7 +52,7 @@ public class ShouldExist_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_Path_following_symbolic_links() {
+  void should_create_error_message_for_Path_following_symbolic_links() {
     // GIVEN
     final Path actual = mock(Path.class);
     // WHEN
@@ -62,7 +62,7 @@ public class ShouldExist_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_Path_not_following_symbolic_links() {
+  void should_create_error_message_for_Path_not_following_symbolic_links() {
     // GIVEN
     final Path actual = mock(Path.class);
     // WHEN

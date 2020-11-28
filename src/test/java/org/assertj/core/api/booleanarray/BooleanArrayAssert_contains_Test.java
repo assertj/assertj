@@ -23,7 +23,7 @@ import org.assertj.core.api.BooleanArrayAssertBaseTest;
  * 
  * @author Alex Ruiz
  */
-public class BooleanArrayAssert_contains_Test extends BooleanArrayAssertBaseTest {
+class BooleanArrayAssert_contains_Test extends BooleanArrayAssertBaseTest {
 
   @Override
   protected BooleanArrayAssert invoke_api_method() {

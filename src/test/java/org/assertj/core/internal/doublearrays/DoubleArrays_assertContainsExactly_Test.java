@@ -33,61 +33,61 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link DoubleArrays#assertContainsExactly(AssertionInfo, double[], double[])}</code>.
  */
-public class DoubleArrays_assertContainsExactly_Test extends DoubleArraysBaseTest {
+class DoubleArrays_assertContainsExactly_Test extends DoubleArraysBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly() {
+  void should_pass_if_actual_contains_given_values_exactly() {
     arrays.assertContainsExactly(someInfo(), actual, arrayOf(6d, 8d, 10d));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly_with_duplicates() {
+  void should_pass_if_actual_contains_given_values_exactly_with_duplicates() {
     actual = arrayOf(6d, 8d, 8d);
     arrays.assertContainsExactly(someInfo(), actual, arrayOf(6d, 8d, 8d));
   }
   
   @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
+  void should_pass_if_actual_and_given_values_are_empty() {
     arrays.assertContainsExactly(someInfo(), emptyArray(), emptyArray());
   }
 
   @Test
-  public void should_fail_if_actual_contains_given_values_exactly_but_in_different_order() {
+  void should_fail_if_actual_contains_given_values_exactly_but_in_different_order() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, arrayOf(6d, 10d, 8d)))
                                                    .withMessage(elementsDifferAtIndex(8d, 10d, 1).create());
   }
 
   @Test
-  public void should_fail_if_arrays_have_different_sizes() {
+  void should_fail_if_arrays_have_different_sizes() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, arrayOf(6d, 8d)));
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, emptyArray()));
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null() {
+  void should_throw_error_if_array_of_values_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, null))
                                     .withMessage(valuesToLookForIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), null, arrayOf(8d)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_exactly() {
+  void should_fail_if_actual_does_not_contain_given_values_exactly() {
     double[] expected = { 6d, 8d, 20d };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, expected))
                                                    .withMessage(shouldContainExactly(actual, asList(expected), newArrayList(20d), newArrayList(10d)).create());
   }
 
   @Test
-  public void should_fail_if_actual_contains_all_given_values_but_size_differ() {
+  void should_fail_if_actual_contains_all_given_values_but_size_differ() {
     double[] expected = { 6d, 8d, 10d, 10d };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, expected))
                                                    .withMessage(shouldContainExactly(actual, asList(expected), newArrayList(10d), newArrayList()).create());
@@ -98,25 +98,25 @@ public class DoubleArrays_assertContainsExactly_Test extends DoubleArraysBaseTes
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_exactly_according_to_custom_comparison_strategy() {
     actual = arrayOf(6, -8, 8);
     arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, arrayOf(6d, -8d, 8d));
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_exactly_in_different_order_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_contains_given_values_exactly_in_different_order_according_to_custom_comparison_strategy() {
     double[] expected = { -6d, 10d, 8d };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, expected))
                                                    .withMessage(elementsDifferAtIndex(8d, 10d, 1, absValueComparisonStrategy).create());
   }
 
   @Test
-  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, emptyArray()));
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
+  void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(),
                                                                                                                actual,
                                                                                                                null))
@@ -124,13 +124,13 @@ public class DoubleArrays_assertContainsExactly_Test extends DoubleArraysBaseTes
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), null, arrayOf(-8d)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_exactly_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_does_not_contain_given_values_exactly_according_to_custom_comparison_strategy() {
     double[] expected = { 6d, -8d, 20d };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(),
                                                                                                                               actual,
@@ -142,7 +142,7 @@ public class DoubleArrays_assertContainsExactly_Test extends DoubleArraysBaseTes
   }
 
   @Test
-  public void should_fail_if_actual_contains_all_given_values_but_size_differ_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_contains_all_given_values_but_size_differ_according_to_custom_comparison_strategy() {
     double[] expected = { 6d, 8d, 10d, 10d };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(),
                                                                                                                               actual,

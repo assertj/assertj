@@ -22,13 +22,13 @@ import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 
-public class IterableAssert_zipSatisfy_Test extends IterableAssertBaseTest {
+class IterableAssert_zipSatisfy_Test extends IterableAssertBaseTest {
 
   private BiConsumer<Object, String> requirements;
   private List<String> other;
 
   @BeforeEach
-  public void beforeOnce() {
+  void beforeOnce() {
     requirements = (o1, o2) -> assertThat(o1).hasSameHashCodeAs(o2);
   }
 

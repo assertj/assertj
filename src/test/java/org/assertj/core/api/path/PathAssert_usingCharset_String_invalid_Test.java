@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link PathAssert#usingCharset(String)}</code> when the provided string is invalid.
  */
-public class PathAssert_usingCharset_String_invalid_Test extends PathAssertBaseTest {
+class PathAssert_usingCharset_String_invalid_Test extends PathAssertBaseTest {
 
   @Override
   @Test

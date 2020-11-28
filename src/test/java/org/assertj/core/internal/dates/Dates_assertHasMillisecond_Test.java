@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertHasMillisecond_Test extends DatesBaseTest {
+class Dates_assertHasMillisecond_Test extends DatesBaseTest {
 
   @Override
   protected void initActualDate() {
@@ -43,7 +43,7 @@ public class Dates_assertHasMillisecond_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_has_not_given_millisecond() {
+  void should_fail_if_actual_has_not_given_millisecond() {
     AssertionInfo info = someInfo();
     int millisecond = 5;
 
@@ -54,18 +54,18 @@ public class Dates_assertHasMillisecond_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertHasMillisecond(someInfo(), null, 13))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_has_given_millisecond() {
+  void should_pass_if_actual_has_given_millisecond() {
     dates.assertHasMillisecond(someInfo(), actual, 13);
   }
 
   @Test
-  public void should_fail_if_actual_has_not_given_millisecond_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_has_not_given_millisecond_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     int millisecond = 5;
 
@@ -76,13 +76,13 @@ public class Dates_assertHasMillisecond_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertHasMillisecond(someInfo(), null, 13))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_has_given_millisecond_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_has_given_millisecond_whatever_custom_comparison_strategy_is() {
     datesWithCustomComparisonStrategy.assertHasMillisecond(someInfo(), actual, 13);
   }
 

@@ -14,34 +14,28 @@ package org.assertj.core.api.charsequence;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.Strings;
 import org.assertj.core.util.CaseInsensitiveCharSequenceComparator;
-import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Tests for <code>{@link CharSequenceAssert#usingDefaultComparator()}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
-public class CharSequenceAssert_usingDefaultComparator_Test extends CharSequenceAssertBaseTest {
-
-  @BeforeEach
-  public void before() {
-    assertions.usingComparator(CaseInsensitiveCharSequenceComparator.instance);
-  }
+class CharSequenceAssert_usingDefaultComparator_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {
-    return assertions.usingDefaultComparator();
+    return assertions.usingComparator(CaseInsensitiveCharSequenceComparator.instance)
+                     .usingDefaultComparator();
   }
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(Objects.instance()).isSameAs(getObjects(assertions));
-    assertThat(Strings.instance()).isSameAs(getStrings(assertions));
+    assertThat(getObjects(assertions)).isSameAs(Objects.instance());
+    assertThat(getStrings(assertions)).isSameAs(Strings.instance());
   }
 }

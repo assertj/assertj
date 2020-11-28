@@ -12,31 +12,22 @@
  */
 package org.assertj.core.api.chararray;
 
+import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 import static org.mockito.Mockito.verify;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
-
 import org.assertj.core.api.CharArrayAssert;
 import org.assertj.core.api.CharArrayAssertBaseTest;
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link CharArrayAssert#isSortedAccordingTo(Comparator)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
-public class CharArrayAssert_isSortedAccordingToComparator_Test extends CharArrayAssertBaseTest {
+class CharArrayAssert_isSortedAccordingToComparator_Test extends CharArrayAssertBaseTest {
 
-  @Mock
-  private Comparator<Character> comparator;
-
-  @BeforeEach
-  public void before() {
-    initMocks(this);
-  }
+  private Comparator<Character> comparator = alwaysEqual();
 
   @Override
   protected CharArrayAssert invoke_api_method() {

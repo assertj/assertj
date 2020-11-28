@@ -31,20 +31,20 @@ import org.junit.jupiter.params.provider.CsvSource;
  *
  * @author Alexander Bischof
  */
-public class Uris_assertHasFragment_Test extends UrisBaseTest {
+class Uris_assertHasFragment_Test extends UrisBaseTest {
 
   @ParameterizedTest
   @CsvSource({
       "http://www.helloworld.org/pages/index.html#print,     print",
       "http://www.helloworld.org/index.html#print,   print"
   })
-  public void should_pass_if_actual_uri_has_the_given_fragment(URI uri, String expectedFragment) {
+  void should_pass_if_actual_uri_has_the_given_fragment(URI uri, String expectedFragment) {
     // WHEN/THEN
     uris.assertHasFragment(info, uri, expectedFragment);
   }
 
   @Test
-  public void should_pass_if_actual_uri_has_no_fragment_and_given_is_null() {
+  void should_pass_if_actual_uri_has_no_fragment_and_given_is_null() {
     // GIVEN
     URI uri = URI.create("http://www.helloworld.org/index.html");
     // WHEN/THEN
@@ -52,7 +52,7 @@ public class Uris_assertHasFragment_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     URI uri = null;
     String expectedFragment = "http://www.helloworld.org/index.html#print";
@@ -63,7 +63,7 @@ public class Uris_assertHasFragment_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URI_has_not_the_expected_fragment() {
+  void should_fail_if_actual_URI_has_not_the_expected_fragment() {
     // GIVEN
     URI uri = URI.create("http://example.com/index.html#print");
     String expectedFragment = "foo";
@@ -74,7 +74,7 @@ public class Uris_assertHasFragment_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URI_has_no_fragment_and_expected_fragment_is_not_null() {
+  void should_fail_if_actual_URI_has_no_fragment_and_expected_fragment_is_not_null() {
     // GIVEN
     URI uri = URI.create("http://example.com/index.html");
     String expectedFragment = "print";
@@ -85,7 +85,7 @@ public class Uris_assertHasFragment_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URI_has_fragment_and_expected_fragment_is_null() {
+  void should_fail_if_actual_URI_has_fragment_and_expected_fragment_is_null() {
     // GIVEN
     URI uri = URI.create("http://example.com/index.html#print");
     String expectedFragment = null;
@@ -96,7 +96,7 @@ public class Uris_assertHasFragment_Test extends UrisBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_actual_uri_has_no_fragment() {
+  void should_throw_error_if_actual_uri_has_no_fragment() {
     // GIVEN
     URI uri = URI.create("http://www.helloworld.org/index.html");
     String expectedFragment = "print";

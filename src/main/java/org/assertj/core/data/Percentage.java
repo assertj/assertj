@@ -13,10 +13,6 @@
 package org.assertj.core.data;
 
 import static java.lang.String.format;
-import static java.util.Objects.requireNonNull;
-import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
-import static org.assertj.core.util.Objects.areEqual;
-import static org.assertj.core.util.Objects.hashCodeFor;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 /**
@@ -24,7 +20,8 @@ import static org.assertj.core.util.Preconditions.checkArgument;
  *
  * @author Alexander Bishcof
  */
-public class Percentage {
+public final class Percentage {
+
   public final double value;
 
   /**
@@ -36,7 +33,6 @@ public class Percentage {
    * @throws IllegalArgumentException if the given value is negative.
    */
   public static Percentage withPercentage(double value) {
-    requireNonNull(value);
     checkArgument(value >= 0, "The percentage value <%s> should be greater than or equal to zero", value);
     return new Percentage(value);
   }
@@ -48,17 +44,14 @@ public class Percentage {
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
-    if (obj == null) return false;
-    if (getClass() != obj.getClass()) return false;
+    if (!(obj instanceof Percentage)) return false;
     Percentage other = (Percentage) obj;
-    return areEqual(value, other.value);
+    return Double.compare(value, other.value) == 0;
   }
 
   @Override
   public int hashCode() {
-    int result = 1;
-    result = HASH_CODE_PRIME * result + hashCodeFor(value);
-    return result;
+    return Double.hashCode(value);
   }
 
   @Override

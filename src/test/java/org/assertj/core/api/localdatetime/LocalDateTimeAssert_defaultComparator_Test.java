@@ -18,7 +18,7 @@ import org.assertj.core.api.AbstractLocalDateTimeAssertBaseTest;
 import org.assertj.core.api.LocalDateTimeAssert;
 import org.assertj.core.internal.ChronoLocalDateTimeComparator;
 
-public class LocalDateTimeAssert_defaultComparator_Test extends AbstractLocalDateTimeAssertBaseTest {
+class LocalDateTimeAssert_defaultComparator_Test extends AbstractLocalDateTimeAssertBaseTest {
 
   @Override
   protected void inject_internal_objects() {}

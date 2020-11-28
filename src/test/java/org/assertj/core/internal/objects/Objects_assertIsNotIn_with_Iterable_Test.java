@@ -35,17 +35,17 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Nicolas François
  */
-public class Objects_assertIsNotIn_with_Iterable_Test extends ObjectsBaseTest {
+class Objects_assertIsNotIn_with_Iterable_Test extends ObjectsBaseTest {
 
   private Iterable<String> values;
 
   @BeforeEach
-  public void setUpOnce() {
+  void setUpOnce() {
     values = newArrayList("Yoda", "Leia");
   }
 
   @Test
-  public void should_throw_error_if_Iterable_is_null() {
+  void should_throw_error_if_Iterable_is_null() {
     // GIVEN
     Iterable<String> iterable = null;
     // THEN
@@ -54,22 +54,22 @@ public class Objects_assertIsNotIn_with_Iterable_Test extends ObjectsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_not_in_Iterable() {
+  void should_pass_if_actual_is_not_in_Iterable() {
     objects.assertIsNotIn(someInfo(), "Luke", values);
   }
 
   @Test
-  public void should_pass_if_given_Iterable_is_empty() {
+  void should_pass_if_given_Iterable_is_empty() {
     objects.assertIsNotIn(someInfo(), "Luke", emptySet());
   }
 
   @Test
-  public void should_pass_if_actual_is_null_and_array_does_not_contain_null() {
+  void should_pass_if_actual_is_null_and_array_does_not_contain_null() {
     objects.assertIsNotIn(someInfo(), null, values);
   }
 
   @Test
-  public void should_fail_if_actual_is_in_Iterable() {
+  void should_fail_if_actual_is_in_Iterable() {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
@@ -79,12 +79,12 @@ public class Objects_assertIsNotIn_with_Iterable_Test extends ObjectsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_is_not_in_Iterable_according_to_custom_comparison_strategy() {
+  void should_pass_if_actual_is_not_in_Iterable_according_to_custom_comparison_strategy() {
     objectsWithCustomComparisonStrategy.assertIsNotIn(someInfo(), "Luke", values);
   }
 
   @Test
-  public void should_fail_if_actual_is_in_Iterable_according_to_custom_comparison_strategy() {
+  void should_fail_if_actual_is_in_Iterable_according_to_custom_comparison_strategy() {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN

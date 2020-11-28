@@ -27,26 +27,26 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Longs_assertIsZero_Test extends LongsBaseTest {
+class Longs_assertIsZero_Test extends LongsBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_zero() {
+  void should_succeed_since_actual_is_zero() {
     longs.assertIsZero(someInfo(), 0L);
   }
 
   @Test
-  public void should_fail_since_actual_is_not_zero() {
+  void should_fail_since_actual_is_not_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertIsZero(someInfo(), 2L))
                                                    .withMessage(format("%nExpecting:%n <2L>%nto be equal to:%n <0L>%nbut was not."));
   }
 
   @Test
-  public void should_succeed_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
+  void should_succeed_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
     longsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 1L);
   }
 
   @Test
-  public void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
+  void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(),
                                                                                                                          0L))
                                                    .withMessage(format("%nExpecting:%n <0L>%nnot to be equal to:%n <0L>%n"));

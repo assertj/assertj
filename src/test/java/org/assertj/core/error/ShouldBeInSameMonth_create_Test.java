@@ -28,10 +28,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-public class ShouldBeInSameMonth_create_Test {
+class ShouldBeInSameMonth_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeInSameMonth(parse("2010-01-01"), parse("2010-02-01"));
     // WHEN

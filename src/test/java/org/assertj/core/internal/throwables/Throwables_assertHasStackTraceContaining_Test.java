@@ -28,10 +28,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Daniel Zlotin
  */
-public class Throwables_assertHasStackTraceContaining_Test extends ThrowablesBaseTest {
+class Throwables_assertHasStackTraceContaining_Test extends ThrowablesBaseTest {
 
   @Test
-  public void should_fail_if_actual_has_stacktrace_not_containing_the_expected_description() {
+  void should_fail_if_actual_has_stacktrace_not_containing_the_expected_description() {
     final AssertionInfo info = someInfo();
     try {
       throwables.assertHasStackTraceContaining(info, actual, "expected description part");
@@ -44,13 +44,13 @@ public class Throwables_assertHasStackTraceContaining_Test extends ThrowablesBas
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasStackTraceContaining(someInfo(), null, "Throwable"))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_has_stacktrace_containing_the_expected_description() {
+  void should_pass_if_actual_has_stacktrace_containing_the_expected_description() {
     throwables.assertHasStackTraceContaining(someInfo(), actual, "able");
   }
 

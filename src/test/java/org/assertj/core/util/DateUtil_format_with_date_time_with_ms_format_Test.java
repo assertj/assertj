@@ -26,17 +26,17 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class DateUtil_format_with_date_time_with_ms_format_Test {
+class DateUtil_format_with_date_time_with_ms_format_Test {
 
   @Test
-  public void should_format_date_with_date_time_with_ms_format() throws ParseException {
+  void should_format_date_with_date_time_with_ms_format() throws ParseException {
     String dateAsString = "26/08/1994";
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     assertThat(formatAsDatetimeWithMs(formatter.parse(dateAsString))).isEqualTo("1994-08-26T00:00:00.000");
   }
 
   @Test
-  public void should_return_null_if_date_is_null() {
+  void should_return_null_if_date_is_null() {
     assertThat(formatAsDatetimeWithMs(null)).isNull();
   }
 

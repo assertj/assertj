@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class Longs_assertIsCloseTo_Test extends LongsBaseTest {
+class Longs_assertIsCloseTo_Test extends LongsBaseTest {
 
   private static final Long ZERO = 0L;
   private static final Long ONE = 1L;
@@ -43,7 +43,7 @@ public class Longs_assertIsCloseTo_Test extends LongsBaseTest {
       "-1, 1, 3",
       "0, 2, 5"
   })
-  public void should_pass_if_difference_is_less_than_given_offset(long actual, long expected, long offset) {
+  void should_pass_if_difference_is_less_than_given_offset(long actual, long expected, long offset) {
     longs.assertIsCloseTo(someInfo(), actual, expected, within(offset));
   }
 
@@ -55,7 +55,7 @@ public class Longs_assertIsCloseTo_Test extends LongsBaseTest {
       "-1, 1, 2",
       "0, 2, 2"
   })
-  public void should_pass_if_difference_is_equal_to_given_offset(long actual, long expected, long offset) {
+  void should_pass_if_difference_is_equal_to_given_offset(long actual, long expected, long offset) {
     longs.assertIsCloseTo(someInfo(), actual, expected, within(offset));
   }
 
@@ -67,7 +67,7 @@ public class Longs_assertIsCloseTo_Test extends LongsBaseTest {
       "-1, 1, 1",
       "0, 2, 1"
   })
-  public void should_fail_if_actual_is_not_close_enough_to_expected(long actual, long expected, long offset) {
+  void should_fail_if_actual_is_not_close_enough_to_expected(long actual, long expected, long offset) {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> longs.assertIsCloseTo(info, actual, expected, within(offset)));
@@ -84,7 +84,7 @@ public class Longs_assertIsCloseTo_Test extends LongsBaseTest {
       "-1, 1, 2",
       "0, 2, 2"
   })
-  public void should_fail_if_difference_is_equal_to_the_given_strict_offset(long actual, long expected, long offset) {
+  void should_fail_if_difference_is_equal_to_the_given_strict_offset(long actual, long expected, long offset) {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> longs.assertIsCloseTo(info, actual, expected, byLessThan(offset)));
@@ -94,18 +94,18 @@ public class Longs_assertIsCloseTo_Test extends LongsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertIsCloseTo(someInfo(), null, ONE, within(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_expected_value_is_null() {
+  void should_fail_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> longs.assertIsCloseTo(someInfo(), ONE, null, within(ONE)));
   }
 
   @Test
-  public void should_fail_if_offset_is_null() {
+  void should_fail_if_offset_is_null() {
     assertThatNullPointerException().isThrownBy(() -> longs.assertIsCloseTo(someInfo(), ONE, ZERO, null));
   }
 

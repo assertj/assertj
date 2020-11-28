@@ -30,10 +30,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alexander Bischof
  */
-public class Urls_assertHasQuery_Test extends UrlsBaseTest {
+class Urls_assertHasQuery_Test extends UrlsBaseTest {
 
   @Test
-  public void should_pass_if_actual_url_has_the_expected_query() throws MalformedURLException {
+  void should_pass_if_actual_url_has_the_expected_query() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://example.com/pages/?type=test");
     String expectedQuery = "type=test";
@@ -43,7 +43,7 @@ public class Urls_assertHasQuery_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_url_has_no_query_and_given_is_null() throws MalformedURLException {
+  void should_pass_if_actual_url_has_no_query_and_given_is_null() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://www.helloworld.org/index.html");
     String expectedQuery = null;
@@ -53,7 +53,7 @@ public class Urls_assertHasQuery_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     URL url = null;
     String expectedQuery = "http://www.helloworld.org/index.html?type=test";
@@ -64,7 +64,7 @@ public class Urls_assertHasQuery_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URL_query_is_not_the_given_query() throws MalformedURLException {
+  void should_fail_if_actual_URL_query_is_not_the_given_query() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://assertj.org/news?type=beta");
     String expectedQuery = "type=final";
@@ -75,7 +75,7 @@ public class Urls_assertHasQuery_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URL_has_no_query_and_expected_query_is_not_null() throws MalformedURLException {
+  void should_fail_if_actual_URL_has_no_query_and_expected_query_is_not_null() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://assertj.org/news");
     String expectedQuery = "type=final";
@@ -86,7 +86,7 @@ public class Urls_assertHasQuery_Test extends UrlsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_URL_has_a_query_and_expected_query_is_null() throws MalformedURLException {
+  void should_fail_if_actual_URL_has_a_query_and_expected_query_is_null() throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://assertj.org/news?type=beta");
     String expectedQuery = null;

@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link MapAssert#hasEntrySatisfying(Condition)}</code>.
  */
-public class MapAssert_hasEntrySatisfying_with_condition_Test extends MapAssertBaseTest {
+class MapAssert_hasEntrySatisfying_with_condition_Test extends MapAssertBaseTest {
 
 
   private final Condition<Object> condition = new Condition<Object>() {
@@ -49,7 +49,7 @@ public class MapAssert_hasEntrySatisfying_with_condition_Test extends MapAssertB
   }
 
   @Test
-  public void invoke_like_user() {
+  void invoke_like_user() {
     Map<String, Object> map = new HashMap<>();
     map.put("joe", "cool");
     Condition<? super Entry<String, Object>> cond2 = new Condition<Entry<String, Object>>() {

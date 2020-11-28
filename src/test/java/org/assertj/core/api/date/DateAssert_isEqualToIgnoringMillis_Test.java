@@ -12,18 +12,20 @@
  */
 package org.assertj.core.api.date;
 
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-import org.assertj.core.api.DateAssert;
 import static org.mockito.Mockito.verify;
 
+import java.time.Instant;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+import org.assertj.core.api.DateAssert;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.DateAssert#isEqualToIgnoringMillis(java.util.Date)}</code>.
  *
  * @author William Delanoue
  */
-public class DateAssert_isEqualToIgnoringMillis_Test extends AbstractDateAssertWithDateArg_Test {
+class DateAssert_isEqualToIgnoringMillis_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {
@@ -35,9 +37,18 @@ public class DateAssert_isEqualToIgnoringMillis_Test extends AbstractDateAssertW
     return assertions.isEqualToIgnoringMillis(date);
   }
 
+  protected DateAssert assertionInvocationWithInstantArg(Instant instant) {
+    return assertions.isEqualToIgnoringMillis(instant);
+  }
+
   @Override
   protected void verifyAssertionInvocation(Date date) {
     verify(dates).assertIsEqualWithPrecision(getInfo(assertions), getActual(assertions), date, TimeUnit.MILLISECONDS);
+  }
+
+  @Override
+  protected DateAssert assertionInvocationWithInstantArg() {
+    return assertions.isEqualToIgnoringMillis(otherDate.toInstant());
   }
 
 }

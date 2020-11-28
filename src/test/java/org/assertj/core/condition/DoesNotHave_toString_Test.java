@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Nicolas François
  */
-public class DoesNotHave_toString_Test {
+class DoesNotHave_toString_Test {
 
   private TestCondition<Object> condition;
   private Condition<Object> doesNotHave;
@@ -38,7 +38,7 @@ public class DoesNotHave_toString_Test {
   }
 
   @Test
-  public void should_implement_toString_showing_descriptions_of_inner_Conditions() {
+  void should_implement_toString_showing_descriptions_of_inner_Conditions() {
     String expected = "does not have :<JediPower>";
     assertThat(doesNotHave).hasToString(expected);
   }

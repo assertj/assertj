@@ -21,21 +21,21 @@ import java.util.OptionalInt;
 
 import org.junit.jupiter.api.Test;
 
-public class OptionalIntAssert_isEmpty_Test {
+class OptionalIntAssert_isEmpty_Test {
 
   @Test
-  public void should_pass_if_OptionalInt_is_empty() {
+  void should_pass_if_OptionalInt_is_empty() {
     assertThat(OptionalInt.empty()).isEmpty();
   }
 
   @Test
-  public void should_fail_when_OptionalInt_is_null() {
+  void should_fail_when_OptionalInt_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((OptionalInt) null).isEmpty())
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_OptionalInt_is_present() {
+  void should_fail_if_OptionalInt_is_present() {
     OptionalInt actual = OptionalInt.of(10);
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isEmpty())

@@ -16,10 +16,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-public class SnakeTest {
+class SnakeTest {
 
   @Test
-  public void should_be_a_snake() {
+  void should_be_a_snake() {
     // GIVEN
     Snake snake = new Snake(0, 0, null);
     // WHEN

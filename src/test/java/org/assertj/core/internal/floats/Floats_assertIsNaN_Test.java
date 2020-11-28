@@ -28,26 +28,26 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class Floats_assertIsNaN_Test extends FloatsBaseTest {
+class Floats_assertIsNaN_Test extends FloatsBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_equal_to_NaN() {
+  void should_succeed_since_actual_is_equal_to_NaN() {
     floats.assertIsNaN(someInfo(), Float.NaN);
   }
 
   @Test
-  public void should_fail_since_actual_is_not_equal_to_NaN() {
+  void should_fail_since_actual_is_not_equal_to_NaN() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNaN(someInfo(), 6.0f))
                                                    .withMessage(format("%nExpecting:%n <6.0f>%nto be equal to:%n <NaNf>%nbut was not."));
   }
 
   @Test
-  public void should_succeed_since_actual_is_equal_to_NaN_whatever_custom_comparison_strategy_is() {
+  void should_succeed_since_actual_is_equal_to_NaN_whatever_custom_comparison_strategy_is() {
     floatsWithAbsValueComparisonStrategy.assertIsNaN(someInfo(), Float.NaN);
   }
 
   @Test
-  public void should_fail_since_actual_is_not_equal_to_NaN_whatever_custom_comparison_strategy_is() {
+  void should_fail_since_actual_is_not_equal_to_NaN_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsNaN(someInfo(), 6.0f))
                                                    .withMessage(format("%nExpecting:%n <6.0f>%nto be equal to:%n <NaNf>%nbut was not."));
   }

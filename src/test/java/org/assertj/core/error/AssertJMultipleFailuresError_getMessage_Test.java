@@ -22,7 +22,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("AssertJMultipleFailuresError getMessage")
-public class AssertJMultipleFailuresError_getMessage_Test {
+class AssertJMultipleFailuresError_getMessage_Test {
 
   @Test
   void should_honor_description() {
@@ -36,7 +36,7 @@ public class AssertJMultipleFailuresError_getMessage_Test {
   }
 
   @Test
-  public void should_include_errors_count_and_clearly_separate_error_messages() {
+  void should_include_errors_count_and_clearly_separate_error_messages() {
     // GIVEN
     SoftAssertions softly = new SoftAssertions();
     softly.assertThat(list("")).isEmpty();

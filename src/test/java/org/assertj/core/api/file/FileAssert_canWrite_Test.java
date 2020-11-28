@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  * @author Olivier Demeijer
  * 
  */
-public class FileAssert_canWrite_Test extends FileAssertBaseTest {
+class FileAssert_canWrite_Test extends FileAssertBaseTest {
 
   @Override
   protected FileAssert invoke_api_method() {

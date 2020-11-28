@@ -18,7 +18,7 @@ jobs:
         with:
           java-version: 11
       - name: Cache Maven Repository
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.m2
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -29,15 +29,17 @@ jobs:
   sonar:
     name: Sonar code analysis
     runs-on: ubuntu-latest
-    if: github.repository == 'joel-costigliola/assertj-core' && github.event_name == 'push'
+    if: github.repository == 'assertj/assertj-core' && github.event_name == 'push'
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Setup Java
         uses: actions/setup-java@v1
         with:
           java-version: 11
       - name: Cache Maven Repository
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.m2
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}

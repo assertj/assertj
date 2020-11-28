@@ -19,7 +19,7 @@ import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
-public class AtomicReferenceArrayAssert_endsWith_Test extends AtomicReferenceArrayAssertBaseTest {
+class AtomicReferenceArrayAssert_endsWith_Test extends AtomicReferenceArrayAssertBaseTest {
 
   @Override
   protected AtomicReferenceArrayAssert<Object> invoke_api_method() {

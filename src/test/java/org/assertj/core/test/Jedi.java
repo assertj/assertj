@@ -65,9 +65,8 @@ public class Jedi extends Person {
     if (lightSaberColor == null) {
       if (other.lightSaberColor != null) return false;
     } else if (!lightSaberColor.equals(other.lightSaberColor)) return false;
-    if (getName() == null) {
-      return other.getName() == null;
-    } else return getName().equals(other.getName());
+    if (getName() == null) return other.getName() == null;
+    return getName().equals(other.getName());
   }
 
 }

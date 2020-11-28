@@ -38,7 +38,8 @@ import org.junit.jupiter.api.Test;
  *
  * @author Nicolas François
  */
-public class ObjectAssert_isEqualsToComparingFields_Test extends ObjectAssertBaseTest {
+@SuppressWarnings("deprecation")
+class ObjectAssert_isEqualsToComparingFields_Test extends ObjectAssertBaseTest {
 
   private Jedi other = new Jedi("Yoda", "Blue");
 
@@ -55,7 +56,7 @@ public class ObjectAssert_isEqualsToComparingFields_Test extends ObjectAssertBas
   }
 
   @Test
-  public void should_be_able_to_use_a_comparator_for_specified_fields() {
+  void should_be_able_to_use_a_comparator_for_specified_fields() {
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
@@ -64,7 +65,7 @@ public class ObjectAssert_isEqualsToComparingFields_Test extends ObjectAssertBas
   }
 
   @Test
-  public void comparators_for_fields_should_have_precedence_over_comparators_for_types() {
+  void comparators_for_fields_should_have_precedence_over_comparators_for_types() {
     Comparator<String> comparator = (o1, o2) -> o1.compareTo(o2);
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
@@ -75,7 +76,7 @@ public class ObjectAssert_isEqualsToComparingFields_Test extends ObjectAssertBas
   }
 
   @Test
-  public void should_be_able_to_use_a_comparator_for_specified_type() {
+  void should_be_able_to_use_a_comparator_for_specified_type() {
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "blue");
 
@@ -84,7 +85,7 @@ public class ObjectAssert_isEqualsToComparingFields_Test extends ObjectAssertBas
   }
 
   @Test
-  public void should_be_able_to_use_a_type_comparator_for_any_of_the_type_subclasses() {
+  void should_be_able_to_use_a_type_comparator_for_any_of_the_type_subclasses() {
 
     JediMaster yoda1 = new JediMaster("Yoda", new Jedi("luke", "Green"));
     JediMaster yoda2 = new JediMaster("Yoda", new Jedi("LUKE", null));
@@ -97,7 +98,7 @@ public class ObjectAssert_isEqualsToComparingFields_Test extends ObjectAssertBas
   }
 
   @Test
-  public void should_be_able_to_use_a_date_comparator_for_timestamp() {
+  void should_be_able_to_use_a_date_comparator_for_timestamp() {
 
     JediMaster yoda1 = new JediMaster("Yoda", new Jedi("luke", "Green"));
     yoda1.dateOfBirth = new Timestamp(1000L);
@@ -139,7 +140,7 @@ public class ObjectAssert_isEqualsToComparingFields_Test extends ObjectAssertBas
   }
 
   @Test
-  public void should_handle_null_field_with_field_comparator() {
+  void should_handle_null_field_with_field_comparator() {
     // GIVEN
     Patient adam = new Patient(null);
     Patient eve = new Patient(new Timestamp(3L));
@@ -149,7 +150,7 @@ public class ObjectAssert_isEqualsToComparingFields_Test extends ObjectAssertBas
   }
 
   @Test
-  public void should_not_bother_with_comparators_when_fields_are_the_same() {
+  void should_not_bother_with_comparators_when_fields_are_the_same() {
     // GIVEN
     Timestamp dateOfBirth = new Timestamp(3L);
     Patient adam = new Patient(dateOfBirth);

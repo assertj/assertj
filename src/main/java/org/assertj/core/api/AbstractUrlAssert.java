@@ -419,7 +419,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
   }
 
   /**
-   * Verifies that the actual {@link URL} is equivalent to the given one after <b>their parameters are sorted</b>.
+   * Verifies that the actual {@code URL} is equivalent to the given one after <b>their parameters are sorted</b>.
    * <p>
    * Example:
    * <pre><code class='java'> URL url = new URL("http://example.com?a=b&amp;c=d");
@@ -434,7 +434,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * //... and this one fails as domains are different.
    * assertThat(url).isEqualToWithSortedQueryParameters(new URL("http://example2.com?amp;a=b&amp;c=d")); </code></pre>
    *
-   * @param expected the expected {@link URL} to compare actual to.
+   * @param expected the expected {@code URL} to compare actual to.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given URL is {@code null}.
    * @throws AssertionError if the actual {@code URL} is {@code null}.

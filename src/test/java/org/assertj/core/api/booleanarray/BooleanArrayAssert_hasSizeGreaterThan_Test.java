@@ -17,7 +17,7 @@ import org.assertj.core.api.BooleanArrayAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
-public class BooleanArrayAssert_hasSizeGreaterThan_Test extends BooleanArrayAssertBaseTest {
+class BooleanArrayAssert_hasSizeGreaterThan_Test extends BooleanArrayAssertBaseTest {
 
   @Override
   protected BooleanArrayAssert invoke_api_method() {

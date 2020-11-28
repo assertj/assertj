@@ -17,7 +17,7 @@ import org.assertj.core.api.MapAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
-public class MapAssert_hasSizeBetween_Test extends MapAssertBaseTest {
+class MapAssert_hasSizeBetween_Test extends MapAssertBaseTest {
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {

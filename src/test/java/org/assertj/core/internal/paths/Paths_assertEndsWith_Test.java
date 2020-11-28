@@ -28,22 +28,22 @@ import java.nio.file.Path;
 import org.assertj.core.api.exception.PathsException;
 import org.junit.jupiter.api.Test;
 
-public class Paths_assertEndsWith_Test extends MockPathsBaseTest {
+class Paths_assertEndsWith_Test extends MockPathsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertEndsWith(info, null, other))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_other_is_null() {
+  void should_fail_if_other_is_null() {
     assertThatNullPointerException().isThrownBy(() -> paths.assertEndsWith(info, actual, null))
                                     .withMessage("the expected end path should not be null");
   }
 
   @Test
-  public void should_fail_with_PathsException_if_actual_cannot_be_resolved() throws IOException {
+  void should_fail_with_PathsException_if_actual_cannot_be_resolved() throws IOException {
     final IOException causeException = new IOException();
     when(actual.toRealPath()).thenThrow(causeException);
 
@@ -53,7 +53,7 @@ public class Paths_assertEndsWith_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_canonical_actual_does_not_end_with_normalized_other() throws IOException {
+  void should_fail_if_canonical_actual_does_not_end_with_normalized_other() throws IOException {
     final Path canonicalActual = mock(Path.class);
     final Path normalizedOther = mock(Path.class);
 
@@ -70,7 +70,7 @@ public class Paths_assertEndsWith_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_succeed_if_canonical_actual_ends_with_normalized_other() throws IOException {
+  void should_succeed_if_canonical_actual_ends_with_normalized_other() throws IOException {
     final Path canonicalActual = mock(Path.class);
     final Path normalizedOther = mock(Path.class);
 

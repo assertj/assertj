@@ -28,10 +28,10 @@ import org.junit.jupiter.api.Test;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class ShouldNotBeEqual_create_Test {
+class ShouldNotBeEqual_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotBeEqual("Yoda", "Luke");
     // WHEN
@@ -41,7 +41,7 @@ public class ShouldNotBeEqual_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_custom_comparison_strategy() {
+  void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotBeEqual("Yoda", "Luke",
                                                    new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));

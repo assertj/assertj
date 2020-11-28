@@ -21,17 +21,17 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class Assertions_assertThat_with_Double_Test {
+class Assertions_assertThat_with_Double_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
     Double zero = 0d;
     AbstractDoubleAssert<?> assertions = Assertions.assertThat(zero);
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
     Double eight = 8d;
     AbstractDoubleAssert<?> assertions = Assertions.assertThat(eight);
     assertThat(assertions.actual).isSameAs(eight);

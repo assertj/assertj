@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  */
-public class FloatArrayAssert_isNotEmpty_Test extends FloatArrayAssertBaseTest {
+class FloatArrayAssert_isNotEmpty_Test extends FloatArrayAssertBaseTest {
 
   @Override
   protected FloatArrayAssert invoke_api_method() {

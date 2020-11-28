@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Chris Arnott
  */
-public class ShortAssert_isNotCloseToPercentage_short_Test extends ShortAssertBaseTest {
+class ShortAssert_isNotCloseToPercentage_short_Test extends ShortAssertBaseTest {
 
     private final Percentage percentage = withPercentage((short) 5);
     private final Short value = (short)10;

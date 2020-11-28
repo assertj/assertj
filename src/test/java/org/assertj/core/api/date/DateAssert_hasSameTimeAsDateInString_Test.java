@@ -30,35 +30,35 @@ import org.junit.jupiter.api.Test;
  *
  * @author Michal Kordas
  */
-public class DateAssert_hasSameTimeAsDateInString_Test extends DateAssertBaseTest {
+class DateAssert_hasSameTimeAsDateInString_Test extends DateAssertBaseTest {
 
   @Test
-  public void should_verify_that_date_has_time_same_as_string_from_timestamp() {
+  void should_verify_that_date_has_time_same_as_string_from_timestamp() {
     Date date = parseDatetime("2003-04-26T12:59:59.999");
     Timestamp timestamp = new Timestamp(date.getTime());
     assertThat(date).withDateFormat("yyyy-MM-dd HH:mm:ss.SSS").hasSameTimeAs(timestamp.toString());
   }
 
   @Test
-  public void should_verify_that_date_has_same_time_as_string_from_date() {
+  void should_verify_that_date_has_same_time_as_string_from_date() {
     Date date = parseDatetime("2003-04-26T12:00:00");
     assertThat(date).hasSameTimeAs("2003-04-26T12:00:00");
   }
 
   @Test
-  public void should_fail_when_checking_if_date_has_same_time_as_other_date() {
+  void should_fail_when_checking_if_date_has_same_time_as_other_date() {
     Date date = parseDatetime("2003-04-26T12:00:00");
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(date).hasSameTimeAs("2003-04-27T12:00:00"));
   }
 
   @Test
-  public void should_fail_when_actual_is_null() {
+  void should_fail_when_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Date) null).hasSameTimeAs("2003-04-26T12:00:00"))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_throw_exception_when_date_is_null() {
+  void should_throw_exception_when_date_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(new Date()).hasSameTimeAs((String) null))
                                     .withMessage(dateToCompareActualWithIsNull());
   }

@@ -16,20 +16,17 @@ import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursi
 import static org.assertj.core.error.ShouldNotBeEqualComparingFieldByFieldRecursively.shouldNotBeEqualComparingFieldByFieldRecursively;
 
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
-import java.util.stream.Stream;
+import java.util.function.BiPredicate;
 
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
-import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
-// import org.assertj.core.error.ShouldNotBeEqualComparingFieldByFieldRecursively;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.CheckReturnValue;
@@ -98,10 +95,12 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * <p>
    * By default {@code floats} are compared with a precision of 1.0E-6 and {@code doubles} with 1.0E-15.
    * <p>
-   * You can specify a custom comparator per (nested) fields or type with the methods below (but before calling {@code isEqualTo} otherwise this has no effect!):
+   * You can specify a custom comparator or equals BiPredicate per (nested) fields or type with the methods below (but before calling {@code isEqualTo} otherwise this has no effect!):
    * <ol>
-   * <li> {@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)} for one or multiple fields</li>
+   * <li> {@link #withEqualsForType(BiPredicate, Class)} for a given type</li>
    * <li> {@link #withComparatorForType(Comparator, Class)} for a given type</li>
+   * <li> {@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)} for one or multiple fields</li>
+   * <li> {@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)} for one or multiple fields</li>
    * </ol>
    * <p>
    * Note that field comparators always take precedence over type comparators.
@@ -367,6 +366,8 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   /**
    * Makes the recursive comparison to ignore the given object under test fields. Nested fields can be specified like this: {@code home.address.street}.
    * <p>
+   * The given fieldNamesToIgnore are matched agains field names, not field values.
+   * <p>
    * Example:
    * <pre><code class='java'> public class Person {
    *   String name;
@@ -401,17 +402,17 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    *                     .ignoringFields("name")
    *                     .isEqualTo(noName);</code></pre>
    *
-   * @param fieldsToIgnore the fields of the object under test to ignore in the comparison.
+   * @param fieldNamesToIgnore the field names of the object under test to ignore in the comparison.
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
    */
   @CheckReturnValue
-  public SELF ignoringFields(String... fieldsToIgnore) {
-    recursiveComparisonConfiguration.ignoreFields(fieldsToIgnore);
+  public SELF ignoringFields(String... fieldNamesToIgnore) {
+    recursiveComparisonConfiguration.ignoreFields(fieldNamesToIgnore);
     return myself;
   }
 
   /**
-   * Makes the recursive comparison to ignore the object under test fields matching the given regexes.
+   * Makes the recursive comparison to ignore the object under test fields whose name matche the given regexes.
    * <p>
    * Nested fields can be specified by using dots like this: {@code home\.address\.street} ({@code \} is used to escape
    * dots since they have a special meaning in regexes).
@@ -508,11 +509,10 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
-   * By default the recursive comparison uses overridden {@code equals} methods to compare fields,
-   * this method allows to  compare recursively all fields <b>except fields with java types</b> (at some point we need to compare something!).
+   * This method instructs the recursive comparison to compare recursively all fields including the one whose type have overridden equals,
+   * <b>except fields with java types</b> (at some point we need to compare something!).
    * <p>
-   * For the recursive comparison to use the overridden {@code equals} of a given type anyway (like {@link Date}) you can register
-   * a type comparator using {@link #withComparatorForType(Comparator, Class)}.
+   * Since 3.17.0 this is the default behavior for recursive comparisons, to revert to the previous behavior call {@link #usingOverriddenEquals()}.
    * <p>
    * Example:
    * <pre><code class='java'> public class Person {
@@ -546,15 +546,18 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * sherlock2.home.address.street = "Butcher Street";
    * sherlock2.home.address.number = 221;
    *
-   * // assertion succeeds but that's not what we expected since the home.address.street fields differ
-   * // but the equals implementation in Address does not compare them.
+   * // Assertion succeeds because:
+   * // - overridden equals are used
+   * // - Address has overridden equals and does not compare street fields.
    * assertThat(sherlock).usingRecursiveComparison()
+   *                     .usingOverriddenEquals()
    *                     .isEqualTo(sherlock2);
    *
-   * // to avoid the previous issue, we force a recursive comparison on the home.address field
-   * // now this assertion fails as we expect since the home.address.street fields differ
+   * // To avoid using Address overridden equals, don't call usingOverriddenEquals() or call ignoringAllOverriddenEquals()
+   * // (calling ignoringAllOverriddenEquals() is actually not required as this is the default behavior).
+   * // This assertion fails as it will compare home.address.street fields which differ
    * assertThat(sherlock).usingRecursiveComparison()
-   *                     .ignoringAllOverriddenEquals()
+   *                      //.ignoringAllOverriddenEquals() // not needed as this is the default
    *                     .isEqualTo(sherlock2);</code></pre>
    *
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
@@ -565,8 +568,67 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
-   * By default the recursive comparison uses overridden {@code equals} methods to compare fields,
-   * this method allows to force a recursive comparison for the given fields (it adds them to the already registered ones).
+   * By default the recursive comparison compare recursively all fields including the ones whose type have overridden equals
+   * <b>except fields with java types</b> (at some point we need to compare something!).
+   * <p>
+   * This method instructs the recursive comparison to use overridden equals.
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class Person {
+   *   String name;
+   *   double height;
+   *   Home home = new Home();
+   * }
+   *
+   * public class Home {
+   *   Address address = new Address();
+   * }
+   *
+   * public static class Address {
+   *   int number;
+   *   String street;
+   *
+   *   // only compares number!
+   *   {@literal @}Override
+   *   public boolean equals(final Object other) {
+   *     if (!(other instanceof Address)) return false;
+   *     Address castOther = (Address) other;
+   *     return Objects.equals(number, castOther.number);
+   *   }
+   * }
+   *
+   * Person sherlock = new Person("Sherlock", 1.80);
+   * sherlock.home.address.street = "Baker Street";
+   * sherlock.home.address.number = 221;
+   *
+   * Person sherlock2 = new Person("Sherlock", 1.80);
+   * sherlock2.home.address.street = "Butcher Street";
+   * sherlock2.home.address.number = 221;
+   *
+   * // assertion succeeds because Address equals does not compare street fields.
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .usingOverriddenEquals()
+   *                     .isEqualTo(sherlock2);
+   *
+   * // Assertion fails because:
+   * // - Address equals is not used.
+   * // - street fields are compared and differ.
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .isEqualTo(sherlock2);</code></pre>
+   *
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   * @since 3.17.0
+   */
+  public SELF usingOverriddenEquals() {
+    recursiveComparisonConfiguration.useOverriddenEquals();
+    return myself;
+  }
+
+  /**
+   * In case you have instructed the recursive to use overridden {@code equals} with {@link #usingOverriddenEquals()},
+   * this method allows to ignore overridden {@code equals} for the given fields (it adds them to the already registered ones).
+   * <p>
+   * Since 3.17.0 all overridden {@code equals} so this method is only relevant if you have called {@link #usingOverriddenEquals()} before.
    * <p>
    * Nested fields can be specified by using dots like this: {@code home.address.street}
    * <p>
@@ -585,7 +647,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    *   int number;
    *   String street;
    *
-   *   // only compares number, ouch!
+   *   // only compares number
    *   {@literal @}Override
    *   public boolean equals(final Object other) {
    *     if (!(other instanceof Address)) return false;
@@ -602,14 +664,19 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * sherlock2.home.address.street = "Butcher Street";
    * sherlock2.home.address.number = 221;
    *
-   * // assertion succeeds but that's not what we expected since the home.address.street fields differ
-   * // but the equals implementation in Address does not compare them.
+   * // Assertion succeeds because:
+   * // - overridden equals are used
+   * // - Address has overridden equals and does not compare street fields.
    * assertThat(sherlock).usingRecursiveComparison()
+   *                     .usingOverriddenEquals()
    *                     .isEqualTo(sherlock2);
    *
-   * // to avoid the previous issue, we force a recursive comparison on the home.address field
-   * // now this assertion fails as we expect since the home.address.street fields differ
+   * // ignoringOverriddenEqualsForFields force a recursive comparison on the given field
+   * // Assertion fails because:
+   * // - Address equals is not used.
+   * // - street fields are compared and differ.
    * assertThat(sherlock).usingRecursiveComparison()
+   *                     .usingOverriddenEquals()
    *                     .ignoringOverriddenEqualsForFields("home.address")
    *                     .isEqualTo(sherlock2);</code></pre>
    *
@@ -625,6 +692,8 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   /**
    * By default the recursive comparison uses overridden {@code equals} methods to compare fields,
    * this method allows to force a recursive comparison for all fields of the given types (it adds them to the already registered ones).
+   * <p>
+   * Since 3.17.0 all overridden {@code equals} so this method is only relevant if you have called {@link #usingOverriddenEquals()} before.
    * <p>
    * Example:
    * <pre><code class='java'> public class Person {
@@ -658,14 +727,19 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * sherlock2.home.address.street = "Butcher Street";
    * sherlock2.home.address.number = 221;
    *
-   * // assertion succeeds but that's not what we expected since the home.address.street fields differ
-   * // but the equals implementation in Address does not compare them.
+   * // Assertion succeeds because:
+   * // - overridden equals are used
+   * // - Address has overridden equals and does not compare street fields.
    * assertThat(sherlock).usingRecursiveComparison()
+   *                     .usingOverriddenEquals()
    *                     .isEqualTo(sherlock2);
    *
-   * // to avoid the previous issue, we force a recursive comparison on the Address type
-   * // now this assertion fails as we expect since the home.address.street fields differ
+   * // ignoringOverriddenEqualsForTypes force a recursive comparison on the given types.
+   * // Assertion fails because:
+   * // - Address equals is not used.
+   * // - street fields are compared and differ.
    * assertThat(sherlock).usingRecursiveComparison()
+   *                     .usingOverriddenEquals()
    *                     .ignoringOverriddenEqualsForTypes(Address.class)
    *                     .isEqualTo(sherlock2);</code></pre>
    *
@@ -679,8 +753,10 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
-   * By default the recursive comparison uses overridden {@code equals} methods to compare fields,
+   * In case you have instructed the recursive to use overridden {@code equals} with {@link #usingOverriddenEquals()},
    * this method allows to force a recursive comparison for the fields matching the given regexes (it adds them to the already registered ones).
+   * <p>
+   * Since 3.17.0 all overridden {@code equals} so this method is only relevant if you have called {@link #usingOverriddenEquals()} before.
    * <p>
    * Nested fields can be specified by using dots like: {@code home\.address\.street} ({@code \} is used to escape
    * dots since they have a special meaning in regexes).
@@ -717,14 +793,15 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * sherlock2.home.address.street = "Butcher Street";
    * sherlock2.home.address.number = 221;
    *
-   * // assertion succeeds but that's not what we expected since the home.address.street fields differ
-   * // but the equals implementation in Address does not compare them.
+   * // assertion succeeds because overridden equals are used and thus street fields are mot compared
    * assertThat(sherlock).usingRecursiveComparison()
+   *                     .usingOverriddenEquals()
    *                     .isEqualTo(sherlock2);
    *
-   * // to avoid the previous issue, we force a recursive comparison on home and its fields
+   * // ignoringOverriddenEqualsForFields force a recursive comparison on the field matching the regex
    * // now this assertion fails as we expect since the home.address.street fields differ
    * assertThat(sherlock).usingRecursiveComparison()
+   *                     .usingOverriddenEquals()
    *                     .ignoringOverriddenEqualsForFieldsMatchingRegexes("home.*")
    *                     .isEqualTo(sherlock2);</code></pre>
    *
@@ -919,14 +996,64 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
-   * Allows to register a specific comparator to compare fields with the given locations.
+   * Allows to register a {@link BiPredicate} to compare fields with the given locations.
    * A typical usage is for comparing double/float fields with a given precision.
    * <p>
-   * Comparators specified by this method have precedence over comparators added with {@link #withComparatorForType(Comparator, Class)}.
+   * BiPredicates specified with this method have precedence over the ones registered with {@link #withEqualsForType(BiPredicate, Class)}
+   * or the comparators registered with {@link #withComparatorForType(Comparator, Class)}.
+   * <p>
+   * Note that registering a {@link BiPredicate} for a given field will override the previously registered Comparator (if any).
    * <p>
    * The field locations must be specified from the root object,
    * for example if {@code Foo} has a {@code Bar} field which has an {@code id}, one can register to a comparator for Bar's {@code id} by calling:
-   * <pre><code class='java'> withComparatorForField("bar.id", idComparator)</code></pre>
+   * <pre><code class='java'> withEqualsForFields(idBiPredicate, "foo.id", "foo.bar.id")</code></pre>
+   * <p>
+   * Complete example:
+   * <pre><code class='java'> public class TolkienCharacter {
+   *   String name;
+   *   double height;
+   * }
+   *
+   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2);
+   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.3);
+   * TolkienCharacter reallyTallFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.9);
+   *
+   * BiPredicate&lt;Double, Double&gt; closeEnough = (d1, d2) -&gt; Math.abs(d1 - d2) &lt;= 0.5;
+   *
+   * // assertion succeeds
+   * assertThat(frodo).usingRecursiveComparison()
+   *                  .withEqualsForFields(closeEnough, &quot;height&quot;)
+   *                  .isEqualTo(tallerFrodo);
+   *
+   * // assertion fails
+   * assertThat(frodo).usingRecursiveComparison()
+   *                  .withEqualsForFields(closeEnough, &quot;height&quot;)
+   *                  .isEqualTo(reallyTallFrodo);</code></pre>
+   *
+   * @param equals the {@link BiPredicate} to use to compare the given fields
+   * @param fieldLocations the location from the root object of the fields the BiPredicate should be used for
+   *
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   * @throws NullPointerException if the given BiPredicate is null.
+   */
+  @CheckReturnValue
+  public SELF withEqualsForFields(BiPredicate<?, ?> equals, String... fieldLocations) {
+    recursiveComparisonConfiguration.registerEqualsForFields(equals, fieldLocations);
+    return myself;
+  }
+
+  /**
+   * Allows to register a comparator to compare fields with the given locations.
+   * A typical usage is for comparing double/float fields with a given precision.
+   * <p>
+   * Comparators registered with this method have precedence over comparators registered with {@link #withComparatorForType(Comparator, Class)}
+   * or {@link BiPredicate} registered with {@link #withEqualsForType(BiPredicate, Class)}.
+   * <p>
+   * The field locations must be specified from the root object,
+   * for example if {@code Foo} has a {@code Bar} field which has an {@code id}, one can register to a comparator for Bar's {@code id} by calling:
+   * <pre><code class='java'> withComparatorForFields(idComparator, "foo.id", "foo.bar.id")</code></pre>
+   * <p>
+   * Note that registering a {@link Comparator} for a given field will override the previously registered BiPredicate/Comparator (if any).
    * <p>
    * Complete example:
    * <pre><code class='java'> public class TolkienCharacter {
@@ -940,7 +1067,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    *
    * Comparator&lt;Double&gt; closeEnough = (d1, d2) -&gt; Math.abs(d1 - d2) &lt;= 0.5 ? 0 : 1;
    *
-   * // assertions succeed
+   * // assertion succeeds
    * assertThat(frodo).usingRecursiveComparison()
    *                  .withComparatorForFields(closeEnough, &quot;height&quot;)
    *                  .isEqualTo(tallerFrodo);
@@ -953,20 +1080,22 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * @param comparator the {@link java.util.Comparator Comparator} to use to compare the given fields
    * @param fieldLocations the location from the root object of the fields the comparator should be used for
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   * @throws NullPointerException if the given comparator is null.
    */
   @CheckReturnValue
   public SELF withComparatorForFields(Comparator<?> comparator, String... fieldLocations) {
-    Stream.of(fieldLocations)
-          .map(FieldLocation::new)
-          .forEach(fieldLocation -> recursiveComparisonConfiguration.registerComparatorForField(comparator, fieldLocation));
+    recursiveComparisonConfiguration.registerComparatorForFields(comparator, fieldLocations);
     return myself;
   }
 
   /**
-   * Allows to register a specific comparator to compare the fields with the given type.
+   * Allows to register a comparator to compare the fields with the given type.
    * A typical usage is for comparing double/float fields with a given precision.
    * <p>
-   * Comparators specified by this method have less precedence than comparators added with {@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)}.
+   * Comparators registered with this method have less precedence than comparators registered with {@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)}
+   * or BiPredicate registered with {@link #withEqualsForFields(BiPredicate, String...) withEqualsForFields(BiPredicate, String...)}.
+   * <p>
+   * Note that registering a {@link Comparator} for a given type will override the previously registered BiPredicate/Comparator (if any).
    * <p>
    * Example:
    * <pre><code class='java'> public class TolkienCharacter {
@@ -980,7 +1109,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    *
    * Comparator&lt;Double&gt; closeEnough = (d1, d2) -&gt; Math.abs(d1 - d2) &lt;= 0.5 ? 0 : 1;
    *
-   * // assertions succeed
+   * // assertion succeeds
    * assertThat(frodo).usingRecursiveComparison()
    *                  .withComparatorForType(closeEnough, Double.class)
    *                  .isEqualTo(tallerFrodo);
@@ -995,10 +1124,55 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * @param type the type to be compared with the given comparator.
    *
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   * @throws NullPointerException if the given comparator is null.
    */
   @CheckReturnValue
   public <T> SELF withComparatorForType(Comparator<? super T> comparator, Class<T> type) {
     recursiveComparisonConfiguration.registerComparatorForType(comparator, type);
+    return myself;
+  }
+
+  /**
+   * Allows to register a {@link BiPredicate} to compare the fields with the given type.
+   * A typical usage is for comparing double/float fields with a given precision.
+   * <p>
+   * BiPredicates registered with this method have less precedence than the one registered  with {@link #withEqualsForFields(BiPredicate, String...) withEqualsForFields(BiPredicate, String...)}
+   * or comparators registered with {@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)}.
+   * <p>
+   * Note that registering a {@link BiPredicate} for a given type will override the previously registered BiPredicate/Comparator (if any).
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class TolkienCharacter {
+   *   String name;
+   *   double height;
+   * }
+   *
+   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2);
+   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.3);
+   * TolkienCharacter reallyTallFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.9);
+   *
+   * BiPredicate&lt;Double, Double&gt; closeEnough = (d1, d2) -&gt; Math.abs(d1 - d2) &lt;= 0.5;
+   *
+   * // assertion succeeds
+   * assertThat(frodo).usingRecursiveComparison()
+   *                  .withEqualsForType(closeEnough, Double.class)
+   *                  .isEqualTo(tallerFrodo);
+   *
+   * // assertion fails
+   * assertThat(frodo).usingRecursiveComparison()
+   *                  .withEqualsForType(closeEnough, Double.class)
+   *                  .isEqualTo(reallyTallFrodo);</code></pre>
+   *
+   * @param <T> the class type to register a BiPredicate for
+   * @param equals the {@link BiPredicate} to use to compare the given fields
+   * @param type the type to be compared with the given comparator.
+   *
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   * @throws NullPointerException if the given BiPredicate is null.
+   */
+  @CheckReturnValue
+  public <T> SELF withEqualsForType(BiPredicate<? super T, ? super T> equals, Class<T> type) {
+    recursiveComparisonConfiguration.registerEqualsForType(equals, type);
     return myself;
   }
 

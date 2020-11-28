@@ -25,7 +25,7 @@ import org.assertj.core.data.Offset;
  *
  * @author Joel Costigliola
  */
-public class ByteAssert_isCloseTo_byte_Test extends ByteAssertBaseTest {
+class ByteAssert_isCloseTo_byte_Test extends ByteAssertBaseTest {
 
   private final Offset<Byte> offset = offset((byte)5);
   private final Byte value = (byte)8;

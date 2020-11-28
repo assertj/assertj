@@ -33,10 +33,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-public class OptionalDoubleAssert_hasValueCloseToPercentage_Test {
+class OptionalDoubleAssert_hasValueCloseToPercentage_Test {
 
   @Test
-  public void should_fail_when_actual_is_null() {
+  void should_fail_when_actual_is_null() {
     // GIVEN
     OptionalDouble actual = null;
     double expectedValue = 10;
@@ -46,7 +46,7 @@ public class OptionalDoubleAssert_hasValueCloseToPercentage_Test {
   }
 
   @Test
-  public void should_fail_when_actual_is_empty() {
+  void should_fail_when_actual_is_empty() {
     // GIVEN
     OptionalDouble actual = OptionalDouble.empty();
     double expectedValue = 10;
@@ -57,7 +57,7 @@ public class OptionalDoubleAssert_hasValueCloseToPercentage_Test {
   }
 
   @Test
-  public void should_fail_when_expected_is_null() {
+  void should_fail_when_expected_is_null() {
     // GIVEN
     OptionalDouble actual = OptionalDouble.of(5);
     Double expectedValue = null;
@@ -67,7 +67,7 @@ public class OptionalDoubleAssert_hasValueCloseToPercentage_Test {
   }
 
   @Test
-  public void should_fail_when_percentage_is_null() {
+  void should_fail_when_percentage_is_null() {
     // GIVEN
     OptionalDouble actual = OptionalDouble.of(5);
     double expectedValue = 5;
@@ -77,7 +77,7 @@ public class OptionalDoubleAssert_hasValueCloseToPercentage_Test {
   }
 
   @Test
-  public void should_fail_when_percentage_is_negative() {
+  void should_fail_when_percentage_is_negative() {
     // GIVEN
     OptionalDouble actual = OptionalDouble.of(5);
     double expectedValue = 5;
@@ -93,7 +93,7 @@ public class OptionalDoubleAssert_hasValueCloseToPercentage_Test {
       "-1, -2, 100",
       "-1, 1, 200"
   })
-  public void should_pass_when_difference_is_less_than_given_percentage(Double value, Double other, Double percentage) {
+  void should_pass_when_difference_is_less_than_given_percentage(Double value, Double other, Double percentage) {
     assertThat(OptionalDouble.of(value)).hasValueCloseTo(other, withinPercentage(percentage));
   }
 
@@ -106,12 +106,12 @@ public class OptionalDoubleAssert_hasValueCloseToPercentage_Test {
       "-2, -1, 100",
       "-1, -2, 50"
   })
-  public void should_pass_when_difference_is_equal_to_given_percentage(Double value, Double other, Double percentage) {
+  void should_pass_when_difference_is_equal_to_given_percentage(Double value, Double other, Double percentage) {
     assertThat(OptionalDouble.of(value)).hasValueCloseTo(other, withinPercentage(percentage));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_close_enough_to_expected_value() {
+  void should_fail_if_actual_is_not_close_enough_to_expected_value() {
     // GIVEN
     OptionalDouble actual = OptionalDouble.of(1);
     double expectedValue = 10;
@@ -123,7 +123,7 @@ public class OptionalDoubleAssert_hasValueCloseToPercentage_Test {
   }
 
   @Test
-  public void should_fail_if_actual_is_NaN_and_expected_is_not() {
+  void should_fail_if_actual_is_NaN_and_expected_is_not() {
     // GIVEN
     OptionalDouble actual = OptionalDouble.of(NaN);
     double expectedValue = 1;
@@ -135,12 +135,12 @@ public class OptionalDoubleAssert_hasValueCloseToPercentage_Test {
   }
 
   @Test
-  public void should_pass_if_actual_and_expected_are_NaN() {
+  void should_pass_if_actual_and_expected_are_NaN() {
     assertThat(OptionalDouble.of(NaN)).hasValueCloseTo(NaN, withPercentage(10));
   }
 
   @Test
-  public void should_fail_if_actual_is_POSITIVE_INFINITY_and_expected_is_not() {
+  void should_fail_if_actual_is_POSITIVE_INFINITY_and_expected_is_not() {
     // GIVEN
     OptionalDouble actual = OptionalDouble.of(POSITIVE_INFINITY);
     double expectedValue = 1;
@@ -152,12 +152,12 @@ public class OptionalDoubleAssert_hasValueCloseToPercentage_Test {
   }
 
   @Test
-  public void should_pass_if_actual_and_expected_are_POSITIVE_INFINITY() {
+  void should_pass_if_actual_and_expected_are_POSITIVE_INFINITY() {
     assertThat(OptionalDouble.of(POSITIVE_INFINITY)).hasValueCloseTo(POSITIVE_INFINITY, withPercentage(10));
   }
 
   @Test
-  public void should_fail_if_actual_is_NEGATIVE_INFINITY_and_expected_is_not() {
+  void should_fail_if_actual_is_NEGATIVE_INFINITY_and_expected_is_not() {
     // GIVEN
     OptionalDouble actual = OptionalDouble.of(NEGATIVE_INFINITY);
     double expectedValue = 1;
@@ -169,12 +169,12 @@ public class OptionalDoubleAssert_hasValueCloseToPercentage_Test {
   }
 
   @Test
-  public void should_pass_if_actual_and_expected_are_NEGATIVE_INFINITY() {
+  void should_pass_if_actual_and_expected_are_NEGATIVE_INFINITY() {
     assertThat(OptionalDouble.of(NEGATIVE_INFINITY)).hasValueCloseTo(NEGATIVE_INFINITY, withPercentage(10));
   }
 
   @Test
-  public void should_fail_if_actual_is_POSITIVE_INFINITY_and_expected_is_NEGATIVE_INFINITY() {
+  void should_fail_if_actual_is_POSITIVE_INFINITY_and_expected_is_NEGATIVE_INFINITY() {
     // GIVEN
     OptionalDouble actual = OptionalDouble.of(POSITIVE_INFINITY);
     double expectedValue = NEGATIVE_INFINITY;
@@ -186,7 +186,7 @@ public class OptionalDoubleAssert_hasValueCloseToPercentage_Test {
   }
 
   @Test
-  public void should_fail_if_actual_is_NEGATIVE_INFINITY_and_expected_is_POSITIVE_INFINITY() {
+  void should_fail_if_actual_is_NEGATIVE_INFINITY_and_expected_is_POSITIVE_INFINITY() {
     // GIVEN
     OptionalDouble actual = OptionalDouble.of(NEGATIVE_INFINITY);
     double expectedValue = POSITIVE_INFINITY;

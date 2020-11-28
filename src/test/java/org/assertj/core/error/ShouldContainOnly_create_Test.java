@@ -43,12 +43,12 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class ShouldContainOnly_create_Test {
+class ShouldContainOnly_create_Test {
 
   private static final ComparatorBasedComparisonStrategy CASE_INSENSITIVE_COMPARISON_STRATEGY = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance);
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnly(list("Yoda", "Han"), list("Luke", "Yoda"),
                                                     newLinkedHashSet("Luke"), newLinkedHashSet("Han"));
@@ -67,7 +67,7 @@ public class ShouldContainOnly_create_Test {
   }
 
   @Test
-  public void should_create_error_message_with_custom_comparison_strategy() {
+  void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnly(list("Yoda", "Han"),
                                                     list("Luke", "Yoda"),
@@ -90,7 +90,7 @@ public class ShouldContainOnly_create_Test {
   }
 
   @Test
-  public void should_not_display_unexpected_elements_when_there_are_none() {
+  void should_not_display_unexpected_elements_when_there_are_none() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnly(list("Yoda"),
                                                     list("Luke", "Yoda"),
@@ -109,7 +109,7 @@ public class ShouldContainOnly_create_Test {
   }
 
   @Test
-  public void should_not_display_unexpected_elements_when_there_are_none_with_custom_comparison_strategy() {
+  void should_not_display_unexpected_elements_when_there_are_none_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnly(list("Yoda"),
                                                     list("Luke", "Yoda"),
@@ -130,7 +130,7 @@ public class ShouldContainOnly_create_Test {
   }
 
   @Test
-  public void should_not_display_elements_not_found_when_there_are_none() {
+  void should_not_display_elements_not_found_when_there_are_none() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnly(list("Yoda", "Leia"),
                                                     list("Yoda"),
@@ -149,7 +149,7 @@ public class ShouldContainOnly_create_Test {
   }
 
   @Test
-  public void should_not_display_elements_not_found_when_there_are_none_with_custom_comparison_strategy() {
+  void should_not_display_elements_not_found_when_there_are_none_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnly(list("Yoda", "Leia"),
                                                     list("Yoda"),
@@ -170,7 +170,7 @@ public class ShouldContainOnly_create_Test {
   }
 
   @Test
-  public void should_create_error_message_unexpected_for_map() {
+  void should_create_error_message_unexpected_for_map() {
     // GIVEN
     Map<String, String> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     MapEntry<String, String>[] expected = array(entry("name", "Yoda"));
@@ -191,7 +191,7 @@ public class ShouldContainOnly_create_Test {
   }
 
   @Test
-  public void should_create_error_message_not_found_for_map() {
+  void should_create_error_message_not_found_for_map() {
     // GIVEN
     Map<String, String> map = mapOf(entry("name", "Yoda"));
     MapEntry<String, String>[] expected = array(entry("name", "Yoda"), entry("color", "green"));
@@ -212,7 +212,7 @@ public class ShouldContainOnly_create_Test {
   }
 
   @Test
-  public void should_create_error_message_not_found_and_unexpected_for_map() {
+  void should_create_error_message_not_found_and_unexpected_for_map() {
     // GIVEN
     Map<String, String> map = mapOf(entry("name", "Yoda"));
     MapEntry<String, String>[] expected = array(entry("color", "green"));
@@ -235,7 +235,7 @@ public class ShouldContainOnly_create_Test {
   }
 
   @Test
-  public void should_create_error_message_unexpected_for_float_array() {
+  void should_create_error_message_unexpected_for_float_array() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnly(new float[] { 6f, 8f, 7f },
                                                     new float[] { 6f, 8f },
@@ -254,7 +254,7 @@ public class ShouldContainOnly_create_Test {
   }
 
   @Test
-  public void should_create_error_message_not_found_for_char_array() {
+  void should_create_error_message_not_found_for_char_array() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnly(new char[] { 'a' },
                                                     new char[] { 'a', 'b' },
@@ -273,7 +273,7 @@ public class ShouldContainOnly_create_Test {
   }
 
   @Test
-  public void should_create_error_message_not_found_and_unexpected_for_long_array() {
+  void should_create_error_message_not_found_and_unexpected_for_long_array() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnly(new long[] { 5L, 6L },
                                                     new long[] { 3L, 6L },
@@ -294,7 +294,7 @@ public class ShouldContainOnly_create_Test {
   }
 
   @Test
-  public void should_create_error_message_unexpected_for_boolean_array() {
+  void should_create_error_message_unexpected_for_boolean_array() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnly(new boolean[] { true, false },
                                                     new boolean[] { false },
@@ -313,7 +313,7 @@ public class ShouldContainOnly_create_Test {
   }
 
   @Test
-  public void should_create_error_message_not_found_for_double_array() {
+  void should_create_error_message_not_found_for_double_array() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnly(new double[] { 1.0 },
                                                     new double[] { 1.0, 2.0 },
@@ -332,7 +332,7 @@ public class ShouldContainOnly_create_Test {
   }
 
   @Test
-  public void should_create_error_message_not_found_and_unexpected_for_short_array() {
+  void should_create_error_message_not_found_and_unexpected_for_short_array() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnly(new short[] { 5, 6 },
                                                     new short[] { 3, 6 },
@@ -353,7 +353,7 @@ public class ShouldContainOnly_create_Test {
   }
 
   @Test
-  public void should_create_error_message_unexpected_for_int_array() {
+  void should_create_error_message_unexpected_for_int_array() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnly(new int[] { 1, 2 },
                                                     new int[] { 2 },
@@ -372,7 +372,7 @@ public class ShouldContainOnly_create_Test {
   }
 
   @Test
-  public void should_create_error_message_not_found_for_byte_array() {
+  void should_create_error_message_not_found_for_byte_array() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnly(new byte[] { 1 },
                                                     new byte[] { 1, 2 },
@@ -391,7 +391,7 @@ public class ShouldContainOnly_create_Test {
   }
 
   @Test
-  public void should_create_error_message_unexpected_for_String_array() {
+  void should_create_error_message_unexpected_for_String_array() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnly(new String[] { "1", "2" },
                                                     new String[] { "2" },
@@ -410,7 +410,7 @@ public class ShouldContainOnly_create_Test {
   }
 
   @Test
-  public void should_create_error_message_not_found_for_set() {
+  void should_create_error_message_not_found_for_set() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnly(newLinkedHashSet(1),
                                                     newLinkedHashSet(1, 2),
@@ -429,7 +429,7 @@ public class ShouldContainOnly_create_Test {
   }
 
   @Test
-  public void should_create_error_message_not_found_and_unexpected_for_custom_object() {
+  void should_create_error_message_not_found_and_unexpected_for_custom_object() {
     // GIVEN
     Jedi actual = new Jedi("Yoda", "green");
     Jedi expected = new Jedi("Luke", "blue");

@@ -35,10 +35,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertHasYear_Test extends DatesBaseTest {
+class Dates_assertHasYear_Test extends DatesBaseTest {
 
   @Test
-  public void should_fail_if_actual_has_not_given_year() {
+  void should_fail_if_actual_has_not_given_year() {
     AssertionInfo info = someInfo();
     int year = 2010;
 
@@ -49,18 +49,18 @@ public class Dates_assertHasYear_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertHasYear(someInfo(), null, 2010))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_has_given_year() {
+  void should_pass_if_actual_has_given_year() {
     dates.assertHasYear(someInfo(), actual, 2011);
   }
 
   @Test
-  public void should_fail_if_actual_has_not_given_year_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_has_not_given_year_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     int year = 2010;
 
@@ -71,13 +71,13 @@ public class Dates_assertHasYear_Test extends DatesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertHasYear(someInfo(), null, 2010))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_has_given_year_whatever_custom_comparison_strategy_is() {
+  void should_pass_if_actual_has_given_year_whatever_custom_comparison_strategy_is() {
     datesWithCustomComparisonStrategy.assertHasYear(someInfo(), actual, 2011);
   }
 

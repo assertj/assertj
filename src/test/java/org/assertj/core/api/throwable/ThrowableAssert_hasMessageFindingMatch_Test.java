@@ -23,7 +23,7 @@ import org.assertj.core.api.ThrowableAssertBaseTest;
  * @author David Haccoun
  *
  */
-public class ThrowableAssert_hasMessageFindingMatch_Test extends ThrowableAssertBaseTest {
+class ThrowableAssert_hasMessageFindingMatch_Test extends ThrowableAssertBaseTest {
 
   private static final String REGEX = "dummy regex";
 

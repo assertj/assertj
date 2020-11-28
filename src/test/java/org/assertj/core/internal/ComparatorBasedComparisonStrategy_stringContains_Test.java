@@ -12,9 +12,8 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -22,10 +21,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class ComparatorBasedComparisonStrategy_stringContains_Test extends AbstractTest_ComparatorBasedComparisonStrategy {
+class ComparatorBasedComparisonStrategy_stringContains_Test extends AbstractTest_ComparatorBasedComparisonStrategy {
 
   @Test
-  public void should_pass() {
+  void should_pass() {
     assertThat(caseInsensitiveComparisonStrategy.stringContains("Frodo", "ro")).isTrue();
     assertThat(caseInsensitiveComparisonStrategy.stringContains("Frodo", "RO")).isTrue();
     assertThat(caseInsensitiveComparisonStrategy.stringContains("Frodo", "")).isTrue();

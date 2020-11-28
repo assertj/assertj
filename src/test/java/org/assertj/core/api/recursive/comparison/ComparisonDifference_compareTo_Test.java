@@ -21,10 +21,10 @@ import java.util.Set;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 
-public class ComparisonDifference_compareTo_Test {
+class ComparisonDifference_compareTo_Test {
 
   @Test
-  public void should_order_differences_by_alphabetical_path_ignoring_dot_separator() {
+  void should_order_differences_by_alphabetical_path_ignoring_dot_separator() {
     // GIVEN
     ComparisonDifference diff1 = comparisonDifference("a", "b");
     ComparisonDifference diff2 = comparisonDifference("a", "c");
@@ -35,12 +35,12 @@ public class ComparisonDifference_compareTo_Test {
     // WHEN
     Set<ComparisonDifference> differences = newTreeSet(diff1, diff2, diff3, diff4, diff5, diff6);
     // THEN
-    assertThat(differences).extracting(ComparisonDifference::getPath)
+    assertThat(differences).extracting(input -> input.concatenatedPath)
                            .containsExactly("aa", "aaa", "a.b", "a.b.c", "a.c", "b");
   }
 
   private static ComparisonDifference comparisonDifference(String... pathElements) {
-    return new ComparisonDifference(list(pathElements), RandomStringUtils.random(5), RandomStringUtils.random(6));
+    return new ComparisonDifference(new DualValue(list(pathElements), RandomStringUtils.random(5), RandomStringUtils.random(6)));
   }
 
 }

@@ -26,10 +26,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Nicolas François
  */
-public class ShouldNotBeOfClassIn_Test {
+class ShouldNotBeOfClassIn_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotBeOfClassIn("Yoda", list(Long.class, String.class));
     // WHEN

@@ -25,46 +25,46 @@ import org.junit.jupiter.api.Test;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 
-public class Tuple_Test {
+class Tuple_Test {
 
   @Test
-  public void should_create_tuple() {
+  void should_create_tuple() {
     Tuple tuple = new Tuple("Yoda", 800, "Jedi");
     assertThat(tuple).isEqualTo(new Tuple("Yoda", 800, "Jedi"));
   }
 
   @Test
-  public void tuple_equal_should_support_primitive_array() {
+  void tuple_equal_should_support_primitive_array() {
     Tuple tuple = new Tuple("1".getBytes(), "Name");
     assertThat(tuple).isEqualTo(new Tuple("1".getBytes(), "Name"));
   }
 
   @Test
-  public void should_create_empty_tuple() {
+  void should_create_empty_tuple() {
     Tuple tuple = new Tuple();
     assertThat(tuple).isEqualTo(new Tuple());
   }
 
   @Test
-  public void convert_tuple_to_an_array() {
+  void convert_tuple_to_an_array() {
     Tuple tuple = new Tuple("Yoda", 800, "Jedi");
     assertThat(tuple.toArray()).isEqualTo(array("Yoda", 800, "Jedi"));
   }
 
   @Test
-  public void convert_tuple_to_a_list() {
+  void convert_tuple_to_a_list() {
     Tuple tuple = new Tuple("Yoda", 800, "Jedi");
     assertThat(tuple.toList()).isEqualTo(newArrayList("Yoda", 800, "Jedi"));
   }
 
   @Test
-  public void tuple_representation() {
+  void tuple_representation() {
     Tuple tuple = new Tuple("Yoda", 800, "Jedi");
     assertThat(tuple).hasToString("(\"Yoda\", 800, \"Jedi\")");
   }
 
   @Test
-  public void test_for_issue_448() {
+  void test_for_issue_448() {
     SinteticClass item1 = new SinteticClass("1".getBytes(), "Foo");
     SinteticClass item2 = new SinteticClass("2".getBytes(), "Bar");
     SinteticClass item3 = new SinteticClass("3".getBytes(), "Baz");

@@ -18,7 +18,7 @@ import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
-public class AtomicReferenceArrayAssert_containsSubSequence_Test extends AtomicReferenceArrayAssertBaseTest {
+class AtomicReferenceArrayAssert_containsSubSequence_Test extends AtomicReferenceArrayAssertBaseTest {
 
   @Override
   protected AtomicReferenceArrayAssert<Object> invoke_api_method() {

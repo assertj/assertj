@@ -36,23 +36,23 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
-public class BigDecimals_assertNotEqual_Test extends BigDecimalsBaseTest {
+class BigDecimals_assertNotEqual_Test extends BigDecimalsBaseTest {
 
   private static final BigDecimal ONE_WITH_3_DECIMALS = new BigDecimal("1.000");
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertNotEqual(someInfo(), null, ONE))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_big_decimals_are_not_equal() {
+  void should_pass_if_big_decimals_are_not_equal() {
     numbers.assertNotEqual(someInfo(), ONE, ONE_WITH_3_DECIMALS);
   }
 
   @Test
-  public void should_fail_if_big_decimals_are_equal() {
+  void should_fail_if_big_decimals_are_equal() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbers.assertNotEqual(info, ONE, ONE));
@@ -62,18 +62,18 @@ public class BigDecimals_assertNotEqual_Test extends BigDecimalsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertNotEqual(someInfo(), null, ONE))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_big_decimals_are_not_equal_according_to_custom_comparison_strategy() {
+  void should_pass_if_big_decimals_are_not_equal_according_to_custom_comparison_strategy() {
     numbersWithComparatorComparisonStrategy.assertNotEqual(someInfo(), TEN, ONE);
   }
 
   @Test
-  public void should_fail_if_big_decimals_are_equal_according_to_custom_comparison_strategy() {
+  void should_fail_if_big_decimals_are_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbersWithComparatorComparisonStrategy.assertNotEqual(info, ONE_WITH_3_DECIMALS, ONE));

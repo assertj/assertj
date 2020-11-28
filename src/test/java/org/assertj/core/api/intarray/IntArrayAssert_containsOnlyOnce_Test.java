@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author William Delanoue
  */
-public class IntArrayAssert_containsOnlyOnce_Test extends IntArrayAssertBaseTest {
+class IntArrayAssert_containsOnlyOnce_Test extends IntArrayAssertBaseTest {
 
   @Override
   protected IntArrayAssert invoke_api_method() {

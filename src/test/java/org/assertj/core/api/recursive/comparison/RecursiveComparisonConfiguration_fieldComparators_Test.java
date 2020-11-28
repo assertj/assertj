@@ -13,40 +13,93 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.recursive.comparison.FieldLocation.fielLocation;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TUPLE;
+
+import java.util.Comparator;
+import java.util.function.BiPredicate;
 
 import org.assertj.core.util.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class RecursiveComparisonConfiguration_fieldComparators_Test {
+class RecursiveComparisonConfiguration_fieldComparators_Test {
 
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
   }
 
   @Test
-  public void should_register_given_field_comparators() {
+  void should_register_given_field_comparators() {
     // GIVEN
     AbsValueComparator<Integer> integerComparator = new AbsValueComparator<>();
-    recursiveComparisonConfiguration.registerComparatorForField(integerComparator, fielLocation("height"));
-    recursiveComparisonConfiguration.registerComparatorForField(ALWAY_EQUALS_TUPLE, fielLocation("weight"));
+    BiPredicate<Double, Double> doubleEquals = (Double d1, Double d2) -> Math.abs(d1 - d2) <= 0.01;
+    BiPredicate<String, String> stringEquals = (String s1, String s2) -> s1.equalsIgnoreCase(s2);
+    assertThat(recursiveComparisonConfiguration.getComparatorForField("temperature")).isNull();
+    assertThat(recursiveComparisonConfiguration.getComparatorForField("name")).isNull();
+    // WHEN
+    recursiveComparisonConfiguration.registerComparatorForFields(integerComparator, "height");
+    recursiveComparisonConfiguration.registerComparatorForFields(ALWAY_EQUALS_TUPLE, "weight");
+    recursiveComparisonConfiguration.registerEqualsForFields(doubleEquals, "temperature");
+    recursiveComparisonConfiguration.registerEqualsForFields(stringEquals, "name");
     // THEN
     assertThat(recursiveComparisonConfiguration.getComparatorForField("height")).isSameAs(integerComparator);
     assertThat(recursiveComparisonConfiguration.getComparatorForField("weight")).isSameAs(ALWAY_EQUALS_TUPLE);
+    assertThat(recursiveComparisonConfiguration.getComparatorForField("temperature")).isNotNull();
+    assertThat(recursiveComparisonConfiguration.getComparatorForField("name")).isNotNull();
   }
 
   @Test
-  public void should_replace_a_registered_field_comparator() {
+  void should_replace_a_registered_field_comparator() {
     // GIVEN
-    recursiveComparisonConfiguration.registerComparatorForField(new AbsValueComparator<>(), fielLocation("height"));
-    recursiveComparisonConfiguration.registerComparatorForField(ALWAY_EQUALS_TUPLE, fielLocation("height"));
+    recursiveComparisonConfiguration.registerComparatorForFields(new AbsValueComparator<>(), "height");
+    BiPredicate<String, String> stringEquals = (String s1, String s2) -> s1.equalsIgnoreCase(s2);
+    recursiveComparisonConfiguration.registerEqualsForFields(stringEquals, "name");
+    Comparator<?> firstComparator = recursiveComparisonConfiguration.getComparatorForField("name");
+    // WHEN
+    recursiveComparisonConfiguration.registerComparatorForFields(ALWAY_EQUALS_TUPLE, "height");
+    recursiveComparisonConfiguration.registerEqualsForFields(stringEquals, "name");
     // THEN
+    assertThat(recursiveComparisonConfiguration.getComparatorForField("name")).isNotSameAs(firstComparator);
     assertThat(recursiveComparisonConfiguration.getComparatorForField("height")).isSameAs(ALWAY_EQUALS_TUPLE);
+  }
+
+  @Test
+  void bipredicate_should_replace_a_registered_field_comparator() {
+    // GIVEN
+    recursiveComparisonConfiguration.registerComparatorForFields(ALWAY_EQUALS_TUPLE, "weight");
+    Comparator<?> firstComparator = recursiveComparisonConfiguration.getComparatorForField("weight");
+    // WHEN
+    recursiveComparisonConfiguration.registerEqualsForFields((Double d1, Double d2) -> Math.abs(d1 - d2) <= 0.01, "weight");
+    // THEN
+    assertThat(recursiveComparisonConfiguration.getComparatorForField("weight")).isNotSameAs(firstComparator);
+  }
+
+  @Test
+  void should_throw_NPE_if_given_comparator_is_null() {
+    // GIVEN
+    Comparator<Integer> integerComparator = null;
+    // WHEN
+    Throwable throwable = catchThrowable(() -> recursiveComparisonConfiguration.registerComparatorForFields(integerComparator,
+                                                                                                            "age"));
+    // THEN
+    then(throwable).isInstanceOf(NullPointerException.class)
+                   .hasMessage("Expecting a non null Comparator");
+  }
+
+  @Test
+  void should_throw_NPE_if_given_BiPredicate_is_null() {
+    // GIVEN
+    BiPredicate<Double, Double> doubleEquals = null;
+    // WHEN
+    Throwable throwable = catchThrowable(() -> recursiveComparisonConfiguration.registerEqualsForFields(doubleEquals, "height"));
+    // THEN
+    then(throwable).isInstanceOf(NullPointerException.class)
+                   .hasMessage("Expecting a non null BiPredicate");
   }
 
 }

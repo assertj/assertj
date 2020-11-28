@@ -37,21 +37,21 @@ import org.assertj.core.test.Name;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ListAssert_assertionState_propagation_with_extracting_Test {
+class ListAssert_assertionState_propagation_with_extracting_Test {
 
   private Employee yoda;
   private Employee luke;
   private List<Employee> jedis;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     yoda = new Employee(1L, new Name("Yoda"), 800);
     luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
     jedis = newArrayList(yoda, luke);
   }
 
   @Test
-  public void extracting_by_several_functions_should_keep_assertion_state() {
+  void extracting_by_several_functions_should_keep_assertion_state() {
     // WHEN
     // not all comparators are used but we want to test that they are passed correctly after extracting
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
@@ -74,7 +74,7 @@ public class ListAssert_assertionState_propagation_with_extracting_Test {
   }
 
   @Test
-  public void extracting_by_name_should_keep_assertion_state() {
+  void extracting_by_name_should_keep_assertion_state() {
     // WHEN
     // not all comparators are used but we want to test that they are passed correctly after extracting
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
@@ -97,7 +97,7 @@ public class ListAssert_assertionState_propagation_with_extracting_Test {
   }
 
   @Test
-  public void extracting_by_strongly_typed_name_should_keep_assertion_state() {
+  void extracting_by_strongly_typed_name_should_keep_assertion_state() {
     // WHEN
     // not all comparators are used but we want to test that they are passed correctly after extracting
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
@@ -120,7 +120,7 @@ public class ListAssert_assertionState_propagation_with_extracting_Test {
   }
 
   @Test
-  public void extracting_by_multiple_names_should_keep_assertion_state() {
+  void extracting_by_multiple_names_should_keep_assertion_state() {
     // WHEN
     // not all comparators are used but we want to test that they are passed correctly after extracting
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
@@ -143,7 +143,7 @@ public class ListAssert_assertionState_propagation_with_extracting_Test {
   }
 
   @Test
-  public void extracting_by_single_extractor_should_keep_assertion_state() {
+  void extracting_by_single_extractor_should_keep_assertion_state() {
     // WHEN
     // not all comparators are used but we want to test that they are passed correctly after extracting
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
@@ -166,7 +166,7 @@ public class ListAssert_assertionState_propagation_with_extracting_Test {
   }
 
   @Test
-  public void extracting_by_throwing_extractor_should_keep_assertion_state() {
+  void extracting_by_throwing_extractor_should_keep_assertion_state() {
     // WHEN
     // not all comparators are used but we want to test that they are passed correctly after extracting
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
