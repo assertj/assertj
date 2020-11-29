@@ -15,7 +15,6 @@ package org.assertj.core.internal.objects;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveToString.shouldHaveToString;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.mock;
@@ -23,7 +22,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.internal.ObjectsBaseTest;
 import org.assertj.core.test.Person;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,9 +49,9 @@ class Objects_assertHasToString_Test extends ObjectsBaseTest {
     // GIVEN
     Object object = null;
     // WHEN
-    ThrowingCallable code = () -> objects.assertHasToString(someInfo(), object, "foo");
+    AssertionError error = expectAssertionError(() -> objects.assertHasToString(someInfo(), object, "foo"));
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
+    assertThat(error).hasMessage(actualIsNull());
   }
 
   @Test
@@ -61,9 +59,8 @@ class Objects_assertHasToString_Test extends ObjectsBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    AssertionError error = expectAssertionError(() -> objects.assertHasToString(info, actual, "bar"));
+    expectAssertionError(() -> objects.assertHasToString(info, actual, "bar"));
     // THEN
     verify(failures).failure(info, shouldHaveToString("foo", "bar"), "foo", "bar");
-    assertThat(error).hasMessageContainingAll("\"foo\"", "\"bar\"");
   }
 }
