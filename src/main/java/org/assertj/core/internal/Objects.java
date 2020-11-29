@@ -444,7 +444,7 @@ public class Objects {
     assertNotNull(info, actual);
     String actualToString = actual.toString();
     if (actualToString.equals(otherToString))
-      throw failures.failure(info, shouldNotHaveToString(actualToString, otherToString));
+      throw failures.failure(info, shouldNotHaveToString(otherToString));
   }
 
   /**

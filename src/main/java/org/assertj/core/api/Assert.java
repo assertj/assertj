@@ -481,8 +481,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * // Instead of writing ...
    * assertThat(homer.toString()).isNotEqualTo("Marge");
    * // ... you can simply write:
-   * assertThat(homer).doesNotHaveToString("Marge");
-   * </code></pre>
+   * assertThat(homer).doesNotHaveToString("Marge");</code></pre>
    *
    * @param otherToString the String to check against.
    * @return this assertion object.

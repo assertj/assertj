@@ -18,7 +18,6 @@ import static org.assertj.core.error.ShouldNotHaveToString.shouldNotHaveToString
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.internal.TestDescription;
-import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.Test;
 
 class ShouldNotHaveToString_create_Test {
@@ -26,16 +25,13 @@ class ShouldNotHaveToString_create_Test {
   @Test
   void should_create_error_message() {
     // GIVEN
-    Jedi actual = new Jedi("Yoda", "green");
     String otherString = "Yoda the Jedi";
-    ErrorMessageFactory factory = shouldNotHaveToString(actual, otherString);
+    ErrorMessageFactory factory = shouldNotHaveToString(otherString);
     // WHEN
     String errorMessage = factory.create(new TestDescription("TEST"), STANDARD_REPRESENTATION);
     // THEN
     then(errorMessage).isEqualTo(format("[TEST] %n" +
                                         "Expecting actual's toString() not to be equal to:%n" +
-                                        "  <\"Yoda the Jedi\">%n" +
-                                        "but was:%n" +
                                         "  <\"Yoda the Jedi\">"));
   }
 }

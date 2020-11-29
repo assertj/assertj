@@ -14,11 +14,11 @@ package org.assertj.core.error;
 
 public class ShouldNotHaveToString extends BasicErrorMessageFactory {
 
-  public static ErrorMessageFactory shouldNotHaveToString(Object actual, String other) {
-    return new ShouldNotHaveToString(actual, other);
+  public static ErrorMessageFactory shouldNotHaveToString(String other) {
+    return new ShouldNotHaveToString(other);
   }
 
-  private ShouldNotHaveToString(Object actual, String other) {
-    super("%nExpecting actual's toString() not to be equal to:%n  <%s>%nbut was:%n  <%s>", other, actual.toString());
+  private ShouldNotHaveToString(String other) {
+    super("%nExpecting actual's toString() not to be equal to:%n  <%s>", other);
   }
 }
