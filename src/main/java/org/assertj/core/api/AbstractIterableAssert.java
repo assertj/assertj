@@ -3343,11 +3343,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @return this assertion object.
    * @throws NullPointerException if the given consumers is {@code null}.
    *
-   * @since 3.17.0
+   * @since 3.19.0
    */
   @SafeVarargs
-  public final SELF satisfy(Consumer<? super ELEMENT>... consumers) {
-    iterables.assertSatisfy(info, actual, consumers);
+  public final SELF satisfyExactlyInAnyOrder(Consumer<? super ELEMENT>... consumers) {
+    iterables.assertSatisfyExactlyInAnyOrder(info, actual, consumers);
     return myself;
   }
 

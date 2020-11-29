@@ -1155,14 +1155,17 @@ public class Iterables {
    * @param consumers the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
    * @throws NullPointerException if the given consumers array or var args comsumers is {@code null}.
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
+   * @throws AssertionError if the given {@code Iterable} and consumers don't have the same size.
    * @throws AssertionError if any {@code Consumer} in the consumers cannot be satisfied by elements in the given {@code Iterable}.
    */
   @SafeVarargs
-  public final <E> void assertSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E>... consumers) {
+  public final <E> void assertSatisfyExactlyInAnyOrder(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E>... consumers) {
     assertNotNull(info, actual);
     requireNonNull(consumers, "The Consumer<? super E>... expressing the assertions consumers must not be null");
     for (Consumer<? super E> consumer : consumers)
       requireNonNull(consumer, "The element in consumers must not be null");
+
+    checkSizes(actual, sizeOf(actual), consumers.length, info);
 
     List<E>[] satisfiedElementsLists = stream(consumers)
                                                         .map(listFilteredBySatisfiedElements(actual))

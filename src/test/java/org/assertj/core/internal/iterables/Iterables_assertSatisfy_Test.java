@@ -30,7 +30,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Iterables#assertSatisfy(AssertionInfo, Iterable, Consumer[])}</code>.
+ * Tests for <code>{@link Iterables#assertSatisfyExactlyInAnyOrder(AssertionInfo, Iterable, Consumer[])}</code>.
  *
  * @author Ting Sun
  */
@@ -44,7 +44,7 @@ class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     // GIVEN
     Consumer<String> consumer = s -> assertThat(s).hasSize(4);
     // WHEN/THEN
-    iterables.assertSatisfy(info, actual, consumer);
+    iterables.assertSatisfyExactlyInAnyOrder(info, actual, consumer);
   }
 
   @Test
@@ -57,7 +57,7 @@ class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     Consumer<String> consumer2 = s -> assertThat(s).doesNotContain("a");
 
     // WHEN/THEN
-    iterables.assertSatisfy(info, actual, consumer1, consumer2);
+    iterables.assertSatisfyExactlyInAnyOrder(info, actual, consumer1, consumer2);
   }
 
   @Test
@@ -67,7 +67,7 @@ class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     Consumer<String> consumer2 = s -> assertThat(s).doesNotContain("a"); // Matches "Luke"
 
     // WHEN/THEN
-    iterables.assertSatisfy(info, actual, consumer1, consumer2);
+    iterables.assertSatisfyExactlyInAnyOrder(info, actual, consumer1, consumer2);
   }
 
   @Test
@@ -78,13 +78,13 @@ class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     Consumer<String> consumer2 = s -> assertThat(s).contains("u");
 
     // WHEN/THEN
-    iterables.assertSatisfy(info, names, consumer1, consumer2);
+    iterables.assertSatisfyExactlyInAnyOrder(info, names, consumer1, consumer2);
   }
 
   @Test
   void should_pass_if_there_is_no_consumer() {
     // WHEN/THEN
-    iterables.assertSatisfy(info, actual);
+    iterables.assertSatisfyExactlyInAnyOrder(info, actual);
   }
 
   @Test
@@ -94,7 +94,7 @@ class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     Consumer<String> consumer = s -> assertThat(s).hasSize(4);
 
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).satisfy(consumer));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).satisfyExactlyInAnyOrder(consumer));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -106,7 +106,7 @@ class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     String message = "The Consumer<? super E>... expressing the assertions consumers must not be null";
 
     // WHEN/THEN
-    assertThatNullPointerException().isThrownBy(() -> assertThat(actual).satisfy(consumers))
+    assertThatNullPointerException().isThrownBy(() -> assertThat(actual).satisfyExactlyInAnyOrder(consumers))
                                     .withMessage(message);
   }
 
@@ -117,7 +117,7 @@ class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     String message = "The element in consumers must not be null";
 
     // WHEN/THEN
-    assertThatNullPointerException().isThrownBy(() -> assertThat(actual).satisfy(consumer))
+    assertThatNullPointerException().isThrownBy(() -> assertThat(actual).satisfyExactlyInAnyOrder(consumer))
                                     .withMessage(message);
   }
 
@@ -126,7 +126,7 @@ class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     // GIVEN
     Consumer<String> consumer = s -> assertThat(s).hasSize(5);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfy(info, actual, consumer));
+    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfyExactlyInAnyOrder(info, actual, consumer));
     // THEN
     then(assertionError).hasMessage(shouldSatisfy(actual).create());
   }
@@ -138,7 +138,7 @@ class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     Consumer<String> consumer2 = s -> assertThat(s).contains("o");
 
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfy(info, actual, consumer1, consumer2));
+    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfyExactlyInAnyOrder(info, actual, consumer1, consumer2));
     // THEN
     then(assertionError).hasMessage(shouldSatisfy(actual).create());
   }
@@ -148,7 +148,7 @@ class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     // GIVEN
     Consumer<String> consumer = s -> assertThat(s).doesNotContain("z");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfy(info, actual, consumer, consumer, consumer,
+    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfyExactlyInAnyOrder(info, actual, consumer, consumer, consumer,
                                                                                        consumer));
     // THEN
     then(assertionError).hasMessage(shouldSatisfy(actual).create());
