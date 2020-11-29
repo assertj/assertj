@@ -45,7 +45,7 @@ class ShouldSatisfy_create_Test {
   }
 
   @Test
-  public void should_create_error_message_if_consumers_are_not_all_satisfied() {
+  void should_create_error_message_if_consumers_are_not_all_satisfied() {
     // GIVEN
     ErrorMessageFactory factory = shouldSatisfy(newArrayList("Luke", "Leia", "Yoda"));
     // WHEN

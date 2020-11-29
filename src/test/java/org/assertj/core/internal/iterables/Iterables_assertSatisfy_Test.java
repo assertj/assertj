@@ -35,12 +35,12 @@ import org.junit.jupiter.api.Test;
  * @author Ting Sun
  */
 @DisplayName("Iterables assertSatisfy")
-public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
+class Iterables_assertSatisfy_Test extends IterablesBaseTest {
 
   private List<String> actual = newArrayList("Luke", "Leia", "Yoda");
 
   @Test
-  public void should_pass_if_there_is_only_one_consumer_and_can_be_satisfied() {
+  void should_pass_if_there_is_only_one_consumer_and_can_be_satisfied() {
     // GIVEN
     Consumer<String> consumer = s -> assertThat(s).hasSize(4);
     // WHEN/THEN
@@ -48,7 +48,7 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_pass_if_there_are_multiple_consumers_and_can_be_satisfied() {
+  void should_pass_if_there_are_multiple_consumers_and_can_be_satisfied() {
     // GIVEN
     Consumer<String> consumer1 = s -> {
       assertThat(s).hasSize(4);
@@ -61,7 +61,7 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_pass_there_are_multiple_consumers_and_can_be_satisfied_in_any_order() {
+  void should_pass_there_are_multiple_consumers_and_can_be_satisfied_in_any_order() {
     // GIVEN
     Consumer<String> consumer1 = s -> assertThat(s).contains("L"); // Matches "Luke" and "Leia"
     Consumer<String> consumer2 = s -> assertThat(s).doesNotContain("a"); // Matches "Luke"
@@ -71,7 +71,7 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_pass_if_iterable_contains_multiple_equal_elements() {
+  void should_pass_if_iterable_contains_multiple_equal_elements() {
     // GIVEN
     List<String> names = newArrayList("Luke", "Luke");
     Consumer<String> consumer1 = s -> assertThat(s).contains("L");
@@ -82,13 +82,13 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_pass_if_there_is_no_consumer() {
+  void should_pass_if_there_is_no_consumer() {
     // WHEN/THEN
     iterables.assertSatisfy(info, actual);
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
     Consumer<String> consumer = s -> assertThat(s).hasSize(4);
@@ -100,7 +100,7 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_consumer_array_is_null() {
+  void should_throw_error_if_consumer_array_is_null() {
     // GIVEN
     Consumer<String>[] consumers = null;
     String message = "The Consumer<? super E>... expressing the assertions consumers must not be null";
@@ -111,7 +111,7 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_consumer_var_arg_is_null() {
+  void should_fail_if_consumer_var_arg_is_null() {
     // GIVEN
     Consumer<String> consumer = null;
     String message = "The element in consumers must not be null";
@@ -122,7 +122,7 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_there_is_only_one_consumer_and_cannot_be_satisfied() {
+  void should_fail_if_there_is_only_one_consumer_and_cannot_be_satisfied() {
     // GIVEN
     Consumer<String> consumer = s -> assertThat(s).hasSize(5);
     // WHEN
@@ -132,7 +132,7 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_there_are_multiple_consumers_and_cannot_be_all_satisfied() {
+  void should_fail_if_there_are_multiple_consumers_and_cannot_be_all_satisfied() {
     // GIVEN
     Consumer<String> consumer1 = s -> assertThat(s).startsWith("Y");
     Consumer<String> consumer2 = s -> assertThat(s).contains("o");
@@ -144,7 +144,7 @@ public class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_consumers_are_more_than_elements() {
+  void should_fail_if_consumers_are_more_than_elements() {
     // GIVEN
     Consumer<String> consumer = s -> assertThat(s).doesNotContain("z");
     // WHEN
