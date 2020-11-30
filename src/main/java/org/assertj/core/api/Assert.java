@@ -467,10 +467,28 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    *
    * @param expectedToString the expected String description of actual.
    * @return this assertion object.
-   * @throws AssertionError if {@code actual.toString()} result is not to the given {@code String}.
+   * @throws AssertionError if {@code actual.toString()} result is not equal to the given {@code String}.
    * @throws AssertionError if actual is {@code null}.
    */
   SELF hasToString(String expectedToString);
+
+  /**
+   * Verifies that actual {@code actual.toString()} is not equal to the given {@code String}.
+   * <p>
+   * Example :
+   * <pre><code class='java'> CartoonCharacter homer = new CartoonCharacter("Homer");
+   *
+   * // Instead of writing ...
+   * assertThat(homer.toString()).isNotEqualTo("Marge");
+   * // ... you can simply write:
+   * assertThat(homer).doesNotHaveToString("Marge");</code></pre>
+   *
+   * @param otherToString the String to check against.
+   * @return this assertion object.
+   * @throws AssertionError if {@code actual.toString()} result is equal to the given {@code String}.
+   * @throws AssertionError if actual is {@code null}.
+   */
+  SELF doesNotHaveToString(String otherToString);
 
   /**
    * Verifies that the actual value does not have the same class as the given object.

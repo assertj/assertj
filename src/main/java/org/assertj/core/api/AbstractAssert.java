@@ -522,6 +522,13 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   /** {@inheritDoc} */
   @Override
+  public SELF doesNotHaveToString(String otherToString) {
+    objects.assertDoesNotHaveToString(info, actual, otherToString);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
   public SELF doesNotHaveSameClassAs(Object other) {
     objects.assertDoesNotHaveSameClassAs(info, actual, other);
     return myself;
