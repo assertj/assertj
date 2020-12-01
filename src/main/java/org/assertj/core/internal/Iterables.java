@@ -1147,13 +1147,14 @@ public class Iterables {
   }
 
   /**
-   * Verifies that all given consumers can be satisfied by elements in the iterable under test with
-   * an element at most satisfying one consumer. No order requirement.
+   * Verifies that the actual iterable has the same size as the given consumers and 
+   * that at least one permutation of elements in the iterable exists that satisfies 
+   * the individual consumers in order.
    *
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param consumers the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
-   * @throws NullPointerException if the given consumers array or var args comsumers is {@code null}.
+   * @throws NullPointerException if the given consumers array or any consumer is {@code null}.
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
    * @throws AssertionError if the given {@code Iterable} and consumers don't have the same size.
    * @throws AssertionError if any {@code Consumer} in the consumers cannot be satisfied by elements in the given {@code Iterable}.

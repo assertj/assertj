@@ -3312,10 +3312,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Verifies that all given consumers can be satisfied by elements in the iterable under test with
-   * an element at most satisfying one consumer. No order requirement.
-   * <p>
-   * This assertion is to test whether there are enough elements in the iterable and whether any order of elements exists that can satisfy all consumers.
+   * Verifies that the actual iterable has the same size as the given consumers and 
+   * that at least one permutation of elements in the iterable exists that satisfies 
+   * the individual consumers in order.
    * <p>
    * Examples:
    * <pre><code class='java'>
@@ -3323,6 +3322,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * // this assertion succeeds:
    * assertThat(starWarsCharacterNames ).satisfy(
+   *     name --&gt; assertThat(name).contains("Y"), // matches "Yoda"
    *     name --&gt; assertThat(name).contains("L"), // matches "Luke" and "Leia"
    *     name --&gt; {
    *       assertThat(name).hasSize(4);
@@ -3331,7 +3331,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * // these assertions fail:
    * assertThat(starWarsCharacterNames ).satisfy(
-   *     name --&gt; assertThat(name).doesNotContain("L"), 
+   *     name --&gt; assertThat(name).doesNotContain("Y"), 
    *     name --&gt; assertThat(name).doesNotContain("L"));
    *
    * assertThat(starWarsCharacterNames ).satisfy(
@@ -3341,7 +3341,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * @param consumers the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
    * @return this assertion object.
-   * @throws NullPointerException if the given consumers is {@code null}.
+   * @throws NullPointerException if the given consumers array or any consumer is {@code null}.
    *
    * @since 3.19.0
    */
