@@ -15,6 +15,7 @@ package org.assertj.core.internal.iterables;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.error.ShouldSatisfy.shouldSatisfy;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -34,40 +35,35 @@ import org.junit.jupiter.api.Test;
  *
  * @author Ting Sun
  */
-@DisplayName("Iterables assertSatisfy")
-class Iterables_assertSatisfy_Test extends IterablesBaseTest {
+@DisplayName("Iterables assertSatisfyExactlyInAnyOrder")
+class Iterables_assertSatisfyExactlyInAnyOrder_Test extends IterablesBaseTest {
 
   private List<String> actual = newArrayList("Luke", "Leia", "Yoda");
 
-  @Test
-  void should_pass_if_there_is_only_one_consumer_and_can_be_satisfied() {
-    // GIVEN
-    Consumer<String> consumer = s -> assertThat(s).hasSize(4);
-    // WHEN/THEN
-    iterables.assertSatisfyExactlyInAnyOrder(info, actual, consumer);
-  }
 
   @Test
   void should_pass_if_there_are_multiple_consumers_and_can_be_satisfied() {
     // GIVEN
-    Consumer<String> consumer1 = s -> {
+    Consumer<String> consumer1 = s -> assertThat(s).contains("Lei"); // Matches "Leia"
+    Consumer<String> consumer2 = s -> {
       assertThat(s).hasSize(4);
       assertThat(s).doesNotContain("L");
-    };
-    Consumer<String> consumer2 = s -> assertThat(s).doesNotContain("a");
+    }; // Matches "Yoda"
+    Consumer<String> consumer3 = s -> assertThat(s).doesNotContain("a"); // Matches "Luke"
 
     // WHEN/THEN
-    iterables.assertSatisfyExactlyInAnyOrder(info, actual, consumer1, consumer2);
+    iterables.assertSatisfyExactlyInAnyOrder(info, actual, consumer1, consumer2, consumer3);
   }
 
   @Test
   void should_pass_there_are_multiple_consumers_and_can_be_satisfied_in_any_order() {
     // GIVEN
-    Consumer<String> consumer1 = s -> assertThat(s).contains("L"); // Matches "Luke" and "Leia"
-    Consumer<String> consumer2 = s -> assertThat(s).doesNotContain("a"); // Matches "Luke"
+    Consumer<String> consumer1 = s -> assertThat(s).contains("Y"); // Matches "Yoda"
+    Consumer<String> consumer2 = s -> assertThat(s).contains("L"); // Matches "Luke" and "Leia"
+    Consumer<String> consumer3 = s -> assertThat(s).doesNotContain("a"); // Matches "Luke"
 
     // WHEN/THEN
-    iterables.assertSatisfyExactlyInAnyOrder(info, actual, consumer1, consumer2);
+    iterables.assertSatisfyExactlyInAnyOrder(info, actual, consumer1, consumer2, consumer3);
   }
 
   @Test
@@ -82,9 +78,17 @@ class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   }
 
   @Test
-  void should_pass_if_there_is_no_consumer() {
+  void should_pass_if_both_are_empty() {
     // WHEN/THEN
-    iterables.assertSatisfyExactlyInAnyOrder(info, actual);
+    iterables.assertSatisfyExactlyInAnyOrder(info, newArrayList());
+  }
+
+  @Test
+  void should_fail_if_there_are_too_few_consumers() {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfyExactlyInAnyOrder(info, actual));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveSize(actual, 3, 0).create());
   }
 
   @Test
@@ -124,9 +128,11 @@ class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   @Test
   void should_fail_if_there_is_only_one_consumer_and_cannot_be_satisfied() {
     // GIVEN
-    Consumer<String> consumer = s -> assertThat(s).hasSize(5);
+    Consumer<String> consumer1 = s -> assertThat(s).hasSize(5);
+    Consumer<String> consumer2 = s -> assertThat(s).hasSize(4);
+    Consumer<String> consumer3 = s -> assertThat(s).hasSize(4);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfyExactlyInAnyOrder(info, actual, consumer));
+    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfyExactlyInAnyOrder(info, actual, consumer1, consumer2, consumer3));
     // THEN
     then(assertionError).hasMessage(shouldSatisfy(actual).create());
   }
@@ -134,11 +140,12 @@ class Iterables_assertSatisfy_Test extends IterablesBaseTest {
   @Test
   void should_fail_if_there_are_multiple_consumers_and_cannot_be_all_satisfied() {
     // GIVEN
-    Consumer<String> consumer1 = s -> assertThat(s).startsWith("Y");
-    Consumer<String> consumer2 = s -> assertThat(s).contains("o");
+    Consumer<String> consumer1 = s -> assertThat(s).startsWith("Y"); // Matches "Yoda"
+    Consumer<String> consumer2 = s -> assertThat(s).contains("o"); // Matches "Yoda"
+    Consumer<String> consumer3 = s -> assertThat(s).startsWith("L"); // Matches "Luke" or "Leia"
 
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfyExactlyInAnyOrder(info, actual, consumer1, consumer2));
+    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfyExactlyInAnyOrder(info, actual, consumer1, consumer2, consumer3));
     // THEN
     then(assertionError).hasMessage(shouldSatisfy(actual).create());
   }
@@ -151,7 +158,7 @@ class Iterables_assertSatisfy_Test extends IterablesBaseTest {
     AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfyExactlyInAnyOrder(info, actual, consumer, consumer, consumer,
                                                                                        consumer));
     // THEN
-    then(assertionError).hasMessage(shouldSatisfy(actual).create());
+    then(assertionError).hasMessage(shouldHaveSize(actual, 3, 4).create());
   }
 
 }
