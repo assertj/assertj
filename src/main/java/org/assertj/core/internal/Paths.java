@@ -62,6 +62,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.api.exception.PathsException;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.diff.Delta;
@@ -496,4 +497,11 @@ public class Paths {
     requireNonNull(end, "the expected end path should not be null");
   }
 
+  public void assertIsEmptyPath(AssertionInfo info, Path actual) {
+    assertIsRegularFile(info, actual);
+
+  }
+  public void assertIsNotEmptyPath(AssertionInfo info, Path actual) {
+    assertIsRegularFile(info, actual);
+  }
 }
