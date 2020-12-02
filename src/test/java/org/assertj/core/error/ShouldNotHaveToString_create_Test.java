@@ -14,29 +14,24 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldHaveToString.shouldHaveToString;
+import static org.assertj.core.error.ShouldNotHaveToString.shouldNotHaveToString;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.internal.TestDescription;
-import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.Test;
 
-class ShouldHaveToString_create_Test {
+class ShouldNotHaveToString_create_Test {
 
   @Test
   void should_create_error_message() {
     // GIVEN
-    Jedi actual = new Jedi("Yoda", "green");
-    String expectedToString = "Luke the Jedi";
+    String otherString = "Yoda the Jedi";
+    ErrorMessageFactory factory = shouldNotHaveToString(otherString);
     // WHEN
-    String errorMessage = shouldHaveToString(actual, expectedToString).create(new TestDescription("TEST"),
-                                                                              STANDARD_REPRESENTATION);
+    String errorMessage = factory.create(new TestDescription("TEST"), STANDARD_REPRESENTATION);
     // THEN
     then(errorMessage).isEqualTo(format("[TEST] %n" +
-                                        "Expecting actual's toString() to return:%n" +
-                                        "  <\"Luke the Jedi\">%n" +
-                                        "but was:%n" +
+                                        "Expecting actual's toString() not to be equal to:%n" +
                                         "  <\"Yoda the Jedi\">"));
   }
-
 }

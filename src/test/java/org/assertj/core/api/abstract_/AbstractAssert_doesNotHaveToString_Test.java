@@ -10,15 +10,22 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
-package org.assertj.core.error;
+package org.assertj.core.api.abstract_;
 
-public class ShouldHaveToString extends BasicErrorMessageFactory {
+import static org.mockito.Mockito.verify;
 
-  public static ErrorMessageFactory shouldHaveToString(Object actual, String expectedToString) {
-    return new ShouldHaveToString(actual, expectedToString);
+import org.assertj.core.api.AbstractAssertBaseTest;
+import org.assertj.core.api.ConcreteAssert;
+
+class AbstractAssert_doesNotHaveToString_Test extends AbstractAssertBaseTest {
+
+  @Override
+  protected ConcreteAssert invoke_api_method() {
+    return assertions.doesNotHaveToString("some description");
   }
 
-  private ShouldHaveToString(Object actual, String expectedToString) {
-    super("%nExpecting actual's toString() to return:%n  <%s>%nbut was:%n  <%s>", expectedToString, actual.toString());
+  @Override
+  protected void verify_internal_effects() {
+    verify(objects).assertDoesNotHaveToString(getInfo(assertions), getActual(assertions), "some description");
   }
 }
