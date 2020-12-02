@@ -1749,4 +1749,14 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
     paths.assertIsNotEmptyDirectory(info, actual);
     return myself;
   }
+
+  public SELF isEmpty(){
+    paths.assertIsRegularFile(info, actual);
+    return myself;
+  }
+
+  public SELF isNotEmpty(){
+    paths.assertIsRegularFile(info, actual);
+    return myself;
+  }
 }
