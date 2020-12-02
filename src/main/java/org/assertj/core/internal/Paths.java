@@ -15,12 +15,14 @@ package org.assertj.core.internal;
 import static java.lang.String.format;
 import static java.nio.file.Files.readAllBytes;
 import static java.nio.file.Files.walk;
+import static java.nio.file.Files.size;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
 import static org.assertj.core.error.ShouldBeCanonicalPath.shouldBeCanonicalPath;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
+import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEmptyDirectory.shouldBeEmptyDirectory;
 import static org.assertj.core.error.ShouldBeExecutable.shouldBeExecutable;
 import static org.assertj.core.error.ShouldBeNormalized.shouldBeNormalized;
@@ -499,9 +501,20 @@ public class Paths {
 
   public void assertIsEmptyPath(AssertionInfo info, Path actual) {
     assertIsRegularFile(info, actual);
+    try {
+      if (size(actual) == 0) return;
+    } catch (IOException e) {
 
+    }
+    throw failures.failure(info, shouldBeEmpty(actual));
   }
-  public void assertIsNotEmptyPath(AssertionInfo info, Path actual) {
+  public void assertIsNotEmptyPath(AssertionInfo info, Path actual){
     assertIsRegularFile(info, actual);
+    try {
+      if (size(actual) > 0) return;
+    } catch (IOException e) {
+
+    }
+    throw failures.failure(info, shouldNotBeEmpty(actual.toFile()));
   }
 }
