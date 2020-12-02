@@ -12,6 +12,9 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Objects.requireNonNull;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+
 /**
  * Base class for all array assertions.
  *
@@ -27,4 +30,9 @@ public abstract class AbstractArrayAssert<SELF extends AbstractArrayAssert<SELF,
   public AbstractArrayAssert(final ACTUAL actual, final Class<?> selfType) {
     super(actual, selfType);
   }
+
+  static void requireNonNullParameter(Object parameter, String parameterName) {
+    requireNonNull(parameter, shouldNotBeNull(parameterName).create());
+  }
+
 }

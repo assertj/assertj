@@ -838,10 +838,6 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
     return myself;
   }
 
-  private static void requireNonNullParameter(Object parameter, String parameterName) {
-    requireNonNull(parameter, shouldNotBeNull(parameterName).create());
-  }
-
   private static long[] toPrimitiveLongArray(Long[] values) {
     return Arrays.stream(values).mapToLong(Long::longValue).toArray();
   }
