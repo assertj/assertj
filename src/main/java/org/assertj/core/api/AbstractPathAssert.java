@@ -1750,11 +1750,61 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
     return myself;
   }
 
+  /**
+   * Verify that the actual {@code Path} is an empty path (no content).
+   * <p>
+   * Note that the actual {@link Path} must exist and be a regular file.
+   * <p>
+   * Given the following path structure:
+   * <pre><code class="text">
+   * /root/sub-dir-1/file-1.ext (no content)
+   * /root/sub-dir-1/file-2.ext (content)</code></pre>
+   *
+   * Here are some assertions examples:
+   * <pre><code class="java"> Path no-content-path = Paths.get("/root/sub-dir-1/file-1.ext");
+   * Path content-path = Paths.get("/root/sub-dir-1/file-2.ext");
+   *
+   * // The following assertions succeed:
+   * assertThat(no-content-path).isEmpty();
+   *
+   * // assertion will fail
+   * assertThat(content-path).isEmpty();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if actual is {@code null}.
+   * @throws AssertionError if actual does not exist.
+   * @throws AssertionError if actual is not empty.
+   */
   public SELF isEmpty(){
     paths.assertIsEmptyPath(info, actual);
     return myself;
   }
 
+  /**
+   * Verify that the actual {@code Path} is not an empty path (no content).
+   * <p>
+   * Note that the actual {@link Path} must exist and be a regular file.
+   * <p>
+   * Given the following path structure:
+   * <pre><code class="text">
+   * /root/sub-dir-1/file-1.ext (no content)
+   * /root/sub-dir-1/file-2.ext (content)</code></pre>
+   *
+   * Here are some assertions examples:
+   * <pre><code class="java"> Path no-content-path = Paths.get("/root/sub-dir-1/file-1.ext");
+   * Path content-path = Paths.get("/root/sub-dir-1/file-2.ext");
+   *
+   * // The following assertions succeed:
+   * assertThat(content-path).isNotEmpty();
+   *
+   * // assertion will fail
+   * assertThat(no-content-path).isNotEmpty();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if actual is {@code null}.
+   * @throws AssertionError if actual does not exist.
+   * @throws AssertionError if actual is empty.
+   */
   public SELF isNotEmpty(){
     paths.assertIsNotEmptyPath(info, actual);
     return myself;
