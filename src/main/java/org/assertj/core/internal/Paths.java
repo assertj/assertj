@@ -512,7 +512,7 @@ public class Paths {
   public void assertIsNotEmptyFile(AssertionInfo info, Path actual) {
     assertIsRegularFile(info, actual);
     try {
-      if (size(actual) > 0) return;
+      if (size(actual) == 0) throw failures.failure(info, shouldNotBeEmpty(actual));;
     } catch (IOException e) {
       throw new PathsException(FAILED_TO_RESOLVE_ACTUAL_REAL_PATH, e);
     }
