@@ -11,7 +11,7 @@ import static org.mockito.Mockito.verify;
 /**
  * Test for <code>{@link PathAssert#isEmpty()}</code>.
  */
-@DisplayName("PathAssert isEmptyPath")
+@DisplayName("PathAssert isEmpty")
 class PathAssert_isEmpty_Test extends PathAssertBaseTest {
 
   @Override
