@@ -1805,6 +1805,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @throws AssertionError if actual is {@code null}.
    * @throws AssertionError if actual does not exist.
    * @throws AssertionError if actual is empty.
+   * @since 3.19.0
    */
   public SELF isNotEmpty(){
     paths.assertIsNotEmptyPath(info, actual);
