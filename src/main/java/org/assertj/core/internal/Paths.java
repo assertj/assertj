@@ -502,7 +502,7 @@ public class Paths {
   public void assertIsEmptyPath(AssertionInfo info, Path actual) {
     assertIsRegularFile(info, actual);
     try {
-      if (size(actual) == 0) return;
+      if (size(actual) > 0) throw failures.failure(info, shouldBeEmpty(actual));
     } catch (IOException e) {
 
     }
