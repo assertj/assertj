@@ -12,7 +12,7 @@ import static org.mockito.Mockito.verify;
  * Test for <code>{@link PathAssert#usingCharset(Charset)}</code> when the provided charset is null.
  */
 @DisplayName("PathAssert isEmptyPath")
-public class PathAssert_isEmptyPath_Test extends PathAssertBaseTest {
+class PathAssert_isEmpty_Test extends PathAssertBaseTest {
 
   @Override
   protected PathAssert invoke_api_method() {
