@@ -499,7 +499,7 @@ public class Paths {
     requireNonNull(end, "the expected end path should not be null");
   }
 
-  public void assertIsEmptyPath(AssertionInfo info, Path actual) {
+  public void assertIsEmptyFile(AssertionInfo info, Path actual) {
     assertIsRegularFile(info, actual);
     try {
       if (size(actual) > 0) throw failures.failure(info, shouldBeEmpty(actual));
