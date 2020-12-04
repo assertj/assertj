@@ -4,8 +4,6 @@ import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
 import org.junit.jupiter.api.DisplayName;
 
-import java.nio.charset.Charset;
-
 import static org.mockito.Mockito.verify;
 
 /**
@@ -21,7 +19,7 @@ class PathAssert_isEmpty_Test extends PathAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(paths).assertIsEmptyPath(getInfo(assertions), getActual(assertions));
+    verify(paths).assertIsEmptyFile(getInfo(assertions), getActual(assertions));
   }
 
 }

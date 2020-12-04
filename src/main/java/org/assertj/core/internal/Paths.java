@@ -506,16 +506,14 @@ public class Paths {
     } catch (IOException e) {
       throw new PathsException(FAILED_TO_RESOLVE_ACTUAL_REAL_PATH, e);
     }
-    throw failures.failure(info, shouldBeEmpty(actual));
   }
 
   public void assertIsNotEmptyFile(AssertionInfo info, Path actual) {
     assertIsRegularFile(info, actual);
     try {
-      if (size(actual) == 0) throw failures.failure(info, shouldNotBeEmpty(actual));;
+      if (size(actual) == 0) throw failures.failure(info, shouldNotBeEmpty(actual.toFile()));
     } catch (IOException e) {
       throw new PathsException(FAILED_TO_RESOLVE_ACTUAL_REAL_PATH, e);
     }
-    throw failures.failure(info, shouldNotBeEmpty(actual.toFile()));
   }
 }

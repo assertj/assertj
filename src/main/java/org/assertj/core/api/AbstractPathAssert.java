@@ -1777,7 +1777,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isEmpty(){
-    paths.assertIsEmptyPath(info, actual);
+    paths.assertIsEmptyFile(info, actual);
     return myself;
   }
 
@@ -1808,7 +1808,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isNotEmpty(){
-    paths.assertIsNotEmptyPath(info, actual);
+    paths.assertIsNotEmptyFile(info, actual);
     return myself;
   }
 }
