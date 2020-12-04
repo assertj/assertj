@@ -504,7 +504,7 @@ public class Paths {
     try {
       if (size(actual) > 0) throw failures.failure(info, shouldBeEmpty(actual));
     } catch (IOException e) {
-
+      throw new PathsException(FAILED_TO_RESOLVE_ACTUAL_REAL_PATH, e);
     }
     throw failures.failure(info, shouldBeEmpty(actual));
   }
