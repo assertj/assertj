@@ -508,7 +508,8 @@ public class Paths {
     }
     throw failures.failure(info, shouldBeEmpty(actual));
   }
-  public void assertIsNotEmptyPath(AssertionInfo info, Path actual){
+
+  public void assertIsNotEmptyFile(AssertionInfo info, Path actual) {
     assertIsRegularFile(info, actual);
     try {
       if (size(actual) > 0) return;
