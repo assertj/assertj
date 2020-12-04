@@ -9,7 +9,7 @@ import java.nio.charset.Charset;
 import static org.mockito.Mockito.verify;
 
 /**
- * Test for <code>{@link PathAssert#usingCharset(Charset)}</code> when the provided charset is null.
+ * Test for <code>{@link PathAssert#isNotEmpty()}</code>.
  */
 @DisplayName("PathAssert isNotEmpty")
 class PathAssert_isNotEmpty_Test extends PathAssertBaseTest {
