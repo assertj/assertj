@@ -18,6 +18,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
+import static java.nio.charset.Charset.defaultCharset;
 
 /**
  * Utility methods for creating a temporary file for the tests.
@@ -50,6 +51,18 @@ public final class TempFileUtil {
     Path tempFile = java.nio.file.Files.createTempFile("test", "test");
     tempFile.toFile().deleteOnExit();
     Files.write(tempFile, Collections.singletonList(content), charset);
+    return tempFile;
+  }
+
+  /**
+   * Creates a temporary file with no content. The file will be deleted automatically when the tests finish.
+   * @return The newly created path instance.
+   * @throws IOException If an IO error occurs.
+   */
+  public static Path createTempPathWithNoContent() throws IOException {
+    Path tempFile = java.nio.file.Files.createTempFile("test", "test");
+    tempFile.toFile().deleteOnExit();
+    Files.write(tempFile, Collections.EMPTY_LIST, defaultCharset());
     return tempFile;
   }
 
