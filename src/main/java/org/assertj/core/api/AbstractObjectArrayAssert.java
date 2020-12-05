@@ -2935,6 +2935,47 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     iterables.assertNoneSatisfy(info, newArrayList(actual), restrictions);
     return myself;
   }
+  
+  /**
+   * Verifies that the actual array has the same size as the given consumers and 
+   * that at least one permutation of elements in the array exists that satisfies 
+   * the individual consumers in order.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>
+   * String[] starWarsCharacterNames = {"Luke", "Leia", "Yoda"};
+   *
+   * // this assertion succeeds:
+   * assertThat(starWarsCharacterNames ).satisfy(
+   *     name --&gt; assertThat(name).contains("Y"), // matches "Yoda"
+   *     name --&gt; assertThat(name).contains("L"), // matches "Luke" and "Leia"
+   *     name --&gt; {
+   *       assertThat(name).hasSize(4);
+   *       assertThat(name).doesNotContain("a"); // matches "Luke", thus 1st consumer can only match "Leia"
+   *     });
+   *
+   * // these assertions fail:
+   * assertThat(starWarsCharacterNames ).satisfy(
+   *     name --&gt; assertThat(name).doesNotContain("Y"), 
+   *     name --&gt; assertThat(name).doesNotContain("L"));
+   *
+   * assertThat(starWarsCharacterNames ).satisfy(
+   *     name --&gt; assertThat(name).contains("L"), 
+   *     name --&gt; assertThat(name).contains("L"), 
+   *     name --&gt; assertThat(name).contains("L"));</code></pre>
+   *
+   * @param consumers the consumers that are expected to be satisfied by the elements of the actual array.
+   * @return this assertion object.
+   * @throws NullPointerException if the given consumers array or any consumer is {@code null}.
+   *
+   * @since 3.19.0
+   */
+  @SafeVarargs
+  public final SELF satisfyExactlyInAnyOrder(Consumer<? super ELEMENT>... consumers) {
+    iterables.assertSatisfyExactlyInAnyOrder(info, newArrayList(actual), consumers);
+    return myself;
+  }
+
 
   /**
    * Verifies that the actual array contains at least one of the given values.
