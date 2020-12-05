@@ -12,13 +12,13 @@
  */
 package org.assertj.core.error;
 
-public class ShouldHaveToString extends BasicErrorMessageFactory {
+public class ShouldNotHaveToString extends BasicErrorMessageFactory {
 
-  public static ErrorMessageFactory shouldHaveToString(Object actual, String expectedToString) {
-    return new ShouldHaveToString(actual, expectedToString);
+  public static ErrorMessageFactory shouldNotHaveToString(String other) {
+    return new ShouldNotHaveToString(other);
   }
 
-  private ShouldHaveToString(Object actual, String expectedToString) {
-    super("%nExpecting actual's toString() to return:%n  <%s>%nbut was:%n  <%s>", expectedToString, actual.toString());
+  private ShouldNotHaveToString(String other) {
+    super("%nExpecting actual's toString() not to be equal to:%n  <%s>", other);
   }
 }

@@ -13,54 +13,50 @@
 package org.assertj.core.internal.objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldHaveToString.shouldHaveToString;
+import static org.assertj.core.error.ShouldNotHaveToString.shouldNotHaveToString;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ObjectsBaseTest;
 import org.assertj.core.test.Person;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-class Objects_assertHasToString_Test extends ObjectsBaseTest {
+class Objects_assertDoesNotHaveToString_Test extends ObjectsBaseTest {
 
-  private Person actual;
+  private static Person actual;
 
-  @BeforeEach
-  @Override
-  public void setUp() {
-    super.setUp();
-    actual = mock(Person.class);
-    when(actual.toString()).thenReturn("foo");
+  @BeforeAll
+  static void setUpOnce() {
+    actual = new Person("foo");
   }
 
   @Test
-  void should_pass_if_actual_toString_is_the_expected_String() {
-    objects.assertHasToString(someInfo(), actual, "foo");
+  void should_pass_if_actual_toString_is_not_equal_to_the_other_toString() {
+    objects.assertDoesNotHaveToString(someInfo(), actual, "bar");
+    objects.assertDoesNotHaveToString(someInfo(), actual, null);
   }
 
   @Test
   void should_fail_if_actual_is_null() {
     // GIVEN
-    Object object = null;
+    Object actualObject = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> objects.assertHasToString(someInfo(), object, "foo"));
+    AssertionError error = expectAssertionError(() -> objects.assertDoesNotHaveToString(someInfo(), actualObject, "bar"));
     // THEN
     assertThat(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_actual_toString_is_not_the_expected_String() {
+  void should_fail_if_actual_toString_is_equal_to_the_other_String() {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> objects.assertHasToString(info, actual, "bar"));
+    expectAssertionError(() -> objects.assertDoesNotHaveToString(info, actual, "Person[name='foo']"));
     // THEN
-    verify(failures).failure(info, shouldHaveToString("foo", "bar"), "foo", "bar");
+    verify(failures).failure(info, shouldNotHaveToString("Person[name='foo']"));
   }
 }
