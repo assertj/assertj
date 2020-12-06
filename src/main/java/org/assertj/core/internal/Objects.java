@@ -707,7 +707,7 @@ public class Objects {
     Comparator typeComparator = comparatorByType.get(fieldType);
     if (typeComparator != null) return typeComparator.compare(actualFieldValue, otherFieldValue) == 0;
     // default comparison using equals
-    return org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue);
+    return deepEquals(actualFieldValue, otherFieldValue);
   }
 
   private <A> boolean canReadFieldValue(Field field, A actual) {
