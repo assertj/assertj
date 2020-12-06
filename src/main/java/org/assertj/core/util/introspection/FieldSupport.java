@@ -177,7 +177,7 @@ public enum FieldSupport {
   }
 
   /**
-   * Return the value of field from a target object.
+   * Return the value of field from a target object. The field must not be static or synthetic (since 3.19.0).
    * <p>
    * Return null if field is nested and one of the nested value is null, ex :
    * <pre><code class='java'> fieldValue(race.name, String.class, frodo); // will return null if frodo.race is null</code></pre>

@@ -606,7 +606,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * Asserts that the actual object has the specified field or property.
+   * Asserts that the actual object has the specified field or property. Static and synthetic fields are ignored since 3.19.0.
    * <p>
    * Private fields are matched by default but this can be changed by calling {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
@@ -648,7 +648,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * Asserts that the actual object has the specified field or property with the given value.
+   * Asserts that the actual object has the specified field or property with the given value. Static and synthetic fields are ignored since 3.19.0.
    * <p>
    * Private fields are matched by default but this can be changed by calling {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
@@ -698,7 +698,9 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * Asserts that the actual object has only the specified fields and nothing else, the assertion checks declared fields only (inherited fields are not checked).
+   * Asserts that the actual object has only the specified fields and nothing else.
+   * <p>
+   * The assertion only checks declared fields (inherited fields are not checked) that are not static or synthetic.
    * <p>
    * By default private fields are included in the check, this can be disabled with {@code Assertions.setAllowExtractingPrivateFields(false);}
    * but be mindful this is has a global effect on all field introspection in AssertJ.

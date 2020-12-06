@@ -15,6 +15,7 @@ package org.assertj.core.internal;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
+import static java.util.Objects.deepEquals;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
@@ -85,7 +86,8 @@ import org.assertj.core.util.introspection.PropertySupport;
 public class Objects {
 
   private static final Objects INSTANCE = new Objects();
-  private static final GroupTypeDescription FIELDS_GROUP_DESCRIPTION = new GroupTypeDescription("fields of", "fields");
+  private static final GroupTypeDescription FIELDS_GROUP_DESCRIPTION = new GroupTypeDescription("non static/synthetic fields of",
+                                                                                                "fields");
 
   @VisibleForTesting
   final PropertySupport propertySupport = PropertySupport.instance();
@@ -872,7 +874,7 @@ public class Objects {
   public <A> void assertHasFieldOrPropertyWithValue(AssertionInfo info, A actual, String name, Object expectedValue) {
     assertHasFieldOrProperty(info, actual, name);
     Object value = extractPropertyOrField(actual, name);
-    if (!org.assertj.core.util.Objects.areEqual(value, expectedValue))
+    if (!deepEquals(value, expectedValue))
       throw failures.failure(info, shouldHavePropertyOrFieldWithValue(actual, name, expectedValue, value));
   }
 

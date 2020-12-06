@@ -29,7 +29,8 @@ import org.junit.jupiter.api.Test;
 class Objects_assertHasOnlyFields_Test extends ObjectsBaseTest {
 
   private static final AssertionInfo INFO = someInfo();
-  private static final GroupTypeDescription FIELDS_GROUP_DESCRIPTION = new GroupTypeDescription("fields of", "fields");
+  private static final GroupTypeDescription FIELDS_GROUP_DESCRIPTION = new GroupTypeDescription("non static/synthetic fields of",
+                                                                                                "fields");
 
   @Test
   void should_pass_if_actual_has_all_given_fields_and_nothing_else() {

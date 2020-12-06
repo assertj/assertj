@@ -12,10 +12,7 @@
  */
 package org.assertj.core.api.object;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ObjectAssert;
@@ -25,7 +22,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ObjectAssert#hasFieldOrPropertyWithValue(String, Object)}</code>.
- * 
+ *
  * @author Libor Ondrusek
  */
 class ObjectAssert_hasFieldOrPropertyWithValue_Test extends ObjectAssertBaseTest {
@@ -51,43 +48,4 @@ class ObjectAssert_hasFieldOrPropertyWithValue_Test extends ObjectAssertBaseTest
     assertThat(jedi).hasFieldOrPropertyWithValue(FIELD_NAME, null);
   }
 
-  @Test
-  void should_fail_if_given_field_or_property_does_not_exist() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
-      Jedi jedi = new Jedi("Yoda", "Blue");
-      assertThat(jedi).hasFieldOrPropertyWithValue("not_exists_in_jedi_object", FIELD_VALUE);
-    }).withMessage(format("%nExpecting%n  <Yoda the Jedi>%nto have a property or a field named <\"not_exists_in_jedi_object\">"));
-  }
-
-  @Test
-  void should_fail_if_field_or_property_value_is_not_equal_to_the_expected_value() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
-      Jedi jedi = new Jedi("Yoda", "Blue");
-      assertThat(jedi).hasFieldOrPropertyWithValue(FIELD_NAME, 1000);
-    }).withMessage(format("%nExpecting%n  <Yoda the Jedi>%nto have a property or a field named <\"name\"> with value%n  <1000>%nbut value was:%n  <\"Yoda\">"));
-  }
-
-  @Test
-  void should_fail_if_field_or_property_value_is_not_null_when_expected_value_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
-      Jedi jedi = new Jedi("Yoda", "Blue");
-      assertThat(jedi).hasFieldOrPropertyWithValue(FIELD_NAME, null);
-    }).withMessage(format("%nExpecting%n  <Yoda the Jedi>%nto have a property or a field named <\"name\"> with value%n  <null>%nbut value was:%n  <\"Yoda\">"));
-  }
-
-  @Test
-  void should_fail_when_property_or_field_value_is_null_and_expected_value_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
-      Jedi jedi = new Jedi(null, "Blue");
-      assertThat(jedi).hasFieldOrPropertyWithValue(FIELD_NAME, FIELD_VALUE);
-    }).withMessage(format("%nExpecting%n  <null the Jedi>%nto have a property or a field named <\"name\"> with value%n  <\"Yoda\">%nbut value was:%n  <null>"));
-  }
-
-  @Test
-  void should_fail_if_given_field_or_property_name_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> {
-      Jedi jedi = new Jedi("Yoda", "Blue");
-      assertThat(jedi).hasFieldOrPropertyWithValue(null, FIELD_VALUE);
-    }).withMessage("The name of the property/field to read should not be null");
-  }
 }
