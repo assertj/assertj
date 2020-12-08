@@ -95,13 +95,13 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
   }
 
   public String multiLineDescription(Representation representation) {
-    UnambiguousRepresentation unambiguousRepresentation = new UnambiguousRepresentation (representation, actual, expected);
+    UnambiguousRepresentation unambiguousRepresentation = new UnambiguousRepresentation(representation, actual, expected);
     String additionalInfo = additionalInformation.map(ComparisonDifference::formatOnNewline)
                                                  .orElse("");
     return format(TEMPLATE,
                   fieldPathDescription(),
-                  unambiguousRepresentation.getActual (),
-                  unambiguousRepresentation.getExpected (),
+                  unambiguousRepresentation.getActual(),
+                  unambiguousRepresentation.getExpected(),
                   additionalInfo);
   }
 

@@ -700,9 +700,7 @@ public class Strings {
   }
 
   private static String normalizeWhitespace(CharSequence toNormalize) {
-    if (toNormalize == null) {
-      return null;
-    }
+    if (toNormalize == null) return null;
     final StringBuilder result = new StringBuilder(toNormalize.length());
     boolean lastWasSpace = true;
     for (int i = 0; i < toNormalize.length(); i++) {

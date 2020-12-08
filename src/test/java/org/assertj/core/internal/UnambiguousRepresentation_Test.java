@@ -16,6 +16,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.BDDMockito.given;
 
 import org.assertj.core.presentation.Representation;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -25,6 +26,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
  * Tests for {@link UnambiguousRepresentation}.
  */
 @ExtendWith(MockitoExtension.class)
+@DisplayName("UnambiguousRepresentation")
 class UnambiguousRepresentation_Test {
 
   @Mock
@@ -33,31 +35,31 @@ class UnambiguousRepresentation_Test {
   @Test
   void should_use_toStringOf_given_they_are_different() {
     // GIVEN
-    Object actual = new Object ();
-    Object expected = new Object ();
-    given (representation.toStringOf (actual)).willReturn ("actual");
-    given (representation.toStringOf (expected)).willReturn ("expected");
+    Object actual = new Object();
+    Object expected = new Object();
+    given(representation.toStringOf(actual)).willReturn("actual");
+    given(representation.toStringOf(expected)).willReturn("expected");
     // WHEN
-    UnambiguousRepresentation actualRepresentation = new UnambiguousRepresentation (representation, actual, expected);
+    UnambiguousRepresentation actualRepresentation = new UnambiguousRepresentation(representation, actual, expected);
     // THEN
-    then (actualRepresentation.getActual ()).isEqualTo ("actual");
-    then (actualRepresentation.getExpected ()).isEqualTo ("expected");
+    then(actualRepresentation.getActual()).isEqualTo("actual");
+    then(actualRepresentation.getExpected()).isEqualTo("expected");
   }
 
   @Test
-  void should_use_unambiguousToStringOf_whe_toStringOf_are_equal () {
+  void should_use_unambiguousToStringOf_whe_toStringOf_are_equal() {
     // GIVEN
-    Object actual = new Object ();
-    Object expected = new Object ();
-    given (representation.toStringOf (actual)).willReturn ("representation");
-    given (representation.toStringOf (expected)).willReturn ("representation");
-    given (representation.unambiguousToStringOf (actual)).willReturn ("actual");
-    given (representation.unambiguousToStringOf (expected)).willReturn ("expected");
+    Object actual = new Object();
+    Object expected = new Object();
+    given(representation.toStringOf(actual)).willReturn("representation");
+    given(representation.toStringOf(expected)).willReturn("representation");
+    given(representation.unambiguousToStringOf(actual)).willReturn("actual");
+    given(representation.unambiguousToStringOf(expected)).willReturn("expected");
     // WHEN
-    UnambiguousRepresentation actualRepresentation = new UnambiguousRepresentation (representation, actual, expected);
+    UnambiguousRepresentation actualRepresentation = new UnambiguousRepresentation(representation, actual, expected);
     // THEN
-    then (actualRepresentation.getActual ()).isEqualTo ("actual");
-    then (actualRepresentation.getExpected ()).isEqualTo ("expected");
+    then(actualRepresentation.getActual()).isEqualTo("actual");
+    then(actualRepresentation.getExpected()).isEqualTo("expected");
   }
 
 }

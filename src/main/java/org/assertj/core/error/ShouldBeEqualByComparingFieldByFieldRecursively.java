@@ -18,7 +18,6 @@ import static org.assertj.core.util.Strings.escapePercent;
 import static org.assertj.core.util.Strings.join;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
@@ -74,9 +73,8 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorM
   }
 
   private static String describeDifference(Difference difference, Representation representation) {
-    UnambiguousRepresentation unambiguousRepresentation =
-      new UnambiguousRepresentation (representation, difference.getActual (), difference.getOther ());
-
+    UnambiguousRepresentation unambiguousRepresentation = new UnambiguousRepresentation(representation, difference.getActual(),
+                                                                                        difference.getOther());
     String additionalInfo = difference.getDescription()
                                       .map(desc -> format("%n- reason  : %s", escapePercent(desc)))
                                       .orElse("");
@@ -84,8 +82,8 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorM
                   "- actual  : <%s>%n" +
                   "- expected: <%s>" + additionalInfo,
                   join(difference.getPath()).with("."),
-                  escapePercent(unambiguousRepresentation.getActual ()),
-                  escapePercent(unambiguousRepresentation.getExpected ()));
+                  escapePercent(unambiguousRepresentation.getActual()),
+                  escapePercent(unambiguousRepresentation.getExpected()));
   }
 
 }

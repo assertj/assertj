@@ -31,7 +31,7 @@ public class AssertionErrorCreator {
 
   private static final Class<?>[] MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR = array(String.class, Object.class, Object.class);
 
-  private static final Class<?>[] MSG_ARG_TYPES_FOR_COMPARISON_FAILURE = array (String.class, String.class, String.class);
+  private static final Class<?>[] MSG_ARG_TYPES_FOR_COMPARISON_FAILURE = array(String.class, String.class, String.class);
 
   private static final Class<?>[] MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES = array(String.class, List.class);
 
@@ -49,9 +49,11 @@ public class AssertionErrorCreator {
   // single assertion error
 
   public AssertionError assertionError(String message, Object actual, Object expected, Representation representation) {
-    return assertionFailedError (message, actual, expected)
-      .orElse (comparisonFailure (message, actual, expected, representation)
-        .orElse (assertionError (message)));
+    // @format:off
+    return assertionFailedError(message, actual,expected)
+                    .orElse(comparisonFailure(message, actual, expected, representation)
+                    .orElse(assertionError(message)));
+    // @format:on
   }
 
   private Optional<AssertionError> assertionFailedError(String message, Object actual, Object expected) {
@@ -61,37 +63,30 @@ public class AssertionErrorCreator {
                                                 message,
                                                 expected,
                                                 actual);
-      if (o instanceof AssertionError) {
-        AssertionError assertionError = (AssertionError) o;
-        return Optional.of(assertionError);
-      }
-    } catch (Throwable ignored) {
-    }
+
+      if (o instanceof AssertionError) return Optional.of((AssertionError) o);
+
+    } catch (@SuppressWarnings("unused") Throwable ignored) {}
     return Optional.empty();
   }
 
-  private Optional<AssertionError> comparisonFailure (
-    String message,
-    Object actual,
-    Object expected,
-    Representation representation
-  ) {
+  private Optional<AssertionError> comparisonFailure(String message,
+                                                     Object actual,
+                                                     Object expected,
+                                                     Representation representation) {
     try {
-      UnambiguousRepresentation unambiguousRepresentation = new UnambiguousRepresentation (representation, actual, expected);
+      UnambiguousRepresentation unambiguousRepresentation = new UnambiguousRepresentation(representation, actual, expected);
 
-      Object o = constructorInvoker.newInstance (
-        "org.junit.ComparisonFailure",
-        MSG_ARG_TYPES_FOR_COMPARISON_FAILURE,
-        message,
-        unambiguousRepresentation.getExpected (),
-        unambiguousRepresentation.getActual ()
-      );
-      if (o instanceof AssertionError) {
-        return Optional.of ((AssertionError) o);
-      }
-    } catch (Throwable ignored) {
-    }
-    return Optional.empty ();
+      Object o = constructorInvoker.newInstance("org.junit.ComparisonFailure",
+                                                MSG_ARG_TYPES_FOR_COMPARISON_FAILURE,
+                                                message,
+                                                unambiguousRepresentation.getExpected(),
+                                                unambiguousRepresentation.getActual());
+
+      if (o instanceof AssertionError) return Optional.of((AssertionError) o);
+
+    } catch (@SuppressWarnings("unused") Throwable ignored) {}
+    return Optional.empty();
   }
 
   private static AssertionError assertionError(String message) {
@@ -146,7 +141,7 @@ public class AssertionErrorCreator {
         Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
         return Optional.of(assertionError);
       }
-    } catch (Exception e) {
+    } catch (@SuppressWarnings("unused") Exception e) {
       // do nothing, MultipleFailuresError was not in the classpath
     }
     return Optional.empty();

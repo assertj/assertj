@@ -18,7 +18,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import org.assertj.core.presentation.Representation;
 import org.junit.ComparisonFailure;
@@ -53,10 +52,10 @@ class AssertionErrorCreator_assertionError_Test {
     Representation representation = mock(Representation.class);
     ConstructorInvoker constructorInvoker = mock(ConstructorInvoker.class);
     ComparisonFailure expectedFailure = new ComparisonFailure(message, "expected", "actual");
-    given(constructorInvoker.newInstance(eq(AssertionFailedError.class.getName()), any(Class[].class), any()))
-      .willThrow(Exception.class);
-    when (constructorInvoker.newInstance(eq(ComparisonFailure.class.getName()), any(Class[].class), any()))
-      .thenReturn (expectedFailure);
+    // @format:off
+    given(constructorInvoker.newInstance(eq(AssertionFailedError.class.getName()), any(Class[].class), any())).willThrow(Exception.class);
+    given(constructorInvoker.newInstance(eq(ComparisonFailure.class.getName()), any(Class[].class), any())).willReturn(expectedFailure);
+    // @format:on
     assertionErrorCreator.constructorInvoker = constructorInvoker;
     // WHEN
     AssertionError assertionError = assertionErrorCreator.assertionError(message, new Object(), new Object(), representation);

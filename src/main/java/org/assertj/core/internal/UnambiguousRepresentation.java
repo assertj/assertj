@@ -18,9 +18,8 @@ import org.assertj.core.presentation.Representation;
 
 /**
  * Utility class around {@link Representation} to provide the {@link Representation#toStringOf(Object) toStringOf}
- * representations of {@code actual} and {@code expected} when they are different,
- * and their {@link Representation#unambiguousToStringOf(Object) unambiguousToStringOf}
- * representations if not.
+ * representations of {@code actual} and {@code expected} when they are different, and their
+ * {@link Representation#unambiguousToStringOf(Object) unambiguousToStringOf} representations if not.
  */
 public class UnambiguousRepresentation {
 
