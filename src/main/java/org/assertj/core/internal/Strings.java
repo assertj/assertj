@@ -611,7 +611,8 @@ public class Strings {
     String actualNormalized = normalizeNewlines(actual);
     String expectedNormalized = normalizeNewlines(expected);
     if (!actualNormalized.equals(expectedNormalized))
-      throw failures.failure(info, shouldBeEqualIgnoringNewLineDifferences(actual, expected), actual, expected);
+      throw failures.failure(info, shouldBeEqualIgnoringNewLineDifferences(actual, expected), actualNormalized,
+                             expectedNormalized);
   }
 
   private static String normalizeNewlines(CharSequence actual) {
@@ -673,8 +674,11 @@ public class Strings {
    * @since 2.8.0 / 3.8.0
    */
   public void assertEqualsNormalizingWhitespace(AssertionInfo info, CharSequence actual, CharSequence expected) {
-    if (!areEqualNormalizingWhitespace(actual, expected))
-      throw failures.failure(info, shouldBeEqualNormalizingWhitespace(actual, expected), actual, expected);
+    if (actual != null) checkCharSequenceIsNotNull(expected);
+    String normalizedActual = normalizeWhitespace(actual);
+    String normalizedExpected = normalizeWhitespace(expected);
+    if (!java.util.Objects.equals(normalizedActual, normalizedExpected))
+      throw failures.failure(info, shouldBeEqualNormalizingWhitespace(actual, expected), normalizedActual, normalizedExpected);
   }
 
   /**
@@ -688,17 +692,17 @@ public class Strings {
    * @since 2.8.0 / 3.8.0
    */
   public void assertNotEqualsNormalizingWhitespace(AssertionInfo info, CharSequence actual, CharSequence expected) {
-    if (areEqualNormalizingWhitespace(actual, expected))
+    if (actual != null) checkCharSequenceIsNotNull(expected);
+    String normalizedActual = normalizeWhitespace(actual);
+    String normalizedExpected = normalizeWhitespace(expected);
+    if (java.util.Objects.equals(normalizedActual, normalizedExpected))
       throw failures.failure(info, shouldNotBeEqualNormalizingWhitespace(actual, expected));
   }
 
-  private boolean areEqualNormalizingWhitespace(CharSequence actual, CharSequence expected) {
-    if (actual == null) return expected == null;
-    checkCharSequenceIsNotNull(expected);
-    return normalizeWhitespace(actual).equals(normalizeWhitespace(expected));
-  }
-
   private static String normalizeWhitespace(CharSequence toNormalize) {
+    if (toNormalize == null) {
+      return null;
+    }
     final StringBuilder result = new StringBuilder(toNormalize.length());
     boolean lastWasSpace = true;
     for (int i = 0; i < toNormalize.length(); i++) {
@@ -725,17 +729,18 @@ public class Strings {
    * @since 3.16.0
    */
   public void assertEqualsNormalizingPunctuationAndWhitespace(AssertionInfo info, CharSequence actual, CharSequence expected) {
-    if (!areEqualNormalizingPunctuationAndWhitespace(actual, expected))
-      throw failures.failure(info, shouldBeEqualNormalizingPunctuationAndWhitespace(actual, expected), actual, expected);
-  }
-
-  private static boolean areEqualNormalizingPunctuationAndWhitespace(CharSequence actual, CharSequence expected) {
-    if (actual == null) return expected == null;
-    checkCharSequenceIsNotNull(expected);
-    return normalizeWhitespaceAndPunctuation(actual).equals(normalizeWhitespaceAndPunctuation(expected));
+    if (actual != null) checkCharSequenceIsNotNull(expected);
+    String normalizedActual = normalizeWhitespaceAndPunctuation(actual);
+    String normalizedExpected = normalizeWhitespaceAndPunctuation(expected);
+    if (!java.util.Objects.equals(normalizedActual, normalizedExpected))
+      throw failures.failure(info, shouldBeEqualNormalizingPunctuationAndWhitespace(actual, expected), normalizedActual,
+                             normalizedExpected);
   }
 
   private static String normalizeWhitespaceAndPunctuation(CharSequence toNormalize) {
+    if (toNormalize == null) {
+      return null;
+    }
     return normalizeWhitespace(toNormalize.toString().replaceAll(PUNCTUATION_REGEX, ""));
   }
 

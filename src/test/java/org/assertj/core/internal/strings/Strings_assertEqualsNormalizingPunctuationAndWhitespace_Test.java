@@ -40,9 +40,10 @@ class Strings_assertEqualsNormalizingPunctuationAndWhitespace_Test extends Strin
     String expected = "";
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> strings.assertEqualsNormalizingPunctuationAndWhitespace(info, actual, expected));
+    expectAssertionError(() -> strings.assertEqualsNormalizingPunctuationAndWhitespace(info, "{Game} of} Thrones{)", expected));
     // THEN
-    verifyFailureWhenStringsAreNotEqualNormalizingPunctuationAndWhitespace(info, actual, expected);
+    verify(failures).failure(info, shouldBeEqualNormalizingPunctuationAndWhitespace(actual, expected), "Game of Thrones",
+                             expected);
   }
 
   @Test
@@ -54,7 +55,7 @@ class Strings_assertEqualsNormalizingPunctuationAndWhitespace_Test extends Strin
     // WHEN
     expectAssertionError(() -> strings.assertEqualsNormalizingPunctuationAndWhitespace(info, actual, expected));
     // THEN
-    verifyFailureWhenStringsAreNotEqualNormalizingPunctuationAndWhitespace(info, actual, expected);
+    verify(failures).failure(info, shouldBeEqualNormalizingPunctuationAndWhitespace(actual, expected), "GameofThrones", expected);
   }
 
   @ParameterizedTest
@@ -85,8 +86,4 @@ class Strings_assertEqualsNormalizingPunctuationAndWhitespace_Test extends Strin
                      Arguments.of("Game {} of () Thrones {})()!'", "Game  of  Thrones "));
   }
 
-  private void verifyFailureWhenStringsAreNotEqualNormalizingPunctuationAndWhitespace(AssertionInfo info, String actual,
-                                                                                      String expected) {
-    verify(failures).failure(info, shouldBeEqualNormalizingPunctuationAndWhitespace(actual, expected), actual, expected);
-  }
 }
