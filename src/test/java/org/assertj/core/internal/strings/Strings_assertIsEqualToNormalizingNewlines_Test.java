@@ -53,7 +53,7 @@ class Strings_assertIsEqualToNormalizingNewlines_Test extends StringsBaseTest {
     Throwable error = catchThrowable(() -> strings.assertIsEqualToNormalizingNewlines(someInfo(), actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(someInfo(), shouldBeEqualIgnoringNewLineDifferences(actual, expected), actual, expected);
+    verify(failures).failure(someInfo(), shouldBeEqualIgnoringNewLineDifferences(actual, expected), "Lord of the Rings\n\nis cool", expected);
   }
 
 }
