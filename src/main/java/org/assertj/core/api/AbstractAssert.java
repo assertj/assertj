@@ -237,7 +237,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     String errorMessage = Optional.ofNullable(info.overridingErrorMessage())
                                   .orElse(format(errorMessageFormat, arguments));
     String description = MessageFormatter.instance().format(info.description(), info.representation(), errorMessage);
-    AssertionError assertionError = assertionErrorCreator.assertionError(description, actual, expected);
+    AssertionError assertionError = assertionErrorCreator.assertionError(description, actual, expected, info.representation ());
     Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     removeCustomAssertRelatedElementsFromStackTraceIfNeeded(assertionError);
     return assertionError;
