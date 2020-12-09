@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.description.EmptyTextDescription.emptyDescription;
 import static org.assertj.core.test.TestData.someTextDescription;
 
@@ -24,7 +25,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Condition#as(Description)}</code>.
- * 
+ *
  * @author Yvonne Wang
  */
 class Condition_as_Description_Test {
@@ -51,8 +52,12 @@ class Condition_as_Description_Test {
 
   @Test
   void should_replace_null_description_by_an_empty_one() {
-    condition.as(null);
-    assertThat(condition.description()).isEqualTo(emptyDescription());
+    // GIVEN
+    TestDescription description = null;
+    // WHEN
+    condition.as(description);
+    // THEN
+    then(condition.description()).isEqualTo(emptyDescription());
   }
 
   @Test
