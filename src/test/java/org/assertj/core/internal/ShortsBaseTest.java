@@ -12,24 +12,19 @@
  */
 package org.assertj.core.internal;
 
-
 import static org.mockito.Mockito.spy;
 
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.Shorts;
 import org.assertj.core.util.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 
-
 /**
- * 
+ *
  * Base class for {@link Shorts} tests.
  * <p>
  * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Shorts#failures} appropriately.
- * 
+ *
  * @author Joel Costigliola
- * 
+ *
  */
 public class ShortsBaseTest {
 

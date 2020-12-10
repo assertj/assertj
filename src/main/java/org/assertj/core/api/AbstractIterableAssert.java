@@ -116,7 +116,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   protected Iterables iterables = Iterables.instance();
 
-  public AbstractIterableAssert(ACTUAL actual, Class<?> selfType) {
+  protected AbstractIterableAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

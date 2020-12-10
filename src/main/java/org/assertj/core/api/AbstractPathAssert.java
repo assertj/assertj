@@ -90,7 +90,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   @VisibleForTesting
   Charset charset = Charset.defaultCharset();
 
-  public AbstractPathAssert(final Path actual, final Class<?> selfType) {
+  protected AbstractPathAssert(final Path actual, final Class<?> selfType) {
     super(actual, selfType);
   }
 

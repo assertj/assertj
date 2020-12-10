@@ -39,7 +39,7 @@ public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert
    * @param duration the actual value to verify
    * @param selfType the "self type"
    */
-  public AbstractDurationAssert(Duration duration, Class<?> selfType) {
+  protected AbstractDurationAssert(Duration duration, Class<?> selfType) {
     super(duration, selfType);
   }
 

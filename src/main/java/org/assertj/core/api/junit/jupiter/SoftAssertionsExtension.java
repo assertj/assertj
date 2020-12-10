@@ -324,7 +324,8 @@ public class SoftAssertionsExtension
     AssertionErrorCollector collector;
     if (isPerClassConcurrent(extensionContext)) {
       ThreadLocalErrorCollector tlec = getThreadLocalCollector(extensionContext);
-      collector = tlec.getDelegate().orElseThrow(() -> new IllegalStateException("Expecting delegate to be present for current context"));
+      collector = tlec.getDelegate()
+                      .orElseThrow(() -> new IllegalStateException("Expecting delegate to be present for current context"));
       tlec.reset();
     } else {
       collector = getAssertionErrorCollector(extensionContext);
@@ -369,7 +370,6 @@ public class SoftAssertionsExtension
                                                   AssertionErrorCollector.class);
   }
 
-  @SuppressWarnings("unchecked")
   private static Collection<SoftAssertionsProvider> getSoftAssertionsProviders(ExtensionContext context) {
     return getStore(context).getOrComputeIfAbsent(Collection.class, unused -> new ConcurrentLinkedQueue<>(), Collection.class);
   }

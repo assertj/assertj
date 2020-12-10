@@ -21,11 +21,11 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Character}s.
- * 
+ *
  * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
- * 
+ *
  * @author Yvonne Wang
  * @author David DIDIER
  * @author Ansgar Konermann
@@ -39,7 +39,7 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
   @VisibleForTesting
   Characters characters = Characters.instance();
 
-  public AbstractCharacterAssert(Character actual, Class<?> selfType) {
+  protected AbstractCharacterAssert(Character actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -97,7 +97,7 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    * assertThat('a').isLessThan('A');
    * assertThat('b').isLessThan('a');
    * assertThat('a').isLessThan('a');</code></pre>
-   * 
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -118,7 +118,7 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    *
    * // assertion will fail
    * assertThat('b').isLessThanOrEqualTo('a');</code></pre>
-   * 
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -141,7 +141,7 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    * assertThat('A').isGreaterThan('a');
    * assertThat('a').isGreaterThan('b');
    * assertThat('a').isGreaterThan('a');</code></pre>
-   * 
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -187,10 +187,10 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    * <pre><code class='java'> // assertions will pass
    * assertThat('A').isGreaterThanOrEqualTo('A');
    * assertThat('b').isGreaterThanOrEqualTo('a');
-   * 
+   *
    * // assertion will fail
    * assertThat('a').isGreaterThanOrEqualTo('b');</code></pre>
-   * 
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -230,13 +230,13 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat('A').isUpperCase();
-   * 
+   *
    * // assertions will fail
    * assertThat('a').isUpperCase();
    * assertThat(' ').isUpperCase();
    * assertThat('.').isUpperCase();
    * assertThat('1').isUpperCase();</code></pre>
-   * 
+   *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not a uppercase character.

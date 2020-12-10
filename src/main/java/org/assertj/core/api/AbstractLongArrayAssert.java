@@ -12,9 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static java.util.Objects.requireNonNull;
-import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
-
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -30,7 +27,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
   @VisibleForTesting
   protected LongArrays arrays = LongArrays.instance();
 
-  public AbstractLongArrayAssert(long[] actual, Class<?> selfType) {
+  protected AbstractLongArrayAssert(long[] actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

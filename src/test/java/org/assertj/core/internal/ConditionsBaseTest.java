@@ -12,19 +12,16 @@
  */
 package org.assertj.core.internal;
 
-
 import static org.mockito.Mockito.spy;
 
 import org.assertj.core.api.TestCondition;
-import org.assertj.core.internal.Conditions;
-import org.assertj.core.internal.Failures;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
-
+import org.junit.jupiter.api.BeforeEach;
 
 public class ConditionsBaseTest {
 
   protected static Object actual;
+
   @BeforeAll
   public static void setUpOnce() {
     actual = "Yoda";

@@ -97,7 +97,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   // constructor to cast with a compiler warning
   // let's keep compiler warning internal (when we can) and not expose them to our end users.
   @SuppressWarnings("unchecked")
-  public AbstractAssert(ACTUAL actual, Class<?> selfType) {
+  protected AbstractAssert(ACTUAL actual, Class<?> selfType) {
     myself = (SELF) selfType.cast(this);
     this.actual = actual;
     info = new WritableAssertionInfo(customRepresentation);
@@ -237,7 +237,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     String errorMessage = Optional.ofNullable(info.overridingErrorMessage())
                                   .orElse(format(errorMessageFormat, arguments));
     String description = MessageFormatter.instance().format(info.description(), info.representation(), errorMessage);
-    AssertionError assertionError = assertionErrorCreator.assertionError(description, actual, expected, info.representation ());
+    AssertionError assertionError = assertionErrorCreator.assertionError(description, actual, expected, info.representation());
     Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     removeCustomAssertRelatedElementsFromStackTraceIfNeeded(assertionError);
     return assertionError;

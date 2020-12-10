@@ -18,16 +18,13 @@ import org.assertj.core.api.Condition;
 import org.assertj.core.api.TestCondition;
 import org.assertj.core.condition.JediCondition;
 import org.assertj.core.condition.JediPowerCondition;
-import org.assertj.core.internal.Conditions;
-import org.assertj.core.internal.Iterables;
 import org.junit.jupiter.api.BeforeEach;
-
 
 /**
  * Base class for testing <code>{@link Iterables}</code> with {@link Conditions}.
  * <p>
  * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Iterables#conditions} appropriately.
- * 
+ *
  * @author Joel Costigliola
  */
 public class IterablesWithConditionsBaseTest extends IterablesBaseTest {

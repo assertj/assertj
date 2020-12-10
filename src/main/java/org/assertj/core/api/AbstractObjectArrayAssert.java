@@ -103,7 +103,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new TreeMap<>();
   TypeComparators comparatorsForElementPropertyOrFieldTypes;
 
-  public AbstractObjectArrayAssert(ELEMENT[] actual, Class<?> selfType) {
+  protected AbstractObjectArrayAssert(ELEMENT[] actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

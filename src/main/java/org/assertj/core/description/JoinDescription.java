@@ -12,10 +12,10 @@
  */
 package org.assertj.core.description;
 
+import static java.util.Objects.deepEquals;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
-import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Objects.hashCodeFor;
 
 import java.util.Collection;
@@ -86,9 +86,9 @@ public class JoinDescription extends Description {
     if (this == o) return true;
     if (!(o instanceof JoinDescription)) return false;
     JoinDescription that = (JoinDescription) o;
-    return areEqual(descriptions, that.descriptions) &&
-           areEqual(prefix, that.prefix) &&
-           areEqual(suffix, that.suffix);
+    return deepEquals(descriptions, that.descriptions) &&
+           deepEquals(prefix, that.prefix) &&
+           deepEquals(suffix, that.suffix);
   }
 
   private IndentedAppendable appendIndentedValueTo(IndentedAppendable indentableBuilder) {

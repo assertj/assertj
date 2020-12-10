@@ -64,7 +64,7 @@ class AbstractAssert_as_with_description_text_supplier_Test {
     // WHEN
     ConcreteAssert returnedAssertions = assertions.as(() -> "description");
     // THEN
-    assertThat(returnedAssertions).isSameAs(assertions);
+    then(returnedAssertions).isSameAs(assertions);
   }
 
   @Test

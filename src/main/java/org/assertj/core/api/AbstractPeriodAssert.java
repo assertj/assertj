@@ -34,7 +34,7 @@ public abstract class AbstractPeriodAssert<SELF extends AbstractPeriodAssert<SEL
    * @param period the actual value to verify
    * @param selfType the "self type"
    */
-  public AbstractPeriodAssert(Period period, Class<?> selfType) {
+  protected AbstractPeriodAssert(Period period, Class<?> selfType) {
     super(period, selfType);
   }
 

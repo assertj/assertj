@@ -21,12 +21,12 @@ import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAssert<SELF>>
-  extends AbstractArrayAssert<SELF, char[], Character> {
+    extends AbstractArrayAssert<SELF, char[], Character> {
 
   @VisibleForTesting
   protected CharArrays arrays = CharArrays.instance();
 
-  public AbstractCharArrayAssert(char[] actual, Class<?> selfType) {
+  protected AbstractCharArrayAssert(char[] actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

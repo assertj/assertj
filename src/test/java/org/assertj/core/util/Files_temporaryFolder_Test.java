@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Files#temporaryFolder()}</code>.
- * 
+ *
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
@@ -30,6 +30,7 @@ class Files_temporaryFolder_Test extends Files_TestCase {
 
   @Test
   void should_find_temporary_folder() {
+    @SuppressWarnings("deprecation")
     File temporaryFolder = Files.temporaryFolder();
     assertThat(temporaryFolder).isDirectory();
     String a = append(separator).to(temporaryFolder.getAbsolutePath());

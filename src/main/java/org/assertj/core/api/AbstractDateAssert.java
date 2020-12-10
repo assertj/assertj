@@ -93,7 +93,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   @VisibleForTesting
   Dates dates = Dates.instance();
 
-  public AbstractDateAssert(Date actual, Class<?> selfType) {
+  protected AbstractDateAssert(Date actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

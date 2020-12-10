@@ -30,7 +30,7 @@ public abstract class AbstractAtomicFieldUpdaterAssert<SELF extends AbstractAtom
 
   private final boolean expectedNullAllowed;
 
-  public AbstractAtomicFieldUpdaterAssert(ATOMIC actual, Class<?> selfType, boolean expectedNullAllowed) {
+  protected AbstractAtomicFieldUpdaterAssert(ATOMIC actual, Class<?> selfType, boolean expectedNullAllowed) {
     super(actual, selfType);
     this.expectedNullAllowed = expectedNullAllowed;
   }

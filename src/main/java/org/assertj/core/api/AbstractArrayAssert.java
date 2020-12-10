@@ -24,10 +24,10 @@ import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
  * @author Joel Costigliola
  */
 public abstract class AbstractArrayAssert<SELF extends AbstractArrayAssert<SELF, ACTUAL, ELEMENT>, ACTUAL, ELEMENT>
-  extends AbstractEnumerableAssert<SELF, ACTUAL, ELEMENT>
-  implements ArraySortedAssert<AbstractArrayAssert<SELF, ACTUAL, ELEMENT>, ELEMENT> {
+    extends AbstractEnumerableAssert<SELF, ACTUAL, ELEMENT>
+    implements ArraySortedAssert<AbstractArrayAssert<SELF, ACTUAL, ELEMENT>, ELEMENT> {
 
-  public AbstractArrayAssert(final ACTUAL actual, final Class<?> selfType) {
+  protected AbstractArrayAssert(final ACTUAL actual, final Class<?> selfType) {
     super(actual, selfType);
   }
 

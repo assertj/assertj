@@ -12,21 +12,16 @@
  */
 package org.assertj.core.internal;
 
-
 import static org.mockito.Mockito.spy;
 
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.Doubles;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.util.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
-
 
 /**
  * Base class for tests involving {@link Doubles}
  * <p>
  * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Doubles#failures} appropriately.
- * 
+ *
  * @author Joel Costigliola
  */
 public class DoublesBaseTest {

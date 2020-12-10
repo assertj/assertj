@@ -12,17 +12,15 @@
  */
 package org.assertj.core.internal;
 
-
 import java.util.Comparator;
-
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 
 public class AbstractTest_ComparatorBasedComparisonStrategy {
 
   protected Comparator<String> caseInsensitiveStringComparator = CaseInsensitiveStringComparator.instance;
   protected ComparatorBasedComparisonStrategy caseInsensitiveComparisonStrategy = new ComparatorBasedComparisonStrategy(
-      caseInsensitiveStringComparator);
+                                                                                                                        caseInsensitiveStringComparator);
   protected ComparatorBasedComparisonStrategy describedComparisonStrategy = new ComparatorBasedComparisonStrategy(
-    caseInsensitiveStringComparator, "Case-insensitive comparator for String class");
+                                                                                                                  caseInsensitiveStringComparator,
+                                                                                                                  "Case-insensitive comparator for String class");
 
 }
