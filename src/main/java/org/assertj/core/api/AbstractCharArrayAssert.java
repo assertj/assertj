@@ -12,11 +12,7 @@
  */
 package org.assertj.core.api;
 
-import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Iterator;
-
-import com.sun.tools.javac.util.ArrayUtils;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.CharArrays;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
@@ -276,6 +272,33 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
   }
 
   /**
+   * Verifies that the actual array contains only the values of the given array and nothing else, in any order.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsOnly(new Character[] {'a', 'b', 'c'});
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsOnly(new Character[] {'b', 'c', 'a'});
+   * assertThat(new char[] { 'a', 'a', 'b' }).containsOnly(new Character[] {'a', 'b'});
+   *
+   * // assertion will fail
+   * * assertThat(new char[] { 'a', 'b', 'c' }).containsOnly(new Character[] {'a', 'b', 'c', 'd'});
+   * * assertThat(new char[] { 'a', 'b', 'c' }).containsOnly(new Character[] {'d', 'f'});</code></pre>
+   *
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
+   *           or none of the given values, or the actual array contains more values than the given ones.
+   */
+  public SELF containsOnly(Character[] values) {
+    requireNonNullParameter(values, "values");
+    arrays.assertContainsOnly(info, actual, toPrimitiveCharacterArray(values));
+    return myself;
+  }
+
+  /**
    * Verifies that the actual array contains the given values only once.
    * <p>
    * Examples :
@@ -297,6 +320,32 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    */
   public SELF containsOnlyOnce(char... values) {
     arrays.assertContainsOnlyOnce(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array contains the values of the given array only once.
+   * <p>
+   * Examples :
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsOnlyOnce(new Character[] {'a', 'b'});
+   *
+   * // assertions will fail
+   * assertThat(new char[] { 'a', 'b', 'a' }).containsOnlyOnce(new Character[] {'a'});
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsOnlyOnce(new Character[] {'d'});
+   * assertThat(new char[] { 'a', 'b', 'c', 'c' }).containsOnlyOnce(new Character[] {'0', 'a', 'b', 'c', 'd', 'e'});</code></pre>
+   *
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
+   *           or none of the given values, or the actual group contains more than once these values.
+   */
+  public SELF containsOnlyOnce(Character[] values) {
+    requireNonNullParameter(values, "values");
+    arrays.assertContainsOnlyOnce(info, actual, toPrimitiveCharacterArray(values));
     return myself;
   }
 
