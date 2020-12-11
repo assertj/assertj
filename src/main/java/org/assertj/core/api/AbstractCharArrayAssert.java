@@ -444,6 +444,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * @throws AssertionError if the actual array does not contain the given subsequence.
    */
   public SELF containsSubsequence(Character[] subsequence) {
+    requireNonNullParameter(subsequence, "subsequence");
     arrays.assertContainsSubsequence(info, actual, toPrimitiveCharacterArray(subsequence));
     return myself;
   }
@@ -514,6 +515,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * @throws AssertionError if the actual array contains any of the given values.
    */
   public SELF doesNotContain(Character[] values) {
+    requireNonNullParameter(values, "values");
     arrays.assertDoesNotContain(info, actual, toPrimitiveCharacterArray(values));
     return myself;
   }
@@ -605,6 +607,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * @throws AssertionError if the actual array does not start with the given sequence.
    */
   public SELF startsWith(Character[] sequence) {
+    requireNonNullParameter(sequence, "sequence");
     arrays.assertStartsWith(info, actual, toPrimitiveCharacterArray(sequence));
     return myself;
   }
@@ -653,6 +656,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * @throws AssertionError if the actual array does not end with the given sequence.
    */
   public SELF endsWith(Character[] sequence) {
+    requireNonNullParameter(sequence, "sequence");
     arrays.assertEndsWith(info, actual, toPrimitiveCharacterArray(sequence));
     return myself;
   }
@@ -711,6 +715,30 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
   }
 
   /**
+   * Verifies that the actual group contains only the values of the given array and nothing else, <b>in order</b>.
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsExactly(new Character[] {''a', 'b', 'c'});
+   *
+   * // assertion will fail as actual and expected order differ
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsExactly(new Character[] {''b', 'a', 'c'});</code></pre>
+   *
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values with same order, i.e. the actual group
+   *           contains some or none of the given values, or the actual group contains more values than the given ones
+   *           or values are the same but the order is not.
+   */
+  public SELF containsExactly(Character[] values) {
+    requireNonNullParameter(values, "values");
+    arrays.assertContainsExactly(info, actual, toPrimitiveCharacterArray(values));
+    return myself;
+  }
+
+  /**
    * Verifies that the actual group contains exactly the given values and nothing else, <b>in any order</b>.<br>
    * <p>
    * Example :
@@ -733,6 +761,33 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    */
   public SELF containsExactlyInAnyOrder(char... values) {
     arrays.assertContainsExactlyInAnyOrder(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual group contains exactly the values of the given array and nothing else, <b>in any order</b>.<br>
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new char[] { 'a', 'b' }).containsExactlyInAnyOrder(new Character[] {'b', 'a'});
+   * assertThat(new char[] { 'a', 'b', 'a' }).containsExactlyInAnyOrder(new Character[] {'a', 'a', 'b'});
+   *
+   * // assertions will fail
+   * assertThat(new char[] { 'a', 'b' }).containsExactlyInAnyOrder(new Character[] {'a'});
+   * assertThat(new char[] { 'a' }).containsExactlyInAnyOrder(new Character[] {'a', 'b'});
+   * assertThat(new char[] { 'a', 'b', 'a' }).containsExactlyInAnyOrder(new Character[] {'a', 'b'});</code></pre>
+   *
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
+   *           contains some or none of the given values, or the actual group contains more values than the given ones.
+   * @since 2.6.0 / 3.6.0
+   */
+  public SELF containsExactlyInAnyOrder(Character[] values) {
+    requireNonNullParameter(values, "values");
+    arrays.assertContainsExactlyInAnyOrder(info, actual, toPrimitiveCharacterArray(values));
     return myself;
   }
 
@@ -788,6 +843,37 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    */
   public SELF containsAnyOf(char... values) {
     arrays.assertContainsAnyOf(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array contains at least one of the given values.
+   * <p>
+   * Example :
+   * <pre><code class='java'> char[] abc = { 'a', 'b', 'c' };
+   *
+   * // assertions will pass
+   * assertThat(abc).containsAnyOf(new Character[] {'b'})
+   *                .containsAnyOf(new Character[] {'b', 'c'})
+   *                .containsAnyOf(new Character[] {'a', 'b', 'c'})
+   *                .containsAnyOf(new Character[] {'a', 'b', 'c', 'd'})
+   *                .containsAnyOf(new Character[] {'e', 'f', 'g', 'b'});
+   *
+   * // assertions will fail
+   * assertThat(abc).containsAnyOf(new Character[] {'d'});
+   * assertThat(abc).containsAnyOf(new Character[] {'d', 'e', 'f', 'g'});</code></pre>
+   *
+   * @param values the array of values whose at least one which is expected to be in the array under test.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty and the array under test is not empty.
+   * @throws AssertionError if the array under test is {@code null}.
+   * @throws AssertionError if the array under test does not contain any of the given {@code values}.
+   * @since 2.9.0 / 3.9.0
+   */
+  public SELF containsAnyOf(Character[] values) {
+    requireNonNullParameter(values, "values");
+    arrays.assertContainsAnyOf(info, actual, toPrimitiveCharacterArray(values));
     return myself;
   }
 
