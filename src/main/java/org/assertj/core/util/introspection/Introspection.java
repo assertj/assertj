@@ -107,7 +107,7 @@ public final class Introspection {
   }
 
   private static boolean isValidGetter(Method method) {
-    return method != null && !Modifier.isStatic(method.getModifiers());
+    return method != null && !Modifier.isStatic(method.getModifiers()) && !Void.TYPE.equals(method.getReturnType());
   }
 
   private static Method findMethod(String name, Object target) {

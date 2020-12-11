@@ -61,7 +61,14 @@ public class Introspection_getProperty_Test {
                                                                                            new Example()))
                                                        .withMessage("No public getter for property 'name' in org.assertj.core.util.Introspection_getProperty_Test$Example");
   }
-
+  
+  @Test
+  void should_raise_an_error_because_of_getter_with_void_return_type()  {
+	assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> getPropertyGetter("surname",
+                                                                                           new VoidGetter()))
+                                                        .withMessage("No getter for property 'surname' in org.assertj.core.util.Introspection_getProperty_Test$VoidGetter");
+  }
+  
   public static class Example extends Super {
   }
 
@@ -69,6 +76,12 @@ public class Introspection_getProperty_Test {
     @SuppressWarnings("unused")
     private String getName() {
       return "a";
+    }
+  }
+  
+  public static class VoidGetter
+  {
+    public void getSurname() {
     }
   }
 }

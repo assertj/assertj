@@ -193,6 +193,13 @@ class PropertyOrFieldSupport_getValueOf_Test {
     assertThat(value).isEqualTo("New York");
   }
 
+  @Test
+  void should_extract_field_value_if_only_void_method_matches_name() {
+    Object value = propertyOrFieldSupport.getValueOf("city", new VoidGetterPropertyEmployee());
+
+    assertThat(value).isEqualTo("New York");
+  }
+
   private Employee employeeWithBrokenName(String name) {
     return new Employee(1L, new Name(name), 0) {
       @Override
@@ -240,4 +247,8 @@ class PropertyOrFieldSupport_getValueOf_Test {
     }
   }
 
+  static class VoidGetterPropertyEmployee extends Employee {
+    public void getCity() {
+    }
+  }
 }
