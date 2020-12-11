@@ -12,13 +12,19 @@
  */
 package org.assertj.core.api;
 
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Iterator;
 
+import com.sun.tools.javac.util.ArrayUtils;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.CharArrays;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
+
+import static java.util.stream.IntStream.range;
+
 
 public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAssert<SELF>>
     extends AbstractArrayAssert<SELF, char[], Character> {
@@ -214,6 +220,32 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    */
   public SELF contains(char... values) {
     arrays.assertContains(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array contains the values of the given array, in any order.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new char[] { 'a', 'b', 'c' }).contains(new Character[] {'a', 'b'});
+   * assertThat(new char[] { 'a', 'b', 'c' }).contains(new Character[] {'c', 'a'});
+   * assertThat(new char[] { 'a', 'b', 'c' }).contains(new Character[] {'a', 'c', 'b'});
+   *
+   * // assertion will fail
+   * assertThat(new char[] { 'a', 'b', 'c' }).contains(new Character[] {'a', 'd'});
+   * assertThat(new char[] { 'a', 'b', 'c' }).contains(new Character[] {'d', 'f'});</code></pre>
+   *
+   * @param values the given {@code Character} array of values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given values.
+   */
+  public SELF contains(Character[] values) {
+    requireNonNullParameter(values, "values");
+    arrays.assertContains(info, actual, toPrimitiveCharacterArray(values));
     return myself;
   }
 
@@ -588,6 +620,12 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
   public SELF containsAnyOf(char... values) {
     arrays.assertContainsAnyOf(info, actual, values);
     return myself;
+  }
+
+  private static char[] toPrimitiveCharacterArray(Character[] values) {
+    char[] characters = new char[values.length];
+    range(0, values.length).forEach(i -> characters[i] = values[i]);
+    return characters;
   }
 
 }
