@@ -374,6 +374,31 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
   }
 
   /**
+   * Verifies that the actual array contains the given sequence, without any other values between them.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsSequence(new Character[] {'a', 'b'});
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsSequence(new Character[] {'a', 'b', 'c'});
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsSequence(new Character[] {'b', 'c'});
+   *
+   * // assertion will fail
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsSequence(new Character[] {'c', 'a'});
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsSequence(new Character[] {'d', 'f'});</code></pre>
+   *
+   * @param sequence the sequence of values to look for.
+   * @return myself assertion object.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given sequence.
+   */
+  public SELF containsSequence(Character[] sequence) {
+    requireNonNullParameter(sequence, "sequence");
+    arrays.assertContainsSequence(info, actual, toPrimitiveCharacterArray(sequence));
+    return myself;
+  }
+
+  /**
    * Verifies that the actual array contains the given subsequence (possibly with other values between them).
    * <p>
    * Example:
@@ -395,6 +420,31 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    */
   public SELF containsSubsequence(char... subsequence) {
     arrays.assertContainsSubsequence(info, actual, subsequence);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array contains the given subsequence (possibly with other values between them).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsSubsequence(new Character[] {'a', 'b'});
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsSubsequence(new Character[] {'a', 'c'});
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsSubsequence(new Character[] {'b', 'c'});
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsSubsequence(new Character[] {'a', 'b', 'c'});
+   *
+   * // assertion will fail
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsSubsequence(new Character[] {'c', 'a'});
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsSubsequence(new Character[] {'d', 'f'});</code></pre>
+   *
+   * @param subsequence the subsequence of values to look for.
+   * @return myself assertion object.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given subsequence.
+   */
+  public SELF containsSubsequence(Character[] subsequence) {
+    arrays.assertContainsSubsequence(info, actual, toPrimitiveCharacterArray(subsequence));
     return myself;
   }
 
@@ -443,6 +493,28 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    */
   public SELF doesNotContain(char... values) {
     arrays.assertDoesNotContain(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array does not contain the given values.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain(new Character[] {'d'});
+   *
+   * // assertion will fail
+   * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain(new Character[] {'b'});</code></pre>
+   *
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array contains any of the given values.
+   */
+  public SELF doesNotContain(Character[] values) {
+    arrays.assertDoesNotContain(info, actual, toPrimitiveCharacterArray(values));
     return myself;
   }
 
@@ -514,6 +586,30 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
   }
 
   /**
+   * Verifies that the actual array starts with the given sequence of values, without any other values between them.
+   * Similar to <code>{@link #containsSequence(char...)}</code>, but it also verifies that the first element in the
+   * sequence is also first element of the actual array.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new char[] { 'a', 'b', 'c' }).startsWith(new Character[] {'a', 'b'});
+   *
+   * // assertion will fail
+   * assertThat(new char[] { 'a', 'b', 'c' }).startsWith(new Character[] {'b', 'c'});</code></pre>
+   *
+   * @param sequence the sequence of values to look for.
+   * @return myself assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not start with the given sequence.
+   */
+  public SELF startsWith(Character[] sequence) {
+    arrays.assertStartsWith(info, actual, toPrimitiveCharacterArray(sequence));
+    return myself;
+  }
+
+  /**
    * Verifies that the actual array ends with the given sequence of values, without any other values between them.
    * Similar to <code>{@link #containsSequence(char...)}</code>, but it also verifies that the last element in the
    * sequence is also last element of the actual array.
@@ -534,6 +630,30 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    */
   public SELF endsWith(char... sequence) {
     arrays.assertEndsWith(info, actual, sequence);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array ends with the given sequence of values, without any other values between them.
+   * Similar to <code>{@link #containsSequence(char...)}</code>, but it also verifies that the last element in the
+   * sequence is also last element of the actual array.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new char[] { 'a', 'b', 'c' }).endsWith(new Character[] {'b', 'c'});
+   *
+   * // assertion will fail
+   * assertThat(new char[] { 'a', 'b', 'c' }).endsWith(new Character[] {'c', 'd'});</code></pre>
+   *
+   * @param sequence the sequence of values to look for.
+   * @return myself assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not end with the given sequence.
+   */
+  public SELF endsWith(Character[] sequence) {
+    arrays.assertEndsWith(info, actual, toPrimitiveCharacterArray(sequence));
     return myself;
   }
 
