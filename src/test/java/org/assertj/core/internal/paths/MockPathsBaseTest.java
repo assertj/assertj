@@ -64,17 +64,6 @@ public class MockPathsBaseTest extends PathsBaseTest {
     }
   }
 
-  static <T> void failIfStreamIsOpen(DirectoryStream<T> stream) {
-    try {
-      long openCount = mockingDetails(stream).getInvocations().stream()
-                                             .filter(inv -> inv.getMethod().getName().equals("iterator"))
-                                             .count();
-      verify(stream, times((int) openCount)).close();
-    } catch (IOException e) {
-      fail("Should not happen");
-    }
-  }
-
   static DirectoryStream<Path> directoryStream(List<Path> directoryItems) {
     DirectoryStream<Path> stream = mock(DirectoryStream.class);
     given(stream.iterator()).will(inv -> directoryItems.iterator());
@@ -110,7 +99,7 @@ public class MockPathsBaseTest extends PathsBaseTest {
     return path;
   }
 
-  Path mockRegularFile(String... names) {
+  Path mockEmptyRegularFile(String... names) {
     Path path = mockPath(names);
     given(nioFilesWrapper.exists(path)).willReturn(true);
     given(nioFilesWrapper.isRegularFile(path)).willReturn(true);
@@ -122,12 +111,13 @@ public class MockPathsBaseTest extends PathsBaseTest {
     return path;
   }
 
-  Path mockDirectory(String name, DirectoryStream<Path> directoryItems) {
-    Path path = mockPath(name);
+  Path mockNonEmptyRegularFile(String... names) {
+    Path path = mockPath(names);
     given(nioFilesWrapper.exists(path)).willReturn(true);
-    given(nioFilesWrapper.isDirectory(path)).willReturn(true);
+    given(nioFilesWrapper.isRegularFile(path)).willReturn(true);
     try {
-      given(nioFilesWrapper.newDirectoryStream(eq(path), any())).will(inv -> filterStream(inv.getArgument(1), directoryItems));
+      given(nioFilesWrapper.size(path)).willReturn(1L);
+      given(nioFilesWrapper.newInputStream(path)).willReturn(new ByteArrayInputStream(new byte[1]));
     } catch (IOException e) {
       fail("Should not happen");
     }
@@ -146,4 +136,5 @@ public class MockPathsBaseTest extends PathsBaseTest {
     }
     return path;
   }
+
 }
