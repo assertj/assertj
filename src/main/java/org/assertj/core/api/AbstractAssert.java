@@ -79,7 +79,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   public WritableAssertionInfo info;
 
   // visibility is protected to allow us write custom assertions that need access to actual
-  @VisibleForTesting
   protected final ACTUAL actual;
   protected final SELF myself;
 

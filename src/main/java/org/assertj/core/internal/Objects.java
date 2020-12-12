@@ -121,12 +121,10 @@ public class Objects {
         : null;
   }
 
-  @VisibleForTesting
   public ComparisonStrategy getComparisonStrategy() {
     return comparisonStrategy;
   }
 
-  @VisibleForTesting
   public Failures getFailures() {
     return failures;
   }
