@@ -1,5 +1,4 @@
 package org.assertj.core.api.chararray;
-
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
@@ -13,12 +12,12 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for <code>{@link CharArrayAssert#contains(Character[])}</code>.
+ * Tests for <code>{@link CharArrayAssert#containsSequence(Character[])}</code>.
  *
  * @author Lucero Garcia
  */
-@DisplayName("CharacterArrayAssert contains(Character[])")
-class CharArrayAssert_contains_with_Character_array_Test extends CharArrayAssertBaseTest {
+@DisplayName("CharacterArrayAssert containsSequence(Character[])")
+public class CharArrayAssert_containsSequence_with_Character_array_Test extends CharArrayAssertBaseTest{
 
   @Test
   void should_fail_if_values_is_null() {
@@ -33,11 +32,11 @@ class CharArrayAssert_contains_with_Character_array_Test extends CharArrayAssert
 
   @Override
   protected CharArrayAssert invoke_api_method() {
-    return assertions.contains(new Character[]{'a', 'b'});
+    return assertions.containsSequence(new Character[]{'a', 'b'});
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertContains(getInfo(assertions), getActual(assertions), arrayOf('a', 'b'));
+    verify(arrays).assertContainsSequence(getInfo(assertions), getActual(assertions), arrayOf('a', 'b'));
   }
 }
