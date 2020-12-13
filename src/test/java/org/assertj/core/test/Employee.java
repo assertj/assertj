@@ -33,7 +33,7 @@ public class Employee {
   private int age;
   // keep private to test we are able to read private field without property
   @SuppressWarnings("unused")
-  private String city = "New York";
+  private final String city = "New York";
   private Map<String, String> attributes;
   private Map<String, Employee> relations;
 
