@@ -12,6 +12,7 @@
  */
 package org.assertj.core.data;
 
+import java.time.Duration;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalUnit;
 
@@ -33,7 +34,11 @@ public class TemporalUnitWithinOffset extends TemporalUnitOffset {
    */
   @Override
   public boolean isBeyondOffset(Temporal temporal1, Temporal temporal2) {
-    return getDifference(temporal1, temporal2) > value;
+    try {
+      return getDifference(temporal1, temporal2) > value;
+    } catch (@SuppressWarnings("unused") ArithmeticException e) {
+      return getAbsoluteDuration(temporal1, temporal2).compareTo(Duration.of(value, unit)) > 0;
+    }
   }
 
   /**

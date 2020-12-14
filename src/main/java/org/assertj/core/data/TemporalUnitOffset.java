@@ -17,6 +17,7 @@ import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
+import java.time.Duration;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalUnit;
 
@@ -26,7 +27,7 @@ import java.time.temporal.TemporalUnit;
  */
 public abstract class TemporalUnitOffset implements TemporalOffset<Temporal> {
 
-  private final TemporalUnit unit;
+  protected final TemporalUnit unit;
   protected final long value;
 
   /**
@@ -43,7 +44,7 @@ public abstract class TemporalUnitOffset implements TemporalOffset<Temporal> {
     this.unit = unit;
   }
 
-  private void checkThatValueIsPositive(long value) {
+  private static void checkThatValueIsPositive(long value) {
     checkArgument(value >= 0, "The value of the offset should be greater than zero");
   }
 
@@ -52,12 +53,16 @@ public abstract class TemporalUnitOffset implements TemporalOffset<Temporal> {
    */
   @Override
   public String getBeyondOffsetDifferenceDescription(Temporal temporal1, Temporal temporal2) {
-    return format("%s %s but difference was %s %s", value, unit, getDifference(temporal1, temporal2), unit);
+    try {
+      return format("%s %s but difference was %s %s", value, unit, getDifference(temporal1, temporal2), unit);
+    } catch (@SuppressWarnings("unused") ArithmeticException e) {
+      return format("%s %s but difference was %s", value, unit, getAbsoluteDuration(temporal1, temporal2));
+    }
   }
 
   /**
    * Returns absolute value of the difference according to time unit.
-   * 
+   *
    * @param temporal1 the first {@link Temporal}
    * @param temporal2 the second {@link Temporal}
    * @return absolute value of the difference according to time unit.
@@ -66,12 +71,19 @@ public abstract class TemporalUnitOffset implements TemporalOffset<Temporal> {
     return abs(unit.between(temporal1, temporal2));
   }
 
-  public TemporalUnit getUnit() {
-    return unit;
+  /**
+   * Returns absolute value of the difference as Duration.
+   *
+   * @param temporal1 the first {@link Temporal}
+   * @param temporal2 the second {@link Temporal}
+   * @return absolute value of the difference as Duration.
+   */
+  protected Duration getAbsoluteDuration(Temporal temporal1, Temporal temporal2) {
+    return Duration.between(temporal1, temporal2).abs();
   }
 
-  public long getValue() {
-    return value;
+  public TemporalUnit getUnit() {
+    return unit;
   }
 
 }

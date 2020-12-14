@@ -23,6 +23,7 @@ import static java.time.format.DateTimeFormatter.ISO_TIME;
 import static java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME;
 import static java.time.temporal.ChronoUnit.DAYS;
 import static java.time.temporal.ChronoUnit.HOURS;
+import static java.time.temporal.ChronoUnit.MILLIS;
 import static java.time.temporal.ChronoUnit.MINUTES;
 import static java.time.temporal.ChronoUnit.WEEKS;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,6 +31,8 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.api.Assertions.within;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.Instant;
@@ -45,6 +48,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.Temporal;
 import java.time.temporal.UnsupportedTemporalTypeException;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.data.TemporalUnitOffset;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
@@ -52,7 +56,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 public class AbstractTemporalAssert_isCloseTo_Test {
 
-  private static AbstractTemporalAssert<?, ?>[] nullAsserts = {
+  private static final ZoneId NEW_YORK_ZONE = ZoneId.of("America/New_York");
+
+  private static final AbstractTemporalAssert<?, ?>[] nullAsserts = {
+      assertThat((Instant) null),
       assertThat((Instant) null),
       assertThat((LocalDateTime) null),
       assertThat((LocalDate) null),
@@ -69,13 +76,14 @@ public class AbstractTemporalAssert_isCloseTo_Test {
   private static final LocalTime _07_10 = LocalTime.of(7, 10);
   private static final LocalDateTime _2017_Mar_12_07_10 = LocalDateTime.of(_2017_Mar_12, _07_10);
 
-  private static AbstractTemporalAssert<?, ?>[] temporalAsserts = {
+  private static final AbstractTemporalAssert<?, ?>[] temporalAsserts = {
+      assertThat(_2017_Mar_12_07_10_Instant),
       assertThat(_2017_Mar_12_07_10_Instant),
       assertThat(_2017_Mar_12_07_10),
       assertThat(_2017_Mar_12),
       assertThat(_07_10),
       assertThat(OffsetDateTime.of(_2017_Mar_12_07_10, UTC)),
-      assertThat(ZonedDateTime.of(_2017_Mar_12_07_10, ZoneId.of("America/New_York"))),
+      assertThat(ZonedDateTime.of(_2017_Mar_12_07_10, NEW_YORK_ZONE)),
       assertThat(OffsetTime.of(_07_10, UTC))
   };
 
@@ -84,13 +92,14 @@ public class AbstractTemporalAssert_isCloseTo_Test {
   private static final LocalDateTime _2017_Mar_12_07_12 = LocalDateTime.of(_2017_Mar_12, _07_12);
   private static final LocalDateTime _2017_Mar_10_07_12 = LocalDateTime.of(_2017_Mar_10, _07_12);
 
-  private static Temporal[] closeTemporals = {
+  private static final Temporal[] closeTemporals = {
       _2017_Mar_12_07_12_Instant,
+      _2017_Mar_12_07_10_Instant.plusMillis(1L),
       _2017_Mar_10_07_12,
       _2017_Mar_10,
       _07_12,
       OffsetDateTime.of(_2017_Mar_12_07_12, UTC),
-      ZonedDateTime.of(_2017_Mar_10_07_12, ZoneId.of("America/New_York")),
+      ZonedDateTime.of(_2017_Mar_10_07_12, NEW_YORK_ZONE),
       OffsetTime.of(_07_12, UTC)
   };
 
@@ -100,37 +109,39 @@ public class AbstractTemporalAssert_isCloseTo_Test {
   private static final LocalDateTime _2017_Mar_12_07_23 = LocalDateTime.of(_2017_Mar_12, _07_23);
   private static final LocalDateTime _2017_Mar_08_07_10 = LocalDateTime.of(_2017_Mar_08, _07_10);
 
-  private static Temporal[] farTemporals = new Temporal[] {
+  private static final Temporal[] farTemporals = new Temporal[] {
       _2017_Mar_08_07_10_Instant,
+      Instant.MIN,
       _2017_Mar_08_07_10,
       _2017_Mar_27,
       _07_23,
       OffsetDateTime.of(_2017_Mar_12_07_23, UTC),
-      ZonedDateTime.of(_2017_Mar_08_07_10, ZoneId.of("America/New_York")),
+      ZonedDateTime.of(_2017_Mar_08_07_10, NEW_YORK_ZONE),
       OffsetTime.of(_07_23, UTC)
   };
 
-  private static String[] differenceMessages = {
+  private static final String[] differenceMessages = {
       format("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%nwithin 50 Hours but difference was 96 Hours",
              _2017_Mar_12_07_10_Instant, _2017_Mar_08_07_10_Instant),
+      format("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%nwithin 2 Millis but difference was PT8765837682367H10M",
+             _2017_Mar_12_07_10_Instant, Instant.MIN),
       format("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%nwithin 50 Hours but difference was 96 Hours",
              _2017_Mar_12_07_10, _2017_Mar_08_07_10),
       format("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%nwithin 3 Days but difference was 15 Days",
              _2017_Mar_12, _2017_Mar_27),
-      format("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%nwithin 5 Minutes but difference was 13 Minutes", _07_10,
-             _07_23),
+      format("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%nwithin 5 Minutes but difference was 13 Minutes",
+             _07_10, _07_23),
       format("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%nwithin 10 Minutes but difference was 13 Minutes",
-             OffsetDateTime.of(_2017_Mar_12_07_10, UTC),
-             OffsetDateTime.of(_2017_Mar_12_07_23, UTC)),
+             OffsetDateTime.of(_2017_Mar_12_07_10, UTC), OffsetDateTime.of(_2017_Mar_12_07_23, UTC)),
       format("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%nby less than 95 Hours but difference was 95 Hours",
-             ZonedDateTime.of(_2017_Mar_12_07_10, ZoneId.of("America/New_York")),
-             ZonedDateTime.of(_2017_Mar_08_07_10, ZoneId.of("America/New_York"))),
+             ZonedDateTime.of(_2017_Mar_12_07_10, NEW_YORK_ZONE), ZonedDateTime.of(_2017_Mar_08_07_10, NEW_YORK_ZONE)),
       format("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%nwithin 2 Minutes but difference was 13 Minutes",
              OffsetTime.of(_07_10, UTC), OffsetTime.of(_07_23, UTC)),
   };
 
-  private static TemporalUnitOffset[] offsets = {
+  private static final TemporalUnitOffset[] offsets = {
       within(50, HOURS),
+      within(2, MILLIS),
       within(50, HOURS),
       within(3, DAYS),
       within(5, MINUTES),
@@ -139,11 +150,12 @@ public class AbstractTemporalAssert_isCloseTo_Test {
       within(2, MINUTES)
   };
 
-  private static TemporalUnitOffset[] inapplicableOffsets = { null, null, within(1, MINUTES),
+  private static final TemporalUnitOffset[] inapplicableOffsets = { null, null, null, within(1, MINUTES),
       within(1, DAYS), null, null, within(1, WEEKS) };
 
-  public static Object[][] parameters() {
+  static Object[][] parameters() {
     DateTimeFormatter[] formatters = {
+        ISO_INSTANT,
         ISO_INSTANT,
         ISO_LOCAL_DATE_TIME,
         ISO_LOCAL_DATE,
@@ -165,7 +177,6 @@ public class AbstractTemporalAssert_isCloseTo_Test {
       parameters[i][7] = differenceMessages[i];
       parameters[i][8] = inapplicableOffsets[i];
     }
-
     return parameters;
   }
 
@@ -207,40 +218,44 @@ public class AbstractTemporalAssert_isCloseTo_Test {
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void should_fail_if_actual_is_null(ArgumentsAccessor args) {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> nullAssert(args).isCloseTo(closeTemporal(args),
-                                                                                                offset(args)))
-                                                   .withMessage(actualIsNull());
+  void should_fail_if_actual_is_null(ArgumentsAccessor args) {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> nullAssert(args).isCloseTo(closeTemporal(args), offset(args)));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void should_fail_if_temporal_parameter_is_null(ArgumentsAccessor args) {
+  void should_fail_if_temporal_parameter_is_null(ArgumentsAccessor args) {
     assertThatNullPointerException().isThrownBy(() -> temporalAssert(args).isCloseTo((Temporal) null, offset(args)))
                                     .withMessage("The temporal object to compare actual with should not be null");
   }
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void should_fail_if_temporal_parameter_as_string_is_null(ArgumentsAccessor args) {
+  void should_fail_if_temporal_parameter_as_string_is_null(ArgumentsAccessor args) {
     assertThatNullPointerException().isThrownBy(() -> temporalAssert(args).isCloseTo((String) null, offset(args)))
                                     .withMessage("The String representing of the temporal object to compare actual with should not be null");
   }
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void should_fail_if_offset_parameter_is_null(ArgumentsAccessor args) {
+  void should_fail_if_offset_parameter_is_null(ArgumentsAccessor args) {
     assertThatNullPointerException().isThrownBy(() -> temporalAssert(args).isCloseTo(closeTemporal(args), null))
                                     .withMessage("The offset should not be null");
   }
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void should_fail_when_offset_is_inapplicable(ArgumentsAccessor args) {
+  void should_fail_when_offset_is_inapplicable(ArgumentsAccessor args) {
+    // GIVEN
     TemporalUnitOffset inapplicableOffset = inapplicableOffset(args);
+    // WHEN
+    ThrowingCallable code = () -> temporalAssert(args).isCloseTo(closeTemporal(args), inapplicableOffset);
+    // THEN
     if (inapplicableOffset != null) {
-      assertThatExceptionOfType(UnsupportedTemporalTypeException.class).isThrownBy(() -> temporalAssert(args).isCloseTo(closeTemporal(args),
-                                                                                                                        inapplicableOffset))
+      assertThatExceptionOfType(UnsupportedTemporalTypeException.class).isThrownBy(code)
                                                                        .withMessage("Unsupported unit: "
                                                                                     + inapplicableOffset.getUnit());
     }
@@ -248,30 +263,33 @@ public class AbstractTemporalAssert_isCloseTo_Test {
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void should_pass_when_within_offset(ArgumentsAccessor args) {
+  void should_pass_when_within_offset(ArgumentsAccessor args) {
     temporalAssert(args).isCloseTo(closeTemporal(args), offset(args));
   }
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void should_pass_when_temporal_passed_as_string_is_within_offset(ArgumentsAccessor args) {
+  void should_pass_when_temporal_passed_as_string_is_within_offset(ArgumentsAccessor args) {
     temporalAssert(args).isCloseTo(closeTemporalAsString(args), offset(args));
   }
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void should_fail_outside_offset(ArgumentsAccessor args) {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> temporalAssert(args).isCloseTo(farTemporal(args),
-                                                                                                    offset(args)))
-                                                   .withMessage(differenceMessage(args));
+  void should_fail_outside_offset(ArgumentsAccessor args) {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> temporalAssert(args).isCloseTo(farTemporal(args), offset(args)));
+    // THEN
+    then(assertionError).hasMessage(differenceMessage(args));
   }
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void should_fail_when_temporal_passed_as_string_is_outside_offset(ArgumentsAccessor args) {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> temporalAssert(args).isCloseTo(farTemporalAsString(args),
-                                                                                                    offset(args)))
-                                                   .withMessage(differenceMessage(args));
+  void should_fail_when_temporal_passed_as_string_is_outside_offset(ArgumentsAccessor args) {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> temporalAssert(args).isCloseTo(farTemporalAsString(args),
+                                                                                              offset(args)));
+    // THEN
+    then(assertionError).hasMessage(differenceMessage(args));
   }
 
 }
