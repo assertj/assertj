@@ -23,6 +23,7 @@ import static java.time.format.DateTimeFormatter.ISO_TIME;
 import static java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME;
 import static java.time.temporal.ChronoUnit.DAYS;
 import static java.time.temporal.ChronoUnit.HOURS;
+import static java.time.temporal.ChronoUnit.MILLIS;
 import static java.time.temporal.ChronoUnit.MINUTES;
 import static java.time.temporal.ChronoUnit.WEEKS;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -54,6 +55,7 @@ public class AbstractTemporalAssert_isCloseTo_Test {
 
   private static AbstractTemporalAssert<?, ?>[] nullAsserts = {
       assertThat((Instant) null),
+      assertThat((Instant) null),
       assertThat((LocalDateTime) null),
       assertThat((LocalDate) null),
       assertThat((LocalTime) null),
@@ -71,6 +73,7 @@ public class AbstractTemporalAssert_isCloseTo_Test {
 
   private static AbstractTemporalAssert<?, ?>[] temporalAsserts = {
       assertThat(_2017_Mar_12_07_10_Instant),
+      assertThat(_2017_Mar_12_07_10_Instant),
       assertThat(_2017_Mar_12_07_10),
       assertThat(_2017_Mar_12),
       assertThat(_07_10),
@@ -86,6 +89,7 @@ public class AbstractTemporalAssert_isCloseTo_Test {
 
   private static Temporal[] closeTemporals = {
       _2017_Mar_12_07_12_Instant,
+      _2017_Mar_12_07_10_Instant.plusMillis(1L),
       _2017_Mar_10_07_12,
       _2017_Mar_10,
       _07_12,
@@ -102,6 +106,7 @@ public class AbstractTemporalAssert_isCloseTo_Test {
 
   private static Temporal[] farTemporals = new Temporal[] {
       _2017_Mar_08_07_10_Instant,
+      Instant.MIN,
       _2017_Mar_08_07_10,
       _2017_Mar_27,
       _07_23,
@@ -113,6 +118,8 @@ public class AbstractTemporalAssert_isCloseTo_Test {
   private static String[] differenceMessages = {
       format("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%nwithin 50 Hours but difference was 96 Hours",
              _2017_Mar_12_07_10_Instant, _2017_Mar_08_07_10_Instant),
+      format("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%nwithin 2 Millis but difference was PT8765837682367H10M",
+             _2017_Mar_12_07_10_Instant, Instant.MIN),
       format("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%nwithin 50 Hours but difference was 96 Hours",
              _2017_Mar_12_07_10, _2017_Mar_08_07_10),
       format("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%nwithin 3 Days but difference was 15 Days",
@@ -131,6 +138,7 @@ public class AbstractTemporalAssert_isCloseTo_Test {
 
   private static TemporalUnitOffset[] offsets = {
       within(50, HOURS),
+      within(2, MILLIS),
       within(50, HOURS),
       within(3, DAYS),
       within(5, MINUTES),
@@ -139,11 +147,12 @@ public class AbstractTemporalAssert_isCloseTo_Test {
       within(2, MINUTES)
   };
 
-  private static TemporalUnitOffset[] inapplicableOffsets = { null, null, within(1, MINUTES),
+  private static TemporalUnitOffset[] inapplicableOffsets = { null, null, null, within(1, MINUTES),
       within(1, DAYS), null, null, within(1, WEEKS) };
 
   public static Object[][] parameters() {
     DateTimeFormatter[] formatters = {
+        ISO_INSTANT,
         ISO_INSTANT,
         ISO_LOCAL_DATE_TIME,
         ISO_LOCAL_DATE,

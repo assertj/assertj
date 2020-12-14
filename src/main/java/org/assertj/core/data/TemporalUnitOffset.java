@@ -17,6 +17,7 @@ import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
+import java.time.Duration;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalUnit;
 
@@ -52,7 +53,11 @@ public abstract class TemporalUnitOffset implements TemporalOffset<Temporal> {
    */
   @Override
   public String getBeyondOffsetDifferenceDescription(Temporal temporal1, Temporal temporal2) {
-    return format("%s %s but difference was %s %s", value, unit, getDifference(temporal1, temporal2), unit);
+    try {
+      return format("%s %s but difference was %s %s", value, unit, getDifference(temporal1, temporal2), unit);
+    } catch (ArithmeticException e) {
+      return format("%s %s but difference was %s", value, unit, getDuration(temporal1, temporal2));
+    }
   }
 
   /**
@@ -64,6 +69,17 @@ public abstract class TemporalUnitOffset implements TemporalOffset<Temporal> {
    */
   protected long getDifference(Temporal temporal1, Temporal temporal2) {
     return abs(unit.between(temporal1, temporal2));
+  }
+
+  /**
+   * Returns absolute value of the difference as Duration.
+   *
+   * @param temporal1 the first {@link Temporal}
+   * @param temporal2 the second {@link Temporal}
+   * @return absolute value of the difference as Duration.
+   */
+  protected Duration getDuration(Temporal temporal1, Temporal temporal2) {
+    return Duration.between(temporal1, temporal2).abs();
   }
 
   public TemporalUnit getUnit() {
