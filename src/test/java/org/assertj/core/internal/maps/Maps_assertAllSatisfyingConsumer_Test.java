@@ -28,7 +28,7 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 import java.util.Map;
 
-import org.assertj.core.error.ElementsShouldSatisfy.UnsatisfiedRequirement;
+import org.assertj.core.error.UnsatisfiedRequirement;
 import org.assertj.core.internal.MapsBaseTest;
 import org.assertj.core.test.Player;
 import org.junit.jupiter.api.BeforeEach;

@@ -2936,6 +2936,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     return myself;
   }
 
+  @Override
+  public SELF satisfiesExactly(@SuppressWarnings("unchecked") Consumer<? super ELEMENT>... requirements) {
+    iterables.assertSatisfiesExactly(info, newArrayList(actual), requirements);
+    return myself;
+  }
+
   /**
    * Verifies that the actual array contains at least one of the given values.
    * <p>

@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.BiConsumer;
 
-import org.assertj.core.error.ElementsShouldSatisfy;
+import org.assertj.core.error.UnsatisfiedRequirement;
 import org.assertj.core.internal.MapsBaseTest;
 import org.assertj.core.test.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -99,10 +99,10 @@ class Maps_assertAnySatisfyingConsumer_Test extends MapsBaseTest {
                                                                             ($1, $2) -> assertThat(true).isFalse()));
     // THEN
     Iterator<Entry<String, String>> actualEntries = actual.entrySet().iterator();
-    List<ElementsShouldSatisfy.UnsatisfiedRequirement> errors = list(unsatisfiedRequirement(actualEntries.next(),
-                                                                                            format("%nExpecting value to be false but was true")),
-                                                                     unsatisfiedRequirement(actualEntries.next(),
-                                                                                            format("%nExpecting value to be false but was true")));
+    List<UnsatisfiedRequirement> errors = list(unsatisfiedRequirement(actualEntries.next(),
+                                                                      format("%nExpecting value to be false but was true")),
+                                               unsatisfiedRequirement(actualEntries.next(),
+                                                                      format("%nExpecting value to be false but was true")));
     assertThat(error).hasMessage(elementsShouldSatisfyAny(actual, errors, someInfo()).create());
   }
 

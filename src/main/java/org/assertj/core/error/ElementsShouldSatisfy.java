@@ -17,6 +17,8 @@ import static java.util.stream.Collectors.joining;
 import static org.assertj.core.util.Strings.escapePercent;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.assertj.core.api.AssertionInfo;
 
@@ -42,9 +44,36 @@ public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
                                      actual, elementsNotSatisfyingRestrictions, info);
   }
 
+  public static ErrorMessageFactory elementsShouldSatisfyExactly(Object actual,
+                                                                 Map<Integer, UnsatisfiedRequirement> unsatisfiedRequirements,
+                                                                 AssertionInfo info) {
+    return new ElementsShouldSatisfy("%n" +
+                                     "Expecting each element of:%n" +
+                                     "  <%s>%n" +
+                                     "to satisfy the requirements at its index, but these elements did not:%n%n",
+                                     actual, unsatisfiedRequirements, info);
+  }
+
   private ElementsShouldSatisfy(String message, Object actual, List<UnsatisfiedRequirement> elementsNotSatisfyingRequirements,
                                 AssertionInfo info) {
     super(message + describeErrors(elementsNotSatisfyingRequirements, info), actual);
+  }
+
+  private ElementsShouldSatisfy(String message, Object actual, Map<Integer, UnsatisfiedRequirement> unsatisfiedRequirements,
+                                AssertionInfo info) {
+    super(message + describeErrors(unsatisfiedRequirements, info), actual);
+  }
+
+  private static String describeErrors(Map<Integer, UnsatisfiedRequirement> unsatisfiedRequirements, AssertionInfo info) {
+    return escapePercent(unsatisfiedRequirements.entrySet().stream()
+                                                .map(requirementAtIndex -> describe(requirementAtIndex, info))
+                                                .collect(joining(format("%n%n"))));
+  }
+
+  private static String describe(Entry<Integer, UnsatisfiedRequirement> requirementsAtIndex, AssertionInfo info) {
+    int index = requirementsAtIndex.getKey();
+    UnsatisfiedRequirement unsatisfiedRequirement = requirementsAtIndex.getValue();
+    return unsatisfiedRequirement.describe(index, info);
   }
 
   private static String describeErrors(List<UnsatisfiedRequirement> elementsNotSatisfyingRequirements, AssertionInfo info) {
@@ -54,27 +83,7 @@ public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
   }
 
   public static UnsatisfiedRequirement unsatisfiedRequirement(Object elementNotSatisfyingRequirements, String errorMessage) {
-    return new ElementsShouldSatisfy.UnsatisfiedRequirement(elementNotSatisfyingRequirements, errorMessage);
-  }
-
-  public static class UnsatisfiedRequirement {
-
-    private final Object elementNotSatisfyingRequirements;
-    private final String errorMessage;
-
-    public UnsatisfiedRequirement(Object elementNotSatisfyingRequirements, String errorMessage) {
-      this.elementNotSatisfyingRequirements = elementNotSatisfyingRequirements;
-      this.errorMessage = errorMessage;
-    }
-
-    public String describe(AssertionInfo info) {
-      return format("  <%s>%nerror: %s", info.representation().toStringOf(elementNotSatisfyingRequirements), errorMessage);
-    }
-
-    @Override
-    public String toString() {
-      return format("  <%s> %s", elementNotSatisfyingRequirements, errorMessage);
-    }
+    return new UnsatisfiedRequirement(elementNotSatisfyingRequirements, errorMessage);
   }
 
 }

@@ -19,6 +19,7 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.util.AbstractList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.BaseStream;
 import java.util.stream.DoubleStream;
@@ -357,6 +358,12 @@ public class ListAssert<ELEMENT> extends
   @SafeVarargs
   public final AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatMap(Function<? super ELEMENT, ?>... mappers) {
     return super.flatMap(mappers);
+  }
+
+  @Override
+  @SafeVarargs
+  public final ListAssert<ELEMENT> satisfiesExactly(Consumer<? super ELEMENT>... requirements) {
+    return super.satisfiesExactly(requirements);
   }
 
 }
