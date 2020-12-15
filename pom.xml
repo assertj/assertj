@@ -148,7 +148,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>30.0-jre</version>
+      <version>30.1-jre</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -222,6 +222,7 @@
           <trimStackTrace>false</trimStackTrace>
           <excludes>
             <exclude>org/assertj/core/osgi/**</exclude>
+            <exclude>org/assertj/core/internal/objects/Objects_assertHasOnlyFields_Test*</exclude>
           </excludes>
         </configuration>
       </plugin>

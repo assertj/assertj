@@ -14,7 +14,7 @@ package org.assertj.core.error;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a class has a given field/property.
- * 
+ *
  * @author Libor Ondrusek
  */
 public class ShouldHavePropertyOrField extends BasicErrorMessageFactory {
@@ -31,6 +31,7 @@ public class ShouldHavePropertyOrField extends BasicErrorMessageFactory {
   }
 
   private ShouldHavePropertyOrField(Object actual, String name) {
-    super("%nExpecting%n  <%s>%nto have a property or a field named <%s>", actual, name);
+    super("%nExpecting%n  <%s>%nto have a property or a field named <%s>%n(static and synthetic fields are ignored)", actual,
+          name);
   }
 }

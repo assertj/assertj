@@ -34,12 +34,11 @@ public class NioFilesWrapper {
    * Returns the singleton instance of this class.
    * @return the singleton instance of this class.
    */
-  public static NioFilesWrapper instance() {
+  static NioFilesWrapper instance() {
     return INSTANCE;
   }
 
-  @VisibleForTesting
-  NioFilesWrapper() {}
+  private NioFilesWrapper() {}
 
   public boolean isRegularFile(Path path) {
     return Files.isRegularFile(path);
@@ -80,4 +79,9 @@ public class NioFilesWrapper {
   public DirectoryStream<Path> newDirectoryStream(Path path, Predicate<Path> matcher) throws IOException {
     return Files.newDirectoryStream(path, matcher::test);
   }
+
+  public long size(Path path) throws IOException {
+    return Files.size(path);
+  }
+
 }

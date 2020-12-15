@@ -16,16 +16,13 @@ import org.assertj.core.api.Condition;
 import org.assertj.core.api.TestCondition;
 import org.assertj.core.condition.JediCondition;
 import org.assertj.core.condition.JediPowerCondition;
-import org.assertj.core.internal.Conditions;
-import org.assertj.core.internal.ObjectArrays;
 import org.junit.jupiter.api.BeforeEach;
-
 
 /**
  * Base class for testing <code>{@link ObjectArrays}</code> with {@link Conditions}.
  * <p>
  * Is in <code>org.assertj.core.internal</code> package to be able to set {@link ObjectArrays#conditions} appropriately.
- * 
+ *
  * @author Joel Costigliola
  */
 public class ObjectArraysWithConditionBaseTest extends ObjectArraysBaseTest {

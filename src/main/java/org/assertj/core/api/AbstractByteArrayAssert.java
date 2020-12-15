@@ -31,7 +31,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
   @VisibleForTesting
   protected ByteArrays arrays = ByteArrays.instance();
 
-  public AbstractByteArrayAssert(byte[] actual, Class<?> selfType) {
+  protected AbstractByteArrayAssert(byte[] actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

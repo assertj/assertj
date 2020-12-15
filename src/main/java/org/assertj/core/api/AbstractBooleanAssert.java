@@ -39,7 +39,7 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
   @VisibleForTesting
   Booleans booleans = Booleans.instance();
 
-  public AbstractBooleanAssert(Boolean actual, Class<?> selfType) {
+  protected AbstractBooleanAssert(Boolean actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

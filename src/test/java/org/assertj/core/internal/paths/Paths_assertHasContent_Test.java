@@ -38,13 +38,13 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Paths;
 import org.assertj.core.internal.PathsBaseTest;
 import org.assertj.core.util.diff.Delta;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Paths#assertHasContent(AssertionInfo, Path, String, Charset)}</code>.
- * 
+ *
  * @author Olivier Michallat
  * @author Joel Costigliola
  */
@@ -125,7 +125,6 @@ class Paths_assertHasContent_Test extends PathsBaseTest {
 
   @Test
   void should_fail_if_path_does_not_have_expected_text_content() throws IOException {
-    @SuppressWarnings("unchecked")
     List<Delta<String>> diffs = newArrayList((Delta<String>) mock(Delta.class));
     when(diff.diff(path, expected, charset)).thenReturn(diffs);
     when(nioFilesWrapper.exists(path)).thenReturn(true);

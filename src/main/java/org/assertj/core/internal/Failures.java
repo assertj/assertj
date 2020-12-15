@@ -130,7 +130,7 @@ public class Failures {
 
   public AssertionError failure(AssertionInfo info, ErrorMessageFactory messageFactory, Object actual, Object expected) {
     String assertionErrorMessage = assertionErrorMessage(info, messageFactory);
-    AssertionError assertionError = assertionErrorCreator.assertionError(assertionErrorMessage, actual, expected);
+    AssertionError assertionError = assertionErrorCreator.assertionError(assertionErrorMessage, actual, expected, info.representation ());
     removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     printThreadDumpIfNeeded();
     return assertionError;

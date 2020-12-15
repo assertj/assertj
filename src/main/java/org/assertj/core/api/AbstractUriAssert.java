@@ -28,7 +28,7 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
   @VisibleForTesting
   protected Uris uris = Uris.instance();
 
-  public AbstractUriAssert(final URI actual, final Class<?> selfType) {
+  protected AbstractUriAssert(final URI actual, final Class<?> selfType) {
     super(actual, selfType);
   }
 

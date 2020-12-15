@@ -54,7 +54,7 @@ class Paths_assertIsEmptyDirectory_Test extends MockPathsBaseTest {
   @Test
   void should_fail_if_actual_is_not_empty() {
     // GIVEN
-    Path file = mockRegularFile("root", "Test.class");
+    Path file = mockEmptyRegularFile("root", "Test.class");
     List<Path> files = list(file);
     Path actual = mockDirectory("root", files);
     // WHEN

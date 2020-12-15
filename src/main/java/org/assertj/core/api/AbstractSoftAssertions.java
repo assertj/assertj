@@ -26,7 +26,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
 
   protected final SoftProxies proxies;
 
-  public AbstractSoftAssertions() {
+  protected AbstractSoftAssertions() {
     // pass itself as an AssertionErrorCollector instance
     proxies = new SoftProxies(this);
   }

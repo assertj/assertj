@@ -15,6 +15,7 @@ package org.assertj.core.util.diff;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.assertj.core.configuration.ConfigurationProvider;
 
@@ -22,7 +23,7 @@ import org.assertj.core.configuration.ConfigurationProvider;
  * Initially copied from https://code.google.com/p/java-diff-utils/.
  * <p>
  * Describes the delta between original and revised texts.
- * 
+ *
  * @author <a href="dm.naumenko@gmail.com">Dmitry Naumenko</a>
  * @param <T> The type of the compared elements in the 'lines'.
  */
@@ -30,7 +31,7 @@ public abstract class Delta<T> {
 
   public static final String DEFAULT_END = "]";
   public static final String DEFAULT_START = "[";
-  
+
   /** The original chunk. */
   private Chunk<T> original;
 
@@ -52,7 +53,7 @@ public abstract class Delta<T> {
 
   /**
    * Construct the delta for original and revised chunks
-   * 
+   *
    * @param original Chunk describing the original text. Must not be {@code null}.
    * @param revised Chunk describing the revised text. Must not be {@code null}.
    */
@@ -65,7 +66,7 @@ public abstract class Delta<T> {
 
   /**
    * Verifies that this delta can be used to patch the given text.
-   * 
+   *
    * @param target the text to patch.
    * @throws IllegalStateException if the patch cannot be applied.
    */
@@ -73,7 +74,7 @@ public abstract class Delta<T> {
 
   /**
    * Applies this delta as the patch for a given target
-   * 
+   *
    * @param target the given target
    * @throws IllegalStateException if {@link #verify(List)} fails
    */
@@ -101,31 +102,16 @@ public abstract class Delta<T> {
 
   @Override
   public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((original == null) ? 0 : original.hashCode());
-    result = prime * result + ((revised == null) ? 0 : revised.hashCode());
-    return result;
+    return Objects.hash(original, revised);
   }
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    @SuppressWarnings("rawtypes")
-    Delta other = (Delta) obj;
-    if (original == null) {
-      if (other.original != null)
-        return false;
-    } else if (!original.equals(other.original))
-      return false;
-    if (revised == null) {
-      return other.revised == null;
-    } else return revised.equals(other.revised);
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    Delta<?> other = (Delta<?>) obj;
+    return Objects.equals(original, other.original) && Objects.equals(revised, other.revised);
   }
 
   public int lineNumber() {

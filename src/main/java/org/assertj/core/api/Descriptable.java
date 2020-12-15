@@ -12,7 +12,10 @@
  */
 package org.assertj.core.api;
 
+import java.util.function.Supplier;
+
 import org.assertj.core.description.Description;
+import org.assertj.core.description.LazyTextDescription;
 import org.assertj.core.description.TextDescription;
 
 /**
@@ -52,6 +55,38 @@ public interface Descriptable<SELF> {
    */
   default SELF as(String description, Object... args) {
     return describedAs(description, args);
+  }
+
+  /**
+   * Lazily specifies the description of the assertion that is going to be called, the given description is <b>not</b> evaluated
+   * if the assertion succeeds.
+   * <p>
+   * The description must be set <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks
+   * the chained call by throwing an AssertionError.
+   * <p>
+   * Example :
+   * <pre><code class='java'> // set a bad age to Mr Frodo which we all know is 33 years old.
+   * frodo.setAge(50);
+   *
+   * // the lazy test description supplier is <b>not</b> evaluated as the assertion succeeds
+   * assertThat(frodo.getAge()).as(() -&gt; &quot;check Frodo's age&quot;).isEqualTo(50);
+   *
+   * try
+   * {
+   *   // the lazy test description supplier is evaluated as the assertion fails
+   *   assertThat(frodo.getAge()).as(() -&gt; &quot;check Frodo's age&quot;).isEqualTo(33);
+   * }
+   * catch (AssertionError e)
+   * {
+   *   assertThat(e).hasMessage(&quot;[check Frodo's age] expected:&lt;[33]&gt; but was:&lt;[50]&gt;&quot;);
+   * }</code></pre>
+   *
+   * @param descriptionSupplier the description {@link Supplier}.
+   * @return {@code this} object.
+   * @throws IllegalStateException if the descriptionSupplier is {@code null} when evaluated.
+   */
+  default SELF as(final Supplier<String> descriptionSupplier) {
+    return describedAs(new LazyTextDescription(descriptionSupplier));
   }
 
   /**

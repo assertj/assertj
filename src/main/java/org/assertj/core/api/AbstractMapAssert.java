@@ -65,7 +65,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @VisibleForTesting
   Maps maps = Maps.instance();
 
-  public AbstractMapAssert(ACTUAL actual, Class<?> selfType) {
+  protected AbstractMapAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

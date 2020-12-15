@@ -52,7 +52,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
 
   private final boolean isPrimitive;
 
-  public AbstractFloatAssert(Float actual, Class<?> selfType) {
+  protected AbstractFloatAssert(Float actual, Class<?> selfType) {
     super(actual, selfType);
     this.isPrimitive = false;
   }

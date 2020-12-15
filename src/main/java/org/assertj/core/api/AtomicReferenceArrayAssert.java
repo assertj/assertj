@@ -3097,6 +3097,12 @@ public class AtomicReferenceArrayAssert<T>
   }
 
 
+  @Override
+  public AtomicReferenceArrayAssert<T> satisfiesExactly(@SuppressWarnings("unchecked") Consumer<? super T>... requirements) {
+    iterables.assertSatisfiesExactly(info, newArrayList(array), requirements);
+    return myself;
+  }
+
   /**
    * Verifies that the actual AtomicReferenceArray contains at least one of the given values.
    * <p>

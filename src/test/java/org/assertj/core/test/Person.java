@@ -12,9 +12,11 @@
  */
 package org.assertj.core.test;
 
+import java.util.Objects;
+
 /**
  * A person.
- * 
+ *
  * @author Alex Ruiz
  */
 public class Person implements Comparable<Person> {
@@ -30,25 +32,6 @@ public class Person implements Comparable<Person> {
   }
 
   @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((name == null) ? 0 : name.hashCode());
-    return result;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (obj == null) return false;
-    if (getClass() != obj.getClass()) return false;
-    Person other = (Person) obj;
-    if (name == null) {
-      return other.name == null;
-    } else return name.equals(other.name);
-  }
-
-  @Override
   public int compareTo(Person other) {
     return name.compareTo(other.name);
   }
@@ -57,4 +40,19 @@ public class Person implements Comparable<Person> {
   public String toString() {
     return String.format("Person[name='%s']", name);
   }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(name);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    Person other = (Person) obj;
+    return Objects.equals(name, other.name);
+  }
+
 }

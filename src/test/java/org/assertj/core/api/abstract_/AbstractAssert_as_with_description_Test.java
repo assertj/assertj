@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link AbstractAssert#as(Description)}</code>
- * 
+ *
  * @author Alex Ruiz
  */
 class AbstractAssert_as_with_description_Test {
@@ -51,7 +51,8 @@ class AbstractAssert_as_with_description_Test {
 
   @Test
   void should_replace_null_description_by_an_empty_one() {
-    ConcreteAssert concreteAssert = assertions.as(null);
+    String description = null;
+    ConcreteAssert concreteAssert = assertions.as(description);
     assertThat(concreteAssert.info.descriptionText()).isEmpty();
   }
 }

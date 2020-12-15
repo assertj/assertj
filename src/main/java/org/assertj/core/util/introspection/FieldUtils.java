@@ -12,15 +12,15 @@
  */
 package org.assertj.core.util.introspection;
 
+import static java.lang.reflect.Modifier.isStatic;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-
 /**
  * Shameless copy from Apache commons lang and then modified to keep only the interesting stuff for AssertJ.
- * 
+ *
  * Utilities for working with fields by reflection. Adapted and refactored from the dormant [reflect] Commons sandbox
  * component.
  * <p>
@@ -32,7 +32,7 @@ class FieldUtils {
   /**
    * Gets an accessible <code>Field</code> by name breaking scope if requested. Superclasses/interfaces will be
    * considered.
-   * 
+   *
    * @param cls the class to reflect, must not be null
    * @param fieldName the field name to obtain
    * @param forceAccess whether to break scope restrictions using the <code>setAccessible</code> method.
@@ -82,7 +82,7 @@ class FieldUtils {
       try {
         Field test = class1.getField(fieldName);
         checkArgument(match == null, "Reference to field " + fieldName + " is ambiguous relative to " + cls
-              + "; a matching field exists on two or more implemented interfaces.");
+                                     + "; a matching field exists on two or more implemented interfaces.");
         match = test;
       } catch (NoSuchFieldException ex) { // NOPMD
         // ignore
@@ -93,7 +93,7 @@ class FieldUtils {
 
   /**
    * Reads an accessible Field.
-   * 
+   *
    * @param field the field to use
    * @param target the object to call on, may be null for static fields
    * @return the field value
@@ -106,7 +106,7 @@ class FieldUtils {
 
   /**
    * Reads a Field.
-   * 
+   *
    * @param field the field to use
    * @param target the object to call on, may be null for static fields
    * @param forceAccess whether to break scope restrictions using the <code>setAccessible</code> method.
@@ -126,20 +126,25 @@ class FieldUtils {
 
   /**
    * Reads the named field. Superclasses will be considered.
-   * 
+   * <p>
+   * Since 3.19.0 static and synthetic fields are ignored.
+   *
    * @param target the object to reflect, must not be null
    * @param fieldName the field name to obtain
    * @param forceAccess whether to break scope restrictions using the <code>setAccessible</code> method.
    *          <code>False</code> will only match public fields.
    * @return the field value
-   * @throws IllegalArgumentException if the class or field name is null
+   * @throws IllegalArgumentException if the class or field name is null or the field can not be found.
    * @throws IllegalAccessException if the named field is not made accessible
    */
   static Object readField(Object target, String fieldName, boolean forceAccess) throws IllegalAccessException {
     checkArgument(target != null, "target object must not be null");
     Class<?> cls = target.getClass();
     Field field = getField(cls, fieldName, forceAccess);
-    checkArgument(field != null, "Cannot locate field " + fieldName + " on " + cls);
+    checkArgument(field != null, "Cannot locate field %s on %s", fieldName, cls);
+    checkArgument(!isStatic(field.getModifiers()), "Reading static field is not supported and field %s is static on %s",
+                  fieldName, cls);
+    checkArgument(!field.isSynthetic(), "Reading synthetic field is not supported and field %s is", fieldName);
     // already forced access above, don't repeat it here:
     return readField(field, target);
   }

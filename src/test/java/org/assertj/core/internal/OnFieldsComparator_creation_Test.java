@@ -26,42 +26,36 @@ class OnFieldsComparator_creation_Test {
     assertThat(comparator.getFields()).containsExactly("a", "b");
   }
 
-  @SuppressWarnings("unused")
   @Test
   void should_fail_if_no_fields_are_given() {
     assertThatIllegalArgumentException().isThrownBy(() -> new OnFieldsComparator())
                                         .withMessage("No fields/properties specified");
   }
 
-  @SuppressWarnings("unused")
   @Test
   void should_fail_if_null_array_fields_is_given() {
     assertThatIllegalArgumentException().isThrownBy(() -> new OnFieldsComparator((String[]) null))
                                         .withMessage("No fields/properties specified");
   }
 
-  @SuppressWarnings("unused")
   @Test
   void should_fail_if_empty_array_fields_is_given() {
     assertThatIllegalArgumentException().isThrownBy(() -> new OnFieldsComparator(new String[0]))
                                         .withMessage("No fields/properties specified");
   }
 
-  @SuppressWarnings("unused")
   @Test
   void should_fail_if_some_fields_are_null() {
     assertThatIllegalArgumentException().isThrownBy(() -> new OnFieldsComparator("a", null))
                                         .withMessage("Null/blank fields/properties are invalid, fields/properties were [\"a\", null]");
   }
 
-  @SuppressWarnings("unused")
   @Test
   void should_fail_if_some_fields_are_empty() {
     assertThatIllegalArgumentException().isThrownBy(() -> new OnFieldsComparator("a", ""))
                                         .withMessage("Null/blank fields/properties are invalid, fields/properties were [\"a\", \"\"]");
   }
 
-  @SuppressWarnings("unused")
   @Test
   void should_fail_if_some_fields_are_blank() {
     assertThatIllegalArgumentException().isThrownBy(() -> new OnFieldsComparator("a", " "))

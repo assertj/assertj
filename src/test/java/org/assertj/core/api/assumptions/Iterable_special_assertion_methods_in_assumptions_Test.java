@@ -235,7 +235,12 @@ class Iterable_special_assertion_methods_in_assumptions_Test extends BaseAssumpt
                                       value -> assumeThat(value).startsWith(2, 3)),
                      assumptionRunner(iterable(1, 2, 3),
                                       value -> assumeThat(value).endsWith(2, 3),
-                                      value -> assumeThat(value).endsWith(2, 4)));
+                                      value -> assumeThat(value).endsWith(2, 4)),
+                     assumptionRunner(iterable(1, 2),
+                                      value -> assumeThat(value).satisfiesExactly(i -> assertThat(i).isOdd(),
+                                                                                  i -> assertThat(i).isEven()),
+                                      value -> assumeThat(value).satisfiesExactly(i -> assertThat(i).isOdd(),
+                                                                                  i -> assertThat(i).isOdd())));
   }
 
 }

@@ -35,7 +35,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
   @VisibleForTesting
   InputStreams inputStreams = InputStreams.instance();
 
-  public AbstractInputStreamAssert(ACTUAL actual, Class<?> selfType) {
+  protected AbstractInputStreamAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

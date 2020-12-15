@@ -1172,9 +1172,13 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .as("map with multiple functions")
           .contains(tuple("John", "Doe"))
           .contains(tuple("Frodo", "Baggins"));
+    softly.then(names)
+          .as("satisfiesExactly")
+          .satisfiesExactly(name -> assertThat(name).isNull(),
+                            name -> assertThat(name).isNotNull());
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(40);
+    assertThat(errorsCollected).hasSize(41);
     assertThat(errorsCollected.get(0)).hasMessageContaining("gandalf");
     assertThat(errorsCollected.get(1)).hasMessageContaining("frodo");
     assertThat(errorsCollected.get(2)).hasMessageContaining("foo")
@@ -1216,6 +1220,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(37)).hasMessageContaining("map with ThrowingExtractor");
     assertThat(errorsCollected.get(38)).hasMessageContaining("map with function");
     assertThat(errorsCollected.get(39)).hasMessageContaining("map with multiple functions");
+    assertThat(errorsCollected.get(40)).hasMessageContaining("satisfiesExactly");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
@@ -1364,9 +1369,13 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .as("map with multiple functions")
           .contains(tuple("John", "Doe"))
           .contains(tuple("Frodo", "Baggins"));
+    softly.then(names)
+          .as("satisfiesExactly")
+          .satisfiesExactly(name -> assertThat(name).isNull(),
+                            name -> assertThat(name).isNotNull());
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(40);
+    assertThat(errorsCollected).hasSize(41);
     assertThat(errorsCollected.get(0)).hasMessageContaining("gandalf");
     assertThat(errorsCollected.get(1)).hasMessageContaining("frodo");
     assertThat(errorsCollected.get(2)).hasMessageContaining("foo")
@@ -1408,6 +1417,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(37)).hasMessageContaining("using map with ThrowingExtractor");
     assertThat(errorsCollected.get(38)).hasMessageContaining("map with function");
     assertThat(errorsCollected.get(39)).hasMessageContaining("map with multiple functions");
+    assertThat(errorsCollected.get(40)).hasMessageContaining("satisfiesExactly");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught

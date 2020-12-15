@@ -15,13 +15,14 @@ package org.assertj.core.test;
 import static java.util.Comparator.comparing;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 /**
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
 public class Name {
-  
+
   public static final Comparator<Name> lastNameComparator = comparing(Name::getLast);
 
   // intentionally public to test field retrieval
@@ -60,9 +61,9 @@ public class Name {
   public void setLast(String last) {
     this.last = last;
   }
-  
+
   // property without field in order to test field/property combinations
-  public String getName(){
+  public String getName() {
     return String.format("%s %s", getFirst(), getLast());
   }
 
@@ -73,11 +74,7 @@ public class Name {
 
   @Override
   public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((first == null) ? 0 : first.hashCode());
-    result = prime * result + ((last == null) ? 0 : last.hashCode());
-    return result;
+    return Objects.hash(first, last);
   }
 
   @Override
@@ -86,11 +83,7 @@ public class Name {
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
     Name other = (Name) obj;
-    if (first == null) {
-      if (other.first != null) return false;
-    } else if (!first.equals(other.first)) return false;
-    if (last == null) {
-      return other.last == null;
-    } else return last.equals(other.last);
+    return Objects.equals(first, other.first) && Objects.equals(last, other.last);
   }
+
 }

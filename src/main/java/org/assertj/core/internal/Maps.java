@@ -63,8 +63,8 @@ import java.util.function.Consumer;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
-import org.assertj.core.error.ElementsShouldSatisfy.UnsatisfiedRequirement;
 import org.assertj.core.error.ShouldContainAnyOf;
+import org.assertj.core.error.UnsatisfiedRequirement;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -125,8 +125,8 @@ public class Maps {
     requireNonNull(entryRequirements, "The BiConsumer<K, V> expressing the assertions requirements must not be null");
     assertNotNull(info, actual);
 
-    List<UnsatisfiedRequirement> unsatisfiedRequirements =  new ArrayList<>();
-    for (Map.Entry<K,V> entry : actual.entrySet()) {
+    List<UnsatisfiedRequirement> unsatisfiedRequirements = new ArrayList<>();
+    for (Map.Entry<K, V> entry : actual.entrySet()) {
       Optional<UnsatisfiedRequirement> result = failsRequirements(entryRequirements, entry);
       if (!result.isPresent()) return; // entry satisfied the requirements
       unsatisfiedRequirements.add(result.get());
@@ -135,7 +135,7 @@ public class Maps {
     throw failures.failure(info, elementsShouldSatisfyAny(actual, unsatisfiedRequirements, info));
   }
 
-  public <K, V> void assertNoneSatisfy(AssertionInfo info, Map<K, V> actual, BiConsumer<? super K,? super V> entryRequirements) {
+  public <K, V> void assertNoneSatisfy(AssertionInfo info, Map<K, V> actual, BiConsumer<? super K, ? super V> entryRequirements) {
     requireNonNull(entryRequirements, "The BiConsumer<K, V> expressing the assertions requirements must not be null");
     assertNotNull(info, actual);
 
@@ -148,7 +148,8 @@ public class Maps {
     if (erroneousEntries.size() > 0) throw failures.failure(info, noElementsShouldSatisfy(actual, erroneousEntries));
   }
 
-  private <V, K> Optional<Map.Entry<K, V>> failsRestrictions(Map.Entry<K,V> entry, BiConsumer<? super K,? super V> entryRequirements) {
+  private <V, K> Optional<Map.Entry<K, V>> failsRestrictions(Map.Entry<K, V> entry,
+                                                             BiConsumer<? super K, ? super V> entryRequirements) {
     try {
       entryRequirements.accept(entry.getKey(), entry.getValue());
     } catch (AssertionError e) {

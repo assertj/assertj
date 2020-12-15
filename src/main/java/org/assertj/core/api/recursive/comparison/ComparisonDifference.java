@@ -23,6 +23,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.assertj.core.configuration.ConfigurationProvider;
+import org.assertj.core.internal.UnambiguousRepresentation;
 import org.assertj.core.presentation.Representation;
 
 public class ComparisonDifference implements Comparable<ComparisonDifference> {
@@ -94,24 +95,13 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
   }
 
   public String multiLineDescription(Representation representation) {
-
-    String actualRepresentation = representation.toStringOf(actual);
-    String expectedRepresentation = representation.toStringOf(expected);
-
-    boolean sameRepresentation = Objects.equals(actualRepresentation, expectedRepresentation);
-    String unambiguousActualRepresentation = sameRepresentation
-        ? representation.unambiguousToStringOf(actual)
-        : actualRepresentation;
-    String unambiguousExpectedRepresentation = sameRepresentation
-        ? representation.unambiguousToStringOf(expected)
-        : expectedRepresentation;
-
+    UnambiguousRepresentation unambiguousRepresentation = new UnambiguousRepresentation(representation, actual, expected);
     String additionalInfo = additionalInformation.map(ComparisonDifference::formatOnNewline)
                                                  .orElse("");
     return format(TEMPLATE,
                   fieldPathDescription(),
-                  unambiguousActualRepresentation,
-                  unambiguousExpectedRepresentation,
+                  unambiguousRepresentation.getActual(),
+                  unambiguousRepresentation.getExpected(),
                   additionalInfo);
   }
 

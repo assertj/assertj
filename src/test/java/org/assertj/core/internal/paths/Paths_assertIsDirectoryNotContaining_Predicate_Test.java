@@ -57,7 +57,7 @@ class Paths_assertIsDirectoryNotContaining_Predicate_Test extends MockPathsBaseT
   @Test
   void should_pass_if_actual_does_not_contain_files_matching_the_given_filter() {
     // GIVEN
-    Path file = mockRegularFile("root", "Test.class");
+    Path file = mockEmptyRegularFile("root", "Test.class");
     List<Path> items = list(file);
     Path actual = mockDirectory("root", items);
     // THEN
@@ -130,7 +130,7 @@ class Paths_assertIsDirectoryNotContaining_Predicate_Test extends MockPathsBaseT
   @Test
   void should_fail_if_one_actual_file_matches_the_filter() {
     // GIVEN
-    Path file = mockRegularFile("Test.java");
+    Path file = mockEmptyRegularFile("Test.java");
     List<Path> items = list(file);
     Path actual = mockDirectory("root", items);
     // WHEN
@@ -142,8 +142,8 @@ class Paths_assertIsDirectoryNotContaining_Predicate_Test extends MockPathsBaseT
   @Test
   void should_fail_if_all_actual_files_match_the_filter() {
     // GIVEN
-    Path file1 = mockRegularFile("Test.java");
-    Path file2 = mockRegularFile("Utils.java");
+    Path file1 = mockEmptyRegularFile("Test.java");
+    Path file2 = mockEmptyRegularFile("Utils.java");
     List<Path> items = list(file1, file2);
     Path actual = mockDirectory("root", items);
     // WHEN
@@ -155,11 +155,11 @@ class Paths_assertIsDirectoryNotContaining_Predicate_Test extends MockPathsBaseT
   @Test
   void should_fail_if_some_actual_files_match_the_filter() {
     // GIVEN
-    Path file1 = mockRegularFile("Test.class");
-    Path file2 = mockRegularFile("Test.java");
-    Path file3 = mockRegularFile("Utils.class");
-    Path file4 = mockRegularFile("Utils.java");
-    Path file5 = mockRegularFile("application.yml");
+    Path file1 = mockEmptyRegularFile("Test.class");
+    Path file2 = mockEmptyRegularFile("Test.java");
+    Path file3 = mockEmptyRegularFile("Utils.class");
+    Path file4 = mockEmptyRegularFile("Utils.java");
+    Path file5 = mockEmptyRegularFile("application.yml");
     List<Path> items = list(file1, file2, file3, file4, file5);
     Path actual = mockDirectory("root", items);
     // WHEN

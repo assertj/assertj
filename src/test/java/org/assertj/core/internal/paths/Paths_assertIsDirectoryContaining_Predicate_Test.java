@@ -57,7 +57,7 @@ class Paths_assertIsDirectoryContaining_Predicate_Test extends MockPathsBaseTest
   @Test
   void should_pass_if_actual_contains_a_file_matching_the_given_predicate() {
     // GIVEN
-    Path file = mockRegularFile("Test.java");
+    Path file = mockEmptyRegularFile("Test.java");
     Path actual = mockDirectory("root", list(file));
     // THEN
     paths.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE);
@@ -66,8 +66,8 @@ class Paths_assertIsDirectoryContaining_Predicate_Test extends MockPathsBaseTest
   @Test
   void should_pass_if_all_actual_files_match_the_given_predicate() {
     // GIVEN
-    Path file1 = mockRegularFile("Test.java");
-    Path file2 = mockRegularFile("Utils.java");
+    Path file1 = mockEmptyRegularFile("Test.java");
+    Path file2 = mockEmptyRegularFile("Utils.java");
     Path actual = mockDirectory("root", list(file1, file2));
     // THEN
     paths.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE);
@@ -76,11 +76,11 @@ class Paths_assertIsDirectoryContaining_Predicate_Test extends MockPathsBaseTest
   @Test
   void should_pass_if_actual_contains_at_least_one_file_matching_the_given_predicate() {
     // GIVEN
-    Path file1 = mockRegularFile("Test.class");
-    Path file2 = mockRegularFile("Test.java");
-    Path file3 = mockRegularFile("Utils.class");
-    Path file4 = mockRegularFile("Utils.java");
-    Path file5 = mockRegularFile("application.yml");
+    Path file1 = mockEmptyRegularFile("Test.class");
+    Path file2 = mockEmptyRegularFile("Test.java");
+    Path file3 = mockEmptyRegularFile("Utils.class");
+    Path file4 = mockEmptyRegularFile("Utils.java");
+    Path file5 = mockEmptyRegularFile("application.yml");
     Path actual = mockDirectory("root", list(file1, file2, file3, file4, file5));
     // THEN
     paths.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE);
@@ -154,7 +154,7 @@ class Paths_assertIsDirectoryContaining_Predicate_Test extends MockPathsBaseTest
   @Test
   void should_fail_if_actual_does_not_contain_any_files_matching_the_given_predicate() {
     // GIVEN
-    Path file = mockRegularFile("root", "Test.class");
+    Path file = mockEmptyRegularFile("root", "Test.class");
     List<Path> files = list(file);
     Path actual = mockDirectory("root", files);
     // WHEN
