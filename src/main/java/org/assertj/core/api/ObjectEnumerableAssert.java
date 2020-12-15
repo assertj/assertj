@@ -1311,10 +1311,48 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @return {@code this} to chain assertions.
    * @throws NullPointerException if given requirements is null.
    * @throws AssertionError if any element does not satisfy the requirements at the same index
-   * @throws AssertionError if there is not as many requirements as there are iterable elements.
+   * @throws AssertionError if there are not as many requirements as there are iterable elements.
    * @since 3.19.0
    */
   SELF satisfiesExactly(@SuppressWarnings("unchecked") Consumer<? super ELEMENT>... allRequirements);
+
+  /**
+   * Verifies that the actual iterable has the same size as the given consumers and 
+   * that at least one permutation of elements in the iterable exists that satisfies 
+   * the individual consumers in order.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>
+   * List&lt;String&gt; starWarsCharacterNames = list("Luke", "Leia", "Yoda");
+   *
+   * // this assertion succeeds:
+   * assertThat(starWarsCharacterNames).satisfiesExactlyInAnyOrder(
+   *     name --&gt; assertThat(name).contains("Y"), // matches "Yoda"
+   *     name --&gt; assertThat(name).contains("L"), // matches "Luke" and "Leia"
+   *     name --&gt; {
+   *       assertThat(name).hasSize(4);
+   *       assertThat(name).doesNotContain("a"); // matches "Luke", thus 2nd consumer can only match "Leia"
+   *     });
+   *
+   * // these assertions fail:
+   * assertThat(starWarsCharacterNames).satisfiesExactlyInAnyOrder(
+   *     name --&gt; assertThat(name).doesNotContain("Y"), 
+   *     name --&gt; assertThat(name).doesNotContain("L"));
+   *
+   * assertThat(starWarsCharacterNames).satisfiesExactlyInAnyOrder(
+   *     name --&gt; assertThat(name).contains("L"), 
+   *     name --&gt; assertThat(name).contains("L"), 
+   *     name --&gt; assertThat(name).contains("L"));</code></pre>
+   *
+   * @param allRequirements the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
+   * @return this assertion object.
+   * @throws NullPointerException if the given consumers array or any consumer is {@code null}.
+   * @throws AssertionError if there is no permutation of elements that satisfies the individual consumers in order
+   * @throws AssertionError if there are not as many requirements as there are iterable elements.
+   *
+   * @since 3.19.0
+   */
+  SELF satisfiesExactlyInAnyOrder(@SuppressWarnings("unchecked") Consumer<? super ELEMENT>... allRequirements);
 
   /**
    * Verifies whether any elements match the provided {@link Predicate}.

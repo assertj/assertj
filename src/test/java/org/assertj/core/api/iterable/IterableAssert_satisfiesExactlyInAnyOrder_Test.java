@@ -10,40 +10,39 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
-package org.assertj.core.api.objectarray;
+package org.assertj.core.api.iterable;
 
-import static org.assertj.core.test.ObjectArrays.arrayOf;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import java.util.function.Consumer;
 
-import org.assertj.core.api.ObjectArrayAssert;
-import org.assertj.core.api.ObjectArrayAssertBaseTest;
+import org.assertj.core.api.ConcreteIterableAssert;
+import org.assertj.core.api.IterableAssertBaseTest;
 
 /**
- * Tests for <code>{@link ObjectArrayAssert#satisfyExactlyInAnyOrder(Consumer...)}</code>.
+ * Tests for <code>{@link org.assertj.core.api.AbstractIterableAssert#satisfiesExactlyInAnyOrder(Consumer...)}</code>.
  * 
  * @author Michael Grafl
  */
-class ObjectArrayAssert_satisfyExactlyInAnyOrder_Test extends ObjectArrayAssertBaseTest {
+class IterableAssert_satisfiesExactlyInAnyOrder_Test extends IterableAssertBaseTest {
 
   @SuppressWarnings("unchecked")
   private Consumer<Object> consumer = mock(Consumer.class);
-  
+
   @Override
-  protected ObjectArrayAssert<Object> create_assertions() {
-    return new ObjectArrayAssert<>(arrayOf(new Object()));
+  protected ConcreteIterableAssert<Object> create_assertions() {
+    return new ConcreteIterableAssert<>(list(new Object()));
   }
 
   @Override
-  protected ObjectArrayAssert<Object> invoke_api_method() {
-    return assertions.satisfyExactlyInAnyOrder(consumer);
+  protected ConcreteIterableAssert<Object> invoke_api_method() {
+    return assertions.satisfiesExactlyInAnyOrder(consumer);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertSatisfyExactlyInAnyOrder(getInfo(assertions), list(getActual(assertions)), consumer);
+    verify(iterables).assertSatisfiesExactlyInAnyOrder(getInfo(assertions), getActual(assertions), consumer);
   }
 }

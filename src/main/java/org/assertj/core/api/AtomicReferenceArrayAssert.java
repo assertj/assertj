@@ -3056,50 +3056,15 @@ public class AtomicReferenceArrayAssert<T>
     return myself;
   }
   
-  /**
-   * Verifies that the actual {@code AtomicReferenceArray} has the same size as the given consumers and 
-   * that at least one permutation of elements in the {@code AtomicReferenceArray} exists that satisfies 
-   * the individual consumers in order.
-   * <p>
-   * Examples:
-   * <pre><code class='java'>
-   * AtomicReferenceArray&lt;String&gt; starWarsCharacterNames = new AtomicReferenceArray&lt;&gt;(new String[]{"Luke", "Leia", "Yoda"});
-   *
-   * // this assertion succeeds:
-   * assertThat(starWarsCharacterNames ).satisfy(
-   *     name --&gt; assertThat(name).contains("Y"), // matches "Yoda"
-   *     name --&gt; assertThat(name).contains("L"), // matches "Luke" and "Leia"
-   *     name --&gt; {
-   *       assertThat(name).hasSize(4);
-   *       assertThat(name).doesNotContain("a"); // matches "Luke", thus 1st consumer can only match "Leia"
-   *     });
-   *
-   * // these assertions fail:
-   * assertThat(starWarsCharacterNames ).satisfy(
-   *     name --&gt; assertThat(name).doesNotContain("Y"), 
-   *     name --&gt; assertThat(name).doesNotContain("L"));
-   *
-   * assertThat(starWarsCharacterNames ).satisfy(
-   *     name --&gt; assertThat(name).contains("L"), 
-   *     name --&gt; assertThat(name).contains("L"), 
-   *     name --&gt; assertThat(name).contains("L"));</code></pre>
-   *
-   * @param consumers the consumers that are expected to be satisfied by the elements of the given {@code AtomicReferenceArray}.
-   * @return this assertion object.
-   * @throws NullPointerException if the given consumers array or any consumer is {@code null}.
-   *
-   * @since 3.19.0
-   */
-  @SafeVarargs
-  public final AtomicReferenceArrayAssert<T> satisfyExactlyInAnyOrder(Consumer<? super T>... consumers) {
-    iterables.assertSatisfyExactlyInAnyOrder(info, newArrayList(array), consumers);
-    return myself;
-  }
-
 
   @Override
   public AtomicReferenceArrayAssert<T> satisfiesExactly(@SuppressWarnings("unchecked") Consumer<? super T>... requirements) {
     iterables.assertSatisfiesExactly(info, newArrayList(array), requirements);
+    return myself;
+  }
+
+  public AtomicReferenceArrayAssert<T> satisfiesExactlyInAnyOrder(@SuppressWarnings("unchecked") Consumer<? super T>... consumers) {
+    iterables.assertSatisfiesExactlyInAnyOrder(info, newArrayList(array), consumers);
     return myself;
   }
 

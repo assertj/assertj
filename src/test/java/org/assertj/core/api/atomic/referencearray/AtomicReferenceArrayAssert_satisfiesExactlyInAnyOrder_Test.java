@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2020 the original author or authors.
  */
-package org.assertj.core.api.iterable;
+package org.assertj.core.api.atomic.referencearray;
 
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.mock;
@@ -18,31 +18,31 @@ import static org.mockito.Mockito.verify;
 
 import java.util.function.Consumer;
 
-import org.assertj.core.api.ConcreteIterableAssert;
-import org.assertj.core.api.IterableAssertBaseTest;
+import org.assertj.core.api.AtomicReferenceArrayAssert;
+import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 
 /**
- * Tests for <code>{@link org.assertj.core.api.AbstractIterableAssert#satisfyExactlyInAnyOrder(Consumer...)}</code>.
- * 
+ * Tests for <code>{@link AtomicReferenceArrayAssert#satisfiesExactlyInAnyOrder(Consumer...)}</code>.
+ *
  * @author Michael Grafl
  */
-class IterableAssert_satisfyExactlyInAnyOrder_Test extends IterableAssertBaseTest {
+class AtomicReferenceArrayAssert_satisfiesExactlyInAnyOrder_Test extends AtomicReferenceArrayAssertBaseTest {
 
   @SuppressWarnings("unchecked")
   private Consumer<Object> consumer = mock(Consumer.class);
 
   @Override
-  protected ConcreteIterableAssert<Object> create_assertions() {
-    return new ConcreteIterableAssert<>(list(new Object()));
+  protected AtomicReferenceArrayAssert<Object> create_assertions() {
+    return new AtomicReferenceArrayAssert<>(atomicArrayOf(new Object()));
   }
 
   @Override
-  protected ConcreteIterableAssert<Object> invoke_api_method() {
-    return assertions.satisfyExactlyInAnyOrder(consumer);
+  protected AtomicReferenceArrayAssert<Object> invoke_api_method() {
+    return assertions.satisfiesExactlyInAnyOrder(consumer);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertSatisfyExactlyInAnyOrder(getInfo(assertions), getActual(assertions), consumer);
+    verify(iterables).assertSatisfiesExactlyInAnyOrder(info(), list(internalArray()), consumer);
   }
 }

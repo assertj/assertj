@@ -3311,45 +3311,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /**
-   * Verifies that the actual iterable has the same size as the given consumers and 
-   * that at least one permutation of elements in the iterable exists that satisfies 
-   * the individual consumers in order.
-   * <p>
-   * Examples:
-   * <pre><code class='java'>
-   * List&lt;String&gt; starWarsCharacterNames = newArrayList("Luke", "Leia", "Yoda");
-   *
-   * // this assertion succeeds:
-   * assertThat(starWarsCharacterNames ).satisfy(
-   *     name --&gt; assertThat(name).contains("Y"), // matches "Yoda"
-   *     name --&gt; assertThat(name).contains("L"), // matches "Luke" and "Leia"
-   *     name --&gt; {
-   *       assertThat(name).hasSize(4);
-   *       assertThat(name).doesNotContain("a"); // matches "Luke", thus 1st consumer can only match "Leia"
-   *     });
-   *
-   * // these assertions fail:
-   * assertThat(starWarsCharacterNames ).satisfy(
-   *     name --&gt; assertThat(name).doesNotContain("Y"), 
-   *     name --&gt; assertThat(name).doesNotContain("L"));
-   *
-   * assertThat(starWarsCharacterNames ).satisfy(
-   *     name --&gt; assertThat(name).contains("L"), 
-   *     name --&gt; assertThat(name).contains("L"), 
-   *     name --&gt; assertThat(name).contains("L"));</code></pre>
-   *
-   * @param consumers the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
-   * @return this assertion object.
-   * @throws NullPointerException if the given consumers array or any consumer is {@code null}.
-   *
-   * @since 3.19.0
-   */
-  @SafeVarargs
-  public final SELF satisfyExactlyInAnyOrder(Consumer<? super ELEMENT>... consumers) {
-    iterables.assertSatisfyExactlyInAnyOrder(info, actual, consumers);
-    return myself;
-  }
 
   @Override
   public SELF anyMatch(Predicate<? super ELEMENT> predicate) {
@@ -3412,6 +3373,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @Override
   public SELF satisfiesExactly(@SuppressWarnings("unchecked") Consumer<? super ELEMENT>... requirements) {
     iterables.assertSatisfiesExactly(info, actual, requirements);
+    return myself;
+  }
+  
+  @Override
+  public SELF satisfiesExactlyInAnyOrder(@SuppressWarnings("unchecked") Consumer<? super ELEMENT>... requirements) {
+    iterables.assertSatisfiesExactlyInAnyOrder(info, actual, requirements);
     return myself;
   }
 

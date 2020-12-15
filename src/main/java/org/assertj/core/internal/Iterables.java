@@ -1149,36 +1149,6 @@ public class Iterables {
       throw failures.failure(info, elementsShouldSatisfy(actual, unsatisfiedRequirements, info));
   }
 
-  /**
-   * Verifies that the actual iterable has the same size as the given consumers and 
-   * that at least one permutation of elements in the iterable exists that satisfies 
-   * the individual consumers in order.
-   *
-   * @param info contains information about the assertion.
-   * @param actual the given {@code Iterable}.
-   * @param consumers the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
-   * @throws NullPointerException if the given consumers array or any consumer is {@code null}.
-   * @throws AssertionError if the given {@code Iterable} is {@code null}.
-   * @throws AssertionError if the given {@code Iterable} and consumers don't have the same size.
-   * @throws AssertionError if any {@code Consumer} in the consumers cannot be satisfied by elements in the given {@code Iterable}.
-   */
-  @SafeVarargs
-  public final <E> void assertSatisfyExactlyInAnyOrder(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E>... consumers) {
-    assertNotNull(info, actual);
-    requireNonNull(consumers, "The Consumer<? super E>... expressing the assertions consumers must not be null");
-    for (Consumer<? super E> consumer : consumers)
-      requireNonNull(consumer, "The element in consumers must not be null");
-
-    checkSizes(actual, sizeOf(actual), consumers.length, info);
-
-    List<E>[] satisfiedElementsLists = stream(consumers)
-                                                        .map(listFilteredBySatisfiedElements(actual))
-                                                        .<List<E>> toArray(List[]::new);
-
-    if (!isSatisfied(satisfiedElementsLists, 0))
-      throw failures.failure(info, shouldSatisfy(actual));
-  }
-
   private <E> Function<? super Consumer<? super E>, List<E>> listFilteredBySatisfiedElements(Iterable<? extends E> actual) {
     return consumer -> stream(actual).filter(byPassingAssertions(consumer)).collect(toList());
   }
@@ -1215,7 +1185,7 @@ public class Iterables {
     return Optional.empty();
   }
 
-  public <E> void assertSatisfiesExactly(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E>... allRequirements) {
+  public <E> void assertSatisfiesExactly(AssertionInfo info, Iterable<? extends E> actual, @SuppressWarnings("unchecked") Consumer<? super E>... allRequirements) {
     assertNotNull(info, actual);
     assertHasSameSizeAs(info, actual, allRequirements); // TODO
     List<E> actualAsList = newArrayList(actual);
@@ -1230,6 +1200,37 @@ public class Iterables {
       throw failures.failure(info, elementsShouldSatisfyExactly(actual, unsatisfiedRequirements, info));
 
   }
+  
+  /**
+   * Verifies that the actual iterable has the same size as the given consumers and 
+   * that at least one permutation of elements in the iterable exists that satisfies 
+   * the individual consumers in order.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param consumers the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
+   * @throws NullPointerException if the given consumers array or any consumer is {@code null}.
+   * @throws AssertionError if the given {@code Iterable} is {@code null}.
+   * @throws AssertionError if the given {@code Iterable} and consumers don't have the same size.
+   * @throws AssertionError if any {@code Consumer} in the consumers cannot be satisfied by elements in the given {@code Iterable}.
+   */
+  public <E> void assertSatisfiesExactlyInAnyOrder(AssertionInfo info, Iterable<? extends E> actual, @SuppressWarnings("unchecked") Consumer<? super E>... consumers) {
+    assertNotNull(info, actual);
+    requireNonNull(consumers, "The Consumer<? super E>... expressing the assertions consumers must not be null");
+    for (Consumer<? super E> consumer : consumers)
+      requireNonNull(consumer, "The element in consumers must not be null");
+
+    checkSizes(actual, sizeOf(actual), consumers.length, info);
+
+    List<E>[] satisfiedElementsLists = stream(consumers)
+                                                        .map(listFilteredBySatisfiedElements(actual))
+                                                        .<List<E>> toArray(List[]::new);
+
+    if (!isSatisfied(satisfiedElementsLists, 0))
+      throw failures.failure(info, shouldSatisfy(actual));
+  }
+
+
 
   public <ACTUAL_ELEMENT, OTHER_ELEMENT> void assertZipSatisfy(AssertionInfo info,
                                                                Iterable<? extends ACTUAL_ELEMENT> actual,
