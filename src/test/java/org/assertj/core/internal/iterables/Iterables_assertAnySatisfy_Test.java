@@ -33,7 +33,7 @@ import static org.mockito.Mockito.verify;
 import java.util.List;
 import java.util.function.Consumer;
 
-import org.assertj.core.error.ElementsShouldSatisfy;
+import org.assertj.core.error.UnsatisfiedRequirement;
 import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.Test;
 
@@ -84,7 +84,7 @@ class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
     }));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    List<ElementsShouldSatisfy.UnsatisfiedRequirement> errors = list(unsatisfiedRequirement("Luke", format("%n" +
+    List<UnsatisfiedRequirement> errors = list(unsatisfiedRequirement("Luke", format("%n" +
                                                                                                            "Expecting:%n" +
                                                                                                            " <\"Luke\">%n" +
                                                                                                            "to contain:%n" +
@@ -113,7 +113,7 @@ class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
     Throwable error = catchThrowable(() -> iterables.assertAnySatisfy(someInfo(), actual, $ -> assertThat(true).isTrue()));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    List<ElementsShouldSatisfy.UnsatisfiedRequirement> errors = emptyList();
+    List<UnsatisfiedRequirement> errors = emptyList();
     verify(failures).failure(info, elementsShouldSatisfyAny(actual, errors, someInfo()));
   }
 

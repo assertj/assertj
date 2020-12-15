@@ -32,8 +32,7 @@ class Strings_assertIsEqualToNormalizingNewlines_Test extends StringsBaseTest {
 
   @Test
   void should_pass_if_both_strings_are_equals_after_normalizing_newline() {
-    strings.assertIsEqualToNormalizingNewlines(someInfo(), "Lord of the Rings\r\nis cool",
-                                               "Lord of the Rings\nis cool");
+    strings.assertIsEqualToNormalizingNewlines(someInfo(), "Lord of the Rings\r\nis cool", "Lord of the Rings\nis cool");
     strings.assertIsEqualToNormalizingNewlines(someInfo(), "Lord of the Rings\nis cool", "Lord of the Rings\nis cool");
   }
 
@@ -53,7 +52,8 @@ class Strings_assertIsEqualToNormalizingNewlines_Test extends StringsBaseTest {
     Throwable error = catchThrowable(() -> strings.assertIsEqualToNormalizingNewlines(someInfo(), actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(someInfo(), shouldBeEqualIgnoringNewLineDifferences(actual, expected), actual, expected);
+    verify(failures).failure(someInfo(), shouldBeEqualIgnoringNewLineDifferences(actual, expected),
+                             "Lord of the Rings\n\nis cool", expected);
   }
 
 }

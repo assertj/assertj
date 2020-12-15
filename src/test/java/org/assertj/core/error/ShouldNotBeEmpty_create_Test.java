@@ -18,13 +18,17 @@ import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
+import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.Representation;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link ShouldNotBeEmpty#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
+ * Tests for <code>{@link ShouldNotBeEmpty#create(Description, Representation)}</code>.
  *
  * @author Alex Ruiz
  * @author Yvonne Wang
@@ -35,9 +39,9 @@ class ShouldNotBeEmpty_create_Test {
   @Test
   void should_create_error_message() {
     // GIVEN
-    ErrorMessageFactory errorMessageFactory = shouldNotBeEmpty();
+    ErrorMessageFactory underTest = shouldNotBeEmpty();
     // WHEN
-    String message = errorMessageFactory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
+    String message = underTest.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %nExpecting actual not to be empty"));
   }
@@ -46,10 +50,22 @@ class ShouldNotBeEmpty_create_Test {
   void should_create_specific_error_message_for_File() {
     // GIVEN
     File file = new File("/test.txt");
-    ErrorMessageFactory errorMessageFactory = shouldNotBeEmpty(file);
+    ErrorMessageFactory underTest = shouldNotBeEmpty(file);
     // WHEN
-    String message = errorMessageFactory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
+    String message = underTest.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting file <%s> not to be empty", file.getAbsolutePath()));
+    then(message).isEqualTo("[Test] %nExpecting file <%s> not to be empty", file.getAbsolutePath());
   }
+
+  @Test
+  void should_create_specific_error_message_for_Path() {
+    // GIVEN
+    Path path = Paths.get("/test.txt");
+    ErrorMessageFactory underTest = shouldNotBeEmpty(path);
+    // WHEN
+    String message = underTest.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting path <%s> not to be empty", path));
+  }
+
 }

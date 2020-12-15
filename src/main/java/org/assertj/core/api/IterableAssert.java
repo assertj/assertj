@@ -16,6 +16,7 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.assertj.core.api.iterable.ThrowingExtractor;
@@ -165,6 +166,12 @@ public class IterableAssert<ELEMENT> extends
   @SafeVarargs
   public final AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> map(Function<? super ELEMENT, ?>... mappers) {
     return super.extracting(mappers);
+  }
+
+  @Override
+  @SafeVarargs
+  public final IterableAssert<ELEMENT> satisfiesExactly(Consumer<? super ELEMENT>... requirements) {
+    return super.satisfiesExactly(requirements);
   }
 
 }

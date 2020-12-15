@@ -24,11 +24,11 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link BigDecimal}s.
- * 
+ *
  * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
- * 
+ *
  * @author Drummond Dawson
  * @author David DIDIER
  * @author Ted M. Young
@@ -43,7 +43,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
   @VisibleForTesting
   BigDecimals bigDecimals = BigDecimals.instance();
 
-  public AbstractBigDecimalAssert(BigDecimal actual, Class<?> selfType) {
+  protected AbstractBigDecimalAssert(BigDecimal actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -53,10 +53,10 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(BigDecimal.ZERO).isZero();
-   * 
+   *
    * // assertion will fail
    * assertThat(new BigDecimal(&quot;8.00&quot;)).isZero();</code></pre>
-   * 
+   *
    */
   @Override
   public SELF isZero() {
@@ -70,10 +70,10 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new BigDecimal(&quot;8.00&quot;)).isNotZero();
-   * 
+   *
    * // assertion will fail
    * assertThat(BigDecimal.ZERO).isNotZero();</code></pre>
-   * 
+   *
    */
   @Override
   public SELF isNotZero() {
@@ -104,10 +104,10 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isPositive();
-   * 
+   *
    * // assertion will fail
    * assertThat(new BigDecimal(&quot;-8.0&quot;)).isPositive();</code></pre>
-   * 
+   *
    */
   @Override
   public SELF isPositive() {
@@ -121,10 +121,10 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new BigDecimal(&quot;-8.0&quot;)).isNegative();
-   * 
+   *
    * // assertion will fail
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isNegative();</code></pre>
-   * 
+   *
    */
   @Override
   public SELF isNegative() {
@@ -138,10 +138,10 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new BigDecimal(&quot;-8.0&quot;)).isNotPositive();
-   * 
+   *
    * // assertion will fail
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isNotPositive();</code></pre>
-   * 
+   *
    */
   @Override
   public SELF isNotPositive() {
@@ -155,10 +155,10 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isNotNegative();
-   * 
+   *
    * // assertion will fail
    * assertThat(new BigDecimal(&quot;-8.0&quot;)).isNotNegative();</code></pre>
-   * 
+   *
    */
   @Override
   public SELF isNotNegative() {
@@ -177,10 +177,10 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isBetween(new BigDecimal(&quot;7.0&quot;), new BigDecimal(&quot;8.0&quot;));
    * // comparison is performed without scale consideration:
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isBetween(new BigDecimal(&quot;8.0&quot;), new BigDecimal(&quot;8.00&quot;));
-   * 
+   *
    * // assertion will fail
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isBetween(new BigDecimal(&quot;6.0&quot;), new BigDecimal(&quot;7.0&quot;));</code></pre>
-   * 
+   *
    * Note that comparison of {@link BigDecimal} is done by value without scale consideration, i.e 2.0 and 2.00 are
    * considered equal in value unlike {@link BigDecimal#equals(Object)}.
    */
@@ -197,11 +197,11 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isStrictlyBetween(new BigDecimal(&quot;7.0&quot;), new BigDecimal(&quot;9.0&quot;));
-   * 
+   *
    * // assertions will fail
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isStrictlyBetween(new BigDecimal(&quot;8.0&quot;), new BigDecimal(&quot;9.0&quot;));
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isStrictlyBetween(new BigDecimal(&quot;7.0&quot;), new BigDecimal(&quot;8.0&quot;));</code></pre>
-   * 
+   *
    */
   @Override
   public SELF isStrictlyBetween(BigDecimal start, BigDecimal end) {
@@ -216,10 +216,10 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isEqualTo(&quot;8.0&quot;);
-   * 
+   *
    * // assertion will fail because 8.00 is not equals to 8.0
    * assertThat(new BigDecimal(&quot;8.00&quot;)).isEqualTo(&quot;8.0&quot;);</code></pre>
-   * 
+   *
    * @param expected the given number to compare the actual value to.
    * @return {@code this} assertion object.
    */
@@ -236,7 +236,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isEqualByComparingTo(&quot;8.0&quot;);
    * // assertion will pass because 8.0 is equals to 8.00 using {@link BigDecimal#compareTo(Object)}
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isEqualByComparingTo(&quot;8.00&quot;);
-   * 
+   *
    * // assertion will fail
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isEqualByComparingTo(&quot;2.0&quot;);</code></pre>
    * @param expected the expected {@link BigDecimal} passed as a String
@@ -286,28 +286,28 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
   /**
    * Verifies that the actual number is close to the given one within the given offset value.
    * <p>
-   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * When <i>abs(actual - expected) == offset value</i>, the assertion:
    * <ul>
    * <li><b>succeeds</b> when using {@link Assertions#within(BigDecimal)} or {@link Offset#offset(Number)}</li>
    * <li><b>fails</b> when using {@link Assertions#byLessThan(BigDecimal)} or {@link Offset#strictOffset(Number)}</li>
    * </ul>
    * <p>
-   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(BigDecimal)} implies a <b>strict</b> comparison, 
-   * use {@link Assertions#within(BigDecimal)} to get the old behavior. 
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(BigDecimal)} implies a <b>strict</b> comparison,
+   * use {@link Assertions#within(BigDecimal)} to get the old behavior.
    * <p>
    * Examples:
    * <pre><code class='java'> final BigDecimal eightDotOne = new BigDecimal("8.1");
    * final BigDecimal eight =  new BigDecimal("8.0");
-   * 
+   *
    * // assertions succeed
    * assertThat(eightDotOne).isCloseTo(eight, within(new BigDecimal("0.2")));
    * assertThat(eightDotOne).isCloseTo(eight, byLessThan(new BigDecimal("0.2"))); // strict
    *
-   * // assertions succeed when the difference == offset value ...  
+   * // assertions succeed when the difference == offset value ...
    * assertThat(eightDotOne).isCloseTo(eight, within(new BigDecimal("0.1")));
    * // ... except when using byLessThan which implies a strict comparison
    * assertThat(eightDotOne).isCloseTo(eight, byLessThan(new BigDecimal("0.1"))); // strict =&gt; fail
-   * 
+   *
    * // this assertion also fails
    * assertThat(eightDotOne).isCloseTo(eight, within(new BigDecimal("0.001")));</code></pre>
    *
@@ -327,24 +327,24 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
   /**
    * Verifies that the actual number is not close to the given one by less than the given offset.<br>
    * <p>
-   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * When <i>abs(actual - expected) == offset value</i>, the assertion:
    * <ul>
    * <li><b>succeeds</b> when using {@link Assertions#byLessThan(BigDecimal)} or {@link Offset#strictOffset(Number)}</li>
    * <li><b>fails</b> when using {@link Assertions#within(BigDecimal)} or {@link Offset#offset(Number)}</li>
    * </ul>
    * <p>
-   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(BigDecimal)} implies a <b>strict</b> comparison, 
-   * use {@link Assertions#within(BigDecimal)} to get the old behavior. 
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(BigDecimal)} implies a <b>strict</b> comparison,
+   * use {@link Assertions#within(BigDecimal)} to get the old behavior.
    * <p>
    * Example:
    * <pre><code class='java'> final BigDecimal eightDotOne = new BigDecimal("8.1");
    * final BigDecimal eight =  new BigDecimal("8.0");
-   * 
+   *
    * // assertions succeed
    * assertThat(eightDotOne).isNotCloseTo(eight, byLessThan(new BigDecimal("0.01")));
    * assertThat(eightDotOne).isNotCloseTo(eight, within(new BigDecimal("0.01")));
    * // diff == offset but isNotCloseTo succeeds as we use byLessThan
-   * assertThat(eightDotOne).isNotCloseTo(eight, byLessThan(new BigDecimal("0.1")));   
+   * assertThat(eightDotOne).isNotCloseTo(eight, byLessThan(new BigDecimal("0.1")));
    *
    * // assertions fail
    * assertThat(eightDotOne).isNotCloseTo(eight, within(new BigDecimal("0.1")));
@@ -399,11 +399,11 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * <p>
    * Example with BigDecimal:
    * <pre><code class='java'> BigDecimal eleven = BigDecimal.valueOf(11.0);
-   *  
+   *
    * // assertion will pass:
    * assertThat(eleven).isNotCloseTo(BigDecimal.TEN, withinPercentage(new BigDecimal("5")));
    *
-   * // assertion will fail as the difference is exactly equals to the computed offset (1.0) 
+   * // assertion will fail as the difference is exactly equals to the computed offset (1.0)
    * assertThat(eleven).isNotCloseTo(BigDecimal.TEN, withinPercentage(new BigDecimal("10")));
    *
    * // assertion will fail
@@ -431,13 +431,13 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * assertThat(BigDecimal.ONE).isLessThanOrEqualTo(BigDecimal.ONE);
    * // comparison is performed without scale consideration:
    * assertThat(BigDecimal.ONE).isLessThanOrEqualTo(new BigDecimal("1.00"));
-   * 
+   *
    * // assertions will fail
    * assertThat(BigDecimal.ONE).isLessThanOrEqualTo(BigDecimal.ZERO);</code></pre>
-   * 
+   *
    * Note that comparison of {@link BigDecimal} is done by value without scale consideration, i.e 2.0 and 2.00 are
    * considered equal in value unlike {@link BigDecimal#equals(Object)}.
-   * 
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -457,13 +457,13 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * assertThat(BigDecimal.ONE).isGreaterThanOrEqualTo(BigDecimal.ONE);
    * // comparison is performed without scale consideration:
    * assertThat(BigDecimal.ONE).isGreaterThanOrEqualTo(new BigDecimal("1.00"));
-   * 
+   *
    * // assertions will fail
    * assertThat(BigDecimal.ZERO).isGreaterThanOrEqualTo(BigDecimal.ONE);</code></pre>
-   * 
+   *
    * Note that comparison of {@link BigDecimal} is done by value without scale consideration, i.e 2.0 and 2.00 are
    * considered equal in value unlike {@link BigDecimal#equals(Object)}.
-   * 
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.

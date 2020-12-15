@@ -16,6 +16,7 @@ import static org.assertj.core.util.Arrays.array;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.assertj.core.groups.Tuple;
@@ -25,9 +26,9 @@ import org.assertj.core.groups.Tuple;
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Object[])}</code>.
  * </p>
- * 
+ *
  * @param <ELEMENT> the type of elements of the "actual" value.
- * 
+ *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -131,6 +132,12 @@ public class ObjectArrayAssert<ELEMENT> extends AbstractObjectArrayAssert<Object
   @SafeVarargs
   public final ObjectArrayAssert<ELEMENT> endsWith(ELEMENT first, ELEMENT... rest) {
     return super.endsWith(first, rest);
+  }
+
+  @Override
+  @SafeVarargs
+  public final ObjectArrayAssert<ELEMENT> satisfiesExactly(Consumer<? super ELEMENT>... requirements) {
+    return super.satisfiesExactly(requirements);
   }
 
 }

@@ -26,7 +26,7 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
   @VisibleForTesting
   protected ShortArrays arrays = ShortArrays.instance();
 
-  public AbstractShortArrayAssert(short[] actual, Class<?> selfType) {
+  protected AbstractShortArrayAssert(short[] actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

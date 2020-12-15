@@ -44,7 +44,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   @VisibleForTesting
   Throwables throwables = Throwables.instance();
 
-  public AbstractThrowableAssert(ACTUAL actual, Class<?> selfType) {
+  protected AbstractThrowableAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -175,7 +175,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    *
    * @since 3.16.0
    */
-  public AbstractThrowableAssert<?,?> getCause() {
+  public AbstractThrowableAssert<?, ?> getCause() {
     throwables.assertHasCause(info, actual);
     return new ThrowableAssert(actual.getCause());
   }
@@ -198,7 +198,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    *
    * @since 3.16.0
    */
-  public AbstractThrowableAssert<?,?> getRootCause() {
+  public AbstractThrowableAssert<?, ?> getRootCause() {
     throwables.assertHasRootCause(info, actual);
     return new ThrowableAssert(org.assertj.core.util.Throwables.getRootCause(actual));
   }

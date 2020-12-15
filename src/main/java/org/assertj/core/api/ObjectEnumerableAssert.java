@@ -1275,6 +1275,48 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   SELF allSatisfy(Consumer<? super ELEMENT> requirements);
 
   /**
+   * Verifies that each element satisfies the requirements corresponding to its index, so the first element must satisfy the
+   * first requirements, the second element the second requirements etc...
+   * <p>
+   * Each requirements is expressed as a {@link Consumer}, there must be as many requirements as there are iterable elements.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Iterable&lt;TolkienCharater&gt; characters = list(frodo, aragorn, legolas);
+   *
+   * // assertions succeed
+   * assertThat(characters).satisfiesExactly(character -&gt; assertThat(character.getRace()).isEqualTo("Hobbit"),
+   *                                         character -&gt; assertThat(character.isMortal()).isTrue(),
+   *                                         character -&gt; assertThat(character.getName()).isEqualTo("Legolas"));
+   *
+   * // you can specify more that one assertion per requirements
+   * assertThat(characters).satisfiesExactly(character -&gt; {
+   *                                            assertThat(character.getRace()).isEqualTo("Hobbit");
+   *                                            assertThat(character.getName()).isEqualTo("Frodo");
+   *                                         },
+   *                                         character -&gt; {
+   *                                            assertThat(character.isMortal()).isTrue();
+   *                                            assertThat(character.getName()).isEqualTo("Aragorn");
+   *                                         },
+   *                                         character -&gt; {
+   *                                            assertThat(character.getRace()).isEqualTo("Elf");
+   *                                            assertThat(character.getName()).isEqualTo("Legolas");
+   *                                         });
+   *
+   * // assertion fails as aragorn does not meet the second requirements
+   * assertThat(characters).satisfiesExactly(character -&gt; assertThat(character.getRace()).isEqualTo("Hobbit"),
+   *                                         character -&gt; assertThat(character.isMortal()).isFalse(),
+   *                                         character -&gt; assertThat(character.getName()).isEqualTo("Legolas"));</code></pre>
+   *
+   * @param allRequirements the requirements to meet.
+   * @return {@code this} to chain assertions.
+   * @throws NullPointerException if given requirements is null.
+   * @throws AssertionError if any element does not satisfy the requirements at the same index
+   * @throws AssertionError if there is not as many requirements as there are iterable elements.
+   * @since 3.19.0
+   */
+  SELF satisfiesExactly(@SuppressWarnings("unchecked") Consumer<? super ELEMENT>... allRequirements);
+
+  /**
    * Verifies whether any elements match the provided {@link Predicate}.
    * <p>
    * Example :

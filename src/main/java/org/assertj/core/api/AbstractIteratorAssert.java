@@ -40,7 +40,7 @@ public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert
    * @param actual the actual value to verify
    * @param selfType the "self type"
    */
-  public AbstractIteratorAssert(Iterator<? extends ELEMENT> actual, Class<?> selfType) {
+  protected AbstractIteratorAssert(Iterator<? extends ELEMENT> actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -49,7 +49,7 @@ public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert
    *
    * Example:
    * <pre><code class='java'> Iterator&lt;TolkienCharacter&gt; elvesRingBearers = list(galadriel, elrond, gandalf).iterator();
-   * 
+   *
    * assertThat(elvesRingBearers).hasNext();</code></pre>
    *
    * @throws AssertionError if the actual {@code Iterator} is {@code null} or does not have another element.
@@ -66,7 +66,7 @@ public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert
    *
    * Example:
    * <pre><code class='java'> Iterator&lt;String&gt; result = Collections.emptyList().iterator();
-   * 
+   *
    * assertThat(result).isExhausted();</code></pre>
    *
    * @throws AssertionError if the actual {@code Iterator} is {@code null} or has another element.
@@ -83,7 +83,7 @@ public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert
    * using any Iterable assertions like {@link IterableAssert#contains(Object[])}.</p>
    * Example:
    * <pre><code class='java'> Iterator&lt;String&gt; bestBasketBallPlayers = getBestBasketBallPlayers();
-   * 
+   *
    * assertThat(bestBasketBallPlayers).toIterable().contains("Jordan", "Magic", "Lebron");</code></pre>
    *
    * @return the new {@link IterableAssert}.

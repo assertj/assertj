@@ -103,7 +103,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new TreeMap<>();
   TypeComparators comparatorsForElementPropertyOrFieldTypes;
 
-  public AbstractObjectArrayAssert(ELEMENT[] actual, Class<?> selfType) {
+  protected AbstractObjectArrayAssert(ELEMENT[] actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -2933,6 +2933,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   public SELF noneSatisfy(Consumer<? super ELEMENT> restrictions) {
     iterables.assertNoneSatisfy(info, newArrayList(actual), restrictions);
+    return myself;
+  }
+
+  @Override
+  public SELF satisfiesExactly(@SuppressWarnings("unchecked") Consumer<? super ELEMENT>... requirements) {
+    iterables.assertSatisfiesExactly(info, newArrayList(actual), requirements);
     return myself;
   }
 

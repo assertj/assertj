@@ -26,7 +26,7 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
   @VisibleForTesting
   protected BooleanArrays arrays = BooleanArrays.instance();
 
-  public AbstractBooleanArrayAssert(boolean[] actual, Class<?> selfType) {
+  protected AbstractBooleanArrayAssert(boolean[] actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

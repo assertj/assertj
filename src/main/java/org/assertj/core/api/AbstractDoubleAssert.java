@@ -53,7 +53,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
 
   private final boolean isPrimitive;
 
-  public AbstractDoubleAssert(Double actual, Class<?> selfType) {
+  protected AbstractDoubleAssert(Double actual, Class<?> selfType) {
     super(actual, selfType);
     this.isPrimitive = false;
   }

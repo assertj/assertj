@@ -18,10 +18,11 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link Objects#areEqual(Object, Object)}.
- * 
+ *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
+@SuppressWarnings("deprecation")
 class Objects_areEqual_Test {
 
   @Test

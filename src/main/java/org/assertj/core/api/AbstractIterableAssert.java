@@ -116,7 +116,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   protected Iterables iterables = Iterables.instance();
 
-  public AbstractIterableAssert(ACTUAL actual, Class<?> selfType) {
+  protected AbstractIterableAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -3366,6 +3366,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @Override
   public SELF noneSatisfy(Consumer<? super ELEMENT> restrictions) {
     iterables.assertNoneSatisfy(info, actual, restrictions);
+    return myself;
+  }
+
+  @Override
+  public SELF satisfiesExactly(@SuppressWarnings("unchecked") Consumer<? super ELEMENT>... requirements) {
+    iterables.assertSatisfiesExactly(info, actual, requirements);
     return myself;
   }
 

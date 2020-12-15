@@ -12,14 +12,14 @@
  */
 package org.assertj.core.description;
 
-import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
-import static org.assertj.core.util.Objects.areEqual;
-import static org.assertj.core.util.Objects.hashCodeFor;
+import static java.util.Arrays.deepEquals;
+import static java.util.Objects.deepEquals;
 import static org.assertj.core.util.Strings.formatIfArgs;
+
+import java.util.Objects;
 
 import org.assertj.core.util.Arrays;
 import org.assertj.core.util.VisibleForTesting;
-
 
 /**
  * A text-based description.
@@ -53,7 +53,7 @@ public class TextDescription extends Description {
 
   @Override
   public int hashCode() {
-    return HASH_CODE_PRIME + hashCodeFor(value) + hashCodeFor(args);
+    return Objects.hash(value, args);
   }
 
   @Override
@@ -62,6 +62,6 @@ public class TextDescription extends Description {
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
     TextDescription other = (TextDescription) obj;
-    return areEqual(value, other.value) && areEqual(args, other.args);
+    return deepEquals(value, other.value) && deepEquals(args, other.args);
   }
 }

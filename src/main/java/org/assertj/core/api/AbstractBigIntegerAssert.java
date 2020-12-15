@@ -33,7 +33,7 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
   @VisibleForTesting
   BigIntegers bigIntegers = BigIntegers.instance();
 
-  public AbstractBigIntegerAssert(BigInteger actual, Class<?> selfType) {
+  protected AbstractBigIntegerAssert(BigInteger actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -57,7 +57,7 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
   }
 
   /**
-   * Verifies that the actual value is not equal to zero. 
+   * Verifies that the actual value is not equal to zero.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -76,7 +76,7 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
   }
 
   /**
-   * Verifies that the actual value is equal to one. 
+   * Verifies that the actual value is equal to one.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -95,7 +95,7 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
   }
 
   /**
-   * Verifies that the actual value is positive. 
+   * Verifies that the actual value is positive.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -114,7 +114,7 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
   }
 
   /**
-   * Verifies that the actual value is negative. 
+   * Verifies that the actual value is negative.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -133,7 +133,7 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
   }
 
   /**
-   * Verifies that the actual value is non negative (positive or equal zero). 
+   * Verifies that the actual value is non negative (positive or equal zero).
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -152,7 +152,7 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
   }
 
   /**
-   * Verifies that the actual value is non positive (negative or equal zero). 
+   * Verifies that the actual value is non positive (negative or equal zero).
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -173,17 +173,17 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
   /**
    * Verifies that the actual number is close to the given one within the given offset.<br>
    * <p>
-   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * When <i>abs(actual - expected) == offset value</i>, the assertion:
    * <ul>
    * <li><b>succeeds</b> when using {@link Assertions#within(BigInteger)}</li>
    * <li><b>fails</b> when using {@link Assertions#byLessThan(BigInteger)} or {@link Offset#strictOffset(Number)}</li>
    * </ul>
-   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(BigInteger)} implies a <b>strict</b> comparison, 
-   * use {@link Assertions#within(BigInteger)} to get the old behavior. 
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(BigInteger)} implies a <b>strict</b> comparison,
+   * use {@link Assertions#within(BigInteger)} to get the old behavior.
    * <p>
    * Example:
    * <pre><code class='java'> import static org.assertj.core.api.Assertions.within;
-   *  
+   *
    * final BigInteger eight = new BigInteger("8");
    * final BigInteger ten =  BigInteger.TEN;
    *
@@ -218,18 +218,18 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
   /**
    * Verifies that the actual number is not close to the given one by less than the given offset.<br>
    * <p>
-   * When <i>abs(actual - expected) == offset value</i>, the assertion: 
+   * When <i>abs(actual - expected) == offset value</i>, the assertion:
    * <ul>
    * <li><b>succeeds</b> when using {@link Assertions#byLessThan(BigInteger)} or {@link Offset#strictOffset(Number)}</li>
    * <li><b>fails</b> when using {@link Assertions#within(BigInteger)}</li>
    * </ul>
    * <p>
-   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(BigInteger)} implies a <b>strict</b> comparison, 
-   * use {@link Assertions#within(BigInteger)} to get the old behavior. 
+   * <b>Breaking change</b> since 2.9.0/3.9.0: using {@link Assertions#byLessThan(BigInteger)} implies a <b>strict</b> comparison,
+   * use {@link Assertions#within(BigInteger)} to get the old behavior.
    * <p>
    * Examples:
    * <pre><code class='java'> import static org.assertj.core.api.Assertions.byLessThan;
-   *  
+   *
    * final BigInteger eight = new BigInteger("8");
    * final BigInteger ten =  BigInteger.TEN;
    *
@@ -267,8 +267,8 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    * If difference is equal to the percentage value, assertion is considered valid.
    * <p>
    * Example with BigInteger:
-   * <pre><code class='java'> import static org.assertj.core.api.Assertions.withinPercentage; 
-   * 
+   * <pre><code class='java'> import static org.assertj.core.api.Assertions.withinPercentage;
+   *
    * // assertions will pass:
    * assertThat(new BigInteger("11")).isCloseTo(BigInteger.TEN, withinPercentage(20));
    *
@@ -298,8 +298,8 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    * If difference is equal to the percentage value, the assertion fails.
    * <p>
    * Example with BigInteger:
-   * <pre><code class='java'> import static org.assertj.core.api.Assertions.withinPercentage; 
-   * 
+   * <pre><code class='java'> import static org.assertj.core.api.Assertions.withinPercentage;
+   *
    * BigInteger eleven = new BigInteger("11");
    *
    * // assertion will pass:

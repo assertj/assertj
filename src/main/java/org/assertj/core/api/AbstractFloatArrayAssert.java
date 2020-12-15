@@ -27,7 +27,7 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
   @VisibleForTesting
   protected FloatArrays arrays = FloatArrays.instance();
 
-  public AbstractFloatArrayAssert(float[] actual, Class<?> selfType) {
+  protected AbstractFloatArrayAssert(float[] actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

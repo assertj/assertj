@@ -283,7 +283,6 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
 
   @Test
   void toString_with_anonymous_comparator() {
-    @SuppressWarnings("unused")
     Comparator<String> anonymousComparator = new Comparator<String>() {
       @Override
       public int compare(String s1, String s2) {
@@ -295,7 +294,6 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
 
   @Test
   void toString_with_anonymous_comparator_overriding_toString() {
-    @SuppressWarnings("unused")
     Comparator<String> anonymousComparator = new Comparator<String>() {
       @Override
       public int compare(String s1, String s2) {

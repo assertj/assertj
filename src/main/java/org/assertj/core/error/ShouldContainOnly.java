@@ -12,9 +12,9 @@
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.error.GroupTypeDescription.getGroupTypeDescription;
 import static org.assertj.core.error.ShouldContainOnly.ErrorType.NOT_EXPECTED_ONLY;
 import static org.assertj.core.error.ShouldContainOnly.ErrorType.NOT_FOUND_ONLY;
-import static org.assertj.core.error.GroupTypeDescription.getGroupTypeDescription;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 
 import org.assertj.core.internal.ComparisonStrategy;
@@ -24,7 +24,7 @@ import org.assertj.core.internal.StandardComparisonStrategy;
  * Creates an error message indicating that an assertion that verifies a group of elements contains only a given set of
  * values and
  * nothing else failed. A group of elements can be a collection, an array or a {@code String}.
- * 
+ *
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author Joel Costigliola
@@ -33,7 +33,7 @@ public class ShouldContainOnly extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link ShouldContainOnly}</code>.
-   * 
+   *
    * @param actual the actual value in the failed assertion.
    * @param expected values expected to be contained in {@code actual}.
    * @param notFound values in {@code expected} not found in {@code actual}.
@@ -44,6 +44,18 @@ public class ShouldContainOnly extends BasicErrorMessageFactory {
   public static ErrorMessageFactory shouldContainOnly(Object actual, Object expected, Iterable<?> notFound,
                                                       Iterable<?> notExpected, ComparisonStrategy comparisonStrategy) {
     GroupTypeDescription groupTypeDescription = getGroupTypeDescription(actual);
+    return shouldContainOnly(actual, expected, notFound, notExpected, comparisonStrategy, groupTypeDescription);
+  }
+
+  public static ErrorMessageFactory shouldContainOnly(Object actual, Object expected, Iterable<?> notFound,
+                                                      Iterable<?> notExpected, GroupTypeDescription groupTypeDescription) {
+    return shouldContainOnly(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance(),
+                             groupTypeDescription);
+  }
+
+  private static ErrorMessageFactory shouldContainOnly(Object actual, Object expected, Iterable<?> notFound,
+                                                       Iterable<?> notExpected, ComparisonStrategy comparisonStrategy,
+                                                       GroupTypeDescription groupTypeDescription) {
     if (isNullOrEmpty(notExpected))
       return new ShouldContainOnly(actual, expected, notFound, NOT_FOUND_ONLY, comparisonStrategy, groupTypeDescription);
     if (isNullOrEmpty(notFound))
@@ -53,7 +65,7 @@ public class ShouldContainOnly extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link ShouldContainOnly}</code>.
-   * 
+   *
    * @param actual the actual value in the failed assertion.
    * @param expected values expected to be contained in {@code actual}.
    * @param notFound values in {@code expected} not found in {@code actual}.

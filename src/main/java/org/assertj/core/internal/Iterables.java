@@ -32,6 +32,7 @@ import static org.assertj.core.error.ElementsShouldNotBe.elementsShouldNotBe;
 import static org.assertj.core.error.ElementsShouldNotHave.elementsShouldNotHave;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfy;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfyAny;
+import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfyExactly;
 import static org.assertj.core.error.NoElementsShouldMatch.noElementsShouldMatch;
 import static org.assertj.core.error.NoElementsShouldSatisfy.noElementsShouldSatisfy;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
@@ -82,10 +83,12 @@ import static org.assertj.core.util.Streams.stream;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
@@ -94,7 +97,7 @@ import java.util.function.Predicate;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
-import org.assertj.core.error.ElementsShouldSatisfy.UnsatisfiedRequirement;
+import org.assertj.core.error.UnsatisfiedRequirement;
 import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.VisibleForTesting;
@@ -1151,6 +1154,22 @@ public class Iterables {
       return Optional.of(new UnsatisfiedRequirement(element, ex.getMessage()));
     }
     return Optional.empty();
+  }
+
+  public <E> void assertSatisfiesExactly(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E>... allRequirements) {
+    assertNotNull(info, actual);
+    assertHasSameSizeAs(info, actual, allRequirements); // TODO
+    List<E> actualAsList = newArrayList(actual);
+    Map<Integer, UnsatisfiedRequirement> unsatisfiedRequirements = new HashMap<>();
+    for (int i = 0; i < allRequirements.length; i++) {
+      final int index = i;
+      E elementAtIndex = actualAsList.get(index);
+      Consumer<? super E> requirementsAtIndex = allRequirements[index];
+      failsRequirements(requirementsAtIndex, elementAtIndex).ifPresent(req -> unsatisfiedRequirements.put(index, req));
+    }
+    if (!unsatisfiedRequirements.isEmpty())
+      throw failures.failure(info, elementsShouldSatisfyExactly(actual, unsatisfiedRequirements, info));
+
   }
 
   public <ACTUAL_ELEMENT, OTHER_ELEMENT> void assertZipSatisfy(AssertionInfo info,

@@ -12,19 +12,15 @@
  */
 package org.assertj.core.internal;
 
-
 import static org.mockito.Mockito.spy;
 
-import org.assertj.core.internal.Booleans;
-import org.assertj.core.internal.Failures;
 import org.junit.jupiter.api.BeforeEach;
-
 
 /**
  * Base class for testing <code>{@link Booleans}</code>.
  * <p>
  * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Booleans#failures} appropriately.
- * 
+ *
  * @author Joel Costigliola
  */
 public class BooleansBaseTest {

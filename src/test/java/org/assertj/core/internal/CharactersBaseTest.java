@@ -12,23 +12,18 @@
  */
 package org.assertj.core.internal;
 
-
 import static org.mockito.Mockito.spy;
 
-import org.assertj.core.internal.Characters;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.util.CaseInsensitiveCharacterComparator;
 import org.junit.jupiter.api.BeforeEach;
-
 
 /**
  * Base class for Characters unit tests
  * <p>
  * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Characters#failures} appropriately.
- * 
+ *
  * @author Joel Costigliola
- * 
+ *
  */
 public class CharactersBaseTest {
 

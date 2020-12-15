@@ -26,8 +26,12 @@ import org.assertj.core.util.CheckReturnValue;
  * @author Joel Costigliola
  */
 public abstract class AbstractEnumerableAssert<SELF extends AbstractEnumerableAssert<SELF, ACTUAL, ELEMENT>, ACTUAL, ELEMENT>
-  extends AbstractAssert<SELF, ACTUAL>
-  implements EnumerableAssert<AbstractEnumerableAssert<SELF, ACTUAL, ELEMENT>, ELEMENT> {
+    extends AbstractAssert<SELF, ACTUAL>
+    implements EnumerableAssert<AbstractEnumerableAssert<SELF, ACTUAL, ELEMENT>, ELEMENT> {
+
+  protected AbstractEnumerableAssert(final ACTUAL actual, final Class<?> selfType) {
+    super(actual, selfType);
+  }
 
   /**
    * {@inheritDoc}
@@ -47,10 +51,6 @@ public abstract class AbstractEnumerableAssert<SELF extends AbstractEnumerableAs
     assertIsArray(info, other);
     new Arrays().assertHasSameSizeAs(info, actual, other);
     return myself;
-  }
-
-  public AbstractEnumerableAssert(final ACTUAL actual, final Class<?> selfType) {
-    super(actual, selfType);
   }
 
   /**

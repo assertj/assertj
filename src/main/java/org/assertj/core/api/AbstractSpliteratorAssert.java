@@ -31,7 +31,7 @@ public class AbstractSpliteratorAssert<SELF extends AbstractSpliteratorAssert<SE
   @VisibleForTesting
   Spliterators spliterators = Spliterators.instance();
 
-  public AbstractSpliteratorAssert(Spliterator<ELEMENT> actual, Class<?> selfType) {
+  protected AbstractSpliteratorAssert(Spliterator<ELEMENT> actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

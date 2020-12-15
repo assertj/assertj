@@ -21,6 +21,7 @@ import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
 import static org.assertj.core.error.ShouldBeCanonicalPath.shouldBeCanonicalPath;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
+import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEmptyDirectory.shouldBeEmptyDirectory;
 import static org.assertj.core.error.ShouldBeExecutable.shouldBeExecutable;
 import static org.assertj.core.error.ShouldBeNormalized.shouldBeNormalized;
@@ -89,7 +90,7 @@ public class Paths {
   @VisibleForTesting
   Failures failures = Failures.instance();
 
-  private NioFilesWrapper nioFilesWrapper;
+  private final NioFilesWrapper nioFilesWrapper;
 
   public static Paths instance() {
     return INSTANCE;
@@ -494,6 +495,24 @@ public class Paths {
 
   private static void assertExpectedEndPathIsNotNull(final Path end) {
     requireNonNull(end, "the expected end path should not be null");
+  }
+
+  public void assertIsEmptyFile(AssertionInfo info, Path actual) {
+    assertIsRegularFile(info, actual);
+    try {
+      if (nioFilesWrapper.size(actual) > 0) throw failures.failure(info, shouldBeEmpty(actual));
+    } catch (IOException e) {
+      throw new PathsException(FAILED_TO_RESOLVE_ACTUAL_REAL_PATH, e);
+    }
+  }
+
+  public void assertIsNotEmptyFile(AssertionInfo info, Path actual) {
+    assertIsRegularFile(info, actual);
+    try {
+      if (nioFilesWrapper.size(actual) == 0) throw failures.failure(info, shouldNotBeEmpty(actual));
+    } catch (IOException e) {
+      throw new PathsException(FAILED_TO_RESOLVE_ACTUAL_REAL_PATH, e);
+    }
   }
 
 }

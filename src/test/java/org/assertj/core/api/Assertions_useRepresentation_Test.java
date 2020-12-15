@@ -17,13 +17,12 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.fail;
 
 import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.util.Introspection_getProperty_Test.Example;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 class Assertions_useRepresentation_Test {
 
-  private CustomRepresentation customRepresentation = new CustomRepresentation();
+  private final CustomRepresentation customRepresentation = new CustomRepresentation();
 
   @AfterEach
   public void afterTest() {
@@ -31,14 +30,14 @@ class Assertions_useRepresentation_Test {
   }
 
   @Test
-  public void should_use_given_representation_in_assertion_error_messages() {
+  void should_use_given_representation_in_assertion_error_messages() {
     Assertions.useRepresentation(customRepresentation);
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat("foo").startsWith("bar"))
                                                    .withMessageContaining("$foo$").withMessageContaining("$bar$");
   }
 
   @Test
-  public void should_use_default_representation_in_assertion_error_messages_after_calling_useDefaultRepresentation() {
+  void should_use_default_representation_in_assertion_error_messages_after_calling_useDefaultRepresentation() {
     Assertions.useRepresentation(customRepresentation);
     Assertions.useDefaultRepresentation();
     try {
@@ -51,7 +50,10 @@ class Assertions_useRepresentation_Test {
     fail("AssertionError expected");
   }
 
-  private class CustomRepresentation extends StandardRepresentation {
+  private static class Example {
+  }
+
+  private static class CustomRepresentation extends StandardRepresentation {
 
     // override needed to hook specific formatting
     @Override

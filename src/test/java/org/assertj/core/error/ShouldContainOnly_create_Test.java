@@ -451,6 +451,31 @@ class ShouldContainOnly_create_Test {
                                    + "  <[Yoda the Jedi]>%n"));
   }
 
+  @Test
+  void should_create_error_message_not_found_and_unexpected_with_given_group_description() {
+    // GIVEN
+    Jedi actual = new Jedi("Yoda", "green");
+    Jedi expected = new Jedi("Luke", "blue");
+    GroupTypeDescription jedisGroupTypeDescription = new GroupTypeDescription("jedis", "some jedis were");
+    ErrorMessageFactory factory = shouldContainOnly(array(actual),
+                                                    array(expected),
+                                                    newLinkedHashSet(expected),
+                                                    newLinkedHashSet(actual),
+                                                    jedisGroupTypeDescription);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n"
+                                   + "Expecting jedis:%n"
+                                   + "  <[Yoda the Jedi]>%n"
+                                   + "to contain only:%n"
+                                   + "  <[Luke the Jedi]>%n"
+                                   + "some jedis were not found:%n"
+                                   + "  <[Luke the Jedi]>%n"
+                                   + "and some jedis were not expected:%n"
+                                   + "  <[Yoda the Jedi]>%n"));
+  }
+
   private static <K, V> HashSet<MapEntry<K, V>> set(MapEntry<K, V> entry) {
     HashSet<MapEntry<K, V>> set = new HashSet<>();
     set.add(entry);

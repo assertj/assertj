@@ -27,7 +27,7 @@ import static org.mockito.Mockito.verify;
 import java.util.List;
 import java.util.function.Consumer;
 
-import org.assertj.core.error.ElementsShouldSatisfy.UnsatisfiedRequirement;
+import org.assertj.core.error.UnsatisfiedRequirement;
 import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.Test;
 

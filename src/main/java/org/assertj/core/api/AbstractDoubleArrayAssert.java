@@ -27,7 +27,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
   @VisibleForTesting
   protected DoubleArrays arrays = DoubleArrays.instance();
 
-  public AbstractDoubleArrayAssert(double[] actual, Class<?> selfType) {
+  protected AbstractDoubleArrayAssert(double[] actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

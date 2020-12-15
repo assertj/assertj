@@ -44,7 +44,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
   @VisibleForTesting
   Integers integers = Integers.instance();
 
-  public AbstractIntegerAssert(Integer actual, Class<?> selfType) {
+  protected AbstractIntegerAssert(Integer actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

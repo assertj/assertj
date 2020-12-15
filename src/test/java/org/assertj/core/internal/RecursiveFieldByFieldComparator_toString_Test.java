@@ -21,7 +21,6 @@ import org.junit.jupiter.api.Test;
 class RecursiveFieldByFieldComparator_toString_Test {
 
   @Test
-  @SuppressWarnings("unchecked")
   void should_return_description_of_RecursiveFieldByFieldComparator() {
     // GIVEN
     RecursiveFieldByFieldComparator actual = new RecursiveFieldByFieldComparator(EMPTY_MAP, new TypeComparators());

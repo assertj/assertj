@@ -262,7 +262,7 @@ class SoftAssertionsPerfTest extends BaseAssertionsTest {
     softly.assertThat(OptionalDouble.of(0.0)).isEqualTo(1.0);
     softly.assertThat(OptionalLong.of(0L)).isEqualTo(1L);
     softly.assertThat(URI.create("http://assertj.org")).hasPort(8888);
-    softly.assertThat(CompletableFuture.completedFuture("done")).hasFailed();
+    softly.assertThat(CompletableFuture.completedFuture("done")).isCompletedExceptionally();
     softly.assertThat((Predicate<String>) s -> s.equals("something")).accepts("something else");
     softly.assertThat((IntPredicate) s -> s == 1).accepts(2);
     softly.assertThat((LongPredicate) s -> s == 1).accepts(2);
