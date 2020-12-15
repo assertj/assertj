@@ -33,11 +33,22 @@ class AllOf_toString_Test {
     // GIVEN
     TestCondition<Object> condition1 = new TestCondition<>("Condition 1");
     TestCondition<Object> condition2 = new TestCondition<>("Condition 2");
-    Condition<Object> allOf = allOf(condition1, condition2);
+    DynamicCondition<Object> condition3 = new DynamicCondition<>("Condition 3");
+    Condition<Object> allOf = allOf(condition1, condition2,condition3);
     // THEN
     assertThat(allOf).hasToString(format("all of:[%n" +
                                          "   Condition 1,%n" +
-                                         "   Condition 2%n" +
+                                         "   Condition 2,%n" +
+                                         "   Condition 3%n" +
+                                         "]"));
+    condition1.shouldMatch(true);
+    condition2.shouldMatch(true);
+    allOf.matches(true);
+
+    assertThat(allOf).hasToString(format("all of:[%n" +
+                                         "   Condition 1,%n" +
+                                         "   Condition 2,%n" +
+                                         "   ChangedDescription%n" +
                                          "]"));
   }
 
@@ -46,11 +57,34 @@ class AllOf_toString_Test {
     // GIVEN
     TestCondition<Object> condition1 = new TestCondition<>("Condition 1");
     TestCondition<Object> condition2 = new TestCondition<>("Condition 2");
-    Condition<Object> allOf = allOf(list(condition1, condition2));
+    DynamicCondition<Object> condition3 = new DynamicCondition<>("Condition 3");
+    Condition<Object> allOf = allOf(list(condition1, condition2,condition3));
     // THEN
     assertThat(allOf).hasToString(format("all of:[%n" +
                                          "   Condition 1,%n" +
-                                         "   Condition 2%n" +
+                                         "   Condition 2,%n" +
+                                         "   Condition 3%n" +
                                          "]"));
+    condition1.shouldMatch(true);
+    condition2.shouldMatch(true);
+    allOf.matches(true);
+
+    assertThat(allOf).hasToString(format("all of:[%n" +
+                                         "   Condition 1,%n" +
+                                         "   Condition 2,%n" +
+                                         "   ChangedDescription%n" +
+                                         "]"));    
+  }
+
+  static class  DynamicCondition<T> extends TestCondition<T> {
+    public DynamicCondition(String description) {
+      super(description);
+    }
+
+    @Override
+    public boolean matches(T value) {
+      describedAs("ChangedDescription");
+      return true;
+    }
   }
 }

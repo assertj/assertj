@@ -36,11 +36,6 @@ public class DoesNotHave<T> extends Negative<T> {
 
   private DoesNotHave(Condition<? super T> condition) {
     super(condition);
+    describedAs("does not have :<%s>", condition);
   }
-
-  @Override
-  public String toString() {
-    return String.format("does not have :<%s>", condition);
-  }
-
 }

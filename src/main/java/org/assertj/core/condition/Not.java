@@ -35,11 +35,6 @@ public class Not<T> extends Negative<T> {
 
   private Not(Condition<? super T> condition) {
     super(condition);
+    describedAs("not :<%s>", condition);
   }
-
-  @Override
-  public String toString() {
-    return String.format("not :<%s>", condition);
-  }
-
 }

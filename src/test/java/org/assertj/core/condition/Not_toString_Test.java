@@ -12,6 +12,8 @@
  */
 package org.assertj.core.condition;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.allOf;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.condition.Not.not;
 
@@ -29,17 +31,28 @@ class Not_toString_Test {
 
   private TestCondition<Object> condition;
   private Condition<Object> not;
+  
+  private Condition<Object> allNot;
 
   @BeforeEach
   public void setUp() {
     condition = new TestCondition<>("Jedi");
     not = not(condition);
+    allNot = allOf(not(new TestCondition<>("AllNot")));
   }
 
   @Test
   void should_implement_toString_showing_descriptions_of_inner_Conditions() {
     String expected = "not :<Jedi>";
     assertThat(not).hasToString(expected);
+  }
+
+  @Test
+  void should_implement_toString_showing_descriptions_of_inner_Conditions_allOf() {
+    String expected = "all of:[%n"+
+             "   not :<AllNot>%n"+
+             "]";
+    assertThat(allNot).hasToString(format(expected));
   }
 
 }

@@ -58,14 +58,12 @@ public abstract class Join<T> extends Condition<T> {
    */
   protected Join(Iterable<? extends Condition<? super T>> conditions) {
     this(Streams.stream(checkNotNullConditions(conditions)));
+    calculateDescription();
   }
 
   private Join(Stream<? extends Condition<? super T>> stream) {
     this.conditions = stream.map(Join::notNull).collect(toList());
-    List<Description> descriptions = this.conditions.stream()
-                                                    .map(Condition::description)
-                                                    .collect(toList());
-    this.describedAs(new JoinDescription(descriptionPrefix() + ":[", "]", descriptions));
+    calculateDescription();
   }
 
   private static <T> T checkNotNullConditions(T conditions) {
@@ -78,6 +76,21 @@ public abstract class Join<T> extends Condition<T> {
    */
   public abstract String descriptionPrefix();
 
+  /**
+   * method used to calculate the the subclass join description
+   */
+  private void calculateDescription() {
+    List<Description> descriptions = this.conditions.stream()
+        .map(Condition::description)
+        .collect(toList());
+    this.describedAs(new JoinDescription(descriptionPrefix() + ":[", "]", descriptions));
+  }
+  
+  @Override
+  public String toString() {
+    calculateDescription();
+    return description().value();
+  }
   private static <T> T notNull(T condition) {
     return requireNonNull(condition, "The given conditions should not have null entries");
   }
