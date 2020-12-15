@@ -12,34 +12,26 @@
  */
 package org.assertj.core.condition;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.condition.Not.not;
 
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.TestCondition;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Not#toString()}</code>.
- * 
+ *
  * @author Nicolas François
  */
 class Not_toString_Test {
 
-  private TestCondition<Object> condition;
-  private Condition<Object> not;
-
-  @BeforeEach
-  public void setUp() {
-    condition = new TestCondition<>("Jedi");
-    not = not(condition);
-  }
-
   @Test
   void should_implement_toString_showing_descriptions_of_inner_Conditions() {
-    String expected = "not :<Jedi>";
-    assertThat(not).hasToString(expected);
+    // GIVEN
+    Condition<Object> not = not(new TestCondition<>("Jedi"));
+    // THEN
+    then(not).hasToString("not :<Jedi>");
   }
 
 }

@@ -133,6 +133,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
 
   @Override
   public String toString() {
-    return description.value();
+    // call description() as Condition description could be dynamic and shoud be reevaluated
+    return description().value();
   }
 }
