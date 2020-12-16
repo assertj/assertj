@@ -27,7 +27,7 @@ public class ShortArrayAssert_doesNotContain_with_Short_array_Test extends Short
     Throwable thrown = catchThrowable(() -> assertions.doesNotContain(values));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
-      .hasMessage(shouldNotBeNull("sequence").create());
+      .hasMessage(shouldNotBeNull("values").create());
   }
 
   @Override
