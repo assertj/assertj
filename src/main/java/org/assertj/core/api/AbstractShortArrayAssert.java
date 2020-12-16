@@ -20,6 +20,8 @@ import org.assertj.core.internal.ShortArrays;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
+import static java.util.stream.IntStream.range;
+
 public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAssert<SELF>>
     extends AbstractArrayAssert<SELF, short[], Short> {
 
@@ -203,6 +205,31 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
+   * assertThat(new short[] { 1, 2, 3 }).contains(new Short[]{(Short) 1, (Short) 2});
+   * assertThat(new short[] { 1, 2, 3 }).contains(new Short[]{(Short) 3, (Short) 1});
+   * assertThat(new short[] { 1, 2, 3 }).contains(new Short[]{(Short) 1, (Short) 3, (Short) 2});
+   *
+   * // assertions will fail
+   * assertThat(new short[] { 1, 2, 3 }).contains(new Short[]{(Short) 1, (Short) 4});
+   * assertThat(new short[] { 1, 2, 3 }).contains(new Short[]{(Short) 4, (Short) 7});</code></pre>
+   *
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given values.
+   */
+  public SELF contains(Short[] values) {
+    arrays.assertContains(info, actual, toPrimitiveShortArray(values));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array contains the given values, in any order.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
    * assertThat(new short[] { 1, 2, 3 }).contains(1, 2);
    * assertThat(new short[] { 1, 2, 3 }).contains(3, 1);
    * assertThat(new short[] { 1, 2, 3 }).contains(1, 3, 2);
@@ -247,6 +274,32 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    */
   public SELF containsOnly(short... values) {
     arrays.assertContainsOnly(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array contains only the given values and nothing else, in any order.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new short[] { 1, 2, 3 }).containsOnly(new Short[]{(Short) 1, (Short) 2, (Short) 3});
+   * assertThat(new short[] { 1, 2, 3 }).containsOnly(new Short[]{(Short) 2, (Short) 3, (Short) 1});
+   * assertThat(new short[] { 1, 1, 2 }).containsOnly(new Short[]{(Short) 1, (Short) 2);
+   *
+   * // assertions will fail
+   * assertThat(new short[] { 1, 2, 3 }).containsOnly(new Short[]{(Short) 1, (Short) 2, (Short) 3, (Short) 4});
+   * assertThat(new short[] { 1, 2, 3 }).containsOnly(new Short[]{(Short) 4, (Short) 7});</code></pre>
+   *
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
+   *           or none of the given values, or the actual array contains more values than the given ones.
+   */
+  public SELF containsOnly(Short[] values) {
+    arrays.assertContainsOnly(info, actual, toPrimitiveShortArray(values));
     return myself;
   }
 
@@ -307,6 +360,31 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * <p>
    * Examples :
    * <pre><code class='java'> // assertion will pass
+   * assertThat(new short[] { 1, 2, 3 }).containsOnlyOnce(new Short[]{(Short) 1,(Short) 2});
+   *
+   * // assertions will fail
+   * assertThat(new short[] { 1, 2, 1 }).containsOnlyOnce(new Short[]{(Short) 1});
+   * assertThat(new short[] { 1, 2, 3 }).containsOnlyOnce(new Short[]{(Short) 4});
+   * assertThat(new short[] { 1, 2, 3, 3 }).containsOnlyOnce(new Short[]{(Short) 0, (Short) 1, (Short) 2, (Short) 3, (Short) 4, (short) 5});</code></pre>
+   *
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
+   *           or none of the given values, or the actual group contains more than once these values.
+   */
+  public SELF containsOnlyOnce(Short[] values) {
+    arrays.assertContainsOnlyOnce(info, actual, toPrimitiveShortArray(values));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array contains the given values only once.
+   * <p>
+   * Examples :
+   * <pre><code class='java'> // assertion will pass
    * assertThat(new short[] { 1, 2, 3 }).containsOnlyOnce(1,2);
    *
    * // assertions will fail
@@ -355,6 +433,28 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
+   * assertThat(new short[] { 1, 2, 3 }).containsSequence(new Short[]{(Short) 1, (Short) 2});
+   *
+   * // assertion will fail
+   * assertThat(new short[] { 1, 2, 3 }).containsSequence(new Short[]{(Short) 1, (Short) 3});
+   * assertThat(new short[] { 1, 2, 3 }).containsSequence(new Short[]{(Short) 2, (Short) 1});</code></pre>
+   *
+   * @param sequence the sequence of values to look for.
+   * @return myself assertion object.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given sequence.
+   */
+  public SELF containsSequence(Short[] sequence) {
+    arrays.assertContainsSequence(info, actual, toPrimitiveShortArray(sequence));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array contains the given sequence, without any other values between them.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
    * assertThat(new short[] { 1, 2, 3 }).containsSequence(1, 2);
    *
    * // assertion will fail
@@ -392,6 +492,28 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    */
   public SELF containsSubsequence(short... subsequence) {
     arrays.assertContainsSubsequence(info, actual, subsequence);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array contains the given subsequence (possibly with other values between them).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new short[] { 1, 2, 3 }).containsSubsequence(new Short[]{(Short) 1, (Short) 2});
+   * assertThat(new short[] { 1, 2, 3 }).containsSubsequence(new Short[]{(Short) 1, (Short) 3});
+   *
+   * // assertion will fail
+   * assertThat(new short[] { 1, 2, 3 }).containsSubsequence(new Short[]{(Short) 2, (Short) 1});</code></pre>
+   *
+   * @param subsequence the subsequence of values to look for.
+   * @return myself assertion object.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given subsequence.
+   */
+  public SELF containsSubsequence(Short[] subsequence) {
+    arrays.assertContainsSubsequence(info, actual, toPrimitiveShortArray(subsequence));
     return myself;
   }
 
@@ -490,6 +612,28 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    */
   public SELF doesNotContain(short... values) {
     arrays.assertDoesNotContain(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array does not contain the given values.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new short[] { 1, 2, 3 }).doesNotContain(new Short[]{(Short) 4});
+   *
+   * // assertion will fail
+   * assertThat(new short[] { 1, 2, 3 }).doesNotContain(new Short[]{(Short) 2});</code></pre>
+   *
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array contains any of the given values.
+   */
+  public SELF doesNotContain(Short[] values) {
+    arrays.assertDoesNotContain(info, actual, toPrimitiveShortArray(values));
     return myself;
   }
 
@@ -610,6 +754,30 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
 
   /**
    * Verifies that the actual array starts with the given sequence of values, without any other values between them.
+   * Similar to <code>{@link #containsSequence(Short[])}</code>, but it also verifies that the first element in the
+   * sequence is also first element of the actual array.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new short[] { 1, 2, 3 }).startsWith(new Short[]{(Short) 1, (Short) 2});
+   *
+   * // assertion will fail
+   * assertThat(new short[] { 1, 2, 3 }).startsWith(new Short[]{(Short) 2, (Short) 3});</code></pre>
+   *
+   * @param sequence the sequence of values to look for.
+   * @return myself assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not start with the given sequence.
+   */
+  public SELF startsWith(Short[] sequence) {
+    arrays.assertStartsWith(info, actual, toPrimitiveShortArray(sequence));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array starts with the given sequence of values, without any other values between them.
    * Similar to <code>{@link #containsSequence(short...)}</code>, but it also verifies that the first element in the
    * sequence is also first element of the actual array.
    * <p>
@@ -654,6 +822,30 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    */
   public SELF endsWith(short... sequence) {
     arrays.assertEndsWith(info, actual, sequence);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array ends with the given sequence of values, without any other values between them.
+   * Similar to <code>{@link #containsSequence(short...)}</code>, but it also verifies that the last element in the
+   * sequence is also last element of the actual array.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new short[] { 1, 2, 3 }).endsWith(new Short[]{(Short) 2, (Short) 3});
+   *
+   * // assertion will fail
+   * assertThat(new short[] { 1, 2, 3 }).endsWith(new Short[]{(Short) 3, (Short) 4});</code></pre>
+   *
+   * @param sequence the sequence of values to look for.
+   * @return myself assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not end with the given sequence.
+   */
+  public SELF endsWith(Short[] sequence) {
+    arrays.assertEndsWith(info, actual, toPrimitiveShortArray(sequence));
     return myself;
   }
 
@@ -744,6 +936,31 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * <pre><code class='java'> short[] shorts = { 1, 2, 3 };
    *
    * // assertion will pass
+   * assertThat(shorts).containsExactly(new Short[]{(Short) 1, (Short) 2, (Short) 3});
+   *
+   * // assertion will fail as actual and expected order differ
+   * assertThat(shorts).containsExactly(new Short[]{(Short) 2, (Short) 1, (Short) 3});</code></pre>
+   *
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values with same order, i.e. the actual group
+   *           contains some or none of the given values, or the actual group contains more values than the given ones
+   *           or values are the same but the order is not.
+   */
+  public SELF containsExactly(Short[] values) {
+    arrays.assertContainsExactly(info, actual, toPrimitiveShortArray(values));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual group contains only the given values and nothing else, <b>in order</b>.
+   * <p>
+   * Example :
+   * <pre><code class='java'> short[] shorts = { 1, 2, 3 };
+   *
+   * // assertion will pass
    * assertThat(shorts).containsExactly(1, 2, 3);
    *
    * // assertion will fail as actual and expected order differ
@@ -786,6 +1003,32 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    */
   public SELF containsExactlyInAnyOrder(short... values) {
     arrays.assertContainsExactlyInAnyOrder(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual group contains exactly the given values and nothing else, <b>in any order</b>.<br>
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new short[] { 1, 2 }).containsExactlyInAnyOrder(new Short[]{(Short) 1, (Short) 2});
+   * assertThat(new short[] { 1, 2, 1 }).containsExactlyInAnyOrder(new Short[]{(Short) 1, (Short) 1, (Short) 2});
+   *
+   * // assertions will fail
+   * assertThat(new short[] { 1, 2 }).containsExactlyInAnyOrder(new Short[]{(Short) 1});
+   * assertThat(new short[] { 1 }).containsExactlyInAnyOrder(new Short[]{(Short) 1, (Short) 2});
+   * assertThat(new short[] { 1, 2, 1 }).containsExactlyInAnyOrder(new Short[]{(Short) 1, (Short) 2});</code></pre>
+   *
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
+   *           contains some or none of the given values, or the actual group contains more values than the given ones.
+   * @since 2.6.0 / 3.6.0
+   */
+  public SELF containsExactlyInAnyOrder(Short[] values) {
+    arrays.assertContainsExactlyInAnyOrder(info, actual, toPrimitiveShortArray(values));
     return myself;
   }
 
@@ -852,6 +1095,36 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * <pre><code class='java'> short[] oneTwoThree = { 1, 2, 3 };
    *
    * // assertions will pass
+   * assertThat(abc).containsAnyOf(new Short[]{(Short) 2})
+   *                .containsAnyOf(new Short[]{(Short) 2, (Short) 3})
+   *                .containsAnyOf(new Short[]{(Short) 1, (Short) 2, (Short) 3})
+   *                .containsAnyOf(new Short[]{(Short) 1, (Short) 2, (Short) 3, (Short) 4})
+   *                .containsAnyOf(new Short[]{(Short) 5, (Short) 6, (Short) 7, (Short) 2});
+   *
+   * // assertions will fail
+   * assertThat(abc).containsAnyOf(new Short[]{(Short) 4});
+   * assertThat(abc).containsAnyOf(new Short[]{(Short) 4, (Short) 5, (Short) 6, (Short) 7});</code></pre>
+   *
+   * @param values the values whose at least one which is expected to be in the array under test.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty and the array under test is not empty.
+   * @throws AssertionError if the array under test is {@code null}.
+   * @throws AssertionError if the array under test does not contain any of the given {@code values}.
+   * @since 2.9.0 / 3.9.0
+   */
+  public SELF containsAnyOf(Short[] values) {
+    arrays.assertContainsAnyOf(info, actual, toPrimitiveShortArray(values));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array contains at least one of the given values.
+   * <p>
+   * Example :
+   * <pre><code class='java'> short[] oneTwoThree = { 1, 2, 3 };
+   *
+   * // assertions will pass
    * assertThat(abc).containsAnyOf(2)
    *                .containsAnyOf(2, 3)
    *                .containsAnyOf(1, 2, 3)
@@ -886,5 +1159,11 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
 
   private static short toShort(int value) {
     return (short) value;
+  }
+
+  private static short[] toPrimitiveShortArray(Short[] values) {
+    short[] shorts = new short[values.length];
+    range(0, values.length).forEach(i -> shorts[i] = values[i]);
+    return shorts;
   }
 }
