@@ -20,15 +20,34 @@ import java.io.File;
 @SuppressWarnings("serial")
 class FakeFile extends File {
   private final String absolutePath;
+  private boolean noParent;
+  private String parent;
 
   FakeFile(String absolutePath) {
     super(absolutePath);
     this.absolutePath = absolutePath;
   }
 
+  FakeFile(String absolutePath, boolean noParent) {
+    super(absolutePath);
+    this.absolutePath = absolutePath;
+    this.noParent = noParent;
+  }
+
+  FakeFile(String absolutePath, @SuppressWarnings("unused") String parent) {
+    super(absolutePath);
+    this.absolutePath = absolutePath;
+    this.parent = parent;
+  }
+
   @Override
   public String getAbsolutePath() {
     // ToStringOf uses absolute path instead of toString
     return absolutePath;
+  }
+
+  @Override
+  public String getParent() {
+    return noParent ? null : super.getParent();
   }
 }

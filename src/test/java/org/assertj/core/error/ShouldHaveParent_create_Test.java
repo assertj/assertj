@@ -21,8 +21,6 @@ import static org.assertj.core.error.ShouldHaveParent.PATH_NO_PARENT;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -30,6 +28,7 @@ import java.nio.file.Path;
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests for {@link ShouldHaveParent#shouldHaveParent(File, File)} and {@link
@@ -41,7 +40,8 @@ import org.junit.jupiter.api.Test;
 class ShouldHaveParent_create_Test {
   private final File expectedFileParent = new FakeFile("expected.parent");
   private final Path expectedPathParent = mock(Path.class);
-
+  @TempDir
+  File tempDir;
   private TestDescription description;
 
   @BeforeEach
@@ -52,8 +52,7 @@ class ShouldHaveParent_create_Test {
   @Test
   void should_create_error_message_when_file_has_no_parent() {
     // GIVEN
-    final File actual = spy(new FakeFile("actual"));
-    when(actual.getParentFile()).thenReturn(null);
+    final File actual = new FakeFile("actual", true);
     ErrorMessageFactory factory = shouldHaveParent(actual, expectedFileParent);
     // WHEN
     String actualMessage = factory.create(description, STANDARD_REPRESENTATION);
@@ -64,13 +63,11 @@ class ShouldHaveParent_create_Test {
   @Test
   void should_create_error_message_when_file_does_not_have_expected_parent() {
     // GIVEN
-    final File actual = spy(new FakeFile("actual"));
-    final FakeFile actualParent = new FakeFile("not.expected.parent");
-    when(actual.getParentFile()).thenReturn(actualParent);
+    final File actual = new File(tempDir, "actual");
     // WHEN
     String actualMessage = shouldHaveParent(actual, expectedFileParent).create(description, STANDARD_REPRESENTATION);
     // THEN
-    then(actualMessage).isEqualTo(format("[Test] " + FILE_NOT_EXPECTED_PARENT, actual, expectedFileParent, actualParent));
+    then(actualMessage).isEqualTo(format("[Test] " + FILE_NOT_EXPECTED_PARENT, actual, expectedFileParent, tempDir));
   }
 
   @Test
