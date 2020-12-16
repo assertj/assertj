@@ -226,13 +226,13 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new byte[] { 1, 2, 3 }).contains(new Byte[] {(Byte) 1, (Byte) 2});
-   * assertThat(new byte[] { 1, 2, 3 }).contains(new Byte[] {(Byte) 3, (Byte) 1});
-   * assertThat(new byte[] { 1, 2, 3 }).contains(new Byte[] {(Byte) 1, (Byte) 3, (Byte) 2});
+   * assertThat(new byte[] { 1, 2, 3 }).contains(new Byte[] { 1,  2});
+   * assertThat(new byte[] { 1, 2, 3 }).contains(new Byte[] { 3,  1});
+   * assertThat(new byte[] { 1, 2, 3 }).contains(new Byte[] { 1,  3,  2});
    *
    * // assertion will fail
-   * assertThat(new byte[] { 1, 2, 3 }).contains(new Byte[] {(Byte) 1, (Byte) 4});
-   * assertThat(new byte[] { 1, 2, 3 }).contains(new Byte[] {(Byte) 4, (Byte) 7});</code></pre>
+   * assertThat(new byte[] { 1, 2, 3 }).contains(new Byte[] { 1,  4});
+   * assertThat(new byte[] { 1, 2, 3 }).contains(new Byte[] { 4,  7});</code></pre>
    *
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -242,6 +242,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @throws AssertionError           if the actual array does not contain the given values.
    */
   public SELF contains(Byte[] values) {
+    requireNonNullParameter(values, "values");
     arrays.assertContains(info, actual, toPrimitiveByteArray(values));
     return myself;
   }
@@ -305,13 +306,13 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
-   * assertThat(new byte[] { 1, 2, 3 }).containsOnly(new Byte {(Byte) 1, (Byte) 2, (Byte) 3});
-   * assertThat(new byte[] { 1, 2, 3 }).containsOnly(new Byte {(Byte) 2, (Byte) 3, (Byte) 1});
-   * assertThat(new byte[] { 1, 1, 2 }).containsOnly(new Byte {(Byte) 1, (Byte) 2});
+   * assertThat(new byte[] { 1, 2, 3 }).containsOnly(new Byte { 1,  2,  3});
+   * assertThat(new byte[] { 1, 2, 3 }).containsOnly(new Byte { 2,  3,  1});
+   * assertThat(new byte[] { 1, 1, 2 }).containsOnly(new Byte { 1,  2});
    *
    * // assertions will fail
-   * assertThat(new byte[] { 1, 2, 3 }).containsOnly(new Byte {(Byte) 1, (Byte) 2, (Byte) 3, (Byte) 4});
-   * assertThat(new byte[] { 1, 2, 3 }).containsOnly(new Byte {(Byte) 4, (Byte) 7});</code></pre>
+   * assertThat(new byte[] { 1, 2, 3 }).containsOnly(new Byte { 1,  2,  3,  4});
+   * assertThat(new byte[] { 1, 2, 3 }).containsOnly(new Byte { 4,  7});</code></pre>
    *
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -324,6 +325,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    *                                  given ones.
    */
   public SELF containsOnly(Byte[] values) {
+    requireNonNullParameter(values, "values");
     arrays.assertContainsOnly(info, actual, toPrimitiveByteArray(values));
     return myself;
   }
@@ -389,12 +391,12 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * <p>
    * Examples :
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new byte[] { 1, 2, 3 }).containsOnlyOnce((byte) 1, (byte) 2);
+   * assertThat(new byte[] { 1, 2, 3 }).containsOnlyOnce(new Byte[]{1, 2});
    *
    * // assertions will fail
-   * assertThat(new byte[] { 1, 2, 1 }).containsOnlyOnce(new Byte[] {(Byte) 1});
-   * assertThat(new byte[] { 1, 2, 3 }).containsOnlyOnce(new Byte[] {(Byte) 4});
-   * assertThat(new byte[] { 1, 2, 3, 3 }).containsOnlyOnce(new Byte[] {(Byte) 0, (Byte) 1, (Byte) 2, (Byte) 3, (Byte) 4, (Byte) 5);</code></pre>
+   * assertThat(new byte[] { 1, 2, 1 }).containsOnlyOnce(new Byte[] { 1});
+   * assertThat(new byte[] { 1, 2, 3 }).containsOnlyOnce(new Byte[] { 4});
+   * assertThat(new byte[] { 1, 2, 3, 3 }).containsOnlyOnce(new Byte[] { 0,  1,  2,  3,  4,  5);</code></pre>
    *
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -407,6 +409,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    *                                  values.
    */
   public SELF containsOnlyOnce(Byte[] values) {
+    requireNonNullParameter(values, "values");
     arrays.assertContainsOnlyOnce(info, actual,toPrimitiveByteArray(values));
     return myself;
   }
@@ -468,13 +471,13 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new byte[] { 1, 2, 3 }).containsSequence(new Byte{(Byte) 1, (Byte) 2});
-   * assertThat(new byte[] { 1, 2, 3 }).containsSequence(new Byte{(Byte) 1, (Byte) 2, (Byte) 3});
-   * assertThat(new byte[] { 1, 2, 3 }).containsSequence(new Byte{(Byte) 2, (Byte) 3});
+   * assertThat(new byte[] { 1, 2, 3 }).containsSequence(new Byte{ 1,  2});
+   * assertThat(new byte[] { 1, 2, 3 }).containsSequence(new Byte{ 1,  2,  3});
+   * assertThat(new byte[] { 1, 2, 3 }).containsSequence(new Byte{ 2,  3});
    *
    * // assertion will fail
-   * assertThat(new byte[] { 1, 2, 3 }).containsSequence(new Byte{(Byte) 1, (Byte) 3});
-   * assertThat(new byte[] { 1, 2, 3 }).containsSequence(new Byte{(Byte) 4, (Byte) 7});</code></pre>
+   * assertThat(new byte[] { 1, 2, 3 }).containsSequence(new Byte{ 1,  3});
+   * assertThat(new byte[] { 1, 2, 3 }).containsSequence(new Byte{ 4,  7});</code></pre>
    *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
@@ -483,6 +486,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
   public SELF containsSequence(Byte[] sequence) {
+    requireNonNullParameter(sequence, "sequence");
     arrays.assertContainsSequence(info, actual, toPrimitiveByteArray(sequence));
     return myself;
   }
@@ -542,14 +546,14 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(new Byte[]{(Byte) 1, (Byte) 2, (Byte) 3)};
-   * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(new Byte[]{(Byte) 1, (Byte) 2});
-   * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(new Byte[]{(Byte) 1, (Byte) 3});
-   * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(new Byte[]{(Byte) 2, (Byte) 3});
+   * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(new Byte[]{ 1,  2,  3)};
+   * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(new Byte[]{ 1,  2});
+   * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(new Byte[]{ 1,  3});
+   * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(new Byte[]{ 2,  3});
    *
    * // assertion will fail
-   * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(new Byte[]{(Byte) 2, (Byte) 1});
-   * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(new Byte[]{(Byte) 4, (Byte) 7});</code></pre>
+   * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(new Byte[]{ 2,  1});
+   * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(new Byte[]{ 4,  7});</code></pre>
    *
    * @param subsequence the subsequence of values to look for.
    * @return myself assertion object.
@@ -558,6 +562,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @throws AssertionError if the actual array does not contain the given subsequence.
    */
   public SELF containsSubsequence(Byte[] subsequence) {
+    requireNonNullParameter(subsequence, "subsequence");
     arrays.assertContainsSubsequence(info, actual, toPrimitiveByteArray(subsequence));
     return myself;
   }
@@ -668,10 +673,10 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new byte[] { 1, 2, 3 }).doesNotContain(new Byte[]{(Byte) 4});
+   * assertThat(new byte[] { 1, 2, 3 }).doesNotContain(new Byte[]{ 4});
    *
    * // assertion will fail
-   * assertThat(new byte[] { 1, 2, 3 }).doesNotContain(new Byte[]{(Byte) 2});</code></pre>
+   * assertThat(new byte[] { 1, 2, 3 }).doesNotContain(new Byte[]{ 2});</code></pre>
    *
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -681,6 +686,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @throws AssertionError           if the actual array contains any of the given values.
    */
   public SELF doesNotContain(Byte[] values) {
+    requireNonNullParameter(values, "values");
     arrays.assertDoesNotContain(info, actual, toPrimitiveByteArray(values));
     return myself;
   }
@@ -807,10 +813,10 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new byte[] { 1, 2, 3 }).startsWith(new Byte[]{(Byte) 1, (Byte) 2});
+   * assertThat(new byte[] { 1, 2, 3 }).startsWith(new Byte[]{ 1,  2});
    *
    * // assertion will fail
-   * assertThat(new byte[] { 1, 2, 3 }).startsWith(new Byte[]{(Byte) 2, (Byte) 3});</code></pre>
+   * assertThat(new byte[] { 1, 2, 3 }).startsWith(new Byte[]{ 2,  3});</code></pre>
    *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
@@ -820,6 +826,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @throws AssertionError           if the actual array does not start with the given sequence.
    */
   public SELF startsWith(Byte[] sequence) {
+    requireNonNullParameter(sequence, "sequence");
     arrays.assertStartsWith(info, actual, toPrimitiveByteArray(sequence));
     return myself;
   }
@@ -880,10 +887,10 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new byte[] { 1, 2, 3 }).endsWith(new Byte[]{(Byte) 2, (Byte) 3});
+   * assertThat(new byte[] { 1, 2, 3 }).endsWith(new Byte[]{ 2,  3});
    *
    * // assertion will fail
-   * assertThat(new byte[] { 1, 2, 3 }).endsWith(new Byte[]{(Byte) 3, (Byte) 4});</code></pre>
+   * assertThat(new byte[] { 1, 2, 3 }).endsWith(new Byte[]{ 3,  4});</code></pre>
    *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
@@ -893,6 +900,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @throws AssertionError           if the actual array does not end with the given sequence.
    */
   public SELF endsWith(Byte[] sequence) {
+    requireNonNullParameter(sequence, "sequence");
     arrays.assertEndsWith(info, actual, toPrimitiveByteArray(sequence));
     return myself;
   }
@@ -993,10 +1001,10 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * <p>
    * Example :
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new byte[] { 1, 2, 3 }).containsExactly(new Byte[]{(Byte) 1, (Byte) 2, (Byte) 3});
+   * assertThat(new byte[] { 1, 2, 3 }).containsExactly(new Byte[]{ 1,  2,  3});
    *
    * // assertion will fail as actual and expected order differ
-   * assertThat(new byte[] { 1, 2, 3 }).containsExactly(new Byte[]{(Byte) 2, (Byte) 1, (Byte) 3});</code></pre>
+   * assertThat(new byte[] { 1, 2, 3 }).containsExactly(new Byte[]{ 2,  1,  3});</code></pre>
    *
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -1014,6 +1022,8 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
     // We can't get the best of both approaches even if we call assertContainsExactly only when assertEqual, assertContainsExactly
     // would take a long time to compute the diff between both arrays.
     // We can at least solve the representation of byte[] arrays so that they show the bytes
+
+    requireNonNullParameter(values, "values");
     objects.assertEqual(info, actual, toPrimitiveByteArray(values));
     return myself;
   }
@@ -1075,13 +1085,13 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * <p>
    * Example :
    * <pre><code class='java'> // assertions will pass
-   * assertThat(new byte[] { 1, 2 }).containsExactlyInAnyOrder(new Byte[]{(Byte) 1, (Byte) 2});
-   * assertThat(new byte[] { 1, 2, 1 }).containsExactlyInAnyOrder(new Byte[]{(Byte) 1, (Byte) 1, (Byte) 2});
+   * assertThat(new byte[] { 1, 2 }).containsExactlyInAnyOrder(new Byte[]{ 1,  2});
+   * assertThat(new byte[] { 1, 2, 1 }).containsExactlyInAnyOrder(new Byte[]{ 1,  1,  2});
    *
    * // assertions will fail
-   * assertThat(new byte[] { 1, 2 }).containsExactlyInAnyOrder(new Byte[]{(Byte) 1});
-   * assertThat(new byte[] { 1 }).containsExactlyInAnyOrder(new Byte[]{(Byte) 1, (Byte) 2});
-   * assertThat(new byte[] { 1, 2, 1 }).containsExactlyInAnyOrder(new Byte[]{(Byte) 1, (Byte) 2});</code></pre>
+   * assertThat(new byte[] { 1, 2 }).containsExactlyInAnyOrder(new Byte[]{ 1});
+   * assertThat(new byte[] { 1 }).containsExactlyInAnyOrder(new Byte[]{ 1,  2});
+   * assertThat(new byte[] { 1, 2, 1 }).containsExactlyInAnyOrder(new Byte[]{ 1,  2});</code></pre>
    *
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -1092,6 +1102,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @since 2.6.0 / 3.6.0
    */
   public SELF containsExactlyInAnyOrder(Byte[] values) {
+    requireNonNullParameter(values, "values");
     arrays.assertContainsExactlyInAnyOrder(info, actual, toPrimitiveByteArray(values));
     return myself;
   }
@@ -1159,15 +1170,15 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * <pre><code class='java'> byte[] oneTwoThree = { 1, 2, 3 };
    *
    * // assertions will pass
-   * assertThat(oneTwoThree).containsAnyOf(new Byte[]{(Byte)2})
-   *                        .containsAnyOf(new Byte[]{(Byte)2, (Byte)3})
-   *                        .containsAnyOf(new Byte[]{(Byte)1, (Byte)2, (Byte)3})
-   *                        .containsAnyOf(new Byte[]{(Byte)1, (Byte)2, (Byte)3, (Byte)4})
-   *                        .containsAnyOf(new Byte[]{(Byte)5, (Byte)6, (Byte)7, (Byte)2});
+   * assertThat(oneTwoThree).containsAnyOf(new Byte[]{2})
+   *                        .containsAnyOf(new Byte[]{2, 3})
+   *                        .containsAnyOf(new Byte[]{1, 2, 3})
+   *                        .containsAnyOf(new Byte[]{1, 2, 3, 4})
+   *                        .containsAnyOf(new Byte[]{5, 6, 7, 2});
    *
    * // assertions will fail
-   * assertThat(oneTwoThree).containsAnyOf(new Byte[]{(Byte)4});
-   * assertThat(oneTwoThree).containsAnyOf(new Byte[]{(Byte)4, (Byte)5, (Byte)6, (Byte)7});</code></pre>
+   * assertThat(oneTwoThree).containsAnyOf(new Byte[]{4});
+   * assertThat(oneTwoThree).containsAnyOf(new Byte[]{4, 5, 6, 7});</code></pre>
    *
    * @param values the values whose at least one which is expected to be in the array under test.
    * @return {@code this} assertion object.
@@ -1178,6 +1189,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @since 2.9.0 / 3.9.0
    */
   public SELF containsAnyOf(Byte[] values) {
+    requireNonNullParameter(values, "values");
     arrays.assertContainsAnyOf(info, actual, toPrimitiveByteArray(values));
     return myself;
   }
