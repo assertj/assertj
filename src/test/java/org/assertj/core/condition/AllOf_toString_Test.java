@@ -62,14 +62,14 @@ class AllOf_toString_Test {
     DynamicCondition<Object> condition3 = new DynamicCondition<>("Condition 3");
     Condition<Object> allOf = allOfSoftly(condition1, condition2, condition3);
     // THEN
-    then(allOf).hasToString(format("all of:[%n" +
+    then(allOf).hasToString(format("softly all of:[%n" +
                                    "   Condition 1,%n" +
                                    "   Condition 2,%n" +
                                    "   Condition 3%n" +
                                    "]"));
     allOf.matches(true);
 
-    then(allOf).hasToString(format("all of:[%n" +
+    then(allOf).hasToString(format("softly all of:[%n" +
                                    "   Condition 1,%n" +
                                    "   Condition 2,%n" +
                                    "   ChangedDescription%n" +
@@ -110,7 +110,7 @@ class AllOf_toString_Test {
     DynamicCondition<Object> condition3 = new DynamicCondition<>("Condition 3");
     Condition<Object> allOf = allOfSoftly(list(condition1, condition2, condition3));
     // THEN
-    then(allOf).hasToString(format("all of:[%n" +
+    then(allOf).hasToString(format("softly all of:[%n" +
                                    "   Condition 1,%n" +
                                    "   Condition 2,%n" +
                                    "   Condition 3%n" +
@@ -119,7 +119,7 @@ class AllOf_toString_Test {
     // evaluating the condition will change the DynamicCondition description
     allOf.matches(true);
     // THEN
-    then(allOf).hasToString(format("all of:[%n" +
+    then(allOf).hasToString(format("softly all of:[%n" +
                                    "   Condition 1,%n" +
                                    "   Condition 2,%n" +
                                    "   ChangedDescription%n" +
