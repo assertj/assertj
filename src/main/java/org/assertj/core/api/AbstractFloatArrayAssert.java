@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static java.util.stream.IntStream.range;
+
 import java.util.Comparator;
 
 import org.assertj.core.data.Index;
@@ -224,6 +226,32 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
   }
 
   /**
+   * Verifies that the actual array contains the values of the given array, in any order.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new float[] { 1.0f, 2.0f }).contains(new Float[] { 1.0f, 2.0f });
+   * assertThat(new float[] { 1.0f, 2.0f }).contains(new Float[] { 1.0f, 2.0f });
+   * assertThat(new float[] { 1.0f, 2.0f }).contains(new Float[] { 1.0f });
+   *
+   * // assertion will fail
+   * assertThat(new float[] { 1.0f, 2.0f }).contains(new Float[] { 3.0f });</code></pre>
+   *
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given values.
+   * @since 3.19.0
+   */
+  public SELF contains(Float[] values) {
+    requireNonNullParameter(values, "values");
+    arrays.assertContains(info, actual, toPrimitiveFloatArray(values));
+    return myself;
+  }
+
+  /**
    * Verifies that the actual array contains the given values, in any order,
    * the comparison is done at the given precision/offset set with {@link Assertions#withPrecision(Float)}.
    * <p>
@@ -281,6 +309,33 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
    */
   public SELF containsOnly(float... values) {
     arrays.assertContainsOnly(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array contains only the values of the given array and nothing else, in any order.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new float[] { 1.0f, 2.0f }).containsOnly(new Float[] { 1.0f, 2.0f });
+   * assertThat(new float[] { 2.0f, 1.0f }).containsOnly(new Float[] { 1.0f, 2.0f });
+   * assertThat(new float[] { 1.0f, 1.0f, 2.0f }).containsOnly(new Float[] { 1.0f, 2.0f });
+   *
+   * // assertions will fail
+   * assertThat(new float[] { 1.0f, 2.0f }).containsOnly(new Float[] { 2.0f });
+   * assertThat(new float[] { 1.0f }).containsOnly(new Float[] { 1.0f, 2.0f });</code></pre>
+   *
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
+   *           or none of the given values, or the actual array contains more values than the given ones.
+   */
+  public SELF containsOnly(Float[] values) {
+    requireNonNullParameter(values, "values");
+    arrays.assertContainsOnly(info, actual, toPrimitiveFloatArray(values));
     return myself;
   }
 
@@ -345,6 +400,32 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
   }
 
   /**
+   * Verifies that the actual array contains the values of the given array only once.
+   * <p>
+   * Examples :
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new float[] { 1.0f, 2.0f }).containsOnlyOnce(new Float[] { 1.0f, 2.0f });
+   *
+   * // assertions will fail
+   * assertThat(new float[] { 1.0f, 2.0f, 1.0f }).containsOnlyOnce(new Float[] { 1.0f });
+   * assertThat(new float[] { 1.0f }).containsOnlyOnce(new Float[] { 2.0f });
+   * assertThat(new float[] { 1.0f }).containsOnlyOnce(new Float[] { 1.0f, 2.0f });</code></pre>
+   *
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
+   *           or none of the given values, or the actual group contains more than once these values.
+   */
+  public SELF containsOnlyOnce(Float[] values) {
+    requireNonNullParameter(values, "values");
+    arrays.assertContainsOnlyOnce(info, actual, toPrimitiveFloatArray(values));
+    return myself;
+  }
+
+  /**
   * Verifies that the actual array contains the given values only once.
   * The comparison is done at the given precision/offset set with {@link Assertions#withPrecision(Float)}.
   * <p>
@@ -405,6 +486,29 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
 
   /**
    * Verifies that the actual array contains the given sequence, without any other values between them.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new float[] { 1.0f, 2.0f }).containsSequence(new Float[] {1.0f, 2.0f});
+   * assertThat(new float[] { 1.0f, 2.0f, 2.0f, 1.0f }).containsSequence(new Float[] { 2.0f, 1.0f});
+   *
+   * // assertion will fail
+   * assertThat(new float[] { 1.0f, 2.0f, 3.0f }).containsSequence(new Float[] {3.0f, 1.0f});</code></pre>
+   *
+   * @param sequence the sequence of values to look for.
+   * @return myself assertion object.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given sequence.
+   */
+  public SELF containsSequence(Float[] sequence) {
+    requireNonNullParameter(sequence, "sequence");
+    arrays.assertContainsSequence(info, actual, toPrimitiveFloatArray(sequence));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array contains the given sequence, without any other values between them.
    * The comparison is done at the given precision/offset set with {@link Assertions#withPrecision(Float)}.
    * <p>
    * Examples :
@@ -460,6 +564,29 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
    */
   public SELF containsSubsequence(float... subsequence) {
     arrays.assertContainsSubsequence(info, actual, subsequence);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array contains the given subsequence (possibly with other values between them).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new float[] { 1.0f, 2.0f }).containsSubsequence(new Float[] { 1.0f, 2.0f});
+   * assertThat(new float[] { 1.0f, 2.0f, 3.0f, 4.0f }).containsSubsequence(new Float[] { 1.0f, 4.0f });
+   *
+   * // assertion will fail
+   * assertThat(new float[] { 1.0f, 2.0f, 3.0f }).containsSubsequence(new Float[] { 3.0f, 1.0f });</code></pre>
+   *
+   * @param subsequence the subsequence of values to look for.
+   * @return myself assertion object.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given subsequence.
+   */
+  public SELF containsSubsequence(Float[] subsequence) {
+    requireNonNullParameter(subsequence, "subsequence");
+    arrays.assertContainsSubsequence(info, actual, toPrimitiveFloatArray(subsequence));
     return myself;
   }
 
@@ -582,6 +709,29 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
    */
   public SELF doesNotContain(float... values) {
     arrays.assertDoesNotContain(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array does not contain the values of the given array.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new float[] { 1.0f, 2.0f }).doesNotContain(new Float[] { 3.0f });
+   *
+   * // assertion will fail
+   * assertThat(new float[] { 1.0f, 2.0f, 3.0f }).doesNotContain(new Float[] { 1.0f });</code></pre>
+   *
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array contains any of the given values.
+   */
+  public SELF doesNotContain(Float[] values) {
+    requireNonNullParameter(values, "values");
+    arrays.assertDoesNotContain(info, actual, toPrimitiveFloatArray(values));
     return myself;
   }
 
@@ -748,6 +898,31 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
 
   /**
    * Verifies that the actual array starts with the given sequence of values, without any other values between them.
+   * Similar to <code>{@link #containsSequence(Float[])}</code>, but it also verifies that the first element in the
+   * sequence is also first element of the actual array.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new float[] { 1.0f, 2.0f, 3.0f, 4.0f }).startsWith(new Float[] {1.0f, 2.0f});
+   *
+   * // assertion will fail
+   * assertThat(new float[] {1.0f, 2.0f, 3.0f, 4.0f }).startsWith(new Float[] {2.0f, 3.0f, 4.0f});</code></pre>
+   *
+   * @param sequence the sequence of values to look for.
+   * @return myself assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not start with the given sequence.
+   */
+  public SELF startsWith(Float[] sequence) {
+    requireNonNullParameter(sequence, "sequence");
+    arrays.assertStartsWith(info, actual, toPrimitiveFloatArray(sequence));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array starts with the given sequence of values, without any other values between them.
    * Similar to <code>{@link #containsSequence(float...)}</code>, but it also verifies that the first element in the
    * sequence is also first element of the actual array.
    * <p>
@@ -803,6 +978,31 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
    */
   public SELF endsWith(float... sequence) {
     arrays.assertEndsWith(info, actual, sequence);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array ends with the given sequence of values, without any other values between them.
+   * Similar to <code>{@link #containsSequence(Float[])}</code>, but it also verifies that the last element in the
+   * sequence is also last element of the actual array.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new boolean[] { 1.0f, 2.0f, 3.0f, 4.0f }).endsWith(new Float[] { 3.0f, 4.0f });
+   *
+   * // assertion will fail
+   * assertThat(new boolean[] { 1.0f, 2.0f, 3.0f, 4.0f }).endsWith(new Float[] { 2.0f, 3.0f });</code></pre>
+   *
+   * @param sequence the sequence of values to look for.
+   * @return myself assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the actual array does not end with the given sequence.
+   */
+  public SELF endsWith(Float[] sequence) {
+    requireNonNullParameter(sequence, "sequence");
+    arrays.assertEndsWith(info, actual, toPrimitiveFloatArray(sequence));
     return myself;
   }
 
@@ -896,6 +1096,31 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
   }
 
   /**
+   * Verifies that the actual group contains only the values of the given array and nothing else, <b>in order</b>.
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new float[] { 1.0f, 2.0f, 3.0f, 4.0f }).containsExactly(new Float[] { 1.0f, 2.0f, 3.0f, 4.0f });
+   *
+   * // assertion will fail as actual and expected order differ
+   * assertThat(new float[] { 1.0f, 2.0f, 3.0f, 4.0f }).containsExactly(new Float[] { 1.0f, 5.0f });</code></pre>
+   *
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values with same order, i.e. the actual group
+   *           contains some or none of the given values, or the actual group contains more values than the given ones
+   *           or values are the same but the order is not.
+   * @since 3.19.0
+   */
+  public SELF containsExactly(Float[] values) {
+    requireNonNullParameter(values, "values");
+    arrays.assertContainsExactly(info, actual, toPrimitiveFloatArray(values));
+    return myself;
+  }
+
+  /**
    * Verifies that the actual group contains only the given values and nothing else, <b>in order</b>.
    * The values may vary with a specified precision.
    * <p>
@@ -951,6 +1176,33 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
   }
 
   /**
+   * Verifies that the actual group contains exactly the values of the given array and nothing else, <b>in any order</b>.<br>
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new float[] { 1.0f, 2.0f }).containsExactlyInAnyOrder(new Float[] { 2.0f, 1.0f });
+   * assertThat(new float[] { 1.0f, 2.0f, 3.0f }).containsExactlyInAnyOrder(new Float[] { 3.0f, 1.0f, 2.0f });
+   *
+   * // assertions will fail
+   * assertThat(new float[] { 1.0f, 2.0f }).containsExactlyInAnyOrder(new Float[] { 1.0f });
+   * assertThat(new float[] { 1.0f}).containsExactlyInAnyOrder(new Float[] { 2.0f, 1.0f });
+   * assertThat(new float[] { 1.0f, 2.0f, 3.0f }).containsExactlyInAnyOrder(new Float[] { 2.0f, 1.0f });</code></pre>
+   *
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
+   *           contains some or none of the given values, or the actual group contains more values than the given ones.
+   * @since 3.19.0
+   */
+  public SELF containsExactlyInAnyOrder(Float[] values) {
+    requireNonNullParameter(values, "values");
+    arrays.assertContainsExactlyInAnyOrder(info, actual, toPrimitiveFloatArray(values));
+    return myself;
+  }
+
+  /**
    * Create a {@link Float} comparator which compares floats at the given precision and pass it to {@link #usingElementComparator(Comparator)}.
    * All the following assertions will use this comparator to compare float[] elements.
    *
@@ -990,6 +1242,40 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
   public SELF containsAnyOf(float... values) {
     arrays.assertContainsAnyOf(info, actual, values);
     return myself;
+  }
+
+  /**
+   * Verifies that the actual array contains at least one of the values of the given array.
+   * <p>
+   * Example :
+   * <pre><code class='java'> float[] soFloats = { 1.0f, 2.0f, 3.0f };
+   *
+   * // assertions will pass
+   * assertThat(soFloats).containsAnyOf(new Float[] { 1.0f })
+   *                   .containsAnyOf(new Float[] { 3.0f, 4.0f, 5.0f, 6.0f });
+   *
+   * // assertions will fail
+   * assertThat(soFloats).containsAnyOf(new Float[] { 8.0f });
+   * assertThat(soFloats).containsAnyOf(new Float[] { 11.0f, 15.0f, 420.0f });</code></pre>
+   *
+   * @param values the values whose at least one which is expected to be in the array under test.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty and the array under test is not empty.
+   * @throws AssertionError if the array under test is {@code null}.
+   * @throws AssertionError if the array under test does not contain any of the given {@code values}.
+   * @since 3.19.0
+   */
+  public SELF containsAnyOf(Float[] values) {
+    requireNonNullParameter(values, "values");
+    arrays.assertContainsAnyOf(info, actual, toPrimitiveFloatArray(values));
+    return myself;
+  }
+
+  private static float[] toPrimitiveFloatArray(Float[] values) {
+    float[] floats = new float[values.length];
+    range(0, values.length).forEach(i -> floats[i] = values[i]);
+    return floats;
   }
 
 }
