@@ -2224,6 +2224,33 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new <code>{@link AllOf}</code>
+   * All nested conditions will be checked.
+   * @param <T> the type of object the given condition accept.
+   * @param conditions the conditions to evaluate.
+   * @return the created {@code AllOf}.
+   * @throws NullPointerException if the given iterable is {@code null}.
+   * @throws NullPointerException if any of the elements in the given iterable is {@code null}.
+   */
+  public static <T> Condition<T> allOfSoftly(Iterable<? extends Condition<? super T>> conditions) {
+    return  AllOf.allOfSoftly(conditions);
+  }
+
+  /**
+   * Creates a new <code>{@link AllOf}</code>
+   * All nested conditions will be checked.
+   * @param <T> the type of object the given condition accept.
+   * @param conditions the conditions to evaluate.
+   * @return the created {@code AllOf}.
+   * @throws NullPointerException if the given array is {@code null}.
+   * @throws NullPointerException if any of the elements in the given array is {@code null}.
+   */
+  @SafeVarargs
+  public static <T> Condition<T> allOfSoftly(Condition<? super T>... conditions) {
+    return AllOf.allOfSoftly(conditions);
+  }
+
+  /**
    * Only delegate to {@link AnyOf#anyOf(Condition...)} so that Assertions offers a full feature entry point to all
    * AssertJ features (but you can use {@link AnyOf} if you prefer).
    * <p>

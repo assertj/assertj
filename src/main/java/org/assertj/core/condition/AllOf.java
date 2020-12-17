@@ -12,6 +12,8 @@
  */
 package org.assertj.core.condition;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.assertj.core.api.Condition;
 
 /**
@@ -38,6 +40,20 @@ public class AllOf<T> extends Join<T> {
 
   /**
    * Creates a new <code>{@link AllOf}</code>
+   * All nested conditions will be checked.
+   * @param <T> the type of object the given condition accept.
+   * @param conditions the conditions to evaluate.
+   * @return the created {@code AllOf}.
+   * @throws NullPointerException if the given array is {@code null}.
+   * @throws NullPointerException if any of the elements in the given array is {@code null}.
+   */
+  @SafeVarargs
+  public static <T> Condition<T> allOfSoftly(Condition<? super T>... conditions) {
+    return new AllOf<>(true,conditions);
+  }
+
+  /**
+   * Creates a new <code>{@link AllOf}</code>
    * @param <T> the type of object the given condition accept.
    * @param conditions the conditions to evaluate.
    * @return the created {@code AllOf}.
@@ -48,23 +64,56 @@ public class AllOf<T> extends Join<T> {
     return new AllOf<>(conditions);
   }
 
+  /**
+   * Creates a new <code>{@link AllOf}</code>
+   * All nested conditions will be checked.
+   * @param <T> the type of object the given condition accept.
+   * @param conditions the conditions to evaluate.
+   * @return the created {@code AllOf}.
+   * @throws NullPointerException if the given iterable is {@code null}.
+   * @throws NullPointerException if any of the elements in the given iterable is {@code null}.
+   */
+  public static <T> Condition<T> allOfSoftly(Iterable<? extends Condition<? super T>> conditions) {
+    return new AllOf<>(true,conditions);
+  }
+
+  private boolean softly;
+
   @SafeVarargs
   private AllOf(Condition<? super T>... conditions) {
-    super(conditions);
+    this(false,conditions);
   }
 
   private AllOf(Iterable<? extends Condition<? super T>> conditions) {
+    this(false,conditions);
+  }
+  @SafeVarargs
+  private AllOf(boolean softly,Condition<? super T>... conditions) {
     super(conditions);
+    this.softly=softly;
+  }
+
+  private AllOf(boolean softly,Iterable<? extends Condition<? super T>> conditions) {
+    super(conditions);
+    this.softly=softly;
   }
 
   /** {@inheritDoc} */
   @Override
   public boolean matches(T value) {
+    if(softly) {
+      AtomicBoolean atomic = new AtomicBoolean(true);
+      conditions.stream().forEach(condition ->{
+        boolean result=condition.matches(value);
+        atomic.compareAndSet(true, result);
+      });
+      return atomic.get();
+    }
     return conditions.stream().allMatch(condition -> condition.matches(value));
   }
 
   @Override
   public String descriptionPrefix() {
-    return "all of";
+    return softly?"softly all of":"all of";
   }
 }

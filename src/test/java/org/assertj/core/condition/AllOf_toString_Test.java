@@ -15,6 +15,7 @@ package org.assertj.core.condition;
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.condition.AllOf.allOf;
+import static org.assertj.core.condition.AllOf.allOfSoftly;
 import static org.assertj.core.condition.Not.not;
 import static org.assertj.core.util.Lists.list;
 
@@ -54,6 +55,28 @@ class AllOf_toString_Test {
   }
 
   @Test
+  void should_implement_toString_showing_descriptions_of_inner_Conditions_softly() {
+    // GIVEN
+    TestCondition<Object> condition1 = new TestCondition<>("Condition 1");
+    TestCondition<Object> condition2 = new TestCondition<>("Condition 2");
+    DynamicCondition<Object> condition3 = new DynamicCondition<>("Condition 3");
+    Condition<Object> allOf = allOfSoftly(condition1, condition2, condition3);
+    // THEN
+    then(allOf).hasToString(format("all of:[%n" +
+                                   "   Condition 1,%n" +
+                                   "   Condition 2,%n" +
+                                   "   Condition 3%n" +
+                                   "]"));
+    allOf.matches(true);
+
+    then(allOf).hasToString(format("all of:[%n" +
+                                   "   Condition 1,%n" +
+                                   "   Condition 2,%n" +
+                                   "   ChangedDescription%n" +
+                                   "]"));
+  }
+
+  @Test
   void should_implement_toString_showing_descriptions_of_inner_Conditions_list() {
     // GIVEN
     TestCondition<Object> condition1 = new TestCondition<>("Condition 1");
@@ -70,6 +93,30 @@ class AllOf_toString_Test {
     // evaluating the condition will change the DynamicCondition description
     condition1.shouldMatch(true);
     condition2.shouldMatch(true);
+    allOf.matches(true);
+    // THEN
+    then(allOf).hasToString(format("all of:[%n" +
+                                   "   Condition 1,%n" +
+                                   "   Condition 2,%n" +
+                                   "   ChangedDescription%n" +
+                                   "]"));
+  }
+
+  @Test
+  void should_implement_toString_showing_descriptions_of_inner_Conditions_list_softly() {
+    // GIVEN
+    TestCondition<Object> condition1 = new TestCondition<>("Condition 1");
+    TestCondition<Object> condition2 = new TestCondition<>("Condition 2");
+    DynamicCondition<Object> condition3 = new DynamicCondition<>("Condition 3");
+    Condition<Object> allOf = allOfSoftly(list(condition1, condition2, condition3));
+    // THEN
+    then(allOf).hasToString(format("all of:[%n" +
+                                   "   Condition 1,%n" +
+                                   "   Condition 2,%n" +
+                                   "   Condition 3%n" +
+                                   "]"));
+    // WHEN
+    // evaluating the condition will change the DynamicCondition description
     allOf.matches(true);
     // THEN
     then(allOf).hasToString(format("all of:[%n" +
