@@ -25,7 +25,7 @@
 
   <properties>
     <javadocAdditionalOptions>-html5 --allow-script-in-comments --no-module-directories</javadocAdditionalOptions>
-    <byte-buddy.version>1.10.18</byte-buddy.version>
+    <byte-buddy.version>1.10.19</byte-buddy.version>
     <opentest4j.version>1.2.0</opentest4j.version>
     <bnd.version>5.2.0</bnd.version>
     <!-- Dependency versions overriding -->
