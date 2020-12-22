@@ -31,7 +31,7 @@ public class ShouldBeGreater extends BasicErrorMessageFactory {
    * @param other the value used in the failed assertion to compare the actual value to.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <T extends Comparable<? super T>> ErrorMessageFactory shouldBeGreater(T actual, T other) {
+  public static <T> ErrorMessageFactory shouldBeGreater(T actual, T other) {
     return new ShouldBeGreater(actual, other, StandardComparisonStrategy.instance());
   }
 
@@ -44,12 +44,12 @@ public class ShouldBeGreater extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <T extends Comparable<? super T>> ErrorMessageFactory shouldBeGreater(T actual, T other,
-                                                                                      ComparisonStrategy comparisonStrategy) {
+  public static <T> ErrorMessageFactory shouldBeGreater(T actual, T other, ComparisonStrategy comparisonStrategy) {
     return new ShouldBeGreater(actual, other, comparisonStrategy);
   }
 
-  private ShouldBeGreater(Comparable<?> actual, Comparable<?> other, ComparisonStrategy comparisonStrategy) {
+  private <T> ShouldBeGreater(T actual, T other, ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nto be greater than:%n  %s%n%s", actual, other, comparisonStrategy);
   }
+
 }

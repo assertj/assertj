@@ -20,14 +20,19 @@ import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
+import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
 import static org.assertj.core.error.ShouldBeEqualByComparingOnlyGivenFields.shouldBeEqualComparingOnlyGivenFields;
 import static org.assertj.core.error.ShouldBeEqualToIgnoringFields.shouldBeEqualToIgnoringGivenFields;
 import static org.assertj.core.error.ShouldBeExactlyInstanceOf.shouldBeExactlyInstance;
+import static org.assertj.core.error.ShouldBeGreater.shouldBeGreater;
+import static org.assertj.core.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
 import static org.assertj.core.error.ShouldBeIn.shouldBeIn;
 import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
 import static org.assertj.core.error.ShouldBeInstanceOfAny.shouldBeInstanceOfAny;
+import static org.assertj.core.error.ShouldBeLess.shouldBeLess;
+import static org.assertj.core.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
 import static org.assertj.core.error.ShouldBeOfClassIn.shouldBeOfClassIn;
 import static org.assertj.core.error.ShouldBeSame.shouldBeSame;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
@@ -758,8 +763,8 @@ public class Objects {
     List<String> nonNullFieldNames = declaredFields.stream()
                                                    .filter(field -> !ignoredFields.contains(field.getName()))
                                                    .filter(field -> canReadFieldValue(field, actual))
-                                                   .filter(field -> getPropertyOrFieldValue(actual, field.getName()) != null)
                                                    .map(Field::getName)
+                                                   .filter(name -> getPropertyOrFieldValue(actual, name) != null)
                                                    .collect(toList());
     if (!nonNullFieldNames.isEmpty()) {
       throw failures.failure(info, shouldHaveAllNullFields(actual, nonNullFieldNames, list(propertiesOrFieldsToIgnore)));
@@ -930,6 +935,82 @@ public class Objects {
     assertNotNull(info, actual);
     requireNonNull(other, "The object used to compare actual's hash code with should not be null");
     if (actual.hashCode() == other.hashCode()) throw failures.failure(info, shouldNotHaveSameHashCode(actual, other));
+  }
+
+  public <T> void assertEqualByComparison(AssertionInfo info, T actual, T expected) {
+    requireComparatorBasedComparisonStrategy();
+    assertEqual(info, actual, expected);
+  }
+
+  public <T> void assertNotEqualByComparison(AssertionInfo info, T actual, T other) {
+    requireComparatorBasedComparisonStrategy();
+    assertNotEqual(info, actual, other);
+  }
+
+  public <T> void assertLessThan(AssertionInfo info, T actual, T other) {
+    requireComparatorBasedComparisonStrategy();
+    assertNotNull(info, actual);
+    if (isLessThan(actual, other)) return;
+    throw failures.failure(info, shouldBeLess(actual, other, comparisonStrategy));
+  }
+
+  public <T> void assertLessThanOrEqualTo(AssertionInfo info, T actual, T other) {
+    requireComparatorBasedComparisonStrategy();
+    assertNotNull(info, actual);
+    if (!isGreaterThan(actual, other)) return;
+    throw failures.failure(info, shouldBeLessOrEqual(actual, other, comparisonStrategy));
+  }
+
+  public <T> void assertGreaterThan(AssertionInfo info, T actual, T other) {
+    requireComparatorBasedComparisonStrategy();
+    assertNotNull(info, actual);
+    if (isGreaterThan(actual, other)) return;
+    throw failures.failure(info, shouldBeGreater(actual, other, comparisonStrategy));
+  }
+
+  public <T> void assertGreaterThanOrEqualTo(AssertionInfo info, T actual, T other) {
+    requireComparatorBasedComparisonStrategy();
+    assertNotNull(info, actual);
+    if (!isLessThan(actual, other)) return;
+    throw failures.failure(info, shouldBeGreaterOrEqual(actual, other, comparisonStrategy));
+  }
+
+  public <T> void assertIsBetween(AssertionInfo info, T actual, T start, T end, boolean inclusiveStart, boolean inclusiveEnd) {
+    requireComparatorBasedComparisonStrategy();
+    assertNotNull(info, actual);
+    requireNonNull(start, "The start range to compare actual with should not be null");
+    requireNonNull(end, "The end range to compare actual with should not be null");
+    checkBoundsValidity(start, end, inclusiveStart, inclusiveEnd);
+    boolean checkLowerBoundaryRange = inclusiveStart ? !isGreaterThan(start, actual) : isLessThan(start, actual);
+    boolean checkUpperBoundaryRange = inclusiveEnd ? !isGreaterThan(actual, end) : isLessThan(actual, end);
+    if (checkLowerBoundaryRange && checkUpperBoundaryRange) return;
+    throw failures.failure(info, shouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, comparisonStrategy));
+  }
+
+  private <T> void checkBoundsValidity(T start, T end, boolean inclusiveStart, boolean inclusiveEnd) {
+    // don't use isLessThanOrEqualTo or isGreaterThanOrEqualTo to avoid equal comparison which makes BigDecimal
+    // to fail when start = end with different precision, ex: [10.0, 10.00].
+    boolean inclusiveBoundsCheck = inclusiveEnd && inclusiveStart && !isGreaterThan(start, end);
+    boolean strictBoundsCheck = !inclusiveEnd && !inclusiveStart && isLessThan(start, end);
+    String operator = inclusiveEnd && inclusiveStart ? "less than" : "less than or equal to";
+    String boundsCheckErrorMessage = format("The end value <%s> must not be %s the start value <%s>%s!", end, operator, start,
+                                            (comparisonStrategy.isStandard() ? "" : " (using " + comparisonStrategy + ")"));
+    checkArgument(inclusiveBoundsCheck || strictBoundsCheck, boundsCheckErrorMessage);
+  }
+
+  private boolean isLessThan(Object actual, Object other) {
+    return comparisonStrategy.isLessThan(actual, other);
+  }
+
+  private boolean isGreaterThan(Object actual, Object other) {
+    return comparisonStrategy.isGreaterThan(actual, other);
+  }
+
+  private void requireComparatorBasedComparisonStrategy() {
+    if (!(comparisonStrategy instanceof ComparatorBasedComparisonStrategy)) {
+      throw new UnsupportedOperationException("ComparatorBasedComparisonStrategy required, but was: "
+                                              + comparisonStrategy.getClass().getName());
+    }
   }
 
   public static class ByFieldsComparison {

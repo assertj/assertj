@@ -8,26 +8,24 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2020 the original author or authors.
  */
 package org.assertj.core.api;
 
 import java.math.BigDecimal;
 
 /**
- * Assertion methods applicable to <code>{@link Comparable}</code>s.
+ * Assertion methods based on comparison. The implementation defines how the comparison is performed.
  * 
  * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating
  *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
  * @param <ACTUAL> the type of the "actual" value.
  * 
- * @author Alex Ruiz
- * @author Ted M. Young
- * @author Mikhail Mazursky
+ * @author Stefano Cordio
+ * @since 3.19.0
  */
-public interface ComparableAssert<SELF extends ComparableAssert<SELF, ACTUAL>, ACTUAL extends Comparable<? super ACTUAL>>
-    extends ComparisonBasedAssert<SELF, ACTUAL> {
+public interface ComparisonBasedAssert<SELF extends ComparisonBasedAssert<SELF, ACTUAL>, ACTUAL> {
 
   /**
    * Verifies that the actual value is equal to the given one by invoking

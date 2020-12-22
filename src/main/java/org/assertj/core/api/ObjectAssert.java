@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
@@ -35,9 +36,9 @@ public class ObjectAssert<ACTUAL> extends AbstractObjectAssert<ObjectAssert<ACTU
   public ObjectAssert(ACTUAL actual) {
     super(actual, ObjectAssert.class);
   }
-  
+
   public ObjectAssert(AtomicReference<ACTUAL> actual) {
-    this(actual == null ? null: actual.get());
+    this(actual == null ? null : actual.get());
   }
 
   @Override
@@ -45,6 +46,17 @@ public class ObjectAssert<ACTUAL> extends AbstractObjectAssert<ObjectAssert<ACTU
   @SafeVarargs
   public final AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(Function<? super ACTUAL, ?>... extractors) {
     return super.extracting(extractors);
+  }
+
+  @Override
+  public ComparatorBasedObjectAssert<ACTUAL> usingComparator(Comparator<? super ACTUAL> customComparator) {
+    return usingComparator(customComparator, null);
+  }
+
+  @Override
+  public ComparatorBasedObjectAssert<ACTUAL> usingComparator(Comparator<? super ACTUAL> customComparator,
+                                                             String customComparatorDescription) {
+    return new ComparatorBasedObjectAssert<>(actual, this, customComparator, customComparatorDescription);
   }
 
 }
