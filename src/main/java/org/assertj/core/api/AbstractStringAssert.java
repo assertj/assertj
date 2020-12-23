@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 
+import java.text.Normalizer;
 import java.util.Base64;
 import java.util.Comparator;
 
@@ -374,5 +375,20 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    */
   public SELF isEqualTo(String expected) {
     return super.isEqualTo(expected);
+  }
+
+  /**
+   * Verifies that the actual value is equal to expected to their canonical form.
+   * <p>
+   * This method normalizes the expected {@link String} so that the comparison works as expected.
+   *
+   * @param expected the given {@link String} to compare the actual to.
+   * @return this assertion object.
+   * @see Assert#isEqualTo(java.lang.Object)
+   * @since 3.13.0
+   */
+  public SELF isEqualToNormalizingUnicode(String expected) {
+    String expectedNormalized = Normalizer.normalize(expected, Normalizer.Form.NFC);
+    return super.isEqualTo(expectedNormalized);
   }
 }
