@@ -392,7 +392,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * @param expected the given {@link String} to compare the actual to.
    * @return this assertion object.
    * @see Assert#isEqualTo(java.lang.Object)
-   * @since 3.13.0
+   * @since 3.19.0
    */
   public SELF isEqualToNormalizingUnicode(String expected) {
     String expectedNormalized = Normalizer.normalize(expected, Normalizer.Form.NFC);
