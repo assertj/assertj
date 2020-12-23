@@ -378,9 +378,16 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   }
 
   /**
-   * Verifies that the actual value is equal to expected to their canonical form.
+   * Verifies that the actual value is equal to expected on their canonical form.
    * <p>
    * This method normalizes the expected {@link String} so that the comparison works as expected.
+   *
+   * Examples:
+   * <pre><code class='java'> // assertion succeeds
+   * assertThat(&quot;\u00C4&quot;).isEqualToNormalizingUnicode(&quot;\u0041\u0308&quot;);
+   *
+   *  // assertion fails
+   *  assertThat(&quot;\u0041\u0308&quot;).isEqualToNormalizingUnicode(&quot;\u0041\u0308&quot;);
    *
    * @param expected the given {@link String} to compare the actual to.
    * @return this assertion object.
