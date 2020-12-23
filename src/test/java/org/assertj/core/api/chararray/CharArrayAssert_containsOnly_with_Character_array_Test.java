@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
  * @author Lucero Garcia
  */
 @DisplayName("CharacterArrayAssert containsOnly(Character[])")
-public class CharArrayAssert_containsOnly_with_Character_array_Test extends CharArrayAssertBaseTest {
+class CharArrayAssert_containsOnly_with_Character_array_Test extends CharArrayAssertBaseTest {
 
   @Test
   void should_fail_if_values_is_null() {

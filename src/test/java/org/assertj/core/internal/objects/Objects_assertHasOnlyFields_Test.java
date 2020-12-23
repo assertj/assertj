@@ -41,7 +41,7 @@ class Objects_assertHasOnlyFields_Test extends ObjectsBaseTest {
   }
 
   @Test
-  public void should_fail_if_some_fields_are_missing() {
+  void should_fail_if_some_fields_are_missing() {
     // GIVEN
     Object actual = new Data();
     // WHEN
@@ -52,7 +52,7 @@ class Objects_assertHasOnlyFields_Test extends ObjectsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_has_extra_fields() {
+  void should_fail_if_actual_has_extra_fields() {
     // GIVEN
     Object actual = new Data();
     // WHEN
@@ -63,7 +63,7 @@ class Objects_assertHasOnlyFields_Test extends ObjectsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_has_missing_and_extra_fields() {
+  void should_fail_if_actual_has_missing_and_extra_fields() {
     // GIVEN
     Object actual = new Data();
     // WHEN

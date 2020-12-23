@@ -21,8 +21,6 @@ import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.util.function.Predicate;
 
-import org.assertj.core.util.VisibleForTesting;
-
 /**
  * Wrapper for <code>{@link java.nio.file.Files}</code> to test {@link Paths}.
  */
