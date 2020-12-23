@@ -378,7 +378,8 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   }
 
   /**
-   * Verifies that the actual value is equal to expected on their canonical form.
+   * Verifies that the actual value is equal to expected on their canonical form relying on {@link java.text.Normalizer}.
+   * Using {@link java.text.Normalizer.Form#NFC} for canonical decomposition, followed by canonical composition.
    * <p>
    * This method normalizes the expected {@link String} so that the comparison works as expected.
    *
