@@ -387,7 +387,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * assertThat(&quot;\u00C4&quot;).isEqualToNormalizingUnicode(&quot;\u0041\u0308&quot;);
    *
    *  // assertion fails
-   *  assertThat(&quot;\u0041\u0308&quot;).isEqualToNormalizingUnicode(&quot;\u0041\u0308&quot;);
+   *  assertThat(&quot;\u0041\u0308&quot;).isEqualToNormalizingUnicode(&quot;\u0041\u0308&quot;); </code></pre>
    *
    * @param expected the given {@link String} to compare the actual to.
    * @return this assertion object.
