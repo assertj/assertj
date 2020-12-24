@@ -27,6 +27,7 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringNewLineDifferences.sho
 import static org.assertj.core.error.ShouldBeEqualIgnoringNewLines.shouldBeEqualIgnoringNewLines;
 import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqualIgnoringWhitespace;
 import static org.assertj.core.error.ShouldBeEqualNormalizingPunctuationAndWhitespace.shouldBeEqualNormalizingPunctuationAndWhitespace;
+import static org.assertj.core.error.ShouldBeEqualNormalizingUnicode.shouldBeEqualNormalizingUnicode;
 import static org.assertj.core.error.ShouldBeEqualNormalizingWhitespace.shouldBeEqualNormalizingWhitespace;
 import static org.assertj.core.error.ShouldBeLowerCase.shouldBeLowerCase;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
@@ -75,6 +76,7 @@ import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.StringReader;
+import java.text.Normalizer;
 import java.util.Base64;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
@@ -740,6 +742,49 @@ public class Strings {
       return null;
     }
     return normalizeWhitespace(toNormalize.toString().replaceAll(PUNCTUATION_REGEX, ""));
+  }
+
+  /**
+   * Verifies that two {@code CharSequence}s are equal, on their canonical form relying on {@link java.text.Normalizer}.
+   * Using {@link java.text.Normalizer.Form#NFC} for canonical decomposition, followed by canonical composition.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>
+   * // assertion succeeds
+   * assertThat(&quot;\u00C4&quot;).isEqualToNormalizingUnicode(&quot;\u0041\u0308&quot;);
+   * // assertion fails
+   * assertThat(&quot;\u0041\u0308&quot;).isEqualToNormalizingUnicode(&quot;\u0041\u0308&quot;); </code></pre>
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence}.
+   * @param expected the expected {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence}s are not equal.
+   * @since 3.19.0
+   */
+  public void assertEqualsToNormalizingUnicode(AssertionInfo info, CharSequence actual, CharSequence expected) {
+    if (actual != null) checkCharSequenceIsNotNull(expected);
+    String normalizedActual = Normalizer.normalize(actual, Normalizer.Form.NFC);
+    String normalizedExpected = Normalizer.normalize(expected, Normalizer.Form.NFC);
+    if (!java.util.Objects.equals(normalizedActual, normalizedExpected))
+      throw failures.failure(info, shouldBeEqualNormalizingUnicode(actual, expected), normalizedActual, normalizedExpected);
+  }
+
+  /**
+   * Verifies that two {@code CharSequence}s are not equal, on their canonical form relying on {@link java.text.Normalizer}.
+   * Using {@link java.text.Normalizer.Form#NFC} for canonical decomposition, followed by canonical composition.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence}.
+   * @param expected the expected {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence}s are equal.
+   * @since 3.19.0
+   */
+  public void assertNotEqualsToNormalizingUnicode(AssertionInfo info, CharSequence actual, CharSequence expected) {
+    if (actual != null) checkCharSequenceIsNotNull(expected);
+    String normalizedActual = Normalizer.normalize(actual, Normalizer.Form.NFC);
+    String normalizedExpected = Normalizer.normalize(expected, Normalizer.Form.NFC);
+    if (java.util.Objects.equals(normalizedActual, normalizedExpected))
+      throw failures.failure(info, shouldBeEqualNormalizingUnicode(actual, expected));
   }
 
   /**
