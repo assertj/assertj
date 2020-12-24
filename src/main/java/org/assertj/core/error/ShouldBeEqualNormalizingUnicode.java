@@ -9,7 +9,7 @@ package org.assertj.core.error;
 public class ShouldBeEqualNormalizingUnicode extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new <code>{@link org.assertj.core.error.ShouldBeEqualNormalizingWhitespace}</code>.
+   * Creates a new <code>{@link org.assertj.core.error.ShouldBeEqualNormalizingUnicode}</code>.
    * @param actual the actual value in the failed assertion.
    * @param expected the expected value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
