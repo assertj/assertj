@@ -1,7 +1,7 @@
 package org.assertj.core.error;
 /**
  * Creates an error message indicating that an assertion that verifies that two {@code CharSequence}s are not equal,
- * on their canonical form relying on {@link java.text.Normalizer}.
+ * on their canonical form relying on {@link java.text.Normalizer}, failed.
  *
  * @author Julieta Navarro
  */
