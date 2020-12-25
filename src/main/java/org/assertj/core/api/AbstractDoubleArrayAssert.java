@@ -233,7 +233,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    * <pre><code class='java'> double[] values = new double[] { 1.0, 2.0, 3.0 };
    *
    * // assertion will pass
-   * assertThat(values).contains(1.0, 3.0, 2.0)
+   * assertThat(values).contains(new Double[] { 1.0, 3.0, 2.0 })
    *
    * // assertions will fail
    * assertThat(values).contains(1.0, 4.0);
