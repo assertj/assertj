@@ -334,6 +334,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
    *           or none of the given values, or the actual array contains more values than the given ones.
+   * @since 3.19.0
    */
   public SELF containsOnly(Double[] values) {
     requireNonNullParameter(values, "values");
