@@ -27,12 +27,12 @@ public class ShortArrayAssert_containsAnyOf_with_Short_array_Test extends ShortA
     Throwable thrown = catchThrowable(() -> assertions.containsAnyOf(values));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
-      .hasMessage(shouldNotBeNull("values").create());
+                .hasMessage(shouldNotBeNull("values").create());
   }
 
   @Override
   protected ShortArrayAssert invoke_api_method() {
-    return assertions.containsAnyOf(new Short[]{ 1, 2 });
+    return assertions.containsAnyOf(new Short[] { 1, 2 });
   }
 
   @Override

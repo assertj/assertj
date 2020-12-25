@@ -27,7 +27,7 @@ class ByteArrayAssert_contains_AnyOf_with_Byte_array_Test extends ByteArrayAsser
     Throwable thrown = catchThrowable(() -> assertions.containsAnyOf(values));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
-      .hasMessage(shouldNotBeNull("values").create());
+                .hasMessage(shouldNotBeNull("values").create());
   }
 
   @Override

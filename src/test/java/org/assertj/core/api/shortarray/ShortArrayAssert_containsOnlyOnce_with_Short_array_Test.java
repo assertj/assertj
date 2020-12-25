@@ -27,12 +27,12 @@ public class ShortArrayAssert_containsOnlyOnce_with_Short_array_Test extends Sho
     Throwable thrown = catchThrowable(() -> assertions.containsOnlyOnce(values));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
-      .hasMessage(shouldNotBeNull("values").create());
+                .hasMessage(shouldNotBeNull("values").create());
   }
 
   @Override
   protected ShortArrayAssert invoke_api_method() {
-    return assertions.containsOnlyOnce(new Short[]{ 1, 2 });
+    return assertions.containsOnlyOnce(new Short[] { 1, 2 });
   }
 
   @Override

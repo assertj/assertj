@@ -27,17 +27,17 @@ public class ByteArrayAssert_startsWith_with_Byte_array_Test extends ByteArrayAs
     Throwable thrown = catchThrowable(() -> assertions.startsWith(values));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
-      .hasMessage(shouldNotBeNull("sequence").create());
+                .hasMessage(shouldNotBeNull("sequence").create());
   }
 
   @Override
   protected ByteArrayAssert invoke_api_method() {
-    return assertions.startsWith(new Byte[] {1, 2});
+    return assertions.startsWith(new Byte[] { 1, 2 });
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertStartsWith(getInfo(assertions), getActual(assertions), arrayOf(1, 2)) ;
+    verify(arrays).assertStartsWith(getInfo(assertions), getActual(assertions), arrayOf(1, 2));
   }
 
 }

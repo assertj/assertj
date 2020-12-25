@@ -27,12 +27,12 @@ public class ShortArrayAssert_startsWith_with_Short_array_Test extends ShortArra
     Throwable thrown = catchThrowable(() -> assertions.startsWith(values));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
-      .hasMessage(shouldNotBeNull("sequence").create());
+                .hasMessage(shouldNotBeNull("sequence").create());
   }
 
   @Override
   protected ShortArrayAssert invoke_api_method() {
-    return assertions.startsWith(new Short[]{ 2, 3 });
+    return assertions.startsWith(new Short[] { 2, 3 });
   }
 
   @Override

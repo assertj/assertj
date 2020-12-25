@@ -27,17 +27,17 @@ class ByteArrayAssert_containsSequence_with_Byte_array_Test extends ByteArrayAss
     Throwable thrown = catchThrowable(() -> assertions.containsSequence(values));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
-      .hasMessage(shouldNotBeNull("sequence").create());
+                .hasMessage(shouldNotBeNull("sequence").create());
   }
 
   @Override
   protected ByteArrayAssert invoke_api_method() {
-    return assertions.containsSequence(new Byte[] {2, 3});
+    return assertions.containsSequence(new Byte[] { 2, 3 });
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertContainsSequence(getInfo(assertions), getActual(assertions), arrayOf(2, 3)) ;
+    verify(arrays).assertContainsSequence(getInfo(assertions), getActual(assertions), arrayOf(2, 3));
   }
 
 }

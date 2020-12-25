@@ -27,12 +27,12 @@ public class ShortArrayAssert_containsSubsequence_with_Short_array_Test extends 
     Throwable thrown = catchThrowable(() -> assertions.containsSubsequence(values));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
-      .hasMessage(shouldNotBeNull("subsequence").create());
+                .hasMessage(shouldNotBeNull("subsequence").create());
   }
 
   @Override
   protected ShortArrayAssert invoke_api_method() {
-    return assertions.containsSubsequence(new Short[]{ 1, 3 });
+    return assertions.containsSubsequence(new Short[] { 1, 3 });
   }
 
   @Override

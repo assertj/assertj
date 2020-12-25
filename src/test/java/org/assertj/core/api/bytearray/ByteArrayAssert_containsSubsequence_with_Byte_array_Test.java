@@ -27,17 +27,17 @@ class ByteArrayAssert_containsSubsequence_with_Byte_array_Test extends ByteArray
     Throwable thrown = catchThrowable(() -> assertions.containsSubsequence(values));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
-      .hasMessage(shouldNotBeNull("subsequence").create());
+                .hasMessage(shouldNotBeNull("subsequence").create());
   }
 
   @Override
   protected ByteArrayAssert invoke_api_method() {
-    return assertions.containsSubsequence(new Byte[] {1, 2, 3});
+    return assertions.containsSubsequence(new Byte[] { 1, 2, 3 });
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertContainsSubsequence(getInfo(assertions), getActual(assertions), arrayOf(1, 2, 3)) ;
+    verify(arrays).assertContainsSubsequence(getInfo(assertions), getActual(assertions), arrayOf(1, 2, 3));
   }
 
 }

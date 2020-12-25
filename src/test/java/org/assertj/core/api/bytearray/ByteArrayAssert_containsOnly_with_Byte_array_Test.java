@@ -27,17 +27,17 @@ class ByteArrayAssert_containsOnly_with_Byte_array_Test extends ByteArrayAssertB
     Throwable thrown = catchThrowable(() -> assertions.containsOnly(values));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
-      .hasMessage(shouldNotBeNull("values").create());
+                .hasMessage(shouldNotBeNull("values").create());
   }
 
   @Override
   protected ByteArrayAssert invoke_api_method() {
-    return assertions.containsOnly(new Byte[] {1, 2, 3});
+    return assertions.containsOnly(new Byte[] { 1, 2, 3 });
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertContainsOnly(getInfo(assertions), getActual(assertions), arrayOf(1, 2, 3)) ;
+    verify(arrays).assertContainsOnly(getInfo(assertions), getActual(assertions), arrayOf(1, 2, 3));
   }
 
 }

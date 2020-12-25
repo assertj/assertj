@@ -27,17 +27,17 @@ public class ByteArrayAssert_doesNotContain_with_Byte_array_Test extends ByteArr
     Throwable thrown = catchThrowable(() -> assertions.doesNotContain(values));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
-      .hasMessage(shouldNotBeNull("values").create());
+                .hasMessage(shouldNotBeNull("values").create());
   }
 
   @Override
   protected ByteArrayAssert invoke_api_method() {
-    return assertions.doesNotContain(new Byte[] {4});
+    return assertions.doesNotContain(new Byte[] { 4 });
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertDoesNotContain(getInfo(assertions), getActual(assertions), arrayOf(4)) ;
+    verify(arrays).assertDoesNotContain(getInfo(assertions), getActual(assertions), arrayOf(4));
   }
 
 }

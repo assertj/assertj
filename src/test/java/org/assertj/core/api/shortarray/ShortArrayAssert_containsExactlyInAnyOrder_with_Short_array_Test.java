@@ -27,12 +27,12 @@ public class ShortArrayAssert_containsExactlyInAnyOrder_with_Short_array_Test ex
     Throwable thrown = catchThrowable(() -> assertions.containsExactly(values));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
-      .hasMessage(shouldNotBeNull("values").create());
+                .hasMessage(shouldNotBeNull("values").create());
   }
 
   @Override
   protected ShortArrayAssert invoke_api_method() {
-    return assertions.containsExactly(new Short[]{ 1, 2 });
+    return assertions.containsExactly(new Short[] { 1, 2 });
   }
 
   @Override

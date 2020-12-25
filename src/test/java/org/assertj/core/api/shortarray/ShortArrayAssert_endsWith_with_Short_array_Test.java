@@ -27,12 +27,12 @@ public class ShortArrayAssert_endsWith_with_Short_array_Test extends ShortArrayA
     Throwable thrown = catchThrowable(() -> assertions.endsWith(values));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
-      .hasMessage(shouldNotBeNull("sequence").create());
+                .hasMessage(shouldNotBeNull("sequence").create());
   }
 
   @Override
   protected ShortArrayAssert invoke_api_method() {
-    return assertions.endsWith(new Short[]{ 2, 3 });
+    return assertions.endsWith(new Short[] { 2, 3 });
   }
 
   @Override

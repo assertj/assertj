@@ -28,7 +28,7 @@ class ByteArrayAssert_containsExactly_with_Byte_array_Test extends ByteArrayAsse
     Throwable thrown = catchThrowable(() -> assertions.containsExactly(values));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
-      .hasMessage(shouldNotBeNull("values").create());
+                .hasMessage(shouldNotBeNull("values").create());
   }
 
   @Override

@@ -27,17 +27,17 @@ public class ByteArrayAssert_endsWith_with_Byte_array_Test extends ByteArrayAsse
     Throwable thrown = catchThrowable(() -> assertions.endsWith(values));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
-      .hasMessage(shouldNotBeNull("sequence").create());
+                .hasMessage(shouldNotBeNull("sequence").create());
   }
 
   @Override
   protected ByteArrayAssert invoke_api_method() {
-    return assertions.endsWith(new Byte[] {3, 4});
+    return assertions.endsWith(new Byte[] { 3, 4 });
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertEndsWith(getInfo(assertions), getActual(assertions), arrayOf(3, 4)) ;
+    verify(arrays).assertEndsWith(getInfo(assertions), getActual(assertions), arrayOf(3, 4));
   }
 
 }

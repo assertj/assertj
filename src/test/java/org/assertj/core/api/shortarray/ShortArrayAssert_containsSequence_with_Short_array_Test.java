@@ -27,12 +27,12 @@ public class ShortArrayAssert_containsSequence_with_Short_array_Test extends Sho
     Throwable thrown = catchThrowable(() -> assertions.containsSequence(values));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
-      .hasMessage(shouldNotBeNull("sequence").create());
+                .hasMessage(shouldNotBeNull("sequence").create());
   }
 
   @Override
   protected ShortArrayAssert invoke_api_method() {
-    return assertions.containsSequence(new Short[]{ 1, 2 });
+    return assertions.containsSequence(new Short[] { 1, 2 });
   }
 
   @Override

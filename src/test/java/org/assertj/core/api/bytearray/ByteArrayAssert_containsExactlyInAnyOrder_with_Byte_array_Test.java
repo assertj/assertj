@@ -27,17 +27,17 @@ class ByteArrayAssert_containsExactlyInAnyOrder_with_Byte_array_Test extends Byt
     Throwable thrown = catchThrowable(() -> assertions.containsExactlyInAnyOrder(values));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
-      .hasMessage(shouldNotBeNull("values").create());
+                .hasMessage(shouldNotBeNull("values").create());
   }
 
   @Override
   protected ByteArrayAssert invoke_api_method() {
-    return assertions.containsExactlyInAnyOrder(new Byte[] {1, 2});
+    return assertions.containsExactlyInAnyOrder(new Byte[] { 1, 2 });
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertContainsExactlyInAnyOrder(getInfo(assertions), getActual(assertions), arrayOf(1, 2)) ;
+    verify(arrays).assertContainsExactlyInAnyOrder(getInfo(assertions), getActual(assertions), arrayOf(1, 2));
   }
 
 }

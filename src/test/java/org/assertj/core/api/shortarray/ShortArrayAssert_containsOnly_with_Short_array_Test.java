@@ -27,12 +27,12 @@ public class ShortArrayAssert_containsOnly_with_Short_array_Test extends ShortAr
     Throwable thrown = catchThrowable(() -> assertions.containsOnly(values));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
-      .hasMessage(shouldNotBeNull("values").create());
+                .hasMessage(shouldNotBeNull("values").create());
   }
 
   @Override
   protected ShortArrayAssert invoke_api_method() {
-    return assertions.containsOnly(new Short[]{ 1, 2, 3, 4 });
+    return assertions.containsOnly(new Short[] { 1, 2, 3, 4 });
   }
 
   @Override
