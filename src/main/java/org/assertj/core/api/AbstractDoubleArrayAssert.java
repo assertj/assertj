@@ -1103,7 +1103,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    * <p>
    * Example :
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new double[] { 1.0, 2.0, 1.0 }).containsExactly(new Double[] {1.0, 2.0, 1.0});
+   * assertThat(new double[] { 1.0, 2.0, 1.0 }).containsExactly(new Double[] { 1.0, 2.0, 1.0 });
    *
    * // assertion will fail as actual and expected order differ
    * assertThat(new double[] { 1.0, 2.0, 1.0 }).containsExactly(new Double[] {2.0, 1.0, 1.0});</code></pre>
