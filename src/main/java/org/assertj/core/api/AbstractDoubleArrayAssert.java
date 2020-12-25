@@ -12,8 +12,7 @@
  */
 package org.assertj.core.api;
 
-import static java.util.stream.IntStream.range;
-
+import java.util.Arrays;
 import java.util.Comparator;
 
 import org.assertj.core.data.Index;
