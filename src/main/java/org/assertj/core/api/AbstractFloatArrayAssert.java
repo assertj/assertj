@@ -572,7 +572,7 @@ public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAs
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new float[] { 1.0f, 2.0f }).containsSubsequence(new Float[] { 1.0f, 2.0f});
+   * assertThat(new float[] { 1.0f, 2.0f }).containsSubsequence(new Float[] { 1.0f, 2.0f });
    * assertThat(new float[] { 1.0f, 2.0f, 3.0f, 4.0f }).containsSubsequence(new Float[] { 1.0f, 4.0f });
    *
    * // assertion will fail
