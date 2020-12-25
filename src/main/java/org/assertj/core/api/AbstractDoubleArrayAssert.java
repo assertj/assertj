@@ -1258,7 +1258,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    * assertThat(new double[] {1.0, 1.0, 1.0}).containsAnyOf(new Double[] { 2.0, 2.0, 2.0, 1.0 });
    *
    * // assertions will fail
-   * assertThat(new double[] {1.0, 2.0, 3.0}).containsAnyOf(new Double[] {8.0});
+   * assertThat(new double[] {1.0, 2.0, 3.0}).containsAnyOf(new Double[] { 8.0 });
    * assertThat(new double[] {1.0, 2.0, 3.0}).containsAnyOf(new double[] {12.0, 11.0, 15.0};</code></pre>
    *
    * @param values the values whose at least one which is expected to be in the array under test.
