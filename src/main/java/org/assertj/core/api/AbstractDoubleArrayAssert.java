@@ -1276,8 +1276,6 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
   }
 
   private static double[] toPrimitiveDoubleArray(Double[] values) {
-    double[] doubles = new double[values.length];
-    range(0, values.length).forEach(i -> doubles[i] = values[i]);
-    return doubles;
+    return Arrays.stream(values).mapToDouble(Double::doubleValue).toArray();
   }
 }
