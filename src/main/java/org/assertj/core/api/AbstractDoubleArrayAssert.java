@@ -990,7 +990,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new double[] { 1.0, 2.0, 2.0, 1.0 }).endsWith( new Double[] {2.0, 1.0} );
+   * assertThat(new double[] { 1.0, 2.0, 2.0, 1.0 }).endsWith(new Double[] { 2.0, 1.0 });
    *
    * // assertion will fail
    * assertThat(new double[] { 1.0, 2.0, 2.0, 1.0 }).endsWith(new Double[] {1.0, 2.0});</code></pre>
