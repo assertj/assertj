@@ -17,7 +17,7 @@ import org.assertj.core.api.FloatArrayAssertBaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.test.FloatArrays.arrayOf;
@@ -40,6 +40,14 @@ class FloatArrayAssert_containsOnlyOnce_with_Float_array_Test extends FloatArray
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
       .hasMessage(shouldNotBeNull("values").create());
+  }
+
+  @Test
+  void should_pass_if_values_are_in_range_of_precision() {
+    // GIVEN
+    Float[] values = new Float[] { 1.01f, 3.01f, 1.99f };
+    // WHEN/THEN
+    assertThat(arrayOf(1.0f, 2.0f, 3.0f )).containsOnlyOnce(values, withPrecision(0.02f));
   }
 
   @Override

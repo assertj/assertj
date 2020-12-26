@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.doublearray;
 
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.test.DoubleArrays.arrayOf;
@@ -40,6 +40,14 @@ class DoubleArrayAssert_contains_with_Double_array_Test extends DoubleArrayAsser
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
       .hasMessage(shouldNotBeNull("values").create());
+  }
+
+  @Test
+  void should_pass_if_values_are_in_range_of_precision() {
+    // GIVEN
+      Double[] values = new Double[]{ 1.01, 2.01 };
+    // WHEN/THEN
+      assertThat(arrayOf(1.0, 2.0)).contains(values, withPrecision(0.02));
   }
 
   @Override
