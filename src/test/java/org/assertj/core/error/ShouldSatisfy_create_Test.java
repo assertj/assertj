@@ -15,6 +15,7 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldSatisfy.shouldSatisfy;
+import static org.assertj.core.error.ShouldSatisfy.shouldSatisfyExactlyInAnyOrder;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Lists.newArrayList;
 
@@ -47,13 +48,13 @@ class ShouldSatisfy_create_Test {
   @Test
   void should_create_error_message_if_consumers_are_not_all_satisfied() {
     // GIVEN
-    ErrorMessageFactory factory = shouldSatisfy(newArrayList("Luke", "Leia", "Yoda"));
+    ErrorMessageFactory factory = shouldSatisfyExactlyInAnyOrder(newArrayList("Luke", "Leia", "Yoda"));
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting:%n"
                                    + "  <[\"Luke\", \"Leia\", \"Yoda\"]>%n"
-                                   + "to satisfy all the consumers."));
+                                   + "to satisfy all the consumers in any order."));
   }
 }

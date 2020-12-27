@@ -1322,8 +1322,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * the individual consumers in order.
    * <p>
    * Examples:
-   * <pre><code class='java'>
-   * List&lt;String&gt; starWarsCharacterNames = list("Luke", "Leia", "Yoda");
+   * <pre><code class='java'> List&lt;String&gt; starWarsCharacterNames = list("Luke", "Leia", "Yoda");
    *
    * // this assertion succeeds:
    * assertThat(starWarsCharacterNames).satisfiesExactlyInAnyOrder(

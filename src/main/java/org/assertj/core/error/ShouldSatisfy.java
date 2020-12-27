@@ -26,7 +26,7 @@ public class ShouldSatisfy extends BasicErrorMessageFactory {
   @VisibleForTesting
   public static final String CONDITION_SHOULD_BE_SATISFIED = "%nExpecting:%n  <%s>%nto satisfy:%n  <%s>";
   @VisibleForTesting
-  public static final String CONSUMERS_SHOULD_BE_SATISFIED = "%nExpecting:%n  <%s>%nto satisfy all the consumers.";
+  public static final String CONSUMERS_SHOULD_BE_SATISFIED_IN_ANY_ORDER = "%nExpecting:%n  <%s>%nto satisfy all the consumers in any order.";
   @VisibleForTesting
   public static final String CONSUMERS_SHOULD_NOT_BE_NULL = "The Consumer<? super E>... expressing the assertions consumers must not be null";
 
@@ -40,7 +40,7 @@ public class ShouldSatisfy extends BasicErrorMessageFactory {
    * @param actual the actual iterable in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <E> ErrorMessageFactory shouldSatisfy(Iterable<E> actual) {
+  public static <E> ErrorMessageFactory shouldSatisfyExactlyInAnyOrder(Iterable<E> actual) {
     return new ShouldSatisfy(actual);
   }
 
@@ -49,6 +49,6 @@ public class ShouldSatisfy extends BasicErrorMessageFactory {
   }
 
   private <E> ShouldSatisfy(Iterable<E> actual) {
-    super(CONSUMERS_SHOULD_BE_SATISFIED, actual);
+    super(CONSUMERS_SHOULD_BE_SATISFIED_IN_ANY_ORDER, actual);
   }
 }

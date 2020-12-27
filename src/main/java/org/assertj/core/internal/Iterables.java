@@ -56,7 +56,7 @@ import static org.assertj.core.error.ShouldNotContainNull.shouldNotContainNull;
 import static org.assertj.core.error.ShouldNotContainSequence.shouldNotContainSequence;
 import static org.assertj.core.error.ShouldNotContainSubsequence.shouldNotContainSubsequence;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
-import static org.assertj.core.error.ShouldSatisfy.shouldSatisfy;
+import static org.assertj.core.error.ShouldSatisfy.shouldSatisfyExactlyInAnyOrder;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.error.ZippedElementsShouldSatisfy.zippedElementsShouldSatisfy;
 import static org.assertj.core.internal.Arrays.assertIsArray;
@@ -94,7 +94,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.AssertionInfo;
@@ -1149,8 +1148,11 @@ public class Iterables {
       throw failures.failure(info, elementsShouldSatisfy(actual, unsatisfiedRequirements, info));
   }
 
-  private <E> Function<? super Consumer<? super E>, List<E>> listFilteredBySatisfiedElements(Iterable<? extends E> actual) {
-    return consumer -> stream(actual).filter(byPassingAssertions(consumer)).collect(toList());
+  @SafeVarargs
+  private static <E> List<E>[] listsFilteredBySatisfiedElements(Iterable<? extends E> actual, Consumer<? super E>... consumers) {
+    return stream(consumers)
+                            .map(consumer -> stream(actual).filter(byPassingAssertions(consumer)).collect(toList()))
+                            .<List<E>> toArray(List[]::new);
   }
 
   private static <E> boolean isSatisfied(List<E>[] satisfiedElementsLists, int begin) {
@@ -1222,15 +1224,11 @@ public class Iterables {
 
     checkSizes(actual, sizeOf(actual), consumers.length, info);
 
-    List<E>[] satisfiedElementsLists = stream(consumers)
-                                                        .map(listFilteredBySatisfiedElements(actual))
-                                                        .<List<E>> toArray(List[]::new);
+    List<E>[] satisfiedElementsLists = listsFilteredBySatisfiedElements(actual, consumers);
 
     if (!isSatisfied(satisfiedElementsLists, 0))
-      throw failures.failure(info, shouldSatisfy(actual));
+      throw failures.failure(info, shouldSatisfyExactlyInAnyOrder(actual));
   }
-
-
 
   public <ACTUAL_ELEMENT, OTHER_ELEMENT> void assertZipSatisfy(AssertionInfo info,
                                                                Iterable<? extends ACTUAL_ELEMENT> actual,
