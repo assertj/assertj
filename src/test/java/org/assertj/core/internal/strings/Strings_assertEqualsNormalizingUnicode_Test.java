@@ -12,10 +12,13 @@ import java.util.stream.Stream;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.error.ShouldBeEqualNormalizingPunctuationAndWhitespace.shouldBeEqualNormalizingPunctuationAndWhitespace;
 import static org.assertj.core.error.ShouldBeEqualNormalizingUnicode.shouldBeEqualNormalizingUnicode;
 
 import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.mockito.Mockito.verify;
 
 /**
  * Tests for <code>{@link org.assertj.core.internal.Strings#assertEqualsToNormalizingUnicode(AssertionInfo, CharSequence, CharSequence)} (org.assertj.core.api.AssertionInfo, CharSequence, CharSequence)} </code>.
@@ -32,11 +35,14 @@ public class Strings_assertEqualsNormalizingUnicode_Test extends StringsBaseTest
 
   @Test
   void should_fail_if_both_Strings_are_not_equal_after_unicode_is_normalized() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertEqualsToNormalizingUnicode(someInfo(),
-      "\u00C4",
-      "\u0041"))
-      .withMessage(format(shouldBeEqualNormalizingUnicode("\u00C4",
-        "\u0041").create()));
+    // GIVEN
+    String actual = "\u00C4";
+    String expected = "\u0062";
+    AssertionInfo info = someInfo();
+    // WHEN
+    expectAssertionError(() -> strings.assertEqualsToNormalizingUnicode(info, actual, expected));
+    // THEN
+    verify(failures).failure(info, shouldBeEqualNormalizingUnicode(actual, expected), "Ä", expected);
   }
 
   @ParameterizedTest
