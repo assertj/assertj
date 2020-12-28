@@ -52,7 +52,6 @@ import static org.assertj.core.error.ShouldNotBeBlank.shouldNotBeBlank;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringCase.shouldNotBeEqualIgnoringCase;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringWhitespace.shouldNotBeEqualIgnoringWhitespace;
-import static org.assertj.core.error.ShouldNotBeEqualNormalizingUnicode.shouldNotBeEqualNormalizingUnicode;
 import static org.assertj.core.error.ShouldNotBeEqualNormalizingWhitespace.shouldNotBeEqualNormalizingWhitespace;
 import static org.assertj.core.error.ShouldNotContainAnyWhitespaces.shouldNotContainAnyWhitespaces;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
@@ -768,24 +767,6 @@ public class Strings {
     String normalizedExpected = Normalizer.normalize(expected, Normalizer.Form.NFC);
     if (!java.util.Objects.equals(normalizedActual, normalizedExpected))
       throw failures.failure(info, shouldBeEqualNormalizingUnicode(actual, expected), normalizedActual, normalizedExpected);
-  }
-
-  /**
-   * Verifies that two {@code CharSequence}s are not equal, on their canonical form relying on {@link java.text.Normalizer}.
-   * Using {@link java.text.Normalizer.Form#NFC} for canonical decomposition, followed by canonical composition.
-   *
-   * @param info contains information about the assertion.
-   * @param actual the actual {@code CharSequence}.
-   * @param expected the expected {@code CharSequence}.
-   * @throws AssertionError if the given {@code CharSequence}s are equal.
-   * @since 3.19.0
-   */
-  public void assertNotEqualsToNormalizingUnicode(AssertionInfo info, CharSequence actual, CharSequence expected) {
-    if (actual != null) checkCharSequenceIsNotNull(expected);
-    String normalizedActual = Normalizer.normalize(actual, Normalizer.Form.NFC);
-    String normalizedExpected = Normalizer.normalize(expected, Normalizer.Form.NFC);
-    if (java.util.Objects.equals(normalizedActual, normalizedExpected))
-      throw failures.failure(info, shouldNotBeEqualNormalizingUnicode(actual, expected));
   }
 
   /**
