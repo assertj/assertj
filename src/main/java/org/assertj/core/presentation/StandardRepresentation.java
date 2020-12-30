@@ -196,9 +196,6 @@ public class StandardRepresentation implements Representation {
     if (object instanceof LocalDateTime) return toStringOf((LocalDateTime) object);
     if (object instanceof OffsetDateTime) return toStringOf((OffsetDateTime) object);
     if (object instanceof ZonedDateTime) return toStringOf((ZonedDateTime) object);
-    if (object instanceof AtomicBoolean) return toStringOf((AtomicBoolean) object);
-    if (object instanceof AtomicInteger) return toStringOf((AtomicInteger) object);
-    if (object instanceof AtomicLong) return toStringOf((AtomicLong) object);
     if (object instanceof LongAdder) return toStringOf((LongAdder) object);
     if (object instanceof AtomicReference) return toStringOf((AtomicReference<?>) object);
     if (object instanceof AtomicMarkableReference) return toStringOf((AtomicMarkableReference<?>) object);
@@ -206,7 +203,6 @@ public class StandardRepresentation implements Representation {
     if (object instanceof AtomicIntegerFieldUpdater) return AtomicIntegerFieldUpdater.class.getSimpleName();
     if (object instanceof AtomicLongFieldUpdater) return AtomicLongFieldUpdater.class.getSimpleName();
     if (object instanceof AtomicReferenceFieldUpdater) return AtomicReferenceFieldUpdater.class.getSimpleName();
-    if (object instanceof Number) return toStringOf((Number) object);
     if (object instanceof File) return toStringOf((File) object);
     if (object instanceof Path) return fallbackToStringOf(object);
     if (object instanceof String) return toStringOf((String) object);
@@ -228,6 +224,10 @@ public class StandardRepresentation implements Representation {
     // ex: JsonNode is an Iterable that is best formatted with its own String
     // Path is another example but we can deal with it specifically as it is part of the JDK.
     if (object instanceof Iterable<?> && !hasOverriddenToString((Iterable<?>) object)) return smartFormat((Iterable<?>) object);
+    if (object instanceof AtomicInteger) return toStringOf((AtomicInteger) object);
+    if (object instanceof AtomicBoolean) return toStringOf((AtomicBoolean) object);
+    if (object instanceof AtomicLong) return toStringOf((AtomicLong) object);
+    if (object instanceof Number) return toStringOf((Number) object);
     return fallbackToStringOf(object);
   }
 
