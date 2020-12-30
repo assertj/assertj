@@ -431,7 +431,7 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
     }
 
     @Override
-    public T[] toArray(T[] a) {
+    public <E> E[] toArray(E[] a) {
       return list.toArray(a);
     }
 
