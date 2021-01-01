@@ -24,7 +24,7 @@ import org.assertj.core.internal.Failures;
 public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollector
     implements SoftAssertionsProvider, InstanceOfAssertFactories {
 
-  protected final SoftProxies proxies;
+  final SoftProxies proxies;
 
   protected AbstractSoftAssertions() {
     // pass itself as an AssertionErrorCollector instance
