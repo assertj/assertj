@@ -82,8 +82,10 @@ import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Streams.stream;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -91,6 +93,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Queue;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -1148,36 +1151,6 @@ public class Iterables {
       throw failures.failure(info, elementsShouldSatisfy(actual, unsatisfiedRequirements, info));
   }
 
-  @SafeVarargs
-  private static <E> List<E>[] listsFilteredBySatisfiedElements(Iterable<? extends E> actual, Consumer<? super E>... consumers) {
-    return stream(consumers)
-                            .map(consumer -> stream(actual).filter(byPassingAssertions(consumer)).collect(toList()))
-                            .<List<E>> toArray(List[]::new);
-  }
-
-  private static <E> boolean isSatisfied(List<E>[] satisfiedElementsLists, int begin) {
-    // recursively test whether we can find any specific matching strategy that can meet the requirements
-    if (begin == satisfiedElementsLists.length) return true;   // all consumers have been satisfied
-    if (satisfiedElementsLists[begin].isEmpty()) return false;   // no satisfied element for consumers[begin]
-
-    for (E element : satisfiedElementsLists[begin]) {
-      List<Integer> removedElementRowIndices = newArrayList();
-      for (int i = begin + 1; i < satisfiedElementsLists.length; i++) {
-        if (satisfiedElementsLists[i].remove(element)) {
-          removedElementRowIndices.add(i);
-        }
-      }
-
-      // Check whether remaining consumers can be satisfied
-      if (isSatisfied(satisfiedElementsLists, begin + 1)) return true;
-
-      for (int i : removedElementRowIndices) {
-        satisfiedElementsLists[i].add(element); // restore the array
-      }
-    }
-    return false;
-  }
-
   private static <E> Optional<UnsatisfiedRequirement> failsRequirements(Consumer<? super E> requirements, E element) {
     try {
       requirements.accept(element);
@@ -1216,7 +1189,8 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} and consumers don't have the same size.
    * @throws AssertionError if any {@code Consumer} in the consumers cannot be satisfied by elements in the given {@code Iterable}.
    */
-  public <E> void assertSatisfiesExactlyInAnyOrder(AssertionInfo info, Iterable<? extends E> actual, @SuppressWarnings("unchecked") Consumer<? super E>... consumers) {
+  public <E> void assertSatisfiesExactlyInAnyOrder(AssertionInfo info, Iterable<? extends E> actual,
+                                                   @SuppressWarnings("unchecked") Consumer<? super E>... consumers) {
     assertNotNull(info, actual);
     requireNonNull(consumers, "The Consumer<? super E>... expressing the assertions consumers must not be null");
     for (Consumer<? super E> consumer : consumers)
@@ -1224,10 +1198,44 @@ public class Iterables {
 
     checkSizes(actual, sizeOf(actual), consumers.length, info);
 
-    List<E>[] satisfiedElementsLists = listsFilteredBySatisfiedElements(actual, consumers);
+    Deque<ElementsSatisfyingConsumer<E>> satisfiedElementsPerConsumer = satisfiedElementsPerConsumer(actual, consumers);
 
-    if (!isSatisfied(satisfiedElementsLists, 0))
+    if (!areAllConsumersSatisfied(satisfiedElementsPerConsumer))
       throw failures.failure(info, shouldSatisfyExactlyInAnyOrder(actual));
+  }
+
+  @SafeVarargs
+  private static <E> Deque<ElementsSatisfyingConsumer<E>> satisfiedElementsPerConsumer(Iterable<? extends E> actual,
+                                                                                       Consumer<? super E>... consumers) {
+    return stream(consumers)
+                            .map(consumer -> new ElementsSatisfyingConsumer<E>(actual, consumer))
+                            .collect(toCollection(ArrayDeque::new));
+  }
+
+  private static <E> boolean areAllConsumersSatisfied(Queue<ElementsSatisfyingConsumer<E>> satisfiedElementsPerConsumer) {
+    // recursively test whether we can find any specific matching permutation that can meet the requirements
+    if (satisfiedElementsPerConsumer.isEmpty()) return true;   // all consumers have been satisfied
+
+    // pop the head (i.e, elements satisfying the current consumer), process the tail (i.e., remaining consumers)...
+    ElementsSatisfyingConsumer<E> head = satisfiedElementsPerConsumer.remove();
+    List<E> elementsSatisfyingCurrentConsumer = head.getElements();
+
+    if (elementsSatisfyingCurrentConsumer.isEmpty()) return false;   // no element satisfies current consumer
+
+    // if we remove an element satisfying the current consumer from all remaining consumers, 
+    // will other elements still satisfy them all?
+    return elementsSatisfyingCurrentConsumer.stream()
+      .map(element -> removeElement(satisfiedElementsPerConsumer, element))
+      .anyMatch(Iterables::areAllConsumersSatisfied);
+  }
+
+  private static <E> Queue<ElementsSatisfyingConsumer<E>> removeElement(Queue<ElementsSatisfyingConsumer<E>> satisfiedElementsPerConsumer,
+                                                                              E element) {
+    // new Queue of satisfied elements per consumer, each without the given element. 
+    // original objects are not modified
+    return satisfiedElementsPerConsumer.stream()
+                                       .map(e -> e.withoutElement(element))
+                                       .collect(toCollection(ArrayDeque::new));
   }
 
   public <ACTUAL_ELEMENT, OTHER_ELEMENT> void assertZipSatisfy(AssertionInfo info,
