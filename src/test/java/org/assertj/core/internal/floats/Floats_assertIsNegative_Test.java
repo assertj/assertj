@@ -12,19 +12,19 @@
  */
 package org.assertj.core.internal.floats;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeLess.shouldBeLess;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Floats;
 import org.assertj.core.internal.FloatsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Floats#assertIsNegative(AssertionInfo, Float)}</code>.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -32,25 +32,39 @@ class Floats_assertIsNegative_Test extends FloatsBaseTest {
 
   @Test
   void should_succeed_since_actual_is_negative() {
-    floats.assertIsNegative(someInfo(), (float) -6);
+    floats.assertIsNegative(someInfo(), -6.0f);
   }
 
   @Test
   void should_fail_since_actual_is_not_negative() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNegative(someInfo(), 6.0f))
-                                                   .withMessage(format("%nExpecting:%n <6.0f>%nto be less than:%n <0.0f> "));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> floats.assertIsNegative(someInfo(), 6.0f));
+    // THEN
+    then(assertionError).hasMessage(shouldBeLess(6.0f, 0.0f).create());
   }
 
   @Test
-  void should_fail_since_actual_is_not_negative_according_to_absolute_value_comparison_strategy() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), (float) -6))
-                                                   .withMessage(format("%nExpecting:%n <-6.0f>%nto be less than:%n <0.0f> when comparing values using AbsValueComparator"));
+  void should_fail_since_actual_is_zero() {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> floats.assertIsNegative(someInfo(), 0.0f));
+    // THEN
+    then(assertionError).hasMessage(shouldBeLess(0.0f, 0.0f).create());
   }
 
   @Test
-  void should_fail_since_actual_is_not_negative_according_to_absolute_value_comparison_strategy2() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), 6.0f))
-                                                   .withMessage(format("%nExpecting:%n <6.0f>%nto be less than:%n <0.0f> when comparing values using AbsValueComparator"));
+  void should_fail_since_actual_can_not_be_negative_according_to_custom_comparison_strategy() {
+    // WHEN
+    AssertionError error = expectAssertionError(() -> floatsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), 6.0f));
+    // THEN
+    then(error).hasMessage(shouldBeLess(6.0f, 0.0f, absValueComparisonStrategy).create());
+  }
+
+  @Test
+  void should_fail_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
+    // WHEN
+    AssertionError error = expectAssertionError(() -> floatsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), -1.0f));
+    // THEN
+    then(error).hasMessage(shouldBeLess(-1.0f, 0.0f, absValueComparisonStrategy).create());
   }
 
 }

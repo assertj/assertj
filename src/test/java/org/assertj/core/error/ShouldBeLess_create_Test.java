@@ -41,9 +41,9 @@ class ShouldBeLess_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <8>%n" +
+                                   "  8%n" +
                                    "to be less than:%n" +
-                                   " <6> "));
+                                   "  6 "));
   }
 
   @Test
@@ -55,8 +55,8 @@ class ShouldBeLess_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <8>%n" +
+                                   "  8%n" +
                                    "to be less than:%n" +
-                                   " <6> when comparing values using AbsValueComparator"));
+                                   "  6 when comparing values using AbsValueComparator"));
   }
 }

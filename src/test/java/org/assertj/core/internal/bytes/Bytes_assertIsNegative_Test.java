@@ -12,24 +12,26 @@
  */
 package org.assertj.core.internal.bytes;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeLess.shouldBeLess;
 import static org.assertj.core.test.TestData.someHexInfo;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Bytes;
 import org.assertj.core.internal.BytesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Bytes#assertIsNegative(AssertionInfo, Comparable)}</code>.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
 class Bytes_assertIsNegative_Test extends BytesBaseTest {
+
+  private AssertionInfo hexInfo = someHexInfo();
 
   @Test
   void should_succeed_since_actual_is_negative() {
@@ -38,37 +40,46 @@ class Bytes_assertIsNegative_Test extends BytesBaseTest {
 
   @Test
   void should_fail_since_actual_is_not_negative() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsNegative(someInfo(), (byte) 0x06))
-                                                   .withMessage(format("%nExpecting:%n <6>%nto be less than:%n <0> "));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> bytes.assertIsNegative(someInfo(), (byte) 6));
+    // THEN
+    then(assertionError).hasMessage(shouldBeLess((byte) 6, (byte) 0).create());
+  }
+
+  @Test
+  void should_fail_since_actual_is_zero() {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> bytes.assertIsNegative(someInfo(), (byte) 0));
+    // THEN
+    then(assertionError).hasMessage(shouldBeLess((byte) 0, (byte) 0).create());
+  }
+
+  @Test
+  void should_fail_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
+    // WHEN
+    AssertionError error = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertIsNegative(someInfo(),
+                                                                                                           (byte) -1));
+    // THEN
+    then(error).hasMessage(shouldBeLess((byte) -1, (byte) 0, absValueComparisonStrategy).create());
   }
 
   @Test
   void should_fail_since_actual_is_not_negative_with_hex_representation() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsNegative(someHexInfo(), (byte) 0x06))
-                                                   .withMessage(format("%nExpecting:%n <0x06>%nto be less than:%n <0x00> "));
-  }
-
-  @Test
-  void should_fail_since_actual_is_not_negative_according_to_absolute_value_comparison_strategy() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), (byte) -6))
-                                                   .withMessage(format("%nExpecting:%n <-6>%nto be less than:%n <0> when comparing values using AbsValueComparator"));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> bytes.assertIsNegative(hexInfo, (byte) 6));
+    // THEN
+    then(assertionError).hasMessage(shouldBeLess((byte) 0x06, (byte) 0x00).create(hexInfo.description(),
+                                                                                  hexInfo.representation()));
   }
 
   @Test
   void should_fail_since_actual_is_not_negative_according_to_absolute_value_comparison_strategy_in_hex_representation() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertIsNegative(someHexInfo(), (byte) 0xFA))
-                                                   .withMessage(format("%nExpecting:%n <0xFA>%nto be less than:%n <0x00> when comparing values using AbsValueComparator"));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertIsNegative(someHexInfo(),
+                                                                                                                    (byte) 0xFA));
+    // THEN
+    then(assertionError).hasMessage(shouldBeLess((byte) 0xFA, (byte) 0x00,
+                                                 absValueComparisonStrategy).create(hexInfo.description(),
+                                                                                    hexInfo.representation()));
   }
-
-  @Test
-  void should_fail_since_actual_is_not_negative_according_to_absolute_value_comparison_strategy2() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), (byte) 6))
-                                                   .withMessage(format("%nExpecting:%n <6>%nto be less than:%n <0> when comparing values using AbsValueComparator"));
-  }
-  @Test
-  void should_fail_since_actual_is_not_negative_according_to_absolute_value_comparison_strategy2_in_hex_representation() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertIsNegative(someHexInfo(), (byte) 0x06))
-                                                   .withMessage(format("%nExpecting:%n <0x06>%nto be less than:%n <0x00> when comparing values using AbsValueComparator"));
-  }
-
 }

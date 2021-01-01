@@ -12,9 +12,10 @@
  */
 package org.assertj.core.internal.bigdecimals;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeLess.shouldBeLess;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.math.BigDecimal;
 
@@ -23,10 +24,9 @@ import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.BigDecimalsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link BigDecimals#assertIsNegative(AssertionInfo, BigDecimal)}</code>.
- * 
+ *
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
@@ -38,26 +38,33 @@ class BigDecimals_assertIsNegative_Test extends BigDecimalsBaseTest {
   }
 
   @Test
-  void should_fail_since_actual_is_not_negative() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsNegative(someInfo(), BigDecimal.ONE))
-                                                   .withMessage(format("%nExpecting:%n <1>%nto be less than:%n <0> "));
-  }
-
-  @Test
-  void should_fail_since_actual_is_zero() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsNegative(someInfo(), BigDecimal.ZERO))
-                                                   .withMessage(format("%nExpecting:%n <0>%nto be less than:%n <0> "));
-  }
-  
-  @Test
   void should_succeed_since_actual_is_negative_according_to_custom_comparison_strategy() {
     numbersWithComparatorComparisonStrategy.assertIsNegative(someInfo(), new BigDecimal("-1.0"));
   }
 
   @Test
+  void should_fail_since_actual_is_zero() {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> numbers.assertIsNegative(someInfo(), BigDecimal.ZERO));
+    // THEN
+    then(assertionError).hasMessage(shouldBeLess(BigDecimal.ZERO, BigDecimal.ZERO).create());
+  }
+
+  @Test
+  void should_fail_since_actual_is_not_negative() {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> numbers.assertIsNegative(someInfo(), BigDecimal.ONE));
+    // THEN
+    then(assertionError).hasMessage(shouldBeLess(BigDecimal.ONE, BigDecimal.ZERO).create());
+  }
+
+  @Test
   void should_fail_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertIsNegative(someInfo(), BigDecimal.ONE))
-                                                   .withMessage(format("%nExpecting:%n <1>%nto be less than:%n <0> when comparing values using org.assertj.core.util.BigDecimalComparator"));
+    // WHEN
+    AssertionError error = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNegative(someInfo(),
+                                                                                                             new BigDecimal(-1)));
+    // THEN
+    then(error).hasMessage(shouldBeLess(new BigDecimal(-1), BigDecimal.ZERO, absValueComparisonStrategy).create());
   }
 
 }

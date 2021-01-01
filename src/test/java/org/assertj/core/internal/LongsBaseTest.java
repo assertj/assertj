@@ -12,8 +12,10 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
+import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.util.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -30,6 +32,7 @@ public class LongsBaseTest {
 
   protected Failures failures;
   protected Longs longs;
+  protected static final WritableAssertionInfo INFO = someInfo();
 
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
   protected Longs longsWithAbsValueComparisonStrategy;

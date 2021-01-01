@@ -37,15 +37,15 @@ class AutoClosableSoftAssertionsLineNumberTest {
     // THEN
     assertThat(error).hasMessageContaining(format("%n"
                                                   + "Expecting:%n"
-                                                  + " <1>%n"
+                                                  + "  1%n"
                                                   + "to be less than:%n"
-                                                  + " <0> %n"
+                                                  + "  0 %n"
                                                   + "at AutoClosableSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(AutoClosableSoftAssertionsLineNumberTest.java:33)%n"))
                      .hasMessageContaining(format("%n"
                                                   + "Expecting:%n"
-                                                  + " <1>%n"
+                                                  + "  1%n"
                                                   + "to be less than:%n"
-                                                  + " <1> %n"
+                                                  + "  1 %n"
                                                   + "at AutoClosableSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(AutoClosableSoftAssertionsLineNumberTest.java:34)"));
   }
 }

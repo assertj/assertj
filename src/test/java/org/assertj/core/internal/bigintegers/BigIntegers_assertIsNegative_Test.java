@@ -12,9 +12,10 @@
  */
 package org.assertj.core.internal.bigintegers;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeLess.shouldBeLess;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.math.BigInteger;
 
@@ -34,26 +35,34 @@ class BigIntegers_assertIsNegative_Test extends BigIntegersBaseTest {
   }
 
   @Test
-  void should_fail_since_actual_is_not_negative() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsNegative(someInfo(), BigInteger.ONE))
-                                                   .withMessage(format("%nExpecting:%n <1>%nto be less than:%n <0> "));
-  }
-
-  @Test
-  void should_fail_since_actual_is_zero() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsNegative(someInfo(), BigInteger.ZERO))
-                                                   .withMessage(format("%nExpecting:%n <0>%nto be less than:%n <0> "));
-  }
-
-  @Test
   void should_succeed_since_actual_is_negative_according_to_custom_comparison_strategy() {
     numbersWithComparatorComparisonStrategy.assertIsNegative(someInfo(), new BigInteger("-1"));
   }
 
   @Test
+  void should_fail_since_actual_is_zero() {
+    // WHEN
+    AssertionError error = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNegative(someInfo(),
+                                                                                                             BigInteger.ZERO));
+    // THEN
+    then(error).hasMessage(shouldBeLess(BigInteger.ZERO, BigInteger.ZERO, absValueComparisonStrategy).create());
+  }
+
+  @Test
+  void should_fail_since_actual_is_not_negative() {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> numbers.assertIsNegative(someInfo(), BigInteger.ONE));
+    // THEN
+    then(assertionError).hasMessage(shouldBeLess(BigInteger.ONE, BigInteger.ZERO).create());
+  }
+
+  @Test
   void should_fail_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertIsNegative(someInfo(), BigInteger.ONE))
-                                                   .withMessage(format("%nExpecting:%n <1>%nto be less than:%n <0> when comparing values using BigIntegerComparator"));
+    // WHEN
+    AssertionError error = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNegative(someInfo(),
+                                                                                                             BigInteger.valueOf(-1)));
+    // THEN
+    then(error).hasMessage(shouldBeLess(BigInteger.valueOf(-1), BigInteger.ZERO, absValueComparisonStrategy).create());
   }
 
 }

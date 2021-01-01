@@ -12,19 +12,18 @@
  */
 package org.assertj.core.internal.longs;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeLess.shouldBeLess;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Longs;
 import org.assertj.core.internal.LongsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Longs#assertIsNegative(AssertionInfo, Long)}</code>.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -32,25 +31,39 @@ class Longs_assertIsNegative_Test extends LongsBaseTest {
 
   @Test
   void should_succeed_since_actual_is_negative() {
-    longs.assertIsNegative(someInfo(), -6L);
+    longs.assertIsNegative(INFO, -6L);
   }
 
   @Test
   void should_fail_since_actual_is_not_negative() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertIsNegative(someInfo(), 6L))
-                                                   .withMessage(format("%nExpecting:%n <6L>%nto be less than:%n <0L> "));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> longs.assertIsNegative(INFO, 6L));
+    // THEN
+    then(assertionError).hasMessage(shouldBeLess(6L, 0L).create());
+  }
+
+  @Test
+  void should_fail_since_actual_is_zero() {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> longs.assertIsNegative(INFO, 0L));
+    // THEN
+    then(assertionError).hasMessage(shouldBeLess(0L, 0L).create());
   }
 
   @Test
   void should_fail_since_actual_can_not_be_negative_according_to_custom_comparison_strategy() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), -1L))
-                                                   .withMessage(format("%nExpecting:%n <-1L>%nto be less than:%n <0L> when comparing values using AbsValueComparator"));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> longsWithAbsValueComparisonStrategy.assertIsNegative(INFO, 6L));
+    // THEN
+    then(assertionError).hasMessage(shouldBeLess(6L, 0L, absValueComparisonStrategy).create());
   }
 
   @Test
   void should_fail_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), 1L))
-                                                   .withMessage(format("%nExpecting:%n <1L>%nto be less than:%n <0L> when comparing values using AbsValueComparator"));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> longsWithAbsValueComparisonStrategy.assertIsNegative(INFO, -1L));
+    // THEN
+    then(assertionError).hasMessage(shouldBeLess(-1L, 0L, absValueComparisonStrategy).create());
   }
 
 }

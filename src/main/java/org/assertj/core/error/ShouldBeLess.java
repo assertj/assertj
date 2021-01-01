@@ -12,11 +12,12 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.internal.*;
+import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value is less than another one failed.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -42,11 +43,11 @@ public class ShouldBeLess extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static <T extends Comparable<? super T>> ErrorMessageFactory shouldBeLess(T actual, T other,
-      ComparisonStrategy comparisonStrategy) {
+                                                                                   ComparisonStrategy comparisonStrategy) {
     return new ShouldBeLess(actual, other, comparisonStrategy);
   }
 
   private ShouldBeLess(Comparable<?> actual, Comparable<?> other, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting:%n <%s>%nto be less than:%n <%s> %s", actual, other, comparisonStrategy);
+    super("%nExpecting:%n  %s%nto be less than:%n  %s %s", actual, other, comparisonStrategy);
   }
 }

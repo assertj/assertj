@@ -41,15 +41,15 @@ class SoftAssertionsLineNumberTest {
     // THEN
     assertThat(error).hasMessageContaining(format("%n"
                                                   + "Expecting:%n"
-                                                  + " <1>%n"
+                                                  + "  1%n"
                                                   + "to be less than:%n"
-                                                  + " <0> %n"
+                                                  + "  0 %n"
                                                   + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(SoftAssertionsLineNumberTest.java:37)%n"))
                      .hasMessageContaining(format("%n"
                                                   + "Expecting:%n"
-                                                  + " <1>%n"
+                                                  + "  1%n"
                                                   + "to be less than:%n"
-                                                  + " <1> %n"
+                                                  + "  1 %n"
                                                   + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(SoftAssertionsLineNumberTest.java:38)"));
   }
 

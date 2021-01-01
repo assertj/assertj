@@ -37,15 +37,15 @@ class BDDSoftAssertionsLineNumberTest {
     // THEN
     assertThat(error).hasMessageContaining(format("%n"
                                                   + "Expecting:%n"
-                                                  + " <1>%n"
+                                                  + "  1%n"
                                                   + "to be less than:%n"
-                                                  + " <0> %n"
+                                                  + "  0 %n"
                                                   + "at BDDSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(BDDSoftAssertionsLineNumberTest.java:33)%n"))
                      .hasMessageContaining(format("%n"
                                                   + "Expecting:%n"
-                                                  + " <1>%n"
+                                                  + "  1%n"
                                                   + "to be less than:%n"
-                                                  + " <1> %n"
+                                                  + "  1 %n"
                                                   + "at BDDSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(BDDSoftAssertionsLineNumberTest.java:34)"));
   }
 }
