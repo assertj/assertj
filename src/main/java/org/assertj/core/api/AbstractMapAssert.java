@@ -589,24 +589,24 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * {@link java.util.HashMap}, prefer {@link #containsExactlyInAnyOrderEntriesOf(java.util.Map)} in that case).
    * <p>
    * Example :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = Map.of(oneRing, frodo,
-   *                                                  nenya, galadriel,
-   *                                                  narya, gandalf);
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = newLinkedHashMap(entry(oneRing, frodo),
+   *                                                            entry(nenya, galadriel),
+   *                                                            entry(narya, gandalf));
    *
    * // assertion will pass
-   * assertThat(ringBearers).containsExactlyEntriesOf(Map.of(oneRing, frodo,
-   *                                                         nenya, galadriel,
-   *                                                         narya, gandalf));
+   * assertThat(ringBearers).containsExactlyEntriesOf(newLinkedHashMap(entry(oneRing, frodo),
+   *                                                                   entry(nenya, galadriel),
+   *                                                                   entry(narya, gandalf)));
    *
    * // assertion will fail as actual and expected order differ
-   * assertThat(ringBearers).containsExactlyEntriesOf(Map.of(nenya, galadriel,
-   *                                                         narya, gandalf,
-   *                                                         oneRing, frodo));
+   * assertThat(ringBearers).containsExactlyEntriesOf(newLinkedHashMap(entry(nenya, galadriel),
+   *                                                                   entry(narya, gandalf),
+   *                                                                   entry(oneRing, frodo)));
    * // assertion will fail as actual and expected have different sizes
-   * assertThat(ringBearers).containsExactlyEntriesOf(Map.of(oneRing, frodo,
-   *                                                         nenya, galadriel,
-   *                                                         narya, gandalf,
-   *                                                         narya, gandalf));</code></pre>
+   * assertThat(ringBearers).containsExactlyEntriesOf(newLinkedHashMap(entry(oneRing, frodo),
+   *                                                                   entry(nenya, galadriel),
+   *                                                                   entry(narya, gandalf),
+   *                                                                   entry(narya, gandalf)));</code></pre>
    *
    * @param map the given {@link Map} with the expected entries to be found in actual.
    * @return {@code this} assertions object
@@ -628,28 +628,28 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Verifies that the actual map contains only the given entries and nothing else, in any order.
    * <p>
    * Example :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = Map.of(oneRing, frodo,
-   *                                                  nenya, galadriel,
-   *                                                  narya, gandalf);
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = newLinkedHashMap(entry(oneRing, frodo),
+   *                                                            entry(nenya, galadriel),
+   *                                                            entry(narya, gandalf));
    *
    * // assertion will pass
-   * assertThat(ringBearers).containsExactlyInAnyOrderEntriesOf(Map.of(oneRing, frodo,
-   *                                                                   nenya, galadriel,
-   *                                                                   narya, gandalf));
+   * assertThat(ringBearers).containsExactlyInAnyOrderEntriesOf(newLinkedHashMap(entry(oneRing, frodo),
+   *                                                                             entry(nenya, galadriel),
+   *                                                                             entry(narya, gandalf)));
    *
    * // assertion will pass although actual and expected order differ
-   * assertThat(ringBearers).containsExactlyInAnyOrderEntriesOf(Map.of(nenya, galadriel,
-   *                                                                   narya, gandalf,
-   *                                                                   oneRing, frodo));
+   * assertThat(ringBearers).containsExactlyInAnyOrderEntriesOf(newLinkedHashMap(entry(nenya, galadriel),
+   *                                                                             entry(narya, gandalf),
+   *                                                                             entry(oneRing, frodo)));
    * // assertion will fail as actual does not contain all expected entries
-   * assertThat(ringBearers).containsExactlyInAnyOrderEntriesOf(Map.of(oneRing, frodo,
-   *                                                                   nenya, galadriel,
-   *                                                                   vilya, elrond));
+   * assertThat(ringBearers).containsExactlyInAnyOrderEntriesOf(newLinkedHashMap(entry(oneRing, frodo),
+   *                                                                             entry(nenya, galadriel),
+   *                                                                             entry(vilya, elrond)));
    * // assertion will fail as actual and expected have different sizes
-   * assertThat(ringBearers).containsExactlyInAnyOrderEntriesOf(Map.of(oneRing, frodo,
-   *                                                                   nenya, galadriel,
-   *                                                                   narya, gandalf,
-   *                                                                   narya, gandalf));</code></pre>
+   * assertThat(ringBearers).containsExactlyInAnyOrderEntriesOf(newLinkedHashMap(entry(oneRing, frodo),
+   *                                                                             entry(nenya, galadriel),
+   *                                                                             entry(narya, gandalf),
+   *                                                                             entry(narya, gandalf)));</code></pre>
    *
    * @param map the given {@link Map} with the expected entries to be found in actual.
    * @return {@code this} assertions object
@@ -1275,9 +1275,9 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * {@link java.util.HashMap}, prefer {@link #containsOnly(java.util.Map.Entry...)} in that case).
    * <p>
    * Example :
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = Map.of(oneRing, frodo,
-   *                                                  nenya, galadriel,
-   *                                                  narya, gandalf);
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = newLinkedHashMap(entry(oneRing, frodo),
+   *                                                            entry(nenya, galadriel),
+   *                                                            entry(narya, gandalf));
    *
    * // assertion will pass
    * assertThat(ringBearers).containsExactly(entry(oneRing, frodo),
