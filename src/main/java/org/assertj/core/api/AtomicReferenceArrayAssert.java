@@ -3047,7 +3047,7 @@ public class AtomicReferenceArrayAssert<T>
     return myself;
   }
 
-  /*
+  /**
    * {@inheritDoc}
    */
   @Override
@@ -3059,6 +3059,12 @@ public class AtomicReferenceArrayAssert<T>
   @Override
   public AtomicReferenceArrayAssert<T> satisfiesExactly(@SuppressWarnings("unchecked") Consumer<? super T>... requirements) {
     iterables.assertSatisfiesExactly(info, newArrayList(array), requirements);
+    return myself;
+  }
+
+  @Override
+  public AtomicReferenceArrayAssert<T> satisfiesExactlyInAnyOrder(@SuppressWarnings("unchecked") Consumer<? super T>... consumers) {
+    iterables.assertSatisfiesExactlyInAnyOrder(info, newArrayList(array), consumers);
     return myself;
   }
 

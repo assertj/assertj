@@ -174,4 +174,9 @@ public class IterableAssert<ELEMENT> extends
     return super.satisfiesExactly(requirements);
   }
 
+  @Override
+  @SafeVarargs
+  public final IterableAssert<ELEMENT> satisfiesExactlyInAnyOrder(Consumer<? super ELEMENT>... requirements) {
+    return super.satisfiesExactlyInAnyOrder(requirements);
+  }
 }

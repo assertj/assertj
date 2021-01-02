@@ -2942,6 +2942,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     return myself;
   }
 
+  @Override
+  public SELF satisfiesExactlyInAnyOrder(@SuppressWarnings("unchecked") Consumer<? super ELEMENT>... consumers) {
+    iterables.assertSatisfiesExactlyInAnyOrder(info, newArrayList(actual), consumers);
+    return myself;
+  }
+
   /**
    * Verifies that the actual array contains at least one of the given values.
    * <p>

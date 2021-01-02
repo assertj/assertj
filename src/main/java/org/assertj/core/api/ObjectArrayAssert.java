@@ -140,4 +140,10 @@ public class ObjectArrayAssert<ELEMENT> extends AbstractObjectArrayAssert<Object
     return super.satisfiesExactly(requirements);
   }
 
+  @Override
+  @SafeVarargs
+  public final ObjectArrayAssert<ELEMENT> satisfiesExactlyInAnyOrder(Consumer<? super ELEMENT>... requirements) {
+    return super.satisfiesExactlyInAnyOrder(requirements);
+  }
+
 }

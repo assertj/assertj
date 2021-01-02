@@ -12,15 +12,43 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.api.Condition;
+import java.util.function.Consumer;
 
+import org.assertj.core.api.Condition;
+import org.assertj.core.util.VisibleForTesting;
+
+/**
+ * Creates an error message indicating that an assertion that verifies that a {@link Condition} or a list of {@link Consumer}s cannot
+ * be satisfied.
+ */
 public class ShouldSatisfy extends BasicErrorMessageFactory {
+
+  @VisibleForTesting
+  public static final String CONDITION_SHOULD_BE_SATISFIED = "%nExpecting:%n  <%s>%nto satisfy:%n  <%s>";
+  @VisibleForTesting
+  public static final String CONSUMERS_SHOULD_BE_SATISFIED_IN_ANY_ORDER = "%nExpecting:%n  <%s>%nto satisfy all the consumers in any order.";
+  @VisibleForTesting
+  public static final String CONSUMERS_SHOULD_NOT_BE_NULL = "The Consumer<? super E>... expressing the assertions consumers must not be null";
 
   public static <T> ErrorMessageFactory shouldSatisfy(T actual, Condition<? super T> condition) {
     return new ShouldSatisfy(actual, condition);
   }
 
+  /**
+   * Creates a new <code>{@link ShouldSatisfy}</code>.
+   *
+   * @param actual the actual iterable in the failed assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static <E> ErrorMessageFactory shouldSatisfyExactlyInAnyOrder(Iterable<E> actual) {
+    return new ShouldSatisfy(actual);
+  }
+
   private ShouldSatisfy(Object actual, Condition<?> condition) {
-    super("%nExpecting:%n  <%s>%nto satisfy:%n  <%s>", actual, condition);
+    super(CONDITION_SHOULD_BE_SATISFIED, actual, condition);
+  }
+
+  private <E> ShouldSatisfy(Iterable<E> actual) {
+    super(CONSUMERS_SHOULD_BE_SATISFIED_IN_ANY_ORDER, actual);
   }
 }

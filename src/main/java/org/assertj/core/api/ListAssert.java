@@ -366,4 +366,10 @@ public class ListAssert<ELEMENT> extends
     return super.satisfiesExactly(requirements);
   }
 
+  @Override
+  @SafeVarargs
+  public final ListAssert<ELEMENT> satisfiesExactlyInAnyOrder(Consumer<? super ELEMENT>... requirements) {
+    return super.satisfiesExactlyInAnyOrder(requirements);
+  }
+
 }

@@ -233,7 +233,12 @@ class List_special_assertion_methods_in_assumptions_Test extends BaseAssumptions
                                       value -> assumeThat(value).satisfiesExactly(i -> assertThat(i).isOdd(),
                                                                                   i -> assertThat(i).isEven()),
                                       value -> assumeThat(value).satisfiesExactly(i -> assertThat(i).isOdd(),
-                                                                                  i -> assertThat(i).isOdd())));
+                                                                                  i -> assertThat(i).isOdd())),
+                     assumptionRunner(iterable(1, 2),
+                                      value -> assumeThat(value).satisfiesExactlyInAnyOrder(i -> assertThat(i).isEven(),
+                                                                                            i -> assertThat(i).isOdd()),
+                                      value -> assumeThat(value).satisfiesExactlyInAnyOrder(i -> assertThat(i).isOdd(),
+                                                                                            i -> assertThat(i).isOdd())));
   }
 
 }

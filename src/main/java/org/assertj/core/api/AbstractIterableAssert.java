@@ -3375,6 +3375,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
+  @Override
+  public SELF satisfiesExactlyInAnyOrder(@SuppressWarnings("unchecked") Consumer<? super ELEMENT>... requirements) {
+    iterables.assertSatisfiesExactlyInAnyOrder(info, actual, requirements);
+    return myself;
+  }
+
   // override methods to avoid compilation error when chaining an AbstractAssert method with a AbstractIterableAssert
   // one on raw types.
 

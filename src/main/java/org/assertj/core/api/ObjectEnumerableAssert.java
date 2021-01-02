@@ -1311,10 +1311,64 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @return {@code this} to chain assertions.
    * @throws NullPointerException if given requirements is null.
    * @throws AssertionError if any element does not satisfy the requirements at the same index
-   * @throws AssertionError if there is not as many requirements as there are iterable elements.
+   * @throws AssertionError if there are not as many requirements as there are iterable elements.
    * @since 3.19.0
    */
   SELF satisfiesExactly(@SuppressWarnings("unchecked") Consumer<? super ELEMENT>... allRequirements);
+
+  /**
+   * Verifies that at least one combination of iterable elements exists that satisfies the consumers in order (there must be as
+   * many consumers as iterable elements and once a consumer is matched it cannot be reused to match other elements).
+   * <p>
+   * This is a variation of {@link #satisfiesExactly(Consumer...)} where order does not matter.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> List&lt;String&gt; starWarsCharacterNames = list("Luke", "Leia", "Yoda");
+   *
+   * // these assertions succeed:
+   * assertThat(starWarsCharacterNames).satisfiesExactlyInAnyOrder(name -&gt; assertThat(name).contains("Y"), // matches "Yoda"
+   *                                                               name -&gt; assertThat(name).contains("L"), // matches "Luke" and "Leia"
+   *                                                               name -&gt; {
+   *                                                                 assertThat(name).hasSize(4);
+   *                                                                 assertThat(name).doesNotContain("a"); // matches "Luke" but not "Leia"
+   *                                                               })
+   *                                   .satisfiesExactlyInAnyOrder(name -&gt; assertThat(name).contains("Yo"),
+   *                                                               name -&gt; assertThat(name).contains("Lu"),
+   *                                                               name -&gt; assertThat(name).contains("Le"))
+   *                                   .satisfiesExactlyInAnyOrder(name -&gt; assertThat(name).contains("Le"),
+   *                                                               name -&gt; assertThat(name).contains("Yo"),
+   *                                                               name -&gt; assertThat(name).contains("Lu"));
+   *
+   * // this assertion fails as 3 consumer/requirements are expected
+   * assertThat(starWarsCharacterNames).satisfiesExactlyInAnyOrder(name -&gt; assertThat(name).contains("Y"),
+   *                                                               name -&gt; assertThat(name).contains("L"));
+   *
+   * // this assertion fails as no element contains "Han" (first consumer/requirements can't be met)
+   * assertThat(starWarsCharacterNames).satisfiesExactlyInAnyOrder(name -&gt; assertThat(name).contains("Han"),
+   *                                                               name -&gt; assertThat(name).contains("L"),
+   *                                                               name -&gt; assertThat(name).contains("Y"));
+   *
+   * // this assertion fails as "Yoda" element can't satisfy any consumers/requirements (even though all consumers/requirements are met)
+   * assertThat(starWarsCharacterNames).satisfiesExactlyInAnyOrder(name -&gt; assertThat(name).contains("L"),
+   *                                                               name -&gt; assertThat(name).contains("L"),
+   *                                                               name -&gt; assertThat(name).contains("L"));
+   *
+   * // this assertion fails as no combination of elements can satisfy the consumers in order
+   * // the problem is if the last consumer is matched by Leia then no other consumer can match Luke (and vice versa)
+   * assertThat(starWarsCharacterNames).satisfiesExactlyInAnyOrder(name -&gt; assertThat(name).contains("Y"),
+   *                                                               name -&gt; assertThat(name).contains("o"),
+   *                                                               name -&gt; assertThat(name).contains("L"));</code></pre>
+   *
+   *
+   * @param allRequirements the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
+   * @return this assertion object.
+   * @throws NullPointerException if the given consumers array or any consumer is {@code null}.
+   * @throws AssertionError if there is no permutation of elements that satisfies the individual consumers in order
+   * @throws AssertionError if there are not as many requirements as there are iterable elements.
+   *
+   * @since 3.19.0
+   */
+  SELF satisfiesExactlyInAnyOrder(@SuppressWarnings("unchecked") Consumer<? super ELEMENT>... allRequirements);
 
   /**
    * Verifies whether any elements match the provided {@link Predicate}.
