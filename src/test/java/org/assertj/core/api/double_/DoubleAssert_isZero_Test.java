@@ -12,15 +12,14 @@
  */
 package org.assertj.core.api.double_;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.DoubleAssert;
 import org.assertj.core.api.DoubleAssertBaseTest;
 import org.junit.jupiter.api.Test;
-
 
 class DoubleAssert_isZero_Test extends DoubleAssertBaseTest {
 
@@ -68,7 +67,7 @@ class DoubleAssert_isZero_Test extends DoubleAssertBaseTest {
 
     // THEN
     assertThat(error).isInstanceOf(AssertionError.class)
-      .hasMessage(format("%nExpecting:%n <1.0>%nto be equal to:%n <0.0>%nbut was not."));
+                     .hasMessage(shouldBeEqualMessage("1.0", "0.0"));
   }
 
   @Test
@@ -81,7 +80,7 @@ class DoubleAssert_isZero_Test extends DoubleAssertBaseTest {
 
     // THEN
     assertThat(error).isInstanceOf(AssertionError.class)
-      .hasMessage(format("%nExpecting:%n <-0.0>%nto be equal to:%n <0.0>%nbut was not."));
+                     .hasMessage(shouldBeEqualMessage("-0.0", "0.0"));
   }
 
 }

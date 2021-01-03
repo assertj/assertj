@@ -12,10 +12,10 @@
  */
 package org.assertj.core.api.localdate;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.time.LocalDate;
@@ -43,9 +43,7 @@ class LocalDateAssert_isEqualTo_Test extends LocalDateAssertBaseTest {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(AFTER).isEqualTo(REFERENCE.toString()));
     // THEN
-    then(assertionError).hasMessage(format("%nExpecting:%n <%s>%nto be equal to:%n <%s>%nbut was not.",
-                                           AFTER + " (java.time.LocalDate)",
-                                           REFERENCE + " (java.time.LocalDate)"));
+    then(assertionError).hasMessage(shouldBeEqualMessage(AFTER + " (java.time.LocalDate)", REFERENCE + " (java.time.LocalDate)"));
   }
 
   @Test

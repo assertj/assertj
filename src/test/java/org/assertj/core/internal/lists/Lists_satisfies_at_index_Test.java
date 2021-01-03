@@ -18,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Lists.newArrayList;
 
@@ -50,7 +51,7 @@ class Lists_satisfies_at_index_Test extends ListsBaseTest {
   @Test
   void should_fail_if_element_at_index_does_not_match_the_requirements() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.satisfies(info, jedis, shouldBeLuke, atIndex(2)))
-                                                   .withMessage(format("%nExpecting:%n <\"Yoda\">%nto be equal to:%n <\"Luke\">%nbut was not."));
+                                                   .withMessage(shouldBeEqualMessage("\"Yoda\"", "\"Luke\""));
   }
 
   @Test

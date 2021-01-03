@@ -14,14 +14,16 @@ package org.assertj.core.api.abstract_;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import java.util.function.Consumer;
 
 import org.assertj.core.api.AbstractAssertBaseTest;
 import org.assertj.core.api.ConcreteAssert;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -69,8 +71,14 @@ class AbstractAssert_isInstanceOfSatisfying_Test extends AbstractAssertBaseTest 
 
   @Test
   void should_fail_according_to_requirements() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new Jedi("Vader", "Red")).isInstanceOfSatisfying(Jedi.class, jediRequirements))
-                                                   .withMessage(format("[check light saber] %nExpecting:%n <\"Red\">%nto be equal to:%n <\"Green\">%nbut was not."));
+    // GIVEN
+    ThrowingCallable code = () -> assertThat(new Jedi("Vader", "Red")).isInstanceOfSatisfying(Jedi.class, jediRequirements);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(code);
+    // THEN
+    then(assertionError).hasMessage(format("[check light saber] %n" +
+                                           "expected: \"Green\"%n" +
+                                           "but was : \"Red\""));
   }
 
   @Test

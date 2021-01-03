@@ -41,9 +41,8 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public class ShouldBeEqual implements AssertionErrorFactory {
 
-  private static final String EXPECTED_BUT_WAS_MESSAGE = "%nExpecting:%n <%s>%nto be equal to:%n <%s>%nbut was not.";
-  private static final String EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR = "%nExpecting:%n <%s>%nto be equal to:%n " +
-                                                                          "<%s>%n%s%nbut was not.";
+  private static final String EXPECTED_BUT_WAS_MESSAGE = "%nexpected: %s%nbut was : %s";
+  private static final String EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR = EXPECTED_BUT_WAS_MESSAGE + "%n%s";
   private static final Class<?>[] MSG_ARG_TYPES = array(String.class, String.class, String.class);
   private static final Class<?>[] MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR = array(String.class, Object.class,
                                                                                    Object.class);
@@ -159,9 +158,9 @@ public class ShouldBeEqual implements AssertionErrorFactory {
       return defaultDetailedErrorMessage(description, representation);
     }
     return comparisonStrategy.isStandard()
-        ? messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE, actual, expected)
+        ? messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE, expected, actual)
         : messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR,
-                                  actual, expected, comparisonStrategy);
+                                  expected, actual, comparisonStrategy);
   }
 
   /**
@@ -177,9 +176,8 @@ public class ShouldBeEqual implements AssertionErrorFactory {
   protected String defaultDetailedErrorMessage(Description description, Representation representation) {
     if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy)
       return messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR,
-                                     detailedActual(), detailedExpected(), comparisonStrategy);
-    return messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE, detailedActual(),
-                                   detailedExpected());
+                                     detailedExpected(), detailedActual(), comparisonStrategy);
+    return messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE, detailedExpected(), detailedActual());
   }
 
   private AssertionError assertionFailedError(String message, Representation representation) {
@@ -211,13 +209,13 @@ public class ShouldBeEqual implements AssertionErrorFactory {
   }
 
   private AssertionError newComparisonFailure(String description) throws Exception {
-    Object o = constructorInvoker.newInstance("org.junit.ComparisonFailure", MSG_ARG_TYPES, msgArgs(description));
+    Object o = constructorInvoker.newInstance("org.junit.ComparisonFailure",
+                                              MSG_ARG_TYPES,
+                                              array(description,
+                                                    representation.toStringOf(expected),
+                                                    representation.toStringOf(actual)));
     if (o instanceof AssertionError) return (AssertionError) o;
     return null;
-  }
-
-  private Object[] msgArgs(String description) {
-    return array(description, representation.toStringOf(expected), representation.toStringOf(actual));
   }
 
   protected String detailedActual() {

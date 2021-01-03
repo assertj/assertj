@@ -15,6 +15,7 @@ package org.assertj.core.api.float_;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -76,11 +77,7 @@ class FloatAssert_isEqualTo_float_Test extends FloatAssertBaseTest {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEqualTo(expected));
     // THEN
-    then(assertionError).hasMessage(format("%nExpecting:%n" +
-                                           " <6.0f>%n" +
-                                           "to be equal to:%n" +
-                                           " <7.0f>%n" +
-                                           "but was not."));
+    then(assertionError).hasMessage(shouldBeEqualMessage("6.0f", "7.0f"));
   }
 
   @Test

@@ -16,6 +16,7 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.Arrays.array;
 
 import java.util.Comparator;
@@ -70,15 +71,13 @@ class ObjectArrayAssert_usingRecursiveFieldByFieldElementComparator_Test extends
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(array1).usingRecursiveFieldByFieldElementComparator()
                                                                                        .isEqualTo(array2))
-                                                   .withMessage(format("%nExpecting:%n"
-                                                                       + " <[Foo(id=id, bar=Bar(id=1))]>%n"
-                                                                       + "to be equal to:%n"
-                                                                       + " <[Foo(id=id, bar=Bar(id=2))]>%n"
+                                                   .withMessage(format(shouldBeEqualMessage("[Foo(id=id, bar=Bar(id=1))]",
+                                                                                            "[Foo(id=id, bar=Bar(id=2))]")
+                                                                       + "%n"
                                                                        + "when comparing elements using recursive field/property by field/property comparator on all fields/properties%n"
                                                                        + "Comparators used:%n"
                                                                        + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}%n"
-                                                                       + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}%n"
-                                                                       + "but was not."));
+                                                                       + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}"));
   }
 
   @Test

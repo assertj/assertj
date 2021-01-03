@@ -12,14 +12,17 @@
  */
 package org.assertj.core.api.optional;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.Optional;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
 class OptionalAssert_hasValueSatisfying_Test {
@@ -46,7 +49,11 @@ class OptionalAssert_hasValueSatisfying_Test {
 
   @Test
   void should_fail_from_consumer() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Optional.of("something else")).hasValueSatisfying(s -> assertThat(s).isEqualTo("something")))
-                                                   .withMessage(format("%nExpecting:%n <\"something else\">%nto be equal to:%n <\"something\">%nbut was not."));
+    // GIVEN
+    ThrowingCallable code = () -> assertThat(Optional.of("something else")).hasValueSatisfying(s -> assertThat(s).isEqualTo("something"));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(code);
+    // THEN
+    then(assertionError).hasMessage(shouldBeEqualMessage("\"something else\"", "\"something\""));
   }
 }

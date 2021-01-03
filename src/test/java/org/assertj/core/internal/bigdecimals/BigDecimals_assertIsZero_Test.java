@@ -12,8 +12,8 @@
  */
 package org.assertj.core.internal.bigdecimals;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.test.TestData.someInfo;
 
 import java.math.BigDecimal;
@@ -22,7 +22,6 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.BigDecimalsBaseTest;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for <code>{@link BigDecimals#assertIsZero(AssertionInfo, BigDecimal)}</code>.
@@ -40,7 +39,7 @@ class BigDecimals_assertIsZero_Test extends BigDecimalsBaseTest {
   @Test
   void should_fail_since_actual_is_not_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsZero(someInfo(), BigDecimal.ONE))
-                                                   .withMessage(format("%nExpecting:%n <1>%nto be equal to:%n <0>%nbut was not."));
+                                                   .withMessage(shouldBeEqualMessage("1", "0"));
   }
 
   @Test
@@ -50,8 +49,9 @@ class BigDecimals_assertIsZero_Test extends BigDecimalsBaseTest {
 
   @Test
   void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertIsZero(someInfo(), BigDecimal.ONE))
-                                                   .withMessage(format("%nExpecting:%n <1>%nto be equal to:%n <0>%nbut was not."));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertIsZero(someInfo(),
+                                                                                                                          BigDecimal.ONE))
+                                                   .withMessage(shouldBeEqualMessage("1", "0"));
   }
 
 }

@@ -12,10 +12,11 @@
  */
 package org.assertj.core.api.abstract_;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.function.Consumer;
 
@@ -52,9 +53,12 @@ class AbstractAssert_satisfies_with_Consumer_Test {
 
   @Test
   void should_fail_according_to_requirements() {
+    // GIVEN
     Jedi vader = new Jedi("Vader", "Red");
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(vader).satisfies(jediRequirements))
-                                                   .withMessage(format("[check light saber] %nExpecting:%n <\"Red\">%nto be equal to:%n <\"Green\">%nbut was not."));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(vader).satisfies(jediRequirements));
+    // THEN
+    then(assertionError).hasMessage(shouldBeEqualMessage("check light saber", "\"Red\"", "\"Green\""));
   }
 
   @Test

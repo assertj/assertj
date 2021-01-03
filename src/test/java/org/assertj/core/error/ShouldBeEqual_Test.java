@@ -37,30 +37,26 @@ class ShouldBeEqual_Test {
     // THEN
     then(error.getActual().getValue()).isEqualTo(STANDARD_REPRESENTATION.toStringOf(actual));
     then(error.getExpected().getValue()).isEqualTo(STANDARD_REPRESENTATION.toStringOf(expected));
-    then(error).hasMessage(format("[Jedi] %nExpecting:%n" +
-                                  " <\"Luke\">%n" +
-                                  "to be equal to:%n" +
-                                  " <\"Yoda\">%n" +
-                                  "when comparing values using CaseInsensitiveStringComparator%n" +
-                                  "but was not."));
+    then(error).hasMessage(format("[Jedi] %n" +
+                                  "expected: \"Yoda\"%n" +
+                                  "but was : \"Luke\"%n" +
+                                  "when comparing values using CaseInsensitiveStringComparator"));
   }
 
   @Test
   void should_use_actual_and_expected_representation_in_AssertionFailedError_actual_and_expected_fields() {
     // GIVEN
-    byte[] actual = new byte[] { 1, 2, 3 };
-    byte[] expected = new byte[] { 1, 2, 4 };
-    ThrowingCallable code = () -> then(actual).isEqualTo(expected);
+    byte[] actual = { 1, 2, 3 };
+    byte[] expected = { 1, 2, 4 };
+    ThrowingCallable code = () -> then(actual).as("numbers").isEqualTo(expected);
     // WHEN
     AssertionFailedError error = catchThrowableOfType(code, AssertionFailedError.class);
     // THEN
     then(error.getActual().getValue()).isEqualTo("[1, 2, 3]");
     then(error.getExpected().getValue()).isEqualTo("[1, 2, 4]");
-    then(error).hasMessage(format("%nExpecting:%n" +
-                                  " <[1, 2, 3]>%n" +
-                                  "to be equal to:%n" +
-                                  " <[1, 2, 4]>%n" +
-                                  "but was not."));
+    then(error).hasMessage(format("[numbers] %n" +
+                                  "expected: [1, 2, 4]%n" +
+                                  "but was : [1, 2, 3]"));
   }
 
 }

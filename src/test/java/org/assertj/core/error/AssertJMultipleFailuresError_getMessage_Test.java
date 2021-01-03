@@ -14,6 +14,7 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 
@@ -61,19 +62,10 @@ class AssertJMultipleFailuresError_getMessage_Test {
                                   "-- failure 4 --%n" +
                                   "[isEmpty string] %n" +
                                   "Expecting empty but was:<\"abc\">%n" +
-                                  "-- failure 5 --%n" +
-                                  "Expecting:%n" +
-                                  " <\"abc\">%n" +
-                                  "to be equal to:%n" +
-                                  " <\"bcd\">%n" +
-                                  "but was not.%n" +
+                                  "-- failure 5 --" +
+                                  shouldBeEqualMessage("\"abc\"", "\"bcd\"") + "%n" +
                                   "-- failure 6 --%n" +
-                                  "[isEqualTo] %n" +
-                                  "Expecting:%n" +
-                                  " <\"abc\">%n" +
-                                  "to be equal to:%n" +
-                                  " <\"bcd\">%n" +
-                                  "but was not.%n" +
+                                  shouldBeEqualMessage("isEqualTo", "\"abc\"", "\"bcd\"") + "%n" +
                                   "-- failure 7 --%n" +
                                   "[contains] %n" +
                                   "Expecting ArrayList:%n" +

@@ -13,13 +13,14 @@
 package org.assertj.core.api.abstract_; // Make sure that package-private access is lost
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 
 import java.util.List;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractSoftAssertions;
-import org.assertj.core.api.StandardSoftAssertionsProvider;
 import org.assertj.core.api.SoftAssertionsProvider;
+import org.assertj.core.api.StandardSoftAssertionsProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -113,6 +114,6 @@ class SoftAssertionsMultipleProjectsTest {
                                .hasSize(3);
     assertThat(errorsCollected.get(0)).as("0").hasMessage("Sorry I'm not classy!");
     assertThat(errorsCollected.get(1)).as("1").hasMessage("Hey I'm classy!");
-    assertThat(errorsCollected.get(2)).as("2").hasMessageMatching("(?s).*String.*equal to.*Strung.*not.*");
+    assertThat(errorsCollected.get(2)).as("2").hasMessage(shouldBeEqualMessage("\"String\"", "\"Strung\""));
   }
 }

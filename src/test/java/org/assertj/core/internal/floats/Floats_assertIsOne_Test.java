@@ -12,8 +12,8 @@
  */
 package org.assertj.core.internal.floats;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
@@ -36,7 +36,7 @@ class Floats_assertIsOne_Test extends FloatsBaseTest {
   @Test
   void should_fail_since_actual_is_not_one() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsOne(someInfo(), 0.0f))
-                                                   .withMessage(format("%nExpecting:%n <0.0f>%nto be equal to:%n <1.0f>%nbut was not."));
+                                                   .withMessage(shouldBeEqualMessage("0.0f", "1.0f"));
   }
 
   @Test
@@ -46,8 +46,9 @@ class Floats_assertIsOne_Test extends FloatsBaseTest {
 
   @Test
   void should_fail_since_actual_is_one_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsOne(someInfo(), 0.0f))
-                                                   .withMessage(format("%nExpecting:%n <0.0f>%nto be equal to:%n <1.0f>%nbut was not."));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsOne(someInfo(),
+                                                                                                                      0.0f))
+                                                   .withMessage(shouldBeEqualMessage("0.0f", "1.0f"));
   }
 
 }

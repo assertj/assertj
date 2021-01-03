@@ -15,6 +15,7 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
@@ -36,6 +37,6 @@ class ShouldBeEqualIgnoringCase_create_Test {
     // WHEN
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n <\"Yoda\">%nto be equal to:%n <\"Luke\">%nignoring case considerations"));
+    then(message).isEqualTo(format(shouldBeEqualMessage("Test", "\"Yoda\"", "\"Luke\"") + "%nignoring case considerations"));
   }
 }

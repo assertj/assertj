@@ -12,9 +12,10 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.junit.jupiter.api.Test;
 
@@ -27,20 +28,26 @@ class Assertions_assertThat_inUnicode_Test {
 
   @Test
   void should_assert_String_in_unicode() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat("a6c").inUnicode().isEqualTo("abó"))
-                                                   .withMessage(format("%nExpecting:%n <a6c>%nto be equal to:%n <ab\\u00f3>%nbut was not."));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat("a6c").inUnicode().isEqualTo("abó"));
+    // THEN
+    then(assertionError).hasMessage(shouldBeEqualMessage("a6c", "ab\\u00f3"));
   }
 
   @Test
   void should_assert_Character_in_unicode() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat('o').inUnicode().isEqualTo('ó'))
-                                                   .withMessage(format("%nExpecting:%n <o>%nto be equal to:%n <\\u00f3>%nbut was not."));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat('o').inUnicode().isEqualTo('ó'));
+    // THEN
+    then(assertionError).hasMessage(shouldBeEqualMessage("o", "\\u00f3"));
   }
 
   @Test
   void should_assert_char_array_in_unicode_representation() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat("a6c".toCharArray()).inUnicode()
-                                                                                                    .isEqualTo("abó".toCharArray()))
-                                                   .withMessage(format("%nExpecting:%n <[a, 6, c]>%nto be equal to:%n <[a, b, \\u00f3]>%nbut was not."));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat("a6c".toCharArray()).inUnicode()
+                                                                                              .isEqualTo("abó".toCharArray()));
+    // THEN
+    then(assertionError).hasMessage(shouldBeEqualMessage("[a, 6, c]", "[a, b, \\u00f3]"));
   }
 }

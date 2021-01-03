@@ -12,15 +12,14 @@
  */
 package org.assertj.core.api.float_;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.FloatAssert;
 import org.assertj.core.api.FloatAssertBaseTest;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for <code>{@link FloatAssert#isZero()}</code>.
@@ -73,7 +72,7 @@ class FloatAssert_isZero_Test extends FloatAssertBaseTest {
 
     // THEN
     assertThat(error).isInstanceOf(AssertionError.class)
-      .hasMessage(format("%nExpecting:%n <1.0f>%nto be equal to:%n <0.0f>%nbut was not."));
+                     .hasMessage(shouldBeEqualMessage("1.0f", "0.0f"));
   }
 
   @Test
@@ -86,7 +85,7 @@ class FloatAssert_isZero_Test extends FloatAssertBaseTest {
 
     // THEN
     assertThat(error).isInstanceOf(AssertionError.class)
-      .hasMessage(format("%nExpecting:%n <-0.0f>%nto be equal to:%n <0.0f>%nbut was not."));
+                     .hasMessage(shouldBeEqualMessage("-0.0f", "0.0f"));
   }
 
 }

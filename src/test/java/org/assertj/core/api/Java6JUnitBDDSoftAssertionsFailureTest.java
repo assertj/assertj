@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.List;
@@ -40,7 +41,7 @@ public class Java6JUnitBDDSoftAssertionsFailureTest {
       List<Throwable> failures = e.getFailures();
 
       assertThat(failures).hasSize(2);
-      assertThat(failures.get(0)).hasMessageContaining(format("%nExpecting:%n <1>%nto be equal to:%n <2>%nbut was not."));
+      assertThat(failures.get(0)).hasMessageContaining(shouldBeEqualMessage("1", "2"));
       assertThat(failures.get(1)).hasMessageContaining(format("%n" +
                                                               "Expecting ArrayList:%n" +
                                                               "  <[1, 2]>%n" +

@@ -12,14 +12,14 @@
  */
 package org.assertj.core.api.offsettime;
 
-import static java.lang.String.format;
+import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.time.OffsetTime;
-import java.time.ZoneOffset;
 
 import org.junit.jupiter.api.Test;
 
@@ -31,13 +31,17 @@ class OffsetTimeAssert_isEqualTo_Test extends OffsetTimeAssertBaseTest {
     assertThat(REFERENCE).isEqualTo(REFERENCE);
     assertThat(REFERENCE).isEqualTo(REFERENCE.toString());
     // THEN
-    verify_that_isEqualTo_assertion_fails_and_throws_AssertionError(REFERENCE);
+    expectAssertionError(() -> assertThat(REFERENCE).isEqualTo(REFERENCE.plusHours(1).toString()));
   }
 
   @Test
   void test_isEqualTo_assertion_error_message() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(OffsetTime.of(3, 0, 5, 0, ZoneOffset.UTC)).isEqualTo("03:03:03Z"))
-                                                   .withMessage(format("%nExpecting:%n <03:00:05Z>%nto be equal to:%n <03:03:03Z>%nbut was not."));
+    // GIVEN
+    OffsetTime time = OffsetTime.of(3, 0, 5, 0, UTC);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(time).isEqualTo("03:03:03Z"));
+    // THEN
+    then(assertionError).hasMessage(shouldBeEqualMessage("03:00:05Z", "03:03:03Z"));
   }
 
   @Test
@@ -45,15 +49,4 @@ class OffsetTimeAssert_isEqualTo_Test extends OffsetTimeAssertBaseTest {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetTime.now()).isEqualTo((String) null))
                                         .withMessage("The String representing the OffsetTime to compare actual with should not be null");
   }
-
-  private static void verify_that_isEqualTo_assertion_fails_and_throws_AssertionError(OffsetTime reference) {
-    try {
-      assertThat(reference).isEqualTo(reference.plusHours(1).toString());
-    } catch (AssertionError e) {
-      // AssertionError was expected
-      return;
-    }
-    fail("Should have thrown AssertionError");
-  }
-
 }

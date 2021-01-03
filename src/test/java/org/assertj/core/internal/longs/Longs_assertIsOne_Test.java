@@ -12,8 +12,8 @@
  */
 package org.assertj.core.internal.longs;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
@@ -36,7 +36,7 @@ class Longs_assertIsOne_Test extends LongsBaseTest {
   @Test
   void should_fail_since_actual_is_not_one() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertIsOne(someInfo(), 0L))
-                                                   .withMessage(format("%nExpecting:%n <0L>%nto be equal to:%n <1L>%nbut was not."));
+                                                   .withMessage(shouldBeEqualMessage("0L", "1L"));
   }
 
   @Test
@@ -46,8 +46,9 @@ class Longs_assertIsOne_Test extends LongsBaseTest {
 
   @Test
   void should_fail_since_actual_is_one_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertIsOne(someInfo(), 0L))
-                                                   .withMessage(format("%nExpecting:%n <0L>%nto be equal to:%n <1L>%nbut was not."));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertIsOne(someInfo(),
+                                                                                                                     0L))
+                                                   .withMessage(shouldBeEqualMessage("0L", "1L"));
   }
 
 }

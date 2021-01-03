@@ -15,6 +15,7 @@ package org.assertj.core.api.bytearray;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assumptions.assumeThat;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -54,11 +55,7 @@ class ByteArrayAssert_asString_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(foo.getBytes()).asString().isEqualTo("bar"));
     // THEN
-    assertThat(assertionError).hasMessageContainingAll("Expecting:",
-                                                       "<\"foo\">",
-                                                       "to be equal to:",
-                                                       "<\"bar\">",
-                                                       "but was not.")
+    assertThat(assertionError).hasMessage(shouldBeEqualMessage("\"foo\"", "\"bar\""))
                               .isExactlyInstanceOf(AssertionFailedError.class);
   }
 
@@ -86,11 +83,7 @@ class ByteArrayAssert_asString_Test {
     // THEN
     assertThat(assertionError).hasMessageContainingAll("Multiple Failures (2 failures)",
                                                        "-- failure 1 --",
-                                                       "Expecting:",
-                                                       "<\"foo\">",
-                                                       "to be equal to:",
-                                                       "<\"bar\">",
-                                                       "but was not.",
+                                                       shouldBeEqualMessage("\"foo\"", "\"bar\""),
                                                        "-- failure 2 --",
                                                        "Expecting blank but was:<\"foo\">")
                               .isExactlyInstanceOf(AssertJMultipleFailuresError.class);

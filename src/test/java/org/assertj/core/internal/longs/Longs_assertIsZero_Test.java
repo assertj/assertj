@@ -12,8 +12,8 @@
  */
 package org.assertj.core.internal.longs;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
@@ -37,19 +37,19 @@ class Longs_assertIsZero_Test extends LongsBaseTest {
   @Test
   void should_fail_since_actual_is_not_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertIsZero(someInfo(), 2L))
-                                                   .withMessage(format("%nExpecting:%n <2L>%nto be equal to:%n <0L>%nbut was not."));
+                                                   .withMessage(shouldBeEqualMessage("2L", "0L"));
   }
 
   @Test
-  void should_succeed_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
-    longsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 1L);
+  void should_succeed_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
+    longsWithAbsValueComparisonStrategy.assertIsZero(someInfo(), 0L);
   }
 
   @Test
   void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(),
-                                                                                                                         0L))
-                                                   .withMessage(format("%nExpecting:%n <0L>%nnot to be equal to:%n <0L>%n"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertIsZero(someInfo(),
+                                                                                                                      1L))
+                                                   .withMessage(shouldBeEqualMessage("1L", "0L"));
   }
 
 }

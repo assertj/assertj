@@ -60,11 +60,8 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
     // THEN
     then(error).isInstanceOf(AssertionFailedError.class)
                .hasMessage(format("[my test] %n" +
-                                  "Expecting:%n" +
-                                  " <42.0f>%n" +
-                                  "to be equal to:%n" +
-                                  " <42.0>%n" +
-                                  "but was not."));
+                                  "expected: 42.0%n" +
+                                  "but was : 42.0f"));
   }
 
   @Test
@@ -80,11 +77,9 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
     // THEN
     then(error).isInstanceOf(AssertionFailedError.class)
                .hasMessage("[my test] %n" +
-                           "Expecting:%n" +
-                           " <\"Person[name=Jake] (Person@%s)\">%n" +
-                           "to be equal to:%n" +
-                           " <\"Person[name=Jake] (Person@%s)\">%n"
-                           + "but was not.", toHexString(actual.hashCode()), toHexString(expected.hashCode()));
+                           "expected: \"Person[name=Jake] (Person@%s)\"%n" +
+                           "but was : \"Person[name=Jake] (Person@%s)\"",
+                           toHexString(expected.hashCode()), toHexString(actual.hashCode()));
   }
 
   @Test
@@ -101,12 +96,10 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
     // THEN
     then(error).isInstanceOf(AssertionFailedError.class)
                .hasMessage("[my test] %n" +
-                           "Expecting:%n" +
-                           " <\"Person[name=Jake] (Person@%s)\">%n" +
-                           "to be equal to:%n" +
-                           " <\"Person[name=Jake] (Person@%s)\">%n" +
-                           "when comparing values using PersonComparator%n" +
-                           "but was not.", toHexString(actual.hashCode()), toHexString(expected.hashCode()));
+                           "expected: \"Person[name=Jake] (Person@%s)\"%n" +
+                           "but was : \"Person[name=Jake] (Person@%s)\"%n" +
+                           "when comparing values using PersonComparator",
+                           toHexString(expected.hashCode()), toHexString(actual.hashCode()));
   }
 
   @Test
@@ -122,11 +115,9 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
     // THEN
     then(error).isInstanceOf(AssertionFailedError.class)
                .hasMessage("[my test] %n" +
-                           "Expecting:%n" +
-                           " <null>%n" +
-                           "to be equal to:%n" +
-                           " <\"null (ToStringIsNull@%s)\">%n" +
-                           "but was not.", toHexString(expected.hashCode()));
+                           "expected: \"null (ToStringIsNull@%s)\"%n" +
+                           "but was : null",
+                           toHexString(expected.hashCode()));
   }
 
   @Test
@@ -142,11 +133,9 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
     // THEN
     then(error).isInstanceOf(AssertionFailedError.class)
                .hasMessage("[my test] %n" +
-                           "Expecting:%n" +
-                           " <\"null (ToStringIsNull@%s)\">%n" +
-                           "to be equal to:%n" +
-                           " <null>%n" +
-                           "but was not.", toHexString(actual.hashCode()));
+                           "expected: null%n" +
+                           "but was : \"null (ToStringIsNull@%s)\"",
+                           toHexString(actual.hashCode()));
   }
 
   private static class Person {

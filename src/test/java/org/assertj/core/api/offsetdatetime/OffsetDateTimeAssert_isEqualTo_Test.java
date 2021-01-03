@@ -12,11 +12,13 @@
  */
 package org.assertj.core.api.offsetdatetime;
 
+import static java.lang.String.format;
 import static java.time.OffsetDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenIllegalArgumentException;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
@@ -73,9 +75,9 @@ class OffsetDateTimeAssert_isEqualTo_Test extends AbstractOffsetDateTimeAssertBa
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(AFTER_WITH_DIFFERENT_OFFSET).isEqualTo(REFERENCE));
     // THEN
-    then(assertionError).hasMessage("%nExpecting:%n <%s>%nto be equal to:%n <%s>%nwhen comparing values using 'OffsetDateTime.timeLineOrder()'%nbut was not.",
-                                    AFTER_WITH_DIFFERENT_OFFSET + " (java.time.OffsetDateTime)",
-                                    REFERENCE + " (java.time.OffsetDateTime)");
+    then(assertionError).hasMessage(format(shouldBeEqualMessage(AFTER_WITH_DIFFERENT_OFFSET + " (java.time.OffsetDateTime)",
+                                                                REFERENCE + " (java.time.OffsetDateTime)")
+                                           + "%nwhen comparing values using 'OffsetDateTime.timeLineOrder()'"));
   }
 
   @Test

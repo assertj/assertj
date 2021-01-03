@@ -57,11 +57,9 @@ class ShouldBeEqual_newAssertionError_Test {
     AssertionError error = factory.newAssertionError(description, STANDARD_REPRESENTATION);
     // THEN
     then(error).isInstanceOf(AssertionFailedError.class)
-               .hasMessage(format("[Jedi] %nExpecting:%n" +
-                                  " <\"Luke\">%n" +
-                                  "to be equal to:%n" +
-                                  " <\"Yoda\">%n" +
-                                  "but was not."));
+               .hasMessage(format("[Jedi] %n" +
+                                  "expected: \"Yoda\"%n" +
+                                  "but was : \"Luke\""));
   }
 
   public static Stream<String> parameters() {

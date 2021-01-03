@@ -12,10 +12,10 @@
  */
 package org.assertj.core.api.abstract_;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
@@ -30,9 +30,9 @@ class AbstractAssert_withRepresentation_Test {
 
   @Test
   void should_be_able_to_use_a_custom_representation_for_error_messages() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       assertThat(new Example()).withRepresentation(new CustomRepresentation()).isNull();
-    }).withMessage(format("%nExpecting:%n <Example>%nto be equal to:%n <null>%nbut was not."));
+    }).withMessage(shouldBeEqualMessage("Example", "null"));
   }
 
   @Test

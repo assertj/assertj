@@ -12,9 +12,9 @@
  */
 package org.assertj.core.api.localtime;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
 import java.time.LocalTime;
@@ -36,8 +36,7 @@ class LocalTimeAssert_isEqualTo_Test extends LocalTimeAssertBaseTest {
     // WHEN
     ThrowingCallable code = () -> assertThat(AFTER).isEqualTo(REFERENCE.toString());
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(format("%nExpecting:%n <%s>%nto be equal to:%n <%s>%nbut was not.",
-                                                                AFTER, REFERENCE));
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeEqualMessage(AFTER.toString(), REFERENCE.toString()));
   }
 
   @Test

@@ -12,8 +12,8 @@
  */
 package org.assertj.core.internal.doubles;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
@@ -36,7 +36,7 @@ class Doubles_assertIsOne_Test extends DoublesBaseTest {
   @Test
   void should_fail_since_actual_is_not_one() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsOne(someInfo(), 0.0d))
-                                                   .withMessage(format("%nExpecting:%n <0.0>%nto be equal to:%n <1.0>%nbut was not."));
+                                                   .withMessage(shouldBeEqualMessage("0.0", "1.0"));
   }
 
   @Test
@@ -46,8 +46,9 @@ class Doubles_assertIsOne_Test extends DoublesBaseTest {
 
   @Test
   void should_fail_since_actual_is_not_one_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertIsOne(someInfo(), 0.0d))
-                                                   .withMessage(format("%nExpecting:%n <0.0>%nto be equal to:%n <1.0>%nbut was not."));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertIsOne(someInfo(),
+                                                                                                                       0.0d))
+                                                   .withMessage(shouldBeEqualMessage("0.0", "1.0"));
   }
 
 }

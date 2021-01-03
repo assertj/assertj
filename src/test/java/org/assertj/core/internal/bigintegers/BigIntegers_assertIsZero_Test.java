@@ -12,8 +12,8 @@
  */
 package org.assertj.core.internal.bigintegers;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.test.TestData.someInfo;
 
 import java.math.BigInteger;
@@ -36,7 +36,7 @@ class BigIntegers_assertIsZero_Test extends BigIntegersBaseTest {
   @Test
   void should_fail_since_actual_is_not_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsZero(someInfo(), BigInteger.ONE))
-                                                   .withMessage(format("%nExpecting:%n <1>%nto be equal to:%n <0>%nbut was not."));
+                                                   .withMessage(shouldBeEqualMessage("1", "0"));
   }
 
   @Test
@@ -46,8 +46,9 @@ class BigIntegers_assertIsZero_Test extends BigIntegersBaseTest {
 
   @Test
   void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertIsZero(someInfo(), BigInteger.ONE))
-                                                   .withMessage(format("%nExpecting:%n <1>%nto be equal to:%n <0>%nbut was not."));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertIsZero(someInfo(),
+                                                                                                                          BigInteger.ONE))
+                                                   .withMessage(shouldBeEqualMessage("1", "0"));
   }
 
 }

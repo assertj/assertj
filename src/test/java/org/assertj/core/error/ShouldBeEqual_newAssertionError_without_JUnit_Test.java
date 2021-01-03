@@ -73,7 +73,9 @@ class ShouldBeEqual_newAssertionError_without_JUnit_Test {
   private void check(AssertionError error) throws Exception {
     verify(constructorInvoker).newInstance(AssertionFailedError.class.getName(),
                                            new Class<?>[] { String.class, Object.class, Object.class },
-                                           format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."),
+                                           format("[Jedi] %n" +
+                                                  "expected: \"Yoda\"%n" +
+                                                  "but was : \"Luke\""),
                                            STANDARD_REPRESENTATION.toStringOf("Yoda"),
                                            STANDARD_REPRESENTATION.toStringOf("Luke"));
     assertThat(error).isNotInstanceOf(ComparisonFailure.class)
@@ -81,7 +83,9 @@ class ShouldBeEqual_newAssertionError_without_JUnit_Test {
     AssertionFailedError assertionFailedError = (AssertionFailedError) error;
     assertThat(assertionFailedError.getActual().getValue()).isEqualTo(STANDARD_REPRESENTATION.toStringOf("Luke"));
     assertThat(assertionFailedError.getExpected().getValue()).isEqualTo(STANDARD_REPRESENTATION.toStringOf("Yoda"));
-    assertThat(error).hasMessage(format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."));
+    assertThat(error).hasMessage(format("[Jedi] %n" +
+                                        "expected: \"Yoda\"%n" +
+                                        "but was : \"Luke\""));
   }
 
   private static Object createComparisonFailure(ConstructorInvoker invoker) throws Exception {

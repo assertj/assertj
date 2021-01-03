@@ -12,8 +12,8 @@
  */
 package org.assertj.core.internal.doubles;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.internal.DoublesBaseTest;
@@ -29,14 +29,14 @@ class Doubles_assertIsZero_Test extends DoublesBaseTest {
   @Test
   void should_fail_since_actual_is_not_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsZero(someInfo(), 2.0d))
-                                                   .withMessage(format("%nExpecting:%n <2.0>%nto be equal to:%n <0.0>%nbut was not."));
+                                                   .withMessage(shouldBeEqualMessage("2.0", "0.0"));
 
   }
 
   @Test
   void should_fail_since_actual_is_negative_zero_and_not_primitive() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsZero(someInfo(), new Double(-0.0d)))
-                                                   .withMessage(format("%nExpecting:%n <-0.0>%nto be equal to:%n <0.0>%nbut was not."));
+                                                   .withMessage(shouldBeEqualMessage("-0.0", "0.0"));
   }
 
   @Test
@@ -48,7 +48,7 @@ class Doubles_assertIsZero_Test extends DoublesBaseTest {
   void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertIsZero(someInfo(),
                                                                                                                         2.0d))
-                                                   .withMessage(format("%nExpecting:%n <2.0>%nto be equal to:%n <0.0>%nbut was not."));
+                                                   .withMessage(shouldBeEqualMessage("2.0", "0.0"));
   }
 
 }

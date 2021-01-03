@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.mock;
 
@@ -42,7 +43,7 @@ public class JUnitBDDSoftAssertionsFailureTest {
     // THEN
     List<Throwable> failures = multipleFailuresError.getFailures();
     assertThat(failures).hasSize(2);
-    assertThat(failures.get(0)).hasMessageStartingWith(format("%nExpecting:%n <1>%nto be equal to:%n <2>%nbut was not."));
+    assertThat(failures.get(0)).hasMessageStartingWith(shouldBeEqualMessage("1", "2"));
     assertThat(failures.get(1)).hasMessageStartingWith(format("%n" +
                                                               "Expecting ArrayList:%n" +
                                                               "  <[1, 2]>%n" +
