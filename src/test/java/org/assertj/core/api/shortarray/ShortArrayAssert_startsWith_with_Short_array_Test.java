@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
  * @author Lucero Garcia
  */
 @DisplayName("ShortArrayAssert startsWith(Short[])")
-public class ShortArrayAssert_startsWith_with_Short_array_Test extends ShortArrayAssertBaseTest {
+class ShortArrayAssert_startsWith_with_Short_array_Test extends ShortArrayAssertBaseTest {
 
   @Test
   void should_fail_if_values_is_null() {

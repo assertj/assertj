@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
  * @author Lucero Garcia
  */
 @DisplayName("ByteArrayAssert doesNotContain(Byte[])")
-public class ByteArrayAssert_doesNotContain_with_Byte_array_Test extends ByteArrayAssertBaseTest {
+class ByteArrayAssert_doesNotContain_with_Byte_array_Test extends ByteArrayAssertBaseTest {
 
   @Test
   void should_fail_if_values_is_null() {

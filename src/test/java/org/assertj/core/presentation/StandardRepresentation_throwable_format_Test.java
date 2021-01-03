@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
  *
  *  @author XiaoMingZHM Eveneko
  */
-public class StandardRepresentation_throwable_format_Test {
+class StandardRepresentation_throwable_format_Test {
   private static final Representation REPRESENTATION = new StandardRepresentation();
 
   // Just to make sure the stack trace is long enough.
@@ -42,7 +42,7 @@ public class StandardRepresentation_throwable_format_Test {
   }
 
   @Test
-  public void should_not_display_stacktrace_if_maxStackTraceElementsDisplayed_is_zero() {
+  void should_not_display_stacktrace_if_maxStackTraceElementsDisplayed_is_zero() {
     // GIVEN
     Configuration configuration = new Configuration();
     configuration.setMaxStackTraceElementsDisplayed(0);
@@ -54,7 +54,7 @@ public class StandardRepresentation_throwable_format_Test {
   }
 
   @Test
-  public void should_display_the_configured_number_of_stacktrace_elements() {
+  void should_display_the_configured_number_of_stacktrace_elements() {
     // GIVEN
     Configuration configuration = new Configuration();
     // configuration.setMaxStackTraceElementsDisplayed(3);
@@ -70,7 +70,7 @@ public class StandardRepresentation_throwable_format_Test {
   }
 
   @Test
-  public void should_display_the_full_stacktrace() {
+  void should_display_the_full_stacktrace() {
     // GIVEN
     Configuration configuration = new Configuration();
     configuration.setMaxStackTraceElementsDisplayed(100);
