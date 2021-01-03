@@ -12,36 +12,29 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeInSameMonth.shouldBeInSameMonth;
-import static org.assertj.core.util.DateUtil.parse;
-
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for
- * <code>{@link ShouldBeInSameMonth#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
- * .
- *
- * @author Joel Costigliola
- */
-class ShouldBeInSameMonth_create_Test {
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeInSameHour.shouldBeInSameHour;
+import static org.assertj.core.util.DateUtil.parseDatetime;
+
+class ShouldBeInSameHour_create_Test {
 
   @Test
   void should_create_error_message() {
     // GIVEN
-    ErrorMessageFactory factory = shouldBeInSameMonth(parse("2010-01-01"), parse("2010-02-01"));
+    ErrorMessageFactory factory = shouldBeInSameHour(parseDatetime("2010-01-01T03:01:02"), parseDatetime("2010-01-01T11:01:02"));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
-                                   "  2010-01-01T00:00:00.000 (java.util.Date)%n" +
-                                   "to be on same year and month as:%n" +
-                                   "  2010-02-01T00:00:00.000 (java.util.Date)"));
+      "Expecting:%n" +
+      "  2010-01-01T03:01:02.000 (java.util.Date)%n" +
+      "to have same year, month, day and hour fields values as:%n" +
+      "  2010-01-01T11:01:02.000 (java.util.Date)"));
   }
 
 }

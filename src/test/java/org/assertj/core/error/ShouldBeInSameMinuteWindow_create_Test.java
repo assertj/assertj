@@ -41,9 +41,9 @@ class ShouldBeInSameMinuteWindow_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <2011-01-01T05:00:00.000 (java.util.Date)>%n" +
+                                   "  2011-01-01T05:00:00.000 (java.util.Date)%n" +
                                    "to be close to:%n" +
-                                   "  <2011-01-01T05:02:01.000 (java.util.Date)>%n" +
+                                   "  2011-01-01T05:02:01.000 (java.util.Date)%n" +
                                    "by less than one minute (strictly) but difference was: 2m and 1s"));
   }
 
