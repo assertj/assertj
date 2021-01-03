@@ -86,19 +86,19 @@ class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
     assertThat(error).isInstanceOf(AssertionError.class);
     List<UnsatisfiedRequirement> errors = list(unsatisfiedRequirement("Luke", format("%n" +
                                                                                                            "Expecting:%n" +
-                                                                                                           " <\"Luke\">%n" +
+                                                                                                           "  \"Luke\"%n" +
                                                                                                            "to contain:%n" +
-                                                                                                           " <\"W\"> ")),
+                                                                                                           "  \"W\" ")),
                                                                      unsatisfiedRequirement("Leia", format("%n" +
                                                                                                            "Expecting:%n" +
-                                                                                                           " <\"Leia\">%n" +
+                                                                                                           "  \"Leia\"%n" +
                                                                                                            "to contain:%n" +
-                                                                                                           " <\"W\"> ")),
+                                                                                                           "  \"W\" ")),
                                                                      unsatisfiedRequirement("Yoda", format("%n" +
                                                                                                            "Expecting:%n" +
-                                                                                                           " <\"Yoda\">%n" +
+                                                                                                           "  \"Yoda\"%n" +
                                                                                                            "to contain:%n" +
-                                                                                                           " <\"W\"> ")),
+                                                                                                           "  \"W\" ")),
                                                                      unsatisfiedRequirement("Obiwan", format("%n" +
                                                                                                              "Expected size:<4> but was:<6> in:%n"
                                                                                                              +

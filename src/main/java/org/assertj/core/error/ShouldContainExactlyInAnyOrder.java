@@ -52,13 +52,13 @@ public class ShouldContainExactlyInAnyOrder extends BasicErrorMessageFactory {
                                          ComparisonStrategy comparisonStrategy) {
     super("%n" +
           "Expecting:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "to contain exactly in any order:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "elements not found:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "and elements not expected:%n" +
-          "  <%s>%n%s", actual,
+          "  %s%n%s", actual,
           expected, notFound, notExpected, comparisonStrategy);
   }
 
@@ -67,11 +67,11 @@ public class ShouldContainExactlyInAnyOrder extends BasicErrorMessageFactory {
     // @format:off
     super("%n" +
           "Expecting:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "to contain exactly in any order:%n" +
-          "  <%s>%n" + (errorType == NOT_FOUND_ONLY ?
+          "  %s%n" + (errorType == NOT_FOUND_ONLY ?
           "but could not find the following elements:%n" : "but the following elements were unexpected:%n") +
-          "  <%s>%n%s",
+          "  %s%n%s",
           actual, expected, notFoundOrNotExpected, comparisonStrategy);
     // @format:on
   }

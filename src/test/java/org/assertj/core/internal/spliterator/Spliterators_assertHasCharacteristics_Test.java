@@ -77,11 +77,11 @@ class Spliterators_assertHasCharacteristics_Test extends SpliteratorsBaseTest {
     AssertionError error = expectAssertionError(() -> spliterators.assertHasCharacteristics(INFO, actual, DISTINCT));
     // THEN
     assertThat(error).hasMessage(format("%nExpecting spliterator characteristics:%n"
-                                        + " <[\"SORTED\"]>%n"
+                                        + "  [\"SORTED\"]%n"
                                         + "to contain:%n"
-                                        + " <[\"DISTINCT\"]>%n"
+                                        + "  [\"DISTINCT\"]%n"
                                         + "but could not find the following characteristics:%n"
-                                        + " <[\"DISTINCT\"]>%n"));
+                                        + "  [\"DISTINCT\"]%n"));
   }
 
   private Spliterator<?> createSpliterator(int characteristics) {

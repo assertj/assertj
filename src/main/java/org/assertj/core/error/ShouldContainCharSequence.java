@@ -38,16 +38,16 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContain(CharSequence actual, CharSequence sequence) {
-    return new ShouldContainCharSequence("%nExpecting:%n <%s>%nto contain:%n <%s> %s", actual, sequence,
+    return new ShouldContainCharSequence("%nExpecting:%n  %s%nto contain:%n  %s %s", actual, sequence,
                                          StandardComparisonStrategy.instance());
   }
 
   public static ErrorMessageFactory shouldContain(Throwable actual, CharSequence sequence) {
     String format = "%n" +
                     "Expecting throwable message:%n" +
-                    "  <%s>%n" +
+                    "  %s%n" +
                     "to contain:%n" +
-                    "  <%s>%n" +
+                    "  %s%n" +
                     "but did not.%n" +
                     "%n" +
                     "Throwable that failed the check:%n" +
@@ -60,11 +60,11 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
                                                   Set<? extends CharSequence> notFound) {
     String format = "%n" +
                     "Expecting throwable message:%n" +
-                    "  <%s>%n" +
+                    "  %s%n" +
                     "to contain:%n" +
-                    "  <%s>%n" +
+                    "  %s%n" +
                     "but could not find:%n" +
-                    "  <%s>%n" +
+                    "  %s%n" +
                     "%n" +
                     "Throwable that failed the check:%n" +
                     "%n" + escapePercent(getStackTrace(actual)); // to avoid AssertJ default String formatting
@@ -81,7 +81,7 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
    */
   public static ErrorMessageFactory shouldContain(CharSequence actual, CharSequence sequence,
                                                   ComparisonStrategy comparisonStrategy) {
-    return new ShouldContainCharSequence("%nExpecting:%n <%s>%nto contain:%n <%s> %s", actual, sequence, comparisonStrategy);
+    return new ShouldContainCharSequence("%nExpecting:%n  %s%nto contain:%n  %s %s", actual, sequence, comparisonStrategy);
   }
 
   /**
@@ -96,7 +96,7 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
   public static ErrorMessageFactory shouldContain(CharSequence actual, CharSequence[] strings,
                                                   Set<? extends CharSequence> notFound,
                                                   ComparisonStrategy comparisonStrategy) {
-    return new ShouldContainCharSequence("%nExpecting:%n <%s>%nto contain:%n <%s>%nbut could not find:%n <%s>%n %s", actual,
+    return new ShouldContainCharSequence("%nExpecting:%n  %s%nto contain:%n  %s%nbut could not find:%n  %s%n %s", actual,
                                          strings, notFound, comparisonStrategy);
   }
 
@@ -121,7 +121,7 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainIgnoringCase(CharSequence actual, CharSequence sequence) {
-    return new ShouldContainCharSequence("%nExpecting:%n <%s>%nto contain:%n <%s>%n (ignoring case)", actual, sequence,
+    return new ShouldContainCharSequence("%nExpecting:%n  %s%nto contain:%n  %s%n (ignoring case)", actual, sequence,
                                          StandardComparisonStrategy.instance());
   }
 

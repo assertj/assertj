@@ -67,15 +67,15 @@ public class ShouldContain extends BasicErrorMessageFactory {
   private ShouldContain(Object actual, Object expected, Object notFound, ComparisonStrategy comparisonStrategy,
                         GroupTypeDescription groupTypeDescription) {
     super("%nExpecting " + groupTypeDescription.getGroupTypeName()
-          + ":%n <%s>%nto contain:%n <%s>%nbut could not find the following " + groupTypeDescription.getElementTypeName()
-          + ":%n <%s>%n%s", actual, expected, notFound,
+          + ":%n  %s%nto contain:%n  %s%nbut could not find the following " + groupTypeDescription.getElementTypeName()
+          + ":%n  %s%n%s", actual, expected, notFound,
           comparisonStrategy);
   }
 
   private ShouldContain(Object actual, List<String> directoryContent, String filterDescription) {
     // not passing directoryContent and filterDescription as parameter to avoid AssertJ default String formatting
     super("%nExpecting directory:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "to contain at least one file matching " + escapePercent(filterDescription) + " but there was none.%n" +
           "The directory content was:%n  " + escapePercent(directoryContent.toString()),
           actual);

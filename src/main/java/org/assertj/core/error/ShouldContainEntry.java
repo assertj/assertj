@@ -52,9 +52,9 @@ public class ShouldContainEntry extends BasicErrorMessageFactory {
   private <K, V> ShouldContainEntry(Map<K, V> actual, Condition<?> entryCondition) {
     super("%n" +
           "Expecting:%n" +
-          " <%s>%n" +
+          "  %s%n" +
           "to contain an entry satisfying:%n" +
-          " <%s>",
+          "  %s",
           actual, entryCondition);
   }
 
@@ -62,12 +62,12 @@ public class ShouldContainEntry extends BasicErrorMessageFactory {
                                     Condition<? super V> valueCondition) {
     super("%n" +
           "Expecting:%n" +
-          " <%s>%n" +
+          "  %s%n" +
           "to contain an entry satisfying both key and value conditions:%n" +
           "- key condition:%n" +
-          "    <%s>%n" +
+          "    %s%n" +
           "- value condition:%n" +
-          "    <%s>",
+          "    %s",
           actual, keyCondition, valueCondition);
   }
 }

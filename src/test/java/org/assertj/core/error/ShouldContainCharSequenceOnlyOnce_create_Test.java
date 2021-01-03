@@ -24,7 +24,7 @@ import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ShouldContainsStringOnlyOnce_create_Test {
+class ShouldContainCharSequenceOnlyOnce_create_Test {
 
   private ErrorMessageFactory factoryWithSeveralOccurrences;
   private ErrorMessageFactory factoryWithNoOccurrence;
@@ -40,7 +40,7 @@ class ShouldContainsStringOnlyOnce_create_Test {
     // WHEN
     String message = factoryWithSeveralOccurrences.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n <\"motif\">%nto appear only once in:%n <\"aaamotifmotifaabbbmotifaaa\">%nbut it appeared 3 times "));
+    then(message).isEqualTo(format("[Test] %nExpecting:%n  \"motif\"%nto appear only once in:%n  \"aaamotifmotifaabbbmotifaaa\"%nbut it appeared 3 times "));
   }
 
   @Test
@@ -48,7 +48,7 @@ class ShouldContainsStringOnlyOnce_create_Test {
     // WHEN
     String message = factoryWithNoOccurrence.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n <\"motif\">%nto appear only once in:%n <\"aaamodifmoifaabbbmotfaaa\">%nbut it did not appear "));
+    then(message).isEqualTo(format("[Test] %nExpecting:%n  \"motif\"%nto appear only once in:%n  \"aaamodifmoifaabbbmotfaaa\"%nbut it did not appear "));
   }
 
   @Test
@@ -59,7 +59,7 @@ class ShouldContainsStringOnlyOnce_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n <\"MOtif\">%nto appear only once in:%n <\"aaamoDifmoifaabbbmotfaaa\">%nbut it did not appear when comparing values using CaseInsensitiveStringComparator"));
+    then(message).isEqualTo(format("[Test] %nExpecting:%n  \"MOtif\"%nto appear only once in:%n  \"aaamoDifmoifaabbbmotfaaa\"%nbut it did not appear when comparing values using CaseInsensitiveStringComparator"));
   }
 
   @Test
@@ -70,7 +70,7 @@ class ShouldContainsStringOnlyOnce_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n <\"MOtif\">%nto appear only once in:%n <\"aaamotIFmoTifaabbbmotifaaa\">%nbut it appeared 3 times when comparing values using CaseInsensitiveStringComparator"));
+    then(message).isEqualTo(format("[Test] %nExpecting:%n  \"MOtif\"%nto appear only once in:%n  \"aaamotIFmoTifaabbbmotifaaa\"%nbut it appeared 3 times when comparing values using CaseInsensitiveStringComparator"));
   }
 
 }

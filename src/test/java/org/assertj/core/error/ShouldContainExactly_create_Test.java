@@ -40,13 +40,13 @@ class ShouldContainExactly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting:%n"
-                                   + "  <[\"Yoda\", \"Han\"]>%n"
+                                   + "  [\"Yoda\", \"Han\"]%n"
                                    + "to contain exactly (and in same order):%n"
-                                   + "  <[\"Luke\", \"Yoda\"]>%n"
+                                   + "  [\"Luke\", \"Yoda\"]%n"
                                    + "but some elements were not found:%n"
-                                   + "  <[\"Luke\"]>%n"
+                                   + "  [\"Luke\"]%n"
                                    + "and others were not expected:%n"
-                                   + "  <[\"Han\"]>%n"));
+                                   + "  [\"Han\"]%n"));
   }
 
   @Test
@@ -59,11 +59,11 @@ class ShouldContainExactly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting:%n"
-                                   + "  <[\"Yoda\", \"Han\"]>%n"
+                                   + "  [\"Yoda\", \"Han\"]%n"
                                    + "to contain exactly (and in same order):%n"
-                                   + "  <[\"Yoda\"]>%n"
+                                   + "  [\"Yoda\"]%n"
                                    + "but some elements were not expected:%n"
-                                   + "  <[\"Han\"]>%n"));
+                                   + "  [\"Han\"]%n"));
   }
 
   @Test
@@ -76,11 +76,11 @@ class ShouldContainExactly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting:%n"
-                                   + "  <[\"Yoda\"]>%n"
+                                   + "  [\"Yoda\"]%n"
                                    + "to contain exactly (and in same order):%n"
-                                   + "  <[\"Luke\", \"Yoda\"]>%n"
+                                   + "  [\"Luke\", \"Yoda\"]%n"
                                    + "but could not find the following elements:%n"
-                                   + "  <[\"Luke\"]>%n"));
+                                   + "  [\"Luke\"]%n"));
   }
 
   @Test
@@ -92,9 +92,9 @@ class ShouldContainExactly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Actual and expected have the same elements but not in the same order, at index 1 actual element was:%n"
-                                   + "  <\"Luke\">%n"
+                                   + "  \"Luke\"%n"
                                    + "whereas expected element was:%n"
-                                   + "  <\"Han\">%n"));
+                                   + "  \"Han\"%n"));
   }
 
   // with custom comparison strategy
@@ -113,13 +113,13 @@ class ShouldContainExactly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting:%n"
-                                   + "  <[\"Yoda\", \"Han\"]>%n"
+                                   + "  [\"Yoda\", \"Han\"]%n"
                                    + "to contain exactly (and in same order):%n"
-                                   + "  <[\"Luke\", \"Yoda\"]>%n"
+                                   + "  [\"Luke\", \"Yoda\"]%n"
                                    + "but some elements were not found:%n"
-                                   + "  <[\"Luke\"]>%n"
+                                   + "  [\"Luke\"]%n"
                                    + "and others were not expected:%n"
-                                   + "  <[\"Han\"]>%n"
+                                   + "  [\"Han\"]%n"
                                    + "when comparing values using CaseInsensitiveStringComparator"));
   }
 
@@ -132,8 +132,8 @@ class ShouldContainExactly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Actual and expected have the same elements but not in the same order, at index 1 actual element was:%n"
-                                   + "  <\"Luke\">%nwhereas expected element was:%n"
-                                   + "  <\"Han\">%n"
+                                   + "  \"Luke\"%nwhereas expected element was:%n"
+                                   + "  \"Han\"%n"
                                    + "when comparing values using CaseInsensitiveStringComparator"));
   }
 
@@ -150,11 +150,11 @@ class ShouldContainExactly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting:%n"
-                                   + "  <[\"Yoda\"]>%n"
+                                   + "  [\"Yoda\"]%n"
                                    + "to contain exactly (and in same order):%n"
-                                   + "  <[\"Luke\", \"Yoda\"]>%n"
+                                   + "  [\"Luke\", \"Yoda\"]%n"
                                    + "but could not find the following elements:%n"
-                                   + "  <[\"Luke\"]>%n"
+                                   + "  [\"Luke\"]%n"
                                    + "when comparing values using CaseInsensitiveStringComparator"));
   }
 
@@ -169,11 +169,11 @@ class ShouldContainExactly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting:%n"
-                                   + "  <[\"Yoda\", \"Han\"]>%n"
+                                   + "  [\"Yoda\", \"Han\"]%n"
                                    + "to contain exactly (and in same order):%n"
-                                   + "  <[\"Yoda\"]>%n"
+                                   + "  [\"Yoda\"]%n"
                                    + "but some elements were not expected:%n"
-                                   + "  <[\"Han\"]>%n"
+                                   + "  [\"Han\"]%n"
                                    + "when comparing values using CaseInsensitiveStringComparator"));
   }
 

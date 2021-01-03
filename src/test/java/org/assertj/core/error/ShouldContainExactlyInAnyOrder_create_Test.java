@@ -52,13 +52,13 @@ class ShouldContainExactlyInAnyOrder_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting:%n"
-                                   + "  <[\"Yoda\", \"Han\"]>%n"
+                                   + "  [\"Yoda\", \"Han\"]%n"
                                    + "to contain exactly in any order:%n"
-                                   + "  <[\"Luke\", \"Yoda\"]>%n"
+                                   + "  [\"Luke\", \"Yoda\"]%n"
                                    + "elements not found:%n"
-                                   + "  <[\"Luke\"]>%n"
+                                   + "  [\"Luke\"]%n"
                                    + "and elements not expected:%n"
-                                   + "  <[\"Han\"]>%n"
+                                   + "  [\"Han\"]%n"
                                    + "when comparing values using CaseInsensitiveStringComparator"));
   }
 
@@ -75,11 +75,11 @@ class ShouldContainExactlyInAnyOrder_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting:%n"
-                                   + "  <[\"Yoda\"]>%n"
+                                   + "  [\"Yoda\"]%n"
                                    + "to contain exactly in any order:%n"
-                                   + "  <[\"Luke\", \"Yoda\"]>%n"
+                                   + "  [\"Luke\", \"Yoda\"]%n"
                                    + "but could not find the following elements:%n"
-                                   + "  <[\"Luke\"]>%n"
+                                   + "  [\"Luke\"]%n"
                                    + "when comparing values using CaseInsensitiveStringComparator"));
   }
 
@@ -96,11 +96,11 @@ class ShouldContainExactlyInAnyOrder_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting:%n"
-                                   + "  <[\"Yoda\", \"Leia\"]>%n"
+                                   + "  [\"Yoda\", \"Leia\"]%n"
                                    + "to contain exactly in any order:%n"
-                                   + "  <[\"Yoda\"]>%n"
+                                   + "  [\"Yoda\"]%n"
                                    + "but the following elements were unexpected:%n"
-                                   + "  <[\"Leia\"]>%n"
+                                   + "  [\"Leia\"]%n"
                                    + "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

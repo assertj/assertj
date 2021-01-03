@@ -39,7 +39,7 @@ class ShouldContainAtIndex_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n <\"Leia\">%nat index <1> but found:%n <\"Luke\">%nin:%n <[\"Yoda\", \"Luke\"]>%n"));
+    then(message).isEqualTo(format("[Test] %nExpecting:%n  \"Leia\"%nat index 1 but found:%n  \"Luke\"%nin:%n  [\"Yoda\", \"Luke\"]%n"));
   }
 
   @Test
@@ -50,7 +50,7 @@ class ShouldContainAtIndex_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n <\"Leia\">%nat index <1> but found:%n <\"Luke\">%nin:%n <[\"Yoda\", \"Luke\"]>%n"
+    then(message).isEqualTo(format("[Test] %nExpecting:%n  \"Leia\"%nat index 1 but found:%n  \"Luke\"%nin:%n  [\"Yoda\", \"Luke\"]%n"
                                    + "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

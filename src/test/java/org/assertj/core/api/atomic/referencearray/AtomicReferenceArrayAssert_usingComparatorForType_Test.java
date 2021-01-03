@@ -130,11 +130,11 @@ class AtomicReferenceArrayAssert_usingComparatorForType_Test extends AtomicRefer
     });
     // THEN
     then(error).hasMessage(format("%nExpecting Object[]:%n"
-                                  + " <[Yoda the Jedi, \"some\"]>%n"
+                                  + "  [Yoda the Jedi, \"some\"]%n"
                                   + "to contain:%n"
-                                  + " <[Luke the Jedi, \"any\"]>%n"
+                                  + "  [Luke the Jedi, \"any\"]%n"
                                   + "but could not find the following object(s):%n"
-                                  + " <[\"any\"]>%n"
+                                  + "  [\"any\"]%n"
                                   + "when comparing values using field/property by field/property comparator on all fields/properties%n"
                                   + "Comparators used:%n"
                                   + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], String -> AlwaysEqualComparator}%n"
@@ -183,11 +183,11 @@ class AtomicReferenceArrayAssert_usingComparatorForType_Test extends AtomicRefer
     });
     // THEN
     then(error).hasMessage(format("%nExpecting Object[]:%n"
-                                  + " <[Yoda the Jedi, Yoda the Jedi]>%n"
+                                  + "  [Yoda the Jedi, Yoda the Jedi]%n"
                                   + "to contain:%n"
-                                  + " <[Luke the Jedi, Luke the Jedi]>%n"
+                                  + "  [Luke the Jedi, Luke the Jedi]%n"
                                   + "but could not find the following object(s):%n"
-                                  + " <[Luke the Jedi]>%n"
+                                  + "  [Luke the Jedi]%n"
                                   + "when comparing values using field/property by field/property comparator on all fields/properties%n"
                                   + "Comparators used:%n"
                                   + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], String -> org.assertj.core.test.NeverEqualComparator}%n"

@@ -41,9 +41,9 @@ class ShouldContainEntry_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +
+                                   "  {\"color\"=\"green\", \"name\"=\"Yoda\"}%n" +
                                    "to contain an entry satisfying:%n" +
-                                   " <test condition>"));
+                                   "  test condition"));
   }
 
   @Test
@@ -57,11 +57,11 @@ class ShouldContainEntry_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +
+                                   "  {\"color\"=\"green\", \"name\"=\"Yoda\"}%n" +
                                    "to contain an entry satisfying both key and value conditions:%n" +
                                    "- key condition:%n" +
-                                   "    <test key condition>%n" +
+                                   "    test key condition%n" +
                                    "- value condition:%n" +
-                                   "    <test value condition>"));
+                                   "    test value condition"));
   }
 }

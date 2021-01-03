@@ -41,9 +41,9 @@ class ShouldContainThrowable_create_Test {
     // THEN
     then(errorMessage).isEqualTo("[TEST] %n" +
                                  "Expecting throwable message:%n" +
-                                 "  <\"You know nothing %%\">%n" +
+                                 "  \"You know nothing %%\"%n" +
                                  "to contain:%n" +
-                                 "  <\"You know nothing %% Jon Snow\">%n" +
+                                 "  \"You know nothing %% Jon Snow\"%n" +
                                  "but did not.%n" +
                                  "%n" +
                                  "Throwable that failed the check:%n" +
@@ -61,11 +61,11 @@ class ShouldContainThrowable_create_Test {
     // THEN
     then(errorMessage).isEqualTo("[TEST] %n" +
                                  "Expecting throwable message:%n" +
-                                 "  <\"You know nothing\">%n" +
+                                 "  \"You know nothing\"%n" +
                                  "to contain:%n" +
-                                 "  <[\"You\", \"know\", \"nothing\", \"Jon\", \"Snow\"]>%n" +
+                                 "  [\"You\", \"know\", \"nothing\", \"Jon\", \"Snow\"]%n" +
                                  "but could not find:%n" +
-                                 "  <[\"Jon\", \"Snow\"]>%n" +
+                                 "  [\"Jon\", \"Snow\"]%n" +
                                  "%n" +
                                  "Throwable that failed the check:%n" +
                                  "%n%s", getStackTrace(actual));

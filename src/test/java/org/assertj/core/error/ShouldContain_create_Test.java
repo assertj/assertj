@@ -54,11 +54,11 @@ class ShouldContain_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting ArrayList:%n" +
-                                   " <[\"Yoda\"]>%n" +
+                                   "  [\"Yoda\"]%n" +
                                    "to contain:%n" +
-                                   " <[\"Luke\", \"Yoda\"]>%n" +
+                                   "  [\"Luke\", \"Yoda\"]%n" +
                                    "but could not find the following element(s):%n" +
-                                   " <[\"Luke\"]>%n"));
+                                   "  [\"Luke\"]%n"));
   }
 
   @Test
@@ -71,11 +71,11 @@ class ShouldContain_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting ArrayList:%n" +
-                                   " <[\"Yoda\"]>%n" +
+                                   "  [\"Yoda\"]%n" +
                                    "to contain:%n" +
-                                   " <[\"Luke\", \"Yoda\"]>%n" +
+                                   "  [\"Luke\", \"Yoda\"]%n" +
                                    "but could not find the following element(s):%n" +
-                                   " <[\"Luke\"]>%n" +
+                                   "  [\"Luke\"]%n" +
                                    "when comparing values using CaseInsensitiveStringComparator"));
   }
 
@@ -88,11 +88,11 @@ class ShouldContain_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting ArrayList:%n" +
-                                   " <[5L, 7L]>%n" +
+                                   "  [5L, 7L]%n" +
                                    "to contain:%n" +
-                                   " <[5, 7]>%n" +
+                                   "  [5, 7]%n" +
                                    "but could not find the following element(s):%n" +
-                                   " <[5, 7]>%n"));
+                                   "  [5, 7]%n"));
   }
 
   @Test
@@ -104,11 +104,11 @@ class ShouldContain_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting ArrayList:%n" +
-                                   " <[5.0, 7.0]>%n" +
+                                   "  [5.0, 7.0]%n" +
                                    "to contain:%n" +
-                                   " <[5.0f, 7.0f]>%n" +
+                                   "  [5.0f, 7.0f]%n" +
                                    "but could not find the following element(s):%n" +
-                                   " <[5.0f, 7.0f]>%n"));
+                                   "  [5.0f, 7.0f]%n"));
   }
 
   @Test
@@ -121,11 +121,11 @@ class ShouldContain_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting map:%n"
-                                   + " <{\"1\"=2.0}>%n"
+                                   + "  {\"1\"=2.0}%n"
                                    + "to contain:%n"
-                                   + " <MapEntry[key=\"3\", value=4.0]>%n"
+                                   + "  MapEntry[key=\"3\", value=4.0]%n"
                                    + "but could not find the following map entries:%n"
-                                   + " <MapEntry[key=\"3\", value=4.0]>%n"));
+                                   + "  MapEntry[key=\"3\", value=4.0]%n"));
   }
 
   @Test
@@ -137,11 +137,11 @@ class ShouldContain_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting byte[]:%n"
-                                   + " <[2, 3]>%n"
+                                   + "  [2, 3]%n"
                                    + "to contain:%n"
-                                   + " <[4]>%n"
+                                   + "  [4]%n"
                                    + "but could not find the following byte(s):%n"
-                                   + " <[4]>%n"));
+                                   + "  [4]%n"));
   }
 
   @Test
@@ -153,11 +153,11 @@ class ShouldContain_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting float[]:%n"
-                                   + " <[2.0f, 3.0f]>%n"
+                                   + "  [2.0f, 3.0f]%n"
                                    + "to contain:%n"
-                                   + " <[4.0f]>%n"
+                                   + "  [4.0f]%n"
                                    + "but could not find the following float(s):%n"
-                                   + " <[4.0f]>%n"));
+                                   + "  [4.0f]%n"));
   }
 
   @Test
@@ -169,11 +169,11 @@ class ShouldContain_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting int[]:%n"
-                                   + " <[2, 3]>%n"
+                                   + "  [2, 3]%n"
                                    + "to contain:%n"
-                                   + " <[4]>%n"
+                                   + "  [4]%n"
                                    + "but could not find the following int(s):%n"
-                                   + " <[4]>%n"));
+                                   + "  [4]%n"));
   }
 
   @Test
@@ -185,11 +185,11 @@ class ShouldContain_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting char[]:%n"
-                                   + " <['a', 'b']>%n"
+                                   + "  ['a', 'b']%n"
                                    + "to contain:%n"
-                                   + " <['c', 'd']>%n"
+                                   + "  ['c', 'd']%n"
                                    + "but could not find the following char(s):%n"
-                                   + " <['c', 'd']>%n"));
+                                   + "  ['c', 'd']%n"));
   }
 
   @Test
@@ -201,11 +201,11 @@ class ShouldContain_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting long[]:%n"
-                                   + " <[6L, 8L]>%n"
+                                   + "  [6L, 8L]%n"
                                    + "to contain:%n"
-                                   + " <[10L, 9L]>%n"
+                                   + "  [10L, 9L]%n"
                                    + "but could not find the following long(s):%n"
-                                   + " <[10L, 9L]>%n"));
+                                   + "  [10L, 9L]%n"));
   }
 
   @Test
@@ -217,11 +217,11 @@ class ShouldContain_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting double[]:%n"
-                                   + " <[6.0, 8.0]>%n"
+                                   + "  [6.0, 8.0]%n"
                                    + "to contain:%n"
-                                   + " <[10.0, 9.0]>%n"
+                                   + "  [10.0, 9.0]%n"
                                    + "but could not find the following double(s):%n"
-                                   + " <[10.0, 9.0]>%n"));
+                                   + "  [10.0, 9.0]%n"));
   }
 
   @Test
@@ -233,11 +233,11 @@ class ShouldContain_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting boolean[]:%n"
-                                   + " <[true]>%n"
+                                   + "  [true]%n"
                                    + "to contain:%n"
-                                   + " <[true, false]>%n"
+                                   + "  [true, false]%n"
                                    + "but could not find the following boolean(s):%n"
-                                   + " <[false]>%n"));
+                                   + "  [false]%n"));
   }
 
   @Test
@@ -249,11 +249,11 @@ class ShouldContain_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting short[]:%n"
-                                   + " <[6, 8]>%n"
+                                   + "  [6, 8]%n"
                                    + "to contain:%n"
-                                   + " <[10, 9]>%n"
+                                   + "  [10, 9]%n"
                                    + "but could not find the following short(s):%n"
-                                   + " <[10, 9]>%n"));
+                                   + "  [10, 9]%n"));
   }
 
   @Test
@@ -265,11 +265,11 @@ class ShouldContain_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting String[]:%n"
-                                   + " <[\"a\"]>%n"
+                                   + "  [\"a\"]%n"
                                    + "to contain:%n"
-                                   + " <[\"b\"]>%n"
+                                   + "  [\"b\"]%n"
                                    + "but could not find the following string(s):%n"
-                                   + " <[\"b\"]>%n"));
+                                   + "  [\"b\"]%n"));
   }
 
   @Test
@@ -283,11 +283,11 @@ class ShouldContain_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting Jedi[]:%n"
-                                   + " <[Yoda the Jedi]>%n"
+                                   + "  [Yoda the Jedi]%n"
                                    + "to contain:%n"
-                                   + " <[Luke the Jedi]>%n"
+                                   + "  [Luke the Jedi]%n"
                                    + "but could not find the following jedi(s):%n"
-                                   + " <[Luke the Jedi]>%n"));
+                                   + "  [Luke the Jedi]%n"));
   }
 
   @Test
@@ -301,7 +301,7 @@ class ShouldContain_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting directory:%n" +
-                                   "  <root>%n" +
+                                   "  root%n" +
                                    "to contain at least one file matching glob:**.java but there was none.%n" +
                                    "The directory content was:%n" +
                                    "  [foo.txt, bar.txt]"));
@@ -318,7 +318,7 @@ class ShouldContain_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting directory:%n" +
-                                   "  <root%%dir>%n" +
+                                   "  root%%dir%n" +
                                    "to contain at least one file matching glob:**%%Test.java but there was none.%n" +
                                    "The directory content was:%n" +
                                    "  [foo%%1.txt, bar%%2.txt]"));
@@ -335,7 +335,7 @@ class ShouldContain_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting directory:%n" +
-                                   "  <root>%n" +
+                                   "  root%n" +
                                    "to contain at least one file matching glob:**.java but there was none.%n" +
                                    "The directory content was:%n" +
                                    "  [foo.txt, bar.txt]"));

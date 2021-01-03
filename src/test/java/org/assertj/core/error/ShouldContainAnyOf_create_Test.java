@@ -23,7 +23,7 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
-class ShouldContainsAnyOf_create_Test {
+class ShouldContainAnyOf_create_Test {
 
   @Test
   void should_create_error_message() {
@@ -34,9 +34,9 @@ class ShouldContainsAnyOf_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <[\"Yoda\", \"Han\", \"Han\"]>%n" +
+                                   "  [\"Yoda\", \"Han\", \"Han\"]%n" +
                                    "to contain at least one of the following elements:%n" +
-                                   "  <[\"Vador\", \"Leia\"]>%n" +
+                                   "  [\"Vador\", \"Leia\"]%n" +
                                    "but none were found "));
   }
 
@@ -50,9 +50,9 @@ class ShouldContainsAnyOf_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <[\"Yoda\", \"Han\", \"Han\"]>%n" +
+                                   "  [\"Yoda\", \"Han\", \"Han\"]%n" +
                                    "to contain at least one of the following elements:%n" +
-                                   "  <[\"Vador\", \"Leia\"]>%n" +
+                                   "  [\"Vador\", \"Leia\"]%n" +
                                    "but none were found " +
                                    "when comparing values using CaseInsensitiveStringComparator"));
   }

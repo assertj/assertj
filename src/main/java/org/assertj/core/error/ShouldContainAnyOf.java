@@ -28,9 +28,9 @@ public class ShouldContainAnyOf extends BasicErrorMessageFactory {
 
   private ShouldContainAnyOf(Object actual, Object expected, ComparisonStrategy comparisonStrategy) {
     super("%nExpecting:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "to contain at least one of the following elements:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "but none were found %s",
           actual, expected, comparisonStrategy);
   }
