@@ -19,7 +19,7 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 
 import org.junit.jupiter.api.Test;
 
-class ShouldHaveNoSuppressedExceptions_create_test {
+class ShouldHaveNoSuppressedExceptions_create_Test {
 
   @Test
   void should_fail_if_throwable_has_suppressed_exceptions() {
