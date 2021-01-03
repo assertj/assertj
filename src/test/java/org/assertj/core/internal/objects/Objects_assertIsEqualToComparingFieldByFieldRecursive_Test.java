@@ -164,8 +164,9 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     Person other = new Person();
     other.name = "Jack";
 
-    Throwable error = catchThrowable(() ->
-      objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, noFieldComparators(), defaultTypeComparators()));
+    Throwable error = catchThrowable(() -> objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other,
+                                                                                                   noFieldComparators(),
+                                                                                                   defaultTypeComparators()));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeEqualByComparingFieldByFieldRecursive(actual, other,
@@ -187,8 +188,9 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     other.name = "John";
     other.home.address.number = 2;
 
-    Throwable error = catchThrowable(() ->
-      objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, noFieldComparators(), defaultTypeComparators()));
+    Throwable error = catchThrowable(() -> objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other,
+                                                                                                   noFieldComparators(),
+                                                                                                   defaultTypeComparators()));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
@@ -211,16 +213,16 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     other.home.address.number = 2;
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isEqualToComparingFieldByFieldRecursively(other))
-                                                   .withMessage(format("%nExpecting:%n  <%s>%nto be equal to:%n  <%s>%n"
+                                                   .withMessage(format("%nExpecting actual:%n  %s%nto be equal to:%n  %s%n"
                                                                        +
                                                                        "when recursively comparing field by field, but found the following difference(s):%n%n"
                                                                        +
                                                                        "Path to difference: <home.address.number>%n" +
-                                                                       "- actual  : <1>%n" +
-                                                                       "- expected: <2>%n%n" +
+                                                                       "- actual  : 1%n" +
+                                                                       "- expected: 2%n%n" +
                                                                        "Path to difference: <name>%n" +
-                                                                       "- actual  : <\"Jack\">%n" +
-                                                                       "- expected: <\"John\">", actual, other));
+                                                                       "- actual  : \"Jack\"%n" +
+                                                                       "- expected: \"John\"", actual, other));
   }
 
   @Test
@@ -237,14 +239,14 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     other.friends = Arrays.asList(friendOfOther);
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isEqualToComparingFieldByFieldRecursively(other))
-                                                   .withMessage(format("%nExpecting:%n  <%s>%nto be equal to:%n  <%s>%n"
+                                                   .withMessage(format("%nExpecting actual:%n  %s%nto be equal to:%n  %s%n"
                                                                        +
                                                                        "when recursively comparing field by field, but found the following difference(s):%n%n"
                                                                        +
                                                                        "Path to difference: <friends.home.address.number>%n"
                                                                        +
-                                                                       "- actual  : <99>%n" +
-                                                                       "- expected: <10>", actual, other));
+                                                                       "- actual  : 99%n" +
+                                                                       "- expected: 10", actual, other));
   }
 
   @Test
@@ -259,8 +261,9 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     other.name = "John";
     other.home.address.number = 2;
 
-    Throwable error = catchThrowable(() ->
-      objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, noFieldComparators(), defaultTypeComparators()));
+    Throwable error = catchThrowable(() -> objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other,
+                                                                                                   noFieldComparators(),
+                                                                                                   defaultTypeComparators()));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
@@ -283,9 +286,9 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     Throwable error = catchThrowable(() -> assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected));
 
     assertThat(error).isInstanceOf(AssertionError.class)
-      .hasMessageContaining(format("Path to difference: <collection>%n"))
-      .hasMessageContaining(format("- actual  : <[\"bar\", \"foo\"] (LinkedHashSet@"))
-      .hasMessageContaining(format("- expected: <[\"bar\", \"foo\"] (TreeSet@"));
+                     .hasMessageContaining(format("Path to difference: <collection>%n"))
+                     .hasMessageContaining(format("- actual  : [\"bar\", \"foo\"] (LinkedHashSet@"))
+                     .hasMessageContaining(format("- expected: [\"bar\", \"foo\"] (TreeSet@"));
   }
 
   @Test
@@ -301,9 +304,9 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     Throwable error = catchThrowable(() -> assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected));
 
     assertThat(error).isInstanceOf(AssertionError.class)
-      .hasMessageContaining(format("Path to difference: <collection>%n"))
-      .hasMessageContaining(format("- actual  : <[\"bar\", \"foo\"] (TreeSet@"))
-      .hasMessageContaining(format("- expected: <[\"bar\", \"foo\"] (LinkedHashSet@"));
+                     .hasMessageContaining(format("Path to difference: <collection>%n"))
+                     .hasMessageContaining(format("- actual  : [\"bar\", \"foo\"] (TreeSet@"))
+                     .hasMessageContaining(format("- expected: [\"bar\", \"foo\"] (LinkedHashSet@"));
   }
 
   @Test
@@ -319,9 +322,9 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     Throwable error = catchThrowable(() -> assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected));
 
     assertThat(error).isInstanceOf(AssertionError.class)
-      .hasMessageContaining(format("Path to difference: <map>%n"))
-      .hasMessageContaining(format("- actual  : <{1L=true, 2L=false} (LinkedHashMap@"))
-      .hasMessageContaining(format("- expected: <{1L=true, 2L=false} (TreeMap@"));
+                     .hasMessageContaining(format("Path to difference: <map>%n"))
+                     .hasMessageContaining(format("- actual  : {1L=true, 2L=false} (LinkedHashMap@"))
+                     .hasMessageContaining(format("- expected: {1L=true, 2L=false} (TreeMap@"));
   }
 
   @Test
@@ -337,9 +340,9 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     Throwable error = catchThrowable(() -> assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected));
 
     assertThat(error).isInstanceOf(AssertionError.class)
-      .hasMessageContaining(format("Path to difference: <map>%n"))
-      .hasMessageContaining(format("- actual  : <{1L=true, 2L=false} (TreeMap@"))
-      .hasMessageContaining(format("- expected: <{1L=true, 2L=false} (LinkedHashMap@"));
+                     .hasMessageContaining(format("Path to difference: <map>%n"))
+                     .hasMessageContaining(format("- actual  : {1L=true, 2L=false} (TreeMap@"))
+                     .hasMessageContaining(format("- expected: {1L=true, 2L=false} (LinkedHashMap@"));
   }
 
   @Test
@@ -433,13 +436,14 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     Person other = new Person();
     other.name = "%foo";
 
-    Throwable error = catchThrowable(() ->
-      objects.assertIsEqualToComparingFieldByFieldRecursively(someInfo(), actual, other, noFieldComparators(), defaultTypeComparators()));
+    Throwable error = catchThrowable(() -> objects.assertIsEqualToComparingFieldByFieldRecursively(someInfo(), actual, other,
+                                                                                                   noFieldComparators(),
+                                                                                                   defaultTypeComparators()));
 
     assertThat(error).isInstanceOf(AssertionError.class)
-      .hasMessageContaining("Path to difference: <name>")
-      .hasMessageContaining("- expected: <\"%foo\">")
-      .hasMessageContaining("- actual  : <\"foo\">");
+                     .hasMessageContaining("Path to difference: <name>")
+                     .hasMessageContaining("- expected: \"%foo\"")
+                     .hasMessageContaining("- actual  : \"foo\"");
   }
 
   @Test

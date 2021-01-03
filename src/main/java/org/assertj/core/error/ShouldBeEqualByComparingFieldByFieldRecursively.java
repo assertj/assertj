@@ -34,10 +34,10 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorM
                                                        .map(difference -> describeDifference(difference, representation))
                                                        .collect(toList());
     return new ShouldBeEqualByComparingFieldByFieldRecursively("%n" +
-                                                               "Expecting:%n" +
-                                                               "  <%s>%n" +
+                                                               "Expecting actual:%n" +
+                                                               "  %s%n" +
                                                                "to be equal to:%n" +
-                                                               "  <%s>%n" +
+                                                               "  %s%n" +
                                                                "when recursively comparing field by field, but found the following difference(s):%n"
                                                                + join(descriptionOfDifferences).with(format("%n")),
                                                                actual, other);
@@ -55,9 +55,9 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorM
     // @format:off
     return new ShouldBeEqualByComparingFieldByFieldRecursively("%n" +
                                                                "Expecting:%n" +
-                                                               "  <%s>%n" +
+                                                               "  %s%n" +
                                                                "to be equal to:%n" +
-                                                               "  <%s>%n" +
+                                                               "  %s%n" +
                                                                "when recursively comparing field by field, but found the following " + differencesCount +
                                                                "%n" +
                                                                escapePercent(differencesDescription) + "%n" +
@@ -79,8 +79,8 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorM
                                       .map(desc -> format("%n- reason  : %s", escapePercent(desc)))
                                       .orElse("");
     return format("%nPath to difference: <%s>%n" +
-                  "- actual  : <%s>%n" +
-                  "- expected: <%s>" + additionalInfo,
+                  "- actual  : %s%n" +
+                  "- expected: %s" + additionalInfo,
                   join(difference.getPath()).with("."),
                   escapePercent(unambiguousRepresentation.getActual()),
                   escapePercent(unambiguousRepresentation.getExpected()));
