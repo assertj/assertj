@@ -21,10 +21,10 @@ public class ShouldBeEqualIgnoringNewLines extends BasicErrorMessageFactory {
   private ShouldBeEqualIgnoringNewLines(CharSequence actual, CharSequence expected) {
     super("%n" +
           "Expecting:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "to be equal to:%n" +
-          "  <%s>%n" +
-          "ignoring newlines (\\n, \\r\\n).",
+          "  %s%n" +
+          "when ignoring newlines (\\n, \\r\\n).",
           actual, expected);
   }
 

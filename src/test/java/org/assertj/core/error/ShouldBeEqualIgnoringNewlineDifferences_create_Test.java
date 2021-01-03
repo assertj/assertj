@@ -20,7 +20,7 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-class ShouldBeEqualIgnoringNewlineDifference_create_Test {
+class ShouldBeEqualIgnoringNewlineDifferences_create_Test {
 
   @Test
   void should_create_error_message() {
@@ -30,10 +30,10 @@ class ShouldBeEqualIgnoringNewlineDifference_create_Test {
     String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
-                                   "  <\"foo\">%n" +
+                                   "Expecting actual:%n" +
+                                   "  \"foo\"%n" +
                                    "to be equal to:%n" +
-                                   "  <\"bar\">%n" +
-                                   "ignoring newline differences ('\\r\\n' == '\\n')"));
+                                   "  \"bar\"%n" +
+                                   "when ignoring newline differences ('\\r\\n' == '\\n')"));
   }
 }

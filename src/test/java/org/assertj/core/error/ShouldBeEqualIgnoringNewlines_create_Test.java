@@ -31,9 +31,9 @@ class ShouldBeEqualIgnoringNewlines_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <\"foo\">%n" +
+                                   "  \"foo\"%n" +
                                    "to be equal to:%n" +
-                                   "  <\"bar\">%n" +
-                                   "ignoring newlines (\\n, \\r\\n)."));
+                                   "  \"bar\"%n" +
+                                   "when ignoring newlines (\\n, \\r\\n)."));
   }
 }

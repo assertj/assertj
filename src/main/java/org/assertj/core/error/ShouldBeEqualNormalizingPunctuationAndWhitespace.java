@@ -33,9 +33,9 @@ public class ShouldBeEqualNormalizingPunctuationAndWhitespace extends BasicError
   private ShouldBeEqualNormalizingPunctuationAndWhitespace(CharSequence actual, CharSequence expected) {
     super("%n" +
           "Expecting:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "to be equal to:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "after punctuation and whitespace differences are normalized.%n" +
           "Punctuation is any of the following character !\"#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~",
           actual, expected);

@@ -40,9 +40,9 @@ class ShouldBeEqualNormalizingWhitespace_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <\" my\tfoo bar \">%n" +
+                                   "  \" my\tfoo bar \"%n" +
                                    "to be equal to:%n" +
-                                   "  <\" myfoo bar \">%n" +
+                                   "  \" myfoo bar \"%n" +
                                    "after whitespace differences are normalized"));
   }
 }

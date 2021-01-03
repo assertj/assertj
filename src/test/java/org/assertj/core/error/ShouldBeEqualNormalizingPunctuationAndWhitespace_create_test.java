@@ -37,10 +37,10 @@ class ShouldBeEqualNormalizingPunctuationAndWhitespace_create_test {
     String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                    "Expecting:%n" +
-                                    "  <\" Game-of-Thrones \">%n" +
-                                    "to be equal to:%n" +
-                                    "  <\" Game of Thrones \">%n" +
+                                   "Expecting:%n" +
+                                   "  \" Game-of-Thrones \"%n" +
+                                   "to be equal to:%n" +
+                                   "  \" Game of Thrones \"%n" +
                                    "after punctuation and whitespace differences are normalized.%n" +
                                    "Punctuation is any of the following character !\"#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~"));
   }

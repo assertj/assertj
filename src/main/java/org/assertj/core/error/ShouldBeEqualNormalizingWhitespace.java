@@ -13,9 +13,9 @@
 package org.assertj.core.error;
 
 /**
- * Creates an error message indicating that an assertion that verifies that two {@code CharSequence}s are equal, 
+ * Creates an error message indicating that an assertion that verifies that two {@code CharSequence}s are equal,
  * after the whitespace of both strings has been normalized, failed.
- * 
+ *
  * @author Alexander Bischof
  */
 public class ShouldBeEqualNormalizingWhitespace extends BasicErrorMessageFactory {
@@ -31,6 +31,6 @@ public class ShouldBeEqualNormalizingWhitespace extends BasicErrorMessageFactory
   }
 
   private ShouldBeEqualNormalizingWhitespace(CharSequence actual, CharSequence expected) {
-    super("%nExpecting:%n  <%s>%nto be equal to:%n  <%s>%nafter whitespace differences are normalized", actual, expected);
+    super("%nExpecting:%n  %s%nto be equal to:%n  %s%nafter whitespace differences are normalized", actual, expected);
   }
 }

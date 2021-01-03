@@ -15,7 +15,7 @@ package org.assertj.core.error;
 /**
  * Creates an error message indicating that an assertion that verifies that two {@code CharSequence}s are equal, ignoring whitespace
  * differences, failed.
- * 
+ *
  * @author Alexander Bischof
  */
 public class ShouldBeEqualIgnoringWhitespace extends BasicErrorMessageFactory {
@@ -31,6 +31,6 @@ public class ShouldBeEqualIgnoringWhitespace extends BasicErrorMessageFactory {
   }
 
   private ShouldBeEqualIgnoringWhitespace(CharSequence actual, CharSequence expected) {
-    super("%nExpecting:%n  <%s>%nto be equal to:%n  <%s>%nignoring whitespace differences", actual, expected);
+    super("%nExpecting:%n  %s%nto be equal to:%n  %s%nwhen ignoring whitespace differences", actual, expected);
   }
 }

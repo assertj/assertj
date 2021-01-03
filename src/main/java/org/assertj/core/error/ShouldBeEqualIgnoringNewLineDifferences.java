@@ -19,7 +19,7 @@ public class ShouldBeEqualIgnoringNewLineDifferences extends BasicErrorMessageFa
   }
 
   private ShouldBeEqualIgnoringNewLineDifferences(CharSequence actual, CharSequence expected) {
-    super("%nExpecting:%n  <%s>%nto be equal to:%n  <%s>%nignoring newline differences ('\\r\\n' == '\\n')",
+    super("%nExpecting actual:%n  %s%nto be equal to:%n  %s%nwhen ignoring newline differences ('\\r\\n' == '\\n')",
           actual, expected);
   }
 }
