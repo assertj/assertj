@@ -41,9 +41,9 @@ class OffsetTimeAssert_isAfter_Test extends OffsetTimeAssertBaseTest {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(parse("03:00:05.123Z")).isAfter(parse("03:00:05.123456789Z")))
                                                    .withMessage(format("%n" +
                                                                        "Expecting:%n" +
-                                                                       "  <03:00:05.123Z>%n" +
+                                                                       "  03:00:05.123Z%n" +
                                                                        "to be strictly after:%n" +
-                                                                       "  <03:00:05.123456789Z>%n"));
+                                                                       "  03:00:05.123456789Z%n"));
   }
 
   @Test
