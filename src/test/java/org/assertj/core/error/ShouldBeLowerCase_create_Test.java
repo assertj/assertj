@@ -32,7 +32,7 @@ class ShouldBeLowerCase_create_Test {
     // WHEN
     String message = shouldBeLowerCase('A').create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting <'A'> to be a lowercase"));
+    then(message).isEqualTo(format("[Test] %nExpecting 'A' to be a lowercase"));
   }
 
   @Test
@@ -40,6 +40,6 @@ class ShouldBeLowerCase_create_Test {
     // WHEN
     String message = shouldBeLowerCase("ABC").create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting <\"ABC\"> to be a lowercase"));
+    then(message).isEqualTo(format("[Test] %nExpecting \"ABC\" to be a lowercase"));
   }
 }

@@ -32,7 +32,7 @@ class ShouldBeUpperCase_create_Test {
     // WHEN
     String message = shouldBeUpperCase('a').create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting <'a'> to be uppercase"));
+    then(message).isEqualTo(format("[Test] %nExpecting 'a' to be uppercase"));
   }
 
   @Test
@@ -40,6 +40,6 @@ class ShouldBeUpperCase_create_Test {
     // WHEN
     String message = shouldBeUpperCase("abc").create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting <\"abc\"> to be uppercase"));
+    then(message).isEqualTo(format("[Test] %nExpecting \"abc\" to be uppercase"));
   }
 }

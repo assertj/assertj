@@ -29,6 +29,6 @@ public class ShouldBeLowerCase extends BasicErrorMessageFactory {
   }
 
   private ShouldBeLowerCase(Object actual) {
-    super("%nExpecting <%s> to be a lowercase", actual);
+    super("%nExpecting %s to be a lowercase", actual);
   }
 }
