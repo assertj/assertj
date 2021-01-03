@@ -12,9 +12,10 @@
  */
 package org.assertj.core.internal.shorts;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.internal.ShortsBaseTest;
 import org.junit.jupiter.api.Test;
@@ -39,20 +40,26 @@ class Shorts_assertIsNotPositive_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_since_actual_is_positive() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertIsNotPositive(someInfo(), (short) 6))
-                                                   .withMessage(format("%nExpecting:%n <6>%nto be less than or equal to:%n <0> "));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> shorts.assertIsNotPositive(someInfo(), (short) 6));
+    // THEN
+    then(assertionError).hasMessage(shouldBeLessOrEqual((short) 6, (short) 0).create());
   }
 
   @Test
   void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), (short) -1))
-                                                   .withMessage(format("%nExpecting:%n <-1>%nto be less than or equal to:%n <0> when comparing values using AbsValueComparator"));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), (short) -1));
+    // THEN
+    then(assertionError).hasMessage(shouldBeLessOrEqual((short) -1, (short) 0, absValueComparisonStrategy).create());
   }
 
   @Test
   void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), (short) 1))
-                                                   .withMessage(format("%nExpecting:%n <1>%nto be less than or equal to:%n <0> when comparing values using AbsValueComparator"));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), (short) 1));
+    // THEN
+    then(assertionError).hasMessage(shouldBeLessOrEqual((short) 1, (short) 0, absValueComparisonStrategy).create());
   }
 
 }
