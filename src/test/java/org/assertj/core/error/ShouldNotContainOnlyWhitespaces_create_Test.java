@@ -31,6 +31,6 @@ class ShouldNotContainOnlyWhitespaces_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting string not to contain only whitespaces but was:%n" +
-                                   "  <\"   \">"));
+                                   "  \"   \""));
   }
 }

@@ -53,7 +53,7 @@ public class ShouldNotContain extends BasicErrorMessageFactory {
   }
 
   private ShouldNotContain(Object actual, Object expected, Object found, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting%n <%s>%nnot to contain%n <%s>%nbut found%n <%s>%n%s", actual, expected, found, comparisonStrategy);
+    super("%nExpecting%n  %s%nnot to contain%n  %s%nbut found%n  %s%n%s", actual, expected, found, comparisonStrategy);
   }
 
   public static ErrorMessageFactory directoryShouldNotContain(File actual, List<String> matchingContent,
@@ -69,7 +69,7 @@ public class ShouldNotContain extends BasicErrorMessageFactory {
   private ShouldNotContain(Object actual, List<String> matchingContent, String filterDescription) {
     // not passing matchingContent and filterDescription as parameter to avoid AssertJ default String formatting
     super("%nExpecting directory:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "not to contain any files matching " + filterDescription + " but found some:%n" +
           "  " + matchingContent,
           actual);

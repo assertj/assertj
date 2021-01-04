@@ -78,11 +78,11 @@ class AssertJMultipleFailuresError_getMessage_Test {
                                   "-- failure 8 --%n" +
                                   "[contains] %n" +
                                   "Expecting%n" +
-                                  " <[\"a\", \"b\", \"c\"]>%n" +
+                                  "  [\"a\", \"b\", \"c\"]%n" +
                                   "not to contain%n" +
-                                  " <[\"a\"]>%n" +
+                                  "  [\"a\"]%n" +
                                   "but found%n" +
-                                  " <[\"a\"]>%n" +
+                                  "  [\"a\"]%n" +
                                   "%n" +
                                   "-- failure 9 --%n" +
                                   "Expecting ArrayList:%n" +
@@ -94,11 +94,11 @@ class AssertJMultipleFailuresError_getMessage_Test {
                                   "%n" +
                                   "-- failure 10 --%n" +
                                   "Expecting%n" +
-                                  " <[\"a\", \"b\", \"c\"]>%n" +
+                                  "  [\"a\", \"b\", \"c\"]%n" +
                                   "not to contain%n" +
-                                  " <[\"a\"]>%n" +
+                                  "  [\"a\"]%n" +
                                   "but found%n" +
-                                  " <[\"a\"]>%n"));
+                                  "  [\"a\"]%n"));
   }
 
 }

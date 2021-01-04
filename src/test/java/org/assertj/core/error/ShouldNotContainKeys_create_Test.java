@@ -51,9 +51,9 @@ class ShouldNotContainKeys_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +
+                                   "  {\"color\"=\"green\", \"name\"=\"Yoda\"}%n" +
                                    "not to contain key:%n" +
-                                   "  <\"age\">"));
+                                   "  \"age\""));
   }
 
   @Test
@@ -65,9 +65,9 @@ class ShouldNotContainKeys_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +
+                                   "  {\"color\"=\"green\", \"name\"=\"Yoda\"}%n" +
                                    "not to contain keys:%n" +
-                                   "  <[\"name\", \"color\"]>"));
+                                   "  [\"name\", \"color\"]"));
   }
 
 }

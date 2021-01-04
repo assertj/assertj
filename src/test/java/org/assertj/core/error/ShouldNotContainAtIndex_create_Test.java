@@ -45,7 +45,7 @@ class ShouldNotContainAtIndex_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n <[\"Yoda\", \"Luke\"]>%nnot to contain:%n <\"Luke\">%nat index <1>%n"));
+    then(message).isEqualTo(format("[Test] %nExpecting:%n  [\"Yoda\", \"Luke\"]%nnot to contain:%n  \"Luke\"%nat index 1%n"));
   }
 
   @Test
@@ -56,8 +56,8 @@ class ShouldNotContainAtIndex_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n <[\"Yoda\", \"Luke\"]>%nnot to contain:%n <\"Luke\">%n"
-                                   + "at index <1>%n"
+    then(message).isEqualTo(format("[Test] %nExpecting:%n  [\"Yoda\", \"Luke\"]%nnot to contain:%n  \"Luke\"%n"
+                                   + "at index 1%n"
                                    + "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

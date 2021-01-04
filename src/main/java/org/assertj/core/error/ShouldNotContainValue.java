@@ -30,6 +30,6 @@ public class ShouldNotContainValue extends BasicErrorMessageFactory {
   }
 
   private ShouldNotContainValue(Object actual, Object value) {
-    super("%nExpecting:%n  <%s>%nnot to contain value:%n  <%s>", actual, value);
+    super("%nExpecting:%n  %s%nnot to contain value:%n  %s", actual, value);
   }
 }

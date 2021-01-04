@@ -35,8 +35,8 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-@DisplayName("ShouldNotContainString create")
-class ShouldNotContainString_create_Test {
+@DisplayName("ShouldNotContainCharSequence create")
+class ShouldNotContainCharSequence_create_Test {
 
   @Test
   void should_create_error_message() {
@@ -47,9 +47,9 @@ class ShouldNotContainString_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <\"Yoda\">%n" +
+                                   "  \"Yoda\"%n" +
                                    "not to contain:%n" +
-                                   " <\"od\">%n"));
+                                   "  \"od\"%n"));
   }
 
   @Test
@@ -62,9 +62,9 @@ class ShouldNotContainString_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <\"Yoda\">%n" +
+                                   "  \"Yoda\"%n" +
                                    "not to contain:%n" +
-                                   " <\"od\">%n" +
+                                   "  \"od\"%n" +
                                    "when comparing values using CaseInsensitiveStringComparator"));
   }
 
@@ -78,11 +78,11 @@ class ShouldNotContainString_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <\"Yoda\">%n" +
+                                   "  \"Yoda\"%n" +
                                    "not to contain:%n" +
-                                   " <[\"od\", \"ya\"]>%n" +
+                                   "  [\"od\", \"ya\"]%n" +
                                    "but found:%n" +
-                                   " <[\"ya\"]>%n"));
+                                   "  [\"ya\"]%n"));
   }
 
   @Test
@@ -94,9 +94,9 @@ class ShouldNotContainString_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <\"Yoda\">%n" +
+                                   "  \"Yoda\"%n" +
                                    "not to contain (ignoring case):%n" +
-                                   " <\"OD\">%n"));
+                                   "  \"OD\"%n"));
   }
 
   @Test
@@ -108,11 +108,11 @@ class ShouldNotContainString_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <\"Yoda\">%n" +
+                                   "  \"Yoda\"%n" +
                                    "not to contain (ignoring case):%n" +
-                                   " <[\"OD\", \"da\", \"Luke\"]>%n" +
+                                   "  [\"OD\", \"da\", \"Luke\"]%n" +
                                    "but found:%n" +
-                                   " <[\"OD\", \"da\"]>%n"));
+                                   "  [\"OD\", \"da\"]%n"));
   }
 
 }

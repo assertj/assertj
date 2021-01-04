@@ -49,9 +49,9 @@ public class ShouldNotContainCharSequence extends BasicErrorMessageFactory {
                                                      ComparisonStrategy comparisonStrategy) {
     return new ShouldNotContainCharSequence("%n" +
                                             "Expecting:%n" +
-                                            " <%s>%n" +
+                                            "  %s%n" +
                                             "not to contain:%n" +
-                                            " <%s>%n" +
+                                            "  %s%n" +
                                             "%s",
                                             actual, sequence, comparisonStrategy);
   }
@@ -73,11 +73,11 @@ public class ShouldNotContainCharSequence extends BasicErrorMessageFactory {
                                                      ComparisonStrategy comparisonStrategy) {
     return new ShouldNotContainCharSequence("%n" +
                                             "Expecting:%n" +
-                                            " <%s>%n" +
+                                            "  %s%n" +
                                             "not to contain:%n" +
-                                            " <%s>%n" +
+                                            "  %s%n" +
                                             "but found:%n" +
-                                            " <%s>%n" +
+                                            "  %s%n" +
                                             "%s",
                                             actual, values, found, comparisonStrategy);
   }
@@ -92,9 +92,9 @@ public class ShouldNotContainCharSequence extends BasicErrorMessageFactory {
   public static ErrorMessageFactory shouldNotContainIgnoringCase(CharSequence actual, CharSequence sequence) {
     return new ShouldNotContainCharSequence("%n" +
                                             "Expecting:%n" +
-                                            " <%s>%n" +
+                                            "  %s%n" +
                                             "not to contain (ignoring case):%n" +
-                                            " <%s>%n" +
+                                            "  %s%n" +
                                             "%s",
                                             actual, sequence, StandardComparisonStrategy.instance());
   }
@@ -103,11 +103,11 @@ public class ShouldNotContainCharSequence extends BasicErrorMessageFactory {
                                                                  Set<CharSequence> foundSequences) {
     return new ShouldNotContainCharSequence("%n" +
                                             "Expecting:%n" +
-                                            " <%s>%n" +
+                                            "  %s%n" +
                                             "not to contain (ignoring case):%n" +
-                                            " <%s>%n" +
+                                            "  %s%n" +
                                             "but found:%n" +
-                                            " <%s>%n" +
+                                            "  %s%n" +
                                             "%s",
                                             actual, sequences, foundSequences, StandardComparisonStrategy.instance());
   }

@@ -51,11 +51,11 @@ class ShouldNotContain_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   " <[\"Yoda\"]>%n" +
+                                   "  [\"Yoda\"]%n" +
                                    "not to contain%n" +
-                                   " <[\"Luke\", \"Yoda\"]>%n" +
+                                   "  [\"Luke\", \"Yoda\"]%n" +
                                    "but found%n" +
-                                   " <[\"Yoda\"]>%n"));
+                                   "  [\"Yoda\"]%n"));
   }
 
   @Test
@@ -70,10 +70,10 @@ class ShouldNotContain_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   " <[\"Yoda\"]>%n" +
+                                   "  [\"Yoda\"]%n" +
                                    "not to contain%n" +
-                                   " <[\"Luke\", \"Yoda\"]>%n" +
-                                   "but found%n <[\"Yoda\"]>%n" +
+                                   "  [\"Luke\", \"Yoda\"]%n" +
+                                   "but found%n  [\"Yoda\"]%n" +
                                    "when comparing values using CaseInsensitiveStringComparator"));
   }
 
@@ -88,7 +88,7 @@ class ShouldNotContain_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting directory:%n" +
-                                   "  <root>%n" +
+                                   "  root%n" +
                                    "not to contain any files matching glob:**.java but found some:%n" +
                                    "  [foo.txt, bar.txt]"));
   }
@@ -104,7 +104,7 @@ class ShouldNotContain_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting directory:%n" +
-                                   "  <root>%n" +
+                                   "  root%n" +
                                    "not to contain any files matching glob:**.java but found some:%n" +
                                    "  [foo.txt, bar.txt]"));
   }

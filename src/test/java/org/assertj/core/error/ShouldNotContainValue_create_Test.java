@@ -36,9 +36,9 @@ class ShouldNotContainValue_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +
+                                   "  {\"color\"=\"green\", \"name\"=\"Yoda\"}%n" +
                                    "not to contain value:%n" +
-                                   "  <\"green\">"));
+                                   "  \"green\""));
   }
 
 }

@@ -12,40 +12,24 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.error.ShouldNotContainKey.shouldNotContainKey;
-import static org.assertj.core.test.Maps.mapOf;
-
-import java.util.Map;
-
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for
- * <code>{@link ShouldNotContainKey#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
- * .
- *
- * @author Nicolas François
- */
-class ShouldNotContainKey_create_Test {
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldNotContainNull.shouldNotContainNull;
+import static org.assertj.core.util.Arrays.array;
+
+class ShouldNotContainNull_create_Test {
 
   @Test
   void should_create_error_message() {
     // GIVEN
-    Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
-    ErrorMessageFactory factory = shouldNotContainKey(map, "age");
+    String[] array = array("Luke", "Yoda", null);
+    ErrorMessageFactory factory = shouldNotContainNull(array);
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
-                                   "  {\"color\"=\"green\", \"name\"=\"Yoda\"}%n" +
-                                   "not to contain key:%n" +
-                                   "  \"age\""));
+    then(message).isEqualTo(String.format("[Test] %nExpecting:%n  [\"Luke\", \"Yoda\", null]%nnot to contain null elements"));
   }
-
 }
