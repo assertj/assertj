@@ -37,9 +37,9 @@ class ShouldContainOnlyNulls_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting:%n"
-                                   + "  <[\"person\", null]>%n"
+                                   + "  [\"person\", null]%n"
                                    + "to contain only null elements but some elements were not:%n"
-                                   + "  <[\"person\"]>"));
+                                   + "  [\"person\"]"));
   }
 
   @Test
@@ -51,7 +51,7 @@ class ShouldContainOnlyNulls_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting:%n"
-                                   + "  <[]>%n"
+                                   + "  []%n"
                                    + "to contain only null elements but it was empty"));
   }
 }

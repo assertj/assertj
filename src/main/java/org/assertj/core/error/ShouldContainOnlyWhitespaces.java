@@ -29,7 +29,7 @@ public class ShouldContainOnlyWhitespaces extends BasicErrorMessageFactory {
   private ShouldContainOnlyWhitespaces(Object actual) {
     super("%n" +
           "Expecting string to contain only whitespaces but was:%n" +
-          "  <%s>",
+          "  %s",
           actual);
   }
 }

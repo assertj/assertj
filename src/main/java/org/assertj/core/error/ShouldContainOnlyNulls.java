@@ -39,7 +39,7 @@ public class ShouldContainOnlyNulls extends BasicErrorMessageFactory {
   private ShouldContainOnlyNulls(Object actual, ErrorType errorType, Iterable<?> notExpected) {
     super("%n" +
           "Expecting:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "to contain only null elements but " + describe(errorType),
           actual, notExpected);
   }
@@ -50,7 +50,7 @@ public class ShouldContainOnlyNulls extends BasicErrorMessageFactory {
       return "it was empty";
     case NON_NULL_ELEMENTS:
     default:
-      return "some elements were not:%n  <%s>";
+      return "some elements were not:%n  %s";
     }
   }
 

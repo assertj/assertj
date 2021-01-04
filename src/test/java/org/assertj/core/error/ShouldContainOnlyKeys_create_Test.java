@@ -44,13 +44,13 @@ class ShouldContainOnlyKeys_create_Test {
     // THEN
     then(message).isEqualTo(String.format("[Test] %n"
                                           + "Expecting:%n"
-                                          + "  <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n"
+                                          + "  {\"color\"=\"green\", \"name\"=\"Yoda\"}%n"
                                           + "to contain only following keys:%n"
-                                          + "  <[\"jedi\", \"color\"]>%n"
+                                          + "  [\"jedi\", \"color\"]%n"
                                           + "keys not found:%n"
-                                          + "  <[\"jedi\"]>%n"
+                                          + "  [\"jedi\"]%n"
                                           + "and keys not expected:%n"
-                                          + "  <[\"name\"]>%n"));
+                                          + "  [\"name\"]%n"));
   }
 
   @Test
@@ -64,11 +64,11 @@ class ShouldContainOnlyKeys_create_Test {
     // THEN
     then(message).isEqualTo(String.format("[Test] %n"
                                           + "Expecting:%n"
-                                          + "  <{\"color\"=\"green\"}>%n"
+                                          + "  {\"color\"=\"green\"}%n"
                                           + "to contain only following keys:%n"
-                                          + "  <[\"jedi\", \"color\"]>%n"
+                                          + "  [\"jedi\", \"color\"]%n"
                                           + "but could not find the following keys:%n"
-                                          + "  <[\"jedi\"]>%n"));
+                                          + "  [\"jedi\"]%n"));
   }
 
 }

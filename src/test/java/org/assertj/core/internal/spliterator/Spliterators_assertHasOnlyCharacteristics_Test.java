@@ -70,11 +70,11 @@ class Spliterators_assertHasOnlyCharacteristics_Test extends SpliteratorsBaseTes
     AssertionError error = expectAssertionError(() -> spliterators.assertHasOnlyCharacteristics(INFO, actual, DISTINCT));
     // THEN
     assertThat(error).hasMessage(format("%nExpecting spliterator characteristics:%n"
-                                        + "  <[\"DISTINCT\", \"SORTED\"]>%n"
+                                        + "  [\"DISTINCT\", \"SORTED\"]%n"
                                         + "to contain only:%n"
-                                        + "  <[\"DISTINCT\"]>%n"
+                                        + "  [\"DISTINCT\"]%n"
                                         + "but the following characteristics were unexpected:%n"
-                                        + "  <[\"SORTED\"]>%n"));
+                                        + "  [\"SORTED\"]%n"));
   }
 
   @Test
@@ -85,13 +85,13 @@ class Spliterators_assertHasOnlyCharacteristics_Test extends SpliteratorsBaseTes
     AssertionError error = expectAssertionError(() -> spliterators.assertHasOnlyCharacteristics(INFO, actual, DISTINCT, SORTED));
     // THEN
     assertThat(error).hasMessage(format("%nExpecting spliterator characteristics:%n"
-                                        + "  <[\"ORDERED\", \"SORTED\"]>%n"
+                                        + "  [\"ORDERED\", \"SORTED\"]%n"
                                         + "to contain only:%n"
-                                        + "  <[\"DISTINCT\", \"SORTED\"]>%n"
+                                        + "  [\"DISTINCT\", \"SORTED\"]%n"
                                         + "characteristics not found:%n"
-                                        + "  <[\"DISTINCT\"]>%n"
+                                        + "  [\"DISTINCT\"]%n"
                                         + "and characteristics not expected:%n"
-                                        + "  <[\"ORDERED\"]>%n"));
+                                        + "  [\"ORDERED\"]%n"));
   }
 
   private static Spliterator<?> createSpliterator(int characteristics) {

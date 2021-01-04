@@ -44,13 +44,13 @@ public class Java6JUnitBDDSoftAssertionsFailureTest {
       assertThat(failures.get(0)).hasMessageContaining(shouldBeEqualMessage("1", "2"));
       assertThat(failures.get(1)).hasMessageContaining(format("%n" +
                                                               "Expecting ArrayList:%n" +
-                                                              "  <[1, 2]>%n" +
+                                                              "  [1, 2]%n" +
                                                               "to contain only:%n" +
-                                                              "  <[1, 3]>%n" +
+                                                              "  [1, 3]%n" +
                                                               "element(s) not found:%n" +
-                                                              "  <[3]>%n" +
+                                                              "  [3]%n" +
                                                               "and element(s) not expected:%n" +
-                                                              "  <[2]>%n"));
+                                                              "  [2]%n"));
     }
   }
 }

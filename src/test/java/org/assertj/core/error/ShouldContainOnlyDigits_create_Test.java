@@ -34,9 +34,9 @@ class ShouldContainOnlyDigits_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <\"10$\">%n" +
+                                   "  \"10$\"%n" +
                                    "to contain only digits%n" +
-                                   "but found non-digit character <'$'> at index <2>"));
+                                   "but found non-digit character '$' at index <2>"));
   }
 
   @Test
@@ -48,7 +48,7 @@ class ShouldContainOnlyDigits_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <\"\">%n" +
+                                   "  \"\"%n" +
                                    "to contain only digits%n" +
                                    "but could not found any digits at all"));
   }

@@ -12,25 +12,25 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldContainOnlyWhitespaces.shouldContainOnlyWhitespaces;
-
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
-class ShouldContainOnlyWhitespaces_create_Test {
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
+import static org.assertj.core.util.Arrays.array;
+
+class ShouldContainNull_create_Test {
 
   @Test
   void should_create_error_message() {
     // GIVEN
-    ErrorMessageFactory factory = shouldContainOnlyWhitespaces("abc");
+    String[] array = array("Luke", "Yoda");
+    ErrorMessageFactory factory = shouldContainNull(array);
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting string to contain only whitespaces but was:%n" +
-                                   "  \"abc\""));
+    then(message).isEqualTo(String.format("[Test] %nExpecting:%n  [\"Luke\", \"Yoda\"]%nto contain a null element"));
   }
+
 }

@@ -57,13 +57,13 @@ class ShouldContainOnly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting ArrayList:%n"
-                                   + "  <[\"Yoda\", \"Han\"]>%n"
+                                   + "  [\"Yoda\", \"Han\"]%n"
                                    + "to contain only:%n"
-                                   + "  <[\"Luke\", \"Yoda\"]>%n"
+                                   + "  [\"Luke\", \"Yoda\"]%n"
                                    + "element(s) not found:%n"
-                                   + "  <[\"Luke\"]>%n"
+                                   + "  [\"Luke\"]%n"
                                    + "and element(s) not expected:%n"
-                                   + "  <[\"Han\"]>%n"));
+                                   + "  [\"Han\"]%n"));
   }
 
   @Test
@@ -79,13 +79,13 @@ class ShouldContainOnly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting ArrayList:%n"
-                                   + "  <[\"Yoda\", \"Han\"]>%n"
+                                   + "  [\"Yoda\", \"Han\"]%n"
                                    + "to contain only:%n"
-                                   + "  <[\"Luke\", \"Yoda\"]>%n"
+                                   + "  [\"Luke\", \"Yoda\"]%n"
                                    + "element(s) not found:%n"
-                                   + "  <[\"Luke\"]>%n"
+                                   + "  [\"Luke\"]%n"
                                    + "and element(s) not expected:%n"
-                                   + "  <[\"Han\"]>%n"
+                                   + "  [\"Han\"]%n"
                                    + "when comparing values using CaseInsensitiveStringComparator"));
   }
 
@@ -101,11 +101,11 @@ class ShouldContainOnly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting ArrayList:%n"
-                                   + "  <[\"Yoda\"]>%n"
+                                   + "  [\"Yoda\"]%n"
                                    + "to contain only:%n"
-                                   + "  <[\"Luke\", \"Yoda\"]>%n"
+                                   + "  [\"Luke\", \"Yoda\"]%n"
                                    + "but could not find the following element(s):%n"
-                                   + "  <[\"Luke\"]>%n"));
+                                   + "  [\"Luke\"]%n"));
   }
 
   @Test
@@ -121,11 +121,11 @@ class ShouldContainOnly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting ArrayList:%n"
-                                   + "  <[\"Yoda\"]>%n"
+                                   + "  [\"Yoda\"]%n"
                                    + "to contain only:%n"
-                                   + "  <[\"Luke\", \"Yoda\"]>%n"
+                                   + "  [\"Luke\", \"Yoda\"]%n"
                                    + "but could not find the following element(s):%n"
-                                   + "  <[\"Luke\"]>%n"
+                                   + "  [\"Luke\"]%n"
                                    + "when comparing values using CaseInsensitiveStringComparator"));
   }
 
@@ -141,11 +141,11 @@ class ShouldContainOnly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting ArrayList:%n"
-                                   + "  <[\"Yoda\", \"Leia\"]>%n"
+                                   + "  [\"Yoda\", \"Leia\"]%n"
                                    + "to contain only:%n"
-                                   + "  <[\"Yoda\"]>%n"
+                                   + "  [\"Yoda\"]%n"
                                    + "but the following element(s) were unexpected:%n"
-                                   + "  <[\"Leia\"]>%n"));
+                                   + "  [\"Leia\"]%n"));
   }
 
   @Test
@@ -161,11 +161,11 @@ class ShouldContainOnly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting ArrayList:%n"
-                                   + "  <[\"Yoda\", \"Leia\"]>%n"
+                                   + "  [\"Yoda\", \"Leia\"]%n"
                                    + "to contain only:%n"
-                                   + "  <[\"Yoda\"]>%n"
+                                   + "  [\"Yoda\"]%n"
                                    + "but the following element(s) were unexpected:%n"
-                                   + "  <[\"Leia\"]>%n"
+                                   + "  [\"Leia\"]%n"
                                    + "when comparing values using CaseInsensitiveStringComparator"));
   }
 
@@ -183,11 +183,11 @@ class ShouldContainOnly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting map:%n"
-                                   + "  <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n"
+                                   + "  {\"color\"=\"green\", \"name\"=\"Yoda\"}%n"
                                    + "to contain only:%n"
-                                   + "  <[MapEntry[key=\"name\", value=\"Yoda\"]]>%n"
+                                   + "  [MapEntry[key=\"name\", value=\"Yoda\"]]%n"
                                    + "but the following map entries were unexpected:%n"
-                                   + "  <[MapEntry[key=\"color\", value=\"green\"]]>%n"));
+                                   + "  [MapEntry[key=\"color\", value=\"green\"]]%n"));
   }
 
   @Test
@@ -204,11 +204,11 @@ class ShouldContainOnly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting map:%n"
-                                   + "  <{\"name\"=\"Yoda\"}>%n"
+                                   + "  {\"name\"=\"Yoda\"}%n"
                                    + "to contain only:%n"
-                                   + "  <[MapEntry[key=\"name\", value=\"Yoda\"], MapEntry[key=\"color\", value=\"green\"]]>%n"
+                                   + "  [MapEntry[key=\"name\", value=\"Yoda\"], MapEntry[key=\"color\", value=\"green\"]]%n"
                                    + "but could not find the following map entries:%n"
-                                   + "  <[MapEntry[key=\"color\", value=\"green\"]]>%n"));
+                                   + "  [MapEntry[key=\"color\", value=\"green\"]]%n"));
   }
 
   @Test
@@ -225,13 +225,13 @@ class ShouldContainOnly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting map:%n"
-                                   + "  <{\"name\"=\"Yoda\"}>%n"
+                                   + "  {\"name\"=\"Yoda\"}%n"
                                    + "to contain only:%n"
-                                   + "  <[MapEntry[key=\"color\", value=\"green\"]]>%n"
+                                   + "  [MapEntry[key=\"color\", value=\"green\"]]%n"
                                    + "map entries not found:%n"
-                                   + "  <[MapEntry[key=\"color\", value=\"green\"]]>%n"
+                                   + "  [MapEntry[key=\"color\", value=\"green\"]]%n"
                                    + "and map entries not expected:%n"
-                                   + "  <[MapEntry[key=\"name\", value=\"Yoda\"]]>%n"));
+                                   + "  [MapEntry[key=\"name\", value=\"Yoda\"]]%n"));
   }
 
   @Test
@@ -246,11 +246,11 @@ class ShouldContainOnly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting float[]:%n"
-                                   + "  <[6.0f, 8.0f, 7.0f]>%n"
+                                   + "  [6.0f, 8.0f, 7.0f]%n"
                                    + "to contain only:%n"
-                                   + "  <[6.0f, 8.0f]>%n"
+                                   + "  [6.0f, 8.0f]%n"
                                    + "but the following float(s) were unexpected:%n"
-                                   + "  <[7.0f]>%n"));
+                                   + "  [7.0f]%n"));
   }
 
   @Test
@@ -265,11 +265,11 @@ class ShouldContainOnly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting char[]:%n"
-                                   + "  <['a']>%n"
+                                   + "  ['a']%n"
                                    + "to contain only:%n"
-                                   + "  <['a', 'b']>%n"
+                                   + "  ['a', 'b']%n"
                                    + "but could not find the following char(s):%n"
-                                   + "  <['b']>%n"));
+                                   + "  ['b']%n"));
   }
 
   @Test
@@ -284,13 +284,13 @@ class ShouldContainOnly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting long[]:%n"
-                                   + "  <[5L, 6L]>%n"
+                                   + "  [5L, 6L]%n"
                                    + "to contain only:%n"
-                                   + "  <[3L, 6L]>%n"
+                                   + "  [3L, 6L]%n"
                                    + "long(s) not found:%n"
-                                   + "  <[3L]>%n"
+                                   + "  [3L]%n"
                                    + "and long(s) not expected:%n"
-                                   + "  <[5L]>%n"));
+                                   + "  [5L]%n"));
   }
 
   @Test
@@ -305,11 +305,11 @@ class ShouldContainOnly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting boolean[]:%n"
-                                   + "  <[true, false]>%n"
+                                   + "  [true, false]%n"
                                    + "to contain only:%n"
-                                   + "  <[false]>%n"
+                                   + "  [false]%n"
                                    + "but the following boolean(s) were unexpected:%n"
-                                   + "  <[true]>%n"));
+                                   + "  [true]%n"));
   }
 
   @Test
@@ -324,11 +324,11 @@ class ShouldContainOnly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting double[]:%n"
-                                   + "  <[1.0]>%n"
+                                   + "  [1.0]%n"
                                    + "to contain only:%n"
-                                   + "  <[1.0, 2.0]>%n"
+                                   + "  [1.0, 2.0]%n"
                                    + "but could not find the following double(s):%n"
-                                   + "  <[2.0]>%n"));
+                                   + "  [2.0]%n"));
   }
 
   @Test
@@ -343,13 +343,13 @@ class ShouldContainOnly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting short[]:%n"
-                                   + "  <[5, 6]>%n"
+                                   + "  [5, 6]%n"
                                    + "to contain only:%n"
-                                   + "  <[3, 6]>%n"
+                                   + "  [3, 6]%n"
                                    + "short(s) not found:%n"
-                                   + "  <[3]>%n"
+                                   + "  [3]%n"
                                    + "and short(s) not expected:%n"
-                                   + "  <[5]>%n"));
+                                   + "  [5]%n"));
   }
 
   @Test
@@ -364,11 +364,11 @@ class ShouldContainOnly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting int[]:%n"
-                                   + "  <[1, 2]>%n"
+                                   + "  [1, 2]%n"
                                    + "to contain only:%n"
-                                   + "  <[2]>%n"
+                                   + "  [2]%n"
                                    + "but the following int(s) were unexpected:%n"
-                                   + "  <[1]>%n"));
+                                   + "  [1]%n"));
   }
 
   @Test
@@ -383,11 +383,11 @@ class ShouldContainOnly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting byte[]:%n"
-                                   + "  <[1]>%n"
+                                   + "  [1]%n"
                                    + "to contain only:%n"
-                                   + "  <[1, 2]>%n"
+                                   + "  [1, 2]%n"
                                    + "but could not find the following byte(s):%n"
-                                   + "  <[2]>%n"));
+                                   + "  [2]%n"));
   }
 
   @Test
@@ -402,11 +402,11 @@ class ShouldContainOnly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting String[]:%n"
-                                   + "  <[\"1\", \"2\"]>%n"
+                                   + "  [\"1\", \"2\"]%n"
                                    + "to contain only:%n"
-                                   + "  <[\"2\"]>%n"
+                                   + "  [\"2\"]%n"
                                    + "but the following string(s) were unexpected:%n"
-                                   + "  <[\"1\"]>%n"));
+                                   + "  [\"1\"]%n"));
   }
 
   @Test
@@ -421,11 +421,11 @@ class ShouldContainOnly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting LinkedHashSet:%n"
-                                   + "  <[1]>%n"
+                                   + "  [1]%n"
                                    + "to contain only:%n"
-                                   + "  <[1, 2]>%n"
+                                   + "  [1, 2]%n"
                                    + "but could not find the following element(s):%n"
-                                   + "  <[2]>%n"));
+                                   + "  [2]%n"));
   }
 
   @Test
@@ -442,13 +442,13 @@ class ShouldContainOnly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting Jedi[]:%n"
-                                   + "  <[Yoda the Jedi]>%n"
+                                   + "  [Yoda the Jedi]%n"
                                    + "to contain only:%n"
-                                   + "  <[Luke the Jedi]>%n"
+                                   + "  [Luke the Jedi]%n"
                                    + "jedi(s) not found:%n"
-                                   + "  <[Luke the Jedi]>%n"
+                                   + "  [Luke the Jedi]%n"
                                    + "and jedi(s) not expected:%n"
-                                   + "  <[Yoda the Jedi]>%n"));
+                                   + "  [Yoda the Jedi]%n"));
   }
 
   @Test
@@ -467,13 +467,13 @@ class ShouldContainOnly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting jedis:%n"
-                                   + "  <[Yoda the Jedi]>%n"
+                                   + "  [Yoda the Jedi]%n"
                                    + "to contain only:%n"
-                                   + "  <[Luke the Jedi]>%n"
+                                   + "  [Luke the Jedi]%n"
                                    + "some jedis were not found:%n"
-                                   + "  <[Luke the Jedi]>%n"
+                                   + "  [Luke the Jedi]%n"
                                    + "and some jedis were not expected:%n"
-                                   + "  <[Yoda the Jedi]>%n"));
+                                   + "  [Yoda the Jedi]%n"));
   }
 
   private static <K, V> HashSet<MapEntry<K, V>> set(MapEntry<K, V> entry) {

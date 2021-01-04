@@ -81,13 +81,13 @@ public class ShouldContainOnly extends BasicErrorMessageFactory {
                             ComparisonStrategy comparisonStrategy, GroupTypeDescription groupTypeDescription) {
     super("%n" +
           "Expecting " + groupTypeDescription.getGroupTypeName() + ":%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "to contain only:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           groupTypeDescription.getElementTypeName() + " not found:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "and " + groupTypeDescription.getElementTypeName() + " not expected:%n" +
-          "  <%s>%n%s", actual,
+          "  %s%n%s", actual,
           expected, notFound, notExpected, comparisonStrategy);
   }
 
@@ -96,11 +96,11 @@ public class ShouldContainOnly extends BasicErrorMessageFactory {
     // @format:off
     super("%n" +
           "Expecting "+groupTypeDescription.getGroupTypeName()+":%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "to contain only:%n" +
-          "  <%s>%n" + (errorType == NOT_FOUND_ONLY ?
+          "  %s%n" + (errorType == NOT_FOUND_ONLY ?
           "but could not find the following "+groupTypeDescription.getElementTypeName()+":%n" : "but the following "+groupTypeDescription.getElementTypeName()+" were unexpected:%n") +
-          "  <%s>%n%s",
+          "  %s%n%s",
           actual, expected, notFoundOrNotExpected, comparisonStrategy);
     // @format:on
   }

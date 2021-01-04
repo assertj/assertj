@@ -33,9 +33,9 @@ public class ShouldContainKey extends BasicErrorMessageFactory {
   private ShouldContainKey(Object actual, Condition<?> keyCondition) {
     super("%n" +
           "Expecting:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "to contain a key satisfying:%n" +
-          "  <%s>",
+          "  %s",
           actual, keyCondition);
   }
 

@@ -30,7 +30,7 @@ public class ShouldContainOneOrMoreWhitespaces extends BasicErrorMessageFactory 
   private ShouldContainOneOrMoreWhitespaces(Object actual) {
     super("%n" +
           "Expecting string to contain one or more whitespaces but did not, string was:%n" +
-          "  <%s>",
+          "  %s",
           actual);
   }
 }

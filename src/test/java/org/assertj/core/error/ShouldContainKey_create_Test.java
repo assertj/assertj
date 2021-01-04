@@ -41,8 +41,8 @@ class ShouldContainKey_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +
+                                   "  {\"color\"=\"green\", \"name\"=\"Yoda\"}%n" +
                                    "to contain a key satisfying:%n" +
-                                   "  <test condition>"));
+                                   "  test condition"));
   }
 }
