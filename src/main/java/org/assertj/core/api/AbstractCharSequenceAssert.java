@@ -1596,4 +1596,29 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
     strings.assertUpperCase(info, actual);
     return myself;
   }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is equal to the given one, after they have been normalized
+   * to their canonical form.<br>
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(&quot;Ä&quot;).isEqualToNormalizingUnicode(&quot;Ä&quot;);
+   * assertThat(&quot;Amélie&quot;).isEqualToNormalizingUnicode(&quot;Amélie&quot;);
+   *
+   * // assertions will fail
+   * assertThat(&quot;Ä&quot;).isEqualToNormalizingUnicode(&quot;b&quot;);
+   * assertThat(&quot;ñ&quot;).isEqualToNormalizingUnicode(&quot;n&quot;);
+   * </code></pre>
+   *
+   * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not equal to the given one
+   *           after both strings have been normalized to their canonical form.
+   * @since 3.19.0
+   */
+  public SELF isEqualToNormalizingUnicode(CharSequence expected) {
+    strings.assertEqualsToNormalizingUnicode(info, actual, expected);
+    return myself;
+  }
 }
