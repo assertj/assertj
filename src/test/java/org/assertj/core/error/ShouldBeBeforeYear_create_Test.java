@@ -24,7 +24,7 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
 import static org.assertj.core.util.DateUtil.parse;
 
-public class ShouldBeBeforeYear_create_Test {
+class ShouldBeBeforeYear_create_Test {
 
   @Test
   void should_create_error_message() {

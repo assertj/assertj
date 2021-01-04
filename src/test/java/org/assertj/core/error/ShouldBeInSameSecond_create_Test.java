@@ -21,7 +21,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeInSameSecond.shouldBeInSameSecond;
 import static org.assertj.core.util.DateUtil.parseDatetime;
 
-public class ShouldBeInSameSecond_create_Test {
+class ShouldBeInSameSecond_create_Test {
 
   @Test
   void should_create_error_message() {

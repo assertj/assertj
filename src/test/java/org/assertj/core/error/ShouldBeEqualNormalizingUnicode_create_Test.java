@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Julieta Navarro
  */
-public class ShouldBeEqualNormalizingUnicode_create_Test {
+class ShouldBeEqualNormalizingUnicode_create_Test {
   @Test
   void should_create_error_message() {
     // GIVEN

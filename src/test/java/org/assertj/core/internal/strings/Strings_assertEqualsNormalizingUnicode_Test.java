@@ -33,7 +33,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  *
  * @author Julieta Navarro
  */
-public class Strings_assertEqualsNormalizingUnicode_Test extends StringsBaseTest {
+class Strings_assertEqualsNormalizingUnicode_Test extends StringsBaseTest {
   @Test
   void should_fail_if_actual_is_not_null_and_expected_is_null() {
     assertThatNullPointerException().isThrownBy(() -> strings.assertEqualsToNormalizingUnicode(someInfo(), "\u0041", null))
