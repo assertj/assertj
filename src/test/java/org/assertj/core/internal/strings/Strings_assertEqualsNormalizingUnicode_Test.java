@@ -52,6 +52,17 @@ public class Strings_assertEqualsNormalizingUnicode_Test extends StringsBaseTest
   }
 
   public static Stream<Arguments> equalNormalizingUnicodeGenerator() {
-    return Stream.of(Arguments.of("\u00C4", "\u0041\u0308"));
+    return Stream.of(
+      // Ä, Ä
+      Arguments.of("\u00C4", "\u0041\u0308"),
+      // Amélie, Amélie
+      Arguments.of("\u0041\u006d\u00e9\u006c\u0069\u0065", "\u0041\u006d\u0065\u0301\u006c\u0069\u0065"),
+      // ñ, ñ
+      Arguments.of("Zoë","Zoë"),
+      Arguments.of("sabiá","sabiá"),
+      // ﬃ, ﬃ
+      Arguments.of("ﬃ","\uFB03"),
+      // schön, schön
+      Arguments.of("schön","scho\u0308n"));
   }
 }
