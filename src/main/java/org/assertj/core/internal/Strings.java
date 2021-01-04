@@ -766,7 +766,7 @@ public class Strings {
     String normalizedActual = Normalizer.normalize(actual, Normalizer.Form.NFC);
     String normalizedExpected = Normalizer.normalize(expected, Normalizer.Form.NFC);
     if (!java.util.Objects.equals(normalizedActual, normalizedExpected))
-      throw failures.failure(info, shouldBeEqualNormalizingUnicode(actual, expected), normalizedActual, normalizedExpected);
+      throw failures.failure(info, shouldBeEqualNormalizingUnicode(actual, expected, normalizedActual, normalizedExpected), normalizedActual, normalizedExpected);
   }
 
   /**

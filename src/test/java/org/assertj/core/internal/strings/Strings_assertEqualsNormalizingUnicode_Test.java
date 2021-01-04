@@ -42,7 +42,7 @@ public class Strings_assertEqualsNormalizingUnicode_Test extends StringsBaseTest
     // WHEN
     expectAssertionError(() -> strings.assertEqualsToNormalizingUnicode(info, actual, expected));
     // THEN
-    verify(failures).failure(info, shouldBeEqualNormalizingUnicode(actual, expected), "Ä", expected);
+    verify(failures).failure(info, shouldBeEqualNormalizingUnicode(actual, expected, "Ä", expected), "Ä", expected);
   }
 
   @ParameterizedTest
