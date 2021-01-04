@@ -44,9 +44,9 @@ class ShouldContainValue_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +
+                                   "  {\"color\"=\"green\", \"name\"=\"Yoda\"}%n" +
                                    "to contain value:%n" +
-                                   "  <\"VeryOld\">"));
+                                   "  \"VeryOld\""));
   }
 
   @Test
@@ -59,8 +59,8 @@ class ShouldContainValue_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n" +
+                                   "  {\"color\"=\"green\", \"name\"=\"Yoda\"}%n" +
                                    "to contain a value satisfying:%n" +
-                                   "  <test condition>"));
+                                   "  test condition"));
   }
 }

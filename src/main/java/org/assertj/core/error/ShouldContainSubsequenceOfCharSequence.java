@@ -50,10 +50,10 @@ public class ShouldContainSubsequenceOfCharSequence extends BasicErrorMessageFac
                                                              int badOrderIndex, ComparisonStrategy comparisonStrategy) {
 
     return new ShouldContainSubsequenceOfCharSequence("%nExpecting:%n" +
-                                                      "  <%s>%n" +
+                                                      "  %s%n" +
                                                       "to contain the following CharSequences in this order:%n" +
-                                                      "  <%s>%n" +
-                                                      "but <%s> was found before <%s>%n%s",
+                                                      "  %s%n" +
+                                                      "but %s was found before %s%n%s",
                                                       actual, strings, strings[badOrderIndex + 1],
                                                       strings[badOrderIndex],
                                                       comparisonStrategy);

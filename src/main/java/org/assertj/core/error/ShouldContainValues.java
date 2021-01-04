@@ -32,11 +32,11 @@ public class ShouldContainValues extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static <V> ErrorMessageFactory shouldContainValues(Object actual, Set<V> values) {
-	if (values.size() == 1) return shouldContainValue(actual, values.iterator().next());
-	return new ShouldContainValues(actual, values);
+    if (values.size() == 1) return shouldContainValue(actual, values.iterator().next());
+    return new ShouldContainValues(actual, values);
   }
 
   private <V> ShouldContainValues(Object actual, Set<V> values) {
-	super("%nExpecting:%n  <%s>%nto contain values:%n  <%s>", actual, values);
+    super("%nExpecting:%n  %s%nto contain values:%n  %s", actual, values);
   }
 }

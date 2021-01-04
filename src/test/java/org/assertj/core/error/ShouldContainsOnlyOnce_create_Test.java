@@ -46,13 +46,13 @@ class ShouldContainsOnlyOnce_create_Test {
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %nExpecting:%n" +
-                                   " <[\"Yoda\", \"Han\", \"Han\"]>%n" +
+                                   "  [\"Yoda\", \"Han\", \"Han\"]%n" +
                                    "to contain only once:%n" +
-                                   " <[\"Luke\", \"Yoda\"]>%n" +
+                                   "  [\"Luke\", \"Yoda\"]%n" +
                                    "but some elements were not found:%n" +
-                                   " <[\"Luke\"]>%n" +
+                                   "  [\"Luke\"]%n" +
                                    "and others were found more than once:%n" +
-                                   " <[\"Han\"]>%n"));
+                                   "  [\"Han\"]%n"));
   }
 
   @Test
@@ -66,13 +66,13 @@ class ShouldContainsOnlyOnce_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <[\"Yoda\", \"Han\"]>%n" +
+                                   "  [\"Yoda\", \"Han\"]%n" +
                                    "to contain only once:%n" +
-                                   " <[\"Luke\", \"Yoda\"]>%n" +
+                                   "  [\"Luke\", \"Yoda\"]%n" +
                                    "but some elements were not found:%n" +
-                                   " <[\"Luke\"]>%n" +
+                                   "  [\"Luke\"]%n" +
                                    "and others were found more than once:%n" +
-                                   " <[\"Han\"]>%n" +
+                                   "  [\"Han\"]%n" +
                                    "when comparing values using CaseInsensitiveStringComparator"));
   }
 
@@ -84,11 +84,11 @@ class ShouldContainsOnlyOnce_create_Test {
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %nExpecting:%n" +
-                                   " <[\"Yoda\", \"Han\", \"Han\"]>%n" +
+                                   "  [\"Yoda\", \"Han\", \"Han\"]%n" +
                                    "to contain only once:%n" +
-                                   " <[\"Yoda\"]>%n" +
+                                   "  [\"Yoda\"]%n" +
                                    "but some elements were found more than once:%n" +
-                                   " <[\"Han\"]>%n"));
+                                   "  [\"Han\"]%n"));
   }
 
   @Test
@@ -99,11 +99,11 @@ class ShouldContainsOnlyOnce_create_Test {
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %nExpecting:%n" +
-                                   " <[\"Yoda\", \"Han\"]>%n" +
+                                   "  [\"Yoda\", \"Han\"]%n" +
                                    "to contain only once:%n" +
-                                   " <[\"Luke\"]>%n" +
+                                   "  [\"Luke\"]%n" +
                                    "but some elements were not found:%n" +
-                                   " <[\"Luke\"]>%n"));
+                                   "  [\"Luke\"]%n"));
   }
 
 }

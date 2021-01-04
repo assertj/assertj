@@ -39,10 +39,10 @@ class ShouldContainSubsequenceOfCharSequence_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %nExpecting:%n" +
-                                   "  <\"" + actual + "\">%n" +
+                                   "  \"" + actual + "\"%n" +
                                    "to contain the following CharSequences in this order:%n" +
-                                   "  <[\"{\", \"author\", \"title\", \"}\"]>%n" +
-                                   "but <\"title\"> was found before <\"author\">%n"));
+                                   "  [\"{\", \"author\", \"title\", \"}\"]%n" +
+                                   "but \"title\" was found before \"author\"%n"));
   }
 
   @Test
@@ -56,10 +56,10 @@ class ShouldContainSubsequenceOfCharSequence_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %nExpecting:%n" +
-                                   "  <\"" + actual + "\">%n" +
+                                   "  \"" + actual + "\"%n" +
                                    "to contain the following CharSequences in this order:%n" +
-                                   "  <[\"{\", \"author\", \"title\", \"}\"]>%n" +
-                                   "but <\"title\"> was found before <\"author\">%n" +
+                                   "  [\"{\", \"author\", \"title\", \"}\"]%n" +
+                                   "but \"title\" was found before \"author\"%n" +
                                    "when comparing values using CaseInsensitiveStringComparator"));
   }
 

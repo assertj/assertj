@@ -38,9 +38,9 @@ class ShouldContainSequenceOfCharSequence_create_Test {
     String message = shouldContainSequence(actual, sequenceValues).create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %nExpecting:%n" +
-                                   "  <\"{ 'title':'A Game of Thrones', 'author':'George Martin'}\">%n" +
+                                   "  \"{ 'title':'A Game of Thrones', 'author':'George Martin'}\"%n" +
                                    "to contain sequence:%n" +
-                                   "  <[\"{\", \"author\", \"title\", \"}\"]>%n"));
+                                   "  [\"{\", \"author\", \"title\", \"}\"]%n"));
   }
 
   @Test
@@ -54,9 +54,9 @@ class ShouldContainSequenceOfCharSequence_create_Test {
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %nExpecting:%n" +
-                                   "  <\"{ 'title':'A Game of Thrones', 'author':'George Martin'}\">%n" +
+                                   "  \"{ 'title':'A Game of Thrones', 'author':'George Martin'}\"%n" +
                                    "to contain sequence:%n" +
-                                   "  <[\"{\", \"author\", \"title\", \"}\"]>%n" +
+                                   "  [\"{\", \"author\", \"title\", \"}\"]%n" +
                                    "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

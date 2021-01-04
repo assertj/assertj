@@ -25,7 +25,7 @@ import org.assertj.core.internal.StandardComparisonStrategy;
 public class ShouldContainSequenceOfCharSequence extends BasicErrorMessageFactory {
   private ShouldContainSequenceOfCharSequence(CharSequence actual, CharSequence[] sequence,
                                               ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting:%n <%s>%nto contain sequence:%n <%s>%n%s", actual, sequence, comparisonStrategy);
+    super("%nExpecting:%n  %s%nto contain sequence:%n  %s%n%s", actual, sequence, comparisonStrategy);
   }
 
   /**

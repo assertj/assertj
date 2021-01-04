@@ -36,9 +36,9 @@ public class ShouldContainRecursively extends BasicErrorMessageFactory {
 
   private ShouldContainRecursively(Object actual, List<?> directoryContent, String filterDescription) {
     super("%nExpecting directory or any of its subdirectories (recursively):%n" +
-          "   <%s>%n" +
+          "  %s%n" +
           "to contain at least one file matching %s but there was none.%n" +
-          "The directory content was:%n   %s",
+          "The directory content was:%n  %s",
           actual, filterDescription, directoryContent);
   }
 
