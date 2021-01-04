@@ -71,7 +71,7 @@ public final class Strings {
   }
 
   /**
-   * Format with {@link String#format(String, Object...)} the given message iif some args have been given otherwise juts
+   * Format with {@link String#format(String, Object...)} the given message if some args have been given otherwise just
    * return the message.
    * 
    * @param message the string to format
