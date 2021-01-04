@@ -58,6 +58,7 @@ public class Strings_assertEqualsNormalizingUnicode_Test extends StringsBaseTest
       // Amélie, Amélie
       Arguments.of("\u0041\u006d\u00e9\u006c\u0069\u0065", "\u0041\u006d\u0065\u0301\u006c\u0069\u0065"),
       // ñ, ñ
+      Arguments.of("\u00F1", "\u006E\u0303"),
       Arguments.of("Zoë","Zoë"),
       Arguments.of("sabiá","sabiá"),
       // ﬃ, ﬃ
