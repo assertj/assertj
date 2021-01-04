@@ -17,6 +17,7 @@ import static org.assertj.core.util.IterableUtil.toArray;
 
 import java.io.File;
 import java.io.LineNumberReader;
+import java.text.Normalizer;
 import java.util.Comparator;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -1594,6 +1595,36 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   public SELF isUpperCase() {
     strings.assertUpperCase(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is equal to the given one after they have been normalized
+   * according to the {@link Normalizer.Form#NFC} form, which is a canonical decomposition followed by canonical composition.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions succeed:
+   *
+   * // Ä = &#92;u00C4 - Ä = &#92;u0041&#92;u0308
+   * assertThat(&quot;Ä&quot;).isEqualToNormalizingUnicode(&quot;Ä&quot;);
+   * assertThat(&quot;&#92;u00C4&quot;).isEqualToNormalizingUnicode(&quot;&#92;u0041&#92;u0308&quot;);
+   *
+   * // Amélie = u0041&#92;u006d&#92;u00e9&#92;u006c&#92;u0069&#92;u0065 - Amélie = &#92;u0041&#92;u006d&#92;u0065&#92;u0301&#92;u006c&#92;u0069&#92;u0065
+   * assertThat(&quot;Amélie&quot;).isEqualToNormalizingUnicode(&quot;Amélie&quot;);
+   *
+   * // assertions fail:
+   * assertThat(&quot;ñ&quot;).isEqualToNormalizingUnicode(&quot;n&quot;);
+   * assertThat(&quot;Ä&quot;).isEqualToNormalizingUnicode(&quot;b&quot;);</code></pre>
+   *
+   * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not equal to the given one
+   *           after both strings have been normalized to according to the {@link Normalizer.Form#NFC} form .
+   * @throws NullPointerException if the actual {@code CharSequence} is not null and the given is.
+   * @since 3.19.0
+   */
+  public SELF isEqualToNormalizingUnicode(CharSequence expected) {
+    strings.assertEqualsToNormalizingUnicode(info, actual, expected);
     return myself;
   }
 }
