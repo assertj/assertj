@@ -111,7 +111,7 @@
     <!-- Dependency versions -->
     <junit.version>4.13.1</junit.version>
     <junit-jupiter.version>5.7.0</junit-jupiter.version>
-    <mockito.version>3.6.28</mockito.version>
+    <mockito.version>3.7.0</mockito.version>
     <!-- Plugin versions -->
     <findbugs-maven-plugin.version>3.0.5</findbugs-maven-plugin.version>
     <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
