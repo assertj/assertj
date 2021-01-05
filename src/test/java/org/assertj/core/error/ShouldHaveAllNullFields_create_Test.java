@@ -46,8 +46,8 @@ class ShouldHaveAllNullFields_create_Test {
     // THEN
     then(message).isEqualTo(format("[TEST] %n"
                                    + "Expecting%n"
-                                   + "  <Person[name='']>%n"
-                                   + "to only have null property or field, but <\"name\"> was not null.%n"
+                                   + "  Person[name='']%n"
+                                   + "to only have null property or field, but \"name\" was not null.%n"
                                    + "Check was performed on all fields/properties."));
   }
 
@@ -62,9 +62,9 @@ class ShouldHaveAllNullFields_create_Test {
     // THEN
     then(message).isEqualTo(format("[TEST] %n"
                                    + "Expecting%n"
-                                   + "  <Person[name='']>%n"
-                                   + "to only have null property or field, but <\"someAnotherField\"> was not null.%n"
-                                   + "Check was performed on all fields/properties except: <[\"name\"]>."));
+                                   + "  Person[name='']%n"
+                                   + "to only have null property or field, but \"someAnotherField\" was not null.%n"
+                                   + "Check was performed on all fields/properties except: [\"name\"]."));
   }
 
   @Test
@@ -78,9 +78,9 @@ class ShouldHaveAllNullFields_create_Test {
     // THEN
     then(message).isEqualTo(format("[TEST] %n"
                                    + "Expecting%n"
-                                   + "  <Joda the Jedi>%n"
+                                   + "  Joda the Jedi%n"
                                    + "to only have null properties or fields but these were not null:%n"
-                                   + " <[\"name\", \"lightSaberColor\"]>.%n"
+                                   + "  [\"name\", \"lightSaberColor\"].%n"
                                    + "Check was performed on all fields/properties."));
   }
 
@@ -95,8 +95,8 @@ class ShouldHaveAllNullFields_create_Test {
     // THEN
     then(message).isEqualTo(format("[TEST] %n"
                                    + "Expecting%n"
-                                   + "  <Joda the Jedi>%n"
-                                   + "to only have null property or field, but <\"lightSaberColor\"> was not null.%n"
-                                   + "Check was performed on all fields/properties except: <[\"name\"]>."));
+                                   + "  Joda the Jedi%n"
+                                   + "to only have null property or field, but \"lightSaberColor\" was not null.%n"
+                                   + "Check was performed on all fields/properties except: [\"name\"]."));
   }
 }

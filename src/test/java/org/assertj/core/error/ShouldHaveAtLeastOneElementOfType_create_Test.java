@@ -35,9 +35,9 @@ class ShouldHaveAtLeastOneElementOfType_create_Test {
     // THEN
     then(message).isEqualTo(String.format("[Test] %n"
                                           + "Expecting:%n"
-                                          + "  <[\"Yoda\", \"Luke\"]>%n"
+                                          + "  [\"Yoda\", \"Luke\"]%n"
                                           + "to have at least one element of type:%n"
-                                          + "  <java.lang.Long>%n"
+                                          + "  java.lang.Long%n"
                                           + "but had none."));
   }
 
@@ -50,9 +50,9 @@ class ShouldHaveAtLeastOneElementOfType_create_Test {
     // THEN
     then(message).isEqualTo(String.format("[Test] %n"
                                           + "Expecting:%n"
-                                          + "  <[\"Yoda\", \"Luke\"]>%n"
+                                          + "  [\"Yoda\", \"Luke\"]%n"
                                           + "to have at least one element of type:%n"
-                                          + "  <java.lang.Long>%n"
+                                          + "  java.lang.Long%n"
                                           + "but had none."));
   }
 

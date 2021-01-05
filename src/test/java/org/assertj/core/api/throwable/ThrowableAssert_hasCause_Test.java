@@ -40,8 +40,8 @@ class ThrowableAssert_hasCause_Test extends ThrowableAssertBaseTest {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new IllegalArgumentException(new IllegalStateException())).hasCause(new NullPointerException()))
                                                    .withMessage(format("%n" +
                                                                        "Expecting a cause with type:%n" +
-                                                                       "  <\"java.lang.NullPointerException\">%n" +
+                                                                       "  \"java.lang.NullPointerException\"%n" +
                                                                        "but type was:%n" +
-                                                                       "  <\"java.lang.IllegalStateException\">."));
+                                                                       "  \"java.lang.IllegalStateException\"."));
   }
 }

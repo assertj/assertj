@@ -33,4 +33,69 @@ class ShouldHaveCause_create_Test {
     then(message).isEqualTo(format("Expecting actual throwable to have a cause but it did not, actual was:%n%s",
                                    STANDARD_REPRESENTATION.toStringOf(actual)));
   }
+
+  @Test
+  void should_create_error_message_for_actual_and_expected_cause() {
+    // GIVEN
+    Throwable actual = new RuntimeException("Boom");
+    Throwable expected = new IllegalStateException("illegal state");
+    // WHEN
+    String message = shouldHaveCause(actual, expected).create();
+    // THEN
+    then(message).isEqualTo(format("%n" +
+      "Expecting a cause with type:%n" +
+      "  \"java.lang.IllegalStateException\"%n" +
+      "and message:%n" +
+      "  \"illegal state\"%n" +
+      "but type was:%n" +
+      "  \"java.lang.RuntimeException\"%n" +
+      "and message was:%n" +
+      "  \"Boom\"."));
+  }
+
+  @Test
+  void should_create_error_message_for_actual_and_expected_cause_same_type_different_message() {
+    // GIVEN
+    Throwable actual = new RuntimeException("Boom");
+    Throwable expected = new RuntimeException("something went wrong");
+    // WHEN
+    String message = shouldHaveCause(actual, expected).create();
+    // THEN
+    then(message).isEqualTo(format("%n" +
+      "Expecting a cause with message:%n" +
+      "  \"something went wrong\"%n" +
+      "but message was:%n" +
+      "  \"Boom\"."));
+  }
+
+  @Test
+  void should_create_error_message_for_actual_and_expected_cause_same_message_different_type() {
+    // GIVEN
+    Throwable actual = new RuntimeException("Boom");
+    Throwable expected = new IllegalStateException("Boom");
+    // WHEN
+    String message = shouldHaveCause(actual, expected).create();
+    // THEN
+    then(message).isEqualTo(format("%n" +
+      "Expecting a cause with type:%n" +
+      "  \"java.lang.IllegalStateException\"%n" +
+      "but type was:%n" +
+      "  \"java.lang.RuntimeException\"."));
+  }
+
+  @Test
+  void should_create_error_message_for_actual_is_null() {
+    // GIVEN
+    Throwable actual = null;
+    Throwable expected = new IllegalStateException("Boom");
+    // WHEN
+    String message = shouldHaveCause(actual, expected).create();
+    // THEN
+    then(message).isEqualTo(format("%n" +
+      "Expecting a cause with type:%n" +
+      "  \"java.lang.IllegalStateException\"%n" +
+      "and message:%n" +
+      "  \"Boom\"%n" +
+      "but actualCause had no cause."));
+  }
 }

@@ -39,13 +39,13 @@ public class ShouldHaveCause extends BasicErrorMessageFactory {
   private ShouldHaveCause(Throwable actualCause, Throwable expectedCause) {
     super("%n" +
           "Expecting a cause with type:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "and message:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "but type was:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "and message was:%n" +
-          "  <%s>.",
+          "  %s.",
           expectedCause.getClass().getName(), expectedCause.getMessage(),
           actualCause.getClass().getName(), actualCause.getMessage());
   }
@@ -53,9 +53,9 @@ public class ShouldHaveCause extends BasicErrorMessageFactory {
   private ShouldHaveCause(Throwable expectedCause) {
     super("%n" +
           "Expecting a cause with type:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "and message:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "but actualCause had no cause.",
           expectedCause.getClass().getName(), expectedCause.getMessage());
   }
@@ -63,18 +63,18 @@ public class ShouldHaveCause extends BasicErrorMessageFactory {
   private ShouldHaveCause(Throwable actualCause, Class<? extends Throwable> expectedCauseClass) {
     super("%n" +
           "Expecting a cause with type:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "but type was:%n" +
-          "  <%s>.",
+          "  %s.",
           expectedCauseClass.getName(), actualCause.getClass().getName());
   }
 
   private ShouldHaveCause(Throwable actualCause, String expectedCauseMessage) {
     super("%n" +
           "Expecting a cause with message:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "but message was:%n" +
-          "  <%s>.",
+          "  %s.",
           expectedCauseMessage, actualCause.getMessage());
   }
 }

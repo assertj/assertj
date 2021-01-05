@@ -34,13 +34,13 @@ public class ShouldHaveCauseExactlyInstance extends BasicErrorMessageFactory {
   }
 
   private ShouldHaveCauseExactlyInstance(Throwable actual, Class<? extends Throwable> expectedCauseType) {
-    super("%nExpecting a throwable with cause being exactly an instance of:%n <%s>%nbut was an instance of:%n <%s>",
+    super("%nExpecting a throwable with cause being exactly an instance of:%n  %s%nbut was an instance of:%n  %s",
         expectedCauseType, actual.getCause());
   }
 
   private ShouldHaveCauseExactlyInstance(Class<? extends Throwable> expectedCauseType) {
     super(
-        "%nExpecting a throwable with cause being exactly an instance of:%n <%s>%nbut current throwable has no cause.",
+        "%nExpecting a throwable with cause being exactly an instance of:%n  %s%nbut current throwable has no cause.",
         expectedCauseType);
   }
 }

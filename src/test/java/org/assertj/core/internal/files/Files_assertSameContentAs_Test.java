@@ -143,11 +143,11 @@ class Files_assertSameContentAs_Test extends FilesBaseTest {
                                                                                                        StandardCharsets.UTF_8,
                                                                                                        expected,
                                                                                                        StandardCharsets.UTF_8))
-                                                   .withMessageEndingWith(format("does not have expected binary content at offset <0>, expecting:%n"
+                                                   .withMessageEndingWith(format("does not have expected binary content at offset 0, expecting:%n"
                                                                                  +
-                                                                                 " <\"EOF\">%n" +
+                                                                                 "  \"EOF\"%n" +
                                                                                  "but was:%n" +
-                                                                                 " <\"0x0\">"));
+                                                                                 "  \"0x0\""));
   }
 
   private File createFileWithNonUTF8Character() throws IOException {

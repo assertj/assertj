@@ -36,11 +36,11 @@ class ShouldHaveBinaryContent_create_Test {
     // THEN
     then(errorMessage).isEqualTo("[TEST] %n"
                                  + "InputStream%n"
-                                 + " <%s>%n"
-                                 + "does not have expected binary content at offset <1>, expecting:%n"
-                                 + " <\"0xB\">%n"
+                                 + "  %s%n"
+                                 + "does not have expected binary content at offset 1, expecting:%n"
+                                 + "  \"0xB\"%n"
                                  + "but was:%n"
-                                 + " <\"0x3\">",
+                                 + "  \"0x3\"",
                                  actual);
   }
 

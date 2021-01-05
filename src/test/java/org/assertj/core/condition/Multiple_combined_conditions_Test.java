@@ -58,9 +58,9 @@ class Multiple_combined_conditions_Test {
     // THEN
     assertThat(assertionError).hasMessage(format("%n" +
                                                  "Expecting:%n" +
-                                                 " <\"Gandalf\">%n" +
+                                                 "  \"Gandalf\"%n" +
                                                  "to have:%n" +
-                                                 " <any of:[%n" +
+                                                 "  any of:[%n" +
                                                  "   contains i,%n" +
                                                  "   all of:[%n" +
                                                  "      contains o,%n" +
@@ -70,7 +70,7 @@ class Multiple_combined_conditions_Test {
                                                  "         contains c%n" +
                                                  "      ]%n" +
                                                  "   ]%n" +
-                                                 "]>"));
+                                                 "]"));
   }
 
   @Test
@@ -86,9 +86,9 @@ class Multiple_combined_conditions_Test {
     // THEN
     assertThat(assertionError).hasMessage(format("%n" +
                                                  "Expecting:%n" +
-                                                 " <\"Gandalf\">%n" +
+                                                 "  \"Gandalf\"%n" +
                                                  "to have:%n" +
-                                                 " <any of:[%n" +
+                                                 "  any of:[%n" +
                                                  "   contains i,%n" +
                                                  "   all of:[%n" +
                                                  "      contains o,%n" +
@@ -98,7 +98,7 @@ class Multiple_combined_conditions_Test {
                                                  "         contains c%n" +
                                                  "      ]%n" +
                                                  "   ]%n" +
-                                                 "]>"));
+                                                 "]"));
   }
 
   private static Condition<String> contains(String s) {
