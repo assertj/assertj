@@ -52,37 +52,46 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
   /**
    * Fails with the given message.
    *
+   * @param <T> dummy return value type
    * @param failureMessage error message.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElse(() -> fail("boom")));}.
    * @since 2.6.0 / 3.6.0
    */
-  public void fail(String failureMessage) {
+  public <T> T fail(String failureMessage) {
     AssertionError error = Failures.instance().failure(failureMessage);
     collectAssertionError(error);
+    return null;
   }
 
   /**
    * Fails with the given message built like {@link String#format(String, Object...)}.
    *
+   * @param <T> dummy return value type
    * @param failureMessage error message.
    * @param args Arguments referenced by the format specifiers in the format string.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElse(() -> fail("boom")));}.
    * @since 2.6.0 / 3.6.0
    */
-  public void fail(String failureMessage, Object... args) {
+  public <T> T fail(String failureMessage, Object... args) {
     AssertionError error = Failures.instance().failure(format(failureMessage, args));
     collectAssertionError(error);
+    return null;
   }
 
   /**
    * Fails with the given message and with the {@link Throwable} that caused the failure.
    *
+   * @param <T> dummy return value type
    * @param failureMessage error message.
    * @param realCause cause of the error.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElse(() -> fail("boom")));}.
    * @since 2.6.0 / 3.6.0
    */
-  public void fail(String failureMessage, Throwable realCause) {
+  public <T> T fail(String failureMessage, Throwable realCause) {
     AssertionError error = Failures.instance().failure(failureMessage);
     error.initCause(realCause);
     collectAssertionError(error);
+    return null;
   }
 
   /**

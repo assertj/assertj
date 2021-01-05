@@ -1447,7 +1447,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @param <T> dummy return value type
    * @param failureMessage error message.
-   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("boom")));.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElse(() -> fail("boom")));}.
    * @throws AssertionError with the given message.
    */
   @CanIgnoreReturnValue
