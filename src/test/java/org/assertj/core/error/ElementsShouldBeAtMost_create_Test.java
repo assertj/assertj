@@ -36,7 +36,9 @@ class ElementsShouldBeAtMost_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting elements:%n<[\"Yoda\", \"Luke\", \"Obiwan\"]>%n to be at most 2 times <a Jedi>"));
+    then(message).isEqualTo(format("[Test] %nExpecting elements:%n" +
+                                   "  [\"Yoda\", \"Luke\", \"Obiwan\"]%n" +
+                                   "to be at most 2 times a Jedi"));
   }
 
 }

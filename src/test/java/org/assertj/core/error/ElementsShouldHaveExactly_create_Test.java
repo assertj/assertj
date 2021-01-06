@@ -14,7 +14,7 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ElementsShouldHaveAtLeast.elementsShouldHaveAtLeast;
+import static org.assertj.core.error.ElementsShouldHaveExactly.elementsShouldHaveExactly;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Lists.list;
 
@@ -32,12 +32,13 @@ class ElementsShouldHaveExactly_create_Test {
   @Test
   void should_create_error_message() {
     // GIVEN
-    ErrorMessageFactory factory = elementsShouldHaveAtLeast(list("Yoda", "Solo", "Leia"), 2,
-                                                            new TestCondition<>("Jedi power"));
+    ErrorMessageFactory factory = elementsShouldHaveExactly(list("Yoda", "Solo", "Leia"), 2, new TestCondition<>("Jedi power"));
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting elements:%n<[\"Yoda\", \"Solo\", \"Leia\"]>%n to have at least 2 times <Jedi power>"));
+    then(message).isEqualTo(format("[Test] %nExpecting elements:%n" +
+                                   "  [\"Yoda\", \"Solo\", \"Leia\"]%n" +
+                                   "to have exactly 2 times Jedi power"));
   }
 
 }

@@ -17,7 +17,7 @@ import org.assertj.core.api.Condition;
 /**
  * Creates an error message indicating that an assertion that verifies elements of a group satisfies at least n times a
  * {@code Condition} A group of elements can be a collection, an array.<br>
- * 
+ *
  * @author Nicolas François
  * @author Mikhail Mazursky
  * @author Joel Costigliola
@@ -36,6 +36,6 @@ public class ElementsShouldBeAtLeast extends BasicErrorMessageFactory {
   }
 
   private ElementsShouldBeAtLeast(Object actual, int times, Condition<?> condition) {
-    super("%nExpecting elements:%n<%s>%n to be at least %s times <%s>", actual, times, condition);
+    super("%nExpecting elements:%n  %s%nto be at least %s times %s", actual, times, condition);
   }
 }

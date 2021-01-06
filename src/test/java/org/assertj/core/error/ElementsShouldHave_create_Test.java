@@ -38,7 +38,12 @@ class ElementsShouldHave_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting elements:%n<[\"Leia\"]>%n of %n<[\"Yoda\", \"Luke\", \"Leia\"]>%n to have <jedi power>"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting elements:%n" +
+                                   "  [\"Leia\"]%n" +
+                                   "of%n" +
+                                   "  [\"Yoda\", \"Luke\", \"Leia\"]%n" +
+                                   "to have jedi power"));
   }
 
 }
