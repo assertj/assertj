@@ -44,8 +44,8 @@ class ShouldHaveContent_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "File:%n"
-                                   + "  <xyz>%n"
-                                   + "read with charset <%s> does not have the expected content:%n%n"
+                                   + "  xyz%n"
+                                   + "read with charset %s does not have the expected content:%n%n"
                                    + DIFF,
                                    defaultCharset().name()));
   }

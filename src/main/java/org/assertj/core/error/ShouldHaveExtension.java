@@ -27,11 +27,11 @@ public class ShouldHaveExtension extends BasicErrorMessageFactory {
   }
 
   private ShouldHaveExtension(File actual, String actualExtension, String expectedExtension) {
-    super("%nExpecting%n  <%s>%nto have extension:%n  <%s>%nbut had:%n  <%s>.", actual, expectedExtension,
+    super("%nExpecting%n  %s%nto have extension:%n  %s%nbut had:%n  %s.", actual, expectedExtension,
           actualExtension);
   }
 
   private ShouldHaveExtension(File actual, String expectedExtension) {
-    super("%nExpecting%n  <%s>%nto have extension:%n  <%s>%nbut had no extension.", actual, expectedExtension);
+    super("%nExpecting%n  %s%nto have extension:%n  %s%nbut had no extension.", actual, expectedExtension);
   }
 }

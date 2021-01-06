@@ -37,20 +37,20 @@ class ShouldHaveExtension_create_Test {
   void should_create_error_message() {
     then(createMessage("png")).isEqualTo(format("[TEST] %n" +
                                                 "Expecting%n" +
-                                                "  <" + actual + ">%n" +
+                                                "  " + actual + "%n" +
                                                 "to have extension:%n" +
-                                                "  <\"" + expectedExtension + "\">%n" +
+                                                "  \"" + expectedExtension + "\"%n" +
                                                 "but had:%n" +
-                                                "  <\"png\">."));
+                                                "  \"png\"."));
   }
 
   @Test
   void should_create_error_message_when_actual_does_not_have_extension() {
     then(createMessage(null)).isEqualTo(format("[TEST] %n" +
                                                "Expecting%n" +
-                                               "  <" + actual + ">%n" +
+                                               "  " + actual + "%n" +
                                                "to have extension:%n" +
-                                               "  <\"" + expectedExtension + "\">%n" +
+                                               "  \"" + expectedExtension + "\"%n" +
                                                "but had no extension."));
   }
 

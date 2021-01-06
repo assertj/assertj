@@ -48,9 +48,9 @@ class ShouldHaveDigest_create_Test {
     // THEN
     then(message).isEqualTo(format("[TEST] %n" +
                                    "Expecting File " + actual + " MD5 digest to be:%n" +
-                                   "  <\"" + diff.getExpected() + "\">%n" +
+                                   "  \"" + diff.getExpected() + "\"%n" +
                                    "but was:%n" +
-                                   "  <\"" + diff.getActual() + "\">"));
+                                   "  \"" + diff.getActual() + "\""));
   }
 
   @Test
@@ -62,9 +62,9 @@ class ShouldHaveDigest_create_Test {
     // THEN
     then(message).isEqualTo(format("[TEST] %n" +
                                    "Expecting Path " + actual + " MD5 digest to be:%n" +
-                                   "  <\"" + diff.getExpected() + "\">%n" +
+                                   "  \"" + diff.getExpected() + "\"%n" +
                                    "but was:%n" +
-                                   "  <\"" + diff.getActual() + "\">"));
+                                   "  \"" + diff.getActual() + "\""));
   }
 
   @Test
@@ -76,9 +76,9 @@ class ShouldHaveDigest_create_Test {
     // THEN
     then(message).isEqualTo(format("[TEST] %n" +
                                    "Expecting InputStream " + actual + " MD5 digest to be:%n" +
-                                   "  <\"" + diff.getExpected() + "\">%n" +
+                                   "  \"" + diff.getExpected() + "\"%n" +
                                    "but was:%n" +
-                                   "  <\"" + diff.getActual() + "\">"));
+                                   "  \"" + diff.getActual() + "\""));
   }
 
 }

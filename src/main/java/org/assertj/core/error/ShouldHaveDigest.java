@@ -51,9 +51,9 @@ public class ShouldHaveDigest extends BasicErrorMessageFactory {
 
   private static String errorMessage(String actualType, DigestDiff diff) {
     return "%nExpecting " + actualType + " %s " + diff.getDigestAlgorithm() + " digest to be:%n" +
-           "  <%s>%n" +
+           "  %s%n" +
            "but was:%n" +
-           "  <%s>";
+           "  %s";
   }
 
 }

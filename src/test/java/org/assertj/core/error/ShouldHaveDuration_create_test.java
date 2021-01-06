@@ -39,7 +39,7 @@ class ShouldHaveDuration_create_test {
     // WHEN
     String errorMessage = shouldHaveNanos(duration, actualNanos, expectedNanos).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n <0.000001893S>%nto have 190L nanos but had 1893L"));
+    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n  0.000001893S%nto have 190L nanos but had 1893L"));
   }
 
   @Test
@@ -51,7 +51,7 @@ class ShouldHaveDuration_create_test {
     // WHEN
     String errorMessage = shouldHaveNanos(duration, actualNanos, expectedNanos).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n <0.000001893S>%nto have 1L nano but had 1893L"));
+    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n  0.000001893S%nto have 1L nano but had 1893L"));
   }
 
   @Test
@@ -63,7 +63,7 @@ class ShouldHaveDuration_create_test {
     // WHEN
     String errorMessage = shouldHaveNanos(duration, actualNanos, expectedNanos).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n <0.000001893S>%nto have -1L nano but had 1893L"));
+    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n  0.000001893S%nto have -1L nano but had 1893L"));
   }
 
   @Test
@@ -75,7 +75,7 @@ class ShouldHaveDuration_create_test {
     // WHEN
     String errorMessage = shouldHaveMillis(duration, actualMillis, expectedMillis).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n <1.893S>%nto have 190L millis but had 1893L"));
+    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n  1.893S%nto have 190L millis but had 1893L"));
   }
 
   @Test
@@ -87,7 +87,7 @@ class ShouldHaveDuration_create_test {
     // WHEN
     String errorMessage = shouldHaveMillis(duration, actualMillis, expectedMillis).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n <1.893S>%nto have 1L milli but had 1893L"));
+    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n  1.893S%nto have 1L milli but had 1893L"));
   }
 
   @Test
@@ -99,7 +99,7 @@ class ShouldHaveDuration_create_test {
     // WHEN
     String errorMessage = shouldHaveMillis(duration, actualMillis, expectedMillis).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n <1.893S>%nto have -1L milli but had 1893L"));
+    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n  1.893S%nto have -1L milli but had 1893L"));
   }
 
   @Test
@@ -111,7 +111,7 @@ class ShouldHaveDuration_create_test {
     // WHEN
     String errorMessage = shouldHaveSeconds(duration, actualSeconds, expectedSeconds).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n <2M>%nto have 190L seconds but had 120L"));
+    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n  2M%nto have 190L seconds but had 120L"));
   }
 
   @Test
@@ -123,7 +123,7 @@ class ShouldHaveDuration_create_test {
     // WHEN
     String errorMessage = shouldHaveSeconds(duration, actualSeconds, expectedSeconds).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n <2M>%nto have 1L second but had 120L"));
+    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n  2M%nto have 1L second but had 120L"));
   }
 
   @Test
@@ -135,7 +135,7 @@ class ShouldHaveDuration_create_test {
     // WHEN
     String errorMessage = shouldHaveSeconds(duration, actualSeconds, expectedSeconds).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n <2M>%nto have -1L second but had 120L"));
+    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n  2M%nto have -1L second but had 120L"));
   }
 
   @Test
@@ -147,7 +147,7 @@ class ShouldHaveDuration_create_test {
     // WHEN
     String errorMessage = shouldHaveMinutes(duration, actualMinutes, expectedMinutes).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n <1H5M>%nto have 190L minutes but had 65L"));
+    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n  1H5M%nto have 190L minutes but had 65L"));
   }
 
   @Test
@@ -158,7 +158,7 @@ class ShouldHaveDuration_create_test {
     // WHEN
     String errorMessage = shouldHaveMinutes(duration, actualMinutes, expectedMinutes).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n <1H5M>%nto have 1L minute but had 65L"));
+    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n  1H5M%nto have 1L minute but had 65L"));
   }
 
   @Test
@@ -169,7 +169,7 @@ class ShouldHaveDuration_create_test {
     // WHEN
     String errorMessage = shouldHaveMinutes(duration, actualMinutes, expectedMinutes).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n <1H5M>%nto have -1L minute but had 65L"));
+    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n  1H5M%nto have -1L minute but had 65L"));
   }
 
   @Test
@@ -180,7 +180,7 @@ class ShouldHaveDuration_create_test {
     // WHEN
     String errorMessage = shouldHaveHours(duration, actualHours, expectedHours).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n <2H5M>%nto have 190L hours but had 2L"));
+    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n  2H5M%nto have 190L hours but had 2L"));
   }
 
   @Test
@@ -191,7 +191,7 @@ class ShouldHaveDuration_create_test {
     // WHEN
     String errorMessage = shouldHaveHours(duration, actualHours, expectedHours).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n <2H5M>%nto have 1L hour but had 2L"));
+    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n  2H5M%nto have 1L hour but had 2L"));
   }
 
   @Test
@@ -202,7 +202,7 @@ class ShouldHaveDuration_create_test {
     // WHEN
     String errorMessage = shouldHaveHours(duration, actualHours, expectedHours).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n <2H5M>%nto have -1L hour but had 2L"));
+    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n  2H5M%nto have -1L hour but had 2L"));
   }
 
   @Test
@@ -213,7 +213,7 @@ class ShouldHaveDuration_create_test {
     // WHEN
     String errorMessage = shouldHaveDays(duration, actualDays, expectedDays).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n <50H>%nto have 190L days but had 2L"));
+    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n  50H%nto have 190L days but had 2L"));
   }
 
   @Test
@@ -224,7 +224,7 @@ class ShouldHaveDuration_create_test {
     // WHEN
     String errorMessage = shouldHaveDays(duration, actualDays, expectedDays).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n <50H>%nto have 1L day but had 2L"));
+    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n  50H%nto have 1L day but had 2L"));
   }
 
   @Test
@@ -235,7 +235,7 @@ class ShouldHaveDuration_create_test {
     // WHEN
     String errorMessage = shouldHaveDays(duration, actualDays, expectedDays).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n <50H>%nto have -1L day but had 2L"));
+    then(errorMessage).isEqualTo(format("%nExpecting Duration:%n  50H%nto have -1L day but had 2L"));
   }
 
 }

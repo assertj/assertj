@@ -35,7 +35,7 @@ class ShouldHaveDimensions_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting 2D array to have 2 rows but had 3, array was:%n" +
-                                   "<[[1, 2], [3, 4]]>"));
+                                   "  [[1, 2], [3, 4]]"));
   }
 
   @Test

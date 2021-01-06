@@ -29,7 +29,7 @@ public class ShouldHaveDimensions extends BasicErrorMessageFactory {
   private ShouldHaveDimensions(Object actual, int actualSize, int expectedSize) {
     // format the sizes in a standard way, otherwise if we use (for ex) an Hexadecimal representation
     // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
-    super(format("%nExpecting 2D array to have %s rows but had %s, array was:%n<%s>", expectedSize, actualSize, "%s"), actual);
+    super(format("%nExpecting 2D array to have %s rows but had %s, array was:%n  %s", expectedSize, actualSize, "%s"), actual);
   }
 
   private ShouldHaveDimensions(Object actual, int actualSize, int expectedSize, int rowIndex) {

@@ -21,7 +21,7 @@ public class ShouldHaveDuration extends BasicErrorMessageFactory {
 
   private static final String EXPECTED_PREFIX = "%n"
                                                 + "Expecting Duration:%n"
-                                                + " <%s>%n"
+                                                + "  %s%n"
                                                 + "to have %s ";
 
   public static ShouldHaveDuration shouldHaveNanos(Duration actual, long actualNanos, long expectedNanos) {

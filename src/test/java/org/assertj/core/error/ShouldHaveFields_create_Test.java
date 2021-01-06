@@ -35,11 +35,11 @@ class ShouldHaveFields_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting%n"
-                                   + "  <org.assertj.core.test.Person>%n"
+                                   + "  org.assertj.core.test.Person%n"
                                    + "to have the following public accessible fields:%n"
-                                   + "  <[\"name\", \"address\"]>%n"
+                                   + "  [\"name\", \"address\"]%n"
                                    + "but it doesn't have:%n"
-                                   + "  <[\"address\"]>"));
+                                   + "  [\"address\"]"));
   }
 
   @Test
@@ -52,10 +52,10 @@ class ShouldHaveFields_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting%n"
-                                   + "  <org.assertj.core.test.Person>%n"
+                                   + "  org.assertj.core.test.Person%n"
                                    + "to have the following declared fields:%n"
-                                   + "  <[\"name\", \"address\"]>%n"
+                                   + "  [\"name\", \"address\"]%n"
                                    + "but it doesn't have:%n"
-                                   + "  <[\"address\"]>"));
+                                   + "  [\"address\"]"));
   }
 }
