@@ -358,7 +358,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
                                                + "  <http://assertj.org:80>%n"
                                                + "not to have a port but had:%n"
                                                + "  <80>"));
-    assertThat(errors.get(53)).contains(format("<does-not-exist>"));
+    assertThat(errors.get(53)).contains(format("does-not-exist"));
     assertThat(errors.get(54)).contains(format("2000"));
     assertThat(errors.get(55)).contains("duration check");
     assertThat(errors.get(56)).contains("instant check");

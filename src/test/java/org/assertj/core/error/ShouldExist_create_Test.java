@@ -48,7 +48,7 @@ class ShouldExist_create_Test {
     // WHEN
     String actualMessage = shouldExist(new FakeFile("xyz")).create(description, STANDARD_REPRESENTATION);
     // THEN
-    then(actualMessage).isEqualTo(format("[Test] %nExpecting file:%n  <xyz>%nto exist."));
+    then(actualMessage).isEqualTo(format("[Test] %nExpecting file:%n  xyz%nto exist."));
   }
 
   @Test

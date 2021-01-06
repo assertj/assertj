@@ -26,9 +26,9 @@ import org.assertj.core.util.VisibleForTesting;
 public class ShouldExist extends BasicErrorMessageFactory {
 
   @VisibleForTesting
-  public static final String PATH_SHOULD_EXIST = "%nExpecting path:%n  <%s>%nto exist (symbolic links were followed).";
-  public static final String PATH_SHOULD_EXIST_NO_FOLLOW_LINKS = "%nExpecting path:%n  <%s>%nto exist (symbolic links were not followed).";
-  public static final String FILE_SHOULD_EXIST = "%nExpecting file:%n  <%s>%nto exist.";
+  public static final String PATH_SHOULD_EXIST = "%nExpecting path:%n  %s%nto exist (symbolic links were followed).";
+  public static final String PATH_SHOULD_EXIST_NO_FOLLOW_LINKS = "%nExpecting path:%n  %s%nto exist (symbolic links were not followed).";
+  public static final String FILE_SHOULD_EXIST = "%nExpecting file:%n  %s%nto exist.";
 
   /**
    * Creates a new <code>{@link ShouldExist}</code>.
