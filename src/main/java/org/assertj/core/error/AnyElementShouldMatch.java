@@ -15,7 +15,7 @@ package org.assertj.core.error;
 import org.assertj.core.presentation.PredicateDescription;
 
 public class AnyElementShouldMatch extends BasicErrorMessageFactory {
-  private static final String NON_MATCHING_ELEMENT = "%nExpecting any elements of:%n  <%s>%nto match %s predicate but none did.";
+  private static final String NON_MATCHING_ELEMENT = "%nExpecting any elements of:%n  %s%nto match %s predicate but none did.";
 
   public static ErrorMessageFactory anyElementShouldMatch(Object actual, PredicateDescription predicateDescription) {
     return new AnyElementShouldMatch(actual, predicateDescription);

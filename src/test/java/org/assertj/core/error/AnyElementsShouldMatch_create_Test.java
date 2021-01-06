@@ -34,7 +34,7 @@ class AnyElementsShouldMatch_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting any elements of:%n" +
-                                   "  <[\"Luke\", \"Yoda\"]>%n" +
+                                   "  [\"Luke\", \"Yoda\"]%n" +
                                    "to match 'Yoda violates some restrictions' predicate but none did."));
   }
 
@@ -47,7 +47,7 @@ class AnyElementsShouldMatch_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting any elements of:%n" +
-                                   "  <[\"Luke\", \"Yoda\"]>%n" +
+                                   "  [\"Luke\", \"Yoda\"]%n" +
                                    "to match given predicate but none did."));
   }
 
