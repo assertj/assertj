@@ -37,7 +37,7 @@ class ElementsShouldHaveAtLeast_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting elements:%n<[\"Yoda\", \"Solo\", \"Leia\"]>%n to have at least 2 times <Jedi power>"));
+    then(message).isEqualTo(format("[Test] %nExpecting elements:%n[\"Yoda\", \"Solo\", \"Leia\"]%n to have at least 2 times Jedi power"));
   }
 
 }
