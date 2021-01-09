@@ -73,9 +73,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    * @since 2.6.0 / 3.6.0
    */
   public <T> T fail(String failureMessage, Object... args) {
-    AssertionError error = Failures.instance().failure(format(failureMessage, args));
-    collectAssertionError(error);
-    return null;
+    return fail(format(failureMessage, args));
   }
 
   /**

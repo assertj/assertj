@@ -89,7 +89,7 @@ public class AssertionErrorCreator {
     return Optional.empty();
   }
 
-  private static AssertionError assertionError(String message) {
+  public AssertionError assertionError(String message) {
     return new AssertionError(message);
   }
 

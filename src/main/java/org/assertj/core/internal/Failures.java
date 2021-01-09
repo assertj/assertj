@@ -122,7 +122,8 @@ public class Failures {
   public AssertionError failure(AssertionInfo info, ErrorMessageFactory messageFactory) {
     AssertionError error = failureIfErrorMessageIsOverridden(info);
     if (error != null) return error;
-    AssertionError assertionError = new AssertionError(messageFactory.create(info.description(), info.representation()));
+    String assertionErrorMessage = assertionErrorMessage(info, messageFactory);
+    AssertionError assertionError = assertionErrorCreator.assertionError(assertionErrorMessage);
     removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     printThreadDumpIfNeeded();
     return assertionError;
@@ -130,7 +131,8 @@ public class Failures {
 
   public AssertionError failure(AssertionInfo info, ErrorMessageFactory messageFactory, Object actual, Object expected) {
     String assertionErrorMessage = assertionErrorMessage(info, messageFactory);
-    AssertionError assertionError = assertionErrorCreator.assertionError(assertionErrorMessage, actual, expected, info.representation ());
+    AssertionError assertionError = assertionErrorCreator.assertionError(assertionErrorMessage, actual, expected,
+                                                                         info.representation());
     removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     printThreadDumpIfNeeded();
     return assertionError;
@@ -154,14 +156,14 @@ public class Failures {
   /**
    * Creates a <code>{@link AssertionError}</code> using the given {@code String} as message.
    * <p>
-   * It filters the AssertionError stack trace be default, to have full stack trace use
+   * It filters the AssertionError stack trace by default, to have full stack trace use
    * {@link #setRemoveAssertJRelatedElementsFromStackTrace(boolean)}.
    *
    * @param message the message of the {@code AssertionError} to create.
    * @return the created <code>{@link AssertionError}</code>.
    */
   public AssertionError failure(String message) {
-    AssertionError assertionError = new AssertionError(message);
+    AssertionError assertionError = assertionErrorCreator.assertionError(message);
     removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     printThreadDumpIfNeeded();
     return assertionError;
