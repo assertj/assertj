@@ -39,7 +39,7 @@ class ElementsShouldBe_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting elements:%n<[\"Leia\"]>%n of %n<[\"Yoda\", \"Luke\", \"Leia\"]>%n to be <a Jedi>"));
+    then(message).isEqualTo(format("[Test] %nExpecting elements:%n[\"Leia\"]%n of %n[\"Yoda\", \"Luke\", \"Leia\"]%n to be a Jedi"));
   }
 
 }
