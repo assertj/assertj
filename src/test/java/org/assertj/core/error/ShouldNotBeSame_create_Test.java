@@ -35,6 +35,6 @@ class ShouldNotBeSame_create_Test {
     // WHEN
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpected not same:<\"Yoda\">"));
+    then(message).isEqualTo(format("[Test] %nExpected not same: \"Yoda\""));
   }
 }

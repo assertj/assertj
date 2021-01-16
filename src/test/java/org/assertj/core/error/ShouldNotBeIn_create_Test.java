@@ -42,9 +42,9 @@ class ShouldNotBeIn_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting:%n"
-                                   + " <\"Luke\">%n"
+                                   + "  \"Luke\"%n"
                                    + "not to be in:%n"
-                                   + " <[\"Luke\", \"Leia\"]>%n"));
+                                   + "  [\"Luke\", \"Leia\"]%n"));
   }
 
   @Test
@@ -57,9 +57,9 @@ class ShouldNotBeIn_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting:%n"
-                                   + " <\"Luke\">%n"
+                                   + "  \"Luke\"%n"
                                    + "not to be in:%n"
-                                   + " <[\"Luke\", \"Leia\"]>%n"
+                                   + "  [\"Luke\", \"Leia\"]%n"
                                    + "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

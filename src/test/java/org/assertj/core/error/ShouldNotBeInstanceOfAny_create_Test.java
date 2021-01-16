@@ -38,9 +38,9 @@ class ShouldNotBeInstanceOfAny_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <\"Yoda\">%n" +
+                                   "  \"Yoda\"%n" +
                                    "not to be an instance of any of these types:%n" +
-                                   " <[java.lang.String, java.lang.Object]>"));
+                                   "  [java.lang.String, java.lang.Object]"));
   }
 
   @Test
@@ -52,8 +52,8 @@ class ShouldNotBeInstanceOfAny_create_Test {
     String message = shouldNotBeInstanceOfAny(throwable, types).create();
     // THEN
     then(message).isEqualTo(format("%nExpecting:%n" +
-                                   " <\"" + getStackTrace(throwable) + "\">%n" +
+                                   "  \"" + getStackTrace(throwable) + "\"%n" +
                                    "not to be an instance of any of these types:%n" +
-                                   " <[java.lang.NullPointerException, java.lang.IllegalArgumentException]>"));
+                                   "  [java.lang.NullPointerException, java.lang.IllegalArgumentException]"));
   }
 }

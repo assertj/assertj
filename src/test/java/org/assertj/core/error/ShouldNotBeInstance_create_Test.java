@@ -37,8 +37,8 @@ class ShouldNotBeInstance_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <\"Yoda\">%n" +
-                                   "not to be an instance of:<java.lang.String>"));
+                                   "  \"Yoda\"%n" +
+                                   "not to be an instance of: java.lang.String"));
   }
 
   @Test
@@ -49,7 +49,7 @@ class ShouldNotBeInstance_create_Test {
     String message = shouldNotBeInstance(throwable, IllegalArgumentException.class).create();
     // THEN
     then(message).isEqualTo(format("%nExpecting:%n" +
-                                   " <\"" + getStackTrace(throwable) + "\">%n" +
-                                   "not to be an instance of:<java.lang.IllegalArgumentException>"));
+                                   "  \"" + getStackTrace(throwable) + "\"%n" +
+                                   "not to be an instance of: java.lang.IllegalArgumentException"));
   }
 }

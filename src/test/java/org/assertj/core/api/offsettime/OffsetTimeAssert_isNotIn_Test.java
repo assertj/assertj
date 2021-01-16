@@ -46,9 +46,9 @@ class OffsetTimeAssert_isNotIn_Test extends OffsetTimeAssertBaseTest {
                                                                                                                        "03:03:03Z"))
                                                    .withMessage(format("%n" +
                                                                        "Expecting:%n" +
-                                                                       " <03:00:05Z>%n" +
+                                                                       "  03:00:05Z%n" +
                                                                        "not to be in:%n" +
-                                                                       " <[03:00:05Z, 03:03:03Z]>%n"));
+                                                                       "  [03:00:05Z, 03:03:03Z]%n"));
   }
 
   @Test

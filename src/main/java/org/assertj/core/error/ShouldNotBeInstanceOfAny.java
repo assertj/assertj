@@ -34,10 +34,10 @@ public class ShouldNotBeInstanceOfAny extends BasicErrorMessageFactory {
   }
 
   private ShouldNotBeInstanceOfAny(Object actual, Class<?>[] types) {
-    super("%nExpecting:%n <%s>%nnot to be an instance of any of these types:%n <%s>", actual, types);
+    super("%nExpecting:%n  %s%nnot to be an instance of any of these types:%n  %s", actual, types);
   }
 
   private ShouldNotBeInstanceOfAny(Throwable throwable, Class<?>[] types) {
-    super("%nExpecting:%n <%s>%nnot to be an instance of any of these types:%n <%s>", getStackTrace(throwable), types);
+    super("%nExpecting:%n  %s%nnot to be an instance of any of these types:%n  %s", getStackTrace(throwable), types);
   }
 }
