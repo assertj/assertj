@@ -33,7 +33,7 @@ public class ShouldNotMatch extends BasicErrorMessageFactory {
 	                                         "will give an error message looking like:%n" +
 	                                         "%n" +
 	                                         "Expecting:%n" +
-	                                         "  <player>%n" +
+	                                         "  player%n" +
 	                                         "not to match 'is not rookie' predicate");
   // @format:on
 
@@ -53,6 +53,6 @@ public class ShouldNotMatch extends BasicErrorMessageFactory {
   }
 
   private ShouldNotMatch(Object actual, PredicateDescription description) {
-    super("%nExpecting:%n  <%s>%nnot to match %s predicate." + (description.isDefault() ? ADVICE : ""), actual, description);
+    super("%nExpecting:%n  %s%nnot to match %s predicate." + (description.isDefault() ? ADVICE : ""), actual, description);
   }
 }

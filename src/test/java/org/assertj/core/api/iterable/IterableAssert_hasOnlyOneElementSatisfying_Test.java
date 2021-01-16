@@ -46,7 +46,7 @@ class IterableAssert_hasOnlyOneElementSatisfying_Test {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       List<Jedi> jedis = asList(new Jedi("Yoda", "red"));
       assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("L"));
-    }).withMessage(format("%nExpecting:%n <\"Yoda\">%nto start with:%n <\"L\">%n"));
+    }).withMessage(format("%nExpecting:%n  \"Yoda\"%nto start with:%n  \"L\"%n"));
   }
 
   @Test
@@ -57,7 +57,7 @@ class IterableAssert_hasOnlyOneElementSatisfying_Test {
         assertThat(yoda.getName()).startsWith("Y");
         assertThat(yoda.getName()).startsWith("L");
       });
-    }).withMessage(format("%nExpecting:%n <\"Yoda\">%nto start with:%n <\"L\">%n"));
+    }).withMessage(format("%nExpecting:%n  \"Yoda\"%nto start with:%n  \"L\"%n"));
   }
 
   @Test
@@ -73,8 +73,8 @@ class IterableAssert_hasOnlyOneElementSatisfying_Test {
       });
     });
 
-    assertThat(assertionError).hasMessageContaining(format("Expecting:%n <\"Yoda\">%nto start with:%n <\"L\">"))
-                              .hasMessageContaining(format("Expecting:%n <\"Yoda\">%nto start with:%n <\"M\">"));
+    assertThat(assertionError).hasMessageContaining(format("Expecting:%n  \"Yoda\"%nto start with:%n  \"L\""))
+                              .hasMessageContaining(format("Expecting:%n  \"Yoda\"%nto start with:%n  \"M\""));
   }
 
   @Test

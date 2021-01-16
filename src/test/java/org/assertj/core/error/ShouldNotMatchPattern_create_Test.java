@@ -34,6 +34,6 @@ class ShouldNotMatchPattern_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n \"Yoda\"%nnot to match pattern:%n \"Luke\""));
+    then(message).isEqualTo(format("[Test] %nExpecting:%n  \"Yoda\"%nnot to match pattern:%n  \"Luke\""));
   }
 }

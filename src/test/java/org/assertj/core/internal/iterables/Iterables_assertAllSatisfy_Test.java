@@ -64,9 +64,9 @@ class Iterables_assertAllSatisfy_Test extends IterablesBaseTest {
 
     List<UnsatisfiedRequirement> errors = list(new UnsatisfiedRequirement("Yoda", format("%n" +
                                                                                          "Expecting:%n" +
-                                                                                         " <\"Yoda\">%n" +
+                                                                                         "  \"Yoda\"%n" +
                                                                                          "to start with:%n" +
-                                                                                         " <\"L\">%n")));
+                                                                                         "  \"L\"%n")));
     verify(failures).failure(info, elementsShouldSatisfy(actual, errors, someInfo()));
 
   }

@@ -32,6 +32,6 @@ class ShouldNotHaveToString_create_Test {
     // THEN
     then(errorMessage).isEqualTo(format("[TEST] %n" +
                                         "Expecting actual's toString() not to be equal to:%n" +
-                                        "  <\"Yoda the Jedi\">"));
+                                        "  \"Yoda the Jedi\""));
   }
 }

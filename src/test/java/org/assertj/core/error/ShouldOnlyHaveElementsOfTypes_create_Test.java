@@ -38,11 +38,11 @@ class ShouldOnlyHaveElementsOfTypes_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <[\"Yoda\", 42, \"Luke\"]>%n" +
+                                   "  [\"Yoda\", 42, \"Luke\"]%n" +
                                    "to only have instances of:%n" +
-                                   "  <[java.lang.Number, java.lang.Long]>%n" +
+                                   "  [java.lang.Number, java.lang.Long]%n" +
                                    "but these elements are not:%n" +
-                                   "  <[\"Yoda\" (java.lang.String), \"Luke\" (java.lang.String)]>"));
+                                   "  [\"Yoda\" (java.lang.String), \"Luke\" (java.lang.String)]"));
   }
 
 }

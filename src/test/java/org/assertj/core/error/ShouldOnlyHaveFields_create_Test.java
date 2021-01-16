@@ -50,13 +50,13 @@ class ShouldOnlyHaveFields_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  <org.assertj.core.test.Player>%n" +
+                                   "  org.assertj.core.test.Player%n" +
                                    "to only have the following public accessible fields:%n" +
-                                   "  <[\"name\", \"team\"]>%n" +
+                                   "  [\"name\", \"team\"]%n" +
                                    "fields not found:%n" +
-                                   "  <[\"nickname\"]>%n" +
+                                   "  [\"nickname\"]%n" +
                                    "and fields not expected:%n" +
-                                   "  <[\"address\"]>"));
+                                   "  [\"address\"]"));
   }
 
   @Test
@@ -70,11 +70,11 @@ class ShouldOnlyHaveFields_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  <org.assertj.core.test.Player>%n" +
+                                   "  org.assertj.core.test.Player%n" +
                                    "to only have the following public accessible fields:%n" +
-                                   "  <[\"name\", \"team\"]>%n" +
+                                   "  [\"name\", \"team\"]%n" +
                                    "but could not find the following fields:%n" +
-                                   "  <[\"nickname\"]>"));
+                                   "  [\"nickname\"]"));
   }
 
   @Test
@@ -89,11 +89,11 @@ class ShouldOnlyHaveFields_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  <org.assertj.core.test.Player>%n" +
+                                   "  org.assertj.core.test.Player%n" +
                                    "to only have the following public accessible fields:%n" +
-                                   "  <[\"name\", \"team\"]>%n" +
+                                   "  [\"name\", \"team\"]%n" +
                                    "but the following fields were unexpected:%n" +
-                                   "  <[\"address\"]>"));
+                                   "  [\"address\"]"));
   }
 
   @Test
@@ -108,13 +108,13 @@ class ShouldOnlyHaveFields_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  <org.assertj.core.test.Player>%n" +
+                                   "  org.assertj.core.test.Player%n" +
                                    "to only have the following declared fields:%n" +
-                                   "  <[\"name\", \"team\"]>%n" +
+                                   "  [\"name\", \"team\"]%n" +
                                    "fields not found:%n" +
-                                   "  <[\"nickname\"]>%n" +
+                                   "  [\"nickname\"]%n" +
                                    "and fields not expected:%n" +
-                                   "  <[\"address\"]>"));
+                                   "  [\"address\"]"));
   }
 
   @Test
@@ -129,11 +129,11 @@ class ShouldOnlyHaveFields_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  <org.assertj.core.test.Player>%n" +
+                                   "  org.assertj.core.test.Player%n" +
                                    "to only have the following declared fields:%n" +
-                                   "  <[\"name\", \"team\"]>%n" +
+                                   "  [\"name\", \"team\"]%n" +
                                    "but could not find the following fields:%n" +
-                                   "  <[\"nickname\"]>"));
+                                   "  [\"nickname\"]"));
   }
 
   @Test
@@ -148,10 +148,10 @@ class ShouldOnlyHaveFields_create_Test {
     // THEN
     then(message).isEqualTo(String.format("[Test] %n" +
                                           "Expecting%n" +
-                                          "  <org.assertj.core.test.Player>%n" +
+                                          "  org.assertj.core.test.Player%n" +
                                           "to only have the following declared fields:%n" +
-                                          "  <[\"name\", \"team\"]>%n" +
+                                          "  [\"name\", \"team\"]%n" +
                                           "but the following fields were unexpected:%n" +
-                                          "  <[\"address\"]>"));
+                                          "  [\"address\"]"));
   }
 }

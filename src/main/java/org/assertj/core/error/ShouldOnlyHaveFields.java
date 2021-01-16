@@ -73,13 +73,13 @@ public class ShouldOnlyHaveFields extends BasicErrorMessageFactory {
                                   boolean declared) {
     super("%n" +
           "Expecting%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "to only have the following " + (declared ? "declared" : "public accessible") + " fields:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "fields not found:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "and fields not expected:%n" +
-          "  <%s>", actual, expected, notFound, notExpected);
+          "  %s", actual, expected, notFound, notExpected);
   }
 
   private ShouldOnlyHaveFields(Class<?> actual, Collection<String> expected,
@@ -87,13 +87,13 @@ public class ShouldOnlyHaveFields extends BasicErrorMessageFactory {
                                   ErrorType errorType, boolean declared) {
     super("%n" +
           "Expecting%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "to only have the following " + (declared ? "declared" : "public accessible") + " fields:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           (errorType == NOT_FOUND_ONLY ? "but could not find the following fields:%n"
               : "but the following fields were unexpected:%n")
           +
-          "  <%s>",
+          "  %s",
           actual, expected, notFoundOrNotExpected);
   }
 

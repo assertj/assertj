@@ -40,9 +40,9 @@ class ShouldSatisfy_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting:%n"
-                                   + "  <\"Yoda\">%n"
+                                   + "  \"Yoda\"%n"
                                    + "to satisfy:%n"
-                                   + "  <green lightsaber bearer>"));
+                                   + "  green lightsaber bearer"));
   }
 
   @Test
@@ -54,7 +54,7 @@ class ShouldSatisfy_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting:%n"
-                                   + "  <[\"Luke\", \"Leia\", \"Yoda\"]>%n"
+                                   + "  [\"Luke\", \"Leia\", \"Yoda\"]%n"
                                    + "to satisfy all the consumers in any order."));
   }
 }

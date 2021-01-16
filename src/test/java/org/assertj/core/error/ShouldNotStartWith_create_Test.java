@@ -36,7 +36,7 @@ class ShouldNotStartWith_create_Test {
   private ErrorMessageFactory factory;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     factory = shouldNotStartWith(list("Yoda", "Luke"), list("Han", "Leia"));
   }
 
@@ -47,9 +47,9 @@ class ShouldNotStartWith_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <[\"Yoda\", \"Luke\"]>%n" +
-                                   "not to start with:%n  " +
-                                   "<[\"Han\", \"Leia\"]>%n"));
+                                   "  [\"Yoda\", \"Luke\"]%n" +
+                                   "not to start with:%n" +
+                                   "  [\"Han\", \"Leia\"]%n"));
   }
 
   @Test
@@ -62,9 +62,9 @@ class ShouldNotStartWith_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <[\"Yoda\", \"Luke\"]>%n" +
+                                   "  [\"Yoda\", \"Luke\"]%n" +
                                    "not to start with:%n" +
-                                   "  <[\"Han\", \"Leia\"]>%n" +
+                                   "  [\"Han\", \"Leia\"]%n" +
                                    "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

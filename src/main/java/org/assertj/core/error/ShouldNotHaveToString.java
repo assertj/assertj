@@ -19,6 +19,6 @@ public class ShouldNotHaveToString extends BasicErrorMessageFactory {
   }
 
   private ShouldNotHaveToString(String other) {
-    super("%nExpecting actual's toString() not to be equal to:%n  <%s>", other);
+    super("%nExpecting actual's toString() not to be equal to:%n  %s", other);
   }
 }
