@@ -49,7 +49,7 @@ class AtomicReferenceArrayAssert_hasSameSizeAs_with_Arrays_Test {
   void should_fail_if_other_is_not_an_array() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicReferenceArray<>(new Byte[] { 1,
         2 })).hasSameSizeAs("a string"))
-                                                   .withMessage(format("%nExpecting an array but was:<\"a string\">"));
+                                                   .withMessage(format("%nExpecting an array but was: \"a string\""));
   }
 
   @Test

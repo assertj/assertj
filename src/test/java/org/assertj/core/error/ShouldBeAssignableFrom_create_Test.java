@@ -40,10 +40,10 @@ class ShouldBeAssignableFrom_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting%n"
-                                   + "  <org.assertj.core.error.ShouldBeAssignableFrom_create_Test>%n"
+                                   + "  org.assertj.core.error.ShouldBeAssignableFrom_create_Test%n"
                                    + "to be assignable from:%n"
-                                   + "  <[java.lang.String, java.lang.Integer]>%n"
+                                   + "  [java.lang.String, java.lang.Integer]%n"
                                    + "but was not assignable from:%n"
-                                   + "  <[java.lang.String]>"));
+                                   + "  [java.lang.String]"));
   }
 }

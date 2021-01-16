@@ -63,7 +63,7 @@ class AbstractEnumerableAssert_hasSameSizeAs_with_Array_Test {
   @Test
   void should_fail_if_other_is_not_an_array() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new byte[]{1, 2}).hasSameSizeAs("a string"))
-                                                   .withMessage(format("%nExpecting an array but was:<\"a string\">"));
+                                                   .withMessage(format("%nExpecting an array but was: \"a string\""));
   }
 
   @Test

@@ -116,7 +116,7 @@ class Iterables_assertSatisfiesExactly_Test extends IterablesBaseTest {
     // WHEN
     AssertionError error = expectAssertionError(() -> iterables.assertSatisfiesExactly(info, actual, requirements));
     // THEN
-    then(error).hasMessage(format("%nExpecting an array but was:<null>"));
+    then(error).hasMessage(format("%nExpecting an array but was: null"));
   }
 
   @Test

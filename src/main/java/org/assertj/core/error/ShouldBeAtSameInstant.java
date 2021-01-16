@@ -34,13 +34,13 @@ public class ShouldBeAtSameInstant extends BasicErrorMessageFactory {
 
   private ShouldBeAtSameInstant(OffsetDateTime actual, OffsetDateTime expected) {
     super("%nExpecting%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "to be at the same instant as:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "but actual instance was%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "and expected instant was:%n" +
-          "  <%s>",
+          "  %s",
           actual, expected, actual.toInstant(), expected.toInstant());
   }
 

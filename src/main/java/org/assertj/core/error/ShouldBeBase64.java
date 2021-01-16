@@ -29,7 +29,7 @@ public class ShouldBeBase64 extends BasicErrorMessageFactory {
   }
 
   private ShouldBeBase64(String actual) {
-    super("%nExpecting <%s> to be a valid Base64 encoded string", actual);
+    super("%nExpecting %s to be a valid Base64 encoded string", actual);
   }
 
 }

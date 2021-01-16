@@ -51,7 +51,7 @@ class ObjectArrays_assertHasSameSizeAs_with_Array_Test extends ObjectArraysBaseT
     // WHEN
     ThrowingCallable code = () -> arrays.assertHasSameSizeAs(someInfo(), actual, other);
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(format("%nExpecting an array but was:<null>"));
+    assertThatAssertionErrorIsThrownBy(code).withMessage(format("%nExpecting an array but was: null"));
   }
 
   @Test
