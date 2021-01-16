@@ -19,22 +19,16 @@ import java.nio.file.Path;
 /**
  * Creates an error message indicating that an assertion that verifies that a
  * {@link Path} is canonical has failed.
- * 
  */
-public class ShouldBeCanonicalPath
-    extends BasicErrorMessageFactory
-{
+public class ShouldBeCanonicalPath extends BasicErrorMessageFactory {
     @VisibleForTesting
-    public static final String SHOULD_BE_CANONICAL
-        = "%nExpecting:%n  <%s>%nto be a canonical path";
+    public static final String SHOULD_BE_CANONICAL = "%nExpecting:%n  %s%nto be a canonical path";
 
-    public static ErrorMessageFactory shouldBeCanonicalPath(final Path actual)
-    {
+    public static ErrorMessageFactory shouldBeCanonicalPath(final Path actual) {
         return new ShouldBeCanonicalPath(actual);
     }
 
-    private ShouldBeCanonicalPath(final Path actual)
-    {
+    private ShouldBeCanonicalPath(final Path actual) {
         super(SHOULD_BE_CANONICAL, actual);
     }
 }

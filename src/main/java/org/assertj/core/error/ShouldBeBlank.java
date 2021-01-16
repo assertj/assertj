@@ -27,6 +27,6 @@ public class ShouldBeBlank extends BasicErrorMessageFactory {
   }
 
   private ShouldBeBlank(Object actual) {
-    super("%nExpecting blank but was:<%s>", actual);
+    super("%nExpecting blank but was: %s", actual);
   }
 }

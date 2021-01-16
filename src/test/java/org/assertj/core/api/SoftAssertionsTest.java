@@ -181,7 +181,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
                                                             + "  [MapEntry[key=\"1\", value=\"2\"]]%n"
                                                             + "but could not find the following map entries:%n"
                                                             + "  [MapEntry[key=\"1\", value=\"2\"]]%n"));
-    assertThat(errors.get(1)).hasMessageStartingWith(format("%nExpecting empty but was:<{\"54\"=\"55\"}>"));
+    assertThat(errors.get(1)).hasMessageStartingWith(format("%nExpecting empty but was: {\"54\"=\"55\"}"));
   }
 
   @SuppressWarnings({ "unchecked", "deprecation" })

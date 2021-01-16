@@ -43,9 +43,9 @@ class ShouldBeCloseTo_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <2011-01-01T00:00:00.000>%n" +
+                                   "  2011-01-01T00:00:00.000%n" +
                                    "to be close to:%n" +
-                                   "  <2011-01-01T00:00:00.101>%n" +
+                                   "  2011-01-01T00:00:00.101%n" +
                                    "by less than 100ms but difference was 101ms"));
   }
 
@@ -59,9 +59,9 @@ class ShouldBeCloseTo_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <PT1H>%n" +
+                                   "  PT1H%n" +
                                    "to be close to:%n" +
-                                   "  <PT2H>%n" +
+                                   "  PT2H%n" +
                                    "within PT10M but difference was PT1H"));
   }
 
@@ -74,9 +74,9 @@ class ShouldBeCloseTo_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <13:22:37>%n" +
+                                   "  13:22:37%n" +
                                    "to be close to:%n" +
-                                   "  <13:22:32>%n" +
+                                   "  13:22:32%n" +
                                    "but difference was 5s"));
   }
 

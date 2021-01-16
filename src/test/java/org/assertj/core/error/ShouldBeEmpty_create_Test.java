@@ -44,7 +44,7 @@ class ShouldBeEmpty_create_Test {
     // WHEN
     String message = underTest.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting empty but was:<[\"Luke\", \"Yoda\"]>"));
+    then(message).isEqualTo(format("[Test] %nExpecting empty but was: [\"Luke\", \"Yoda\"]"));
   }
 
   @Test
@@ -55,7 +55,7 @@ class ShouldBeEmpty_create_Test {
     // WHEN
     String message = underTest.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo("[Test] %nExpecting file <%s> to be empty", file.getAbsolutePath());
+    then(message).isEqualTo("[Test] %nExpecting file %s to be empty", file.getAbsolutePath());
   }
 
   @Test
@@ -66,7 +66,7 @@ class ShouldBeEmpty_create_Test {
     // WHEN
     String message = underTest.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo("[Test] %nExpecting path <%s> to be empty", path);
+    then(message).isEqualTo("[Test] %nExpecting path %s to be empty", path);
   }
 
 }

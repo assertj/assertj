@@ -26,10 +26,10 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public class ShouldBeDirectory extends BasicErrorMessageFactory {
   @VisibleForTesting
-  public static final String PATH_SHOULD_BE_DIRECTORY = "%nExpecting path:%n  <%s>%nto be a directory.";
+  public static final String PATH_SHOULD_BE_DIRECTORY = "%nExpecting path:%n  %s%nto be a directory.";
 
   @VisibleForTesting
-  public static final String FILE_SHOULD_BE_DIRECTORY = "%nExpecting file:%n  <%s>%n to be an existing directory.";
+  public static final String FILE_SHOULD_BE_DIRECTORY = "%nExpecting file:%n  %s%n to be an existing directory.";
 
   public static ErrorMessageFactory shouldBeDirectory(final Path actual) {
     return new ShouldBeDirectory(actual);

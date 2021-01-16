@@ -179,7 +179,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
                                                           + "  [MapEntry[key=\"1\", value=\"2\"]]%n"
                                                           + "but could not find the following map entries:%n"
                                                           + "  [MapEntry[key=\"1\", value=\"2\"]]%n"));
-    assertThat(errors.get(1)).hasMessageContaining(format("Expecting empty but was:<{\"54\"=\"55\"}>"));
+    assertThat(errors.get(1)).hasMessageContaining(format("Expecting empty but was: {\"54\"=\"55\"}"));
 
   }
 
@@ -608,7 +608,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).hasSize(2);
     assertThat(errorsCollected.get(0)).hasMessageStartingWith(format("%nExpected size:<10> but was:<1> in:%n<[CartoonCharacter [name=Homer Simpson]]>"));
-    assertThat(errorsCollected.get(1)).hasMessageStartingWith(format("%nExpecting empty but was:<[CartoonCharacter [name=Homer Simpson]]>"));
+    assertThat(errorsCollected.get(1)).hasMessageStartingWith(format("%nExpecting empty but was: [CartoonCharacter [name=Homer Simpson]]"));
   }
 
   @Test
@@ -624,7 +624,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).hasSize(2);
     assertThat(errorsCollected.get(0)).hasMessageStartingWith(format("%nExpected size:<10> but was:<1> in:%n<[CartoonCharacter [name=Homer Simpson]]>"));
-    assertThat(errorsCollected.get(1)).hasMessageStartingWith(format("%nExpecting empty but was:<[CartoonCharacter [name=Homer Simpson]]>"));
+    assertThat(errorsCollected.get(1)).hasMessageStartingWith(format("%nExpecting empty but was: [CartoonCharacter [name=Homer Simpson]]"));
   }
 
   @Test

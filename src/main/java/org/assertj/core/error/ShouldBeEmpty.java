@@ -29,7 +29,7 @@ public class ShouldBeEmpty extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeEmpty(Object actual) {
-    return new ShouldBeEmpty("%nExpecting empty but was:<%s>", actual);
+    return new ShouldBeEmpty("%nExpecting empty but was: %s", actual);
   }
 
   /**
@@ -38,7 +38,7 @@ public class ShouldBeEmpty extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeEmpty(File actual) {
-    return new ShouldBeEmpty("%nExpecting file <%s> to be empty", actual);
+    return new ShouldBeEmpty("%nExpecting file %s to be empty", actual);
   }
 
   /**
@@ -47,7 +47,7 @@ public class ShouldBeEmpty extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeEmpty(Path actual) {
-    return new ShouldBeEmpty("%nExpecting path <%s> to be empty", actual);
+    return new ShouldBeEmpty("%nExpecting path %s to be empty", actual);
   }
 
   private ShouldBeEmpty(String format, Object... arguments) {

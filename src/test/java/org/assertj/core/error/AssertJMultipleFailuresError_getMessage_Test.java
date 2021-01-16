@@ -53,15 +53,15 @@ class AssertJMultipleFailuresError_getMessage_Test {
     // THEN
     then(error).hasMessage(format("%nMultiple Failures (10 failures)%n" +
                                   "-- failure 1 --%n" +
-                                  "Expecting empty but was:<[\"\"]>%n" +
+                                  "Expecting empty but was: [\"\"]%n" +
                                   "-- failure 2 --%n" +
                                   "[isEmpty list] %n" +
-                                  "Expecting empty but was:<[\"a\", \"b\", \"c\"]>%n" +
+                                  "Expecting empty but was: [\"a\", \"b\", \"c\"]%n" +
                                   "-- failure 3 --%n" +
-                                  "Expecting empty but was:<\"abc\">%n" +
+                                  "Expecting empty but was: \"abc\"%n" +
                                   "-- failure 4 --%n" +
                                   "[isEmpty string] %n" +
-                                  "Expecting empty but was:<\"abc\">%n" +
+                                  "Expecting empty but was: \"abc\"%n" +
                                   "-- failure 5 --" +
                                   shouldBeEqualMessage("\"abc\"", "\"bcd\"") + "%n" +
                                   "-- failure 6 --%n" +

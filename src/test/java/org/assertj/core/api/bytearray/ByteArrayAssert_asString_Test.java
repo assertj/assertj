@@ -85,7 +85,7 @@ class ByteArrayAssert_asString_Test {
                                                        "-- failure 1 --",
                                                        shouldBeEqualMessage("\"foo\"", "\"bar\""),
                                                        "-- failure 2 --",
-                                                       "Expecting blank but was:<\"foo\">")
+                                                       "Expecting blank but was: \"foo\"")
                               .isExactlyInstanceOf(AssertJMultipleFailuresError.class);
   }
 

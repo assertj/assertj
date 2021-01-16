@@ -93,7 +93,7 @@ class ByteArrayAssert_asString_with_charset_Test {
                                                        "-- failure 1 --",
                                                        shouldBeEqualMessage("\"Gerçek\"", "\"bar\""),
                                                        "-- failure 2 --",
-                                                       "Expecting blank but was:<\"Gerçek\">")
+                                                       "Expecting blank but was: \"Gerçek\"")
                               .isExactlyInstanceOf(AssertJMultipleFailuresError.class);
   }
 

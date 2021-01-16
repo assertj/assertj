@@ -88,7 +88,7 @@ class ByteArrayAssert_asHexString_Test {
                                                        "-- failure 1 --",
                                                        shouldBeEqualMessage("\"FF0001\"", "\"010203\""),
                                                        "-- failure 2 --",
-                                                       "Expecting blank but was:<\"FF0001\">")
+                                                       "Expecting blank but was: \"FF0001\"")
                               .isExactlyInstanceOf(AssertJMultipleFailuresError.class);
   }
 
