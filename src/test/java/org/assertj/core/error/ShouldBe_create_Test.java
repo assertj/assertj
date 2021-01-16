@@ -32,10 +32,10 @@ class ShouldBe_create_Test {
   @Test
   void should_create_error_message() {
     // GIVEN
-    ErrorMessageFactory factory = shouldBe("Yoda", new TestCondition<String>("green"));
+    ErrorMessageFactory factory = shouldBe("Yoda", new TestCondition<>("green"));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n <\"Yoda\">%nto be <green>"));
+    then(message).isEqualTo(format("[Test] %nExpecting:%n  \"Yoda\"%nto be green"));
   }
 }

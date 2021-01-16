@@ -46,11 +46,11 @@ public class ShouldBeInstance extends BasicErrorMessageFactory {
   private ShouldBeInstance(Object object, Class<?> type) {
     super("%n" +
           "Expecting:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "to be an instance of:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "but was instance of:%n" +
-          "  <%s>",
+          "  %s",
           object, type, object.getClass());
   }
 

@@ -67,7 +67,7 @@ class ConditionBuiltWithPredicateTest implements WithAssertions {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat("Vader").is(jedi))
                                                    .withMessage(format("%n" +
                                                                        "Expecting:%n" +
-                                                                       " <\"Vader\">%n" +
-                                                                       "to be <a jedi>"));
+                                                                       "  \"Vader\"%n" +
+                                                                       "to be a jedi"));
   }
 }

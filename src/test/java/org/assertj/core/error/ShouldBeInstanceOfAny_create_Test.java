@@ -45,11 +45,11 @@ class ShouldBeInstanceOfAny_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <\"Yoda\">%n" +
+                                   "  \"Yoda\"%n" +
                                    "to be an instance of any of:%n" +
-                                   " <[java.io.File, java.util.regex.Pattern]>%n" +
+                                   "  [java.io.File, java.util.regex.Pattern]%n" +
                                    "but was instance of:%n" +
-                                   " <java.lang.String>"));
+                                   "  java.lang.String"));
   }
 
   @Test

@@ -41,11 +41,11 @@ class ShouldBeInstance_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <\"Yoda\">%n" +
+                                   "  \"Yoda\"%n" +
                                    "to be an instance of:%n" +
-                                   "  <java.io.File>%n" +
+                                   "  java.io.File%n" +
                                    "but was instance of:%n" +
-                                   "  <java.lang.String>"));
+                                   "  java.lang.String"));
   }
 
   @Test

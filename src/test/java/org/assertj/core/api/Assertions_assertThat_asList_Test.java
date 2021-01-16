@@ -45,7 +45,7 @@ class Assertions_assertThat_asList_Test {
     Object nonList = new Object();
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(nonList).asList().isSorted())
-                                                   .withMessageContaining(format("an instance of:%n  <java.util.List>%nbut was instance of:%n  <java.lang.Object>"));
+                                                   .withMessageContaining(format("an instance of:%n  java.util.List%nbut was instance of:%n  java.lang.Object"));
   }
 
   @Test
