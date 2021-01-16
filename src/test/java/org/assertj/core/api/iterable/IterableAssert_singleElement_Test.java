@@ -43,7 +43,7 @@ class IterableAssert_singleElement_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(iterable).singleElement());
     // THEN
-    then(assertionError).hasMessageContaining("Expected size:<1> but was:<0>");
+    then(assertionError).hasMessageContaining("Expected size: 1 but was: 0");
   }
 
   @Test
@@ -59,7 +59,7 @@ class IterableAssert_singleElement_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(simpsons).singleElement());
     // THEN
-    then(assertionError).hasMessageContaining("Expected size:<1> but was:<5>");
+    then(assertionError).hasMessageContaining("Expected size: 1 but was: 5");
   }
 
   @Test

@@ -76,6 +76,6 @@ class ObjectArrayAssert_hasOnlyOneElementSatisfying_Test {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       Jedi[] jedis = { new Jedi("Yoda", "red"), new Jedi("Luke", "green") };
       assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("Y"));
-    }).withMessageContaining("Expected size:<1> but was:<2>");
+    }).withMessageContaining("Expected size: 1 but was: 2");
   }
 }

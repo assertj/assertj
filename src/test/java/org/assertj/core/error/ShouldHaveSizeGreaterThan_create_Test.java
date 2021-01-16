@@ -46,7 +46,7 @@ class ShouldHaveSizeGreaterThan_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting size of:%n"
-                                   + "  <\"ab\">%n"
+                                   + "  \"ab\"%n"
                                    + "to be greater than 4 but was 2"));
   }
 
@@ -57,7 +57,7 @@ class ShouldHaveSizeGreaterThan_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting size of:%n"
-                                   + "  <\"['0x0061', '0x0062']\">%n"
+                                   + "  \"['0x0061', '0x0062']\"%n"
                                    + "to be greater than 4 but was 2"));
   }
 }

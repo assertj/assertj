@@ -45,7 +45,7 @@ class ShouldHaveSize_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(String.format("[Test] %nExpected size:<2> but was:<4> in:%n<['a', 'b']>"));
+    then(message).isEqualTo(String.format("[Test] %nExpected size: 2 but was: 4 in:%n['a', 'b']"));
   }
 
   @Test
@@ -53,7 +53,7 @@ class ShouldHaveSize_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new HexadecimalRepresentation());
     // THEN
-    then(message).isEqualTo(String.format("[Test] %nExpected size:<2> but was:<4> in:%n<['0x0061', '0x0062']>"));
+    then(message).isEqualTo(String.format("[Test] %nExpected size: 2 but was: 4 in:%n['0x0061', '0x0062']"));
   }
 
   @Test
@@ -65,7 +65,7 @@ class ShouldHaveSize_create_Test {
     // THEN
     then(actualErrorMessage).isEqualTo(format("[Test] %n"
                                               + "Expecting file%n"
-                                              + "  <ab%%sc>%n"
+                                              + "  ab%%sc%n"
                                               + "to have a size of:%n"
                                               + "  3L bytes%n"
                                               + "but had:%n"

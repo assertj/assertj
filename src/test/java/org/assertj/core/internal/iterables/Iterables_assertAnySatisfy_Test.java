@@ -100,9 +100,9 @@ class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
                                                                                                            "to contain:%n" +
                                                                                                            "  \"W\" ")),
                                                                      unsatisfiedRequirement("Obiwan", format("%n" +
-                                                                                                             "Expected size:<4> but was:<6> in:%n"
+                                                                                                             "Expected size: 4 but was: 6 in:%n"
                                                                                                              +
-                                                                                                             "<\"Obiwan\">")));
+                                                                                                             "\"Obiwan\"")));
       verify(failures).failure(info, elementsShouldSatisfyAny(actual, errors, someInfo()));
   }
 

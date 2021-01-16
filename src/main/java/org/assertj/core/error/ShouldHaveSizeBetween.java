@@ -35,7 +35,7 @@ public class ShouldHaveSizeBetween extends BasicErrorMessageFactory {
   }
 
   private ShouldHaveSizeBetween(Object actual, int actualSize, int lowerBoundary, int higherBoundary) {
-    super(format("%nExpected size to be between: <%s> and <%s> but was:<%s> in:%n<%s>", lowerBoundary, higherBoundary,
+    super(format("%nExpected size to be between: %s and %s but was: %s in:%n%s", lowerBoundary, higherBoundary,
                  actualSize, "%s"),
           actual);
   }
