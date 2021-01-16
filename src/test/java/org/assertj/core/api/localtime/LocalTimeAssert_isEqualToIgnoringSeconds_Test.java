@@ -36,9 +36,9 @@ class LocalTimeAssert_isEqualToIgnoringSeconds_Test {
   void should_fail_if_actual_is_not_equal_to_given_localtimetime_with_second_ignored() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refLocalTime).isEqualToIgnoringSeconds(refLocalTime.plusMinutes(1)))
                                                    .withMessage(format("%nExpecting:%n" +
-                                                                       "  <23:51>%n" +
+                                                                       "  23:51%n" +
                                                                        "to have same hour and minute as:%n" +
-                                                                       "  <23:52>%n" +
+                                                                       "  23:52%n" +
                                                                        "but had not."));
   }
 
@@ -46,9 +46,9 @@ class LocalTimeAssert_isEqualToIgnoringSeconds_Test {
   void should_fail_as_seconds_fields_are_different_even_if_time_difference_is_less_than_a_second() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refLocalTime).isEqualToIgnoringSeconds(refLocalTime.minusNanos(1)))
                                                    .withMessage(format("%nExpecting:%n" +
-                                                                       "  <23:51>%n" +
+                                                                       "  23:51%n" +
                                                                        "to have same hour and minute as:%n" +
-                                                                       "  <23:50:59.999999999>%n" +
+                                                                       "  23:50:59.999999999%n" +
                                                                        "but had not."));
   }
 

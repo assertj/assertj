@@ -42,9 +42,9 @@ class OffsetDateTimeAssert_isEqualToIgnoringNanoseconds_Test {
     AssertionError assertionError = expectAssertionError(() -> assertThat(refOffsetDateTime).isEqualToIgnoringNanos(refOffsetDateTime.plusSeconds(1)));
     // THEN
     then(assertionError).hasMessage(format("%nExpecting:%n" +
-                                           "  <2000-01-01T00:00:01Z (java.time.OffsetDateTime)>%n" +
+                                           "  2000-01-01T00:00:01Z (java.time.OffsetDateTime)%n" +
                                            "to have same year, month, day, hour, minute and second as:%n" +
-                                           "  <2000-01-01T00:00:02Z (java.time.OffsetDateTime)>%n" +
+                                           "  2000-01-01T00:00:02Z (java.time.OffsetDateTime)%n" +
                                            "but had not."));
   }
 
@@ -55,9 +55,9 @@ class OffsetDateTimeAssert_isEqualToIgnoringNanoseconds_Test {
     // THEN
     then(assertionError).hasMessage(format("%n" +
                                            "Expecting:%n" +
-                                           "  <2000-01-01T00:00:01Z (java.time.OffsetDateTime)>%n" +
+                                           "  2000-01-01T00:00:01Z (java.time.OffsetDateTime)%n" +
                                            "to have same year, month, day, hour, minute and second as:%n" +
-                                           "  <2000-01-01T00:00:00.999999999Z (java.time.OffsetDateTime)>%n" +
+                                           "  2000-01-01T00:00:00.999999999Z (java.time.OffsetDateTime)%n" +
                                            "but had not."));
   }
 

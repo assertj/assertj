@@ -46,10 +46,10 @@ class OffsetDateTimeAssert_isEqualToIgnoringTimezone_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEqualToIgnoringTimezone(offsetDateTime));
     // THEN
-    then(assertionError).hasMessage(format("%nExpecting:%n  " +
-                                           "<2000-01-05T12:00+18:00 (java.time.OffsetDateTime)>%n" +
+    then(assertionError).hasMessage(format("%nExpecting:%n" +
+                                           "  2000-01-05T12:00+18:00 (java.time.OffsetDateTime)%n" +
                                            "to have same time fields except timezone as:%n" +
-                                           "  <2000-01-05T12:01Z (java.time.OffsetDateTime)>%n" +
+                                           "  2000-01-05T12:01Z (java.time.OffsetDateTime)%n" +
                                            "but had not."));
   }
 

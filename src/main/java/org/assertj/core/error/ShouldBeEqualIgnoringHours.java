@@ -34,6 +34,6 @@ public class ShouldBeEqualIgnoringHours extends BasicErrorMessageFactory {
   }
 
   private ShouldBeEqualIgnoringHours(Object actual, Object other) {
-    super("%nExpecting:%n  <%s>%nto have same year, month and day as:%n  <%s>%nbut had not.", actual, other);
+    super("%nExpecting:%n  %s%nto have same year, month and day as:%n  %s%nbut had not.", actual, other);
   }
 }

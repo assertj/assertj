@@ -41,9 +41,9 @@ class ZonedDateTimeAssert_isEqualToIgnoringMinutes_Test {
     // THEN
     then(assertionError).hasMessage(format("%n" +
                                            "Expecting:%n" +
-                                           "  <2000-01-01T23:00Z (java.time.ZonedDateTime)>%n" +
+                                           "  2000-01-01T23:00Z (java.time.ZonedDateTime)%n" +
                                            "to have same year, month, day and hour as:%n" +
-                                           "  <2000-01-01T22:59Z (java.time.ZonedDateTime)>%n" +
+                                           "  2000-01-01T22:59Z (java.time.ZonedDateTime)%n" +
                                            "but had not."));
   }
 
@@ -54,9 +54,9 @@ class ZonedDateTimeAssert_isEqualToIgnoringMinutes_Test {
     // THEN
     then(assertionError).hasMessage(format("%n" +
                                            "Expecting:%n" +
-                                           "  <2000-01-01T23:00Z (java.time.ZonedDateTime)>%n" +
+                                           "  2000-01-01T23:00Z (java.time.ZonedDateTime)%n" +
                                            "to have same year, month, day and hour as:%n" +
-                                           "  <2000-01-01T22:59:59.999999999Z (java.time.ZonedDateTime)>%n" +
+                                           "  2000-01-01T22:59:59.999999999Z (java.time.ZonedDateTime)%n" +
                                            "but had not."));
   }
 

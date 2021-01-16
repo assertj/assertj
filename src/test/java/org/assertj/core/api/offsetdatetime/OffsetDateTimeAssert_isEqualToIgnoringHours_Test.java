@@ -42,9 +42,9 @@ class OffsetDateTimeAssert_isEqualToIgnoringHours_Test {
     // THEN
     then(assertionError).hasMessage(format("%n" +
                                            "Expecting:%n" +
-                                           "  <2000-01-02T00:00Z (java.time.OffsetDateTime)>%n" +
+                                           "  2000-01-02T00:00Z (java.time.OffsetDateTime)%n" +
                                            "to have same year, month and day as:%n" +
-                                           "  <2000-01-01T23:00Z (java.time.OffsetDateTime)>%nbut had not."));
+                                           "  2000-01-01T23:00Z (java.time.OffsetDateTime)%nbut had not."));
   }
 
   @Test
@@ -54,9 +54,9 @@ class OffsetDateTimeAssert_isEqualToIgnoringHours_Test {
     // THEN
     then(assertionError).hasMessage(format("%n" +
                                            "Expecting:%n" +
-                                           "  <2000-01-02T00:00Z (java.time.OffsetDateTime)>%n" +
+                                           "  2000-01-02T00:00Z (java.time.OffsetDateTime)%n" +
                                            "to have same year, month and day as:%n" +
-                                           "  <2000-01-01T23:59:59.999999999Z (java.time.OffsetDateTime)>%n"
+                                           "  2000-01-01T23:59:59.999999999Z (java.time.OffsetDateTime)%n"
                                            + "but had not."));
   }
 

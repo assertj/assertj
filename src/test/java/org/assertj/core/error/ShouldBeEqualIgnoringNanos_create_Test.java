@@ -40,9 +40,9 @@ class ShouldBeEqualIgnoringNanos_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <12:00>%n" +
+                                   "  12:00%n" +
                                    "to have same hour, minute and second as:%n" +
-                                   "  <13:00>%n" +
+                                   "  13:00%n" +
                                    "but had not."));
   }
 
@@ -55,9 +55,9 @@ class ShouldBeEqualIgnoringNanos_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <12:00Z>%n" +
+                                   "  12:00Z%n" +
                                    "to have same hour, minute and second as:%n" +
-                                   "  <13:00Z>%n" +
+                                   "  13:00Z%n" +
                                    "but had not."));
   }
 }

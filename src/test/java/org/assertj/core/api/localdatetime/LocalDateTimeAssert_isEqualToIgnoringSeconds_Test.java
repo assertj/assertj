@@ -39,7 +39,7 @@ class LocalDateTimeAssert_isEqualToIgnoringSeconds_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(refLocalDateTime).isEqualToIgnoringSeconds(refLocalDateTime.plusMinutes(1)));
     // THEN
-    then(assertionError).hasMessage(format("%nExpecting:%n  <2000-01-01T23:51 (java.time.LocalDateTime)>%nto have same year, month, day, hour and minute as:%n  <2000-01-01T23:52 (java.time.LocalDateTime)>%nbut had not."));
+    then(assertionError).hasMessage(format("%nExpecting:%n  2000-01-01T23:51 (java.time.LocalDateTime)%nto have same year, month, day, hour and minute as:%n  2000-01-01T23:52 (java.time.LocalDateTime)%nbut had not."));
   }
 
   @Test
@@ -47,7 +47,7 @@ class LocalDateTimeAssert_isEqualToIgnoringSeconds_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(refLocalDateTime).isEqualToIgnoringSeconds(refLocalDateTime.minusNanos(1)));
     // THEN
-    then(assertionError).hasMessage(format("%nExpecting:%n  <2000-01-01T23:51 (java.time.LocalDateTime)>%nto have same year, month, day, hour and minute as:%n  <2000-01-01T23:50:59.999999999 (java.time.LocalDateTime)>%nbut had not."));
+    then(assertionError).hasMessage(format("%nExpecting:%n  2000-01-01T23:51 (java.time.LocalDateTime)%nto have same year, month, day, hour and minute as:%n  2000-01-01T23:50:59.999999999 (java.time.LocalDateTime)%nbut had not."));
   }
 
   @Test

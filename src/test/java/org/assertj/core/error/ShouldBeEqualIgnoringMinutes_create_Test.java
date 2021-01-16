@@ -40,9 +40,9 @@ class ShouldBeEqualIgnoringMinutes_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <12:00>%n" +
+                                   "  12:00%n" +
                                    "to have same hour as:%n" +
-                                   "  <12:01>%n" +
+                                   "  12:01%n" +
                                    "but had not."));
   }
 
@@ -56,9 +56,9 @@ class ShouldBeEqualIgnoringMinutes_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <12:00Z>%n" +
+                                   "  12:00Z%n" +
                                    "to have same hour as:%n" +
-                                   "  <12:01Z>%n" +
+                                   "  12:01Z%n" +
                                    "but had not."));
   }
 }
