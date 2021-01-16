@@ -38,9 +38,9 @@ class ShouldNotBeEqualIgnoringWhitespace_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <\" my\tfoo bar \">%n" +
+                                   "  \" my\tfoo bar \"%n" +
                                    "not to be equal to:%n" +
-                                   "  <\" my  foo bar \">%n" +
+                                   "  \" my  foo bar \"%n" +
                                    "ignoring whitespace differences"));
   }
 }

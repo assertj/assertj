@@ -23,9 +23,9 @@ public class ShouldNotBeEqualComparingFieldByFieldRecursively extends BasicError
     String recursiveComparisonConfigurationDescription = recursiveComparisonConfiguration.multiLineDescription(representation);
     return new ShouldNotBeEqualComparingFieldByFieldRecursively("%n" +
                                                                 "Expecting:%n" +
-                                                                "  <%s>%n" +
+                                                                "  %s%n" +
                                                                 "not to be equal to:%n" +
-                                                                "  <%s>%n" +
+                                                                "  %s%n" +
                                                                 "when recursively comparing field by field" +
                                                                 "%n" +
                                                                 "The recursive comparison was performed with this configuration:%n"
@@ -43,7 +43,7 @@ public class ShouldNotBeEqualComparingFieldByFieldRecursively extends BasicError
                                                                   "Expecting actual not to be equal to other but both are null.");
     return new ShouldNotBeEqualComparingFieldByFieldRecursively("%n" +
                                                                 "Expecting actual not to be equal to other but both refer to the same object (actual == other):%n"
-                                                                + "  <%s>%n", actual);
+                                                                + "  %s%n", actual);
   }
 
   private ShouldNotBeEqualComparingFieldByFieldRecursively(String message, Object... arguments) {

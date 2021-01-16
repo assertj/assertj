@@ -36,9 +36,9 @@ class ShouldNotBeEqualComparingFieldByFieldRecursively_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <\"Yoda\">%n" +
+                                   "  \"Yoda\"%n" +
                                    "not to be equal to:%n" +
-                                   "  <\"Luke\">%n" +
+                                   "  \"Luke\"%n" +
                                    "when recursively comparing field by field" +
                                    "%n" +
                                    "The recursive comparison was performed with this configuration:%n%s",
@@ -59,9 +59,9 @@ class ShouldNotBeEqualComparingFieldByFieldRecursively_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <\"Yoda\">%n" +
+                                   "  \"Yoda\"%n" +
                                    "not to be equal to:%n" +
-                                   "  <\"Luke\">%n" +
+                                   "  \"Luke\"%n" +
                                    "when recursively comparing field by field" +
                                    "%n" +
                                    "The recursive comparison was performed with this configuration:%n%s",
@@ -85,6 +85,6 @@ class ShouldNotBeEqualComparingFieldByFieldRecursively_create_Test {
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting actual not to be equal to other but both refer to the same object (actual == other):%n"
                                    +
-                                   "  <\"Luke\">%n"));
+                                   "  \"Luke\"%n"));
   }
 }

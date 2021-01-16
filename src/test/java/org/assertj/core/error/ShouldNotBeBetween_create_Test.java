@@ -40,9 +40,9 @@ class ShouldNotBeBetween_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <2009-01-01T00:00:00.000 (java.util.Date)>%n" +
+                                   "  2009-01-01T00:00:00.000 (java.util.Date)%n" +
                                    "not to be in period:%n" +
-                                   " [2011-01-01T00:00:00.000 (java.util.Date), 2012-01-01T00:00:00.000 (java.util.Date)]"));
+                                   "  [2011-01-01T00:00:00.000 (java.util.Date), 2012-01-01T00:00:00.000 (java.util.Date)]"));
   }
 
   @Test
@@ -55,9 +55,9 @@ class ShouldNotBeBetween_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <2012-01-01T00:00:00.000 (java.util.Date)>%n" +
+                                   "  2012-01-01T00:00:00.000 (java.util.Date)%n" +
                                    "not to be in period:%n" +
-                                   " [2011-01-01T00:00:00.000 (java.util.Date), 2012-01-01T00:00:00.000 (java.util.Date)["));
+                                   "  [2011-01-01T00:00:00.000 (java.util.Date), 2012-01-01T00:00:00.000 (java.util.Date)["));
   }
 
   @Test
@@ -70,9 +70,9 @@ class ShouldNotBeBetween_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <2011-01-01T00:00:00.000 (java.util.Date)>%n" +
+                                   "  2011-01-01T00:00:00.000 (java.util.Date)%n" +
                                    "not to be in period:%n" +
-                                   " ]2011-01-01T00:00:00.000 (java.util.Date), 2012-01-01T00:00:00.000 (java.util.Date)]"));
+                                   "  ]2011-01-01T00:00:00.000 (java.util.Date), 2012-01-01T00:00:00.000 (java.util.Date)]"));
   }
 
   @Test
@@ -85,8 +85,8 @@ class ShouldNotBeBetween_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <2011-01-01T00:00:00.000 (java.util.Date)>%n" +
+                                   "  2011-01-01T00:00:00.000 (java.util.Date)%n" +
                                    "not to be in period:%n" +
-                                   " ]2011-01-01T00:00:00.000 (java.util.Date), 2012-01-01T00:00:00.000 (java.util.Date)["));
+                                   "  ]2011-01-01T00:00:00.000 (java.util.Date), 2012-01-01T00:00:00.000 (java.util.Date)["));
   }
 }

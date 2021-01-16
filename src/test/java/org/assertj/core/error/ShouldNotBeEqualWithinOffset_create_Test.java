@@ -33,10 +33,10 @@ class ShouldNotBeEqualWithinOffset_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <8.0f>%n" +
+                                   "  8.0f%n" +
                                    "not to be close to:%n" +
-                                   "  <6.0f>%n" +
-                                   "by less than <5.0f> but difference was <2.0f>.%n" +
+                                   "  6.0f%n" +
+                                   "by less than 5.0f but difference was 2.0f.%n" +
                                    "(a difference of exactly <5.0f> being considered invalid)"));
   }
 
@@ -49,10 +49,10 @@ class ShouldNotBeEqualWithinOffset_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <8.0f>%n" +
+                                   "  8.0f%n" +
                                    "not to be close to:%n" +
-                                   "  <6.0f>%n" +
-                                   "by less than <5.0f> but difference was <2.0f>.%n" +
+                                   "  6.0f%n" +
+                                   "by less than 5.0f but difference was 2.0f.%n" +
                                    "(a difference of exactly <5.0f> being considered valid)"));
   }
 }

@@ -30,10 +30,10 @@ class ShouldNotBe_create_Test {
   @Test
   void should_create_error_message() {
     // GIVEN
-    ErrorMessageFactory factory = shouldNotBe("Yoda", new TestCondition<String>("Sith"));
+    ErrorMessageFactory factory = shouldNotBe("Yoda", new TestCondition<>("Sith"));
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(String.format("[Test] %nExpecting:%n <\"Yoda\">%nnot to be <Sith>"));
+    then(message).isEqualTo(String.format("[Test] %nExpecting:%n  \"Yoda\"%nnot to be  Sith"));
   }
 }

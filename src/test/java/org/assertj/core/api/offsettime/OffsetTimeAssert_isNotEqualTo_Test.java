@@ -45,9 +45,9 @@ class OffsetTimeAssert_isNotEqualTo_Test extends OffsetTimeAssertBaseTest {
                                                                                               ZoneOffset.UTC)).isNotEqualTo("03:00:05Z"))
                                                    .withMessage(format("%n" +
                                                                        "Expecting:%n" +
-                                                                       " <03:00:05Z>%n" +
+                                                                       "  03:00:05Z%n" +
                                                                        "not to be equal to:%n" +
-                                                                       " <03:00:05Z>%n"));
+                                                                       "  03:00:05Z%n"));
   }
 
   @Test

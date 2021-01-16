@@ -34,10 +34,10 @@ public class ShouldNotBeExactlyInstanceOf extends BasicErrorMessageFactory {
   }
 
   private ShouldNotBeExactlyInstanceOf(Object actual, Class<?> type) {
-    super("%nExpecting%n <%s>%nnot to be of exact type:%n <%s>", actual, type);
+    super("%nExpecting%n  %s%nnot to be of exact type:%n  %s", actual, type);
   }
 
   private ShouldNotBeExactlyInstanceOf(Throwable throwable, Class<?> type) {
-    super("%nExpecting%n <%s>%nnot to be of exact type:%n <%s>", getStackTrace(throwable), type);
+    super("%nExpecting%n  %s%nnot to be of exact type:%n  %s", getStackTrace(throwable), type);
   }
 }

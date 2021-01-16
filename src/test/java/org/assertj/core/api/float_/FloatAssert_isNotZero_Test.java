@@ -56,7 +56,7 @@ class FloatAssert_isNotZero_Test extends FloatAssertBaseTest {
 
     // THEN
     assertThat(error).isInstanceOf(AssertionError.class)
-                     .hasMessage(format("%nExpecting:%n <-0.0f>%nnot to be equal to:%n <0.0f>%n"));
+                     .hasMessage(format("%nExpecting:%n  -0.0f%nnot to be equal to:%n  0.0f%n"));
   }
 
   @Test
@@ -69,7 +69,7 @@ class FloatAssert_isNotZero_Test extends FloatAssertBaseTest {
 
     // THEN
     assertThat(error).isInstanceOf(AssertionError.class)
-                     .hasMessage(format("%nExpecting:%n <0.0f>%nnot to be equal to:%n <0.0f>%n"));
+                     .hasMessage(format("%nExpecting:%n  0.0f%nnot to be equal to:%n  0.0f%n"));
   }
 
   @Test
@@ -82,7 +82,7 @@ class FloatAssert_isNotZero_Test extends FloatAssertBaseTest {
 
     // THEN
     assertThat(error).isInstanceOf(AssertionError.class)
-                     .hasMessage(format("%nExpecting:%n <0.0f>%nnot to be equal to:%n <0.0f>%n"));
+                     .hasMessage(format("%nExpecting:%n  0.0f%nnot to be equal to:%n  0.0f%n"));
   }
 
 }

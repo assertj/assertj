@@ -37,9 +37,9 @@ class ShouldNotBeEqualIgnoringCase_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <\"Yoda\">%n" +
+                                   "  \"Yoda\"%n" +
                                    "not to be equal to:%n" +
-                                   "  <\"Luke\">%n" +
+                                   "  \"Luke\"%n" +
                                    "ignoring case considerations"));
   }
 }

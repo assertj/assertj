@@ -54,7 +54,7 @@ class ShouldNotBeEmpty_create_Test {
     // WHEN
     String message = underTest.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo("[Test] %nExpecting file <%s> not to be empty", file.getAbsolutePath());
+    then(message).isEqualTo("[Test] %nExpecting file %s not to be empty", file.getAbsolutePath());
   }
 
   @Test
@@ -65,7 +65,7 @@ class ShouldNotBeEmpty_create_Test {
     // WHEN
     String message = underTest.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting path <%s> not to be empty", path));
+    then(message).isEqualTo(format("[Test] %nExpecting path %s not to be empty", path));
   }
 
 }

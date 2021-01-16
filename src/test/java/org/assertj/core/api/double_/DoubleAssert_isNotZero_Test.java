@@ -51,7 +51,7 @@ class DoubleAssert_isNotZero_Test extends DoubleAssertBaseTest {
 
     // THEN
     assertThat(error).isInstanceOf(AssertionError.class)
-                     .hasMessage(format("%nExpecting:%n <-0.0>%nnot to be equal to:%n <0.0>%n"));
+                     .hasMessage(format("%nExpecting:%n  -0.0%nnot to be equal to:%n  0.0%n"));
   }
 
   @Test
@@ -64,7 +64,7 @@ class DoubleAssert_isNotZero_Test extends DoubleAssertBaseTest {
 
     // THEN
     assertThat(error).isInstanceOf(AssertionError.class)
-                     .hasMessage(format("%nExpecting:%n <0.0>%nnot to be equal to:%n <0.0>%n"));
+                     .hasMessage(format("%nExpecting:%n  0.0%nnot to be equal to:%n  0.0%n"));
   }
 
   @Test
@@ -75,7 +75,7 @@ class DoubleAssert_isNotZero_Test extends DoubleAssertBaseTest {
     // WHEN
     Throwable error = catchThrowable(() -> assertThat(positiveZero).isNotZero());
     assertThat(error).isInstanceOf(AssertionError.class)
-                     .hasMessage(format("%nExpecting:%n <0.0>%nnot to be equal to:%n <0.0>%n"));
+                     .hasMessage(format("%nExpecting:%n  0.0%nnot to be equal to:%n  0.0%n"));
   }
 
 }
