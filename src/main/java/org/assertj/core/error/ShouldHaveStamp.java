@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicStampedReference;
 
 public class ShouldHaveStamp extends BasicErrorMessageFactory {
 
-  private static final String SHOULD_HAVE_STAMP = "%nExpecting%n  <%s>%nto have stamp:%n  <%s>%nbut had:%n  <%s>";
+  private static final String SHOULD_HAVE_STAMP = "%nExpecting%n  %s%nto have stamp:%n  %s%nbut had:%n  %s";
 
   private ShouldHaveStamp(AtomicStampedReference<?> actual, int expectedStamp) {
     super(SHOULD_HAVE_STAMP, actual, expectedStamp, actual.getStamp());

@@ -52,7 +52,7 @@ class CompletableFutureAssert_isCompletedWithValueMatching_Test {
     AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("foo"),
                                                                                                                "is foo"));
     // THEN
-    assertThat(assertionError).hasMessageContaining("<\"done\">")
+    assertThat(assertionError).hasMessageContaining("\"done\"")
                               .hasMessageContaining("to match 'is foo' predicate");
   }
 
@@ -63,7 +63,7 @@ class CompletableFutureAssert_isCompletedWithValueMatching_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("foo")));
     // THEN
-    assertThat(assertionError).hasMessageContaining("<\"done\">")
+    assertThat(assertionError).hasMessageContaining("\"done\"")
                               .hasMessageContaining("to match given predicate")
                               .hasMessageContaining("a better error message");
   }

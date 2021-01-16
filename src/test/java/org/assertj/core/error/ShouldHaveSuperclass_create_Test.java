@@ -39,11 +39,11 @@ class ShouldHaveSuperclass_create_Test {
     // THEN
     then(message).isEqualTo(format("[TEST] %n" +
                                    "Expecting%n" +
-                                   "  <java.lang.String>%n" +
+                                   "  java.lang.String%n" +
                                    "to have superclass:%n" +
-                                   "  <java.lang.Integer>%n" +
+                                   "  java.lang.Integer%n" +
                                    "but had:%n" +
-                                   "  <java.lang.Object>"));
+                                   "  java.lang.Object"));
   }
 
   @Test
@@ -54,9 +54,9 @@ class ShouldHaveSuperclass_create_Test {
     // THEN
     then(message).isEqualTo(format("[TEST] %n" +
                                    "Expecting%n" +
-                                   "  <java.lang.Object>%n" +
+                                   "  java.lang.Object%n" +
                                    "to have superclass:%n" +
-                                   "  <java.lang.Integer>%n" +
+                                   "  java.lang.Integer%n" +
                                    "but had none."));
   }
 

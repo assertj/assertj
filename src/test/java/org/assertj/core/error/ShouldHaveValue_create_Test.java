@@ -32,7 +32,7 @@ class ShouldHaveValue_create_Test {
   private Person joe;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     joe = new Person();
     joe.name = "Joe";
     joe.age = 33;
@@ -47,12 +47,12 @@ class ShouldHaveValue_create_Test {
     String message = shouldHaveValue(updater, 33, 20, joe).create(TEST_DESCRIPTION, CONFIGURATION_PROVIDER.representation());
     // THEN
     then(message).isEqualTo(format("[TEST] %n" +
-                                   "Expecting <AtomicIntegerFieldUpdater> to have value:%n" +
-                                   "  <20>%n" +
+                                   "Expecting AtomicIntegerFieldUpdater to have value:%n" +
+                                   "  20%n" +
                                    "but had:%n" +
-                                   "  <33>%n" +
+                                   "  33%n" +
                                    "to update target object:%n" +
-                                   "  <Person [name=Joe, age=33, account=123456789]>"));
+                                   "  Person [name=Joe, age=33, account=123456789]"));
   }
 
   @Test
@@ -64,12 +64,12 @@ class ShouldHaveValue_create_Test {
                                                                           CONFIGURATION_PROVIDER.representation());
     // THEN
     then(message).isEqualTo(format("[TEST] %n" +
-                                   "Expecting <AtomicLongFieldUpdater> to have value:%n" +
-                                   "  <0L>%n" +
+                                   "Expecting AtomicLongFieldUpdater to have value:%n" +
+                                   "  0L%n" +
                                    "but had:%n" +
-                                   "  <123456789L>%n" +
+                                   "  123456789L%n" +
                                    "to update target object:%n" +
-                                   "  <Person [name=Joe, age=33, account=123456789]>"));
+                                   "  Person [name=Joe, age=33, account=123456789]"));
   }
 
   @Test
@@ -81,12 +81,12 @@ class ShouldHaveValue_create_Test {
                                                                          CONFIGURATION_PROVIDER.representation());
     // THEN
     then(message).isEqualTo(format("[TEST] %n" +
-                                   "Expecting <AtomicReferenceFieldUpdater> to have value:%n" +
-                                   "  <\"Jack\">%n" +
+                                   "Expecting AtomicReferenceFieldUpdater to have value:%n" +
+                                   "  \"Jack\"%n" +
                                    "but had:%n" +
-                                   "  <\"Joe\">%n" +
+                                   "  \"Joe\"%n" +
                                    "to update target object:%n" +
-                                   "  <Person [name=Joe, age=33, account=123456789]>"));
+                                   "  Person [name=Joe, age=33, account=123456789]"));
   }
 
   private static class Person {

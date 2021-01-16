@@ -34,7 +34,7 @@ class ShouldMatchPattern_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n \"Yoda\"%nto match pattern:%n \"Luke\""));
+    then(message).isEqualTo(format("[Test] %nExpecting:%n  \"Yoda\"%nto match pattern:%n  \"Luke\""));
   }
 
   @Test
@@ -44,6 +44,6 @@ class ShouldMatchPattern_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n \"%%%%E\"%nto match pattern:%n \"fffff\""));
+    then(message).isEqualTo(format("[Test] %nExpecting:%n  \"%%%%E\"%nto match pattern:%n  \"fffff\""));
   }
 }

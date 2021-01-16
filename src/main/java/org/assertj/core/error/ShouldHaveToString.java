@@ -19,6 +19,6 @@ public class ShouldHaveToString extends BasicErrorMessageFactory {
   }
 
   private ShouldHaveToString(Object actual, String expectedToString) {
-    super("%nExpecting actual's toString() to return:%n  <%s>%nbut was:%n  <%s>", expectedToString, actual.toString());
+    super("%nExpecting actual's toString() to return:%n  %s%nbut was:%n  %s", expectedToString, actual.toString());
   }
 }

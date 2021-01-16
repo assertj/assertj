@@ -44,7 +44,7 @@ class AtomicReferenceAssert_hasValueMatching_Test {
     // WHEN
     AssertionError error = expectAssertionError(() -> assertThat(actual).hasValueMatching(expectedValue::equalsIgnoreCase));
     // THEN
-    then(error).hasMessageContainingAll("<\"" + initialValue + "\">",
+    then(error).hasMessageContainingAll("\"" + initialValue + "\"",
                                         "to match given predicate",
                                         "a better error message");
   }
@@ -59,7 +59,7 @@ class AtomicReferenceAssert_hasValueMatching_Test {
     AssertionError error = expectAssertionError(() -> assertThat(actual).hasValueMatching(expectedValue::equalsIgnoreCase,
                                                                                           "is bar"));
     // THEN
-    then(error).hasMessageContainingAll("<\"" + initialValue + "\">", "to match 'is bar' predicate")
+    then(error).hasMessageContainingAll("\"" + initialValue + "\"", "to match 'is bar' predicate")
                .hasMessageNotContaining("a better error message");
   }
 

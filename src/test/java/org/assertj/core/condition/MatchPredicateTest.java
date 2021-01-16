@@ -44,7 +44,7 @@ class MatchPredicateTest implements WithAssertions {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(yoda).matches(x -> x.lightSaberColor.equals("Red")))
                                                    .withMessage(format("%n" +
                                                                        "Expecting:%n" +
-                                                                       "  <Yoda the Jedi>%n" +
+                                                                       "  Yoda the Jedi%n" +
                                                                        "to match given predicate.%n" +
                                                                        "%n" +
                                                                        "You can use 'matches(Predicate p, String description)' to have a better error message%n"
@@ -55,7 +55,7 @@ class MatchPredicateTest implements WithAssertions {
                                                                        "will give an error message looking like:%n" +
                                                                        "%n" +
                                                                        "Expecting:%n" +
-                                                                       "  <player>%n" +
+                                                                       "  player%n" +
                                                                        "to match 'is rookie' predicate"));
   }
 
@@ -66,7 +66,7 @@ class MatchPredicateTest implements WithAssertions {
                                                                                               "has red light saber"))
                                                    .withMessage(format("[check light saber] %n" +
                                                                        "Expecting:%n" +
-                                                                       "  <Yoda the Jedi>%n" +
+                                                                       "  Yoda the Jedi%n" +
                                                                        "to match 'has red light saber' predicate."));
   }
 

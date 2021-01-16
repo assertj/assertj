@@ -22,16 +22,16 @@ import java.util.StringJoiner;
 public class ShouldHaveSuperclass extends BasicErrorMessageFactory {
 
   private static final String SHOULD_HAVE_SUPERCLASS = new StringJoiner("%n", "%n", "").add("Expecting")
-                                                                                       .add("  <%s>")
+                                                                                       .add("  %s")
                                                                                        .add("to have superclass:")
-                                                                                       .add("  <%s>")
+                                                                                       .add("  %s")
                                                                                        .toString();
 
   private static final String BUT_HAD_NONE = new StringJoiner("%n", "%n", "").add("but had none.")
                                                                              .toString();
 
   private static final String BUT_HAD = new StringJoiner("%n", "%n", "").add("but had:")
-                                                                        .add("  <%s>")
+                                                                        .add("  %s")
                                                                         .toString();
 
   /**

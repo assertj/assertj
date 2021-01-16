@@ -33,7 +33,7 @@ public class ShouldMatch extends BasicErrorMessageFactory {
 	                                         "will give an error message looking like:%n" +
 	                                         "%n" +
 	                                         "Expecting:%n" +
-	                                         "  <player>%n" +
+	                                         "  player%n" +
 	                                         "to match 'is rookie' predicate");
   // @format:on
 
@@ -53,6 +53,6 @@ public class ShouldMatch extends BasicErrorMessageFactory {
   }
 
   private ShouldMatch(Object actual, PredicateDescription description) {
-    super("%nExpecting:%n  <%s>%nto match %s predicate." + (description.isDefault() ? ADVICE : ""), actual, description);
+    super("%nExpecting:%n  %s%nto match %s predicate." + (description.isDefault() ? ADVICE : ""), actual, description);
   }
 }

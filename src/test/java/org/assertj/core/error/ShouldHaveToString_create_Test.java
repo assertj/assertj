@@ -34,9 +34,9 @@ class ShouldHaveToString_create_Test {
     // THEN
     then(errorMessage).isEqualTo(format("[TEST] %n" +
                                         "Expecting actual's toString() to return:%n" +
-                                        "  <\"Luke the Jedi\">%n" +
+                                        "  \"Luke the Jedi\"%n" +
                                         "but was:%n" +
-                                        "  <\"Yoda the Jedi\">"));
+                                        "  \"Yoda the Jedi\""));
   }
 
 }

@@ -33,11 +33,11 @@ class ShouldHaveStamp_create_Test {
     // THEN
     then(message).isEqualTo(format("[TEST] %n" +
                                    "Expecting%n" +
-                                   "  <AtomicStampedReference[stamp=1234, reference=\"foo\"]>%n" +
+                                   "  AtomicStampedReference[stamp=1234, reference=\"foo\"]%n" +
                                    "to have stamp:%n" +
-                                   "  <5678>%n" +
+                                   "  5678%n" +
                                    "but had:%n" +
-                                   "  <1234>"));
+                                   "  1234"));
   }
 
 }
