@@ -44,7 +44,7 @@ class ShouldNotHaveDuplicates_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nFound duplicate(s):%n <[\"Yoda\"]>%nin:%n <[\"Yoda\", \"Yoda\", \"Luke\"]>%n"));
+    then(message).isEqualTo(format("[Test] %nFound duplicate(s):%n  [\"Yoda\"]%nin:%n  [\"Yoda\", \"Yoda\", \"Luke\"]%n"));
   }
 
   @Test
@@ -55,7 +55,7 @@ class ShouldNotHaveDuplicates_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nFound duplicate(s):%n <[\"Yoda\"]>%nin:%n <[\"Yoda\", \"Yoda\", \"Luke\"]>%n"
+    then(message).isEqualTo(format("[Test] %nFound duplicate(s):%n  [\"Yoda\"]%nin:%n  [\"Yoda\", \"Yoda\", \"Luke\"]%n"
                                    + "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

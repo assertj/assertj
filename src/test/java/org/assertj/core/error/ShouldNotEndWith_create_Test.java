@@ -41,9 +41,9 @@ class ShouldNotEndWith_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <[\"Yoda\", \"Luke\"]>%n" +
+                                   "  [\"Yoda\", \"Luke\"]%n" +
                                    "not to end with:%n" +
-                                   "  <[\"Han\", \"Leia\"]>%n"));
+                                   "  [\"Han\", \"Leia\"]%n"));
   }
 
   @Test
@@ -56,9 +56,9 @@ class ShouldNotEndWith_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <[\"Yoda\", \"Luke\"]>%n" +
+                                   "  [\"Yoda\", \"Luke\"]%n" +
                                    "not to end with:%n" +
-                                   "  <[\"Han\", \"Leia\"]>%n" +
+                                   "  [\"Han\", \"Leia\"]%n" +
                                    "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

@@ -39,6 +39,6 @@ class ShouldNotHave_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n <\"Yoda\">%nnot to have:%n <red lightsaber>"));
+    then(message).isEqualTo(format("[Test] %nExpecting:%n  \"Yoda\"%nnot to have:%n  red lightsaber"));
   }
 }

@@ -58,7 +58,7 @@ class NotThrownAssert_description_Test {
     then(assertionError).hasMessageStartingWith(format("[test description] %n" +
                                                        "Expecting code not to raise a throwable but caught%n"
                                                        +
-                                                       "  <\"java.lang.IllegalArgumentException"));
+                                                       "  \"java.lang.IllegalArgumentException"));
   }
 
 }

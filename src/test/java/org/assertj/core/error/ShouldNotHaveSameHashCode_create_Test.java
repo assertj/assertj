@@ -32,10 +32,10 @@ class ShouldNotHaveSameHashCode_create_Test {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %nExpecting%n" +
-                                   "  <Yoda the Jedi>%n" +
+                                   "  Yoda the Jedi%n" +
                                    "not to have the same hash code as:%n" +
-                                   "  <Yoda the Jedi>%n" +
+                                   "  Yoda the Jedi%n" +
                                    "hash code is%n" +
-                                   "  <88361505>"));
+                                   "  88361505"));
   }
 }

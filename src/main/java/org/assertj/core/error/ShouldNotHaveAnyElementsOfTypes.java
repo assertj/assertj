@@ -21,11 +21,11 @@ public class ShouldNotHaveAnyElementsOfTypes extends BasicErrorMessageFactory {
                                           Map<Class<?>, List<Object>> nonMatchingElementsByType) {
     super("%n" +
           "Expecting:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "to not have any elements of the following types:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "but found:%n" +
-          "  <%s>",
+          "  %s",
           actual, unexpectedTypes, nonMatchingElementsByType);
   }
 

@@ -20,11 +20,11 @@ public class ShouldNotHaveSameHashCode extends BasicErrorMessageFactory {
 
   private ShouldNotHaveSameHashCode(Object actual, Object other) {
     super("%nExpecting%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "not to have the same hash code as:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "hash code is%n" +
-          "  <%s>",
+          "  %s",
           actual, other, actual.hashCode());
   }
 }

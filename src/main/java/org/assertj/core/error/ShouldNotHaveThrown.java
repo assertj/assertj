@@ -21,6 +21,6 @@ public class ShouldNotHaveThrown extends BasicErrorMessageFactory {
   }
 
   private ShouldNotHaveThrown(Throwable throwable) {
-    super("%nExpecting code not to raise a throwable but caught%n  <%s>", getStackTrace(throwable));
+    super("%nExpecting code not to raise a throwable but caught%n  %s", getStackTrace(throwable));
   }
 }

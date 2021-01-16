@@ -48,10 +48,10 @@ class ShouldNotHaveAnyElementsOfTypes_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <[1, 2, 3.0, 4.1, 1]>%n" +
+                                   "  [1, 2, 3.0, 4.1, 1]%n" +
                                    "to not have any elements of the following types:%n" +
-                                   "  <[java.lang.Long, java.lang.Double, java.math.BigDecimal]>%n" +
+                                   "  [java.lang.Long, java.lang.Double, java.math.BigDecimal]%n" +
                                    "but found:%n" +
-                                   "  <{java.math.BigDecimal=[1], java.lang.Double=[3.0, 4.1]}>"));
+                                   "  {java.math.BigDecimal=[1], java.lang.Double=[3.0, 4.1]}"));
   }
 }

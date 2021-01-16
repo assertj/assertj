@@ -27,9 +27,9 @@ import java.nio.file.Path;
 public class ShouldNotExist extends BasicErrorMessageFactory {
 
   @VisibleForTesting
-  public static final String PATH_SHOULD_NOT_EXIST = "%nExpecting path:%n  <%s>%nnot to exist";
+  public static final String PATH_SHOULD_NOT_EXIST = "%nExpecting path:%n  %s%nnot to exist";
   @VisibleForTesting
-  public static final String FILE_SHOULD_NOT_EXIST = "%nExpecting file:%n  <%s>%nnot to exist";
+  public static final String FILE_SHOULD_NOT_EXIST = "%nExpecting file:%n  %s%nnot to exist";
 
   /**
    * Creates a new <code>{@link ShouldNotExist}</code>.

@@ -33,6 +33,6 @@ class ShouldNotHaveThrown_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting code not to raise a throwable but caught%n" +
-                                   "  <\"%s\">", getStackTrace(exception)));
+                                   "  \"%s\"", getStackTrace(exception)));
   }
 }
