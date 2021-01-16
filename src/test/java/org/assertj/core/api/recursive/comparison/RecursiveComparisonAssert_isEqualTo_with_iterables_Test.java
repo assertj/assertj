@@ -16,8 +16,10 @@ import static com.google.common.collect.Sets.newHashSet;
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.recursive.comparison.Author.authorsTreeSet;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Maps.newHashMap;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -32,6 +34,7 @@ import java.util.stream.Stream;
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
 import org.assertj.core.internal.objects.data.PersonDto;
 import org.assertj.core.test.Person;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -61,7 +64,10 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
     Optional<PersonDto> expectedAsOptional = Optional.of(sheldonDto);
     Map<String, PersonDto> expectedAsMap = newHashMap("sheldon", sheldonDto);
     Map<String, Person> actualAsMap = newHashMap("sheldon", sheldon);
-    return Stream.of(Arguments.of(actualAsIterable, expectAsIterable, diff("", actualAsIterable, expectAsIterable)),
+    return Stream.of(Arguments.of(actualAsIterable, expectAsIterable,
+                                  diff("", actualAsIterable, expectAsIterable,
+                                       format("The following actual elements were not matched in the expected HashSet:%n"
+                                              + "  [Person[name='Sheldon']]"))),
                      Arguments.of(actualAsArray, expectedAsArray, diff("[0]", sheldon, sheldonDto)),
                      Arguments.of(actualAsOptional, expectedAsOptional, diff("value", sheldon, sheldonDto)),
                      Arguments.of(actualAsMap, expectedAsMap, diff("", sheldon, sheldonDto)));
@@ -150,11 +156,17 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
                      // hashSet diff is at the collection level, not the element as in ordered collection where we can show the
                      // pair of different elements, this is why actual and expected are set and not element values.
                      Arguments.of(pratchettHashSet, newHashSet(none), "group",
-                                  pratchettHashSet, newHashSet(none), null),
+                                  pratchettHashSet, newHashSet(none),
+                                  format("The following actual elements were not matched in the expected HashSet:%n"
+                                         + "  [Author [name=Terry Pratchett]]")),
                      Arguments.of(newHashSet(none), pratchettHashSet, "group",
-                                  newHashSet(none), pratchettHashSet, null),
+                                  newHashSet(none), pratchettHashSet,
+                                  format("The following actual elements were not matched in the expected HashSet:%n"
+                                         + "  [null]")),
                      Arguments.of(pratchettHashSet, newHashSet(georgeMartin), "group",
-                                  pratchettHashSet, newHashSet(georgeMartin), null),
+                                  pratchettHashSet, newHashSet(georgeMartin),
+                                  format("The following actual elements were not matched in the expected HashSet:%n"
+                                         + "  [Author [name=Terry Pratchett]]")),
                      Arguments.of(authorsTreeSet(pratchett, georgeMartin), authorsTreeSet(pratchett), "group",
                                   authorsTreeSet(pratchett, georgeMartin), authorsTreeSet(pratchett),
                                   "actual and expected values are collections of different size, actual size=2 when expected size=1"),
@@ -193,6 +205,21 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
                                   "expected field is an iterable but actual field is not (org.assertj.core.api.recursive.comparison.Author[])"),
                      Arguments.of(pratchett, nonOrderedCollection, "group", pratchett, nonOrderedCollection,
                                   "expected field is an iterable but actual field is not (org.assertj.core.api.recursive.comparison.Author)"));
+  }
+
+  @Test
+  void should_report_unmatched_duplicate_elements_even_if_the_first_was_matched() {
+    // GIVEN
+    List<String> actual = list("aaa", "aaa");
+    List<String> expected = list("aaa", "bbb");
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison()
+                                                                                 // simulate unordered collection
+                                                                                 .ignoringCollectionOrder()
+                                                                                 .isEqualTo(expected));
+    // THEN
+    then(assertionError).hasMessageContaining(format("The following actual elements were not matched in the expected ArrayList:%n"
+                                                     + "  [aaa]"));
   }
 
   public static class WithCollection<E> {

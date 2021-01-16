@@ -411,7 +411,9 @@ public class RecursiveComparisonDifferenceCalculator {
     }
     // copy expected as we will remove elements found in actual
     Collection<?> expectedCopy = new LinkedList<>(toCollection(expected));
+    List<Object> unmatchedActualElements = list();
     for (Object actualElement : actual) {
+      boolean actualElementMatched = false;
       // compare recursively actualElement to all remaining expected elements
       Iterator<?> expectedIterator = expectedCopy.iterator();
       while (expectedIterator.hasNext()) {
@@ -421,20 +423,21 @@ public class RecursiveComparisonDifferenceCalculator {
                                                                       false, comparisonState.visitedDualValues,
                                                                       comparisonState.recursiveComparisonConfiguration);
         if (differences.isEmpty()) {
-          // we found an element in expected matching actualElement, we must remove it as if actual matches expected
-          // it means for each actual element there is one and only matching expected element.
+          // found an element in expected matching actualElement, remove it as it can't be used to match other actual elements
           expectedIterator.remove();
+          actualElementMatched = true;
           // jump to next actual element check
           break;
         }
       }
+      if (!actualElementMatched) unmatchedActualElements.add(actualElement);
     }
 
-    // expectedCopy not empty = there was at least one actual element not matching any expected elements.
-    if (!expectedCopy.isEmpty()) comparisonState.addDifference(dualValue);
-    // TODO instead we could register the diff between expected and actual that is:
-    // - unexpected actual elements (the ones not matching any expected)
-    // - expected elements not found in actual.
+    if (!unmatchedActualElements.isEmpty()) {
+      String unmatched = format("The following actual elements were not matched in the expected %s:%n  %s",
+                                expected.getClass().getSimpleName(), unmatchedActualElements);
+      comparisonState.addDifference(dualValue, unmatched);
+    }
   }
 
   private static <K, V> void compareSortedMap(DualValue dualValue, ComparisonState comparisonState) {

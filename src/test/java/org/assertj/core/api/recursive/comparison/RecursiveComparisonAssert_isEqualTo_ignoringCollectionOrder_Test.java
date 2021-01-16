@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.internal.objects.data.FriendlyPerson.friend;
 import static org.assertj.core.util.Arrays.array;
@@ -158,7 +159,9 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     compareRecursivelyFailsAsExpected(actual, expected);
 
     // THEN
-    ComparisonDifference friendsDifference = diff("friends", actual.friends, expected.friends);
+    ComparisonDifference friendsDifference = diff("friends", actual.friends, expected.friends,
+                                                  format("The following actual elements were not matched in the expected ArrayList:%n"
+                                                         + "  [Person [dateOfBirth=null, name=Dr. John Watson, phone=null, home=Home [address=Address [number=1]]]]"));
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, friendsDifference);
   }
 
@@ -228,7 +231,9 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     compareRecursivelyFailsAsExpected(actual, expected);
 
     // THEN
-    ComparisonDifference friendsDifference = diff("friends", actual.friends, expected.friends);
+    ComparisonDifference friendsDifference = diff("friends", actual.friends, expected.friends,
+                                                  format("The following actual elements were not matched in the expected ArrayList:%n"
+                                                         + "  [Person [dateOfBirth=null, name=Dr. John Watson, phone=null, home=Home [address=Address [number=1]]]]"));
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, friendsDifference);
   }
 
