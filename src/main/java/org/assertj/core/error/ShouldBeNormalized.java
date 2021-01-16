@@ -21,10 +21,9 @@ import java.nio.file.Path;
  *
  * @see Path#normalize()
  */
-public class ShouldBeNormalized extends BasicErrorMessageFactory
-{
+public class ShouldBeNormalized extends BasicErrorMessageFactory {
   @VisibleForTesting
-  public static final String SHOULD_BE_NORMALIZED = "Expected path:%n  <%s>%nto be normalized.";
+  public static final String SHOULD_BE_NORMALIZED = "Expected path:%n  %s%nto be normalized.";
 
   private ShouldBeNormalized(Path actual) {
 	super(SHOULD_BE_NORMALIZED, actual);

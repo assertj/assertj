@@ -29,6 +29,6 @@ public class ShouldBeOdd extends BasicErrorMessageFactory {
   }
 
   private ShouldBeOdd(Number actual) {
-    super("%nExpecting <%s> to be odd", actual);
+    super("%nExpecting %s to be odd", actual);
   }
 }

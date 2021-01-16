@@ -31,6 +31,6 @@ class ShouldNotBeMarkedCase_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting <AtomicMarkableReference[marked=true, reference=\"actual\"]> not to be a marked but was"));
+    then(message).isEqualTo(format("[Test] %nExpecting AtomicMarkableReference[marked=true, reference=\"actual\"] not to be a marked but was"));
   }
 }

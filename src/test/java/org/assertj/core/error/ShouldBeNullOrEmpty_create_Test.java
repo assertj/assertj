@@ -35,6 +35,6 @@ class ShouldBeNullOrEmpty_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(String.format("[Test] %nExpecting null or empty but was:<[\"Luke\", \"Yoda\"]>"));
+    then(message).isEqualTo(String.format("[Test] %nExpecting null or empty but was: [\"Luke\", \"Yoda\"]"));
   }
 }

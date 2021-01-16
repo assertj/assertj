@@ -35,7 +35,7 @@ class ShouldBePeriod_create_test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting Period:%n  <P-1M>%nto be positive"));
+    then(message).isEqualTo(format("[Test] %nExpecting Period:%n  P-1M%nto be positive"));
   }
 
   @Test
@@ -45,6 +45,6 @@ class ShouldBePeriod_create_test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting Period:%n  <P1M>%nto be negative"));
+    then(message).isEqualTo(format("[Test] %nExpecting Period:%n  P1M%nto be negative"));
   }
 }

@@ -39,7 +39,7 @@ class ShouldBeSortedAccordingToComparator_create_Test {
     // WHEN
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %ngroup is not sorted according to CaseInsensitiveStringComparator comparator because element 1:%n <\"c\">%nis not less or equal than element 2:%n <\"A\">%ngroup was:%n <[\"b\", \"c\", \"A\"]>"));
+    then(message).isEqualTo(format("[Test] %ngroup is not sorted according to CaseInsensitiveStringComparator comparator because element 1:%n  \"c\"%nis not less or equal than element 2:%n  \"A\"%ngroup was:%n  [\"b\", \"c\", \"A\"]"));
   }
 
   @Test
@@ -49,7 +49,7 @@ class ShouldBeSortedAccordingToComparator_create_Test {
     // WHEN
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %ngroup is not sorted according to StaticStringComparator comparator because element 1:%n <\"c\">%nis not less or equal than element 2:%n <\"a\">%ngroup was:%n <[\"b\", \"c\", \"a\"]>"));
+    then(message).isEqualTo(format("[Test] %ngroup is not sorted according to StaticStringComparator comparator because element 1:%n  \"c\"%nis not less or equal than element 2:%n  \"a\"%ngroup was:%n  [\"b\", \"c\", \"a\"]"));
   }
 
   private static class StaticStringComparator implements Comparator<String> {

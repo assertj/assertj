@@ -34,9 +34,9 @@ class ShouldBeSubstringOf_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <\"bcd\">%n" +
+                                   "  \"bcd\"%n" +
                                    "to be a substring of:%n" +
-                                   "  <\"abcdef\">%n"));
+                                   "  \"abcdef\"%n"));
   }
 
   @Test
@@ -49,9 +49,9 @@ class ShouldBeSubstringOf_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <\"bcd\">%n" +
+                                   "  \"bcd\"%n" +
                                    "to be a substring of:%n" +
-                                   "  <\"abcdef\">%n" +
+                                   "  \"abcdef\"%n" +
                                    "when comparing values using CaseInsensitiveStringComparator"));
   }
 

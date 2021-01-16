@@ -38,6 +38,6 @@ class ShouldBeOdd_create_Test {
     // WHEN
     String message = shouldBeOdd(actual).create(new TestDescription("TEST"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[TEST] %nExpecting <%d> to be odd", actual));
+    then(message).isEqualTo(format("[TEST] %nExpecting %d to be odd", actual));
   }
 }

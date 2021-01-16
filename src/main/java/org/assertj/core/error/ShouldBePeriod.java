@@ -19,7 +19,7 @@ import java.time.Period;
  */
 public class ShouldBePeriod extends BasicErrorMessageFactory {
 
-  private static final String EXPECTED_PREFIX = "%nExpecting Period:%n  <%s>%nto be ";
+  private static final String EXPECTED_PREFIX = "%nExpecting Period:%n  %s%nto be ";
 
   private ShouldBePeriod(Period actual, String metric) {
     super(EXPECTED_PREFIX + metric, actual);

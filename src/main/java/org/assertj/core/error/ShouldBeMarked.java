@@ -16,8 +16,8 @@ import java.util.concurrent.atomic.AtomicMarkableReference;
 
 public class ShouldBeMarked extends BasicErrorMessageFactory {
 
-  private static final String EXPECTING_TO_BE_MARKED = "%nExpecting <%s> to be a marked but was not";
-  private static final String EXPECTING_NOT_TO_BE_MARKED = "%nExpecting <%s> not to be a marked but was";
+  private static final String EXPECTING_TO_BE_MARKED = "%nExpecting %s to be a marked but was not";
+  private static final String EXPECTING_NOT_TO_BE_MARKED = "%nExpecting %s not to be a marked but was";
 
   public static ErrorMessageFactory shouldBeMarked(AtomicMarkableReference<?> actual) {
     return new ShouldBeMarked(actual, true);

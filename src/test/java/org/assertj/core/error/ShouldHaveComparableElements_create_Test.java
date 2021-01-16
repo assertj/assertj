@@ -32,6 +32,6 @@ class ShouldHaveComparableElements_create_Test {
     // WHEN
     String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(String.format("[Test] %nsome elements are not mutually comparable in group:%n<[\"b\", 5, \"a\"]>"));
+    then(message).isEqualTo(String.format("[Test] %nsome elements are not mutually comparable in group:%n  [\"b\", 5, \"a\"]"));
   }
 }
