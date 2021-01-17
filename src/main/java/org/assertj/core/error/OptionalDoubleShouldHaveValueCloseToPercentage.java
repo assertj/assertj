@@ -12,9 +12,9 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.data.Percentage;
-
 import java.util.OptionalDouble;
+
+import org.assertj.core.data.Percentage;
 
 /**
  * Build error message when an {@link java.util.OptionalDouble} should be close to an expected value within a positive
@@ -26,20 +26,20 @@ public class OptionalDoubleShouldHaveValueCloseToPercentage extends BasicErrorMe
 
   private OptionalDoubleShouldHaveValueCloseToPercentage(double expected) {
     super("%nExpecting an OptionalDouble with value:%n" +
-        "  <%s>%n" +
-        "but was empty.",
-      expected);
+          "  %s%n" +
+          "but was empty.",
+          expected);
   }
 
   private OptionalDoubleShouldHaveValueCloseToPercentage(OptionalDouble actual, double expected, Percentage percentage,
                                                          double expectedPercentage) {
     super("%nExpecting:%n" +
-        "  <%s>%n" +
-        "to be close to:%n" +
-        "  <%s>%n" +
-        "by less than %s but difference was %s%%.%n" +
-        "(a difference of exactly %s being considered valid)",
-      actual, expected, percentage, expectedPercentage, percentage);
+          "  %s%n" +
+          "to be close to:%n" +
+          "  %s%n" +
+          "by less than %s but difference was %s%%.%n" +
+          "(a difference of exactly %s being considered valid)",
+          actual, expected, percentage, expectedPercentage, percentage);
   }
 
   /**

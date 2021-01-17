@@ -21,6 +21,7 @@ import java.io.File;
 class FakeFile extends File {
   private final String absolutePath;
   private boolean noParent;
+  @SuppressWarnings("unused")
   private String parent;
 
   FakeFile(String absolutePath) {
@@ -34,7 +35,7 @@ class FakeFile extends File {
     this.noParent = noParent;
   }
 
-  FakeFile(String absolutePath, @SuppressWarnings("unused") String parent) {
+  FakeFile(String absolutePath, String parent) {
     super(absolutePath);
     this.absolutePath = absolutePath;
     this.parent = parent;

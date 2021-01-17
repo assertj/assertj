@@ -31,7 +31,7 @@ class ShouldBeAbstract_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <java.lang.String>%n" +
+                                   "  java.lang.String%n" +
                                    "to be abstract"));
   }
 }

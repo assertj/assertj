@@ -31,7 +31,7 @@ class ShouldAccept_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n  <given predicate>%nto accept <\"Yoda\"> but it did not."));
+    then(message).isEqualTo(format("[Test] %nExpecting:%n  given predicate%nto accept \"Yoda\" but it did not."));
   }
 
   @Test
@@ -42,7 +42,7 @@ class ShouldAccept_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n  <'green light saber' predicate>%nto accept <\"Yoda\"> but it did not."));
+    then(message).isEqualTo(format("[Test] %nExpecting:%n  'green light saber' predicate%nto accept \"Yoda\" but it did not."));
   }
 
   @Test

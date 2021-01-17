@@ -32,7 +32,7 @@ class Optional_ShouldBeEmpty_create_Test {
     // WHEN
     String errorMessage = shouldBeEmpty(Optional.of("not-empty")).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting an empty Optional but was containing value: <\"not-empty\">."));
+    then(errorMessage).isEqualTo(format("%nExpecting an empty Optional but was containing value: \"not-empty\""));
   }
 
   @Test
@@ -47,7 +47,7 @@ class Optional_ShouldBeEmpty_create_Test {
     // WHEN
     String errorMessage = shouldBeEmpty(OptionalDouble.of(1)).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting an empty OptionalDouble but was containing value: <1.0>."));
+    then(errorMessage).isEqualTo(format("%nExpecting an empty OptionalDouble but was containing value: 1.0"));
   }
 
   @Test
@@ -55,7 +55,7 @@ class Optional_ShouldBeEmpty_create_Test {
     // WHEN
     String errorMessage = shouldBeEmpty(OptionalInt.of(1)).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting an empty OptionalInt but was containing value: <1>."));
+    then(errorMessage).isEqualTo(format("%nExpecting an empty OptionalInt but was containing value: 1"));
   }
 
   @Test
@@ -63,6 +63,6 @@ class Optional_ShouldBeEmpty_create_Test {
     // WHEN
     String errorMessage = shouldBeEmpty(OptionalLong.of(1L)).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting an empty OptionalLong but was containing value: <1L>."));
+    then(errorMessage).isEqualTo(format("%nExpecting an empty OptionalLong but was containing value: 1L"));
   }
 }

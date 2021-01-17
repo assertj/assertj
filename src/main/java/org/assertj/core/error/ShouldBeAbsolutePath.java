@@ -12,23 +12,23 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.util.VisibleForTesting;
-
 import java.io.File;
 import java.nio.file.Path;
+
+import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a
  * {@link File} or {@link Path} is an absolute path
  * failed.
- * 
+ *
  * @author Yvonne Wang
  * @author Francis Galiegue
  */
 public class ShouldBeAbsolutePath extends BasicErrorMessageFactory {
 
   @VisibleForTesting
-  public static final String SHOULD_BE_ABSOLUTE_PATH = "%nExpecting:%n  <%s>%nto be an absolute path.";
+  public static final String SHOULD_BE_ABSOLUTE_PATH = "%nExpecting:%n  %s%nto be an absolute path.";
 
   /**
    * Creates a new <code>{@link ShouldBeAbsolutePath}</code>.

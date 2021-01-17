@@ -29,7 +29,7 @@ class OptionalDouble_ShouldHaveValueCloseToPercentage_create_Test {
     String errorMessage = shouldHaveValueCloseToPercentage(10.0).create();
     // THEN
     then(errorMessage).isEqualTo(format("%nExpecting an OptionalDouble with value:%n" +
-                                        "  <10.0>%n" +
+                                        "  10.0%n" +
                                         "but was empty."));
   }
 
@@ -38,9 +38,9 @@ class OptionalDouble_ShouldHaveValueCloseToPercentage_create_Test {
     // WHEN
     String errorMessage = shouldHaveValueCloseToPercentage(OptionalDouble.of(20), 10, withinPercentage(2), 3).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting:%n  <OptionalDouble[20.0]>%n" +
+    then(errorMessage).isEqualTo(format("%nExpecting:%n  OptionalDouble[20.0]%n" +
                                         "to be close to:%n" +
-                                        "  <10.0>%n" +
+                                        "  10.0%n" +
                                         "by less than 2%% but difference was 30.0%%.%n" +
                                         "(a difference of exactly 2%% being considered valid)"));
   }

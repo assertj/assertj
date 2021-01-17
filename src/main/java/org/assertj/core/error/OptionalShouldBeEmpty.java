@@ -25,7 +25,7 @@ import java.util.OptionalLong;
 public class OptionalShouldBeEmpty extends BasicErrorMessageFactory {
 
   private OptionalShouldBeEmpty(Class<?> optionalClass, Object optionalValue) {
-    super("%nExpecting an empty " + optionalClass.getSimpleName() + " but was containing value: <%s>.", optionalValue);
+    super("%nExpecting an empty " + optionalClass.getSimpleName() + " but was containing value: %s", optionalValue);
   }
 
   /**
