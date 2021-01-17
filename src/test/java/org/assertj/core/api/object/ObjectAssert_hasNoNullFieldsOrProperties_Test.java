@@ -51,9 +51,9 @@ class ObjectAssert_hasNoNullFieldsOrProperties_Test extends ObjectAssertBaseTest
                                                                                                                         "strangeNotReadablePrivateField"))
                                                    .withMessage(format("%n"
                                                                        + "Expecting%n"
-                                                                       + "  <Yoda the Jedi>%n"
-                                                                       + "not to have any null property or field, but <\"lightSaberColor\"> was null.%n"
-                                                                       + "Check was performed on all fields/properties except: <[\"name\", \"strangeNotReadablePrivateField\"]>"));
+                                                                       + "  Yoda the Jedi%n"
+                                                                       + "not to have any null property or field, but \"lightSaberColor\" was null.%n"
+                                                                       + "Check was performed on all fields/properties except: [\"name\", \"strangeNotReadablePrivateField\"]"));
   }
 
   @Test
@@ -63,8 +63,8 @@ class ObjectAssert_hasNoNullFieldsOrProperties_Test extends ObjectAssertBaseTest
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedi).hasNoNullFieldsOrProperties())
                                                    .withMessage(format("%n"
                                                                        + "Expecting%n"
-                                                                       + "  <Yoda the Jedi>%n"
-                                                                       + "not to have any null property or field, but <\"strangeNotReadablePrivateField\"> was null.%n"
+                                                                       + "  Yoda the Jedi%n"
+                                                                       + "not to have any null property or field, but \"strangeNotReadablePrivateField\" was null.%n"
                                                                        + "Check was performed on all fields/properties."));
   }
 
@@ -74,8 +74,8 @@ class ObjectAssert_hasNoNullFieldsOrProperties_Test extends ObjectAssertBaseTest
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedi).hasNoNullFieldsOrProperties())
                                                    .withMessage(format("%n"
                                                                        + "Expecting%n"
-                                                                       + "  <null the Jedi>%n"
-                                                                       + "to have a property or a field named <[\"lightSaberColor\", \"strangeNotReadablePrivateField\", \"name\"]>.%n"
+                                                                       + "  null the Jedi%n"
+                                                                       + "to have a property or a field named [\"lightSaberColor\", \"strangeNotReadablePrivateField\", \"name\"].%n"
                                                                        + "Check was performed on all fields/properties."));
   }
 
@@ -86,8 +86,8 @@ class ObjectAssert_hasNoNullFieldsOrProperties_Test extends ObjectAssertBaseTest
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(nobody).hasNoNullFieldsOrProperties())
                                                    .withMessage(format("%n"
                                                                        + "Expecting%n"
-                                                                       + "  <Person[name='null']>%n"
-                                                                       + "not to have any null property or field, but <\"name\"> was null.%n"
+                                                                       + "  Person[name='null']%n"
+                                                                       + "not to have any null property or field, but \"name\" was null.%n"
                                                                        + "Check was performed on all fields/properties."));
   }
 

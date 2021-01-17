@@ -30,6 +30,6 @@ public class ShouldHaveOnlyElementsOfType extends BasicErrorMessageFactory {
   }
 
   private ShouldHaveOnlyElementsOfType(Object actual, Class<?> expectedType, Class<?> unexpectedType) {
-    super("%nExpecting:%n  <%s>%nto only have elements of type:%n  <%s>%nbut found:%n  <%s>", actual, expectedType, unexpectedType);
+    super("%nExpecting:%n  %s%nto only have elements of type:%n  %s%nbut found:%n  %s", actual, expectedType, unexpectedType);
   }
 }

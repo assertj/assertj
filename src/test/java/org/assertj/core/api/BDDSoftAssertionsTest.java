@@ -325,13 +325,13 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(35)).contains(shouldBeEqualMessage("50", "51"));
     assertThat(errors.get(36)).contains(shouldBeEqualMessage("[52]", "[53]"));
     assertThat(errors.get(37)).contains(format("%nExpecting message to be:%n"
-                                               + "  <\"NullPointerException message\">%n"
+                                               + "  \"NullPointerException message\"%n"
                                                + "but was:%n"
-                                               + "  <\"IllegalArgumentException message\">"));
+                                               + "  \"IllegalArgumentException message\""));
     assertThat(errors.get(38)).contains(format("%nExpecting message to be:%n"
-                                               + "  <\"something was good\">%n"
+                                               + "  \"something was good\"%n"
                                                + "but was:%n"
-                                               + "  <\"something was wrong\">"));
+                                               + "  \"something was wrong\""));
     assertThat(errors.get(39)).contains(format("%nExpecting map:%n"
                                                + "  {\"54\"=\"55\"}%n"
                                                + "to contain:%n"

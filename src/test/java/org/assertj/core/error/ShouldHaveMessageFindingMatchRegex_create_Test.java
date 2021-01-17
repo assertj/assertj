@@ -34,9 +34,9 @@ class ShouldHaveMessageFindingMatchRegex_create_Test {
     // THEN
     then(errorMessage).isEqualTo("[TEST] %n" +
                                  "Expecting message:%n" +
-                                 "  <\"error %%s message\">%n" +
+                                 "  \"error %%s message\"%n" +
                                  "to be found for regex:%n" +
-                                 "  <\"regex\">%n" +
+                                 "  \"regex\"%n" +
                                  "but did not.%n" +
                                  "%n" +
                                  "Throwable that failed the check:%n" +

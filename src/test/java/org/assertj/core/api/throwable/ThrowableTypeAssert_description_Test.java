@@ -74,8 +74,8 @@ class ThrowableTypeAssert_description_Test {
       }).withMessage("other cause");
     }).withMessageStartingWith(format("[test description] %n" +
                                       "Expecting message to be:%n" +
-                                      "  <\"other cause\">%n" +
+                                      "  \"other cause\"%n" +
                                       "but was:%n" +
-                                      "  <\"some cause\">%n"));
+                                      "  \"some cause\"%n"));
   }
 }

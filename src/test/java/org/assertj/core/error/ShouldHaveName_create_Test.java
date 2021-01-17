@@ -37,11 +37,11 @@ class ShouldHaveName_create_Test {
     // THEN
     then(message).isEqualTo(String.format("[TEST] %n" +
                                           "Expecting%n" +
-                                          "  <" + actual + ">%n" +
+                                          "  " + actual + "%n" +
                                           "to have name:%n" +
-                                          "  <\"java\">%n" +
+                                          "  \"java\"%n" +
                                           "but had:%n" +
-                                          "  <\"actual-file\">"));
+                                          "  \"actual-file\""));
   }
 
 }

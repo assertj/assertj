@@ -30,9 +30,9 @@ public class ShouldHaveMessageFindingMatchRegex extends BasicErrorMessageFactory
   private ShouldHaveMessageFindingMatchRegex(Throwable actual, CharSequence regex) {
     super("%n" +
           "Expecting message:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "to be found for regex:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "but did not.%n" +
           "%n" +
           "Throwable that failed the check:%n" +

@@ -43,11 +43,11 @@ class ShouldHaveMethods_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  <org.assertj.core.test.Person>%n" +
+                                   "  org.assertj.core.test.Person%n" +
                                    "to have methods:%n" +
-                                   "  <[\"getAddress\", \"getName\"]>%n" +
+                                   "  [\"getAddress\", \"getName\"]%n" +
                                    "but could not find:%n" +
-                                   "  <[\"getAddress\"]>"));
+                                   "  [\"getAddress\"]"));
   }
 
   @Test
@@ -61,11 +61,11 @@ class ShouldHaveMethods_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  <org.assertj.core.test.Person>%n" +
+                                   "  org.assertj.core.test.Person%n" +
                                    "to have declared methods:%n" +
-                                   "  <[\"getAddress\", \"getName\"]>%n" +
+                                   "  [\"getAddress\", \"getName\"]%n" +
                                    "but could not find:%n" +
-                                   "  <[\"getAddress\"]>"));
+                                   "  [\"getAddress\"]"));
   }
 
   @Test
@@ -79,9 +79,9 @@ class ShouldHaveMethods_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  <org.assertj.core.test.Person>%n" +
+                                   "  org.assertj.core.test.Person%n" +
                                    "not to have any declared public methods but it has the following:%n" +
-                                   "  <[\"getName\"]>"));
+                                   "  [\"getName\"]"));
   }
 
   @Test
@@ -95,9 +95,9 @@ class ShouldHaveMethods_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  <org.assertj.core.test.Person>%n" +
+                                   "  org.assertj.core.test.Person%n" +
                                    "not to have any public methods but it has the following:%n" +
-                                   "  <[\"getName\"]>"));
+                                   "  [\"getName\"]"));
   }
 
   @Test
@@ -109,9 +109,9 @@ class ShouldHaveMethods_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  <org.assertj.core.test.Person>%n" +
+                                   "  org.assertj.core.test.Person%n" +
                                    "not to have any declared methods but it has the following:%n" +
-                                   "  <[\"getName\"]>"));
+                                   "  [\"getName\"]"));
   }
 
   @Test
@@ -123,9 +123,9 @@ class ShouldHaveMethods_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  <org.assertj.core.test.Person>%n" +
+                                   "  org.assertj.core.test.Person%n" +
                                    "not to have any methods but it has the following:%n" +
-                                   "  <[\"getName\"]>"));
+                                   "  [\"getName\"]"));
   }
 
   @Test
@@ -140,11 +140,11 @@ class ShouldHaveMethods_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  <org.assertj.core.test.Person>%n" +
+                                   "  org.assertj.core.test.Person%n" +
                                    "to have public methods:%n" +
-                                   "  <[\"finalize\"]>%n" +
+                                   "  [\"finalize\"]%n" +
                                    "but the following are not public:%n" +
-                                   "  <{\"finalize\"=\"protected\"}>"));
+                                   "  {\"finalize\"=\"protected\"}"));
   }
 
 }

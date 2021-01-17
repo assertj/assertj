@@ -21,14 +21,14 @@ import java.util.StringJoiner;
  */
 public class ShouldHavePackage extends BasicErrorMessageFactory {
   private static final String SHOULD_HAVE_PACKAGE = new StringJoiner("%n", "%n", "").add("Expecting")
-                                                                                    .add("  <%s>")
+                                                                                    .add("  %s")
                                                                                     .add("to have package:")
-                                                                                    .add("  <%s>")
+                                                                                    .add("  %s")
                                                                                     .toString();
   private static final String BUT_HAD_NONE = new StringJoiner("%n", "%n", "").add("but had none.")
                                                                              .toString();
   private static final String BUT_HAD = new StringJoiner("%n", "%n", "").add("but had:")
-                                                                        .add("  <%s>")
+                                                                        .add("  %s")
                                                                         .toString();
 
   /**

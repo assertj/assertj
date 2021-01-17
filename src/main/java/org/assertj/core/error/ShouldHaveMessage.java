@@ -34,9 +34,9 @@ public class ShouldHaveMessage extends BasicErrorMessageFactory {
   private ShouldHaveMessage(Throwable actual, String expectedMessage) {
     super("%n" +
           "Expecting message to be:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "but was:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "%n" +
           "Throwable that failed the check:%n" +
           "%n" + escapePercent(getStackTrace(actual)), // to avoid AssertJ default String formatting

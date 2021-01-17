@@ -41,11 +41,11 @@ class ShouldHavePackage_create_Test {
     // THEN
     then(message).isEqualTo(format("[TEST] %n" +
                                    "Expecting%n" +
-                                   "  <java.lang.Object>%n" +
+                                   "  java.lang.Object%n" +
                                    "to have package:%n" +
-                                   "  <\"java.util\">%n" +
+                                   "  \"java.util\"%n" +
                                    "but had:%n" +
-                                   "  <\"java.lang\">"));
+                                   "  \"java.lang\""));
   }
 
   @Test
@@ -56,9 +56,9 @@ class ShouldHavePackage_create_Test {
     // THEN
     then(message).isEqualTo(format("[TEST] %n" +
                                    "Expecting%n" +
-                                   "  <java.lang.Object[]>%n" +
+                                   "  java.lang.Object[]%n" +
                                    "to have package:%n" +
-                                   "  <\"java.util\">%n" +
+                                   "  \"java.util\"%n" +
                                    "but had none."));
   }
 
@@ -70,11 +70,11 @@ class ShouldHavePackage_create_Test {
     // THEN
     then(message).isEqualTo(format("[TEST] %n" +
                                    "Expecting%n" +
-                                   "  <java.lang.Object>%n" +
+                                   "  java.lang.Object%n" +
                                    "to have package:%n" +
-                                   "  <\"java.util\">%n" +
+                                   "  \"java.util\"%n" +
                                    "but had:%n" +
-                                   "  <\"java.lang\">"));
+                                   "  \"java.lang\""));
   }
 
   @Test
@@ -85,9 +85,9 @@ class ShouldHavePackage_create_Test {
     // THEN
     then(message).isEqualTo(format("[TEST] %n" +
                                    "Expecting%n" +
-                                   "  <java.lang.Object[]>%n" +
+                                   "  java.lang.Object[]%n" +
                                    "to have package:%n" +
-                                   "  <\"java.util\">%n" +
+                                   "  \"java.util\"%n" +
                                    "but had none."));
   }
 

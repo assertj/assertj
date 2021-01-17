@@ -109,9 +109,9 @@ class Assertions_assertThat_with_Throwable_Test {
     ThrowingCallable code = () -> assertThatThrownBy(raisingException("boom")).hasMessage("bam");
     // THEN
     assertThatAssertionErrorIsThrownBy(code).withMessageContainingAll("Expecting message to be:",
-                                                                      "<\"bam\">",
+                                                                      "\"bam\"",
                                                                       "but was:",
-                                                                      "<\"boom\">");
+                                                                      "\"boom\"");
   }
 
   @Test

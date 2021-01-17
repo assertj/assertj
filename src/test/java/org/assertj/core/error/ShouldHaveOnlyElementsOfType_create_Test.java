@@ -38,11 +38,11 @@ class ShouldHaveOnlyElementsOfType_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting:%n"
-                                   + "  <[\"Yoda\", 5L]>%n"
+                                   + "  [\"Yoda\", 5L]%n"
                                    + "to only have elements of type:%n"
-                                   + "  <java.lang.String>%n"
+                                   + "  java.lang.String%n"
                                    + "but found:%n"
-                                   + "  <java.lang.Long>"));
+                                   + "  java.lang.Long"));
   }
 
   @Test
@@ -55,11 +55,11 @@ class ShouldHaveOnlyElementsOfType_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting:%n"
-                                   + "  <[\"Yoda\", 5L]>%n"
+                                   + "  [\"Yoda\", 5L]%n"
                                    + "to only have elements of type:%n"
-                                   + "  <java.lang.String>%n"
+                                   + "  java.lang.String%n"
                                    + "but found:%n"
-                                   + "  <java.lang.Long>"));
+                                   + "  java.lang.Long"));
   }
 
 }

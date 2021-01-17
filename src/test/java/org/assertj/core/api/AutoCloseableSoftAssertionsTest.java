@@ -224,13 +224,13 @@ class AutoCloseableSoftAssertionsTest {
       assertThat(errors.get(35)).contains(shouldBeEqualMessage("50", "51"));
       assertThat(errors.get(36)).contains(shouldBeEqualMessage("[52]", "[53]"));
       assertThat(errors.get(37)).contains(format("%nExpecting message to be:%n"
-                                                 + "  <\"NullPointerException message\">%n"
+                                                 + "  \"NullPointerException message\"%n"
                                                  + "but was:%n"
-                                                 + "  <\"IllegalArgumentException message\">"));
+                                                 + "  \"IllegalArgumentException message\""));
       assertThat(errors.get(38)).contains(format("%nExpecting message to be:%n"
-                                                 + "  <\"something was good\">%n"
+                                                 + "  \"something was good\"%n"
                                                  + "but was:%n"
-                                                 + "  <\"something was wrong\">"));
+                                                 + "  \"something was wrong\""));
       assertThat(errors.get(39)).contains(shouldBeEqualMessage("Optional[bad option]", "Optional[good option]"));
       assertThat(errors.get(40)).contains(shouldBeEqualMessage("2015-01-01 (java.time.LocalDate)",
                                                                "2015-01-02 (java.time.LocalDate)"));

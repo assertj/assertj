@@ -31,9 +31,9 @@ class ShouldHaveMessage_create_Test {
     // THEN
     then(errorMessage).isEqualTo("[TEST] %n" +
                                  "Expecting message to be:%n" +
-                                 "  <\"expected error message\">%n" +
+                                 "  \"expected error message\"%n" +
                                  "but was:%n" +
-                                 "  <\"error message\">%n" +
+                                 "  \"error message\"%n" +
                                  "%n" +
                                  "Throwable that failed the check:%n" +
                                  "%n%s",
@@ -49,9 +49,9 @@ class ShouldHaveMessage_create_Test {
     // THEN
     then(errorMessage).isEqualTo("[TEST] %n" +
                                  "Expecting message to be:%n" +
-                                 "  <\"expected error message\">%n" +
+                                 "  \"expected error message\"%n" +
                                  "but was:%n" +
-                                 "  <\"%%3A\">%n" +
+                                 "  \"%%3A\"%n" +
                                  "%n" +
                                  "Throwable that failed the check:%n" +
                                  "%n%s",

@@ -41,7 +41,7 @@ class ShouldHaveNoParent_create_Test {
   private Representation representation;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     description = new TestDescription("Test");
     representation = new StandardRepresentation();
   }

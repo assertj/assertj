@@ -53,31 +53,31 @@ public class ShouldHaveMethods extends BasicErrorMessageFactory {
   private ShouldHaveMethods(Class<?> actual, Set<String> expected, Set<String> missing, boolean declared) {
     super("%n" +
           "Expecting%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "to have " + (declared ? "declared " : "") + "methods:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "but could not find:%n" +
-          "  <%s>", actual, expected, missing);
+          "  %s", actual, expected, missing);
   }
 
   private ShouldHaveMethods(Class<?> actual, Set<String> expected, String modifier, Map<String, String> nonMatching,
                             boolean declared) {
     super("%n" +
           "Expecting%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "to have " + (declared ? "declared " : "") + modifier + " " + "methods:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "but the following are not " + modifier + ":%n" +
-          "  <%s>", actual, expected, nonMatching);
+          "  %s", actual, expected, nonMatching);
   }
 
   private ShouldHaveMethods(Class<?> actual, String modifier, boolean declared,
                             Set<String> actualMethodsHavingModifier) {
     super("%n" +
           "Expecting%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "not to have any " + (declared ? "declared " : "")
           + (modifier != null && modifier.length() > 0 ? modifier + " " : "") + "methods but it has the following:%n" +
-          "  <%s>", actual, actualMethodsHavingModifier);
+          "  %s", actual, actualMethodsHavingModifier);
   }
 }

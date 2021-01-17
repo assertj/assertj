@@ -25,10 +25,10 @@ import java.nio.file.Path;
 public class ShouldHaveNoParent extends BasicErrorMessageFactory {
 
   @VisibleForTesting
-  public static final String PATH_HAS_PARENT = "%nExpected actual path:%n  <%s>%n not to have a parent, but parent was:%n  <%s>";
+  public static final String PATH_HAS_PARENT = "%nExpected actual path:%n  %s%n not to have a parent, but parent was:%n  %s";
 
   @VisibleForTesting
-  public static final String FILE_HAS_PARENT = "%nExpecting file (or directory):%n  <%s>%nnot to have a parent, but parent was:%n  <%s>";
+  public static final String FILE_HAS_PARENT = "%nExpecting file (or directory):%n  %s%nnot to have a parent, but parent was:%n  %s";
 
   /**
    * Creates a new <code>{@link ShouldHaveNoParent}</code>.

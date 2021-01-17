@@ -22,9 +22,9 @@ import java.util.StringJoiner;
 public class ShouldHaveNoSuperclass extends BasicErrorMessageFactory {
 
   private static final String SHOULD_HAVE_NO_SUPERCLASS = new StringJoiner("%n", "%n", "").add("Expecting")
-                                                                                          .add("  <%s>")
+                                                                                          .add("  %s")
                                                                                           .add("to have no superclass, but had:")
-                                                                                          .add("  <%s>")
+                                                                                          .add("  %s")
                                                                                           .toString();
 
   /**

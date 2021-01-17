@@ -38,9 +38,9 @@ class ShouldHaveNoSuperclass_create_Test {
     // THEN
     then(message).isEqualTo(format("[TEST] %n" +
                                    "Expecting%n" +
-                                   "  <java.lang.String>%n" +
+                                   "  java.lang.String%n" +
                                    "to have no superclass, but had:%n" +
-                                   "  <java.lang.Object>"));
+                                   "  java.lang.Object"));
   }
 
 }

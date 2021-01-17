@@ -209,9 +209,9 @@ class AutoCloseableBDDSoftAssertionsTest {
       assertThat(errors.get(35)).contains(shouldBeEqualMessage("50", "51"));
       assertThat(errors.get(36)).contains(shouldBeEqualMessage("[52]", "[53]"));
       assertThat(errors.get(37)).contains(format("%nExpecting message to be:%n"
-                                                 + "  <\"NullPointerException message\">%n"
+                                                 + "  \"NullPointerException message\"%n"
                                                  + "but was:%n"
-                                                 + "  <\"IllegalArgumentException message\">"));
+                                                 + "  \"IllegalArgumentException message\""));
 
       assertThat(errors.get(38)).contains(shouldBeEqualMessage("Optional[not empty]", "\"empty\""));
       assertThat(errors.get(39)).contains(shouldBeEqualMessage("OptionalInt[0]", "1"));

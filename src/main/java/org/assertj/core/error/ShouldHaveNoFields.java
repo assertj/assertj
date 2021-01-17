@@ -26,9 +26,9 @@ public class ShouldHaveNoFields extends BasicErrorMessageFactory {
 
   private ShouldHaveNoFields(Class<?> actual, Set<String> fields, boolean publik, boolean declared) {
     super("%nExpecting%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "not to have any " + fieldDescription(publik, declared) + " fields but it has:%n" +
-          "  <%s>", actual, fields);
+          "  %s", actual, fields);
   }
 
   private static String fieldDescription(boolean publik, boolean declared) {
