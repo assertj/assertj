@@ -45,7 +45,7 @@ class ShouldHaveParent_create_Test {
   private TestDescription description;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     description = new TestDescription("Test");
   }
 

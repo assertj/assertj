@@ -38,7 +38,7 @@ class ShouldHaveSameContent_create_Test {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveSameContent(new FakeFile("abc"), new FakeFile("xyz"), emptyList());
     // WHEN
-    String expectedErrorMessage = format("[Test] %nFile:%n  <abc>%nand file:%n  <xyz>%ndo not have same content:%n%n");
+    String expectedErrorMessage = format("[Test] %nFile:%n  abc%nand file:%n  xyz%ndo not have same content:%n%n");
     // THEN
     then(factory.create(new TextDescription("Test"), new StandardRepresentation())).isEqualTo(expectedErrorMessage);
   }

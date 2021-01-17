@@ -49,9 +49,9 @@ class ThrowableAssert_hasRootCause_Test extends ThrowableAssertBaseTest {
     // THEN
     assertThat(actual).hasMessage(format("%n"
                                          + "Expecting a root cause with type:%n"
-                                         + "  <\"java.lang.NullPointerException\">%n"
+                                         + "  \"java.lang.NullPointerException\"%n"
                                          + "but type was:%n"
-                                         + "  <\"java.lang.IllegalStateException\">."
+                                         + "  \"java.lang.IllegalStateException\"."
                                          + "%n"
                                          + "Throwable that failed the check:%n"
                                          + "%n%s",

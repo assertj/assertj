@@ -32,13 +32,13 @@ class ShouldHaveSameHashCode_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  <FixedHashCode[code=123]>%n" +
+                                   "  FixedHashCode[code=123]%n" +
                                    "to have the same hash code as:%n" +
-                                   "  <FixedHashCode[code=456]>%n" +
+                                   "  FixedHashCode[code=456]%n" +
                                    "but actual hash code is%n" +
-                                   "  <123>%n" +
+                                   "  123%n" +
                                    "while expected hash code was:%n" +
-                                   "  <456>"));
+                                   "  456"));
   }
 
   private static class FixedHashCode {

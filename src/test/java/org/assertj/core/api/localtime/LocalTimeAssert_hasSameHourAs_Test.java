@@ -37,9 +37,9 @@ class LocalTimeAssert_hasSameHourAs_Test {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refLocalTime).hasSameHourAs(refLocalTime.minusMinutes(1)))
                                                    .withMessage(format("%n" +
                                                                        "Expecting:%n" +
-                                                                       "  <23:00>%n" +
+                                                                       "  23:00%n" +
                                                                        "to have same hour as:%n" +
-                                                                       "  <22:59>%n" +
+                                                                       "  22:59%n" +
                                                                        "but had not."));
   }
 
@@ -48,9 +48,9 @@ class LocalTimeAssert_hasSameHourAs_Test {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refLocalTime).hasSameHourAs(refLocalTime.minusNanos(1)))
                                                    .withMessage(format("%n" +
                                                                        "Expecting:%n" +
-                                                                       "  <23:00>%n" +
+                                                                       "  23:00%n" +
                                                                        "to have same hour as:%n" +
-                                                                       "  <22:59:59.999999999>%n" +
+                                                                       "  22:59:59.999999999%n" +
                                                                        "but had not."));
   }
 

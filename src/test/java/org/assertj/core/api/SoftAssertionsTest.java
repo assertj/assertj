@@ -399,7 +399,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
       assertThat(errors.get(53)).contains(format("%nExpecting Duration:%n"
                                                  + "  10H%n"
                                                  + "to have 5L hours but had 10L"));
-      assertThat(errors.get(54)).contains(format("%nExpecting Period:%n <P1D>%nto have 2 days but had 1"));
+      assertThat(errors.get(54)).contains(format("%nExpecting Period:%n  P1D%nto have 2 days but had 1"));
     }
   }
 

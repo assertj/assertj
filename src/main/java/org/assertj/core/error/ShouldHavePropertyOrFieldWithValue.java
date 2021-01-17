@@ -34,7 +34,7 @@ public class ShouldHavePropertyOrFieldWithValue extends BasicErrorMessageFactory
   }
 
   private ShouldHavePropertyOrFieldWithValue(Object actual, String name, Object expectedValue, Object actualValue) {
-    super("%nExpecting%n  <%s>%nto have a property or a field named <%s> with value%n  <%s>%nbut value was:%n  <%s>%n(static and synthetic fields are ignored)",
+    super("%nExpecting%n  %s%nto have a property or a field named %s with value%n  %s%nbut value was:%n  %s%n(static and synthetic fields are ignored)",
           actual, name, expectedValue, actualValue);
   }
 }

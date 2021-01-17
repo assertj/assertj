@@ -34,6 +34,6 @@ class ShouldHaveSameClass_create_Test {
     // WHEN
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting%n <\"Yoda\">%nto have the same class as:%n <10L>(<java.lang.Long>) %nbut its class was:<java.lang.String>"));
+    then(message).isEqualTo(format("[Test] %nExpecting%n  \"Yoda\"%nto have the same class as:%n  10L(java.lang.Long) %nbut its class was: java.lang.String"));
   }
 }

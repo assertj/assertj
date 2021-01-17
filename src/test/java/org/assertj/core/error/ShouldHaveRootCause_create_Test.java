@@ -65,9 +65,9 @@ class ShouldHaveRootCause_create_Test {
     // THEN
     then(message).isEqualTo(format("[TEST] %n"
                                    + "Expecting a root cause with type:%n"
-                                   + "  <\"java.lang.RuntimeException\">%n"
+                                   + "  \"java.lang.RuntimeException\"%n"
                                    + "and message:%n"
-                                   + "  <\"hello\">%n"
+                                   + "  \"hello\"%n"
                                    + "but actual had no root cause."
                                    + "%n"
                                    + "Throwable that failed the check:%n"
@@ -86,9 +86,9 @@ class ShouldHaveRootCause_create_Test {
     // THEN
     then(message).isEqualTo(format("[TEST] %n"
                                    + "Expecting a root cause with type:%n"
-                                   + "  <\"java.lang.RuntimeException\">%n"
+                                   + "  \"java.lang.RuntimeException\"%n"
                                    + "but type was:%n"
-                                   + "  <\"java.lang.IllegalArgumentException\">."
+                                   + "  \"java.lang.IllegalArgumentException\"."
                                    + "%n"
                                    + "Throwable that failed the check:%n"
                                    + "%n%s",
@@ -106,9 +106,9 @@ class ShouldHaveRootCause_create_Test {
     // THEN
     then(message).isEqualTo(format("[TEST] %n"
                                    + "Expecting a root cause with message:%n"
-                                   + "  <\"wobble\">%n"
+                                   + "  \"wobble\"%n"
                                    + "but message was:%n"
-                                   + "  <\"wibble\">."
+                                   + "  \"wibble\"."
                                    + "%n"
                                    + "Throwable that failed the check:%n"
                                    + "%n%s",
@@ -126,13 +126,13 @@ class ShouldHaveRootCause_create_Test {
     // THEN
     then(message).isEqualTo(format("[TEST] %n"
                                    + "Expecting a root cause with type:%n"
-                                   + "  <\"java.lang.IllegalArgumentException\">%n"
+                                   + "  \"java.lang.IllegalArgumentException\"%n"
                                    + "and message:%n"
-                                   + "  <\"wobble\">%n"
+                                   + "  \"wobble\"%n"
                                    + "but type was:%n"
-                                   + "  <\"java.lang.RuntimeException\">%n"
+                                   + "  \"java.lang.RuntimeException\"%n"
                                    + "and message was:%n"
-                                   + "  <\"wibble\">."
+                                   + "  \"wibble\"."
                                    + "%n"
                                    + "Throwable that failed the check:%n"
                                    + "%n%s",
@@ -149,7 +149,7 @@ class ShouldHaveRootCause_create_Test {
     // THEN
     then(message).isEqualTo(format("[TEST] %n" +
                                    "Expecting a root cause with message:%n" +
-                                   "  <\"wobble\">%n" +
+                                   "  \"wobble\"%n" +
                                    "but actual had no root cause." +
                                    "%n" +
                                    "Throwable that failed the check:%n" +
@@ -168,9 +168,9 @@ class ShouldHaveRootCause_create_Test {
     // THEN
     then(message).isEqualTo(format("[TEST] %n" +
                                    "Expecting a root cause with message:%n" +
-                                   "  <\"wobble\">%n" +
+                                   "  \"wobble\"%n" +
                                    "but message was:%n" +
-                                   "  <\"wibble\">." +
+                                   "  \"wibble\"." +
                                    "%n" +
                                    "Throwable that failed the check:%n" +
                                    "%n%s",

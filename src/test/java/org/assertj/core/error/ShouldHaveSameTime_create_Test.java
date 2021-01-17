@@ -42,12 +42,12 @@ class ShouldHaveSameTime_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  <2011-01-01T05:01:00.000 (java.util.Date)>%n" +
+                                   "  2011-01-01T05:01:00.000 (java.util.Date)%n" +
                                    "to have the same time as:%n" +
-                                   "  <2011-01-01T05:01:01.000 (java.util.Date)>%n" +
+                                   "  2011-01-01T05:01:01.000 (java.util.Date)%n" +
                                    "but actual time is%n" +
-                                   "  <" + actual.getTime() + "L>%n" +
+                                   "  " + actual.getTime() + "L%n" +
                                    "and expected was:%n" +
-                                   "  <" + expected.getTime() + "L>"));
+                                   "  " + expected.getTime() + "L"));
   }
 }

@@ -34,11 +34,11 @@ class ShouldHavePropertyOrFieldWithValue_create_Test {
     // THEN
     then(message).isEqualTo(format("[TEST] %n" +
                                    "Expecting%n" +
-                                   "  <2>%n" +
-                                   "to have a property or a field named <\"foo\"> with value%n"
-                                   + "  <\"1\">%n"
+                                   "  2%n" +
+                                   "to have a property or a field named \"foo\" with value%n"
+                                   + "  \"1\"%n"
                                    + "but value was:%n"
-                                   + "  <\"2\">%n" +
+                                   + "  \"2\"%n" +
                                    "(static and synthetic fields are ignored)"));
   }
 }

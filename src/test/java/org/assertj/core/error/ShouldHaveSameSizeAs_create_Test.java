@@ -44,13 +44,13 @@ class ShouldHaveSameSizeAs_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Actual and expected should have same size but actual size is:%n" +
-                                   " <2>%n" +
+                                   "  2%n" +
                                    "while expected size is:%n" +
-                                   " <4>%n" +
+                                   "  4%n" +
                                    "Actual was:%n" +
-                                   " ['a', 'b']%n" +
+                                   "  ['a', 'b']%n" +
                                    "Expected was:%n" +
-                                   " ['a', 'b', 'c', 'd']"));
+                                   "  ['a', 'b', 'c', 'd']"));
   }
 
   @Test
@@ -60,12 +60,12 @@ class ShouldHaveSameSizeAs_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Actual and expected should have same size but actual size is:%n" +
-                                   " <2>%n" +
+                                   "  2%n" +
                                    "while expected size is:%n" +
-                                   " <4>%n" +
+                                   "  4%n" +
                                    "Actual was:%n" +
-                                   " ['0x0061', '0x0062']%n" +
+                                   "  ['0x0061', '0x0062']%n" +
                                    "Expected was:%n" +
-                                   " ['0x0061', '0x0062', '0x0063', '0x0064']"));
+                                   "  ['0x0061', '0x0062', '0x0063', '0x0064']"));
   }
 }

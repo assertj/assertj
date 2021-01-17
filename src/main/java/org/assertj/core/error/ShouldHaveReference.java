@@ -14,7 +14,7 @@ package org.assertj.core.error;
 
 public class ShouldHaveReference extends BasicErrorMessageFactory {
 
-  private static final String SHOULD_HAVE_REFERENCE = "%nExpecting%n  <%s>%nto have reference:%n  <%s>%nbut had:%n  <%s>";
+  private static final String SHOULD_HAVE_REFERENCE = "%nExpecting%n  %s%nto have reference:%n  %s%nbut had:%n  %s";
 
   private <REF> ShouldHaveReference(Object  actual, REF actualReference, REF expectedReference) {
     super(SHOULD_HAVE_REFERENCE, actual, expectedReference, actualReference);

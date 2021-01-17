@@ -37,11 +37,11 @@ class ShouldHaveReference_create_Test {
     // THEN
     then(message).isEqualTo(format("[TEST] %n" +
                                    "Expecting%n" +
-                                   "  <AtomicMarkableReference[marked=true, reference=\"foo\"]>%n" +
+                                   "  AtomicMarkableReference[marked=true, reference=\"foo\"]%n" +
                                    "to have reference:%n" +
-                                   "  <\"bar\">%n" +
+                                   "  \"bar\"%n" +
                                    "but had:%n" +
-                                   "  <\"foo\">"));
+                                   "  \"foo\""));
   }
 
   @Test
@@ -54,11 +54,11 @@ class ShouldHaveReference_create_Test {
     // THEN
     then(message).isEqualTo(format("[TEST] %n" +
                                    "Expecting%n" +
-                                   "  <AtomicStampedReference[stamp=123, reference=\"foo\"]>%n" +
+                                   "  AtomicStampedReference[stamp=123, reference=\"foo\"]%n" +
                                    "to have reference:%n" +
-                                   "  <\"bar\">%n" +
+                                   "  \"bar\"%n" +
                                    "but had:%n" +
-                                   "  <\"foo\">"));
+                                   "  \"foo\""));
   }
 
 }

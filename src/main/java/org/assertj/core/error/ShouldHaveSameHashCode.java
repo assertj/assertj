@@ -20,13 +20,13 @@ public class ShouldHaveSameHashCode extends BasicErrorMessageFactory {
 
   private ShouldHaveSameHashCode(Object actual, Object expected) {
     super("%nExpecting%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "to have the same hash code as:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "but actual hash code is%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "while expected hash code was:%n" +
-          "  <%s>",
+          "  %s",
           actual, expected, actual.hashCode(), expected.hashCode());
   }
 

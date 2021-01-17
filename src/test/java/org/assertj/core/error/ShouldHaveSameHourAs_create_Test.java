@@ -38,7 +38,7 @@ class ShouldHaveSameHourAs_create_Test {
     // WHEN
     String errorMessage = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(errorMessage).isEqualTo(format("[Test] %nExpecting:%n  <12:00>%nto have same hour as:%n  <13:00>%nbut had not."));
+    then(errorMessage).isEqualTo(format("[Test] %nExpecting:%n  12:00%nto have same hour as:%n  13:00%nbut had not."));
   }
 
   @Test
@@ -49,6 +49,6 @@ class ShouldHaveSameHourAs_create_Test {
     // WHEN
     String errorMessage = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(errorMessage).isEqualTo(format("[Test] %nExpecting:%n  <12:00Z>%nto have same hour as:%n  <13:00Z>%nbut had not."));
+    then(errorMessage).isEqualTo(format("[Test] %nExpecting:%n  12:00Z%nto have same hour as:%n  13:00Z%nbut had not."));
   }
 }

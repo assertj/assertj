@@ -21,7 +21,7 @@ public class ShouldHavePeriod extends BasicErrorMessageFactory {
 
   private static final String EXPECTED_PREFIX = "%n" +
                                                 "Expecting Period:%n" +
-                                                " <%s>%n" +
+                                                "  %s%n" +
                                                 "to have %s ";
 
   private ShouldHavePeriod(Period actual, int actualSpecific, int expectedSpecific, String metric) {

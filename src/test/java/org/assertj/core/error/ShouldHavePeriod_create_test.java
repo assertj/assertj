@@ -36,7 +36,7 @@ class ShouldHavePeriod_create_test {
     // WHEN
     String errorMessage = shouldHaveYears(period, actualYears, expectedYears).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Period:%n <P1Y>%nto have 2 years but had 1"));
+    then(errorMessage).isEqualTo(format("%nExpecting Period:%n  P1Y%nto have 2 years but had 1"));
   }
 
   @Test
@@ -48,7 +48,7 @@ class ShouldHavePeriod_create_test {
     // WHEN
     String errorMessage = shouldHaveYears(period, actualYears, expectedYears).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Period:%n <P2Y>%nto have 1 year but had 2"));
+    then(errorMessage).isEqualTo(format("%nExpecting Period:%n  P2Y%nto have 1 year but had 2"));
   }
 
   @Test
@@ -60,7 +60,7 @@ class ShouldHavePeriod_create_test {
     // WHEN
     String errorMessage = shouldHaveYears(period, actualYears, expectedYears).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Period:%n <P2Y>%nto have -1 year but had 2"));
+    then(errorMessage).isEqualTo(format("%nExpecting Period:%n  P2Y%nto have -1 year but had 2"));
   }
 
   @Test
@@ -72,7 +72,7 @@ class ShouldHavePeriod_create_test {
     // WHEN
     String errorMessage = shouldHaveDays(period, actualDays, expectedDays).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Period:%n <P1D>%nto have 2 days but had 1"));
+    then(errorMessage).isEqualTo(format("%nExpecting Period:%n  P1D%nto have 2 days but had 1"));
   }
 
   @Test
@@ -84,7 +84,7 @@ class ShouldHavePeriod_create_test {
     // WHEN
     String errorMessage = shouldHaveDays(period, actualDays, expectedDays).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Period:%n <P2D>%nto have 1 day but had 2"));
+    then(errorMessage).isEqualTo(format("%nExpecting Period:%n  P2D%nto have 1 day but had 2"));
   }
 
   @Test
@@ -96,7 +96,7 @@ class ShouldHavePeriod_create_test {
     // WHEN
     String errorMessage = shouldHaveDays(period, actualDays, expectedDays).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Period:%n <P1D>%nto have -1 day but had 1"));
+    then(errorMessage).isEqualTo(format("%nExpecting Period:%n  P1D%nto have -1 day but had 1"));
   }
 
   @Test
@@ -108,7 +108,7 @@ class ShouldHavePeriod_create_test {
     // WHEN
     String errorMessage = shouldHaveMonths(period, actualMonths, expectedMonths).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Period:%n <P1M>%nto have 2 months but had 1"));
+    then(errorMessage).isEqualTo(format("%nExpecting Period:%n  P1M%nto have 2 months but had 1"));
   }
 
   @Test
@@ -120,7 +120,7 @@ class ShouldHavePeriod_create_test {
     // WHEN
     String errorMessage = shouldHaveMonths(period, actualMonths, expectedMonths).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Period:%n <P2M>%nto have 1 month but had 2"));
+    then(errorMessage).isEqualTo(format("%nExpecting Period:%n  P2M%nto have 1 month but had 2"));
   }
 
   @Test
@@ -132,6 +132,6 @@ class ShouldHavePeriod_create_test {
     // WHEN
     String errorMessage = shouldHaveMonths(period, actualMonths, expectedMonths).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Period:%n <P2M>%nto have -1 month but had 2"));
+    then(errorMessage).isEqualTo(format("%nExpecting Period:%n  P2M%nto have -1 month but had 2"));
   }
 }

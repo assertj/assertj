@@ -37,13 +37,13 @@ public class ShouldHaveRootCauseExactlyInstance extends BasicErrorMessageFactory
 
   private ShouldHaveRootCauseExactlyInstance(Throwable actual, Class<? extends Throwable> expectedCauseType) {
     super(
-        "%nExpecting a throwable with root cause being exactly an instance of:%n <%s>%nbut was an instance of:%n <%s>",
+        "%nExpecting a throwable with root cause being exactly an instance of:%n  %s%nbut was an instance of:%n  %s",
         expectedCauseType, Throwables.getRootCause(actual));
   }
 
   private ShouldHaveRootCauseExactlyInstance(Class<? extends Throwable> expectedCauseType) {
     super(
-        "%nExpecting a throwable with root cause being exactly an instance of:%n <%s>%nbut current throwable has no cause.",
+        "%nExpecting a throwable with root cause being exactly an instance of:%n  %s%nbut current throwable has no cause.",
         expectedCauseType);
   }
 }

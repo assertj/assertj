@@ -34,13 +34,13 @@ public class ShouldHaveSameTime extends BasicErrorMessageFactory {
 
   private ShouldHaveSameTime(Date actual, Date expected) {
     super("%nExpecting%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "to have the same time as:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "but actual time is%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "and expected was:%n" +
-          "  <%s>",
+          "  %s",
           actual, expected, actual.getTime(), expected.getTime());
   }
 }

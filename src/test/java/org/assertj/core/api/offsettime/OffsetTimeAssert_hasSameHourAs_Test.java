@@ -38,9 +38,9 @@ class OffsetTimeAssert_hasSameHourAs_Test {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refOffsetTime).hasSameHourAs(refOffsetTime.minusMinutes(1)))
                                                    .withMessage(format("%n" +
                                                                        "Expecting:%n" +
-                                                                       "  <23:00Z>%n" +
+                                                                       "  23:00Z%n" +
                                                                        "to have same hour as:%n" +
-                                                                       "  <22:59Z>%n" +
+                                                                       "  22:59Z%n" +
                                                                        "but had not."));
   }
 
@@ -49,9 +49,9 @@ class OffsetTimeAssert_hasSameHourAs_Test {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refOffsetTime).hasSameHourAs(refOffsetTime.minusNanos(1)))
                                                    .withMessage(format("%n" +
                                                                        "Expecting:%n" +
-                                                                       "  <23:00Z>%n" +
+                                                                       "  23:00Z%n" +
                                                                        "to have same hour as:%n" +
-                                                                       "  <22:59:59.999999999Z>%n" +
+                                                                       "  22:59:59.999999999Z%n" +
                                                                        "but had not."));
   }
 
