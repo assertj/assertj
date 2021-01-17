@@ -67,7 +67,7 @@ class SoftAssertionsLineNumberTest {
     // THEN
     assertThat(error).hasMessageContaining(format("%n"
                                                   + "Expecting Optional to contain:%n"
-                                                  + "  <\"Foo\">%n"
+                                                  + "  \"Foo\"%n"
                                                   + "but was empty.%n"
                                                   + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls(SoftAssertionsLineNumberTest.java:60)%n"))
                      .hasMessageContaining(format("%n"
@@ -75,9 +75,9 @@ class SoftAssertionsLineNumberTest {
                                                   + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls(SoftAssertionsLineNumberTest.java:62)%n"))
                      .hasMessageContaining(format("%n"
                                                   + "Expecting all elements of:%n"
-                                                  + "  <[\"a\", \"b\", \"C\"]>%n"
+                                                  + "  [\"a\", \"b\", \"C\"]%n"
                                                   + "to match given predicate but this element did not:%n"
-                                                  + "  <\"C\">%n"
+                                                  + "  \"C\"%n"
                                                   + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls(SoftAssertionsLineNumberTest.java:64)"));
   }
 
