@@ -34,9 +34,9 @@ public class ZippedElementsShouldSatisfy extends BasicErrorMessageFactory {
     // no use of %s for describe(zipSatisfyErrors) to avoid extra "" but need to make sure there is no extra/unwanted format flag
     super("%n" +
           "Expecting zipped elements of:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "and:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "to satisfy given requirements but these zipped elements did not:" + describe(info, zipSatisfyErrors),
           actual, other);
   }

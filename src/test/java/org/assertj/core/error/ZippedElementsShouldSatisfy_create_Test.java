@@ -26,7 +26,7 @@ import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ElementsShouldZipSatisfy_create_Test {
+class ZippedElementsShouldSatisfy_create_Test {
 
   private AssertionInfo info;
 
@@ -49,9 +49,9 @@ class ElementsShouldZipSatisfy_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting zipped elements of:%n" +
-                                   "  <[\"Luke\", \"Yo-da\"]>%n" +
+                                   "  [\"Luke\", \"Yo-da\"]%n" +
                                    "and:%n" +
-                                   "  <[\"LUKE\", \"YODA\"]>%n" +
+                                   "  [\"LUKE\", \"YODA\"]%n" +
                                    "to satisfy given requirements but these zipped elements did not:" +
                                    "%n%n- (\"Luke\", \"LUKE\")%n" +
                                    "error: error luke" +
@@ -73,9 +73,9 @@ class ElementsShouldZipSatisfy_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting zipped elements of:%n" +
-                                   "  <[\"Luke\", \"Yo-da\"]>%n" +
+                                   "  [\"Luke\", \"Yo-da\"]%n" +
                                    "and:%n" +
-                                   "  <[\"LU%%dKE\", \"YODA\"]>%n" +
+                                   "  [\"LU%%dKE\", \"YODA\"]%n" +
                                    "to satisfy given requirements but these zipped elements did not:" +
                                    "%n%n- (\"Luke\", \"LU%%dKE\")%n" +
                                    "error: error luke" +
