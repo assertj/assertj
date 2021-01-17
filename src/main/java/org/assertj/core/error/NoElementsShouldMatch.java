@@ -22,7 +22,7 @@ public class NoElementsShouldMatch extends BasicErrorMessageFactory {
   }
 
   private NoElementsShouldMatch(Object actual, Object satisfies, PredicateDescription predicateDescription) {
-    super("%nExpecting no elements of:%n  <%s>%nto match %s predicate but this element did:%n  <%s>", actual,
+    super("%nExpecting no elements of:%n  %s%nto match %s predicate but this element did:%n  %s", actual,
           predicateDescription, satisfies);
   }
 

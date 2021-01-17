@@ -21,9 +21,9 @@ public class NoElementsShouldSatisfy extends BasicErrorMessageFactory {
   private NoElementsShouldSatisfy(Object actual, Object faultyElement) {
     super("%n" +
           "Expecting no elements of:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "to satisfy the given assertions requirements but these elements did:%n" +
-          "  <%s>",
+          "  %s",
           actual, faultyElement);
   }
 

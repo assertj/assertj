@@ -32,9 +32,9 @@ class NoElementsShouldSatisfy_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting no elements of:%n" +
-                                   "  <[\"Luke\", \"Leia\", \"Yoda\"]>%n" +
+                                   "  [\"Luke\", \"Leia\", \"Yoda\"]%n" +
                                    "to satisfy the given assertions requirements but these elements did:%n" +
-                                   "  <[\"Luke\", \"Leia\"]>"));
+                                   "  [\"Luke\", \"Leia\"]"));
   }
 
   @Test
@@ -46,8 +46,8 @@ class NoElementsShouldSatisfy_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting no elements of:%n" +
-                                   "  <[\"Luke\", \"Leia%%s\", \"Yoda\"]>%n" +
+                                   "  [\"Luke\", \"Leia%%s\", \"Yoda\"]%n" +
                                    "to satisfy the given assertions requirements but these elements did:%n" +
-                                   "  <[\"Luke\", \"Leia%%s\"]>"));
+                                   "  [\"Luke\", \"Leia%%s\"]"));
   }
 }

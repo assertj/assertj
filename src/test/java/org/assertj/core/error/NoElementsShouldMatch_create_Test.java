@@ -37,9 +37,9 @@ class NoElementsShouldMatch_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting no elements of:%n" +
-                                   "  <[\"Luke\", \"Yoda\"]>%n" +
+                                   "  [\"Luke\", \"Yoda\"]%n" +
                                    "to match given predicate but this element did:%n" +
-                                   "  <\"Yoda\">"));
+                                   "  \"Yoda\""));
   }
 
   @Test
@@ -52,9 +52,9 @@ class NoElementsShouldMatch_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting no elements of:%n" +
-                                   "  <[\"Luke\", \"Yoda\"]>%n" +
+                                   "  [\"Luke\", \"Yoda\"]%n" +
                                    "to match 'custom' predicate but this element did:%n" +
-                                   "  <\"Yoda\">"));
+                                   "  \"Yoda\""));
   }
 
 }

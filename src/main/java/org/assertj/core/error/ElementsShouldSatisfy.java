@@ -29,7 +29,7 @@ public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
                                                              AssertionInfo info) {
     return new ElementsShouldSatisfy("%n" +
                                      "Expecting any element of:%n" +
-                                     "  <%s>%n" +
+                                     "  %s%n" +
                                      "to satisfy the given assertions requirements but none did:%n%n",
                                      actual, elementsNotSatisfyingRequirements, info);
   }
@@ -39,7 +39,7 @@ public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
                                                           AssertionInfo info) {
     return new ElementsShouldSatisfy("%n" +
                                      "Expecting all elements of:%n" +
-                                     "  <%s>%n" +
+                                     "  %s%n" +
                                      "to satisfy given requirements, but these elements did not:%n%n",
                                      actual, elementsNotSatisfyingRestrictions, info);
   }
@@ -49,7 +49,7 @@ public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
                                                                  AssertionInfo info) {
     return new ElementsShouldSatisfy("%n" +
                                      "Expecting each element of:%n" +
-                                     "  <%s>%n" +
+                                     "  %s%n" +
                                      "to satisfy the requirements at its index, but these elements did not:%n%n",
                                      actual, unsatisfiedRequirements, info);
   }

@@ -27,16 +27,16 @@ public class UnsatisfiedRequirement {
   }
 
   public String describe(AssertionInfo info) {
-    return format("<%s>%nerror: %s", info.representation().toStringOf(elementNotSatisfyingRequirements), errorMessage);
+    return format("%s%nerror: %s", info.representation().toStringOf(elementNotSatisfyingRequirements), errorMessage);
   }
 
   @Override
   public String toString() {
-    return format("<%s> %s", elementNotSatisfyingRequirements, errorMessage);
+    return format("%s %s", elementNotSatisfyingRequirements, errorMessage);
   }
 
   public String describe(int index, AssertionInfo info) {
-    return format("<%s>%n" +
+    return format("%s%n" +
                   "- element index: %s%n" +
                   "- error: %s",
                   info.representation().toStringOf(elementNotSatisfyingRequirements), index, errorMessage);

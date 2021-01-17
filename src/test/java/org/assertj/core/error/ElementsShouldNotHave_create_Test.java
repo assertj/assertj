@@ -38,7 +38,11 @@ class ElementsShouldNotHave_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting elements:%n<[\"Leia\"]>%n of %n<[\"Yoda\", \"Luke\", \"Leia\"]>%n not to have <jedi power>"));
+    then(message).isEqualTo(format("[Test] %nExpecting elements:%n"
+                                   + "  [\"Leia\"]%n"
+                                   + "of%n"
+                                   + "  [\"Yoda\", \"Luke\", \"Leia\"]%n"
+                                   + "not to have jedi power"));
   }
 
 }

@@ -33,9 +33,9 @@ class ElementsShouldMatch_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting all elements of:%n" +
-                                   "  <[\"Luke\", \"Yoda\"]>%n" +
+                                   "  [\"Luke\", \"Yoda\"]%n" +
                                    "to match given predicate but this element did not:%n" +
-                                   "  <\"Yoda\">"));
+                                   "  \"Yoda\""));
   }
 
   @Test
@@ -49,9 +49,9 @@ class ElementsShouldMatch_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting all elements of:%n" +
-                                   "  <[\"Luke\", \"Yoda\"]>%n" +
+                                   "  [\"Luke\", \"Yoda\"]%n" +
                                    "to match given predicate but these elements did not:%n" +
-                                   "  <[\"Luke\", \"Yoda\"]>"));
+                                   "  [\"Luke\", \"Yoda\"]"));
   }
 
   @Test
@@ -64,9 +64,9 @@ class ElementsShouldMatch_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting all elements of:%n" +
-                                   "  <[\"Luke\", \"Yoda\"]>%n" +
+                                   "  [\"Luke\", \"Yoda\"]%n" +
                                    "to match 'custom' predicate but this element did not:%n" +
-                                   "  <\"Yoda\">"));
+                                   "  \"Yoda\""));
   }
 
 }

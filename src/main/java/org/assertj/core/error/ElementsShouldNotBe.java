@@ -17,7 +17,7 @@ import org.assertj.core.api.Condition;
 /**
  * Creates an error message indicating that an assertion that not verifies that each element of a group satisfies a
  * {@code Condition} A group of elements can be a collection, an array.<br>
- * 
+ *
  * @author Nicolas François
  * @author Mikhail Mazursky
  * @author Joel Costigliola
@@ -36,6 +36,6 @@ public class ElementsShouldNotBe extends BasicErrorMessageFactory {
   }
 
   private ElementsShouldNotBe(Object actual, Object satisfies, Condition<?> condition) {
-    super("%nExpecting elements:%n<%s>%n of %n<%s>%n not to be <%s>", satisfies, actual, condition);
+    super("%nExpecting elements:%n  %s%nof%n  %s%nnot to be <%s>", satisfies, actual, condition);
   }
 }

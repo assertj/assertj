@@ -50,11 +50,11 @@ class ElementsShouldSatisfy_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting all elements of:%n" +
-                                   "  <[\"Leia\", \"Luke\", \"Yoda\"]>%n" +
+                                   "  [\"Leia\", \"Luke\", \"Yoda\"]%n" +
                                    "to satisfy given requirements, but these elements did not:%n%n" +
-                                   "<\"Leia\">%n" +
+                                   "\"Leia\"%n" +
                                    "error: Leia mistake.%n%n" +
-                                   "<\"Luke\">%n" +
+                                   "\"Luke\"%n" +
                                    "error: Luke mistake."));
   }
 
@@ -69,11 +69,11 @@ class ElementsShouldSatisfy_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting all elements of:%n" +
-                                   "  <[\"Leia%%s\", \"Luke\", \"Yoda\"]>%n" +
+                                   "  [\"Leia%%s\", \"Luke\", \"Yoda\"]%n" +
                                    "to satisfy given requirements, but these elements did not:%n%n" +
-                                   "<\"Leia%%s\">%n" +
+                                   "\"Leia%%s\"%n" +
                                    "error: Leia mistake.%n%n" +
-                                   "<\"Luke\">%n" +
+                                   "\"Luke\"%n" +
                                    "error: Luke mistake."));
   }
 
@@ -88,11 +88,11 @@ class ElementsShouldSatisfy_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting any element of:%n" +
-                                   "  <[\"Luke\", \"Yoda\"]>%n" +
+                                   "  [\"Luke\", \"Yoda\"]%n" +
                                    "to satisfy the given assertions requirements but none did:%n%n" +
-                                   "<\"Leia\">%n" +
+                                   "\"Leia\"%n" +
                                    "error: Leia mistake.%n%n" +
-                                   "<\"Luke\">%n" +
+                                   "\"Luke\"%n" +
                                    "error: Luke mistake."));
   }
 
@@ -107,11 +107,11 @@ class ElementsShouldSatisfy_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting any element of:%n" +
-                                   "  <[\"Lu%%dke\", \"Yoda\"]>%n" +
+                                   "  [\"Lu%%dke\", \"Yoda\"]%n" +
                                    "to satisfy the given assertions requirements but none did:%n%n" +
-                                   "<\"Leia\">%n" +
+                                   "\"Leia\"%n" +
                                    "error: Leia mistake.%n%n" +
-                                   "<\"Luke\">%n" +
+                                   "\"Luke\"%n" +
                                    "error: Luke mistake."));
   }
 
@@ -127,14 +127,14 @@ class ElementsShouldSatisfy_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting each element of:%n" +
-                                   "  <[\"Luke%%\", \"Yoda\"]>%n" +
+                                   "  [\"Luke%%\", \"Yoda\"]%n" +
                                    "to satisfy the requirements at its index, but these elements did not:%n" +
                                    "%n" +
-                                   "<\"Leia%%\">%n" +
+                                   "\"Leia%%\"%n" +
                                    "- element index: 1%n" +
                                    "- error: Leia mistake.%n" +
                                    "%n" +
-                                   "<\"Luke\">%n" +
+                                   "\"Luke\"%n" +
                                    "- element index: 3%n" +
                                    "- error: Luke mistake."));
   }

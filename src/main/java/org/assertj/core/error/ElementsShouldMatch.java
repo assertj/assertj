@@ -16,10 +16,11 @@ import org.assertj.core.presentation.PredicateDescription;
 
 public class ElementsShouldMatch extends BasicErrorMessageFactory {
 
-  private static final String SINGLE_NON_MATCHING_ELEMENT = "%nExpecting all elements of:%n  <%s>%nto match %s predicate but this element did not:%n  <%s>";
-  private static final String MULTIPLE_NON_MATCHING_ELEMENT = "%nExpecting all elements of:%n  <%s>%nto match %s predicate but these elements did not:%n  <%s>";
+  private static final String SINGLE_NON_MATCHING_ELEMENT = "%nExpecting all elements of:%n  %s%nto match %s predicate but this element did not:%n  %s";
+  private static final String MULTIPLE_NON_MATCHING_ELEMENT = "%nExpecting all elements of:%n  %s%nto match %s predicate but these elements did not:%n  %s";
 
-  public static <T> ErrorMessageFactory elementsShouldMatch(Object actual, T elementsNotMatchingPredicate, PredicateDescription predicateDescription) {
+  public static <T> ErrorMessageFactory elementsShouldMatch(Object actual, T elementsNotMatchingPredicate,
+                                                            PredicateDescription predicateDescription) {
     return elementsNotMatchingPredicate instanceof Iterable
         ? new ElementsShouldMatch(actual, (Iterable<?>) elementsNotMatchingPredicate, predicateDescription)
         : new ElementsShouldMatch(actual, elementsNotMatchingPredicate, predicateDescription);
