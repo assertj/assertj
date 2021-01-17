@@ -440,6 +440,7 @@ public class RecursiveComparisonDifferenceCalculator {
     }
   }
 
+  // TODO replace by ordered map
   private static <K, V> void compareSortedMap(DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualFieldASortedMap()) {
       // at the moment we only compare iterable with iterables (but we might allow arrays too)
@@ -485,20 +486,30 @@ public class RecursiveComparisonDifferenceCalculator {
       // - expected entries not found in actual.
     }
 
-    Map<Integer, Map.Entry<?, ?>> fastLookup = expectedMap.entrySet().stream()
-                                                          .collect(toMap(entry -> deepHashCode(entry.getKey()), entry -> entry));
+    // index expected entries by their key deep hash code
+    Map<Integer, Map.Entry<?, ?>> expectedEntriesByDeepHashCode = expectedMap.entrySet().stream()
+                                                                             .collect(toMap(entry -> deepHashCode(entry.getKey()),
+                                                                                            entry -> entry));
+    // index actual keys by their deep hash code
+    Map<?, Integer> actualDeepHashCodesByKey = actualMap.keySet().stream().collect(toMap(key -> key, key -> deepHashCode(key)));
+    Map<?, ?> unmatchedActualEntries = actualDeepHashCodesByKey.entrySet().stream()
+                                                               .filter(entry -> !expectedEntriesByDeepHashCode.containsKey(entry.getValue()))
+                                                               // back to actual entries
+                                                               .collect(toMap(entry -> entry.getKey(),
+                                                                              entry -> actualMap.get(entry.getKey())));
+    if (!unmatchedActualEntries.isEmpty()) {
+      comparisonState.addDifference(dualValue, "The following actual map entries were not found in the expected map:%n  %s",
+                                    unmatchedActualEntries);
+      return;
+    }
+
     for (Map.Entry<?, ?> actualEntry : actualMap.entrySet()) {
-      int deepHashCode = deepHashCode(actualEntry.getKey());
-      if (!fastLookup.containsKey(deepHashCode)) {
-        // TODO add description of the entry in actual not found in expected.
-        comparisonState.addDifference(dualValue);
-        return;
-      }
-      Map.Entry<?, ?> expectedEntry = fastLookup.get(deepHashCode);
+      int deepHashCode = actualDeepHashCodesByKey.get(actualEntry.getKey());
+      Map.Entry<?, ?> expectedEntry = expectedEntriesByDeepHashCode.get(deepHashCode);
       // Must split the Key and Value so that Map.Entry's equals() method is not used.
-      comparisonState.registerForComparison(new DualValue(dualValue.fieldLocation, actualEntry.getKey(), expectedEntry.getKey()));
-      comparisonState.registerForComparison(new DualValue(dualValue.fieldLocation, actualEntry.getValue(),
-                                                          expectedEntry.getValue()));
+      FieldLocation fieldLocation = dualValue.fieldLocation;
+      comparisonState.registerForComparison(new DualValue(fieldLocation, actualEntry.getKey(), expectedEntry.getKey()));
+      comparisonState.registerForComparison(new DualValue(fieldLocation, actualEntry.getValue(), expectedEntry.getValue()));
     }
   }
 

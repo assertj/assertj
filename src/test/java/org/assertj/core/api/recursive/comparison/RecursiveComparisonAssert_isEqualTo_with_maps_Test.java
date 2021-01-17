@@ -18,7 +18,9 @@ import static java.lang.String.format;
 import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -32,8 +34,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import com.google.common.collect.ImmutableMap;
+
 class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
+  // TODO should_fail_when_comparing_actual_unordered_with_expected_ordered_map
   @Test
   void should_fail_when_comparing_actual_unsorted_with_expected_sorted_map() {
     WithMap<Long, Boolean> actual = new WithMap<>(new LinkedHashMap<>());
@@ -111,7 +116,9 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveCompar
     Map<String, Author> singletonPratchettMap = singletonMap(pratchett.name, pratchett);
     Map<String, Author> singletonGeorgeMartinMap = singletonMap(georgeMartin.name, georgeMartin);
     return Stream.of(Arguments.of(singletonPratchettMap, singletonGeorgeMartinMap, "group",
-                                  singletonPratchettMap, singletonGeorgeMartinMap, null),
+                                  singletonPratchettMap, singletonGeorgeMartinMap,
+                                  format("The following actual map entries were not found in the expected map:%n"
+                                         + "  {Terry Pratchett=Author [name=Terry Pratchett]}")),
                      Arguments.of(nonSortedPratchettAndMartin, singletonPratchettMap, "group",
                                   nonSortedPratchettAndMartin, singletonPratchettMap,
                                   "actual and expected values are maps of different size, actual size=2 when expected size=1"),
@@ -124,7 +131,9 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveCompar
                      Arguments.of(singletonMap(pratchett.name, none), singletonPratchettMap, "group",
                                   none, pratchett, null),
                      Arguments.of(singletonPratchettMap, singletonMap(georgeMartin.name, pratchett), "group",
-                                  singletonPratchettMap, singletonMap(georgeMartin.name, pratchett), null),
+                                  singletonPratchettMap, singletonMap(georgeMartin.name, pratchett),
+                                  format("The following actual map entries were not found in the expected map:%n"
+                                         + "  {Terry Pratchett=Author [name=Terry Pratchett]}")),
                      Arguments.of(singletonPratchettMap, empty, "group",
                                   singletonPratchettMap, empty,
                                   "actual and expected values are maps of different size, actual size=1 when expected size=0"));
@@ -142,6 +151,19 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveCompar
     // THEN
     ComparisonDifference difference = desc == null ? diff(path, value1, value2) : diff(path, value1, value2, desc);
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference);
+  }
+
+  @Test
+  void should_report_unmatched_elements() {
+    // GIVEN
+    Map<String, String> actual = ImmutableMap.of("a", "a", "b", "b", "e", "e");
+    Map<String, String> expected = ImmutableMap.of("a", "a", "c", "c", "d", "d");
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison()
+                                                                                 .isEqualTo(expected));
+    // THEN
+    then(assertionError).hasMessageContaining(format("The following actual map entries were not found in the expected map:%n"
+                                                     + "  {b=b, e=e}"));
   }
 
   static Stream<Arguments> mapWithNonMaps() {
