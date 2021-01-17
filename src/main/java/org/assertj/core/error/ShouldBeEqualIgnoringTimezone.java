@@ -42,7 +42,7 @@ public class ShouldBeEqualIgnoringTimezone extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeEqualIgnoringTimezone(OffsetDateTime actual, OffsetDateTime other) {
-      return new ShouldBeEqualIgnoringTimezone(actual, other);
+    return new ShouldBeEqualIgnoringTimezone(actual, other);
   }
 
   private ShouldBeEqualIgnoringTimezone(Object actual, Object other) {

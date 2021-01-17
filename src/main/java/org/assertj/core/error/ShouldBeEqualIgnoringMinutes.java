@@ -50,7 +50,7 @@ public class ShouldBeEqualIgnoringMinutes extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeEqualIgnoringMinutes(LocalTime actual, LocalTime other) {
-      return new ShouldBeEqualIgnoringMinutes(actual, other);
+    return new ShouldBeEqualIgnoringMinutes(actual, other);
   }
 
   /**
@@ -61,7 +61,7 @@ public class ShouldBeEqualIgnoringMinutes extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeEqualIgnoringMinutes(OffsetTime actual, OffsetTime other) {
-      return new ShouldBeEqualIgnoringMinutes(actual, other);
+    return new ShouldBeEqualIgnoringMinutes(actual, other);
   }
 
   private ShouldBeEqualIgnoringMinutes(Object actual, Object other) {
@@ -69,10 +69,10 @@ public class ShouldBeEqualIgnoringMinutes extends BasicErrorMessageFactory {
   }
 
   private ShouldBeEqualIgnoringMinutes(LocalTime actual, LocalTime other) {
-      super("%nExpecting:%n  %s%nto have same hour as:%n  %s%nbut had not.", actual, other);
+    super("%nExpecting:%n  %s%nto have same hour as:%n  %s%nbut had not.", actual, other);
   }
 
   private ShouldBeEqualIgnoringMinutes(OffsetTime actual, OffsetTime other) {
-      super("%nExpecting:%n  %s%nto have same hour as:%n  %s%nbut had not.", actual, other);
+    super("%nExpecting:%n  %s%nto have same hour as:%n  %s%nbut had not.", actual, other);
   }
 }

@@ -39,12 +39,11 @@ public class ShouldBeEqualIgnoringSeconds extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeEqualIgnoringSeconds(Object actual, Object other) {
-	return new ShouldBeEqualIgnoringSeconds(actual, other);
+    return new ShouldBeEqualIgnoringSeconds(actual, other);
   }
 
   private ShouldBeEqualIgnoringSeconds(Object actual, Object other) {
-	super("%nExpecting:%n  %s%nto have same year, month, day, hour and minute as:%n  %s%nbut had not.", actual,
-	      other);
+    super("%nExpecting:%n  %s%nto have same year, month, day, hour and minute as:%n  %s%nbut had not.", actual, other);
   }
 
   /**
@@ -55,7 +54,7 @@ public class ShouldBeEqualIgnoringSeconds extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeEqualIgnoringSeconds(LocalTime actual, LocalTime other) {
-	return new ShouldBeEqualIgnoringSeconds(actual, other);
+    return new ShouldBeEqualIgnoringSeconds(actual, other);
   }
 
   /**
@@ -66,14 +65,14 @@ public class ShouldBeEqualIgnoringSeconds extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeEqualIgnoringSeconds(OffsetTime actual, OffsetTime other) {
-      return new ShouldBeEqualIgnoringSeconds(actual, other);
+    return new ShouldBeEqualIgnoringSeconds(actual, other);
   }
 
   private ShouldBeEqualIgnoringSeconds(LocalTime actual, LocalTime other) {
-	super("%nExpecting:%n  %s%nto have same hour and minute as:%n  %s%nbut had not.", actual, other);
+    super("%nExpecting:%n  %s%nto have same hour and minute as:%n  %s%nbut had not.", actual, other);
   }
 
   private ShouldBeEqualIgnoringSeconds(OffsetTime actual, OffsetTime other) {
-      super("%nExpecting:%n  %s%nto have same hour and minute as:%n  %s%nbut had not.", actual, other);
+    super("%nExpecting:%n  %s%nto have same hour and minute as:%n  %s%nbut had not.", actual, other);
   }
 }

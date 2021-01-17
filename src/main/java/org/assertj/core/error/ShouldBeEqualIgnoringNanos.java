@@ -37,7 +37,7 @@ public class ShouldBeEqualIgnoringNanos extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeEqualIgnoringNanos(Object actual, Object other) {
-	return new ShouldBeEqualIgnoringNanos(actual, other);
+    return new ShouldBeEqualIgnoringNanos(actual, other);
   }
 
   /**
@@ -48,7 +48,7 @@ public class ShouldBeEqualIgnoringNanos extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeEqualIgnoringNanos(LocalTime actual, LocalTime other) {
-	return new ShouldBeEqualIgnoringNanos(actual, other);
+    return new ShouldBeEqualIgnoringNanos(actual, other);
   }
 
   /**
@@ -59,19 +59,19 @@ public class ShouldBeEqualIgnoringNanos extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeEqualIgnoringNanos(OffsetTime actual, OffsetTime other) {
-      return new ShouldBeEqualIgnoringNanos(actual, other);
+    return new ShouldBeEqualIgnoringNanos(actual, other);
   }
 
   private ShouldBeEqualIgnoringNanos(Object actual, Object other) {
-	super("%nExpecting:%n  %s%nto have same year, month, day, hour, minute and second as:%n  %s%nbut had not.",
-	      actual, other);
+    super("%nExpecting:%n  %s%nto have same year, month, day, hour, minute and second as:%n  %s%nbut had not.",
+      actual, other);
   }
 
   private ShouldBeEqualIgnoringNanos(LocalTime actual, LocalTime other) {
-	super("%nExpecting:%n  %s%nto have same hour, minute and second as:%n  %s%nbut had not.", actual, other);
+    super("%nExpecting:%n  %s%nto have same hour, minute and second as:%n  %s%nbut had not.", actual, other);
   }
 
   private ShouldBeEqualIgnoringNanos(OffsetTime actual, OffsetTime other) {
-      super("%nExpecting:%n  %s%nto have same hour, minute and second as:%n  %s%nbut had not.", actual, other);
+    super("%nExpecting:%n  %s%nto have same hour, minute and second as:%n  %s%nbut had not.", actual, other);
   }
 }
