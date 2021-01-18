@@ -40,11 +40,11 @@ public class ShouldBeEqualWithinPercentage extends BasicErrorMessageFactory {
   }
 
   private ShouldBeEqualWithinPercentage(Number actual, Number expected, Percentage percentage,
-                                                           double expectedPercentage) {
+                                        double expectedPercentage) {
     super("%nExpecting:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "to be close to:%n" +
-          "  <%s>%n" +
+          "  %s%n" +
           "by less than %s but difference was %s%%.%n" +
           "(a difference of exactly %s being considered valid)",
           actual, expected, percentage, expectedPercentage, percentage);

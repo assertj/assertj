@@ -19,10 +19,9 @@ import static org.assertj.core.test.TestData.someInfo;
 import org.assertj.core.internal.DoublesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Doubles#assertIsNotNegative(AssertionInfo, Double))}</code>.
- * 
+ *
  * @author Nicolas François
  */
 class Doubles_assertIsNotNegative_Test extends DoublesBaseTest {
@@ -40,7 +39,7 @@ class Doubles_assertIsNotNegative_Test extends DoublesBaseTest {
   @Test
   void should_fail_since_actual_is_negative() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotNegative(someInfo(), -6d))
-                                                   .withMessage(format("%nExpecting:%n <-6.0>%nto be greater than or equal to:%n <0.0> "));
+                                                   .withMessage(format("%nExpecting:%n  -6.0%nto be greater than or equal to:%n  0.0%n"));
   }
 
   @Test

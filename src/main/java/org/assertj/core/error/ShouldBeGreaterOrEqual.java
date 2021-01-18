@@ -12,12 +12,13 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.internal.*;
+import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value is greater than or equal to another one
  * failed.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -43,11 +44,11 @@ public class ShouldBeGreaterOrEqual extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static <T extends Comparable<? super T>> ErrorMessageFactory shouldBeGreaterOrEqual(T actual, T other,
-      ComparisonStrategy comparisonStrategy) {
+                                                                                             ComparisonStrategy comparisonStrategy) {
     return new ShouldBeGreaterOrEqual(actual, other, comparisonStrategy);
   }
 
   private ShouldBeGreaterOrEqual(Comparable<?> actual, Comparable<?> other, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting:%n <%s>%nto be greater than or equal to:%n <%s> %s", actual, other, comparisonStrategy);
+    super("%nExpecting:%n  %s%nto be greater than or equal to:%n  %s%n%s", actual, other, comparisonStrategy);
   }
 }

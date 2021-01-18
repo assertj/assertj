@@ -12,6 +12,7 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeIn.shouldBeIn;
 import static org.assertj.core.util.Arrays.array;
@@ -38,18 +39,26 @@ class ShouldBeIn_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(String.format("[Test] %nExpecting:%n <\"Yoda\">%nto be in:%n <[\"Luke\", \"Leia\"]>%n"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  \"Yoda\"%n" +
+                                   "to be in:%n" +
+                                   "  [\"Luke\", \"Leia\"]%n"));
   }
 
   @Test
   void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
-    ErrorMessageFactory factory = shouldBeIn("Yoda", array("Luke", "Leia"), new ComparatorBasedComparisonStrategy(
-                                                                                                                  CaseInsensitiveStringComparator.instance));
+    ErrorMessageFactory factory = shouldBeIn("Yoda", array("Luke", "Leia"),
+                                             new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(String.format(
-                                          "[Test] %nExpecting:%n <\"Yoda\">%nto be in:%n <[\"Luke\", \"Leia\"]>%nwhen comparing values using CaseInsensitiveStringComparator"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting:%n" +
+                                   "  \"Yoda\"%n" +
+                                   "to be in:%n" +
+                                   "  [\"Luke\", \"Leia\"]%n" +
+                                   "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

@@ -21,10 +21,9 @@ import org.assertj.core.internal.Doubles;
 import org.assertj.core.internal.DoublesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Doubles#assertIsPositive(AssertionInfo, Double)}</code>.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -38,7 +37,7 @@ class Doubles_assertIsPositive_Test extends DoublesBaseTest {
   @Test
   void should_fail_since_actual_is_not_positive() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsPositive(someInfo(), -6.0d))
-                                                   .withMessage(format("%nExpecting:%n <-6.0>%nto be greater than:%n <0.0> "));
+                                                   .withMessage(format("%nExpecting:%n  -6.0%nto be greater than:%n  0.0%n"));
   }
 
   @Test

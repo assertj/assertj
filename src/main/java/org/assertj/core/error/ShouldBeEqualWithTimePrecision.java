@@ -55,8 +55,11 @@ public class ShouldBeEqualWithTimePrecision extends BasicErrorMessageFactory {
       fields = ", day, hour, minute";
       lastField = "second";
     }
-    return "%nExpecting:%n  <%s>%nto have same year, month" + fields + " and " + lastField + " as:%n  <%s>%nbut had " +
-             "not.";
+    return "%nExpecting:%n" +
+           "  %s%n" +
+           "to have same year, month" + fields + " and " + lastField + " as:%n" +
+           "  %s%n" +
+           "but had not.";
   }
 
 }

@@ -106,9 +106,9 @@ class Maps_assertAllSatisfyingConsumer_Test extends MapsBaseTest {
     SimpleEntry<String, Player> entry = new AbstractMap.SimpleEntry<>(team, player);
     String message = format("[" + player.getName().getName() + " ppg] %n" +
                             "Expecting:%n" +
-                            " <" + player.getPointsPerGame() + ">%n" +
+                            "  " + player.getPointsPerGame() + "%n" +
                             "to be greater than or equal to:%n" +
-                            " <" + requiredScore + "> ");
+                            "  " + requiredScore + "%n");
     return new UnsatisfiedRequirement(entry, message);
   }
 

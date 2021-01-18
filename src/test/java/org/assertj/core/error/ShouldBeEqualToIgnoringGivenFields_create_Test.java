@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
  * @author Nicolas François
  * @author Joel Costigliola
  */
-class ShouldBeEqualIgnoringGivenFields_create_Test {
+class ShouldBeEqualToIgnoringGivenFields_create_Test {
 
   private ErrorMessageFactory factory;
 
@@ -46,13 +46,13 @@ class ShouldBeEqualIgnoringGivenFields_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting values:%n" +
-                                   "  <[\"Yoda\", \"green\"]>%n" +
+                                   "  [\"Yoda\", \"green\"]%n" +
                                    "in fields:%n" +
-                                   "  <[\"name\", \"lightSaberColor\"]>%n" +
+                                   "  [\"name\", \"lightSaberColor\"]%n" +
                                    "but were:%n" +
-                                   "  <[\"Yoda\", \"blue\"]>%n" +
-                                   "in <Yoda the Jedi>.%n" +
-                                   "Comparison was performed on all fields but <[\"someIgnoredField\"]>"));
+                                   "  [\"Yoda\", \"blue\"]%n" +
+                                   "in Yoda the Jedi.%n" +
+                                   "Comparison was performed on all fields but [\"someIgnoredField\"]"));
   }
 
   @Test
@@ -65,9 +65,9 @@ class ShouldBeEqualIgnoringGivenFields_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting value <\"green\"> in field <\"lightSaberColor\"> " +
-                                   "but was <\"blue\"> in <Yoda the Jedi>.%n" +
-                                   "Comparison was performed on all fields but <[\"someIgnoredField\"]>"));
+                                   "Expecting value \"green\" in field \"lightSaberColor\" " +
+                                   "but was \"blue\" in Yoda the Jedi.%n" +
+                                   "Comparison was performed on all fields but [\"someIgnoredField\"]"));
   }
 
   @Test
@@ -80,12 +80,12 @@ class ShouldBeEqualIgnoringGivenFields_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %nExpecting values:%n" +
-                                   "  <[\"Yoda\", \"green\"]>%n" +
+                                   "  [\"Yoda\", \"green\"]%n" +
                                    "in fields:%n" +
-                                   "  <[\"name\", \"lightSaberColor\"]>%n" +
+                                   "  [\"name\", \"lightSaberColor\"]%n" +
                                    "but were:%n" +
-                                   "  <[\"Yoda\", \"blue\"]>%n" +
-                                   "in <Yoda the Jedi>.%n" +
+                                   "  [\"Yoda\", \"blue\"]%n" +
+                                   "in Yoda the Jedi.%n" +
                                    "Comparison was performed on all fields"));
   }
 
@@ -99,9 +99,9 @@ class ShouldBeEqualIgnoringGivenFields_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting value <\"green\"> " +
-                                   "in field <\"lightSaberColor\"> " +
-                                   "but was <\"blue\"> in <Yoda the Jedi>.%n" +
+    then(message).isEqualTo(format("[Test] %nExpecting value \"green\" " +
+                                   "in field \"lightSaberColor\" " +
+                                   "but was \"blue\" in Yoda the Jedi.%n" +
                                    "Comparison was performed on all fields"));
   }
 

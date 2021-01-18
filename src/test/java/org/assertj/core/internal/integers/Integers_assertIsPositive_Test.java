@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Integers#assertIsPositive(AssertionInfo, Integer)}</code>.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -37,7 +37,7 @@ class Integers_assertIsPositive_Test extends IntegersBaseTest {
   @Test
   void should_fail_since_actual_is_not_positive() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertIsPositive(someInfo(), -6))
-                                                   .withMessage(format("%nExpecting:%n <-6>%nto be greater than:%n <0> "));
+                                                   .withMessage(format("%nExpecting:%n  -6%nto be greater than:%n  0%n"));
   }
 
   @Test
@@ -49,7 +49,7 @@ class Integers_assertIsPositive_Test extends IntegersBaseTest {
   void should_fail_since_actual_is_not_positive_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integersWithAbsValueComparisonStrategy.assertIsPositive(someInfo(),
                                                                                                                              0))
-                                                   .withMessage(format("%nExpecting:%n <0>%nto be greater than:%n <0> when comparing values using AbsValueComparator"));
+                                                   .withMessage(format("%nExpecting:%n  0%nto be greater than:%n  0%nwhen comparing values using AbsValueComparator"));
   }
 
 }

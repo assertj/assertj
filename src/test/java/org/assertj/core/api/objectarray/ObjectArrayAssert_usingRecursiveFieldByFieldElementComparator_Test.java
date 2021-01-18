@@ -88,9 +88,9 @@ class ObjectArrayAssert_usingRecursiveFieldByFieldElementComparator_Test extends
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(array1).usingRecursiveFieldByFieldElementComparator()
                                                                                        .isIn(new Object[] { array2 }))
                                                    .withMessage(format("%nExpecting:%n"
-                                                                       + " <[Foo(id=id, bar=Bar(id=1))]>%n"
+                                                                       + "  [Foo(id=id, bar=Bar(id=1))]%n"
                                                                        + "to be in:%n"
-                                                                       + " <[[Foo(id=id, bar=Bar(id=2))]]>%n"
+                                                                       + "  [[Foo(id=id, bar=Bar(id=2))]]%n"
                                                                        + "when comparing elements using recursive field/property by field/property comparator on all fields/properties%n"
                                                                        + "Comparators used:%n"
                                                                        + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}%n"

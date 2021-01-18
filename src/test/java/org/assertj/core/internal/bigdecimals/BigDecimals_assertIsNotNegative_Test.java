@@ -21,10 +21,9 @@ import java.math.BigDecimal;
 import org.assertj.core.internal.BigDecimalsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link BigDecimals#assertIsNotNegative(AssertionInfo, BigDecimal))}</code>.
- * 
+ *
  * @author Nicolas François
  */
 class BigDecimals_assertIsNotNegative_Test extends BigDecimalsBaseTest {
@@ -42,7 +41,7 @@ class BigDecimals_assertIsNotNegative_Test extends BigDecimalsBaseTest {
   @Test
   void should_fail_since_actual_is_negative() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsNotNegative(someInfo(), new BigDecimal(-6)))
-                                                   .withMessage(format("%nExpecting:%n <-6>%nto be greater than or equal to:%n <0> "));
+                                                   .withMessage(format("%nExpecting:%n  -6%nto be greater than or equal to:%n  0%n"));
   }
 
   @Test

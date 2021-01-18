@@ -12,12 +12,13 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.internal.*;
+import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value is in a group of values (e.g. an array or
  * collection) failed.
- * 
+ *
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
@@ -45,7 +46,7 @@ public class ShouldBeIn extends BasicErrorMessageFactory {
   }
 
   private ShouldBeIn(Object actual, Object values, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting:%n <%s>%nto be in:%n <%s>%n%s", actual, values, comparisonStrategy);
+    super("%nExpecting:%n  %s%nto be in:%n  %s%n%s", actual, values, comparisonStrategy);
   }
 
 }

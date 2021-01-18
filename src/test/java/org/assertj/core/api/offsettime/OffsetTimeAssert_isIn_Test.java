@@ -46,9 +46,9 @@ class OffsetTimeAssert_isIn_Test extends OffsetTimeAssertBaseTest {
                                                                                               ZoneOffset.UTC)).isIn("03:03:03Z"))
                                                    .withMessage(format("%n" +
                                                                        "Expecting:%n" +
-                                                                       " <03:00:05Z>%n" +
+                                                                       "  03:00:05Z%n" +
                                                                        "to be in:%n" +
-                                                                       " <[03:03:03Z]>%n"));
+                                                                       "  [03:03:03Z]%n"));
   }
 
   @Test

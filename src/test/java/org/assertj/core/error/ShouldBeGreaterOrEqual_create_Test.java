@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
- * <code>{@link ShouldBeGreaterOrEqual#create(Description, org.assertj.core.presentation.Representation)}</code>.
+ *  code{@link ShouldBeGreaterOrEqual#create(Description, org.assertj.core.presentation.Representation)}</code.
  *
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -40,9 +40,9 @@ class ShouldBeGreaterOrEqual_create_Test {
     // THEN
     then(message).isEqualTo(String.format("[Test] %n" +
                                           "Expecting:%n" +
-                                          " <6>%n" +
+                                          "  6%n" +
                                           "to be greater than or equal to:%n" +
-                                          " <8> "));
+                                          "  8%n"));
   }
 
   @Test
@@ -55,8 +55,9 @@ class ShouldBeGreaterOrEqual_create_Test {
     // THEN
     then(message).isEqualTo(String.format("[Test] %n" +
                                           "Expecting:%n" +
-                                          " <6>%n" +
+                                          "  6%n" +
                                           "to be greater than or equal to:%n" +
-                                          " <8> when comparing values using AbsValueComparator"));
+                                          "  8%n" +
+                                          "when comparing values using AbsValueComparator"));
   }
 }

@@ -38,6 +38,6 @@ class ShouldBeEven_create_Test {
     // WHEN
     String message = shouldBeEven(actual).create(new TestDescription("TEST"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[TEST] %nExpecting <%d> to be even", actual));
+    then(message).isEqualTo(format("[TEST] %nExpecting %d to be even", actual));
   }
 }

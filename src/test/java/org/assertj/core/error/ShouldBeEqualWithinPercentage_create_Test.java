@@ -38,9 +38,9 @@ class ShouldBeEqualWithinPercentage_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <12.0>%n" +
+                                   "  12.0%n" +
                                    "to be close to:%n" +
-                                   "  <10.0>%n" +
+                                   "  10.0%n" +
                                    "by less than 10%% but difference was 20.0%%.%n" +
                                    "(a difference of exactly 10%% being considered valid)"));
   }
@@ -54,9 +54,9 @@ class ShouldBeEqualWithinPercentage_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <12.0>%n" +
+                                   "  12.0%n" +
                                    "to be close to:%n" +
-                                   "  <10.0>%n" +
+                                   "  10.0%n" +
                                    "by less than 10%% but difference was 20.0%%.%n" +
                                    "(a difference of exactly 10%% being considered valid)"));
   }
@@ -70,9 +70,9 @@ class ShouldBeEqualWithinPercentage_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   "  <12.0>%n" +
+                                   "  12.0%n" +
                                    "to be close to:%n" +
-                                   "  <10.0>%n" +
+                                   "  10.0%n" +
                                    "by less than 0.5%% but difference was 20.0%%.%n" +
                                    "(a difference of exactly 0.5%% being considered valid)"));
   }

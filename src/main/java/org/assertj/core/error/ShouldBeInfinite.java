@@ -19,6 +19,6 @@ public class ShouldBeInfinite extends BasicErrorMessageFactory {
   }
 
   private ShouldBeInfinite(Number actual) {
-    super("%nExpecting <%s> to be infinite", actual);
+    super("%nExpecting %s to be infinite", actual);
   }
 }

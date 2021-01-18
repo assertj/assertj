@@ -21,10 +21,9 @@ import org.assertj.core.internal.Floats;
 import org.assertj.core.internal.FloatsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Floats#assertIsPositive(AssertionInfo, Float)}</code>.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -38,7 +37,7 @@ class Floats_assertIsPositive_Test extends FloatsBaseTest {
   @Test
   void should_fail_since_actual_is_not_positive() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsPositive(someInfo(), -6.0f))
-                                                   .withMessage(format("%nExpecting:%n <-6.0f>%nto be greater than:%n <0.0f> "));
+                                                   .withMessage(format("%nExpecting:%n  -6.0f%nto be greater than:%n  0.0f%n"));
   }
 
   @Test

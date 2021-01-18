@@ -17,7 +17,7 @@ import org.assertj.core.internal.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value is greater than another one failed.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -25,7 +25,7 @@ public class ShouldBeGreater extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link ShouldBeGreater}</code>.
-   * 
+   *
    * @param <T> guarantees that the values used in this factory have the same type.
    * @param actual the actual value in the failed assertion.
    * @param other the value used in the failed assertion to compare the actual value to.
@@ -37,7 +37,7 @@ public class ShouldBeGreater extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link ShouldBeGreater}</code>.
-   * 
+   *
    * @param <T> guarantees that the values used in this factory have the same type.
    * @param actual the actual value in the failed assertion.
    * @param other the value used in the failed assertion to compare the actual value to.
@@ -45,11 +45,11 @@ public class ShouldBeGreater extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static <T extends Comparable<? super T>> ErrorMessageFactory shouldBeGreater(T actual, T other,
-      ComparisonStrategy comparisonStrategy) {
+                                                                                      ComparisonStrategy comparisonStrategy) {
     return new ShouldBeGreater(actual, other, comparisonStrategy);
   }
 
   private ShouldBeGreater(Comparable<?> actual, Comparable<?> other, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting:%n <%s>%nto be greater than:%n <%s> %s", actual, other, comparisonStrategy);
+    super("%nExpecting:%n  %s%nto be greater than:%n  %s%n%s", actual, other, comparisonStrategy);
   }
 }

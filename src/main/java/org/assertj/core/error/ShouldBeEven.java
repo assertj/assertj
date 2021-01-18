@@ -29,6 +29,6 @@ public class ShouldBeEven extends BasicErrorMessageFactory {
   }
 
   private ShouldBeEven(Number actual) {
-    super("%nExpecting <%s> to be even", actual);
+    super("%nExpecting %s to be even", actual);
   }
 }

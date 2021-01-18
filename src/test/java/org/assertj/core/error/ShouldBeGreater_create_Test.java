@@ -24,7 +24,7 @@ import org.assertj.core.util.AbsValueComparator;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link ShouldBeGreater#create(Description, org.assertj.core.presentation.Representation)}</code>.
+ * Tests for  code>{@link ShouldBeGreater#create(Description, org.assertj.core.presentation.Representation)}</code.
  *
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -40,9 +40,9 @@ class ShouldBeGreater_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <6>%n" +
+                                   "  6%n" +
                                    "to be greater than:%n" +
-                                   " <8> "));
+                                   "  8%n"));
   }
 
   @Test
@@ -54,8 +54,9 @@ class ShouldBeGreater_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <6>%n" +
+                                   "  6%n" +
                                    "to be greater than:%n" +
-                                   " <8> when comparing values using AbsValueComparator"));
+                                   "  8%n" +
+                                   "when comparing values using AbsValueComparator"));
   }
 }

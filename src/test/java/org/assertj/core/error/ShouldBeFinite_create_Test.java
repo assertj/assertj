@@ -31,7 +31,7 @@ class ShouldBeFinite_create_Test {
     // WHEN
     String message = shouldBeFinite(actual).create(new TestDescription("TEST"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[TEST] %nExpecting <Infinity> to be finite"));
+    then(message).isEqualTo(format("[TEST] %nExpecting Infinity to be finite"));
   }
 
   @Test
@@ -41,6 +41,6 @@ class ShouldBeFinite_create_Test {
     // WHEN
     String message = shouldBeFinite(actual).create(new TestDescription("TEST"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[TEST] %nExpecting <Infinityf> to be finite"));
+    then(message).isEqualTo(format("[TEST] %nExpecting Infinityf to be finite"));
   }
 }

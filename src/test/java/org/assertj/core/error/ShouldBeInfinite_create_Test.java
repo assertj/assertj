@@ -31,7 +31,7 @@ class ShouldBeInfinite_create_Test {
     // WHEN
     String message = shouldBeInfinite(actual).create(new TestDescription("TEST"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[TEST] %nExpecting <2.0> to be infinite"));
+    then(message).isEqualTo(format("[TEST] %nExpecting 2.0 to be infinite"));
   }
 
   @Test
@@ -41,6 +41,6 @@ class ShouldBeInfinite_create_Test {
     // WHEN
     String message = shouldBeInfinite(actual).create(new TestDescription("TEST"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[TEST] %nExpecting <2.0f> to be infinite"));
+    then(message).isEqualTo(format("[TEST] %nExpecting 2.0f to be infinite"));
   }
 }

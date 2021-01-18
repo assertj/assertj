@@ -27,7 +27,6 @@ import org.assertj.core.api.ObjectArrayAssertBaseTest;
  *
  * @author Michael Grafl
  */
-@SuppressWarnings("unchecked")
 class ObjectArrayAssert_satisfiesExactlyInAnyOrder_Test extends ObjectArrayAssertBaseTest {
 
   private Consumer<Object> consumer = mock(Consumer.class);

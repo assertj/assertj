@@ -19,6 +19,6 @@ public class ShouldBeFinite extends BasicErrorMessageFactory {
   }
 
   private ShouldBeFinite(Number actual) {
-    super("%nExpecting <%s> to be finite", actual);
+    super("%nExpecting %s to be finite", actual);
   }
 }

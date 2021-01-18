@@ -40,10 +40,11 @@ class ShouldBeExactlyInstance_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting:%n" +
-                                   " <\"Yoda%%s\">%n" +
+                                   "  \"Yoda%%s\"%n" +
                                    "to be exactly an instance of:%n" +
-                                   " <java.io.File>%n" +
-                                   "but was an instance of:%n <java.lang.String>"));
+                                   "  java.io.File%n" +
+                                   "but was an instance of:%n" +
+                                   "  java.lang.String"));
   }
 
   @Test

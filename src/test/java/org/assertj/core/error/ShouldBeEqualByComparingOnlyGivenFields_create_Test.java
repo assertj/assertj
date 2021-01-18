@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Nicolas François
  */
-class ShouldBeEqualComparingOnlyGivenFields_create_Test {
+class ShouldBeEqualByComparingOnlyGivenFields_create_Test {
 
   private ErrorMessageFactory factory;
 
@@ -43,14 +43,14 @@ class ShouldBeEqualComparingOnlyGivenFields_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting values:%n" +
-                                   "  <[\"Yoda\", \"green\"]>%n" +
+                                   "  [\"Yoda\", \"green\"]%n" +
                                    "in fields:%n" +
-                                   "  <[\"name\", \"lightSaberColor\"]>%n" +
+                                   "  [\"name\", \"lightSaberColor\"]%n" +
                                    "but were:%n" +
-                                   "  <[\"Luke\", \"blue\"]>%n" +
-                                   "in <Luke the Jedi>.%n" +
+                                   "  [\"Luke\", \"blue\"]%n" +
+                                   "in Luke the Jedi.%n" +
                                    "Comparison was performed on fields:%n" +
-                                   "  <[\"name\", \"lightSaberColor\"]>"));
+                                   "  [\"name\", \"lightSaberColor\"]"));
   }
 
   @Test
@@ -62,10 +62,10 @@ class ShouldBeEqualComparingOnlyGivenFields_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting value <\"blue\">" +
-                                   " in field <\"lightSaberColor\">" +
-                                   " but was <\"green\">" +
-                                   " in <Yoda the Jedi>"));
+    then(message).isEqualTo(format("[Test] %nExpecting value \"blue\"" +
+                                   " in field \"lightSaberColor\"" +
+                                   " but was \"green\"" +
+                                   " in Yoda the Jedi"));
   }
 
 }

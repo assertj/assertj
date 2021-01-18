@@ -17,7 +17,7 @@ import java.io.File;
 /**
  * Creates an error message indicating that an assertion that verifies that a <code>{@link File}</code> is an existing file
  * failed.
- * 
+ *
  * @author Yvonne Wang
  */
 public class ShouldBeFile extends BasicErrorMessageFactory {
@@ -32,6 +32,6 @@ public class ShouldBeFile extends BasicErrorMessageFactory {
   }
 
   private ShouldBeFile(File actual) {
-    super("%nExpecting:%n <%s>%nto be a file", actual);
+    super("%nExpecting:%n %s%nto be a file", actual);
   }
 }

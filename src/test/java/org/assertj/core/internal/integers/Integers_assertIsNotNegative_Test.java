@@ -19,10 +19,9 @@ import static org.assertj.core.test.TestData.someInfo;
 import org.assertj.core.internal.IntegersBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Integers#assertIsNotNegative(AssertionInfo, Integer))}</code>.
- * 
+ *
  * @author Nicolas François
  */
 class Integers_assertIsNotNegative_Test extends IntegersBaseTest {
@@ -40,7 +39,7 @@ class Integers_assertIsNotNegative_Test extends IntegersBaseTest {
   @Test
   void should_fail_since_actual_is_negative() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertIsNotNegative(someInfo(), -6))
-                                                   .withMessage(format("%nExpecting:%n <-6>%nto be greater than or equal to:%n <0> "));
+                                                   .withMessage(format("%nExpecting:%n  -6%nto be greater than or equal to:%n  0%n"));
   }
 
   @Test

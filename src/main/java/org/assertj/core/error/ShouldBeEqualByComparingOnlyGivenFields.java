@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two objects are
  * lenient equal by accepting fields failed.
- * 
+ *
  * @author Nicolas François
  * @author Joel Costigliola
  */
@@ -35,11 +35,13 @@ public class ShouldBeEqualByComparingOnlyGivenFields extends BasicErrorMessageFa
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeEqualComparingOnlyGivenFields(Object actual, List<String> rejectedFields,
-                                                                          List<Object> rejectedValues, List<Object> expectedValues,
+                                                                          List<Object> rejectedValues,
+                                                                          List<Object> expectedValues,
                                                                           List<String> acceptedFields) {
     if (rejectedFields.size() == 1) {
-      return new ShouldBeEqualByComparingOnlyGivenFields(actual, rejectedFields.get(0), rejectedValues.get(0), expectedValues.get(0),
-          acceptedFields);
+      return new ShouldBeEqualByComparingOnlyGivenFields(actual, rejectedFields.get(0), rejectedValues.get(0),
+                                                         expectedValues.get(0),
+                                                         acceptedFields);
     }
     return new ShouldBeEqualByComparingOnlyGivenFields(actual, rejectedFields, rejectedValues, expectedValues,
                                                        acceptedFields);
@@ -47,14 +49,21 @@ public class ShouldBeEqualByComparingOnlyGivenFields extends BasicErrorMessageFa
 
   private ShouldBeEqualByComparingOnlyGivenFields(Object actual, List<String> rejectedFields, List<Object> rejectedValues,
                                                   List<Object> expectedValue, List<String> acceptedFields) {
-    super("%nExpecting values:%n  <%s>%nin fields:%n  <%s>%nbut were:%n  <%s>%nin <%s>.%nComparison was performed on fields:%n  <%s>",
-        expectedValue, rejectedFields, rejectedValues, actual, acceptedFields);
+    super("%nExpecting values:%n"
+          + "  %s%n"
+          + "in fields:%n"
+          + "  %s%n"
+          + "but were:%n"
+          + "  %s%n"
+          + "in %s.%n"
+          + "Comparison was performed on fields:%n  %s",
+          expectedValue, rejectedFields, rejectedValues, actual, acceptedFields);
   }
 
   private ShouldBeEqualByComparingOnlyGivenFields(Object actual, String rejectedField, Object rejectedValue, Object expectedValue,
-                                                   List<String> acceptedFields) {
-    super("%nExpecting value <%s> in field <%s> but was <%s> in <%s>", expectedValue, rejectedField, rejectedValue, actual,
-        acceptedFields);
+                                                  List<String> acceptedFields) {
+    super("%nExpecting value %s in field %s but was %s in %s", expectedValue, rejectedField, rejectedValue, actual,
+          acceptedFields);
   }
 
 }
