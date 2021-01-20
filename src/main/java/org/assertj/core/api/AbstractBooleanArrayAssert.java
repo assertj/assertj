@@ -371,11 +371,11 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new boolean[] { true, false }).containsSequence(true, false);
-   * assertThat(new boolean[] { true, false, false, true }).containsSequence(false, true);
+   * assertThat(new boolean[] { true, false }).containsSequence(new Boolean[] { true, false });
+   * assertThat(new boolean[] { true, false, false, true }).containsSequence(new Boolean[] { false, true });
    *
    * // assertion will fail
-   * assertThat(new boolean[] { true, true, false }).containsSequence(false, true);</code></pre>
+   * assertThat(new boolean[] { true, true, false }).containsSequence(new Boolean[] { false, true });</code></pre>
    *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
@@ -579,10 +579,10 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new boolean[] { true, false, false, true }).startsWith(true, false);
+   * assertThat(new boolean[] { true, false, false, true }).startsWith(new Boolean[] { true, false });
    *
    * // assertion will fail
-   * assertThat(new boolean[] { true, false, false, true }).startsWith(false, false, true);</code></pre>
+   * assertThat(new boolean[] { true, false, false, true }).startsWith(new Boolean[] { false, false, true });</code></pre>
    *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
@@ -628,10 +628,10 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new boolean[] { true, false, false, true }).endsWith(false, false, true);
+   * assertThat(new boolean[] { true, false, false, true }).endsWith(new Boolean[] { false, false, true });
    *
    * // assertion will fail
-   * assertThat(new boolean[] { true, false, false, true }).endsWith(true, false);</code></pre>
+   * assertThat(new boolean[] { true, false, false, true }).endsWith(new Boolean[] { true, false });</code></pre>
    *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
@@ -712,10 +712,10 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * <p>
    * Example :
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new boolean[] { true, false, true }).containsExactly(true, false, true);
+   * assertThat(new boolean[] { true, false, true }).containsExactly(new Boolean[] { true, false, true });
    *
    * // assertion will fail as actual and expected order differ
-   * assertThat(new boolean[] { true, false, true }).containsExactly(false, true, true);</code></pre>
+   * assertThat(new boolean[] { true, false, true }).containsExactly(new Boolean[] { false, true, true });</code></pre>
    *
    * @param values the given values.
    * @return {@code this} assertion object.

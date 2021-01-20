@@ -702,7 +702,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    * assertThat(new int[] { 1, 2, 3 }).containsExactly(new Integer[] { 1, 2, 3 });
    *
    * // assertion will fail as actual and expected order differ
-   * assertThat(new int[] { 1, 2, 3 }).containsExactly(new int[] { 1, 3, 2 });</code></pre>
+   * assertThat(new int[] { 1, 2, 3 }).containsExactly(new Integer[] { 1, 3, 2 });</code></pre>
    *
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -754,9 +754,9 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    * assertThat(new int[] { 1, 2, 3 }).containsExactlyInAnyOrder(new Integer[] { 3, 2, 1 });
    *
    * // assertions will fail
-   * assertThat(new int[] { 1, 2 }).containsExactlyInAnyOrder(new Boolean[] { 1, 4 });
-   * assertThat(new int[] { 1 }).containsExactlyInAnyOrder(new Boolean[] { 4, 1 });
-   * assertThat(new int[] { 1, 2, 3 }).containsExactlyInAnyOrder(new Boolean[] { 1, 2 });</code></pre>
+   * assertThat(new int[] { 1, 2 }).containsExactlyInAnyOrder(new Integer[] { 1, 4 });
+   * assertThat(new int[] { 1 }).containsExactlyInAnyOrder(new Integer[] { 4, 1 });
+   * assertThat(new int[] { 1, 2, 3 }).containsExactlyInAnyOrder(new Integer[] { 1, 2 });</code></pre>
    *
    * @param values the given values.
    * @return {@code this} assertion object.

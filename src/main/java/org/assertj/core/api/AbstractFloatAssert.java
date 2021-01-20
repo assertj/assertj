@@ -878,7 +878,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * <p>
    * Example:
    * <pre><code class='java'> // assertion succeeds
-   * assertThat(+1.0f).isFinite();
+   * assertThat(1.0f).isFinite();
    *
    * // assertions fail
    * assertThat(Float.NaN).isFinite();
@@ -906,7 +906,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * assertThat(Float.POSITIVE_INFINITY).isInfinite();
    *
    * // assertions fail
-   * assertThat(+1.0f).isInfinite();
+   * assertThat(1.0f).isInfinite();
    * assertThat(Float.NaN).isInfinite();</code></pre>
    *
    * @return this assertion object.

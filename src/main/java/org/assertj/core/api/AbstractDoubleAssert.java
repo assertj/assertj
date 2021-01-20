@@ -860,7 +860,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * <p>
    * Examples:
    * <pre><code class='java'> // assertion succeeds
-   * assertThat(+1.0d).isFinite();
+   * assertThat(1.0d).isFinite();
    *
    * // assertions fail
    * assertThat(Double.NaN).isFinite();
@@ -888,7 +888,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * assertThat(Double.POSITIVE_INFINITY).isInfinite();
    *
    * // assertions fail
-   * assertThat(+1.0d).isInfinite();
+   * assertThat(1.0d).isInfinite();
    * assertThat(Double.NaN).isInfinite();</code></pre>
    *
    * @return this assertion object.

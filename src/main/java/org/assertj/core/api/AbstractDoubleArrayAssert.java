@@ -235,8 +235,8 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    * assertThat(values).contains(new Double[] { 1.0, 3.0, 2.0 })
    *
    * // assertions will fail
-   * assertThat(values).contains(1.0, 4.0);
-   * assertThat(values).contains(1.1, 2.1);</code></pre>
+   * assertThat(values).contains(new Double[] { 1.0, 4.0 });
+   * assertThat(values).contains(new Double[] { 1.1, 2.1 });</code></pre>
    *
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -1337,7 +1337,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    * assertThat(new double[] { 1.0, 2.0, 1.0 }).containsExactly(new Double[] { 1.0, 2.0, 1.0 });
    *
    * // assertion will fail as actual and expected order differ
-   * assertThat(new double[] { 1.0, 2.0, 1.0 }).containsExactly(new Double[] {2.0, 1.0, 1.0});</code></pre>
+   * assertThat(new double[] { 1.0, 2.0, 1.0 }).containsExactly(new Double[] { 2.0, 1.0, 1.0 });</code></pre>
    *
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -1520,7 +1520,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    *
    * // assertions will fail
    * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsAnyOf(new Double[] { 8.0 });
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsAnyOf(new double[] { 12.0, 11.0, 15.0 };</code></pre>
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsAnyOf(new Double[] { 12.0, 11.0, 15.0 };</code></pre>
    *
    * @param values the values whose at least one which is expected to be in the array under test.
    * @return {@code this} assertion object.
