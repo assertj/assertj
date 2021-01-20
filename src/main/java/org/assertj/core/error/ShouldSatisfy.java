@@ -37,6 +37,7 @@ public class ShouldSatisfy extends BasicErrorMessageFactory {
   /**
    * Creates a new <code>{@link ShouldSatisfy}</code>.
    *
+   * @param <E> the iterable elements type.
    * @param actual the actual iterable in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
