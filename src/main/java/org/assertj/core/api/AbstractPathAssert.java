@@ -1761,14 +1761,14 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * /root/sub-dir-1/file-2.ext (content)</code></pre>
    *
    * Here are some assertions examples:
-   * <pre><code class="java"> Path no-content-path = Paths.get("/root/sub-dir-1/file-1.ext");
-   * Path content-path = Paths.get("/root/sub-dir-1/file-2.ext");
+   * <pre><code class="java"> Path noContentPath = Paths.get("/root/sub-dir-1/file-1.ext");
+   * Path contentPath = Paths.get("/root/sub-dir-1/file-2.ext");
    *
    * // The following assertion succeeds:
-   * assertThat(no-content-path).isEmpty();
+   * assertThat(noContentPath).isEmptyFile();
    *
    * // The following assertion fails:
-   * assertThat(content-path).isEmpty();</code></pre>
+   * assertThat(contentPath).isEmptyFile();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if actual is {@code null}.
@@ -1776,7 +1776,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @throws AssertionError if actual is not empty.
    * @since 3.19.0
    */
-  public SELF isEmpty() {
+  public SELF isEmptyFile() {
     paths.assertIsEmptyFile(info, actual);
     return myself;
   }
@@ -1792,14 +1792,14 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * /root/sub-dir-1/file-2.ext (content)</code></pre>
    *
    * Here are some assertions examples:
-   * <pre><code class="java"> Path no-content-path = Paths.get("/root/sub-dir-1/file-1.ext");
-   * Path content-path = Paths.get("/root/sub-dir-1/file-2.ext");
+   * <pre><code class="java"> Path noContentPath = Paths.get("/root/sub-dir-1/file-1.ext");
+   * Path contentPath = Paths.get("/root/sub-dir-1/file-2.ext");
    *
    * // The following assertion succeeds:
-   * assertThat(content-path).isNotEmpty();
+   * assertThat(contentPath).isNotEmptyFile();
    *
    * // The following assertion fails:
-   * assertThat(no-content-path).isNotEmpty();</code></pre>
+   * assertThat(noContentPath).isNotEmptyFile();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if actual is {@code null}.
@@ -1807,7 +1807,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @throws AssertionError if actual is empty.
    * @since 3.19.0
    */
-  public SELF isNotEmpty() {
+  public SELF isNotEmptyFile() {
     paths.assertIsNotEmptyFile(info, actual);
     return myself;
   }

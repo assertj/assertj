@@ -19,21 +19,21 @@ import org.assertj.core.api.PathAssertBaseTest;
 import org.junit.jupiter.api.DisplayName;
 
 /**
- * Test for <code>{@link PathAssert#isEmpty()}</code>.
+ * Test for <code>{@link PathAssert#isNotEmptyFile()}</code>.
  *
  * @author Omar Morales
  */
-@DisplayName("PathAssert isEmpty")
-class PathAssert_isEmpty_Test extends PathAssertBaseTest {
+@DisplayName("PathAssert isNotEmptyFile")
+class PathAssert_isNotEmptyFile_Test extends PathAssertBaseTest {
 
   @Override
   protected PathAssert invoke_api_method() {
-    return assertions.isEmpty();
+    return assertions.isNotEmptyFile();
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(paths).assertIsEmptyFile(getInfo(assertions), getActual(assertions));
+    verify(paths).assertIsNotEmptyFile(getInfo(assertions), getActual(assertions));
   }
 
 }
