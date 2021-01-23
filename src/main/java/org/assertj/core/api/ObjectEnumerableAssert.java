@@ -1278,7 +1278,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Verifies that each element satisfies the requirements corresponding to its index, so the first element must satisfy the
    * first requirements, the second element the second requirements etc...
    * <p>
-   * Each requirements is expressed as a {@link Consumer}, there must be as many requirements as there are iterable elements.
+   * Each requirements are expressed as a {@link Consumer}, there must be as many requirements as there are iterable elements.
    * <p>
    * Example:
    * <pre><code class='java'> Iterable&lt;TolkienCharater&gt; characters = list(frodo, aragorn, legolas);
@@ -1309,7 +1309,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * @param allRequirements the requirements to meet.
    * @return {@code this} to chain assertions.
-   * @throws NullPointerException if given requirements is null.
+   * @throws NullPointerException if given requirements are null.
    * @throws AssertionError if any element does not satisfy the requirements at the same index
    * @throws AssertionError if there are not as many requirements as there are iterable elements.
    * @since 3.19.0

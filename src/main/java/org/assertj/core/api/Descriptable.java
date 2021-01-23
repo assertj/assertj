@@ -39,12 +39,14 @@ public interface Descriptable<SELF> {
    * <p>
    * Example :
    * <pre><code class='java'> try {
-   *   // set a bad age to Mr Frodo which is really 33 years old.
+   *   // set an incorrect age to Mr Frodo which is really 33 years old.
    *   frodo.setAge(50);
    *   // specify a test description (call as() before the assertion !), it supports String format syntax.
    *   assertThat(frodo.getAge()).as(&quot;check %s's age&quot;, frodo.getName()).isEqualTo(33);
    * } catch (AssertionError e) {
-   *   assertThat(e).hasMessage(&quot;[check Frodo's age] expected:&lt;[33]&gt; but was:&lt;[50]&gt;&quot;);
+   *   assertThat(e).hasMessage(&quot;[check Frodo's age]\n
+   *                             expected: 33\n
+   *                             but was : 50&quot;);
    * }</code></pre>
    *
    * @param description the new description to set.
@@ -65,20 +67,22 @@ public interface Descriptable<SELF> {
    * the chained call by throwing an AssertionError.
    * <p>
    * Example :
-   * <pre><code class='java'> // set a bad age to Mr Frodo which we all know is 33 years old.
+   * <pre><code class='java'> // set an incorrect age to Mr Frodo which we all know is 33 years old.
    * frodo.setAge(50);
    *
-   * // the lazy test description supplier is <b>not</b> evaluated as the assertion succeeds
+   * // the lazy test description is <b>not</b> evaluated as the assertion succeeds
    * assertThat(frodo.getAge()).as(() -&gt; &quot;check Frodo's age&quot;).isEqualTo(50);
    *
    * try
    * {
-   *   // the lazy test description supplier is evaluated as the assertion fails
+   *   // the lazy test description is evaluated as the assertion fails
    *   assertThat(frodo.getAge()).as(() -&gt; &quot;check Frodo's age&quot;).isEqualTo(33);
    * }
    * catch (AssertionError e)
    * {
-   *   assertThat(e).hasMessage(&quot;[check Frodo's age] expected:&lt;[33]&gt; but was:&lt;[50]&gt;&quot;);
+   *   assertThat(e).hasMessage(&quot;[check Frodo's age]\n
+   *                             expected: 33\n
+   *                             but was : 50&quot;);
    * }</code></pre>
    *
    * @param descriptionSupplier the description {@link Supplier}.

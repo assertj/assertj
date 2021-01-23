@@ -721,7 +721,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * // assertion succeeds:
    * assertThat(frodo).hasOnlyFields("name", "age");
    *
-   * // assertions fail :
+   * // assertions fail:
    * assertThat(frodo).hasOnlyFields("name");
    * assertThat(frodo).hasOnlyFields("not_exists");
    * assertThat(frodo).hasOnlyFields(null);</code></pre>
