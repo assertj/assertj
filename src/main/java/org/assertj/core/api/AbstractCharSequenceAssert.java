@@ -1191,6 +1191,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual {@code CharSequence} is {@code null} or is not the same XML as the content of
    *           given {@code File}.
    */
+  @Deprecated
   public SELF isXmlEqualToContentOf(File xmlFile) {
     isXmlEqualTo(contentOf(xmlFile));
     return myself;
