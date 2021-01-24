@@ -1122,7 +1122,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * The recommended approach is <a href="https://github.com/xmlunit/user-guide/wiki">XML Unit</a> which is able to deal with
    * these limitations and provides many more features like XPath support and schema validation.
    * <p>
-   * Original javadoc
+   * Original javadoc:
    * <p>
    * Verifies that the actual {@code CharSequence} is equal to the given XML {@code CharSequence} after both have been
    * formatted the same way.
