@@ -81,6 +81,13 @@
         <role>Developer</role>
       </roles>
     </developer>
+    <developer>
+      <id>Patouche</id>
+      <name>Patrick Allain</name>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
   </developers>
 
   <scm>
