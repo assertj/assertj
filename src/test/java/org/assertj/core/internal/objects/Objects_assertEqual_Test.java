@@ -83,7 +83,7 @@ class Objects_assertEqual_Test extends ObjectsBaseTest {
   void should_fail_if_compared_with_null() {
     Throwable error = catchThrowable(() -> objects.assertEqual(someInfo(), new MyObject(), null));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
+    assertThat(error).isInstanceOf(MyObject.NullEqualsException.class);
   }
 
   @Test
@@ -94,6 +94,7 @@ class Objects_assertEqual_Test extends ObjectsBaseTest {
   }
 
   private static class MyObject {
+
     private final int anInt = 0;
 
     @Override
@@ -105,12 +106,14 @@ class Objects_assertEqual_Test extends ObjectsBaseTest {
       return anInt == myObject.anInt;
     }
 
-    private class NullEqualsException extends RuntimeException {
+    private static class NullEqualsException extends RuntimeException {
       private static final long serialVersionUID = 6906581676690444515L;
     }
 
-    private class DifferentClassesException extends RuntimeException {
+    private static class DifferentClassesException extends RuntimeException {
       private static final long serialVersionUID = -7330747471795712311L;
     }
+
   }
+
 }
