@@ -13,10 +13,7 @@
 package org.assertj.core.api;
 
 import java.nio.file.Path;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.function.DoublePredicate;
@@ -105,6 +102,17 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    */
   public static <ELEMENT> IterableAssert<ELEMENT> assertThat(Iterable<? extends ELEMENT> actual) {
     return new IterableAssert<>(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link CollectionAssert}</code>.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static <ELEMENT> CollectionAssert<ELEMENT> assertThat(Collection<? extends ELEMENT> actual) {
+    return new CollectionAssert<>(actual);
   }
 
   /**

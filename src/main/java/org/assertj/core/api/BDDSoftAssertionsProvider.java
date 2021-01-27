@@ -22,12 +22,7 @@ import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
 import java.time.ZonedDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
-import java.util.OptionalLong;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.atomic.LongAdder;
@@ -304,6 +299,14 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
   @CheckReturnValue
   default <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> then(Stream<? extends ELEMENT> actual) {
     return proxy(ProxyableListAssert.class, Stream.class, actual);
+  }
+
+
+  //todo source
+  @SuppressWarnings("unchecked")
+  @CheckReturnValue
+  default <ELEMENT> AbstractCollectionAssert<?, Collection<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> then(Collection<? extends ELEMENT> actual) {
+    return proxy(CollectionAssert.class, Collection.class, actual);
   }
 
   /**

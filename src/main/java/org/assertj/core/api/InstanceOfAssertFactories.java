@@ -28,15 +28,7 @@ import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
 import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
-import java.util.OptionalLong;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
@@ -819,6 +811,31 @@ public interface InstanceOfAssertFactories {
   static <ELEMENT> InstanceOfAssertFactory<List, ListAssert<ELEMENT>> list(Class<ELEMENT> elementType) {
     return new InstanceOfAssertFactory<>(List.class, Assertions::<ELEMENT> assertThat);
   }
+
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link Collection}, assuming {@code Object} as element type.
+   *
+   * @see #list(Class)
+   */
+  @SuppressWarnings("rawtypes") // rawtypes: using Class instance
+   InstanceOfAssertFactory<Collection, CollectionAssert<Object>> COLLECTION = collection(Object.class);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link List}.
+   *
+   * @param <ELEMENT>   the {@code List} element type.
+   * @param elementType the element type instance.
+   * @return the factory instance.
+   *
+   * @see #LIST
+   */
+  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
+  static <ELEMENT> InstanceOfAssertFactory<Collection, CollectionAssert<ELEMENT>> collection(Class<ELEMENT> elementType) {
+    return new InstanceOfAssertFactory<>(Collection.class, Assertions::<ELEMENT> assertThat);
+  }
+
+
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link Stream}, assuming {@code Object} as element type.

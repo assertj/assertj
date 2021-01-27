@@ -33,15 +33,7 @@ import java.time.OffsetTime;
 import java.time.Period;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalUnit;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
-import java.util.OptionalLong;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
@@ -1062,6 +1054,11 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    */
   default <T> ListAssert<T> assertThat(final List<? extends T> actual) {
     return Assertions.assertThat(actual);
+  }
+
+  //TODO docs
+  default <T> CollectionAssert<T> assertThat(final Collection<? extends T> actual) {
+      return Assertions.assertThat(actual);
   }
 
   /**

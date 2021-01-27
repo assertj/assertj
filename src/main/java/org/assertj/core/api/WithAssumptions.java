@@ -30,15 +30,7 @@ import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
 import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
-import java.util.OptionalLong;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
@@ -542,6 +534,11 @@ public interface WithAssumptions {
    * @since 2.9.0 / 3.9.0
    */
   default <ELEMENT> IteratorAssert<ELEMENT> assumeThat(final Iterator<? extends ELEMENT> actual) {
+    return Assumptions.assumeThat(actual);
+  }
+
+  //TODO
+  default <ELEMENT> CollectionAssert<ELEMENT> assumeThat(final Collection<? extends ELEMENT> actual) {
     return Assumptions.assumeThat(actual);
   }
 

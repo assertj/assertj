@@ -36,17 +36,7 @@ import java.time.OffsetTime;
 import java.time.Period;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalUnit;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
-import java.util.OptionalLong;
-import java.util.SortedSet;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
@@ -2883,6 +2873,17 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   public static <ELEMENT> ListAssert<ELEMENT> assertThat(List<? extends ELEMENT> actual) {
+    return AssertionsForInterfaceTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link CollectionAssert}</code>.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static <ELEMENT> CollectionAssert<ELEMENT> assertThat(Collection<? extends ELEMENT> actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
 

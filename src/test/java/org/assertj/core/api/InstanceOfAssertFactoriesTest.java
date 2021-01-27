@@ -16,108 +16,7 @@ import static java.util.Arrays.asList;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
-import static org.assertj.core.api.InstanceOfAssertFactories.ARRAY;
-import static org.assertj.core.api.InstanceOfAssertFactories.ARRAY_2D;
-import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_BOOLEAN;
-import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_INTEGER;
-import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_INTEGER_ARRAY;
-import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_INTEGER_FIELD_UPDATER;
-import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_LONG;
-import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_LONG_ARRAY;
-import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_LONG_FIELD_UPDATER;
-import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_MARKABLE_REFERENCE;
-import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_REFERENCE;
-import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_REFERENCE_ARRAY;
-import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_REFERENCE_FIELD_UPDATER;
-import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_STAMPED_REFERENCE;
-import static org.assertj.core.api.InstanceOfAssertFactories.BIG_DECIMAL;
-import static org.assertj.core.api.InstanceOfAssertFactories.BIG_INTEGER;
-import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN;
-import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN_2D_ARRAY;
-import static org.assertj.core.api.InstanceOfAssertFactories.BOOLEAN_ARRAY;
-import static org.assertj.core.api.InstanceOfAssertFactories.BYTE;
-import static org.assertj.core.api.InstanceOfAssertFactories.BYTE_2D_ARRAY;
-import static org.assertj.core.api.InstanceOfAssertFactories.BYTE_ARRAY;
-import static org.assertj.core.api.InstanceOfAssertFactories.CHARACTER;
-import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_2D_ARRAY;
-import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_ARRAY;
-import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_SEQUENCE;
-import static org.assertj.core.api.InstanceOfAssertFactories.CLASS;
-import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETABLE_FUTURE;
-import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETION_STAGE;
-import static org.assertj.core.api.InstanceOfAssertFactories.DATE;
-import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
-import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_2D_ARRAY;
-import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_ARRAY;
-import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_PREDICATE;
-import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_STREAM;
-import static org.assertj.core.api.InstanceOfAssertFactories.DURATION;
-import static org.assertj.core.api.InstanceOfAssertFactories.FILE;
-import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT;
-import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT_2D_ARRAY;
-import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT_ARRAY;
-import static org.assertj.core.api.InstanceOfAssertFactories.FUTURE;
-import static org.assertj.core.api.InstanceOfAssertFactories.INPUT_STREAM;
-import static org.assertj.core.api.InstanceOfAssertFactories.INSTANT;
-import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
-import static org.assertj.core.api.InstanceOfAssertFactories.INT_2D_ARRAY;
-import static org.assertj.core.api.InstanceOfAssertFactories.INT_ARRAY;
-import static org.assertj.core.api.InstanceOfAssertFactories.INT_PREDICATE;
-import static org.assertj.core.api.InstanceOfAssertFactories.INT_STREAM;
-import static org.assertj.core.api.InstanceOfAssertFactories.ITERABLE;
-import static org.assertj.core.api.InstanceOfAssertFactories.ITERATOR;
-import static org.assertj.core.api.InstanceOfAssertFactories.LIST;
-import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE;
-import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE_TIME;
-import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_TIME;
-import static org.assertj.core.api.InstanceOfAssertFactories.LONG;
-import static org.assertj.core.api.InstanceOfAssertFactories.LONG_2D_ARRAY;
-import static org.assertj.core.api.InstanceOfAssertFactories.LONG_ADDER;
-import static org.assertj.core.api.InstanceOfAssertFactories.LONG_ARRAY;
-import static org.assertj.core.api.InstanceOfAssertFactories.LONG_PREDICATE;
-import static org.assertj.core.api.InstanceOfAssertFactories.LONG_STREAM;
-import static org.assertj.core.api.InstanceOfAssertFactories.MAP;
-import static org.assertj.core.api.InstanceOfAssertFactories.OFFSET_DATE_TIME;
-import static org.assertj.core.api.InstanceOfAssertFactories.OFFSET_TIME;
-import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL;
-import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL_DOUBLE;
-import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL_INT;
-import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL_LONG;
-import static org.assertj.core.api.InstanceOfAssertFactories.PATH;
-import static org.assertj.core.api.InstanceOfAssertFactories.PERIOD;
-import static org.assertj.core.api.InstanceOfAssertFactories.PREDICATE;
-import static org.assertj.core.api.InstanceOfAssertFactories.SHORT;
-import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_2D_ARRAY;
-import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_ARRAY;
-import static org.assertj.core.api.InstanceOfAssertFactories.SPLITERATOR;
-import static org.assertj.core.api.InstanceOfAssertFactories.STREAM;
-import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
-import static org.assertj.core.api.InstanceOfAssertFactories.STRING_BUFFER;
-import static org.assertj.core.api.InstanceOfAssertFactories.STRING_BUILDER;
-import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
-import static org.assertj.core.api.InstanceOfAssertFactories.URI_TYPE;
-import static org.assertj.core.api.InstanceOfAssertFactories.URL_TYPE;
-import static org.assertj.core.api.InstanceOfAssertFactories.ZONED_DATE_TIME;
-import static org.assertj.core.api.InstanceOfAssertFactories.array;
-import static org.assertj.core.api.InstanceOfAssertFactories.atomicIntegerFieldUpdater;
-import static org.assertj.core.api.InstanceOfAssertFactories.atomicLongFieldUpdater;
-import static org.assertj.core.api.InstanceOfAssertFactories.atomicMarkableReference;
-import static org.assertj.core.api.InstanceOfAssertFactories.atomicReference;
-import static org.assertj.core.api.InstanceOfAssertFactories.atomicReferenceArray;
-import static org.assertj.core.api.InstanceOfAssertFactories.atomicReferenceFieldUpdater;
-import static org.assertj.core.api.InstanceOfAssertFactories.atomicStampedReference;
-import static org.assertj.core.api.InstanceOfAssertFactories.comparable;
-import static org.assertj.core.api.InstanceOfAssertFactories.completableFuture;
-import static org.assertj.core.api.InstanceOfAssertFactories.completionStage;
-import static org.assertj.core.api.InstanceOfAssertFactories.future;
-import static org.assertj.core.api.InstanceOfAssertFactories.iterable;
-import static org.assertj.core.api.InstanceOfAssertFactories.iterator;
-import static org.assertj.core.api.InstanceOfAssertFactories.list;
-import static org.assertj.core.api.InstanceOfAssertFactories.map;
-import static org.assertj.core.api.InstanceOfAssertFactories.optional;
-import static org.assertj.core.api.InstanceOfAssertFactories.predicate;
-import static org.assertj.core.api.InstanceOfAssertFactories.stream;
-import static org.assertj.core.api.InstanceOfAssertFactories.type;
+import static org.assertj.core.api.InstanceOfAssertFactories.*;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.mockito.Mockito.mock;
 
@@ -141,13 +40,7 @@ import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
 import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
-import java.util.OptionalLong;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -1196,6 +1089,18 @@ class InstanceOfAssertFactoriesTest {
     AbstractComparableAssert<?, Integer> result = assertThat(value).asInstanceOf(comparable(Integer.class));
     // THEN
     result.isEqualByComparingTo(0);
+  }
+
+  @Test
+  void collection_factory_should_allow_collection_assertions() {
+    // GIVEN
+    Object value = asList("a", "b", "C");
+
+    // WHEN
+    CollectionAssert<Object> result = assertThat(value).asInstanceOf(COLLECTION);
+
+    // THEN
+    result.isUnmodifiable();
   }
 
   @SuppressWarnings("unused")

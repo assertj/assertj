@@ -35,15 +35,7 @@ import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
 import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
-import java.util.OptionalLong;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -828,6 +820,10 @@ public class Assumptions {
   @SuppressWarnings("unchecked")
   public static <ELEMENT> IteratorAssert<ELEMENT> assumeThat(Iterator<? extends ELEMENT> actual) {
     return asAssumption(IteratorAssert.class, Iterator.class, actual);
+  }
+
+  public static <ELEMENT> CollectionAssert<ELEMENT> assumeThat(Collection<? extends ELEMENT> actual) {
+    return asAssumption(CollectionAssert.class, Collection.class, actual);
   }
 
   /**
