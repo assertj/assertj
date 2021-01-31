@@ -212,7 +212,7 @@ class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
     // @format:on
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  Name[first='Magic', last='Johnson']%n" +
                                    "to be equal to:%n" +
                                    "  Name[first='null', last='Ginobili']%n" +
@@ -248,7 +248,7 @@ class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
     // @format:on
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  Name[first='Magic', last='Johnson']%n" +
                                    "to be equal to:%n" +
                                    "  Name[first='null', last='Johnson']%n" +
@@ -280,7 +280,7 @@ class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
     // @format:on
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  Name[first='%%%%Ma%%gi%%', last='%%Johnson']%n" +
                                    "to be equal to:%n" +
                                    "  Name[first='null', last='%%Johnson']%n" +

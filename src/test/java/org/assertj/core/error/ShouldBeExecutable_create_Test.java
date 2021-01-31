@@ -41,7 +41,7 @@ class ShouldBeExecutable_create_Test {
     // WHEN
     String message = factory.create(TEST_DESCRIPTION, STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n  xyz%nto be executable.", file));
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  xyz%nto be executable.", file));
   }
 
   @Test
@@ -52,6 +52,6 @@ class ShouldBeExecutable_create_Test {
     // WHEN
     String message = factory.create(TEST_DESCRIPTION, STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n  %s%nto be executable.", path));
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  %s%nto be executable.", path));
   }
 }

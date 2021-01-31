@@ -38,13 +38,13 @@ class BigDecimals_assertIsPositive_Test extends BigDecimalsBaseTest {
   @Test
   void should_fail_since_actual_is_not_positive() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsPositive(someInfo(), BigDecimal.ZERO))
-                                                   .withMessage(format("%nExpecting:%n  0%nto be greater than:%n  0%n"));
+                                                   .withMessage(format("%nExpecting actual:%n  0%nto be greater than:%n  0%n"));
   }
 
   @Test
   void should_fail_since_actual_is_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsPositive(someInfo(), BigDecimal.ZERO))
-                                                   .withMessage(format("%nExpecting:%n  0%nto be greater than:%n  0%n"));
+                                                   .withMessage(format("%nExpecting actual:%n  0%nto be greater than:%n  0%n"));
   }
 
   @Test
@@ -56,7 +56,7 @@ class BigDecimals_assertIsPositive_Test extends BigDecimalsBaseTest {
   void should_fail_since_actual_is_not_positive_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertIsPositive(someInfo(),
                                                                                                                               BigDecimal.ZERO))
-                                                   .withMessage(format("%nExpecting:%n  0%nto be greater than:%n  0%nwhen comparing values using org.assertj.core.util.BigDecimalComparator"));
+                                                   .withMessage(format("%nExpecting actual:%n  0%nto be greater than:%n  0%nwhen comparing values using org.assertj.core.util.BigDecimalComparator"));
   }
 
 }

@@ -39,7 +39,7 @@ class ShouldBeEqualIgnoringSeconds_create_Test {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  12:00:01%n" +
                                    "to have same hour and minute as:%n" +
                                    "  12:00:02%n" +
@@ -55,7 +55,7 @@ class ShouldBeEqualIgnoringSeconds_create_Test {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  12:00:01Z%n" +
                                    "to have same hour and minute as:%n" +
                                    "  12:00:02Z%n" +

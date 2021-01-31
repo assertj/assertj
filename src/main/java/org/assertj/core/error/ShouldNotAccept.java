@@ -42,6 +42,6 @@ public class ShouldNotAccept extends BasicErrorMessageFactory {
   }
 
   private ShouldNotAccept(Object value, PredicateDescription description) {
-    super("%nExpecting:%n  %s predicate%nnot to accept %s but it did.", description, value);
+    super("%nExpecting actual:%n  %s predicate%nnot to accept %s but it did.", description, value);
   }
 }

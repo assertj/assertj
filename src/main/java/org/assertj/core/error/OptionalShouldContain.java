@@ -28,8 +28,8 @@ import java.util.OptionalLong;
  */
 public class OptionalShouldContain extends BasicErrorMessageFactory {
 
-  private static final String EXPECTING_TO_CONTAIN = "%nExpecting:%n  %s%nto contain:%n  %s%nbut did not.";
-  private static final String EXPECTING_TO_CONTAIN_SAME = "%nExpecting:%n  %s%nto contain the instance (i.e. compared with ==):%n  %s%nbut did not.";
+  private static final String EXPECTING_TO_CONTAIN = "%nExpecting actual:%n  %s%nto contain:%n  %s%nbut did not.";
+  private static final String EXPECTING_TO_CONTAIN_SAME = "%nExpecting actual:%n  %s%nto contain the instance (i.e. compared with ==):%n  %s%nbut did not.";
 
   private OptionalShouldContain(String message, Object actual, Object expected) {
     super(message, actual, expected);

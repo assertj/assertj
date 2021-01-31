@@ -88,7 +88,7 @@ class IterableAssert_usingRecursiveFieldByFieldElementComparator_Test extends It
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(list1).usingRecursiveFieldByFieldElementComparator()
                                                                                       .isIn(singletonList(list2)))
-                                                   .withMessage(format("%nExpecting:%n"
+                                                   .withMessage(format("%nExpecting actual:%n"
                                                                        + "  [Foo(id=id, bar=Bar(id=1))]%n"
                                                                        + "to be in:%n"
                                                                        + "  [[Foo(id=id, bar=Bar(id=2))]]%n"

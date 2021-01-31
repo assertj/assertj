@@ -177,7 +177,7 @@ class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends ObjectAr
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(array1).usingFieldByFieldElementComparator()
                                                                                        .isIn(array2, array2))
-                                                   .withMessage(format("%nExpecting:%n"
+                                                   .withMessage(format("%nExpecting actual:%n"
                                                                        + "  [Foo(id=id, bar=1)]%n"
                                                                        + "to be in:%n"
                                                                        + "  [[Foo(id=id, bar=2)], [Foo(id=id, bar=2)]]%n"

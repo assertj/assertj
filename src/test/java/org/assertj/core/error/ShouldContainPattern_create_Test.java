@@ -29,7 +29,7 @@ class ShouldContainPattern_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n  \"Frodo\"%nto contain pattern:%n  \".*Orc.*\""));
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"Frodo\"%nto contain pattern:%n  \".*Orc.*\""));
   }
 
 }

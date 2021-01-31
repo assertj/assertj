@@ -45,7 +45,7 @@ public class ShouldBeInstance extends BasicErrorMessageFactory {
 
   private ShouldBeInstance(Object object, Class<?> type) {
     super("%n" +
-          "Expecting:%n" +
+          "Expecting actual:%n" +
           "  %s%n" +
           "to be an instance of:%n" +
           "  %s%n" +

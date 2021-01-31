@@ -38,7 +38,7 @@ class ShouldBeBetween_create_Test {
     String message = factory.create(new TextDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  2010-01-01T00:00:00.000 (java.util.Date)%n" +
                                    "to be in period:%n" +
                                    "  [2011-01-01T00:00:00.000 (java.util.Date), 2012-01-01T00:00:00.000 (java.util.Date)]%n"));
@@ -52,7 +52,7 @@ class ShouldBeBetween_create_Test {
     String message = factory.create(new TextDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  2010-01-01T00:00:00.000 (java.util.Date)%n" +
                                    "to be in period:%n" +
                                    "  [2011-01-01T00:00:00.000 (java.util.Date), 2012-01-01T00:00:00.000 (java.util.Date)[%n"));
@@ -66,7 +66,7 @@ class ShouldBeBetween_create_Test {
     String message = factory.create(new TextDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  2010-01-01T00:00:00.000 (java.util.Date)%n" +
                                    "to be in period:%n" +
                                    "  ]2011-01-01T00:00:00.000 (java.util.Date), 2012-01-01T00:00:00.000 (java.util.Date)]%n"));
@@ -80,7 +80,7 @@ class ShouldBeBetween_create_Test {
     String message = factory.create(new TextDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  2010-01-01T00:00:00.000 (java.util.Date)%n" +
                                    "to be in period:%n" +
                                    "  ]2011-01-01T00:00:00.000 (java.util.Date), 2012-01-01T00:00:00.000 (java.util.Date)[%n"));
@@ -96,7 +96,7 @@ class ShouldBeBetween_create_Test {
     String message = factory.create(new TextDescription("Test"));
     // THEN
     then(message).isEqualTo("[Test] %n" +
-                            "Expecting:%n" +
+                            "Expecting actual:%n" +
                             "  2010-01-01T00:00:00.000 (java.util.Date)%n" +
                             "to be in period:%n" +
                             "  ]2011-01-01T00:00:00.000 (java.util.Date), 2012-01-01T00:00:00.000 (java.util.Date)[%n" +

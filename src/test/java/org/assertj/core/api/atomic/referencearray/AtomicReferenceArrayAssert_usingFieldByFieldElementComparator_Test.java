@@ -186,7 +186,7 @@ class AtomicReferenceArrayAssert_usingFieldByFieldElementComparator_Test
 
     // THEN
     assertThat(error).isInstanceOf(AssertionError.class)
-                     .hasMessage(format("%nExpecting:%n"
+                     .hasMessage(format("%nExpecting actual:%n"
                                         + "  [Foo(id=id, bar=1)]%n"
                                         + "to be in:%n"
                                         + "  [[Foo(id=id, bar=2)], [Foo(id=id, bar=2)]]%n"

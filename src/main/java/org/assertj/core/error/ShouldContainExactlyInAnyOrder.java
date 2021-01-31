@@ -51,7 +51,7 @@ public class ShouldContainExactlyInAnyOrder extends BasicErrorMessageFactory {
   private ShouldContainExactlyInAnyOrder(Object actual, Object expected, Iterable<?> notFound, Iterable<?> notExpected,
                                          ComparisonStrategy comparisonStrategy) {
     super("%n" +
-          "Expecting:%n" +
+          "Expecting actual:%n" +
           "  %s%n" +
           "to contain exactly in any order:%n" +
           "  %s%n" +
@@ -66,7 +66,7 @@ public class ShouldContainExactlyInAnyOrder extends BasicErrorMessageFactory {
                                          ComparisonStrategy comparisonStrategy) {
     // @format:off
     super("%n" +
-          "Expecting:%n" +
+          "Expecting actual:%n" +
           "  %s%n" +
           "to contain exactly in any order:%n" +
           "  %s%n" + (errorType == NOT_FOUND_ONLY ?

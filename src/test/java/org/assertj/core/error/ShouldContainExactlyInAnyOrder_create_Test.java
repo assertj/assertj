@@ -51,7 +51,7 @@ class ShouldContainExactlyInAnyOrder_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting:%n"
+                                   + "Expecting actual:%n"
                                    + "  [\"Yoda\", \"Han\"]%n"
                                    + "to contain exactly in any order:%n"
                                    + "  [\"Luke\", \"Yoda\"]%n"
@@ -74,7 +74,7 @@ class ShouldContainExactlyInAnyOrder_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting:%n"
+                                   + "Expecting actual:%n"
                                    + "  [\"Yoda\"]%n"
                                    + "to contain exactly in any order:%n"
                                    + "  [\"Luke\", \"Yoda\"]%n"
@@ -95,7 +95,7 @@ class ShouldContainExactlyInAnyOrder_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting:%n"
+                                   + "Expecting actual:%n"
                                    + "  [\"Yoda\", \"Leia\"]%n"
                                    + "to contain exactly in any order:%n"
                                    + "  [\"Yoda\"]%n"

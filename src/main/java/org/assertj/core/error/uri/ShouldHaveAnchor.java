@@ -20,7 +20,7 @@ import org.assertj.core.error.ErrorMessageFactory;
 public class ShouldHaveAnchor extends BasicErrorMessageFactory {
 
   private static final String SHOULD_HAVE_ANCHOR = "%nExpecting anchor of%n  <%s>%nto be:%n  <%s>%nbut was:%n  <%s>";
-  private static final String SHOULD_NOT_HAVE_ANCHOR = "%nExpecting:%n  <%s>%nnot to have an anchor but had:%n  <%s>";
+  private static final String SHOULD_NOT_HAVE_ANCHOR = "%nExpecting actual:%n  <%s>%nnot to have an anchor but had:%n  <%s>";
 
   public static ErrorMessageFactory shouldHaveAnchor(URL actual, String expectedAnchor) {
     return expectedAnchor == null ? new ShouldHaveAnchor(actual) : new ShouldHaveAnchor(actual, expectedAnchor);

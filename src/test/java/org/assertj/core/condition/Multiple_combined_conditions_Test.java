@@ -57,7 +57,7 @@ class Multiple_combined_conditions_Test {
     AssertionError assertionError = expectAssertionError(code);
     // THEN
     assertThat(assertionError).hasMessage(format("%n" +
-                                                 "Expecting:%n" +
+                                                 "Expecting actual:%n" +
                                                  "  \"Gandalf\"%n" +
                                                  "to have:%n" +
                                                  "  any of:[%n" +
@@ -85,7 +85,7 @@ class Multiple_combined_conditions_Test {
     AssertionError assertionError = expectAssertionError(code);
     // THEN
     assertThat(assertionError).hasMessage(format("%n" +
-                                                 "Expecting:%n" +
+                                                 "Expecting actual:%n" +
                                                  "  \"Gandalf\"%n" +
                                                  "to have:%n" +
                                                  "  any of:[%n" +

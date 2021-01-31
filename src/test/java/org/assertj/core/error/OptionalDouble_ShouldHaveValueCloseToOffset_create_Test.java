@@ -38,7 +38,7 @@ class OptionalDouble_ShouldHaveValueCloseToOffset_create_Test {
     // WHEN
     String errorMessage = shouldHaveValueCloseToOffset(OptionalDouble.of(20.0), 10.0, within(2.0), 3).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting:%n  OptionalDouble[20.0]%nto be close to:%n  10.0%n" +
+    then(errorMessage).isEqualTo(format("%nExpecting actual:%n  OptionalDouble[20.0]%nto be close to:%n  10.0%n" +
                                         "by less than 2.0 but difference was 3.0.%n" +
                                         "(a difference of exactly 2.0 being considered valid)"));
   }

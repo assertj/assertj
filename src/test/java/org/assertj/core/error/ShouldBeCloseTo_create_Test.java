@@ -42,7 +42,7 @@ class ShouldBeCloseTo_create_Test {
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  2011-01-01T00:00:00.000%n" +
                                    "to be close to:%n" +
                                    "  2011-01-01T00:00:00.101%n" +
@@ -58,7 +58,7 @@ class ShouldBeCloseTo_create_Test {
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  PT1H%n" +
                                    "to be close to:%n" +
                                    "  PT2H%n" +
@@ -73,7 +73,7 @@ class ShouldBeCloseTo_create_Test {
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  13:22:37%n" +
                                    "to be close to:%n" +
                                    "  13:22:32%n" +

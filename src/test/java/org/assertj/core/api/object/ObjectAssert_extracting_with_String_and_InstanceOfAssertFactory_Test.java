@@ -94,7 +94,7 @@ class ObjectAssert_extracting_with_String_and_InstanceOfAssertFactory_Test
     // WHEN
     AssertionError error = expectAssertionError(() -> assertThat(luke).extracting("name.first", LONG));
     // THEN
-    then(error).hasMessageContainingAll("Expecting:", "to be an instance of:", "but was instance of:");
+    then(error).hasMessageContainingAll("Expecting actual:", "to be an instance of:", "but was instance of:");
   }
 
   @Test

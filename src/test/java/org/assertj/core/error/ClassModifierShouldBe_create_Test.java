@@ -33,7 +33,7 @@ class ClassModifierShouldBe_create_Test {
     String error = shouldBeFinal(nonFinalClass).create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
-                                 "Expecting:%n" +
+                                 "Expecting actual:%n" +
                                  "  java.lang.Object%n" +
                                  "to be a \"final\" class but was \"public\"."));
   }
@@ -46,7 +46,7 @@ class ClassModifierShouldBe_create_Test {
     String error = shouldNotBeFinal(finalClass).create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
-                                 "Expecting:%n" +
+                                 "Expecting actual:%n" +
                                  "  java.lang.String%n" +
                                  "not to be a \"final\" class but was \"public final\"."));
   }
@@ -59,7 +59,7 @@ class ClassModifierShouldBe_create_Test {
     String error = shouldBePublic(packagePrivateEnum).create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
-                                 "Expecting:%n" +
+                                 "Expecting actual:%n" +
                                  "  org.assertj.core.error.ClassModifierShouldBe_create_Test.PackagePrivateEnum%n" +
                                  "to be a \"public\" class but was \"package-private static final\"."));
   }
@@ -72,7 +72,7 @@ class ClassModifierShouldBe_create_Test {
     String error = shouldBePublic(packagePrivateClass).create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
-                                 "Expecting:%n" +
+                                 "Expecting actual:%n" +
                                  "  org.assertj.core.error.ClassModifierShouldBe_create_Test.PackagePrivateClass%n" +
                                  "to be a \"public\" class but was \"package-private\"."));
   }

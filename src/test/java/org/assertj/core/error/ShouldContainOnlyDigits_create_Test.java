@@ -33,7 +33,7 @@ class ShouldContainOnlyDigits_create_Test {
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  \"10$\"%n" +
                                    "to contain only digits%n" +
                                    "but found non-digit character '$' at index <2>"));
@@ -47,7 +47,7 @@ class ShouldContainOnlyDigits_create_Test {
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  \"\"%n" +
                                    "to contain only digits%n" +
                                    "but could not found any digits at all"));

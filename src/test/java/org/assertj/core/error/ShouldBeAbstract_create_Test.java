@@ -30,7 +30,7 @@ class ShouldBeAbstract_create_Test {
     String message = errorMessageFactory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  java.lang.String%n" +
                                    "to be abstract"));
   }

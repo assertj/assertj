@@ -36,7 +36,7 @@ public class ShouldNotBeEqualWithinOffset extends BasicErrorMessageFactory {
 
   private <T extends Number> ShouldNotBeEqualWithinOffset(Number actual, Number expected, Offset<T> offset,
                                                           Number difference) {
-    super("%nExpecting:%n" +
+    super("%nExpecting actual:%n" +
           "  %s%n" +
           "not to be close to:%n" +
           "  %s%n" +

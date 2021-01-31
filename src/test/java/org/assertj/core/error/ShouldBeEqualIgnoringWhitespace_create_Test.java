@@ -39,7 +39,7 @@ class ShouldBeEqualIgnoringWhitespace_create_Test {
     String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  \" my\tfoo bar \"%n" +
                                    "to be equal to:%n" +
                                    "  \" myfoo bar \"%n" +

@@ -37,7 +37,7 @@ class ShouldOnlyHaveElementsOfTypes_create_Test {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  [\"Yoda\", 42, \"Luke\"]%n" +
                                    "to only have instances of:%n" +
                                    "  [java.lang.Number, java.lang.Long]%n" +

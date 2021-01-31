@@ -33,7 +33,7 @@ public class OptionalDoubleShouldHaveValueCloseToPercentage extends BasicErrorMe
 
   private OptionalDoubleShouldHaveValueCloseToPercentage(OptionalDouble actual, double expected, Percentage percentage,
                                                          double expectedPercentage) {
-    super("%nExpecting:%n" +
+    super("%nExpecting actual:%n" +
           "  %s%n" +
           "to be close to:%n" +
           "  %s%n" +

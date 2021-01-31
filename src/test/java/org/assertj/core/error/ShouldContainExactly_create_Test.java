@@ -39,7 +39,7 @@ class ShouldContainExactly_create_Test {
     String message = factory.create(new TextDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting:%n"
+                                   + "Expecting actual:%n"
                                    + "  [\"Yoda\", \"Han\"]%n"
                                    + "to contain exactly (and in same order):%n"
                                    + "  [\"Luke\", \"Yoda\"]%n"
@@ -58,7 +58,7 @@ class ShouldContainExactly_create_Test {
     String message = factory.create(new TextDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting:%n"
+                                   + "Expecting actual:%n"
                                    + "  [\"Yoda\", \"Han\"]%n"
                                    + "to contain exactly (and in same order):%n"
                                    + "  [\"Yoda\"]%n"
@@ -75,7 +75,7 @@ class ShouldContainExactly_create_Test {
     String message = factory.create(new TextDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting:%n"
+                                   + "Expecting actual:%n"
                                    + "  [\"Yoda\"]%n"
                                    + "to contain exactly (and in same order):%n"
                                    + "  [\"Luke\", \"Yoda\"]%n"
@@ -112,7 +112,7 @@ class ShouldContainExactly_create_Test {
     String message = factory.create(new TextDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting:%n"
+                                   + "Expecting actual:%n"
                                    + "  [\"Yoda\", \"Han\"]%n"
                                    + "to contain exactly (and in same order):%n"
                                    + "  [\"Luke\", \"Yoda\"]%n"
@@ -149,7 +149,7 @@ class ShouldContainExactly_create_Test {
     String message = factory.create(new TextDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting:%n"
+                                   + "Expecting actual:%n"
                                    + "  [\"Yoda\"]%n"
                                    + "to contain exactly (and in same order):%n"
                                    + "  [\"Luke\", \"Yoda\"]%n"
@@ -168,7 +168,7 @@ class ShouldContainExactly_create_Test {
     String message = factory.create(new TextDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting:%n"
+                                   + "Expecting actual:%n"
                                    + "  [\"Yoda\", \"Han\"]%n"
                                    + "to contain exactly (and in same order):%n"
                                    + "  [\"Yoda\"]%n"

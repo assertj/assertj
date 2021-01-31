@@ -71,7 +71,7 @@ class IterableAssert_last_with_InstanceOfAssertFactory_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(iterable).last(INTEGER));
     // THEN
-    then(assertionError).hasMessageContainingAll("Expecting:", "to be an instance of:", "but was instance of:");
+    then(assertionError).hasMessageContainingAll("Expecting actual:", "to be an instance of:", "but was instance of:");
   }
 
 }

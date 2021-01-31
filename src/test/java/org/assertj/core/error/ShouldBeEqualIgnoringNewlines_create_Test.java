@@ -30,7 +30,7 @@ class ShouldBeEqualIgnoringNewlines_create_Test {
     String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  \"foo\"%n" +
                                    "to be equal to:%n" +
                                    "  \"bar\"%n" +

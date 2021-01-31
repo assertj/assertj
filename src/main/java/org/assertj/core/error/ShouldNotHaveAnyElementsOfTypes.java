@@ -20,7 +20,7 @@ public class ShouldNotHaveAnyElementsOfTypes extends BasicErrorMessageFactory {
   private ShouldNotHaveAnyElementsOfTypes(Object actual, Class<?>[] unexpectedTypes,
                                           Map<Class<?>, List<Object>> nonMatchingElementsByType) {
     super("%n" +
-          "Expecting:%n" +
+          "Expecting actual:%n" +
           "  %s%n" +
           "to not have any elements of the following types:%n" +
           "  %s%n" +

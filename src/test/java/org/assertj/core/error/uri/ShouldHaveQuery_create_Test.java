@@ -64,7 +64,7 @@ class ShouldHaveQuery_create_Test {
     String error = shouldHaveQuery(uri, null).create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
-                                 "Expecting:%n" +
+                                 "Expecting actual:%n" +
                                  "  <http://assertj.org/news?type=beta>%n" +
                                  "not to have a query but had:%n" +
                                  "  <\"type=beta\">"));
@@ -78,7 +78,7 @@ class ShouldHaveQuery_create_Test {
     String error = shouldHaveQuery(url, null).create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
-                                 "Expecting:%n" +
+                                 "Expecting actual:%n" +
                                  "  <http://assertj.org/news?type=beta>%n" +
                                  "not to have a query but had:%n" +
                                  "  <\"type=beta\">"));

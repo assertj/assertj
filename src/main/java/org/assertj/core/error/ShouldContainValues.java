@@ -37,6 +37,6 @@ public class ShouldContainValues extends BasicErrorMessageFactory {
   }
 
   private <V> ShouldContainValues(Object actual, Set<V> values) {
-    super("%nExpecting:%n  %s%nto contain values:%n  %s", actual, values);
+    super("%nExpecting actual:%n  %s%nto contain values:%n  %s", actual, values);
   }
 }

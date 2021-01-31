@@ -30,6 +30,6 @@ public class ShouldContainPattern extends BasicErrorMessageFactory {
   }
 
   private ShouldContainPattern(CharSequence actual, CharSequence pattern) {
-    super("%nExpecting:%n  %s%nto contain pattern:%n  %s", actual, pattern);
+    super("%nExpecting actual:%n  %s%nto contain pattern:%n  %s", actual, pattern);
   }
 }

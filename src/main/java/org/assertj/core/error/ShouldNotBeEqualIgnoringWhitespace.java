@@ -31,6 +31,6 @@ public class ShouldNotBeEqualIgnoringWhitespace extends BasicErrorMessageFactory
   }
 
   private ShouldNotBeEqualIgnoringWhitespace(CharSequence actual, CharSequence expected) {
-    super("%nExpecting:%n  %s%nnot to be equal to:%n  %s%nignoring whitespace differences", actual, expected);
+    super("%nExpecting actual:%n  %s%nnot to be equal to:%n  %s%nignoring whitespace differences", actual, expected);
   }
 }

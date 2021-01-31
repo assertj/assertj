@@ -37,7 +37,7 @@ class OffsetTimeAssert_isEqualToIgnoringNanoseconds_Test {
   @Test
   void should_fail_if_actual_is_not_equal_to_given_OffsetTime_with_nanoseconds_ignored() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refOffsetTime).isEqualToIgnoringNanos(refOffsetTime.plusSeconds(1)))
-                                                   .withMessage(format("%nExpecting:%n" +
+                                                   .withMessage(format("%nExpecting actual:%n" +
                                                                        "  00:00:01Z%n" +
                                                                        "to have same hour, minute and second as:%n" +
                                                                        "  00:00:02Z%n" +
@@ -47,7 +47,7 @@ class OffsetTimeAssert_isEqualToIgnoringNanoseconds_Test {
   @Test
   void should_fail_as_seconds_fields_are_different() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refOffsetTime).isEqualToIgnoringNanos(refOffsetTime.minusNanos(1)))
-                                                   .withMessage(format("%nExpecting:%n" +
+                                                   .withMessage(format("%nExpecting actual:%n" +
                                                                        "  00:00:01Z%n" +
                                                                        "to have same hour, minute and second as:%n" +
                                                                        "  00:00:00.999999999Z%n" +

@@ -37,7 +37,7 @@ class ShouldNotBeEqualIgnoringWhitespace_create_Test {
     String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  \" my\tfoo bar \"%n" +
                                    "not to be equal to:%n" +
                                    "  \" my  foo bar \"%n" +

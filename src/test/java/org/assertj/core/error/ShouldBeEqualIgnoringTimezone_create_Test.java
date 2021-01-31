@@ -43,7 +43,7 @@ class ShouldBeEqualIgnoringTimezone_create_Test {
     String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  12:00Z%n" +
                                    "to have same time fields except timezone as:%n" +
                                    "  12:00-18:00%n" +
@@ -59,7 +59,7 @@ class ShouldBeEqualIgnoringTimezone_create_Test {
     String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  2000-05-13T12:00Z (java.time.OffsetDateTime)%n" +
                                    "to have same time fields except timezone as:%n" +
                                    "  2000-05-13T12:00-18:00 (java.time.OffsetDateTime)%n" +

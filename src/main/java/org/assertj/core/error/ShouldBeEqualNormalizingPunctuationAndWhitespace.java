@@ -32,7 +32,7 @@ public class ShouldBeEqualNormalizingPunctuationAndWhitespace extends BasicError
 
   private ShouldBeEqualNormalizingPunctuationAndWhitespace(CharSequence actual, CharSequence expected) {
     super("%n" +
-          "Expecting:%n" +
+          "Expecting actual:%n" +
           "  %s%n" +
           "to be equal to:%n" +
           "  %s%n" +

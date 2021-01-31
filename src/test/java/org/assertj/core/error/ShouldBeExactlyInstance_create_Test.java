@@ -39,7 +39,7 @@ class ShouldBeExactlyInstance_create_Test {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  \"Yoda%%s\"%n" +
                                    "to be exactly an instance of:%n" +
                                    "  java.io.File%n" +

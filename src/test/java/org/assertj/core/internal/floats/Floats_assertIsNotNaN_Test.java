@@ -38,7 +38,7 @@ class Floats_assertIsNotNaN_Test extends FloatsBaseTest {
   @Test
   void should_fail_since_actual_is_equal_to_NaN() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotNaN(someInfo(), Float.NaN))
-                                                   .withMessage(format("%nExpecting:%n  NaNf%nnot to be equal to:%n  NaNf%n"));
+                                                   .withMessage(format("%nExpecting actual:%n  NaNf%nnot to be equal to:%n  NaNf%n"));
   }
 
   @Test
@@ -49,6 +49,6 @@ class Floats_assertIsNotNaN_Test extends FloatsBaseTest {
   @Test
   void should_fail_since_actual_is_equal_to_NaN_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsNotNaN(someInfo(), Float.NaN))
-                                                   .withMessage(format("%nExpecting:%n  NaNf%nnot to be equal to:%n  NaNf%n"));
+                                                   .withMessage(format("%nExpecting actual:%n  NaNf%nnot to be equal to:%n  NaNf%n"));
   }
 }

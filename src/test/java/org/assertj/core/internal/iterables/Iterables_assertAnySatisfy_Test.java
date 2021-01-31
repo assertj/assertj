@@ -85,17 +85,17 @@ class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     List<UnsatisfiedRequirement> errors = list(unsatisfiedRequirement("Luke", format("%n" +
-                                                                                                           "Expecting:%n" +
+                                                                                                           "Expecting actual:%n" +
                                                                                                            "  \"Luke\"%n" +
                                                                                                            "to contain:%n" +
                                                                                                            "  \"W\" ")),
                                                                      unsatisfiedRequirement("Leia", format("%n" +
-                                                                                                           "Expecting:%n" +
+                                                                                                           "Expecting actual:%n" +
                                                                                                            "  \"Leia\"%n" +
                                                                                                            "to contain:%n" +
                                                                                                            "  \"W\" ")),
                                                                      unsatisfiedRequirement("Yoda", format("%n" +
-                                                                                                           "Expecting:%n" +
+                                                                                                           "Expecting actual:%n" +
                                                                                                            "  \"Yoda\"%n" +
                                                                                                            "to contain:%n" +
                                                                                                            "  \"W\" ")),

@@ -51,7 +51,7 @@ public class ShouldNotContainSubsequence extends BasicErrorMessageFactory {
 
   private ShouldNotContainSubsequence(Object actual, Object subsequence, ComparisonStrategy comparisonStrategy,
                                       int index) {
-    super("%nExpecting:%n  %s%nto not contain subsequence:%n  %s%nbut was found starting at index %s%n%s",
+    super("%nExpecting actual:%n  %s%nto not contain subsequence:%n  %s%nbut was found starting at index %s%n%s",
           actual, subsequence, index, comparisonStrategy);
   }
 }

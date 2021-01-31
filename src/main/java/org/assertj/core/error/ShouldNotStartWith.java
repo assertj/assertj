@@ -48,7 +48,7 @@ public class ShouldNotStartWith extends BasicErrorMessageFactory {
   }
 
   private ShouldNotStartWith(Object actual, Object expected, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting:%n  %s%nnot to start with:%n  %s%n%s", actual, expected, comparisonStrategy);
+    super("%nExpecting actual:%n  %s%nnot to start with:%n  %s%n%s", actual, expected, comparisonStrategy);
   }
 
 }

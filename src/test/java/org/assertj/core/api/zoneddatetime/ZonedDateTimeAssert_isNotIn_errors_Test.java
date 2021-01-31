@@ -43,7 +43,7 @@ class ZonedDateTimeAssert_isNotIn_errors_Test extends ZonedDateTimeAssertBaseTes
   void test_isNotIn_assertion_error_message() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0,
                                                                                                  UTC)).isNotIn(ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC).toString(), ZonedDateTime.of(2012, 1, 1, 3, 3, 3, 0, UTC).toString()))
-                                                   .withMessage(format("%nExpecting:%n  2000-01-05T03:00:05Z (java.time.ZonedDateTime)%nnot to be in:%n"
+                                                   .withMessage(format("%nExpecting actual:%n  2000-01-05T03:00:05Z (java.time.ZonedDateTime)%nnot to be in:%n"
                                                                        +
                                                                        "  [2000-01-05T03:00:05Z (java.time.ZonedDateTime),%n    2012-01-01T03:03:03Z (java.time.ZonedDateTime)]%n"));
   }

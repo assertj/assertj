@@ -31,7 +31,7 @@ class ShouldBeInSameMinute_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-      "Expecting:%n" +
+      "Expecting actual:%n" +
       "  2010-01-01T03:01:02.000 (java.util.Date)%n" +
       "to have same year, month, day, hour and minute fields values as:%n" +
       "  2010-01-01T03:11:02.000 (java.util.Date)"));

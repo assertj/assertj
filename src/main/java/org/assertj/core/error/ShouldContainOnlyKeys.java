@@ -59,7 +59,7 @@ public class ShouldContainOnlyKeys extends BasicErrorMessageFactory {
   private ShouldContainOnlyKeys(Object actual, Object expected, Object notFound, Object notExpected,
 	                            ComparisonStrategy comparisonStrategy) {
 	super("%n" +
-	      "Expecting:%n" +
+	      "Expecting actual:%n" +
 	      "  %s%n" +
 	      "to contain only following keys:%n" +
 	      "  %s%n" +
@@ -72,7 +72,7 @@ public class ShouldContainOnlyKeys extends BasicErrorMessageFactory {
 
   private ShouldContainOnlyKeys(Object actual, Object expected, Object notFound, ComparisonStrategy comparisonStrategy) {
 	super("%n" +
-	      "Expecting:%n" +
+	      "Expecting actual:%n" +
 	      "  %s%n" +
 	      "to contain only following keys:%n" +
 	      "  %s%n" +

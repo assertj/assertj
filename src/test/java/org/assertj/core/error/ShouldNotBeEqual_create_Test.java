@@ -37,7 +37,7 @@ class ShouldNotBeEqual_create_Test {
     // WHEN
     String message = factory.create(new TestDescription("Jedi"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Jedi] %nExpecting:%n  \"Yoda\"%nnot to be equal to:%n  \"Luke\"%n"));
+    then(message).isEqualTo(format("[Jedi] %nExpecting actual:%n  \"Yoda\"%nnot to be equal to:%n  \"Luke\"%n"));
   }
 
   @Test
@@ -48,6 +48,6 @@ class ShouldNotBeEqual_create_Test {
     // WHEN
     String message = factory.create(new TestDescription("Jedi"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Jedi] %nExpecting:%n  \"Yoda\"%nnot to be equal to:%n  \"Luke\"%nwhen comparing values using CaseInsensitiveStringComparator"));
+    then(message).isEqualTo(format("[Jedi] %nExpecting actual:%n  \"Yoda\"%nnot to be equal to:%n  \"Luke\"%nwhen comparing values using CaseInsensitiveStringComparator"));
   }
 }

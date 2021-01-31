@@ -46,7 +46,7 @@ class ShouldHavePort_create_Test {
     String error = shouldHavePort(uri, -1).create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
-                                 "Expecting:%n" +
+                                 "Expecting actual:%n" +
                                  "  <http://assertj.org:8080/news>%n" +
                                  "not to have a port but had:%n" +
                                  "  <8080>"));
@@ -74,7 +74,7 @@ class ShouldHavePort_create_Test {
     String error = shouldHavePort(url, -1).create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
-                                 "Expecting:%n" +
+                                 "Expecting actual:%n" +
                                  "  <http://assertj.org:8080/news>%n" +
                                  "not to have a port but had:%n" +
                                  "  <8080>"));

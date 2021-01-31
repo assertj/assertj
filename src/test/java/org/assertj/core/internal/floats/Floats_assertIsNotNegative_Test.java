@@ -39,7 +39,7 @@ class Floats_assertIsNotNegative_Test extends FloatsBaseTest {
   @Test
   void should_fail_since_actual_is_negative() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotNegative(someInfo(), -6f))
-                                                   .withMessage(format("%nExpecting:%n  -6.0f%nto be greater than or equal to:%n  0.0f%n"));
+                                                   .withMessage(format("%nExpecting actual:%n  -6.0f%nto be greater than or equal to:%n  0.0f%n"));
   }
 
   @Test

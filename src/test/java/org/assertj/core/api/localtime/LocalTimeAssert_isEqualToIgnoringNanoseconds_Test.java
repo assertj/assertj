@@ -36,7 +36,7 @@ class LocalTimeAssert_isEqualToIgnoringNanoseconds_Test {
   @Test
   void should_fail_if_actual_is_not_equal_to_given_localtimetime_with_nanoseconds_ignored() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refLocalTime).isEqualToIgnoringNanos(refLocalTime.plusSeconds(1)))
-                                                   .withMessage(format("%nExpecting:%n" +
+                                                   .withMessage(format("%nExpecting actual:%n" +
                                                                        "  00:00:01%n" +
                                                                        "to have same hour, minute and second as:%n" +
                                                                        "  00:00:02%n" +
@@ -46,7 +46,7 @@ class LocalTimeAssert_isEqualToIgnoringNanoseconds_Test {
   @Test
   void should_fail_as_seconds_fields_are_different_even_if_time_difference_is_less_than_a_second() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(refLocalTime).isEqualToIgnoringNanos(refLocalTime.minusNanos(1)))
-                                                   .withMessage(format("%nExpecting:%n" +
+                                                   .withMessage(format("%nExpecting actual:%n" +
                                                                        "  00:00:01%n" +
                                                                        "to have same hour, minute and second as:%n" +
                                                                        "  00:00:00.999999999%n" +

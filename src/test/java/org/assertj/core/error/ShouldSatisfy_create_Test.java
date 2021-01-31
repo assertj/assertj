@@ -39,7 +39,7 @@ class ShouldSatisfy_create_Test {
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting:%n"
+                                   + "Expecting actual:%n"
                                    + "  \"Yoda\"%n"
                                    + "to satisfy:%n"
                                    + "  green lightsaber bearer"));
@@ -53,7 +53,7 @@ class ShouldSatisfy_create_Test {
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting:%n"
+                                   + "Expecting actual:%n"
                                    + "  [\"Luke\", \"Leia\", \"Yoda\"]%n"
                                    + "to satisfy all the consumers in any order."));
   }

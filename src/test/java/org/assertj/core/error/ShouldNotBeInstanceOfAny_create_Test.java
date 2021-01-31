@@ -37,7 +37,7 @@ class ShouldNotBeInstanceOfAny_create_Test {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  \"Yoda\"%n" +
                                    "not to be an instance of any of these types:%n" +
                                    "  [java.lang.String, java.lang.Object]"));
@@ -51,7 +51,7 @@ class ShouldNotBeInstanceOfAny_create_Test {
     // WHEN
     String message = shouldNotBeInstanceOfAny(throwable, types).create();
     // THEN
-    then(message).isEqualTo(format("%nExpecting:%n" +
+    then(message).isEqualTo(format("%nExpecting actual:%n" +
                                    "  \"" + getStackTrace(throwable) + "\"%n" +
                                    "not to be an instance of any of these types:%n" +
                                    "  [java.lang.NullPointerException, java.lang.IllegalArgumentException]"));

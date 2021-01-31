@@ -112,7 +112,7 @@ class ObjectAssert_extracting_with_Function_and_InstanceOfAssertFactory_Test
     // WHEN
     AssertionError error = expectAssertionError(() -> assertThat(luke).extracting(Employee::getAge, STRING));
     // THEN
-    then(error).hasMessageContainingAll("Expecting:", "to be an instance of:", "but was instance of:");
+    then(error).hasMessageContainingAll("Expecting actual:", "to be an instance of:", "but was instance of:");
   }
 
   @Test

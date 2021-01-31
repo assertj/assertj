@@ -44,7 +44,7 @@ class OffsetTimeAssert_isNotEqualTo_Test extends OffsetTimeAssertBaseTest {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(OffsetTime.of(3, 0, 5, 0,
                                                                                               ZoneOffset.UTC)).isNotEqualTo("03:00:05Z"))
                                                    .withMessage(format("%n" +
-                                                                       "Expecting:%n" +
+                                                                       "Expecting actual:%n" +
                                                                        "  03:00:05Z%n" +
                                                                        "not to be equal to:%n" +
                                                                        "  03:00:05Z%n"));

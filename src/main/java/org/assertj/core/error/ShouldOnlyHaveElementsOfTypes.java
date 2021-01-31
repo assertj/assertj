@@ -37,7 +37,7 @@ public class ShouldOnlyHaveElementsOfTypes extends BasicErrorMessageFactory {
 
   private ShouldOnlyHaveElementsOfTypes(Object actual, Class<?>[] types, Iterable<?> nonMatchingElements) {
     super("%n" +
-          "Expecting:%n" +
+          "Expecting actual:%n" +
           "  %s%n" +
           "to only have instances of:%n" +
           "  %s%n" +

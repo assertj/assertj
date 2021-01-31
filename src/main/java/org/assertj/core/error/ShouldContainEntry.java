@@ -51,7 +51,7 @@ public class ShouldContainEntry extends BasicErrorMessageFactory {
 
   private <K, V> ShouldContainEntry(Map<K, V> actual, Condition<?> entryCondition) {
     super("%n" +
-          "Expecting:%n" +
+          "Expecting actual:%n" +
           "  %s%n" +
           "to contain an entry satisfying:%n" +
           "  %s",
@@ -61,7 +61,7 @@ public class ShouldContainEntry extends BasicErrorMessageFactory {
   private <K, V> ShouldContainEntry(Map<K, V> actual, Condition<? super K> keyCondition,
                                     Condition<? super V> valueCondition) {
     super("%n" +
-          "Expecting:%n" +
+          "Expecting actual:%n" +
           "  %s%n" +
           "to contain an entry satisfying both key and value conditions:%n" +
           "- key condition:%n" +

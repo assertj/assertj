@@ -41,7 +41,7 @@ class ZonedDateTimeAssert_isEqualToIgnoringNanoseconds_Test {
     AssertionError assertionError = expectAssertionError(() -> assertThat(refDatetime).isEqualToIgnoringNanos(refDatetime.plusSeconds(1)));
     // THEN
     then(assertionError).hasMessage(format("%n" +
-                                           "Expecting:%n" +
+                                           "Expecting actual:%n" +
                                            "  2000-01-01T00:00:01Z (java.time.ZonedDateTime)%n" +
                                            "to have same year, month, day, hour, minute and second as:%n" +
                                            "  2000-01-01T00:00:02Z (java.time.ZonedDateTime)%n" +
@@ -54,7 +54,7 @@ class ZonedDateTimeAssert_isEqualToIgnoringNanoseconds_Test {
     AssertionError assertionError = expectAssertionError(() -> assertThat(refDatetime).isEqualToIgnoringNanos(refDatetime.minusNanos(1)));
     // THEN
     then(assertionError).hasMessage(format("%n" +
-                                           "Expecting:%n" +
+                                           "Expecting actual:%n" +
                                            "  2000-01-01T00:00:01Z (java.time.ZonedDateTime)%n" +
                                            "to have same year, month, day, hour, minute and second as:%n" +
                                            "  2000-01-01T00:00:00.999999999Z (java.time.ZonedDateTime)%n" +

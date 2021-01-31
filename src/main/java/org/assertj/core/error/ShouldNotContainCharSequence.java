@@ -48,7 +48,7 @@ public class ShouldNotContainCharSequence extends BasicErrorMessageFactory {
   public static ErrorMessageFactory shouldNotContain(CharSequence actual, CharSequence sequence,
                                                      ComparisonStrategy comparisonStrategy) {
     return new ShouldNotContainCharSequence("%n" +
-                                            "Expecting:%n" +
+                                            "Expecting actual:%n" +
                                             "  %s%n" +
                                             "not to contain:%n" +
                                             "  %s%n" +
@@ -72,7 +72,7 @@ public class ShouldNotContainCharSequence extends BasicErrorMessageFactory {
                                                      Set<? extends CharSequence> found,
                                                      ComparisonStrategy comparisonStrategy) {
     return new ShouldNotContainCharSequence("%n" +
-                                            "Expecting:%n" +
+                                            "Expecting actual:%n" +
                                             "  %s%n" +
                                             "not to contain:%n" +
                                             "  %s%n" +
@@ -91,7 +91,7 @@ public class ShouldNotContainCharSequence extends BasicErrorMessageFactory {
    */
   public static ErrorMessageFactory shouldNotContainIgnoringCase(CharSequence actual, CharSequence sequence) {
     return new ShouldNotContainCharSequence("%n" +
-                                            "Expecting:%n" +
+                                            "Expecting actual:%n" +
                                             "  %s%n" +
                                             "not to contain (ignoring case):%n" +
                                             "  %s%n" +
@@ -102,7 +102,7 @@ public class ShouldNotContainCharSequence extends BasicErrorMessageFactory {
   public static ErrorMessageFactory shouldNotContainIgnoringCase(CharSequence actual, CharSequence[] sequences,
                                                                  Set<CharSequence> foundSequences) {
     return new ShouldNotContainCharSequence("%n" +
-                                            "Expecting:%n" +
+                                            "Expecting actual:%n" +
                                             "  %s%n" +
                                             "not to contain (ignoring case):%n" +
                                             "  %s%n" +

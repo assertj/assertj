@@ -21,7 +21,7 @@ import org.assertj.core.error.ErrorMessageFactory;
 public class ShouldHavePort extends BasicErrorMessageFactory {
 
   private static final int NO_PORT = -1;
-  private static final String SHOULD_HAVE_NO_PORT = "%nExpecting:%n  <%s>%nnot to have a port but had:%n  <%s>";
+  private static final String SHOULD_HAVE_NO_PORT = "%nExpecting actual:%n  <%s>%nnot to have a port but had:%n  <%s>";
   private static final String SHOULD_HAVE_PORT = "%nExpecting port of%n  <%s>%nto be:%n  <%s>%nbut was:%n  <%s>";
 
   public static ErrorMessageFactory shouldHavePort(URI actual, int expectedPort) {

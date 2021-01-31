@@ -39,7 +39,7 @@ class ShouldNotBeBetween_create_Test {
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  2009-01-01T00:00:00.000 (java.util.Date)%n" +
                                    "not to be in period:%n" +
                                    "  [2011-01-01T00:00:00.000 (java.util.Date), 2012-01-01T00:00:00.000 (java.util.Date)]"));
@@ -54,7 +54,7 @@ class ShouldNotBeBetween_create_Test {
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  2012-01-01T00:00:00.000 (java.util.Date)%n" +
                                    "not to be in period:%n" +
                                    "  [2011-01-01T00:00:00.000 (java.util.Date), 2012-01-01T00:00:00.000 (java.util.Date)["));
@@ -69,7 +69,7 @@ class ShouldNotBeBetween_create_Test {
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  2011-01-01T00:00:00.000 (java.util.Date)%n" +
                                    "not to be in period:%n" +
                                    "  ]2011-01-01T00:00:00.000 (java.util.Date), 2012-01-01T00:00:00.000 (java.util.Date)]"));
@@ -84,7 +84,7 @@ class ShouldNotBeBetween_create_Test {
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  2011-01-01T00:00:00.000 (java.util.Date)%n" +
                                    "not to be in period:%n" +
                                    "  ]2011-01-01T00:00:00.000 (java.util.Date), 2012-01-01T00:00:00.000 (java.util.Date)["));

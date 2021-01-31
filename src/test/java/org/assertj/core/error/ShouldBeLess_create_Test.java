@@ -40,7 +40,7 @@ class ShouldBeLess_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  8%n" +
                                    "to be less than:%n" +
                                    "  6 "));
@@ -54,7 +54,7 @@ class ShouldBeLess_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  8%n" +
                                    "to be less than:%n" +
                                    "  6 when comparing values using AbsValueComparator"));

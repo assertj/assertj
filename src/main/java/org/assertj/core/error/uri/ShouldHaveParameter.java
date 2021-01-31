@@ -20,25 +20,25 @@ import org.assertj.core.error.ErrorMessageFactory;
 
 public class ShouldHaveParameter extends BasicErrorMessageFactory {
 
-  private static final String SHOULD_HAVE_PARAMETER_BUT_WAS_MISSING = "%nExpecting:%n  <%s>%nto have parameter:%n  <%s>%nbut was missing";
-  private static final String SHOULD_HAVE_PARAMETER_WITHOUT_VALUE_BUT_PARAMETER_WAS_MISSING = "%nExpecting:%n  <%s>%nto have parameter:%n  <%s>%nwith no value, but parameter was missing";
-  private static final String SHOULD_HAVE_PARAMETER_WITH_VALUE_BUT_PARAMETER_WAS_MISSING = "%nExpecting:%n  <%s>%nto have parameter:%n  <%s>%nwith value:%n  <%s>%nbut parameter was missing";
+  private static final String SHOULD_HAVE_PARAMETER_BUT_WAS_MISSING = "%nExpecting actual:%n  <%s>%nto have parameter:%n  <%s>%nbut was missing";
+  private static final String SHOULD_HAVE_PARAMETER_WITHOUT_VALUE_BUT_PARAMETER_WAS_MISSING = "%nExpecting actual:%n  <%s>%nto have parameter:%n  <%s>%nwith no value, but parameter was missing";
+  private static final String SHOULD_HAVE_PARAMETER_WITH_VALUE_BUT_PARAMETER_WAS_MISSING = "%nExpecting actual:%n  <%s>%nto have parameter:%n  <%s>%nwith value:%n  <%s>%nbut parameter was missing";
 
-  private static final String SHOULD_HAVE_PARAMETER_WITHOUT_VALUE_BUT_HAD_VALUE = "%nExpecting:%n  <%s>%nto have parameter:%n  <%s>%nwith no value, but parameter had value:%n  <%s>";
-  private static final String SHOULD_HAVE_PARAMETER_WITHOUT_VALUE_BUT_HAD_VALUES = "%nExpecting:%n  <%s>%nto have parameter:%n  <%s>%nwith no value, but parameter had values:%n  <%s>";
-  private static final String SHOULD_HAVE_PARAMETER_WITH_VALUE_BUT_HAD_NO_VALUE = "%nExpecting:%n  <%s>%nto have parameter:%n  <%s>%nwith value:%n  <%s>%nbut parameter had no value";
+  private static final String SHOULD_HAVE_PARAMETER_WITHOUT_VALUE_BUT_HAD_VALUE = "%nExpecting actual:%n  <%s>%nto have parameter:%n  <%s>%nwith no value, but parameter had value:%n  <%s>";
+  private static final String SHOULD_HAVE_PARAMETER_WITHOUT_VALUE_BUT_HAD_VALUES = "%nExpecting actual:%n  <%s>%nto have parameter:%n  <%s>%nwith no value, but parameter had values:%n  <%s>";
+  private static final String SHOULD_HAVE_PARAMETER_WITH_VALUE_BUT_HAD_NO_VALUE = "%nExpecting actual:%n  <%s>%nto have parameter:%n  <%s>%nwith value:%n  <%s>%nbut parameter had no value";
 
-  private static final String SHOULD_HAVE_PARAMETER_VALUE_BUT_HAD_WRONG_VALUE = "%nExpecting:%n  <%s>%nto have parameter:%n  <%s>%nwith value:%n  <%s>%nbut had value:%n  <%s>";
-  private static final String SHOULD_HAVE_PARAMETER_VALUE_BUT_HAD_WRONG_VALUES = "%nExpecting:%n  <%s>%nto have parameter:%n  <%s>%nwith value:%n  <%s>%nbut had values:%n  <%s>";
+  private static final String SHOULD_HAVE_PARAMETER_VALUE_BUT_HAD_WRONG_VALUE = "%nExpecting actual:%n  <%s>%nto have parameter:%n  <%s>%nwith value:%n  <%s>%nbut had value:%n  <%s>";
+  private static final String SHOULD_HAVE_PARAMETER_VALUE_BUT_HAD_WRONG_VALUES = "%nExpecting actual:%n  <%s>%nto have parameter:%n  <%s>%nwith value:%n  <%s>%nbut had values:%n  <%s>";
 
-  private static final String SHOULD_HAVE_NO_PARAMETER_BUT_HAD_ONE_WITHOUT_VALUE = "%nExpecting:%n  <%s>%nnot to have parameter:%n  <%s>%nbut parameter was present with no value";
-  private static final String SHOULD_HAVE_NO_PARAMETER_BUT_HAD_ONE_VALUE = "%nExpecting:%n  <%s>%nnot to have parameter:%n  <%s>%nbut parameter was present with value:%n  <%s>";
-  private static final String SHOULD_HAVE_NO_PARAMETER_BUT_HAD_MULTIPLE_VALUES = "%nExpecting:%n  <%s>%nnot to have parameter:%n  <%s>%nbut parameter was present with values:%n  <%s>";
+  private static final String SHOULD_HAVE_NO_PARAMETER_BUT_HAD_ONE_WITHOUT_VALUE = "%nExpecting actual:%n  <%s>%nnot to have parameter:%n  <%s>%nbut parameter was present with no value";
+  private static final String SHOULD_HAVE_NO_PARAMETER_BUT_HAD_ONE_VALUE = "%nExpecting actual:%n  <%s>%nnot to have parameter:%n  <%s>%nbut parameter was present with value:%n  <%s>";
+  private static final String SHOULD_HAVE_NO_PARAMETER_BUT_HAD_MULTIPLE_VALUES = "%nExpecting actual:%n  <%s>%nnot to have parameter:%n  <%s>%nbut parameter was present with values:%n  <%s>";
 
-  private static final String SHOULD_HAVE_NO_PARAMETER_WITHOUT_VALUE_BUT_FOUND_ONE = "%nExpecting:%n  <%s>%nnot to have parameter:%n  <%s>%nwith no value, but did";
-  private static final String SHOULD_HAVE_NO_PARAMETER_WITH_GIVEN_VALUE_BUT_FOUND_ONE = "%nExpecting:%n  <%s>%nnot to have parameter:%n  <%s>%nwith value:%n  <%s>%nbut did";
+  private static final String SHOULD_HAVE_NO_PARAMETER_WITHOUT_VALUE_BUT_FOUND_ONE = "%nExpecting actual:%n  <%s>%nnot to have parameter:%n  <%s>%nwith no value, but did";
+  private static final String SHOULD_HAVE_NO_PARAMETER_WITH_GIVEN_VALUE_BUT_FOUND_ONE = "%nExpecting actual:%n  <%s>%nnot to have parameter:%n  <%s>%nwith value:%n  <%s>%nbut did";
 
-  private static final String SHOULD_HAVE_NO_PARAMETERS = "%nExpecting:%n  <%s>%nnot to have any parameters but found:%n  <%s>";
+  private static final String SHOULD_HAVE_NO_PARAMETERS = "%nExpecting actual:%n  <%s>%nnot to have any parameters but found:%n  <%s>";
 
   public static ErrorMessageFactory shouldHaveParameter(Object actual, String name) {
     return new ShouldHaveParameter(SHOULD_HAVE_PARAMETER_BUT_WAS_MISSING, actual, name);

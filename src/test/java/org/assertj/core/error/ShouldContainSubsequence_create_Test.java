@@ -37,7 +37,7 @@ class ShouldContainSubsequence_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n  [\"Yoda\", \"Luke\"]%nto contain subsequence:%n  [\"Han\", \"Leia\"]%n"));
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  [\"Yoda\", \"Luke\"]%nto contain subsequence:%n  [\"Han\", \"Leia\"]%n"));
   }
 
   @Test
@@ -48,7 +48,7 @@ class ShouldContainSubsequence_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n  [\"Yoda\", \"Luke\"]%nto contain subsequence:%n  [\"Han\", \"Leia\"]%n"
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  [\"Yoda\", \"Luke\"]%nto contain subsequence:%n  [\"Han\", \"Leia\"]%n"
                                    + "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

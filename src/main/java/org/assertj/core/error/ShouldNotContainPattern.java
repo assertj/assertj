@@ -30,7 +30,7 @@ public class ShouldNotContainPattern extends BasicErrorMessageFactory {
 
   private ShouldNotContainPattern(CharSequence actual, CharSequence pattern) {
     super("%n" +
-          "Expecting:%n" +
+          "Expecting actual:%n" +
           "  %s%n" +
           "not to contain pattern:%n" +
           "  %s",

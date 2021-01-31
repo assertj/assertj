@@ -34,7 +34,7 @@ class ShouldHaveDateField_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  2015-12-31T00:00:00.000 (java.util.Date)%n" +
                                    "to be on \"month\" 10"));
   }

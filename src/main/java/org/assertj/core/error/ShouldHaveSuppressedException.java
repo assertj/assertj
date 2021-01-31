@@ -30,7 +30,7 @@ public class ShouldHaveSuppressedException extends BasicErrorMessageFactory {
 
   private ShouldHaveSuppressedException(Throwable actual, Throwable expectedSuppressedException) {
     super("%n" +
-          "Expecting:%n" +
+          "Expecting actual:%n" +
           "  %s%n" +
           "to have a suppressed exception with the following type and message:%n" +
           "  %s / %s%n" +

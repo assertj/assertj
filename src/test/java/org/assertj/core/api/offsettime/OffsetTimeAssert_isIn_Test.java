@@ -45,7 +45,7 @@ class OffsetTimeAssert_isIn_Test extends OffsetTimeAssertBaseTest {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(OffsetTime.of(3, 0, 5, 0,
                                                                                               ZoneOffset.UTC)).isIn("03:03:03Z"))
                                                    .withMessage(format("%n" +
-                                                                       "Expecting:%n" +
+                                                                       "Expecting actual:%n" +
                                                                        "  03:00:05Z%n" +
                                                                        "to be in:%n" +
                                                                        "  [03:03:03Z]%n"));

@@ -47,6 +47,6 @@ public class ShouldBeAfterOrEqualTo extends BasicErrorMessageFactory {
   }
 
   private ShouldBeAfterOrEqualTo(Object actual, Object other, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting:%n  %s%nto be after or equal to:%n  %s%n%s", actual, other, comparisonStrategy);
+    super("%nExpecting actual:%n  %s%nto be after or equal to:%n  %s%n%s", actual, other, comparisonStrategy);
   }
 }

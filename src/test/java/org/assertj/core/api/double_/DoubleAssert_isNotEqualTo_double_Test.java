@@ -74,7 +74,7 @@ class DoubleAssert_isNotEqualTo_double_Test extends DoubleAssertBaseTest {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotEqualTo(expected));
     // THEN
-    then(assertionError).hasMessage(format("%nExpecting:%n" +
+    then(assertionError).hasMessage(format("%nExpecting actual:%n" +
                                            "  0.0%n" +
                                            "not to be equal to:%n" +
                                            "  -0.0%n"));

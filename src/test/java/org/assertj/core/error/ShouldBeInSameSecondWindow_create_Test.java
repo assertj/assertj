@@ -40,7 +40,7 @@ class ShouldBeInSameSecondWindow_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  2011-01-01T05:00:01.000 (java.util.Date)%n" +
                                    "to be close to:%n" +
                                    "  2011-01-01T05:00:02.001 (java.util.Date)%n" +

@@ -41,7 +41,7 @@ class ShouldNotBeIn_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting:%n"
+                                   + "Expecting actual:%n"
                                    + "  \"Luke\"%n"
                                    + "not to be in:%n"
                                    + "  [\"Luke\", \"Leia\"]%n"));
@@ -56,7 +56,7 @@ class ShouldNotBeIn_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting:%n"
+                                   + "Expecting actual:%n"
                                    + "  \"Luke\"%n"
                                    + "not to be in:%n"
                                    + "  [\"Luke\", \"Leia\"]%n"

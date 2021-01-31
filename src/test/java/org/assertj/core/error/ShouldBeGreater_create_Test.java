@@ -39,7 +39,7 @@ class ShouldBeGreater_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  6%n" +
                                    "to be greater than:%n" +
                                    "  8%n"));
@@ -53,7 +53,7 @@ class ShouldBeGreater_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  6%n" +
                                    "to be greater than:%n" +
                                    "  8%n" +

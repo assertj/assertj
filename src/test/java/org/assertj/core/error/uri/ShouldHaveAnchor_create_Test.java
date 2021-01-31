@@ -47,7 +47,7 @@ class ShouldHaveAnchor_create_Test {
     String error = shouldHaveAnchor(uri, null).create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
-                                 "Expecting:%n" +
+                                 "Expecting actual:%n" +
                                  "  <http://assertj.org/news#print>%n" +
                                  "not to have an anchor but had:%n" +
                                  "  <\"print\">"));

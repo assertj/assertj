@@ -38,7 +38,7 @@ class Doubles_assertIsNotZero_Test extends DoublesBaseTest {
   @Test
   void should_fail_since_actual_is_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotZero(someInfo(), 0.0))
-                                                   .withMessage(format("%nExpecting:%n  0.0%nnot to be equal to:%n  0.0%n"));
+                                                   .withMessage(format("%nExpecting actual:%n  0.0%nnot to be equal to:%n  0.0%n"));
   }
 
   @Test
@@ -49,7 +49,7 @@ class Doubles_assertIsNotZero_Test extends DoublesBaseTest {
   @Test
   void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0.0d))
-                                                   .withMessage(format("%nExpecting:%n  0.0%nnot to be equal to:%n  0.0%n"));
+                                                   .withMessage(format("%nExpecting actual:%n  0.0%nnot to be equal to:%n  0.0%n"));
   }
 
 }
