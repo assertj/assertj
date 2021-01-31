@@ -21,7 +21,7 @@ import java.util.Iterator;
 
 public class IterableElementComparisonStrategy<T> extends StandardComparisonStrategy {
 
-  private Comparator<? super T> elementComparator;
+  private final Comparator<? super T> elementComparator;
 
   public IterableElementComparisonStrategy(Comparator<? super T> elementComparator) {
     this.elementComparator = elementComparator;

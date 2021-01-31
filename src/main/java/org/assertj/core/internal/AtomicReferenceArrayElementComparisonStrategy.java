@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class AtomicReferenceArrayElementComparisonStrategy<T> extends StandardComparisonStrategy {
 
-  private Comparator<? super T> elementComparator;
+  private final Comparator<? super T> elementComparator;
 
   public AtomicReferenceArrayElementComparisonStrategy(Comparator<? super T> elementComparator) {
     this.elementComparator = elementComparator;

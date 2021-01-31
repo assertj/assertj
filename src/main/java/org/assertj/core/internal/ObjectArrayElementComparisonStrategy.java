@@ -19,7 +19,7 @@ import java.util.Comparator;
 
 public class ObjectArrayElementComparisonStrategy<T> extends StandardComparisonStrategy {
 
-  private Comparator<? super T> elementComparator;
+  private final Comparator<? super T> elementComparator;
 
   public ObjectArrayElementComparisonStrategy(Comparator<? super T> elementComparator) {
 	this.elementComparator = elementComparator;

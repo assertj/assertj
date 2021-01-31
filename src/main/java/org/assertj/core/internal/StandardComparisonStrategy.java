@@ -66,15 +66,42 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
   }
 
   /**
-   * Returns true if actual and other are equal based on {@link java.util.Objects#deepEquals(Object, Object)}, false otherwise.
+   * Returns {@code true} if the arguments are deeply equal to each other, {@code false} otherwise.
+   * <p>
+   * It mimics the behavior of {@link java.util.Objects#deepEquals(Object, Object)}, but without performing a reference
+   * check between the two arguments. According to {@code deepEquals} javadoc, the reference check should be delegated
+   * to the {@link Object#equals equals} method of the first argument, but this is not happening. Bug JDK-8196069 also
+   * mentions this gap.
    *
-   * @param actual the object to compare to other
-   * @param other the object to compare to actual
-   * @return true if actual and other are equal based on {@link java.util.Objects#deepEquals(Object, Object)}, false otherwise.
+   * @param actual the object to compare to {@code other}
+   * @param other the object to compare to {@code actual}
+   * @return {@code true} if the arguments are deeply equal to each other, {@code false} otherwise
+   *
+   * @see <a href="https://bugs.java.com/bugdatabase/view_bug.do?bug_id=8196069">JDK-8196069</a>
+   *
    */
   @Override
   public boolean areEqual(Object actual, Object other) {
-    return java.util.Objects.deepEquals(actual, other);
+    if (actual == null) return other == null;
+    if (actual instanceof Object[] && other instanceof Object[])
+      return java.util.Arrays.deepEquals((Object[]) actual, (Object[]) other);
+    if (actual instanceof byte[] && other instanceof byte[])
+      return java.util.Arrays.equals((byte[]) actual, (byte[]) other);
+    if (actual instanceof short[] && other instanceof short[])
+      return java.util.Arrays.equals((short[]) actual, (short[]) other);
+    if (actual instanceof int[] && other instanceof int[])
+      return java.util.Arrays.equals((int[]) actual, (int[]) other);
+    if (actual instanceof long[] && other instanceof long[])
+      return java.util.Arrays.equals((long[]) actual, (long[]) other);
+    if (actual instanceof char[] && other instanceof char[])
+      return java.util.Arrays.equals((char[]) actual, (char[]) other);
+    if (actual instanceof float[] && other instanceof float[])
+      return java.util.Arrays.equals((float[]) actual, (float[]) other);
+    if (actual instanceof double[] && other instanceof double[])
+      return java.util.Arrays.equals((double[]) actual, (double[]) other);
+    if (actual instanceof boolean[] && other instanceof boolean[])
+      return java.util.Arrays.equals((boolean[]) actual, (boolean[]) other);
+    return actual.equals(other);
   }
 
   /**
