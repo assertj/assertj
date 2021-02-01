@@ -56,21 +56,20 @@ class Multiple_combined_conditions_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(code);
     // THEN
-    assertThat(assertionError).hasMessage(format("%n" +
-                                                 "Expecting actual:%n" +
-                                                 "  \"Gandalf\"%n" +
-                                                 "to have:%n" +
-                                                 "  any of:[%n" +
-                                                 "   contains i,%n" +
-                                                 "   all of:[%n" +
-                                                 "      contains o,%n" +
-                                                 "      any of:[%n" +
-                                                 "         contains a,%n" +
-                                                 "         contains b,%n" +
-                                                 "         contains c%n" +
-                                                 "      ]%n" +
-                                                 "   ]%n" +
-                                                 "]"));
+    then(assertionError).hasMessage(format("%n" +
+                                           "Expecting actual:%n" +
+                                           "  \"Gandalf\"%n" +
+                                           "to have any of:[%n" +
+                                           "   contains i,%n" +
+                                           "   all of:[%n" +
+                                           "      contains o,%n" +
+                                           "      any of:[%n" +
+                                           "         contains a,%n" +
+                                           "         contains b,%n" +
+                                           "         contains c%n" +
+                                           "      ]%n" +
+                                           "   ]%n" +
+                                           "]"));
   }
 
   @Test
@@ -84,21 +83,20 @@ class Multiple_combined_conditions_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(code);
     // THEN
-    assertThat(assertionError).hasMessage(format("%n" +
-                                                 "Expecting actual:%n" +
-                                                 "  \"Gandalf\"%n" +
-                                                 "to have:%n" +
-                                                 "  any of:[%n" +
-                                                 "   contains i,%n" +
-                                                 "   all of:[%n" +
-                                                 "      contains o,%n" +
-                                                 "      any of:[%n" +
-                                                 "         contains a,%n" +
-                                                 "         contains b,%n" +
-                                                 "         contains c%n" +
-                                                 "      ]%n" +
-                                                 "   ]%n" +
-                                                 "]"));
+    then(assertionError).hasMessage(format("%n" +
+                                           "Expecting actual:%n" +
+                                           "  \"Gandalf\"%n" +
+                                           "to have any of:[%n" +
+                                           "   contains i,%n" +
+                                           "   all of:[%n" +
+                                           "      contains o,%n" +
+                                           "      any of:[%n" +
+                                           "         contains a,%n" +
+                                           "         contains b,%n" +
+                                           "         contains c%n" +
+                                           "      ]%n" +
+                                           "   ]%n" +
+                                           "]"));
   }
 
   private static Condition<String> contains(String s) {

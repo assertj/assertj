@@ -13,9 +13,12 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.allOf;
+import static org.assertj.core.api.Assertions.anyOf;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHave.shouldHave;
 
+import org.assertj.core.api.Condition;
 import org.assertj.core.api.TestCondition;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -35,6 +38,157 @@ class ShouldHave_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"Yoda\"%nto have:%n  green lightsaber"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yoda\"%n" +
+                                   "to have green lightsaber"));
   }
+
+  @Test
+  void should_create_error_message_for_allOf_condition() {
+    // GIVEN
+    TestCondition<Object> condition1 = new TestCondition<>("jedi power");
+    TestCondition<Object> condition2 = new TestCondition<>("sith power");
+    TestCondition<Object> condition3 = new TestCondition<>("a short life");
+    condition1.shouldMatch(true);
+    condition2.shouldMatch(false);
+    condition3.shouldMatch(false);
+    Condition<Object> allOf = allOf(condition1, condition2, condition3);
+    ErrorMessageFactory factory = shouldHave("Yoda", allOf);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yoda\"%n" +
+                                   "to have:%n" +
+                                   "[✗] all of:[%n" +
+                                   "   [✓] jedi power,%n" +
+                                   "   [✗] sith power,%n" +
+                                   "   [✗] a short life%n" +
+                                   "]"));
+  }
+
+  @Test
+  void should_create_error_message_for_allOf_condition_single_failed_condition() {
+    // GIVEN
+    TestCondition<Object> condition1 = new TestCondition<>("jedi power");
+    TestCondition<Object> condition2 = new TestCondition<>("sith power");
+    condition1.shouldMatch(true);
+    condition2.shouldMatch(false);
+    Condition<Object> allOf = allOf(condition1, condition2);
+    ErrorMessageFactory factory = shouldHave("Yoda", allOf);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yoda\"%n" +
+                                   "to have:%n" +
+                                   "[✗] all of:[%n" +
+                                   "   [✓] jedi power,%n" +
+                                   "   [✗] sith power%n" +
+                                   "]"));
+  }
+
+  @Test
+  void should_create_error_message_for_allOf_condition_with_all_nested_failed_conditions() {
+    // GIVEN
+    TestCondition<Object> condition1 = new TestCondition<>("a Sith");
+    TestCondition<Object> condition2 = new TestCondition<>("sith power");
+    TestCondition<Object> condition3 = new TestCondition<>("a short life");
+    condition1.shouldMatch(false);
+    condition2.shouldMatch(false);
+    condition3.shouldMatch(false);
+    Condition<Object> allOf = allOf(condition1,
+                                    allOf(condition1, condition2),
+                                    anyOf(condition2, condition3));
+    ErrorMessageFactory factory = shouldHave("Yoda", allOf);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yoda\"%n" +
+                                   "to have:%n" +
+                                   "[✗] all of:[%n" +
+                                   "   [✗] a Sith,%n" +
+                                   "   [✗] all of:[%n" +
+                                   "      [✗] a Sith,%n" +
+                                   "      [✗] sith power%n" +
+                                   "   ],%n" +
+                                   "   [✗] any of:[%n" +
+                                   "      [✗] sith power,%n" +
+                                   "      [✗] a short life%n" +
+                                   "   ]%n" +
+                                   "]"));
+  }
+
+  @Test
+  void should_create_error_message_reporting_which_allOf_nested_conditions_failed() {
+    // GIVEN
+    TestCondition<Object> condition1 = new TestCondition<>("jedi power");
+    TestCondition<Object> condition2 = new TestCondition<>("sith power");
+    TestCondition<Object> condition3 = new TestCondition<>("long life");
+    condition1.shouldMatch(true);
+    condition2.shouldMatch(false);
+    condition3.shouldMatch(true);
+    Condition<Object> allOf = allOf(condition1,
+                                    allOf(condition1, condition2),
+                                    anyOf(condition2, condition3));
+    ErrorMessageFactory factory = shouldHave("Yoda", allOf);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yoda\"%n" +
+                                   "to have:%n" +
+                                   "[✗] all of:[%n" +
+                                   "   [✓] jedi power,%n" +
+                                   "   [✗] all of:[%n" +
+                                   "      [✓] jedi power,%n" +
+                                   "      [✗] sith power%n" +
+                                   "   ],%n" +
+                                   "   [✓] any of:[%n" +
+                                   "      [✗] sith power,%n" +
+                                   "      [✓] long life%n" +
+                                   "   ]%n" +
+                                   "]"));
+  }
+
+  @Test
+  void should_create_error_message_reporting_which_allOf_deep_nested_conditions_failed() {
+    // GIVEN
+    TestCondition<Object> condition1 = new TestCondition<>("jedi power");
+    TestCondition<Object> condition2 = new TestCondition<>("sith power");
+    TestCondition<Object> condition3 = new TestCondition<>("a long life");
+    condition1.shouldMatch(true);
+    condition2.shouldMatch(false);
+    condition3.shouldMatch(true);
+    Condition<Object> allOf = allOf(allOf(condition1,
+                                          allOf(condition1,
+                                                allOf(condition2, condition3))));
+    ErrorMessageFactory factory = shouldHave("Yoda", allOf);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yoda\"%n" +
+                                   "to have:%n" +
+                                   "[✗] all of:[%n" +
+                                   "   [✗] all of:[%n" +
+                                   "      [✓] jedi power,%n" +
+                                   "      [✗] all of:[%n" +
+                                   "         [✓] jedi power,%n" +
+                                   "         [✗] all of:[%n" +
+                                   "            [✗] sith power,%n" +
+                                   "            [✓] a long life%n" +
+                                   "         ]%n" +
+                                   "      ]%n" +
+                                   "   ]%n" +
+                                   "]"));
+  }
+
 }

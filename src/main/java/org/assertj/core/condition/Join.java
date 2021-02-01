@@ -36,6 +36,9 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public abstract class Join<T> extends Condition<T> {
 
+  protected static final String SUFFIX_DELIMITER = "]";
+  protected static final String PREFIX_DELIMITER = ":[";
+
   @VisibleForTesting
   Collection<Condition<? super T>> conditions;
 
@@ -79,16 +82,28 @@ public abstract class Join<T> extends Condition<T> {
    * method used to calculate the the subclass join description
    */
   private void calculateDescription() {
-    List<Description> descriptions = conditions.stream()
-                                               .map(Condition::description)
-                                               .collect(toList());
-    describedAs(new JoinDescription(descriptionPrefix() + ":[", "]", descriptions));
+    List<Description> conditionsDescriptions = conditions.stream()
+                                                         .map(Condition::description)
+                                                         .collect(toList());
+    String prefix = descriptionPrefix() + PREFIX_DELIMITER;
+    String suffix = SUFFIX_DELIMITER;
+    describedAs(new JoinDescription(prefix, suffix, conditionsDescriptions));
   }
 
   @Override
   public Description description() {
     calculateDescription();
     return super.description();
+  }
+
+  @Override
+  public Description conditionDescriptionWithStatus(T actual) {
+    List<Description> descriptionsWithStatus = conditions.stream()
+                                                         .map(condition -> condition.conditionDescriptionWithStatus(actual))
+                                                         .collect(toList());
+    String prefix = status(actual).label + " " + descriptionPrefix() + PREFIX_DELIMITER;
+    String suffix = SUFFIX_DELIMITER;
+    return new JoinDescription(prefix, suffix, descriptionsWithStatus);
   }
 
   private static <T> T notNull(T condition) {
@@ -99,7 +114,7 @@ public abstract class Join<T> extends Condition<T> {
    * Returns the conditions to join.
    * @return the conditions to join.
    */
-  protected final Collection<Condition<? super T>> conditions() {
+  public final Collection<Condition<? super T>> conditions() {
     return unmodifiableCollection(conditions);
   }
 }

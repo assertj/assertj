@@ -13,11 +13,12 @@
 package org.assertj.core.error;
 
 import org.assertj.core.api.Condition;
+import org.assertj.core.condition.AllOf;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value satisfies a <code>{@link Condition}</code>
  * failed.
- * 
+ *
  * @author Yvonne Wang
  * @author Mikhail Mazursky
  */
@@ -31,10 +32,20 @@ public class ShouldHave extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static <T> ErrorMessageFactory shouldHave(T actual, Condition<? super T> condition) {
+    if (condition instanceof AllOf) return new ShouldHave(actual, (AllOf<? super T>) condition);
     return new ShouldHave(actual, condition);
   }
 
   private ShouldHave(Object actual, Condition<?> condition) {
-    super("%nExpecting actual:%n  %s%nto have:%n  %s", actual, condition);
+    super("%nExpecting actual:%n  %s%nto have %s", actual, condition);
+  }
+
+  private <T> ShouldHave(T actual, AllOf<? super T> allOf) {
+    super("%n" +
+          "Expecting actual:%n" +
+          "  %s%n" +
+          // use concatenation to avoid the string to be double quoted later on
+          "to have:%n" + allOf.conditionDescriptionWithStatus(actual),
+          actual);
   }
 }

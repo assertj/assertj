@@ -13,6 +13,8 @@
 package org.assertj.core.api;
 
 import static java.util.Objects.requireNonNull;
+import static org.assertj.core.api.Condition.Status.FAIL;
+import static org.assertj.core.api.Condition.Status.SUCCESS;
 
 import java.util.function.Predicate;
 
@@ -29,6 +31,24 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Alex Ruiz
  */
 public class Condition<T> implements Descriptable<Condition<T>> {
+
+  /**
+   * Describes the condition status after being evaluated.
+   */
+  public enum Status {
+    SUCCESS("[✓]"), FAIL("[✗]");
+
+    public final String label;
+
+    Status(String label) {
+      this.label = label;
+    }
+
+    @Override
+    public String toString() {
+      return this.label;
+    }
+  }
 
   @VisibleForTesting
   Description description;
@@ -113,6 +133,20 @@ public class Condition<T> implements Descriptable<Condition<T>> {
    */
   public Description description() {
     return description;
+  }
+
+  /**
+   * Returns the description of this condition with its status failed or success.
+   *
+   * @return the description of this condition with its status.
+   */
+  public Description conditionDescriptionWithStatus(T actual) {
+    Status status = status(actual);
+    return new TextDescription(status.label + " " + description().value());
+  }
+
+  protected Status status(T actual) {
+    return matches(actual) ? SUCCESS : FAIL;
   }
 
   /**

@@ -13,9 +13,12 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.allOf;
+import static org.assertj.core.api.Assertions.anyOf;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBe.shouldBe;
 
+import org.assertj.core.api.Condition;
 import org.assertj.core.api.TestCondition;
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
@@ -36,6 +39,157 @@ class ShouldBe_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"Yoda\"%nto be green"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yoda\"%n" +
+                                   "to be green"));
   }
+
+  @Test
+  void should_create_error_message_for_allOf_condition() {
+    // GIVEN
+    TestCondition<Object> condition1 = new TestCondition<>("a Jedi");
+    TestCondition<Object> condition2 = new TestCondition<>("very tall");
+    TestCondition<Object> condition3 = new TestCondition<>("young");
+    condition1.shouldMatch(true);
+    condition2.shouldMatch(false);
+    condition3.shouldMatch(false);
+    Condition<Object> allOf = allOf(condition1, condition2, condition3);
+    ErrorMessageFactory factory = shouldBe("Yoda", allOf);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yoda\"%n" +
+                                   "to be:%n" +
+                                   "[✗] all of:[%n" +
+                                   "   [✓] a Jedi,%n" +
+                                   "   [✗] very tall,%n" +
+                                   "   [✗] young%n" +
+                                   "]"));
+  }
+
+  @Test
+  void should_create_error_message_for_allOf_condition_single_failed_condition() {
+    // GIVEN
+    TestCondition<Object> condition1 = new TestCondition<>("a Jedi");
+    TestCondition<Object> condition2 = new TestCondition<>("very tall");
+    condition1.shouldMatch(true);
+    condition2.shouldMatch(false);
+    Condition<Object> allOf = allOf(condition1, condition2);
+    ErrorMessageFactory factory = shouldBe("Yoda", allOf);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yoda\"%n" +
+                                   "to be:%n" +
+                                   "[✗] all of:[%n" +
+                                   "   [✓] a Jedi,%n" +
+                                   "   [✗] very tall%n" +
+                                   "]"));
+  }
+
+  @Test
+  void should_create_error_message_for_allOf_condition_with_all_nested_failed_conditions() {
+    // GIVEN
+    TestCondition<Object> condition1 = new TestCondition<>("a Sith");
+    TestCondition<Object> condition2 = new TestCondition<>("very tall");
+    TestCondition<Object> condition3 = new TestCondition<>("young");
+    condition1.shouldMatch(false);
+    condition2.shouldMatch(false);
+    condition3.shouldMatch(false);
+    Condition<Object> allOf = allOf(condition1,
+                                    allOf(condition1, condition2),
+                                    anyOf(condition2, condition3));
+    ErrorMessageFactory factory = shouldBe("Yoda", allOf);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yoda\"%n" +
+                                   "to be:%n" +
+                                   "[✗] all of:[%n" +
+                                   "   [✗] a Sith,%n" +
+                                   "   [✗] all of:[%n" +
+                                   "      [✗] a Sith,%n" +
+                                   "      [✗] very tall%n" +
+                                   "   ],%n" +
+                                   "   [✗] any of:[%n" +
+                                   "      [✗] very tall,%n" +
+                                   "      [✗] young%n" +
+                                   "   ]%n" +
+                                   "]"));
+  }
+
+  @Test
+  void should_create_error_message_reporting_which_allOf_nested_conditions_failed() {
+    // GIVEN
+    TestCondition<Object> condition1 = new TestCondition<>("a Jedi");
+    TestCondition<Object> condition2 = new TestCondition<>("very tall");
+    TestCondition<Object> condition3 = new TestCondition<>("very old");
+    condition1.shouldMatch(true);
+    condition2.shouldMatch(false);
+    condition3.shouldMatch(true);
+    Condition<Object> allOf = allOf(condition1,
+                                    allOf(condition1, condition2),
+                                    anyOf(condition2, condition3));
+    ErrorMessageFactory factory = shouldBe("Yoda", allOf);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yoda\"%n" +
+                                   "to be:%n" +
+                                   "[✗] all of:[%n" +
+                                   "   [✓] a Jedi,%n" +
+                                   "   [✗] all of:[%n" +
+                                   "      [✓] a Jedi,%n" +
+                                   "      [✗] very tall%n" +
+                                   "   ],%n" +
+                                   "   [✓] any of:[%n" +
+                                   "      [✗] very tall,%n" +
+                                   "      [✓] very old%n" +
+                                   "   ]%n" +
+                                   "]"));
+  }
+
+  @Test
+  void should_create_error_message_reporting_which_allOf_deep_nested_conditions_failed() {
+    // GIVEN
+    TestCondition<Object> condition1 = new TestCondition<>("a Jedi");
+    TestCondition<Object> condition2 = new TestCondition<>("very tall");
+    TestCondition<Object> condition3 = new TestCondition<>("old");
+    condition1.shouldMatch(true);
+    condition2.shouldMatch(false);
+    condition3.shouldMatch(true);
+    Condition<Object> allOf = allOf(allOf(condition1,
+                                          allOf(condition1,
+                                                allOf(condition2, condition3))));
+    ErrorMessageFactory factory = shouldBe("Yoda", allOf);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yoda\"%n" +
+                                   "to be:%n" +
+                                   "[✗] all of:[%n" +
+                                   "   [✗] all of:[%n" +
+                                   "      [✓] a Jedi,%n" +
+                                   "      [✗] all of:[%n" +
+                                   "         [✓] a Jedi,%n" +
+                                   "         [✗] all of:[%n" +
+                                   "            [✗] very tall,%n" +
+                                   "            [✓] old%n" +
+                                   "         ]%n" +
+                                   "      ]%n" +
+                                   "   ]%n" +
+                                   "]"));
+  }
+
 }
