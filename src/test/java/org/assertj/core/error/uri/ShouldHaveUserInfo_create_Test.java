@@ -48,7 +48,7 @@ class ShouldHaveUserInfo_create_Test {
     String error = shouldHaveUserInfo(uri, null).create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
-                                 "Expecting:%n" +
+                                 "Expecting actual:%n" +
                                  "  <http://test:pass@assertj.org/news>%n" +
                                  "not to have user info but had:%n" +
                                  "  <\"test:pass\">"));
@@ -78,7 +78,7 @@ class ShouldHaveUserInfo_create_Test {
     String error = shouldHaveUserInfo(url, null).create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
-                                 "Expecting:%n" +
+                                 "Expecting actual:%n" +
                                  "  <http://test:pass@assertj.org/news>%n" +
                                  "not to have user info but had:%n" +
                                  "  <\"test:pass\">"));

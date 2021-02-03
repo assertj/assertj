@@ -22,7 +22,7 @@ public class ShouldNotBeEqualComparingFieldByFieldRecursively extends BasicError
                                                                                      Representation representation) {
     String recursiveComparisonConfigurationDescription = recursiveComparisonConfiguration.multiLineDescription(representation);
     return new ShouldNotBeEqualComparingFieldByFieldRecursively("%n" +
-                                                                "Expecting:%n" +
+                                                                "Expecting actual:%n" +
                                                                 "  %s%n" +
                                                                 "not to be equal to:%n" +
                                                                 "  %s%n" +

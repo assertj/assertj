@@ -33,7 +33,7 @@ class ShouldContainAnyOf_create_Test {
     String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  [\"Yoda\", \"Han\", \"Han\"]%n" +
                                    "to contain at least one of the following elements:%n" +
                                    "  [\"Vador\", \"Leia\"]%n" +
@@ -49,7 +49,7 @@ class ShouldContainAnyOf_create_Test {
     String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  [\"Yoda\", \"Han\", \"Han\"]%n" +
                                    "to contain at least one of the following elements:%n" +
                                    "  [\"Vador\", \"Leia\"]%n" +

@@ -35,7 +35,7 @@ class ShouldNotBeEqualComparingFieldByFieldRecursively_create_Test {
                                                                       REPRESENTATION).create(TEST_DESCRIPTION, REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  \"Yoda\"%n" +
                                    "not to be equal to:%n" +
                                    "  \"Luke\"%n" +
@@ -58,7 +58,7 @@ class ShouldNotBeEqualComparingFieldByFieldRecursively_create_Test {
                                                                       REPRESENTATION).create(TEST_DESCRIPTION, REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  \"Yoda\"%n" +
                                    "not to be equal to:%n" +
                                    "  \"Luke\"%n" +

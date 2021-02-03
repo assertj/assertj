@@ -382,17 +382,17 @@ class SoftAssertionsTest extends BaseAssertionsTest {
       assertThat(errors.get(45)).contains(shouldBeEqualMessage("OptionalLong[0]", "1L"));
       assertThat(errors.get(46)).contains("Expecting port of");
       assertThat(errors.get(47)).contains("to have failed");
-      assertThat(errors.get(48)).contains(format("%nExpecting:%n  given predicate%n"
+      assertThat(errors.get(48)).contains(format("%nExpecting actual:%n  given predicate%n"
                                                  + "to accept \"something else\" but it did not."));
 
-      assertThat(errors.get(49)).contains(format("%nExpecting:%n  given predicate%n"
+      assertThat(errors.get(49)).contains(format("%nExpecting actual:%n  given predicate%n"
                                                  + "to accept 2 but it did not."));
 
-      assertThat(errors.get(50)).contains(format("%nExpecting:%n  given predicate%n"
+      assertThat(errors.get(50)).contains(format("%nExpecting actual:%n  given predicate%n"
                                                  + "to accept 2L but it did not."));
-      assertThat(errors.get(51)).contains(format("%nExpecting:%n  given predicate%n"
+      assertThat(errors.get(51)).contains(format("%nExpecting actual:%n  given predicate%n"
                                                  + "to accept 2.0 but it did not."));
-      assertThat(errors.get(52)).contains(format("%nExpecting:%n"
+      assertThat(errors.get(52)).contains(format("%nExpecting actual:%n"
                                                  + "  <http://assertj.org:80>%n"
                                                  + "not to have a port but had:%n"
                                                  + "  <80>"));

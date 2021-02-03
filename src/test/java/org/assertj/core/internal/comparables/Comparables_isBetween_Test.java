@@ -50,13 +50,13 @@ class Comparables_isBetween_Test extends ComparablesBaseTest {
   @Test
   void fails_if_actual_is_less_than_start() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), 6, 8, 10, true, true))
-                                                   .withMessage(format("%nExpecting:%n  6%nto be between:%n  [8, 10]%n"));
+                                                   .withMessage(format("%nExpecting actual:%n  6%nto be between:%n  [8, 10]%n"));
   }
 
   @Test
   void fails_if_actual_is_greater_than_end() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), 12, 8, 10, true, true))
-                                                   .withMessage(format("%nExpecting:%n  12%nto be between:%n  [8, 10]%n"));
+                                                   .withMessage(format("%nExpecting actual:%n  12%nto be between:%n  [8, 10]%n"));
   }
 
   @Test

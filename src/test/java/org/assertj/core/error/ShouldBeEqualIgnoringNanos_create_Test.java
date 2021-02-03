@@ -39,7 +39,7 @@ class ShouldBeEqualIgnoringNanos_create_Test {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  12:00%n" +
                                    "to have same hour, minute and second as:%n" +
                                    "  13:00%n" +
@@ -54,7 +54,7 @@ class ShouldBeEqualIgnoringNanos_create_Test {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  12:00Z%n" +
                                    "to have same hour, minute and second as:%n" +
                                    "  13:00Z%n" +

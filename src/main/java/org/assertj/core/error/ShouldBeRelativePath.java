@@ -24,7 +24,7 @@ import org.assertj.core.util.VisibleForTesting;
 public class ShouldBeRelativePath extends BasicErrorMessageFactory {
 
   @VisibleForTesting
-  public static final String SHOULD_BE_RELATIVE_PATH = "%nExpecting:%n  %s%nto be a relative path.";
+  public static final String SHOULD_BE_RELATIVE_PATH = "%nExpecting actual:%n  %s%nto be a relative path.";
 
   /**
    * Creates a new <code>{@link ShouldBeRelativePath}</code>.

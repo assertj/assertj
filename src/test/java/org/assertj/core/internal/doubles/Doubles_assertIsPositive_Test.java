@@ -37,7 +37,7 @@ class Doubles_assertIsPositive_Test extends DoublesBaseTest {
   @Test
   void should_fail_since_actual_is_not_positive() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsPositive(someInfo(), -6.0d))
-                                                   .withMessage(format("%nExpecting:%n  -6.0%nto be greater than:%n  0.0%n"));
+                                                   .withMessage(format("%nExpecting actual:%n  -6.0%nto be greater than:%n  0.0%n"));
   }
 
   @Test

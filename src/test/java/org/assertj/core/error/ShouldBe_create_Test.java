@@ -36,6 +36,6 @@ class ShouldBe_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n  \"Yoda\"%nto be green"));
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"Yoda\"%nto be green"));
   }
 }

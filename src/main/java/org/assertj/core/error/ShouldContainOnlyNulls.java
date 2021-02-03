@@ -38,7 +38,7 @@ public class ShouldContainOnlyNulls extends BasicErrorMessageFactory {
 
   private ShouldContainOnlyNulls(Object actual, ErrorType errorType, Iterable<?> notExpected) {
     super("%n" +
-          "Expecting:%n" +
+          "Expecting actual:%n" +
           "  %s%n" +
           "to contain only null elements but " + describe(errorType),
           actual, notExpected);

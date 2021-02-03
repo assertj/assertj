@@ -41,7 +41,7 @@ class ShouldContainCharSequence_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n  \"Yoda\"%nto contain:%n  \"Luke\" "));
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"Yoda\"%nto contain:%n  \"Luke\" "));
   }
 
   @Test
@@ -52,7 +52,7 @@ class ShouldContainCharSequence_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n  \"Yoda\"%nto contain:%n  \"Luke\" when comparing values using CaseInsensitiveStringComparator"));
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"Yoda\"%nto contain:%n  \"Luke\" when comparing values using CaseInsensitiveStringComparator"));
   }
 
   @Test
@@ -62,7 +62,7 @@ class ShouldContainCharSequence_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n  \"Yoda\"%nto contain:%n  \"Luke\"%n (ignoring case)"));
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"Yoda\"%nto contain:%n  \"Luke\"%n (ignoring case)"));
   }
 
   @Test
@@ -73,7 +73,7 @@ class ShouldContainCharSequence_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n  \"Yoda, Luke\"%nto contain:%n  [\"Luke\", \"Vador\", \"Solo\"]%nbut could not find:%n  [\"Vador\", \"Solo\"]%n "));
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"Yoda, Luke\"%nto contain:%n  [\"Luke\", \"Vador\", \"Solo\"]%nbut could not find:%n  [\"Vador\", \"Solo\"]%n "));
   }
 
 }

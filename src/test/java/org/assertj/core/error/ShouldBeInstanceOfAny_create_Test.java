@@ -44,7 +44,7 @@ class ShouldBeInstanceOfAny_create_Test {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  \"Yoda\"%n" +
                                    "to be an instance of any of:%n" +
                                    "  [java.io.File, java.util.regex.Pattern]%n" +

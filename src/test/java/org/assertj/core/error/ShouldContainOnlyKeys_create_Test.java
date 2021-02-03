@@ -43,7 +43,7 @@ class ShouldContainOnlyKeys_create_Test {
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(String.format("[Test] %n"
-                                          + "Expecting:%n"
+                                          + "Expecting actual:%n"
                                           + "  {\"color\"=\"green\", \"name\"=\"Yoda\"}%n"
                                           + "to contain only following keys:%n"
                                           + "  [\"jedi\", \"color\"]%n"
@@ -63,7 +63,7 @@ class ShouldContainOnlyKeys_create_Test {
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(String.format("[Test] %n"
-                                          + "Expecting:%n"
+                                          + "Expecting actual:%n"
                                           + "  {\"color\"=\"green\"}%n"
                                           + "to contain only following keys:%n"
                                           + "  [\"jedi\", \"color\"]%n"

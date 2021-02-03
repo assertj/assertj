@@ -30,6 +30,6 @@ class ShouldNotContainNull_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(String.format("[Test] %nExpecting:%n  [\"Luke\", \"Yoda\", null]%nnot to contain null elements"));
+    then(message).isEqualTo(String.format("[Test] %nExpecting actual:%n  [\"Luke\", \"Yoda\", null]%nnot to contain null elements"));
   }
 }

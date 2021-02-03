@@ -40,7 +40,7 @@ class ShouldBeIn_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  \"Yoda\"%n" +
                                    "to be in:%n" +
                                    "  [\"Luke\", \"Leia\"]%n"));
@@ -55,7 +55,7 @@ class ShouldBeIn_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  \"Yoda\"%n" +
                                    "to be in:%n" +
                                    "  [\"Luke\", \"Leia\"]%n" +

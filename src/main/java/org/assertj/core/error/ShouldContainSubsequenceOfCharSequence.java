@@ -49,7 +49,7 @@ public class ShouldContainSubsequenceOfCharSequence extends BasicErrorMessageFac
   public static ErrorMessageFactory shouldContainSubsequence(CharSequence actual, CharSequence[] strings,
                                                              int badOrderIndex, ComparisonStrategy comparisonStrategy) {
 
-    return new ShouldContainSubsequenceOfCharSequence("%nExpecting:%n" +
+    return new ShouldContainSubsequenceOfCharSequence("%nExpecting actual:%n" +
                                                       "  %s%n" +
                                                       "to contain the following CharSequences in this order:%n" +
                                                       "  %s%n" +

@@ -41,7 +41,7 @@ class OffsetDateTimeAssert_isEqualToIgnoringMinutes_Test {
     AssertionError assertionError = expectAssertionError(() -> assertThat(refOffsetDateTime).isEqualToIgnoringMinutes(refOffsetDateTime.minusMinutes(1)));
     // THEN
     then(assertionError).hasMessage(format("%n" +
-                                           "Expecting:%n" +
+                                           "Expecting actual:%n" +
                                            "  2000-01-01T23:00Z (java.time.OffsetDateTime)%n" +
                                            "to have same year, month, day and hour as:%n" +
                                            "  2000-01-01T22:59Z (java.time.OffsetDateTime)%nbut had not."));
@@ -53,7 +53,7 @@ class OffsetDateTimeAssert_isEqualToIgnoringMinutes_Test {
     AssertionError assertionError = expectAssertionError(() -> assertThat(refOffsetDateTime).isEqualToIgnoringMinutes(refOffsetDateTime.minusNanos(1)));
     // THEN
     then(assertionError).hasMessage(format("%n" +
-                                           "Expecting:%n" +
+                                           "Expecting actual:%n" +
                                            "  2000-01-01T23:00Z (java.time.OffsetDateTime)%n" +
                                            "to have same year, month, day and hour as:%n" +
                                            "  2000-01-01T22:59:59.999999999Z (java.time.OffsetDateTime)%nbut had not."));

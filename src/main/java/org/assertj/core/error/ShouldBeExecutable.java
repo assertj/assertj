@@ -23,7 +23,7 @@ import java.nio.file.Path;
  *
  */
 public class ShouldBeExecutable extends BasicErrorMessageFactory {
-  private static final String SHOULD_BE_EXECUTABLE = "%nExpecting:%n  %s%nto be executable.";
+  private static final String SHOULD_BE_EXECUTABLE = "%nExpecting actual:%n  %s%nto be executable.";
 
   private ShouldBeExecutable(File actual) {
     super(SHOULD_BE_EXECUTABLE, actual);

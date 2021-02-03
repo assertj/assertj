@@ -36,7 +36,7 @@ class ShouldContainOnlyNulls_create_Test {
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting:%n"
+                                   + "Expecting actual:%n"
                                    + "  [\"person\", null]%n"
                                    + "to contain only null elements but some elements were not:%n"
                                    + "  [\"person\"]"));
@@ -50,7 +50,7 @@ class ShouldContainOnlyNulls_create_Test {
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting:%n"
+                                   + "Expecting actual:%n"
                                    + "  []%n"
                                    + "to contain only null elements but it was empty"));
   }

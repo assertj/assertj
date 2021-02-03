@@ -63,7 +63,7 @@ class Iterables_assertAllSatisfy_Test extends IterablesBaseTest {
     assertThat(error).isNotNull();
 
     List<UnsatisfiedRequirement> errors = list(new UnsatisfiedRequirement("Yoda", format("%n" +
-                                                                                         "Expecting:%n" +
+                                                                                         "Expecting actual:%n" +
                                                                                          "  \"Yoda\"%n" +
                                                                                          "to start with:%n" +
                                                                                          "  \"L\"%n")));

@@ -37,7 +37,7 @@ class ShouldHaveSuppressedException_create_Test {
     String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  %s%n" +
                                    "to have a suppressed exception with the following type and message:%n" +
                                    "  \"java.lang.IllegalArgumentException\" / \"foo\"%n" +

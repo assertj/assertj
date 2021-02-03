@@ -34,7 +34,7 @@ class ShouldContainValues_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(String.format("[Test] %n" +
-                                          "Expecting:%n" +
+                                          "Expecting actual:%n" +
                                           "  {\"color\"=\"green\", \"name\"=\"Yoda\"}%n" +
                                           "to contain values:%n" +
                                           "  [\"VeryOld\", \"Vader\"]"));
@@ -49,7 +49,7 @@ class ShouldContainValues_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(String.format("[Test] %n" +
-                                          "Expecting:%n" +
+                                          "Expecting actual:%n" +
                                           "  {\"color\"=\"green\", \"name\"=\"Yoda\"}%n" +
                                           "to contain value:%n" +
                                           "  \"VeryOld\""));

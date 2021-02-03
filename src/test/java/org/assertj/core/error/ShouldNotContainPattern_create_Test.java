@@ -30,7 +30,7 @@ class ShouldNotContainPattern_create_Test {
     String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  \"Frodo\"%n" +
                                    "not to contain pattern:%n" +
                                    "  \"Fr.do\""));

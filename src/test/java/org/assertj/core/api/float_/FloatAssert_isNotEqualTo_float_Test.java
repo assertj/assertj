@@ -74,7 +74,7 @@ class FloatAssert_isNotEqualTo_float_Test extends FloatAssertBaseTest {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotEqualTo(expected));
     // THEN
-    then(assertionError).hasMessage(format("%nExpecting:%n" +
+    then(assertionError).hasMessage(format("%nExpecting actual:%n" +
                                            "  0.0f%n" +
                                            "not to be equal to:%n" +
                                            "  -0.0f%n"));

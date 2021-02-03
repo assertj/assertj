@@ -37,7 +37,7 @@ class ShouldContainSequenceOfCharSequence_create_Test {
     // WHEN
     String message = shouldContainSequence(actual, sequenceValues).create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n" +
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n" +
                                    "  \"{ 'title':'A Game of Thrones', 'author':'George Martin'}\"%n" +
                                    "to contain sequence:%n" +
                                    "  [\"{\", \"author\", \"title\", \"}\"]%n"));
@@ -53,7 +53,7 @@ class ShouldContainSequenceOfCharSequence_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n" +
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n" +
                                    "  \"{ 'title':'A Game of Thrones', 'author':'George Martin'}\"%n" +
                                    "to contain sequence:%n" +
                                    "  [\"{\", \"author\", \"title\", \"}\"]%n" +

@@ -47,7 +47,7 @@ class ShouldNotHaveAnyElementsOfTypes_create_Test {
 
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  [1, 2, 3.0, 4.1, 1]%n" +
                                    "to not have any elements of the following types:%n" +
                                    "  [java.lang.Long, java.lang.Double, java.math.BigDecimal]%n" +

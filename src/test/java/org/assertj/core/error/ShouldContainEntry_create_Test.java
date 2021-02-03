@@ -40,7 +40,7 @@ class ShouldContainEntry_create_Test {
     String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  {\"color\"=\"green\", \"name\"=\"Yoda\"}%n" +
                                    "to contain an entry satisfying:%n" +
                                    "  test condition"));
@@ -56,7 +56,7 @@ class ShouldContainEntry_create_Test {
     String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  {\"color\"=\"green\", \"name\"=\"Yoda\"}%n" +
                                    "to contain an entry satisfying both key and value conditions:%n" +
                                    "- key condition:%n" +

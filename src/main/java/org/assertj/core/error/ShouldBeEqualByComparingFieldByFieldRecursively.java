@@ -54,7 +54,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorM
     String differencesCount = differences.size() == 1 ? "difference:%n" : "%s differences:%n";
     // @format:off
     return new ShouldBeEqualByComparingFieldByFieldRecursively("%n" +
-                                                               "Expecting:%n" +
+                                                               "Expecting actual:%n" +
                                                                "  %s%n" +
                                                                "to be equal to:%n" +
                                                                "  %s%n" +

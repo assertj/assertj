@@ -20,7 +20,7 @@ import org.assertj.core.error.ErrorMessageFactory;
 
 public class ShouldHaveUserInfo extends BasicErrorMessageFactory {
 
-  private static final String SHOULD_HAVE_NO_USER_INFO = "%nExpecting:%n  <%s>%nnot to have user info but had:%n  <%s>";
+  private static final String SHOULD_HAVE_NO_USER_INFO = "%nExpecting actual:%n  <%s>%nnot to have user info but had:%n  <%s>";
   private static final String SHOULD_HAVE_USER_INFO = "%nExpecting user info of%n  <%s>%nto be:%n  <%s>%nbut was:%n  <%s>";
 
   public static ErrorMessageFactory shouldHaveUserInfo(URI actual, String expectedUserInfo) {

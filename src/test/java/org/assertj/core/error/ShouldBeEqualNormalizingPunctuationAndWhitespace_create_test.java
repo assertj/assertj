@@ -37,7 +37,7 @@ class ShouldBeEqualNormalizingPunctuationAndWhitespace_create_test {
     String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  \" Game-of-Thrones \"%n" +
                                    "to be equal to:%n" +
                                    "  \" Game of Thrones \"%n" +

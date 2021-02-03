@@ -36,7 +36,7 @@ class ShouldNotBeEqualIgnoringCase_create_Test {
     String message = factory.create(new TestDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  \"Yoda\"%n" +
                                    "not to be equal to:%n" +
                                    "  \"Luke\"%n" +

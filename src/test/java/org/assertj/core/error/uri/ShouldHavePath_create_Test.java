@@ -60,7 +60,7 @@ class ShouldHavePath_create_Test {
     String error = shouldHavePath(uri, null).create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting:%n" +
+                                       "Expecting actual:%n" +
                                        "  <http://assertj.org/news?type=beta>%n" +
                                        "not to have a path but had:%n" +
                                        "  <\"/news\">"));
@@ -74,7 +74,7 @@ class ShouldHavePath_create_Test {
     String error = shouldHavePath(url, null).create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting:%n" +
+                                       "Expecting actual:%n" +
                                        "  <http://assertj.org/news?type=beta>%n" +
                                        "not to have a path but had:%n" +
                                        "  <\"/news\">"));
@@ -82,7 +82,7 @@ class ShouldHavePath_create_Test {
     error = shouldHavePath(url, "").create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
-                                       "Expecting:%n" +
+                                       "Expecting actual:%n" +
                                        "  <http://assertj.org/news?type=beta>%n" +
                                        "not to have a path but had:%n" +
                                        "  <\"/news\">"));

@@ -153,7 +153,7 @@ class IterableAssert_usingFieldByFieldElementComparator_Test extends IterableAss
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(list1).usingFieldByFieldElementComparator()
                                                                                       .isIn(singletonList(list2)))
-                                                   .withMessage(format("%nExpecting:%n"
+                                                   .withMessage(format("%nExpecting actual:%n"
                                                                        + "  [Foo(id=id, bar=1)]%n"
                                                                        + "to be in:%n"
                                                                        + "  [[Foo(id=id, bar=2)]]%n"

@@ -42,7 +42,7 @@ class ShouldNotContainKey_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  {\"color\"=\"green\", \"name\"=\"Yoda\"}%n" +
                                    "not to contain key:%n" +
                                    "  \"age\""));

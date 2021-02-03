@@ -40,7 +40,7 @@ class ShouldBeEmptyDirectory_create_Test {
     // WHEN
     String message = shouldBeEmptyDirectory(directory, directoryContent).create(DESCRIPTION, STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo("[Test] %nExpecting:%n" +
+    then(message).isEqualTo("[Test] %nExpecting actual:%n" +
                             "  /root%n" +
                             "to be an empty directory but it contained:%n" +
                             "  [/bin/file1, /bin/file2]",
@@ -56,7 +56,7 @@ class ShouldBeEmptyDirectory_create_Test {
     // WHEN
     String message = shouldBeEmptyDirectory(directory, directoryContent).create(DESCRIPTION, STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo("[Test] %nExpecting:%n" +
+    then(message).isEqualTo("[Test] %nExpecting actual:%n" +
                             "  %s%n" +
                             "to be an empty directory but it contained:%n" +
                             "  %s",

@@ -41,7 +41,7 @@ class Optional_ShouldContain_create_Test {
     // WHEN
     String errorMessage = shouldContain(Optional.of(20), 10).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting:%n" +
+    then(errorMessage).isEqualTo(format("%nExpecting actual:%n" +
                                         "  Optional[20]%n" +
                                         "to contain:%n" +
                                         "  10%n" +
@@ -63,7 +63,7 @@ class Optional_ShouldContain_create_Test {
     // WHEN
     String errorMessage = shouldContain(OptionalDouble.of(20.0), 10.0).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting:%n" +
+    then(errorMessage).isEqualTo(format("%nExpecting actual:%n" +
                                         "  OptionalDouble[20.0]%n" +
                                         "to contain:%n" +
                                         "  10.0%n" +
@@ -85,7 +85,7 @@ class Optional_ShouldContain_create_Test {
     // WHEN
     String errorMessage = shouldContain(OptionalInt.of(20), 10).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting:%n" +
+    then(errorMessage).isEqualTo(format("%nExpecting actual:%n" +
                                         "  OptionalInt[20]%n" +
                                         "to contain:%n" +
                                         "  10%n" +
@@ -107,7 +107,7 @@ class Optional_ShouldContain_create_Test {
     // WHEN
     String errorMessage = shouldContain(OptionalLong.of(20L), 10L).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting:%n" +
+    then(errorMessage).isEqualTo(format("%nExpecting actual:%n" +
                                         "  OptionalLong[20]%n" +
                                         "to contain:%n" +
                                         "  10L%n" +
@@ -129,7 +129,7 @@ class Optional_ShouldContain_create_Test {
     // WHEN
     String errorMessage = shouldContainSame(Optional.of(10), 10).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting:%n" +
+    then(errorMessage).isEqualTo(format("%nExpecting actual:%n" +
                                         "  Optional[10]%n" +
                                         "to contain the instance (i.e. compared with ==):%n" +
                                         "  10%n" +

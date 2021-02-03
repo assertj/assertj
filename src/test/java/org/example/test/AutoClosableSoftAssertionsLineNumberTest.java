@@ -36,13 +36,13 @@ class AutoClosableSoftAssertionsLineNumberTest {
     AssertionError error = catchThrowableOfType(softly::close, AssertionError.class);
     // THEN
     assertThat(error).hasMessageContaining(format("%n"
-                                                  + "Expecting:%n"
+                                                  + "Expecting actual:%n"
                                                   + "  1%n"
                                                   + "to be less than:%n"
                                                   + "  0 %n"
                                                   + "at AutoClosableSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(AutoClosableSoftAssertionsLineNumberTest.java:33)%n"))
                      .hasMessageContaining(format("%n"
-                                                  + "Expecting:%n"
+                                                  + "Expecting actual:%n"
                                                   + "  1%n"
                                                   + "to be less than:%n"
                                                   + "  1 %n"

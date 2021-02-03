@@ -20,7 +20,7 @@ public class ShouldBeEqualIgnoringNewLines extends BasicErrorMessageFactory {
 
   private ShouldBeEqualIgnoringNewLines(CharSequence actual, CharSequence expected) {
     super("%n" +
-          "Expecting:%n" +
+          "Expecting actual:%n" +
           "  %s%n" +
           "to be equal to:%n" +
           "  %s%n" +

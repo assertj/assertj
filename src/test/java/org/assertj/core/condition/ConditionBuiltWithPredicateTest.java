@@ -66,7 +66,7 @@ class ConditionBuiltWithPredicateTest implements WithAssertions {
   void should_fail_if_condition_is_not_met() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat("Vader").is(jedi))
                                                    .withMessage(format("%n" +
-                                                                       "Expecting:%n" +
+                                                                       "Expecting actual:%n" +
                                                                        "  \"Vader\"%n" +
                                                                        "to be a jedi"));
   }

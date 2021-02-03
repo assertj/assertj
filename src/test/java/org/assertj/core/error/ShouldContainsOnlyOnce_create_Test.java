@@ -45,7 +45,7 @@ class ShouldContainsOnlyOnce_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n" +
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n" +
                                    "  [\"Yoda\", \"Han\", \"Han\"]%n" +
                                    "to contain only once:%n" +
                                    "  [\"Luke\", \"Yoda\"]%n" +
@@ -65,7 +65,7 @@ class ShouldContainsOnlyOnce_create_Test {
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  [\"Yoda\", \"Han\"]%n" +
                                    "to contain only once:%n" +
                                    "  [\"Luke\", \"Yoda\"]%n" +
@@ -83,7 +83,7 @@ class ShouldContainsOnlyOnce_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n" +
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n" +
                                    "  [\"Yoda\", \"Han\", \"Han\"]%n" +
                                    "to contain only once:%n" +
                                    "  [\"Yoda\"]%n" +
@@ -98,7 +98,7 @@ class ShouldContainsOnlyOnce_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n" +
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n" +
                                    "  [\"Yoda\", \"Han\"]%n" +
                                    "to contain only once:%n" +
                                    "  [\"Luke\"]%n" +

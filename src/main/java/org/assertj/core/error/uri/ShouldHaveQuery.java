@@ -21,7 +21,7 @@ import org.assertj.core.error.ErrorMessageFactory;
 public class ShouldHaveQuery extends BasicErrorMessageFactory {
 
   private static final String SHOULD_HAVE_QUERY = "%nExpecting query of%n  <%s>%nto be:%n  <%s>%nbut was:%n  <%s>";
-  private static final String SHOULD_NOT_HAVE_QUERY = "%nExpecting:%n  <%s>%nnot to have a query but had:%n  <%s>";
+  private static final String SHOULD_NOT_HAVE_QUERY = "%nExpecting actual:%n  <%s>%nnot to have a query but had:%n  <%s>";
 
   public static ErrorMessageFactory shouldHaveQuery(URI actual, String expectedQuery) {
     return expectedQuery == null ? new ShouldHaveQuery(actual) : new ShouldHaveQuery(actual, expectedQuery);

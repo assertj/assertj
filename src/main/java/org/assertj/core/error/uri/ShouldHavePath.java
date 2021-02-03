@@ -22,7 +22,7 @@ import org.assertj.core.error.ErrorMessageFactory;
 
 public class ShouldHavePath extends BasicErrorMessageFactory {
 
-  private static final String SHOULD_NOT_HAVE_PATH = "%nExpecting:%n  <%s>%nnot to have a path but had:%n  <%s>";
+  private static final String SHOULD_NOT_HAVE_PATH = "%nExpecting actual:%n  <%s>%nnot to have a path but had:%n  <%s>";
   private static final String SHOULD_HAVE_PATH = "%nExpecting path of%n  <%s>%nto be:%n  <%s>%nbut was:%n  <%s>";
 
   public static ErrorMessageFactory shouldHavePath(URI actual, String expectedPath) {

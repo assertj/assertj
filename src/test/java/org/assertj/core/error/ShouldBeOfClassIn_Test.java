@@ -37,6 +37,6 @@ class ShouldBeOfClassIn_Test {
     // WHEN
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n  \"Yoda\"%nto be of one these types:%n  [java.lang.Long, java.io.File]%nbut was:%n  java.lang.String"));
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"Yoda\"%nto be of one these types:%n  [java.lang.Long, java.io.File]%nbut was:%n  java.lang.String"));
   }
 }

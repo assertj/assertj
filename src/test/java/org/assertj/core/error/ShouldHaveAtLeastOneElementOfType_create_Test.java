@@ -34,7 +34,7 @@ class ShouldHaveAtLeastOneElementOfType_create_Test {
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(String.format("[Test] %n"
-                                          + "Expecting:%n"
+                                          + "Expecting actual:%n"
                                           + "  [\"Yoda\", \"Luke\"]%n"
                                           + "to have at least one element of type:%n"
                                           + "  java.lang.Long%n"
@@ -49,7 +49,7 @@ class ShouldHaveAtLeastOneElementOfType_create_Test {
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(String.format("[Test] %n"
-                                          + "Expecting:%n"
+                                          + "Expecting actual:%n"
                                           + "  [\"Yoda\", \"Luke\"]%n"
                                           + "to have at least one element of type:%n"
                                           + "  java.lang.Long%n"

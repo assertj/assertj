@@ -85,7 +85,7 @@ class MapAssert_extractingByKey_with_Key_and_InstanceOfAssertFactory_Test
     // WHEN
     AssertionError error = expectAssertionError(() -> assertThat(map).extractingByKey(NAME, as(INTEGER)));
     // THEN
-    then(error).hasMessageContainingAll("Expecting:", "to be an instance of:", "but was instance of:");
+    then(error).hasMessageContainingAll("Expecting actual:", "to be an instance of:", "but was instance of:");
   }
 
   @Test

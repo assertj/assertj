@@ -37,7 +37,7 @@ class ShouldBeEqualWithinPercentage_create_Test {
     String message = factory.create(new TestDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  12.0%n" +
                                    "to be close to:%n" +
                                    "  10.0%n" +
@@ -53,7 +53,7 @@ class ShouldBeEqualWithinPercentage_create_Test {
     String message = factory.create(new TestDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  12.0%n" +
                                    "to be close to:%n" +
                                    "  10.0%n" +
@@ -69,7 +69,7 @@ class ShouldBeEqualWithinPercentage_create_Test {
     String message = factory.create(new TestDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  12.0%n" +
                                    "to be close to:%n" +
                                    "  10.0%n" +

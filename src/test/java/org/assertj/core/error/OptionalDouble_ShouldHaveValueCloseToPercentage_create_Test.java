@@ -38,7 +38,7 @@ class OptionalDouble_ShouldHaveValueCloseToPercentage_create_Test {
     // WHEN
     String errorMessage = shouldHaveValueCloseToPercentage(OptionalDouble.of(20), 10, withinPercentage(2), 3).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting:%n  OptionalDouble[20.0]%n" +
+    then(errorMessage).isEqualTo(format("%nExpecting actual:%n  OptionalDouble[20.0]%n" +
                                         "to be close to:%n" +
                                         "  10.0%n" +
                                         "by less than 2%% but difference was 30.0%%.%n" +

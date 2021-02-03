@@ -66,7 +66,7 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
   private ShouldContainExactly(Object actual, Object expected, Object notFound, Object notExpected,
                                ComparisonStrategy comparisonStrategy) {
     super("%n" +
-          "Expecting:%n" +
+          "Expecting actual:%n" +
           "  %s%n" +
           "to contain exactly (and in same order):%n" +
           "  %s%n" +
@@ -79,7 +79,7 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
 
   private ShouldContainExactly(Object actual, Object expected, Object notFound, ComparisonStrategy comparisonStrategy) {
     super("%n" +
-          "Expecting:%n" +
+          "Expecting actual:%n" +
           "  %s%n" +
           "to contain exactly (and in same order):%n" +
           "  %s%n" +
@@ -91,7 +91,7 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
   private ShouldContainExactly(Object actual, Object expected, ComparisonStrategy comparisonStrategy,
                                Object unexpected) {
     super("%n" +
-          "Expecting:%n" +
+          "Expecting actual:%n" +
           "  %s%n" +
           "to contain exactly (and in same order):%n" +
           "  %s%n" +

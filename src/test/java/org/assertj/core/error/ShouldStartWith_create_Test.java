@@ -44,7 +44,7 @@ class ShouldStartWith_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n  [\"Yoda\", \"Luke\"]%nto start with:%n  [\"Han\", \"Leia\"]%n"));
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  [\"Yoda\", \"Luke\"]%nto start with:%n  [\"Han\", \"Leia\"]%n"));
   }
 
   @Test
@@ -55,7 +55,7 @@ class ShouldStartWith_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n  [\"Yoda\", \"Luke\"]%nto start with:%n  [\"Han\", \"Leia\"]%n"
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  [\"Yoda\", \"Luke\"]%nto start with:%n  [\"Han\", \"Leia\"]%n"
                                    + "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

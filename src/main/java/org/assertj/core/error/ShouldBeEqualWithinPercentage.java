@@ -41,7 +41,7 @@ public class ShouldBeEqualWithinPercentage extends BasicErrorMessageFactory {
 
   private ShouldBeEqualWithinPercentage(Number actual, Number expected, Percentage percentage,
                                         double expectedPercentage) {
-    super("%nExpecting:%n" +
+    super("%nExpecting actual:%n" +
           "  %s%n" +
           "to be close to:%n" +
           "  %s%n" +

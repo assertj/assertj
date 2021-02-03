@@ -38,7 +38,7 @@ class ShouldBeInSameMonth_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  2010-01-01T00:00:00.000 (java.util.Date)%n" +
                                    "to be on same year and month as:%n" +
                                    "  2010-02-01T00:00:00.000 (java.util.Date)"));

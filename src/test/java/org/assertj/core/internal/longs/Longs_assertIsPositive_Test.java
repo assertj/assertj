@@ -37,7 +37,7 @@ class Longs_assertIsPositive_Test extends LongsBaseTest {
   @Test
   void should_fail_since_actual_is_not_positive() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertIsPositive(someInfo(), -6L))
-                                                   .withMessage(format("%nExpecting:%n  -6L%nto be greater than:%n  0L%n"));
+                                                   .withMessage(format("%nExpecting actual:%n  -6L%nto be greater than:%n  0L%n"));
   }
 
   @Test
@@ -49,6 +49,6 @@ class Longs_assertIsPositive_Test extends LongsBaseTest {
   void should_fail_since_actual_is_not_positive_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertIsPositive(someInfo(),
                                                                                                                           0L))
-                                                   .withMessage(format("%nExpecting:%n  0L%nto be greater than:%n  0L%nwhen comparing values using AbsValueComparator"));
+                                                   .withMessage(format("%nExpecting actual:%n  0L%nto be greater than:%n  0L%nwhen comparing values using AbsValueComparator"));
   }
 }

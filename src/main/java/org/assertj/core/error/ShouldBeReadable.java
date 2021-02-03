@@ -23,7 +23,7 @@ import java.nio.file.Path;
  * 
  */
 public class ShouldBeReadable extends BasicErrorMessageFactory {
-  static final String SHOULD_BE_READABLE = "%nExpecting:%n  %s%nto be readable.";
+  static final String SHOULD_BE_READABLE = "%nExpecting actual:%n  %s%nto be readable.";
 
   private ShouldBeReadable(File actual) {
 	super(SHOULD_BE_READABLE, actual);

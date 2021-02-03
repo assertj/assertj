@@ -61,16 +61,16 @@ public class ShouldBeCloseTo extends BasicErrorMessageFactory {
     // seems equal in the error message.
     // Use standard formatting to avoid calling ToString.toStringOf for long that adds a 'L' (like 100L) to
     // differentiate integer from long (here there is no ambiguity).
-    super(format("%nExpecting:%n  %s%nto be close to:%n  %s%nby less than %sms but difference was %sms",
+    super(format("%nExpecting actual:%n  %s%nto be close to:%n  %s%nby less than %sms but difference was %sms",
                  formatAsDatetimeWithMs(actual), formatAsDatetimeWithMs(other), deltaInMilliseconds, difference));
   }
 
   private ShouldBeCloseTo(Temporal actual, Temporal other, String differenceDescription) {
-    super(format("%nExpecting:%n  %s%nto be close to:%n  %s%n%s", actual, other, differenceDescription));
+    super(format("%nExpecting actual:%n  %s%nto be close to:%n  %s%n%s", actual, other, differenceDescription));
   }
 
   private ShouldBeCloseTo(TemporalAmount actual, TemporalAmount other, TemporalAmount offset, TemporalAmount difference) {
-    super(format("%nExpecting:%n  %s%nto be close to:%n  %s%nwithin %s but difference was %s", actual, other, offset,
+    super(format("%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin %s but difference was %s", actual, other, offset,
                  difference));
   }
 }

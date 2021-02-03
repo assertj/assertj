@@ -47,7 +47,7 @@ public class ShouldNotContainSequence extends BasicErrorMessageFactory {
   }
 
   private ShouldNotContainSequence(Object actual, Object sequence, int index, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting:%n  %s%nto not contain sequence:%n  %s%nbut was found at index %s%n%s", actual, sequence, index, comparisonStrategy);
+    super("%nExpecting actual:%n  %s%nto not contain sequence:%n  %s%nbut was found at index %s%n%s", actual, sequence, index, comparisonStrategy);
   }
 
 }

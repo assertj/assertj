@@ -33,7 +33,7 @@ class ShouldBeSubstringOf_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  \"bcd\"%n" +
                                    "to be a substring of:%n" +
                                    "  \"abcdef\"%n"));
@@ -48,7 +48,7 @@ class ShouldBeSubstringOf_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  \"bcd\"%n" +
                                    "to be a substring of:%n" +
                                    "  \"abcdef\"%n" +

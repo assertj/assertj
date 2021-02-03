@@ -33,7 +33,7 @@ class ShouldNotContainSequence_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-      "Expecting:%n" +
+      "Expecting actual:%n" +
       "  [\"Yoda\", \"Luke\"]%n" +
       "to not contain sequence:%n" +
       "  [\"Yoda\", \"Luke\"]%n" +
@@ -49,7 +49,7 @@ class ShouldNotContainSequence_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-      "Expecting:%n" +
+      "Expecting actual:%n" +
       "  [\"yoDA\", \"LUke\"]%n" +
       "to not contain sequence:%n" +
       "  [\"Yoda\", \"Luke\"]%n" +

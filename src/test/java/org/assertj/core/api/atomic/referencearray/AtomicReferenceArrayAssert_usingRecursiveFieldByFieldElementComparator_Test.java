@@ -91,7 +91,7 @@ class AtomicReferenceArrayAssert_usingRecursiveFieldByFieldElementComparator_Tes
                                                              .isIn(new Object[] { array2 }));
     // THEN
     assertThat(error).isInstanceOf(AssertionError.class)
-                     .hasMessage(format("%nExpecting:%n"
+                     .hasMessage(format("%nExpecting actual:%n"
                                         + "  [Foo(id=id, bar=Bar(id=1))]%n"
                                         + "to be in:%n"
                                         + "  [[Foo(id=id, bar=Bar(id=2))]]%n"

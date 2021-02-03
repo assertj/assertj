@@ -50,7 +50,7 @@ class OffsetTimeAssert_isBefore_Test extends OffsetTimeAssertBaseTest {
                                                                                                                                       0,
                                                                                                                                       ZoneOffset.UTC)))
                                                    .withMessage(format("%n" +
-                                                                       "Expecting:%n" +
+                                                                       "Expecting actual:%n" +
                                                                        "  03:00:05Z%n" +
                                                                        "to be strictly before:%n" +
                                                                        "  03:00:04Z%n"));

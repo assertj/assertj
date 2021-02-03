@@ -23,7 +23,7 @@ import java.nio.file.Path;
  *
  */
 public class ShouldBeWritable extends BasicErrorMessageFactory {
-  static final String SHOULD_BE_WRITABLE = "%nExpecting:%n  %s%nto be writable.";
+  static final String SHOULD_BE_WRITABLE = "%nExpecting actual:%n  %s%nto be writable.";
 
   private ShouldBeWritable(File actual) {
 	super(SHOULD_BE_WRITABLE, actual);

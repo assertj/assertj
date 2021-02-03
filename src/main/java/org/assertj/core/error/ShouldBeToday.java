@@ -55,10 +55,10 @@ public class ShouldBeToday extends BasicErrorMessageFactory {
   }
 
   private ShouldBeToday(Date actual, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting:%n  %s%nto be today %s but was not.", actual, comparisonStrategy);
+    super("%nExpecting actual:%n  %s%nto be today %s but was not.", actual, comparisonStrategy);
   }
 
   private ShouldBeToday(LocalDate actual) {
-    super("%nExpecting:%n  %s%nto be today but was not.", actual);
+    super("%nExpecting actual:%n  %s%nto be today but was not.", actual);
   }
 }

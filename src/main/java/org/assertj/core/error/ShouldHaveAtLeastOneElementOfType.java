@@ -29,6 +29,6 @@ public class ShouldHaveAtLeastOneElementOfType extends BasicErrorMessageFactory 
   }
 
   private ShouldHaveAtLeastOneElementOfType(Object actual, Class<?> expectedType) {
-    super("%nExpecting:%n  %s%nto have at least one element of type:%n  %s%nbut had none.", actual, expectedType);
+    super("%nExpecting actual:%n  %s%nto have at least one element of type:%n  %s%nbut had none.", actual, expectedType);
   }
 }

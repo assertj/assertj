@@ -24,9 +24,9 @@ import org.assertj.core.util.VisibleForTesting;
 public class ShouldSatisfy extends BasicErrorMessageFactory {
 
   @VisibleForTesting
-  public static final String CONDITION_SHOULD_BE_SATISFIED = "%nExpecting:%n  %s%nto satisfy:%n  %s";
+  public static final String CONDITION_SHOULD_BE_SATISFIED = "%nExpecting actual:%n  %s%nto satisfy:%n  %s";
   @VisibleForTesting
-  public static final String CONSUMERS_SHOULD_BE_SATISFIED_IN_ANY_ORDER = "%nExpecting:%n  %s%nto satisfy all the consumers in any order.";
+  public static final String CONSUMERS_SHOULD_BE_SATISFIED_IN_ANY_ORDER = "%nExpecting actual:%n  %s%nto satisfy all the consumers in any order.";
   @VisibleForTesting
   public static final String CONSUMERS_SHOULD_NOT_BE_NULL = "The Consumer<? super E>... expressing the assertions consumers must not be null";
 

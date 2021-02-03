@@ -36,7 +36,7 @@ class ShouldNotBeInstance_create_Test {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  \"Yoda\"%n" +
                                    "not to be an instance of: java.lang.String"));
   }
@@ -48,7 +48,7 @@ class ShouldNotBeInstance_create_Test {
     // WHEN
     String message = shouldNotBeInstance(throwable, IllegalArgumentException.class).create();
     // THEN
-    then(message).isEqualTo(format("%nExpecting:%n" +
+    then(message).isEqualTo(format("%nExpecting actual:%n" +
                                    "  \"" + getStackTrace(throwable) + "\"%n" +
                                    "not to be an instance of: java.lang.IllegalArgumentException"));
   }

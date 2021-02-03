@@ -42,7 +42,7 @@ class ShouldContainKeys_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(String.format("[Test] %nExpecting:%n  {\"color\"=\"green\", \"name\"=\"Yoda\"}%nto contain key:%n  \"name\""));
+    then(message).isEqualTo(String.format("[Test] %nExpecting actual:%n  {\"color\"=\"green\", \"name\"=\"Yoda\"}%nto contain key:%n  \"name\""));
   }
 
   @Test
@@ -53,6 +53,6 @@ class ShouldContainKeys_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(String.format("[Test] %nExpecting:%n  {\"color\"=\"green\", \"name\"=\"Yoda\"}%nto contain keys:%n  [\"name\", \"color\"]"));
+    then(message).isEqualTo(String.format("[Test] %nExpecting actual:%n  {\"color\"=\"green\", \"name\"=\"Yoda\"}%nto contain keys:%n  [\"name\", \"color\"]"));
   }
 }

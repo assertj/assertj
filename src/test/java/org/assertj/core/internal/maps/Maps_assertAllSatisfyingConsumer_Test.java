@@ -105,7 +105,7 @@ class Maps_assertAllSatisfyingConsumer_Test extends MapsBaseTest {
   private static UnsatisfiedRequirement failOnPpgGreaterThanEqual(String team, Player player, int requiredScore) {
     SimpleEntry<String, Player> entry = new AbstractMap.SimpleEntry<>(team, player);
     String message = format("[" + player.getName().getName() + " ppg] %n" +
-                            "Expecting:%n" +
+                            "Expecting actual:%n" +
                             "  " + player.getPointsPerGame() + "%n" +
                             "to be greater than or equal to:%n" +
                             "  " + requiredScore + "%n");
@@ -115,7 +115,7 @@ class Maps_assertAllSatisfyingConsumer_Test extends MapsBaseTest {
   private static UnsatisfiedRequirement failOnPpgLessThan(String team, Player player, int requiredScore) {
     SimpleEntry<String, Player> entry = new AbstractMap.SimpleEntry<>(team, player);
     String message = format("[" + player.getName().getName() + " ppg] %n" +
-                            "Expecting:%n" +
+                            "Expecting actual:%n" +
                             "  " + player.getPointsPerGame() + "%n" +
                             "to be less than:%n" +
                             "  " + requiredScore + " ");

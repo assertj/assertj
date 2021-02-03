@@ -19,6 +19,6 @@ public class ShouldBeAbstract extends BasicErrorMessageFactory {
   }
 
   private ShouldBeAbstract(Class<?> actual) {
-    super("%nExpecting:%n  %s%nto be abstract", actual);
+    super("%nExpecting actual:%n  %s%nto be abstract", actual);
   }
 }

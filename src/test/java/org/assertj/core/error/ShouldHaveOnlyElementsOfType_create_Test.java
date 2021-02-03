@@ -37,7 +37,7 @@ class ShouldHaveOnlyElementsOfType_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting:%n"
+                                   + "Expecting actual:%n"
                                    + "  [\"Yoda\", 5L]%n"
                                    + "to only have elements of type:%n"
                                    + "  java.lang.String%n"
@@ -54,7 +54,7 @@ class ShouldHaveOnlyElementsOfType_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting:%n"
+                                   + "Expecting actual:%n"
                                    + "  [\"Yoda\", 5L]%n"
                                    + "to only have elements of type:%n"
                                    + "  java.lang.String%n"

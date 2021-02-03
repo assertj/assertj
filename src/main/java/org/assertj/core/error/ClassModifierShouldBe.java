@@ -29,7 +29,7 @@ public class ClassModifierShouldBe extends BasicErrorMessageFactory {
   private static final String PACKAGE_PRIVATE = "package-private";
 
   private ClassModifierShouldBe(Class<?> actual, boolean positive, String modifier) {
-    super("%nExpecting:%n  %s%n" + (positive ? "to" : "not to") + " be a %s class but was %s.",
+    super("%nExpecting actual:%n  %s%n" + (positive ? "to" : "not to") + " be a %s class but was %s.",
           actual, modifier, modifiers(actual));
   }
 

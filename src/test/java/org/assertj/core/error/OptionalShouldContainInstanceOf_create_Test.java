@@ -27,7 +27,7 @@ class OptionalShouldContainInstanceOf_create_Test {
     // WHEN
     String errorMessage = shouldContainInstanceOf(Optional.empty(), Object.class).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting:%n Optional%n" +
+    then(errorMessage).isEqualTo(format("%nExpecting actual:%n Optional%n" +
                                         "to contain a value that is an instance of:%n java.lang.Object%n" +
                                         "but was empty"));
   }
@@ -37,7 +37,7 @@ class OptionalShouldContainInstanceOf_create_Test {
     // WHEN
     String errorMessage = shouldContainInstanceOf(Optional.of(Integer.MIN_VALUE), String.class).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting:%n Optional%n" +
+    then(errorMessage).isEqualTo(format("%nExpecting actual:%n Optional%n" +
                                         "to contain a value that is an instance of:%n java.lang.String%n" +
                                         "but did contain an instance of:%n java.lang.Integer"));
   }

@@ -38,6 +38,6 @@ class ShouldHaveAtIndex_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n  \"Luke\"%nat index 1 to have:%n  red lightsaber%nin:%n  [\"Yoda\", \"Luke\"]%n"));
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"Luke\"%nat index 1 to have:%n  red lightsaber%nin:%n  [\"Yoda\", \"Luke\"]%n"));
   }
 }

@@ -31,7 +31,7 @@ class ShouldMatch_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n  \"Yoda\"%nto match given predicate." + ShouldMatch.ADVICE));
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"Yoda\"%nto match given predicate." + ShouldMatch.ADVICE));
   }
 
   @Test
@@ -42,7 +42,7 @@ class ShouldMatch_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n  \"Yoda\"%nto match 'green light saber' predicate."));
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"Yoda\"%nto match 'green light saber' predicate."));
   }
 
   @Test

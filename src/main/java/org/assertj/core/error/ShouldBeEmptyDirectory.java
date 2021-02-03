@@ -21,7 +21,7 @@ import org.assertj.core.util.VisibleForTesting;
 public class ShouldBeEmptyDirectory extends BasicErrorMessageFactory {
 
   @VisibleForTesting
-  public static final String SHOULD_BE_EMPTY_DIRECTORY = "%nExpecting:%n  %s%nto be an empty directory but it contained:%n  %s";
+  public static final String SHOULD_BE_EMPTY_DIRECTORY = "%nExpecting actual:%n  %s%nto be an empty directory but it contained:%n  %s";
 
   public static ErrorMessageFactory shouldBeEmptyDirectory(final Path actual, List<Path> directoryContent) {
     return new ShouldBeEmptyDirectory(actual, directoryContent);

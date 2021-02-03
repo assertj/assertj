@@ -84,7 +84,7 @@ class OptionalAssert_get_with_InstanceOfAssertFactory_Test implements Navigation
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(optional).get(INTEGER));
     // THEN
-    then(assertionError).hasMessageContainingAll("Expecting:", "to be an instance of:", "but was instance of:");
+    then(assertionError).hasMessageContainingAll("Expecting actual:", "to be an instance of:", "but was instance of:");
   }
 
   @Override

@@ -48,6 +48,6 @@ public class ShouldNotEndWith extends BasicErrorMessageFactory {
   }
 
   private ShouldNotEndWith(Object actual, Object expected, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting:%n  %s%nnot to end with:%n  %s%n%s", actual, expected, comparisonStrategy);
+    super("%nExpecting actual:%n  %s%nnot to end with:%n  %s%n%s", actual, expected, comparisonStrategy);
   }
 }

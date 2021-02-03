@@ -38,7 +38,7 @@ class ShouldContainSubsequenceOfCharSequence_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n" +
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n" +
                                    "  \"" + actual + "\"%n" +
                                    "to contain the following CharSequences in this order:%n" +
                                    "  [\"{\", \"author\", \"title\", \"}\"]%n" +
@@ -55,7 +55,7 @@ class ShouldContainSubsequenceOfCharSequence_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting:%n" +
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n" +
                                    "  \"" + actual + "\"%n" +
                                    "to contain the following CharSequences in this order:%n" +
                                    "  [\"{\", \"author\", \"title\", \"}\"]%n" +

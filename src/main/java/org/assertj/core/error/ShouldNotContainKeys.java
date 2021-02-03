@@ -37,6 +37,6 @@ public class ShouldNotContainKeys extends BasicErrorMessageFactory {
   }
 
   private <K> ShouldNotContainKeys(Object actual, Set<K> key) {
-    super("%nExpecting:%n  %s%nnot to contain keys:%n  %s", actual, key);
+    super("%nExpecting actual:%n  %s%nnot to contain keys:%n  %s", actual, key);
   }
 }

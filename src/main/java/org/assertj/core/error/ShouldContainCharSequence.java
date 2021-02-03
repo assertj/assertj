@@ -38,7 +38,7 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContain(CharSequence actual, CharSequence sequence) {
-    return new ShouldContainCharSequence("%nExpecting:%n  %s%nto contain:%n  %s %s", actual, sequence,
+    return new ShouldContainCharSequence("%nExpecting actual:%n  %s%nto contain:%n  %s %s", actual, sequence,
                                          StandardComparisonStrategy.instance());
   }
 
@@ -81,7 +81,7 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
    */
   public static ErrorMessageFactory shouldContain(CharSequence actual, CharSequence sequence,
                                                   ComparisonStrategy comparisonStrategy) {
-    return new ShouldContainCharSequence("%nExpecting:%n  %s%nto contain:%n  %s %s", actual, sequence, comparisonStrategy);
+    return new ShouldContainCharSequence("%nExpecting actual:%n  %s%nto contain:%n  %s %s", actual, sequence, comparisonStrategy);
   }
 
   /**
@@ -96,7 +96,7 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
   public static ErrorMessageFactory shouldContain(CharSequence actual, CharSequence[] strings,
                                                   Set<? extends CharSequence> notFound,
                                                   ComparisonStrategy comparisonStrategy) {
-    return new ShouldContainCharSequence("%nExpecting:%n  %s%nto contain:%n  %s%nbut could not find:%n  %s%n %s", actual,
+    return new ShouldContainCharSequence("%nExpecting actual:%n  %s%nto contain:%n  %s%nbut could not find:%n  %s%n %s", actual,
                                          strings, notFound, comparisonStrategy);
   }
 
@@ -121,7 +121,7 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainIgnoringCase(CharSequence actual, CharSequence sequence) {
-    return new ShouldContainCharSequence("%nExpecting:%n  %s%nto contain:%n  %s%n (ignoring case)", actual, sequence,
+    return new ShouldContainCharSequence("%nExpecting actual:%n  %s%nto contain:%n  %s%n (ignoring case)", actual, sequence,
                                          StandardComparisonStrategy.instance());
   }
 

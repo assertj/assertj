@@ -40,7 +40,7 @@ class ShouldBeInstance_create_Test {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  \"Yoda\"%n" +
                                    "to be an instance of:%n" +
                                    "  java.io.File%n" +

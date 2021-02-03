@@ -28,7 +28,7 @@ import org.assertj.core.util.VisibleForTesting;
 public class ShouldBeAbsolutePath extends BasicErrorMessageFactory {
 
   @VisibleForTesting
-  public static final String SHOULD_BE_ABSOLUTE_PATH = "%nExpecting:%n  %s%nto be an absolute path.";
+  public static final String SHOULD_BE_ABSOLUTE_PATH = "%nExpecting actual:%n  %s%nto be an absolute path.";
 
   /**
    * Creates a new <code>{@link ShouldBeAbsolutePath}</code>.

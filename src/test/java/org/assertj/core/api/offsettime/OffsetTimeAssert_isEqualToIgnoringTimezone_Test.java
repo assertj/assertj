@@ -40,7 +40,7 @@ class OffsetTimeAssert_isEqualToIgnoringTimezone_Test {
                                                                                                                                 0,
                                                                                                                                 0,
                                                                                                                                 ZoneOffset.UTC)))
-                                                   .withMessage(format("%nExpecting:%n" +
+                                                   .withMessage(format("%nExpecting actual:%n" +
                                                                        "  12:00+18:00%n" +
                                                                        "to have same time fields except timezone as:%n"
                                                                        +

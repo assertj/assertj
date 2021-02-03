@@ -32,7 +32,7 @@ class ShouldNotBeEqualWithinOffset_create_Test {
     String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  8.0f%n" +
                                    "not to be close to:%n" +
                                    "  6.0f%n" +
@@ -48,7 +48,7 @@ class ShouldNotBeEqualWithinOffset_create_Test {
     String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting:%n" +
+                                   "Expecting actual:%n" +
                                    "  8.0f%n" +
                                    "not to be close to:%n" +
                                    "  6.0f%n" +
