@@ -38,9 +38,9 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
   private static final String FIELD = "field/property '%s'";
   private static final String TOP_LEVEL_OBJECTS = "Top level actual and expected objects";
   private static final String TOP_LEVEL_ELEMENTS = "Top level actual and expected objects element at index %s";
-  private static final String TEMPLATE = "%s differ:%n" +
-                                         "- actual value   : %s%n" +
-                                         "- expected value : %s%s";
+  static final String TEMPLATE = "%s differ:%n" +
+                                 "- actual value  : %s%n" +
+                                 "- expected value: %s%s";
 
   final List<String> decomposedPath;
   final String concatenatedPath;
@@ -105,8 +105,8 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
                   additionalInfo);
   }
 
-  // retuns a user friendly path that can differ from DualValue field location
-  private String fieldPathDescription() {
+  // returns a user friendly path description
+  protected String fieldPathDescription() {
     if (concatenatedPath.isEmpty()) return TOP_LEVEL_OBJECTS;
     if (concatenatedPath.matches(TOP_LEVEL_ELEMENT_PATTERN)) return format(TOP_LEVEL_ELEMENTS, extractIndex(concatenatedPath));
     return format(FIELD, concatenatedPath);
@@ -150,7 +150,11 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
   @Override
   public int compareTo(final ComparisonDifference other) {
     // we don't use '.' to join path before comparing them as it would make a.b < aa
-    return join("", decomposedPath).compareTo(join("", other.decomposedPath));
+    return concat(decomposedPath).compareTo(concat(other.decomposedPath));
+  }
+
+  private static String concat(List<String> decomposedPath) {
+    return join("", decomposedPath);
   }
 
 }

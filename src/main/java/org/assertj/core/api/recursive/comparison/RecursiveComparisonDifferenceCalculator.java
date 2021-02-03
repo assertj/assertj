@@ -86,6 +86,10 @@ public class RecursiveComparisonDifferenceCalculator {
       differences.add(new ComparisonDifference(dualValue, format(description, args)));
     }
 
+    void addKeyDifference(DualValue parentDualValue, Object actualKey, Object expectedKey) {
+      differences.add(new ComparisonKeyDifference(parentDualValue, actualKey, expectedKey));
+    }
+
     public List<ComparisonDifference> getDifferences() {
       Collections.sort(differences);
       return differences;
@@ -460,12 +464,17 @@ public class RecursiveComparisonDifferenceCalculator {
       // - expected entries not found in actual.
     }
     Iterator<Map.Entry<K, V>> expectedMapEntries = expectedMap.entrySet().iterator();
-    FieldLocation fieldLocation = dualValue.fieldLocation;
     for (Map.Entry<?, ?> actualEntry : actualMap.entrySet()) {
       Map.Entry<?, ?> expectedEntry = expectedMapEntries.next();
-      // Must split the Key and Value so that Map.Entry's equals() method is not used.
-      comparisonState.registerForComparison(new DualValue(fieldLocation, actualEntry.getKey(), expectedEntry.getKey()));
-      comparisonState.registerForComparison(new DualValue(fieldLocation, actualEntry.getValue(), expectedEntry.getValue()));
+      // check keys are matched before comparing values as keys represents a field
+      if (!java.util.Objects.equals(actualEntry.getKey(), expectedEntry.getKey())) {
+        // report a missing key/field.
+        comparisonState.addKeyDifference(dualValue, actualEntry.getKey(), expectedEntry.getKey());
+      } else {
+        // as the key/field match we can simply compare field/key values
+        FieldLocation keyFieldLocation = keyFieldLocation(dualValue.fieldLocation, actualEntry.getKey());
+        comparisonState.registerForComparison(new DualValue(keyFieldLocation, actualEntry.getValue(), expectedEntry.getValue()));
+      }
     }
   }
 
@@ -506,11 +515,14 @@ public class RecursiveComparisonDifferenceCalculator {
     for (Map.Entry<?, ?> actualEntry : actualMap.entrySet()) {
       int deepHashCode = actualDeepHashCodesByKey.get(actualEntry.getKey());
       Map.Entry<?, ?> expectedEntry = expectedEntriesByDeepHashCode.get(deepHashCode);
-      // Must split the Key and Value so that Map.Entry's equals() method is not used.
-      FieldLocation fieldLocation = dualValue.fieldLocation;
-      comparisonState.registerForComparison(new DualValue(fieldLocation, actualEntry.getKey(), expectedEntry.getKey()));
-      comparisonState.registerForComparison(new DualValue(fieldLocation, actualEntry.getValue(), expectedEntry.getValue()));
+      // since we have found an entry in expected with the actual entry key, we just need to compare entry values.
+      FieldLocation keyFieldLocation = keyFieldLocation(dualValue.fieldLocation, actualEntry.getKey());
+      comparisonState.registerForComparison(new DualValue(keyFieldLocation, actualEntry.getValue(), expectedEntry.getValue()));
     }
+  }
+
+  private static FieldLocation keyFieldLocation(FieldLocation parentFieldLocation, Object key) {
+    return key == null ? parentFieldLocation : parentFieldLocation.field(key.toString());
   }
 
   private static void compareOptional(DualValue dualValue, ComparisonState comparisonState) {

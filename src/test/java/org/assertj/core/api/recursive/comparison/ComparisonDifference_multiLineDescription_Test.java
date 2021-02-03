@@ -43,8 +43,8 @@ class ComparisonDifference_multiLineDescription_Test {
     String multiLineDescription = comparisonDifference.multiLineDescription();
     // THEN
     assertThat(multiLineDescription).isEqualTo(format("field/property 'a.b' differ:%n" +
-                                                      "- actual value   : \"foo\"%n" +
-                                                      "- expected value : \"bar\""));
+                                                      "- actual value  : \"foo\"%n" +
+                                                      "- expected value: \"bar\""));
   }
 
   @Test
@@ -55,8 +55,8 @@ class ComparisonDifference_multiLineDescription_Test {
     String multiLineDescription = comparisonDifference.multiLineDescription();
     // THEN
     assertThat(multiLineDescription).isEqualTo(format("Top level actual and expected objects differ:%n" +
-                                                      "- actual value   : \"foo\"%n" +
-                                                      "- expected value : \"bar\""));
+                                                      "- actual value  : \"foo\"%n" +
+                                                      "- expected value: \"bar\""));
   }
 
   @ParameterizedTest(name = "path {0}, index {1}")
@@ -68,8 +68,8 @@ class ComparisonDifference_multiLineDescription_Test {
     String multiLineDescription = comparisonDifference.multiLineDescription();
     // THEN
     assertThat(multiLineDescription).isEqualTo(format("Top level actual and expected objects element at index %s differ:%n" +
-                                                      "- actual value   : \"foo\"%n" +
-                                                      "- expected value : \"bar\"", index));
+                                                      "- actual value  : \"foo\"%n" +
+                                                      "- expected value: \"bar\"", index));
   }
 
   @ParameterizedTest(name = "path {0}, index {1}")
@@ -81,8 +81,8 @@ class ComparisonDifference_multiLineDescription_Test {
     String multiLineDescription = comparisonDifference.multiLineDescription();
     // THEN
     assertThat(multiLineDescription).isEqualTo(format("field/property %s differ:%n" +
-                                                      "- actual value   : \"foo\"%n" +
-                                                      "- expected value : \"bar\"", index));
+                                                      "- actual value  : \"foo\"%n" +
+                                                      "- expected value: \"bar\"", index));
   }
 
   private static Stream<Arguments> multiline_description_should_indicate_element_difference() {
@@ -101,8 +101,8 @@ class ComparisonDifference_multiLineDescription_Test {
     String multiLineDescription = comparisonDifference.multiLineDescription();
     // THEN
     assertThat(multiLineDescription).contains("field/property 'a.b' differ:")
-                                    .contains("- actual value   : [\"bar\", \"foo\"] (LinkedHashSet@")
-                                    .contains("- expected value : [\"bar\", \"foo\"] (TreeSet@");
+                                    .contains("- actual value  : [\"bar\", \"foo\"] (LinkedHashSet@")
+                                    .contains("- expected value: [\"bar\", \"foo\"] (TreeSet@");
   }
 
   @Test
@@ -115,8 +115,8 @@ class ComparisonDifference_multiLineDescription_Test {
     String multiLineDescription = comparisonDifference.multiLineDescription();
     // THEN
     assertThat(multiLineDescription).contains("field/property 'a.b' differ:")
-                                    .contains("- actual value   : {1L=true, 2L=false} (LinkedHashMap@")
-                                    .contains("- expected value : {1L=true, 2L=false} (TreeMap@");
+                                    .contains("- actual value  : {1L=true, 2L=false} (LinkedHashMap@")
+                                    .contains("- expected value: {1L=true, 2L=false} (TreeMap@");
   }
 
   @Test
@@ -126,8 +126,8 @@ class ComparisonDifference_multiLineDescription_Test {
     ComparisonDifference com = new ComparisonDifference(dualValue, "additional information");
     // THEN
     assertThat(com.multiLineDescription()).isEqualTo(format("field/property 'a.b' differ:%n" +
-                                                            "- actual value   : \"foo\"%n" +
-                                                            "- expected value : \"bar\"%n" +
+                                                            "- actual value  : \"foo\"%n" +
+                                                            "- expected value: \"bar\"%n" +
                                                             "additional information"));
   }
 
@@ -138,8 +138,8 @@ class ComparisonDifference_multiLineDescription_Test {
     ComparisonDifference com = new ComparisonDifference(dualValue, "%additional %information%");
     // THEN
     assertThat(com.multiLineDescription()).isEqualTo(format("field/property 'a.b' differ:%n" +
-                                                            "- actual value   : \"foo%%\"%n" +
-                                                            "- expected value : \"%%bar%%%%\"%n" +
+                                                            "- actual value  : \"foo%%\"%n" +
+                                                            "- expected value: \"%%bar%%%%\"%n" +
                                                             "%%additional %%information%%"));
   }
 }

@@ -70,7 +70,7 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
                                               + "  [Person[name='Sheldon']]"))),
                      Arguments.of(actualAsArray, expectedAsArray, diff("[0]", sheldon, sheldonDto)),
                      Arguments.of(actualAsOptional, expectedAsOptional, diff("value", sheldon, sheldonDto)),
-                     Arguments.of(actualAsMap, expectedAsMap, diff("", sheldon, sheldonDto)));
+                     Arguments.of(actualAsMap, expectedAsMap, diff("sheldon", sheldon, sheldonDto)));
   }
 
   @ParameterizedTest(name = "author 1 {0} / author 2 {1}")

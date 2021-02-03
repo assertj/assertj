@@ -219,12 +219,12 @@ class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                    "when recursively comparing field by field, but found the following 2 differences:%n" +
                                    "%n" +
                                    "field/property 'first' differ:%n" +
-                                   "- actual value   : \"Magic\"%n" +
-                                   "- expected value : null%n" +
+                                   "- actual value  : \"Magic\"%n" +
+                                   "- expected value: null%n" +
                                    "%n" +
                                    "field/property 'last' differ:%n" +
-                                   "- actual value   : \"Johnson\"%n" +
-                                   "- expected value : \"Ginobili\"%n" +
+                                   "- actual value  : \"Johnson\"%n" +
+                                   "- expected value: \"Ginobili\"%n" +
                                    "%n" +
                                    "The recursive comparison was performed with this configuration:%n%s",
                                    CONFIGURATION_PROVIDER.representation().toStringOf(recursiveComparisonConfiguration)));
@@ -255,8 +255,8 @@ class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                    "when recursively comparing field by field, but found the following difference:%n" +
                                    "%n" +
                                    "field/property 'first' differ:%n" +
-                                   "- actual value   : \"Magic\"%n" +
-                                   "- expected value : null%n" +
+                                   "- actual value  : \"Magic\"%n" +
+                                   "- expected value: null%n" +
                                    "%n" +
                                    "The recursive comparison was performed with this configuration:%n%s",
                                    CONFIGURATION_PROVIDER.representation().toStringOf(recursiveComparisonConfiguration)));
@@ -287,8 +287,8 @@ class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                    "when recursively comparing field by field, but found the following difference:%n" +
                                    "%n" +
                                    "field/property 'first' differ:%n" +
-                                   "- actual value   : \"%%%%Ma%%gi%%\"%n" +
-                                   "- expected value : null%n" +
+                                   "- actual value  : \"%%%%Ma%%gi%%\"%n" +
+                                   "- expected value: null%n" +
                                    "%n" +
                                    "The recursive comparison was performed with this configuration:%n%s",
                                    CONFIGURATION_PROVIDER.representation().toStringOf(recursiveComparisonConfiguration)));

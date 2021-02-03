@@ -61,11 +61,11 @@ class RecursiveComparisonAssert_bddSoftAssertions_Test extends RecursiveComparis
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).hasSize(2);
     assertThat(errorsCollected.get(0)).hasMessageContaining("field/property 'home.address.number' differ:")
-                                      .hasMessageContaining("- actual value   : 1")
-                                      .hasMessageContaining("- expected value : 2");
+                                      .hasMessageContaining("- actual value  : 1")
+                                      .hasMessageContaining("- expected value: 2");
     assertThat(errorsCollected.get(1)).hasMessageContaining("field/property 'home.address.number' differ:")
-                                      .hasMessageContaining("- actual value   : 2")
-                                      .hasMessageContaining("- expected value : 1");
+                                      .hasMessageContaining("- actual value  : 2")
+                                      .hasMessageContaining("- expected value: 1");
   }
 
 }

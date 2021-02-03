@@ -35,7 +35,7 @@ class ComparisonDifference_compareTo_Test {
     // WHEN
     Set<ComparisonDifference> differences = newTreeSet(diff1, diff2, diff3, diff4, diff5, diff6);
     // THEN
-    assertThat(differences).extracting(input -> input.concatenatedPath)
+    assertThat(differences).extracting(diff -> diff.concatenatedPath)
                            .containsExactly("aa", "aaa", "a.b", "a.b.c", "a.c", "b");
   }
 

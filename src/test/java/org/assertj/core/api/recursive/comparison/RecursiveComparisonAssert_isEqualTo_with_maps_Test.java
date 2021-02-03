@@ -128,7 +128,7 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveCompar
                      Arguments.of(nonSortedPratchettAndMartin, sortedMartinAndPratchett, "group",
                                   nonSortedPratchettAndMartin, sortedMartinAndPratchett,
                                   "expected field is a sorted map but actual field is not (java.util.LinkedHashMap)"),
-                     Arguments.of(singletonMap(pratchett.name, none), singletonPratchettMap, "group",
+                     Arguments.of(singletonMap(pratchett.name, none), singletonPratchettMap, "group.Terry Pratchett",
                                   none, pratchett, null),
                      Arguments.of(singletonPratchettMap, singletonMap(georgeMartin.name, pratchett), "group",
                                   singletonPratchettMap, singletonMap(georgeMartin.name, pratchett),

@@ -28,8 +28,8 @@ class ComparisonDifference_rootComparisonDifference_Test {
     String multiLineDescription = comparisonDifference.multiLineDescription();
     // THEN
     assertThat(multiLineDescription).isEqualTo(format("Top level actual and expected objects differ:%n" +
-                                                      "- actual value   : \"foo\"%n" +
-                                                      "- expected value : \"bar\"%n" +
+                                                      "- actual value  : \"foo\"%n" +
+                                                      "- expected value: \"bar\"%n" +
                                                       "info"));
   }
 
