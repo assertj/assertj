@@ -99,12 +99,24 @@ class ByNameMultipleExtractorTest {
   void should_extract_multiple_values_from_map_by_keys() {
     // GIVEN
     Employee luke = new Employee(2L, new Name("Luke"), 22);
-    Map<String, Employee> map = mapOf(entry("key1", YODA), entry("key2", luke));
-    ByNameMultipleExtractor underTest = new ByNameMultipleExtractor("key1", "key2", "bad key");
+    Map<String, Employee> map = mapOf(entry("key1", YODA), entry("key2", luke), entry("key3", null));
+    ByNameMultipleExtractor underTest = new ByNameMultipleExtractor("key1", "key2", "key3");
     // WHEN
     Tuple result = underTest.apply(map);
     // THEN
     then(result).isEqualTo(tuple(YODA, luke, null));
+  }
+
+  @Test
+  void should_throw_error_with_map_when_non_existing_key_is_given() {
+    // GIVEN
+    Employee luke = new Employee(2L, new Name("Luke"), 22);
+    Map<String, Employee> map = mapOf(entry("key1", YODA), entry("key2", luke));
+    ByNameMultipleExtractor underTest = new ByNameMultipleExtractor("key1", "key2", "bad key");
+    // WHEN
+    Throwable thrown = catchThrowable(() -> underTest.apply(YODA));
+    // THEN
+    then(thrown).isInstanceOf(IntrospectionError.class);
   }
 
 }

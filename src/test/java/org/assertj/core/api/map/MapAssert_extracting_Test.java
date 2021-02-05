@@ -20,6 +20,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,12 +35,13 @@ class MapAssert_extracting_Test {
     map = new HashMap<>();
     map.put(NAME, "kawhi");
     map.put("age", 25);
+    map.put("title", null);
   }
 
   @Test
   void should_allow_assertions_on_values_extracted_from_given_map_keys() {
     assertThat(map).extracting(NAME, "age")
-                   .contains("kawhi", 25);
+                   .containsExactly("kawhi", 25);
   }
 
   @Test
@@ -51,7 +53,7 @@ class MapAssert_extracting_Test {
   @Test
   void should_allow_assertions_on_values_extracted_from_given_extractors() {
     assertThat(map).extracting(m -> m.get(NAME), m -> m.get("age"))
-                   .contains("kawhi", 25);
+                   .containsExactly("kawhi", 25);
   }
 
   @Test
@@ -63,13 +65,18 @@ class MapAssert_extracting_Test {
   @Test
   void should_extract_null_element_from_unknown_key() {
     assertThat(map).extracting(NAME, "unknown")
-                   .contains("kawhi", (Object) null);
+                   .containsExactly("kawhi", null);
   }
 
   @Test
-  void should_extract_null_object_from_unknown_key() {
-    assertThat(map).extracting("unknown")
+  void should_extract_null_object_from_key_with_null_value() {
+    assertThat(map).extracting("title")
                    .isNull();
+  }
+
+  @Test
+  void should_fail_with_unknown_key() {
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(map).extracting("unknown"));
   }
 
   @Test

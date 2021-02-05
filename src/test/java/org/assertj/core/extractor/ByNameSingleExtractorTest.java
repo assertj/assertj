@@ -164,10 +164,21 @@ class ByNameSingleExtractorTest {
   }
 
   @Test
-  void should_extract_null_from_map_by_non_existing_key() {
+  void should_throw_error_from_map_by_non_existing_key() {
     // GIVEN
     Map<String, Employee> map = mapOf(entry("key", YODA));
     ByNameSingleExtractor underTest = new ByNameSingleExtractor("non-existing");
+    // WHEN
+    Throwable thrown = catchThrowable(() -> underTest.apply(map));
+    // THEN
+    then(thrown).isInstanceOf(IntrospectionError.class);
+  }
+
+  @Test
+  void should_extract_null_from_map_by_key_with_null_value() {
+    // GIVEN
+    Map<String, Employee> map = mapOf(entry("key", null));
+    ByNameSingleExtractor underTest = new ByNameSingleExtractor("key");
     // WHEN
     Object result = underTest.apply(map);
     // THEN

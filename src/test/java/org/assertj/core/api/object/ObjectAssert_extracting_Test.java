@@ -43,6 +43,7 @@ class ObjectAssert_extracting_Test {
     luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
     luke.setAttribute("side", "light");
     leia = new Employee(2L, new Name("Leia", "Skywalker"), 26);
+    luke.setRelation("brother", null);
     luke.setRelation("sister", leia);
     leia.setRelation("brother", luke);
   }
@@ -72,13 +73,17 @@ class ObjectAssert_extracting_Test {
   }
 
   @Test
-  void should_follow_map_get_behavior_for_unknown_key() {
-    assertThat(luke).extracting("attributes.unknown_key",
-                                "relations.sister",
-                                "relations.sista",
-                                "relations.sister.name.first",
-                                "relations.sista.name.first")
-                    .containsExactly(null, leia, null, "Leia", null);
+  void should_follow_map_get_behavior_for_key_with_null_value() {
+    assertThat(luke).extracting("relations.brother", "relations.sister", "relations.sister.name.first")
+                    .containsExactly(null, leia, "Leia");
+  }
+
+  @Test
+  void should_throw_IntrospectionError_if_nested_map_key_does_not_exist() {
+    // WHEN
+    Throwable thrown = catchThrowable(() -> assertThat(luke).extracting("relations.unknown", "relations.sister"));
+    // THEN
+    then(thrown).isInstanceOf(IntrospectionError.class);
   }
 
   @Test

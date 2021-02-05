@@ -12,6 +12,7 @@
  */
 package org.assertj.core.util.introspection;
 
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 
 import java.util.AbstractMap;
@@ -20,12 +21,14 @@ import java.util.HashMap;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 /**
  * Tests for <code>{@link PropertyOrFieldSupport#getSimpleValue(String, Object)}</code> with {@code Map} input.
-  *
-  * @author Stefano Cordio
-  */
+ *
+ * @author Stefano Cordio
+ */
 @DisplayName("PropertyOrFieldSupport getSimpleValue(String, Map)")
 class PropertyOrFieldSupport_getSimpleValue_with_Map_input_Test {
 
@@ -52,22 +55,26 @@ class PropertyOrFieldSupport_getSimpleValue_with_Map_input_Test {
     then(value).isInstanceOf(Collection.class);
   }
 
-  @Test
-  void should_extract_map_value_when_no_property_or_field_matches_given_name() {
+  @ParameterizedTest
+  @CsvSource({
+      "key, value",
+      "key, ",
+  })
+  void should_extract_map_value_when_no_property_or_field_matches_given_name(String key, String expected) {
     // GIVEN
-    map.put("key", "value");
+    map.put(key, expected);
     // WHEN
-    Object value = underTest.getSimpleValue("key", map);
+    Object value = underTest.getSimpleValue(key, map);
     // THEN
-    then(value).isEqualTo("value");
+    then(value).isEqualTo(expected);
   }
 
   @Test
-  void should_extract_null_when_given_name_is_not_found() {
+  void should_fail_when_given_name_is_not_found() {
     // WHEN
-    Object value = underTest.getSimpleValue("unknown", map);
+    Throwable thrown = catchThrowable(() -> underTest.getSimpleValue("unknown", map));
     // THEN
-    then(value).isNull();
+    then(thrown).isInstanceOf(IntrospectionError.class);
   }
 
 }
