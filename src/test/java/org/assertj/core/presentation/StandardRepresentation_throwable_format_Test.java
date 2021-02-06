@@ -66,7 +66,7 @@ class StandardRepresentation_throwable_format_Test {
                                              format("\tat org.assertj.core.presentation.StandardRepresentation_throwable_format_Test$Test1$Test2.boom2(StandardRepresentation_throwable_format_Test.java:"),
                                              format("\tat org.assertj.core.presentation.StandardRepresentation_throwable_format_Test$Test1.boom(StandardRepresentation_throwable_format_Test.java"),
                                              format("\tat org.assertj.core.presentation.StandardRepresentation_throwable_format_Test.lambda"),
-                                             format("\t...(69 remaining lines not displayed - this can be changed with Assertions.setMaxStackTraceElementsDisplayed)"));
+                                             format("\t...(71 remaining lines not displayed - this can be changed with Assertions.setMaxStackTraceElementsDisplayed)"));
   }
 
   @Test
