@@ -13,8 +13,8 @@
 package org.assertj.core.presentation;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 
 import org.assertj.core.configuration.Configuration;
 import org.junit.jupiter.api.Test;
@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Test;
  *  @author XiaoMingZHM Eveneko
  */
 class StandardRepresentation_throwable_format_Test {
+
   private static final Representation REPRESENTATION = new StandardRepresentation();
 
   // Just to make sure the stack trace is long enough.
@@ -48,9 +49,9 @@ class StandardRepresentation_throwable_format_Test {
     configuration.setMaxStackTraceElementsDisplayed(0);
     configuration.apply();
     // WHEN
-    String toString = REPRESENTATION.toStringOf(catchThrowable(() -> Test1.boom()));
+    String toString = REPRESENTATION.toStringOf(catchThrowable(Test1::boom));
     // THEN
-    assertThat(toString).isEqualTo("java.lang.RuntimeException");
+    then(toString).isEqualTo("java.lang.RuntimeException");
   }
 
   @Test
@@ -60,13 +61,17 @@ class StandardRepresentation_throwable_format_Test {
     // configuration.setMaxStackTraceElementsDisplayed(3);
     configuration.apply();
     // WHEN
-    String toString = REPRESENTATION.toStringOf(catchThrowable(() -> Test1.boom()));
+    String toString = REPRESENTATION.toStringOf(catchThrowable(Test1::boom));
     // THEN
-    assertThat(toString).containsSubsequence(format("java.lang.RuntimeException%n"),
-                                             format("\tat org.assertj.core.presentation.StandardRepresentation_throwable_format_Test$Test1$Test2.boom2(StandardRepresentation_throwable_format_Test.java:"),
-                                             format("\tat org.assertj.core.presentation.StandardRepresentation_throwable_format_Test$Test1.boom(StandardRepresentation_throwable_format_Test.java"),
-                                             format("\tat org.assertj.core.presentation.StandardRepresentation_throwable_format_Test.lambda"),
-                                             format("\t...(71 remaining lines not displayed - this can be changed with Assertions.setMaxStackTraceElementsDisplayed)"));
+    then(toString).matches("java\\.lang\\.RuntimeException\\R"
+                           +
+                           "\\tat org\\.assertj\\.core\\.presentation\\.StandardRepresentation_throwable_format_Test\\$Test1\\$Test2\\.boom2\\(StandardRepresentation_throwable_format_Test\\.java:36\\)\\R"
+                           +
+                           "\\tat org\\.assertj\\.core\\.presentation\\.StandardRepresentation_throwable_format_Test\\$Test1\\.boom\\(StandardRepresentation_throwable_format_Test\\.java:41\\)\\R"
+                           +
+                           "\\tat org\\.assertj\\.core\\.api\\.ThrowableAssert\\.catchThrowable\\(ThrowableAssert\\.java:62\\)\\R"
+                           +
+                           "\\t\\.{3}\\(\\d+ remaining lines not displayed - this can be changed with Assertions\\.setMaxStackTraceElementsDisplayed\\)");
   }
 
   @Test
@@ -76,11 +81,11 @@ class StandardRepresentation_throwable_format_Test {
     configuration.setMaxStackTraceElementsDisplayed(100);
     configuration.apply();
     // WHEN
-    String toString = REPRESENTATION.toStringOf(catchThrowable(() -> Test1.boom()));
+    String toString = REPRESENTATION.toStringOf(catchThrowable(Test1::boom));
     // THEN
-    assertThat(toString).startsWith(format("java.lang.RuntimeException%n"
-                                           + "\tat org.assertj.core.presentation.StandardRepresentation_throwable_format_Test$Test1$Test2.boom2(StandardRepresentation_throwable_format_Test.java"))
-                        .doesNotContain("remaining lines not displayed");
+    then(toString).startsWith(format("java.lang.RuntimeException%n"
+                                     + "\tat org.assertj.core.presentation.StandardRepresentation_throwable_format_Test$Test1$Test2.boom2(StandardRepresentation_throwable_format_Test.java"))
+                  .doesNotContain("remaining lines not displayed");
   }
 
 }
