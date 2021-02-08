@@ -18,7 +18,7 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
       - name: Cache Maven Repository
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
