@@ -38,7 +38,7 @@ public class RangeSetShouldIntersect extends BasicErrorMessageFactory {
    * @param notIntersected not intersected ranges.
    */
   private RangeSetShouldIntersect(Object actual, Object expected, Object notIntersected) {
-    super("%nExpecting:%n  <%s>%nto intersect%n  <%s>%nbut it does not intersect%n  <%s>%n",
+    super("%nExpecting:%n  %s%nto intersect%n  %s%nbut it does not intersect%n  %s%n",
           actual, expected, notIntersected);
   }
 }

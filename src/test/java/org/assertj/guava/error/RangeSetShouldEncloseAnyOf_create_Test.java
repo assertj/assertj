@@ -43,8 +43,8 @@ public class RangeSetShouldEncloseAnyOf_create_Test {
     // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting:%n" +
-                                         "  <[[0..10]]>%n" +
+                                         "  [[0..10]]%n" +
                                          "to enclose any of%n" +
-                                         "  <[[2..15], (-5..5)]>%n"));
+                                         "  [[2..15], (-5..5)]%n"));
   }
 }

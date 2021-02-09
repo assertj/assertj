@@ -34,6 +34,6 @@ public class RangeSetShouldEncloseAnyOf extends BasicErrorMessageFactory {
    * @param expected expected range to check for enclosing
    */
   private RangeSetShouldEncloseAnyOf(Object actual, Object expected) {
-    super("%nExpecting:%n  <%s>%nto enclose any of%n  <%s>%n", actual, expected);
+    super("%nExpecting:%n  %s%nto enclose any of%n  %s%n", actual, expected);
   }
 }

@@ -57,9 +57,9 @@ public class MultisetAssert_contains_Test {
     // THEN
     assertThat(throwable).isInstanceOf(AssertionError.class)
                          .hasMessage(format("%nExpecting:%n" +
-                                            "  <[\"test\", \"test\"]>%n" +
+                                            "  [\"test\", \"test\"]%n" +
                                             "to contain:%n" +
-                                            "  <\"test\">%n" +
+                                            "  \"test\"%n" +
                                             "exactly 3 times but was found 2 times."));
   }
 
@@ -82,9 +82,9 @@ public class MultisetAssert_contains_Test {
     // THEN
     assertThat(throwable).isInstanceOf(AssertionError.class)
                          .hasMessage(format("%nExpecting:%n" +
-                                            "  <[\"test\", \"test\"]>%n" +
+                                            "  [\"test\", \"test\"]%n" +
                                             "to contain:%n" +
-                                            "  <\"test\">%n" +
+                                            "  \"test\"%n" +
                                             "exactly 1 times but was found 2 times."));
   }
 

@@ -68,11 +68,11 @@ public class RangeMapAssert_containsValues_Test extends RangeMapAssertBaseTest {
     // @format:off
 	  assertThat(throwable).hasMessage(format("%n" +
                 		                        "Expecting:%n" +
-                		                        "  <[[380..450)=violet, [450..495)=blue, [495..570)=green, [570..590)=yellow, [590..620)=orange, [620..750)=red]>%n" +
+                		                        "  [[380..450)=violet, [450..495)=blue, [495..570)=green, [570..590)=yellow, [590..620)=orange, [620..750)=red]%n" +
                 		                        "to contain values:%n" +
-                		                        "  <[\"violet\", \"black\"]>%n" +
+                		                        "  [\"violet\", \"black\"]%n" +
                 		                        "but could not find:%n" +
-                		                        "  <[\"black\"]>"));
+                		                        "  [\"black\"]"));
 	  // @format:on
   }
 
@@ -85,9 +85,9 @@ public class RangeMapAssert_containsValues_Test extends RangeMapAssertBaseTest {
     // error message shows that we were looking for a unique value (not many)
 	  assertThat(throwable).hasMessage(format("%n" +
                 		                        "Expecting:%n" +
-                		                        "  <[[380..450)=violet, [450..495)=blue, [495..570)=green, [570..590)=yellow, [590..620)=orange, [620..750)=red]>%n" +
+                		                        "  [[380..450)=violet, [450..495)=blue, [495..570)=green, [570..590)=yellow, [590..620)=orange, [620..750)=red]%n" +
                 		                        "to contain value:%n" +
-                		                        "  <\"black\">"));
+                		                        "  \"black\""));
 	  // @format:on
   }
 }

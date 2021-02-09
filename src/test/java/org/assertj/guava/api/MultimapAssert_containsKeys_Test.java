@@ -65,11 +65,11 @@ public class MultimapAssert_containsKeys_Test extends MultimapAssertBaseTest {
     // THEN
     assertThat(throwable).isInstanceOf(AssertionError.class)
                          .hasMessage(format("%nExpecting:%n"
-                                            + "  <{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>%n"
+                                            + "  {Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}%n"
                                             + "to contain keys:%n"
-                                            + "  <[\"Nets\", \"Bulls\", \"Knicks\"]>%n"
+                                            + "  [\"Nets\", \"Bulls\", \"Knicks\"]%n"
                                             + "but could not find:%n"
-                                            + "  <[\"Nets\", \"Knicks\"]>"));
+                                            + "  [\"Nets\", \"Knicks\"]"));
   }
 
   @Test
@@ -79,9 +79,9 @@ public class MultimapAssert_containsKeys_Test extends MultimapAssertBaseTest {
     // THEN
     assertThat(throwable).isInstanceOf(AssertionError.class)
                          .hasMessage(format("%nExpecting:%n"
-                                            + "  <{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>%n"
+                                            + "  {Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}%n"
                                             + "to contain key:%n"
-                                            + "  <\"Nets\">"));
+                                            + "  \"Nets\""));
   }
 
 }

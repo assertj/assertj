@@ -26,7 +26,7 @@ import com.google.common.base.Optional;
 public final class OptionalShouldBeAbsent extends BasicErrorMessageFactory {
 
   public static <T> ErrorMessageFactory shouldBeAbsent(final Optional<T> actual) {
-    return new OptionalShouldBeAbsent("Expecting Optional to contain nothing (absent Optional) but contained <%s>",
+    return new OptionalShouldBeAbsent("Expecting Optional to contain nothing (absent Optional) but contained %s",
                                       actual.get());
   }
 

@@ -48,11 +48,11 @@ public class RangeAssert_hasLowerEndpointEqualTo_Test {
     assertThat(throwable).isInstanceOf(AssertionError.class)
                          .hasMessage(format("%n" +
                                             "Expecting:%n" +
-                                            "  <[1..10]>%n" +
+                                            "  [1..10]%n" +
                                             "to have lower endpoint equal to:%n" +
-                                            "  <2>%n" +
+                                            "  2%n" +
                                             "but was:%n" +
-                                            "  <1>"));
+                                            "  1"));
   }
 
   @Test

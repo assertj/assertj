@@ -48,12 +48,12 @@ public class TableAssert_containsCells_Test extends TableAssertBaseTest {
     // THEN
     assertThat(throwable).isInstanceOf(AssertionError.class)
                          .hasMessage(format("%n" +
-                                            "Expecting row:<1> and column:<4> to have value:%n" +
-                                            "  <Millard Fillmore>%n" +
+                                            "Expecting row: 1 and column: 4 to have value:%n" +
+                                            "  Millard Fillmore%n" +
                                             "but was:%n" +
-                                            "  <Franklin Pierce>%n" +
+                                            "  Franklin Pierce%n" +
                                             "in:%n" +
-                                            "  <{1={3=Millard Fillmore, 4=Franklin Pierce}, 2={5=Grover Cleveland}}>"));
+                                            "  {1={3=Millard Fillmore, 4=Franklin Pierce}, 2={5=Grover Cleveland}}"));
 
   }
 

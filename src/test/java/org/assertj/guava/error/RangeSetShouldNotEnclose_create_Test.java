@@ -45,10 +45,10 @@ public class RangeSetShouldNotEnclose_create_Test {
     // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting:%n" +
-                                         "  <[[0..10]]>%n" +
+                                         "  [[0..10]]%n" +
                                          "not to enclose%n" +
-                                         "  <[[2..5], (-5..5)]>%n" +
+                                         "  [[2..5], (-5..5)]%n" +
                                          "but it encloses%n" +
-                                         "  <[[2..5]]>%n"));
+                                         "  [[2..5]]%n"));
   }
 }

@@ -69,11 +69,11 @@ public class TableAssert_containsColumns_Test extends TableAssertBaseTest {
     assertThat(throwable).isInstanceOf(AssertionError.class)
                          .hasMessage(format("%n" +
                                             "Expecting:%n" +
-                                            "  <{1={3=Millard Fillmore, 4=Franklin Pierce}, 2={5=Grover Cleveland}}>%n" +
+                                            "  {1={3=Millard Fillmore, 4=Franklin Pierce}, 2={5=Grover Cleveland}}%n" +
                                             "to contain columns:%n" +
-                                            "  <[9, 6]>%n" +
+                                            "  [9, 6]%n" +
                                             "but could not find:%n" +
-                                            "  <[6, 9]>"));
+                                            "  [6, 9]"));
   }
 
 }

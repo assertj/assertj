@@ -49,9 +49,9 @@ public class OptionalAssert_contains_Test {
     assertThat(throwable).isInstanceOf(AssertionError.class)
                          .hasMessage(format("%n" +
                                             "Expecting Optional to contain value %n" +
-                                            "<\"Test 2\">%n" +
+                                            "  \"Test 2\"%n" +
                                             " but contained %n" +
-                                            "<\"Test\">"));
+                                            "  \"Test\""));
   }
 
   @Test
@@ -62,7 +62,7 @@ public class OptionalAssert_contains_Test {
     Throwable throwable = catchThrowable(() -> assertThat(actual).contains("Test"));
     // THEN
     assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage("Expecting Optional to contain <\"Test\"> but contained nothing (absent Optional)");
+                         .hasMessage("Expecting Optional to contain \"Test\" but contained nothing (absent Optional)");
   }
 
   @Test

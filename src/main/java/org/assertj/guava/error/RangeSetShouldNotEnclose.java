@@ -32,6 +32,6 @@ public class RangeSetShouldNotEnclose extends BasicErrorMessageFactory {
    * @param enclosed list of values that haven't to be enclosed, but they have. 
    */
   private RangeSetShouldNotEnclose(Object actual, Object expected, Object enclosed) {
-    super("%nExpecting:%n  <%s>%nnot to enclose%n  <%s>%nbut it encloses%n  <%s>%n", actual, expected, enclosed);
+    super("%nExpecting:%n  %s%nnot to enclose%n  %s%nbut it encloses%n  %s%n", actual, expected, enclosed);
   }
 }

@@ -23,11 +23,11 @@ public class RangeShouldHaveLowerEndpointEqual extends BasicErrorMessageFactory 
                                                                                            final Object value) {
     return new RangeShouldHaveLowerEndpointEqual("%n" +
                                                  "Expecting:%n" +
-                                                 "  <%s>%n" +
+                                                 "  %s%n" +
                                                  "to have lower endpoint equal to:%n" +
-                                                 "  <%s>%n" +
+                                                 "  %s%n" +
                                                  "but was:%n" +
-                                                 "  <%s>",
+                                                 "  %s",
                                                  actual, value, actual.lowerEndpoint());
   }
 

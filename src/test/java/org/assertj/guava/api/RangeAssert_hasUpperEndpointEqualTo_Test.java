@@ -45,11 +45,11 @@ public class RangeAssert_hasUpperEndpointEqualTo_Test {
     assertThat(throwable).isInstanceOf(AssertionError.class)
                          .hasMessage(format("%n" +
                                             "Expecting:%n" +
-                                            "  <[1..10]>%n" +
+                                            "  [1..10]%n" +
                                             "to have upper endpoint equal to:%n" +
-                                            "  <2>%n" +
+                                            "  2%n" +
                                             "but was:%n" +
-                                            "  <10>"));
+                                            "  10"));
   }
 
   @Test

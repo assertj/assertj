@@ -47,7 +47,7 @@ public class RangeAssert_hasClosedLowerBound_Test {
     // THEN
     assertThat(throwable).isInstanceOf(AssertionError.class)
                          .hasMessage(format("%nExpecting:%n" +
-                                            "  <(1..10]>%n" +
+                                            "  (1..10]%n" +
                                             "to be closed in the lower bound but was opened"));
   }
 

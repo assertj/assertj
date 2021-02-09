@@ -43,8 +43,8 @@ public class RangeSetShouldIntersectAnyOf_create_Test {
     // THEN
     assertThat(message).isEqualTo(format("[Test] %n" +
                                          "Expecting:%n" +
-                                         "  <[[0..10]]>%n" +
+                                         "  [[0..10]]%n" +
                                          "to intersect at least one range of the given:%n" +
-                                         "  <[[10..15], (-5..0)]>%n"));
+                                         "  [[10..15], (-5..0)]%n"));
   }
 }

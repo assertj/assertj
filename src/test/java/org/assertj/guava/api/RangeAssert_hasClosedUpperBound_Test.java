@@ -48,7 +48,7 @@ public class RangeAssert_hasClosedUpperBound_Test {
     assertThat(throwable).isInstanceOf(AssertionError.class)
                          .hasMessage(format("%n" +
                                             "Expecting:%n" +
-                                            "  <[1..10)>%n" +
+                                            "  [1..10)%n" +
                                             "to be closed in the upper bound but was opened"));
   }
 

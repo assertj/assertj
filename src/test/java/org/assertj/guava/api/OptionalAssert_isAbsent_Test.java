@@ -46,7 +46,7 @@ public class OptionalAssert_isAbsent_Test {
     Throwable throwable = catchThrowable(() -> assertThat(actual).isAbsent());
     // THEN
     assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage("Expecting Optional to contain nothing (absent Optional) but contained <\"X\">");
+                         .hasMessage("Expecting Optional to contain nothing (absent Optional) but contained \"X\"");
   }
 
   @Test

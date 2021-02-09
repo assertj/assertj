@@ -36,6 +36,6 @@ public class RangeSetShouldEnclose extends BasicErrorMessageFactory {
    * @param notEnclosed list of objects that have to be enclosed, but they haven't.
    */
   private RangeSetShouldEnclose(Object actual, Object expected, Object notEnclosed) {
-    super("%nExpecting:%n  <%s>%nto enclose%n  <%s>%nbut it does not enclose%n  <%s>%n", actual, expected, notEnclosed);
+    super("%nExpecting:%n  %s%nto enclose%n  %s%nbut it does not enclose%n  %s%n", actual, expected, notEnclosed);
   }
 }

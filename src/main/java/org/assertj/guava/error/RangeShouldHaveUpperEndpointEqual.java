@@ -23,11 +23,11 @@ public class RangeShouldHaveUpperEndpointEqual extends BasicErrorMessageFactory 
                                                                                            final Object value) {
     return new RangeShouldHaveUpperEndpointEqual("%n" +
                                                  "Expecting:%n" +
-                                                 "  <%s>%n" +
+                                                 "  %s%n" +
                                                  "to have upper endpoint equal to:%n" +
-                                                 "  <%s>%n" +
+                                                 "  %s%n" +
                                                  "but was:%n" +
-                                                 "  <%s>",
+                                                 "  %s",
                                                  actual, value, actual.upperEndpoint());
   }
 
