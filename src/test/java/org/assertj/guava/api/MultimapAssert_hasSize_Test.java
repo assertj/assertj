@@ -51,9 +51,9 @@ public class MultimapAssert_hasSize_Test extends MultimapAssertBaseTest {
     } catch (AssertionError e) {
       // @format:off
       assertThat(e).hasMessage(format("%n" +
-                               "Expected size:<3> but was:<9> in:%n" +
-                               "<{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, " +
-                               "Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>"));
+                               "Expected size: 3 but was: 9 in:%n" +
+                               "{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, " +
+                               "Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}"));
       // @format:on
       return;
     }

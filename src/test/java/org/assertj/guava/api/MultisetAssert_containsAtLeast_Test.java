@@ -60,9 +60,9 @@ public class MultisetAssert_containsAtLeast_Test {
     // THEN
     assertThat(throwable).isInstanceOf(AssertionError.class)
                          .hasMessage(format("%nExpecting:%n" +
-                                            "  <[\"test\", \"test\"]>%n" +
+                                            "  [\"test\", \"test\"]%n" +
                                             "to contain:%n" +
-                                            "  <\"test\">%n" +
+                                            "  \"test\"%n" +
                                             "at least 3 times but was found 2 times."));
   }
 

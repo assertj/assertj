@@ -56,7 +56,7 @@ public class ByteSourceAssert_hasSize_Test {
     Throwable throwable = catchThrowable(() -> assertThat(actual).hasSize(3));
     // THEN
     assertThat(throwable).hasMessage(format("%n" +
-                                            "Expected size:<3> but was:<9> in:%n" +
-                                            "<ByteSource.wrap(000000000000000000)>"));
+                                            "Expected size: 3 but was: 9 in:%n" +
+                                            "ByteSource.wrap(000000000000000000)"));
   }
 }

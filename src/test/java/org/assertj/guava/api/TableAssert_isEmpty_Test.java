@@ -48,7 +48,7 @@ public class TableAssert_isEmpty_Test extends TableAssertBaseTest {
     Throwable throwable = catchThrowable(() -> assertThat(actual).isEmpty());
     // THEN
     assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(format("%nExpecting empty but was:<{1={3=Millard Fillmore, 4=Franklin Pierce}, 2={5=Grover Cleveland}}>"));
+                         .hasMessage(format("%nExpecting empty but was: {1={3=Millard Fillmore, 4=Franklin Pierce}, 2={5=Grover Cleveland}}"));
   }
 
 }

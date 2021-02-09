@@ -55,7 +55,7 @@ public class ByteSourceAssert_isEmpty_Test {
     // WHEN
     Throwable throwable = catchThrowable(() -> assertThat(actual).isEmpty());
     // THEN
-    assertThat(throwable).hasMessage(format("%nExpecting empty but was:<ByteSource.wrap(00)>"));
+    assertThat(throwable).hasMessage(format("%nExpecting empty but was: ByteSource.wrap(00)"));
   }
 
 }

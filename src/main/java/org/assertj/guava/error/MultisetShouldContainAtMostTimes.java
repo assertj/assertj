@@ -28,9 +28,9 @@ public class MultisetShouldContainAtMostTimes extends BasicErrorMessageFactory {
                                                              final int expectedTimes, final int actualTimes) {
     return new MultisetShouldContainAtMostTimes("%n" +
                                                 "Expecting:%n" +
-                                                "  <%s>%n" +
+                                                "  %s%n" +
                                                 "to contain:%n" +
-                                                "  <%s>%n" +
+                                                "  %s%n" +
                                                 "at most %s times but was found %s times.",
                                                 actual, expected, expectedTimes, actualTimes);
   }

@@ -60,10 +60,7 @@ public class ByteSourceAssert_hasSameContentAs_Test {
     // WHEN
     Throwable throwable = catchThrowable(() -> assertThat(actual).hasSameContentAs(other));
     // THEN
-    assertThat(throwable).hasMessage(format("%nExpecting:%n" +
-                                            " <ByteSource.wrap(00)>%n" +
-                                            "to be equal to:%n" +
-                                            " <ByteSource.wrap(01)>%n" +
-                                            "but was not."));
+    assertThat(throwable).hasMessage(format("%nexpected: ByteSource.wrap(01)%n" +
+                                            "but was : ByteSource.wrap(00)"));
   }
 }

@@ -64,10 +64,10 @@ public class OptionalAssert_extractingCharSequence_Test {
     assertThat(throwable).isInstanceOf(AssertionError.class)
                          .hasMessage(format("%n" +
                                             "Expecting:%n" +
-                                            "  <12L>%n" +
+                                            "  12L%n" +
                                             "to be an instance of:%n" +
-                                            "  <java.lang.CharSequence>%n" +
+                                            "  java.lang.CharSequence%n" +
                                             "but was instance of:%n" +
-                                            "  <java.lang.Long>"));
+                                            "  java.lang.Long"));
   }
 }

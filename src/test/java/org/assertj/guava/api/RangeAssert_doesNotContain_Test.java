@@ -47,11 +47,11 @@ public class RangeAssert_doesNotContain_Test {
     // THEN
     assertThat(throwable).isInstanceOf(AssertionError.class)
                          .hasMessage(format("%nExpecting%n" +
-                                            " <[1..10]>%n" +
+                                            "  [1..10]%n" +
                                             "not to contain%n" +
-                                            " <[9, 10, 11]>%n" +
+                                            "  [9, 10, 11]%n" +
                                             "but found%n" +
-                                            " <[9, 10]>%n"));
+                                            "  [9, 10]%n"));
   }
 
   @Test

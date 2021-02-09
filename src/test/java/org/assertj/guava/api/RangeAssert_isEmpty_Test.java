@@ -46,7 +46,7 @@ public class RangeAssert_isEmpty_Test {
     Throwable throwable = catchThrowable(() -> assertThat(actual).isEmpty());
     // THEN
     assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(format("%nExpecting empty but was:<(1..10]>"));
+                         .hasMessage(format("%nExpecting empty but was: (1..10]"));
   }
 
   @Test

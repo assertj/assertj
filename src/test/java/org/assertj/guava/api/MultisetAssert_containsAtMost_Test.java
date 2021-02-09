@@ -77,9 +77,9 @@ public class MultisetAssert_containsAtMost_Test {
     // THEN
     assertThat(throwable).isInstanceOf(AssertionError.class)
                          .hasMessage(format("%nExpecting:%n" +
-                                            "  <[\"test\", \"test\"]>%n" +
+                                            "  [\"test\", \"test\"]%n" +
                                             "to contain:%n" +
-                                            "  <\"test\">%n" +
+                                            "  \"test\"%n" +
                                             "at most 1 times but was found 2 times."));
   }
 }

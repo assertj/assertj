@@ -45,7 +45,7 @@ public class RangeMapAssert_isEmpty_Test extends RangeMapAssertBaseTest {
     Throwable throwable = catchThrowable(() -> assertThat(actual).isEmpty());
     // THEN
     assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(format("%nExpecting empty but was:<[[380..450)=violet, [450..495)=blue, [495..570)=green, [570..590)=yellow, [590..620)=orange, [620..750)=red]>"));
+                         .hasMessage(format("%nExpecting empty but was: [[380..450)=violet, [450..495)=blue, [495..570)=green, [570..590)=yellow, [590..620)=orange, [620..750)=red]"));
   }
 
 }

@@ -70,12 +70,12 @@ public class MultimapAssert_contains_Test extends MultimapAssertBaseTest {
     // @format:off
     assertThat(throwable).isInstanceOf(AssertionError.class)
                          .hasMessage(format("%nExpecting LinkedListMultimap:%n" +
-                                     " <{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>%n" +
+                                     "  {Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}%n" +
                                      "to contain:%n" +
-                                     " <[MapEntry[key=\"Lakers\", value=\"Kobe Bryant\"],%n" +
-                                     "    MapEntry[key=\"Spurs\", value=\"Derrick Rose\"]]>%n" +
+                                     "  [MapEntry[key=\"Lakers\", value=\"Kobe Bryant\"],%n" +
+                                     "    MapEntry[key=\"Spurs\", value=\"Derrick Rose\"]]%n" +
                                      "but could not find the following element(s):%n" +
-                                     " <[MapEntry[key=\"Spurs\", value=\"Derrick Rose\"]]>%n"));
+                                     "  [MapEntry[key=\"Spurs\", value=\"Derrick Rose\"]]%n"));
       // @format:on
   }
 }
