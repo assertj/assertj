@@ -17,6 +17,8 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.LinkedHashSet;
+
 /**
  * Tests for <code>{@link Assertions#assertThat(Iterable)}</code>.
  * 
@@ -27,7 +29,8 @@ class Assertions_assertThat_with_Iterable_Test {
 
   @Test
   void should_create_Assert() {
-    AbstractIterableAssert<?, Iterable<? extends Object>, Object, ObjectAssert<Object>> assertThat = Assertions.assertThat(newLinkedHashSet());
+    final Iterable<Object> actual = newLinkedHashSet();
+    AbstractIterableAssert<?, Iterable<? extends Object>, Object, ObjectAssert<Object>> assertThat = Assertions.assertThat(actual);
     assertThat(assertThat).isNotNull();
   }
 
