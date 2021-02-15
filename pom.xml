@@ -116,7 +116,7 @@
     <maven.compiler.source>8</maven.compiler.source>
     <additionalparam>-Xdoclint:none</additionalparam>
     <!-- Dependency versions -->
-    <junit.version>4.13.1</junit.version>
+    <junit.version>4.13.2</junit.version>
     <junit-jupiter.version>5.7.1</junit-jupiter.version>
     <mockito.version>3.7.7</mockito.version>
     <!-- Plugin versions -->
