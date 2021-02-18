@@ -12,43 +12,43 @@
  */
 package org.assertj.core.internal.floats;
 
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeInfinite.shouldBeInfinite;
-import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
-
 import org.assertj.core.internal.FloatsBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-class Floats_assertIsInfinite_Test extends FloatsBaseTest {
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldNotBeInfinite.shouldNotBeInfinite;
+import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+
+class Floats_assertIsNotInfinite_Test extends FloatsBaseTest {
 
   @ParameterizedTest
   @ValueSource(floats = {
-      Float.POSITIVE_INFINITY,
-      Float.NEGATIVE_INFINITY
+    Float.MAX_VALUE,
+    Float.MIN_NORMAL,
+    Float.MIN_VALUE,
+    Float.NaN,
+    0.0f,
+    1.0f,
+    -1.0f,
   })
-  void should_succeed_when_actual_is_infinite(float actual) {
-    floats.assertIsInfinite(someInfo(), actual);
+  void should_succeed_when_actual_is_not_infinite(float actual) {
+    floats.assertIsNotInfinite(someInfo(), actual);
   }
 
   @ParameterizedTest
   @ValueSource(floats = {
-      Float.MAX_VALUE,
-      Float.MIN_NORMAL,
-      Float.MIN_VALUE,
-      Float.NaN,
-      0.0f,
-      1.0f,
-      -1.0f,
+    Float.POSITIVE_INFINITY,
+    Float.NEGATIVE_INFINITY
   })
-  void should_fail_when_actual_is_not_infinite(float actual) {
+  void should_fail_when_actual_is_infinite(float actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> floats.assertIsInfinite(someInfo(), actual));
+    AssertionError assertionError = expectAssertionError(() -> floats.assertIsNotInfinite(someInfo(), actual));
     // THEN
-    then(assertionError).hasMessage(shouldBeInfinite(actual).create());
+    then(assertionError).hasMessage(shouldNotBeInfinite(actual).create());
   }
 
   @Test
@@ -56,7 +56,7 @@ class Floats_assertIsInfinite_Test extends FloatsBaseTest {
     // GIVEN
     Float actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> floats.assertIsInfinite(someInfo(), actual));
+    AssertionError assertionError = expectAssertionError(() -> floats.assertIsNotInfinite(someInfo(), actual));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

@@ -464,7 +464,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
   public SELF isEqualTo(double expected) {
     if (noCustomComparatorSet()) {
       // use primitive comparison since the parameter is a primitive.
-      if (expected == actual.doubleValue()) return myself;
+      if (expected == actual) return myself;
       // At this point we know that the assertion failed, if actual and expected are Double.NaN we want to
       // give a clear error message (we need to use equals to check that as Double.NaN != Double.NaN)
       if (Double.valueOf(expected).equals(Double.NaN) && actual.equals(Double.NaN))
@@ -581,7 +581,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
   public SELF isNotEqualTo(double other) {
     if (noCustomComparatorSet()) {
       // use primitive comparison since the parameter is a primitive.
-      if (other != actual.doubleValue()) return myself;
+      if (other != actual) return myself;
       throw Failures.instance().failure(info, shouldNotBeEqual(actual, other));
     }
     doubles.assertNotEqual(info, actual, other);
@@ -666,7 +666,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
   public SELF isLessThanOrEqualTo(double other) {
     if (noCustomComparatorSet()) {
       // use primitive comparison since the parameter is a primitive.
-      if (actual.doubleValue() <= other) return myself;
+      if (actual <= other) return myself;
       throw Failures.instance().failure(info, shouldBeLessOrEqual(actual, other));
     }
     doubles.assertLessThanOrEqualTo(info, actual, other);
@@ -748,7 +748,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
   public SELF isGreaterThanOrEqualTo(double other) {
     if (noCustomComparatorSet()) {
       // use primitive comparison since the parameter is a primitive.
-      if (actual.doubleValue() >= other) return myself;
+      if (actual >= other) return myself;
       throw Failures.instance().failure(info, shouldBeGreaterOrEqual(actual, other));
     }
     doubles.assertGreaterThanOrEqualTo(info, actual, other);
@@ -842,12 +842,12 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
   }
 
   private void assertIsPrimitiveZero() {
-    if (actual.doubleValue() == 0.0) return;
+    if (actual == 0.0) return;
     throw Failures.instance().failure(info, shouldBeEqual(actual, 0.0, info.representation()));
   }
 
   private void assertIsPrimitiveNonZero() {
-    if (actual.doubleValue() != 0.0) return;
+    if (actual != 0.0) return;
     throw Failures.instance().failure(info, shouldNotBeEqual(actual, 0.0));
   }
 
@@ -858,7 +858,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
   /**
    * Verifies that the double value is a finite floating-point value.
    * <p>
-   * Examples:
+   * Example:
    * <pre><code class='java'> // assertion succeeds
    * assertThat(1.0d).isFinite();
    *
@@ -870,12 +870,42 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * @return this assertion object.
    * @throws AssertionError if the actual value is not a finite floating-point value.
    * @throws AssertionError if the actual value is null.
+   * @see #isNotFinite()
    * @see #isInfinite()
+   * @see #isNaN()
+   * @see java.lang.Double#isFinite(double)
    * @since 3.19.0
    */
   @Override
   public SELF isFinite() {
     doubles.assertIsFinite(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the double value is not a finite floating-point value.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(Double.POSITIVE_INFINITY).isNotFinite();
+   * assertThat(Double.NEGATIVE_INFINITY).isNotFinite();
+   * assertThat(Double.NaN).isNotFinite();
+   *
+   * // assertion fails
+   * assertThat(1.0).isNotFinite();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is a finite floating-point value.
+   * @throws AssertionError if the actual value is null.
+   * @see #isFinite()
+   * @see #isInfinite()
+   * @see #isNaN()
+   * @see java.lang.Double#isFinite(double)
+   * @since 3.20.0
+   */
+  @Override
+  public SELF isNotFinite() {
+    doubles.assertIsNotFinite(info, actual);
     return myself;
   }
 
@@ -892,13 +922,44 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * assertThat(Double.NaN).isInfinite();</code></pre>
    *
    * @return this assertion object.
-   * @throws AssertionError if the actual value doesn't represent the positive infinity nor negative infinity.
+   * @throws AssertionError if the actual value represents neither positive infinity nor negative infinity.
    * @throws AssertionError if the actual value is null.
+   * @see #isNotInfinite()
+   * @see #isFinite()
+   * @see #isNaN()
+   * @see java.lang.Double#isInfinite(double)
    * @since 3.19.0
    */
   @Override
   public SELF isInfinite() {
     doubles.assertIsInfinite(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the double value represents neither positive infinity nor negative infinity.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(1.0).isNotInfinite();
+   * assertThat(Double.NaN).isNotInfinite();
+   *
+   * // assertions fail
+   * assertThat(Double.POSITIVE_INFINITY).isNotInfinite();
+   * assertThat(Double.NEGATIVE_INFINITY).isNotInfinite();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value represents positive infinity or negative infinity.
+   * @throws AssertionError if the actual value is null.
+   * @see #isInfinite()
+   * @see #isFinite()
+   * @see #isNaN()
+   * @see java.lang.Double#isInfinite(double)
+   * @since 3.20.0
+   */
+  @Override
+  public SELF isNotInfinite() {
+    doubles.assertIsNotInfinite(info, actual);
     return myself;
   }
 }

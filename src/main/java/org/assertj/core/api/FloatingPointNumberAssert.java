@@ -154,6 +154,10 @@ public interface FloatingPointNumberAssert<SELF extends FloatingPointNumberAsser
 
   SELF isFinite();
 
+  SELF isNotFinite();
+
   SELF isInfinite();
+
+  SELF isNotInfinite();
 
 }

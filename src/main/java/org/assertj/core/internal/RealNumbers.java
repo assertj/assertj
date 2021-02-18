@@ -14,6 +14,8 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.error.ShouldBeFinite.shouldBeFinite;
 import static org.assertj.core.error.ShouldBeInfinite.shouldBeInfinite;
+import static org.assertj.core.error.ShouldNotBeFinite.shouldNotBeFinite;
+import static org.assertj.core.error.ShouldNotBeInfinite.shouldNotBeInfinite;
 
 import org.assertj.core.api.AssertionInfo;
 
@@ -69,6 +71,14 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
 
   protected abstract boolean isFinite(NUMBER value);
 
+  public void assertIsNotFinite(AssertionInfo info, NUMBER actual) {
+    assertNotNull(info, actual);
+    if (isNotFinite(actual)) return;
+    throw failures.failure(info, shouldNotBeFinite(actual));
+  }
+
+  protected abstract boolean isNotFinite(NUMBER value);
+
   public void assertIsInfinite(AssertionInfo info, NUMBER actual) {
     assertNotNull(info, actual);
     if (isInfinite(actual)) return;
@@ -76,4 +86,12 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
   }
 
   protected abstract boolean isInfinite(NUMBER value);
+
+  public void assertIsNotInfinite(AssertionInfo info, NUMBER actual) {
+    assertNotNull(info, actual);
+    if (isNotInfinite(actual)) return;
+    throw failures.failure(info, shouldNotBeInfinite(actual));
+  }
+
+  protected abstract boolean isNotInfinite(NUMBER value);
 }
