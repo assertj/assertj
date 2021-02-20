@@ -359,7 +359,6 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
   }
 
   @Test
-  @DisabledOnOs(WINDOWS)
   void should_not_treat_Path_as_Iterable_to_avoid_infinite_recursion() {
     final Container container1 = new Container("/tmp/example");
     final Container container2 = new Container("/tmp/example");

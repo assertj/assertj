@@ -35,8 +35,8 @@ class ExtendedByTypesComparator_toString_Test {
     // THEN
     assertThat(actual).hasToString(format("field/property by field/property comparator on all fields/properties%n"
                                           + "Comparators used:%n"
-                                          + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}%n"
-                                          + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}"));
+                                          + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path naturalComparator)}%n"
+                                          + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path naturalComparator)}"));
   }
 
   @Test
@@ -53,7 +53,7 @@ class ExtendedByTypesComparator_toString_Test {
     assertThat(actual).hasToString(format("field/property by field/property comparator on all fields/properties%n"
                                           + "Comparators used:%n"
                                           + "- for elements fields (by name): {name -> AlwaysEqualComparator}%n"
-                                          + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}%n"
+                                          + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path naturalComparator)}%n"
                                           + "- for elements (by type): {BigDecimal -> org.assertj.core.util.BigDecimalComparator}"));
   }
 }

@@ -15,6 +15,7 @@ package org.assertj.core.internal;
 import static java.lang.String.format;
 import static org.assertj.core.util.Strings.join;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -25,6 +26,7 @@ import java.util.stream.Stream;
 
 import org.assertj.core.util.DoubleComparator;
 import org.assertj.core.util.FloatComparator;
+import org.assertj.core.util.NaturalOrderComparator;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.ClassUtils;
 
@@ -42,6 +44,8 @@ public class TypeComparators {
   private static final float FLOAT_COMPARATOR_PRECISION = 1e-6f;
   private static final FloatComparator DEFAULT_FLOAT_COMPARATOR = new FloatComparator(FLOAT_COMPARATOR_PRECISION);
 
+  private static final Comparator<Path> DEFAULT_PATH_COMPARATOR = new NaturalOrderComparator<>(Path.class);
+
   // don't convert it to a lambda as it degrades TypeComparatorsPerfTest execution time by ~66%
   private static final Comparator<Class<?>> CLASS_COMPARATOR = new Comparator<Class<?>>() {
 
@@ -58,6 +62,7 @@ public class TypeComparators {
     TypeComparators comparatorByType = new TypeComparators();
     comparatorByType.put(Double.class, DEFAULT_DOUBLE_COMPARATOR);
     comparatorByType.put(Float.class, DEFAULT_FLOAT_COMPARATOR);
+    comparatorByType.put(Path.class, DEFAULT_PATH_COMPARATOR);
     return comparatorByType;
   }
 

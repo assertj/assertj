@@ -33,7 +33,7 @@ class FieldByFieldComparator_toString_Test {
   void should_return_description_of_FieldByFieldComparator_without_field_comparators() {
     assertThat(fieldByFieldComparator).hasToString(format("field/property by field/property comparator on all fields/properties%n"
                                                           + "Comparators used:%n"
-                                                          + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}"));
+                                                          + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path naturalComparator)}"));
   }
 
   @Test
@@ -45,7 +45,7 @@ class FieldByFieldComparator_toString_Test {
     assertThat(fieldByFieldComparator).hasToString(format("field/property by field/property comparator on all fields/properties%n"
                                                           + "Comparators used:%n"
                                                           + "- for elements fields (by name): {name -> AlwaysEqualComparator, weight -> org.assertj.core.util.BigDecimalComparator}%n"
-                                                          + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}"));
+                                                          + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path naturalComparator)}"));
   }
 
 }

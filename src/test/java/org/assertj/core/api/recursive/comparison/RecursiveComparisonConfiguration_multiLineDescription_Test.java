@@ -331,6 +331,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
                "  - java.lang.Double -> DoubleComparator[precision=1.0E-15]%n" +
                "  - java.lang.Float -> FloatComparator[precision=1.0E-6]%n" +
                "  - java.lang.Integer -> AbsValueComparator%n" +
+               "  - java.nio.file.Path -> lexicographic comparator (Path naturalComparator)%n" +
                "  - org.assertj.core.groups.Tuple -> AlwaysEqualComparator%n" +
                "- these fields were compared with the following comparators:%n" +
                "  - bar.baz -> AlwaysDifferentComparator%n" +
