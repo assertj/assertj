@@ -26,7 +26,7 @@ class OnFieldsComparator_toString_Test {
     // THEN
     assertThat(actual).hasToString(format("field/property by field/property comparator on fields/properties [\"a\", \"b\"]%n"
                                           + "Comparators used:%n"
-                                          + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}"));
+                                          + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path natural order)}"));
   }
 
   @Test
@@ -36,7 +36,7 @@ class OnFieldsComparator_toString_Test {
     // THEN
     assertThat(actual).hasToString(format("single field/property comparator on field/property \"a\"%n"
                                           + "Comparators used:%n"
-                                          + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}"));
+                                          + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path natural order)}"));
   }
 
 }

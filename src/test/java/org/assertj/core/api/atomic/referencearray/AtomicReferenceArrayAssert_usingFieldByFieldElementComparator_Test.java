@@ -171,8 +171,8 @@ class AtomicReferenceArrayAssert_usingFieldByFieldElementComparator_Test
                      .hasMessage(format(shouldBeEqualMessage("[Foo(id=id, bar=1)]", "[Foo(id=id, bar=2)]") + "%n"
                                         + "when comparing elements using field/property by field/property comparator on all fields/properties%n"
                                         + "Comparators used:%n"
-                                        + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}%n"
-                                        + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}"));
+                                        + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path natural order)}%n"
+                                        + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path natural order)}"));
   }
 
   @Test
@@ -192,8 +192,8 @@ class AtomicReferenceArrayAssert_usingFieldByFieldElementComparator_Test
                                         + "  [[Foo(id=id, bar=2)], [Foo(id=id, bar=2)]]%n"
                                         + "when comparing elements using field/property by field/property comparator on all fields/properties%n"
                                         + "Comparators used:%n"
-                                        + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}%n"
-                                        + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6]}"));
+                                        + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path natural order)}%n"
+                                        + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path natural order)}"));
   }
 
   @Test
