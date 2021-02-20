@@ -455,23 +455,24 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Verifies that the actual map has the same size as the given {@link Map}.
    * <p>
    * Examples:
-   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap&lt;&gt;();
-   * ringBearers.put(nenya, galadriel);
-   * ringBearers.put(narya, gandalf);
-   * ringBearers.put(vilya, elrond);
-   * ringBearers.put(oneRing, frodo);
+   * <pre><code class='java'> import static com.google.common.collect.ImmutableMap.of;
    *
-   * // assertion will pass
-   * assertThat(ringBearers).hasSameSizeAs(mapOf(entry(oneRing, frodo),
-   *                                             entry(narya, gandalf),
-   *                                             entry(nenya, galadriel),
-   *                                             entry(vilya, elrond)));
+   * Map&lt;Ring, TolkienCharacter&gt; ringBearers = ImmutableMap.of(nenya, galadriel,
+   *                                                           narya, gandalf,
+   *                                                           vilya, elrond,
+   *                                                           oneRing, frodo);
    *
-   * // assertions will fail
-   * assertThat(elvesRingBearers).hasSameSizeAs(new HashMap());
-   * Map&lt;String, String&gt; keyToValue = new HashMap();
-   * keyToValue.put(&quot;key&quot;, &quot;value&quot;);
-   * assertThat(keyToValue).hasSameSizeAs(keyToValue);</code></pre>
+   * // assertion succeeds:
+   * assertThat(ringBearers).hasSameSizeAs(ImmutableMap.of(oneRing, frodo,
+   *                                                       narya, gandalf,
+   *                                                       nenya, galadriel,
+   *                                                       vilya, elrond));
+   *
+   * // assertions fails:
+   * assertThat(ringBearers).hasSameSizeAs(Collections.emptyMap());
+   * assertThat(ringBearers).hasSameSizeAs(ImmutableMap.of(nenya, galadriel,
+   *                                                       narya, gandalf,
+   *                                                       vilya, elrond));</code></pre>
    *
    * @param other the {@code Map} to compare size with actual map
    * @return {@code this} assertion object
