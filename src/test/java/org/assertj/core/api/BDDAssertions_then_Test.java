@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.as;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.and;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenExceptionOfType;
@@ -24,6 +25,7 @@ import static org.assertj.core.api.BDDAssertions.thenNoException;
 import static org.assertj.core.api.BDDAssertions.thenNullPointerException;
 import static org.assertj.core.api.BDDAssertions.thenObject;
 import static org.assertj.core.api.BDDAssertions.thenThrownBy;
+import static org.assertj.core.api.BDDAssertions.thenWith;
 import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.util.Lists.list;
@@ -298,6 +300,11 @@ class BDDAssertions_then_Test {
   @Test
   void then_explicit_Object() {
     thenObject(new LinkedList<>()).matches(l -> l.peek() == null);
+  }
+
+  @Test
+  void then_with() {
+    thenWith("foo", string -> assertThat(string).startsWith("f"));
   }
 
   @Test

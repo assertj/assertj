@@ -2570,6 +2570,32 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Uses the given instance as the instance under test for all the assertions expressed as the passed {@link Consumer}.
+   * <p>
+   * This is useful to avoid repeating getting the instance to test, a bit like a <a href="https://mrhaki.blogspot.com/2009/09/groovy-goodness-with-method.html">with</a> block which turns the target into
+   * the equivalent of {@code this} (as  in Groovy for example).
+   * <p>
+   * Example:
+   * <pre><code> assertWith(team.getPlayers().get(0).getStats(),
+   *            stats -&gt; {
+   *               assertThat(stats.pointPerGame).isGreaterThan(25.7);
+   *               assertThat(stats.assistsPerGame).isGreaterThan(7.2);
+   *               assertThat(stats.reboundsPerGame).isBetween(9, 12);
+   *            });</code></pre>
+   * <p>
+   * {@code assertWith} is variation of {@link AbstractAssert#satisfies(Consumer)} hopefully easier to find for some users.
+   *
+   * @param <T> the type of the actual value.
+   * @param actual the actual value.
+   * @param requirements to assert on the actual object - must not be null.
+   * @return the created assertion object.
+   * @since 3.20.0
+   */
+  default <T> ObjectAssert<T> assertWith(T actual, Consumer<T> requirements) {
+    return assertThat(actual).satisfies(requirements);
+  }
+
+  /**
    * Allows to catch an {@link Throwable} more easily when used with Java 8 lambdas.
    *
    * <p>

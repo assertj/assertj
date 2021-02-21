@@ -54,6 +54,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.concurrent.atomic.LongAdder;
+import java.util.function.Consumer;
 import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
@@ -1254,6 +1255,32 @@ public class BDDAssertions extends Assertions {
    */
   public static <T> ObjectAssert<T> thenObject(T actual) {
     return then(actual);
+  }
+
+  /**
+   * Uses the given instance as the instance under test for all the assertions expressed as the passed {@link Consumer}.
+   * <p>
+   * This is useful to avoid repeating getting the instance to test, a bit like a <a href="https://mrhaki.blogspot.com/2009/09/groovy-goodness-with-method.html">with</a> block which turns the target into
+   * the equivalent of {@code this} (as  in Groovy for example).
+   * <p>
+   * Example:
+   * <pre><code> thenWith(team.getPlayers().get(0).getStats(),
+   *            stats -&gt; {
+   *               assertThat(stats.pointPerGame).isGreaterThan(25.7);
+   *               assertThat(stats.assistsPerGame).isGreaterThan(7.2);
+   *               assertThat(stats.reboundsPerGame).isBetween(9, 12);
+   *            });</code></pre>
+   * <p>
+   * {@code assertWith} is variation of {@link AbstractAssert#satisfies(Consumer)} hopefully easier to find for some users.
+   *
+   * @param <T> the type of the actual value.
+   * @param actual the actual value.
+   * @param requirements to assert on the actual object - must not be null.
+   * @return the created assertion object.
+   * @since 3.20.0
+   */
+  public static <T> ObjectAssert<T> thenWith(T actual, Consumer<T> requirements) {
+    return then(actual).satisfies(requirements);
   }
 
   /**
