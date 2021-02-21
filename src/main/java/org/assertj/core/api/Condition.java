@@ -138,6 +138,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
   /**
    * Returns the description of this condition with its status failed or success.
    *
+   * @param actual the instance to evaluate the condition status against.
    * @return the description of this condition with its status.
    */
   public Description conditionDescriptionWithStatus(T actual) {
