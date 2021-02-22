@@ -14,7 +14,10 @@ package org.assertj.core.api.map;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.util.LinkedHashMap;
@@ -22,6 +25,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 
 import org.assertj.core.api.MapAssert;
+import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -45,6 +49,7 @@ class MapAssert_flatExtracting_Test {
     map.put("job", jobs);
     map.put("city", cities);
     map.put("rank", ranks);
+    map.put("id", list(null, null));
   }
 
   @Test
@@ -57,16 +62,25 @@ class MapAssert_flatExtracting_Test {
   }
 
   @Test
-  void should_extract_null_from_unknown_key() {
-    assertThat(map).flatExtracting("name", "id", "city")
-                   .containsExactly("Dave", "Jeff", null, "Dover", "Boston", "Paris");
-    assertThat(map).flatExtracting("foo", "bar")
-                   .containsOnlyNulls();
+  void should_extract_null_from_key_with_flattened_null_values() {
+    // WHEN/THEN
+    assertThat(map).flatExtracting("name", "city", "id")
+                   .containsExactly("Dave", "Jeff", "Dover", "Boston", "Paris", null, null);
+  }
+
+  @Test
+  void should_fail_if_key_is_unknown() {
+    // WHEN
+    Throwable thrown = catchThrowable(() -> assertThat(map).flatExtracting("foo", "bar"));
+    // THEN
+    then(thrown).isInstanceOf(IntrospectionError.class);
   }
 
   @Test
   void should_extract_but_not_flatten_non_collection_values() {
+    // GIVEN
     map.put("year", 2017);
+    // WHEN/THEN
     assertThat(map).flatExtracting("name", "job", "year")
                    .containsExactly("Dave", "Jeff", "Plumber", "Builder", 2017);
   }

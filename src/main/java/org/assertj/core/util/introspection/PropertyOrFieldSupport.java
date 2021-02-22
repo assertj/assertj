@@ -74,7 +74,7 @@ public class PropertyOrFieldSupport {
         // if the input object is a map, try name as a map key
         if (input instanceof Map) {
           Map<?, ?> map = (Map<?, ?>) input;
-          return map.get(name);
+          if (map.containsKey(name)) return map.get(name);
         }
 
         // no value found with given name, it is considered as an error

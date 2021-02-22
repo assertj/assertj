@@ -14,8 +14,10 @@ package org.assertj.core.util.introspection;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.introspection.FieldSupport.EXTRACTION_OF_PUBLIC_FIELD_ONLY;
 
 import java.util.HashMap;
@@ -184,21 +186,26 @@ class PropertyOrFieldSupport_getValueOf_Test {
   void should_extract_single_value_from_maps_by_key() {
     String key1 = "key1";
     String key2 = "key2";
+    String keyWithNullValue = "key with null";
     Map<String, Employee> map1 = new HashMap<>();
     map1.put(key1, yoda);
     Employee luke = new Employee(2L, new Name("Luke"), 22);
     map1.put(key2, luke);
+    map1.put(keyWithNullValue, null);
 
     Map<String, Employee> map2 = new HashMap<>();
     map2.put(key1, yoda);
     Employee han = new Employee(3L, new Name("Han"), 31);
     map2.put(key2, han);
+    map2.put(keyWithNullValue, null);
 
     List<Map<String, Employee>> maps = asList(map1, map2);
     assertThat(maps).extracting(key2).containsExactly(luke, han);
     assertThat(maps).extracting(key2, Employee.class).containsExactly(luke, han);
     assertThat(maps).extracting(key1).containsExactly(yoda, yoda);
-    assertThat(maps).extracting("bad key").containsExactly(null, null);
+    assertThat(maps).extracting(keyWithNullValue).containsExactly(null, null);
+
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(maps).extracting("bad key"));
   }
 
   @Test
