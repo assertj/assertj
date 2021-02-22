@@ -30,10 +30,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link ObjectAssert#extracting(String)}</code> and <code>{@link ObjectAssert#extracting(String[])}</code>.
+ * Tests for <code>{@link ObjectAssert#extracting(String)}</code>.
  */
-@DisplayName("ObjectAssert.extracting")
-class ObjectAssert_extracting_Test {
+@DisplayName("ObjectAssert extracting(String)")
+class ObjectAssert_extracting_with_String_Test {
 
   private Employee luke;
   private Employee leia;
@@ -50,40 +50,16 @@ class ObjectAssert_extracting_Test {
 
   @Test
   void should_allow_assertions_on_property_extracted_from_given_object_by_name() {
+    // WHEN/THEN
     assertThat(luke).extracting("id")
                     .isNotNull();
+  }
+
+  @Test
+  void should_allow_assertions_on_nested_property_extracted_from_given_object_by_name() {
+    // WHEN/THEN
     assertThat(luke).extracting("name.first")
                     .isEqualTo("Luke");
-  }
-
-  @Test
-  void should_allow_assertions_on_array_of_properties_extracted_from_given_object_by_name() {
-    assertThat(luke).extracting("id", "name")
-                    .hasSize(2)
-                    .doesNotContainNull();
-    assertThat(luke).extracting("name.first", "name.last")
-                    .hasSize(2)
-                    .containsExactly("Luke", "Skywalker");
-  }
-
-  @Test
-  void should_allow_assertion_on_mixed_properties_or_fields_with_nested_map_values() {
-    assertThat(luke).extracting("id", "name.last", "attributes.side", "relations.sister", "relations.sister.relations.brother.id")
-                    .containsExactly(2L, "Skywalker", "light", leia, 2L);
-  }
-
-  @Test
-  void should_follow_map_get_behavior_for_key_with_null_value() {
-    assertThat(luke).extracting("relations.brother", "relations.sister", "relations.sister.name.first")
-                    .containsExactly(null, leia, "Leia");
-  }
-
-  @Test
-  void should_throw_IntrospectionError_if_nested_map_key_does_not_exist() {
-    // WHEN
-    Throwable thrown = catchThrowable(() -> assertThat(luke).extracting("relations.unknown", "relations.sister"));
-    // THEN
-    then(thrown).isInstanceOf(IntrospectionError.class);
   }
 
   @Test
@@ -92,15 +68,6 @@ class ObjectAssert_extracting_Test {
     AssertionError assertionError = expectAssertionError(() -> assertThat(luke).extracting("name.first").isNull());
     // THEN
     then(assertionError).hasMessageContaining("[Extracted: name.first]");
-  }
-
-  @Test
-  void should_use_property_field_names_as_description_when_extracting_tuples_list() {
-    // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(luke).extracting("name.first", "name.last")
-                                                                               .isEmpty());
-    // THEN
-    then(assertionError).hasMessageContaining("[Extracted: name.first, name.last]");
   }
 
   @Test
@@ -114,16 +81,6 @@ class ObjectAssert_extracting_Test {
   }
 
   @Test
-  void should_keep_existing_description_if_set_when_extracting_tuples_list() {
-    // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(luke).as("check luke first and last name")
-                                                                               .extracting("name.first", "name.last")
-                                                                               .isEmpty());
-    // THEN
-    then(assertionError).hasMessageContaining("[check luke first and last name]");
-  }
-
-  @Test
   void should_allow_to_specify_type_comparator_after_using_extracting_with_single_parameter_on_object() {
     // GIVEN
     Person obiwan = new Person("Obi-Wan");
@@ -132,21 +89,10 @@ class ObjectAssert_extracting_Test {
       if (o1 instanceof BigDecimal) return BIG_DECIMAL_COMPARATOR.compare((BigDecimal) o1, (BigDecimal) o2);
       throw new IllegalStateException("only supported for BigDecimal");
     };
-    // THEN
+    // WHEN/THEN
     assertThat(obiwan).extracting("height")
                       .usingComparator(heightComparator)
                       .isEqualTo(new BigDecimal("1.82"));
-  }
-
-  @Test
-  void should_allow_to_specify_type_comparator_after_using_extracting_with_multiple_parameters_on_object() {
-    // GIVEN
-    Person obiwan = new Person("Obi-Wan");
-    obiwan.setHeight(new BigDecimal("1.820"));
-    // THEN
-    assertThat(obiwan).extracting("name", "height")
-                      .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
-                      .containsExactly("Obi-Wan", new BigDecimal("1.82"));
   }
 
   @Test
@@ -172,4 +118,5 @@ class ObjectAssert_extracting_Test {
       this.height = height;
     }
   }
+
 }

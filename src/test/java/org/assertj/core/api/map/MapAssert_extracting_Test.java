@@ -13,8 +13,9 @@
 package org.assertj.core.api.map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.HashMap;
@@ -40,69 +41,86 @@ class MapAssert_extracting_Test {
 
   @Test
   void should_allow_assertions_on_values_extracted_from_given_map_keys() {
+    // WHEN/THEN
     assertThat(map).extracting(NAME, "age")
                    .containsExactly("kawhi", 25);
   }
 
   @Test
   void should_allow_object_assertions_on_value_extracted_from_given_map_key() {
+    // WHEN/THEN
     assertThat(map).extracting(NAME)
                    .isEqualTo("kawhi");
   }
 
   @Test
   void should_allow_assertions_on_values_extracted_from_given_extractors() {
+    // WHEN/THEN
     assertThat(map).extracting(m -> m.get(NAME), m -> m.get("age"))
                    .containsExactly("kawhi", 25);
   }
 
   @Test
   void should_allow_object_assertions_on_value_extracted_from_given_extractor() {
+    // WHEN/THEN
     assertThat(map).extracting(m -> m.get(NAME))
                    .isEqualTo("kawhi");
   }
 
   @Test
   void should_extract_null_element_from_unknown_key() {
+    // WHEN/THEN
     assertThat(map).extracting(NAME, "unknown")
                    .containsExactly("kawhi", null);
   }
 
   @Test
   void should_extract_null_object_from_key_with_null_value() {
+    // WHEN/THEN
     assertThat(map).extracting("title")
                    .isNull();
   }
 
   @Test
   void should_fail_with_unknown_key() {
-    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(map).extracting("unknown"));
+    // WHEN
+    Throwable thrown = catchThrowable(() -> assertThat(map).extracting("unknown"));
+    // THEN
+    then(thrown).isInstanceOf(IntrospectionError.class);
   }
 
   @Test
   void should_use_key_names_as_description() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(map).extracting(NAME, "age").isEmpty())
-                                                   .withMessageContaining("[Extracted: name, age]");
+    // WHEN
+    AssertionError error = expectAssertionError(() -> assertThat(map).extracting(NAME, "age").isEmpty());
+    // THEN
+    then(error).hasMessageContaining("[Extracted: name, age]");
   }
 
   @Test
   void should_use_key_name_as_description() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(map).extracting(NAME).isNull())
-                                                   .withMessageContaining("[Extracted: name]");
+    // WHEN
+    AssertionError error = expectAssertionError(() -> assertThat(map).extracting(NAME).isNull());
+    // THEN
+    then(error).hasMessageContaining("[Extracted: name]");
   }
 
   @Test
   void should_keep_existing_description_if_set_when_extracting_values_list() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(map).as("check name and age")
-                                                                                    .extracting(NAME, "age").isEmpty())
-                                                   .withMessageContaining("[check name and age]");
+    // WHEN
+    AssertionError error = expectAssertionError(() -> assertThat(map).as("check name and age")
+                                                                     .extracting(NAME, "age").isEmpty());
+    // THEN
+    then(error).hasMessageContaining("[check name and age]");
   }
 
   @Test
   void should_keep_existing_description_if_set_when_extracting_value_object() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(map).as("check name")
-                                                                                    .extracting(NAME).isNull())
-                                                   .withMessageContaining("[check name]");
+    // WHEN
+    AssertionError error = expectAssertionError(() -> assertThat(map).as("check name")
+                                                                     .extracting(NAME).isNull());
+    // THEN
+    then(error).hasMessageContaining("[check name]");
   }
 
   @Test
@@ -110,9 +128,9 @@ class MapAssert_extracting_Test {
     // GIVEN
     map = null;
     // WHEN
-    Throwable error = catchThrowable(() -> assertThat(map).extracting(NAME, "age"));
+    AssertionError error = expectAssertionError(() -> assertThat(map).extracting(NAME, "age"));
     // THEN
-    assertThat(error).hasMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
@@ -120,9 +138,9 @@ class MapAssert_extracting_Test {
     // GIVEN
     map = null;
     // WHEN
-    Throwable error = catchThrowable(() -> assertThat(map).extracting(NAME));
+    AssertionError error = expectAssertionError(() -> assertThat(map).extracting(NAME));
     // THEN
-    assertThat(error).hasMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
 }
