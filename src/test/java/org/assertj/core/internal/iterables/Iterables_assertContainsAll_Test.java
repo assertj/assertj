@@ -18,7 +18,9 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.internal.ErrorMessages.iterableToLookForIsNull;
+import static org.assertj.core.internal.iterables.SinglyIterableFactory.createSinglyIterable;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -54,6 +56,11 @@ class Iterables_assertContainsAll_Test extends IterablesBaseTest {
   @Test
   void should_pass_if_actual_contains_all_iterable_values_even_if_duplicated() {
     iterables.assertContainsAll(someInfo(), actual, newArrayList("Luke", "Luke"));
+  }
+
+  @Test
+  void should_pass_if_nonrestartable_actual_contains_given_values() {
+    iterables.assertContainsAll(someInfo(), createSinglyIterable(actual), newArrayList("Luke", "Luke"));
   }
 
   @Test

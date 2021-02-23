@@ -41,7 +41,21 @@ public class ShouldContain extends BasicErrorMessageFactory {
    */
   public static ErrorMessageFactory shouldContain(Object actual, Object expected, Object notFound,
                                                   ComparisonStrategy comparisonStrategy) {
-    GroupTypeDescription groupTypeDescription = getGroupTypeDescription(actual);
+    return shouldContain(actual.getClass(), actual, expected, notFound, comparisonStrategy);
+  }
+
+  /**
+   * Creates a new <code>{@link ShouldContain}</code>.
+   * @param clazz the actual value class in the failed assertion.
+   * @param actual the actual value in the failed assertion.
+   * @param expected values expected to be in {@code actual}.
+   * @param notFound the values in {@code expected} not found in {@code actual}.
+   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldContain(Class<?> clazz, Object actual, Object expected, Object notFound,
+                                                  ComparisonStrategy comparisonStrategy) {
+    GroupTypeDescription groupTypeDescription = getGroupTypeDescription(clazz);
     return new ShouldContain(actual, expected, notFound, comparisonStrategy, groupTypeDescription);
   }
 

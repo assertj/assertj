@@ -40,6 +40,16 @@ class GroupTypeDescription_getGroupTypeDescription_Test {
     assertThat(description.getElementTypeName()).isEqualTo(elementTypeName);
   }
 
+  @ParameterizedTest(name = "{0}: {1} {2} ")
+  @MethodSource("argumentsStreamProvider")
+  void should_return_group_description_from_class(Object obj, String groupTypeName, String elementTypeName) {
+    // WHEN
+    GroupTypeDescription description = getGroupTypeDescription(obj.getClass());
+    // THEN
+    assertThat(description.getGroupTypeName()).isEqualTo(groupTypeName);
+    assertThat(description.getElementTypeName()).isEqualTo(elementTypeName);
+  }
+
   private static Stream<Arguments> argumentsStreamProvider() {
     return Stream.of(Arguments.of(mapOf(entry("1", 2d)), "map", "map entries"),
                      Arguments.of(new int[] { 1, 2 }, "int[]", "int(s)"),

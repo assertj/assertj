@@ -28,6 +28,8 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
@@ -105,6 +107,18 @@ class Iterables_assertContains_Test extends IterablesBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContain(actual, expected, newLinkedHashSet("Han")));
+  }
+
+  @Test
+  void should_fail_with_the_right_actual_type() {
+    AssertionInfo info = someInfo();
+    Object[] expected = {"Han", "Luke"};
+    Set<String> actualSet = new HashSet<>(actual);
+
+    Throwable error = catchThrowable(() -> iterables.assertContains(info, actualSet, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class).hasMessageContainingAll("Expecting HashSet:");
+    verify(failures).failure(info, shouldContain(actualSet, expected, newLinkedHashSet("Han")));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
