@@ -34,6 +34,7 @@ import java.util.Set;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
+import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -118,7 +119,7 @@ class Iterables_assertContains_Test extends IterablesBaseTest {
     Throwable error = catchThrowable(() -> iterables.assertContains(info, actualSet, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class).hasMessageContainingAll("Expecting HashSet:");
-    verify(failures).failure(info, shouldContain(actualSet, expected, newLinkedHashSet("Han")));
+    verify(failures).failure(info, shouldContain(HashSet.class, newArrayList(actualSet), expected, newLinkedHashSet("Han"), StandardComparisonStrategy.instance()));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
