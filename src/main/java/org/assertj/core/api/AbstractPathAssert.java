@@ -1761,14 +1761,14 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * /root/sub-dir-1/file-2.ext (content)</code></pre>
    *
    * Here are some assertions examples:
-   * <pre><code class="java"> Path noContentPath = Paths.get("/root/sub-dir-1/file-1.ext");
-   * Path contentPath = Paths.get("/root/sub-dir-1/file-2.ext");
+   * <pre><code class="java"> Path withoutContent = Paths.get("/root/sub-dir-1/file-1.ext");
+   * Path withContent = Paths.get("/root/sub-dir-1/file-2.ext");
    *
    * // The following assertion succeeds:
-   * assertThat(noContentPath).isEmptyFile();
+   * assertThat(withoutContent).isEmptyFile();
    *
    * // The following assertion fails:
-   * assertThat(contentPath).isEmptyFile();</code></pre>
+   * assertThat(withContent).isEmptyFile();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if actual is {@code null}.
@@ -1792,14 +1792,14 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * /root/sub-dir-1/file-2.ext (content)</code></pre>
    *
    * Here are some assertions examples:
-   * <pre><code class="java"> Path noContentPath = Paths.get("/root/sub-dir-1/file-1.ext");
-   * Path contentPath = Paths.get("/root/sub-dir-1/file-2.ext");
+   * <pre><code class="java"> Path withoutContent = Paths.get("/root/sub-dir-1/file-1.ext");
+   * Path withContent = Paths.get("/root/sub-dir-1/file-2.ext");
    *
    * // The following assertion succeeds:
-   * assertThat(contentPath).isNotEmptyFile();
+   * assertThat(withContent).isNotEmptyFile();
    *
    * // The following assertion fails:
-   * assertThat(noContentPath).isNotEmptyFile();</code></pre>
+   * assertThat(withoutContent).isNotEmptyFile();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if actual is {@code null}.
