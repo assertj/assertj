@@ -750,7 +750,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * // assertions fail
    * assertThat(42L).hasSameHashCodeAs(2501L);
    * assertThat(null).hasSameHashCodeAs(&quot;The Force&quot;);
-   * assertThat(&quot;The Force&quot;).hasSameHashCodeAs(null);</code></pre>
+   * assertThat(&quot;The Force&quot;).hasSameHashCodeAs(&quot;Awakens&quot;);</code></pre>
    *
    * @param other the object to check hashCode against.
    *
@@ -770,7 +770,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * Example:
    * <pre><code class='java'> // assertions succeed
    * assertThat(42L).doesNotHaveSameHashCodeAs(2501L);
-   * assertThat(&quot;The Force&quot;).doesNotHaveSameHashCodeAs(null);
+   * assertThat(&quot;The Force&quot;).doesNotHaveSameHashCodeAs(&quot;Awakens&quot;);
    *
    * // assertions fail
    * assertThat(42L).doesNotHaveSameHashCodeAs(42L);
