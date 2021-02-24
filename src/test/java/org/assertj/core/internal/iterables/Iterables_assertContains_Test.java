@@ -12,10 +12,10 @@
  */
 package org.assertj.core.internal.iterables;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.internal.iterables.SinglyIterableFactory.createSinglyIterable;
@@ -101,24 +101,30 @@ class Iterables_assertContains_Test extends IterablesBaseTest {
 
   @Test
   void should_fail_if_actual_does_not_contain_values() {
+    // GIVEN
     AssertionInfo info = someInfo();
     Object[] expected = { "Han", "Luke" };
 
+    // WHEN
     Throwable error = catchThrowable(() -> iterables.assertContains(info, actual, expected));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
+    // THEN
+    then(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContain(actual, expected, newLinkedHashSet("Han")));
   }
 
   @Test
   void should_fail_with_the_right_actual_type() {
+    // GIVEN
     AssertionInfo info = someInfo();
-    Object[] expected = {"Han", "Luke"};
+    Object[] expected = { "Han", "Luke" };
     Set<String> actualSet = new HashSet<>(actual);
 
+    // WHEN
     Throwable error = catchThrowable(() -> iterables.assertContains(info, actualSet, expected));
 
-    assertThat(error).isInstanceOf(AssertionError.class).hasMessageContainingAll("Expecting HashSet:");
+    // THEN
+    then(error).isInstanceOf(AssertionError.class).hasMessageContainingAll("Expecting HashSet:");
     verify(failures).failure(info, shouldContain(HashSet.class, newArrayList(actualSet), expected, newLinkedHashSet("Han"), StandardComparisonStrategy.instance()));
   }
 
@@ -154,12 +160,15 @@ class Iterables_assertContains_Test extends IterablesBaseTest {
 
   @Test
   void should_fail_if_actual_does_not_contain_values_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
     Object[] expected = { "Han", "Luke" };
 
+    // WHEN
     Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContains(info, actual, expected));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
+    // THEN
+    then(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContain(actual, expected, newLinkedHashSet("Han"), comparisonStrategy));
   }
 
