@@ -12,12 +12,13 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.GroupTypeDescription.getGroupTypeDescription;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.stream.Stream;
 
@@ -36,25 +37,35 @@ class GroupTypeDescription_getGroupTypeDescription_Test {
     // WHEN
     GroupTypeDescription description = getGroupTypeDescription(obj);
     // THEN
-    assertThat(description.getGroupTypeName()).isEqualTo(groupTypeName);
-    assertThat(description.getElementTypeName()).isEqualTo(elementTypeName);
+    then(description.getGroupTypeName()).isEqualTo(groupTypeName);
+    then(description.getElementTypeName()).isEqualTo(elementTypeName);
+  }
+
+  @ParameterizedTest(name = "{0}: {1} {2} ")
+  @MethodSource("argumentsStreamProvider")
+  void should_return_group_description_from_class(Object obj, String groupTypeName, String elementTypeName) {
+    // WHEN
+    GroupTypeDescription description = getGroupTypeDescription(obj.getClass());
+    // THEN
+    then(description.getGroupTypeName()).isEqualTo(groupTypeName);
+    then(description.getElementTypeName()).isEqualTo(elementTypeName);
   }
 
   private static Stream<Arguments> argumentsStreamProvider() {
-    return Stream.of(Arguments.of(mapOf(entry("1", 2d)), "map", "map entries"),
-                     Arguments.of(new int[] { 1, 2 }, "int[]", "int(s)"),
-                     Arguments.of(new double[] { 1, 2 }, "double[]", "double(s)"),
-                     Arguments.of(new float[] { 1f, 2f }, "float[]", "float(s)"),
-                     Arguments.of(new byte[] { 1, 2 }, "byte[]", "byte(s)"),
-                     Arguments.of(new long[] { 1L, 2L }, "long[]", "long(s)"),
-                     Arguments.of(new boolean[] { true }, "boolean[]", "boolean(s)"),
-                     Arguments.of(new char[] { 'a', 'b' }, "char[]", "char(s)"),
-                     Arguments.of(new short[] { 1, 2 }, "short[]", "short(s)"),
-                     Arguments.of(new String[] { "a", "c" }, "String[]", "string(s)"),
-                     Arguments.of(new Object[] { "a", "c" }, "Object[]", "object(s)"),
-                     Arguments.of(new Jedi[] { new Jedi("Yoda", "green") }, "Jedi[]", "jedi(s)"),
-                     Arguments.of(list(1, 2), "ArrayList", "element(s)"),
-                     Arguments.of(newLinkedHashSet(1, 2), "LinkedHashSet", "element(s)"));
+    return Stream.of(arguments(mapOf(entry("1", 2d)), "map", "map entries"),
+                     arguments(new int[] { 1, 2 }, "int[]", "int(s)"),
+                     arguments(new double[] { 1, 2 }, "double[]", "double(s)"),
+                     arguments(new float[] { 1f, 2f }, "float[]", "float(s)"),
+                     arguments(new byte[] { 1, 2 }, "byte[]", "byte(s)"),
+                     arguments(new long[] { 1L, 2L }, "long[]", "long(s)"),
+                     arguments(new boolean[] { true }, "boolean[]", "boolean(s)"),
+                     arguments(new char[] { 'a', 'b' }, "char[]", "char(s)"),
+                     arguments(new short[] { 1, 2 }, "short[]", "short(s)"),
+                     arguments(new String[] { "a", "c" }, "String[]", "string(s)"),
+                     arguments(new Object[] { "a", "c" }, "Object[]", "object(s)"),
+                     arguments(new Jedi[] { new Jedi("Yoda", "green") }, "Jedi[]", "jedi(s)"),
+                     arguments(list(1, 2), "ArrayList", "element(s)"),
+                     arguments(newLinkedHashSet(1, 2), "LinkedHashSet", "element(s)"));
   }
 
 }

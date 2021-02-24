@@ -342,15 +342,16 @@ public class Iterables {
     final List<?> actualAsList = newArrayList(actual);
     if (commonCheckThatIterableAssertionSucceeds(info, actualAsList, values)) return;
     // check for elements in values that are missing in actual.
-    assertIterableContainsGivenValues(actualAsList, values, info);
+    assertIterableContainsGivenValues(actual.getClass(), actualAsList, values, info);
   }
 
-  private void assertIterableContainsGivenValues(Iterable<?> actual, Object[] values, AssertionInfo info) {
+  private void assertIterableContainsGivenValues(@SuppressWarnings("unchecked") Class<? extends Iterable> clazz,
+                                                 Iterable<?> actual, Object[] values, AssertionInfo info) {
     Set<Object> notFound = stream(values).filter(value -> !iterableContains(actual, value))
                                          .collect(toCollection(LinkedHashSet::new));
     if (notFound.isEmpty())
       return;
-    throw failures.failure(info, shouldContain(actual, values, notFound, comparisonStrategy));
+    throw failures.failure(info, shouldContain(clazz, actual, values, notFound, comparisonStrategy));
   }
 
   private boolean iterableContains(Iterable<?> actual, Object value) {
@@ -1099,10 +1100,11 @@ public class Iterables {
    *           {@code Iterable}, in any order.
    */
   public void assertContainsAll(AssertionInfo info, Iterable<?> actual, Iterable<?> other) {
+    final List<?> actualAsList = newArrayList(actual);
     checkIterableIsNotNull(other);
-    assertNotNull(info, actual);
+    assertNotNull(info, actualAsList);
     Object[] values = newArrayList(other).toArray();
-    assertIterableContainsGivenValues(actual, values, info);
+    assertIterableContainsGivenValues(actual.getClass(), actualAsList, values, info);
   }
 
   /**

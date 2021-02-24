@@ -12,30 +12,32 @@
  */
 package org.assertj.core.internal.iterables;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.internal.iterables.SinglyIterableFactory.createSinglyIterable;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
 
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
+import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Iterables#assertContains(AssertionInfo, Collection, Object[])}</code>.
+ * Tests for <code>{@link Iterables#assertContains(AssertionInfo, Iterable, Object[])}</code>.
  *
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -75,7 +77,7 @@ class Iterables_assertContains_Test extends IterablesBaseTest {
   }
 
   @Test
-  void should_pass_if_nonrestartable_actual_contains_given_values() {
+  void should_pass_if_non_restartable_actual_contains_given_values() {
     iterables.assertContains(someInfo(), createSinglyIterable(actual), array("Luke", "Yoda", "Leia"));
   }
 
@@ -98,13 +100,28 @@ class Iterables_assertContains_Test extends IterablesBaseTest {
 
   @Test
   void should_fail_if_actual_does_not_contain_values() {
+    // GIVEN
     AssertionInfo info = someInfo();
     Object[] expected = { "Han", "Luke" };
-
-    Throwable error = catchThrowable(() -> iterables.assertContains(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
+    // WHEN
+    AssertionError error = expectAssertionError(() -> iterables.assertContains(info, actual, expected));
+    // THEN
+    then(error).hasMessageContaining("Expecting ArrayList:");
     verify(failures).failure(info, shouldContain(actual, expected, newLinkedHashSet("Han")));
+  }
+
+  @Test
+  void should_fail_with_the_right_actual_type() {
+    // GIVEN
+    AssertionInfo info = someInfo();
+    Object[] expected = { "Han", "Luke" };
+    Set<String> actualSet = new HashSet<>(actual);
+    // WHEN
+    AssertionError error = expectAssertionError(() -> iterables.assertContains(info, actualSet, expected));
+    // THEN
+    then(error).hasMessageContaining("Expecting HashSet:");
+    verify(failures).failure(info, shouldContain(HashSet.class, newArrayList(actualSet), expected, newLinkedHashSet("Han"),
+                                                 StandardComparisonStrategy.instance()));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -139,12 +156,14 @@ class Iterables_assertContains_Test extends IterablesBaseTest {
 
   @Test
   void should_fail_if_actual_does_not_contain_values_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
     Object[] expected = { "Han", "Luke" };
-
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContains(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
+    // WHEN
+    AssertionError error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContains(info, actual,
+                                                                                                                    expected));
+    // THEN
+    then(error).hasMessageContaining("Expecting ArrayList:");
     verify(failures).failure(info, shouldContain(actual, expected, newLinkedHashSet("Han"), comparisonStrategy));
   }
 

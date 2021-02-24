@@ -42,12 +42,21 @@ public class GroupTypeDescription {
    * @return the created GroupTypeDescription object
    */
   public static GroupTypeDescription getGroupTypeDescription(Object actual) {
+    return getGroupTypeDescription(actual.getClass());
+  }
 
-    Class<?> clazz = actual.getClass();
+  /**
+   * Creates a new <code>{@link GroupTypeDescription}</code> for a group of elements.
+   *
+   * @param clazz the class for the group of elements.
+   * @return the created GroupTypeDescription object
+   */
+  public static GroupTypeDescription getGroupTypeDescription(Class<?> clazz) {
+
     if (Thread.currentThread().getStackTrace()[SPLITERATORS_CLASS_STACK_TRACE_NUM].getClassName().contains("Spliterators"))
       return new GroupTypeDescription("spliterator characteristics", "characteristics");
 
-    if (actual instanceof Map) return new GroupTypeDescription("map", "map entries");
+    if (Map.class.isAssignableFrom(clazz)) return new GroupTypeDescription("map", "map entries");
 
     if (clazz.isArray())
       return new GroupTypeDescription(clazz.getSimpleName(), clazz.getComponentType().getSimpleName().toLowerCase() + "(s)");
