@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.AbstractDateAssert;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.description.Description;
 import org.assertj.core.presentation.Representation;
@@ -337,6 +338,9 @@ public class Configuration {
     Assertions.setDescriptionConsumer(descriptionConsumer());
     Assertions.setPrintAssertionsDescription(printAssertionsDescription());
     Assertions.setMaxStackTraceElementsDisplayed(maxStackTraceElementsDisplayed());
+    // reset the default date formats otherwise a custom config would register them and when another config is applied it would
+    // add to the previous config date formats
+    AbstractDateAssert.useDefaultDateFormatsOnly();
     additionalDateFormats().forEach(Assertions::registerCustomDateFormat);
   }
 

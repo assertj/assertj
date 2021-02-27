@@ -1519,7 +1519,6 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; failBecauseExceptionWasNotThrown(IOException.class)));.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
-   *
    */
   @CanIgnoreReturnValue
   public static <T> T failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {

@@ -82,13 +82,15 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   protected final ACTUAL actual;
   protected final SELF myself;
 
+  @VisibleForTesting
   // = ConfigurationProvider.CONFIGURATION_PROVIDER.representation(); ?
-  private static Representation customRepresentation = null;
+  static Representation customRepresentation = null;
 
   @VisibleForTesting
   AssertionErrorCreator assertionErrorCreator;
 
-  private static boolean printAssertionsDescription;
+  @VisibleForTesting
+  static boolean printAssertionsDescription;
 
   private static Consumer<Description> descriptionConsumer;
 

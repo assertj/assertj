@@ -81,7 +81,7 @@ public final class Introspection {
   }
 
   @VisibleForTesting
-  public static boolean canIntrospectExtractBareNamePropertyMethods() {
+  public static boolean canExtractBareNamePropertyMethods() {
     return bareNamePropertyMethods;
   }
 

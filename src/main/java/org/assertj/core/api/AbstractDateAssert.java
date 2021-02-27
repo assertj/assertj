@@ -72,12 +72,13 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   /**
    * the default DateFormat used to parse any String date representation.
    */
-  private static final List<DateFormat> DEFAULT_DATE_FORMATS = list(newIsoDateTimeWithMsAndIsoTimeZoneFormat(),
-                                                                    newIsoDateTimeWithMsFormat(),
-                                                                    newTimestampDateFormat(),
-                                                                    newIsoDateTimeWithIsoTimeZoneFormat(),
-                                                                    newIsoDateTimeFormat(),
-                                                                    newIsoDateFormat());
+  @VisibleForTesting
+  static final List<DateFormat> DEFAULT_DATE_FORMATS = list(newIsoDateTimeWithMsAndIsoTimeZoneFormat(),
+                                                            newIsoDateTimeWithMsFormat(),
+                                                            newTimestampDateFormat(),
+                                                            newIsoDateTimeWithIsoTimeZoneFormat(),
+                                                            newIsoDateTimeFormat(),
+                                                            newIsoDateFormat());
 
   private static final String DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL = "Given date format pattern should not be null";
   private static final String DATE_FORMAT_SHOULD_NOT_BE_NULL = "Given date format should not be null";

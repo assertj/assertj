@@ -12,6 +12,8 @@
  */
 package org.assertj.core.data;
 
+import static java.lang.String.format;
+import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
@@ -29,7 +31,7 @@ public final class Offset<T extends Number> {
 
   public final T value;
   /**
-   * When |actual-expected|=offset and strict is true the assertThat(actual).isCloseTo(expected, offset); assertion will fail. 
+   * When |actual-expected|=offset and strict is true the assertThat(actual).isCloseTo(expected, offset); assertion will fail.
    */
   public final boolean strict;
 
@@ -94,12 +96,12 @@ public final class Offset<T extends Number> {
 
   @Override
   public int hashCode() {
-    return Objects.hash(value, strict);
+    return hash(value, strict);
   }
 
   @Override
   public String toString() {
-    return String.format("%s[value=%s]", getClass().getSimpleName(), value);
+    return format("%s%s[value=%s]", strict ? "strict " : "", getClass().getSimpleName(), value);
   }
 
 }

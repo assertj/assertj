@@ -13,6 +13,7 @@
 package org.assertj.core.configuration;
 
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,12 +36,12 @@ class Configuration_apply_Test {
     // THEN
     then(FieldSupport.extraction().isAllowedToUsePrivateFields()).isEqualTo(configuration.extractingPrivateFieldsEnabled());
     then(FieldSupport.comparison().isAllowedToUsePrivateFields()).isEqualTo(configuration.comparingPrivateFieldsEnabled());
-    then(Introspection.canIntrospectExtractBareNamePropertyMethods()).isEqualTo(configuration.bareNamePropertyExtractionEnabled());
+    then(Introspection.canExtractBareNamePropertyMethods()).isEqualTo(configuration.bareNamePropertyExtractionEnabled());
     then(configuration.hasCustomRepresentation()).isTrue();
     // a bit dodgy but since our custom representation inherits StandardRepresentation, changing maxElementsForPrinting amd
     // maxLengthForSingleLineDescription will be effective.
     then(StandardRepresentation.getMaxElementsForPrinting()).isEqualTo(configuration.maxElementsForPrinting());
-    then(StandardRepresentation.getMaxStackTraceElementsDisplayed ()).isEqualTo(configuration.maxStackTraceElementsDisplayed ());
+    then(StandardRepresentation.getMaxStackTraceElementsDisplayed()).isEqualTo(configuration.maxStackTraceElementsDisplayed());
     then(StandardRepresentation.getMaxLengthForSingleLineDescription()).isEqualTo(configuration.maxLengthForSingleLineDescription());
     boolean removeAssertJRelatedElementsFromStackTrace = Failures.instance().isRemoveAssertJRelatedElementsFromStackTrace();
     then(removeAssertJRelatedElementsFromStackTrace).isEqualTo(configuration.removeAssertJRelatedElementsFromStackTraceEnabled());
@@ -53,6 +54,19 @@ class Configuration_apply_Test {
     Date date = new SimpleDateFormat("yyyy-MM-dd").parse("2001-02-03");
     then(date).isEqualTo("2001_02_03")
               .isEqualTo("2001|02|03");
+  }
+
+  @Test
+  void should_reset_date_formats() throws Exception {
+    // GIVEN
+    Configuration configuration = new NonDefaultConfiguration();
+    // WHEN
+    configuration.apply();
+    Configuration.DEFAULT_CONFIGURATION.apply();
+    // THEN
+    then(Configuration.DEFAULT_CONFIGURATION.additionalDateFormats()).isEmpty();
+    Date date = new SimpleDateFormat("yyyy-MM-dd").parse("2001-02-03");
+    expectAssertionError(() -> then(date).isEqualTo("2001_02_03"));
   }
 
   @AfterEach

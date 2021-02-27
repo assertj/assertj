@@ -20,6 +20,7 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 import java.time.Duration;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalUnit;
+import java.util.Objects;
 
 /**
  * Base class for {@link TemporalOffset} on basis of {@link TemporalUnit}.
@@ -84,6 +85,20 @@ public abstract class TemporalUnitOffset implements TemporalOffset<Temporal> {
 
   public TemporalUnit getUnit() {
     return unit;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(value);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    TemporalUnitOffset other = (TemporalUnitOffset) obj;
+    return value == other.value;
   }
 
 }

@@ -103,4 +103,14 @@ class Offset_Test {
     then(result).isEqualTo("Offset[value=0.0]");
   }
 
+  @Test
+  void toString_should_describe_strict_offset() {
+    // GIVEN
+    Offset<Number> underTest = Offset.strictOffset(1.0);
+    // WHEN
+    String result = underTest.toString();
+    // THEN
+    then(result).isEqualTo("strict Offset[value=1.0]");
+  }
+
 }

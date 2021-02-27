@@ -12,17 +12,11 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Answers.CALLS_REAL_METHODS;
+import static org.mockito.Mockito.mock;
 
-import org.assertj.core.groups.Tuple;
-import org.junit.jupiter.api.Test;
+public class EntryPointAssertionsBaseTest {
 
-class Assertions_tuple_Test {
-
-  @Test
-  void should_create_tuple() {
-    Tuple tuple = Assertions.tuple("Yoda", 800, "Jedi");
-    assertThat(tuple).isEqualTo(new Tuple("Yoda", 800, "Jedi"));
-  }
+  protected static final WithAssertions withAssertions = mock(WithAssertions.class, CALLS_REAL_METHODS);
 
 }

@@ -15,23 +15,34 @@ package org.assertj.core.api;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.Mockito.mock;
 
-import org.junit.jupiter.api.Test;
+import java.util.function.Function;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Tests for <code>{@link Assertions#as(InstanceOfAssertFactory)}</code>.
  *
  * @author Stefano Cordio
  */
-class Assertions_as_with_InstanceOfAssertFactory_Test {
+@DisplayName("EntryPoint assertions as(InstanceOfAssertFactory) method")
+class EntryPointAssertions_as_with_InstanceOfAssertFactory_Test extends EntryPointAssertionsBaseTest {
 
-  @Test
-  void should_return_the_given_assert_factory() {
+  @ParameterizedTest
+  @MethodSource("asInstanceOfAssertFactoryFactories")
+  void should_return_the_given_assert_factory(Function<InstanceOfAssertFactory<?, AbstractAssert<?, ?>>, InstanceOfAssertFactory<?, AbstractAssert<?, ?>>> asInstanceOfAssertFactory) {
     // GIVEN
     InstanceOfAssertFactory<?, AbstractAssert<?, ?>> assertFactory = mock(InstanceOfAssertFactory.class);
     // WHEN
-    InstanceOfAssertFactory<?, AbstractAssert<?, ?>> result = Assertions.as(assertFactory);
+    InstanceOfAssertFactory<?, AbstractAssert<?, ?>> result = asInstanceOfAssertFactory.apply(assertFactory);
     // THEN
     then(result).isSameAs(assertFactory);
+  }
+
+  private static Stream<Function<InstanceOfAssertFactory<?, AbstractAssert<?, ?>>, InstanceOfAssertFactory<?, AbstractAssert<?, ?>>>> asInstanceOfAssertFactoryFactories() {
+    return Stream.of(Assertions::as, BDDAssertions::as, withAssertions::as);
   }
 
 }
