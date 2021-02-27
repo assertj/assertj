@@ -30,7 +30,7 @@ class Floats_assertIsInfinite_Test extends FloatsBaseTest {
       Float.POSITIVE_INFINITY,
       Float.NEGATIVE_INFINITY
   })
-  void should_succeed_when_actual_is_finite(float actual) {
+  void should_succeed_when_actual_is_infinite(float actual) {
     floats.assertIsInfinite(someInfo(), actual);
   }
 
@@ -39,11 +39,12 @@ class Floats_assertIsInfinite_Test extends FloatsBaseTest {
       Float.MAX_VALUE,
       Float.MIN_NORMAL,
       Float.MIN_VALUE,
+      Float.NaN,
       0.0f,
       1.0f,
       -1.0f,
   })
-  void should_fail_when_actual_is_not_finite(float actual) {
+  void should_fail_when_actual_is_not_infinite(float actual) {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> floats.assertIsInfinite(someInfo(), actual));
     // THEN

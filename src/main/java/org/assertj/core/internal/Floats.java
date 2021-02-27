@@ -63,7 +63,7 @@ public class Floats extends RealNumbers<Float> {
 
   @Override
   protected Float absDiff(Float actual, Float other) {
-    return abs(other.floatValue() - actual.floatValue());
+    return abs(other - actual);
   }
 
   @Override
@@ -72,7 +72,17 @@ public class Floats extends RealNumbers<Float> {
   }
 
   @Override
+  protected boolean isNotFinite(Float value) {
+    return !Float.isFinite(value);
+  }
+
+  @Override
   protected boolean isInfinite(Float value) {
     return Float.isInfinite(value);
+  }
+
+  @Override
+  protected boolean isNotInfinite(Float value) {
+    return !Float.isInfinite(value);
   }
 }

@@ -62,7 +62,7 @@ public class Doubles extends RealNumbers<Double> {
 
   @Override
   protected Double absDiff(Double actual, Double other) {
-    return abs(other.doubleValue() - actual.doubleValue());
+    return abs(other - actual);
   }
 
   @Override
@@ -71,7 +71,17 @@ public class Doubles extends RealNumbers<Double> {
   }
 
   @Override
+  protected boolean isNotFinite(Double value) {
+    return !Double.isFinite(value);
+  }
+
+  @Override
   protected boolean isInfinite(Double value) {
     return Double.isInfinite(value);
+  }
+
+  @Override
+  protected boolean isNotInfinite(Double value) {
+    return !Double.isInfinite(value);
   }
 }

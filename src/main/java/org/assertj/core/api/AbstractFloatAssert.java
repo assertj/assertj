@@ -102,12 +102,12 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
   }
 
   private void assertIsPrimitiveZero() {
-    if (actual.floatValue() == 0.0f) return;
+    if (actual == 0.0f) return;
     throw Failures.instance().failure(info, shouldBeEqual(actual, 0.0f, info.representation()));
   }
 
   private void assertIsPrimitiveNonZero() {
-    if (actual.floatValue() != 0.0f) return;
+    if (actual != 0.0f) return;
     throw Failures.instance().failure(info, shouldNotBeEqual(actual, 0.0f));
   }
 
@@ -199,7 +199,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
   public SELF isEqualTo(float expected) {
     if (noCustomComparatorSet()) {
       // use primitive comparison since the parameter is a primitive.
-      if (expected == actual.floatValue()) return myself;
+      if (expected == actual) return myself;
       // at this point we know that the assertion failed, if actual and expected are Float.NaN first we want
       // to give a clear error message (we need to use equals to check that as Float.NaN != Float.NaN)
       if (Float.valueOf(expected).equals(Float.NaN) && actual.equals(Float.NaN))
@@ -695,7 +695,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
   public SELF isLessThanOrEqualTo(float other) {
     if (noCustomComparatorSet()) {
       // use primitive comparison since the parameter is a primitive.
-      if (actual.floatValue() <= other) return myself;
+      if (actual <= other) return myself;
       throw Failures.instance().failure(info, shouldBeLessOrEqual(actual, other));
     }
     floats.assertLessThanOrEqualTo(info, actual, other);
@@ -776,7 +776,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
   public SELF isGreaterThanOrEqualTo(float other) {
     if (noCustomComparatorSet()) {
       // use primitive comparison since the parameter is a primitive.
-      if (actual.floatValue() >= other) return myself;
+      if (actual >= other) return myself;
       throw Failures.instance().failure(info, shouldBeGreaterOrEqual(actual, other));
     }
     floats.assertGreaterThanOrEqualTo(info, actual, other);
@@ -888,12 +888,42 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * @return this assertion object.
    * @throws AssertionError if the actual value is not a finite floating-point value.
    * @throws AssertionError if the actual value is null.
+   * @see #isNotFinite()
    * @see #isInfinite()
+   * @see #isNaN()
+   * @see java.lang.Float#isFinite(float)
    * @since 3.19.0
    */
   @Override
   public SELF isFinite() {
     floats.assertIsFinite(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the float value is not a finite floating-point value.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(Float.POSITIVE_INFINITY).isNotFinite();
+   * assertThat(Float.NEGATIVE_INFINITY).isNotFinite();
+   * assertThat(Float.NaN).isNotFinite();
+   *
+   * // assertion fails
+   * assertThat(1.0f).isNotFinite();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is a finite floating-point value.
+   * @throws AssertionError if the actual value is null.
+   * @see #isFinite()
+   * @see #isInfinite()
+   * @see #isNaN()
+   * @see java.lang.Float#isFinite(float)
+   * @since 3.20.0
+   */
+  @Override
+  public SELF isNotFinite() {
+    floats.assertIsNotFinite(info, actual);
     return myself;
   }
 
@@ -910,13 +940,44 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * assertThat(Float.NaN).isInfinite();</code></pre>
    *
    * @return this assertion object.
-   * @throws AssertionError if the actual value doesn't represent the positive infinity nor negative infinity.
+   * @throws AssertionError if the actual value represents neither positive infinity nor negative infinity.
    * @throws AssertionError if the actual value is null.
+   * @see #isNotInfinite()
+   * @see #isFinite()
+   * @see #isNaN()
+   * @see java.lang.Float#isInfinite(float)
    * @since 3.19.0
    */
   @Override
   public SELF isInfinite() {
     floats.assertIsInfinite(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the float value represents neither positive infinity nor negative infinity.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(1.0f).isNotInfinite();
+   * assertThat(Float.NaN).isNotInfinite();
+   *
+   * // assertions fail
+   * assertThat(Float.POSITIVE_INFINITY).isNotInfinite();
+   * assertThat(Float.NEGATIVE_INFINITY).isNotInfinite();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value represents positive infinity or negative infinity.
+   * @throws AssertionError if the actual value is null.
+   * @see #isInfinite()
+   * @see #isFinite()
+   * @see #isNaN()
+   * @see java.lang.Float#isInfinite(float)
+   * @since 3.20.0
+   */
+  @Override
+  public SELF isNotInfinite() {
+    floats.assertIsNotInfinite(info, actual);
     return myself;
   }
 }

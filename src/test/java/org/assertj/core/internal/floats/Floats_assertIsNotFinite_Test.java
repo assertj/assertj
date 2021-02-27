@@ -10,56 +10,56 @@
  *
  * Copyright 2012-2021 the original author or authors.
  */
-package org.assertj.core.internal.doubles;
+package org.assertj.core.internal.floats;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeInfinite.shouldBeInfinite;
+import static org.assertj.core.error.ShouldNotBeFinite.shouldNotBeFinite;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-import org.assertj.core.internal.DoublesBaseTest;
+import org.assertj.core.internal.FloatsBaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-@DisplayName("Doubles assertIsInfinite")
-class Doubles_assertIsInfinite_Test extends DoublesBaseTest {
+@DisplayName("Floats assertIsNotFinite")
+class Floats_assertIsNotFinite_Test extends FloatsBaseTest {
 
   @ParameterizedTest
-  @ValueSource(doubles = {
-      Double.POSITIVE_INFINITY,
-      Double.NEGATIVE_INFINITY
+  @ValueSource(floats = {
+      Float.POSITIVE_INFINITY,
+      Float.NEGATIVE_INFINITY,
+      Float.NaN
   })
-  void should_succeed_when_actual_is_infinite(double actual) {
+  void should_succeed_when_actual_is_not_finite(float actual) {
     // WHEN/THEN
-    doubles.assertIsInfinite(someInfo(), actual);
+    floats.assertIsNotFinite(someInfo(), actual);
   }
 
   @ParameterizedTest
-  @ValueSource(doubles = {
-      Double.MAX_VALUE,
-      Double.MIN_NORMAL,
-      Double.MIN_VALUE,
-      Double.NaN,
-      0.0,
-      1.0,
-      -1.0,
+  @ValueSource(floats = {
+      Float.MAX_VALUE,
+      Float.MIN_NORMAL,
+      Float.MIN_VALUE,
+      0.0f,
+      1.0f,
+      -1.0f,
   })
-  void should_fail_when_actual_is_not_infinite(double actual) {
+  void should_fail_when_actual_is_finite(float actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> doubles.assertIsInfinite(someInfo(), actual));
+    AssertionError assertionError = expectAssertionError(() -> floats.assertIsNotFinite(someInfo(), actual));
     // THEN
-    then(assertionError).hasMessage(shouldBeInfinite(actual).create());
+    then(assertionError).hasMessage(shouldNotBeFinite(actual).create());
   }
 
   @Test
   void should_fail_if_actual_is_null() {
     // GIVEN
-    Double actual = null;
+    Float actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> doubles.assertIsInfinite(someInfo(), actual));
+    AssertionError assertionError = expectAssertionError(() -> floats.assertIsNotFinite(someInfo(), actual));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

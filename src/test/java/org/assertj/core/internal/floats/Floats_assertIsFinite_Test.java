@@ -19,10 +19,12 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.internal.FloatsBaseTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+@DisplayName("Floats assertIsFinite")
 class Floats_assertIsFinite_Test extends FloatsBaseTest {
 
   @ParameterizedTest
@@ -35,6 +37,7 @@ class Floats_assertIsFinite_Test extends FloatsBaseTest {
       -1.0f,
   })
   void should_succeed_when_actual_is_finite(float actual) {
+    // WHEN/THEN
     floats.assertIsFinite(someInfo(), actual);
   }
 

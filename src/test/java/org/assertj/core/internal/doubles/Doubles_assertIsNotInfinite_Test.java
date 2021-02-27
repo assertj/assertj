@@ -13,7 +13,7 @@
 package org.assertj.core.internal.doubles;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeInfinite.shouldBeInfinite;
+import static org.assertj.core.error.ShouldNotBeInfinite.shouldNotBeInfinite;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -24,34 +24,34 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-@DisplayName("Doubles assertIsInfinite")
-class Doubles_assertIsInfinite_Test extends DoublesBaseTest {
+@DisplayName("Doubles assertIsNotInfinite")
+class Doubles_assertIsNotInfinite_Test extends DoublesBaseTest {
 
   @ParameterizedTest
   @ValueSource(doubles = {
-      Double.POSITIVE_INFINITY,
-      Double.NEGATIVE_INFINITY
+    Double.MAX_VALUE,
+    Double.MIN_NORMAL,
+    Double.MIN_VALUE,
+    Double.NaN,
+    0.0,
+    1.0,
+    -1.0,
   })
-  void should_succeed_when_actual_is_infinite(double actual) {
+  void should_succeed_when_actual_is_not_infinite(double actual) {
     // WHEN/THEN
-    doubles.assertIsInfinite(someInfo(), actual);
+    doubles.assertIsNotInfinite(someInfo(), actual);
   }
 
   @ParameterizedTest
   @ValueSource(doubles = {
-      Double.MAX_VALUE,
-      Double.MIN_NORMAL,
-      Double.MIN_VALUE,
-      Double.NaN,
-      0.0,
-      1.0,
-      -1.0,
+    Double.POSITIVE_INFINITY,
+    Double.NEGATIVE_INFINITY
   })
-  void should_fail_when_actual_is_not_infinite(double actual) {
+  void should_fail_when_actual_is_infinite(double actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> doubles.assertIsInfinite(someInfo(), actual));
+    AssertionError assertionError = expectAssertionError(() -> doubles.assertIsNotInfinite(someInfo(), actual));
     // THEN
-    then(assertionError).hasMessage(shouldBeInfinite(actual).create());
+    then(assertionError).hasMessage(shouldNotBeInfinite(actual).create());
   }
 
   @Test
@@ -59,7 +59,7 @@ class Doubles_assertIsInfinite_Test extends DoublesBaseTest {
     // GIVEN
     Double actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> doubles.assertIsInfinite(someInfo(), actual));
+    AssertionError assertionError = expectAssertionError(() -> doubles.assertIsNotInfinite(someInfo(), actual));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
