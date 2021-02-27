@@ -12,37 +12,40 @@
  */
 package org.assertj.core.internal.floats;
 
-import org.assertj.core.internal.FloatsBaseTest;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeInfinite.shouldNotBeInfinite;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
+import org.assertj.core.internal.FloatsBaseTest;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+@DisplayName("Floats assertIsNotInfinite")
 class Floats_assertIsNotInfinite_Test extends FloatsBaseTest {
 
   @ParameterizedTest
   @ValueSource(floats = {
-    Float.MAX_VALUE,
-    Float.MIN_NORMAL,
-    Float.MIN_VALUE,
-    Float.NaN,
-    0.0f,
-    1.0f,
-    -1.0f,
+      Float.MAX_VALUE,
+      Float.MIN_NORMAL,
+      Float.MIN_VALUE,
+      Float.NaN,
+      0.0f,
+      1.0f,
+      -1.0f,
   })
   void should_succeed_when_actual_is_not_infinite(float actual) {
+    // WHEN/THEN
     floats.assertIsNotInfinite(someInfo(), actual);
   }
 
   @ParameterizedTest
   @ValueSource(floats = {
-    Float.POSITIVE_INFINITY,
-    Float.NEGATIVE_INFINITY
+      Float.POSITIVE_INFINITY,
+      Float.NEGATIVE_INFINITY
   })
   void should_fail_when_actual_is_infinite(float actual) {
     // WHEN

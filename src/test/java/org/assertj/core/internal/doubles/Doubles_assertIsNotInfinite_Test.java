@@ -12,17 +12,19 @@
  */
 package org.assertj.core.internal.doubles;
 
-import org.assertj.core.internal.DoublesBaseTest;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeInfinite.shouldNotBeInfinite;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
+import org.assertj.core.internal.DoublesBaseTest;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+@DisplayName("Doubles assertIsNotInfinite")
 class Doubles_assertIsNotInfinite_Test extends DoublesBaseTest {
 
   @ParameterizedTest
@@ -36,6 +38,7 @@ class Doubles_assertIsNotInfinite_Test extends DoublesBaseTest {
     -1.0,
   })
   void should_succeed_when_actual_is_not_infinite(double actual) {
+    // WHEN/THEN
     doubles.assertIsNotInfinite(someInfo(), actual);
   }
 

@@ -19,10 +19,12 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.internal.DoublesBaseTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+@DisplayName("Doubles assertIsInfinite")
 class Doubles_assertIsInfinite_Test extends DoublesBaseTest {
 
   @ParameterizedTest
@@ -31,6 +33,7 @@ class Doubles_assertIsInfinite_Test extends DoublesBaseTest {
       Double.NEGATIVE_INFINITY
   })
   void should_succeed_when_actual_is_infinite(double actual) {
+    // WHEN/THEN
     doubles.assertIsInfinite(someInfo(), actual);
   }
 
