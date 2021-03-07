@@ -33,11 +33,11 @@ class Objects_assertHasOnlyFields_Test extends ObjectsBaseTest {
                                                                                                 "fields");
 
   @Test
-  void should_pass_if_actual_has_all_given_fields_and_nothing_else() {
+  void should_pass_if_actual_has_all_given_instance_level_fields_and_nothing_else() {
     // GIVEN
     Object actual = new Data();
     // WHEN/THEN
-    objects.assertHasOnlyFields(INFO, actual, "field1", "field2");
+    objects.assertHasOnlyFields(INFO, actual, "field1", "field2"); // static fields ignored
   }
 
   @Test
@@ -97,6 +97,8 @@ class Objects_assertHasOnlyFields_Test extends ObjectsBaseTest {
   @SuppressWarnings("unused")
   private static class Data {
 
+    public static Object publicStaticField;
+    private static Object privateStaticField;
     private Object field1;
     private Object field2;
 

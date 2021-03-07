@@ -13,6 +13,7 @@
 package org.assertj.core.internal;
 
 import static java.lang.String.format;
+import static java.lang.reflect.Modifier.isStatic;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 import static java.util.Objects.deepEquals;
@@ -880,9 +881,12 @@ public class Objects {
     assertNotNull(info, actual);
     checkArgument(names != null, "Given fields/properties are null");
     List<String> expectedFields = stream(names).sorted().collect(toList());
-    List<String> actualFields = stream(actual.getClass().getDeclaredFields()).map(Field::getName)
-                                                                             .sorted()
-                                                                             .collect(toList());
+    Field[] declaredFields = actual.getClass().getDeclaredFields();
+    List<String> actualFields = stream(declaredFields).filter(field -> !isStatic(field.getModifiers()))
+                                                      .filter(field -> !field.isSynthetic())
+                                                      .map(Field::getName)
+                                                      .sorted()
+                                                      .collect(toList());
     if (!expectedFields.equals(actualFields)) {
       List<String> fieldsNotFound = stream(names).filter(name -> !actualFields.contains(name)).collect(toList());
       List<String> extraFields = actualFields.stream()
