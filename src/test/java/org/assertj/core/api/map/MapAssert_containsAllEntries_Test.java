@@ -14,12 +14,14 @@ package org.assertj.core.api.map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Maps.newHashMapOfEntries;
 import static org.mockito.Mockito.verify;
 
 import java.util.Map;
 
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
+import org.assertj.core.util.Maps;
 import org.junit.jupiter.api.Test;
 
 class MapAssert_containsAllEntries_Test extends MapAssertBaseTest {
@@ -34,7 +36,7 @@ class MapAssert_containsAllEntries_Test extends MapAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(maps).assertContains(getInfo(assertions), getActual(assertions), entries);
+    verify(maps).assertContainsAllEntriesOf(getInfo(assertions), getActual(assertions), map("firstKey", "firstValue", "secondKey", "secondValue"));
   }
 
   @Test
