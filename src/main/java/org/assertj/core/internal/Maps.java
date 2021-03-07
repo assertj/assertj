@@ -357,6 +357,33 @@ public class Maps {
     throw failures.failure(info, shouldContain(actual, entries, notFound));
   }
 
+  /**
+   * Asserts that the given {@code Map} contains the entries of the other {@code Map}, in any order.
+   *
+   * @param <K> key type
+   * @param <V> value type
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param other the {@code Map} of entries that are expected to be in the given {@code Map}.
+   * @throws NullPointerException if the other map is {@code null}.
+   * @throws AssertionError if the given {@code Map} is {@code null}.
+   * @throws AssertionError if the given {@code Map} does not contain the entries of the other {@code Map}.
+   */
+  public <K, V> void assertContainsAllEntriesOf(AssertionInfo info, Map<K, V> actual,
+                                                Map<? extends K, ? extends V> other) {
+    failIfNull(other);
+    assertNotNull(info, actual);
+    // if map of values is empty, then assertion passes.
+    if (other.isEmpty()) return;
+    Set<? extends Map.Entry<? extends K, ? extends V>> entries = other.entrySet();
+    Set<Map.Entry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
+    for (Map.Entry<? extends K, ? extends V> entry : entries) {
+      if (!containsEntry(actual, entry)) notFound.add(entry);
+    }
+    if (notFound.isEmpty()) return;
+    throw failures.failure(info, shouldContain(actual, entries, notFound));
+  }
+
   public <K, V> void assertContainsAnyOf(AssertionInfo info, Map<K, V> actual,
                                          Map.Entry<? extends K, ? extends V>[] entries) {
     failIfNull(entries);
@@ -872,8 +899,12 @@ public class Maps {
     requireNonNull(entries, ErrorMessages.entriesToLookForIsNull());
   }
 
+  private static <K, V> void failIfNull(Map<? extends K, ? extends V> map) {
+    requireNonNull(map, ErrorMessages.mapOfEntriesToLookForIsNull());
+  }
+
   private <K, V> boolean containsEntry(Map<K, V> actual, Map.Entry<? extends K, ? extends V> entry) {
-    requireNonNull(entry, "Entries to look for should not be null");
+    requireNonNull(entry, ErrorMessages.entryToLookForIsNull());
     return actual.containsKey(entry.getKey()) && areEqual(actual.get(entry.getKey()), entry.getValue());
   }
 
