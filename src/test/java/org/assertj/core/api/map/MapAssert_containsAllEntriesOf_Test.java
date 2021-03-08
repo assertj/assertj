@@ -12,8 +12,7 @@
  */
 package org.assertj.core.api.map;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.Mockito.verify;
 
 import java.util.Map;
@@ -22,10 +21,7 @@ import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-class MapAssert_containsAllEntries_Test extends MapAssertBaseTest {
-
-  final Map.Entry<String, String>[] entries = array(javaMapEntry("firstKey", "firstValue"),
-                                                    javaMapEntry("secondKey", "secondValue"));
+class MapAssert_containsAllEntriesOf_Test extends MapAssertBaseTest {
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {
@@ -34,12 +30,15 @@ class MapAssert_containsAllEntries_Test extends MapAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(maps).assertContains(getInfo(assertions), getActual(assertions), entries);
+    verify(maps).assertContainsAllEntriesOf(getInfo(assertions), getActual(assertions),
+                                            map("firstKey", "firstValue", "secondKey", "secondValue"));
   }
 
   @Test
   void invoke_api_like_user() {
+    // GIVEN
     Map<String, String> actual = map("firstKey", "firstValue", "secondKey", "secondValue");
-    assertThat(actual).containsAllEntriesOf(map("secondKey", "secondValue", "firstKey", "firstValue"));
+    // WHEN/THEN
+    then(actual).containsAllEntriesOf(map("secondKey", "secondValue", "firstKey", "firstValue"));
   }
 }

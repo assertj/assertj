@@ -55,6 +55,10 @@ public final class ErrorMessages {
     return "The array of entries to look for should not be null";
   }
 
+  public static String mapOfEntriesToLookForIsNull() {
+    return "The map of entries to look for should not be null";
+  }
+
   public static String entryToLookForIsNull() {
     return "Entries to look for should not be null";
   }

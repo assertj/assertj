@@ -564,10 +564,11 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * elvesRingBearers.put(narya, gandalf);
    * elvesRingBearers.put(vilya, elrond);
    *
-   * // assertion will succeed
+   * // assertions succeed
    * assertThat(ringBearers).containsAllEntriesOf(elvesRingBearers);
+   * assertThat(ringBearers).containsAllEntriesOf(emptyMap);
    *
-   * // assertion will fail
+   * // assertion fails
    * assertThat(elvesRingBearers).containsAllEntriesOf(ringBearers);</code></pre>
    *
    * @param other the map with the given entries.
@@ -578,7 +579,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map does not contain the given entries.
    */
   public SELF containsAllEntriesOf(Map<? extends K, ? extends V> other) {
-    maps.assertContains(info, actual, toEntries(other));
+    maps.assertContainsAllEntriesOf(info, actual, other);
     return myself;
   }
 

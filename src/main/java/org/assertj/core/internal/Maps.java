@@ -22,6 +22,7 @@ import static org.assertj.core.error.NoElementsShouldSatisfy.noElementsShouldSat
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldContain.shouldContain;
+import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
 import static org.assertj.core.error.ShouldContainEntry.shouldContainEntry;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
@@ -63,7 +64,6 @@ import java.util.function.Consumer;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
-import org.assertj.core.error.ShouldContainAnyOf;
 import org.assertj.core.error.UnsatisfiedRequirement;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -349,12 +349,28 @@ public class Maps {
     // if both actual and values are empty, then assertion passes.
     if (actual.isEmpty() && entries.length == 0) return;
     failIfEmptySinceActualIsNotEmpty(entries);
-    Set<Map.Entry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
-    for (Map.Entry<? extends K, ? extends V> entry : entries) {
-      if (!containsEntry(actual, entry)) notFound.add(entry);
-    }
-    if (notFound.isEmpty()) return;
-    throw failures.failure(info, shouldContain(actual, entries, notFound));
+    failIfAnyEntryNotFoundInActualMap(info, actual, entries);
+  }
+
+  /**
+   * Asserts that the given {@code Map} contains the entries of the other {@code Map}, in any order.
+   *
+   * @param <K> key type
+   * @param <V> value type
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param other the {@code Map} of entries that are expected to be in the given {@code Map}.
+   * @throws NullPointerException if the other map is {@code null}.
+   * @throws AssertionError if the given {@code Map} is {@code null}.
+   * @throws AssertionError if the given {@code Map} does not contain the entries of the other {@code Map}.
+   */
+  public <K, V> void assertContainsAllEntriesOf(AssertionInfo info, Map<K, V> actual,
+                                                Map<? extends K, ? extends V> other) {
+    failIfNull(other);
+    assertNotNull(info, actual);
+    // assertion passes if other is empty since actual contains all other entries.
+    if (other.isEmpty()) return;
+    failIfAnyEntryNotFoundInActualMap(info, actual, other.entrySet().toArray(new Map.Entry[0]));
   }
 
   public <K, V> void assertContainsAnyOf(AssertionInfo info, Map<K, V> actual,
@@ -367,7 +383,7 @@ public class Maps {
     for (Map.Entry<? extends K, ? extends V> entry : entries) {
       if (containsEntry(actual, entry)) return;
     }
-    throw failures.failure(info, ShouldContainAnyOf.shouldContainAnyOf(actual, entries));
+    throw failures.failure(info, shouldContainAnyOf(actual, entries));
   }
 
   /**
@@ -843,6 +859,15 @@ public class Maps {
     failIfNull(entries);
   }
 
+  private <K, V> void failIfAnyEntryNotFoundInActualMap(AssertionInfo info, Map<K, V> actual,
+                                                        Map.Entry<? extends K, ? extends V>[] entries) {
+    Set<Map.Entry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
+    for (Map.Entry<? extends K, ? extends V> entry : entries) {
+      if (!containsEntry(actual, entry)) notFound.add(entry);
+    }
+    if (!notFound.isEmpty()) throw failures.failure(info, shouldContain(actual, entries, notFound));
+  }
+
   private static <K, V> Map<K, V> entriesToMap(Map.Entry<? extends K, ? extends V>[] entries) {
     Map<K, V> expectedEntries = new LinkedHashMap<>();
     for (Map.Entry<? extends K, ? extends V> entry : entries) {
@@ -872,8 +897,12 @@ public class Maps {
     requireNonNull(entries, ErrorMessages.entriesToLookForIsNull());
   }
 
+  private static <K, V> void failIfNull(Map<? extends K, ? extends V> map) {
+    requireNonNull(map, ErrorMessages.mapOfEntriesToLookForIsNull());
+  }
+
   private <K, V> boolean containsEntry(Map<K, V> actual, Map.Entry<? extends K, ? extends V> entry) {
-    requireNonNull(entry, "Entries to look for should not be null");
+    requireNonNull(entry, ErrorMessages.entryToLookForIsNull());
     return actual.containsKey(entry.getKey()) && areEqual(actual.get(entry.getKey()), entry.getValue());
   }
 

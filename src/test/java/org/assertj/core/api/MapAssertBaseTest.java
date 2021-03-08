@@ -13,15 +13,14 @@
 package org.assertj.core.api;
 
 import static java.util.Collections.emptyMap;
+import static java.util.Collections.singletonMap;
 import static org.mockito.Mockito.mock;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.assertj.core.internal.Maps;
-
 
 /**
  * Base class for {@link MapAssert} tests.
@@ -43,15 +42,15 @@ public abstract class MapAssertBaseTest extends BaseTestTemplate<MapAssert<Objec
     assertions.maps = maps;
   }
 
-  protected <K,V> Map.Entry<K, V> javaMapEntry(K key, V value) {
+  protected static <K, V> Map.Entry<K, V> javaMapEntry(K key, V value) {
     return new SimpleImmutableEntry<>(key, value);
   }
 
-  protected <K, V> Map<K, V> map(K key, V value) {
-    return Collections.singletonMap(key, value);
+  protected static <K, V> Map<K, V> map(K key, V value) {
+    return singletonMap(key, value);
   }
 
-  protected <K, V> Map<K, V> map(K k1, V v1, K k2, V v2) {
+  protected static <K, V> Map<K, V> map(K k1, V v1, K k2, V v2) {
     Map<K, V> map = new LinkedHashMap<>();
     map.put(k1, v1);
     map.put(k2, v2);
