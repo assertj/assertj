@@ -349,12 +349,7 @@ public class Maps {
     // if both actual and values are empty, then assertion passes.
     if (actual.isEmpty() && entries.length == 0) return;
     failIfEmptySinceActualIsNotEmpty(entries);
-    Set<Map.Entry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
-    for (Map.Entry<? extends K, ? extends V> entry : entries) {
-      if (!containsEntry(actual, entry)) notFound.add(entry);
-    }
-    if (notFound.isEmpty()) return;
-    throw failures.failure(info, shouldContain(actual, entries, notFound));
+    failIfAnyEntryNotFoundInActualMap(info, actual, entries);
   }
 
   /**
@@ -375,13 +370,7 @@ public class Maps {
     assertNotNull(info, actual);
     // if map of values is empty, then assertion passes.
     if (other.isEmpty()) return;
-    Set<? extends Map.Entry<? extends K, ? extends V>> entries = other.entrySet();
-    Set<Map.Entry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
-    for (Map.Entry<? extends K, ? extends V> entry : entries) {
-      if (!containsEntry(actual, entry)) notFound.add(entry);
-    }
-    if (notFound.isEmpty()) return;
-    throw failures.failure(info, shouldContain(actual, entries, notFound));
+    failIfAnyEntryNotFoundInActualMap(info, actual, other.entrySet().toArray(new Map.Entry[0]));
   }
 
   public <K, V> void assertContainsAnyOf(AssertionInfo info, Map<K, V> actual,
@@ -868,6 +857,16 @@ public class Maps {
                                             Map.Entry<? extends K, ? extends V>[] entries) {
     assertNotNull(info, actual);
     failIfNull(entries);
+  }
+
+  private <K, V> void failIfAnyEntryNotFoundInActualMap(AssertionInfo info, Map<K, V> actual,
+                                                        Map.Entry<? extends K, ? extends V>[] entries) {
+    Set<Map.Entry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
+    for (Map.Entry<? extends K, ? extends V> entry : entries) {
+      if (!containsEntry(actual, entry)) notFound.add(entry);
+    }
+    if (notFound.isEmpty()) return;
+    throw failures.failure(info, shouldContain(actual, entries, notFound));
   }
 
   private static <K, V> Map<K, V> entriesToMap(Map.Entry<? extends K, ? extends V>[] entries) {

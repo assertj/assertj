@@ -13,21 +13,15 @@
 package org.assertj.core.api.map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.Maps.newHashMapOfEntries;
 import static org.mockito.Mockito.verify;
 
 import java.util.Map;
 
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
-import org.assertj.core.util.Maps;
 import org.junit.jupiter.api.Test;
 
-class MapAssert_containsAllEntries_Test extends MapAssertBaseTest {
-
-  final Map.Entry<String, String>[] entries = array(javaMapEntry("firstKey", "firstValue"),
-                                                    javaMapEntry("secondKey", "secondValue"));
+class MapAssert_containsAllEntriesOf_Test extends MapAssertBaseTest {
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {

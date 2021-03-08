@@ -17,7 +17,6 @@ import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION
 import java.util.HashMap;
 import java.util.Map;
 
-import org.assertj.core.data.MapEntry;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
 
@@ -62,15 +61,6 @@ public class Maps {
       Map<K, V> map = new HashMap<>();
       map.put(key, value);
       return map;
-  }
-
-  @SafeVarargs
-  public static <K, V> Map<K, V> newHashMapOfEntries(MapEntry<K, V> ... entries) {
-    Map<K, V> map = new HashMap<>();
-    for (MapEntry<K, V> entry : entries) {
-      map.put(entry.getKey(), entry.getValue());
-    }
-    return map;
   }
 
   private Maps() {}

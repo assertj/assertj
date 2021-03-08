@@ -12,82 +12,83 @@
  */
 package org.assertj.core.internal.maps;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.data.MapEntry;
-import org.assertj.core.internal.Maps;
 import org.assertj.core.internal.MapsBaseTest;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContain.shouldContain;
-import static org.assertj.core.internal.ErrorMessages.*;
+import static org.assertj.core.internal.ErrorMessages.mapOfEntriesToLookForIsNull;
+import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Maps.newHashMapOfEntries;
-import static org.mockito.Mockito.verify;
 
 
-/**
- * Tests for <code>{@link Maps#assertContains(AssertionInfo, Map, Map.Entry[])}</code>.
- * 
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
 class Maps_assertContainsAllEntriesOf_Test extends MapsBaseTest {
 
   @Test
   void should_pass_if_actual_contains_given_map_entries() {
-    maps.assertContainsAllEntriesOf(someInfo(), actual, newHashMapOfEntries(entry("name", "Yoda")));
+    maps.assertContainsAllEntriesOf(someInfo(), actual, mapOf(entry("name", "Yoda")));
   }
 
   @Test
   void should_pass_if_actual_contains_given_map_entries_in_different_order() {
-    maps.assertContainsAllEntriesOf(someInfo(), actual, newHashMapOfEntries(entry("color", "green"), entry("name", "Yoda")));
+    maps.assertContainsAllEntriesOf(someInfo(), actual, mapOf(entry("color", "green"), entry("name", "Yoda")));
   }
 
   @Test
   void should_pass_if_actual_contains_all_given_map_entries() {
-    maps.assertContainsAllEntriesOf(someInfo(), actual, newHashMapOfEntries(entry("name", "Yoda"), entry("color", "green")));
+    maps.assertContainsAllEntriesOf(someInfo(), actual, mapOf(entry("name", "Yoda"), entry("color", "green")));
   }
 
   @SuppressWarnings("unchecked")
   @Test
   void should_pass_if_actual_and_given_map_are_empty() {
-    actual = new HashMap<>();
-    maps.assertContainsAllEntriesOf(someInfo(), actual, newHashMapOfEntries());
+    actual = Collections.emptyMap();
+    maps.assertContainsAllEntriesOf(someInfo(), actual, mapOf());
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  void should_pass_if_given_map_is_empty() {
-    maps.assertContainsAllEntriesOf(someInfo(), actual, newHashMapOfEntries());
+  void should_pass_if_actual_is_not_empty_and_given_map_is_empty() {
+    maps.assertContainsAllEntriesOf(someInfo(), actual, mapOf());
   }
 
   @Test
   void should_throw_error_if_map_of_entries_to_look_for_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> maps.assertContainsAllEntriesOf(someInfo(), actual, null))
-                                    .withMessage(mapOfEntriesToLookForIsNull());
+    // GIVEN
+    Map<String, String> other = null;
+    // WHEN
+    NullPointerException nullPointerException = catchThrowableOfType(() -> maps.assertContainsAllEntriesOf(someInfo(), actual, other), NullPointerException.class);
+    // THEN
+    assertThat(nullPointerException).isNotNull();
+    then(nullPointerException).hasMessage(mapOfEntriesToLookForIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContainsAllEntriesOf(someInfo(), null, newHashMapOfEntries(entry("name", "Yoda"))))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    Map<String, String> actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> maps.assertContainsAllEntriesOf(someInfo(), actual, mapOf(entry("name", "Yoda"))));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_does_not_contain_map_entries() {
-    AssertionInfo info = someInfo();
-    MapEntry<String, String>[] expected = array(entry("name", "Yoda"), entry("job", "Jedi"));
-
-    Throwable error = catchThrowable(() -> maps.assertContainsAllEntriesOf(info, actual, newHashMapOfEntries(expected)));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContain(actual, newHashMapOfEntries(expected).entrySet(), newHashMapOfEntries(entry("job", "Jedi")).entrySet()));
+    // GIVEN
+    LinkedHashMap<String, String> other = mapOf(entry("name", "Yoda"), entry("job", "Jedi"));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> maps.assertContainsAllEntriesOf(info, actual, other));
+    // THEN
+    then(assertionError).hasMessage(shouldContain(actual, other.entrySet(), mapOf(entry("job", "Jedi")).entrySet()).create());
   }
 }
