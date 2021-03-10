@@ -42,12 +42,12 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * Examples:
    * <pre><code class='java'> Throwable illegalArgumentException = new IllegalArgumentException("wrong amount 123");
    *
-   * // assertion will pass
+   * // assertion succeeds:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessage("wrong amount 123");
    *
-   * // assertion will fail
+   * // assertion fails:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessage("wrong amount 123 euros");</code></pre>
@@ -69,12 +69,12 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * Examples:
    * <pre><code class='java'> Throwable illegalArgumentException = new IllegalArgumentException("wrong amount 123");
    *
-   * // assertion will pass
+   * // assertion succeeds:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessage("wrong amount %s, "123");
    *
-   * // assertion will fail
+   * // assertion fails:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessage("wrong amount 123 euros");</code></pre>
@@ -163,12 +163,12 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * Examples:
    * <pre><code class='java'> Throwable illegalArgumentException = new IllegalArgumentException("wrong amount 123");
    *
-   * // assertion will pass
+   * // assertion succeeds:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessageStartingWith("wrong amount");
    *
-   * // assertion will fail
+   * // assertion fails:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessageStartingWith("right amount");</code></pre>
@@ -191,12 +191,12 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * Examples:
    * <pre><code class='java'> Throwable illegalArgumentException = new IllegalArgumentException("wrong amount 123");
    *
-   * // assertion will pass
+   * // assertion succeeds:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessageStartingWith("%s amount", "wrong");
    *
-   * // assertion will fail
+   * // assertion fails:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessageStartingWith("%s amount", "right");</code></pre>
@@ -220,12 +220,12 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * Examples:
    * <pre><code class='java'> Throwable illegalArgumentException = new IllegalArgumentException("wrong amount 123");
    *
-   * // assertion will pass
+   * // assertion succeeds:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessageContaining("amount");
    *
-   * // assertion will fail
+   * // assertion fails:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessageContaining("456");</code></pre>
@@ -248,12 +248,12 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * Examples:
    * <pre><code class='java'> Throwable illegalArgumentException = new IllegalArgumentException("wrong amount 123");
    *
-   * // assertion will pass
+   * // assertion succeeds:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessageContaining("%s", amount);
    *
-   * // assertion will fail
+   * // assertion fails:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessageContaining("%d", 456);</code></pre>
@@ -277,12 +277,12 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * Examples:
    * <pre><code class='java'> Throwable illegalArgumentException = new IllegalArgumentException("wrong amount 123");
    *
-   * // assertion will pass
+   * // assertion succeeds:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessageContainingAll("amount", "123");
    *
-   * // assertion will fail
+   * // assertion fails:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessageContainingAll("456");</code></pre>
@@ -311,7 +311,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    *           .isThrownBy(codeThrowing(new Exception()))
    *           .withMessageNotContaining("bam");
    *
-   * //assertion will fail
+   * //assertion fails:
    * assertThatExceptionOfType(Exception.class)
    *           .isThrownBy(codeThrowing(new Exception("boom")))
    *           .withMessageNotContaining("boom");</code></pre>
@@ -340,7 +340,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    *           .isThrownBy(codeThrowing(new Exception()))
    *           .withMessageNotContainingAny("bam");
    *
-   * // assertion will fail
+   * // assertion fails:
    * assertThatExceptionOfType(Exception.class)
    *           .isThrownBy(codeThrowing(new Exception("boom")))
    *           .withMessageNotContainingAny("bam", "boom");</code></pre>
@@ -362,12 +362,12 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * Examples:
    * <pre><code class='java'> Throwable illegalArgumentException = new IllegalArgumentException("wrong amount 123");
    *
-   * // assertion will pass
+   * // assertion succeeds:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withStackTraceContaining("amount");
    *
-   * // assertion will fail
+   * // assertion fails:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withStackTraceContaining("456");</code></pre>
@@ -390,12 +390,12 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * Examples:
    * <pre><code class='java'> Throwable illegalArgumentException = new IllegalArgumentException("wrong amount 123");
    *
-   * // assertion will pass
+   * // assertion succeeds:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withStackTraceContaining("%s", amount);
    *
-   * // assertion will fail
+   * // assertion fails:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withStackTraceContaining("%d", 456);</code></pre>
@@ -419,12 +419,12 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * Examples:
    * <pre><code class='java'> Throwable illegalArgumentException = new IllegalArgumentException("wrong amount 123");
    *
-   * // assertion will pass
+   * // assertion succeeds:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessageMatching("wrong amount [0-9]*");
    *
-   * // assertion will fail
+   * // assertion fails:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessageMatching("wrong amount [0-9]* euros");</code></pre>
@@ -447,12 +447,12 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * Examples:
    * <pre><code class='java'> Throwable illegalArgumentException = new IllegalArgumentException("wrong amount 123");
    *
-   * // assertion will pass
+   * // assertion succeeds:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessageEndingWith("123");
    *
-   * // assertion will fail
+   * // assertion fails:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessageEndingWith("456");</code></pre>
@@ -475,12 +475,12 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * Examples:
    * <pre><code class='java'> Throwable illegalArgumentException = new IllegalArgumentException("wrong amount 123");
    *
-   * // assertion will pass
+   * // assertion succeeds:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessageEndingWith("%d", 123);
    *
-   * // assertion will fail
+   * // assertion fails:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
    *           .withMessageEndingWith("%d", 456);</code></pre>
@@ -504,7 +504,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * Example:
    * <pre><code class='java'> Throwable throwable = new Throwable(new NullPointerException());
    *
-   * // assertion will pass
+   * // assertion succeeds:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw throwable;})
    *           .withCauseInstanceOf(NullPointerException.class);
@@ -512,7 +512,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    *           .isThrownBy(() -&gt; {throw throwable;})
    *           .withCauseInstanceOf(RuntimeException.class);
    *
-   * // assertion will fail
+   * // assertion fails:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw throwable;})
    *           .withCauseInstanceOf(IllegalArgumentException.class);</code></pre>
@@ -536,7 +536,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * Example:
    * <pre><code class='java'> Throwable throwable = new Throwable(new NullPointerException());
    *
-   * // assertion will pass
+   * // assertion succeeds:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw throwable;})
    *           .withCauseExactlyInstanceOf(NullPointerException.class);
@@ -571,7 +571,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    *                            new IllegalStateException(
    *                                new NullPointerException()));
    *
-   * // assertion will pass
+   * // assertion succeeds:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw throwable;})
    *           .withRootCauseInstanceOf(NullPointerException.class);
@@ -579,7 +579,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    *           .isThrownBy(() -&gt; {throw throwable;})
    *           .withRootCauseInstanceOf(RuntimeException.class);
    *
-   * // assertion will fail
+   * // assertion fails:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw throwable;})
    *           .withRootCauseInstanceOf(IllegalStateException.class);</code></pre>
@@ -605,12 +605,12 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    *                            new IllegalStateException(
    *                                new NullPointerException()));
    *
-   * // assertion will pass
+   * // assertion succeeds:
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw throwable;})
    *           .withRootCauseExactlyInstanceOf(NullPointerException.class);
    *
-   * // assertion will fail (even if NullPointerException is a RuntimeException since we want an exact match)
+   * // assertion fails (even if NullPointerException is a RuntimeException since we want an exact match)
    * assertThatExceptionOfType(Throwable.class)
    *           .isThrownBy(() -&gt; {throw throwable;})
    *           .withRootCauseExactlyInstanceOf(RuntimeException.class);
