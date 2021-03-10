@@ -45,14 +45,14 @@ public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<Th
   }
 
   /**
-   * Assert that an exception of type T is thrown by the {@code throwingCallable} 
+   * Assert that an exception of type T is thrown by the {@code throwingCallable}
    * and allow to chain assertions on the thrown exception.
    * <p>
    * Example:
    * <pre><code class='java'> assertThatExceptionOfType(IOException.class).isThrownBy(() -&gt; { throw new IOException("boom!"); })
    *                                       .withMessage("boom!"); </code></pre>
    *
-   * @param throwingCallable code throwing the exception of expected type 
+   * @param throwingCallable code throwing the exception of expected type
    * @return return a {@link ThrowableAssertAlternative}.
    */
   public ThrowableAssertAlternative<T> isThrownBy(final ThrowingCallable throwingCallable) {
