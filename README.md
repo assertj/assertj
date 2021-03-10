@@ -24,7 +24,7 @@ The idea is that disposal assertions should be specific to the type of the objec
 
 AssertJ's assertions are super easy to use: just type **`assertThat(underTest).`** and use code completion to show you all assertions available.
 
-Assertion missing? Please [create an issue](https://github.com/assertj/assertj-core/issues) to discuss it and even better [contribute to the project](#contributing)!
+Assertion missing? Please [create an issue](https://github.com/assertj/assertj-core/issues) to discuss it and even better [contribute to the project](https://github.com/assertj/assertj-core/blob/main/CONTRIBUTING.md)!
 
 
 AssertJ is composed of several modules:
