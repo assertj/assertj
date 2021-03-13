@@ -734,7 +734,7 @@ public class Maps {
    * @throws NullPointerException if the given entries array is {@code null}.
    * @throws AssertionError if the actual map does not contain the given entries, i.e. the actual map contains some or
    *           none of the given entries, or the actual map contains more entries than the given ones, or if entries is
-   *           empty
+   *           empty.
    */
   public <K, V> void assertContainsOnly(AssertionInfo info, Map<K, V> actual,
                                         @SuppressWarnings("unchecked") Map.Entry<? extends K, ? extends V>... entries) {
