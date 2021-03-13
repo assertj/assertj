@@ -14,6 +14,8 @@ package org.assertj.core.api.recursive.comparison;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.recursive.comparison.RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test.Type.FIRST;
+import static org.assertj.core.api.recursive.comparison.RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test.Type.SECOND;
 import static org.assertj.core.internal.objects.data.FriendlyPerson.friend;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
@@ -356,6 +358,72 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
                                   .ignoringCollectionOrder()
                                   .isEqualTo(list(listAReverse, listBReverse));
 
+  }
+
+  enum Type {
+    FIRST, SECOND,
+  }
+
+  static class PersonWithEnum {
+    String name;
+    Type type;
+
+    PersonWithEnum(String name, Type type) {
+      this.name = name;
+      this.type = type;
+    }
+
+    @Override
+    public String toString() {
+      return String.format("Person [name=%s, type=%s]", name, type);
+    }
+
+  }
+
+  @Test
+  public void should_not_remove_already_visited_enum_dual_values_as_they_cant_produce_cycles() {
+    // GIVEN
+    List<PersonWithEnum> persons = list(new PersonWithEnum("name-1", FIRST),
+                                        new PersonWithEnum("name-2", FIRST),
+                                        new PersonWithEnum("name-2", SECOND));
+
+    // WHEN/THEN
+    assertThat(persons).usingRecursiveComparison()
+                       .ignoringCollectionOrder()
+                       .isEqualTo(list(new PersonWithEnum("name-2", SECOND),
+                                       new PersonWithEnum("name-2", FIRST),
+                                       new PersonWithEnum("name-1", FIRST)));
+  }
+
+  static class PersonWithInt {
+    String name;
+    int type;
+
+    PersonWithInt(String name, int type) {
+      this.name = name;
+      this.type = type;
+    }
+
+    @Override
+    public String toString() {
+      return String.format("Person [name=%s, type=%s]", name, type);
+    }
+
+  }
+
+  @Test
+  public void should_not_remove_already_visited_int_dual_values_as_they_cant_produce_cycles() {
+    // GIVEN
+    List<PersonWithInt> persons = list(new PersonWithInt("name-1", 1),
+                                       new PersonWithInt("name-2", 1),
+                                       new PersonWithInt("name-2", 2));
+
+    // WHEN/THEN
+    assertThat(persons).usingRecursiveComparison()
+                       .ignoringCollectionOrder()
+                       .isEqualTo(list(new PersonWithInt("name-2", 2),
+                                       new PersonWithInt("name-2", 1),
+                                       new PersonWithInt("name-1", 1)));
   }
 
 }

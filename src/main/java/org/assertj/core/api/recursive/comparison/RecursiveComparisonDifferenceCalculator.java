@@ -140,9 +140,9 @@ public class RecursiveComparisonDifferenceCalculator {
       } else {
         dualValuesToCompare.addFirst(dualValue);
       }
-      // We need to remove already visited fields pair to avoid infinite recursion in case
-      // parent -> set{child} with child having a reference back to parent
-      // it occurs to unordered collection where we compare all possible combination of the collection elements recursively
+      // We need to remove already visited fields pair to avoid infinite recursion in case parent -> set{child} with child having
+      // a reference back to its parent but only for complex types can have cycle, this is not the case for primitive or enums.
+      // It occurs for unordered collection where we compare all possible combination of the collection elements recursively.
       // --
       // remove visited values one by one, DualValue.equals correctly compare respective actual and expected fields by reference
       visitedDualValues.forEach(visitedDualValue -> dualValuesToCompare.stream()

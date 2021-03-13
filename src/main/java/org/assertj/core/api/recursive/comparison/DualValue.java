@@ -215,11 +215,13 @@ public final class DualValue {
 
   private static boolean isPotentialCyclingValue(Object object) {
     if (object == null) return false;
-    // java.lang are base types that can't cycle to themselves of other types
-    // we could check more type, but that's a good start
+    // java.lang are base types that can't cycle to themselves or other types
+    // we could check more types, but that's a good start
     String canonicalName = object.getClass().getCanonicalName();
     // canonicalName is null for anonymous and local classes, return true as they can cycle back to other objects.
     if (canonicalName == null) return true;
+    // enums can refer back to other object but since they are constants it is very unlikely that they generate cycles.
+    if (object.getClass().isEnum()) return false;
     return !canonicalName.startsWith("java.lang");
   }
 
