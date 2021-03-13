@@ -20,12 +20,19 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 @DisplayName("EntryPoint assertions registerCustomDateFormat method")
 class EntryPointAssertions_registerDateFormat_Test extends EntryPointAssertionsBaseTest {
+
+  @BeforeEach
+  void beforeEachTest() {
+    // reset to the default value to avoid side effects on the other tests
+    AbstractDateAssert.useDefaultDateFormatsOnly();
+  }
 
   @AfterEach
   void afterEachTest() {
