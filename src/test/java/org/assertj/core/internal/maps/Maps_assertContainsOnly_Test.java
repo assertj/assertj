@@ -67,8 +67,13 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
   @SuppressWarnings("unchecked")
   @Test
   void should_fail_if_given_entries_array_is_empty() {
-    assertThatIllegalArgumentException().isThrownBy(() -> maps.assertContainsOnly(someInfo(), actual, emptyEntries()))
-                                        .withMessage(entriesToLookForIsEmpty());
+    // GIVEN
+    AssertionInfo info = someInfo();
+    MapEntry<String, String>[] expected = emptyEntries();
+    // WHEN
+    expectAssertionError(() -> maps.assertContainsOnly(info, actual, expected));
+    // THEN
+    verify(failures).failure(info, shouldContainOnly(actual, expected, emptySet(), actual.entrySet()));
   }
 
   @SuppressWarnings("unchecked")
