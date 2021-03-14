@@ -345,7 +345,7 @@ public class Iterables {
     assertIterableContainsGivenValues(actual.getClass(), actualAsList, values, info);
   }
 
-  private void assertIterableContainsGivenValues(@SuppressWarnings("unchecked") Class<? extends Iterable> clazz,
+  private void assertIterableContainsGivenValues(@SuppressWarnings("rawtypes") Class<? extends Iterable> clazz,
                                                  Iterable<?> actual, Object[] values, AssertionInfo info) {
     Set<Object> notFound = stream(values).filter(value -> !iterableContains(actual, value))
                                          .collect(toCollection(LinkedHashSet::new));
