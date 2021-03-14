@@ -14,11 +14,10 @@ package org.assertj.core.internal.maps;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.emptySet;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.MapEntry.entry;
+import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
-import static org.assertj.core.internal.ErrorMessages.entriesToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.entriesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
@@ -73,7 +72,7 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
     // WHEN
     expectAssertionError(() -> maps.assertContainsOnly(info, actual, expected));
     // THEN
-    verify(failures).failure(info, shouldContainOnly(actual, expected, emptySet(), actual.entrySet()));
+    verify(failures).failure(info, shouldBeEmpty(actual));
   }
 
   @SuppressWarnings("unchecked")

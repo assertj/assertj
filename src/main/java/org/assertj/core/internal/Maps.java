@@ -63,6 +63,7 @@ import java.util.function.Consumer;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
+import org.assertj.core.error.ShouldBeEmpty;
 import org.assertj.core.error.ShouldContainAnyOf;
 import org.assertj.core.error.UnsatisfiedRequirement;
 import org.assertj.core.util.VisibleForTesting;
@@ -743,14 +744,12 @@ public class Maps {
       return;
     }
 
+    doEntriesEmptyCheck(info, actual, entries);
+
     Set<Map.Entry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
     Set<Map.Entry<? extends K, ? extends V>> notExpected = new LinkedHashSet<>();
 
     compareActualMapAndExpectedEntries(actual, entries, notExpected, notFound);
-
-    if(!actual.isEmpty() && entries.length == 0) {
-      throw failures.failure(info, shouldContainOnly(actual, entries, notFound, notExpected));
-    }
 
     if (!notFound.isEmpty() || !notExpected.isEmpty())
       throw failures.failure(info, shouldContainOnly(actual, entries, notFound, notExpected));
@@ -776,6 +775,7 @@ public class Maps {
                                            @SuppressWarnings("unchecked") Map.Entry<? extends K, ? extends V>... entries) {
     doCommonContainsCheck(info, actual, entries);
     if (actual.isEmpty() && entries.length == 0) return;
+    doEntriesEmptyCheck(info, actual, entries);
     assertHasSameSizeAs(info, actual, entries);
 
     Set<Map.Entry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
@@ -884,6 +884,13 @@ public class Maps {
 
   private static <K, V> void failIfEmptySinceActualIsNotEmpty(Map.Entry<? extends K, ? extends V>[] values) {
     if (values.length == 0) throw new AssertionError("actual is not empty");
+  }
+
+  private <K, V> void doEntriesEmptyCheck(AssertionInfo info, Map<K, V> actual,
+                                            Map.Entry<? extends K, ? extends V>[] entries) {
+    if(entries.length == 0) {
+      throw failures.failure(info, ShouldBeEmpty.shouldBeEmpty(actual));
+    }
   }
 
 }

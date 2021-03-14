@@ -13,16 +13,13 @@
 package org.assertj.core.internal.maps;
 
 import static java.util.Collections.emptyMap;
-import static java.util.Collections.emptySet;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.MapEntry.entry;
+import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
-import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
-import static org.assertj.core.internal.ErrorMessages.entriesToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.entriesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
@@ -84,11 +81,11 @@ class Maps_assertContainsExactly_Test extends MapsBaseTest {
   void should_fail_if_given_entries_array_is_empty() {
     // GIVEN
     AssertionInfo info = someInfo();
+    MapEntry<String, String>[] expected = emptyEntries();
     // WHEN
-    ThrowingCallable code = () -> maps.assertContainsExactly(info, linkedActual, emptyEntries());
+    expectAssertionError(() -> maps.assertContainsExactly(info, actual, expected));
     // THEN
-    String error = shouldHaveSameSizeAs(linkedActual, emptyEntries(), linkedActual.size(), emptyEntries().length).create();
-    assertThatAssertionErrorIsThrownBy(code).withMessage(error);
+    verify(failures).failure(info, shouldBeEmpty(actual));
   }
 
   @SuppressWarnings("unchecked")
