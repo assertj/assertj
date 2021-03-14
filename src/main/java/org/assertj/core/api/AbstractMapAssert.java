@@ -1253,8 +1253,13 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * ringBearers.put(vilya, elrond);
    * ringBearers.put(oneRing, frodo);
    *
-   * // assertion will pass
-   * assertThat(ringBearers).containsOnly(entry(oneRing, frodo), entry(nenya, galadriel), entry(narya, gandalf), entry(vilya, elrond));
+   * // assertions will pass
+   * assertThat(ringBearers).containsOnly(entry(oneRing, frodo),
+   *                                      entry(nenya, galadriel),
+   *                                      entry(narya, gandalf),
+   *                                      entry(vilya, elrond));
+   *
+   * assertThat(Collections.emptyMap()).containsOnly();
    *
    * // assertion will fail
    * assertThat(ringBearers).containsOnly(entry(oneRing, frodo), entry(nenya, galadriel));</code></pre>
@@ -1282,10 +1287,12 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Map&lt;Ring, TolkienCharacter&gt; ringBearers = newLinkedHashMap(entry(oneRing, frodo),
    *                                                            entry(nenya, galadriel),
    *                                                            entry(narya, gandalf));
-   * // assertion will pass
+   * // assertions will pass
    * assertThat(ringBearers).containsExactly(entry(oneRing, frodo),
    *                                         entry(nenya, galadriel),
    *                                         entry(narya, gandalf));
+   *
+   * assertThat(Collections.emptyMap()).containsExactly();
    *
    * // assertion will fail as actual and expected order differ
    * assertThat(ringBearers).containsExactly(entry(nenya, galadriel),

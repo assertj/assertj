@@ -348,7 +348,7 @@ public class Maps {
     assertNotNull(info, actual);
     // if both actual and values are empty, then assertion passes.
     if (actual.isEmpty() && entries.length == 0) return;
-    failIfEmptySinceActualIsNotEmpty(entries);
+    failIfEntriesIsEmptyEmptySinceActualIsNotEmpty(info, actual, entries);
     failIfAnyEntryNotFoundInActualMap(info, actual, entries);
   }
 
@@ -379,7 +379,7 @@ public class Maps {
     assertNotNull(info, actual);
     // if both actual and values are empty, then assertion passes.
     if (actual.isEmpty() && entries.length == 0) return;
-    failIfEmptySinceActualIsNotEmpty(entries);
+    failIfEntriesIsEmptyEmptySinceActualIsNotEmpty(info, actual, entries);
     for (Map.Entry<? extends K, ? extends V> entry : entries) {
       if (containsEntry(actual, entry)) return;
     }
@@ -748,23 +748,19 @@ public class Maps {
    * @param entries the entries that should be in the actual map.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws NullPointerException if the given entries array is {@code null}.
-   * @throws IllegalArgumentException if the given entries array is empty.
    * @throws AssertionError if the actual map does not contain the given entries, i.e. the actual map contains some or
-   *           none of the given entries, or the actual map contains more entries than the given ones.
+   *           none of the given entries, or the actual map contains more entries than the given ones, or if entries is
+   *           empty.
    */
   public <K, V> void assertContainsOnly(AssertionInfo info, Map<K, V> actual,
                                         @SuppressWarnings("unchecked") Map.Entry<? extends K, ? extends V>... entries) {
     doCommonContainsCheck(info, actual, entries);
-    if (actual.isEmpty() && entries.length == 0) {
-      return;
-    }
-    failIfEmpty(entries);
+    if (actual.isEmpty() && entries.length == 0) return;
+    failIfEntriesIsEmptyEmptySinceActualIsNotEmpty(info, actual, entries);
 
     Set<Map.Entry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
     Set<Map.Entry<? extends K, ? extends V>> notExpected = new LinkedHashSet<>();
-
     compareActualMapAndExpectedEntries(actual, entries, notExpected, notFound);
-
     if (!notFound.isEmpty() || !notExpected.isEmpty())
       throw failures.failure(info, shouldContainOnly(actual, entries, notFound, notExpected));
   }
@@ -781,7 +777,6 @@ public class Maps {
    * @param entries the given entries.
    * @throws NullPointerException if the given entries array is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
-   * @throws IllegalArgumentException if the given entries array is empty.
    * @throws AssertionError if the actual map does not contain the given entries with same order, i.e. the actual map
    *           contains some or none of the given entries, or the actual map contains more entries than the given ones
    *           or entries are the same but the order is not.
@@ -790,7 +785,7 @@ public class Maps {
                                            @SuppressWarnings("unchecked") Map.Entry<? extends K, ? extends V>... entries) {
     doCommonContainsCheck(info, actual, entries);
     if (actual.isEmpty() && entries.length == 0) return;
-    failIfEmpty(entries);
+    failIfEntriesIsEmptyEmptySinceActualIsNotEmpty(info, actual, entries);
     assertHasSameSizeAs(info, actual, entries);
 
     Set<Map.Entry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
@@ -910,8 +905,10 @@ public class Maps {
     Objects.instance().assertNotNull(info, actual);
   }
 
-  private static <K, V> void failIfEmptySinceActualIsNotEmpty(Map.Entry<? extends K, ? extends V>[] values) {
-    if (values.length == 0) throw new AssertionError("actual is not empty");
+  // this should be only called when actual is not empty
+  private <K, V> void failIfEntriesIsEmptyEmptySinceActualIsNotEmpty(AssertionInfo info, Map<K, V> actual,
+                                                                     Map.Entry<? extends K, ? extends V>[] entries) {
+    if (entries.length == 0) throw failures.failure(info, shouldBeEmpty(actual));
   }
 
 }

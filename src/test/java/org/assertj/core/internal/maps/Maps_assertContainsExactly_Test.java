@@ -13,14 +13,13 @@
 package org.assertj.core.internal.maps;
 
 import static java.util.Collections.emptyMap;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
+import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
-import static org.assertj.core.internal.ErrorMessages.entriesToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.entriesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
@@ -61,28 +60,35 @@ class Maps_assertContainsExactly_Test extends MapsBaseTest {
     linkedActual.put("color", "green");
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContainsExactly(someInfo(), null,
-                                                                                                entry("name", "Yoda")))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    actual = null;
+    MapEntry<String, String>[] expected = array(entry("name", "Yoda"));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> maps.assertContainsExactly(someInfo(), actual, expected));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   void should_fail_if_given_entries_array_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> maps.assertContainsExactly(someInfo(), linkedActual,
-                                                                                 (MapEntry[]) null))
+    // GIVEN
+    MapEntry<String, String>[] entries = null;
+    // WHEN/THEN
+    assertThatNullPointerException().isThrownBy(() -> maps.assertContainsExactly(someInfo(), linkedActual, entries))
                                     .withMessage(entriesToLookForIsNull());
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   void should_fail_if_given_entries_array_is_empty() {
-    assertThatIllegalArgumentException().isThrownBy(() -> maps.assertContainsExactly(someInfo(), linkedActual,
-                                                                                     emptyEntries()))
-                                        .withMessage(entriesToLookForIsEmpty());
+    // GIVEN
+    AssertionInfo info = someInfo();
+    MapEntry<String, String>[] expected = emptyEntries();
+    // WHEN
+    expectAssertionError(() -> maps.assertContainsExactly(info, actual, expected));
+    // THEN
+    verify(failures).failure(info, shouldBeEmpty(actual));
   }
 
   @SuppressWarnings("unchecked")
