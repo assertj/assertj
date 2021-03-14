@@ -63,7 +63,6 @@ import java.util.function.Consumer;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
-import org.assertj.core.error.ShouldBeEmpty;
 import org.assertj.core.error.ShouldContainAnyOf;
 import org.assertj.core.error.UnsatisfiedRequirement;
 import org.assertj.core.util.VisibleForTesting;
@@ -889,7 +888,7 @@ public class Maps {
   private <K, V> void doEntriesEmptyCheck(AssertionInfo info, Map<K, V> actual,
                                             Map.Entry<? extends K, ? extends V>[] entries) {
     if(entries.length == 0) {
-      throw failures.failure(info, ShouldBeEmpty.shouldBeEmpty(actual));
+      throw failures.failure(info, shouldBeEmpty(actual));
     }
   }
 
