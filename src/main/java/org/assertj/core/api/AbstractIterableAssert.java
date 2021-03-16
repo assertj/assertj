@@ -33,15 +33,19 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -72,6 +76,7 @@ import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.IterableUtil;
+import org.assertj.core.util.Lists;
 import org.assertj.core.util.Strings;
 import org.assertj.core.util.introspection.IntrospectionError;
 
@@ -3371,6 +3376,62 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @CheckReturnValue
   public ELEMENT_ASSERT element(int index) {
     return internalElement(index);
+  }
+
+  /**
+   * Navigate and allow to perform assertions on the chosen elements of the {@link Iterable} under test.
+   * <p>
+   * By default available assertions after {@code elements(indices)} are {@code Iterable} assertions.
+   * <p>
+   * Example: default {@code Object} assertions
+   * <pre><code class='java'> // default iterable assert =&gt; element assert is ObjectAssert
+   * Iterable&lt;TolkienCharacter&gt; hobbits = newArrayList(frodo, sam, pippin);
+   *
+   * // assertion succeeds, only Object assertions are available after element(index)
+   * assertThat(hobbits).elements(1, 2)
+   *                    .containsExactly(sam, pippin);
+   *
+   * // assertion fails
+   * assertThat(hobbits).element(1, 2)
+   *                    .containsExactly(frodo, pippin);</code></pre>
+   * <p>
+   *
+   * @param indices the elements' indices
+   * @return the assertion on the given elements
+   * @throws AssertionError if indices array is null or empty, or if one of the given indices is out of bound
+   * @since 3.18.2
+   */
+  @CheckReturnValue
+  public SELF elements(int... indices) {
+    isNotEmpty();
+    assertIndicesIsNotNull(indices);
+    assertIndicesIsNotEmpty(indices);
+
+    List<ELEMENT> indexedActual = Lists.newArrayList(actual);
+
+    List<ELEMENT> filteredIterable = Arrays.stream(indices)
+      .peek(this::checkIndicesValidity)
+      .mapToObj(indexedActual::get)
+      .collect(toList());
+
+    return newAbstractIterableAssert(filteredIterable).withAssertionState(myself);
+  }
+
+  private void assertIndicesIsNotNull(int[] indices) {
+    if (indices == null) {
+      throw new AssertionError("indices must not be null");
+    }
+  }
+
+  private void assertIndicesIsNotEmpty(int[] indices) {
+    if (indices.length == 0) {
+      throw new AssertionError("indices must not be empty");
+    }
+  }
+
+  private void checkIndicesValidity(int index) {
+    assertThat(index).describedAs(navigationDescription("check indices validity"))
+      .isBetween(0, IterableUtil.sizeOf(actual) - 1);
   }
 
   /**
