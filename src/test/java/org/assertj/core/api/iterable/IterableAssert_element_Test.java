@@ -47,7 +47,7 @@ class IterableAssert_element_Test {
   }
 
   @Test
-  void should_pass_allowing_object_assertions_if_iterable_contains_at_least_one_element() {
+  void should_pass_allowing_object_assertions_if_iterable_contains_enough_elements() {
     // WHEN
     ObjectAssert<String> result = assertThat(iterable).element(1);
     // THEN
