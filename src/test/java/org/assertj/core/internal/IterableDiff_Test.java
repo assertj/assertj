@@ -14,6 +14,7 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.internal.IterableDiff.diff;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
@@ -105,7 +106,7 @@ class IterableDiff_Test {
     expected = newArrayList("A", "B", "C", "D");
     // WHEN
     IterableDiff diff = diff(actual, expected, comparisonStrategy);
-    // THEN
+    // THEN6
     assertThatNoDiff(diff);
   }
 
@@ -145,6 +146,62 @@ class IterableDiff_Test {
     assertThat(diff.differencesFound()).isFalse();
     assertThat(diff.missing).isEmpty();
     assertThat(diff.unexpected).isEmpty();
+  }
+
+  // issue #2147
+  @Test
+  void should_work_when_comparison_strategy_is_not_symmetrical() {
+    // GIVEN
+    Address address1 = new Address(12, "xyz", "abc", "432432", "asdsa");
+    Address address2 = new Address(13, "xyzx", "abcds", "32432432", "asdsdfsa");
+    Address address3 = new Address(14, "xyzsa", "axbc", "4sd32432", "asdsfsda");
+    List<AddressDto> addressDtoList = list(AddressDto.from(address1), AddressDto.from(address2), AddressDto.from(address3));
+    // WHEN/THEN
+    assertThat(addressDtoList).usingRecursiveComparison()
+                              .isEqualTo(list(address1, address2, address3));
+    assertThat(addressDtoList).asList()
+                              .usingRecursiveFieldByFieldElementComparator()
+                              .containsExactly(address1, address2, address3);
+  }
+
+  static class Address {
+    int id;
+    String randomProperty;
+    String name;
+    String secondName;
+    String street;
+    String postCode;
+
+    public Address(int id, String name, String secondName, String street, String postCode) {
+      this.id = id;
+      this.name = name;
+      this.secondName = secondName;
+      this.street = street;
+      this.postCode = postCode;
+    }
+
+  }
+
+  @SuppressWarnings("unused")
+  static class AddressDto {
+    private final int id;
+    private final String name;
+    private final String secondName;
+    private final String street;
+    private final String postCode;
+
+    public AddressDto(int id, String name, String secondName, String street, String postCode) {
+      this.id = id;
+      this.name = name;
+      this.secondName = secondName;
+      this.street = street;
+      this.postCode = postCode;
+    }
+
+    static AddressDto from(Address le) {
+      return new AddressDto(le.id, le.name, le.secondName, le.street, le.postCode);
+    }
+
   }
 
 }
