@@ -12,12 +12,19 @@
  */
 package org.assertj.core.api;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 
 import org.assertj.core.internal.InputStreams;
 import org.assertj.core.internal.InputStreamsException;
+import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
+
+import static java.util.Objects.requireNonNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Base class for all implementations of assertions for {@link InputStream}s.
@@ -28,6 +35,7 @@ import org.assertj.core.util.VisibleForTesting;
  *
  * @author Matthieu Baechler
  * @author Mikhail Mazursky
+ * @author Stefan Birkner
  */
 public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStreamAssert<SELF, ACTUAL>, ACTUAL extends InputStream>
     extends AbstractAssert<SELF, ACTUAL> {
@@ -37,6 +45,35 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
 
   protected AbstractInputStreamAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
+  }
+
+  /**
+   * Converts the content of the actual {@code InputStream} to a String by
+   * decoding its bytes using the given charset and returns assertions for the
+   * computed String allowing String specific assertions from this call.
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new ByteArrayInputStream("abc".getBytes())).asString(UTF_8)
+   *                                                       .startsWith("a");
+   *
+   * // assertion will fail
+   * assertThat(new ByteArrayInputStream("abc".getBytes())).asString(UTF_8)
+   *                                                       .startsWith("e");</code></pre>
+   *
+   * @param charset the {@link Charset} to interpret the {@code InputStream}'s content to a String
+   * @return a string assertion object.
+   * @throws NullPointerException if the given {@code Charset} is {@code null}.
+   * @throws AssertionError if the actual {@code InputStream} is {@code null}.
+   * @throws InputStreamsException if an I/O error occurs.
+   * @since 3.20.0
+   */
+  @CheckReturnValue
+  public AbstractStringAssert<?> asString(Charset charset) {
+    requireNonNull(charset, "The charset for converting to a String must not be null");
+    objects.assertNotNull(info, actual);
+    String actualAsString = readString(charset);
+    return assertThat(actualAsString);
   }
 
   /**
@@ -297,5 +334,20 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
   public SELF hasDigest(String algorithm, String expected) {
     inputStreams.assertHasDigest(info, actual, algorithm, expected);
     return myself;
+  }
+
+  private String readString(Charset charset) {
+    try {
+      ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+      int read;
+      byte[] data = new byte[1024];
+      while ((read = actual.read(data, 0, data.length)) != -1) {
+        buffer.write(data, 0, read);
+      }
+      buffer.flush();
+      return new String(buffer.toByteArray(), charset);
+    } catch (IOException e) {
+      throw new InputStreamsException("Unable to read contents of InputStreams actual", e);
+    }
   }
 }
