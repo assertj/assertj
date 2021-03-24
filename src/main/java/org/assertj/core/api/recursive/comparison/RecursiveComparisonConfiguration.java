@@ -42,6 +42,7 @@ import org.assertj.core.util.VisibleForTesting;
 
 public class RecursiveComparisonConfiguration {
 
+  private static final boolean DEFAULT_IGNORE_ALL_OVERRIDDEN_EQUALS = true;
   public static final String INDENT_LEVEL_2 = "  -";
   private boolean strictTypeChecking = false;
 
@@ -57,7 +58,7 @@ public class RecursiveComparisonConfiguration {
   private List<Class<?>> ignoredOverriddenEqualsForTypes = new ArrayList<>();
   private List<String> ignoredOverriddenEqualsForFields = new ArrayList<>();
   private List<Pattern> ignoredOverriddenEqualsForFieldsMatchingRegexes = new ArrayList<>();
-  private boolean ignoreAllOverriddenEquals = true;
+  private boolean ignoreAllOverriddenEquals = DEFAULT_IGNORE_ALL_OVERRIDDEN_EQUALS;
 
   // ignore order in collections section
   private boolean ignoreCollectionOrder = false;
@@ -850,11 +851,11 @@ public class RecursiveComparisonConfiguration {
     private Class<?>[] ignoredOverriddenEqualsForTypes = {};
     private String[] ignoredOverriddenEqualsForFields = {};
     private String[] ignoredOverriddenEqualsForFieldsMatchingRegexes = {};
-    private boolean ignoreAllOverriddenEquals;
+    private boolean ignoreAllOverriddenEquals = DEFAULT_IGNORE_ALL_OVERRIDDEN_EQUALS;
     private boolean ignoreCollectionOrder;
     private String[] ignoredCollectionOrderInFields = {};
     private String[] ignoredCollectionOrderInFieldsMatchingRegexes = {};
-    private TypeComparators typeComparators = new TypeComparators();
+    private TypeComparators typeComparators = defaultTypeComparators();
     private FieldComparators fieldComparators = new FieldComparators();
 
     private Builder() {}

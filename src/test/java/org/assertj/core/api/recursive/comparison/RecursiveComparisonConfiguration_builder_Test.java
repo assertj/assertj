@@ -27,6 +27,15 @@ import org.junit.jupiter.api.Test;
 class RecursiveComparisonConfiguration_builder_Test {
 
   @Test
+  void should_use_same_defaults_as_constructor() {
+    // GIVEN
+    RecursiveComparisonConfiguration configurationBuiltWithBuilder = RecursiveComparisonConfiguration.builder().build();
+    RecursiveComparisonConfiguration configurationBuiltWithConstructor = new RecursiveComparisonConfiguration();
+    // WHEN/THEN
+    then(configurationBuiltWithBuilder).isEqualTo(configurationBuiltWithConstructor);
+  }
+
+  @Test
   void should_set_ignoreAllActualNullFields() {
     // GIVEN
     boolean value = RandomUtils.nextBoolean();
