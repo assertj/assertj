@@ -59,6 +59,10 @@ public final class ErrorMessages {
     return "The map of entries to look for should not be null";
   }
 
+  public static String setOfEntriesToLookForIsNull() {
+    return "The set of entries to look for should not be null";
+  }
+
   public static String entryToLookForIsNull() {
     return "Entries to look for should not be null";
   }

@@ -12,7 +12,23 @@
  */
 package org.assertj.core.internal;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.util.VisibleForTesting;
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 import static java.util.Objects.deepEquals;
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.uri.ShouldBeEqualToWithSortedQueryParameters.shouldBeEqualToWithSortedQueryParameters;
 import static org.assertj.core.error.uri.ShouldHaveAnchor.shouldHaveAnchor;
 import static org.assertj.core.error.uri.ShouldHaveAuthority.shouldHaveAuthority;
@@ -20,6 +36,7 @@ import static org.assertj.core.error.uri.ShouldHaveHost.shouldHaveHost;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameter;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameters;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveParameter;
+import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveSameParameters;
 import static org.assertj.core.error.uri.ShouldHavePath.shouldHavePath;
 import static org.assertj.core.error.uri.ShouldHavePort.shouldHavePort;
 import static org.assertj.core.error.uri.ShouldHaveProtocol.shouldHaveProtocol;
@@ -28,15 +45,6 @@ import static org.assertj.core.error.uri.ShouldHaveUserInfo.shouldHaveUserInfo;
 import static org.assertj.core.internal.Comparables.assertNotNull;
 import static org.assertj.core.internal.Uris.getParameters;
 import static org.assertj.core.util.Preconditions.checkArgument;
-
-import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.VisibleForTesting;
 
 public class Urls {
 
@@ -49,7 +57,8 @@ public class Urls {
     return INSTANCE;
   }
 
-  Urls() {}
+  Urls() {
+  }
 
   private static String extractNonQueryParams(URL url) {
     String queryPart = url.getQuery() == null ? "" : url.getQuery();
@@ -158,5 +167,57 @@ public class Urls {
     boolean differentSortedQueryParams = !deepEquals(extractSortedQueryParams(expected), extractSortedQueryParams(actual));
     if (differentNonQueryParams || differentSortedQueryParams)
       throw failures.failure(info, shouldBeEqualToWithSortedQueryParameters(actual, expected));
+  }
+
+  public final void assertContainsExactlyParameters(AssertionInfo info, URL actual, Collection<Map.Entry<String, String>> expectedParameters) {
+    requireNonNull(expectedParameters, ErrorMessages.setOfEntriesToLookForIsNull());
+
+    final HashMap<String, List<String>> multiValueMap = new HashMap<>();
+
+    expectedParameters.forEach(param ->
+      multiValueMap.compute(param.getKey(), (key, values) -> {
+        if (values == null) values = new ArrayList<>();
+        values.add(param.getValue());
+        return values;
+      })
+    );
+
+    assertContainsExactlyParameters(info, actual, multiValueMap);
+  }
+
+  public void assertContainsExactlyParameters(AssertionInfo info, URL actual, Map<String, List<String>> expectedParameters) {
+    assertNotNull(info, actual);
+    requireNonNull(expectedParameters, ErrorMessages.mapOfEntriesToLookForIsNull());
+
+    Map<String, List<String>> urlParameters = getParameters(actual.getQuery());
+
+    Map<String, List<String>> notExpectedInUrl = new LinkedHashMap<>();
+    urlParameters.forEach((key, value) -> notExpectedInUrl.put(key, new ArrayList<>(value)));
+
+    Map<String, List<String>> missingInUrl = new LinkedHashMap<>();
+    expectedParameters.forEach((key, value) -> missingInUrl.put(key, new ArrayList<>(value)));
+
+    expectedParameters.forEach((parameterKey, parameterValue) -> {
+      final List<String> missingValues = missingInUrl.getOrDefault(parameterKey, Collections.emptyList());
+      final List<String> nonExpectedValues = notExpectedInUrl.getOrDefault(parameterKey, Collections.emptyList());
+
+      final List<String> forDeleteFromNonExpectedValues = nonExpectedValues.stream()
+        .filter(missingValues::contains)
+        .collect(Collectors.toList());
+
+      final List<String> forDeleteFromMissingValues = missingValues.stream()
+        .filter(nonExpectedValues::contains)
+        .collect(Collectors.toList());
+
+      nonExpectedValues.removeAll(forDeleteFromNonExpectedValues);
+      missingValues.removeAll(forDeleteFromMissingValues);
+
+      if (nonExpectedValues.isEmpty()) notExpectedInUrl.remove(parameterKey);
+      if (missingValues.isEmpty()) missingInUrl.remove(parameterKey);
+    });
+
+    if (!notExpectedInUrl.isEmpty() || !missingInUrl.isEmpty()) {
+      throw failures.failure(info, shouldHaveSameParameters(urlParameters, expectedParameters, missingInUrl, notExpectedInUrl));
+    }
   }
 }
