@@ -80,6 +80,7 @@ import org.assertj.core.util.diff.InsertDelta;
  * Standard java object representation.
  *
  * @author Mariusz Smykula
+ * @author Jack Gough
  */
 public class StandardRepresentation implements Representation {
 
@@ -455,7 +456,8 @@ public class StandardRepresentation implements Representation {
   protected String toStringOf(Throwable throwable) {
     StackTraceElement[] elements = throwable.getStackTrace();
     // if the line limit is 0, we assume the user don't want to print stack trace
-    if (maxStackTraceElementsDisplayed == 0) return throwable.toString();
+    // the null check is for user convenience when they mock throwable (otherwise elements is not nul)
+    if (maxStackTraceElementsDisplayed == 0 || elements == null) return throwable.toString();
     // display the full stack trace
     if (maxStackTraceElementsDisplayed >= elements.length) return getStackTrace(throwable);
 

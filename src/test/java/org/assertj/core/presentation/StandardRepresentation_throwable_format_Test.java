@@ -15,8 +15,12 @@ package org.assertj.core.presentation;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.configuration.Configuration.DEFAULT_CONFIGURATION;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.assertj.core.configuration.Configuration;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -42,6 +46,12 @@ class StandardRepresentation_throwable_format_Test {
     }
   }
 
+  @AfterEach
+  void afterEach() {
+    // Restore default configuration after each test
+    DEFAULT_CONFIGURATION.apply();
+  }
+
   @Test
   void should_not_display_stacktrace_if_maxStackTraceElementsDisplayed_is_zero() {
     // GIVEN
@@ -63,13 +73,12 @@ class StandardRepresentation_throwable_format_Test {
     // WHEN
     String toString = REPRESENTATION.toStringOf(catchThrowable(Test1::boom));
     // THEN
-    then(toString).matches("java\\.lang\\.RuntimeException\\R"
+    then(toString).matches("java\\.lang\\.RuntimeException\\R" +
+                           "\\tat org\\.assertj\\.core\\.presentation\\.StandardRepresentation_throwable_format_Test\\$Test1\\$Test2\\.boom2\\(StandardRepresentation_throwable_format_Test\\.java:\\d+\\)\\R"
                            +
-                           "\\tat org\\.assertj\\.core\\.presentation\\.StandardRepresentation_throwable_format_Test\\$Test1\\$Test2\\.boom2\\(StandardRepresentation_throwable_format_Test\\.java:36\\)\\R"
+                           "\\tat org\\.assertj\\.core\\.presentation\\.StandardRepresentation_throwable_format_Test\\$Test1\\.boom\\(StandardRepresentation_throwable_format_Test\\.java:\\d+\\)\\R"
                            +
-                           "\\tat org\\.assertj\\.core\\.presentation\\.StandardRepresentation_throwable_format_Test\\$Test1\\.boom\\(StandardRepresentation_throwable_format_Test\\.java:41\\)\\R"
-                           +
-                           "\\tat org\\.assertj\\.core\\.api\\.ThrowableAssert\\.catchThrowable\\(ThrowableAssert\\.java:62\\)\\R"
+                           "\\tat org\\.assertj\\.core\\.api\\.ThrowableAssert\\.catchThrowable\\(ThrowableAssert\\.java:\\d+\\)\\R"
                            +
                            "\\t\\.{3}\\(\\d+ remaining lines not displayed - this can be changed with Assertions\\.setMaxStackTraceElementsDisplayed\\)");
   }
@@ -88,4 +97,14 @@ class StandardRepresentation_throwable_format_Test {
                   .doesNotContain("remaining lines not displayed");
   }
 
+  @Test
+  void should_display_toString_when_null_stack() {
+    // GIVEN
+    Throwable throwable = mock(Throwable.class);
+    when(throwable.toString()).thenReturn("throwable string");
+    // WHEN
+    String actual = REPRESENTATION.toStringOf(throwable);
+    // THEN
+    then(actual).isEqualTo("throwable string");
+  }
 }
