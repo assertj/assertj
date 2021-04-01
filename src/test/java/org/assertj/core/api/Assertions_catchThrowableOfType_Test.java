@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
 
@@ -117,6 +118,16 @@ class Assertions_catchThrowableOfType_Test {
   void should_pass_if_message_does_not_contain_description() {
     assertThatExceptionOfType(Exception.class).isThrownBy(codeThrowing(new Exception("boom")))
                                               .withMessageNotContaining("bam");
+  }
+
+  @Test
+  void should_catch_mocked_throwable() {
+    // GIVEN
+    Throwable throwable = mock(Throwable.class);
+    // WHEN
+    Throwable actual = catchThrowableOfType(() -> { throw throwable; }, Throwable.class);
+    // THEN
+    assertThat(actual).isSameAs(throwable);
   }
 
   private static ThrowingCallable raisingException(final String reason) {
