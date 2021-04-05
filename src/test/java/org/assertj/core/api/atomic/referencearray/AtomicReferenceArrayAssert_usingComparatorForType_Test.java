@@ -107,17 +107,6 @@ class AtomicReferenceArrayAssert_usingComparatorForType_Test extends AtomicRefer
   }
 
   @Test
-  void should_use_comparator_for_type_when_using_recursive_field_by_field_element_comparator() {
-    // GIVEN
-    Object[] array = array(actual, "some");
-    AtomicReferenceArray<Object> atomicArray = new AtomicReferenceArray<>(array);
-    // THEN
-    assertThat(atomicArray).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
-                           .usingRecursiveFieldByFieldElementComparator()
-                           .contains(other, "any");
-  }
-
-  @Test
   void should_not_use_comparator_on_fields_level_for_elements() {
     // GIVEN
     Object[] array = array(actual, "some");

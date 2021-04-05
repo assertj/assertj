@@ -14,17 +14,19 @@ package org.assertj.core.api.atomic.referencearray;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
-import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.internal.AtomicReferenceArrayElementComparisonStrategy;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.ConfigurableRecursiveFieldByFieldComparator;
 import org.assertj.core.internal.ObjectArrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,6 +34,8 @@ import org.junit.jupiter.api.Test;
 class AtomicReferenceArrayAssert_usingRecursiveFieldByFieldElementComparator_Test
     extends AtomicReferenceArrayAssertBaseTest {
 
+  private static final String DEFAULT_RECURSIVE_COMPARATOR_DESCRIPTION = CONFIGURATION_PROVIDER.representation()
+                                                                                               .toStringOf(new ConfigurableRecursiveFieldByFieldComparator(new RecursiveComparisonConfiguration()));
   private ObjectArrays arraysBefore;
 
   @BeforeEach
@@ -46,23 +50,27 @@ class AtomicReferenceArrayAssert_usingRecursiveFieldByFieldElementComparator_Tes
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(arraysBefore).isNotSameAs(getArrays(assertions));
-    assertThat(getArrays(assertions).getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
-    assertThat(getObjects(assertions).getComparisonStrategy()).isInstanceOf(AtomicReferenceArrayElementComparisonStrategy.class);
+    then(arraysBefore).isNotSameAs(getArrays(assertions));
+    then(getArrays(assertions).getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
+    then(getObjects(assertions).getComparisonStrategy()).isInstanceOf(AtomicReferenceArrayElementComparisonStrategy.class);
   }
 
   @Test
   void successful_isEqualTo_assertion_using_recursive_field_by_field_element_comparator() {
+    // GIVEN
     AtomicReferenceArray<Foo> array1 = atomicArrayOf(new Foo("id", new Bar(1)));
     Foo[] array2 = { new Foo("id", new Bar(1)) };
-    assertThat(array1).usingRecursiveFieldByFieldElementComparator().isEqualTo(array2);
+    // WHEN/THEN
+    then(array1).usingRecursiveFieldByFieldElementComparator().isEqualTo(array2);
   }
 
   @Test
   void successful_isIn_assertion_using_recursive_field_by_field_element_comparator() {
+    // GIVEN
     AtomicReferenceArray<Foo> array1 = atomicArrayOf(new Foo("id", new Bar(1)));
     Foo[] array2 = { new Foo("id", new Bar(1)) };
-    assertThat(array1).usingRecursiveFieldByFieldElementComparator().isIn(new Object[] { (array2) });
+    // WHEN/THEN
+    then(array1).usingRecursiveFieldByFieldElementComparator().isIn(new Object[] { (array2) });
   }
 
   @Test
@@ -71,14 +79,12 @@ class AtomicReferenceArrayAssert_usingRecursiveFieldByFieldElementComparator_Tes
     AtomicReferenceArray<Foo> array1 = atomicArrayOf(new Foo("id", new Bar(1)));
     Foo[] array2 = { new Foo("id", new Bar(2)) };
     // WHEN
-    Throwable error = catchThrowable(() -> assertThat(array1).usingRecursiveFieldByFieldElementComparator().isEqualTo(array2));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(array1).usingRecursiveFieldByFieldElementComparator()
+                                                                                 .isEqualTo(array2));
     // THEN
-    assertThat(error).isInstanceOf(AssertionError.class)
-                     .hasMessage(format(shouldBeEqualMessage("[Foo(id=id, bar=Bar(id=1))]", "[Foo(id=id, bar=Bar(id=2))]") + "%n"
-                                        + "when comparing elements using recursive field/property by field/property comparator on all fields/properties%n"
-                                        + "Comparators used:%n"
-                                        + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path natural order)}%n"
-                                        + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path natural order)}"));
+    then(assertionError).hasMessage(format(shouldBeEqualMessage("[Foo(id=id, bar=Bar(id=1))]", "[Foo(id=id, bar=Bar(id=2))]") +
+                                           "%n" +
+                                           "when comparing elements using %s", DEFAULT_RECURSIVE_COMPARATOR_DESCRIPTION));
   }
 
   @Test
@@ -87,57 +93,14 @@ class AtomicReferenceArrayAssert_usingRecursiveFieldByFieldElementComparator_Tes
     AtomicReferenceArray<Foo> array1 = atomicArrayOf(new Foo("id", new Bar(1)));
     Foo[] array2 = { new Foo("id", new Bar(2)) };
     // WHEN
-    Throwable error = catchThrowable(() -> assertThat(array1).usingRecursiveFieldByFieldElementComparator()
-                                                             .isIn(new Object[] { array2 }));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(array1).usingRecursiveFieldByFieldElementComparator()
+                                                                                 .isIn(new Object[] { array2 }));
     // THEN
-    assertThat(error).isInstanceOf(AssertionError.class)
-                     .hasMessage(format("%nExpecting actual:%n"
-                                        + "  [Foo(id=id, bar=Bar(id=1))]%n"
-                                        + "to be in:%n"
-                                        + "  [[Foo(id=id, bar=Bar(id=2))]]%n"
-                                        + "when comparing elements using recursive field/property by field/property comparator on all fields/properties%n"
-                                        + "Comparators used:%n"
-                                        + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path natural order)}%n"
-                                        + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path natural order)}"));
-  }
-
-  @Test
-  void should_be_able_to_use_a_comparator_for_specified_fields_of_elements_when_using_recursive_field_by_field_element_comparator() {
-    Foo actual = new Foo("1", new Bar(1));
-    Foo other = new Foo("1", new Bar(2));
-    final class AlwaysEqualIntegerComparator implements Comparator<Integer> {
-      @Override
-      public int compare(Integer o1, Integer o2) {
-        return 0;
-      }
-    }
-
-    assertThat(atomicArrayOf(actual)).usingComparatorForElementFieldsWithNames(new AlwaysEqualIntegerComparator(),
-                                                                               "bar.id")
-                                     .usingRecursiveFieldByFieldElementComparator()
-                                     .contains(other);
-  }
-
-  @Test
-  void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_when_using_recursive_field_by_field_element_comparator() {
-    Comparator<String> comparator = (o1, o2) -> o1.compareTo(o2);
-    Foo actual = new Foo("1", new Bar(1));
-    Foo other = new Foo("2", new Bar(1));
-
-    assertThat(atomicArrayOf(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "id")
-                                     .usingComparatorForElementFieldsWithType(comparator, String.class)
-                                     .usingRecursiveFieldByFieldElementComparator()
-                                     .contains(other);
-  }
-
-  @Test
-  void should_be_able_to_use_a_comparator_for_element_fields_with_specified_type_when_using_recursive_field_by_field_element_comparator() {
-    Foo actual = new Foo("1", new Bar(1));
-    Foo other = new Foo("2", new Bar(1));
-
-    assertThat(atomicArrayOf(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS_STRING, String.class)
-                                     .usingRecursiveFieldByFieldElementComparator()
-                                     .contains(other);
+    then(assertionError).hasMessage(format("%nExpecting actual:%n" +
+                                           "  [Foo(id=id, bar=Bar(id=1))]%n" +
+                                           "to be in:%n" +
+                                           "  [[Foo(id=id, bar=Bar(id=2))]]%n" +
+                                           "when comparing elements using %s", DEFAULT_RECURSIVE_COMPARATOR_DESCRIPTION));
   }
 
   public static class Foo {

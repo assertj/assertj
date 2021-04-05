@@ -66,7 +66,6 @@ import org.assertj.core.internal.ObjectArrayElementComparisonStrategy;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.OnFieldsComparator;
-import org.assertj.core.internal.RecursiveFieldByFieldComparator;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.CheckReturnValue;
@@ -1825,52 +1824,86 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Use a recursive field/property by field/property comparison (including inherited fields/properties)
-   * instead of relying on actual type A <code>equals</code> method to compare group elements for incoming
-   * assertion checks. This can be useful if actual's {@code equals} implementation does not suit you.
+   * Enable using a recursive field by field comparison strategy similar to {@link #usingRecursiveComparison()} but contrary to the latter <b>you can chain any iterable assertions after this method</b> (this is why this method exists).
    * <p>
-   * The recursive property/field comparison is <b>not</b> applied on fields having a custom {@code equals}
-   * implementation, i.e. the overridden {@code equals} method will be used instead of a field/property by field/property comparison.
+   * This method uses the default {@link RecursiveComparisonConfiguration}, if you need to customize it use {@link #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)} instead.
    * <p>
-   * You can specify a custom comparator per (nested) name or type of element field with
-   * {@link #usingComparatorForElementFieldsWithNames(Comparator, String...) usingComparatorForElementFieldsWithNames}
-   * and {@link #usingComparatorForElementFieldsWithType(Comparator, Class) usingComparatorForElementFieldsWithType}.
+   * <b>Breaking change:</b> since 3.20.0 the comparison won't use any comparators set with:
+   * <ul>
+   *   <li>{@link #usingComparatorForType(Comparator, Class)}</li>
+   *   <li>{@link #withTypeComparators(TypeComparators)}</li>
+   *   <li>{@link #usingComparatorForElementFieldsWithType(Comparator, Class)}</li>
+   *   <li>{@link #withComparatorsForElementPropertyOrFieldTypes(TypeComparators)}</li>
+   *   <li>{@link #usingComparatorForElementFieldsWithNames(Comparator, String...)}</li>
+   *   <li>{@link #withComparatorsForElementPropertyOrFieldNames(Map)}</li>
+   * </ul>
    * <p>
-   * The recursive comparison handles cycles.
+   * These features (and many more) are provided through {@link #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)} with a customized {@link RecursiveComparisonConfiguration} where there methods are called:
+   * <ul>
+   *   <li>{@link RecursiveComparisonConfiguration#registerComparatorForType(Comparator, Class) registerComparatorForType(Comparator, Class)} / {@link RecursiveComparisonConfiguration.Builder#withComparatorForType(Comparator, Class) withComparatorForType(Comparator, Class)} (using {@link RecursiveComparisonConfiguration.Builder})</li>
+   *   <li>{@link RecursiveComparisonConfiguration#registerEqualsForType(java.util.function.BiPredicate, Class) registerEqualsForType(BiPredicate, Class)} / {@link RecursiveComparisonConfiguration.Builder#withComparatorForType(Comparator, Class) withComparatorForType(Comparator, Class)} (using {@link RecursiveComparisonConfiguration.Builder})</li>
+   *   <li>{@link RecursiveComparisonConfiguration#registerComparatorForFields(Comparator, String...) registerComparatorForFields(Comparator comparator, String... fields)} / {@link RecursiveComparisonConfiguration.Builder#withComparatorForFields(Comparator, String...) withComparatorForField(Comparator comparator, String... fields)} (using {@link RecursiveComparisonConfiguration.Builder})</li>
+   * </ul>
    * <p>
-   * The objects to compare can be of different types but must have the same properties/fields. For example if actual object has a
-   * {@code name} String field, the other object must also have one.
+   * There are differences between this approach and {@link #usingRecursiveComparison()}:
+   * <ul>
+   *   <li>contrary to {@link RecursiveComparisonAssert}, you can chain any iterable assertions after this method.</li>
+   *   <li>no comparators registered with {@link AbstractIterableAssert#usingComparatorForType(Comparator, Class)} will be used, you need to register them in the configuration object.</li>
+   *   <li>the assertion errors won't be as detailed as {@link RecursiveComparisonAssert#isEqualTo(Object)} which shows the field differences.</li>
+   * </ul>
    * <p>
-   * If an object has a field and a property with the same name, the property value will be used over the field.
+   * This last point makes sense, take the {@link #contains(Object...)} assertion, it would not be relevant to report the differences of all the iterable's elements differing from the values to look for.
    * <p>
    * Example:
+   * <pre><code class='java'> public class Person {
+   *   String name;
+   *   boolean hasPhd;
+   * }
    *
-   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
-   * TolkienCharacter pippin = new TolkienCharacter("Pippin", 28, HOBBIT);
-   * frodo.setFriend(pippin);
-   * pippin.setFriend(frodo);
+   * public class Doctor {
+   *  String name;
+   *  boolean hasPhd;
+   * }
    *
-   * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
-   * TolkienCharacter pippinClone = new TolkienCharacter("Pippin", 28, HOBBIT);
-   * frodoClone.setFriend(pippinClone);
-   * pippinClone.setFriend(frodoClone);
+   * Doctor drSheldon = new Doctor("Sheldon Cooper", true);
+   * Doctor drLeonard = new Doctor("Leonard Hofstadter", true);
+   * Doctor drRaj = new Doctor("Raj Koothrappali", true);
    *
-   * TolkienCharacter[] hobbits = new TolkienCharacter[] {frodo, pippin};
+   * Person sheldon = new Person("Sheldon Cooper", true);
+   * Person leonard = new Person("Leonard Hofstadter", true);
+   * Person raj = new Person("Raj Koothrappali", true);
+   * Person howard = new Person("Howard Wolowitz", true);
    *
-   * // fails if equals has not been overridden in TolkienCharacter as it would compares object references
-   * assertThat(hobbits).contains(frodoClone, pippinClone);
+   * Doctor[] doctors = array(drSheldon, drLeonard, drRaj);
+   * Person[] people = array(sheldon, leonard, raj);
    *
-   * // frodo/frodoClone and pippin/pippinClone are equals when doing a recursive property/field by property/field comparison
-   * assertThat(hobbits).usingRecursiveFieldByFieldElementComparator()
-   *                    .contains(frodoClone, pippinClone);</code></pre>
+   * // assertion succeeds as both lists contains equivalent items in order.
+   * assertThat(doctors).usingRecursiveFieldByFieldElementComparator()
+   *                    .contains(sheldon);
+   *
+   * // assertion fails because leonard names are different.
+   * leonard.setName("Leonard Ofstater");
+   * assertThat(doctors).usingRecursiveFieldByFieldElementComparator()
+   *                    .contains(leonard);
+   *
+   * // assertion fails because howard is missing and leonard is not expected.
+   * people = list(howard, sheldon, raj)
+   * assertThat(doctors).usingRecursiveFieldByFieldElementComparator()
+   *                    .contains(howard);</code></pre>
+   * <p>
+   * Another point worth mentioning: <b>elements order does matter if the expected iterable is ordered</b>, for example comparing a {@code Set<Person>} to a {@code List<Person>} fails as {@code List} is ordered and {@code Set} is not.<br>
+   * The ordering can be ignored by calling {@link RecursiveComparisonAssert#ignoringCollectionOrder ignoringCollectionOrder} allowing ordered/unordered iterable comparison, note that {@link RecursiveComparisonAssert#ignoringCollectionOrder ignoringCollectionOrder} is applied recursively on any nested iterable fields, if this behavior is too generic,
+   * use the more fine grained {@link RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...) ignoringCollectionOrderInFields} or
+   * {@link RecursiveComparisonAssert#ignoringCollectionOrderInFieldsMatchingRegexes(String...) ignoringCollectionOrderInFieldsMatchingRegexes}.
    *
    * @return {@code this} assertion object.
-   * @since 2.5.0 / 3.5.0
+   * @since 2.5.0 / 3.5.0 - breaking change in 3.20.0
+   * @see RecursiveComparisonConfiguration
+   * @see usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
    */
   @CheckReturnValue
   public SELF usingRecursiveFieldByFieldElementComparator() {
-    return usingExtendedByTypesElementComparator(new RecursiveFieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
-                                                                                     getComparatorsForElementPropertyOrFieldTypes()));
+    return usingRecursiveFieldByFieldElementComparator(new RecursiveComparisonConfiguration());
   }
 
   /**

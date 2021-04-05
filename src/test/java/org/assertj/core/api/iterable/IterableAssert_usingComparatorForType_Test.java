@@ -98,13 +98,6 @@ class IterableAssert_usingComparatorForType_Test extends IterableAssertBaseTest 
   }
 
   @Test
-  void should_use_comparator_for_type_when_using_recursive_field_by_field_element_comparator() {
-    assertThat(asList(actual, "some")).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
-                                      .usingRecursiveFieldByFieldElementComparator()
-                                      .contains(other, "any");
-  }
-
-  @Test
   void should_only_use_comparator_on_fields_element_but_not_the_element_itself() {
     // GIVEN
     List<Comparable<? extends Comparable<?>>> list = list(actual, "some");

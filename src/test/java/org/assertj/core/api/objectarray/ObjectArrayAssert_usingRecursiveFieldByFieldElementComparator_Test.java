@@ -13,17 +13,18 @@
 package org.assertj.core.api.objectarray;
 
 import static java.lang.String.format;
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
-import static org.assertj.core.util.Arrays.array;
-
-import java.util.Comparator;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.ConfigurableRecursiveFieldByFieldComparator;
 import org.assertj.core.internal.ObjectArrayElementComparisonStrategy;
 import org.assertj.core.internal.ObjectArrays;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,6 +32,8 @@ import org.junit.jupiter.api.Test;
 
 class ObjectArrayAssert_usingRecursiveFieldByFieldElementComparator_Test extends ObjectArrayAssertBaseTest {
 
+  private static final String DEFAULT_RECURSIVE_COMPARATOR_DESCRIPTION = CONFIGURATION_PROVIDER.representation()
+                                                                                               .toStringOf(new ConfigurableRecursiveFieldByFieldComparator(new RecursiveComparisonConfiguration()));
   private ObjectArrays arraysBefore;
 
   @BeforeEach
@@ -48,6 +51,10 @@ class ObjectArrayAssert_usingRecursiveFieldByFieldElementComparator_Test extends
     assertThat(arraysBefore).isNotSameAs(getArrays(assertions));
     assertThat(getArrays(assertions).getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
     assertThat(getObjects(assertions).getComparisonStrategy()).isInstanceOf(ObjectArrayElementComparisonStrategy.class);
+    RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
+    ConfigurableRecursiveFieldByFieldComparator expectedComparator = new ConfigurableRecursiveFieldByFieldComparator(recursiveComparisonConfiguration);
+    then(getArrays(assertions).getComparator()).isEqualTo(expectedComparator);
+    then(getObjects(assertions).getComparisonStrategy()).extracting("elementComparator").isEqualTo(expectedComparator);
   }
 
   @Test
@@ -69,15 +76,12 @@ class ObjectArrayAssert_usingRecursiveFieldByFieldElementComparator_Test extends
     Foo[] array1 = { new Foo("id", new Bar(1)) };
     Foo[] array2 = { new Foo("id", new Bar(2)) };
 
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(array1).usingRecursiveFieldByFieldElementComparator()
-                                                                                       .isEqualTo(array2))
-                                                   .withMessage(format(shouldBeEqualMessage("[Foo(id=id, bar=Bar(id=1))]",
-                                                                                            "[Foo(id=id, bar=Bar(id=2))]")
-                                                                       + "%n"
-                                                                       + "when comparing elements using recursive field/property by field/property comparator on all fields/properties%n"
-                                                                       + "Comparators used:%n"
-                                                                       + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path natural order)}%n"
-                                                                       + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path natural order)}"));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(array1).usingRecursiveFieldByFieldElementComparator()
+                                                                                 .isEqualTo(array2));
+
+    then(assertionError).hasMessage(format(shouldBeEqualMessage("[Foo(id=id, bar=Bar(id=1))]", "[Foo(id=id, bar=Bar(id=2))]") +
+                                           "%n" +
+                                           "when comparing elements using %s", DEFAULT_RECURSIVE_COMPARATOR_DESCRIPTION));
   }
 
   @Test
@@ -85,54 +89,14 @@ class ObjectArrayAssert_usingRecursiveFieldByFieldElementComparator_Test extends
     Foo[] array1 = { new Foo("id", new Bar(1)) };
     Foo[] array2 = { new Foo("id", new Bar(2)) };
 
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(array1).usingRecursiveFieldByFieldElementComparator()
-                                                                                       .isIn(new Object[] { array2 }))
-                                                   .withMessage(format("%nExpecting actual:%n"
-                                                                       + "  [Foo(id=id, bar=Bar(id=1))]%n"
-                                                                       + "to be in:%n"
-                                                                       + "  [[Foo(id=id, bar=Bar(id=2))]]%n"
-                                                                       + "when comparing elements using recursive field/property by field/property comparator on all fields/properties%n"
-                                                                       + "Comparators used:%n"
-                                                                       + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path natural order)}%n"
-                                                                       + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path natural order)}"));
-  }
+    AssertionError assertionError = expectAssertionError(() -> assertThat(array1).usingRecursiveFieldByFieldElementComparator()
+                                                                                 .isIn(singletonList(array2)));
 
-  @Test
-  void should_be_able_to_use_a_comparator_for_specified_fields_of_elements_when_using_recursive_field_by_field_element_comparator() {
-    Foo actual = new Foo("1", new Bar(1));
-    Foo other = new Foo("1", new Bar(2));
-    final class AlwaysEqualIntegerComparator implements Comparator<Integer> {
-      @Override
-      public int compare(Integer o1, Integer o2) {
-        return 0;
-      }
-    }
-
-    assertThat(array(actual)).usingComparatorForElementFieldsWithNames(new AlwaysEqualIntegerComparator(), "bar.id")
-                             .usingRecursiveFieldByFieldElementComparator()
-                             .contains(other);
-  }
-
-  @Test
-  void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_when_using_recursive_field_by_field_element_comparator() {
-    Comparator<String> comparator = (o1, o2) -> o1.compareTo(o2);
-    Foo actual = new Foo("1", new Bar(1));
-    Foo other = new Foo("2", new Bar(1));
-
-    assertThat(array(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "id")
-                             .usingComparatorForElementFieldsWithType(comparator, String.class)
-                             .usingRecursiveFieldByFieldElementComparator()
-                             .contains(other);
-  }
-
-  @Test
-  void should_be_able_to_use_a_comparator_for_element_fields_with_specified_type_when_using_recursive_field_by_field_element_comparator() {
-    Foo actual = new Foo("1", new Bar(1));
-    Foo other = new Foo("2", new Bar(1));
-
-    assertThat(array(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS_STRING, String.class)
-                             .usingRecursiveFieldByFieldElementComparator()
-                             .contains(other);
+    then(assertionError).hasMessage(format("%nExpecting actual:%n" +
+                                           "  [Foo(id=id, bar=Bar(id=1))]%n" +
+                                           "to be in:%n" +
+                                           "  [[Foo(id=id, bar=Bar(id=2))]]%n" +
+                                           "when comparing elements using %s", DEFAULT_RECURSIVE_COMPARATOR_DESCRIPTION));
   }
 
   public static class Foo {

@@ -15,16 +15,19 @@ package org.assertj.core.api.iterable;
 import static java.lang.String.format;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.Lists.list;
 
-import java.util.Comparator;
 import java.util.List;
 
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.ConfigurableRecursiveFieldByFieldComparator;
 import org.assertj.core.internal.IterableElementComparisonStrategy;
 import org.assertj.core.internal.Iterables;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,6 +35,8 @@ import org.junit.jupiter.api.Test;
 
 class IterableAssert_usingRecursiveFieldByFieldElementComparator_Test extends IterableAssertBaseTest {
 
+  private static final String DEFAULT_RECURSIVE_COMPARATOR_DESCRIPTION = CONFIGURATION_PROVIDER.representation()
+                                                                                               .toStringOf(new ConfigurableRecursiveFieldByFieldComparator(new RecursiveComparisonConfiguration()));
   private Iterables iterablesBefore;
 
   @BeforeEach
@@ -49,6 +54,10 @@ class IterableAssert_usingRecursiveFieldByFieldElementComparator_Test extends It
     assertThat(iterablesBefore).isNotSameAs(getIterables(assertions));
     assertThat(getIterables(assertions).getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
     assertThat(getObjects(assertions).getComparisonStrategy()).isInstanceOf(IterableElementComparisonStrategy.class);
+    RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
+    ConfigurableRecursiveFieldByFieldComparator expectedComparator = new ConfigurableRecursiveFieldByFieldComparator(recursiveComparisonConfiguration);
+    then(getIterables(assertions).getComparator()).isEqualTo(expectedComparator);
+    then(getObjects(assertions).getComparisonStrategy()).extracting("elementComparator").isEqualTo(expectedComparator);
   }
 
   @Test
@@ -70,15 +79,12 @@ class IterableAssert_usingRecursiveFieldByFieldElementComparator_Test extends It
     List<Foo> list1 = singletonList(new Foo("id", new Bar(1)));
     List<Foo> list2 = singletonList(new Foo("id", new Bar(2)));
 
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(list1).usingRecursiveFieldByFieldElementComparator()
-                                                                                      .isEqualTo(list2))
-                                                   .withMessage(format(shouldBeEqualMessage("[Foo(id=id, bar=Bar(id=1))]",
-                                                                                            "[Foo(id=id, bar=Bar(id=2))]")
-                                                                       + "%n"
-                                                                       + "when comparing elements using recursive field/property by field/property comparator on all fields/properties%n"
-                                                                       + "Comparators used:%n"
-                                                                       + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path natural order)}%n"
-                                                                       + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path natural order)}"));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(list1).usingRecursiveFieldByFieldElementComparator()
+                                                                                .isEqualTo(list2));
+
+    then(assertionError).hasMessage(format(shouldBeEqualMessage("[Foo(id=id, bar=Bar(id=1))]", "[Foo(id=id, bar=Bar(id=2))]") +
+                                           "%n" +
+                                           "when comparing elements using %s", DEFAULT_RECURSIVE_COMPARATOR_DESCRIPTION));
   }
 
   @Test
@@ -86,54 +92,14 @@ class IterableAssert_usingRecursiveFieldByFieldElementComparator_Test extends It
     List<Foo> list1 = singletonList(new Foo("id", new Bar(1)));
     List<Foo> list2 = singletonList(new Foo("id", new Bar(2)));
 
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(list1).usingRecursiveFieldByFieldElementComparator()
-                                                                                      .isIn(singletonList(list2)))
-                                                   .withMessage(format("%nExpecting actual:%n"
-                                                                       + "  [Foo(id=id, bar=Bar(id=1))]%n"
-                                                                       + "to be in:%n"
-                                                                       + "  [[Foo(id=id, bar=Bar(id=2))]]%n"
-                                                                       + "when comparing elements using recursive field/property by field/property comparator on all fields/properties%n"
-                                                                       + "Comparators used:%n"
-                                                                       + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path natural order)}%n"
-                                                                       + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path natural order)}"));
-  }
+    AssertionError assertionError = expectAssertionError(() -> assertThat(list1).usingRecursiveFieldByFieldElementComparator()
+                                                                                .isIn(list(list2)));
 
-  @Test
-  void should_be_able_to_use_a_comparator_for_specified_fields_of_elements_when_using_recursive_field_by_field_element_comparator() {
-    Foo actual = new Foo("1", new Bar(1));
-    Foo other = new Foo("1", new Bar(2));
-    final class AlwaysEqualIntegerComparator implements Comparator<Integer> {
-      @Override
-      public int compare(Integer o1, Integer o2) {
-        return 0;
-      }
-    }
-
-    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithNames(new AlwaysEqualIntegerComparator(),
-                                                                               "bar.id")
-                                     .usingRecursiveFieldByFieldElementComparator().contains(other);
-  }
-
-  @Test
-  void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_when_using_recursive_field_by_field_element_comparator() {
-    Comparator<String> comparator = (o1, o2) -> o1.compareTo(o2);
-    Foo actual = new Foo("1", new Bar(1));
-    Foo other = new Foo("2", new Bar(1));
-
-    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "id")
-                                     .usingComparatorForElementFieldsWithType(comparator, String.class)
-                                     .usingRecursiveFieldByFieldElementComparator()
-                                     .contains(other);
-  }
-
-  @Test
-  void should_be_able_to_use_a_comparator_for_element_fields_with_specified_type_when_using_recursive_field_by_field_element_comparator() {
-    Foo actual = new Foo("1", new Bar(1));
-    Foo other = new Foo("2", new Bar(1));
-
-    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS_STRING, String.class)
-                                     .usingRecursiveFieldByFieldElementComparator()
-                                     .contains(other);
+    then(assertionError).hasMessage(format("%nExpecting actual:%n" +
+                                           "  [Foo(id=id, bar=Bar(id=1))]%n" +
+                                           "to be in:%n" +
+                                           "  [[Foo(id=id, bar=Bar(id=2))]]%n" +
+                                           "when comparing elements using %s", DEFAULT_RECURSIVE_COMPARATOR_DESCRIPTION));
   }
 
   public static class Foo {
