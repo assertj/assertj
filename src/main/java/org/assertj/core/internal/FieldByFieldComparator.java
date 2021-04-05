@@ -24,13 +24,23 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import org.assertj.core.api.AbstractIterableAssert;
+import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
+ * <u><b>Deprecated javadoc</b></u>
+ * <p>
  * Compares objects field/property by field/property including private fields unless
  * {@link Assertions#setAllowComparingPrivateFields(boolean)} has been called with false.
+ * @deprecated
+ * This comparator is deprecated because it performs a <b>shallow</b> field by field comparison, i.e. elements are compared
+ * field by field but the fields are compared with equals, use {@link AbstractIterableAssert#usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)}
+ * or {@link AbstractObjectAssert#usingRecursiveComparison()} instead to perform a true recursive comparison.
  */
+@Deprecated
 public class FieldByFieldComparator implements Comparator<Object> {
 
   protected final Map<String, Comparator<?>> comparatorsByPropertyOrField;

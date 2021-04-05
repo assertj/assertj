@@ -33,6 +33,7 @@ import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("deprecation")
 class AtomicReferenceArrayAssert_usingFieldByFieldElementComparator_Test
     extends AtomicReferenceArrayAssertBaseTest {
 

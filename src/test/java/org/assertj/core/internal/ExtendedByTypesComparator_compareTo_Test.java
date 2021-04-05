@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+@SuppressWarnings("deprecation")
 class ExtendedByTypesComparator_compareTo_Test {
 
   private static final TypeComparators COMPARATORS_BY_TYPE = new TypeComparators();

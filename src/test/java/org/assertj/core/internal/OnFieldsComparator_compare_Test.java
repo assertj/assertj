@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("deprecation")
 class OnFieldsComparator_compare_Test {
 
   private OnFieldsComparator onFieldsComparator;
@@ -28,31 +29,31 @@ class OnFieldsComparator_compare_Test {
 
   @Test
   void should_return_true_if_both_Objects_are_null() {
-	assertThat(onFieldsComparator.compare(null, null)).isZero();
+    assertThat(onFieldsComparator.compare(null, null)).isZero();
   }
 
   @Test
   void should_return_are_not_equal_if_first_Object_is_null_and_second_is_not() {
-	assertThat(onFieldsComparator.compare(null, new DarthVader("I like you", "I'll kill you"))).isNotZero();
+    assertThat(onFieldsComparator.compare(null, new DarthVader("I like you", "I'll kill you"))).isNotZero();
   }
 
   @Test
   void should_return_are_not_equal_if_second_Object_is_null_and_first_is_not() {
-	assertThat(onFieldsComparator.compare(new DarthVader("I like you", "I'll kill you"), null)).isNotZero();
+    assertThat(onFieldsComparator.compare(new DarthVader("I like you", "I'll kill you"), null)).isNotZero();
   }
 
   @Test
   void should_return_true_if_given_fields_are_equal() {
-	DarthVader actual = new DarthVader("I like you", "I'll kill you");
-	DarthVader other = new DarthVader("I like you", "I like you");
-	assertThat(onFieldsComparator.compare(actual, other)).isZero();
+    DarthVader actual = new DarthVader("I like you", "I'll kill you");
+    DarthVader other = new DarthVader("I like you", "I like you");
+    assertThat(onFieldsComparator.compare(actual, other)).isZero();
   }
 
   @Test
   void should_return_false_if_given_fields_are_not_equal() {
-	DarthVader actual = new DarthVader("I like you", "I'll kill you");
-	DarthVader other = new DarthVader("I'll kill you", "I'll kill you");
-	assertThat(onFieldsComparator.compare(actual, other)).isNotZero();
+    DarthVader actual = new DarthVader("I like you", "I'll kill you");
+    DarthVader other = new DarthVader("I'll kill you", "I'll kill you");
+    assertThat(onFieldsComparator.compare(actual, other)).isNotZero();
   }
 
   @Test
@@ -62,13 +63,13 @@ class OnFieldsComparator_compare_Test {
 
   public static class DarthVader {
 
-	public final String telling;
-	public final String thinking;
+    public final String telling;
+    public final String thinking;
 
-	public DarthVader(String telling, String thinking) {
-	  this.telling = telling;
-	  this.thinking = thinking;
-	}
+    public DarthVader(String telling, String thinking) {
+      this.telling = telling;
+      this.thinking = thinking;
+    }
 
   }
 

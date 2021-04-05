@@ -25,6 +25,7 @@ import org.assertj.core.internal.Lists;
 import org.assertj.core.internal.OnFieldsComparator;
 import org.junit.jupiter.api.BeforeEach;
 
+@SuppressWarnings("deprecation")
 class ListAssert_usingElementComparatorOnFields_Test extends ListAssertBaseTest {
 
   private Lists listsBefore;
@@ -49,12 +50,10 @@ class ListAssert_usingElementComparatorOnFields_Test extends ListAssertBaseTest 
     assertThat(iterables).isNotSameAs(iterablesBefore);
     assertThat(iterables.getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
     assertThat(lists.getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
-    Comparator<?> listsElementComparator = ((ExtendedByTypesComparator) ((ComparatorBasedComparisonStrategy)
-      lists.getComparisonStrategy()).getComparator()).getComparator();
+    Comparator<?> listsElementComparator = ((ExtendedByTypesComparator) ((ComparatorBasedComparisonStrategy) lists.getComparisonStrategy()).getComparator()).getComparator();
     assertThat(listsElementComparator).isInstanceOf(OnFieldsComparator.class);
     assertThat(((OnFieldsComparator) listsElementComparator).getFields()).containsOnly("field");
-    Comparator<?> iterablesElementComparator = ((ExtendedByTypesComparator) ((ComparatorBasedComparisonStrategy)
-      iterables.getComparisonStrategy()).getComparator()).getComparator();
+    Comparator<?> iterablesElementComparator = ((ExtendedByTypesComparator) ((ComparatorBasedComparisonStrategy) iterables.getComparisonStrategy()).getComparator()).getComparator();
     assertThat(iterablesElementComparator).isInstanceOf(OnFieldsComparator.class);
     assertThat(((OnFieldsComparator) iterablesElementComparator).getFields()).containsOnly("field");
   }

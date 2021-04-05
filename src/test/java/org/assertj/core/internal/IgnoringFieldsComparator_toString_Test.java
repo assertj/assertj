@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("deprecation")
 class IgnoringFieldsComparator_toString_Test {
 
   @Test
@@ -25,8 +26,8 @@ class IgnoringFieldsComparator_toString_Test {
     IgnoringFieldsComparator actual = new IgnoringFieldsComparator("a", "b");
     // THEN
     assertThat(actual).hasToString(format("field/property by field/property comparator on all fields/properties except [\"a\", \"b\"]%n"
-        + "Comparators used:%n"
-        + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path natural order)}"));
+                                          + "Comparators used:%n"
+                                          + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path natural order)}"));
   }
 
 }

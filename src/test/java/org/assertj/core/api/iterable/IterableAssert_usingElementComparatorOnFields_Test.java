@@ -12,9 +12,9 @@
  */
 package org.assertj.core.api.iterable;
 
-import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
+import static org.assertj.core.util.Lists.list;
 
 import java.util.Comparator;
 
@@ -28,6 +28,7 @@ import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("deprecation")
 class IterableAssert_usingElementComparatorOnFields_Test extends IterableAssertBaseTest {
 
   private Iterables iterablesBefore;
@@ -49,8 +50,7 @@ class IterableAssert_usingElementComparatorOnFields_Test extends IterableAssertB
     assertThat(iterables.getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
     ComparatorBasedComparisonStrategy strategy = (ComparatorBasedComparisonStrategy) iterables.getComparisonStrategy();
     assertThat(strategy.getComparator()).isInstanceOf(ExtendedByTypesComparator.class);
-    assertThat(((OnFieldsComparator) ((ExtendedByTypesComparator) strategy.getComparator())
-      .getComparator()).getFields()).containsOnly("field");
+    assertThat(((OnFieldsComparator) ((ExtendedByTypesComparator) strategy.getComparator()).getComparator()).getFields()).containsOnly("field");
   }
 
   @Test
@@ -58,9 +58,9 @@ class IterableAssert_usingElementComparatorOnFields_Test extends IterableAssertB
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
-    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name")
-                                     .usingElementComparatorOnFields("name", "lightSaberColor")
-                                     .contains(other);
+    assertThat(list(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name")
+                            .usingElementComparatorOnFields("name", "lightSaberColor")
+                            .contains(other);
   }
 
   @Test
@@ -69,10 +69,10 @@ class IterableAssert_usingElementComparatorOnFields_Test extends IterableAssertB
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
-    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name")
-                                     .usingComparatorForElementFieldsWithType(comparator, String.class)
-                                     .usingElementComparatorOnFields("name", "lightSaberColor")
-                                     .contains(other);
+    assertThat(list(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name")
+                            .usingComparatorForElementFieldsWithType(comparator, String.class)
+                            .usingElementComparatorOnFields("name", "lightSaberColor")
+                            .contains(other);
   }
 
   @Test
@@ -80,9 +80,9 @@ class IterableAssert_usingElementComparatorOnFields_Test extends IterableAssertB
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "blue");
 
-    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS_STRING, String.class)
-                                     .usingElementComparatorOnFields("name", "lightSaberColor")
-                                     .contains(other);
+    assertThat(list(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS_STRING, String.class)
+                            .usingElementComparatorOnFields("name", "lightSaberColor")
+                            .contains(other);
   }
 
 }

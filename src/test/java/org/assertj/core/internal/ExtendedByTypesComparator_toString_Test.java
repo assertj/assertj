@@ -25,6 +25,7 @@ import java.util.Map;
 import org.assertj.core.util.BigDecimalComparator;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("deprecation")
 class ExtendedByTypesComparator_toString_Test {
 
   @Test

@@ -22,6 +22,7 @@ import java.util.Map;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
+@Deprecated
 public class IgnoringFieldsComparator extends FieldByFieldComparator {
 
   private final String[] fields;

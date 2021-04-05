@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("deprecation")
 class OnFieldsComparator_creation_Test {
 
   @Test

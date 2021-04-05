@@ -34,6 +34,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("deprecation")
 @DisplayName("ObjectArrayAssert usingComparatorForType")
 class ObjectArrayAssert_usingComparatorForType_Test extends ObjectArrayAssertBaseTest {
 

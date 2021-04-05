@@ -69,6 +69,7 @@ import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
+@SuppressWarnings("deprecation")
 public class AtomicReferenceArrayAssert<T>
     extends AbstractAssert<AtomicReferenceArrayAssert<T>, AtomicReferenceArray<T>>
     implements IndexedObjectEnumerableAssert<AtomicReferenceArrayAssert<T>, T>,
@@ -1734,15 +1735,16 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
+   * <u><b>Deprecated javadoc</b></u>
+   * <p>
    * Allows to set a comparator to compare properties or fields of elements with the given names.
    * A typical usage is for comparing fields of numeric type at a given precision.
    * <p>
    * To be used, comparators need to be specified by this method <b>before</b> calling any of:
    * <ul>
-   * <li>{@link #usingFieldByFieldElementComparator}</li>
-   * <li>{@link #usingElementComparatorOnFields}</li>
-   * <li>{@link #usingElementComparatorIgnoringFields}</li>
-   * <li>{@link #usingRecursiveFieldByFieldElementComparator}</li>
+   * <li>{@link #usingFieldByFieldElementComparator()}</li>
+   * <li>{@link #usingElementComparatorOnFields(String...)}</li>
+   * <li>{@link #usingElementComparatorIgnoringFields(String...)}</li>
    * </ul>
    * <p>
    * Comparators specified by this method have precedence over comparators specified by
@@ -1795,7 +1797,22 @@ public class AtomicReferenceArrayAssert<T>
    * @param elementPropertyOrFieldNames the names of the properties and/or fields of the elements the comparator should be used for
    * @return {@code this} assertions object
    * @since 2.7.0 / 3.7.0
+   * @deprecated This method is used with {@link #usingFieldByFieldElementComparator()} which is deprecated in favor of
+   * {@link #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)} or {@link #usingRecursiveComparison()}.
+   * <p>
+   * When using {@link #usingRecursiveComparison()} the equivalent is:
+   * <ul>
+   * <li>{@link RecursiveComparisonAssert#withEqualsForFields(java.util.function.BiPredicate, String...)}</li>
+   * <li>{@link RecursiveComparisonAssert#withComparatorForFields(Comparator, String...)}</li>
+   * </ul>
+   * <p>
+   * and when using {@link RecursiveComparisonConfiguration}:
+   * <ul>
+   * <li>{@link RecursiveComparisonConfiguration.Builder#withEqualsForFields(java.util.function.BiPredicate, String...)}</li>
+   * <li>{@link RecursiveComparisonConfiguration.Builder#withComparatorForFields(Comparator, String...)}</li>
+   * </ul>
    */
+  @Deprecated
   @CheckReturnValue
   public <C> AtomicReferenceArrayAssert<T> usingComparatorForElementFieldsWithNames(Comparator<C> comparator,
                                                                                     String... elementPropertyOrFieldNames) {
@@ -1806,15 +1823,16 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
+   * <u><b>Deprecated javadoc</b></u>
+   * <p>
    * Allows to set a specific comparator to compare properties or fields of elements with the given type.
    * A typical usage is for comparing fields of numeric type at a given precision.
    * <p>
    * To be used, comparators need to be specified by this method <b>before</b> calling any of:
    * <ul>
-   * <li>{@link #usingFieldByFieldElementComparator}</li>
-   * <li>{@link #usingElementComparatorOnFields}</li>
-   * <li>{@link #usingElementComparatorIgnoringFields}</li>
-   * <li>{@link #usingRecursiveFieldByFieldElementComparator}</li>
+   * <li>{@link #usingFieldByFieldElementComparator()}</li>
+   * <li>{@link #usingElementComparatorOnFields(String...)}</li>
+   * <li>{@link #usingElementComparatorIgnoringFields(String...)}</li>
    * </ul>
    * <p>
    * Comparators specified by {@link #usingComparatorForElementFieldsWithNames(Comparator, String...) usingComparatorForElementFieldsWithNames}
@@ -1874,7 +1892,22 @@ public class AtomicReferenceArrayAssert<T>
    * @param type the {@link java.lang.Class} of the type of the element fields the comparator should be used for
    * @return {@code this} assertions object
    * @since 2.7.0 / 3.7.0
+   * @deprecated This method is used with {@link #usingFieldByFieldElementComparator()} which is deprecated in favor of
+   * {@link #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)} or {@link #usingRecursiveComparison()}.
+   * <p>
+   * When using {@link #usingRecursiveComparison()} the equivalent is:
+   * <ul>
+   * <li>{@link RecursiveComparisonAssert#withEqualsForType(java.util.function.BiPredicate, Class)}</li>
+   * <li>{@link RecursiveComparisonAssert#withComparatorForType(Comparator, Class)}</li>
+   * </ul>
+   * <p>
+   * and when using {@link RecursiveComparisonConfiguration}:
+   * <ul>
+   * <li>{@link RecursiveComparisonConfiguration.Builder#withEqualsForType(java.util.function.BiPredicate, Class)}</li>
+   * <li>{@link RecursiveComparisonConfiguration.Builder#withComparatorForType(Comparator, Class)}</li>
+   * </ul>
    */
+  @Deprecated
   @CheckReturnValue
   public <C> AtomicReferenceArrayAssert<T> usingComparatorForElementFieldsWithType(Comparator<C> comparator,
                                                                                    Class<C> type) {
@@ -1889,10 +1922,9 @@ public class AtomicReferenceArrayAssert<T>
    * <p>
    * Usage of this method affects comparators set by next methods:
    * <ul>
-   * <li>{@link #usingFieldByFieldElementComparator}</li>
-   * <li>{@link #usingElementComparatorOnFields}</li>
-   * <li>{@link #usingElementComparatorIgnoringFields}</li>
-   * <li>{@link #usingRecursiveFieldByFieldElementComparator}</li>
+   * <li>{@link #usingFieldByFieldElementComparator()}</li>
+   * <li>{@link #usingElementComparatorOnFields(String...)}</li>
+   * <li>{@link #usingElementComparatorIgnoringFields(String...)}</li>
    * </ul>
    * <p>
    * Example:
@@ -1921,6 +1953,8 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
+   * <u><b>Deprecated javadoc</b></u>
+   * <p>
    * Use field/property by field/property comparison (including inherited fields/properties) instead of relying on
    * actual type A <code>equals</code> method to compare AtomicReferenceArray elements for incoming assertion checks. Private fields
    * are included but this can be disabled using {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
@@ -1946,7 +1980,12 @@ public class AtomicReferenceArrayAssert<T>
    *
    * @return {@code this} assertion object.
    * @since 2.7.0 / 3.7.0
+   * @deprecated This method is deprecated because it performs a <b>shallow</b> field by field comparison, i.e. elements are compared
+   * field by field but the fields are compared with equals, use {@link #usingRecursiveFieldByFieldElementComparator()}
+   * or {@link #usingRecursiveComparison()} instead to perform a true recursive comparison.
+   * <br>See <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
    */
+  @Deprecated
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> usingFieldByFieldElementComparator() {
     return usingExtendedByTypesElementComparator(new FieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
@@ -1961,11 +2000,8 @@ public class AtomicReferenceArrayAssert<T>
    * <b>Breaking change:</b> since 3.20.0 the comparison won't use any comparators set with:
    * <ul>
    *   <li>{@link #usingComparatorForType(Comparator, Class)}</li>
-   *   <li>{@link #withTypeComparators(TypeComparators)}</li>
    *   <li>{@link #usingComparatorForElementFieldsWithType(Comparator, Class)}</li>
-   *   <li>{@link #withComparatorsForElementPropertyOrFieldTypes(TypeComparators)}</li>
    *   <li>{@link #usingComparatorForElementFieldsWithNames(Comparator, String...)}</li>
-   *   <li>{@link #withComparatorsForElementPropertyOrFieldNames(Map)}</li>
    * </ul>
    * <p>
    * These features (and many more) are provided through {@link #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)} with a customized {@link RecursiveComparisonConfiguration} where there methods are called:
@@ -2044,11 +2080,8 @@ public class AtomicReferenceArrayAssert<T>
    * <b>Warning:</b> the comparison won't use any comparators set with:
    * <ul>
    *   <li>{@link #usingComparatorForType(Comparator, Class)}</li>
-   *   <li>{@link #withTypeComparators(TypeComparators)}</li>
    *   <li>{@link #usingComparatorForElementFieldsWithType(Comparator, Class)}</li>
-   *   <li>{@link #withComparatorsForElementPropertyOrFieldTypes(TypeComparators)}</li>
    *   <li>{@link #usingComparatorForElementFieldsWithNames(Comparator, String...)}</li>
-   *   <li>{@link #withComparatorsForElementPropertyOrFieldNames(Map)}</li>
    * </ul>
    * <p>
    * These features (and many more) are provided through {@link RecursiveComparisonConfiguration} with:
@@ -2128,6 +2161,8 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
+   * <u><b>Deprecated javadoc</b></u>
+   * <p>
    * Use field/property by field/property comparison on the <b>given fields/properties only</b> (including inherited
    * fields/properties) instead of relying on actual type A <code>equals</code> method to compare AtomicReferenceArray elements for
    * incoming assertion checks. Private fields are included but this can be disabled using
@@ -2155,7 +2190,13 @@ public class AtomicReferenceArrayAssert<T>
    * @param fields the fields to compare field/property by field/property.
    * @return {@code this} assertion object.
    * @since 2.7.0 / 3.7.0
+   * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
+   * @see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
+   * @deprecated This method is deprecated because it performs a <b>shallow</b> field by field comparison, i.e. elements are
+   * compared field by field but the fields are compared with equals, use {@link #usingRecursiveFieldByFieldElementComparatorOnFields(String...)} instead.
+   * <br>See <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
    */
+  @Deprecated
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> usingElementComparatorOnFields(String... fields) {
     return usingExtendedByTypesElementComparator(new OnFieldsComparator(comparatorsForElementPropertyOrFieldNames,
@@ -2212,6 +2253,8 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
+   * <u><b>Deprecated javadoc</b></u>
+   * <p>
    * Use field/property by field/property on all fields/properties <b>except</b> the given ones (including inherited
    * fields/properties) instead of relying on actual type A <code>equals</code> method to compare AtomicReferenceArray elements for
    * incoming assertion checks. Private fields are included but this can be disabled using
@@ -2239,7 +2282,13 @@ public class AtomicReferenceArrayAssert<T>
    * @param fields the names of the fields/properties to ignore
    * @return {@code this} assertion object.
    * @since 2.7.0 / 3.7.0
+   * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
+   * @see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
+   * @deprecated This method is deprecated because it performs a <b>shallow</b> field by field comparison, i.e. elements are
+   * compared field by field but the fields are compared with equals, use {@link #usingRecursiveFieldByFieldElementComparatorIgnoringFields(String...)} instead.
+   * <br>See <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
    */
+  @Deprecated
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> usingElementComparatorIgnoringFields(String... fields) {
     return usingExtendedByTypesElementComparator(new IgnoringFieldsComparator(comparatorsForElementPropertyOrFieldNames,

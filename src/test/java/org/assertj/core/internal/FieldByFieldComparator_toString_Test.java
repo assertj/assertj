@@ -20,6 +20,7 @@ import org.assertj.core.util.BigDecimalComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("deprecation")
 class FieldByFieldComparator_toString_Test {
 
   private FieldByFieldComparator fieldByFieldComparator;

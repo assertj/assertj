@@ -35,6 +35,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("deprecation")
 @DisplayName("IterableAssert usingComparatorForType")
 class IterableAssert_usingComparatorForType_Test extends IterableAssertBaseTest {
 
@@ -130,10 +131,9 @@ class IterableAssert_usingComparatorForType_Test extends IterableAssertBaseTest 
 
   @Test
   void should_be_able_to_replace_a_registered_comparator_by_type() {
-    assertThat(asList(actual, actual)).usingComparatorForType(NEVER_EQUALS_STRING, String.class)
-                                      .usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
-                                      .usingFieldByFieldElementComparator()
-                                      .contains(other, other);
+    assertThat(list("foo", "bar")).usingComparatorForType(NEVER_EQUALS_STRING, String.class)
+                                  .usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+                                  .contains("baz");
   }
 
   @Test

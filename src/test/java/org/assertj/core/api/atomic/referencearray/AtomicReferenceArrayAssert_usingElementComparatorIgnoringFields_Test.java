@@ -27,6 +27,7 @@ import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("deprecation")
 class AtomicReferenceArrayAssert_usingElementComparatorIgnoringFields_Test
     extends AtomicReferenceArrayAssertBaseTest {
 
@@ -50,7 +51,7 @@ class AtomicReferenceArrayAssert_usingElementComparatorIgnoringFields_Test
     ComparatorBasedComparisonStrategy strategy = (ComparatorBasedComparisonStrategy) iterables.getComparisonStrategy();
     assertThat(strategy.getComparator()).isInstanceOf(ExtendedByTypesComparator.class);
     assertThat(((IgnoringFieldsComparator) ((ExtendedByTypesComparator) strategy.getComparator())
-      .getComparator()).getFields()).containsOnly("field");
+                                                                                                 .getComparator()).getFields()).containsOnly("field");
   }
 
   @Test

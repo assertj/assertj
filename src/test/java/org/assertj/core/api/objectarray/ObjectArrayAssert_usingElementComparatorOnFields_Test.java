@@ -28,6 +28,7 @@ import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("deprecation")
 class ObjectArrayAssert_usingElementComparatorOnFields_Test extends ObjectArrayAssertBaseTest {
 
   private ObjectArrays arraysBefore;
@@ -50,7 +51,7 @@ class ObjectArrayAssert_usingElementComparatorOnFields_Test extends ObjectArrayA
     ComparatorBasedComparisonStrategy strategy = (ComparatorBasedComparisonStrategy) arrays.getComparisonStrategy();
     assertThat(strategy.getComparator()).isInstanceOf(ExtendedByTypesComparator.class);
     assertThat(((OnFieldsComparator) ((ExtendedByTypesComparator) strategy.getComparator())
-      .getComparator()).getFields()).containsOnly("field");
+                                                                                           .getComparator()).getFields()).containsOnly("field");
   }
 
   @Test

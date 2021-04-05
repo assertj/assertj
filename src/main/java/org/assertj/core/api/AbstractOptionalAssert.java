@@ -245,8 +245,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   /**
    * Use field/property by field/property comparison (including inherited fields/properties) instead of relying on
    * actual type A <code>equals</code> method to compare the {@link Optional} value's object for incoming assertion
-   * checks. Private fields are included but this can be disabled using
-   * {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
+   * checks. Private fields are included but this can be disabled using {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
    * <p>
    * This can be handy if <code>equals</code> method of the {@link Optional} value's object to compare does not suit
    * you.
@@ -266,7 +265,17 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * assertThat(Optional.of(frodo)).usingFieldByFieldValueComparator().contains(frodoClone);</code></pre>
    *
    * @return {@code this} assertion object.
+   * @deprecated This method is deprecated because it performs a <b>shallow</b> field by field comparison, i.e. elements are compared
+   * field by field but the fields are compared with equals, use {@link #get()} chained with {@link AbstractObjectAssert#usingRecursiveComparison()} instead.
+   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
+   *
+   * // frodo and frodoClone are equals when doing a field by field comparison.
+   * assertThat(Optional.of(frodo)).get().usingRecursiveComparison()
+   *                               .isEqualTo(frodoClone);</code></pre>
+   * <br>See <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
    */
+  @Deprecated
   @CheckReturnValue
   public SELF usingFieldByFieldValueComparator() {
     return usingValueComparator(new FieldByFieldComparator());

@@ -32,6 +32,7 @@ import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("deprecation")
 class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends ObjectArrayAssertBaseTest {
 
   private ObjectArrays arraysBefore;

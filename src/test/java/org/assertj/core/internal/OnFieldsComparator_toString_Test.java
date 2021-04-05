@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("deprecation")
 class OnFieldsComparator_toString_Test {
 
   @Test

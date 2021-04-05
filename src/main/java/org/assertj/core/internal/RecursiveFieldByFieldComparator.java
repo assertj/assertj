@@ -22,6 +22,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
 /**
  * Compares objects field/property by field/property recursively.
  */
+@Deprecated
 public class RecursiveFieldByFieldComparator extends FieldByFieldComparator {
 
   public RecursiveFieldByFieldComparator(Map<String, Comparator<?>> comparatorByPropertyOrField,

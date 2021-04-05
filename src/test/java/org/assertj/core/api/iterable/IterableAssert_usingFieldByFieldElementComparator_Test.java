@@ -34,6 +34,7 @@ import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("deprecation")
 class IterableAssert_usingFieldByFieldElementComparator_Test extends IterableAssertBaseTest {
 
   private Iterables iterablesBefore;
