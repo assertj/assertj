@@ -2248,6 +2248,55 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
+   * The assertions chained after this method will use a recursive field by field comparison on all fields (including inherited
+   * fields) <b>except</b> the given ones instead of relying on the element <code>equals</code> method.
+   * This is handy when the element <code>equals</code> method is not overridden or implemented as you expect.
+   * <p>
+   * Nested fields are supported and are expressed like: {@code name.first}
+   * <p>
+   * The comparison is <b>recursive</b>: elements are compared field by field, if a field type has fields they are also compared
+   * field by field (and so on).
+   * <p>
+   * Example:
+   * <pre><code class='java'> Player derrickRose = new Player(new Name("Derrick", "Rose"), "Chicago Bulls");
+   * derrickRose.nickname = new Name("Crazy", "Dunks");
+   *
+   * Player jalenRose = new Player(new Name("Jalen", "Rose"), "Chicago Bulls");
+   * jalenRose.nickname = new Name("Crazy", "Defense");
+   *
+   * // assertion succeeds
+   * assertThat(atomicArray(derrickRose)).usingRecursiveFieldByFieldElementComparatorIgnoringFields("name.first", "nickname.last")
+   *                                     .contains(jalenRose);
+   *
+   * // assertion fails, names are ignored but nicknames are not and nickname.last values differ
+   * assertThat(atomicArray(derrickRose)).usingRecursiveFieldByFieldElementComparatorIgnoringFields("name")
+   *                                     .contains(jalenRose);</code></pre>
+   * <p>
+   * This method is actually a shortcut of {@link #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)}
+   * with a configuration ignoring the given fields, the previous example can be written as:
+   * <pre><code class='java'> RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
+   *                                                                                  .withIgnoredFields("name.first", "nickname.last")
+   *                                                                                  .build();
+   *
+   * assertThat(atomicArray(derrickRose)).usingRecursiveFieldByFieldElementComparator(configuration)
+   *                                     .contains(jalenRose);</code></pre>
+   * The recursive comparison is documented here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
+   * <p>
+   * @param fields the field names to exclude in the elements comparison.
+   * @return {@code this} assertion object.
+   * @since 3.20.0
+   * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
+   * @see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
+   */
+  @CheckReturnValue
+  public AtomicReferenceArrayAssert<T> usingRecursiveFieldByFieldElementComparatorIgnoringFields(String... fields) {
+    RecursiveComparisonConfiguration recursiveComparisonConfiguration = RecursiveComparisonConfiguration.builder()
+                                                                                                        .withIgnoredFields(fields)
+                                                                                                        .build();
+    return usingRecursiveFieldByFieldElementComparator(recursiveComparisonConfiguration);
+  }
+
+  /**
    * Extract the values of given field or property from the array's elements under test into a new array, this new array
    * becoming the array under test.
    * <p>
