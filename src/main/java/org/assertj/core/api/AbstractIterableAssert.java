@@ -48,7 +48,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import org.assertj.core.annotations.Beta;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.iterable.ThrowingExtractor;
@@ -2417,9 +2416,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * @return a new {@link RecursiveComparisonAssert} instance
    * @see RecursiveComparisonConfiguration RecursiveComparisonConfiguration
+   * @since 3.15.0
    */
   @Override
-  @Beta
   public RecursiveComparisonAssert<?> usingRecursiveComparison() {
     // overridden for javadoc and to make this method public
     return super.usingRecursiveComparison();
@@ -2433,6 +2432,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param recursiveComparisonConfiguration the {@link RecursiveComparisonConfiguration} used in the chained {@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion.
    *
    * @return a new {@link RecursiveComparisonAssert} instance built with the given {@link RecursiveComparisonConfiguration}.
+   * @since 3.15.0
    */
   @Override
   public RecursiveComparisonAssert<?> usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
