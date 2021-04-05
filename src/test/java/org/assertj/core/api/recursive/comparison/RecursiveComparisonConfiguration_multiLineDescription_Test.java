@@ -13,7 +13,7 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.test.AlwaysDifferentComparator.alwaysDifferent;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TUPLE;
@@ -50,7 +50,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    assertThat(multiLineDescription).contains(format("- all actual null fields were ignored in the comparison%n"));
+    then(multiLineDescription).contains(format("- all actual null fields were ignored in the comparison%n"));
   }
 
   @Test
@@ -60,7 +60,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    assertThat(multiLineDescription).contains("- all actual empty optional fields were ignored in the comparison (including Optional, OptionalInt, OptionalLong and OptionalDouble)");
+    then(multiLineDescription).contains("- all actual empty optional fields were ignored in the comparison (including Optional, OptionalInt, OptionalLong and OptionalDouble)");
   }
 
   @Test
@@ -70,7 +70,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    assertThat(multiLineDescription).contains(format("- all expected null fields were ignored in the comparison%n"));
+    then(multiLineDescription).contains(format("- all expected null fields were ignored in the comparison%n"));
   }
 
   @Test
@@ -80,7 +80,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    assertThat(multiLineDescription).contains(format("- the following fields were ignored in the comparison: foo, bar, foo.bar%n"));
+    then(multiLineDescription).contains(format("- the following fields were ignored in the comparison: foo, bar, foo.bar%n"));
   }
 
   @Test
@@ -90,7 +90,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    assertThat(multiLineDescription).contains(format("- the fields matching the following regexes were ignored in the comparison: foo, bar, foo.bar%n"));
+    then(multiLineDescription).contains(format("- the fields matching the following regexes were ignored in the comparison: foo, bar, foo.bar%n"));
   }
 
   @Test
@@ -100,7 +100,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    assertThat(multiLineDescription).contains(format("- the following types were ignored in the comparison: java.util.UUID, java.time.ZonedDateTime%n"));
+    then(multiLineDescription).contains(format("- the following types were ignored in the comparison: java.util.UUID, java.time.ZonedDateTime%n"));
   }
 
   @Test
@@ -110,7 +110,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    assertThat(multiLineDescription).contains("- no overridden equals methods were used in the comparison (except for java types)");
+    then(multiLineDescription).contains("- no overridden equals methods were used in the comparison (except for java types)");
   }
 
   @Test
@@ -124,7 +124,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     // @format:off
-    assertThat(multiLineDescription).contains(format("- overridden equals methods were used in the comparison except for:%n" +
+    then(multiLineDescription).contains(format("- overridden equals methods were used in the comparison except for:%n" +
                                                      "  - the following fields: foo, bar, foo.bar%n" +
                                                      "  - the following types: java.lang.String, com.google.common.collect.Multimap%n" +
                                                      "  - the types matching the following regexes: .*oo, .*ar%n"));
@@ -140,7 +140,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     // @format:off
-    assertThat(multiLineDescription).contains(format("- overridden equals methods were used in the comparison except for:%n" +
+    then(multiLineDescription).contains(format("- overridden equals methods were used in the comparison except for:%n" +
                                                      "  - the types matching the following regexes: foo, bar, foo.bar%n"));
     // @format:on
   }
@@ -154,7 +154,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     // @format:off
-    assertThat(multiLineDescription).contains(format("- overridden equals methods were used in the comparison except for:%n" +
+    then(multiLineDescription).contains(format("- overridden equals methods were used in the comparison except for:%n" +
                                                      "  - the following types: java.lang.String, com.google.common.collect.Multimap%n"));
     // @format:on
   }
@@ -167,8 +167,8 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    assertThat(multiLineDescription).contains("- no overridden equals methods were used in the comparison (except for java types)")
-                                    .doesNotContain("java.lang.String", "com.google.common.collect.Multimap");
+    then(multiLineDescription).contains("- no overridden equals methods were used in the comparison (except for java types)")
+                              .doesNotContain("java.lang.String", "com.google.common.collect.Multimap");
   }
 
   @Test
@@ -180,7 +180,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     // @format:off
-    assertThat(multiLineDescription).contains(format(
+    then(multiLineDescription).contains(format(
                "- overridden equals methods were used in the comparison except for:%n" +
                "  - the following fields: foo, baz, foo.baz%n"));
     // @format:on
@@ -191,7 +191,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    assertThat(multiLineDescription).contains("- no overridden equals methods were used in the comparison (except for java types)");
+    then(multiLineDescription).contains("- no overridden equals methods were used in the comparison (except for java types)");
   }
 
   @Test
@@ -201,7 +201,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    assertThat(multiLineDescription).contains(format("- collection order was ignored in all fields in the comparison%n"));
+    then(multiLineDescription).contains(format("- collection order was ignored in all fields in the comparison%n"));
   }
 
   @Test
@@ -211,7 +211,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    assertThat(multiLineDescription).contains(format("- collection order was ignored in the following fields in the comparison: foo, bar, foo.bar%n"));
+    then(multiLineDescription).contains(format("- collection order was ignored in the following fields in the comparison: foo, bar, foo.bar%n"));
   }
 
   @Test
@@ -221,7 +221,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    assertThat(multiLineDescription).contains(format("- collection order was ignored in the fields matching the following regexes in the comparison: f.*, ba., foo.*%n"));
+    then(multiLineDescription).contains(format("- collection order was ignored in the fields matching the following regexes in the comparison: f.*, ba., foo.*%n"));
   }
 
   @Test
@@ -233,12 +233,12 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    assertThat(multiLineDescription).contains(format("- these types were compared with the following comparators:%n" +
-                                                     "  - java.lang.Double -> DoubleComparator[precision=1.0E-15]%n" +
-                                                     "  - java.lang.Float -> FloatComparator[precision=1.0E-6]%n" +
-                                                     "  - java.lang.Integer -> AbsValueComparator%n"),
-                                              "  - java.lang.String -> ",
-                                              "  - org.assertj.core.groups.Tuple -> AlwaysEqualComparator");
+    then(multiLineDescription).contains(format("- these types were compared with the following comparators:%n" +
+                                               "  - java.lang.Double -> DoubleComparator[precision=1.0E-15]%n" +
+                                               "  - java.lang.Float -> FloatComparator[precision=1.0E-6]%n" +
+                                               "  - java.lang.Integer -> AbsValueComparator%n"),
+                                        "  - java.lang.String -> ",
+                                        "  - org.assertj.core.groups.Tuple -> AlwaysEqualComparator");
   }
 
   @Test
@@ -250,10 +250,10 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    assertThat(multiLineDescription).contains(format("- these fields were compared with the following comparators:%n" +
-                                                     "  - bar -> AlwaysDifferentComparator%n" +
-                                                     "  - foo -> AlwaysEqualComparator%n" +
-                                                     "  - height -> %%s %% %%%% %%d%n"));
+    then(multiLineDescription).contains(format("- these fields were compared with the following comparators:%n" +
+                                               "  - bar -> AlwaysDifferentComparator%n" +
+                                               "  - foo -> AlwaysEqualComparator%n" +
+                                               "  - height -> %%s %% %%%% %%d%n"));
   }
 
   @Test
@@ -264,9 +264,9 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    assertThat(multiLineDescription).containsSubsequence(format("- these fields were compared with the following comparators:%n"),
-                                                         "  - bar -> ",
-                                                         "  - foo -> ");
+    then(multiLineDescription).containsSubsequence(format("- these fields were compared with the following comparators:%n"),
+                                                   "  - bar -> ",
+                                                   "  - foo -> ");
   }
 
   @Test
@@ -276,7 +276,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    assertThat(multiLineDescription).contains(format("- actual and expected objects and their fields were considered different when of incompatible types (i.e. expected type does not extend actual's type) even if all their fields match, for example a Person instance will never match a PersonDto (call strictTypeChecking(false) to change that behavior).%n"));
+    then(multiLineDescription).contains(format("- actual and expected objects and their fields were considered different when of incompatible types (i.e. expected type does not extend actual's type) even if all their fields match, for example a Person instance will never match a PersonDto (call strictTypeChecking(false) to change that behavior).%n"));
   }
 
   @Test
@@ -286,7 +286,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    assertThat(multiLineDescription).contains(format("- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).%n"));
+    then(multiLineDescription).contains(format("- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).%n"));
   }
 
   @Test
@@ -295,6 +295,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
     recursiveComparisonConfiguration.setIgnoreAllActualEmptyOptionalFields(true);
     recursiveComparisonConfiguration.setIgnoreAllExpectedNullFields(true);
+    recursiveComparisonConfiguration.compareOnlyFields("name", "address.number");
     recursiveComparisonConfiguration.ignoreFields("foo", "bar", "foo.bar");
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes("f.*", ".ba.", "..b%sr..");
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(UUID.class, ZonedDateTime.class);
@@ -313,10 +314,11 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     // @format:off
-    assertThat(multiLineDescription).isEqualTo(format(
+    then(multiLineDescription).isEqualTo(format(
                "- all actual null fields were ignored in the comparison%n" +
                "- all actual empty optional fields were ignored in the comparison (including Optional, OptionalInt, OptionalLong and OptionalDouble)%n" +
                "- all expected null fields were ignored in the comparison%n" +
+               "- the comparison was performed on the following fields: name, address.number%n" +
                "- the following fields were ignored in the comparison: foo, bar, foo.bar%n" +
                "- the fields matching the following regexes were ignored in the comparison: f.*, .ba., ..b%%sr..%n"+
                "- the following types were ignored in the comparison: java.util.UUID, java.time.ZonedDateTime%n" +
@@ -339,6 +341,16 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
                "- field comparators take precedence over type comparators.%n"+
                "- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).%n"));
     // @format:on
+  }
+
+  @Test
+  void should_show_that_comparison_is_performed_on_given_fields() {
+    // GIVEN
+    recursiveComparisonConfiguration.compareOnlyFields("foo", "bar", "foo.bar");
+    // WHEN
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    then(multiLineDescription).contains(format("- the comparison was performed on the following fields: foo, bar, foo.bar%n"));
   }
 
   // just to test the description does not fail when given a comparator with various String.format reserved flags

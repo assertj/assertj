@@ -14,6 +14,7 @@ package org.assertj.core.api.recursive.comparison;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 
 import java.util.ArrayList;
@@ -31,12 +32,16 @@ public final class FieldLocation implements Comparable<FieldLocation> {
   private final List<String> decomposedPath; // TODO is it useful?
 
   public FieldLocation(List<String> path) {
-    decomposedPath = unmodifiableList(Objects.requireNonNull(path, "path cannot be null"));
+    decomposedPath = unmodifiableList(requireNonNull(path, "path cannot be null"));
     pathToUseInRules = pathToUseInRules(decomposedPath);
   }
 
   boolean matches(String fieldPath) {
     return pathToUseInRules.equals(fieldPath);
+  }
+
+  boolean startsWith(String fieldPath) {
+    return pathToUseInRules.startsWith(fieldPath);
   }
 
   public List<String> getDecomposedPath() {

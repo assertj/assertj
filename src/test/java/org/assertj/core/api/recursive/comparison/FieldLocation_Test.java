@@ -14,16 +14,11 @@ package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.list;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 
@@ -49,27 +44,6 @@ class FieldLocation_Test {
     Collections.sort(fieldLocations);
     // THEN
     then(fieldLocations).containsExactly(fieldLocation1, fieldLocation2, fieldLocation3, fieldLocation4);
-  }
-
-  @ParameterizedTest(name = "{0} matches {1}")
-  @MethodSource
-  void matches_should_match_fields(List<String> fieldPath, String matchingFieldPath) {
-    // GIVEN
-    FieldLocation underTest = new FieldLocation(fieldPath);
-    // WHEN
-    boolean match = underTest.matches(matchingFieldPath);
-    // THEN
-    then(match).as("%s matches %s", underTest, matchingFieldPath).isTrue();
-  }
-
-  private static Stream<Arguments> matches_should_match_fields() {
-    return Stream.of(arguments(list("name"), "name"),
-                     arguments(list("name", "first"), "name.first"),
-                     arguments(list("name", "[2]", "first"), "name.first"),
-                     arguments(list("[0]", "first"), "first"),
-                     arguments(list("[1]", "first", "second"), "first.second"),
-                     arguments(list("person", "[1]", "first", "second"), "person.first.second"),
-                     arguments(list("father", "name", "first"), "father.name.first"));
   }
 
   @Test
