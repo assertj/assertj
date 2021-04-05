@@ -2033,6 +2033,55 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
+   * The assertions chained after this method will use a recursive field by field comparison on the given fields (including
+   * inherited fields) instead of relying on the element <code>equals</code> method.
+   * This is handy when the element <code>equals</code> method is not overridden or implemented as you expect.
+   * <p>
+   * Nested fields are supported and are expressed like: {@code name.first}
+   * <p>
+   * The comparison is <b>recursive</b>: elements are compared field by field, if a field type has fields they are also compared
+   * field by field (and so on).
+   * <p>
+   * Example:
+   * <pre><code class='java'> Player derrickRose = new Player(new Name("Derrick", "Rose"), "Chicago Bulls");
+   * derrickRose.nickname = new Name("Crazy", "Dunks");
+   *
+   * Player jalenRose = new Player(new Name("Jalen", "Rose"), "Chicago Bulls");
+   * jalenRose.nickname = new Name("Crazy", "Defense");
+   *
+   * // assertion succeeds as all compared fields match
+   * assertThat(array(derrickRose)).usingRecursiveFieldByFieldElementComparatorOnFields("name.last", "team", "nickname.first")
+   *                               .contains(jalenRose);
+   *
+   * // assertion fails, name.first values differ
+   * assertThat(array(derrickRose)).usingRecursiveFieldByFieldElementComparatorOnFields("name")
+   *                               .contains(jalenRose);</code></pre>
+   * <p>
+   * This method is actually a shortcut of {@link #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)}
+   * with a configuration comparing only the given fields, the previous example can be written as:
+   * <pre><code class='java'> RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
+   *                                                                                  .withComparedFields("name.last", "team", "nickname.first")
+   *                                                                                  .build();
+   *
+   * assertThat(array(derrickRose)).usingRecursiveFieldByFieldElementComparator(configuration)
+   *                               .contains(jalenRose);</code></pre>
+   * The recursive comparison is documented here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
+   * <p>
+   * @param fields the field names to exclude in the elements comparison.
+   * @return {@code this} assertion object.
+   * @since 3.20.0
+   * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
+   * @see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
+   */
+  @CheckReturnValue
+  public SELF usingRecursiveFieldByFieldElementComparatorOnFields(String... fields) {
+    RecursiveComparisonConfiguration recursiveComparisonConfiguration = RecursiveComparisonConfiguration.builder()
+                                                                                                        .withComparedFields(fields)
+                                                                                                        .build();
+    return usingRecursiveFieldByFieldElementComparator(recursiveComparisonConfiguration);
+  }
+
+  /**
    * Use field/property by field/property on all fields/properties <b>except</b> the given ones (including inherited
    * fields/properties) instead of relying on actual type A <code>equals</code> method to compare group elements for
    * incoming assertion checks. Private fields are included but this can be disabled using
