@@ -774,11 +774,9 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws IntrospectionError if one of the given name does not match a field or property
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(String... propertiesOrFields) {
-    Tuple values = byName(propertiesOrFields).apply(actual);
-    String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(propertiesOrFields);
-    String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
-    return newListAssertInstance(values.toList()).withAssertionState(myself).as(description);
+  @SafeVarargs
+  public final AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(String... propertiesOrFields) {
+    return extractingForProxy(propertiesOrFields);
   }
 
   /**
@@ -1168,6 +1166,13 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   // override for proxyable friendly AbstractObjectAssert
   protected <T> AbstractObjectAssert<?, T> newObjectAssert(T objectUnderTest) {
     return new ObjectAssert<>(objectUnderTest);
+  }
+
+  protected AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extractingForProxy(String[] propertiesOrFields) {
+    Tuple values = byName(propertiesOrFields).apply(actual);
+    String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(propertiesOrFields);
+    String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
+    return newListAssertInstance(values.toList()).withAssertionState(myself).as(description);
   }
 
   @SuppressWarnings({ "rawtypes", "unchecked" })

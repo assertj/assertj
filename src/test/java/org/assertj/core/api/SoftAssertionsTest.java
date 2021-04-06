@@ -2391,6 +2391,19 @@ class SoftAssertionsTest extends BaseAssertionsTest {
                                       .hasMessageContaining("MAN");
   }
 
+  @Test
+  void soft_assertions_with_extracting_should_not_have_any_compiler_warning() {
+    // GIVEN
+    TolkienCharacter legolas = TolkienCharacter.of("Legolas", 1000, ELF);
+
+    softly.assertThat(legolas)
+          .extracting(TolkienCharacter::getName, TolkienCharacter::getAge)
+          .contains("Legolas", 1000);
+
+    assertThat(legolas).extracting(TolkienCharacter::getName, TolkienCharacter::getAge)
+                       .contains("Legolas", 1000);
+  }
+
   @Nested
   class ExtractingFromEntries {
 
