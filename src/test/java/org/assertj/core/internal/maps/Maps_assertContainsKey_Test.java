@@ -25,6 +25,7 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Map;
 
+import org.apache.commons.collections4.map.CaseInsensitiveMap;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Maps;
 import org.assertj.core.internal.MapsBaseTest;
@@ -49,6 +50,17 @@ class Maps_assertContainsKey_Test extends MapsBaseTest {
   @Test
   void should_pass_if_actual_contains_given_key() {
     maps.assertContainsKeys(someInfo(), actual, "name");
+  }
+
+  @Test
+  void should_pass_if_case_insensitive_actual_contains_given_key() {
+    // GIVEN
+    actual = new CaseInsensitiveMap<>();
+    actual.put( "NAME", "Yoda" );
+    actual.put( "Color", "green" );
+
+    // THEN
+    maps.assertContainsKeys(someInfo(), actual, "Name");
   }
 
   @Test

@@ -35,6 +35,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections4.map.CaseInsensitiveMap;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.data.MapEntry;
@@ -101,6 +102,18 @@ class Maps_assertContainsExactly_Test extends MapsBaseTest {
   @Test
   void should_pass_if_actual_contains_given_entries_in_order() {
     maps.assertContainsExactly(someInfo(), linkedActual, entry("name", "Yoda"), entry("color", "green"));
+  }
+
+  @SuppressWarnings("unchecked")
+  @Test
+  void should_pass_if_case_insensitive_actual_contains_given_entries_in_rder() {
+    // GIVEN
+    actual = new CaseInsensitiveMap<>();
+    actual.put( "Color", "green" );
+    actual.put( "NAME", "Yoda" );
+
+    // THEN
+    maps.assertContainsExactly(someInfo(), actual, entry("COLOR", "green"), entry("Name", "Yoda"));
   }
 
   @SuppressWarnings("unchecked")

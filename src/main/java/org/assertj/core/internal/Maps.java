@@ -53,6 +53,8 @@ import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -796,9 +798,10 @@ public class Maps {
     if (notExpected.isEmpty() && notFound.isEmpty()) {
       // check entries order
       int index = 0;
-      for (K keyFromActual : actual.keySet()) {
-        if (!areEqual(keyFromActual, entries[index].getKey())) {
-          Map.Entry<K, V> actualEntry = entry(keyFromActual, actual.get(keyFromActual));
+      for (Map.Entry<K, V> entryFromActual : actual.entrySet()) {
+        V value = actual.get(entries[index].getKey());
+        if (!areEqual(value, entryFromActual.getValue())) {
+          Map.Entry<K, V> actualEntry = entry(entryFromActual.getKey(), entryFromActual.getValue());
           throw failures.failure(info, elementsDifferAtIndex(actualEntry, entries[index], index));
         }
         index++;
@@ -813,38 +816,72 @@ public class Maps {
   private <K, V> void compareActualMapAndExpectedKeys(Map<K, V> actual, K[] keys, Set<K> notExpected,
                                                       Set<K> notFound) {
 
-    Map<K, V> actualEntries = new LinkedHashMap<>(actual);
+    // We can't use a copy of actual since we might change the implementation of the map
+    Set<K> foundKeys = new LinkedHashSet<>();
     for (K key : keys) {
-      if (actualEntries.containsKey(key)) {
+      if (actual.containsKey(key)) {
         // this is an expected key
-        actualEntries.remove(key);
+        foundKeys.add(key);
       } else {
         // this is a not found key
         notFound.add(key);
       }
     }
-    // All remaining keys from actual copy are not expected entries.
-    notExpected.addAll(actualEntries.keySet());
+
+    // We now iterate through the actual entries in order to detect the unexpected ones
+    for (Map.Entry<K, V> entry : actual.entrySet()) {
+      boolean keyNotExpected = true;
+      Iterator<K> foundKeysIterator = foundKeys.iterator();
+      while (foundKeysIterator.hasNext()) {
+        K foundKey = foundKeysIterator.next();
+        V foundValue = actual.get(foundKey);
+        if (areEqual(foundValue, entry.getValue())) {
+          keyNotExpected = false;
+          foundKeysIterator.remove();
+          break;
+        }
+      }
+
+      if (keyNotExpected) {
+        notExpected.add(entry.getKey());
+      }
+    }
   }
 
   private <K, V> void compareActualMapAndExpectedEntries(Map<K, V> actual,
                                                          Map.Entry<? extends K, ? extends V>[] entries,
                                                          Set<Map.Entry<? extends K, ? extends V>> notExpected,
                                                          Set<Map.Entry<? extends K, ? extends V>> notFound) {
+    // We can't use a copy of actual since we might change the implementation of the map
+    Set<K> foundKeys = new LinkedHashSet<>();
     Map<K, V> expectedEntries = entriesToMap(entries);
-    Map<K, V> actualEntries = new LinkedHashMap<>(actual);
     for (Map.Entry<K, V> entry : expectedEntries.entrySet()) {
-      if (containsEntry(actualEntries, entry(entry.getKey(), entry.getValue()))) {
+      if (containsEntry(actual, entry(entry.getKey(), entry.getValue()))) {
         // this is an expected entry
-        actualEntries.remove(entry.getKey());
+        foundKeys.add(entry.getKey());
       } else {
         // this is a not found entry
         notFound.add(entry(entry.getKey(), entry.getValue()));
       }
     }
-    // All remaining entries from actual copy are not expected entries.
-    for (Map.Entry<K, V> entry : actualEntries.entrySet()) {
-      notExpected.add(entry(entry.getKey(), entry.getValue()));
+
+    // We now iterate through the actual entries in order to detect the unexpected ones
+    for (Map.Entry<K, V> entry : actual.entrySet()) {
+      boolean entryNotExpected = true;
+      Iterator<K> foundKeysIterator = foundKeys.iterator();
+      while (foundKeysIterator.hasNext()) {
+        K foundKey = foundKeysIterator.next();
+        V foundValue = actual.get(foundKey);
+        if (areEqual(foundValue, entry.getValue())) {
+          entryNotExpected = false;
+          foundKeysIterator.remove();
+          break;
+        }
+      }
+
+      if (entryNotExpected) {
+        notExpected.add(entry(entry.getKey(), entry.getValue()));
+      }
     }
   }
 

@@ -29,6 +29,7 @@ import static org.mockito.Mockito.verify;
 import java.util.HashSet;
 import java.util.Map;
 
+import org.apache.commons.collections4.map.CaseInsensitiveMap;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.MapsBaseTest;
@@ -85,6 +86,18 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
   @Test
   void should_pass_if_actual_contains_only_expected_entries() {
     maps.assertContainsOnly(someInfo(), actual, entry("name", "Yoda"), entry("color", "green"));
+  }
+
+  @SuppressWarnings("unchecked")
+  @Test
+  void should_pass_if_case_insensitive_actual_contains_only_expected_entries() {
+    // GIVEN
+    actual = new CaseInsensitiveMap<>();
+    actual.put( "NAME", "Yoda" );
+    actual.put( "Color", "green" );
+
+    // THEN
+    maps.assertContainsOnly(someInfo(), actual, entry("Name", "Yoda"), entry("COLOR", "green"));
   }
 
   @Test
