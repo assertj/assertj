@@ -53,6 +53,7 @@ import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -67,6 +68,8 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.error.UnsatisfiedRequirement;
 import org.assertj.core.util.VisibleForTesting;
+import org.objenesis.Objenesis;
+import org.objenesis.ObjenesisStd;
 
 /**
  * Reusable assertions for <code>{@link Map}</code>s.
@@ -78,6 +81,8 @@ import org.assertj.core.util.VisibleForTesting;
 public class Maps {
 
   private static final Maps INSTANCE = new Maps();
+
+  Objenesis objenesis = new ObjenesisStd();
 
   /**
    * Returns the singleton instance of this class.
@@ -825,8 +830,9 @@ public class Maps {
   }
 
   private <K, V> void compareActualMapAndExpectedKeys(Map<K, V> actual, K[] keys, Set<K> notExpected, Set<K> notFound) {
-
-    Map<K, V> actualEntries = new LinkedHashMap<>(actual);
+    Map<K, V> actualCopy = instantiate(actual.getClass());
+    actualCopy.putAll(actual);
+    Map<K, V> actualEntries = actualCopy;
     for (K key : keys) {
       if (actualEntries.containsKey(key)) {
         // this is an expected key
@@ -840,12 +846,24 @@ public class Maps {
     notExpected.addAll(actualEntries.keySet());
   }
 
+  private <V, K> Map<K, V> instantiate(Class<? extends Map> mapClass) {
+    try {
+      Constructor<?> constructor = mapClass.getConstructor();
+      return (Map<K, V>) constructor.newInstance();
+      // return objenesis.newInstance(class1);
+    } catch (Exception e) {
+      // default map but might not honor mapClass semantics (ex: CaseInsensitiveMap)
+      return new LinkedHashMap<>();
+    }
+  }
+
   private <K, V> void compareActualMapAndExpectedEntries(Map<K, V> actual,
                                                          Map.Entry<? extends K, ? extends V>[] entries,
                                                          Set<Map.Entry<? extends K, ? extends V>> notExpected,
                                                          Set<Map.Entry<? extends K, ? extends V>> notFound) {
     Map<K, V> expectedEntries = entriesToMap(entries);
-    Map<K, V> actualEntries = new LinkedHashMap<>(actual);
+    Map<K, V> actualEntries = instantiate(actual.getClass());
+    actualEntries.putAll(actual);
     for (Map.Entry<K, V> entry : expectedEntries.entrySet()) {
       if (containsEntry(actualEntries, entry(entry.getKey(), entry.getValue()))) {
         // this is an expected entry

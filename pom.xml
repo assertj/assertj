@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>assertj-core</artifactId>
   <version>3.19.1-SNAPSHOT</version>
@@ -27,6 +28,7 @@
     <javadocAdditionalOptions>-html5 --allow-script-in-comments --no-module-directories</javadocAdditionalOptions>
     <byte-buddy.version>1.11.0</byte-buddy.version>
     <opentest4j.version>1.2.0</opentest4j.version>
+    <objenesis.version>3.2</objenesis.version>
     <bnd.version>5.3.0</bnd.version>
     <!-- Dependency versions overriding -->
     <junit.version>4.13.2</junit.version>
@@ -57,6 +59,11 @@
         <groupId>org.opentest4j</groupId>
         <artifactId>opentest4j</artifactId>
         <version>${opentest4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.objenesis</groupId>
+        <artifactId>objenesis</artifactId>
+        <version>${objenesis.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -120,6 +127,10 @@
       <artifactId>byte-buddy</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.objenesis</groupId>
+      <artifactId>objenesis</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
       <scope>test</scope>
@@ -155,6 +166,12 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>3.12.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-collections4</artifactId>
+      <version>4.4</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -231,7 +248,7 @@
         <artifactId>maven-shade-plugin</artifactId>
         <version>3.2.4</version>
         <executions>
-          <!-- STEP 2: execute maven shade to rename bytebuddy -->
+          <!-- STEP 2a: execute maven shade to rename bytebuddy -->
           <execution>
             <phase>package</phase>
             <goals>
@@ -251,6 +268,35 @@
               <filters>
                 <filter>
                   <artifact>net.bytebuddy:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/**</exclude>
+                  </excludes>
+                </filter>
+              </filters>
+            </configuration>
+          </execution>
+          <!-- STEP 2b: execute maven shade to rename objenesis -->
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <createDependencyReducedPom>true</createDependencyReducedPom>
+              <artifactSet>
+                <includes>
+                  <include>org.objenesis:objenesis</include>
+                </includes>
+              </artifactSet>
+              <relocations>
+                <relocation>
+                  <pattern>org.objenesis</pattern>
+                  <shadedPattern>org.assertj.core.internal.objenesis</shadedPattern>
+                </relocation>
+              </relocations>
+              <filters>
+                <filter>
+                  <artifact>org.objenesis:*</artifact>
                   <excludes>
                     <exclude>META-INF/**</exclude>
                   </excludes>
@@ -669,7 +715,9 @@
         <jdk>[16,)</jdk>
       </activation>
       <properties>
-        <argLine>-Dnet.bytebuddy.experimental=true --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.math=ALL-UNNAMED --add-opens=java.base/sun.nio.fs=ALL-UNNAMED</argLine>
+        <argLine>-Dnet.bytebuddy.experimental=true --add-opens=java.base/java.lang=ALL-UNNAMED
+          --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.math=ALL-UNNAMED
+          --add-opens=java.base/sun.nio.fs=ALL-UNNAMED</argLine>
       </properties>
     </profile>
   </profiles>

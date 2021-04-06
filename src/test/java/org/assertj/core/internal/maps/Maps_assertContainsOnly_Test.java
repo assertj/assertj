@@ -28,7 +28,9 @@ import static org.mockito.Mockito.verify;
 
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.collections4.map.CaseInsensitiveMap;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.MapsBaseTest;
@@ -83,6 +85,34 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
   @Test
   void should_pass_if_actual_contains_only_expected_entries() {
     maps.assertContainsOnly(someInfo(), actual, array(entry("name", "Yoda"), entry("color", "green")));
+  }
+
+  @SuppressWarnings("unchecked")
+  @Test
+  void should_pass_if_case_insensitive_actual_contains_only_expected_entries() {
+    // GIVEN
+    actual = new CaseInsensitiveMap<>();
+    actual.put("NAME", "Yoda");
+    actual.put("Color", "green");
+    // THEN
+    maps.assertContainsOnly(someInfo(), actual, entry("Name", "Yoda"), entry("COLOR", "green"));
+  }
+
+  @Test
+  void should_fail_if_actual_contains_unexpected_entry_according_to_case_insensitive_key_comparison() {
+    // GIVEN
+    AssertionInfo info = someInfo();
+    actual = new CaseInsensitiveMap<>();
+    actual.put("NAME", "green");
+    actual.put("Color", "green");
+    MapEntry<String, String>[] expected = array(entry("name", "green"), entry("cool", "green"));
+    // WHEN
+    expectAssertionError(() -> maps.assertContainsOnly(info, actual, expected));
+    // THEN
+    // should logically be: entry("Color", "green") but CaseInsensitiveMap lowecase all keys
+    Set<MapEntry<String, String>> notExpected = set(entry("color", "green"));
+    Set<MapEntry<String, String>> notFound = set(entry("cool", "green"));
+    verify(failures).failure(info, shouldContainOnly(actual, expected, notFound, notExpected));
   }
 
   @Test
