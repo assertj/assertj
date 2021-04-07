@@ -29,8 +29,6 @@ import java.util.Set;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.data.MapEntry;
-import org.assertj.core.internal.Failures;
-import org.assertj.core.util.VisibleForTesting;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
@@ -44,9 +42,6 @@ import com.google.common.collect.SetMultimap;
  * @author Joel Costigliola
  */
 public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, Multimap<K, V>> {
-
-  @VisibleForTesting
-  Failures failures = Failures.instance();
 
   protected MultimapAssert(Multimap<K, V> actual) {
     super(actual, MultimapAssert.class);
@@ -91,7 +86,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
       }
     }
     if (!keysNotFound.isEmpty()) {
-      throw failures.failure(info, shouldContainKeys(actual, keys, keysNotFound));
+      throw assertionError(shouldContainKeys(actual, keys, keysNotFound));
     }
     return myself;
   }
@@ -132,7 +127,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
       }
     }
     if (!entriesNotFound.isEmpty()) {
-      throw failures.failure(info, shouldContain(actual, entries, entriesNotFound));
+      throw assertionError(shouldContain(actual, entries, entriesNotFound));
     }
     return myself;
   }
@@ -172,7 +167,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
       }
     }
     if (!valuesNotFound.isEmpty()) {
-      throw failures.failure(info, shouldContainValues(actual, values, valuesNotFound));
+      throw assertionError(shouldContainValues(actual, values, valuesNotFound));
     }
     return myself;
   }
@@ -193,7 +188,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
   public void isEmpty() {
     objects.assertNotNull(info, actual);
     if (!actual.isEmpty()) {
-      throw failures.failure(info, shouldBeEmpty(actual));
+      throw assertionError(shouldBeEmpty(actual));
     }
   }
 
@@ -215,7 +210,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
   public void isNotEmpty() {
     objects.assertNotNull(info, actual);
     if (actual.isEmpty()) {
-      throw failures.failure(info, shouldNotBeEmpty());
+      throw assertionError(shouldNotBeEmpty());
     }
   }
 
@@ -244,7 +239,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
     if (sizeOfActual == expectedSize) {
       return this;
     }
-    throw failures.failure(info, shouldHaveSize(actual, sizeOfActual, expectedSize));
+    throw assertionError(shouldHaveSize(actual, sizeOfActual, expectedSize));
   }
 
   /**
@@ -281,7 +276,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
     Set<?> entriesNotExpectedInActual = difference(newLinkedHashSet(actual.entries()), newLinkedHashSet(other.entries()));
     Set<?> entriesNotFoundInActual = difference(newLinkedHashSet(other.entries()), newLinkedHashSet(actual.entries()));
     if (entriesNotFoundInActual.isEmpty() && entriesNotExpectedInActual.isEmpty()) return myself;
-    throw failures.failure(info, shouldContainOnly(actual, other, entriesNotFoundInActual, entriesNotExpectedInActual));
+    throw assertionError(shouldContainOnly(actual, other, entriesNotFoundInActual, entriesNotExpectedInActual));
   }
 
   /**
@@ -315,7 +310,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
 
     Set<?> entriesNotFoundInActual = difference(newLinkedHashSet(other.entries()), newLinkedHashSet(actual.entries()));
     if (entriesNotFoundInActual.isEmpty()) return myself;
-    throw failures.failure(info, shouldContain(actual, other, entriesNotFoundInActual));
+    throw assertionError(shouldContain(actual, other, entriesNotFoundInActual));
   }
 
 }

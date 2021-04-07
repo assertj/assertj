@@ -25,8 +25,6 @@ import java.util.Set;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.error.ShouldBeEmpty;
-import org.assertj.core.internal.Failures;
-import org.assertj.core.util.VisibleForTesting;
 
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
@@ -35,9 +33,6 @@ import com.google.common.collect.Table;
  * @author Jan Gorman
  */
 public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, Table<R, C, V>> {
-
-  @VisibleForTesting
-  Failures failures = Failures.instance();
 
   protected TableAssert(Table<R, C, V> actual) {
     super(actual, TableAssert.class);
@@ -68,7 +63,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
     checkExpectedSizeArgument(expectedSize);
 
     if (actual.rowKeySet().size() != expectedSize) {
-      throw failures.failure(info, tableShouldHaveRowCount(actual, actual.rowKeySet().size(), expectedSize));
+      throw assertionError(tableShouldHaveRowCount(actual, actual.rowKeySet().size(), expectedSize));
     }
     return myself;
   }
@@ -98,7 +93,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
     checkExpectedSizeArgument(expectedSize);
 
     if (actual.columnKeySet().size() != expectedSize) {
-      throw failures.failure(info, tableShouldHaveColumnCount(actual, actual.columnKeySet().size(), expectedSize));
+      throw assertionError(tableShouldHaveColumnCount(actual, actual.columnKeySet().size(), expectedSize));
     }
     return myself;
   }
@@ -128,7 +123,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
     checkExpectedSizeArgument(expectedSize);
 
     if (actual.size() != expectedSize) {
-      throw failures.failure(info, shouldHaveSize(actual, actual.size(), expectedSize));
+      throw assertionError(shouldHaveSize(actual, actual.size(), expectedSize));
     }
     return myself;
   }
@@ -166,7 +161,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
     }
 
     if (!rowsNotFound.isEmpty()) {
-      throw failures.failure(info, tableShouldContainRows(actual, rows, rowsNotFound));
+      throw assertionError(tableShouldContainRows(actual, rows, rowsNotFound));
     }
     return myself;
   }
@@ -204,7 +199,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
     }
 
     if (!columnsNotFound.isEmpty()) {
-      throw failures.failure(info, tableShouldContainColumns(actual, columns, columnsNotFound));
+      throw assertionError(tableShouldContainColumns(actual, columns, columnsNotFound));
     }
 
     return myself;
@@ -243,7 +238,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
     }
 
     if (!valuesNotFound.isEmpty()) {
-      throw failures.failure(info, shouldContainValues(actual, values, valuesNotFound));
+      throw assertionError(shouldContainValues(actual, values, valuesNotFound));
     }
 
     return myself;
@@ -280,7 +275,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
 
     V actualValue = actual.get(row, column);
     if (!expectedValue.equals(actualValue)) {
-      throw failures.failure(info, tableShouldContainCell(actual, row, column, expectedValue, actualValue));
+      throw assertionError(tableShouldContainCell(actual, row, column, expectedValue, actualValue));
     }
 
     return myself;
@@ -302,7 +297,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
   public void isEmpty() {
     objects.assertNotNull(info, actual);
     if (!actual.isEmpty()) {
-      throw failures.failure(info, ShouldBeEmpty.shouldBeEmpty(actual));
+      throw assertionError(ShouldBeEmpty.shouldBeEmpty(actual));
     }
   }
 

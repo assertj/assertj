@@ -27,8 +27,6 @@ import java.util.Set;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.data.MapEntry;
-import org.assertj.core.internal.Failures;
-import org.assertj.core.util.VisibleForTesting;
 
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
@@ -45,9 +43,6 @@ import com.google.common.collect.RangeMap;
  * @author Marcin Kwaczyński
  */
 public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<RangeMapAssert<K, V>, RangeMap<K, V>> {
-
-  @VisibleForTesting
-  Failures failures = Failures.instance();
 
   protected RangeMapAssert(final RangeMap<K, V> actual) {
     super(actual, RangeMapAssert.class);
@@ -95,7 +90,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
       }
     }
     if (!keysNotFound.isEmpty()) {
-      throw failures.failure(info, shouldContainKeys(actual, keys, keysNotFound));
+      throw assertionError(shouldContainKeys(actual, keys, keysNotFound));
     }
 
     return myself;
@@ -144,7 +139,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
       }
     }
     if (!entriesNotFound.isEmpty()) {
-      throw failures.failure(info, shouldContain(actual, entries, entriesNotFound));
+      throw assertionError(shouldContain(actual, entries, entriesNotFound));
     }
     return myself;
   }
@@ -189,7 +184,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
       }
     }
     if (!entriesNotFound.isEmpty()) {
-      throw failures.failure(info, shouldContain(actual, entries, entriesNotFound));
+      throw assertionError(shouldContain(actual, entries, entriesNotFound));
     }
     return myself;
   }
@@ -232,7 +227,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
       }
     }
     if (!valuesNotFound.isEmpty()) {
-      throw failures.failure(info, shouldContainValues(actual, values, valuesNotFound));
+      throw assertionError(shouldContainValues(actual, values, valuesNotFound));
     }
     return myself;
   }
@@ -254,7 +249,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
   public RangeMapAssert<K, V> isEmpty() {
     objects.assertNotNull(info, actual);
     if (!actual.asMapOfRanges().isEmpty()) {
-      throw failures.failure(info, shouldBeEmpty(actual));
+      throw assertionError(shouldBeEmpty(actual));
     }
     return myself;
   }
@@ -283,7 +278,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
   public RangeMapAssert<K, V> isNotEmpty() {
     objects.assertNotNull(info, actual);
     if (actual.asMapOfRanges().isEmpty()) {
-      throw failures.failure(info, shouldNotBeEmpty());
+      throw assertionError(shouldNotBeEmpty());
     }
     return myself;
   }

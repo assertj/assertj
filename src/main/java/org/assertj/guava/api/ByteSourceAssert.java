@@ -74,7 +74,7 @@ public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSourc
    */
   public void isEmpty() throws IOException {
     objects.assertNotNull(info, actual);
-    if (!actual.isEmpty()) throw failures.failure(info, shouldBeEmpty(actual));
+    if (!actual.isEmpty()) throw assertionError(shouldBeEmpty(actual));
   }
 
   /**
@@ -95,7 +95,7 @@ public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSourc
   public ByteSourceAssert hasSize(long expectedSize) throws IOException {
     objects.assertNotNull(info, actual);
     long sizeOfActual = actual.size();
-    if (sizeOfActual != expectedSize) throw failures.failure(info, shouldHaveSize(actual, sizeOfActual, expectedSize));
+    if (sizeOfActual != expectedSize) throw assertionError(shouldHaveSize(actual, sizeOfActual, expectedSize));
     return this;
   }
 

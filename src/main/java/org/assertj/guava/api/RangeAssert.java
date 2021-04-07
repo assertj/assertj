@@ -28,8 +28,6 @@ import static org.assertj.guava.util.ExceptionUtils.throwIllegalArgumentExceptio
 import java.util.List;
 
 import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.internal.Failures;
-import org.assertj.core.util.VisibleForTesting;
 
 import com.google.common.collect.BoundType;
 import com.google.common.collect.Range;
@@ -45,9 +43,6 @@ import com.google.common.collect.Range;
  * @author Marcin Kwaczyński
  */
 public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAssert<T>, Range<T>> {
-
-  @VisibleForTesting
-  Failures failures = Failures.instance();
 
   protected RangeAssert(final Range<T> actual) {
     super(actual, RangeAssert.class);
@@ -82,7 +77,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
       }
     }
     if (!valuesNotFound.isEmpty()) {
-      throw failures.failure(info, shouldContain(actual, values, valuesNotFound));
+      throw assertionError(shouldContain(actual, values, valuesNotFound));
     }
 
     return myself;
@@ -112,7 +107,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
       }
     }
     if (!valuesFound.isEmpty()) {
-      throw failures.failure(info, shouldNotContain(actual, values, valuesFound));
+      throw assertionError(shouldNotContain(actual, values, valuesFound));
     }
 
     return myself;
@@ -135,7 +130,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     objects.assertNotNull(info, actual);
 
     if (actual.lowerBoundType() != BoundType.CLOSED) {
-      throw failures.failure(info, shouldHaveClosedLowerBound(actual));
+      throw assertionError(shouldHaveClosedLowerBound(actual));
     }
 
     return myself;
@@ -158,7 +153,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     objects.assertNotNull(info, actual);
 
     if (actual.upperBoundType() != BoundType.CLOSED) {
-      throw failures.failure(info, shouldHaveClosedUpperBound(actual));
+      throw assertionError(shouldHaveClosedUpperBound(actual));
     }
 
     return myself;
@@ -183,7 +178,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     objects.assertNotNull(info, actual);
 
     if (!actual.lowerEndpoint().equals(value)) {
-      throw failures.failure(info, shouldHaveEqualLowerEndpoint(actual, value));
+      throw assertionError(shouldHaveEqualLowerEndpoint(actual, value));
     }
 
     return myself;
@@ -206,7 +201,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     objects.assertNotNull(info, actual);
 
     if (actual.lowerBoundType() != BoundType.OPEN) {
-      throw failures.failure(info, shouldHaveOpenedLowerBound(actual));
+      throw assertionError(shouldHaveOpenedLowerBound(actual));
     }
 
     return myself;
@@ -229,7 +224,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     objects.assertNotNull(info, actual);
 
     if (actual.upperBoundType() != BoundType.OPEN) {
-      throw failures.failure(info, shouldHaveOpenedUpperBound(actual));
+      throw assertionError(shouldHaveOpenedUpperBound(actual));
     }
 
     return myself;
@@ -254,7 +249,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     objects.assertNotNull(info, actual);
 
     if (!actual.upperEndpoint().equals(value)) {
-      throw failures.failure(info, shouldHaveEqualUpperEndpoint(actual, value));
+      throw assertionError(shouldHaveEqualUpperEndpoint(actual, value));
     }
 
     return myself;
@@ -277,7 +272,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     objects.assertNotNull(info, actual);
 
     if (!actual.isEmpty()) {
-      throw failures.failure(info, shouldBeEmpty(actual));
+      throw assertionError(shouldBeEmpty(actual));
     }
 
     return myself;
@@ -300,7 +295,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     objects.assertNotNull(info, actual);
 
     if (actual.isEmpty()) {
-      throw failures.failure(info, shouldNotBeEmpty());
+      throw assertionError(shouldNotBeEmpty());
     }
 
     return myself;

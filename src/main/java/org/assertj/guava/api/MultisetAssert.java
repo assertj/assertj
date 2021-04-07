@@ -19,8 +19,6 @@ import static org.assertj.guava.error.MultisetShouldContainTimes.shouldContainTi
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.ObjectAssert;
-import org.assertj.core.internal.Failures;
-import org.assertj.core.util.VisibleForTesting;
 
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
@@ -37,9 +35,6 @@ import com.google.common.collect.Multiset;
  * @author Max Daniline
  */
 public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>, Multiset<? extends T>, T, ObjectAssert<T>> {
-
-  @VisibleForTesting
-  Failures failures = Failures.instance();
 
   protected MultisetAssert(Multiset<? extends T> actual) {
     super(actual, MultisetAssert.class);
@@ -73,7 +68,7 @@ public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>,
     checkArgument(expectedCount >= 0, "The expected count should not be negative.");
     int actualCount = actual.count(expected);
     if (actualCount != expectedCount) {
-      throw failures.failure(info, shouldContainTimes(actual, expected, expectedCount, actualCount));
+      throw assertionError(shouldContainTimes(actual, expected, expectedCount, actualCount));
     }
     return myself;
   }
@@ -106,7 +101,7 @@ public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>,
     checkArgument(minimumCount >= 0, "The minimum count should not be negative.");
     int actualCount = actual.count(expected);
     if (actualCount < minimumCount) {
-      throw failures.failure(info, shouldContainAtLeastTimes(actual, expected, minimumCount, actualCount));
+      throw assertionError(shouldContainAtLeastTimes(actual, expected, minimumCount, actualCount));
     }
     return myself;
   }
@@ -140,7 +135,7 @@ public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>,
     checkArgument(maximumCount >= 0, "The maximum count should not be negative.");
     int actualCount = actual.count(expected);
     if (actualCount > maximumCount) {
-      throw failures.failure(info, shouldContainAtMostTimes(actual, expected, maximumCount, actualCount));
+      throw assertionError(shouldContainAtMostTimes(actual, expected, maximumCount, actualCount));
     }
     return myself;
   }

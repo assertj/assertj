@@ -20,8 +20,6 @@ import static org.assertj.guava.error.OptionalShouldBePresentWithValue.shouldBeP
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractCharSequenceAssert;
 import org.assertj.core.api.AbstractObjectAssert;
-import org.assertj.core.internal.Failures;
-import org.assertj.core.util.VisibleForTesting;
 
 import com.google.common.base.Optional;
 
@@ -37,9 +35,6 @@ import com.google.common.base.Optional;
  * @author Kornel Kiełczewski
  */
 public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optional<T>> {
-
-  @VisibleForTesting
-  Failures failures = Failures.instance();
 
   protected OptionalAssert(final Optional<T> actual) {
     super(actual, OptionalAssert.class);
@@ -68,10 +63,10 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
   public OptionalAssert<T> contains(final Object value) {
     objects.assertNotNull(info, actual);
     if (!actual.isPresent()) {
-      throw failures.failure(info, shouldBePresentWithValue(value));
+      throw assertionError(shouldBePresentWithValue(value));
     }
     if (!objects.getComparisonStrategy().areEqual(actual.get(), value)) {
-      throw failures.failure(info, shouldBePresentWithValue(actual, value));
+      throw assertionError(shouldBePresentWithValue(actual, value));
     }
     return this;
   }
@@ -93,7 +88,7 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
   public OptionalAssert<T> isAbsent() {
     objects.assertNotNull(info, actual);
     if (actual.isPresent()) {
-      throw failures.failure(info, shouldBeAbsent(actual));
+      throw assertionError(shouldBeAbsent(actual));
     }
     return this;
   }
@@ -115,7 +110,7 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
   public OptionalAssert<T> isPresent() {
     objects.assertNotNull(info, actual);
     if (!actual.isPresent()) {
-      throw failures.failure(info, shouldBePresent(actual));
+      throw assertionError(shouldBePresent(actual));
     }
     return this;
   }
