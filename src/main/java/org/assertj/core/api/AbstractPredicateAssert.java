@@ -57,7 +57,15 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Predicate} does not accept all the given {@code Iterable}'s elements.
    */
-  public SELF accepts(@SuppressWarnings("unchecked") T... values) {
+  @SafeVarargs
+  public final SELF accepts(T... values) {
+    return acceptsForProxy(values);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF acceptsForProxy(T[] values) {
     isNotNull();
     if (values.length == 1) {
       if (!actual.test(values[0])) throwAssertionError(shouldAccept(actual, values[0], PredicateDescription.GIVEN));
@@ -83,7 +91,15 @@ public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAsse
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Predicate} accepts one of the given {@code Iterable}'s elements.
    */
-  public SELF rejects(@SuppressWarnings("unchecked") T... values) {
+  @SafeVarargs
+  public final SELF rejects(T... values) {
+    return rejectsForProxy(values);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF rejectsForProxy(T[] values) {
     isNotNull();
     if (values.length == 1) {
       if (actual.test(values[0])) throwAssertionError(shouldNotAccept(actual, values[0], PredicateDescription.GIVEN));

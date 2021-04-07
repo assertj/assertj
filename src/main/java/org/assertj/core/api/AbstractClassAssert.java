@@ -317,7 +317,15 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
    */
-  public SELF hasAnnotations(@SuppressWarnings("unchecked") Class<? extends Annotation>... annotations) {
+  @SafeVarargs
+  public final SELF hasAnnotations(Class<? extends Annotation>... annotations) {
+    return hasAnnotationsForProxy(annotations);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF hasAnnotationsForProxy(Class<? extends Annotation>[] annotations) {
     classes.assertContainsAnnotations(info, actual, annotations);
     return myself;
   }

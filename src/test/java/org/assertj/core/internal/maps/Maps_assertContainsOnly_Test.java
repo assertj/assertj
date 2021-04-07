@@ -75,7 +75,6 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
     verify(failures).failure(info, shouldBeEmpty(actual));
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   void should_pass_if_actual_and_entries_are_empty() {
     maps.assertContainsOnly(someInfo(), emptyMap(), emptyEntries());

@@ -24,7 +24,6 @@ import org.junit.jupiter.api.Test;
 class MapAssert_size_Test {
 
   @Test
-  @SuppressWarnings("unchecked")
   void should_be_able_to_use_integer_assertions_on_size_the_map_size() {
     Map<String, String> stringToString = mapOf(entry("a", "1"), entry("b", "2"));
     // @format:off

@@ -513,7 +513,15 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain the given entries.
    */
-  public SELF contains(@SuppressWarnings("unchecked") Map.Entry<? extends K, ? extends V>... entries) {
+  @SafeVarargs
+  public final SELF contains(Map.Entry<? extends K, ? extends V>... entries) {
+    return containsForProxy(entries);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF containsForProxy(Map.Entry<? extends K, ? extends V>[] entries) {
     maps.assertContains(info, actual, entries);
     return myself;
   }
@@ -544,7 +552,15 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map does not contain any of the given entries.
    * @since 3.6.0
    */
-  public SELF containsAnyOf(@SuppressWarnings("unchecked") Map.Entry<? extends K, ? extends V>... entries) {
+  @SafeVarargs
+  public final SELF containsAnyOf(Map.Entry<? extends K, ? extends V>... entries) {
+    return containsAnyOfForProxy(entries);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF containsAnyOfForProxy(Map.Entry<? extends K, ? extends V>[] entries) {
     maps.assertContainsAnyOf(info, actual, entries);
     return myself;
   }
@@ -958,7 +974,15 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map contains any of the given entries.
    */
-  public SELF doesNotContain(@SuppressWarnings("unchecked") Map.Entry<? extends K, ? extends V>... entries) {
+  @SafeVarargs
+  public final SELF doesNotContain(Map.Entry<? extends K, ? extends V>... entries) {
+    return doesNotContainForProxy(entries);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF doesNotContainForProxy(Map.Entry<? extends K, ? extends V>[] entries) {
     maps.assertDoesNotContain(info, actual, entries);
     return myself;
   }
@@ -1012,7 +1036,6 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain the given key.
    */
-  @SuppressWarnings("unchecked")
   public SELF containsKey(K key) {
     return containsKeys(key);
   }
@@ -1039,7 +1062,15 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map does not contain the given key.
    * @throws IllegalArgumentException if the given argument is an empty array.
    */
-  public SELF containsKeys(@SuppressWarnings("unchecked") K... keys) {
+  @SafeVarargs
+  public final SELF containsKeys(K... keys) {
+    return containsKeysForProxy(keys);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF containsKeysForProxy(@SuppressWarnings("unchecked") K... keys) {
     maps.assertContainsKeys(info, actual, keys);
     return myself;
   }
@@ -1064,7 +1095,6 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map contains the given key.
    */
-  @SuppressWarnings("unchecked")
   public SELF doesNotContainKey(K key) {
     return doesNotContainKeys(key);
   }
@@ -1090,7 +1120,15 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map contains the given key.
    */
-  public SELF doesNotContainKeys(@SuppressWarnings("unchecked") K... keys) {
+  @SafeVarargs
+  public final SELF doesNotContainKeys(K... keys) {
+    return doesNotContainKeysForProxy(keys);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF doesNotContainKeysForProxy(K[] keys) {
     maps.assertDoesNotContainKeys(info, actual, keys);
     return myself;
   }
@@ -1119,8 +1157,15 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *           of the given keys, or the actual map contains more entries than the given ones.
    * @throws IllegalArgumentException if the given argument is an empty array.
    */
+  @SafeVarargs
+  public final SELF containsOnlyKeys(K... keys) {
+    return containsOnlyKeysForProxy(keys);
+  }
 
-  public SELF containsOnlyKeys(@SuppressWarnings("unchecked") K... keys) {
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF containsOnlyKeysForProxy(K[] keys) {
     maps.assertContainsOnlyKeys(info, actual, keys);
     return myself;
   }
@@ -1211,7 +1256,15 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain the given values.
    */
-  public SELF containsValues(@SuppressWarnings("unchecked") V... values) {
+  @SafeVarargs
+  public final SELF containsValues(V... values) {
+    return containsValuesForProxy(values);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF containsValuesForProxy(V[] values) {
     maps.assertContainsValues(info, actual, values);
     return myself;
   }
@@ -1272,7 +1325,15 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map does not contain the given entries, i.e. the actual map contains some or
    *           none of the given entries, or the actual map contains more entries than the given ones.
    */
-  public SELF containsOnly(@SuppressWarnings("unchecked") Map.Entry<? extends K, ? extends V>... entries) {
+  @SafeVarargs
+  public final SELF containsOnly(Map.Entry<? extends K, ? extends V>... entries) {
+    return containsOnlyForProxy(entries);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF containsOnlyForProxy(Map.Entry<? extends K, ? extends V>[] entries) {
     maps.assertContainsOnly(info, actual, entries);
     return myself;
   }
@@ -1308,7 +1369,15 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *           contains some or none of the given entries, or the actual map contains more entries than the given ones
    *           or entries are the same but the order is not.
    */
-  public SELF containsExactly(@SuppressWarnings("unchecked") Map.Entry<? extends K, ? extends V>... entries) {
+  @SafeVarargs
+  public final SELF containsExactly(Map.Entry<? extends K, ? extends V>... entries) {
+    return containsExactlyForProxy(entries);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF containsExactlyForProxy(Map.Entry<? extends K, ? extends V>[] entries) {
     maps.assertContainsExactly(info, actual, entries);
     return myself;
   }
@@ -1616,7 +1685,15 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @since 3.14.0
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extractingByKeys(@SuppressWarnings("unchecked") K... keys) {
+  @SafeVarargs
+  public final AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extractingByKeys(K... keys) {
+    return extractingByKeysForProxy(keys);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extractingByKeysForProxy(K[] keys) {
     isNotNull();
     List<V> extractedValues = Stream.of(keys).map(actual::get).collect(toList());
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf((Object[]) keys);
@@ -1790,7 +1867,15 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @since 3.12.0
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extractingFromEntries(@SuppressWarnings("unchecked") Function<? super Map.Entry<K, V>, Object>... extractors) {
+  @SafeVarargs
+  public final AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extractingFromEntries(Function<? super Map.Entry<K, V>, Object>... extractors) {
+    return extractingFromEntriesForProxy(extractors);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extractingFromEntriesForProxy(Function<? super Map.Entry<K, V>, Object>[] extractors) {
     isNotNull();
     // combine all extractors into one function
     Function<Map.Entry<K, V>, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)

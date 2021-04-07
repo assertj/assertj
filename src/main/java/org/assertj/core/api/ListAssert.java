@@ -19,16 +19,12 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.util.AbstractList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.stream.BaseStream;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.iterable.ThrowingExtractor;
-import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -175,10 +171,11 @@ public class ListAssert<ELEMENT> extends
   }
 
   @Override
-  @SafeVarargs
-  public final ListAssert<ELEMENT> startsWith(ELEMENT... sequence) {
+  protected ListAssert<ELEMENT> startsWithForProxy(@SuppressWarnings("unchecked") ELEMENT... sequence) {
     if (!(actual instanceof ListFromStream)) {
-      return super.startsWith(sequence);
+      // don't call super.startsWith(sequence) which would lead to a stack overflow
+      iterables.assertStartsWith(info, actual, sequence);
+      return myself;
     }
     objects.assertNotNull(info, actual);
     checkIsNotNull(sequence);
@@ -244,132 +241,6 @@ public class ListAssert<ELEMENT> extends
       return list.get(index);
     }
 
-  }
-
-  @Override
-  @SafeVarargs
-  public final ListAssert<ELEMENT> contains(ELEMENT... values) {
-    return super.contains(values);
-  }
-
-  @Override
-  @SafeVarargs
-  public final ListAssert<ELEMENT> containsOnly(ELEMENT... values) {
-    return super.containsOnly(values);
-  }
-
-  @Override
-  @SafeVarargs
-  public final ListAssert<ELEMENT> containsOnlyOnce(ELEMENT... values) {
-    return super.containsOnlyOnce(values);
-  }
-
-  @Override
-  @SafeVarargs
-  public final ListAssert<ELEMENT> containsExactly(ELEMENT... values) {
-    return super.containsExactly(values);
-  }
-
-  @Override
-  @SafeVarargs
-  public final ListAssert<ELEMENT> containsExactlyInAnyOrder(ELEMENT... values) {
-    return super.containsExactlyInAnyOrder(values);
-  }
-
-  @Override
-  @SafeVarargs
-  public final ListAssert<ELEMENT> containsAnyOf(ELEMENT... values) {
-    return super.containsAnyOf(values);
-  }
-
-  @Override
-  @SafeVarargs
-  public final ListAssert<ELEMENT> isSubsetOf(ELEMENT... values) {
-    return super.isSubsetOf(values);
-  }
-
-  @Override
-  @SafeVarargs
-  public final ListAssert<ELEMENT> containsSequence(ELEMENT... sequence) {
-    return super.containsSequence(sequence);
-  }
-
-  @Override
-  @SafeVarargs
-  public final ListAssert<ELEMENT> doesNotContainSequence(ELEMENT... sequence) {
-    return super.doesNotContainSequence(sequence);
-  }
-
-  @Override
-  @SafeVarargs
-  public final ListAssert<ELEMENT> containsSubsequence(ELEMENT... sequence) {
-    return super.containsSubsequence(sequence);
-  }
-
-  @Override
-  @SafeVarargs
-  public final ListAssert<ELEMENT> doesNotContainSubsequence(ELEMENT... sequence) {
-    return super.doesNotContainSubsequence(sequence);
-  }
-
-  @Override
-  @SafeVarargs
-  public final ListAssert<ELEMENT> doesNotContain(ELEMENT... values) {
-    return super.doesNotContain(values);
-  }
-
-  @Override
-  @SafeVarargs
-  public final ListAssert<ELEMENT> endsWith(ELEMENT first, ELEMENT... rest) {
-    return super.endsWith(first, rest);
-  }
-
-  @Override
-  @SafeVarargs
-  public final AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(Function<? super ELEMENT, ?>... extractors) {
-    return super.extracting(extractors);
-  }
-
-  @Override
-  @SafeVarargs
-  public final AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> map(Function<? super ELEMENT, ?>... mappers) {
-    return super.map(mappers);
-  }
-
-  @Override
-  @SafeVarargs
-  public final <EXCEPTION extends Exception> AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatExtracting(ThrowingExtractor<? super ELEMENT, ?, EXCEPTION>... extractors) {
-    return super.flatExtracting(extractors);
-  }
-
-  @Override
-  @SafeVarargs
-  public final <EXCEPTION extends Exception> AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatMap(ThrowingExtractor<? super ELEMENT, ?, EXCEPTION>... mappers) {
-    return super.flatMap(mappers);
-  }
-
-  @Override
-  @SafeVarargs
-  public final AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatExtracting(Function<? super ELEMENT, ?>... extractors) {
-    return super.flatExtracting(extractors);
-  }
-
-  @Override
-  @SafeVarargs
-  public final AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatMap(Function<? super ELEMENT, ?>... mappers) {
-    return super.flatMap(mappers);
-  }
-
-  @Override
-  @SafeVarargs
-  public final ListAssert<ELEMENT> satisfiesExactly(Consumer<? super ELEMENT>... requirements) {
-    return super.satisfiesExactly(requirements);
-  }
-
-  @Override
-  @SafeVarargs
-  public final ListAssert<ELEMENT> satisfiesExactlyInAnyOrder(Consumer<? super ELEMENT>... requirements) {
-    return super.satisfiesExactlyInAnyOrder(requirements);
   }
 
 }
