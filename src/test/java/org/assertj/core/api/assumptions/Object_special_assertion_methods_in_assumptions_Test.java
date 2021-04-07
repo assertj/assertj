@@ -30,7 +30,6 @@ import org.assertj.core.data.TolkienCharacter.Race;
  */
 class Object_special_assertion_methods_in_assumptions_Test extends BaseAssumptionsRunnerTest {
 
-  @SuppressWarnings("unchecked")
   public static Stream<AssumptionRunner<?>> provideAssumptionsRunners() {
     return Stream.of(assumptionRunner(TolkienCharacter.of("Frodo", 33, Race.HOBBIT),
                                       value -> assumeThat(value).extracting(TolkienCharacter::getName, TolkienCharacter::getAge)

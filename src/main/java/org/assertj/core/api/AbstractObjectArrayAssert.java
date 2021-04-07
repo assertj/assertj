@@ -345,7 +345,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws AssertionError if the actual array does not contain the given values.
    */
   @Override
-  public SELF contains(@SuppressWarnings("unchecked") ELEMENT... values) {
+  @SafeVarargs
+  public final SELF contains(@SuppressWarnings("unchecked") ELEMENT... values) {
+    return containsForProxy(values);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy")
+  // is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF containsForProxy(ELEMENT[] values) {
     arrays.assertContains(info, actual, values);
     return myself;
   }
@@ -383,7 +392,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *           or none of the given values, or the actual array contains more values than the given ones.
    */
   @Override
-  public SELF containsOnly(@SuppressWarnings("unchecked") ELEMENT... values) {
+  @SafeVarargs
+  public final SELF containsOnly(@SuppressWarnings("unchecked") ELEMENT... values) {
+    return containsOnlyForProxy(values);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy")
+  // is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF containsOnlyForProxy(ELEMENT[] values) {
     arrays.assertContainsOnly(info, actual, values);
     return myself;
   }
@@ -543,7 +561,15 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *           or none of the given values, or the actual array contains more than once these values.
    */
   @Override
-  public SELF containsOnlyOnce(@SuppressWarnings("unchecked") ELEMENT... values) {
+  public final SELF containsOnlyOnce(@SuppressWarnings("unchecked") ELEMENT... values) {
+    return containsOnlyOnceForProxy(values);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy")
+  // is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF containsOnlyOnceForProxy(ELEMENT[] values) {
     arrays.assertContainsOnlyOnce(info, actual, values);
     return myself;
   }
@@ -577,7 +603,15 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *           or values are the same but the order is not.
    */
   @Override
-  public SELF containsExactly(@SuppressWarnings("unchecked") ELEMENT... values) {
+  public final SELF containsExactly(@SuppressWarnings("unchecked") ELEMENT... values) {
+    return containsExactlyForProxy(values);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy")
+  // is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF containsExactlyForProxy(ELEMENT[] values) {
     arrays.assertContainsExactly(info, actual, values);
     return myself;
   }
@@ -603,7 +637,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *           contains some or none of the given values, or the actual array contains more values than the given ones.
    */
   @Override
-  public SELF containsExactlyInAnyOrder(@SuppressWarnings("unchecked") ELEMENT... values) {
+  @SafeVarargs
+  public final SELF containsExactlyInAnyOrder(@SuppressWarnings("unchecked") ELEMENT... values) {
+    return containsExactlyInAnyOrderForProxy(values);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy")
+  // is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF containsExactlyInAnyOrderForProxy(ELEMENT[] values) {
     arrays.assertContainsExactlyInAnyOrder(info, actual, values);
     return myself;
   }
@@ -659,7 +702,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
   @Override
-  public SELF containsSequence(@SuppressWarnings("unchecked") ELEMENT... sequence) {
+  @SafeVarargs
+  public final SELF containsSequence(@SuppressWarnings("unchecked") ELEMENT... sequence) {
+    return containsSequenceForProxy(sequence);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy")
+  // is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF containsSequenceForProxy(ELEMENT[] sequence) {
     arrays.assertContainsSequence(info, actual, sequence);
     return myself;
   }
@@ -716,7 +768,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
   @Override
-  public SELF doesNotContainSequence(@SuppressWarnings("unchecked") ELEMENT... sequence) {
+  @SafeVarargs
+  public final SELF doesNotContainSequence(@SuppressWarnings("unchecked") ELEMENT... sequence) {
+    return doesNotContainSequenceForProxy(sequence);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy")
+  // is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF doesNotContainSequenceForProxy(ELEMENT[] sequence) {
     arrays.assertDoesNotContainSequence(info, actual, sequence);
     return myself;
   }
@@ -770,7 +831,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws AssertionError if the actual array does not contain the given subsequence.
    */
   @Override
-  public SELF containsSubsequence(@SuppressWarnings("unchecked") ELEMENT... subsequence) {
+  @SafeVarargs
+  public final SELF containsSubsequence(@SuppressWarnings("unchecked") ELEMENT... subsequence) {
+    return containsSubsequenceForProxy(subsequence);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy")
+  // is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF containsSubsequenceForProxy(ELEMENT[] subsequence) {
     arrays.assertContainsSubsequence(info, actual, subsequence);
     return myself;
   }
@@ -822,7 +892,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws AssertionError if the actual array contains the given subsequence.
    */
   @Override
-  public SELF doesNotContainSubsequence(@SuppressWarnings("unchecked") ELEMENT... subsequence) {
+  @SafeVarargs
+  public final SELF doesNotContainSubsequence(@SuppressWarnings("unchecked") ELEMENT... subsequence) {
+    return doesNotContainSubsequenceForProxy(subsequence);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy")
+  // is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF doesNotContainSubsequenceForProxy(ELEMENT[] subsequence) {
     arrays.assertDoesNotContainSubsequence(info, actual, subsequence);
     return myself;
   }
@@ -964,7 +1043,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws AssertionError if the actual array contains any of the given values.
    */
   @Override
-  public SELF doesNotContain(@SuppressWarnings("unchecked") ELEMENT... values) {
+  @SafeVarargs
+  public final SELF doesNotContain(@SuppressWarnings("unchecked") ELEMENT... values) {
+    return doesNotContainForProxy(values);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy")
+  // is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF doesNotContainForProxy(ELEMENT[] values) {
     arrays.assertDoesNotContain(info, actual, values);
     return myself;
   }
@@ -1094,7 +1182,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws AssertionError if the actual array does not end with the given sequence of objects.
    */
   @Override
-  public SELF endsWith(ELEMENT first, @SuppressWarnings("unchecked") ELEMENT... sequence) {
+  @SafeVarargs
+  public final SELF endsWith(ELEMENT first, @SuppressWarnings("unchecked") ELEMENT... sequence) {
+    return endsWithForProxy(first, sequence);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy")
+  // is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF endsWithForProxy(ELEMENT first, ELEMENT[] sequence) {
     arrays.assertEndsWith(info, actual, first, sequence);
     return myself;
   }
@@ -1144,7 +1241,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws AssertionError if the actual {@code Iterable} is not subset of the given values.
    */
   @Override
-  public SELF isSubsetOf(@SuppressWarnings("unchecked") ELEMENT... values) {
+  @SafeVarargs
+  public final SELF isSubsetOf(@SuppressWarnings("unchecked") ELEMENT... values) {
+    return isSubsetOfForProxy(values);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy")
+  // is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF isSubsetOfForProxy(ELEMENT[] values) {
     arrays.assertIsSubsetOf(info, actual, Arrays.asList(values));
     return myself;
   }
@@ -2513,7 +2619,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return a new assertion object whose object under test is the list of Tuples containing the extracted values.
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(@SuppressWarnings("unchecked") Function<? super ELEMENT, ?>... extractors) {
+  @SafeVarargs
+  public final AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(@SuppressWarnings("unchecked") Function<? super ELEMENT, ?>... extractors) {
+    return extractingForProxy(extractors);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy")
+  // is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extractingForProxy(Function<? super ELEMENT, ?>[] extractors) {
 
     Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
                                                                                           .map(extractor -> extractor.apply(objectToExtractValueFrom))
@@ -3216,13 +3331,30 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   @Override
-  public SELF satisfiesExactly(@SuppressWarnings("unchecked") Consumer<? super ELEMENT>... requirements) {
+  @SafeVarargs
+  public final SELF satisfiesExactly(@SuppressWarnings("unchecked") Consumer<? super ELEMENT>... requirements) {
+    return satisfiesExactlyForProxy(requirements);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy")
+  // is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF satisfiesExactlyForProxy(Consumer<? super ELEMENT>[] requirements) {
     iterables.assertSatisfiesExactly(info, newArrayList(actual), requirements);
     return myself;
   }
 
   @Override
-  public SELF satisfiesExactlyInAnyOrder(@SuppressWarnings("unchecked") Consumer<? super ELEMENT>... consumers) {
+  public final SELF satisfiesExactlyInAnyOrder(@SuppressWarnings("unchecked") Consumer<? super ELEMENT>... consumers) {
+    return satisfiesExactlyInAnyOrderForProxy(consumers);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy")
+  // is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF satisfiesExactlyInAnyOrderForProxy(Consumer<? super ELEMENT>[] consumers) {
     iterables.assertSatisfiesExactlyInAnyOrder(info, newArrayList(actual), consumers);
     return myself;
   }
@@ -3253,7 +3385,16 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @since 2.9.0 / 3.9.0
    */
   @Override
-  public SELF containsAnyOf(@SuppressWarnings("unchecked") ELEMENT... values) {
+  @SafeVarargs
+  public final SELF containsAnyOf(@SuppressWarnings("unchecked") ELEMENT... values) {
+    return containsAnyOfForProxy(values);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy")
+  // is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF containsAnyOfForProxy(ELEMENT[] values) {
     arrays.assertContainsAnyOf(info, actual, values);
     return myself;
   }

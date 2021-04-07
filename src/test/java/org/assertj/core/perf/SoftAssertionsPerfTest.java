@@ -171,7 +171,6 @@ class SoftAssertionsPerfTest extends BaseAssertionsTest {
     assertThat(softly.wasSuccess()).isFalse();
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   void should_be_able_to_catch_exceptions_thrown_by_map_assertions() {
     // GIVEN
@@ -183,7 +182,6 @@ class SoftAssertionsPerfTest extends BaseAssertionsTest {
     assertThat(errors).hasSize(2);
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() {
     // perform a bunch of soft assertions

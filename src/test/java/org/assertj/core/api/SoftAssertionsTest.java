@@ -165,7 +165,6 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertAll();
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   void should_be_able_to_catch_exceptions_thrown_by_map_assertions() {
     // GIVEN
@@ -184,7 +183,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(1)).hasMessageStartingWith(format("%nExpecting empty but was: {\"54\"=\"55\"}"));
   }
 
-  @SuppressWarnings({ "unchecked", "deprecation" })
+  @SuppressWarnings({ "deprecation" })
   @Test
   void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() throws MalformedURLException {
     try {
@@ -403,7 +402,6 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     }
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   void should_pass_when_using_extracting_with_object() {
     // GIVEN
@@ -534,7 +532,6 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  @SuppressWarnings("unchecked")
   void should_pass_when_using_extracting_with_map() {
     // GIVEN
     Map<String, Object> map = mapOf(entry("name", "kawhi"), entry("age", 25));
@@ -667,7 +664,6 @@ class SoftAssertionsTest extends BaseAssertionsTest {
                                         .containsExactly("error 1", "error 2", "error 3");
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   void should_collect_all_errors_when_using_extracting_on_object() {
     // GIVEN
@@ -1270,7 +1266,6 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
-  @SuppressWarnings("unchecked")
   @Test
   void iterable_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
@@ -1507,7 +1502,6 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
-  @SuppressWarnings("unchecked")
   @Test
   void list_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
@@ -1744,7 +1738,6 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
-  @SuppressWarnings("unchecked")
   @Test
   void object_array_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
@@ -1907,7 +1900,6 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
-  @SuppressWarnings("unchecked")
   @Test
   void class_soft_assertions_should_report_errors_on_final_methods() {
     // GIVEN
@@ -1924,7 +1916,6 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
-  @SuppressWarnings("unchecked")
   @Test
   void object_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
@@ -1978,7 +1969,6 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
-  @SuppressWarnings("unchecked")
   @Test
   void map_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
@@ -2077,7 +2067,6 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(3)).hasMessageContaining("check size after navigating back");
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   void predicate_soft_assertions_should_report_errors_on_final_methods() {
     // GIVEN
@@ -2402,7 +2391,6 @@ class SoftAssertionsTest extends BaseAssertionsTest {
                                           MapEntry.entry(david, list(new Animal("scoubi"), new Animal("peter"))));
 
     @Test
-    @SuppressWarnings("unchecked")
     void should_pass_when_using_extractingFromEntries_with_map() {
       // WHEN
       softly.assertThat(map)
@@ -2418,7 +2406,6 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void should_collect_errors_when_using_extractingFromEntries_with_map() {
       // WHEN
       softly.assertThat(map)

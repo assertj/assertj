@@ -28,16 +28,4 @@ public class PredicateAssert<T> extends AbstractPredicateAssert<PredicateAssert<
     super(actual, PredicateAssert.class);
   }
 
-  @SafeVarargs
-  @Override
-  public final PredicateAssert<T> accepts(T... values) {
-    return super.accepts(values);
-  }
-
-  @SafeVarargs
-  @Override
-  public final PredicateAssert<T> rejects(T... values) {
-    return super.rejects(values);
-  }
-
 }

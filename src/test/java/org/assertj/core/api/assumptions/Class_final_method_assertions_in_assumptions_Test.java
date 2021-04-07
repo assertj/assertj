@@ -29,7 +29,6 @@ import org.assertj.core.util.VisibleForTesting;
  */
 class Class_final_method_assertions_in_assumptions_Test extends BaseAssumptionsRunnerTest {
 
-  @SuppressWarnings("unchecked")
   public static Stream<AssumptionRunner<?>> provideAssumptionsRunners() {
     return Stream.of(assumptionRunner(AnnotatedClass.class,
                                       value -> assumeThat(value).hasAnnotations(MyAnnotation.class, AnotherAnnotation.class),

@@ -13,13 +13,19 @@
 package org.assertj.core.api;
 
 import static net.bytebuddy.matcher.ElementMatchers.any;
+import static net.bytebuddy.matcher.ElementMatchers.isProtected;
 import static net.bytebuddy.matcher.ElementMatchers.isPublic;
 import static net.bytebuddy.matcher.ElementMatchers.named;
+import static net.bytebuddy.matcher.ElementMatchers.namedOneOf;
 import static net.bytebuddy.matcher.ElementMatchers.not;
 import static org.assertj.core.api.ClassLoadingStrategyFactory.classLoadingStrategy;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.ClassLoadingStrategyFactory.ClassLoadingStrategyPair;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
@@ -28,6 +34,7 @@ import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.TypeCache;
 import net.bytebuddy.TypeCache.SimpleKey;
 import net.bytebuddy.TypeCache.Sort;
+import net.bytebuddy.description.NamedElement;
 import net.bytebuddy.description.method.MethodDescription;
 import net.bytebuddy.description.modifier.Visibility;
 import net.bytebuddy.dynamic.scaffold.TypeValidation;
@@ -39,29 +46,30 @@ import net.bytebuddy.matcher.ElementMatcher.Junction;
 
 class SoftProxies {
 
-  private static final Junction<MethodDescription> METHODS_CHANGING_THE_OBJECT_UNDER_TEST = methodsNamed("asInstanceOf").or(named("asList"))
-                                                                                                                        .or(named("asString"))
-                                                                                                                        .or(named("asHexString"))
-                                                                                                                        .or(named("decodedAsBase64"))
-                                                                                                                        .or(named("encodedAsBase64"))
-                                                                                                                        .or(named("extracting"))
-                                                                                                                        .or(named("extractingByKey"))
-                                                                                                                        .or(named("extractingByKeys"))
-                                                                                                                        .or(named("extractingFromEntries"))
-                                                                                                                        .or(named("extractingResultOf"))
-                                                                                                                        .or(named("filteredOn"))
-                                                                                                                        .or(named("filteredOnAssertions"))
-                                                                                                                        .or(named("filteredOnNull"))
-                                                                                                                        .or(named("flatExtracting"))
-                                                                                                                        .or(named("flatMap"))
-                                                                                                                        .or(named("get"))
-                                                                                                                        .or(named("getCause"))
-                                                                                                                        .or(named("getRootCause"))
-                                                                                                                        .or(named("map"))
-                                                                                                                        .or(named("size"))
-                                                                                                                        .or(named("succeedsWithin"))
-                                                                                                                        .or(named("toAssert"))
-                                                                                                                        .or(named("usingRecursiveComparison"));
+  private static final Junction<MethodDescription> METHODS_CHANGING_THE_OBJECT_UNDER_TEST = methodsChangingUnderTestNamed("asInstanceOf",
+                                                                                                         "asList",
+                                                                                                         "asString",
+                                                                                                         "asHexString",
+                                                                                                         "decodedAsBase64",
+                                                                                                         "encodedAsBase64",
+                                                                                                         "extracting",
+                                                                                                         "extractingByKey",
+                                                                                                         "extractingByKeys",
+                                                                                                         "extractingFromEntries",
+                                                                                                         "extractingResultOf",
+                                                                                                         "filteredOn",
+                                                                                                         "filteredOnAssertions",
+                                                                                                         "filteredOnNull",
+                                                                                                         "flatExtracting",
+                                                                                                         "flatMap",
+                                                                                                         "get",
+                                                                                                         "getCause",
+                                                                                                         "getRootCause",
+                                                                                                         "map",
+                                                                                                         "size",
+                                                                                                         "succeedsWithin",
+                                                                                                         "toAssert",
+                                                                                                         "usingRecursiveComparison");
 
   private static final Junction<MethodDescription> METHODS_NOT_TO_PROXY = methodsNamed("as").or(named("clone"))
                                                                                             .or(named("describedAs"))
@@ -169,10 +177,10 @@ class SoftProxies {
                      .defineField(ProxifyMethodChangingTheObjectUnderTest.FIELD_NAME,
                                   ProxifyMethodChangingTheObjectUnderTest.class,
                                   Visibility.PRIVATE)
-                     .method(METHODS_CHANGING_THE_OBJECT_UNDER_TEST.and(isPublic()))
+                     .method(METHODS_CHANGING_THE_OBJECT_UNDER_TEST)
                      .intercept(PROXIFY_METHOD_CHANGING_THE_OBJECT_UNDER_TEST)
                      .defineField(ErrorCollector.FIELD_NAME, ErrorCollector.class, Visibility.PRIVATE)
-                     .method(any().and(not(METHODS_CHANGING_THE_OBJECT_UNDER_TEST.and(isPublic())))
+                     .method(any().and(not(METHODS_CHANGING_THE_OBJECT_UNDER_TEST))
                                   .and(not(METHODS_NOT_TO_PROXY)))
                      .intercept(ERROR_COLLECTOR)
                      .implement(AssertJProxySetup.class)
@@ -184,7 +192,19 @@ class SoftProxies {
                      .getLoaded();
   }
 
-  private static Junction<MethodDescription> methodsNamed(String name) {
-    return named(name);
+  private static Junction<MethodDescription> methodsNamed(String... names) {
+    return namedOneOf(names);
+  }
+
+  private static Junction<MethodDescription> methodsChangingUnderTestNamed(String... names) {
+    Junction<MethodDescription> publicMethods = namedOneOf(names).and(isPublic());
+
+    String[] forProxyMethodNames = Stream.of(names)
+                             .map(name -> name + "ForProxy")
+                             .toArray(String[]::new);
+
+    Junction<MethodDescription> forProxyProtectedMethods = namedOneOf(forProxyMethodNames).and(isProtected());
+    return publicMethods.or(forProxyProtectedMethods);
+
   }
 }
