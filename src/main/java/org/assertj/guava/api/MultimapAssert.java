@@ -30,7 +30,6 @@ import java.util.Set;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.Objects;
 import org.assertj.core.util.VisibleForTesting;
 
 import com.google.common.collect.ListMultimap;
@@ -70,18 +69,18 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
    *
    * assertThat(actual).containsKeys(&quot;Lakers&quot;, &quot;Bulls&quot;);</code></pre>
-   *
+   * <p>
    * If the <code>keys</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
    * <p>
    *
    * @param keys the keys to look for in actual {@link Multimap}.
    * @return this {@link MultimapAssert} for assertions chaining.
    * @throws IllegalArgumentException if no param keys have been set.
-   * @throws AssertionError if the actual {@link Multimap} is {@code null}.
-   * @throws AssertionError if the actual {@link Multimap} does not contain the given keys.
+   * @throws AssertionError           if the actual {@link Multimap} is {@code null}.
+   * @throws AssertionError           if the actual {@link Multimap} does not contain the given keys.
    */
   public MultimapAssert<K, V> containsKeys(@SuppressWarnings("unchecked") K... keys) {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     throwIllegalArgumentExceptionIfTrue(keys == null, "The keys to look for should not be null");
     throwIllegalArgumentExceptionIfTrue(keys.length == 0, "The keys to look for should not be empty");
 
@@ -110,19 +109,19 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    *
    * // entry can be statically imported from org.assertj.guava.api.Assertions or org.assertj.guava.data.MapEntry
    * assertThat(actual).contains(entry("Lakers", "Kobe Bryant"), entry("Spurs", "Tim Duncan"));</code></pre>
-   *
+   * <p>
    * If the <code>entries</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
    * <p>
    *
    * @param entries the entries to look for in actual {@link Multimap}.
    * @return this {@link MultimapAssert} for assertions chaining.
    * @throws IllegalArgumentException if no param entries have been set.
-   * @throws AssertionError if the actual {@link Multimap} is {@code null}.
-   * @throws AssertionError if the actual {@link Multimap} does not contain the given entries.
+   * @throws AssertionError           if the actual {@link Multimap} is {@code null}.
+   * @throws AssertionError           if the actual {@link Multimap} does not contain the given entries.
    */
   @SafeVarargs
   public final MultimapAssert<K, V> contains(MapEntry<K, V>... entries) {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     throwIllegalArgumentExceptionIfTrue(entries == null, "The entries to look for should not be null");
     throwIllegalArgumentExceptionIfTrue(entries.length == 0, "The entries to look for should not be empty");
 
@@ -151,18 +150,18 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    *
    * // note that given values are not linked to same key
    * assertThat(actual).containsValues(&quot;Kobe Bryant&quot;, &quot;Michael Jordan&quot;);</code></pre>
-   *
+   * <p>
    * If the <code>values</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
    * <p>
    *
    * @param values the values to look for in actual {@link Multimap}.
    * @return this {@link MultimapAssert} for assertions chaining.
    * @throws IllegalArgumentException if no param values have been set.
-   * @throws AssertionError if the actual {@link Multimap} is {@code null}.
-   * @throws AssertionError if the actual {@link Multimap} does not contain the given values.
+   * @throws AssertionError           if the actual {@link Multimap} is {@code null}.
+   * @throws AssertionError           if the actual {@link Multimap} does not contain the given values.
    */
   public MultimapAssert<K, V> containsValues(@SuppressWarnings("unchecked") V... values) {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     throwIllegalArgumentExceptionIfTrue(values == null, "The values to look for should not be null");
     throwIllegalArgumentExceptionIfTrue(values.length == 0, "The values to look for should not be empty");
 
@@ -192,7 +191,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * @throws AssertionError if the actual {@link Multimap} is not empty.
    */
   public void isEmpty() {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     if (!actual.isEmpty()) {
       throw failures.failure(info, shouldBeEmpty(actual));
     }
@@ -214,7 +213,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * @throws AssertionError if the actual {@link Multimap} is empty.
    */
   public void isNotEmpty() {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     if (actual.isEmpty()) {
       throw failures.failure(info, shouldNotBeEmpty());
     }
@@ -240,7 +239,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * @throws AssertionError if the number of values of the actual {@link Multimap} is not equal to the given one.
    */
   public MultimapAssert<K, V> hasSize(int expectedSize) {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     int sizeOfActual = actual.size();
     if (sizeOfActual == expectedSize) {
       return this;
@@ -271,12 +270,12 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    *
    * @param other {@link Multimap} to compare actual's entries with.
    * @return this {@link MultimapAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link Multimap} is {@code null}.
+   * @throws AssertionError           if the actual {@link Multimap} is {@code null}.
    * @throws IllegalArgumentException if the other {@link Multimap} is {@code null}.
-   * @throws AssertionError if actual {@link Multimap} does not have the same entries as the other {@link Multimap}.
+   * @throws AssertionError           if actual {@link Multimap} does not have the same entries as the other {@link Multimap}.
    */
   public final MultimapAssert<K, V> hasSameEntriesAs(Multimap<? extends K, ? extends V> other) {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     throwIllegalArgumentExceptionIfTrue(other == null, "The multimap to compare actual with should not be null");
 
     Set<?> entriesNotExpectedInActual = difference(newLinkedHashSet(actual.entries()), newLinkedHashSet(other.entries()));
@@ -306,12 +305,12 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    *
    * @param other {@link Multimap} to compare actual's entries with.
    * @return this {@link MultimapAssert} for assertions chaining.
-   * @throws AssertionError if the actual {@link Multimap} is {@code null}.
+   * @throws AssertionError           if the actual {@link Multimap} is {@code null}.
    * @throws IllegalArgumentException if the other {@link Multimap} is {@code null}.
-   * @throws AssertionError if actual {@link Multimap} does not have contain all the given {@link Multimap} entries.
+   * @throws AssertionError           if actual {@link Multimap} does not have contain all the given {@link Multimap} entries.
    */
   public final MultimapAssert<K, V> containsAllEntriesOf(Multimap<? extends K, ? extends V> other) {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     throwIllegalArgumentExceptionIfTrue(other == null, "The multimap to compare actual with should not be null");
 
     Set<?> entriesNotFoundInActual = difference(newLinkedHashSet(other.entries()), newLinkedHashSet(actual.entries()));

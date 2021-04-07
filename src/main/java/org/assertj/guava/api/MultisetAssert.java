@@ -20,7 +20,6 @@ import static org.assertj.guava.error.MultisetShouldContainTimes.shouldContainTi
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.Objects;
 import org.assertj.core.util.VisibleForTesting;
 
 import com.google.common.collect.HashMultiset;
@@ -70,7 +69,7 @@ public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>,
    * @throws AssertionError if the actual {@link Multiset} contains the given value a number of times different to the given count
    */
   public MultisetAssert<T> contains(int expectedCount, T expected) {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     checkArgument(expectedCount >= 0, "The expected count should not be negative.");
     int actualCount = actual.count(expected);
     if (actualCount != expectedCount) {
@@ -103,7 +102,7 @@ public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>,
    * @throws AssertionError if the actual {@link Multiset} contains the given value fewer times than the given count
    */
   public MultisetAssert<T> containsAtLeast(int minimumCount, T expected) {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     checkArgument(minimumCount >= 0, "The minimum count should not be negative.");
     int actualCount = actual.count(expected);
     if (actualCount < minimumCount) {
@@ -137,7 +136,7 @@ public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>,
    * @throws AssertionError if the actual {@link Multiset} contains the given value more times than the given count
    */
   public MultisetAssert<T> containsAtMost(int maximumCount, T expected) {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     checkArgument(maximumCount >= 0, "The maximum count should not be negative.");
     int actualCount = actual.count(expected);
     if (actualCount > maximumCount) {

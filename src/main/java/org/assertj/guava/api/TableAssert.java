@@ -26,7 +26,6 @@ import java.util.Set;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.error.ShouldBeEmpty;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.Objects;
 import org.assertj.core.util.VisibleForTesting;
 
 import com.google.common.collect.Sets;
@@ -65,7 +64,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * @throws AssertionError           if the actual {@link Table} does not have the expected row size.
    */
   public TableAssert<R, C, V> hasRowCount(int expectedSize) {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     checkExpectedSizeArgument(expectedSize);
 
     if (actual.rowKeySet().size() != expectedSize) {
@@ -95,7 +94,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * @throws AssertionError           if the actual {@link Table} does not have the expected column size.
    */
   public TableAssert<R, C, V> hasColumnCount(int expectedSize) {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     checkExpectedSizeArgument(expectedSize);
 
     if (actual.columnKeySet().size() != expectedSize) {
@@ -125,7 +124,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * @throws AssertionError           if the actual {@link Table} does not have the expected number of cells.
    */
   public TableAssert<R, C, V> hasSize(int expectedSize) {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     checkExpectedSizeArgument(expectedSize);
 
     if (actual.size() != expectedSize) {
@@ -155,7 +154,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * @throws AssertionError           if the actual {@link Table} does not contain the given rows.
    */
   public TableAssert<R, C, V> containsRows(@SuppressWarnings("unchecked") R... rows) {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     checkArgument(rows != null, "The rows to look for should not be null.");
     checkArgument(rows.length > 0, "The rows to look for should not be empty.");
 
@@ -193,7 +192,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * @throws AssertionError           if the actual {@link Table} does not contain the given columns.
    */
   public TableAssert<R, C, V> containsColumns(@SuppressWarnings("unchecked") C... columns) {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     checkArgument(columns != null, "The columns to look for should not be null.");
     checkArgument(columns.length > 0, "The columns to look for should not be empty.");
 
@@ -232,7 +231,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * @throws AssertionError           if the actual {@link Table} does not contain the given values.
    */
   public TableAssert<R, C, V> containsValues(@SuppressWarnings("unchecked") V... values) {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     checkArgument(values != null, "The values to look for should not be null.");
     checkArgument(values.length > 0, "The values to look for should not be empty.");
 
@@ -274,7 +273,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * @throws AssertionError if the expected value is {@code null}.
    */
   public TableAssert<R, C, V> containsCell(R row, C column, V expectedValue) {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     checkArgument(row != null, "The row to look for should not be null.");
     checkArgument(column != null, "The column to look for should not be null.");
     checkArgument(expectedValue != null, "The value to look for should not be null.");
@@ -301,7 +300,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * @throws AssertionError if the actual {@link Table} is not empty.
    */
   public void isEmpty() {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     if (!actual.isEmpty()) {
       throw failures.failure(info, ShouldBeEmpty.shouldBeEmpty(actual));
     }

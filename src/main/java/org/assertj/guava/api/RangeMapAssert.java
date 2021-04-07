@@ -28,7 +28,6 @@ import java.util.Set;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.Objects;
 import org.assertj.core.util.VisibleForTesting;
 
 import com.google.common.collect.Range;
@@ -85,7 +84,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
    * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} does not contain the given keys.
    */
   public RangeMapAssert<K, V> containsKeys(@SuppressWarnings("unchecked") K... keys) {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     throwIllegalArgumentExceptionIfTrue(keys == null, "The keys to look for should not be null");
     throwIllegalArgumentExceptionIfTrue(keys.length == 0, "The keys to look for should not be empty");
 
@@ -133,7 +132,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
   @SafeVarargs
   @Deprecated
   public final RangeMapAssert<K, V> contains(org.assertj.guava.data.MapEntry<K, V>... entries) {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     throwIllegalArgumentExceptionIfTrue(entries == null, "The entries to look for should not be null");
     throwIllegalArgumentExceptionIfTrue(entries.length == 0, "The entries to look for should not be empty");
 
@@ -178,7 +177,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
    */
   @SafeVarargs
   public final RangeMapAssert<K, V> contains(MapEntry<K, V>... entries) {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     throwIllegalArgumentExceptionIfTrue(entries == null, "The entries to look for should not be null");
     throwIllegalArgumentExceptionIfTrue(entries.length == 0, "The entries to look for should not be empty");
 
@@ -221,7 +220,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
    * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} does not contain the given values.
    */
   public RangeMapAssert<K, V> containsValues(@SuppressWarnings("unchecked") V... values) {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     throwIllegalArgumentExceptionIfTrue(values == null, "The values to look for should not be null");
     throwIllegalArgumentExceptionIfTrue(values.length == 0, "The values to look for should not be empty");
 
@@ -253,7 +252,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
    * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} is not empty.
    */
   public RangeMapAssert<K, V> isEmpty() {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     if (!actual.asMapOfRanges().isEmpty()) {
       throw failures.failure(info, shouldBeEmpty(actual));
     }
@@ -282,7 +281,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
    * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} is empty.
    */
   public RangeMapAssert<K, V> isNotEmpty() {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     if (actual.asMapOfRanges().isEmpty()) {
       throw failures.failure(info, shouldNotBeEmpty());
     }

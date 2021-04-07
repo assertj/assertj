@@ -21,7 +21,6 @@ import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractCharSequenceAssert;
 import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.Objects;
 import org.assertj.core.util.VisibleForTesting;
 
 import com.google.common.base.Optional;
@@ -67,7 +66,7 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
    * @throws AssertionError if the actual {@link Optional} contains nothing or does not have the given value.
    */
   public OptionalAssert<T> contains(final Object value) {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     if (!actual.isPresent()) {
       throw failures.failure(info, shouldBePresentWithValue(value));
     }
@@ -92,7 +91,7 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
    * @throws AssertionError if the actual {@link Optional} contains a (non-null) instance.
    */
   public OptionalAssert<T> isAbsent() {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     if (actual.isPresent()) {
       throw failures.failure(info, shouldBeAbsent(actual));
     }
@@ -114,7 +113,7 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
    * @throws AssertionError if the actual {@link Optional} contains a null instance.
    */
   public OptionalAssert<T> isPresent() {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     if (!actual.isPresent()) {
       throw failures.failure(info, shouldBePresent(actual));
     }

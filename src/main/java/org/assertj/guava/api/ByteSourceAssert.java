@@ -20,7 +20,6 @@ import java.io.IOException;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.Objects;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -56,7 +55,7 @@ public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSourc
    * @throws AssertionError if the actual {@link ByteSource} does not contain the same content.
    */
   public ByteSourceAssert hasSameContentAs(ByteSource other) throws IOException {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     if (!actual.contentEquals(other)) throw failures.failure(info, shouldBeEqual(actual, other, new StandardRepresentation()));
     return this;
   }
@@ -74,7 +73,7 @@ public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSourc
    * @throws AssertionError if the actual {@link ByteSource} is not empty.
    */
   public void isEmpty() throws IOException {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     if (!actual.isEmpty()) throw failures.failure(info, shouldBeEmpty(actual));
   }
 
@@ -94,7 +93,7 @@ public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSourc
    * @throws AssertionError if the number of values of the actual {@link ByteSource} is not equal to the given one.
    */
   public ByteSourceAssert hasSize(long expectedSize) throws IOException {
-    Objects.instance().assertNotNull(info, actual);
+    objects.assertNotNull(info, actual);
     long sizeOfActual = actual.size();
     if (sizeOfActual != expectedSize) throw failures.failure(info, shouldHaveSize(actual, sizeOfActual, expectedSize));
     return this;
