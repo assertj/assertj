@@ -42,6 +42,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  * @author Nicolas François
+ * @author Jack Gough
  */
 public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SELF>> extends
     AbstractComparableAssert<SELF, Double> implements FloatingPointNumberAssert<SELF, Double> {
@@ -463,6 +464,8 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    */
   public SELF isEqualTo(double expected) {
     if (noCustomComparatorSet()) {
+      // check for null first to avoid casting a null to primitive
+      isNotNull();
       // use primitive comparison since the parameter is a primitive.
       if (expected == actual) return myself;
       // At this point we know that the assertion failed, if actual and expected are Double.NaN we want to
@@ -580,6 +583,8 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    */
   public SELF isNotEqualTo(double other) {
     if (noCustomComparatorSet()) {
+      // check for null first to avoid casting a null to primitive
+      isNotNull();
       // use primitive comparison since the parameter is a primitive.
       if (other != actual) return myself;
       throw Failures.instance().failure(info, shouldNotBeEqual(actual, other));

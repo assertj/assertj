@@ -15,6 +15,7 @@ package org.assertj.core.api.double_;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.BDDMockito.given;
@@ -89,5 +90,16 @@ class DoubleAssert_isEqualTo_double_Test extends DoubleAssertBaseTest {
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(format("Actual and expected values were compared with == because expected was a primitive double, the assertion failed as both were Double.NaN and Double.NaN != Double.NaN (as per Double#equals javadoc)"));
+  }
+
+  @Test
+  void should_fail_when_actual_null_expected_primitive() {
+    // GIVEN
+    Double actual = null;
+    double expected = 1.0d;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEqualTo(expected));
+    // THEN
+    then(assertionError).hasMessage(shouldNotBeNull().create());
   }
 }
