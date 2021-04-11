@@ -90,4 +90,15 @@ class DoubleAssert_isEqualTo_double_Test extends DoubleAssertBaseTest {
     // THEN
     then(assertionError).hasMessage(format("Actual and expected values were compared with == because expected was a primitive double, the assertion failed as both were Double.NaN and Double.NaN != Double.NaN (as per Double#equals javadoc)"));
   }
+
+  @Test
+  void should_fail_when_actual_null_expected_primitive() {
+    // GIVEN
+    Double actual = null;
+    double expected = 1.0d;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEqualTo(expected));
+    // THEN
+    then(assertionError).hasMessageContaining("Expecting actual not to be null");
+  }
 }

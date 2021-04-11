@@ -79,4 +79,15 @@ class DoubleAssert_isNotEqualTo_double_Test extends DoubleAssertBaseTest {
                                            "not to be equal to:%n" +
                                            "  -0.0%n"));
   }
+
+  @Test
+  void should_fail_when_actual_null_expected_primitive() {
+    // GIVEN
+    Double actual = null;
+    double expected = 1.0d;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotEqualTo(expected));
+    // THEN
+    then(assertionError).hasMessageContaining("Expecting actual not to be null");
+  }
 }
