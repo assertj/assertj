@@ -209,6 +209,7 @@
                 <bannedDependencies>
                   <includes>
                     <include>net.bytebuddy:byte-buddy</include>
+                    <include>org.objenesis:objenesis</include>
                   </includes>
                   <excludes>
                     <exclude>org.assertj:assertj-core</exclude>
@@ -250,6 +251,7 @@
         <executions>
           <!-- STEP 2a: execute maven shade to rename bytebuddy -->
           <execution>
+            <id>bytebuddy</id>
             <phase>package</phase>
             <goals>
               <goal>shade</goal>
@@ -277,6 +279,7 @@
           </execution>
           <!-- STEP 2b: execute maven shade to rename objenesis -->
           <execution>
+            <id>objenesis</id>
             <phase>package</phase>
             <goals>
               <goal>shade</goal>
