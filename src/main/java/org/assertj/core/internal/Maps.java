@@ -662,9 +662,7 @@ public class Maps {
     assertContainsOnlyKeys(info, actual, "keys iterable", keysAsArray);
   }
 
-  @VisibleForTesting
-  public <K, V> void assertContainsOnlyKeys(AssertionInfo info, Map<K, V> actual,
-                                            String placeholderForErrorMessages, K[] keys) {
+  private <K, V> void assertContainsOnlyKeys(AssertionInfo info, Map<K, V> actual, String placeholderForErrorMessages, K[] keys) {
     assertNotNull(info, actual);
     failIfNull(keys, keysToLookForIsNull(placeholderForErrorMessages));
     if (actual.isEmpty() && keys.length == 0) {

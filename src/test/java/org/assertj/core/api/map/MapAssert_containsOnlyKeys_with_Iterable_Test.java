@@ -15,30 +15,31 @@ package org.assertj.core.api.map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.test.Maps.mapOf;
-import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
-import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.verify;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("MapAssert containsOnlyKeys(Iterable)")
 class MapAssert_containsOnlyKeys_with_Iterable_Test extends MapAssertBaseTest {
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {
-    doCallRealMethod().when(maps).assertContainsOnlyKeys(getInfo(assertions), getActual(assertions), list(1, 2));
     return assertions.containsOnlyKeys(list(1, 2));
   }
 
   @Override
   protected void verify_internal_effects() {
     verify(maps).assertContainsOnlyKeys(getInfo(assertions), getActual(assertions), list(1, 2));
-    verify(maps).assertContainsOnlyKeys(getInfo(assertions), getActual(assertions), "keys iterable", array(1, 2));
   }
 
   @Test
@@ -49,4 +50,27 @@ class MapAssert_containsOnlyKeys_with_Iterable_Test extends MapAssertBaseTest {
     List<Integer> ints = list(1, 2); // not a List<Number>
     assertThat(map).containsOnlyKeys(ints);
   }
+
+  @Nested
+  @DisplayName("given Path parameter")
+  class MapAssert_containsOnlyKeys_with_Path_Test extends MapAssertBaseTest {
+
+    private final Path path = Paths.get("file");
+
+    @Override
+    protected MapAssert<Object, Object> invoke_api_method() {
+      return assertions.containsOnlyKeys(path);
+    }
+
+    @Override
+    protected void verify_internal_effects() {
+      // Path parameter should be treated as a single key and not as an Iterable, therefore the target for verification is
+      // assertContainsOnlyKeys(AssertionInfo, Map<K, V>, K...) instead of
+      // assertContainsOnlyKeys(AssertionInfo, Map<K, V>, Iterable<? extends K>).
+      // Casting the Path parameter to Object allows to invoke the overloaded method expecting vararg keys.
+      verify(maps).assertContainsOnlyKeys(getInfo(assertions), getActual(assertions), (Object) path);
+    }
+
+  }
+
 }
