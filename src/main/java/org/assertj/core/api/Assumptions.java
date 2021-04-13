@@ -817,8 +817,6 @@ public class Assumptions {
 
   /**
    * Creates a new instance of <code>{@link IteratorAssert}</code> assumption.
-   * <p>
-   * <b>Breaking change in version 3.12.0:</b> this method does not return anymore an {@link ProxyableIterableAssert} but an {@link IteratorAssert}.<br>
    *
    * @param <ELEMENT> the type of elements.
    * @param actual the actual value.

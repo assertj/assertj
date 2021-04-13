@@ -24,8 +24,7 @@ import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.data.TolkienCharacter.Race;
 
 /**
- * verify that assertions final methods or methods changing the object under test in {@link ObjectAssert} work with assumptions
- * (i.e. that they are proxied correctly in {@link ProxyableObjectAssert}).
+ * Verify that assertions final methods or methods changing the object under test in {@link ObjectAssert} work with assumptions.
  */
 class Object_special_assertion_methods_in_assumptions_Test extends BaseAssumptionsRunnerTest {
 

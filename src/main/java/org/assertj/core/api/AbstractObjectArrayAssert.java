@@ -3455,8 +3455,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   /**
    * Create a friendly soft or "hard" assertion.
    * <p>
-   * Implementations need to redefine it so that some methods, such as {@link #extracting(Function)}, are able
-   * to build the appropriate list assert (eg: {@link ListAssert} versus {@link ProxyableListAssert}).
+   * Implementations need to redefine either to be proxy friendly (i.e. no final assertion methods)
+   * or generic vararg friendly (to use {@link SafeVarargs} annotation which requires final method).
    * <p>
    * The default implementation will assume that this concrete implementation is NOT a soft assertion.
    *

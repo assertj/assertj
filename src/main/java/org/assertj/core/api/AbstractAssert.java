@@ -1004,8 +1004,8 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /**
    * Create a {@link AbstractListAssert}.
    * <p>
-   * Implementations need to redefine either to be proxy friendly (i.e. no final assertion methods like {@link ProxyableListAssert})
-   * or generic vararg friendly (to use {@link SafeVarargs} annotation which requires final method)like {@link ListAssert}.
+   * Implementations need to redefine either to be proxy friendly (i.e. no final assertion methods)
+   * or generic vararg friendly (to use {@link SafeVarargs} annotation which requires final method).
    * <p>
    * The default implementation will assume that this concrete implementation is NOT a soft assertion.
    *
