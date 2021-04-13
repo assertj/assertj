@@ -109,7 +109,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default <K, V> AbstractMapAssert<?, ?, K, V> assumeThat(final Map<K, V> actual) {
+  default <K, V> MapAssert<K, V> assumeThat(final Map<K, V> actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -176,7 +176,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default <T> AbstractObjectAssert<?, T> assumeThat(final T actual) {
+  default <T> ObjectAssert<T> assumeThat(final T actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -459,7 +459,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractClassAssert<?> assumeThat(final Class<?> actual) {
+  default ClassAssert assumeThat(final Class<?> actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -1100,7 +1100,7 @@ public interface WithAssumptions {
    * @return the created assertion object.
    * @since 3.12.0
    */
-  default <T> AbstractObjectAssert<?, T> assumeThatObject(T actual) {
+  default <T> ObjectAssert<T> assumeThatObject(T actual) {
     return assumeThat(actual);
   }
 
@@ -1112,7 +1112,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 3.9.0
    */
-  default <T> AbstractPredicateAssert<?, T> assumeThat(final Predicate<T> predicate) {
+  default <T> PredicateAssert<T> assumeThat(final Predicate<T> predicate) {
     return Assumptions.assumeThat(predicate);
   }
 

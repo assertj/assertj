@@ -1229,7 +1229,7 @@ public final class BDDAssumptions {
    * @return the {@link AbstractClassAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  public static AbstractClassAssert<?> given(Class<?> actual) {
+  public static ClassAssert given(Class<?> actual) {
     return assumeThat(actual);
   }
 
@@ -1263,7 +1263,7 @@ public final class BDDAssumptions {
    * @return the {@link AbstractObjectAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  public static <T> AbstractObjectAssert<?, T> given(T actual) {
+  public static <T> ObjectAssert<T> given(T actual) {
     return assumeThat(actual);
   }
 
@@ -1346,7 +1346,7 @@ public final class BDDAssumptions {
    * @return the {@link AbstractObjectAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  public static <T> AbstractObjectAssert<?, T> givenObject(T actual) {
+  public static <T> ObjectAssert<T> givenObject(T actual) {
     return assumeThat(actual);
   }
 
@@ -1584,7 +1584,7 @@ public final class BDDAssumptions {
    * @return the {@link AbstractMapAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  public static <K, V> AbstractMapAssert<?, ?, K, V> given(Map<K, V> actual) {
+  public static <K, V> MapAssert<K, V> given(Map<K, V> actual) {
     return assumeThat(actual);
   }
 
@@ -1614,7 +1614,7 @@ public final class BDDAssumptions {
    * @return the {@link AbstractPredicateAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  public static <T> AbstractPredicateAssert<?, T> given(Predicate<T> actual) {
+  public static <T> PredicateAssert<T> given(Predicate<T> actual) {
     return assumeThat(actual);
   }
 

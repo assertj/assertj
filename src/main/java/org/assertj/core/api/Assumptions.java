@@ -130,7 +130,7 @@ public class Assumptions {
    * @since 2.9.0 / 3.9.0
    */
   @SuppressWarnings("unchecked")
-  public static <T> AbstractObjectAssert<?, T> assumeThat(T actual) {
+  public static <T> ObjectAssert<T> assumeThat(T actual) {
     return asAssumption(ObjectAssert.class, Object.class, actual);
   }
 
@@ -740,7 +740,7 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  public static AbstractClassAssert<?> assumeThat(Class<?> actual) {
+  public static ClassAssert assumeThat(Class<?> actual) {
     return asAssumption(ClassAssert.class, Class.class, actual);
   }
 
@@ -877,7 +877,7 @@ public class Assumptions {
    * @since 2.9.0 / 3.9.0
    */
   @SuppressWarnings("unchecked")
-  public static <K, V> AbstractMapAssert<?, ?, K, V> assumeThat(Map<K, V> actual) {
+  public static <K, V> MapAssert<K, V> assumeThat(Map<K, V> actual) {
     return asAssumption(MapAssert.class, Map.class, actual);
   }
 
@@ -968,7 +968,7 @@ public class Assumptions {
    * @return the created assertion object.
    * @since 3.12.0
    */
-  public static <T> AbstractObjectAssert<?, T> assumeThatObject(T actual) {
+  public static <T> ObjectAssert<T> assumeThatObject(T actual) {
     return assumeThat(actual);
   }
 
@@ -981,7 +981,7 @@ public class Assumptions {
    * @since 3.9.0
    */
   @SuppressWarnings("unchecked")
-  public static <T> AbstractPredicateAssert<?, T> assumeThat(Predicate<T> actual) {
+  public static <T> PredicateAssert<T> assumeThat(Predicate<T> actual) {
     return asAssumption(PredicateAssert.class, Predicate.class, actual);
   }
 
