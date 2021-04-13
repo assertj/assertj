@@ -19,9 +19,18 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.assertj.core.api.AbstractIterableAssert;
+import org.assertj.core.api.AbstractObjectAssert;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
+/**
+ * @deprecated
+ * This comparator is deprecated because it performs a <b>shallow</b> field by field comparison, i.e. elements are compared
+ * field by field but the fields are compared with equals, use {@link AbstractIterableAssert#usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)}
+ * or {@link AbstractObjectAssert#usingRecursiveComparison()} instead to perform a true recursive comparison.
+ */
 @Deprecated
 public class IgnoringFieldsComparator extends FieldByFieldComparator {
 
