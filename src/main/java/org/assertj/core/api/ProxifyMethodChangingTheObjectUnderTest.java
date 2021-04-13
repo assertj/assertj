@@ -151,7 +151,7 @@ public class ProxifyMethodChangingTheObjectUnderTest {
     if (currentAssert instanceof LongAssert) return Long.class;
     if (currentAssert instanceof LongPredicateAssert) return LongPredicate.class;
     if (currentAssert instanceof MapAssert) return Map.class;
-    if (currentAssert instanceof ObjectAssert || currentAssert instanceof ProxyableObjectAssert) return Object.class;
+    if (currentAssert instanceof ObjectAssert) return Object.class;
     if (currentAssert instanceof OffsetDateTimeAssert) return OffsetDateTime.class;
     if (currentAssert instanceof OffsetTimeAssert) return OffsetTime.class;
     if (currentAssert instanceof OptionalAssert) return Optional.class;

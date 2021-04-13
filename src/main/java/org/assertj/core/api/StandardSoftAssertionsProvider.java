@@ -233,8 +233,8 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
    * @since 3.5.0
    */
   @SuppressWarnings("unchecked")
-  default <T> ProxyablePredicateAssert<T> assertThat(Predicate<T> actual) {
-    return proxy(ProxyablePredicateAssert.class, Predicate.class, actual);
+  default <T> PredicateAssert<T> assertThat(Predicate<T> actual) {
+    return proxy(PredicateAssert.class, Predicate.class, actual);
   }
 
   /**
@@ -283,7 +283,7 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
    */
   @SuppressWarnings("unchecked")
   default <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(Stream<? extends ELEMENT> actual) {
-    return proxy(ProxyableListAssert.class, Stream.class, actual);
+    return proxy(ListAssert.class, Stream.class, actual);
   }
 
   /**
@@ -298,7 +298,7 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
    */
   @SuppressWarnings("unchecked")
   default AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> assertThat(DoubleStream actual) {
-    return proxy(ProxyableListAssert.class, DoubleStream.class, actual);
+    return proxy(ListAssert.class, DoubleStream.class, actual);
   }
 
   /**
@@ -313,7 +313,7 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
    */
   @SuppressWarnings("unchecked")
   default AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> assertThat(LongStream actual) {
-    return proxy(ProxyableListAssert.class, LongStream.class, actual);
+    return proxy(ListAssert.class, LongStream.class, actual);
   }
 
   /**
@@ -328,7 +328,7 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
    */
   @SuppressWarnings("unchecked")
   default AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> assertThat(IntStream actual) {
-    return proxy(ProxyableListAssert.class, IntStream.class, actual);
+    return proxy(ListAssert.class, IntStream.class, actual);
   }
 
   /**

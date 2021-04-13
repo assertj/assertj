@@ -21,7 +21,6 @@ import org.assertj.core.api.ClassAssert;
 import org.assertj.core.api.ClassAssertBaseTest.AnnotatedClass;
 import org.assertj.core.api.ClassAssertBaseTest.AnotherAnnotation;
 import org.assertj.core.api.ClassAssertBaseTest.MyAnnotation;
-import org.assertj.core.api.ProxyableClassAssert;
 import org.assertj.core.util.VisibleForTesting;
 
 /**

@@ -24,7 +24,6 @@ import java.util.stream.Stream;
 
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.ListAssert;
-import org.assertj.core.api.ProxyableListAssert;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.test.CartoonCharacter;
 

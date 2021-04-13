@@ -23,7 +23,6 @@ import java.util.stream.Stream;
 
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.ObjectArrayAssert;
-import org.assertj.core.api.ProxyableObjectArrayAssert;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.test.CartoonCharacter;
 

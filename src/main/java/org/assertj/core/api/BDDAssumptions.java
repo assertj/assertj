@@ -1263,7 +1263,7 @@ public final class BDDAssumptions {
    * @return the {@link AbstractObjectAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  public static <T> ProxyableObjectAssert<T> given(T actual) {
+  public static <T> AbstractObjectAssert<?, T> given(T actual) {
     return assumeThat(actual);
   }
 
@@ -1293,7 +1293,7 @@ public final class BDDAssumptions {
    * @return the {@link AbstractObjectArrayAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  public static <T> ProxyableObjectArrayAssert<T> given(T[] actual) {
+  public static <T> ObjectArrayAssert<T> given(T[] actual) {
     return assumeThat(actual);
   }
 
@@ -1346,7 +1346,7 @@ public final class BDDAssumptions {
    * @return the {@link AbstractObjectAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  public static <T> ProxyableObjectAssert<T> givenObject(T actual) {
+  public static <T> AbstractObjectAssert<?, T> givenObject(T actual) {
     return assumeThat(actual);
   }
 
@@ -1493,7 +1493,7 @@ public final class BDDAssumptions {
    * @return the {@link AbstractIterableAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  public static <ELEMENT> ProxyableIterableAssert<ELEMENT> given(Iterable<? extends ELEMENT> actual) {
+  public static <ELEMENT> IterableAssert<ELEMENT> given(Iterable<? extends ELEMENT> actual) {
     return assumeThat(actual);
   }
 
@@ -1553,7 +1553,7 @@ public final class BDDAssumptions {
    * @return the {@link AbstractListAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  public static <ELEMENT> FactoryBasedNavigableListAssert<ProxyableListAssert<ELEMENT>, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> given(List<? extends ELEMENT> actual) {
+  public static <ELEMENT> FactoryBasedNavigableListAssert<ListAssert<ELEMENT>, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> given(List<? extends ELEMENT> actual) {
     return assumeThat(actual);
   }
 
@@ -1614,7 +1614,7 @@ public final class BDDAssumptions {
    * @return the {@link AbstractPredicateAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  public static <T> ProxyablePredicateAssert<T> given(Predicate<T> actual) {
+  public static <T> AbstractPredicateAssert<?, T> given(Predicate<T> actual) {
     return assumeThat(actual);
   }
 
@@ -1731,7 +1731,6 @@ public final class BDDAssumptions {
    * @return the {@link OptionalAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  @SuppressWarnings("unchecked")
   public static <VALUE> OptionalAssert<VALUE> given(Optional<VALUE> actual) {
     return assumeThat(actual);
   }
@@ -1849,7 +1848,6 @@ public final class BDDAssumptions {
    * @return the {@link AbstractListAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  @SuppressWarnings("unchecked")
   public static <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> given(Stream<? extends ELEMENT> actual) {
     return assumeThat(actual);
   }
@@ -1879,7 +1877,6 @@ public final class BDDAssumptions {
    * @return the {@link AbstractListAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  @SuppressWarnings("unchecked")
   public static AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> given(IntStream actual) {
     return assumeThat(actual);
   }
@@ -1938,7 +1935,6 @@ public final class BDDAssumptions {
    * @return the {@link AbstractListAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  @SuppressWarnings("unchecked")
   public static AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> given(LongStream actual) {
     return assumeThat(actual);
   }
@@ -1968,7 +1964,6 @@ public final class BDDAssumptions {
    * @return the {@link AbstractListAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  @SuppressWarnings("unchecked")
   public static AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> given(DoubleStream actual) {
     return assumeThat(actual);
   }
@@ -1999,7 +1994,6 @@ public final class BDDAssumptions {
    * @return the {@link AbstractFutureAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  @SuppressWarnings("unchecked")
   public static <RESULT> AbstractFutureAssert<?, ? extends Future<? extends RESULT>, RESULT> given(Future<RESULT> future) {
     return assumeThat(future);
   }
@@ -2030,7 +2024,6 @@ public final class BDDAssumptions {
    * @return the {@link AbstractCompletableFutureAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  @SuppressWarnings("unchecked")
   public static <RESULT> CompletableFutureAssert<RESULT> given(CompletableFuture<RESULT> future) {
     return assumeThat(future);
   }
@@ -2064,7 +2057,6 @@ public final class BDDAssumptions {
    * @return the {@link AbstractCompletableFutureAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  @SuppressWarnings("unchecked")
   public static <RESULT> CompletableFutureAssert<RESULT> given(CompletionStage<RESULT> stage) {
     return assumeThat(stage);
   }
@@ -2192,7 +2184,6 @@ public final class BDDAssumptions {
    * @return the {@link AtomicIntegerFieldUpdaterAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  @SuppressWarnings("unchecked")
   public static <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> given(AtomicIntegerFieldUpdater<OBJECT> actual) {
     return assumeThat(actual);
   }
@@ -2320,7 +2311,6 @@ public final class BDDAssumptions {
    * @return the {@link AtomicLongFieldUpdaterAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  @SuppressWarnings("unchecked")
   public static <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> given(AtomicLongFieldUpdater<OBJECT> actual) {
     return assumeThat(actual);
   }
@@ -2351,7 +2341,6 @@ public final class BDDAssumptions {
    * @return the {@link AtomicReferenceAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  @SuppressWarnings("unchecked")
   public static <VALUE> AtomicReferenceAssert<VALUE> given(AtomicReference<VALUE> actual) {
     return assumeThat(actual);
   }
@@ -2382,7 +2371,6 @@ public final class BDDAssumptions {
    * @return the {@link AtomicReferenceArrayAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  @SuppressWarnings("unchecked")
   public static <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> given(AtomicReferenceArray<ELEMENT> actual) {
     return assumeThat(actual);
   }
@@ -2424,7 +2412,6 @@ public final class BDDAssumptions {
    * @return the {@link AtomicReferenceFieldUpdaterAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  @SuppressWarnings("unchecked")
   public static <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> given(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
     return assumeThat(actual);
   }
@@ -2455,7 +2442,6 @@ public final class BDDAssumptions {
    * @return the {@link AtomicMarkableReferenceAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  @SuppressWarnings("unchecked")
   public static <VALUE> AtomicMarkableReferenceAssert<VALUE> given(AtomicMarkableReference<VALUE> actual) {
     return assumeThat(actual);
   }
@@ -2486,7 +2472,6 @@ public final class BDDAssumptions {
    * @return the {@link AtomicStampedReferenceAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  @SuppressWarnings("unchecked")
   public static <VALUE> AtomicStampedReferenceAssert<VALUE> given(AtomicStampedReference<VALUE> actual) {
     return assumeThat(actual);
   }

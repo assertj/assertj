@@ -16,7 +16,7 @@ import java.util.List;
 
 import org.assertj.core.api.AbstractSoftAssertions;
 import org.assertj.core.api.IntegerAssert;
-import org.assertj.core.api.ProxyableListAssert;
+import org.assertj.core.api.ListAssert;
 
 class CustomSoftAssertions extends AbstractSoftAssertions {
   public IntegerAssert expectThat(int value) {
@@ -24,7 +24,7 @@ class CustomSoftAssertions extends AbstractSoftAssertions {
   }
 
   @SuppressWarnings("unchecked")
-  public <T> ProxyableListAssert<T> expectThat(List<? extends T> actual) {
-    return proxy(ProxyableListAssert.class, List.class, actual);
+  public <T> ListAssert<T> expectThat(List<? extends T> actual) {
+    return proxy(ListAssert.class, List.class, actual);
   }
 }

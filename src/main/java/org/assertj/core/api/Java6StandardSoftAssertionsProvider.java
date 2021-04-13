@@ -203,8 +203,8 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default ProxyableClassAssert assertThat(Class<?> actual) {
-    return proxy(ProxyableClassAssert.class, Class.class, actual);
+  default ClassAssert assertThat(Class<?> actual) {
+    return proxy(ClassAssert.class, Class.class, actual);
   }
 
   /**
@@ -230,14 +230,14 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  default <T> ProxyableIterableAssert<T> assertThat(Iterable<? extends T> actual) {
-    return proxy(ProxyableIterableAssert.class, Iterable.class, actual);
+  default <T> IterableAssert<T> assertThat(Iterable<? extends T> actual) {
+    return proxy(IterableAssert.class, Iterable.class, actual);
   }
 
   /**
    * Creates a new instance of <code>{@link IteratorAssert}</code>.
    * <p>
-   * <b>This is a breaking change in version 3.12.0:</b> this method used to return an {@link ProxyableIterableAssert}.
+   * <b>This is a breaking change in version 3.12.0:</b> this method used to return an {@link IterableAssert}.
    *
    * @param <T> the actual element's type.
    * @param actual the actual value.
@@ -413,8 +413,8 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  default <T> ProxyableListAssert<T> assertThat(List<? extends T> actual) {
-    return proxy(ProxyableListAssert.class, List.class, actual);
+  default <T> ListAssert<T> assertThat(List<? extends T> actual) {
+    return proxy(ListAssert.class, List.class, actual);
   }
 
   /**
@@ -466,8 +466,8 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  default <T> ProxyableObjectAssert<T> assertThat(T actual) {
-    return proxy(ProxyableObjectAssert.class, Object.class, actual);
+  default <T> ObjectAssert<T> assertThat(T actual) {
+    return proxy(ObjectAssert.class, Object.class, actual);
   }
 
   /**
@@ -478,8 +478,8 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  default <T> ProxyableObjectArrayAssert<T> assertThat(T[] actual) {
-    return proxy(ProxyableObjectArrayAssert.class, Object[].class, actual);
+  default <T> ObjectArrayAssert<T> assertThat(T[] actual) {
+    return proxy(ObjectArrayAssert.class, Object[].class, actual);
   }
 
   /**
@@ -506,8 +506,8 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  default <K, V> ProxyableMapAssert<K, V> assertThat(Map<K, V> actual) {
-    return proxy(ProxyableMapAssert.class, Map.class, actual);
+  default <K, V> MapAssert<K, V> assertThat(Map<K, V> actual) {
+    return proxy(MapAssert.class, Map.class, actual);
   }
 
   /**
@@ -893,7 +893,7 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    * @return the created assertion object.
    * @since 3.12.0
    */
-  default <T> ProxyableObjectAssert<T> assertThatObject(T actual) {
+  default <T> ObjectAssert<T> assertThatObject(T actual) {
     return assertThat(actual);
   }
 

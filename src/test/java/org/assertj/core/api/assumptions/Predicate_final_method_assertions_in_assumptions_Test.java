@@ -20,7 +20,6 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ClassAssert;
-import org.assertj.core.api.ProxyableClassAssert;
 import org.assertj.core.data.MapEntry;
 
 /**

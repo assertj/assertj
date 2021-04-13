@@ -22,8 +22,8 @@ import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.api.AbstractMapAssert;
 import org.assertj.core.api.AbstractSoftAssertions;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ListAssert;
 import org.assertj.core.api.ObjectAssert;
-import org.assertj.core.api.ProxyableListAssert;
 import org.junit.jupiter.api.Test;
 
 public class CustomSoftAssertionTest {
@@ -76,7 +76,7 @@ public class CustomSoftAssertionTest {
 
     @Override
     protected <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> newListAssertInstance(List<? extends ELEMENT> newActual) {
-      return new ProxyableListAssert<>(newActual);
+      return new ListAssert<>(newActual);
     }
   }
 

@@ -20,7 +20,6 @@ import static org.assertj.core.api.assumptions.BaseAssumptionRunner.assumptionRu
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ObjectAssert;
-import org.assertj.core.api.ProxyableObjectAssert;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.data.TolkienCharacter.Race;
 

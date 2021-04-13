@@ -84,7 +84,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default <T> ProxyableObjectArrayAssert<T> assumeThat(final T[] actual) {
+  default <T> ObjectArrayAssert<T> assumeThat(final T[] actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -176,7 +176,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default <T> ProxyableObjectAssert<T> assumeThat(final T actual) {
+  default <T> AbstractObjectAssert<?, T> assumeThat(final T actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -527,14 +527,14 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default <ELEMENT> ProxyableIterableAssert<ELEMENT> assumeThat(final Iterable<? extends ELEMENT> actual) {
+  default <ELEMENT> IterableAssert<ELEMENT> assumeThat(final Iterable<? extends ELEMENT> actual) {
     return Assumptions.assumeThat(actual);
   }
 
   /**
    * Creates a new instance of <code>{@link IteratorAssert}</code> assumption.
    * <p>
-   * <b>Breaking change in version 3.12.0:</b> this method does not return anymore an {@link ProxyableIterableAssert} but an {@link IteratorAssert}.
+   * <b>Breaking change in version 3.12.0:</b> this method does not return anymore an {@link IterableAssert} but an {@link IteratorAssert}.
    *
    * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
@@ -797,7 +797,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default <ELEMENT> FactoryBasedNavigableListAssert<ProxyableListAssert<ELEMENT>, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assumeThat(List<? extends ELEMENT> list) {
+  default <ELEMENT> FactoryBasedNavigableListAssert<ListAssert<ELEMENT>, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assumeThat(List<? extends ELEMENT> list) {
     return Assumptions.assumeThat(list);
   }
 
@@ -1100,7 +1100,7 @@ public interface WithAssumptions {
    * @return the created assertion object.
    * @since 3.12.0
    */
-  default <T> ProxyableObjectAssert<T> assumeThatObject(T actual) {
+  default <T> AbstractObjectAssert<?, T> assumeThatObject(T actual) {
     return assumeThat(actual);
   }
 
@@ -1112,7 +1112,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 3.9.0
    */
-  default <T> ProxyablePredicateAssert<T> assumeThat(final Predicate<T> predicate) {
+  default <T> AbstractPredicateAssert<?, T> assumeThat(final Predicate<T> predicate) {
     return Assumptions.assumeThat(predicate);
   }
 

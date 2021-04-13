@@ -28,7 +28,6 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.MapAssert;
-import org.assertj.core.api.ProxyableMapAssert;
 
 /**
  * Verify that assertions final methods or methods changing the object under test in {@link MapAssert} work with assumptions
