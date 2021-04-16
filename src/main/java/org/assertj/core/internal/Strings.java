@@ -1050,6 +1050,8 @@ public class Strings {
   }
 
   private int indexOf(String string, CharSequence toFind) {
+    if (string.equals("") && toFind.toString().equals(""))
+      return 0;
     for (int i = 0; i < string.length(); i++) {
       if (comparisonStrategy.stringStartsWith(string.substring(i), toFind.toString())) return i;
     }

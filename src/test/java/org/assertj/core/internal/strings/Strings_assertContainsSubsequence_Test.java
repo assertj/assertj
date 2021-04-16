@@ -117,4 +117,12 @@ class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
                                                    .withMessage(shouldContainSubsequence(actual, sequenceValues, 1, comparisonStrategy).create());
   }
 
+  @Test
+  void should_pass_if_empty_string_contains_multiple_empty_subsequence_bug_2158() {
+    strings.assertContainsSubsequence(someInfo(), "", array(""));
+    strings.assertContainsSubsequence(someInfo(), "", array("", ""));
+    strings.assertContainsSubsequence(someInfo(), "", array("", "", ""));
+    strings.assertContainsSubsequence(someInfo(), "", array("", "", "", ""));
+  }
+
 }
