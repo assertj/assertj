@@ -99,6 +99,7 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public class Strings {
 
+  private static final String EMPTY_STRING = "";
   private static final Strings INSTANCE = new Strings();
   private static final String PUNCTUATION_REGEX = "\\p{Punct}";
   private final ComparisonStrategy comparisonStrategy;
@@ -741,7 +742,7 @@ public class Strings {
     if (toNormalize == null) {
       return null;
     }
-    return normalizeWhitespace(toNormalize.toString().replaceAll(PUNCTUATION_REGEX, ""));
+    return normalizeWhitespace(toNormalize.toString().replaceAll(PUNCTUATION_REGEX, EMPTY_STRING));
   }
 
   /**
@@ -766,7 +767,8 @@ public class Strings {
     String normalizedActual = Normalizer.normalize(actual, Normalizer.Form.NFC);
     String normalizedExpected = Normalizer.normalize(expected, Normalizer.Form.NFC);
     if (!java.util.Objects.equals(normalizedActual, normalizedExpected))
-      throw failures.failure(info, shouldBeEqualNormalizingUnicode(actual, expected, normalizedActual, normalizedExpected), normalizedActual, normalizedExpected);
+      throw failures.failure(info, shouldBeEqualNormalizingUnicode(actual, expected, normalizedActual, normalizedExpected),
+                             normalizedActual, normalizedExpected);
   }
 
   /**
@@ -994,7 +996,7 @@ public class Strings {
 
     // convert all values to one char sequence to compare with the actual char sequence
     String strActual = actual.toString();
-    String strSequence = String.join("", sequence);
+    String strSequence = String.join(EMPTY_STRING, sequence);
     if (!stringContains(strActual, strSequence)) {
       throw failures.failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));
     }
@@ -1044,16 +1046,21 @@ public class Strings {
   }
 
   private String removeUpTo(String string, CharSequence toRemove) {
+    // we have already checked that toRemove was not null in doCommonCheckForCharSequence and this point string is not neither
     int index = indexOf(string, toRemove);
     // remove the start of string up to toRemove included
     return string.substring(index + toRemove.length());
   }
 
   private int indexOf(String string, CharSequence toFind) {
+    if (EMPTY_STRING.equals(string) && EMPTY_STRING.equals(toFind.toString())) return 0;
     for (int i = 0; i < string.length(); i++) {
       if (comparisonStrategy.stringStartsWith(string.substring(i), toFind.toString())) return i;
     }
-    return -1;
+    // should not arrive here since we this method is used from assertContainsSubsequence at a step where we know that toFind
+    // was found and we are checking whether it was at the right place/order.
+    throw new IllegalStateException(format("%s should have been found in %s, please raise an assertj-core issue", toFind,
+                                           string));
   }
 
   public void assertXmlEqualsTo(AssertionInfo info, CharSequence actualXml, CharSequence expectedXml) {
@@ -1200,7 +1207,7 @@ public class Strings {
 
   private static String removeNewLines(CharSequence text) {
     String normalizedText = normalizeNewlines(text);
-    return normalizedText.replace("\n", "");
+    return normalizedText.replace("\n", EMPTY_STRING);
   }
 
   private void doCommonCheckForCharSequence(AssertionInfo info, CharSequence actual, CharSequence[] sequence) {
