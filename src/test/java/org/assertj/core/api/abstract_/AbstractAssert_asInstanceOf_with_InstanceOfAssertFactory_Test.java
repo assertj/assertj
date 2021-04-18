@@ -53,6 +53,21 @@ class AbstractAssert_asInstanceOf_with_InstanceOfAssertFactory_Test extends Abst
   }
 
   @Override
+  public void should_return_this_when_assertions_should_be_ignored() {
+    // Test disabled since asInstanceOf does not return this.
+  }
+
+  @Override
+  public void should_have_no_internal_effects_when_assertions_should_be_ignored() {
+    // Test disabled since asInstanceOf does not work with ignoredWhen.
+  }
+
+  @Override
+  public void should_have_internal_effects_when_assertions_should_not_be_ignored() {
+    // Test disabled since asInstanceOf does not work with ignoredWhen.
+  }
+
+  @Override
   public ConcreteAssert getAssertion() {
     return assertions;
   }

@@ -47,4 +47,9 @@ public class AbstractAssert_isNull_Test extends AbstractAssertBaseTest{
   public void should_return_this() {
     // Disable this test, the isNull method is void.
   }
+
+  @Override
+  public void should_return_this_when_assertions_should_be_ignored() {
+    // Disable this test, the isNull method is void.
+  }
 }

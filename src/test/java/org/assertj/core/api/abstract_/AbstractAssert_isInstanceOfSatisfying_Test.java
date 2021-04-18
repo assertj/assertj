@@ -49,6 +49,16 @@ class AbstractAssert_isInstanceOfSatisfying_Test extends AbstractAssertBaseTest 
   }
 
   @Override
+  protected ConcreteAssert applyIgnoreWithoutEffects() {
+    return assertions.ignoreWhen(v -> ((Jedi) v).getName().equals("Yoda"));
+  }
+
+  @Override
+  protected ConcreteAssert applyIgnoreWithEffects() {
+    return assertions.ignoreWhen(v -> ((Jedi) v).getName().equals("Luke"));
+  }
+
+  @Override
   protected ConcreteAssert invoke_api_method() {
     return assertions.isInstanceOfSatisfying(Jedi.class, jediRequirements);
   }
