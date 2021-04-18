@@ -92,7 +92,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static AbstractCharSequenceAssert<?, ? extends CharSequence> assertThat(CharSequence actual) {
+  public static CharSequenceAssert assertThat(CharSequence actual) {
     return new CharSequenceAssert(actual);
   }
 
@@ -296,7 +296,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the path to test
    * @return the created assertion object
    */
-  public static AbstractPathAssert<?> assertThat(Path actual) {
+  public static PathAssert assertThat(Path actual) {
     return new PathAssert(actual);
   }
 
@@ -323,7 +323,7 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThat(T actual) {
+  public static <T extends Comparable<? super T>> GenericComparableAssert<T> assertThat(T actual) {
     return new GenericComparableAssert<>(actual);
   }
 
