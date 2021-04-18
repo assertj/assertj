@@ -60,6 +60,7 @@ import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -1790,6 +1791,17 @@ public final class BDDAssumptions {
    * @since 3.14.0
    */
   public static OptionalLongAssert given(OptionalLong actual) {
+    return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance for an {@link Matcher}.
+   * <p>
+   *
+   * @param actual the actual {@link Matcher} value to be validated.
+   * @return the {@link Matcher} assertion object to be used for validation.
+   */
+  public static MatcherAssert given(Matcher actual) {
     return assumeThat(actual);
   }
 

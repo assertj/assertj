@@ -12,6 +12,7 @@ out
 /clover.license
 /actual.txt
 /expected.txt
+**/.DS_Store
 #jEnv configuration
 .java-version
 /bin/

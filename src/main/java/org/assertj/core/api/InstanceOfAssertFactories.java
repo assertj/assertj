@@ -57,6 +57,7 @@ import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -193,6 +194,11 @@ public interface InstanceOfAssertFactories {
    */
   InstanceOfAssertFactory<OptionalLong, OptionalLongAssert> OPTIONAL_LONG = new InstanceOfAssertFactory<>(OptionalLong.class,
                                                                                                           Assertions::assertThat);
+  /**
+   * {@link InstanceOfAssertFactory} for an {@link Matcher}.
+   */
+  InstanceOfAssertFactory<Matcher, MatcherAssert> MATCHER = new InstanceOfAssertFactory<>(Matcher.class,
+                                                                                          Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link BigDecimal}.

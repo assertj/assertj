@@ -35,6 +35,7 @@ import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -88,6 +89,17 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
    */
   default OptionalLongAssert assertThat(OptionalLong actual) {
     return proxy(OptionalLongAssert.class, OptionalLong.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.regex.Matcher}
+   *
+   * @param actual the actual matcher
+   *
+   * @return the created assertion object.
+   */
+  default MatcherAssert assertThat(Matcher actual) {
+    return proxy(MatcherAssert.class, Matcher.class, actual);
   }
 
   /**

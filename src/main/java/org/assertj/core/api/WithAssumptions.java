@@ -59,6 +59,7 @@ import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -949,6 +950,16 @@ public interface WithAssumptions {
    */
   default OptionalLongAssert assumeThat(final OptionalLong optionalLong) {
     return Assumptions.assumeThat(optionalLong);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link MatcherAssert}</code> assumption.
+   *
+   * @param matcher the actual Matcher.
+   * @return the created assumption for assertion object.
+   */
+  default MatcherAssert assumeThat(final Matcher matcher) {
+    return Assumptions.assumeThat(matcher);
   }
 
   /**
