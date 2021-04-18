@@ -334,7 +334,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractShortAssert<?> assertThat(final short actual) {
+  default ShortAssert assertThat(final short actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -344,7 +344,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractLongAssert<?> assertThat(final long actual) {
+  default LongAssert assertThat(final long actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -354,7 +354,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractLongAssert<?> assertThat(final Long actual) {
+  default LongAssert assertThat(final Long actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -364,7 +364,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractLongArrayAssert<?> assertThat(final long[] actual) {
+  default LongArrayAssert assertThat(final long[] actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -396,7 +396,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractStringAssert<?> assertThat(final String actual) {
+  default StringAssert assertThat(final String actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -406,7 +406,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractDateAssert<?> assertThat(final Date actual) {
+  default DateAssert assertThat(final Date actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -416,7 +416,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created {@link ThrowableAssert}.
    */
-  default AbstractThrowableAssert<?, ? extends Throwable> assertThat(final Throwable actual) {
+  default ThrowableAssert assertThat(final Throwable actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -426,7 +426,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractBigDecimalAssert<?> assertThat(final BigDecimal actual) {
+  default BigDecimalAssert assertThat(final BigDecimal actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -437,7 +437,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  default AbstractBigIntegerAssert<?> assertThat(BigInteger actual) {
+  default BigIntegerAssert assertThat(BigInteger actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -598,7 +598,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractCharSequenceAssert<?, ? extends CharSequence> assertThat(final CharSequence actual) {
+  default CharSequenceAssert assertThat(final CharSequence actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -609,7 +609,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created assertion object.
    * @since 3.11.0
    */
-  default AbstractCharSequenceAssert<?, ? extends CharSequence> assertThat(final StringBuilder actual) {
+  default CharSequenceAssert assertThat(final StringBuilder actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -620,7 +620,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created assertion object.
    * @since 3.11.0
    */
-  default AbstractCharSequenceAssert<?, ? extends CharSequence> assertThat(final StringBuffer actual) {
+  default CharSequenceAssert assertThat(final StringBuffer actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -630,7 +630,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractShortArrayAssert<?> assertThat(final short[] actual) {
+  default ShortArrayAssert assertThat(final short[] actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -651,7 +651,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractShortAssert<?> assertThat(final Short actual) {
+  default ShortAssert assertThat(final Short actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -671,7 +671,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractCharacterAssert<?> assertThat(final Character actual) {
+  default CharacterAssert assertThat(final Character actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -681,7 +681,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractCharArrayAssert<?> assertThat(final char[] actual) {
+  default CharArrayAssert assertThat(final char[] actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -702,7 +702,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractCharacterAssert<?> assertThat(final char actual) {
+  default CharacterAssert assertThat(final char actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -714,7 +714,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThat(final T actual) {
+  default <T extends Comparable<? super T>> GenericComparableAssert<T> assertThat(final T actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -734,9 +734,9 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * in order to perform assertions on it.
    * <p>
    * Navigational methods provided:<ul>
-   * <li>{@link AbstractIterableAssert#first() first()}</li>
-   * <li>{@link AbstractIterableAssert#last() last()}</li>
-   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
+   * <li>{@link IterableAssert#first() first()}</li>
+   * <li>{@link IterableAssert#last() last()}</li>
+   * <li>{@link IterableAssert#element(int) element(index)}</li>
    * </ul>
    * <p>
    * The available assertions after navigating to an element depend on the {@code ELEMENT_ASSERT} parameter of the given
@@ -798,9 +798,9 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * in order to perform assertions on it.
    * <p>
    * Navigational methods provided:<ul>
-   * <li>{@link AbstractIterableAssert#first() first()}</li>
-   * <li>{@link AbstractIterableAssert#last() last()}</li>
-   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
+   * <li>{@link IterableAssert#first() first()}</li>
+   * <li>{@link IterableAssert#last() last()}</li>
+   * <li>{@link IterableAssert#element(int) element(index)}</li>
    * </ul>
    * <p>
    * The available assertions after navigating to an element depend on the given {@code assertClass}
@@ -832,7 +832,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractBooleanAssert<?> assertThat(final Boolean actual) {
+  default BooleanAssert assertThat(final Boolean actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -842,7 +842,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractBooleanArrayAssert<?> assertThat(final boolean[] actual) {
+  default BooleanArrayAssert assertThat(final boolean[] actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -863,7 +863,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractByteAssert<?> assertThat(final byte actual) {
+  default ByteAssert assertThat(final byte actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -873,7 +873,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractByteAssert<?> assertThat(final Byte actual) {
+  default ByteAssert assertThat(final Byte actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -883,7 +883,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractByteArrayAssert<?> assertThat(final byte[] actual) {
+  default ByteArrayAssert assertThat(final byte[] actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -904,7 +904,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractBooleanAssert<?> assertThat(final boolean actual) {
+  default BooleanAssert assertThat(final boolean actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -914,7 +914,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractFloatAssert<?> assertThat(final float actual) {
+  default FloatAssert assertThat(final float actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -924,7 +924,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractInputStreamAssert<?, ? extends InputStream> assertThat(final InputStream actual) {
+  default InputStreamAssert assertThat(final InputStream actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -934,7 +934,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractFileAssert<?> assertThat(final File actual) {
+  default FileAssert assertThat(final File actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -957,7 +957,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the path to test
    * @return the created assertion object
    */
-  default AbstractPathAssert<?> assertThat(final Path actual) {
+  default PathAssert assertThat(final Path actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -967,7 +967,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractIntArrayAssert<?> assertThat(final int[] actual) {
+  default IntArrayAssert assertThat(final int[] actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -988,7 +988,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractFloatAssert<?> assertThat(final Float actual) {
+  default FloatAssert assertThat(final Float actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -1009,7 +1009,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractIntegerAssert<?> assertThat(final int actual) {
+  default IntegerAssert assertThat(final int actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -1019,7 +1019,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractFloatArrayAssert<?> assertThat(final float[] actual) {
+  default FloatArrayAssert assertThat(final float[] actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -1029,7 +1029,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractIntegerAssert<?> assertThat(final Integer actual) {
+  default IntegerAssert assertThat(final Integer actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -1039,7 +1039,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractDoubleAssert<?> assertThat(final double actual) {
+  default DoubleAssert assertThat(final double actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -1049,7 +1049,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractDoubleAssert<?> assertThat(final Double actual) {
+  default DoubleAssert assertThat(final Double actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -1069,9 +1069,9 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * in order to perform assertions on it.
    * <p>
    * Navigational methods provided:<ul>
-   * <li>{@link AbstractIterableAssert#first() first()}</li>
-   * <li>{@link AbstractIterableAssert#last() last()}</li>
-   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
+   * <li>{@link IterableAssert#first() first()}</li>
+   * <li>{@link IterableAssert#last() last()}</li>
+   * <li>{@link IterableAssert#element(int) element(index)}</li>
    * </ul>
    * <p>
    * The available assertions after navigating to an element depend on the given {@code assertClass}
@@ -1102,9 +1102,9 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * in order to perform assertions on it.
    * <p>
    * Navigational methods provided:<ul>
-   * <li>{@link AbstractIterableAssert#first() first()}</li>
-   * <li>{@link AbstractIterableAssert#last() last()}</li>
-   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
+   * <li>{@link IterableAssert#first() first()}</li>
+   * <li>{@link IterableAssert#last() last()}</li>
+   * <li>{@link IterableAssert#element(int) element(index)}</li>
    * </ul>
    * <p>
    * The available assertions after navigating to an element depend on the {@code ELEMENT_ASSERT} parameter of the given
@@ -1265,7 +1265,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractDoubleArrayAssert<?> assertThat(final double[] actual) {
+  default DoubleArrayAssert assertThat(final double[] actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -2270,7 +2270,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractZonedDateTimeAssert<?> assertThat(final ZonedDateTime actual) {
+  default ZonedDateTimeAssert assertThat(final ZonedDateTime actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -2351,7 +2351,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param localDateTime the actual value.
    * @return the created assertion object.
    */
-  default AbstractLocalDateTimeAssert<?> assertThat(final LocalDateTime localDateTime) {
+  default LocalDateTimeAssert assertThat(final LocalDateTime localDateTime) {
     return Assertions.assertThat(localDateTime);
   }
 
@@ -2361,7 +2361,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param localDate the actual value.
    * @return the created assertion object.
    */
-  default AbstractLocalDateAssert<?> assertThat(final LocalDate localDate) {
+  default LocalDateAssert assertThat(final LocalDate localDate) {
     return Assertions.assertThat(localDate);
   }
 
@@ -2371,7 +2371,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param localTime the actual value.
    * @return the created assertion object.
    */
-  default AbstractLocalTimeAssert<?> assertThat(final LocalTime localTime) {
+  default LocalTimeAssert assertThat(final LocalTime localTime) {
     return Assertions.assertThat(localTime);
   }
 
@@ -2382,7 +2382,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created assertion object.
    * @since 3.7.0
    */
-  default AbstractInstantAssert<?> assertThat(final Instant actual) {
+  default InstantAssert assertThat(final Instant actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -2393,7 +2393,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created assertion object.
    * @since 3.15.0
    */
-  default AbstractDurationAssert<?> assertThat(final Duration actual) {
+  default DurationAssert assertThat(final Duration actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -2404,7 +2404,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created assertion object.
    * @since 3.17.0
    */
-  default AbstractPeriodAssert<?> assertThat(final Period actual) {
+  default PeriodAssert assertThat(final Period actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -2414,7 +2414,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param offsetTime the actual value.
    * @return the created assertion object.
    */
-  default AbstractOffsetTimeAssert<?> assertThat(final OffsetTime offsetTime) {
+  default OffsetTimeAssert assertThat(final OffsetTime offsetTime) {
     return Assertions.assertThat(offsetTime);
   }
 
@@ -2424,7 +2424,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param offsetDateTime the actual value.
    * @return the created assertion object.
    */
-  default AbstractOffsetDateTimeAssert<?> assertThat(final OffsetDateTime offsetDateTime) {
+  default OffsetDateTimeAssert assertThat(final OffsetDateTime offsetDateTime) {
     return Assertions.assertThat(offsetDateTime);
   }
 
@@ -2457,7 +2457,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created {@link ThrowableAssert}.
    */
   @CanIgnoreReturnValue
-  default AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(final ThrowingCallable shouldRaiseThrowable) {
+  default ThrowableAssert assertThatThrownBy(final ThrowingCallable shouldRaiseThrowable) {
     return Assertions.assertThatThrownBy(shouldRaiseThrowable);
   }
 
@@ -2494,7 +2494,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @since 3.9.0
    */
   @CanIgnoreReturnValue
-  default AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable,
+  default ThrowableAssert assertThatThrownBy(ThrowingCallable shouldRaiseThrowable,
                                                                              String description, Object... args) {
     return assertThat(catchThrowable(shouldRaiseThrowable)).as(description, args).hasBeenThrown();
   }
@@ -2540,7 +2540,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @since 3.7.0
    */
-  default AbstractThrowableAssert<?, ? extends Throwable> assertThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
+  default ThrowableAssert assertThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
     return assertThat(catchThrowable(shouldRaiseOrNotThrowable));
   }
 
@@ -2788,7 +2788,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractUrlAssert<?> assertThat(final URL actual) {
+  default UrlAssert assertThat(final URL actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -2798,7 +2798,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractUriAssert<?> assertThat(final URI actual) {
+  default UriAssert assertThat(final URI actual) {
     return Assertions.assertThat(actual);
   }
 

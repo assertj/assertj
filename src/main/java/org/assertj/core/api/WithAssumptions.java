@@ -120,7 +120,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractShortAssert<?> assumeThat(final short actual) {
+  default ShortAssert assumeThat(final short actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -131,7 +131,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractLongAssert<?> assumeThat(final long actual) {
+  default LongAssert assumeThat(final long actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -142,7 +142,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractLongAssert<?> assumeThat(final Long actual) {
+  default LongAssert assumeThat(final Long actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -153,7 +153,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractLongArrayAssert<?> assumeThat(final long[] actual) {
+  default LongArrayAssert assumeThat(final long[] actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -187,7 +187,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractStringAssert<?> assumeThat(final String actual) {
+  default StringAssert assumeThat(final String actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -198,7 +198,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractDateAssert<?> assumeThat(final Date actual) {
+  default DateAssert assumeThat(final Date actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -209,7 +209,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractThrowableAssert<?, ? extends Throwable> assumeThat(final Throwable actual) {
+  default ThrowableAssert assumeThat(final Throwable actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -220,7 +220,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractBigDecimalAssert<?> assumeThat(final BigDecimal actual) {
+  default BigDecimalAssert assumeThat(final BigDecimal actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -231,7 +231,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractBigIntegerAssert<?> assumeThat(BigInteger actual) {
+  default BigIntegerAssert assumeThat(BigInteger actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -393,7 +393,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractCharSequenceAssert<?, ? extends CharSequence> assumeThat(final CharSequence actual) {
+  default CharSequenceAssert assumeThat(final CharSequence actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -404,7 +404,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 3.11.0
    */
-  default AbstractCharSequenceAssert<?, ? extends CharSequence> assumeThat(final StringBuilder actual) {
+  default CharSequenceAssert assumeThat(final StringBuilder actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -415,7 +415,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 3.11.0
    */
-  default AbstractCharSequenceAssert<?, ? extends CharSequence> assumeThat(final StringBuffer actual) {
+  default CharSequenceAssert assumeThat(final StringBuffer actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -426,7 +426,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractShortArrayAssert<?> assumeThat(final short[] actual) {
+  default ShortArrayAssert assumeThat(final short[] actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -448,7 +448,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractShortAssert<?> assumeThat(final Short actual) {
+  default ShortAssert assumeThat(final Short actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -470,7 +470,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractCharacterAssert<?> assumeThat(final Character actual) {
+  default CharacterAssert assumeThat(final Character actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -481,7 +481,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractCharArrayAssert<?> assumeThat(final char[] actual) {
+  default CharArrayAssert assumeThat(final char[] actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -503,7 +503,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractCharacterAssert<?> assumeThat(final char actual) {
+  default CharacterAssert assumeThat(final char actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -515,7 +515,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assumeThat(final T actual) {
+  default <T extends Comparable<? super T>> GenericComparableAssert<T> assumeThat(final T actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -552,7 +552,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractBooleanAssert<?> assumeThat(final Boolean actual) {
+  default BooleanAssert assumeThat(final Boolean actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -563,7 +563,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractBooleanArrayAssert<?> assumeThat(final boolean[] actual) {
+  default BooleanArrayAssert assumeThat(final boolean[] actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -585,7 +585,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractByteAssert<?> assumeThat(final byte actual) {
+  default ByteAssert assumeThat(final byte actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -596,7 +596,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractByteAssert<?> assumeThat(final Byte actual) {
+  default ByteAssert assumeThat(final Byte actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -607,7 +607,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractByteArrayAssert<?> assumeThat(final byte[] actual) {
+  default ByteArrayAssert assumeThat(final byte[] actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -629,7 +629,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractBooleanAssert<?> assumeThat(final boolean actual) {
+  default BooleanAssert assumeThat(final boolean actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -640,7 +640,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractFloatAssert<?> assumeThat(final float actual) {
+  default FloatAssert assumeThat(final float actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -651,7 +651,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractInputStreamAssert<?, ? extends InputStream> assumeThat(final InputStream actual) {
+  default InputStreamAssert assumeThat(final InputStream actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -662,7 +662,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractFileAssert<?> assumeThat(final File actual) {
+  default FileAssert assumeThat(final File actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -675,7 +675,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default <RESULT> AbstractFutureAssert<?, ? extends Future<? extends RESULT>, RESULT> assumeThat(Future<RESULT> actual) {
+  default <RESULT> FutureAssert<RESULT> assumeThat(Future<RESULT> actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -686,7 +686,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractPathAssert<?> assumeThat(final Path actual) {
+  default PathAssert assumeThat(final Path actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -697,7 +697,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractIntArrayAssert<?> assumeThat(final int[] actual) {
+  default IntArrayAssert assumeThat(final int[] actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -719,7 +719,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractFloatAssert<?> assumeThat(final Float actual) {
+  default FloatAssert assumeThat(final Float actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -741,7 +741,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractIntegerAssert<?> assumeThat(final int actual) {
+  default IntegerAssert assumeThat(final int actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -752,7 +752,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractFloatArrayAssert<?> assumeThat(final float[] actual) {
+  default FloatArrayAssert assumeThat(final float[] actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -763,7 +763,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractIntegerAssert<?> assumeThat(final Integer actual) {
+  default IntegerAssert assumeThat(final Integer actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -774,7 +774,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractDoubleAssert<?> assumeThat(final double actual) {
+  default DoubleAssert assumeThat(final double actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -785,7 +785,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractDoubleAssert<?> assumeThat(final Double actual) {
+  default DoubleAssert assumeThat(final Double actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -797,7 +797,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default <ELEMENT> FactoryBasedNavigableListAssert<ListAssert<ELEMENT>, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assumeThat(List<? extends ELEMENT> list) {
+  default <ELEMENT> ListAssert<ELEMENT> assumeThat(List<? extends ELEMENT> list) {
     return Assumptions.assumeThat(list);
   }
 
@@ -809,7 +809,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 3.9.0
    */
-  default <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assumeThat(Stream<? extends ELEMENT> stream) {
+  default <ELEMENT> ListAssert<ELEMENT> assumeThat(Stream<? extends ELEMENT> stream) {
     return Assumptions.assumeThat(stream);
   }
 
@@ -820,7 +820,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> assumeThat(DoubleStream doubleStream) {
+  default ListAssert<Double> assumeThat(DoubleStream doubleStream) {
     return Assumptions.assumeThat(doubleStream);
   }
 
@@ -831,7 +831,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> assumeThat(LongStream longStream) {
+  default ListAssert<Long> assumeThat(LongStream longStream) {
     return Assumptions.assumeThat(longStream);
   }
 
@@ -842,7 +842,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> assumeThat(IntStream intStream) {
+  default ListAssert<Integer> assumeThat(IntStream intStream) {
     return Assumptions.assumeThat(intStream);
   }
 
@@ -853,7 +853,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractDoubleArrayAssert<?> assumeThat(final double[] actual) {
+  default DoubleArrayAssert assumeThat(final double[] actual) {
     return Assumptions.assumeThat(actual);
   }
 
@@ -875,7 +875,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 3.9.0
    */
-  default AbstractZonedDateTimeAssert<?> assumeThat(final ZonedDateTime zonedDateTime) {
+  default ZonedDateTimeAssert assumeThat(final ZonedDateTime zonedDateTime) {
     return Assumptions.assumeThat(zonedDateTime);
   }
 
@@ -958,7 +958,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractLocalDateTimeAssert<?> assumeThat(final LocalDateTime localDateTime) {
+  default LocalDateTimeAssert assumeThat(final LocalDateTime localDateTime) {
     return Assumptions.assumeThat(localDateTime);
   }
 
@@ -969,7 +969,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractLocalDateAssert<?> assumeThat(final LocalDate localDate) {
+  default LocalDateAssert assumeThat(final LocalDate localDate) {
     return Assumptions.assumeThat(localDate);
   }
 
@@ -980,7 +980,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractLocalTimeAssert<?> assumeThat(final LocalTime localTime) {
+  default LocalTimeAssert assumeThat(final LocalTime localTime) {
     return Assumptions.assumeThat(localTime);
   }
 
@@ -991,7 +991,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractInstantAssert<?> assumeThat(final Instant instant) {
+  default InstantAssert assumeThat(final Instant instant) {
     return Assumptions.assumeThat(instant);
   }
 
@@ -1002,7 +1002,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 3.15.0
    */
-  default AbstractDurationAssert<?> assumeThat(final Duration duration) {
+  default DurationAssert assumeThat(final Duration duration) {
     return Assumptions.assumeThat(duration);
   }
 
@@ -1013,7 +1013,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 3.17.0
    */
-  default AbstractPeriodAssert<?> assumeThat(final Period period) {
+  default PeriodAssert assumeThat(final Period period) {
     return Assumptions.assumeThat(period);
   }
 
@@ -1024,7 +1024,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractOffsetTimeAssert<?> assumeThat(final OffsetTime offsetTime) {
+  default OffsetTimeAssert assumeThat(final OffsetTime offsetTime) {
     return Assumptions.assumeThat(offsetTime);
   }
 
@@ -1035,7 +1035,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractOffsetDateTimeAssert<?> assumeThat(final OffsetDateTime offsetDateTime) {
+  default OffsetDateTimeAssert assumeThat(final OffsetDateTime offsetDateTime) {
     return Assumptions.assumeThat(offsetDateTime);
   }
 
@@ -1053,7 +1053,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractThrowableAssert<?, ? extends Throwable> assumeThatThrownBy(final ThrowingCallable shouldRaiseThrowable) {
+  default ThrowableAssert assumeThatThrownBy(final ThrowingCallable shouldRaiseThrowable) {
     return Assumptions.assumeThatThrownBy(shouldRaiseThrowable);
   }
 
@@ -1078,7 +1078,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractThrowableAssert<?, ? extends Throwable> assumeThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
+  default ThrowableAssert assumeThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
     return assumeThat(catchThrowable(shouldRaiseOrNotThrowable));
   }
 
@@ -1156,7 +1156,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractUrlAssert<?> assumeThat(final URL url) {
+  default UrlAssert assumeThat(final URL url) {
     return Assumptions.assumeThat(url);
   }
 
@@ -1167,7 +1167,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractUriAssert<?> assumeThat(final URI uri) {
+  default UriAssert assumeThat(final URI uri) {
     return Assumptions.assumeThat(uri);
   }
 
@@ -1179,7 +1179,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 3.14.0
    */
-  default <ELEMENT> AbstractSpliteratorAssert<?, ELEMENT> assumeThat(final Spliterator<ELEMENT> spliterator) {
+  default <ELEMENT> SpliteratorAssert<ELEMENT> assumeThat(final Spliterator<ELEMENT> spliterator) {
     return Assumptions.assumeThat(spliterator);
   }
 }

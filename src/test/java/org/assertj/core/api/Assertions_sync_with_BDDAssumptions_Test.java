@@ -25,7 +25,7 @@ class Assertions_sync_with_BDDAssumptions_Test extends BaseAssertionsTest {
     Method[] assertThatMethods = findMethodsWithName(Assertions.class, "assertThat", SPECIAL_IGNORED_RETURN_TYPES);
     Method[] givenMethods = findMethodsWithName(BDDAssumptions.class, "given");
 
-    assertThat(givenMethods).usingElementComparator(IGNORING_DECLARING_CLASS_RETURN_TYPE_AND_METHOD_NAME)
+    assertThat(givenMethods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_METHOD_NAME)
                             .contains(assertThatMethods);
   }
 
@@ -34,7 +34,7 @@ class Assertions_sync_with_BDDAssumptions_Test extends BaseAssertionsTest {
     Method[] assertThatMethods = findMethodsWithName(Assertions.class, "assertThatObject", SPECIAL_IGNORED_RETURN_TYPES);
     Method[] givenMethods = findMethodsWithName(BDDAssumptions.class, "givenObject");
 
-    assertThat(givenMethods).usingElementComparator(IGNORING_DECLARING_CLASS_RETURN_TYPE_AND_METHOD_NAME)
+    assertThat(givenMethods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_METHOD_NAME)
                             .contains(assertThatMethods);
   }
 
@@ -43,7 +43,7 @@ class Assertions_sync_with_BDDAssumptions_Test extends BaseAssertionsTest {
     Method[] assertThatMethods = findMethodsWithName(Assertions.class, "assertThatCode", SPECIAL_IGNORED_RETURN_TYPES);
     Method[] givenMethods = findMethodsWithName(BDDAssumptions.class, "givenCode");
 
-    assertThat(givenMethods).usingElementComparator(IGNORING_DECLARING_CLASS_RETURN_TYPE_AND_METHOD_NAME)
+    assertThat(givenMethods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_METHOD_NAME)
                             .contains(assertThatMethods);
   }
 
