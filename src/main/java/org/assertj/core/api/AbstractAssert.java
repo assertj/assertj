@@ -1002,15 +1002,12 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   }
 
   /**
-   * Create a {@link AbstractListAssert}.
+   * Create a {@link AbstractListAssert} from the given list.
    * <p>
-   * Implementations need to redefine either to be proxy friendly (i.e. no final assertion methods)
-   * or generic vararg friendly (to use {@link SafeVarargs} annotation which requires final method).
-   * <p>
-   * The default implementation will assume that this concrete implementation is NOT a soft assertion.
+   * this method avoids code duplication when features like extracting/asList need to create a new list assertions.
    *
    * @param <E> the type of elements.
-   * @param newActual new value
+   * @param newActual new list under test
    * @return a new {@link AbstractListAssert}.
    */
   protected <E> AbstractListAssert<?, List<? extends E>, E, ObjectAssert<E>> newListAssertInstance(List<? extends E> newActual) {
