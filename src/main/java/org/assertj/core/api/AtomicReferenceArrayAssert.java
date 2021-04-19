@@ -1064,6 +1064,38 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
+   * Verifies that the actual elements are of the given types in the given order, there should be as many expected types as there are actual elements.
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicReferenceArray&lt;Object&gt; objects = new AtomicReferenceArray&lt;&gt;(new Object[] { 1, "a", 1.00 });
+   *
+   * // assertion succeeds
+   * assertThat(objects).hasExactlyElementsOfTypes(Integer.class, String.class, String.class, Double.class);
+   *
+   * // assertions fail
+   * // missing second String type
+   * assertThat(objects).hasExactlyElementsOfTypes(Integer.class, String.class, Double.class);
+   * // no Float type in actual
+   * assertThat(objects).hasExactlyElementsOfTypes(Float.class, String.class, String.class, Double.class);
+   * // correct types but wrong order
+   * assertThat(objects).hasExactlyElementsOfTypes(String.class, Integer.class, String.class, Double.class);
+   * // actual has more elements than the specified expected types
+   * assertThat(objects).hasExactlyElementsOfTypes(String.class);</code></pre>
+   *
+   * @param expectedTypes the expected types
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given type array is {@code null}.
+   * @throws AssertionError if actual is {@code null}.
+   * @throws AssertionError if the actual elements types don't exactly match the given ones (in the given order).
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> hasExactlyElementsOfTypes(Class<?>... expectedTypes) {
+    arrays.assertHasExactlyElementsOfTypes(info, array, expectedTypes);
+    return myself;
+  }
+
+
+  /**
    * Verifies that the actual AtomicReferenceArray does not contain the given object at the given index.
    * <p>
    * Example:

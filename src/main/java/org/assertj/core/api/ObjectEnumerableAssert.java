@@ -953,14 +953,41 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * assertThat(objects).hasOnlyElementsOfTypes(String.class, Number.class);
    * assertThat(objects).hasOnlyElementsOfTypes(String.class);</code></pre>
    *
-   * @param types the expected classes and interfaces
+   * @param expectedTypes the expected types
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if not all elements of the actual group are instances of one of the given types
    * @since 2.7.0 / 3.7.0
    */
-  SELF hasOnlyElementsOfTypes(Class<?>... types);
+  SELF hasOnlyElementsOfTypes(Class<?>... expectedTypes);
+
+  /**
+   * Verifies that the actual elements are of the given types in the given order, there should be as many expected types as there are actual elements.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Iterable&lt;Object&gt; list = Arrays.asList(1, "a", "b", 1.00);
+   *
+   * // assertion succeeds
+   * assertThat(list).hasExactlyElementsOfTypes(Integer.class, String.class, String.class, Double.class);
+   *
+   * // assertions fail
+   * // missing second String type
+   * assertThat(list).hasExactlyElementsOfTypes(Integer.class, String.class, Double.class);
+   * // no Float type in actual
+   * assertThat(list).hasExactlyElementsOfTypes(Float.class, String.class, String.class, Double.class);
+   * // correct types but wrong order
+   * assertThat(list).hasExactlyElementsOfTypes(String.class, Integer.class, String.class, Double.class);
+   * // actual has more elements than the specified expected types
+   * assertThat(list).hasExactlyElementsOfTypes(String.class);</code></pre>
+   *
+   * @param expectedTypes the expected types
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given type array is {@code null}.
+   * @throws AssertionError if actual is {@code null}.
+   * @throws AssertionError if the actual elements types don't exactly match the given ones (in the given order).
+   */
+  SELF hasExactlyElementsOfTypes(Class<?>... expectedTypes);
 
   /**
    * Verifies that at least one element in the actual {@code Object} group has the specified type (matching

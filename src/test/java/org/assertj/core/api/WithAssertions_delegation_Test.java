@@ -820,6 +820,7 @@ class WithAssertions_delegation_Test implements WithAssertions {
   void withAssertions_registerCustomDateFormat_Test() {
     registerCustomDateFormat("YYYY-MMMM-dddd");
     registerCustomDateFormat(DateFormat.getInstance());
+    useDefaultDateFormatsOnly();
   }
 
   /**

@@ -19,14 +19,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 // immutable
-class IterableDiff {
+/**
+ * @param T the type of element to compare.
+ */
+class IterableDiff<T> {
 
   private final ComparisonStrategy comparisonStrategy;
 
-  List<Object> unexpected;
-  List<Object> missing;
+  List<T> unexpected;
+  List<T> missing;
 
-  <T> IterableDiff(Iterable<T> actual, Iterable<T> expected, ComparisonStrategy comparisonStrategy) {
+  IterableDiff(Iterable<T> actual, Iterable<T> expected, ComparisonStrategy comparisonStrategy) {
     this.comparisonStrategy = comparisonStrategy;
     // return the elements in actual that are not in expected: actual - expected
     this.unexpected = unexpectedActualElements(actual, expected);
@@ -34,8 +37,12 @@ class IterableDiff {
     this.missing = missingActualElements(actual, expected);
   }
 
-  static <T> IterableDiff diff(Iterable<T> actual, Iterable<T> expected, ComparisonStrategy comparisonStrategy) {
-    return new IterableDiff(actual, expected, comparisonStrategy);
+  static <T> IterableDiff<T> diff(Iterable<T> actual, Iterable<T> expected, ComparisonStrategy comparisonStrategy) {
+    return new IterableDiff<>(actual, expected, comparisonStrategy);
+  }
+
+  static <T> IterableDiff<T> diff(Iterable<T> actual, Iterable<T> expected) {
+    return diff(actual, expected, StandardComparisonStrategy.instance());
   }
 
   boolean differencesFound() {
@@ -45,16 +52,15 @@ class IterableDiff {
   /**
    * Returns the list of elements in the first iterable that are not in the second, i.e. first - second
    *
-   * @param <T> the element type
    * @param actual the list we want to subtract from
    * @param expected the list to subtract
    * @return the list of elements in the first iterable that are not in the second, i.e. first - second
    */
-  private <T> List<Object> unexpectedActualElements(Iterable<T> actual, Iterable<T> expected) {
-    List<Object> missingInFirst = new ArrayList<>();
+  private List<T> unexpectedActualElements(Iterable<T> actual, Iterable<T> expected) {
+    List<T> missingInFirst = new ArrayList<>();
     // use a copy to deal correctly with potential duplicates
     List<T> copyOfExpected = newArrayList(expected);
-    for (Object elementInActual : actual) {
+    for (T elementInActual : actual) {
       if (isActualElementInExpected(elementInActual, copyOfExpected)) {
         // remove the element otherwise a duplicate would be found in the case if there is one in actual
         iterablesRemoveFirst(copyOfExpected, elementInActual);
@@ -65,7 +71,7 @@ class IterableDiff {
     return unmodifiableList(missingInFirst);
   }
 
-  private <T> boolean isActualElementInExpected(Object elementInActual, List<T> copyOfExpected) {
+  private boolean isActualElementInExpected(T elementInActual, List<T> copyOfExpected) {
     // the order of comparisonStrategy.areEqual is important if element comparison is not symmetrical, we must compare actual to
     // expected but not expected to actual, for ex recursive comparison where:
     // - actual element is PersonDto, expected a list of Person
@@ -74,11 +80,11 @@ class IterableDiff {
     return copyOfExpected.stream().anyMatch(expectedElement -> comparisonStrategy.areEqual(elementInActual, expectedElement));
   }
 
-  private <T> List<Object> missingActualElements(Iterable<T> actual, Iterable<T> expected) {
-    List<Object> missingInExpected = new ArrayList<>();
+  private List<T> missingActualElements(Iterable<T> actual, Iterable<T> expected) {
+    List<T> missingInExpected = new ArrayList<>();
     // use a copy to deal correctly with potential duplicates
     List<T> copyOfActual = newArrayList(actual);
-    for (Object expectedElement : expected) {
+    for (T expectedElement : expected) {
       if (iterableContains(copyOfActual, expectedElement)) {
         // remove the element otherwise a duplicate would be found in the case if there is one in actual
         iterablesRemoveFirst(copyOfActual, expectedElement);
@@ -89,11 +95,11 @@ class IterableDiff {
     return unmodifiableList(missingInExpected);
   }
 
-  private boolean iterableContains(Iterable<?> actual, Object expectedElement) {
+  private boolean iterableContains(Iterable<?> actual, T expectedElement) {
     return comparisonStrategy.iterableContains(actual, expectedElement);
   }
 
-  private void iterablesRemoveFirst(Iterable<?> actual, Object value) {
+  private void iterablesRemoveFirst(Iterable<?> actual, T value) {
     comparisonStrategy.iterablesRemoveFirst(actual, value);
   }
 }

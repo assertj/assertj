@@ -12,23 +12,33 @@
  */
 package org.assertj.core.internal;
 
+import static java.util.stream.Collectors.toList;
+import static org.assertj.core.error.ShouldHaveAtLeastOneElementOfType.shouldHaveAtLeastOneElementOfType;
+import static org.assertj.core.error.ShouldHaveExactlyTypes.elementsTypesDifferAtIndex;
+import static org.assertj.core.error.ShouldHaveExactlyTypes.shouldHaveTypes;
+import static org.assertj.core.error.ShouldHaveOnlyElementsOfType.shouldHaveOnlyElementsOfType;
+import static org.assertj.core.error.ShouldNotHaveAnyElementsOfTypes.shouldNotHaveAnyElementsOfTypes;
+import static org.assertj.core.internal.CommonValidations.checkIsNotNullAndNotEmpty;
+import static org.assertj.core.internal.IterableDiff.diff;
+import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Lists.newArrayList;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
+
 import org.assertj.core.api.ArraySortedAssert;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.data.Index;
 import org.assertj.core.util.VisibleForTesting;
 
-import java.util.*;
-
-import static org.assertj.core.error.ShouldHaveAtLeastOneElementOfType.shouldHaveAtLeastOneElementOfType;
-import static org.assertj.core.error.ShouldHaveOnlyElementsOfType.shouldHaveOnlyElementsOfType;
-import static org.assertj.core.error.ShouldNotHaveAnyElementsOfTypes.shouldNotHaveAnyElementsOfTypes;
-import static org.assertj.core.internal.CommonValidations.checkIsNotNullAndNotEmpty;
-import static org.assertj.core.util.Lists.newArrayList;
-
 /**
  * Reusable assertions for arrays of objects.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Nicolas François
@@ -40,7 +50,7 @@ public class ObjectArrays {
 
   /**
    * Returns the singleton instance of this class.
-   * 
+   *
    * @return the singleton instance of this class.
    */
   public static ObjectArrays instance() {
@@ -81,7 +91,7 @@ public class ObjectArrays {
 
   /**
    * Asserts that the given array is {@code null} or empty.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @throws AssertionError if the given array is not {@code null} *and* contains one or more elements.
@@ -92,7 +102,7 @@ public class ObjectArrays {
 
   /**
    * Asserts that the given array is empty.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @throws AssertionError if the given array is {@code null}.
@@ -104,7 +114,7 @@ public class ObjectArrays {
 
   /**
    * Asserts that the given array is not empty.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @throws AssertionError if the given array is {@code null}.
@@ -116,7 +126,7 @@ public class ObjectArrays {
 
   /**
    * Asserts that the number of elements in the given array is equal to the expected one.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param expectedSize the expected size of {@code actual}.
@@ -195,7 +205,7 @@ public class ObjectArrays {
 
   /**
    * Assert that the actual array has the same size as the other {@code Iterable}.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given iterable.
    * @param other the group to compare
@@ -209,7 +219,7 @@ public class ObjectArrays {
 
   /**
    * Assert that the actual array has the same size as the other array.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param other the group to compare
@@ -223,7 +233,7 @@ public class ObjectArrays {
 
   /**
    * Asserts that the given array contains the given values, in any order.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param values the values that are expected to be in the given array.
@@ -238,7 +248,7 @@ public class ObjectArrays {
 
   /**
    * Verifies that the given array contains the given object at the given index.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param value the object to look for.
@@ -255,7 +265,7 @@ public class ObjectArrays {
 
   /**
    * Verifies that the given array does not contain the given object at the given index.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param value the object to look for.
@@ -270,7 +280,7 @@ public class ObjectArrays {
 
   /**
    * Asserts that the given array contains only the given values and nothing else, in any order.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param values the values that are expected to be in the given array.
@@ -294,7 +304,7 @@ public class ObjectArrays {
 
   /**
    * Asserts that the given array contains only once the given values.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param values the values that are expected to be in the given array.
@@ -323,7 +333,7 @@ public class ObjectArrays {
 
   /**
    * Verifies that the given array contains the given sequence of objects, without any other objects between them.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param sequence the sequence of objects to look for.
@@ -353,7 +363,7 @@ public class ObjectArrays {
 
   /**
    * Verifies that the given array contains the given subsequence of objects (possibly with other values between them).
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param subsequence the subsequence of objects to look for.
@@ -384,7 +394,7 @@ public class ObjectArrays {
 
   /**
    * Asserts that the given array does not contain the given values.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param values the values that are expected not to be in the given array.
@@ -406,7 +416,7 @@ public class ObjectArrays {
 
   /**
    * Asserts that the given array does not have duplicate values.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @throws NullPointerException if the array of values is {@code null}.
@@ -422,7 +432,7 @@ public class ObjectArrays {
    * Verifies that the given array starts with the given sequence of objects, without any other objects between them.
    * Similar to <code>{@link #assertContainsSequence(AssertionInfo, Object[], Object[])}</code>, but it also verifies
    * that the first element in the sequence is also the first element of the given array.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param sequence the sequence of objects to look for.
@@ -474,7 +484,7 @@ public class ObjectArrays {
 
   /**
    * Asserts that the given array contains at least a null element.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @throws AssertionError if the given array is {@code null}.
@@ -486,7 +496,7 @@ public class ObjectArrays {
 
   /**
    * Asserts that the given array does not contain null elements.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @throws AssertionError if the given array is {@code null}.
@@ -498,7 +508,7 @@ public class ObjectArrays {
 
   /**
    * Assert that each element of given array satisfies the given condition.
-   * 
+   *
    * @param <E> element type
    * @param info contains information about the assertion.
    * @param actual the given array.
@@ -512,7 +522,7 @@ public class ObjectArrays {
 
   /**
    * Assert that each element of given array not satisfies the given condition.
-   * 
+   *
    * @param <E> element type
    * @param info contains information about the assertion.
    * @param actual the given array.
@@ -526,7 +536,7 @@ public class ObjectArrays {
 
   /**
    * Assert that each element of given array satisfies the given condition.
-   * 
+   *
    * @param <E> element type
    * @param info contains information about the assertion.
    * @param actual the given array.
@@ -540,7 +550,7 @@ public class ObjectArrays {
 
   /**
    * Assert that each element of given array not satisfies the given condition.
-   * 
+   *
    * @param <E> element type
    * @param info contains information about the assertion.
    * @param actual the given array.
@@ -554,7 +564,7 @@ public class ObjectArrays {
 
   /**
    * Assert that there are <b>at least</b> <i>n</i> array elements satisfying the given condition.
-   * 
+   *
    * @param <E> element type
    * @param info contains information about the assertion.
    * @param actual the given array.
@@ -569,7 +579,7 @@ public class ObjectArrays {
 
   /**
    * Assert that there are <b>at most</b> <i>n</i> array elements satisfying the given condition.
-   * 
+   *
    * @param <E> element type
    * @param info contains information about the assertion.
    * @param actual the given array.
@@ -584,7 +594,7 @@ public class ObjectArrays {
 
   /**
    * Verifies that there are <b>exactly</b> <i>n</i> array elements satisfying the given condition.
-   * 
+   *
    * @param <E> element type
    * @param info contains information about the assertion.
    * @param actual the given array.
@@ -600,7 +610,7 @@ public class ObjectArrays {
   /**
    * An alias method of {@link #assertAreAtLeast(AssertionInfo, Object[], int, Condition)} to provide a richer fluent
    * api (same logic, only error message differs).
-   * 
+   *
    * @param <E> element type
    * @param info contains information about the assertion.
    * @param actual the given array.
@@ -616,7 +626,7 @@ public class ObjectArrays {
   /**
    * An alias method of {@link #assertAreAtMost(AssertionInfo, Object[], int, Condition)} to provide a richer fluent api
    * (same logic, only error message differs).
-   * 
+   *
    * @param <E> element type
    * @param info contains information about the assertion.
    * @param actual the given array.
@@ -632,7 +642,7 @@ public class ObjectArrays {
   /**
    * An alias method of {@link #assertAreExactly(AssertionInfo, Object[], int, Condition)} to provide a richer fluent
    * api (same logic, only error message differs).
-   * 
+   *
    * @param <E> element type
    * @param info contains information about the assertion.
    * @param actual the given array.
@@ -669,6 +679,23 @@ public class ObjectArrays {
     arrays.assertHasOnlyElementsOfTypes(info, failures, actual, types);
   }
 
+  public <E> void assertHasExactlyElementsOfTypes(AssertionInfo info, E[] actual, Class<?>... expectedTypes) {
+    Objects.instance().assertNotNull(info, actual);
+    List<Class<?>> actualTypeList = Stream.of(actual).map(Object::getClass).collect(toList());
+    IterableDiff<Class<?>> typesDiff = diff(actualTypeList, list(expectedTypes));
+    if (typesDiff.differencesFound()) {
+      throw failures.failure(info, shouldHaveTypes(actual, list(expectedTypes), typesDiff.missing, typesDiff.unexpected));
+    }
+    // actual elements have the expected types but are they in the correct order?
+    int i = 0;
+    for (E actualElement : actual) {
+      if (!java.util.Objects.equals(actualElement.getClass(), expectedTypes[i])) {
+        throw failures.failure(info, elementsTypesDifferAtIndex(actualElement, expectedTypes[i], i));
+      }
+      i++;
+    }
+  }
+
   public <E> void assertDoesNotHaveAnyElementsOfTypes(AssertionInfo info, E[] actual, Class<?>... unexpectedTypes) {
     Objects.instance().assertNotNull(info, actual);
     Map<Class<?>, List<Object>> nonMatchingElementsByType = new LinkedHashMap<>();
@@ -689,7 +716,7 @@ public class ObjectArrays {
 
   /**
    * Concrete implementation of {@link ArraySortedAssert#isSorted()}.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given array.
    */
@@ -699,7 +726,7 @@ public class ObjectArrays {
 
   /**
    * Concrete implementation of {@link ArraySortedAssert#isSortedAccordingTo(Comparator)}.
-   * 
+   *
    * @param <E> element type
    * @param info contains information about the assertion.
    * @param actual the given array.
@@ -712,7 +739,7 @@ public class ObjectArrays {
 
   /**
    * Asserts that the given array contains all the elements of the given {@code Iterable}, in any order.
-   * 
+   *
    * @param <E> element type
    * @param info contains information about the assertion.
    * @param actual the given array.
