@@ -20,10 +20,14 @@ import org.assertj.core.util.VisibleForTesting;
 
 import java.util.*;
 
+import static java.util.Arrays.asList;
+import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
+import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldHaveAtLeastOneElementOfType.shouldHaveAtLeastOneElementOfType;
 import static org.assertj.core.error.ShouldHaveOnlyElementsOfType.shouldHaveOnlyElementsOfType;
 import static org.assertj.core.error.ShouldNotHaveAnyElementsOfTypes.shouldNotHaveAnyElementsOfTypes;
 import static org.assertj.core.internal.CommonValidations.checkIsNotNullAndNotEmpty;
+import static org.assertj.core.internal.IterableDiff.diff;
 import static org.assertj.core.util.Lists.newArrayList;
 
 /**
@@ -669,6 +673,27 @@ public class ObjectArrays {
     arrays.assertHasOnlyElementsOfTypes(info, failures, actual, types);
   }
 
+  public <E> void assertHasExactlyElementsOfTypes(AssertionInfo info, E[] actual, Class<?>... types) {
+    Objects.instance().assertNotNull(info, actual);
+    List<Object> actualTypeList = extractTypeList(asList(actual));
+    IterableDiff diff = diff(actualTypeList, asList(types), getComparisonStrategy());
+    if (!diff.differencesFound()) {
+      // actual and values have the same types but are they in the same order ?
+      int i = 0;
+      for (Object elementFromActual : actualTypeList) {
+        if (!getComparisonStrategy().areEqual(elementFromActual, types[i])) {
+          throw failures.failure(info, elementsDifferAtIndex(elementFromActual.getClass(), types[i], i, getComparisonStrategy()));
+        }
+        i++;
+      }
+      return;
+    }
+    throw failures.failure(info,
+      shouldContainExactly(actual.getClass(), asList(types), diff.missing, diff.unexpected,
+        getComparisonStrategy()));
+
+  }
+
   public <E> void assertDoesNotHaveAnyElementsOfTypes(AssertionInfo info, E[] actual, Class<?>... unexpectedTypes) {
     Objects.instance().assertNotNull(info, actual);
     Map<Class<?>, List<Object>> nonMatchingElementsByType = new LinkedHashMap<>();
@@ -728,6 +753,15 @@ public class ObjectArrays {
 
   public void assertContainsAnyOf(AssertionInfo info, Object[] actual, Object[] values) {
     arrays.assertContainsAnyOf(info, failures, actual, values);
+  }
+
+  private static List<Object> extractTypeList(List<Object> list) {
+    List<Object> typeList = new ArrayList<>();
+
+    for(Object o: list){
+      typeList.add(o.getClass());
+    }
+    return typeList;
   }
 
 }
