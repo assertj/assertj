@@ -12,9 +12,12 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.String.format;
 import static java.util.Collections.synchronizedList;
 import static java.util.Collections.unmodifiableList;
+import static java.util.stream.Collectors.toList;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -67,6 +70,10 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
    */
   @Override
   public List<AssertionError> assertionErrorsCollected() {
+    return decorateErrorsCollected(assertionErrorsCollectedList());
+  }
+
+  public List<AssertionError> assertionErrorsCollectedList() {
     return delegate != null ? delegate.assertionErrorsCollected() : unmodifiableList(collectedAssertionErrors);
   }
 
@@ -78,7 +85,7 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
    * Example:
    * <pre><code class='java'> SoftAssertions softly = new SoftAssertions();
    * StringBuilder reportBuilder = new StringBuilder(format("Assertions report:%n"));
-  
+
    * // register our callback
    * softly.setAfterAssertionErrorCollected(error -&gt; reportBuilder.append(String.format("------------------%n%s%n", error.getMessage())));
    *
@@ -125,5 +132,90 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
   @Override
   public boolean wasSuccess() {
     return delegate == null ? wasSuccess : delegate.wasSuccess();
+  }
+
+  public List<Throwable> errorsCollected() {
+    return decorateErrorsCollected(assertionErrorsCollectedList());
+  }
+
+  /**
+   * Modifies collected errors. Override to customize modification.
+   * @param <T> the supertype to use in the list return value
+   * @param errors list of errors to decorate
+   * @return decorated list
+   */
+  protected <T extends Throwable> List<T> decorateErrorsCollected(List<? extends T> errors) {
+    return addLineNumberToErrorMessages(errors);
+  }
+
+  private <T extends Throwable> List<T> addLineNumberToErrorMessages(List<? extends T> errors) {
+    return errors.stream()
+      .map(this::addLineNumberToErrorMessage)
+      .collect(toList());
+  }
+
+  private <T extends Throwable> T addLineNumberToErrorMessage(T error) {
+    StackTraceElement testStackTraceElement = getFirstStackTraceElementFromTest(error.getStackTrace());
+    if (testStackTraceElement != null) {
+      try {
+        return createNewInstanceWithLineNumberInErrorMessage(error, testStackTraceElement);
+      } catch (@SuppressWarnings("unused") SecurityException | ReflectiveOperationException ignored) {}
+    }
+    return error;
+  }
+
+  private <T extends Throwable> T createNewInstanceWithLineNumberInErrorMessage(T error,
+                                                                                StackTraceElement testStackTraceElement) throws ReflectiveOperationException {
+    @SuppressWarnings("unchecked")
+    Constructor<? extends T> constructor = (Constructor<? extends T>) error.getClass().getConstructor(String.class,
+      Throwable.class);
+    T errorWithLineNumber = constructor.newInstance(buildErrorMessageWithLineNumber(error.getMessage(),
+      testStackTraceElement),
+      error.getCause());
+    errorWithLineNumber.setStackTrace(error.getStackTrace());
+    for (Throwable suppressed : error.getSuppressed()) {
+      errorWithLineNumber.addSuppressed(suppressed);
+    }
+    return errorWithLineNumber;
+  }
+
+  private String buildErrorMessageWithLineNumber(String originalErrorMessage, StackTraceElement testStackTraceElement) {
+    String testClassName = simpleClassNameOf(testStackTraceElement);
+    String testName = testStackTraceElement.getMethodName();
+    int lineNumber = testStackTraceElement.getLineNumber();
+    return format("%s%nat %s.%s(%s.java:%s)", originalErrorMessage, testClassName, testName, testClassName, lineNumber);
+  }
+
+  private String simpleClassNameOf(StackTraceElement testStackTraceElement) {
+    String className = testStackTraceElement.getClassName();
+    return className.substring(className.lastIndexOf('.') + 1);
+  }
+
+  private StackTraceElement getFirstStackTraceElementFromTest(StackTraceElement[] stacktrace) {
+    for (StackTraceElement element : stacktrace) {
+      String className = element.getClassName();
+      if (isProxiedAssertionClass(className)
+        || className.startsWith("sun.reflect")
+        || className.startsWith("jdk.internal.reflect")
+        || className.startsWith("java.")
+        || className.startsWith("javax.")
+        || className.startsWith("org.junit.")
+        || className.startsWith("org.eclipse.jdt.internal.junit.")
+        || className.startsWith("org.eclipse.jdt.internal.junit4.")
+        || className.startsWith("org.eclipse.jdt.internal.junit5.")
+        || className.startsWith("com.intellij.junit5.")
+        || className.startsWith("com.intellij.rt.execution.junit.")
+        || className.startsWith("com.intellij.rt.junit.") // since IntelliJ IDEA build 193.2956.37
+        || className.startsWith("org.apache.maven.surefire")
+        || className.startsWith("org.assertj")) {
+        continue;
+      }
+      return element;
+    }
+    return null;
+  }
+
+  private boolean isProxiedAssertionClass(String className) {
+    return className.contains("$ByteBuddy$");
   }
 }
