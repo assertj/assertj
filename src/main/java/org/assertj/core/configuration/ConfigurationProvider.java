@@ -14,8 +14,11 @@ package org.assertj.core.configuration;
 
 import static java.lang.String.format;
 import static org.assertj.core.configuration.Configuration.DEFAULT_CONFIGURATION;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
+import java.util.List;
+import java.util.ServiceLoader;
+
+import org.assertj.core.presentation.CompositeRepresentation;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
 
@@ -30,34 +33,45 @@ import org.assertj.core.presentation.StandardRepresentation;
 public final class ConfigurationProvider {
 
   public static final ConfigurationProvider CONFIGURATION_PROVIDER = new ConfigurationProvider();
-  private final Representation representation;
   private final Configuration configuration;
+  private CompositeRepresentation compositeRepresentation;
 
   private ConfigurationProvider() {
-    representation = Services.get(Representation.class, STANDARD_REPRESENTATION);
-    if (representation != STANDARD_REPRESENTATION) {
-      System.err.println(format("Although it still works, registering a Representation through a file named 'org.assertj.core.presentation.Representation' in the META-INF/services directory is deprecated.%n"
-                                + "The proper way of providing a Representation is to register a Configuration as described in the documentation (a Configuration allowing to provide a Representation and other AssertJ configuration elements)"));
-    }
     configuration = Services.get(Configuration.class, DEFAULT_CONFIGURATION);
     if (configuration != DEFAULT_CONFIGURATION) {
       configuration.applyAndDisplay();
     }
+    List<Representation> representations = Services.getAll(Representation.class);
+    compositeRepresentation = new CompositeRepresentation(representations);
+    if (!configuration.hasCustomRepresentation()) {
+      // registered representations are only used if the configuration representation
+      if (representations.size() == 1) {
+        System.out.println(format("AssertJ has found one registered representation: %s, AssertJ will use it first and then fall back to standard representation if it returned a null representation of the value to display.",
+                                  representations.get(0)));
+      } else if (representations.size() > 1) {
+        System.out.println(format("AssertJ has found %s registered representations, AssertJ will use them first and then fall back to standard representation if they returned a null representation of the value to display, the order (by highest priority first) of use will be: %s",
+                                  representations.size(), compositeRepresentation.getAllRepresentationsOrderedByPriority()));
+      }
+    } else if (!representations.isEmpty()) {
+      System.out.println(format("AssertJ has found these representations %s in the classpath but they won't be used as the loaded configuration has specified a custom representation which takes precedence over representations loaded with the java ServiceLoader: %s",
+                                representations, representation()));
+    }
   }
 
   /**
-   * Returns the default {@link Representation} that needs to be used within AssertJ, which is taken first from:
+   * Returns the {@link Representation} that AssertJ will use, which is taken first from:
    * <ul>
-   * <li>a registered {@link Configuration#representation()} if any </li>
-   * <li>a registered {@link Representation}</li>
+   * <li>the representation returned by a custom {@link Configuration} through {@link Configuration#representation()} but only if it is different from the {@link StandardRepresentation}</li>
+   * <li>the {@link Representation} with highest priority loaded from the classpath by the {@link ServiceLoader}</li>
    * </ul>
-   * If no custom representation was registered, the {@link StandardRepresentation} will be used.
-   *
+   * If no custom representation was registered or overridden in a specific {@link Configuration}, the {@link StandardRepresentation} is used.
+   * <p>
    * @return the default {@link Representation} that needs to be used within AssertJ
    * @since 2.9.0 / 3.9.0
+   * @since 3.22.0 support for registered multiple {@link Representation}s with priority. 
    */
   public Representation representation() {
-    return configuration.hasCustomRepresentation() ? configuration.representation() : representation;
+    return configuration.hasCustomRepresentation() ? configuration.representation() : compositeRepresentation;
   }
 
   /**

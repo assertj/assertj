@@ -13,8 +13,10 @@
 package org.assertj.core.configuration;
 
 import static java.lang.String.format;
+import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.ServiceLoader;
 
 /**
@@ -37,5 +39,10 @@ class Services {
                                 serviceType, result.getClass()));
     }
     return result;
+  }
+
+  public static <SERVICE> List<SERVICE> getAll(Class<SERVICE> serviceType) {
+    Iterator<SERVICE> services = ServiceLoader.load(serviceType, Services.class.getClassLoader()).iterator();
+    return newArrayList(services);
   }
 }

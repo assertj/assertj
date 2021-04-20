@@ -3150,7 +3150,7 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
-   * Register a {@link Representation} that will be used in all following assertions.
+   * Use the given {@link Representation} in all remaining tests assertions.
    * <p>
    * {@link Representation} are used to format types in assertions error messages.
    * <p>
@@ -3238,7 +3238,9 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
-   * Fallback to use {@link StandardRepresentation} to revert the effect of calling {@link #useRepresentation(Representation)}.
+   * Reset the representaion being used to the one from the {@link Configuration} to revert the effect of calling {@link #useRepresentation(Representation)}.
+   * <p>
+   * Unless a specific {@link Configuration} is in use, this method resets the representation to the {@link StandardRepresentation}. 
    *
    * @since 2.5.0 / 3.5.0
    */
