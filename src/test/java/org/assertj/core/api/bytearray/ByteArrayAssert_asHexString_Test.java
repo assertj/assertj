@@ -12,8 +12,7 @@
  */
 package org.assertj.core.api.bytearray;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
@@ -53,6 +52,16 @@ class ByteArrayAssert_asHexString_Test {
     assertThat(assertionError).hasMessage(shouldBeEqualMessage("\"FF0001\"", "\"010203\""))
                               .isExactlyInstanceOf(AssertionFailedError.class);
   }
+  @Test
+  void should_fail_if_actual_does_not_match_condition() {
+    // GIVEN
+    byte[] actual = new byte[] { -1, 0, 1 };
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> conditionalAssertThat(assertThat(actual).asHexString(),true,"010203"));
+    // THEN
+    assertThat(assertionError).hasMessage(shouldBeEqualMessage("\"FF0001\"", "\"010203\""))
+      .isExactlyInstanceOf(AssertionFailedError.class);
+  }
 
   @Test
   void should_fail_if_actual_is_null() {
@@ -72,6 +81,7 @@ class ByteArrayAssert_asHexString_Test {
     softly.assertThat(BYTES).asHexString().isEqualTo("FF0001");
     softly.assertAll();
   }
+
 
   @Test
   void should_fail_with_soft_assertions_capturing_all_errors() {

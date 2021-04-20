@@ -12,12 +12,11 @@
  */
 package org.assertj.core.api.abstract_;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.ConcreteAssert;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Tests for <code>{@link AbstractAssert#equals(Object)}</code> and <code>{@link AbstractAssert#hashCode()}</code>.
@@ -45,5 +44,13 @@ class AbstractAssert_equal_hashCode_Test {
   @Test
   void shouldReturnOneAsHashCode() {
     assertThat(assertions.hashCode()).isEqualTo(1);
+  }
+  @Test
+  void shouldReturnOneAsHashCodeCondition() {
+    conditionalAssertThat(assertThat(assertions.hashCode()),true,1);
+  }
+  @Test
+  void shouldReturnOneAsHashCodeNotNull() {
+    notNullAssertThat(assertThat(assertions.hashCode()),1);
   }
 }

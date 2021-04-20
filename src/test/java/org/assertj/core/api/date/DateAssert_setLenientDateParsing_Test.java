@@ -12,9 +12,7 @@
  */
 package org.assertj.core.api.date;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.setLenientDateParsing;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.util.DateUtil.parseDatetime;
 import static org.assertj.core.util.DateUtil.parseDatetimeWithMs;
 
@@ -45,6 +43,22 @@ class DateAssert_setLenientDateParsing_Test extends DateAssertBaseTest {
     assertThat(date).isEqualTo("2001-01-34");
     assertThat(date).isEqualTo("2001-02-02T24:00:00");
     assertThat(date).isEqualTo("2001-02-04T-24:00:00.000");
+  }
+  @Test
+  void should_parse_date_leniently_condition() {
+    final Date date = parse("2001-02-03");
+    conditionalAssertThat(assertThat(date),true,"2001-02-03");
+    conditionalAssertThat(assertThat(date),true,"2001-02-02T24:00:00");
+    conditionalAssertThat(assertThat(date),true,"2001-02-04T-24:00:00.000");
+
+  }
+  @Test
+  void should_parse_date_leniently_not_null() {
+    final Date date = parse("2001-02-03");
+    notNullAssertThat(assertThat(date),"2001-02-03");
+    notNullAssertThat(assertThat(date),"2001-02-02T24:00:00");
+    notNullAssertThat(assertThat(date),"2001-02-04T-24:00:00.000");
+
   }
 
   @Test

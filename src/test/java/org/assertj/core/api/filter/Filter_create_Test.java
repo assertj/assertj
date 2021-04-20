@@ -12,8 +12,7 @@
  */
 package org.assertj.core.api.filter;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.filter.Filters.filter;
 
 import java.util.List;
@@ -30,6 +29,7 @@ class Filter_create_Test extends WithPlayerData {
     Filters<Player> filter = filter(players);
     assertThat(filter.get()).isEqualTo(players);
   }
+
 
   @Test
   void should_create_filter_from_array() {

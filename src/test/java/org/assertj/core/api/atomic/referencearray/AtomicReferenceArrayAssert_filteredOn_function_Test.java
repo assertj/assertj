@@ -12,8 +12,7 @@
  */
 package org.assertj.core.api.atomic.referencearray;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.test.Name.lastNameComparator;
 import static org.assertj.core.test.Name.name;
@@ -64,6 +63,22 @@ class AtomicReferenceArrayAssert_filteredOn_function_Test extends AtomicReferenc
                                                       .containsExactly(name("Whoever", "Ginobili"));
     // THEN
     assertThat(assertion.descriptionText()).isEqualTo("test description");
+    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+  }
+  @Test
+  void should_pass_keep_assertion_state_condition() {
+    // GIVEN
+    Iterable<Name> names = list(name("Manu", "Ginobili"), name("Magic", "Johnson"));
+    // WHEN
+    IterableAssert<Name> assertion = assertThat(names).as("test description")
+      .withFailMessage("error message")
+      .withRepresentation(UNICODE_REPRESENTATION)
+      .usingElementComparator(lastNameComparator)
+      .filteredOn(Name::getFirst, "Manu")
+      .containsExactly(name("Whoever", "Ginobili"));
+    // THEN
+    conditionalAssertThat(assertThat(assertion.descriptionText()),true,"test description");
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
   }

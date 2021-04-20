@@ -12,8 +12,7 @@
  */
 package org.assertj.core.api.bytearray;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
@@ -42,6 +41,24 @@ class ByteArrayAssert_asString_with_charset_Test {
     assertThat(bytes).asString(TURKISH_CHARSET)
                      .isEqualTo(real);
   }
+  @Test
+  void should_convert_bytes_array_to_a_proper_string_with_specific_encoding_condition() {
+    // GIVEN
+    String real = "Gerçek";
+    byte[] bytes = real.getBytes(TURKISH_CHARSET);
+    // WHEN/THEN
+    conditionalAssertThat(assertThat(bytes).asString(TURKISH_CHARSET),false,real);
+
+  }
+  @Test
+  void should_convert_bytes_array_to_a_proper_string_with_specific_encoding_condition_not_null() {
+    // GIVEN
+    String real = "Gerçek";
+    byte[] bytes = real.getBytes(TURKISH_CHARSET);
+    // WHEN/THEN
+    notNullAssertThat(assertThat(bytes).asString(TURKISH_CHARSET),null);
+
+  }
 
   @Test
   void should_fail_if_actual_is_null() {
@@ -52,6 +69,7 @@ class ByteArrayAssert_asString_with_charset_Test {
     // THEN
     assertThat(error).hasMessage(actualIsNull());
   }
+
 
   @Test
   void should_fail_if_actual_does_not_match() {
