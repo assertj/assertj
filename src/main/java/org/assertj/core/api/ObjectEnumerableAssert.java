@@ -962,6 +962,26 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    */
   SELF hasOnlyElementsOfTypes(Class<?>... types);
 
+  /**
+   * Verifies that the actual group contains all the elements of given {@code Iterable}, in given order.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Iterable&lt;String&gt; list = asList(1, "a", 1.00);
+   *
+   * // assertions will pass
+   * assertThat(abc).hasExactlyElementsOfTypes(Integer.class, String.class, Double.class);
+   *
+   * // assertions will fail
+   * assertThat(abc).hasExactlyElementsOfTypes(String.class, Integer.class Double.class);
+   * assertThat(abc).hasExactlyElementsOfTypes(String.class);</code></pre>
+   * <p>
+   *
+   * @param types the given {@code Iterable} we will get elements from.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain all the types of given {@code Iterable} in given order.
+   */
   SELF hasExactlyElementsOfTypes(Class<?>... types);
 
   /**
