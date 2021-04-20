@@ -991,6 +991,14 @@ public class AtomicReferenceArrayAssert<T>
     return myself;
   }
 
+  @Override
+  public AtomicReferenceArrayAssert<T> hasExactlyElementsOfTypes(Class<?>... types)
+  {
+    arrays.assertHasExactlyElementsOfTypes(info, array, types);
+    return myself;
+  }
+
+
   /**
    * Verifies that the actual AtomicReferenceArray does not contain the given object at the given index.
    * <p>

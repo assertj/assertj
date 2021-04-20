@@ -962,6 +962,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    */
   SELF hasOnlyElementsOfTypes(Class<?>... types);
 
+  SELF hasExactlyElementsOfTypes(Class<?>... types);
+
   /**
    * Verifies that at least one element in the actual {@code Object} group has the specified type (matching
    * includes subclasses of the given type).

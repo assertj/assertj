@@ -682,14 +682,14 @@ public class ObjectArrays {
       int i = 0;
       for (Object elementFromActual : actualTypeList) {
         if (!getComparisonStrategy().areEqual(elementFromActual, types[i])) {
-          throw failures.failure(info, elementsDifferAtIndex(elementFromActual.getClass(), types[i], i, getComparisonStrategy()));
+          throw failures.failure(info, elementsDifferAtIndex(elementFromActual, types[i], i, getComparisonStrategy()));
         }
         i++;
       }
       return;
     }
     throw failures.failure(info,
-      shouldContainExactly(actual.getClass(), asList(types), diff.missing, diff.unexpected,
+      shouldContainExactly(actual, asList(types), diff.missing, diff.unexpected,
         getComparisonStrategy()));
 
   }
