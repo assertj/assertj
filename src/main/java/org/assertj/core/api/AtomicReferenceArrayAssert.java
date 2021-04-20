@@ -992,8 +992,7 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   @Override
-  public AtomicReferenceArrayAssert<T> hasExactlyElementsOfTypes(Class<?>... types)
-  {
+  public AtomicReferenceArrayAssert<T> hasExactlyElementsOfTypes(Class<?>... types) {
     arrays.assertHasExactlyElementsOfTypes(info, array, types);
     return myself;
   }

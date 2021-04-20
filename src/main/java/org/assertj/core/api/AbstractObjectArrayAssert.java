@@ -986,8 +986,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   @Override
-  public SELF hasExactlyElementsOfTypes(Class<?>... types)
-  {
+  public SELF hasExactlyElementsOfTypes(Class<?>... types) {
     arrays.assertHasExactlyElementsOfTypes(info, actual, types);
     return myself;
   }
