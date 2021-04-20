@@ -14,11 +14,15 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.ObjectArraysBaseTest;
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
-public class ObjectArrays_assertHasExactlyElementsOfTypes_Test extends ObjectArraysBaseTest
+/**
+ * Tests for <code>{@link ObjectArrays#assertHasExactlyElementsOfTypes(AssertionInfo, Object[], Class...)}</code>.
+ */
+class ObjectArrays_assertHasExactlyElementsOfTypes_Test extends ObjectArraysBaseTest
 {
   private static final Object[] arrayOfObjects = {"a", 'b', new LinkedList<>(), 10L};
 
