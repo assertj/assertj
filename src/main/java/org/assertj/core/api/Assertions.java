@@ -169,6 +169,8 @@ public class Assertions implements InstanceOfAssertFactories {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
 
+
+
   /**
    * Create assertion for {@link IntPredicate}.
    *
@@ -180,6 +182,21 @@ public class Assertions implements InstanceOfAssertFactories {
   public static IntPredicateAssert assertThat(IntPredicate actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
+  public static void conditionalAssertThat(IntPredicateAssert argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(IntPredicateAssert argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
+
 
   /**
    * Create assertion for {@link LongPredicate}.
@@ -192,7 +209,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static LongPredicateAssert assertThat(LongPredicate actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
-
+  public static void conditionalAssertThat(LongPredicateAssert argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(LongPredicateAssert argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
   /**
    * Create assertion for {@link DoublePredicate}.
    *
@@ -204,7 +234,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static DoublePredicateAssert assertThat(DoublePredicate actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
-
+  public static void conditionalAssertThat(DoublePredicateAssert argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(DoublePredicateAssert argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
   /**
    * Create assertion for {@link java.util.concurrent.CompletableFuture}.
    *
@@ -253,6 +296,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static OptionalDoubleAssert assertThat(OptionalDouble actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
+  public static void conditionalAssertThat(OptionalDoubleAssert argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(OptionalDoubleAssert argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
 
   /**
    * Create assertion for {@link java.util.OptionalInt}.
@@ -264,7 +321,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static OptionalIntAssert assertThat(OptionalInt actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
-
+  public static void conditionalAssertThat(OptionalIntAssert argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(OptionalIntAssert argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
   /**
    * Create assertion for {@link java.util.OptionalInt}.
    *
@@ -276,6 +346,21 @@ public class Assertions implements InstanceOfAssertFactories {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
+  public static void conditionalAssertThat(OptionalLongAssert argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(OptionalLongAssert argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
+
   /**
    * Creates a new instance of <code>{@link BigDecimalAssert}</code>.
    *
@@ -284,6 +369,20 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static AbstractBigDecimalAssert<?> assertThat(BigDecimal actual) {
     return AssertionsForClassTypes.assertThat(actual);
+  }
+  public static void conditionalAssertThat(AbstractBigDecimalAssert<?>  argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractBigDecimalAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
   }
 
   /**
@@ -296,7 +395,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AbstractBigIntegerAssert<?> assertThat(BigInteger actual) {
     return new BigIntegerAssert(actual);
   }
-
+  public static void conditionalAssertThat(AbstractBigIntegerAssert<?>  argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractBigIntegerAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
   /**
    * Creates a new instance of <code>{@link UriAssert}</code>.
    *
@@ -306,7 +418,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AbstractUriAssert<?> assertThat(URI actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
-
+  public static void conditionalAssertThat(AbstractUriAssert<?>  argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractUriAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
   /**
    * Creates a new instance of <code>{@link UrlAssert}</code>.
    *
@@ -316,7 +441,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AbstractUrlAssert<?> assertThat(URL actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
-
+  public static void conditionalAssertThat(AbstractUrlAssert<?>  argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractUrlAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
   /**
    * Creates a new instance of <code>{@link BooleanAssert}</code>.
    *
@@ -325,6 +463,20 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static AbstractBooleanAssert<?> assertThat(boolean actual) {
     return AssertionsForClassTypes.assertThat(actual);
+  }
+  public static void conditionalAssertThat(AbstractBooleanAssert<?>  argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractBooleanAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
   }
 
   /**
@@ -337,6 +489,7 @@ public class Assertions implements InstanceOfAssertFactories {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
+
   /**
    * Creates a new instance of <code>{@link BooleanArrayAssert}</code>.
    *
@@ -346,6 +499,21 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AbstractBooleanArrayAssert<?> assertThat(boolean[] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
+  public static void conditionalAssertThat(AbstractBooleanArrayAssert<?>  argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractBooleanArrayAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
+
 
   /**
    * Creates a new instance of <code>{@link Boolean2DArrayAssert}</code>.
@@ -357,6 +525,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static Boolean2DArrayAssert assertThat(boolean[][] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
+  public static void conditionalAssertThat(Boolean2DArrayAssert  argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(Boolean2DArrayAssert argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
 
   /**
    * Creates a new instance of <code>{@link ByteAssert}</code>.
@@ -366,6 +548,20 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static AbstractByteAssert<?> assertThat(byte actual) {
     return AssertionsForClassTypes.assertThat(actual);
+  }
+  public static void conditionalAssertThat(AbstractByteAssert<?>  argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractByteAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
   }
 
   /**
@@ -378,6 +574,7 @@ public class Assertions implements InstanceOfAssertFactories {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
+
   /**
    * Creates a new instance of <code>{@link ByteArrayAssert}</code>.
    *
@@ -386,6 +583,20 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static AbstractByteArrayAssert<?> assertThat(byte[] actual) {
     return AssertionsForClassTypes.assertThat(actual);
+  }
+  public static void conditionalAssertThat(AbstractByteArrayAssert<?>  argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractByteArrayAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
   }
 
   /**
@@ -398,6 +609,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static Byte2DArrayAssert assertThat(byte[][] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
+  public static void conditionalAssertThat(Byte2DArrayAssert  argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(Byte2DArrayAssert argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
 
   /**
    * Creates a new instance of <code>{@link CharacterAssert}</code>.
@@ -408,7 +633,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AbstractCharacterAssert<?> assertThat(char actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
-
+  public static void conditionalAssertThat(AbstractCharacterAssert<?>  argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractCharacterAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
   /**
    * Creates a new instance of <code>{@link CharArrayAssert}</code>.
    *
@@ -417,6 +655,20 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static AbstractCharArrayAssert<?> assertThat(char[] actual) {
     return AssertionsForClassTypes.assertThat(actual);
+  }
+  public static void conditionalAssertThat(AbstractCharArrayAssert<?>  argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractCharArrayAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
   }
 
   /**
@@ -428,6 +680,20 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static Char2DArrayAssert assertThat(char[][] actual) {
     return AssertionsForClassTypes.assertThat(actual);
+  }
+  public static void conditionalAssertThat(Char2DArrayAssert argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(Char2DArrayAssert argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
   }
 
   /**
@@ -449,7 +715,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static ClassAssert assertThat(Class<?> actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
-
+  public static void conditionalAssertThat(ClassAssert argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(ClassAssert argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
   /**
    * Creates a new instance of <code>{@link DoubleAssert}</code>.
    *
@@ -458,6 +737,20 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static AbstractDoubleAssert<?> assertThat(double actual) {
     return AssertionsForClassTypes.assertThat(actual);
+  }
+  public static void conditionalAssertThat(AbstractDoubleAssert<?> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractDoubleAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
   }
 
   /**
@@ -479,7 +772,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AbstractDoubleArrayAssert<?> assertThat(double[] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
-
+  public static void conditionalAssertThat(AbstractDoubleArrayAssert<?> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractDoubleArrayAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
   /**
    * Creates a new instance of <code>{@link Double2DArrayAssert}</code>.
    *
@@ -490,6 +796,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static Double2DArrayAssert assertThat(double[][] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
+  public static void conditionalAssertThat(Double2DArrayAssert argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(Double2DArrayAssert argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
 
   /**
    * Creates a new instance of <code>{@link FileAssert}</code>.
@@ -499,6 +819,20 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static AbstractFileAssert<?> assertThat(File actual) {
     return AssertionsForClassTypes.assertThat(actual);
+  }
+  public static void conditionalAssertThat(AbstractFileAssert<?> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractFileAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
   }
 
   /**
@@ -523,6 +857,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AbstractInputStreamAssert<?, ? extends InputStream> assertThat(InputStream actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
+  public static void conditionalAssertThat(AbstractInputStreamAssert<?, ? extends InputStream> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractInputStreamAssert<?, ? extends InputStream> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
 
   /**
    * Creates a new instance of <code>{@link FloatAssert}</code>.
@@ -533,7 +881,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AbstractFloatAssert<?> assertThat(float actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
-
+  public static void conditionalAssertThat(AbstractFloatAssert<?> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractFloatAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
   /**
    * Creates a new instance of <code>{@link FloatAssert}</code>.
    *
@@ -544,6 +905,7 @@ public class Assertions implements InstanceOfAssertFactories {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
+
   /**
    * Creates a new instance of <code>{@link FloatArrayAssert}</code>.
    *
@@ -552,6 +914,20 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static AbstractFloatArrayAssert<?> assertThat(float[] actual) {
     return AssertionsForClassTypes.assertThat(actual);
+  }
+  public static void conditionalAssertThat(AbstractFloatArrayAssert<?> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractFloatArrayAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
   }
 
   /**
@@ -563,6 +939,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AbstractIntegerAssert<?> assertThat(int actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
+  public static void conditionalAssertThat(AbstractIntegerAssert<?> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractIntegerAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
 
   /**
    * Creates a new instance of <code>{@link IntArrayAssert}</code>.
@@ -572,6 +962,20 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static AbstractIntArrayAssert<?> assertThat(int[] actual) {
     return AssertionsForClassTypes.assertThat(actual);
+  }
+  public static void conditionalAssertThat(AbstractIntArrayAssert<?> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractIntArrayAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
   }
 
   /**
@@ -584,6 +988,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static Int2DArrayAssert assertThat(int[][] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
+  public static void conditionalAssertThat(Int2DArrayAssert argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(Int2DArrayAssert argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
 
   /**
    * Creates a new instance of <code>{@link Float2DArrayAssert}</code>.
@@ -595,6 +1013,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static Float2DArrayAssert assertThat(float[][] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
+  public static void conditionalAssertThat(Float2DArrayAssert argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(Float2DArrayAssert argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
 
   /**
    * Creates a new instance of <code>{@link IntegerAssert}</code>.
@@ -605,6 +1037,7 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AbstractIntegerAssert<?> assertThat(Integer actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
+
 
   /**
    * Creates a new instance of <code>{@link FactoryBasedNavigableIterableAssert}</code> allowing to navigate to any {@code Iterable} element
@@ -649,6 +1082,7 @@ public class Assertions implements InstanceOfAssertFactories {
                                                                                  AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
     return AssertionsForInterfaceTypes.assertThat(actual, assertFactory);
   }
+
 
   /**
    * Creates a new instance of <code>{@link ClassBasedNavigableIterableAssert}</code> allowing to navigate to any {@code Iterable} element
@@ -774,6 +1208,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AbstractLongAssert<?> assertThat(long actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
+  public static void conditionalAssertThat(AbstractLongAssert<?> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractLongAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
 
   /**
    * Creates a new instance of <code>{@link LongAssert}</code>.
@@ -794,6 +1242,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AbstractLongArrayAssert<?> assertThat(long[] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
+  public static void conditionalAssertThat(AbstractLongArrayAssert<?> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractLongArrayAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
 
   /**
    * Creates a new instance of <code>{@link Long2DArrayAssert}</code>.
@@ -804,6 +1266,20 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static Long2DArrayAssert assertThat(long[][] actual) {
     return AssertionsForClassTypes.assertThat(actual);
+  }
+  public static void conditionalAssertThat(Long2DArrayAssert argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(Long2DArrayAssert argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
   }
 
   /**
@@ -849,6 +1325,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AbstractShortAssert<?> assertThat(short actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
+  public static void conditionalAssertThat(AbstractShortAssert<?> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractShortAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
 
   /**
    * Creates a new instance of <code>{@link ShortAssert}</code>.
@@ -869,6 +1359,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AbstractShortArrayAssert<?> assertThat(short[] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
+  public static void conditionalAssertThat(AbstractShortArrayAssert<?> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractShortArrayAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
 
   /**
    * Creates a new instance of <code>{@link Short2DArrayAssert}</code>.
@@ -880,6 +1384,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static Short2DArrayAssert assertThat(short[][] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
+  public static void conditionalAssertThat(Short2DArrayAssert argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(Short2DArrayAssert argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
 
   /**
    * Creates a new instance of <code>{@link DateAssert}</code>.
@@ -890,7 +1408,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AbstractDateAssert<?> assertThat(Date actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
-
+  public static void conditionalAssertThat(AbstractDateAssert<?> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractDateAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
   /**
    * Creates a new instance of <code>{@link ZonedDateTimeAssert}</code>.
    *
@@ -899,6 +1430,20 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static AbstractZonedDateTimeAssert<?> assertThat(ZonedDateTime actual) {
     return AssertionsForClassTypes.assertThat(actual);
+  }
+  public static void conditionalAssertThat(AbstractZonedDateTimeAssert<?> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractZonedDateTimeAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
   }
 
   /**
@@ -910,6 +1455,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AbstractLocalDateTimeAssert<?> assertThat(LocalDateTime actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
+  public static void conditionalAssertThat(AbstractLocalDateTimeAssert<?> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractLocalDateTimeAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
 
   /**
    * Creates a new instance of <code>{@link java.time.OffsetDateTime}</code>.
@@ -920,7 +1479,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AbstractOffsetDateTimeAssert<?> assertThat(OffsetDateTime actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
-
+  public static void conditionalAssertThat(AbstractOffsetDateTimeAssert<?> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractOffsetDateTimeAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
   /**
    * Create assertion for {@link java.time.OffsetTime}.
    *
@@ -929,6 +1501,20 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static AbstractOffsetTimeAssert<?> assertThat(OffsetTime actual) {
     return AssertionsForClassTypes.assertThat(actual);
+  }
+  public static void conditionalAssertThat(AbstractOffsetTimeAssert<?> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractOffsetTimeAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
   }
 
   /**
@@ -940,6 +1526,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AbstractLocalTimeAssert<?> assertThat(LocalTime actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
+  public static void conditionalAssertThat(AbstractLocalTimeAssert<?> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractLocalTimeAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
 
   /**
    * Creates a new instance of <code>{@link LocalDateAssert}</code>.
@@ -949,6 +1549,20 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static AbstractLocalDateAssert<?> assertThat(LocalDate actual) {
     return AssertionsForClassTypes.assertThat(actual);
+  }
+  public static void conditionalAssertThat(AbstractLocalDateAssert<?> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractLocalDateAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
   }
 
   /**
@@ -961,6 +1575,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AbstractInstantAssert<?> assertThat(Instant actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
+  public static void conditionalAssertThat(AbstractInstantAssert<?> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractInstantAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
 
   /**
    * Creates a new instance of <code>{@link DurationAssert}</code>.
@@ -972,6 +1600,21 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AbstractDurationAssert<?> assertThat(Duration actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
+  public static void conditionalAssertThat(AbstractDurationAssert<?> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractDurationAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
+
 
   /**
    * Creates a new instance of <code>{@link PeriodAssert}</code>.
@@ -983,7 +1626,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AbstractPeriodAssert<?> assertThat(Period actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
-
+  public static void conditionalAssertThat(AbstractPeriodAssert<?> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractPeriodAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
   /**
    * Create assertion for {@link AtomicBoolean}.
    *
@@ -993,6 +1649,20 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static AtomicBooleanAssert assertThat(AtomicBoolean actual) {
     return new AtomicBooleanAssert(actual);
+  }
+  public static void conditionalAssertThat(AtomicBooleanAssert argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AtomicBooleanAssert argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
   }
 
   /**
@@ -1005,7 +1675,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AtomicIntegerAssert assertThat(AtomicInteger actual) {
     return new AtomicIntegerAssert(actual);
   }
-
+  public static void conditionalAssertThat(AtomicIntegerAssert argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AtomicIntegerAssert argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
   /**
    * Create int[] assertion for {@link AtomicIntegerArray}.
    *
@@ -1015,6 +1698,20 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static AtomicIntegerArrayAssert assertThat(AtomicIntegerArray actual) {
     return new AtomicIntegerArrayAssert(actual);
+  }
+  public static void conditionalAssertThat(AtomicIntegerArrayAssert argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AtomicIntegerArrayAssert argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
   }
 
   /**
@@ -1039,7 +1736,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static LongAdderAssert assertThat(LongAdder actual) {
     return new LongAdderAssert(actual);
   }
-
+  public static void conditionalAssertThat(LongAdderAssert argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(LongAdderAssert argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
   /**
    * Create assertion for {@link AtomicLong}.
    *
@@ -1049,6 +1759,20 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static AtomicLongAssert assertThat(AtomicLong actual) {
     return new AtomicLongAssert(actual);
+  }
+  public static void conditionalAssertThat(AtomicLongAssert argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AtomicLongAssert argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
   }
 
   /**
@@ -1060,6 +1784,20 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static AtomicLongArrayAssert assertThat(AtomicLongArray actual) {
     return new AtomicLongArrayAssert(actual);
+  }
+  public static void conditionalAssertThat(AtomicLongArrayAssert argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AtomicLongArrayAssert argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
   }
 
   /**
@@ -1143,6 +1881,20 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThat(Throwable actual) {
     return AssertionsForClassTypes.assertThat(actual);
+  }
+  public static void conditionalAssertThat(AbstractThrowableAssert<?, ? extends Throwable> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractThrowableAssert<?, ? extends Throwable> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
   }
 
   /**
@@ -1519,6 +2271,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; failBecauseExceptionWasNotThrown(IOException.class)));.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
+   *
    */
   @CanIgnoreReturnValue
   public static <T> T failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
@@ -1613,6 +2366,7 @@ public class Assertions implements InstanceOfAssertFactories {
   public static void setDescriptionConsumer(Consumer<Description> descriptionConsumer) {
     AbstractAssert.setDescriptionConsumer(descriptionConsumer);
   }
+
 
   /**
    * Sets how many stacktrace elements are included in {@link Throwable} representation (by default this set to 3).
@@ -2857,6 +3611,21 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AbstractStringAssert<?> assertThat(String actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
+  public static void conditionalAssertThat(AbstractStringAssert<?> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractStringAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
+
 
   /**
    * Creates a new instance of <code>{@link IterableAssert}</code>.
@@ -2910,6 +3679,7 @@ public class Assertions implements InstanceOfAssertFactories {
   public static <ELEMENT> ListAssert<ELEMENT> assertThat(List<? extends ELEMENT> actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
+
 
   /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link Stream}.
@@ -2972,6 +3742,7 @@ public class Assertions implements InstanceOfAssertFactories {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
 
+
   /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link LongStream}.
    * <p>
@@ -3002,6 +3773,7 @@ public class Assertions implements InstanceOfAssertFactories {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
 
+
   /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link IntStream}.
    * <p>
@@ -3031,6 +3803,20 @@ public class Assertions implements InstanceOfAssertFactories {
   public static ListAssert<Integer> assertThat(IntStream actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
+  public static void conditionalAssertThat(ListAssert<Integer> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(ListAssert<Integer> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
 
   /**
    * Creates a new instance of <code>{@link SpliteratorAssert}</code> from the given {@link Spliterator}.
@@ -3048,6 +3834,7 @@ public class Assertions implements InstanceOfAssertFactories {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
 
+
   /**
    * Creates a new instance of {@link PathAssert}
    *
@@ -3056,6 +3843,20 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static AbstractPathAssert<?> assertThat(Path actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
+  }
+  public static void conditionalAssertThat(AbstractPathAssert<?> argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  public static void notNullAssertThat(AbstractPathAssert<?> argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
   }
 
   /**
