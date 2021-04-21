@@ -986,12 +986,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Verifies that the actual group contains all the elements of given {@code Iterable}, in given order.
+   * Verifies that all elements of actual group are instances of given {@code Iterable}, in given order.
    * <p>
    * Example:
-   * <pre><code class='java'> Iterable&lt;String&gt; Object[] objects = {1, "a", 1.00};
+   * <pre><code class='java'> Object[] objects = {1, "a", 1.00};
    *
-   * // assertions will pass
+   * // assertion succeeds
    * assertThat(abc).hasExactlyElementsOfTypes(Integer.class, String.class, Double.class);
    *
    * // assertions will fail
@@ -999,7 +999,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * assertThat(abc).hasExactlyElementsOfTypes(String.class);</code></pre>
    * <p>
    *
-   * @param types the given {@code Iterable} we will get elements from.
+   * @param types the given {@code Iterable} we will get the types of elements from.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual group is {@code null}.

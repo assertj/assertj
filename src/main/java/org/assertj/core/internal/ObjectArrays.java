@@ -16,9 +16,11 @@ import org.assertj.core.api.ArraySortedAssert;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.data.Index;
+import org.assertj.core.util.Streams;
 import org.assertj.core.util.VisibleForTesting;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
@@ -675,23 +677,23 @@ public class ObjectArrays {
 
   public <E> void assertHasExactlyElementsOfTypes(AssertionInfo info, E[] actual, Class<?>... types) {
     Objects.instance().assertNotNull(info, actual);
-    List<Object> actualTypeList = extractTypeList(asList(actual));
-    IterableDiff diff = diff(actualTypeList, asList(types), getComparisonStrategy());
+    List<Class<?>> actualTypeList = extractTypeList(asList(actual));
+    /* We want to compare the types instead of elements. Using getComparisonStrategy() would return the comparison
+     strategy comparing elements not the types.*/
+    IterableDiff diff = diff(actualTypeList, asList(types), StandardComparisonStrategy.instance());
     if (!diff.differencesFound()) {
       // actual and values have the same types but are they in the same order ?
       int i = 0;
-      for (Object elementFromActual : actualTypeList) {
-        if (!getComparisonStrategy().areEqual(elementFromActual, types[i])) {
-          throw failures.failure(info, elementsDifferAtIndex(elementFromActual, types[i], i, getComparisonStrategy()));
+      for (Class<?> elementTypeFromActual : actualTypeList) {
+        if (!StandardComparisonStrategy.instance().areEqual(elementTypeFromActual, types[i])) {
+          throw failures.failure(info, elementsDifferAtIndex(elementTypeFromActual, types[i], i, StandardComparisonStrategy.instance()));
         }
         i++;
       }
       return;
     }
     throw failures.failure(info,
-      shouldContainExactly(actual, asList(types), diff.missing, diff.unexpected,
-        getComparisonStrategy()));
-
+      shouldContainExactly(actual, asList(types), diff.missing, diff.unexpected));
   }
 
   public <E> void assertDoesNotHaveAnyElementsOfTypes(AssertionInfo info, E[] actual, Class<?>... unexpectedTypes) {
@@ -755,13 +757,8 @@ public class ObjectArrays {
     arrays.assertContainsAnyOf(info, failures, actual, values);
   }
 
-  private static List<Object> extractTypeList(List<Object> list) {
-    List<Object> typeList = new ArrayList<>();
-
-    for(Object o: list){
-      typeList.add(o.getClass());
-    }
-    return typeList;
+  private static List<Class<?>> extractTypeList(List<Object> list) {
+    return Streams.stream(list).map(Object::getClass).collect(Collectors.toList());
   }
 
 }
