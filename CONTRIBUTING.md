@@ -101,6 +101,26 @@ A good javadoc example taken from [`AbstractCharSequenceAssert.containsSequence`
  */
 ```
 
+Note that to get a good HTML rendering for the code examples, the code should start at the same line and one space after `<pre><code class='java'>`.
+
+Good:
+```text
+ * <pre><code class='java'> String book = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
+```
+
+BAD! (missing space)
+```text
+ * <pre><code class='java'>String book = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
+```
+
+BAD! (not in the same line)
+```text
+ * <pre><code class='java'>
+ * String book = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
+```
+
+To be sure of what the javadoc actually looks, simply generate it and read it in your browser.
+
 ## Legal stuff:
 
 Project license(s): Apache License Version 2.0
