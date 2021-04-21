@@ -14,6 +14,8 @@ package org.assertj.core.internal.maps;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.emptySet;
+import static java.util.Collections.singletonMap;
+import static java.util.Collections.unmodifiableMap;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
@@ -36,6 +38,7 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.apache.commons.collections4.map.CaseInsensitiveMap;
+import org.apache.commons.collections4.map.SingletonMap;
 import org.apache.commons.lang3.ArrayUtils;
 import org.assertj.core.internal.MapsBaseTest;
 import org.junit.jupiter.api.DisplayName;
@@ -44,6 +47,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.util.LinkedCaseInsensitiveMap;
+
+import com.google.common.collect.ImmutableMap;
 
 @DisplayName("Maps assertContainsOnlyKeys(Object[])")
 class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
@@ -54,9 +59,9 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
       LinkedCaseInsensitiveMap::new };
 
   @SuppressWarnings("unchecked")
-  private static final Supplier<Map<String, String>>[] MUTABLE_MAP_SUPPLIERS = ArrayUtils.addAll(CASE_INSENSITIVE_MAP_SUPPLIERS,
-                                                                                                 HashMap::new,
-                                                                                                 LinkedHashMap::new);
+  private static final Supplier<Map<String, String>>[] MODIFIABLE_MAP_SUPPLIERS = ArrayUtils.addAll(CASE_INSENSITIVE_MAP_SUPPLIERS,
+                                                                                                    HashMap::new,
+                                                                                                    LinkedHashMap::new);
 
   private static final String ARRAY_OF_KEYS = "array of keys";
 
@@ -86,8 +91,8 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
 
   @ParameterizedTest
   @MethodSource({
-      "emptyMapSuccessfulTestCases",
-      "mutableMapsSuccessfulTestCases",
+      "unmodifiableMapsSuccessfulTestCases",
+      "modifiableMapsSuccessfulTestCases",
       "caseInsensitiveMapsSuccessfulTestCases",
   })
   void should_succeed(Map<String, String> actual, String[] keys) {
@@ -95,12 +100,16 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
     maps.assertContainsOnlyKeys(info, actual, keys);
   }
 
-  private static Stream<Arguments> emptyMapSuccessfulTestCases() {
-    return Stream.of(arguments(emptyMap(), emptyKeys()));
+  private static Stream<Arguments> unmodifiableMapsSuccessfulTestCases() {
+    return Stream.of(arguments(emptyMap(), emptyKeys()),
+                     arguments(singletonMap("name", "Yoda"), array("name")),
+                     arguments(new SingletonMap<>("name", "Yoda"), array("name")),
+                     arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))), array("name", "job")),
+                     arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), array("name", "job")));
   }
 
-  private static Stream<Arguments> mutableMapsSuccessfulTestCases() {
-    return Stream.of(MUTABLE_MAP_SUPPLIERS)
+  private static Stream<Arguments> modifiableMapsSuccessfulTestCases() {
+    return Stream.of(MODIFIABLE_MAP_SUPPLIERS)
                  .flatMap(supplier -> Stream.of(arguments(mapOf(supplier, entry("name", "Yoda"), entry("job", "Jedi")),
                                                           array("name", "job")),
                                                 arguments(mapOf(supplier, entry("name", "Yoda"), entry("job", "Jedi")),
@@ -117,8 +126,8 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
 
   @ParameterizedTest
   @MethodSource({
-      "mutableMapsFailingTestCases",
-      "caseInsensitiveMapsFailingTestCases",
+      "modifiableMapsFailureTestCases",
+      "caseInsensitiveMapsFailureTestCases",
   })
   void should_fail(Map<String, String> actual, String[] expectedKeys, Set<String> notFound, Set<String> notExpected) {
     // WHEN
@@ -127,8 +136,8 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
     then(error).hasMessage(shouldContainOnlyKeys(actual, expectedKeys, notFound, notExpected).create());
   }
 
-  private static Stream<Arguments> mutableMapsFailingTestCases() {
-    return Stream.of(MUTABLE_MAP_SUPPLIERS)
+  private static Stream<Arguments> modifiableMapsFailureTestCases() {
+    return Stream.of(MODIFIABLE_MAP_SUPPLIERS)
                  .flatMap(supplier -> Stream.of(arguments(mapOf(supplier, entry("name", "Yoda")),
                                                           array("name", "color"), set("color"), emptySet()),
                                                 arguments(mapOf(supplier, entry("name", "Yoda"), entry("job", "Jedi")),
@@ -137,7 +146,7 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
                                                           array("name", "color"), set("color"), set("job"))));
   }
 
-  private static Stream<Arguments> caseInsensitiveMapsFailingTestCases() {
+  private static Stream<Arguments> caseInsensitiveMapsFailureTestCases() {
     return Stream.of(CASE_INSENSITIVE_MAP_SUPPLIERS)
                  .flatMap(supplier -> Stream.of(arguments(mapOf(supplier, entry("NAME", "Yoda"), entry("Job", "Jedi")),
                                                           array("name", "color"), set("color"), set("Job")),
