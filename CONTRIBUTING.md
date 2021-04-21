@@ -12,15 +12,14 @@ We appreciate your effort and to make sure that your pull request is easy to rev
 * Use `@DisplayName` on the test class - see `OptionalAssert_containsInstanceOf_Test` as an example.
 * Write unit test assertions with AssertJ! Let's eat our own dog food.
 * Unit tests method naming convention is underscore-based (like python) and not camel-case, we find it is much readable for long test names!
-* Successful assertion unit test method names should start with: `should_pass_...`.
-* Failing assertion unit test method names should start with: `should_fail_...`.
-
-* Put GIVEN WHEN THEN steps in each test, favoring `BDDAssertions.then` instead of `Assertions.assertThat` for assertions in the THEN step. Steps can be combined or omitted if a separate step does not provide much benefit to test readability, just ensure that the WHEN step (either single or combined) contains the test target.
-* Use `AssertionUtil.expectAssertionError` for tests expecting to get an `AssertionError`  - see `OptionalAssert_containsInstanceOf_Test` as an example..
+* Successful assertion unit test method names should start with: `should_pass_xxx` (if you find a better test name, use your best judgment and go for it!)
+* Failing assertion unit test method names should start with: `should_fail_xxx`. (if you find a better test name, use your best judgment and go for it!)
+* Put `GIVEN` `WHEN` `THEN` steps in each test, prefer `BDDAssertions.then` over `Assertions.assertThat` for assertions in the `THEN` step. Steps can be combined or omitted if a separate step does not provide much benefit to test readability, just ensure that the WHEN step (either single or combined) contains the test target.
+* Use `AssertionUtil.expectAssertionError` for tests expecting to get an `AssertionError` - see `OptionalAssert_containsInstanceOf_Test` below for an example.
 * Use static import when it makes the code more readable.
 * If possible, add a (fun) code example in [assertj-examples](https://github.com/assertj/assertj-examples) and use it in the javadoc.
 
-A good unit test to use as a reference is `OptionalAssert_containsInstanceOf_Test`. Here's a sample below:
+A good unit test to use as a reference is `OptionalAssert_containsInstanceOf_Test`, here's a sample below:
 
 ```java
 import static org.assertj.core.api.BDDAssertions.then;
@@ -53,11 +52,11 @@ class OptionalAssert_containsInstanceOf_Test extends BaseTest {
 
 It's ok not to follow some of the rules described above if you have a good reason not to (use your best judgement)
 
-[assertj-examples](https://github.com/assertj/assertj-examples) shows how to efficiently use AssertJ through fun unit test examples, it can be seen as AssertJs living documentation.
+[assertj-examples](https://github.com/assertj/assertj-examples) shows how to efficiently use AssertJ through fun unit test examples, it is a kind of living documentation.
 
 ## Rebase your PR on main (no merge!)
 
-We prefer integrating PR by squashing all the commits and rebase it to main, if you PR has diverged and needs to integrate with main, please rebase on main but do not merge as it will prevent rebasing later on.
+We prefer integrating PR by squashing all the commits and rebase it to `main`, if your PR has diverged and needs to get the newer `main` commits, please rebase on `main` but **do not merge `main` in your PR branch** as it will prevent rebasing later on.
 
 ## Naming conventions with some examples:
 
