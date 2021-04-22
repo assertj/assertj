@@ -1070,7 +1070,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   // This method is protected in order to be proxied for SoftAssertions / Assumptions.
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
-  protected SELF containsKeysForProxy(@SuppressWarnings("unchecked") K... keys) {
+  protected SELF containsKeysForProxy(K[] keys) {
     maps.assertContainsKeys(info, actual, keys);
     return myself;
   }
