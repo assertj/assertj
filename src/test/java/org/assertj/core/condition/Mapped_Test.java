@@ -17,10 +17,15 @@ package org.assertj.core.condition;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.assertj.core.api.Condition;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 public class Mapped_Test {
+
+  private static final String NL = System.lineSeparator();
 
   private static final String INNER_CONDITION_DESCRIPTION = "isString and BAR";
 
@@ -31,24 +36,67 @@ public class Mapped_Test {
   final static Condition<String> innerCondition = new Condition<>(
       (s) -> BAR.equals(s) && s instanceof String, INNER_CONDITION_DESCRIPTION);
 
-  final static String text_BAR = "mapped\n" + "   using: ::toString\n" + "   from: <StringBuilder> "
-      + BAR + "\n" + "   to:   <String> " + BAR + "\n" + "   then checked: [\n" + "      "
-      + INNER_CONDITION_DESCRIPTION + "\n" + "]";
+  final static String text_BAR = "mapped" + NL + "   using: ::toString" + NL + "   from: <StringBuilder> " + BAR + ""
+      + NL + "   to:   <String> " + BAR + "" + NL + "   then checked: [" + NL + "      "
+      + INNER_CONDITION_DESCRIPTION + "" + NL + "]";
 
-  final static String text_FOO = "mapped\n" + "   using: ::toString\n" + "   from: <StringBuilder> "
-      + FOO + "\n" + "   to:   <String> " + FOO + "\n" + "   then checked: [\n" + "      "
-      + INNER_CONDITION_DESCRIPTION + "\n" + "]";
+  final static String text_BAR_PLAIN = "mapped" + NL + "   from: <StringBuilder> " + BAR
+      + "" + NL + "   to:   <String> " + BAR + "" + NL + "   then checked: [" + NL + "      "
+      + INNER_CONDITION_DESCRIPTION + "" + NL + "]";
+
+  final static String text_FOO = "mapped" + NL + "   using: ::toString" + NL + "   from: <StringBuilder> " + FOO + ""
+      + NL + "   to:   <String> " + FOO + "" + NL + "   then checked: [" + NL + "      "
+      + INNER_CONDITION_DESCRIPTION + "" + NL + "]";
 
   @Test
-  public static void MappedCondition_works_with_Of() {
+  void MappedCondition_works() {
 
     Condition<StringBuilder> mappedCondition = Mapped.mapped(StringBuilder::toString, "::toString",
         innerCondition);
 
     assertThat(mappedCondition.matches(new StringBuilder(BAR))).isTrue();
-    assertThat(mappedCondition.toString()).isSameAs(text_BAR);
+    assertThat(mappedCondition.toString()).isEqualTo(text_BAR);
     assertThat(mappedCondition.matches(new StringBuilder(FOO))).isFalse();
-    assertThat(mappedCondition.toString()).isSameAs(text_FOO);
+    assertThat(mappedCondition.toString()).isEqualTo(text_FOO);
+    
+    Condition<StringBuilder> mappedCondition2 = Mapped.mapped(StringBuilder::toString, innerCondition);
+    assertThat(mappedCondition2.matches(new StringBuilder(BAR))).isTrue();
+    assertThat(mappedCondition2.toString()).isEqualTo(text_BAR_PLAIN);
+  }
+  
+  @Test
+  void MappedCondition_throws_NPE() {
 
+    assertThrows(NullPointerException.class, new Executable() {
+
+      @Override
+      public void execute() throws Throwable {
+        Mapped.mapped(StringBuilder::toString, "::toString", null);
+      }
+    });
+
+    assertThrows(NullPointerException.class, new Executable() {
+
+      @Override
+      public void execute() throws Throwable {
+        Mapped.mapped(null, "::toString", innerCondition);
+      }
+    });
+
+    assertThrows(NullPointerException.class, new Executable() {
+
+      @Override
+      public void execute() throws Throwable {
+        Mapped.mapped(StringBuilder::toString, null);
+      }
+    });
+
+    assertThrows(NullPointerException.class, new Executable() {
+
+      @Override
+      public void execute() throws Throwable {
+        Mapped.mapped(null, innerCondition);
+      }
+    });
   }
 }

@@ -12,13 +12,29 @@
  */
 package org.assertj.core.condition;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import org.assertj.core.api.Condition;
 
-public class Mapped<FROM, T> extends Condition<FROM> {
+/**
+ * Container-<code>{@link Condition}</code> that does a mapping and then uses nested
+ * <code>{@link Condition}</code> to test the mapped actual value.
+ * 
+ * @param <FROM> the type of object this condition accepts.
+ * @param <TO> the type of object the nested condition accepts.
+ *
+ * @author Stefan Bischof
+ */
+public class Mapped<FROM, TO> extends Condition<FROM> {
 
+  private Condition<TO> condition;
+  
+  private Function<FROM, TO> mapping;
+  
+  private String mappingDescription;
 
   private static <FROM, TO> BiFunction<FROM, TO, String> mappingDescription(String using) {
 
@@ -36,41 +52,60 @@ public class Mapped<FROM, T> extends Condition<FROM> {
     };
   }
 
+  /**
+   * Creates a new <code>{@link Mapped}</code>
+   * @param <FROM> the type of object the given condition accept.
+   * @param <TO> the type of object the nested condition accept.
+   * @param mapping the Function that maps the value to test to the a value for the nested condition.
+   * @param mappingDescription describes the mapping verbal.
+   * @param condition the nested condition to evaluate.
+   * @return the created {@code Mapped}.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws NullPointerException if the given mapping is {@code null}.
+   */
   public static <FROM, TO> Mapped<FROM, TO> mapped(Function<FROM, TO> mapping,
-	      String mappingDescription, Condition<TO> condition) {
+        String mappingDescription, Condition<TO> condition) {
 
-	    return new Mapped<>(mapping, mappingDescription, condition);
-	  }
-  
+      return new Mapped<>(mapping, mappingDescription, condition);
+    }
+
+  /**
+   * Creates a new <code>{@link Mapped}</code>
+   * @param <FROM> the type of object the given condition accept.
+   * @param <TO> the type of object the nested condition accept.
+   * @param mapping the Function that maps the value to test to the a value for the nested condition.
+   * @param condition the nested condition to evaluate.
+   * @return the created {@code Mapped}.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws NullPointerException if the given mapping is {@code null}.
+   */
   public static <FROM, TO> Mapped<FROM, TO> mapped(Function<FROM, TO> mapping, Condition<TO> condition) {
 
-	    return new Mapped<>(mapping, null, condition);
-	  }
+      return mapped(mapping, null, condition);
+    }
 
-  private Condition<T> condition;
-
-  private Function<FROM, T> mapping;
-
-  private String mappingDescription;
-
-  private Mapped(Function<FROM, T> mapping, String mappingDescription, Condition<T> condition) {
+  private Mapped(Function<FROM, TO> mapping, String mappingDescription, Condition<TO> condition) {
 
     super("");
+    requireNonNull(condition, "The given conditions should not be null");
+    requireNonNull(mapping, "The given mapping should not be null");
     this.mapping = mapping;
     this.mappingDescription = mappingDescription;
     this.condition = condition;
     calcDescribedAs("mapping");
   }
 
-  protected void calcDescribedAs(String mappingDescription) {
+  private void calcDescribedAs(String mappingDescription) {
 
-    describedAs(mappingDescription + " [\n" + "      %-10s\n" + "]", condition);
-  }
+    describedAs(
+        mappingDescription + " [" + System.lineSeparator() + "      %-10s" + System.lineSeparator() + "]",
+        condition);
+    }
 
   @Override
   public boolean matches(FROM value) {
 
-    T mappedObject = mapping.apply(value);
+    TO mappedObject = mapping.apply(value);
     boolean matchResult = condition.matches(mappedObject);
     String desc = mappingDescription(mappingDescription).apply(value, mappedObject);
     calcDescribedAs(desc);
