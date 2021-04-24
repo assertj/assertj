@@ -992,7 +992,7 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
-   * Verifies that all elements of actual group are instances of given {@code Iterable}, in given order.
+   * Verifies that all elements of actual group are instances of given types{@code Iterable}, in given order.
    * <p>
    * Example:
    * <pre><code class='java'> AtomicReferenceArray&lt;Object&gt; elvesRings = new AtomicReferenceArray&lt;&gt;(new Object[]{1, "a", 1.00});

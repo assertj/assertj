@@ -963,7 +963,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   SELF hasOnlyElementsOfTypes(Class<?>... types);
 
   /**
-   * Verifies that all elements of actual group are instances of given {@code Iterable}, in given order.
+   * Verifies that all elements of actual group are instances of given types{@code Iterable}, in given order.
    * <p>
    * Example:
    * <pre><code class='java'> Iterable&lt;Object&gt; list = asList(1, "a", 1.00);
