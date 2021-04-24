@@ -20,6 +20,7 @@ import static org.mockito.Mockito.verify;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -68,7 +69,7 @@ class MapAssert_containsOnlyKeys_with_Iterable_Test extends MapAssertBaseTest {
       // assertContainsOnlyKeys(AssertionInfo, Map<K, V>, K...) instead of
       // assertContainsOnlyKeys(AssertionInfo, Map<K, V>, Iterable<? extends K>).
       // Casting the Path parameter to Object allows to invoke the overloaded method expecting vararg keys.
-      verify(maps).assertContainsOnlyKeys(getInfo(assertions), getActual(assertions), (Object) path);
+      verify(maps).assertContainsOnlyKeys(getInfo(assertions), getActual(assertions), Collections.singleton(path));
     }
 
   }

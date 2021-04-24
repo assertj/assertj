@@ -43,6 +43,7 @@ class ObjectArrayAssert_satisfiesExactlyInAnyOrder_Test extends ObjectArrayAsser
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertSatisfiesExactlyInAnyOrder(getInfo(assertions), list(getActual(assertions)), consumer);
+    verify(iterables).assertSatisfiesExactlyInAnyOrder(getInfo(assertions), list(getActual(assertions)),
+                                                       new Consumer[] { consumer });
   }
 }

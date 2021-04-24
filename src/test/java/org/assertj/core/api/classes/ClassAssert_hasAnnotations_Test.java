@@ -35,8 +35,10 @@ class ClassAssert_hasAnnotations_Test extends ClassAssertBaseTest {
   protected void verify_internal_effects() {
     verify(classes).assertContainsAnnotations(getInfo(assertions),
                                               getActual(assertions),
-                                              MyAnnotation.class,
-                                              AnotherAnnotation.class);
+                                              new Class[] {
+                                                MyAnnotation.class,
+                                                AnotherAnnotation.class
+                                              });
   }
 
 }

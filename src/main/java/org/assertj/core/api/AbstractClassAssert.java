@@ -353,7 +353,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    */
   @SuppressWarnings("unchecked")
   public SELF hasAnnotation(Class<? extends Annotation> annotation) {
-    classes.assertContainsAnnotations(info, actual, annotation);
+    classes.assertContainsAnnotations(info, actual, new Class[] {annotation});
     return myself;
   }
 

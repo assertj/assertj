@@ -32,7 +32,7 @@ class ClassAssert_hasAnnotation_Test extends ClassAssertBaseTest {
   @SuppressWarnings("unchecked")
   @Override
   protected void verify_internal_effects() {
-    verify(classes).assertContainsAnnotations(getInfo(assertions), getActual(assertions), MyAnnotation.class);
+    verify(classes).assertContainsAnnotations(getInfo(assertions), getActual(assertions), new Class[] { MyAnnotation.class });
   }
 
 }

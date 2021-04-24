@@ -401,10 +401,9 @@ public class Maps {
    * @throws AssertionError if the actual map contains the given key, but value not match the given {@code valueCondition}.
    * @since 2.6.0 / 3.6.0
    */
-  @SuppressWarnings("unchecked")
   public <K, V> void assertHasEntrySatisfying(AssertionInfo info, Map<K, V> actual, K key,
                                               Condition<? super V> valueCondition) {
-    assertContainsKeys(info, actual, key);
+    assertContainsKey(info, actual, key);
     conditions.assertIsNotNull(valueCondition);
     V value = actual.get(key);
     if (!valueCondition.matches(value)) throw failures.failure(info, elementsShouldBe(actual, value, valueCondition));
@@ -424,10 +423,9 @@ public class Maps {
    * @throws AssertionError if the actual map not contains the given {@code key}.
    * @throws AssertionError if the actual map contains the given key, but value not pass the given {@code valueRequirements}.
    */
-  @SuppressWarnings("unchecked")
   public <K, V> void assertHasEntrySatisfying(AssertionInfo info, Map<K, V> actual, K key,
                                               Consumer<? super V> valueRequirements) {
-    assertContainsKeys(info, actual, key);
+    assertContainsKey(info, actual, key);
     requireNonNull(valueRequirements, "The Consumer<V> expressing the assertions requirements must not be null");
     V value = actual.get(key);
     valueRequirements.accept(value);
@@ -571,14 +569,38 @@ public class Maps {
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map not contains the given key.
    */
+  // varargs are not used in order to avoid a "Possible heap pollution" warning.
+  // The method cannot be made final and annotated with @SafeVarargs because the class is mocked in tests
   public <K, V> void assertContainsKeys(AssertionInfo info, Map<K, V> actual,
-                                        @SuppressWarnings("unchecked") K... keys) {
+                                        K[] keys) {
     assertNotNull(info, actual);
     Set<K> notFound = new LinkedHashSet<>();
     for (K key : keys) {
       if (!actual.containsKey(key)) {
         notFound.add(key);
       }
+    }
+    if (notFound.isEmpty()) return;
+    throw failures.failure(info, shouldContainKeys(actual, notFound));
+  }
+
+  /**
+   * Verifies that the actual map contain the given key.
+   *
+   * @param <K> key type
+   * @param <V> value type
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param key the given key
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map not contains the given key.
+   */
+  public <K, V> void assertContainsKey(AssertionInfo info, Map<K, V> actual,
+                                       K key) {
+    assertNotNull(info, actual);
+    Set<K> notFound = new LinkedHashSet<>();
+    if (!actual.containsKey(key)) {
+      notFound.add(key);
     }
     if (notFound.isEmpty()) return;
     throw failures.failure(info, shouldContainKeys(actual, notFound));
@@ -611,8 +633,10 @@ public class Maps {
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map contains all the given keys.
    */
+  // varargs are not used in order to avoid a "Possible heap pollution" warning.
+  // The method cannot be made final and annotated with @SafeVarargs because the class is mocked in tests
   public <K, V> void assertDoesNotContainKeys(AssertionInfo info, Map<K, V> actual,
-                                              @SuppressWarnings("unchecked") K... keys) {
+                                              K[] keys) {
     assertNotNull(info, actual);
     Set<K> found = new LinkedHashSet<>();
     for (K key : keys) {
@@ -637,8 +661,10 @@ public class Maps {
    * @throws AssertionError if the given {@code Map} does not contain the given keys or if the given {@code Map}
    *           contains keys that are not in the given array.
    */
+  // varargs are not used in order to avoid a "Possible heap pollution" warning.
+  // The method cannot be made final and annotated with @SafeVarargs because the class is mocked in tests
   public <K, V> void assertContainsOnlyKeys(AssertionInfo info, Map<K, V> actual,
-                                            @SuppressWarnings("unchecked") K... keys) {
+                                            K[] keys) {
     assertContainsOnlyKeys(info, actual, "array of keys", keys);
   }
 
@@ -707,8 +733,10 @@ public class Maps {
    * @throws AssertionError if the actual map not contains the given values.
    * @throws NullPointerException if values vararg is {@code null}.
    */
+  // varargs are not used in order to avoid a "Possible heap pollution" warning.
+  // The method cannot be made final and annotated with @SafeVarargs because the class is mocked in tests
   public <K, V> void assertContainsValues(AssertionInfo info, Map<K, V> actual,
-                                          @SuppressWarnings("unchecked") V... values) {
+                                          V[] values) {
     assertNotNull(info, actual);
     requireNonNull(values, "The array of values to look for should not be null");
     if (actual.isEmpty() && values.length == 0) return;
@@ -750,8 +778,10 @@ public class Maps {
    *           none of the given entries, or the actual map contains more entries than the given ones, or if entries is
    *           empty.
    */
+  // varargs are not used in order to avoid a "Possible heap pollution" warning.
+  // The method cannot be made final and annotated with @SafeVarargs because the class is mocked in tests
   public <K, V> void assertContainsOnly(AssertionInfo info, Map<K, V> actual,
-                                        @SuppressWarnings("unchecked") Map.Entry<? extends K, ? extends V>... entries) {
+                                        Map.Entry<? extends K, ? extends V>[] entries) {
     doCommonContainsCheck(info, actual, entries);
     if (actual.isEmpty() && entries.length == 0) return;
     failIfEntriesIsEmptyEmptySinceActualIsNotEmpty(info, actual, entries);
@@ -779,8 +809,10 @@ public class Maps {
    *           contains some or none of the given entries, or the actual map contains more entries than the given ones
    *           or entries are the same but the order is not.
    */
+  // varargs are not used in order to avoid a "Possible heap pollution" warning.
+  // The method cannot be made final and annotated with @SafeVarargs because the class is mocked in tests
   public <K, V> void assertContainsExactly(AssertionInfo info, Map<K, V> actual,
-                                           @SuppressWarnings("unchecked") Map.Entry<? extends K, ? extends V>... entries) {
+                                           Map.Entry<? extends K, ? extends V>[] entries) {
     doCommonContainsCheck(info, actual, entries);
     if (actual.isEmpty() && entries.length == 0) return;
     failIfEntriesIsEmptyEmptySinceActualIsNotEmpty(info, actual, entries);

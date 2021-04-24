@@ -83,7 +83,7 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
   @SuppressWarnings("unchecked")
   @Test
   void should_pass_if_actual_contains_only_expected_entries() {
-    maps.assertContainsOnly(someInfo(), actual, entry("name", "Yoda"), entry("color", "green"));
+    maps.assertContainsOnly(someInfo(), actual, new Map.Entry[] { entry("name", "Yoda"), entry("color", "green") });
   }
 
   @Test

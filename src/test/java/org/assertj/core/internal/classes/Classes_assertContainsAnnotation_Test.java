@@ -51,7 +51,9 @@ class Classes_assertContainsAnnotation_Test extends ClassesBaseTest {
   void should_fail_if_actual_is_null() {
     actual = null;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertContainsAnnotations(someInfo(), actual,
-                                                                                                       Override.class))
+                                                                                                       new Class[] {
+                                                                                                         Override.class
+                                                                                                       }))
                                                    .withMessage(actualIsNull());
   }
 
@@ -60,8 +62,10 @@ class Classes_assertContainsAnnotation_Test extends ClassesBaseTest {
   void should_fail_if_expected_has_null_value() {
     actual = AssertionInfo.class;
     assertThatNullPointerException().isThrownBy(() -> classes.assertContainsAnnotations(someInfo(), actual,
-                                                                                        Override.class, null,
-                                                                                        Deprecated.class))
+                                                                                        new Class[] {
+                                                                                          Override.class, null,
+                                                                                          Deprecated.class
+                                                                                        }))
                                     .withMessage("The class to compare actual with should not be null");
   }
 
@@ -69,14 +73,14 @@ class Classes_assertContainsAnnotation_Test extends ClassesBaseTest {
   @Test
   void should_pass_if_expected_is_empty() {
     actual = AssertionInfo.class;
-    classes.assertContainsAnnotations(someInfo(), actual);
+    classes.assertContainsAnnotations(someInfo(), actual, new Class[0]);
   }
 
   @SuppressWarnings("unchecked")
   @Test
   void should_pass_if_actual_have_annotation() {
     actual = AnnotatedClass.class;
-    classes.assertContainsAnnotations(someInfo(), actual, MyAnnotation.class);
+    classes.assertContainsAnnotations(someInfo(), actual, new Class[] { MyAnnotation.class });
   }
 
   @SuppressWarnings("unchecked")

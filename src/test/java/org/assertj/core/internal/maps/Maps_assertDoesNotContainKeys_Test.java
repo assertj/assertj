@@ -27,7 +27,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link org.assertj.core.internal.Maps#assertDoesNotContainKeys(org.assertj.core.api.AssertionInfo, java.util.Map, Object...)}</code>.
+ * Tests for <code>{@link org.assertj.core.internal.Maps#assertDoesNotContainKeys(AssertionInfo, java.util.Map, Object[])}</code>.
  *
  * @author dorzey
  */
@@ -42,18 +42,18 @@ class Maps_assertDoesNotContainKeys_Test extends MapsBaseTest {
 
   @Test
   void should_pass_if_actual_does_not_contain_given_keys() {
-    maps.assertDoesNotContainKeys(someInfo(), actual, "age");
+    maps.assertDoesNotContainKeys(someInfo(), actual, new String[] { "age" });
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertDoesNotContainKeys(someInfo(), null, "name", "color"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertDoesNotContainKeys(someInfo(), null, new String[] { "name", "color" }))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_pass_if_key_is_null() {
-    maps.assertDoesNotContainKeys(someInfo(), actual, (String) null);
+    maps.assertDoesNotContainKeys(someInfo(), actual, new String[] { null });
   }
 
   @Test
@@ -61,7 +61,7 @@ class Maps_assertDoesNotContainKeys_Test extends MapsBaseTest {
     AssertionInfo info = someInfo();
     String key = "name";
 
-    Throwable error = catchThrowable(() -> maps.assertDoesNotContainKeys(info, actual, key));
+    Throwable error = catchThrowable(() -> maps.assertDoesNotContainKeys(info, actual, new String[] { key }));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotContainKeys(actual, newLinkedHashSet(key)));
@@ -73,7 +73,7 @@ class Maps_assertDoesNotContainKeys_Test extends MapsBaseTest {
     String key1 = "name";
     String key2 = "color";
 
-    Throwable error = catchThrowable(() -> maps.assertDoesNotContainKeys(info, actual, key1, key2));
+    Throwable error = catchThrowable(() -> maps.assertDoesNotContainKeys(info, actual, new String[] { key1, key2 }));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotContainKeys(actual, newLinkedHashSet(key1, key2)));

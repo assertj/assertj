@@ -24,6 +24,7 @@ import static org.assertj.core.util.IterableUtil.toCollection;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -1201,7 +1202,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     if (keys instanceof Path) {
       // do not treat Path as an Iterable
       K path = (K) keys;
-      maps.assertContainsOnlyKeys(info, actual, path);
+      maps.assertContainsOnlyKeys(info, actual, Collections.singleton(path));
     } else {
       maps.assertContainsOnlyKeys(info, actual, keys);
     }

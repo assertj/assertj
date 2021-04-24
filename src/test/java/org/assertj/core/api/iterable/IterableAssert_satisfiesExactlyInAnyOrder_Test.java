@@ -43,6 +43,6 @@ class IterableAssert_satisfiesExactlyInAnyOrder_Test extends IterableAssertBaseT
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertSatisfiesExactlyInAnyOrder(getInfo(assertions), getActual(assertions), consumer);
+    verify(iterables).assertSatisfiesExactlyInAnyOrder(getInfo(assertions), getActual(assertions), new Consumer[] { consumer });
   }
 }

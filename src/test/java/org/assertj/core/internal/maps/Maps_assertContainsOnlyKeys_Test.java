@@ -37,7 +37,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
- * <code>{@link org.assertj.core.internal.Maps#assertContainsOnlyKeys(org.assertj.core.api.AssertionInfo, java.util.Map, java.lang.Object...)}</code>
+ * <code>{@link org.assertj.core.internal.Maps#assertContainsOnlyKeys(AssertionInfo, Map, Object[])}</code>
  * .
  *
  * @author Christopher Arnott
@@ -51,7 +51,7 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
     // GIVEN
     actual = null;
     // WHEN
-    ThrowingCallable code = () -> maps.assertContainsOnlyKeys(someInfo(), null, "name");
+    ThrowingCallable code = () -> maps.assertContainsOnlyKeys(someInfo(), null, new String[] { "name" });
     // THEN
     assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
   }
@@ -75,8 +75,8 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
 
   @Test
   void should_pass_if_actual_contains_only_expected_keys() {
-    maps.assertContainsOnlyKeys(someInfo(), actual, "color", "name");
-    maps.assertContainsOnlyKeys(someInfo(), actual, "name", "color");
+    maps.assertContainsOnlyKeys(someInfo(), actual, new String[] { "color", "name" });
+    maps.assertContainsOnlyKeys(someInfo(), actual, new String[] { "name", "color" });
   }
 
   @Test

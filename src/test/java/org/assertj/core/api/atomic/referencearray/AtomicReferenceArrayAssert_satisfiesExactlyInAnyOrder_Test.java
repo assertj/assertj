@@ -43,6 +43,6 @@ class AtomicReferenceArrayAssert_satisfiesExactlyInAnyOrder_Test extends AtomicR
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertSatisfiesExactlyInAnyOrder(info(), list(internalArray()), consumer);
+    verify(iterables).assertSatisfiesExactlyInAnyOrder(info(), list(internalArray()), new Consumer[] { consumer });
   }
 }

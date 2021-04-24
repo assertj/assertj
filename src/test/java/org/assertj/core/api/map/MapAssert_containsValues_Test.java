@@ -31,6 +31,6 @@ class MapAssert_containsValues_Test extends MapAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(maps).assertContainsValues(getInfo(assertions), getActual(assertions), "value1", "value2");
+    verify(maps).assertContainsValues(getInfo(assertions), getActual(assertions), new String[] { "value1", "value2" });
   }
 }

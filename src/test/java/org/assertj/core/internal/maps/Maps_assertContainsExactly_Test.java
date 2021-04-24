@@ -99,7 +99,7 @@ class Maps_assertContainsExactly_Test extends MapsBaseTest {
   @SuppressWarnings("unchecked")
   @Test
   void should_pass_if_actual_contains_given_entries_in_order() {
-    maps.assertContainsExactly(someInfo(), linkedActual, entry("name", "Yoda"), entry("color", "green"));
+    maps.assertContainsExactly(someInfo(), linkedActual, new MapEntry[] { entry("name", "Yoda") , entry("color", "green") });
   }
 
   @SuppressWarnings("unchecked")
@@ -108,7 +108,8 @@ class Maps_assertContainsExactly_Test extends MapsBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> maps.assertContainsExactly(info, linkedActual, entry("color", "green"), entry("name", "Yoda")));
+    expectAssertionError(
+      () -> maps.assertContainsExactly(info, linkedActual, new MapEntry[] { entry("color", "green"), entry("name", "Yoda") }));
     // THEN
     verify(failures).failure(info, elementsDifferAtIndex(entry("name", "Yoda"), entry("color", "green"), 0));
   }

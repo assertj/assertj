@@ -32,7 +32,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Maps#assertContainsKeys(AssertionInfo, Map, Object...)}</code>.
+ * Tests for <code>{@link Maps#assertContainsKeys(AssertionInfo, Map, Object[])}</code>.
  * 
  * @author William Delanoue
  */
@@ -47,18 +47,18 @@ class Maps_assertContainsKeys_Test extends MapsBaseTest {
 
   @Test
   void should_pass_if_actual_contains_given_key() {
-    maps.assertContainsKeys(someInfo(), actual, "name");
+    maps.assertContainsKeys(someInfo(), actual, new String[] { "name" });
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContainsKeys(someInfo(), null, "name"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContainsKey(someInfo(), null, new String[] { "name" }))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_success_if_key_is_null() {
-    maps.assertContainsKeys(someInfo(), actual, (String) null);
+    maps.assertContainsKeys(someInfo(), actual, new String[] { null });
   }
 
   @Test
@@ -66,7 +66,7 @@ class Maps_assertContainsKeys_Test extends MapsBaseTest {
     AssertionInfo info = someInfo();
     String key = "power";
 
-    Throwable error = catchThrowable(() -> maps.assertContainsKeys(info, actual, key));
+    Throwable error = catchThrowable(() -> maps.assertContainsKeys(info, actual, new String[] { key }));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainKeys(actual, newLinkedHashSet(key)));
@@ -78,7 +78,7 @@ class Maps_assertContainsKeys_Test extends MapsBaseTest {
     String key1 = "power";
     String key2 = "rangers";
 
-    Throwable error = catchThrowable(() -> maps.assertContainsKeys(info, actual, key1, key2));
+    Throwable error = catchThrowable(() -> maps.assertContainsKeys(info, actual, new String[] { key1, key2 }));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainKeys(actual, newLinkedHashSet(key1, key2)));
