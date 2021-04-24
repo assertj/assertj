@@ -1306,6 +1306,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    * @since 3.20.0
    */
+  @CanIgnoreReturnValue
   public static <T> ObjectAssert<T> thenWith(T actual, Consumer<T> requirements) {
     return then(actual).satisfies(requirements);
   }

@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Failures;
+import org.assertj.core.util.CanIgnoreReturnValue;
 
 public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollector
     implements SoftAssertionsProvider, InstanceOfAssertFactories {
@@ -55,6 +56,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    * @return nothing, it's just to be used in {@code doSomething(optional.orElse(() -> fail("boom")));}.
    * @since 2.6.0 / 3.6.0
    */
+  @CanIgnoreReturnValue
   public <T> T fail(String failureMessage) {
     AssertionError error = Failures.instance().failure(failureMessage);
     collectAssertionError(error);
@@ -70,6 +72,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    * @return nothing, it's just to be used in {@code doSomething(optional.orElse(() -> fail("boom")));}.
    * @since 2.6.0 / 3.6.0
    */
+  @CanIgnoreReturnValue
   public <T> T fail(String failureMessage, Object... args) {
     return fail(format(failureMessage, args));
   }
@@ -83,6 +86,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    * @return nothing, it's just to be used in {@code doSomething(optional.orElse(() -> fail("boom")));}.
    * @since 2.6.0 / 3.6.0
    */
+  @CanIgnoreReturnValue
   public <T> T fail(String failureMessage, Throwable realCause) {
     AssertionError error = Failures.instance().failure(failureMessage);
     error.initCause(realCause);
