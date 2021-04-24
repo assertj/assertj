@@ -22,6 +22,7 @@ import static org.assertj.core.internal.ErrorMessages.keysToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.keysToLookForIsNull;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -37,7 +38,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
- * <code>{@link org.assertj.core.internal.Maps#assertContainsOnlyKeys(org.assertj.core.api.AssertionInfo, java.util.Map, java.lang.Object...)}</code>
+ * <code>{@link org.assertj.core.internal.Maps#assertContainsOnlyKeys(AssertionInfo, Map, Object[])}</code>
  * .
  *
  * @author Christopher Arnott
@@ -51,7 +52,7 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
     // GIVEN
     actual = null;
     // WHEN
-    ThrowingCallable code = () -> maps.assertContainsOnlyKeys(someInfo(), null, "name");
+    ThrowingCallable code = () -> maps.assertContainsOnlyKeys(someInfo(), null, array("name"));
     // THEN
     assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
   }
@@ -75,8 +76,8 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
 
   @Test
   void should_pass_if_actual_contains_only_expected_keys() {
-    maps.assertContainsOnlyKeys(someInfo(), actual, "color", "name");
-    maps.assertContainsOnlyKeys(someInfo(), actual, "name", "color");
+    maps.assertContainsOnlyKeys(someInfo(), actual, array("color", "name"));
+    maps.assertContainsOnlyKeys(someInfo(), actual, array("name", "color"));
   }
 
   @Test

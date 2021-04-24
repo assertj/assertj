@@ -90,7 +90,6 @@ public class AtomicLongArrayAssert
    * @since 2.7.0 / 3.7.0
    */
   @Override
-  @CheckReturnValue
   public AtomicLongArrayAssert isNotEmpty() {
     arrays.assertNotEmpty(info, array);
     return myself;

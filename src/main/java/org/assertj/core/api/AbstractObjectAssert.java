@@ -49,6 +49,8 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * @author Joel Costigliola
  * @author Libor Ondrusek
  */
+// suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports
+@SuppressWarnings("deprecation")
 public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SELF, ACTUAL>, ACTUAL>
     extends AbstractAssert<SELF, ACTUAL> {
 
@@ -900,7 +902,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @param extractors the extractor functions to extract values from the Object under test.
    * @return a new assertion object whose object under test is the list containing the extracted values
    */
-  @SuppressWarnings("unchecked")
   @CheckReturnValue
   @SafeVarargs
   public final AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(Function<? super ACTUAL, ?>... extractors) {

@@ -13,6 +13,7 @@
 package org.assertj.core.api.objectarray;
 
 import static org.assertj.core.test.ObjectArrays.arrayOf;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -43,6 +44,6 @@ class ObjectArrayAssert_satisfiesExactlyInAnyOrder_Test extends ObjectArrayAsser
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertSatisfiesExactlyInAnyOrder(getInfo(assertions), list(getActual(assertions)), consumer);
+    verify(iterables).assertSatisfiesExactlyInAnyOrder(getInfo(assertions), list(getActual(assertions)), array(consumer));
   }
 }

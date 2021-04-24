@@ -20,6 +20,7 @@ import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainValues.shouldContainValues;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
@@ -32,7 +33,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link org.assertj.core.internal.Maps#assertContainsValue(org.assertj.core.api.AssertionInfo, java.util.Map, Object)}</code>.
+ * Tests for <code>{@link org.assertj.core.internal.Maps#assertContainsValues(org.assertj.core.api.AssertionInfo, java.util.Map, Object[])}</code>.
  *
  * @author Nicolas François
  * @author Joel Costigliola
@@ -49,12 +50,12 @@ class Maps_assertContainsValues_Test extends MapsBaseTest {
 
   @Test
   void should_pass_if_actual_contains_given_values() {
-    maps.assertContainsValues(someInfo(), actual, "Yoda", "Jedi");
+    maps.assertContainsValues(someInfo(), actual, new String[] { "Yoda", "Jedi" });
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContainsValues(someInfo(), null, "Yoda"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContainsValues(someInfo(), null, array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
@@ -67,12 +68,12 @@ class Maps_assertContainsValues_Test extends MapsBaseTest {
   @Test
   void should_pass_if_actual_and_given_values_are_empty() {
     actual = new HashMap<>();
-    maps.assertContainsValues(someInfo(), actual);
+    maps.assertContainsValues(someInfo(), actual, array());
   }
-  
+
   @Test
   void should_success_if_values_contains_null() {
-	maps.assertContainsValues(someInfo(), actual, "Yoda", null);
+    maps.assertContainsValues(someInfo(), actual, array("Yoda", null));
   }
 
   @Test
@@ -81,7 +82,7 @@ class Maps_assertContainsValues_Test extends MapsBaseTest {
     String value = "veryOld";
     String value2 = "veryOld2";
 
-    Throwable error = catchThrowable(() -> maps.assertContainsValues(info, actual, value, value2));
+    Throwable error = catchThrowable(() -> maps.assertContainsValues(info, actual, array(value, value2)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainValues(actual, newLinkedHashSet(value, value2)));

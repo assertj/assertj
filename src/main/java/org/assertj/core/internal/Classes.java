@@ -249,8 +249,10 @@ public class Classes {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
    */
+  // varargs are not used in order to avoid a "Possible heap pollution" warning.
+  // The method cannot be made final and annotated with @SafeVarargs because the class is mocked in tests
   public void assertContainsAnnotations(AssertionInfo info, Class<?> actual,
-                                        @SuppressWarnings("unchecked") Class<? extends Annotation>... annotations) {
+                                        Class<? extends Annotation>[] annotations) {
     assertNotNull(info, actual);
     Set<Class<? extends Annotation>> expected = newLinkedHashSet(annotations);
     Set<Class<? extends Annotation>> missing = new LinkedHashSet<>();

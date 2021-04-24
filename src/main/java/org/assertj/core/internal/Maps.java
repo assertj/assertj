@@ -47,6 +47,7 @@ import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.internal.ErrorMessages.keysToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.keysToLookForIsNull;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.asList;
 import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Objects.areEqual;
@@ -342,8 +343,7 @@ public class Maps {
    * @throws AssertionError if the given {@code Map} is {@code null}.
    * @throws AssertionError if the given {@code Map} does not contain the given entries.
    */
-  public <K, V> void assertContains(AssertionInfo info, Map<K, V> actual,
-                                    Map.Entry<? extends K, ? extends V>[] entries) {
+  public <K, V> void assertContains(AssertionInfo info, Map<K, V> actual, Map.Entry<? extends K, ? extends V>[] entries) {
     failIfNull(entries);
     assertNotNull(info, actual);
     // if both actual and values are empty, then assertion passes.
@@ -364,8 +364,7 @@ public class Maps {
    * @throws AssertionError if the given {@code Map} is {@code null}.
    * @throws AssertionError if the given {@code Map} does not contain the entries of the other {@code Map}.
    */
-  public <K, V> void assertContainsAllEntriesOf(AssertionInfo info, Map<K, V> actual,
-                                                Map<? extends K, ? extends V> other) {
+  public <K, V> void assertContainsAllEntriesOf(AssertionInfo info, Map<K, V> actual, Map<? extends K, ? extends V> other) {
     failIfNull(other);
     assertNotNull(info, actual);
     // assertion passes if other is empty since actual contains all other entries.
@@ -401,10 +400,9 @@ public class Maps {
    * @throws AssertionError if the actual map contains the given key, but value not match the given {@code valueCondition}.
    * @since 2.6.0 / 3.6.0
    */
-  @SuppressWarnings("unchecked")
   public <K, V> void assertHasEntrySatisfying(AssertionInfo info, Map<K, V> actual, K key,
                                               Condition<? super V> valueCondition) {
-    assertContainsKeys(info, actual, key);
+    assertContainsKey(info, actual, key);
     conditions.assertIsNotNull(valueCondition);
     V value = actual.get(key);
     if (!valueCondition.matches(value)) throw failures.failure(info, elementsShouldBe(actual, value, valueCondition));
@@ -424,10 +422,9 @@ public class Maps {
    * @throws AssertionError if the actual map not contains the given {@code key}.
    * @throws AssertionError if the actual map contains the given key, but value not pass the given {@code valueRequirements}.
    */
-  @SuppressWarnings("unchecked")
   public <K, V> void assertHasEntrySatisfying(AssertionInfo info, Map<K, V> actual, K key,
                                               Consumer<? super V> valueRequirements) {
-    assertContainsKeys(info, actual, key);
+    assertContainsKey(info, actual, key);
     requireNonNull(valueRequirements, "The Consumer<V> expressing the assertions requirements must not be null");
     V value = actual.get(key);
     valueRequirements.accept(value);
@@ -546,8 +543,7 @@ public class Maps {
    * @throws AssertionError if the given {@code Map} is {@code null}.
    * @throws AssertionError if the given {@code Map} contains any of the given entries.
    */
-  public <K, V> void assertDoesNotContain(AssertionInfo info, Map<K, V> actual,
-                                          Map.Entry<? extends K, ? extends V>[] entries) {
+  public <K, V> void assertDoesNotContain(AssertionInfo info, Map<K, V> actual, Map.Entry<? extends K, ? extends V>[] entries) {
     failIfNullOrEmpty(entries);
     assertNotNull(info, actual);
     Set<Map.Entry<? extends K, ? extends V>> found = new LinkedHashSet<>();
@@ -569,10 +565,11 @@ public class Maps {
    * @param actual the given {@code Map}.
    * @param keys the given keys
    * @throws AssertionError if the actual map is {@code null}.
-   * @throws AssertionError if the actual map not contains the given key.
+   * @throws AssertionError if the actual map not contains the given keys.
    */
-  public <K, V> void assertContainsKeys(AssertionInfo info, Map<K, V> actual,
-                                        @SuppressWarnings("unchecked") K... keys) {
+  // varargs are not used in order to avoid a "Possible heap pollution" warning.
+  // The method cannot be made final and annotated with @SafeVarargs because the class is mocked in tests
+  public <K, V> void assertContainsKeys(AssertionInfo info, Map<K, V> actual, K[] keys) {
     assertNotNull(info, actual);
     Set<K> notFound = new LinkedHashSet<>();
     for (K key : keys) {
@@ -582,6 +579,21 @@ public class Maps {
     }
     if (notFound.isEmpty()) return;
     throw failures.failure(info, shouldContainKeys(actual, notFound));
+  }
+
+  /**
+   * Verifies that the actual map contain the given key.
+   *
+   * @param <K> key type
+   * @param <V> value type
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param key the given key
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map not contains the given key.
+   */
+  public <K, V> void assertContainsKey(AssertionInfo info, Map<K, V> actual, K key) {
+    assertContainsKeys(info, actual, array(key));
   }
 
   /**
@@ -611,8 +623,9 @@ public class Maps {
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map contains all the given keys.
    */
-  public <K, V> void assertDoesNotContainKeys(AssertionInfo info, Map<K, V> actual,
-                                              @SuppressWarnings("unchecked") K... keys) {
+  // varargs are not used in order to avoid a "Possible heap pollution" warning.
+  // The method cannot be made final and annotated with @SafeVarargs because the class is mocked in tests
+  public <K, V> void assertDoesNotContainKeys(AssertionInfo info, Map<K, V> actual, K[] keys) {
     assertNotNull(info, actual);
     Set<K> found = new LinkedHashSet<>();
     for (K key : keys) {
@@ -637,8 +650,9 @@ public class Maps {
    * @throws AssertionError if the given {@code Map} does not contain the given keys or if the given {@code Map}
    *           contains keys that are not in the given array.
    */
-  public <K, V> void assertContainsOnlyKeys(AssertionInfo info, Map<K, V> actual,
-                                            @SuppressWarnings("unchecked") K... keys) {
+  // varargs are not used in order to avoid a "Possible heap pollution" warning.
+  // The method cannot be made final and annotated with @SafeVarargs because the class is mocked in tests
+  public <K, V> void assertContainsOnlyKeys(AssertionInfo info, Map<K, V> actual, K[] keys) {
     assertContainsOnlyKeys(info, actual, "array of keys", keys);
   }
 
@@ -656,8 +670,7 @@ public class Maps {
    * @throws AssertionError if the given {@code Map} does not contain the given keys or if the given {@code Map}
    *           contains keys that are not in the given array.
    */
-  public <K, V> void assertContainsOnlyKeys(AssertionInfo info, Map<K, V> actual,
-                                            Iterable<? extends K> keys) {
+  public <K, V> void assertContainsOnlyKeys(AssertionInfo info, Map<K, V> actual, Iterable<? extends K> keys) {
     final K[] keysAsArray = toArray(keys);
     assertContainsOnlyKeys(info, actual, "keys iterable", keysAsArray);
   }
@@ -707,8 +720,9 @@ public class Maps {
    * @throws AssertionError if the actual map not contains the given values.
    * @throws NullPointerException if values vararg is {@code null}.
    */
-  public <K, V> void assertContainsValues(AssertionInfo info, Map<K, V> actual,
-                                          @SuppressWarnings("unchecked") V... values) {
+  // varargs are not used in order to avoid a "Possible heap pollution" warning.
+  // The method cannot be made final and annotated with @SafeVarargs because the class is mocked in tests
+  public <K, V> void assertContainsValues(AssertionInfo info, Map<K, V> actual, V[] values) {
     assertNotNull(info, actual);
     requireNonNull(values, "The array of values to look for should not be null");
     if (actual.isEmpty() && values.length == 0) return;
@@ -750,8 +764,9 @@ public class Maps {
    *           none of the given entries, or the actual map contains more entries than the given ones, or if entries is
    *           empty.
    */
-  public <K, V> void assertContainsOnly(AssertionInfo info, Map<K, V> actual,
-                                        @SuppressWarnings("unchecked") Map.Entry<? extends K, ? extends V>... entries) {
+  // varargs are not used in order to avoid a "Possible heap pollution" warning.
+  // The method cannot be made final and annotated with @SafeVarargs because the class is mocked in tests
+  public <K, V> void assertContainsOnly(AssertionInfo info, Map<K, V> actual, Map.Entry<? extends K, ? extends V>[] entries) {
     doCommonContainsCheck(info, actual, entries);
     if (actual.isEmpty() && entries.length == 0) return;
     failIfEntriesIsEmptyEmptySinceActualIsNotEmpty(info, actual, entries);
@@ -779,8 +794,9 @@ public class Maps {
    *           contains some or none of the given entries, or the actual map contains more entries than the given ones
    *           or entries are the same but the order is not.
    */
-  public <K, V> void assertContainsExactly(AssertionInfo info, Map<K, V> actual,
-                                           @SuppressWarnings("unchecked") Map.Entry<? extends K, ? extends V>... entries) {
+  // varargs are not used in order to avoid a "Possible heap pollution" warning.
+  // The method cannot be made final and annotated with @SafeVarargs because the class is mocked in tests
+  public <K, V> void assertContainsExactly(AssertionInfo info, Map<K, V> actual, Map.Entry<? extends K, ? extends V>[] entries) {
     doCommonContainsCheck(info, actual, entries);
     if (actual.isEmpty() && entries.length == 0) return;
     failIfEntriesIsEmptyEmptySinceActualIsNotEmpty(info, actual, entries);
@@ -808,8 +824,7 @@ public class Maps {
     throw failures.failure(info, shouldContainExactly(actual, asList(entries), notFound, notExpected));
   }
 
-  private <K, V> void compareActualMapAndExpectedKeys(Map<K, V> actual, K[] keys, Set<K> notExpected,
-                                                      Set<K> notFound) {
+  private <K, V> void compareActualMapAndExpectedKeys(Map<K, V> actual, K[] keys, Set<K> notExpected, Set<K> notFound) {
 
     Map<K, V> actualEntries = new LinkedHashMap<>(actual);
     for (K key : keys) {

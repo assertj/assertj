@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.error.ShouldSatisfy.shouldSatisfyExactlyInAnyOrder;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -51,7 +52,7 @@ class Iterables_assertSatisfiesExactlyInAnyOrder_Test extends IterablesBaseTest 
     }; // Matches "Yoda"
 
     // WHEN/THEN
-    iterables.assertSatisfiesExactlyInAnyOrder(info, actual, consumer1, consumer2, consumer3);
+    iterables.assertSatisfiesExactlyInAnyOrder(info, actual, array(consumer1, consumer2, consumer3));
   }
 
   @Test
@@ -62,12 +63,12 @@ class Iterables_assertSatisfiesExactlyInAnyOrder_Test extends IterablesBaseTest 
     Consumer<String> consumer3 = s -> assertThat(s).doesNotContain("a"); // Matches "Luke"
 
     // WHEN/THEN
-    iterables.assertSatisfiesExactlyInAnyOrder(info, actual, consumer1, consumer2, consumer3);
-    iterables.assertSatisfiesExactlyInAnyOrder(info, actual, consumer1, consumer3, consumer2);
-    iterables.assertSatisfiesExactlyInAnyOrder(info, actual, consumer2, consumer1, consumer3);
-    iterables.assertSatisfiesExactlyInAnyOrder(info, actual, consumer2, consumer3, consumer1);
-    iterables.assertSatisfiesExactlyInAnyOrder(info, actual, consumer3, consumer2, consumer1);
-    iterables.assertSatisfiesExactlyInAnyOrder(info, actual, consumer3, consumer1, consumer2);
+    iterables.assertSatisfiesExactlyInAnyOrder(info, actual, array(consumer1, consumer2, consumer3));
+    iterables.assertSatisfiesExactlyInAnyOrder(info, actual, array(consumer1, consumer3, consumer2));
+    iterables.assertSatisfiesExactlyInAnyOrder(info, actual, array(consumer2, consumer1, consumer3));
+    iterables.assertSatisfiesExactlyInAnyOrder(info, actual, array(consumer2, consumer3, consumer1));
+    iterables.assertSatisfiesExactlyInAnyOrder(info, actual, array(consumer3, consumer2, consumer1));
+    iterables.assertSatisfiesExactlyInAnyOrder(info, actual, array(consumer3, consumer1, consumer2));
   }
 
   @Test
@@ -77,8 +78,11 @@ class Iterables_assertSatisfiesExactlyInAnyOrder_Test extends IterablesBaseTest 
     Consumer<String> consumer2 = s -> assertThat(s).hasSize(4);
     Consumer<String> consumer3 = s -> assertThat(s).hasSize(4);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfiesExactlyInAnyOrder(info, actual, consumer1,
-                                                                                                          consumer2, consumer3));
+    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfiesExactlyInAnyOrder(info, actual,
+                                                                                                          array(consumer1,
+                                                                                                                consumer2,
+                                                                                                                consumer3)));
+
     // THEN
     then(assertionError).hasMessage(shouldSatisfyExactlyInAnyOrder(actual).create());
   }
@@ -90,8 +94,10 @@ class Iterables_assertSatisfiesExactlyInAnyOrder_Test extends IterablesBaseTest 
     Consumer<String> consumer2 = s -> assertThat(s).contains("o"); // Matches "Yoda"
     Consumer<String> consumer3 = s -> assertThat(s).contains("L"); // Matches "Luke" or "Leia"
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfiesExactlyInAnyOrder(info, actual, consumer1,
-                                                                                                          consumer2, consumer3));
+    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfiesExactlyInAnyOrder(info, actual,
+                                                                                                          array(consumer1,
+                                                                                                                consumer2,
+                                                                                                                consumer3)));
     // THEN
     then(assertionError).hasMessage(shouldSatisfyExactlyInAnyOrder(actual).create());
   }
@@ -103,8 +109,10 @@ class Iterables_assertSatisfiesExactlyInAnyOrder_Test extends IterablesBaseTest 
     Consumer<String> consumer2 = s -> assertThat(s).isNotEmpty(); // all elements satisfy this
     Consumer<String> consumer3 = s -> assertThat(s).isBlank(); // no elements satisfy this
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfiesExactlyInAnyOrder(info, actual, consumer1,
-                                                                                                          consumer2, consumer3));
+    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfiesExactlyInAnyOrder(info, actual,
+                                                                                                          array(consumer1,
+                                                                                                                consumer2,
+                                                                                                                consumer3)));
     // THEN
     then(assertionError).hasMessage(shouldSatisfyExactlyInAnyOrder(actual).create());
   }
@@ -117,19 +125,19 @@ class Iterables_assertSatisfiesExactlyInAnyOrder_Test extends IterablesBaseTest 
     Consumer<String> consumer2 = s -> assertThat(s).contains("u");
 
     // WHEN/THEN
-    iterables.assertSatisfiesExactlyInAnyOrder(info, names, consumer1, consumer2);
+    iterables.assertSatisfiesExactlyInAnyOrder(info, names, array(consumer1, consumer2));
   }
 
   @Test
   void should_pass_if_both_are_empty() {
     // WHEN/THEN
-    iterables.assertSatisfiesExactlyInAnyOrder(info, newArrayList());
+    iterables.assertSatisfiesExactlyInAnyOrder(info, newArrayList(), array());
   }
 
   @Test
   void should_fail_if_there_are_too_few_consumers() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfiesExactlyInAnyOrder(info, actual));
+    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfiesExactlyInAnyOrder(info, actual, array()));
     // THEN
     then(assertionError).hasMessage(shouldHaveSize(actual, 3, 0).create());
   }
@@ -169,9 +177,11 @@ class Iterables_assertSatisfiesExactlyInAnyOrder_Test extends IterablesBaseTest 
     // GIVEN
     Consumer<String> consumer = s -> assertThat(s).doesNotContain("z");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfiesExactlyInAnyOrder(info, actual, consumer,
-                                                                                                          consumer, consumer,
-                                                                                                          consumer));
+    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfiesExactlyInAnyOrder(info, actual,
+                                                                                                          array(consumer,
+                                                                                                                consumer,
+                                                                                                                consumer,
+                                                                                                                consumer)));
     // THEN
     then(assertionError).hasMessage(shouldHaveSize(actual, 3, 4).create());
   }

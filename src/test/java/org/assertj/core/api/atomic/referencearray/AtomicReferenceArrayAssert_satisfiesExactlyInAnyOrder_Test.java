@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.atomic.referencearray;
 
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -26,7 +27,6 @@ import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
  *
  * @author Michael Grafl
  */
-@SuppressWarnings("unchecked")
 class AtomicReferenceArrayAssert_satisfiesExactlyInAnyOrder_Test extends AtomicReferenceArrayAssertBaseTest {
 
   private Consumer<Object> consumer = mock(Consumer.class);
@@ -43,6 +43,6 @@ class AtomicReferenceArrayAssert_satisfiesExactlyInAnyOrder_Test extends AtomicR
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertSatisfiesExactlyInAnyOrder(info(), list(internalArray()), consumer);
+    verify(iterables).assertSatisfiesExactlyInAnyOrder(info(), list(internalArray()), array(consumer));
   }
 }

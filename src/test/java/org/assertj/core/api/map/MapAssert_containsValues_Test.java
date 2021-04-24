@@ -12,10 +12,11 @@
  */
 package org.assertj.core.api.map;
 
+import static org.assertj.core.util.Arrays.array;
+import static org.mockito.Mockito.verify;
+
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
-
-import static org.mockito.Mockito.verify;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.MapAssert#containsValue(Object)}</code>.
@@ -31,6 +32,6 @@ class MapAssert_containsValues_Test extends MapAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(maps).assertContainsValues(getInfo(assertions), getActual(assertions), "value1", "value2");
+    verify(maps).assertContainsValues(getInfo(assertions), getActual(assertions), array("value1", "value2"));
   }
 }

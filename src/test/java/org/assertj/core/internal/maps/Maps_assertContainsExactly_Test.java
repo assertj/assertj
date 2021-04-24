@@ -93,22 +93,21 @@ class Maps_assertContainsExactly_Test extends MapsBaseTest {
 
   @Test
   void should_pass_if_actual_and_entries_are_empty() {
-    maps.assertContainsExactly(someInfo(), emptyMap(), emptyEntries());
+    maps.assertContainsExactly(someInfo(), emptyMap(), array());
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   void should_pass_if_actual_contains_given_entries_in_order() {
-    maps.assertContainsExactly(someInfo(), linkedActual, entry("name", "Yoda"), entry("color", "green"));
+    maps.assertContainsExactly(someInfo(), linkedActual, array(entry("name", "Yoda"), entry("color", "green")));
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   void should_fail_if_actual_contains_given_entries_in_disorder() {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> maps.assertContainsExactly(info, linkedActual, entry("color", "green"), entry("name", "Yoda")));
+    expectAssertionError(() -> maps.assertContainsExactly(info, linkedActual,
+                                                          array(entry("color", "green"), entry("name", "Yoda"))));
     // THEN
     verify(failures).failure(info, elementsDifferAtIndex(entry("name", "Yoda"), entry("color", "green"), 0));
   }

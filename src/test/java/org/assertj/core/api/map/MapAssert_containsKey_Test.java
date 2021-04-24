@@ -12,15 +12,16 @@
  */
 package org.assertj.core.api.map;
 
+import static org.assertj.core.util.Arrays.array;
+import static org.mockito.Mockito.verify;
+
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
-
-import static org.mockito.Mockito.verify;
 
 
 /**
  * Tests for <code>{@link MapAssert#containsKey(Object)}</code>.
- * 
+ *
  * @author Nicolas François
  */
 class MapAssert_containsKey_Test extends MapAssertBaseTest {
@@ -32,6 +33,6 @@ class MapAssert_containsKey_Test extends MapAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(maps).assertContainsKeys(getInfo(assertions), getActual(assertions), "key1");
+    verify(maps).assertContainsKeys(getInfo(assertions), getActual(assertions), array("key1"));
   }
 }

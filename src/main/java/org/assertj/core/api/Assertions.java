@@ -1302,6 +1302,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    * @since 3.20.0
    */
+  @CanIgnoreReturnValue
   public static <T> ObjectAssert<T> assertWith(T actual, Consumer<T> requirements) {
     return assertThat(actual).satisfies(requirements);
   }

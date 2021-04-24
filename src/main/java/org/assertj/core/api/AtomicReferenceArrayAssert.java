@@ -69,6 +69,7 @@ import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
+// suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports
 @SuppressWarnings("deprecation")
 public class AtomicReferenceArrayAssert<T>
     extends AbstractAssert<AtomicReferenceArrayAssert<T>, AtomicReferenceArray<T>>
@@ -3481,7 +3482,7 @@ public class AtomicReferenceArrayAssert<T>
 
   @Override
   @SafeVarargs
-  public final AtomicReferenceArrayAssert<T> satisfiesExactlyInAnyOrder(@SuppressWarnings("unchecked") Consumer<? super T>... consumers) {
+  public final AtomicReferenceArrayAssert<T> satisfiesExactlyInAnyOrder(Consumer<? super T>... consumers) {
     return satisfiesExactlyInAnyOrderForProxy(consumers);
   }
 

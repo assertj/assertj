@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.map;
 
+import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.test.Maps.mapOf;
@@ -68,7 +69,7 @@ class MapAssert_containsOnlyKeys_with_Iterable_Test extends MapAssertBaseTest {
       // assertContainsOnlyKeys(AssertionInfo, Map<K, V>, K...) instead of
       // assertContainsOnlyKeys(AssertionInfo, Map<K, V>, Iterable<? extends K>).
       // Casting the Path parameter to Object allows to invoke the overloaded method expecting vararg keys.
-      verify(maps).assertContainsOnlyKeys(getInfo(assertions), getActual(assertions), (Object) path);
+      verify(maps).assertContainsOnlyKeys(getInfo(assertions), getActual(assertions), singleton(path));
     }
 
   }
