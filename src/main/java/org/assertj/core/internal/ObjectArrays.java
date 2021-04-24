@@ -677,7 +677,7 @@ public class ObjectArrays {
 
   public <E> void assertHasExactlyElementsOfTypes(AssertionInfo info, E[] actual, Class<?>... types) {
     Objects.instance().assertNotNull(info, actual);
-    List<Class<?>> actualTypeList = extractTypeList(asList(actual));
+    List<Class<?>> actualTypeList = Streams.stream(asList(actual)).map(Object::getClass).collect(Collectors.toList());
     /* We want to compare the types instead of elements. Using getComparisonStrategy() would return the comparison
      strategy comparing elements not the types.*/
     IterableDiff diff = diff(actualTypeList, asList(types), StandardComparisonStrategy.instance());
@@ -755,10 +755,6 @@ public class ObjectArrays {
 
   public void assertContainsAnyOf(AssertionInfo info, Object[] actual, Object[] values) {
     arrays.assertContainsAnyOf(info, failures, actual, values);
-  }
-
-  private static List<Class<?>> extractTypeList(List<Object> list) {
-    return Streams.stream(list).map(Object::getClass).collect(Collectors.toList());
   }
 
 }
