@@ -652,6 +652,41 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return overridingErrorMessage(newErrorMessage, args);
   }
 
+  //fix issue 2011
+  /**
+   * Alternative method for {@link AbstractAssert#overridingErrorMessage}
+   * <p>
+   * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks
+   * the chained call by throwing an AssertionError.
+   * <p>
+   * Example:
+   * <pre><code class='java'>assertThat("string").withAdditionalFailMessage("Inconceivable!")
+   *                              .contains("sub");</code></pre>
+   * @param newErrorMessage the error message that will replace the default one provided by Assertj.
+   * @return this assertion object with additional failMessage.
+   */
+  @CheckReturnValue
+  public SELF withAdditionalFailMessage(String newErrorMessage) {
+    return as(() -> newErrorMessage);
+  }
+
+   //fix issue 2011
+  /**
+   * Alternative method for {@link AbstractAssert#overridingErrorMessage}
+   * <p>
+   * The new error message is only built if the assertion fails (by consuming the given supplier), this is useful if building messages is expensive.
+   * <p>
+   * You must set the message <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks
+   * the call chain by throwing an {@link AssertionError}.
+   * <p>
+   * @param supplier the supplier supplies error message that will replace the default one provided by Assertj.
+   * @return this assertion object.
+   */
+  @CheckReturnValue
+  public SELF withAdditionalFailMessage(Supplier<String> supplier) {
+    return as(supplier);
+  }
+
   /**
    * Alternative method for {@link AbstractAssert#overridingErrorMessage}
    * <p>
