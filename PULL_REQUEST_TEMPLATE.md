@@ -1,6 +1,7 @@
 #### Check List:
-* Fixes #???
+* Fixes #??? (ignore if not applicable)
 * Unit tests : YES / NO / NA
 * Javadoc with a code example (on API only) : YES / NO / NA
+* PR meets the [contributing guidelines](https://github.com/assertj/assertj-core/blob/main/CONTRIBUTING.md)
 
-Please make sure your PR follows the [contributing guidelines](https://github.com/assertj/assertj-core/blob/main/CONTRIBUTING.md), this will make it easier for us to review your PR and accept it.
+Following the [contributing guidelines](https://github.com/assertj/assertj-core/blob/main/CONTRIBUTING.md) will make it easier for us to review and accept your PR.
