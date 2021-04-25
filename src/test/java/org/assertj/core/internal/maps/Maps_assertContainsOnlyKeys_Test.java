@@ -12,10 +12,7 @@
  */
 package org.assertj.core.internal.maps;
 
-import static java.util.Collections.emptyMap;
 import static java.util.Collections.emptySet;
-import static java.util.Collections.singletonMap;
-import static java.util.Collections.unmodifiableMap;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
@@ -27,10 +24,12 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Sets.set;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -61,6 +60,7 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
   @SuppressWarnings("unchecked")
   private static final Supplier<Map<String, String>>[] MODIFIABLE_MAP_SUPPLIERS = ArrayUtils.addAll(CASE_INSENSITIVE_MAP_SUPPLIERS,
                                                                                                     HashMap::new,
+                                                                                                    IdentityHashMap::new,
                                                                                                     LinkedHashMap::new);
 
   private static final String ARRAY_OF_KEYS = "array of keys";
@@ -101,10 +101,11 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
   }
 
   private static Stream<Arguments> unmodifiableMapsSuccessfulTestCases() {
-    return Stream.of(arguments(emptyMap(), emptyKeys()),
-                     arguments(singletonMap("name", "Yoda"), array("name")),
+    return Stream.of(arguments(Collections.emptyMap(), emptyKeys()),
+                     arguments(Collections.singletonMap("name", "Yoda"), array("name")),
                      arguments(new SingletonMap<>("name", "Yoda"), array("name")),
-                     arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))), array("name", "job")),
+                     arguments(Collections.unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))),
+                               array("name", "job")),
                      arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), array("name", "job")));
   }
 
@@ -126,6 +127,7 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
 
   @ParameterizedTest
   @MethodSource({
+      "unmodifiableMapsFailureTestCases",
       "modifiableMapsFailureTestCases",
       "caseInsensitiveMapsFailureTestCases",
   })
@@ -134,6 +136,20 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
     AssertionError error = expectAssertionError(() -> maps.assertContainsOnlyKeys(info, actual, expectedKeys));
     // THEN
     then(error).hasMessage(shouldContainOnlyKeys(actual, expectedKeys, notFound, notExpected).create());
+  }
+
+  private static Stream<Arguments> unmodifiableMapsFailureTestCases() {
+    return Stream.of(arguments(Collections.emptyMap(), array("name"),
+                               set("name"), emptySet()),
+                     arguments(Collections.singletonMap("name", "Yoda"), array("color"),
+                               set("color"), set("name")),
+                     arguments(new SingletonMap<>("name", "Yoda"), array("color"),
+                               set("color"), set("name")),
+                     arguments(Collections.unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))),
+                               array("name", "color"),
+                               set("color"), set("job")),
+                     arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), array("name", "color"),
+                               set("color"), set("job")));
   }
 
   private static Stream<Arguments> modifiableMapsFailureTestCases() {
@@ -152,12 +168,6 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
                                                           array("name", "color"), set("color"), set("Job")),
                                                 arguments(mapOf(supplier, entry("NAME", "Yoda"), entry("Job", "Jedi")),
                                                           array("Name", "Color"), set("Color"), set("Job"))));
-  }
-
-  private static HashSet<String> set(String entry) {
-    HashSet<String> set = new HashSet<>();
-    set.add(entry);
-    return set;
   }
 
 }

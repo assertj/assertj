@@ -20,13 +20,19 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Utility methods related to {@code java.util.List}s.
+ * Utility methods related to {@link List}s.
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
 public final class Lists {
+
+  @SafeVarargs
+  public static <T> List<T> list(T... elements) {
+    return newArrayList(elements);
+  }
+
   /**
    * Creates a <em>mutable</em> {@link ArrayList} containing the given elements.
    *
@@ -36,16 +42,6 @@ public final class Lists {
    */
   @SafeVarargs
   public static <T> ArrayList<T> newArrayList(T... elements) {
-    if (elements == null) {
-      return null;
-    }
-    ArrayList<T> list = newArrayList();
-    Collections.addAll(list, elements);
-    return list;
-  }
-
-  @SafeVarargs
-  public static <T> List<T> list(T... elements) {
     if (elements == null) {
       return null;
     }
@@ -100,6 +96,5 @@ public final class Lists {
     return Collections.emptyList();
   }
 
-  private Lists() {
-  }
+  private Lists() {}
 }

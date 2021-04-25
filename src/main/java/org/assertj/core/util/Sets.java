@@ -22,9 +22,22 @@ import java.util.TreeSet;
 /**
  * Utility methods related to {@link Set}s.
  *
- * @author alruiz
+ * @author Alex Ruiz
  */
 public final class Sets {
+
+  /**
+   * Creates a <em>mutable</em> {@link HashSet} containing the given elements.
+   *
+   * @param <T> the generic type of the {@code HashSet} to create.
+   * @param elements the elements to store in the {@code HashSet}.
+   * @return the created {@code HashSet}, or {@code null} if the given array of elements is {@code null}.
+   */
+  @SafeVarargs
+  public static <T> Set<T> set(T... elements) {
+    return newLinkedHashSet(elements);
+  }
+
   /**
    * Creates a <em>mutable</em> {@code HashSet}.
    *
