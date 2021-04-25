@@ -54,6 +54,7 @@ import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -63,6 +64,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
@@ -688,13 +691,57 @@ public class Maps {
     }
     failIfEmpty(keys, keysToLookForIsEmpty(placeholderForErrorMessages));
 
-    Set<K> notFound = new LinkedHashSet<>();
-    Set<K> notExpected = new LinkedHashSet<>();
-
-    compareActualMapAndExpectedKeys(actual, keys, notExpected, notFound);
+    Set<K> notFound = getNotFoundKeys(actual, keys);
+    Set<K> notExpected = getNotExpectedKeys(actual, keys);
 
     if (!notFound.isEmpty() || !notExpected.isEmpty())
       throw failures.failure(info, shouldContainOnlyKeys(actual, keys, notFound, notExpected));
+  }
+
+  private static <K> Set<K> getNotFoundKeys(Map<K, ?> actual, K[] keys) {
+    return Stream.of(keys)
+                 .filter(key -> !actual.containsKey(key))
+                 .collect(Collectors.toSet());
+  }
+
+  private static <K> Set<K> getNotExpectedKeys(Map<K, ?> actual, K[] keys) {
+    List<K> expectedKeys = java.util.Arrays.asList(keys);
+    try {
+      Set<K> unexpectedKeys = clone(actual).keySet();
+      expectedKeys.forEach(unexpectedKeys::remove);
+      return unexpectedKeys;
+    } catch (NoSuchMethodException | UnsupportedOperationException e) {
+      // actual cannot be copied or is unmodifiable, falling back to LinkedHashMap
+      Set<K> unexpectedKeys = new LinkedHashMap<>(actual).keySet();
+      expectedKeys.forEach(unexpectedKeys::remove);
+      return unexpectedKeys;
+    }
+  }
+
+  @SuppressWarnings({ "unchecked" })
+  private static <K, V> Map<K, V> clone(Map<K, V> map) throws NoSuchMethodException {
+    if (map instanceof Cloneable) {
+      try {
+        return (Map<K, V>) map.getClass().getMethod("clone").invoke(map);
+      } catch (IllegalAccessException | InvocationTargetException e) {
+        throw new IllegalStateException(e);
+      }
+    }
+    try {
+      @SuppressWarnings("rawtypes")
+      Class<? extends Map> type = map.getClass();
+      try {
+        // try with copying constructor
+        return type.getConstructor(Map.class).newInstance(map);
+      } catch (NoSuchMethodException e) {
+        // try with default constructor
+        Map<K, V> newMap = type.getConstructor().newInstance();
+        newMap.putAll(map);
+        return newMap;
+      }
+    } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
+      throw new IllegalStateException(e);
+    }
   }
 
   /**
