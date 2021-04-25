@@ -13,7 +13,7 @@
 package org.assertj.core.api.double_;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
@@ -80,6 +80,48 @@ class DoubleAssert_isEqualTo_double_Test extends DoubleAssertBaseTest {
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("6.0", "7.0"));
   }
+  @Test
+  void should_fail_if_doubles_are_not_equal_condition() {
+    // GIVEN
+    double actual = 6.0;
+    double expected = 7.0;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> conditionalAssertThat(assertThat(actual),true,expected));
+    // THEN
+    then(assertionError).hasMessage(shouldBeEqualMessage("6.0", "7.0"));
+  }
+  @Test
+  void should_fail_if_doubles_are_not_equal_condition2() {
+    // GIVEN
+    double actual = 6.0;
+    double expected = 7.0;
+    int x=1;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> conditionalAssertThat(assertThat(actual),x>0,expected));
+    // THEN
+    then(assertionError).hasMessage(shouldBeEqualMessage("6.0", "7.0"));
+  }
+  @Test
+  void should_fail_if_doubles_are_not_equal_not_null() {
+    // GIVEN
+    double actual = 6.0;
+    double expected = 7.0;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> notNullAssertThat(assertThat(actual),expected));
+    // THEN
+    then(assertionError).hasMessage(shouldBeEqualMessage("6.0", "7.0"));
+  }
+  @Test
+  void should_fail_if_doubles_are_not_equal_not_null2() {
+    // GIVEN
+    double actual = 6.0;
+    double expected = 7.0;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> notNullAssertThat(assertThat(actual),expected));
+    // THEN
+    then(assertionError).hasMessage(shouldBeEqualMessage("6.0", "7.0"));
+  }
+
 
   @Test
   void should_fail_with_clear_error_message_when_both_doubles_are_NaN() {

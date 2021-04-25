@@ -387,6 +387,31 @@ public class Assertions implements InstanceOfAssertFactories {
   public static ByteArrayAssert assertThat(byte[] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
+  /**
+   * Create conditional assertion for {@link ByteArrayAssert}
+   * @param argument the return value of assertThat
+   * @param condition the condition
+   * @param expected  the expected value
+   */
+  public static void conditionalAssertThat(ByteArrayAssert argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  /**
+   * Create not null assertion for {@link ByteArrayAssert}
+   * @param argument the return value of assertThat
+   * @param expected  the expected value
+   */
+  public static void notNullAssertThat(ByteArrayAssert argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
 
   /**
    * Creates a new instance of <code>{@link Byte2DArrayAssert}</code>.
@@ -459,7 +484,31 @@ public class Assertions implements InstanceOfAssertFactories {
   public static DoubleAssert assertThat(double actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
-
+  /**
+   * Create conditional assertion for {@link DoubleAssert}
+   * @param argument the return value of assertThat
+   * @param condition the condition
+   * @param expected  the expected value
+   */
+  public static void conditionalAssertThat(DoubleAssert argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  /**
+   * Create not null assertion for {@link DoubleAssert}
+   * @param argument the return value of assertThat
+   * @param expected  the expected value
+   */
+  public static void notNullAssertThat(DoubleAssert argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
   /**
    * Creates a new instance of <code>{@link DoubleAssert}</code>.
    *
@@ -890,7 +939,31 @@ public class Assertions implements InstanceOfAssertFactories {
   public static DateAssert assertThat(Date actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
-
+  /**
+   * Create conditional assertion for {@link DateAssert}
+   * @param argument the return value of assertThat
+   * @param condition the condition
+   * @param expected  the expected value
+   */
+  public static void conditionalAssertThat(DateAssert argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  /**
+   * Create not null assertion for {@link DateAssert}
+   * @param argument the return value of assertThat
+   * @param expected  the expected value
+   */
+  public static void notNullAssertThat(DateAssert argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
   /**
    * Creates a new instance of <code>{@link ZonedDateTimeAssert}</code>.
    *
@@ -2857,7 +2930,31 @@ public class Assertions implements InstanceOfAssertFactories {
   public static StringAssert assertThat(String actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
-
+  /**
+   * Create conditional assertion for {@link StringAssert}
+   * @param argument the return value of assertThat
+   * @param condition the condition
+   * @param expected  the expected value
+   */
+  public static void conditionalAssertThat(StringAssert argument,boolean condition,Object expected) {
+    if (condition) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("condition is false");
+  }
+  /**
+   * Create not null assertion for {@link StringAssert}
+   * @param argument the return value of assertThat
+   * @param expected  the expected value
+   */
+  public static void notNullAssertThat(StringAssert argument,Object expected) {
+    if (expected!=null) {
+      argument.isEqualTo(expected);
+      return;
+    }
+    System.out.println("expected is null");
+  }
   /**
    * Creates a new instance of <code>{@link IterableAssert}</code>.
    *

@@ -12,8 +12,8 @@
  */
 package org.assertj.core.api.bytearray;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.notNullAssertThat;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
@@ -21,6 +21,7 @@ import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetExcepti
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.StringAssert;
 import org.assertj.core.error.AssertJMultipleFailuresError;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,7 +38,42 @@ class ByteArrayAssert_asString_Test {
     assertThat(foo.getBytes()).asString()
                               .isEqualTo(foo);
   }
+  @Test
+  void should_convert_bytes_array_to_a_proper_string_with_default_encoding_condition() {
+    // GIVEN
+    String foo = "foo";
+    // WHEN/THEN
+    int x =0;
+    conditionalAssertThat((StringAssert) assertThat(foo.getBytes()).asString(),x>0,foo);
 
+  }
+  @Test
+  void should_convert_bytes_array_to_a_proper_string_with_default_encoding_condition2() {
+    // GIVEN
+    String foo = "foo";
+    // WHEN/THEN
+    int x =0;
+    conditionalAssertThat((StringAssert) assertThat(foo.getBytes()).asString(),true,foo);
+
+  }
+  @Test
+  void should_convert_bytes_array_to_a_proper_string_with_default_encoding_not_null() {
+    // GIVEN
+    String foo = "foo";
+    // WHEN/THEN
+
+    notNullAssertThat((StringAssert) assertThat(foo.getBytes()).asString(),null);
+
+  }
+  @Test
+  void should_convert_bytes_array_to_a_proper_string_with_default_encoding_not_null2() {
+    // GIVEN
+    String foo = "foo";
+    // WHEN/THEN
+
+    notNullAssertThat((StringAssert) assertThat(foo.getBytes()).asString(),foo);
+
+  }
   @Test
   void should_fail_if_actual_is_null() {
     // GIVEN

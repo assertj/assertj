@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.abstract_;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.test.TestData.someDescription;
 
 import org.assertj.core.api.AbstractAssert;
@@ -41,6 +41,26 @@ class AbstractAssert_as_with_description_Test {
   void should_set_description() {
     assertions.as(d);
     assertThat(assertions.descriptionText()).isEqualTo(d.value());
+  }
+  @Test
+  void should_set_description_condition() {
+    assertions.as(d);
+    conditionalAssertThat(assertThat(assertions.descriptionText()),true,d.value());
+  }
+  @Test
+  void should_set_description_condition2() {
+    assertions.as(d);
+    conditionalAssertThat(assertThat(assertions.descriptionText()),false,d.value());
+  }
+  @Test
+  void should_set_description_not_null() {
+    assertions.as(d);
+    notNullAssertThat(assertThat(assertions.descriptionText()),d.value());
+  }
+  @Test
+  void should_set_description_not_null2() {
+    assertions.as(d);
+    notNullAssertThat(assertThat(assertions.descriptionText()),null);
   }
 
   @Test
