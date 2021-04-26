@@ -43,7 +43,7 @@ class ObjectArrays_assertHasExactlyElementsOfTypes_Test extends ObjectArraysBase
   }
 
   @Test
-  void should_fail_if_one_element_in_actual_does_not_belong_to_the_expected_type() {
+  void should_fail_if_one_element_in_actual_does_not_have_the_expected_type() {
     // WHEN
     AssertionError error = expectAssertionError(() ->
       arrays.assertHasExactlyElementsOfTypes(someInfo(), arrayOfObjects, String.class, LinkedList.class, Double.class));
@@ -74,7 +74,7 @@ class ObjectArrays_assertHasExactlyElementsOfTypes_Test extends ObjectArraysBase
   }
 
   @Test
-  void should_fail_if_actual_contains_all_types_but_has_less_elements_than_expected()
+  void should_fail_if_actual_elements_types_are_found_but_there_are_not_enough_expected_type_elements()
   {
     // WHEN
     AssertionError error = expectAssertionError(() ->
@@ -89,13 +89,13 @@ class ObjectArrays_assertHasExactlyElementsOfTypes_Test extends ObjectArraysBase
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  void should_pass_if_actual_has_exactly_elements_of_the_expected_types_in_order_according_to_custom_comparison_strategy()
+  void should_pass_if_actual_has_exactly_elements_of_the_expected_types_whatever_the_custom_comparison_strategy_is()
   {
     arraysWithCustomComparisonStrategy.assertHasExactlyElementsOfTypes(someInfo(), arrayOfObjects, String.class, LinkedList.class, Long.class);
   }
 
   @Test
-  void should_fail_if_one_element_in_actual_does_not_belong_to_the_expected_type_according_to_custom_comparison_strategy() {
+  void should_fail_if_one_element_in_actual_does_not_have_the_expected_type_whatever_the_custom_comparison_strategy_is() {
     // WHEN
     AssertionError error = expectAssertionError(() ->
       arraysWithCustomComparisonStrategy.assertHasExactlyElementsOfTypes(someInfo(), arrayOfObjects, String.class, LinkedList.class, Double.class));
@@ -105,7 +105,7 @@ class ObjectArrays_assertHasExactlyElementsOfTypes_Test extends ObjectArraysBase
   }
 
   @Test
-  void should_fail_if_types_of_elements_are_not_in_the_same_order_as_expected_according_to_custom_comparison_strategy()
+  void should_fail_if_types_of_elements_are_not_in_the_same_order_as_expected_whatever_the_custom_comparison_strategy_is()
   {
     // WHEN
     AssertionError error = expectAssertionError(() ->
@@ -115,7 +115,7 @@ class ObjectArrays_assertHasExactlyElementsOfTypes_Test extends ObjectArraysBase
   }
 
   @Test
-  void should_fail_if_actual_contains_all_types_but_has_less_elements_than_expected_according_to_custom_comparison_strategy()
+  void should_fail_if_actual_elements_types_are_found_but_there_are_not_enough_expected_type_elements_whatever_the_custom_comparison_strategy_is()
   {
     // WHEN
     AssertionError error = expectAssertionError(() ->
