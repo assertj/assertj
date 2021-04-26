@@ -14,7 +14,7 @@ package org.example.test;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.BDDSoftAssertions;
 import org.junit.jupiter.api.Test;
@@ -33,7 +33,7 @@ class BDDSoftAssertionsLineNumberTest {
           .isLessThan(0)
           .isLessThan(1);
     // WHEN
-    AssertionError error = catchThrowableOfType(softly::assertAll, AssertionError.class);
+    AssertionError error = expectAssertionError(softly::assertAll);
     // THEN
     assertThat(error).hasMessageContaining(format("%n"
                                                   + "Expecting actual:%n"

@@ -14,7 +14,7 @@ package org.example.test;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -37,7 +37,7 @@ class SoftAssertionsLineNumberTest {
           .isLessThan(0)
           .isLessThan(1);
     // WHEN
-    AssertionError error = catchThrowableOfType(softly::assertAll, AssertionError.class);
+    AssertionError error = expectAssertionError(softly::assertAll);
     // THEN
     assertThat(error).hasMessageContaining(format("%n"
                                                   + "Expecting actual:%n"
@@ -63,7 +63,7 @@ class SoftAssertionsLineNumberTest {
     Predicate<String> lowercasePredicate = s -> s.equals(s.toLowerCase());
     softly.assertThat(lowercasePredicate).accepts("a", "b", "C");
     // WHEN
-    AssertionError error = catchThrowableOfType(softly::assertAll, AssertionError.class);
+    AssertionError error = expectAssertionError(softly::assertAll);
     // THEN
     assertThat(error).hasMessageContaining(format("%n"
                                                   + "Expecting Optional to contain:%n"

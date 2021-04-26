@@ -27,6 +27,7 @@ import java.util.Map;
 import org.assertj.core.api.AssertionErrorCollector;
 import org.assertj.core.api.AutoCloseableSoftAssertions;
 import org.assertj.core.api.BDDSoftAssertions;
+import org.assertj.core.api.DefaultAssertionErrorCollector;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.error.AssertJMultipleFailuresError;
 import org.junit.jupiter.api.BeforeAll;
@@ -64,6 +65,7 @@ class SoftAssertionsExtensionAPIIntegrationTest {
       provider.assertThat("something").isEqualTo("nothing");
       assertThat(provider.assertionErrorsCollected()).as("beforeEach:after assert").hasSize(1);
       AssertionErrorCollector collector = SoftAssertionsExtension.getAssertionErrorCollector(context);
+      assertThat(collector).isInstanceOf(DefaultAssertionErrorCollector.class);
       assertThat(provider.getDelegate()).contains(collector);
       map.put(context.getTestMethod().get().getName(), collector);
     }
