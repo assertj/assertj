@@ -34,15 +34,13 @@ public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<S
    * Verifies that the Matcher matches.
    * <p>
    * Assertion will pass :
-   * <pre>
-   * <code class='java'>Pattern p = Pattern.compile("a*");
+   * <pre><code class='java'> Pattern p = Pattern.compile("a*");
    * String str = "aaa";
    * Matcher matcher = p.matcher(str);
    * assertThat(matcher).matches();</code></pre>
    * <p>
    * Assertion will fail :
-   * <pre>
-   * <code class='java'>Pattern p = Pattern.compile("a*");
+   * <pre> <code class='java'> Pattern p = Pattern.compile("a*");
    * String str = "abc";
    * Matcher matcher = p.matcher(str);
    * assertThat(matcher).matches();</code></pre>
@@ -50,6 +48,7 @@ public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<S
    * @return this assertion object.
    * @throws AssertionError if actual does not match.
    * @throws AssertionError if actual is null.
+   * @since 3.19.1
    */
   public SELF matches() {
     isNotNull();

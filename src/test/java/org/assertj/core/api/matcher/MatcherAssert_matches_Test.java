@@ -14,6 +14,7 @@ package org.assertj.core.api.matcher;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.error.MatcherShouldMatch.shouldMatch;
@@ -22,10 +23,11 @@ import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
+@DisplayName("MatcherAssert matches")
 public class MatcherAssert_matches_Test {
 
   @Test
-  void should_fail_when_Matcher_is_null() {
+  void should_fail_when_if_is_null() {
     // GIVEN
     Matcher nullActual = null;
     // THEN
@@ -42,5 +44,15 @@ public class MatcherAssert_matches_Test {
     AssertionError error = catchThrowableOfType(() -> assertThat(actual).matches(), AssertionError.class);
     // THEN
     assertThat(error).hasMessage(shouldMatch(actual).create());
+  }
+
+  @Test
+  void should_pass_if_Matcher_matches() {
+    // GIVEN
+    Pattern pattern = Pattern.compile("a*");
+    String expectedValue = "aaa";
+    Matcher actual = pattern.matcher(expectedValue);
+    // WHEN/THEN
+    assertThat(actual).matches();
   }
 }
