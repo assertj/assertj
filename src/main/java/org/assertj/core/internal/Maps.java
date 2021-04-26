@@ -720,22 +720,17 @@ public class Maps {
 
   @SuppressWarnings({ "unchecked" })
   private static <K, V> Map<K, V> clone(Map<K, V> map) throws NoSuchMethodException {
-    if (map instanceof Cloneable) {
-      try {
-        return (Map<K, V>) map.getClass().getMethod("clone").invoke(map);
-      } catch (IllegalAccessException | InvocationTargetException e) {
-        throw new IllegalStateException(e);
-      }
-    }
     try {
-      @SuppressWarnings("rawtypes")
-      Class<? extends Map> type = map.getClass();
+      if (map instanceof Cloneable) {
+        return (Map<K, V>) map.getClass().getMethod("clone").invoke(map);
+      }
+
       try {
         // try with copying constructor
-        return type.getConstructor(Map.class).newInstance(map);
+        return map.getClass().getConstructor(Map.class).newInstance(map);
       } catch (NoSuchMethodException e) {
         // try with default constructor
-        Map<K, V> newMap = type.getConstructor().newInstance();
+        Map<K, V> newMap = map.getClass().getConstructor().newInstance();
         newMap.putAll(map);
         return newMap;
       }
