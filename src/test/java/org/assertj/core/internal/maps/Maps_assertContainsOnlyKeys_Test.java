@@ -33,6 +33,7 @@ import java.util.IdentityHashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -55,7 +56,9 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
   @SuppressWarnings("unchecked")
   private static final Supplier<Map<String, String>>[] CASE_INSENSITIVE_MAP_SUPPLIERS = new Supplier[] {
       CaseInsensitiveMap::new,
-      LinkedCaseInsensitiveMap::new };
+      LinkedCaseInsensitiveMap::new,
+      () -> new TreeMap<>(String.CASE_INSENSITIVE_ORDER)
+  };
 
   @SuppressWarnings("unchecked")
   private static final Supplier<Map<String, String>>[] MODIFIABLE_MAP_SUPPLIERS = ArrayUtils.addAll(CASE_INSENSITIVE_MAP_SUPPLIERS,
