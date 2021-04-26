@@ -23,6 +23,19 @@ import org.assertj.core.api.Condition;
  * Container-<code>{@link Condition}</code> that does a mapping and then uses nested
  * <code>{@link Condition}</code> to test the mapped actual value.
  * 
+ * <pre><code class='java'>
+ *   private final Condition&lt;String&gt; existingCondition = new Condition&lt;&gt;(t -&gt; t.contains(System.lineSeparator()),
+ *    "has lineSeparator");
+ *
+ * private void example() {
+ *
+ *   Optional&lt;String&gt; value = Optional.of("a" + System.lineSeparator());
+ *   Mapped&lt;Optional&lt;String&gt;, String&gt; mappedCondition = Mapped.mapped(Optional::get, existingCondition);
+ *   boolean bool= mappedCondition.matches(value);
+ *   } </code></pre>
+ * 
+ * 
+ * 
  * @param <FROM> the type of object this condition accepts.
  * @param <TO> the type of object the nested condition accepts.
  *
@@ -102,6 +115,11 @@ public class Mapped<FROM, TO> extends Condition<FROM> {
         condition);
     }
 
+  /*
+   * Maps the value with the given function and delegates the result of the mapping to the `matches` method of the nested
+   * <code>{@link Condition}</code> . 
+   * 
+   */
   @Override
   public boolean matches(FROM value) {
 
