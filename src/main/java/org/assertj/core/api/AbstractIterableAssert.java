@@ -3399,7 +3399,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param indices the elements' indices
    * @return the assertion on the given elements
    * @throws AssertionError if indices array is null or empty, or if one of the given indices is out of bound
-   * @since 3.18.2
+   * @since 3.20
    */
   @CheckReturnValue
   public SELF elements(int... indices) {
@@ -3417,21 +3417,24 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return newAbstractIterableAssert(filteredIterable).withAssertionState(myself);
   }
 
-  private void assertIndicesIsNotNull(int[] indices) {
+  private static void assertIndicesIsNotNull(int[] indices) {
     if (indices == null) {
-      throw new AssertionError("indices must not be null");
+      throw new IllegalArgumentException("indices must not be null");
     }
   }
 
-  private void assertIndicesIsNotEmpty(int[] indices) {
+  private static void assertIndicesIsNotEmpty(int[] indices) {
     if (indices.length == 0) {
-      throw new AssertionError("indices must not be empty");
+      throw new IllegalArgumentException("indices must not be empty");
     }
   }
 
   private void checkIndicesValidity(int index) {
-    assertThat(index).describedAs(navigationDescription("check indices validity"))
-      .isBetween(0, IterableUtil.sizeOf(actual) - 1);
+    int lowerBound = 0;
+    int higherBound = IterableUtil.sizeOf(actual) - 1;
+    if (index < lowerBound || index > higherBound) {
+      throw new IllegalArgumentException(String.format("index %d is out of bounds [%d, %d]", index, lowerBound, higherBound));
+    }
   }
 
   /**

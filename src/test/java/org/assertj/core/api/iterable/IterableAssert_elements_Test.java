@@ -15,11 +15,13 @@ package org.assertj.core.api.iterable;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsEmpty;
 
 import org.assertj.core.api.IterableAssert;
+import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -67,7 +69,7 @@ class IterableAssert_elements_Test {
 
   @Test
   void should_pass_allowing_assertions_for_repeating_elements() {
-  // WHEN
+    // WHEN
     IterableAssert<String> result = assertThat(iterable).elements(2, 1, 2);
     // THEN
     result.containsExactly("Lisa", "Marge", "Lisa");
@@ -75,34 +77,39 @@ class IterableAssert_elements_Test {
 
   @Test
   void should_fail_if_index_out_of_range() {
-    AssertionError assertionError = expectAssertionError(() -> assertThat(iterable).elements(5));
+    // WHEN
+    ThrowableAssert assertionError = assertThatThrownBy(() -> assertThat(iterable).elements(5));
     // THEN
-    then(assertionError).hasMessageContaining("check indices validity").hasMessageContaining("5");
+    assertionError.isInstanceOf(IllegalArgumentException.class).hasMessageContaining("is out of bound").hasMessageContaining("5");
   }
 
   @Test
   void should_fail_if_indices_is_empty() {
-    AssertionError assertionError = expectAssertionError(() -> assertThat(iterable).elements());
+    // WHEN
+    ThrowableAssert assertionError = assertThatThrownBy(() -> assertThat(iterable).elements());
     // THEN
-    then(assertionError).hasMessageContaining("indices must not be empty");
+    assertionError.isInstanceOf(IllegalArgumentException.class).hasMessageContaining("indices must not be empty");
   }
 
   @Test
   void should_fail_if_indices_is_empty_2() {
-    AssertionError assertionError = expectAssertionError(() -> assertThat(iterable).elements(new int[0]));
+    // WHEN
+    ThrowableAssert assertionError = assertThatThrownBy(() -> assertThat(iterable).elements(new int[0]));
     // THEN
-    then(assertionError).hasMessageContaining("indices must not be empty");
+    assertionError.isInstanceOf(IllegalArgumentException.class).hasMessageContaining("indices must not be empty");
   }
 
   @Test
   void should_fail_if_indices_is_null() {
-    AssertionError assertionError = expectAssertionError(() -> assertThat(iterable).elements((int[])null));
+    // WHEN
+    ThrowableAssert assertionError = assertThatThrownBy(() -> assertThat(iterable).elements((int[])null));
     // THEN
-    then(assertionError).hasMessageContaining("indices must not be null");
+    assertionError.isInstanceOf(IllegalArgumentException.class).hasMessageContaining("indices must not be null");
   }
 
   @Test
   void should_fail_if_iterable_is_null() {
+    // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat((Iterable)null).elements(1));
     // THEN
     then(assertionError).hasMessageContaining("Expecting actual not to be null");
