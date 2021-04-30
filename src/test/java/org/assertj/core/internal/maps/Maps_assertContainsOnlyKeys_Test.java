@@ -13,6 +13,7 @@
 package org.assertj.core.internal.maps;
 
 import static java.util.Collections.emptySet;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
@@ -100,7 +101,8 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
   })
   void should_succeed(Map<String, String> actual, String[] keys) {
     // WHEN/THEN
-    maps.assertContainsOnlyKeys(info, actual, keys);
+    assertThatNoException().as(actual.getClass().getName())
+                           .isThrownBy(() -> maps.assertContainsOnlyKeys(info, actual, keys));
   }
 
   private static Stream<Arguments> unmodifiableMapsSuccessfulTestCases() {
@@ -138,7 +140,8 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
     // WHEN
     AssertionError error = expectAssertionError(() -> maps.assertContainsOnlyKeys(info, actual, expectedKeys));
     // THEN
-    then(error).hasMessage(shouldContainOnlyKeys(actual, expectedKeys, notFound, notExpected).create());
+    then(error).as(actual.getClass().getName())
+               .hasMessage(shouldContainOnlyKeys(actual, expectedKeys, notFound, notExpected).create());
   }
 
   private static Stream<Arguments> unmodifiableMapsFailureTestCases() {
