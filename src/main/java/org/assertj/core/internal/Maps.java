@@ -660,20 +660,6 @@ public class Maps {
     assertContainsOnlyKeys(info, actual, "array of keys", keys);
   }
 
-  /**
-   * Verifies that the actual map contains only the given keys and nothing else, in any order.
-   *
-   * @param <K> key type
-   * @param <V> value type
-   * @param info contains information about the assertion.
-   * @param actual the given {@code Map}.
-   * @param keys the keys that are expected to be in the given {@code Map}.
-   * @throws NullPointerException if the array of keys is {@code null}.
-   * @throws IllegalArgumentException if the array of keys is empty.
-   * @throws AssertionError if the given {@code Map} is {@code null}.
-   * @throws AssertionError if the given {@code Map} does not contain the given keys or if the given {@code Map}
-   *           contains keys that are not in the given array.
-   */
   public <K, V> void assertContainsOnlyKeys(AssertionInfo info, Map<K, V> actual, Iterable<? extends K> keys) {
     final K[] keysAsArray = toArray(keys);
     assertContainsOnlyKeys(info, actual, "keys iterable", keysAsArray);

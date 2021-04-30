@@ -41,6 +41,8 @@ import java.util.stream.Stream;
 import org.apache.commons.collections4.map.CaseInsensitiveMap;
 import org.apache.commons.collections4.map.SingletonMap;
 import org.apache.commons.lang3.ArrayUtils;
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Maps;
 import org.assertj.core.internal.MapsBaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -51,6 +53,11 @@ import org.springframework.util.LinkedCaseInsensitiveMap;
 
 import com.google.common.collect.ImmutableMap;
 
+/**
+ * Tests for <code>{@link Maps#assertContainsOnlyKeys(AssertionInfo, Map, Object[])}</code>.
+ *
+ * @author Christopher Arnott
+ */
 @DisplayName("Maps assertContainsOnlyKeys(Object[])")
 class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
 
