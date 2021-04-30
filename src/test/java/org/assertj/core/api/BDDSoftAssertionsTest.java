@@ -734,6 +734,10 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then(emptyList()).element(1);
     // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
     softly.then(emptyList()).element(1, as(STRING));
+    // the nested proxied call to isNotEmpty() throw an Assertion error that must be propagated to the caller.
+    softly.then(emptyList()).elements(0, 1, 2);
+    // the nested proxied call to checkIndexValidity throw an Assertion error that must be propagated to the caller.
+    softly.then(list("a", "b")).elements(0, 5);
     // the nested proxied call to assertHasSize() throw an Assertion error that must be propagated to the caller.
     softly.then(emptyList()).singleElement();
     // the nested proxied call to assertHasSize() throw an Assertion error that must be propagated to the caller.
@@ -745,7 +749,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // nested proxied call to isCompleted
     softly.then(new CompletableFuture<String>()).isCompletedWithValue("done");
     // it must be caught by softly.assertAll()
-    assertThat(softly.errorsCollected()).hasSize(11);
+    assertThat(softly.errorsCollected()).hasSize(13);
   }
 
   // bug #447
@@ -942,15 +946,21 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .last()
           .as("last element")
           .isNull();
+    softly.then(names)
+          .as("elements(0, 1)")
+          .overridingErrorMessage("error message")
+          .elements(0, 1)
+          .isNull();
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(6);
+    assertThat(errorsCollected).hasSize(7);
     assertThat(errorsCollected.get(0)).hasMessageContaining("10");
     assertThat(errorsCollected.get(1)).hasMessageContaining("22");
     assertThat(errorsCollected.get(2)).hasMessageContaining("empty");
     assertThat(errorsCollected.get(3)).hasMessageContaining("first element");
     assertThat(errorsCollected.get(4)).hasMessageContaining("element(0)");
     assertThat(errorsCollected.get(5)).hasMessageContaining("last element");
+    assertThat(errorsCollected.get(6)).hasMessage("[elements(0, 1)] error message");
   }
 
   @Test
@@ -978,14 +988,20 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .last()
           .as("last element")
           .isNull();
+    softly.then(names)
+          .as("elements(0, 1)")
+          .overridingErrorMessage("error message")
+          .elements(0, 1)
+          .isNull();
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(6);
+    assertThat(errorsCollected).hasSize(7);
     assertThat(errorsCollected.get(0)).hasMessageContaining("10");
     assertThat(errorsCollected.get(1)).hasMessageContaining("22");
     assertThat(errorsCollected.get(2)).hasMessageContaining("empty");
     assertThat(errorsCollected.get(3)).hasMessageContaining("first element");
     assertThat(errorsCollected.get(4)).hasMessageContaining("element(0)");
+    assertThat(errorsCollected.get(5)).hasMessageContaining("last element");
     assertThat(errorsCollected.get(5)).hasMessageContaining("last element");
   }
 

@@ -13,7 +13,6 @@
 package org.assertj.core.api.objectarray;
 
 import static java.util.Arrays.asList;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
@@ -64,6 +63,10 @@ class ObjectArrayAssert_filteredOnAssertions_Test extends ObjectArrayAssert_filt
     assertThat(hobbits, tolkienCharacterAssertFactory).filteredOnAssertions(nameStartingWithFro)
                                                       .element(0)
                                                       .hasAge(33);
+    assertThat(hobbits, tolkienCharacterAssertFactory).filteredOnAssertions(nameStartingWithFro)
+                                                      .elements(0)
+                                                      .first()
+                                                      .hasAge(33);
   }
 
   @Test
@@ -79,6 +82,10 @@ class ObjectArrayAssert_filteredOnAssertions_Test extends ObjectArrayAssert_filt
                                                      .hasAge(33);
     assertThat(hobbits, TolkienCharacterAssert.class).filteredOnAssertions(nameStartingWithFro)
                                                      .element(0)
+                                                     .hasAge(33);
+    assertThat(hobbits, TolkienCharacterAssert.class).filteredOnAssertions(nameStartingWithFro)
+                                                     .elements(0)
+                                                     .first()
                                                      .hasAge(33);
   }
 
