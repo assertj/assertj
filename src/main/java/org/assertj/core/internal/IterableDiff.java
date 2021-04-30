@@ -20,7 +20,7 @@ import java.util.List;
 
 // immutable
 /**
- * @param T the type of element to compare.
+ * @param <T> the type of element to compare.
  */
 class IterableDiff<T> {
 
