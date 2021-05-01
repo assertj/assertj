@@ -86,8 +86,10 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
 
   @Test
   void should_fail_if_given_keys_array_is_null() {
+    // GIVEN
+    String[] keys = null;
     // WHEN
-    Throwable thrown = catchThrowable(() -> maps.assertContainsOnlyKeys(someInfo(), actual, (String[]) null));
+    Throwable thrown = catchThrowable(() -> maps.assertContainsOnlyKeys(someInfo(), actual, keys));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class).hasMessage(keysToLookForIsNull(ARRAY_OF_KEYS));
   }
@@ -106,7 +108,7 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
       "modifiableMapsSuccessfulTestCases",
       "caseInsensitiveMapsSuccessfulTestCases",
   })
-  void should_succeed(Map<String, String> actual, String[] keys) {
+  void should_pass(Map<String, String> actual, String[] keys) {
     // WHEN/THEN
     assertThatNoException().as(actual.getClass().getName())
                            .isThrownBy(() -> maps.assertContainsOnlyKeys(info, actual, keys));
