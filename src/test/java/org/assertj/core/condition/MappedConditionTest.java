@@ -37,29 +37,26 @@ class MappedConditionTest {
                                                                  "   using: ::toString%n" +
                                                                  "   from: <StringBuilder> " + BAR + "%n" +
                                                                  "   to:   <String> " + BAR + "%n" +
-                                                                 "   then checked: [%n" +
-                                                                 "      " + INNER_CONDITION_DESCRIPTION + "%n" +
-                                                                 "]");
+                                                                 "   then checked:%n" +
+                                                                 "      " + INNER_CONDITION_DESCRIPTION);
 
   private final static String BAR_CONDITION_DESCRIPTION_PLAIN = format("mapped%n" +
                                                                        "   from: <StringBuilder> " + BAR + "%n" +
                                                                        "   to:   <String> " + BAR + "%n" +
-                                                                       "   then checked: [%n" +
-                                                                       "      " + INNER_CONDITION_DESCRIPTION + "%n" +
-                                                                       "]");
+                                                                       "   then checked:%n" +
+                                                                       "      " + INNER_CONDITION_DESCRIPTION);
 
   private final static String FOO_CONDITION_DESCRIPTION = format("mapped%n" +
                                                                  "   using: ::toString%n" +
                                                                  "   from: <StringBuilder> " + FOO + "%n" +
                                                                  "   to:   <String> " + FOO + "%n" +
-                                                                 "   then checked: [%n" + "      " + INNER_CONDITION_DESCRIPTION
-                                                                 + "%n" +
-                                                                 "]");
+                                                                 "   then checked:%n" +
+                                                                 "      " + INNER_CONDITION_DESCRIPTION);
 
   @Test
   void mappedCondition_withDescription_works() {
     // WHEN
-    Condition<StringBuilder> mappedCondition = mappedCondition(StringBuilder::toString, "::toString", isBarString);
+    Condition<StringBuilder> mappedCondition = mappedCondition(StringBuilder::toString, isBarString, "%stoString", "::");
     // THEN
     then(mappedCondition.matches(new StringBuilder(BAR))).isTrue();
     then(mappedCondition).hasToString(BAR_CONDITION_DESCRIPTION);
@@ -81,13 +78,13 @@ class MappedConditionTest {
     // GIVEN
     Condition<String> nullCondition = null;
     // WHEN/THEN
-    thenNullPointerException().isThrownBy(() -> mappedCondition(StringBuilder::toString, "::toString", nullCondition))
+    thenNullPointerException().isThrownBy(() -> mappedCondition(StringBuilder::toString, nullCondition, "::toString"))
                               .withMessage("The given condition should not be null");
   }
 
   @Test
   void mappedCondition_with_description_and_null_mapping_function_should_throw_NPE() {
-    thenNullPointerException().isThrownBy(() -> mappedCondition(null, "::toString", isBarString))
+    thenNullPointerException().isThrownBy(() -> mappedCondition(null, isBarString, "::toString"))
                               .withMessage("The given mapping function should not be null");
   }
 
@@ -104,6 +101,15 @@ class MappedConditionTest {
   void mappedCondition_without_description_and_null_mapping_function_should_throw_NPE() {
     thenNullPointerException().isThrownBy(() -> mappedCondition(null, isBarString))
                               .withMessage("The given mapping function should not be null");
+  }
+
+  @Test
+  void mappedCondition_with_null_description_and_should_throw_NPE() {
+    // GIVEN
+    String nullDescription = null;
+    // WHEN/THEN
+    thenNullPointerException().isThrownBy(() -> mappedCondition(StringBuilder::toString, isBarString, nullDescription))
+                              .withMessage("The given mappingDescription should not be null");
   }
 
   @Test
