@@ -575,12 +575,7 @@ public class Maps {
   // The method cannot be made final and annotated with @SafeVarargs because the class is mocked in tests
   public <K, V> void assertContainsKeys(AssertionInfo info, Map<K, V> actual, K[] keys) {
     assertNotNull(info, actual);
-    Set<K> notFound = new LinkedHashSet<>();
-    for (K key : keys) {
-      if (!actual.containsKey(key)) {
-        notFound.add(key);
-      }
-    }
+    Set<K> notFound = getNotFoundKeys(actual, keys);
     if (notFound.isEmpty()) return;
     throw failures.failure(info, shouldContainKeys(actual, notFound));
   }
@@ -683,7 +678,7 @@ public class Maps {
   private static <K> Set<K> getNotFoundKeys(Map<K, ?> actual, K[] keys) {
     return Stream.of(keys)
                  .filter(key -> !actual.containsKey(key))
-                 .collect(Collectors.toSet());
+                 .collect(Collectors.toCollection(LinkedHashSet::new));
   }
 
   private static <K> Set<K> getNotExpectedKeys(Map<K, ?> actual, K[] keys) {
@@ -851,23 +846,6 @@ public class Maps {
     }
 
     throw failures.failure(info, shouldContainExactly(actual, asList(entries), notFound, notExpected));
-  }
-
-  private <K, V> void compareActualMapAndExpectedKeys(Map<K, V> actual, K[] keys, Set<K> notExpected, Set<K> notFound) {
-    Map<K, V> actualCopy = instantiate(actual.getClass());
-    actualCopy.putAll(actual);
-    Map<K, V> actualEntries = actualCopy;
-    for (K key : keys) {
-      if (actualEntries.containsKey(key)) {
-        // this is an expected key
-        actualEntries.remove(key);
-      } else {
-        // this is a not found key
-        notFound.add(key);
-      }
-    }
-    // All remaining keys from actual copy are not expected entries.
-    notExpected.addAll(actualEntries.keySet());
   }
 
   private <V, K> Map<K, V> instantiate(Class<? extends Map> mapClass) {
