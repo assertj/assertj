@@ -664,9 +664,9 @@
       </properties>
     </profile>
     <profile>
-      <id>java16+</id>
+      <id>java-ea</id>
       <activation>
-        <jdk>[16,)</jdk>
+        <jdk>[17,)</jdk>
       </activation>
       <properties>
         <argLine>-Dnet.bytebuddy.experimental=true --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.math=ALL-UNNAMED --add-opens=java.base/sun.nio.fs=ALL-UNNAMED</argLine>
