@@ -17,8 +17,8 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
+import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
-import static org.assertj.core.internal.ErrorMessages.entriesToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.entriesToLookForIsNull;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.TestData.someInfo;
@@ -101,16 +101,16 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
     // GIVEN
     Entry<String, String>[] entries = emptyEntries();
     // WHEN
-    Throwable thrown = catchThrowable(() -> maps.assertContainsOnly(someInfo(), actual, entries));
+    AssertionError error = expectAssertionError(() -> maps.assertContainsOnly(someInfo(), actual, entries));
     // THEN
-    then(thrown).isInstanceOf(IllegalArgumentException.class).hasMessage(entriesToLookForIsEmpty());
+    then(error).hasMessage(shouldBeEmpty(actual).create());
   }
 
   @ParameterizedTest
   @MethodSource({
       "unmodifiableMapsSuccessfulTestCases",
-      // "modifiableMapsSuccessfulTestCases",
-      // "caseInsensitiveMapsSuccessfulTestCases",
+      "modifiableMapsSuccessfulTestCases",
+      "caseInsensitiveMapsSuccessfulTestCases",
   })
   void should_pass(Map<String, String> actual, Entry<String, String>[] entries) {
     // WHEN/THEN
@@ -128,14 +128,20 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
                                array(entry("name", "Yoda"), entry("job", "Jedi"))));
   }
 
-  @Test
-  void should_pass_if_case_insensitive_actual_contains_only_expected_entries() {
-    // GIVEN
-    actual = new CaseInsensitiveMap<>();
-    actual.put("NAME", "Yoda");
-    actual.put("Color", "green");
-    // THEN
-    maps.assertContainsOnly(someInfo(), actual, array(entry("Name", "Yoda"), entry("COLOR", "green")));
+  private static Stream<Arguments> modifiableMapsSuccessfulTestCases() {
+    return Stream.of(MODIFIABLE_MAP_SUPPLIERS)
+                 .flatMap(supplier -> Stream.of(arguments(mapOf(supplier, entry("name", "Yoda"), entry("job", "Jedi")),
+                                                          array(entry("name", "Yoda"), entry("job", "Jedi"))),
+                                                arguments(mapOf(supplier, entry("name", "Yoda"), entry("job", "Jedi")),
+                                                          array(entry("job", "Jedi"), entry("name", "Yoda")))));
+  }
+
+  private static Stream<Arguments> caseInsensitiveMapsSuccessfulTestCases() {
+    return Stream.of(CASE_INSENSITIVE_MAP_SUPPLIERS)
+                 .flatMap(supplier -> Stream.of(arguments(mapOf(supplier, entry("NAME", "Yoda"), entry("Job", "Jedi")),
+                                                          array(entry("name", "Yoda"), entry("job", "Jedi"))),
+                                                arguments(mapOf(supplier, entry("NAME", "Yoda"), entry("Job", "Jedi")),
+                                                          array(entry("Name", "Yoda"), entry("Job", "Jedi")))));
   }
 
   @Test
