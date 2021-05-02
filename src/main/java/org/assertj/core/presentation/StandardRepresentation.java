@@ -252,7 +252,8 @@ public class StandardRepresentation implements Representation {
     try {
       Method method = object.getClass().getMethod("toString");
       Class<?> declaringClass = method.getDeclaringClass();
-      return object.getClass()==declaringClass;
+//      return object.getClass()==declaringClass;
+      return !Object.class.equals(declaringClass);
     } catch (NoSuchMethodException | SecurityException e) {
       // NoSuchMethodException should not occur as toString is always defined.
       // if SecurityException occurs, returning false will lead to format iterable
