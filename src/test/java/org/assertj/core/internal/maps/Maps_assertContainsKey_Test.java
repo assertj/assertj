@@ -19,14 +19,12 @@ import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainKeys.shouldContainKeys;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
 
 import java.util.Map;
 
-import org.apache.commons.collections4.map.CaseInsensitiveMap;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Maps;
 import org.assertj.core.internal.MapsBaseTest;
@@ -54,28 +52,6 @@ class Maps_assertContainsKey_Test extends MapsBaseTest {
   }
 
   @Test
-  void should_pass_if_case_insensitive_actual_contains_given_key() {
-    // GIVEN
-    actual = new CaseInsensitiveMap<>();
-    actual.put("NAME", "Yoda");
-    actual.put("Color", "green");
-    // THEN
-    maps.assertContainsKeys(someInfo(), actual, "Name");
-  }
-
-  @Test
-  void should_fail_if_actual_contains_different_keys_according_to_custom_key_comparison() {
-    // GIVEN
-    actual = new CaseInsensitiveMap<>();
-    actual.put("NAME", "green");
-    actual.put("cool", "green");
-    // THEN
-    expectAssertionError(() -> maps.assertContainsKeys(someInfo(), actual, "Name", "Color"));
-    // THEN
-    verify(failures).failure(info, shouldContainKeys(actual, newLinkedHashSet("Color")));
-  }
-
-  @Test
   void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContainsKey(someInfo(), null, "name"))
                                                    .withMessage(actualIsNull());
@@ -96,4 +72,5 @@ class Maps_assertContainsKey_Test extends MapsBaseTest {
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainKeys(actual, newLinkedHashSet(key)));
   }
+
 }

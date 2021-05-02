@@ -75,11 +75,12 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
                                                                                                     IdentityHashMap::new,
                                                                                                     LinkedHashMap::new);
 
-  @SuppressWarnings("unchecked")
   @Test
   void should_fail_if_actual_is_null() {
+    // GIVEN
+    Entry<String, String>[] entries = array(entry("name", "Yoda"));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> maps.assertContainsOnly(someInfo(), null, entry("name", "Yoda")));
+    AssertionError assertionError = expectAssertionError(() -> maps.assertContainsOnly(someInfo(), null, entries));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -97,8 +98,10 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
   @SuppressWarnings("unchecked")
   @Test
   void should_fail_if_given_entries_array_is_empty() {
+    // GIVEN
+    Entry<String, String>[] entries = emptyEntries();
     // WHEN
-    Throwable thrown = catchThrowable(() -> maps.assertContainsOnly(someInfo(), actual, emptyEntries()));
+    Throwable thrown = catchThrowable(() -> maps.assertContainsOnly(someInfo(), actual, entries));
     // THEN
     then(thrown).isInstanceOf(IllegalArgumentException.class).hasMessage(entriesToLookForIsEmpty());
   }
@@ -106,8 +109,8 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
   @ParameterizedTest
   @MethodSource({
       "unmodifiableMapsSuccessfulTestCases",
-//      "modifiableMapsSuccessfulTestCases",
-//      "caseInsensitiveMapsSuccessfulTestCases",
+      // "modifiableMapsSuccessfulTestCases",
+      // "caseInsensitiveMapsSuccessfulTestCases",
   })
   void should_pass(Map<String, String> actual, Entry<String, String>[] entries) {
     // WHEN/THEN
@@ -125,13 +128,6 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
                                array(entry("name", "Yoda"), entry("job", "Jedi"))));
   }
 
-  @SuppressWarnings("unchecked")
-  @Test
-  void should_pass_if_actual_contains_only_expected_entries() {
-    maps.assertContainsOnly(someInfo(), actual, entry("name", "Yoda"), entry("color", "green"));
-  }
-
-  @SuppressWarnings("unchecked")
   @Test
   void should_pass_if_case_insensitive_actual_contains_only_expected_entries() {
     // GIVEN
@@ -139,7 +135,7 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
     actual.put("NAME", "Yoda");
     actual.put("Color", "green");
     // THEN
-    maps.assertContainsOnly(someInfo(), actual, entry("Name", "Yoda"), entry("COLOR", "green"));
+    maps.assertContainsOnly(someInfo(), actual, array(entry("Name", "Yoda"), entry("COLOR", "green")));
   }
 
   @Test

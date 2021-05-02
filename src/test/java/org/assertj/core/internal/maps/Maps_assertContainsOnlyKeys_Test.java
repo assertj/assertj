@@ -78,8 +78,10 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
+    // GIVEN
+    String[] keys = { "name" };
     // WHEN
-    AssertionError error = expectAssertionError(() -> maps.assertContainsOnlyKeys(someInfo(), null, "name"));
+    AssertionError error = expectAssertionError(() -> maps.assertContainsOnlyKeys(someInfo(), null, keys));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -96,8 +98,10 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
 
   @Test
   void should_fail_if_given_keys_array_is_empty() {
+    // GIVEN
+    String[] keys = emptyKeys();
     // WHEN
-    Throwable thrown = catchThrowable(() -> maps.assertContainsOnlyKeys(someInfo(), actual, emptyKeys()));
+    Throwable thrown = catchThrowable(() -> maps.assertContainsOnlyKeys(someInfo(), actual, keys));
     // THEN
     then(thrown).isInstanceOf(IllegalArgumentException.class).hasMessage(keysToLookForIsEmpty(ARRAY_OF_KEYS));
   }
