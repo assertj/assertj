@@ -321,8 +321,6 @@ public class Maps {
     throw failures.failure(info, shouldNotContain(actual, entries, found));
   }
 
-  // varargs are not used in order to avoid a "Possible heap pollution" warning.
-  // The method cannot be made final and annotated with @SafeVarargs because the class is mocked in tests
   public <K, V> void assertContainsKeys(AssertionInfo info, Map<K, V> actual, K[] keys) {
     assertNotNull(info, actual);
     Set<K> notFound = new LinkedHashSet<>();
@@ -344,8 +342,6 @@ public class Maps {
     if (actual.containsKey(key)) throw failures.failure(info, shouldNotContainKey(actual, key));
   }
 
-  // varargs are not used in order to avoid a "Possible heap pollution" warning.
-  // The method cannot be made final and annotated with @SafeVarargs because the class is mocked in tests
   public <K, V> void assertDoesNotContainKeys(AssertionInfo info, Map<K, V> actual, K[] keys) {
     assertNotNull(info, actual);
     Set<K> found = new LinkedHashSet<>();
@@ -357,8 +353,6 @@ public class Maps {
     if (!found.isEmpty()) throw failures.failure(info, shouldNotContainKeys(actual, found));
   }
 
-  // varargs are not used in order to avoid a "Possible heap pollution" warning.
-  // The method cannot be made final and annotated with @SafeVarargs because the class is mocked in tests
   public <K, V> void assertContainsOnlyKeys(AssertionInfo info, Map<K, V> actual, K[] keys) {
     assertContainsOnlyKeys(info, actual, "array of keys", keys);
   }
@@ -390,8 +384,6 @@ public class Maps {
     if (!actual.containsValue(value)) throw failures.failure(info, shouldContainValue(actual, value));
   }
 
-  // varargs are not used in order to avoid a "Possible heap pollution" warning.
-  // The method cannot be made final and annotated with @SafeVarargs because the class is mocked in tests
   public <K, V> void assertContainsValues(AssertionInfo info, Map<K, V> actual, V[] values) {
     assertNotNull(info, actual);
     requireNonNull(values, "The array of values to look for should not be null");
@@ -409,8 +401,6 @@ public class Maps {
     if (actual.containsValue(value)) throw failures.failure(info, shouldNotContainValue(actual, value));
   }
 
-  // varargs are not used in order to avoid a "Possible heap pollution" warning.
-  // The method cannot be made final and annotated with @SafeVarargs because the class is mocked in tests
   public <K, V> void assertContainsOnly(AssertionInfo info, Map<K, V> actual, Entry<? extends K, ? extends V>[] entries) {
     doCommonContainsCheck(info, actual, entries);
     if (actual.isEmpty() && entries.length == 0) return;
@@ -423,8 +413,6 @@ public class Maps {
       throw failures.failure(info, shouldContainOnly(actual, entries, notFound, notExpected));
   }
 
-  // varargs are not used in order to avoid a "Possible heap pollution" warning.
-  // The method cannot be made final and annotated with @SafeVarargs because the class is mocked in tests
   public <K, V> void assertContainsExactly(AssertionInfo info, Map<K, V> actual, Entry<? extends K, ? extends V>[] entries) {
     doCommonContainsCheck(info, actual, entries);
     if (actual.isEmpty() && entries.length == 0) return;
