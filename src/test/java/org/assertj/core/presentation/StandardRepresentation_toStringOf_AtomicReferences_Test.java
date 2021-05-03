@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicMarkableReference;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicStampedReference;
 
-public class StandardRepresentation_toStringOf_AtomiceReferences_Test {
+public class StandardRepresentation_toStringOf_AtomicReferences_Test {
 
   @Test
   public void should_use_overridden_toString_AtomicReference() {
