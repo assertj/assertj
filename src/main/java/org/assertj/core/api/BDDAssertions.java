@@ -484,6 +484,7 @@ public class BDDAssertions extends Assertions {
    * <li>{@link IterableAssert#first() first()}</li>
    * <li>{@link IterableAssert#last() last()}</li>
    * <li>{@link IterableAssert#element(int) element(index)}</li>
+   * <li>{@link IterableAssert#elements(int...) element(int...)}</li>
    * </ul>
    * <p>
    * The available assertions after navigating to an element depend on the {@code ELEMENT_ASSERT} parameter of the given
@@ -527,6 +528,7 @@ public class BDDAssertions extends Assertions {
    * <li>{@link IterableAssert#first() first()}</li>
    * <li>{@link IterableAssert#last() last()}</li>
    * <li>{@link IterableAssert#element(int) element(index)}</li>
+   * <li>{@link IterableAssert#elements(int...) element(int...)}</li>
    * </ul>
    * <p>
    * The available assertions after navigating to an element depend on the given {@code assertClass}
@@ -561,6 +563,7 @@ public class BDDAssertions extends Assertions {
    * <li>{@link IterableAssert#first() first()}</li>
    * <li>{@link IterableAssert#last() last()}</li>
    * <li>{@link IterableAssert#element(int) element(index)}</li>
+   * <li>{@link IterableAssert#elements(int...) element(int...)}</li>
    * </ul>
    * <p>
    * The available assertions after navigating to an element depend on the {@code ELEMENT_ASSERT} parameter of the given
@@ -603,6 +606,7 @@ public class BDDAssertions extends Assertions {
    * <li>{@link IterableAssert#first() first()}</li>
    * <li>{@link IterableAssert#last() last()}</li>
    * <li>{@link IterableAssert#element(int) element(index)}</li>
+   * <li>{@link IterableAssert#elements(int...) element(int...)}</li>
    * </ul>
    * <p>
    * The available assertions after navigating to an element depend on the given {@code assertClass}

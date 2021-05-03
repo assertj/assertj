@@ -62,6 +62,7 @@ class SoftProxies {
                                                                                                                                    "getCause",
                                                                                                                                    "getRootCause",
                                                                                                                                    "map",
+                                                                                                                                   "newAbstractIterableAssert",
                                                                                                                                    "size",
                                                                                                                                    "succeedsWithin",
                                                                                                                                    "toAssert",

@@ -63,6 +63,10 @@ class IterableAssert_filteredOn_consumer_Test extends IterableAssert_filtered_ba
     assertThat(hobbits, tolkienCharacterAssertFactory).filteredOnAssertions(nameStartingWithFro)
                                                       .element(0)
                                                       .hasAge(33);
+    assertThat(hobbits, tolkienCharacterAssertFactory).filteredOnAssertions(nameStartingWithFro)
+                                                      .elements(0)
+                                                      .first()
+                                                      .hasAge(33);
   }
 
   @Test
@@ -75,6 +79,10 @@ class IterableAssert_filteredOn_consumer_Test extends IterableAssert_filtered_ba
                                                      .hasAge(33);
     assertThat(hobbits, TolkienCharacterAssert.class).filteredOnAssertions(nameStartingWithFro)
                                                      .last()
+                                                     .hasAge(33);
+    assertThat(hobbits, TolkienCharacterAssert.class).filteredOnAssertions(nameStartingWithFro)
+                                                     .elements(0)
+                                                     .first()
                                                      .hasAge(33);
     assertThat(hobbits, TolkienCharacterAssert.class).filteredOnAssertions(nameStartingWithFro)
                                                      .element(0)

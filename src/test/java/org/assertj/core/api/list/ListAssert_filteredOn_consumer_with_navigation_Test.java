@@ -40,6 +40,10 @@ class ListAssert_filteredOn_consumer_with_navigation_Test extends ListAssert_fil
     assertThat(hobbits, tolkienCharacterAssertFactory).filteredOnAssertions(nameStartingWithFro)
                                                       .element(0)
                                                       .hasAge(33);
+    assertThat(hobbits, tolkienCharacterAssertFactory).filteredOnAssertions(nameStartingWithFro)
+                                                      .elements(0)
+                                                      .first()
+                                                      .hasAge(33);
   }
 
   @Test
@@ -55,6 +59,10 @@ class ListAssert_filteredOn_consumer_with_navigation_Test extends ListAssert_fil
                                                      .hasAge(33);
     assertThat(hobbits, TolkienCharacterAssert.class).filteredOnAssertions(nameStartingWithFro)
                                                      .element(0)
+                                                     .hasAge(33);
+    assertThat(hobbits, TolkienCharacterAssert.class).filteredOnAssertions(nameStartingWithFro)
+                                                     .elements(0)
+                                                     .first()
                                                      .hasAge(33);
   }
 

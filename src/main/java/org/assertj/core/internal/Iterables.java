@@ -1162,8 +1162,6 @@ public class Iterables {
     return Optional.empty();
   }
 
-  // varargs are not used in order to avoid a "Possible heap pollution" warning.
-  // The method cannot be made final and annotated with @SafeVarargs because the class is mocked in tests
   public <E> void assertSatisfiesExactly(AssertionInfo info, Iterable<? extends E> actual,
                                          Consumer<? super E>[] allRequirements) {
     assertNotNull(info, actual);
@@ -1181,10 +1179,8 @@ public class Iterables {
 
   }
 
-  // varargs are not used in order to avoid a "Possible heap pollution" warning.
-  // The method cannot be made final and annotated with @SafeVarargs because the class is mocked in tests
   public <E> void assertSatisfiesExactlyInAnyOrder(AssertionInfo info, Iterable<? extends E> actual,
-                                                         Consumer<? super E>[] consumers) {
+                                                   Consumer<? super E>[] consumers) {
     assertNotNull(info, actual);
     requireNonNull(consumers, "The Consumer<? super E>... expressing the assertions must not be null");
     for (Consumer<? super E> consumer : consumers)
