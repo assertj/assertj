@@ -213,9 +213,13 @@ public class StandardRepresentation implements Representation {
     if (object instanceof OffsetDateTime) return toStringOf((OffsetDateTime) object);
     if (object instanceof ZonedDateTime) return toStringOf((ZonedDateTime) object);
     if (object instanceof LongAdder) return toStringOf((LongAdder) object);
-    if (object instanceof AtomicReference) return toStringOf((AtomicReference<?>) object);
-    if (object instanceof AtomicMarkableReference) return toStringOf((AtomicMarkableReference<?>) object);
-    if (object instanceof AtomicStampedReference) return toStringOf((AtomicStampedReference<?>) object);
+    // if object was a subtype of any atomic type overriding toString, use it as it's more relevant than our generic
+    // representation, if that's not the case (e.g. an AtomicReference subclass not overriding String) we use our representation.
+    if (isInstanceOfNotOverridingToString(object, AtomicReference.class)) return toStringOf((AtomicReference<?>) object);
+    if (isInstanceOfNotOverridingToString(object, AtomicMarkableReference.class))
+      return toStringOf((AtomicMarkableReference<?>) object);
+    if (isInstanceOfNotOverridingToString(object, AtomicStampedReference.class))
+      return toStringOf((AtomicStampedReference<?>) object);
     if (object instanceof AtomicIntegerFieldUpdater) return AtomicIntegerFieldUpdater.class.getSimpleName();
     if (object instanceof AtomicLongFieldUpdater) return AtomicLongFieldUpdater.class.getSimpleName();
     if (object instanceof AtomicReferenceFieldUpdater) return AtomicReferenceFieldUpdater.class.getSimpleName();
@@ -239,7 +243,7 @@ public class StandardRepresentation implements Representation {
     // Only format Iterables that are not collections and have not overridden toString
     // ex: JsonNode is an Iterable that is best formatted with its own String
     // Path is another example but we can deal with it specifically as it is part of the JDK.
-    if (object instanceof Iterable<?> && !hasOverriddenToString((Iterable<?>) object)) return smartFormat((Iterable<?>) object);
+    if (object instanceof Iterable<?> && !hasOverriddenToString(object.getClass())) return smartFormat((Iterable<?>) object);
     if (object instanceof AtomicInteger) return toStringOf((AtomicInteger) object);
     if (object instanceof AtomicBoolean) return toStringOf((AtomicBoolean) object);
     if (object instanceof AtomicLong) return toStringOf((AtomicLong) object);
@@ -248,16 +252,38 @@ public class StandardRepresentation implements Representation {
     return fallbackToStringOf(object);
   }
 
-  private static boolean hasOverriddenToString(Iterable<?> iterable) {
+  private static boolean isInstanceOfNotOverridingToString(Object object, Class<?> type) {
+    return type.isInstance(object) && !hasOverriddenToStringInSubclassOf(object.getClass(), type);
+  }
+
+  private static boolean hasOverriddenToString(Class<?> clazz) {
     try {
-      Method method = iterable.getClass().getMethod("toString");
-      Class<?> declaringClass = method.getDeclaringClass();
-      return !Object.class.equals(declaringClass);
+      Class<?> classDeclaringToString = clazz.getMethod("toString").getDeclaringClass();
+      return !Object.class.equals(classDeclaringToString);
     } catch (NoSuchMethodException | SecurityException e) {
       // NoSuchMethodException should not occur as toString is always defined.
-      // if SecurityException occurs, returning false will lead to format iterable
+      // if SecurityException occurs, returning false to use our own representation 
       return false;
     }
+  }
+
+  // this method assumes that objectClass is a subclass of clazz, it checks that toString is not
+  // declared in clazz or any superclass of clazz.
+  // this typically used to check whether an AtomicReference subclass has overridden toString.
+  private static boolean hasOverriddenToStringInSubclassOf(Class<?> objectClass, Class<?> clazz) {
+    try {
+      Class<?> classDeclaringToString = objectClass.getMethod("toString").getDeclaringClass();
+      // check if any classes between objectClass and clazz (excluded) have overridden toString 
+      Class<?> classToCheck = objectClass;
+      while (!classToCheck.equals(clazz)) {
+        if (classDeclaringToString.equals(classToCheck)) return true;
+        classToCheck = classToCheck.getSuperclass();
+      }
+    } catch (NoSuchMethodException | SecurityException e) {
+      // NoSuchMethodException should not occur as toString is always defined.
+      // if SecurityException occurs, returning false to use our own representation 
+    }
+    return false;
   }
 
   @Override
@@ -480,16 +506,18 @@ public class StandardRepresentation implements Representation {
   }
 
   protected String toStringOf(AtomicReference<?> atomicReference) {
-    return String.format("AtomicReference[%s]", toStringOf(atomicReference.get()));
+    return String.format("%s[%s]", atomicReference.getClass().getSimpleName(), toStringOf(atomicReference.get()));
   }
 
   protected String toStringOf(AtomicMarkableReference<?> atomicMarkableReference) {
-    return String.format("AtomicMarkableReference[marked=%s, reference=%s]", atomicMarkableReference.isMarked(),
+    return String.format("%s[marked=%s, reference=%s]", atomicMarkableReference.getClass().getSimpleName(),
+                         atomicMarkableReference.isMarked(),
                          toStringOf(atomicMarkableReference.getReference()));
   }
 
   protected String toStringOf(AtomicStampedReference<?> atomicStampedReference) {
-    return String.format("AtomicStampedReference[stamp=%s, reference=%s]", atomicStampedReference.getStamp(),
+    return String.format("%s[stamp=%s, reference=%s]", atomicStampedReference.getClass().getSimpleName(),
+                         atomicStampedReference.getStamp(),
                          toStringOf(atomicStampedReference.getReference()));
   }
 
