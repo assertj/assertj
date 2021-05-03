@@ -38,7 +38,7 @@ public class StandardRepresentation_toStringOf_AtomicReferences_Test {
       }
     }
     // GIVEN
-    MyData myData = new MyData("Description");
+    Object myData = new MyData("Description");
     // WHEN
     String stringOf = STANDARD_REPRESENTATION.toStringOf(myData);
     // THEN
@@ -57,7 +57,7 @@ public class StandardRepresentation_toStringOf_AtomicReferences_Test {
       // has no overridden toString, use the predefined one
     }
     // GIVEN
-    MyData myData = new MyData("Description");
+    Object myData = new MyData("Description");
     // WHEN
     String stringOf = STANDARD_REPRESENTATION.toStringOf(myData);
     // THEN
@@ -80,7 +80,7 @@ public class StandardRepresentation_toStringOf_AtomicReferences_Test {
       }
     }
     // GIVEN
-    MyData myData = new MyData("Description");
+    Object myData = new MyData("Description");
     // WHEN
     String stringOf = STANDARD_REPRESENTATION.toStringOf(myData);
     // THEN
@@ -100,7 +100,7 @@ public class StandardRepresentation_toStringOf_AtomicReferences_Test {
       // has no overridden toString, use the predefined one which gives "%s[marked=%s, reference=%s]"
     }
     // GIVEN
-    MyData myData = new MyData("Description");
+    Object myData = new MyData("Description");
     // WHEN
     String stringOf = STANDARD_REPRESENTATION.toStringOf(myData);
     // THEN
@@ -123,7 +123,7 @@ public class StandardRepresentation_toStringOf_AtomicReferences_Test {
       }
     }
     // GIVEN
-    MyData myData = new MyData("Description");
+    Object myData = new MyData("Description");
     // WHEN
     String stringOf = STANDARD_REPRESENTATION.toStringOf(myData);
     // THEN
@@ -143,7 +143,7 @@ public class StandardRepresentation_toStringOf_AtomicReferences_Test {
       // has no overridden toString, use the predefined one which gives "%s[stamp=%s, reference=%s]"
     }
     // GIVEN
-    MyData myData = new MyData("Description");
+    Object myData = new MyData("Description");
     // WHEN
     String stringOf = STANDARD_REPRESENTATION.toStringOf(myData);
     // THEN

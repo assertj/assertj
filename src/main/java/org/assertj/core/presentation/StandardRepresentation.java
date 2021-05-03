@@ -111,7 +111,7 @@ public class StandardRepresentation implements Representation {
 
   private static final Map<Class<?>, Function<?, String>> customFormatterByType = new HashMap<>();
   private static final Class<?>[] TYPE_WITH_UNAMBIGUOUS_REPRESENTATION = { Date.class, LocalDateTime.class, ZonedDateTime.class,
-    OffsetDateTime.class, Calendar.class };
+      OffsetDateTime.class, Calendar.class };
 
   protected enum GroupType {
     ITERABLE("iterable"), ARRAY("array");
@@ -213,9 +213,14 @@ public class StandardRepresentation implements Representation {
     if (object instanceof OffsetDateTime) return toStringOf((OffsetDateTime) object);
     if (object instanceof ZonedDateTime) return toStringOf((ZonedDateTime) object);
     if (object instanceof LongAdder) return toStringOf((LongAdder) object);
-    if (object instanceof AtomicReference && !hasOverriddenToString(object)) return toStringOf((AtomicReference<?>) object);
-    if (object instanceof AtomicMarkableReference && !hasOverriddenToString(object)) return toStringOf((AtomicMarkableReference<?>) object);
-    if (object instanceof AtomicStampedReference && !hasOverriddenToString(object)) return toStringOf((AtomicStampedReference<?>) object);
+    if (object instanceof AtomicReference && !hasOverriddenToString(object) || object.getClass().equals(AtomicReference.class))
+      return toStringOf((AtomicReference<?>) object);
+    if (object instanceof AtomicMarkableReference && !hasOverriddenToString(object)
+        || object.getClass().equals(AtomicMarkableReference.class))
+      return toStringOf((AtomicMarkableReference<?>) object);
+    if (object instanceof AtomicStampedReference && !hasOverriddenToString(object)
+        || object.getClass().equals(AtomicStampedReference.class))
+      return toStringOf((AtomicStampedReference<?>) object);
     if (object instanceof AtomicIntegerFieldUpdater) return AtomicIntegerFieldUpdater.class.getSimpleName();
     if (object instanceof AtomicLongFieldUpdater) return AtomicLongFieldUpdater.class.getSimpleName();
     if (object instanceof AtomicReferenceFieldUpdater) return AtomicReferenceFieldUpdater.class.getSimpleName();
@@ -342,7 +347,7 @@ public class StandardRepresentation implements Representation {
   protected String toStringOf(ComparatorBasedComparisonStrategy comparatorBasedComparisonStrategy) {
     String comparatorDescription = comparatorBasedComparisonStrategy.getComparatorDescription();
     return comparatorDescription == null ? toStringOf(comparatorBasedComparisonStrategy.getComparator())
-      : quote(comparatorDescription);
+        : quote(comparatorDescription);
   }
 
   protected String toStringOf(Calendar calendar) {
@@ -472,7 +477,7 @@ public class StandardRepresentation implements Representation {
         pw.println("\tat " + elements[i]);
       }
       pw.print("\t...(" + (elements.length - maxStackTraceElementsDisplayed)
-        + " remaining lines not displayed - this can be changed with Assertions.setMaxStackTraceElementsDisplayed)");
+               + " remaining lines not displayed - this can be changed with Assertions.setMaxStackTraceElementsDisplayed)");
       return sw.toString();
     } finally {
       Closeables.closeQuietly(sw, pw);
@@ -484,13 +489,15 @@ public class StandardRepresentation implements Representation {
   }
 
   protected String toStringOf(AtomicMarkableReference<?> atomicMarkableReference) {
-    return String.format("%s[marked=%s, reference=%s]", atomicMarkableReference.getClass().getSimpleName(), atomicMarkableReference.isMarked(),
-      toStringOf(atomicMarkableReference.getReference()));
+    return String.format("%s[marked=%s, reference=%s]", atomicMarkableReference.getClass().getSimpleName(),
+                         atomicMarkableReference.isMarked(),
+                         toStringOf(atomicMarkableReference.getReference()));
   }
 
   protected String toStringOf(AtomicStampedReference<?> atomicStampedReference) {
-    return String.format("%s[stamp=%s, reference=%s]", atomicStampedReference.getClass().getSimpleName(), atomicStampedReference.getStamp(),
-      toStringOf(atomicStampedReference.getReference()));
+    return String.format("%s[stamp=%s, reference=%s]", atomicStampedReference.getClass().getSimpleName(),
+                         atomicStampedReference.getStamp(),
+                         toStringOf(atomicStampedReference.getReference()));
   }
 
   protected String multiLineFormat(Iterable<?> iterable) {
@@ -582,7 +589,7 @@ public class StandardRepresentation implements Representation {
   private List<String> representElements(Stream<?> elements, String start, String end, String elementSeparator,
                                          String indentation, Object root) {
     return elements.map(element -> safeStringOf(element, start, end, elementSeparator, indentation, root))
-      .collect(toList());
+                   .collect(toList());
   }
 
   // this method only deals with max number of elements to display, the elements representation is already computed
@@ -637,12 +644,12 @@ public class StandardRepresentation implements Representation {
 
   private String toStringOf(DeleteDelta<?> deleteDelta) {
     return String.format("Missing content at line %s:%n  %s%n", deleteDelta.lineNumber(),
-      formatLines(deleteDelta.getOriginal().getLines()));
+                         formatLines(deleteDelta.getOriginal().getLines()));
   }
 
   private String toStringOf(InsertDelta<?> insertDelta) {
     return String.format("Extra content at line %s:%n  %s%n", insertDelta.lineNumber(),
-      formatLines(insertDelta.getRevised().getLines()));
+                         formatLines(insertDelta.getRevised().getLines()));
   }
 
   private String toStringOf(Duration duration) {
