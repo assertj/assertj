@@ -252,7 +252,6 @@ public class StandardRepresentation implements Representation {
     try {
       Method method = object.getClass().getMethod("toString");
       Class<?> declaringClass = method.getDeclaringClass();
-//      return object.getClass()==declaringClass;
       return !Object.class.equals(declaringClass);
     } catch (NoSuchMethodException | SecurityException e) {
       // NoSuchMethodException should not occur as toString is always defined.
@@ -631,9 +630,9 @@ public class StandardRepresentation implements Representation {
 
   private String toStringOf(ChangeDelta<?> changeDelta) {
     return String.format("Changed content at line %s:%nexpecting:%n  %s%nbut was:%n  %s%n",
-      changeDelta.lineNumber(),
-      formatLines(changeDelta.getOriginal().getLines()),
-      formatLines(changeDelta.getRevised().getLines()));
+                         changeDelta.lineNumber(),
+                         formatLines(changeDelta.getOriginal().getLines()),
+                         formatLines(changeDelta.getRevised().getLines()));
   }
 
   private String toStringOf(DeleteDelta<?> deleteDelta) {
