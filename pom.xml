@@ -34,6 +34,7 @@
     <mockito.version>3.9.0</mockito.version>
     <!-- Plugin versions overriding -->
     <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
+    <cdg.pitest.version>0.0.7</cdg.pitest.version>
   </properties>
 
   <dependencyManagement>
@@ -587,7 +588,12 @@
           <dependency>
             <groupId>org.pitest</groupId>
             <artifactId>pitest-junit5-plugin</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>0.14</version>
+          </dependency>
+          <dependency>
+            <groupId>com.groupcdg</groupId>
+            <artifactId>pitest-git-plugin</artifactId>
+            <version>${cdg.pitest.version}</version>
           </dependency>
         </dependencies>
         <configuration>
