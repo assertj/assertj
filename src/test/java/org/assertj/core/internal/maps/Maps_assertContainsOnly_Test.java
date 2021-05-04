@@ -112,16 +112,18 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
       "modifiableMapsSuccessfulTestCases",
       "caseInsensitiveMapsSuccessfulTestCases",
   })
-  void should_pass(Map<String, String> actual, Entry<String, String>[] entries) {
+  void should_pass(Map<String, String> actual, Entry<String, String>[] expectedEntries) {
     // WHEN/THEN
     assertThatNoException().as(actual.getClass().getName())
-                           .isThrownBy(() -> maps.assertContainsOnly(info, actual, entries));
+                           .isThrownBy(() -> maps.assertContainsOnly(info, actual, expectedEntries));
   }
 
   private static Stream<Arguments> unmodifiableMapsSuccessfulTestCases() {
     return Stream.of(arguments(Collections.emptyMap(), emptyEntries()),
-                     arguments(Collections.singletonMap("name", "Yoda"), array(entry("name", "Yoda"))),
-                     arguments(new SingletonMap<>("name", "Yoda"), array(entry("name", "Yoda"))),
+                     arguments(Collections.singletonMap("name", "Yoda"),
+                               array(entry("name", "Yoda"))),
+                     arguments(new SingletonMap<>("name", "Yoda"),
+                               array(entry("name", "Yoda"))),
                      arguments(Collections.unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))),
                                array(entry("name", "Yoda"), entry("job", "Jedi"))),
                      arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"),
@@ -142,6 +144,76 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
                                                           array(entry("name", "Yoda"), entry("job", "Jedi"))),
                                                 arguments(mapOf(supplier, entry("NAME", "Yoda"), entry("Job", "Jedi")),
                                                           array(entry("Name", "Yoda"), entry("Job", "Jedi")))));
+  }
+
+  @ParameterizedTest
+  @MethodSource({
+      "unmodifiableMapsFailureTestCases",
+      "modifiableMapsFailureTestCases",
+      "caseInsensitiveMapsFailureTestCases",
+  })
+  void should_fail(Map<String, String> actual, Entry<String, String>[] expectedEntries, Set<Entry<String, String>> notFound,
+                   Set<Entry<String, String>> notExpected) {
+    // WHEN
+    AssertionError error = expectAssertionError(() -> maps.assertContainsOnly(info, actual, expectedEntries));
+    // THEN
+    then(error).as(actual.getClass().getName())
+               .hasMessage(shouldContainOnly(actual, expectedEntries, notFound, notExpected).create());
+  }
+
+  private static Stream<Arguments> unmodifiableMapsFailureTestCases() {
+    return Stream.of(arguments(Collections.emptyMap(),
+                               array(entry("name", "Yoda")),
+                               set(entry("name", "Yoda")),
+                               emptySet()),
+                     arguments(Collections.singletonMap("name", "Yoda"),
+                               array(entry("color", "Green")),
+                               set(entry("color", "Green")),
+                               set(entry("name", "Yoda"))),
+                     arguments(new SingletonMap<>("name", "Yoda"),
+                               array(entry("color", "Green")),
+                               set(entry("color", "Green")),
+                               set(entry("name", "Yoda"))),
+                     arguments(Collections.unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))),
+                               array(entry("name", "Yoda"), entry("color", "Green")),
+                               set(entry("color", "Green")),
+                               set(entry("job", "Jedi"))),
+                     arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"),
+                               array(entry("name", "Yoda"), entry("color", "Green")),
+                               set(entry("color", "Green")),
+                               set(entry("job", "Jedi"))));
+  }
+
+  private static Stream<Arguments> modifiableMapsFailureTestCases() {
+    return Stream.of(MODIFIABLE_MAP_SUPPLIERS)
+                 .flatMap(supplier -> Stream.of(arguments(mapOf(supplier, entry("name", "Yoda")),
+                                                          array(entry("name", "Yoda"), entry("color", "Green")),
+                                                          set(entry("color", "Green")),
+                                                          emptySet()),
+                                                arguments(mapOf(supplier, entry("name", "Yoda"), entry("job", "Jedi")),
+                                                          array(entry("name", "Yoda")),
+                                                          emptySet(),
+                                                          set(entry("job", "Jedi"))),
+                                                arguments(mapOf(supplier, entry("name", "Yoda"), entry("job", "Jedi")),
+                                                          array(entry("name", "Yoda"), entry("color", "Green")),
+                                                          set(entry("color", "Green")),
+                                                          set(entry("job", "Jedi"))),
+                                                arguments(mapOf(supplier, entry("name", "Yoda"), entry("job", "Jedi")),
+                                                          array(entry("name", "Jedi"), entry("job", "Yoda")),
+                                                          set(entry("name", "Jedi"), entry("job", "Yoda")),
+                                                          set(entry("name", "Yoda"), entry("job", "Jedi")))));
+  }
+
+  private static Stream<Arguments> caseInsensitiveMapsFailureTestCases() {
+    return Stream.of(CASE_INSENSITIVE_MAP_SUPPLIERS)
+                 .flatMap(supplier -> Stream.of(arguments(mapOf(supplier, entry("NAME", "Yoda"), entry("Job", "Jedi")),
+                                                          array(entry("name", "Yoda"), entry("color", "Green")),
+                                                          set(entry("color", "Green")),
+                                                          set(entry("Job", "Jedi"))),
+                                                arguments(mapOf(supplier, entry("NAME", "Yoda"), entry("Job", "Jedi")),
+                                                          array(entry("Name", "Yoda"), entry("Color", "Green")),
+                                                          set(entry("Color", "Green")),
+                                                          set(entry("Job", "Jedi")))));
   }
 
   @Test

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import static java.util.Objects.deepEquals;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.data.MapEntry.entry;
@@ -453,21 +454,28 @@ public class Maps {
   private static <K, V> Set<Entry<? extends K, ? extends V>> getNotFoundEntries(Map<K, V> actual,
                                                                                 Entry<? extends K, ? extends V>[] entries) {
     return Stream.of(entries)
-                 .filter(entry -> !(actual.containsKey(entry.getKey()) && actual.containsValue(entry.getValue())))
+                 .filter(entry -> !containsEntry(actual, entry))
                  .collect(Collectors.toCollection(LinkedHashSet::new));
   }
 
   private static <K, V> Set<Entry<K, V>> getNotExpectedEntries(Map<K, V> actual, Entry<? extends K, ? extends V>[] entries) {
+    return mapWithoutExpectedEntries(actual, entries).entrySet()
+                                                     .stream()
+                                                     .map(entry -> entry(entry.getKey(), entry.getValue()))
+                                                     .collect(Collectors.toCollection(LinkedHashSet::new));
+  }
+
+  private static <K, V> Map<K, V> mapWithoutExpectedEntries(Map<K, V> actual, Entry<? extends K, ? extends V>[] entries) {
     List<Entry<? extends K, ? extends V>> expectedEntries = java.util.Arrays.asList(entries);
     try {
       Map<K, V> clonedMap = clone(actual);
       expectedEntries.forEach(entry -> clonedMap.remove(entry.getKey(), entry.getValue()));
-      return clonedMap.entrySet();
+      return clonedMap;
     } catch (NoSuchMethodException | UnsupportedOperationException e) {
       // actual cannot be cloned or is unmodifiable, falling back to LinkedHashMap
       Map<K, V> copiedMap = new LinkedHashMap<>(actual);
       expectedEntries.forEach(entry -> copiedMap.remove(entry.getKey(), entry.getValue()));
-      return copiedMap.entrySet();
+      return copiedMap;
     }
   }
 
@@ -577,9 +585,9 @@ public class Maps {
     requireNonNull(map, ErrorMessages.mapOfEntriesToLookForIsNull());
   }
 
-  private <K, V> boolean containsEntry(Map<K, V> actual, Entry<? extends K, ? extends V> entry) {
+  private static <K, V> boolean containsEntry(Map<K, V> actual, Entry<? extends K, ? extends V> entry) {
     requireNonNull(entry, ErrorMessages.entryToLookForIsNull());
-    return actual.containsKey(entry.getKey()) && areEqual(actual.get(entry.getKey()), entry.getValue());
+    return actual.containsKey(entry.getKey()) && deepEquals(actual.get(entry.getKey()), entry.getValue());
   }
 
   private void assertNotNull(AssertionInfo info, Map<?, ?> actual) {

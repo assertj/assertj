@@ -112,10 +112,10 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
       "modifiableMapsSuccessfulTestCases",
       "caseInsensitiveMapsSuccessfulTestCases",
   })
-  void should_pass(Map<String, String> actual, String[] keys) {
+  void should_pass(Map<String, String> actual, String[] expectedKeys) {
     // WHEN/THEN
     assertThatNoException().as(actual.getClass().getName())
-                           .isThrownBy(() -> maps.assertContainsOnlyKeys(info, actual, keys));
+                           .isThrownBy(() -> maps.assertContainsOnlyKeys(info, actual, expectedKeys));
   }
 
   private static Stream<Arguments> unmodifiableMapsSuccessfulTestCases() {
@@ -158,35 +158,54 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
   }
 
   private static Stream<Arguments> unmodifiableMapsFailureTestCases() {
-    return Stream.of(arguments(Collections.emptyMap(), array("name"),
-                               set("name"), emptySet()),
-                     arguments(Collections.singletonMap("name", "Yoda"), array("color"),
-                               set("color"), set("name")),
-                     arguments(new SingletonMap<>("name", "Yoda"), array("color"),
-                               set("color"), set("name")),
+    return Stream.of(arguments(Collections.emptyMap(),
+                               array("name"),
+                               set("name"),
+                               emptySet()),
+                     arguments(Collections.singletonMap("name", "Yoda"),
+                               array("color"),
+                               set("color"),
+                               set("name")),
+                     arguments(new SingletonMap<>("name", "Yoda"),
+                               array("color"),
+                               set("color"),
+                               set("name")),
                      arguments(Collections.unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))),
                                array("name", "color"),
-                               set("color"), set("job")),
-                     arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), array("name", "color"),
-                               set("color"), set("job")));
+                               set("color"),
+                               set("job")),
+                     arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"),
+                               array("name", "color"),
+                               set("color"),
+                               set("job")));
   }
 
   private static Stream<Arguments> modifiableMapsFailureTestCases() {
     return Stream.of(MODIFIABLE_MAP_SUPPLIERS)
                  .flatMap(supplier -> Stream.of(arguments(mapOf(supplier, entry("name", "Yoda")),
-                                                          array("name", "color"), set("color"), emptySet()),
+                                                          array("name", "color"),
+                                                          set("color"),
+                                                          emptySet()),
                                                 arguments(mapOf(supplier, entry("name", "Yoda"), entry("job", "Jedi")),
-                                                          array("name"), emptySet(), set("job")),
+                                                          array("name"),
+                                                          emptySet(),
+                                                          set("job")),
                                                 arguments(mapOf(supplier, entry("name", "Yoda"), entry("job", "Jedi")),
-                                                          array("name", "color"), set("color"), set("job"))));
+                                                          array("name", "color"),
+                                                          set("color"),
+                                                          set("job"))));
   }
 
   private static Stream<Arguments> caseInsensitiveMapsFailureTestCases() {
     return Stream.of(CASE_INSENSITIVE_MAP_SUPPLIERS)
                  .flatMap(supplier -> Stream.of(arguments(mapOf(supplier, entry("NAME", "Yoda"), entry("Job", "Jedi")),
-                                                          array("name", "color"), set("color"), set("Job")),
+                                                          array("name", "color"),
+                                                          set("color"),
+                                                          set("Job")),
                                                 arguments(mapOf(supplier, entry("NAME", "Yoda"), entry("Job", "Jedi")),
-                                                          array("Name", "Color"), set("Color"), set("Job"))));
+                                                          array("Name", "Color"),
+                                                          set("Color"),
+                                                          set("Job"))));
   }
 
 }
