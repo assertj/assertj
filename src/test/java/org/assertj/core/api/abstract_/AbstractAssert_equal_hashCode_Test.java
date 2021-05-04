@@ -39,7 +39,11 @@ class AbstractAssert_equal_hashCode_Test {
   @SuppressWarnings("deprecation")
   void should_not_fail_when_equals_exceptions_is_deactivated() {
     AbstractAssert.throwUnsupportedExceptionOnEquals = false;
-    assertions.equals("anotherString");
+    try {
+      assertions.equals("anotherString");
+    } finally {
+      AbstractAssert.throwUnsupportedExceptionOnEquals = true;
+    }
   }
 
   @Test
