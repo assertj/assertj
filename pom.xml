@@ -124,7 +124,7 @@
     <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
     <javancss-maven-plugin.version>2.1</javancss-maven-plugin.version>
     <jdepend-maven-plugin.version>2.0</jdepend-maven-plugin.version>
-    <license-maven-plugin.version>4.0</license-maven-plugin.version>
+    <license-maven-plugin.version>4.1</license-maven-plugin.version>
     <lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
     <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
