@@ -30,6 +30,16 @@ import org.junit.Test;
 public class StandardRepresentation_toStringOf_AtomicReferences_Test {
 
   @Test
+  public void should_use_assertj_representation_for_AtomicReference() {
+    // GIVEN
+    Object myData = new AtomicReference<String>("value");
+    // WHEN
+    String stringOf = STANDARD_REPRESENTATION.toStringOf(myData);
+    // THEN
+    then(stringOf).isEqualTo("AtomicReference[\"value\"]");
+  }
+
+  @Test
   public void should_use_overridden_toString_in_AtomicReference_subclass() {
     class MyData extends AtomicReference<String> {
       private String description;
@@ -103,7 +113,7 @@ public class StandardRepresentation_toStringOf_AtomicReferences_Test {
       MySubData(String description) {
         super(description);
       }
-      
+
       // no toString => use MyData.toString
     }
     // GIVEN
@@ -130,6 +140,16 @@ public class StandardRepresentation_toStringOf_AtomicReferences_Test {
     String stringOf = STANDARD_REPRESENTATION.toStringOf(myData);
     // THEN
     then(stringOf).isEqualTo("MyData[\"value\"]");
+  }
+
+  @Test
+  public void should_use_assertj_representation_for_AtomicMarkableReference() {
+    // GIVEN
+    Object myData = new AtomicMarkableReference<String>("value", true);
+    // WHEN
+    String stringOf = STANDARD_REPRESENTATION.toStringOf(myData);
+    // THEN
+    then(stringOf).isEqualTo("AtomicMarkableReference[marked=true, reference=\"value\"]");
   }
 
   @Test
@@ -173,6 +193,16 @@ public class StandardRepresentation_toStringOf_AtomicReferences_Test {
     String stringOf = STANDARD_REPRESENTATION.toStringOf(myData);
     // THEN
     then(stringOf).isEqualTo("MyData[marked=true, reference=\"Description\"]");
+  }
+
+  @Test
+  public void should_use_assertj_representation_for_AtomicStampedReference() {
+    // GIVEN
+    Object myData = new AtomicStampedReference<String>("value", 1);
+    // WHEN
+    String stringOf = STANDARD_REPRESENTATION.toStringOf(myData);
+    // THEN
+    then(stringOf).isEqualTo("AtomicStampedReference[stamp=1, reference=\"value\"]");
   }
 
   @Test
