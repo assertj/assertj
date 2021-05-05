@@ -34,6 +34,7 @@
     <mockito.version>3.9.0</mockito.version>
     <!-- Plugin versions overriding -->
     <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
+    <cdg.pitest.version>0.0.7</cdg.pitest.version>
   </properties>
 
   <dependencyManagement>
@@ -579,6 +580,28 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.pitest</groupId>
+        <artifactId>pitest-maven</artifactId>
+        <version>1.6.6</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-junit5-plugin</artifactId>
+            <version>0.14</version>
+          </dependency>
+          <dependency>
+            <groupId>com.groupcdg</groupId>
+            <artifactId>pitest-git-plugin</artifactId>
+            <version>${cdg.pitest.version}</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <threads>3</threads>
+          <timestampedReports>false</timestampedReports>
+          <failWhenNoMutations>false</failWhenNoMutations>
+        </configuration>
+      </plugin>
     </plugins>
     <pluginManagement>
       <plugins>
@@ -671,6 +694,26 @@
       <properties>
         <argLine>-Dnet.bytebuddy.experimental=true --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.math=ALL-UNNAMED --add-opens=java.base/sun.nio.fs=ALL-UNNAMED</argLine>
       </properties>
+    </profile>
+    <profile>
+      <id>pitest</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-maven</artifactId>
+            <executions>
+              <execution>
+                <id>pitest</id>
+                <phase>test-compile</phase>
+                <goals>
+                  <goal>mutationCoverage</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 
