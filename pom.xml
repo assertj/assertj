@@ -33,7 +33,7 @@
     <junit-jupiter.version>5.7.1</junit-jupiter.version>
     <mockito.version>3.9.0</mockito.version>
     <!-- Plugin versions overriding -->
-    <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
     <cdg.pitest.version>0.0.7</cdg.pitest.version>
   </properties>
 
