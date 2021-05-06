@@ -32,7 +32,7 @@ public abstract class AbstractArrayAssert<SELF extends AbstractArrayAssert<SELF,
   }
 
   static void requireNonNullParameter(Object parameter, String parameterName) {
-    requireNonNull(parameter, shouldNotBeNull(parameterName).create());
+    requireNonNull(parameter, shouldNotBeNull(parameterName)::create);
   }
 
 }
