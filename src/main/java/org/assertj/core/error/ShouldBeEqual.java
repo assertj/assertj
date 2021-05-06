@@ -41,7 +41,7 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public class ShouldBeEqual implements AssertionErrorFactory {
 
-  private static final String EXPECTED_BUT_WAS_MESSAGE = "%nexpected: %s%nbut was : %s";
+  private static final String EXPECTED_BUT_WAS_MESSAGE = "%nexpected: %s%n but was: %s";
   private static final String EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR = EXPECTED_BUT_WAS_MESSAGE + "%n%s";
   private static final Class<?>[] MSG_ARG_TYPES = array(String.class, String.class, String.class);
   private static final Class<?>[] MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR = array(String.class, Object.class,

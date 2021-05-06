@@ -39,7 +39,7 @@ class ShouldBeEqual_Test {
     then(error.getExpected().getValue()).isEqualTo(STANDARD_REPRESENTATION.toStringOf(expected));
     then(error).hasMessage(format("[Jedi] %n" +
                                   "expected: \"Yoda\"%n" +
-                                  "but was : \"Luke\"%n" +
+                                  " but was: \"Luke\"%n" +
                                   "when comparing values using CaseInsensitiveStringComparator"));
   }
 
@@ -56,7 +56,7 @@ class ShouldBeEqual_Test {
     then(error.getExpected().getValue()).isEqualTo("[1, 2, 4]");
     then(error).hasMessage(format("[numbers] %n" +
                                   "expected: [1, 2, 4]%n" +
-                                  "but was : [1, 2, 3]"));
+                                  " but was: [1, 2, 3]"));
   }
 
 }
