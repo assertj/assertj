@@ -75,7 +75,7 @@ class ShouldBeEqual_newAssertionError_without_JUnit_Test {
                                            new Class<?>[] { String.class, Object.class, Object.class },
                                            format("[Jedi] %n" +
                                                   "expected: \"Yoda\"%n" +
-                                                  "but was : \"Luke\""),
+                                                  " but was: \"Luke\""),
                                            STANDARD_REPRESENTATION.toStringOf("Yoda"),
                                            STANDARD_REPRESENTATION.toStringOf("Luke"));
     assertThat(error).isNotInstanceOf(ComparisonFailure.class)
@@ -85,7 +85,7 @@ class ShouldBeEqual_newAssertionError_without_JUnit_Test {
     assertThat(assertionFailedError.getExpected().getValue()).isEqualTo(STANDARD_REPRESENTATION.toStringOf("Yoda"));
     assertThat(error).hasMessage(format("[Jedi] %n" +
                                         "expected: \"Yoda\"%n" +
-                                        "but was : \"Luke\""));
+                                        " but was: \"Luke\""));
   }
 
   private static Object createComparisonFailure(ConstructorInvoker invoker) throws Exception {

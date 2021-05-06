@@ -17,11 +17,11 @@ import static java.lang.String.format;
 public class ErrorMessagesForTest {
 
   public static String shouldBeEqualMessage(String actual, String expected) {
-    return format("%nexpected: " + expected + "%nbut was : " + actual);
+    return format("%nexpected: " + expected + "%n but was: " + actual);
   }
 
   public static String shouldBeEqualMessage(String description, String actual, String expected) {
-    return format("[" + description + "] %nexpected: " + expected + "%nbut was : " + actual);
+    return format("[" + description + "] %nexpected: " + expected + "%n but was: " + actual);
   }
 
 }
