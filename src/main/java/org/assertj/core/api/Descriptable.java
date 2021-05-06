@@ -46,7 +46,7 @@ public interface Descriptable<SELF> {
    * } catch (AssertionError e) {
    *   assertThat(e).hasMessage(&quot;[check Frodo's age]\n
    *                             expected: 33\n
-   *                             but was : 50&quot;);
+   *                              but was: 50&quot;);
    * }</code></pre>
    *
    * @param description the new description to set.
@@ -82,7 +82,7 @@ public interface Descriptable<SELF> {
    * {
    *   assertThat(e).hasMessage(&quot;[check Frodo's age]\n
    *                             expected: 33\n
-   *                             but was : 50&quot;);
+   *                              but was: 50&quot;);
    * }</code></pre>
    *
    * @param descriptionSupplier the description {@link Supplier}.

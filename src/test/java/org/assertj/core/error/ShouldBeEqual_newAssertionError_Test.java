@@ -59,7 +59,7 @@ class ShouldBeEqual_newAssertionError_Test {
     then(error).isInstanceOf(AssertionFailedError.class)
                .hasMessage(format("[Jedi] %n" +
                                   "expected: \"Yoda\"%n" +
-                                  "but was : \"Luke\""));
+                                  " but was: \"Luke\""));
   }
 
   public static Stream<String> parameters() {

@@ -78,7 +78,7 @@ class AbstractAssert_isInstanceOfSatisfying_Test extends AbstractAssertBaseTest 
     // THEN
     then(assertionError).hasMessage(format("[check light saber] %n" +
                                            "expected: \"Green\"%n" +
-                                           "but was : \"Red\""));
+                                           " but was: \"Red\""));
   }
 
   @Test

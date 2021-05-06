@@ -94,7 +94,7 @@ class AssertionMatcher_matches_Test {
     verify(description).appendText(argThat(new ArgumentMatcher<String>() {
       @Override
       public boolean matches(String s) {
-        return s.contains(format("%nexpected: 0%nbut was : 1"))
+        return s.contains(format("%nexpected: 0%n but was: 1"))
             && s.contains("at org.assertj.core.matcher.AssertionMatcher_matches_Test$1.assertion(AssertionMatcher_matches_Test.java:")
             && s.contains("at org.assertj.core.matcher.AssertionMatcher.matches(AssertionMatcher.java:")
             && s.contains("at org.assertj.core.matcher.AssertionMatcher_matches_Test.matcher_should_fill_description_when_assertion_fails(AssertionMatcher_matches_Test.java:");
