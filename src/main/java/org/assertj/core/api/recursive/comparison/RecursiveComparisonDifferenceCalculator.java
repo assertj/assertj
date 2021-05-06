@@ -44,6 +44,7 @@ import java.util.stream.Stream;
 
 import org.assertj.core.internal.DeepDifference;
 import org.assertj.core.util.Objects;
+import org.assertj.core.util.introspection.IntrospectionStrategy;
 
 /**
  * Based on {@link DeepDifference} but takes a {@link RecursiveComparisonConfiguration}, {@link DeepDifference}
@@ -126,9 +127,10 @@ public class RecursiveComparisonDifferenceCalculator {
           if (expectedFieldsNames.containsAll(nonIgnoredActualFieldsNames)) {
             // we compare actual fields vs expected, ignoring expected additional fields
             for (String nonIgnoredActualFieldName : nonIgnoredActualFieldsNames) {
+              IntrospectionStrategy introspectionStrategy = recursiveComparisonConfiguration.getIntrospectionStrategy();
               DualValue fieldDualValue = new DualValue(fieldLocation.field(nonIgnoredActualFieldName),
-                                                       COMPARISON.getSimpleValue(nonIgnoredActualFieldName, actual),
-                                                       COMPARISON.getSimpleValue(nonIgnoredActualFieldName, expected));
+                                                       introspectionStrategy.getValue(nonIgnoredActualFieldName, actual),
+                                                       introspectionStrategy.getValue(nonIgnoredActualFieldName, expected));
               dualValuesToCompare.addFirst(fieldDualValue);
             }
           } else {
