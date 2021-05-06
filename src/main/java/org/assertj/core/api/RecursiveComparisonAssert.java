@@ -1052,6 +1052,16 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
     return myself;
   }
 
+  public SELF comparingUsingGetters(){
+    recursiveComparisonConfiguration.useGetterIntrospectionStrategy();
+    return myself;
+  }
+
+  public SELF comparingUsingFields(){
+    recursiveComparisonConfiguration.useFieldIntrospectionStrategy();
+    return myself;
+  }
+
   /**
    * Allows to register a {@link BiPredicate} to compare fields with the given locations.
    * A typical usage is for comparing double/float fields with a given precision.
