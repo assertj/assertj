@@ -12,13 +12,56 @@
  */
 package org.assertj.core.util.introspection;
 
+import static java.util.Arrays.stream;
+import static java.util.Locale.ENGLISH;
+import static java.util.Objects.requireNonNull;
+
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 public class GetterIntrospectionStrategy implements IntrospectionStrategy {
 
   private static final GetterIntrospectionStrategy INSTANCE = new GetterIntrospectionStrategy();
   private static final PropertySupport propertySupport = PropertySupport.instance();
 
+  private static final String GETTER_REGEX = "^(is|get)\\p{Upper}\\w*";
+
   public static GetterIntrospectionStrategy instance() {
     return INSTANCE;
+  }
+
+  @Override
+  public Set<String> getMemberNames(Class<?> clazz) {
+    requireNonNull(clazz, "expecting Class parameter not to be null");
+    Set<String> declaredFields = getDeclaredMethodsIgnoringSyntheticAndStatic(clazz);
+
+    Class<?> superclazz = clazz.getSuperclass();
+    while (superclazz != null && !superclazz.getName().startsWith("java.lang")) {
+      declaredFields.addAll(getDeclaredMethodsIgnoringSyntheticAndStatic(superclazz));
+      superclazz = superclazz.getSuperclass();
+    }
+
+    return declaredFields;
+  }
+
+  @Override
+  public Set<String> getMemberNamesAsFields(Class<?> clazz) {
+    return getMemberNames(clazz)
+                                .stream()
+                                .map(s -> s.startsWith("is") ? s.substring(2) : s.substring(3))
+                                .map(s -> s.substring(0, 1).toLowerCase(ENGLISH) + s.substring(1))
+                                .collect(Collectors.toSet());
+  }
+
+  private Set<String> getDeclaredMethodsIgnoringSyntheticAndStatic(Class<?> clazz) {
+    return stream(clazz.getDeclaredMethods())
+                                             .filter(member -> !(member.isSynthetic()))
+                                             .filter(member -> !Modifier.isStatic(member.getModifiers()))
+                                             .map(Method::getName)
+                                             .filter(member -> member.matches(GETTER_REGEX))
+                                             .collect(Collectors.toSet());
   }
 
   @Override
