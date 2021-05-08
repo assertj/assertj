@@ -35,6 +35,6 @@ public class ShouldNotBe extends BasicErrorMessageFactory {
   }
 
   private ShouldNotBe(Object actual, Condition<?> condition) {
-    super("%nExpecting actual:%n  %s%nnot to be  %s", actual, condition);
+    super("%nExpecting actual:%n  %s%nnot to be %s", actual, condition);
   }
 }
