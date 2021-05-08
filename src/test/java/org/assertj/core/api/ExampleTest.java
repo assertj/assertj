@@ -20,30 +20,38 @@ import org.junit.jupiter.api.Test;
 public class ExampleTest {
 
   private final Example actual = new Example(Lists.list("A", "B"));
-  private final Example expected = new Example(Lists.list("A"));
+  private final Example expectedGetters = new Example(Lists.list("A"), "NOT_DUMMY");
+  private final Example expectedFieldsAndGetters = new Example(Lists.list("A", "B"));
 
   @Test
-  void thisShouldFail() {
+  void comparingUsingGetters() {
     Assertions.assertThat(actual)
               .usingRecursiveComparison()
               .comparingUsingGetters()
-              .isEqualTo(expected);
+              .isEqualTo(expectedGetters)
+              .isEqualTo(expectedFieldsAndGetters);
   }
 
   @Test
-  void thisShouldSucceed() {
+  void comparingUsingFields() {
     Assertions.assertThat(actual)
-
               .usingRecursiveComparison()
               .comparingUsingFields()
-              .isEqualTo(expected);
+              .isEqualTo(expectedFieldsAndGetters)
+              .isNotEqualTo(expectedGetters);
   }
 
   public static class Example {
     private Collection<String> value;
+    private String justField;
+
+    public Example(Collection<String> value, String justField) {
+      this.value = value;
+      this.justField = justField;
+    }
 
     public Example(Collection<String> value) {
-      this.value = value;
+      this(value, "DUMMY");
     }
 
     public String getValue() {

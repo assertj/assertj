@@ -605,7 +605,7 @@ public class RecursiveComparisonConfiguration {
   }
 
   Set<String> getNonIgnoredActualFieldNames(DualValue dualValue) {
-    Set<String> actualFieldsNames = Objects.getFieldsNames(dualValue.actual.getClass());
+    Set<String> actualFieldsNames = introspectionStrategy.getMemberNamesAsFields(dualValue.actual.getClass());
     // we are doing the same as shouldIgnore(DualValue dualValue) but in two steps for performance reasons:
     // - we filter first ignored field by names that don't need building DualValues
     // - then we filter field DualValues with the remaining criteria that need to get the field value

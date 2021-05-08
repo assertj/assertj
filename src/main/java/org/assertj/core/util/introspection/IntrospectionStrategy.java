@@ -12,7 +12,13 @@
  */
 package org.assertj.core.util.introspection;
 
+import java.util.Set;
+
 public interface IntrospectionStrategy {
+
+  Set<String> getMemberNames(Class<?> clazz);
+
+  Set<String> getMemberNamesAsFields(Class<?> clazz);
 
   Object getValue(String fieldName, Object target);
 

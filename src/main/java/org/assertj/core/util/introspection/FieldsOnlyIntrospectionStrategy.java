@@ -12,6 +12,12 @@
  */
 package org.assertj.core.util.introspection;
 
+import org.assertj.core.internal.Objects;
+
+import java.lang.reflect.Field;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 public class FieldsOnlyIntrospectionStrategy implements IntrospectionStrategy {
 
   private static final FieldsOnlyIntrospectionStrategy INSTANCE = new FieldsOnlyIntrospectionStrategy();
@@ -24,5 +30,16 @@ public class FieldsOnlyIntrospectionStrategy implements IntrospectionStrategy {
   @Override
   public Object getValue(String fieldName, Object target) {
     return fieldSupport.fieldValue(fieldName, Object.class, target);
+  }
+
+
+  @Override
+  public Set<String> getMemberNamesAsFields(Class<?> clazz) {
+    return getMemberNames(clazz);
+  }
+
+  @Override
+  public Set<String> getMemberNames(Class<?> clazz) {
+    return Objects.getFieldsNames(clazz);
   }
 }
