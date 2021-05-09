@@ -397,7 +397,7 @@ public class Maps {
     }
   }
 
-  @SuppressWarnings({ "unchecked" })
+  @SuppressWarnings("unchecked")
   private static <K, V> Map<K, V> clone(Map<K, V> map) throws NoSuchMethodException {
     try {
       if (map instanceof Cloneable) {

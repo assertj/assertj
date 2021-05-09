@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.maps;
 
+import static java.lang.String.CASE_INSENSITIVE_ORDER;
 import static java.util.Collections.emptySet;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -61,19 +62,21 @@ import com.google.common.collect.ImmutableMap;
 @DisplayName("Maps assertContainsOnlyKeys(Object[])")
 class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
 
+  private static final Supplier<Map<String, String>> CASE_INSENSITIVE_TREE_MAP = () -> new TreeMap<>(CASE_INSENSITIVE_ORDER);
+
   @SuppressWarnings("unchecked")
-  private static final Supplier<Map<String, String>>[] CASE_INSENSITIVE_MAP_SUPPLIERS = new Supplier[] {
-      // org.apache.commons.collections4.map.CaseInsensitiveMap not included due to different behavior in some cases
+  private static final Supplier<Map<String, String>>[] CASE_INSENSITIVE_MAPS = new Supplier[] {
+      // org.apache.commons.collections4.map.CaseInsensitiveMap not included due to slightly different behavior
       LinkedCaseInsensitiveMap::new,
-      () -> new TreeMap<>(String.CASE_INSENSITIVE_ORDER)
+      CASE_INSENSITIVE_TREE_MAP
   };
 
   @SuppressWarnings("unchecked")
-  private static final Supplier<Map<String, String>>[] MODIFIABLE_MAP_SUPPLIERS = ArrayUtils.addAll(CASE_INSENSITIVE_MAP_SUPPLIERS,
-                                                                                                    CaseInsensitiveMap::new,
-                                                                                                    HashMap::new,
-                                                                                                    IdentityHashMap::new,
-                                                                                                    LinkedHashMap::new);
+  private static final Supplier<Map<String, String>>[] MODIFIABLE_MAPS = ArrayUtils.addAll(CASE_INSENSITIVE_MAPS,
+                                                                                           CaseInsensitiveMap::new,
+                                                                                           HashMap::new,
+                                                                                           IdentityHashMap::new,
+                                                                                           LinkedHashMap::new);
 
   private static final String ARRAY_OF_KEYS = "array of keys";
 
@@ -113,10 +116,10 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
       "modifiableMapsSuccessfulTestCases",
       "caseInsensitiveMapsSuccessfulTestCases",
   })
-  void should_pass(Map<String, String> actual, String[] expectedKeys) {
+  void should_pass(Map<String, String> actual, String[] expected) {
     // WHEN/THEN
     assertThatNoException().as(actual.getClass().getName())
-                           .isThrownBy(() -> maps.assertContainsOnlyKeys(info, actual, expectedKeys));
+                           .isThrownBy(() -> maps.assertContainsOnlyKeys(info, actual, expected));
   }
 
   private static Stream<Arguments> unmodifiableMapsSuccessfulTestCases() {
@@ -129,7 +132,7 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
   }
 
   private static Stream<Arguments> modifiableMapsSuccessfulTestCases() {
-    return Stream.of(MODIFIABLE_MAP_SUPPLIERS)
+    return Stream.of(MODIFIABLE_MAPS)
                  .flatMap(supplier -> Stream.of(arguments(mapOf(supplier, entry("name", "Yoda"), entry("job", "Jedi")),
                                                           array("name", "job")),
                                                 arguments(mapOf(supplier, entry("name", "Yoda"), entry("job", "Jedi")),
@@ -137,7 +140,7 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
   }
 
   private static Stream<Arguments> caseInsensitiveMapsSuccessfulTestCases() {
-    return Stream.of(ArrayUtils.add(CASE_INSENSITIVE_MAP_SUPPLIERS, CaseInsensitiveMap::new))
+    return Stream.of(ArrayUtils.add(CASE_INSENSITIVE_MAPS, CaseInsensitiveMap::new))
                  .flatMap(supplier -> Stream.of(arguments(mapOf(supplier, entry("NAME", "Yoda"), entry("Job", "Jedi")),
                                                           array("name", "job")),
                                                 arguments(mapOf(supplier, entry("NAME", "Yoda"), entry("Job", "Jedi")),
@@ -151,12 +154,12 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
       "caseInsensitiveMapsFailureTestCases",
       "commonsCollectionsCaseInsensitiveMapFailureTestCases",
   })
-  void should_fail(Map<String, String> actual, String[] expectedKeys, Set<String> notFound, Set<String> notExpected) {
+  void should_fail(Map<String, String> actual, String[] expected, Set<String> notFound, Set<String> notExpected) {
     // WHEN
-    AssertionError error = expectAssertionError(() -> maps.assertContainsOnlyKeys(info, actual, expectedKeys));
+    AssertionError error = expectAssertionError(() -> maps.assertContainsOnlyKeys(info, actual, expected));
     // THEN
     then(error).as(actual.getClass().getName())
-               .hasMessage(shouldContainOnlyKeys(actual, expectedKeys, notFound, notExpected).create());
+               .hasMessage(shouldContainOnlyKeys(actual, expected, notFound, notExpected).create());
   }
 
   private static Stream<Arguments> unmodifiableMapsFailureTestCases() {
@@ -183,7 +186,7 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
   }
 
   private static Stream<Arguments> modifiableMapsFailureTestCases() {
-    return Stream.of(MODIFIABLE_MAP_SUPPLIERS)
+    return Stream.of(MODIFIABLE_MAPS)
                  .flatMap(supplier -> Stream.of(arguments(mapOf(supplier, entry("name", "Yoda")),
                                                           array("name", "color"),
                                                           set("color"),
@@ -199,7 +202,7 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
   }
 
   private static Stream<Arguments> caseInsensitiveMapsFailureTestCases() {
-    return Stream.of(CASE_INSENSITIVE_MAP_SUPPLIERS)
+    return Stream.of(CASE_INSENSITIVE_MAPS)
                  .flatMap(supplier -> Stream.of(arguments(mapOf(supplier, entry("NAME", "Yoda"), entry("Job", "Jedi")),
                                                           array("name", "color"),
                                                           set("color"),
@@ -214,11 +217,11 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
     return Stream.of(arguments(mapOf(CaseInsensitiveMap::new, entry("NAME", "Yoda"), entry("Job", "Jedi")),
                                array("name", "color"),
                                set("color"),
-                               set("job")), // keys are always lowercase internally
+                               set("job")), // internal keys are always lowercase
                      arguments(mapOf(CaseInsensitiveMap::new, entry("NAME", "Yoda"), entry("Job", "Jedi")),
                                array("Name", "Color"),
                                set("Color"),
-                               set("job"))); // keys are always lowercase internally
+                               set("job"))); // internal keys are always lowercase
   }
 
 }
