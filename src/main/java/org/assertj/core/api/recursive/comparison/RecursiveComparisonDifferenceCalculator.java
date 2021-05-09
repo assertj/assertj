@@ -129,8 +129,8 @@ public class RecursiveComparisonDifferenceCalculator {
             for (String nonIgnoredActualFieldName : nonIgnoredActualFieldsNames) {
               IntrospectionStrategy introspectionStrategy = recursiveComparisonConfiguration.getIntrospectionStrategy();
               DualValue fieldDualValue = new DualValue(fieldLocation.field(nonIgnoredActualFieldName),
-                                                       introspectionStrategy.getValue(nonIgnoredActualFieldName, actual),
-                                                       introspectionStrategy.getValue(nonIgnoredActualFieldName, expected));
+                                                       introspectionStrategy.getMemberValue(nonIgnoredActualFieldName, actual),
+                                                       introspectionStrategy.getMemberValue(nonIgnoredActualFieldName, expected));
               dualValuesToCompare.addFirst(fieldDualValue);
             }
           } else {
@@ -294,9 +294,10 @@ public class RecursiveComparisonDifferenceCalculator {
         // - if actual has more fields than expected, the additional fields are ignored as expected is the reference
         for (String actualFieldName : actualNonIgnoredFieldsNames) {
           if (expectedFieldsNames.contains(actualFieldName)) {
+            IntrospectionStrategy introspectionStrategy = recursiveComparisonConfiguration.getIntrospectionStrategy();
             DualValue newDualValue = new DualValue(dualValue.fieldLocation.field(actualFieldName),
-                                                   COMPARISON.getSimpleValue(actualFieldName, actualFieldValue),
-                                                   COMPARISON.getSimpleValue(actualFieldName, expectedFieldValue));
+              introspectionStrategy.getMemberValue(actualFieldName, actualFieldValue),
+              introspectionStrategy.getMemberValue(actualFieldName, expectedFieldValue));
             comparisonState.registerForComparison(newDualValue);
           }
         }

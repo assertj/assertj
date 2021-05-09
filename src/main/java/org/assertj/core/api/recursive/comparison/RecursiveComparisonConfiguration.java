@@ -30,7 +30,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.RecursiveComparisonAssert;
-import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.Strings;
@@ -92,6 +91,7 @@ public class RecursiveComparisonConfiguration {
     ignoreCollectionOrderInFieldsMatchingRegexes(builder.ignoredCollectionOrderInFieldsMatchingRegexes);
     this.typeComparators = builder.typeComparators;
     this.fieldComparators = builder.fieldComparators;
+    this.introspectionStrategy = builder.introspectionStrategy;
   }
 
   public RecursiveComparisonConfiguration() {}
@@ -639,11 +639,11 @@ public class RecursiveComparisonConfiguration {
   }
 
   private DualValue dualValueForField(DualValue parentDualValue, String fieldName) {
-    Object actualFieldValue = introspectionStrategy.getValue(fieldName, parentDualValue.actual); // COMPARISON.getSimpleValue(fieldName,
+    Object actualFieldValue = introspectionStrategy.getMemberValue(fieldName, parentDualValue.actual); // COMPARISON.getSimpleValue(fieldName,
     // no guarantees we have a field in expected named as fieldName
     Object expectedFieldValue;
     try {
-      expectedFieldValue = introspectionStrategy.getValue(fieldName, parentDualValue.expected); // COMPARISON.getSimpleValue(fieldName,
+      expectedFieldValue = introspectionStrategy.getMemberValue(fieldName, parentDualValue.expected); // COMPARISON.getSimpleValue(fieldName,
                                                                                                 // parentDualValue.expected);
     } catch (@SuppressWarnings("unused") Exception e) {
       // set the field to null to express it is absent, this not 100% accurate as the value could be null
@@ -934,6 +934,7 @@ public class RecursiveComparisonConfiguration {
     private String[] ignoredCollectionOrderInFieldsMatchingRegexes = {};
     private TypeComparators typeComparators = defaultTypeComparators();
     private FieldComparators fieldComparators = new FieldComparators();
+    private IntrospectionStrategy introspectionStrategy = FieldsOnlyIntrospectionStrategy.instance();
 
     private Builder() {}
 
@@ -1229,6 +1230,20 @@ public class RecursiveComparisonConfiguration {
      */
     public Builder withEqualsForFields(BiPredicate<?, ?> equals, String... fields) {
       return withComparatorForFields(toComparator(equals), fields);
+    }
+
+    private Builder withIntrospectionStrategy(IntrospectionStrategy introspectionStrategy) {
+      requireNonNull(introspectionStrategy, "Expecting a non null IntrospectionStrategy");
+      this.introspectionStrategy = introspectionStrategy;
+      return this;
+    }
+
+    public Builder withFieldsOnlyIntrospectionStrategy() {
+      return withIntrospectionStrategy(FieldsOnlyIntrospectionStrategy.instance());
+    }
+
+    public Builder withGetterIntrospectionStrategy() {
+      return withIntrospectionStrategy(GetterIntrospectionStrategy.instance());
     }
 
     public RecursiveComparisonConfiguration build() {

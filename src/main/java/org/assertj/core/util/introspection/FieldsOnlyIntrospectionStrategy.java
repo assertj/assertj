@@ -28,8 +28,8 @@ public class FieldsOnlyIntrospectionStrategy implements IntrospectionStrategy {
   }
 
   @Override
-  public Object getValue(String fieldName, Object target) {
-    return fieldSupport.fieldValue(fieldName, Object.class, target);
+  public Object getMemberValue(String memberName, Object target) {
+    return fieldSupport.fieldValue(memberName, Object.class, target);
   }
 
 

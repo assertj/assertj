@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
@@ -39,6 +40,29 @@ public class ExampleTest {
               .comparingUsingFields()
               .isEqualTo(expectedFieldsAndGetters)
               .isNotEqualTo(expectedGetters);
+  }
+
+  @Test
+  void comparingUsingGettersBean() {
+    Assertions.assertThat(new Bean())
+      .usingRecursiveComparison()
+      .comparingUsingGetters()
+      .isEqualTo(new Bean());
+  }
+
+  @Test
+  void comparingUsingFieldsBean() {
+    Assertions.assertThat(new Bean())
+      .usingRecursiveComparison()
+      .isEqualTo(new Bean());
+  }
+
+  public static class Bean{
+    private String s = null;
+
+    public Optional<String> getS(){
+      return Optional.of(s);
+    }
   }
 
   public static class Example {
