@@ -279,6 +279,18 @@ class StandardComparisonStrategy_areEqual_Test {
     then(result).isEqualTo(expected);
   }
 
+  @Test
+  void should_work_with_inconsistent_equals_methods() {
+    NonConsistent nonConsistentX = new NonConsistent();
+
+    boolean firstInvocation = underTest.areEqual(nonConsistentX, nonConsistentX);
+    then(firstInvocation).isEqualTo(true);
+    boolean secondInvocation = underTest.areEqual(nonConsistentX, nonConsistentX);
+    then(secondInvocation).isEqualTo(false);
+    boolean thirdInvocation = underTest.areEqual(nonConsistentX, nonConsistentX);
+    then(thirdInvocation).isEqualTo(true);
+  }
+
   private static Stream<Arguments> correctEquals() {
     Object object = new Object();
 
@@ -303,7 +315,6 @@ class StandardComparisonStrategy_areEqual_Test {
     NonTransitive nonTransitiveY = new NonTransitive(nonTransitiveZ, null);
     NonTransitive nonTransitiveX = new NonTransitive(nonTransitiveY, nonTransitiveZ);
 
-    NonConsistent nonConsistentX = new NonConsistent();
 
     return Stream.of(arguments(alwaysTrue, null, true),
                      arguments(alwaysFalse, alwaysFalse, false),
@@ -312,10 +323,7 @@ class StandardComparisonStrategy_areEqual_Test {
                      arguments(nonSymmetricY, nonSymmetricX, false),
                      arguments(nonTransitiveX, nonTransitiveY, true),
                      arguments(nonTransitiveY, nonTransitiveZ, true),
-                     arguments(nonTransitiveX, nonTransitiveZ, false),
-                     arguments(nonConsistentX, nonConsistentX, true),
-                     arguments(nonConsistentX, nonConsistentX, false),
-                     arguments(nonConsistentX, nonConsistentX, true));
+                     arguments(nonTransitiveX, nonTransitiveZ, false));
   }
 
   private static class AlwaysTrue {

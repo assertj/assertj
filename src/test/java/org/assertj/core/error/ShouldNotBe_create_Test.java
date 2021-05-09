@@ -34,6 +34,6 @@ class ShouldNotBe_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(String.format("[Test] %nExpecting actual:%n  \"Yoda\"%nnot to be  Sith"));
+    then(message).isEqualTo(String.format("[Test] %nExpecting actual:%n  \"Yoda\"%nnot to be Sith"));
   }
 }

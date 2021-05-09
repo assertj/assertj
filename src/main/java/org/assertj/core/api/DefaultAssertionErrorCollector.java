@@ -201,6 +201,7 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
           || className.startsWith("com.intellij.rt.execution.junit.")
           || className.startsWith("com.intellij.rt.junit.") // since IntelliJ IDEA build 193.2956.37
           || className.startsWith("org.apache.maven.surefire")
+          || className.startsWith("org.pitest.")
           || className.startsWith("org.assertj")) {
         continue;
       }
