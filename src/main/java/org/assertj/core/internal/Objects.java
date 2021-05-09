@@ -58,6 +58,8 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Member;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -66,6 +68,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.error.GroupTypeDescription;
@@ -806,28 +809,47 @@ public class Objects {
   }
 
   /**
-   * Returns the declared fields of given class and its superclasses stopping at superclass in <code>java.lang</code>
+   * Returns the declared members of given class and its superclasses stopping at superclass in <code>java.lang</code>
    * package whose fields are not included.
    *
    * @param clazz the class we want the declared fields.
-   * @return the declared fields of given class and its superclasses.
+   * @param memberExtractor {@link Function} that extracts desired members of the clazz.
+   * @return the declared members of given class and its superclasses.
    */
-  public static Set<Field> getDeclaredFieldsIncludingInherited(Class<?> clazz) {
+  private static <T extends Member> Set<T> getDeclaredMembersIncludingInherited(Class<?> clazz,
+                                                                                Function<Class<?>, T[]> memberExtractor) {
     requireNonNull(clazz, "expecting Class parameter not to be null");
-    Set<Field> declaredFields = getDeclaredFieldsIgnoringSyntheticAndStatic(clazz);
-    // get fields declared in superclass
+    Set<T> declaredFields = getDeclaredMembersIgnoringSyntheticAndStatic(clazz, memberExtractor);
+    // get members declared in superclass
     Class<?> superclazz = clazz.getSuperclass();
     while (superclazz != null && !superclazz.getName().startsWith("java.lang")) {
-      declaredFields.addAll(getDeclaredFieldsIgnoringSyntheticAndStatic(superclazz));
+      declaredFields.addAll(getDeclaredMembersIgnoringSyntheticAndStatic(superclazz, memberExtractor));
       superclazz = superclazz.getSuperclass();
     }
     return declaredFields;
   }
 
+  public static Set<Field> getDeclaredFieldsIncludingInherited(Class<?> clazz) {
+    return getDeclaredMembersIncludingInherited(clazz, Class::getDeclaredFields);
+  }
+
+  public static Set<Method> getDeclaredMethodsIncludingInherited(Class<?> clazz) {
+    return getDeclaredMembersIncludingInherited(clazz, Class::getDeclaredMethods);
+  }
+
+  private static Set<String> getMemberNames(Class<?> clazz,
+                                            Function<Class<?>, Set<? extends Member>> memberFunction) {
+    return memberFunction.apply(clazz).stream()
+                         .map(Member::getName)
+                         .collect(toSet());
+  }
+
   public static Set<String> getFieldsNames(Class<?> clazz) {
-    return getDeclaredFieldsIncludingInherited(clazz).stream()
-                                                     .map(Field::getName)
-                                                     .collect(toSet());
+    return getMemberNames(clazz, Objects::getDeclaredFieldsIncludingInherited);
+  }
+
+  public static Set<String> getMethodNames(Class<?> clazz) {
+    return getMemberNames(clazz, Objects::getDeclaredMethodsIncludingInherited);
   }
 
   /**
@@ -839,12 +861,14 @@ public class Objects {
    * Static fields are used as constants, and are not associated with an object.
    *
    * @param clazz the class we want the declared fields.
+   * @param memberExtractor {@link Function} that extracts desired members of the clazz.
    * @return the declared fields of given class excluding any synthetic fields.
    */
-  private static Set<Field> getDeclaredFieldsIgnoringSyntheticAndStatic(Class<?> clazz) {
-    return stream(clazz.getDeclaredFields()).filter(field -> !(field.isSynthetic()
-                                                               || Modifier.isStatic(field.getModifiers())))
-                                            .collect(toCollection(LinkedHashSet::new));
+  private static <T extends Member> Set<T> getDeclaredMembersIgnoringSyntheticAndStatic(Class<?> clazz,
+                                                                                        Function<Class<?>, T[]> memberExtractor) {
+    return stream(memberExtractor.apply(clazz)).filter(field -> !(field.isSynthetic()
+                                                                  || Modifier.isStatic(field.getModifiers())))
+                                               .collect(toCollection(LinkedHashSet::new));
   }
 
   public boolean areEqualToIgnoringGivenFields(Object actual, Object other,

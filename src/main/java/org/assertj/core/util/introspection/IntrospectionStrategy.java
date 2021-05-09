@@ -20,6 +20,6 @@ public interface IntrospectionStrategy {
 
   Set<String> getMemberNamesAsFields(Class<?> clazz);
 
-  Object getValue(String fieldName, Object target);
+  Object getMemberValue(String memberName, Object target);
 
 }
