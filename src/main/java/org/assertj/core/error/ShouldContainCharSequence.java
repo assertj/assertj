@@ -125,6 +125,60 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
                                          StandardComparisonStrategy.instance());
   }
 
+  /**
+   * Creates a new <code>{@link ShouldContainCharSequence}</code>.
+   *
+   * @param actual   the actual value in the failed assertion.
+   * @param sequence the sequence of values expected to be in {@code actual}.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldContainIgnoringWhitespace(CharSequence actual, CharSequence sequence) {
+    return new ShouldContainCharSequence("%nExpecting actual:%n  %s%nto contain (ignoring whitespace):%n  %s %s", actual, sequence, StandardComparisonStrategy.instance());
+  }
+
+  /**
+   * Creates a new <code>{@link ShouldContainCharSequence}</code>.
+   *
+   * @param actual             the actual value in the failed assertion.
+   * @param sequence           the sequence of values expected to be in {@code actual}.
+   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldContainIgnoringWhitespace(CharSequence actual, CharSequence sequence,
+                                                                    ComparisonStrategy comparisonStrategy) {
+    return new ShouldContainCharSequence("%nExpecting actual:%n  %s%nto contain (ignoring whitespace):%n  %s %s", actual, sequence, comparisonStrategy);
+  }
+
+  /**
+   * Creates a new <code>{@link ShouldContainCharSequence}</code>.
+   *
+   * @param actual             the actual value in the failed assertion.
+   * @param strings            the sequence of values expected to be in {@code actual}.
+   * @param notFound           the values not found.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldContainIgnoringWhitespace(CharSequence actual, CharSequence[] strings,
+                                                                    Set<? extends CharSequence> notFound) {
+    return new ShouldContainCharSequence("%nExpecting actual:%n  %s%nto contain (ignoring whitespace):%n  %s%nbut could not find:%n  %s%n %s", actual,
+      strings, notFound, StandardComparisonStrategy.instance());
+  }
+
+  /**
+   * Creates a new <code>{@link ShouldContainCharSequence}</code>.
+   *
+   * @param actual             the actual value in the failed assertion.
+   * @param strings            the sequence of values expected to be in {@code actual}.
+   * @param notFound           the values not found.
+   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldContainIgnoringWhitespace(CharSequence actual, CharSequence[] strings,
+                                                                    Set<? extends CharSequence> notFound,
+                                                                    ComparisonStrategy comparisonStrategy) {
+    return new ShouldContainCharSequence("%nExpecting actual:%n  %s%nto contain (ignoring whitespace):%n  %s%nbut could not find:%n  %s%n %s", actual,
+      strings, notFound, comparisonStrategy);
+  }
+
   private ShouldContainCharSequence(String format, CharSequence actual, CharSequence sequence,
                                     ComparisonStrategy comparisonStrategy) {
     super(format, actual, sequence, comparisonStrategy);

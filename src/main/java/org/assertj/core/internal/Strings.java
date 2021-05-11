@@ -33,8 +33,7 @@ import static org.assertj.core.error.ShouldBeLowerCase.shouldBeLowerCase;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
 import static org.assertj.core.error.ShouldBeUpperCase.shouldBeUpperCase;
-import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
-import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
+import static org.assertj.core.error.ShouldContainCharSequence.*;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
 import static org.assertj.core.error.ShouldContainOneOrMoreWhitespaces.shouldContainOneOrMoreWhitespaces;
 import static org.assertj.core.error.ShouldContainOnlyDigits.shouldContainOnlyDigits;
@@ -516,6 +515,30 @@ public class Strings {
     assertNotNull(info, actual);
     if (!actual.toString().toLowerCase().contains(sequence.toString().toLowerCase()))
       throw failures.failure(info, shouldContainIgnoringCase(actual, sequence));
+  }
+
+
+  /**
+   * Verifies that the given {@code CharSequence} contains the given strings, ignoring whitespaces.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence}.
+   * @param values the values to look for.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws IllegalArgumentException if the given values is empty.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} does not contain the given sequence.
+   */
+  public void assertContainsIgnoringWhitespace(AssertionInfo info, CharSequence actual, CharSequence... values) {
+    doCommonCheckForCharSequence(info, actual, values);
+    String actualWithoutWhitespace = removeAllWhitespaces(actual);
+    Set<CharSequence> notFound = stream(values).filter(value -> !stringContains(actualWithoutWhitespace, removeAllWhitespaces(value)))
+      .collect(toCollection(LinkedHashSet::new));
+    if (notFound.isEmpty()) return;
+    if (notFound.size() == 1 && values.length == 1) {
+      throw failures.failure(info, shouldContainIgnoringWhitespace(actual, values[0], comparisonStrategy));
+    }
+    throw failures.failure(info, shouldContainIgnoringWhitespace(actual, values, notFound, comparisonStrategy));
   }
 
   /**
