@@ -34,7 +34,7 @@
     <mockito.version>3.9.0</mockito.version>
     <!-- Plugin versions overriding -->
     <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
-    <cdg.pitest.version>0.0.7</cdg.pitest.version>
+    <cdg.pitest.version>0.0.8</cdg.pitest.version>
   </properties>
 
   <dependencyManagement>
