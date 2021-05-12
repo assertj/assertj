@@ -535,7 +535,7 @@ public class Strings {
     Set<CharSequence> notFound = stream(values).filter(value -> !stringContains(actualWithoutWhitespace, removeAllWhitespaces(value)))
       .collect(toCollection(LinkedHashSet::new));
     if (notFound.isEmpty()) return;
-    if (notFound.size() == 1 && values.length == 1) {
+    if (values.length == 1) {
       throw failures.failure(info, shouldContainIgnoringWhitespace(actual, values[0], comparisonStrategy));
     }
     throw failures.failure(info, shouldContainIgnoringWhitespace(actual, values, notFound, comparisonStrategy));
