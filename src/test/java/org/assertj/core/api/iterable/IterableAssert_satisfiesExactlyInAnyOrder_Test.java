@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.iterable;
 
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -26,7 +27,6 @@ import org.assertj.core.api.IterableAssertBaseTest;
  *
  * @author Michael Grafl
  */
-@SuppressWarnings("unchecked")
 class IterableAssert_satisfiesExactlyInAnyOrder_Test extends IterableAssertBaseTest {
 
   private Consumer<Object> consumer = mock(Consumer.class);
@@ -43,6 +43,6 @@ class IterableAssert_satisfiesExactlyInAnyOrder_Test extends IterableAssertBaseT
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertSatisfiesExactlyInAnyOrder(getInfo(assertions), getActual(assertions), consumer);
+    verify(iterables).assertSatisfiesExactlyInAnyOrder(getInfo(assertions), getActual(assertions), array(consumer));
   }
 }

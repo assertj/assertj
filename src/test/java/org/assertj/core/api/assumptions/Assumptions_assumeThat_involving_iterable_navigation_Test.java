@@ -70,6 +70,7 @@ class Assumptions_assumeThat_involving_iterable_navigation_Test {
       assumeThat(jedis).last(as(type(Jedi.class))).isEqualTo(luke);
       assumeThat(jedis).element(1).isEqualTo(luke);
       assumeThat(jedis).element(1, as(type(Jedi.class))).isEqualTo(luke);
+      assumeThat(jedis).elements(0, 1).containsExactly(yoda, luke);
     }).doesNotThrowAnyException();
   }
 
@@ -127,6 +128,13 @@ class Assumptions_assumeThat_involving_iterable_navigation_Test {
     expectAssumptionNotMetException(() -> assumeThat(list(yoda)).singleElement()
                                                                 .as("check single element")
                                                                 .isEqualTo(luke));
+  }
+
+  @Test
+  void should_ignore_test_when_assumption_after_navigating_to_elements_fails() {
+    expectAssumptionNotMetException(() -> assumeThat(jedis).elements(0, 1)
+                                                           .as("check elements at index 0 and 1")
+                                                           .containsExactly(luke, yoda));
   }
 
   @Test

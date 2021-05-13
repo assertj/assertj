@@ -250,7 +250,7 @@ public class Classes {
    * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
    */
   public void assertContainsAnnotations(AssertionInfo info, Class<?> actual,
-                                        @SuppressWarnings("unchecked") Class<? extends Annotation>... annotations) {
+                                        Class<? extends Annotation>[] annotations) {
     assertNotNull(info, actual);
     Set<Class<? extends Annotation>> expected = newLinkedHashSet(annotations);
     Set<Class<? extends Annotation>> missing = new LinkedHashSet<>();
@@ -274,7 +274,7 @@ public class Classes {
    */
   public void assertHasSuperclass(AssertionInfo info, Class<?> actual, Class<?> superclass) {
     assertNotNull(info, actual);
-    requireNonNull(superclass, shouldNotBeNull("superclass").create());
+    requireNonNull(superclass, shouldNotBeNull("superclass")::create);
     Class<?> actualSuperclass = actual.getSuperclass();
     if (actualSuperclass == null || !actualSuperclass.equals(superclass)) {
       throw failures.failure(info, shouldHaveSuperclass(actual, superclass));
@@ -595,7 +595,7 @@ public class Classes {
    */
   public void assertHasPackage(AssertionInfo info, Class<?> actual, String packageName) {
     assertNotNull(info, actual);
-    requireNonNull(packageName, shouldNotBeNull("packageName").create());
+    requireNonNull(packageName, shouldNotBeNull("packageName")::create);
     Package actualPackage = actual.getPackage();
 
     if (actualPackage == null || !actualPackage.getName().equals(packageName)) {
@@ -615,7 +615,7 @@ public class Classes {
    */
   public void assertHasPackage(AssertionInfo info, Class<?> actual, Package aPackage) {
     assertNotNull(info, actual);
-    requireNonNull(aPackage, shouldNotBeNull("aPackage").create());
+    requireNonNull(aPackage, shouldNotBeNull("aPackage")::create);
     Package actualPackage = actual.getPackage();
 
     if (!aPackage.equals(actualPackage)) {

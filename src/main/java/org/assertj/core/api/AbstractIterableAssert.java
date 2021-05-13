@@ -98,6 +98,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * @author Marko Bekhta
  */
 //@format:off
+// suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports
 @SuppressWarnings("deprecation")
 public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
                                              ACTUAL extends Iterable<? extends ELEMENT>,
@@ -615,7 +616,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   // This method is protected in order to be proxied for SoftAssertions / Assumptions.
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
-  protected SELF startsWithForProxy(@SuppressWarnings("unchecked") ELEMENT... sequence) {
+  protected SELF startsWithForProxy(ELEMENT[] sequence) {
     iterables.assertStartsWith(info, actual, sequence);
     return myself;
   }
@@ -858,6 +859,13 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @Override
   public SELF hasOnlyElementsOfTypes(Class<?>... types) {
     ObjectArrays.instance().assertHasOnlyElementsOfTypes(info, toArray(actual), types);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public SELF hasExactlyElementsOfTypes(Class<?>... types) {
+    ObjectArrays.instance().assertHasExactlyElementsOfTypes(info, toArray(actual), types);
     return myself;
   }
 
@@ -3364,6 +3372,68 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @CheckReturnValue
   public ELEMENT_ASSERT element(int index) {
     return internalElement(index);
+  }
+
+  /**
+   * Allow to perform assertions on the elements corresponding to the given indices 
+   * (the iterable {@link Iterable} under test is changed to an iterable with the selected elements).  
+   * <p>
+   * Example:
+   * <pre><code class='java'> Iterable&lt;TolkienCharacter&gt; hobbits = newArrayList(frodo, sam, pippin);
+   *
+   * // assertion succeeds
+   * assertThat(hobbits).elements(1, 2)
+   *                    .hasSize(2)
+   *                    .containsExactly(sam, pippin);
+   *
+   * // assertion fails
+   * assertThat(hobbits).element(1, 2)
+   *                    .containsExactly(frodo, pippin);</code></pre>
+   * <p>
+   *
+   * @param indices the elements indices
+   * @return the assertion on the given elements
+   * @throws IllegalArgumentException if indices array is null or empty
+   * @throws AssertionError if one of the given indices is out of bound or if the actual is empty
+   * @since 3.20
+   */
+  @CheckReturnValue
+  public SELF elements(int... indices) {
+    isNotEmpty();
+    assertIndicesIsNotNull(indices);
+    assertIndicesIsNotEmpty(indices);
+
+    List<ELEMENT> indexedActual = newArrayList(actual);
+
+    List<ELEMENT> filteredIterable = Arrays.stream(indices)
+                                           .peek(index -> checkIndexValidity(index, indexedActual))
+                                           .mapToObj(indexedActual::get)
+                                           .collect(toList());
+    // For soft assertions/assumptions, this must return a proxied iterable assert but we can't put "elements" in
+    // SoftProxies.METHODS_CHANGING_THE_OBJECT_UNDER_TEST because these methods are not proxied.
+    // We want to proxy elements(int... indices) to capture isNotEmpty and checkIndexValidity assertion errors.
+    // The solution is to introduce newAbstractIterableAssertForProxy which is going to be proxied as newAbstractIterableAssert
+    // was added to SoftProxies.METHODS_CHANGING_THE_OBJECT_UNDER_TEST list and SoftProxies.methodsChangingTheObjectUnderTestNamed
+    // will select newAbstractIterableAssertForProxy to be proxied.
+    return newAbstractIterableAssertForProxy(filteredIterable);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  protected SELF newAbstractIterableAssertForProxy(List<ELEMENT> filteredIterable) {
+    return newAbstractIterableAssert(filteredIterable).withAssertionState(myself);
+  }
+
+  private static void assertIndicesIsNotNull(int[] indices) {
+    if (indices == null) throw new IllegalArgumentException("indices must not be null");
+  }
+
+  private static void assertIndicesIsNotEmpty(int[] indices) {
+    if (indices.length == 0) throw new IllegalArgumentException("indices must not be empty");
+  }
+
+  private void checkIndexValidity(int index, List<ELEMENT> indexedActual) {
+    assertThat(indexedActual).describedAs("check actual size is enough to get element[" + index + "]")
+                             .hasSizeGreaterThan(index);
   }
 
   /**

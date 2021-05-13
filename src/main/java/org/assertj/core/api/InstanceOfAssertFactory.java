@@ -36,8 +36,8 @@ public class InstanceOfAssertFactory<T, ASSERT extends AbstractAssert<?, ?>> imp
    * @param assertFactory the {@code AssertFactory} to decorate.
    */
   public InstanceOfAssertFactory(Class<T> type, AssertFactory<T, ASSERT> assertFactory) {
-    this.type = requireNonNull(type, shouldNotBeNull("type").create());
-    this.assertFactory = requireNonNull(assertFactory, shouldNotBeNull("assertFactory").create());
+    this.type = requireNonNull(type, shouldNotBeNull("type")::create);
+    this.assertFactory = requireNonNull(assertFactory, shouldNotBeNull("assertFactory")::create);
   }
 
   Class<T> getType() {

@@ -171,7 +171,7 @@ public class ListAssert<ELEMENT> extends
   }
 
   @Override
-  protected ListAssert<ELEMENT> startsWithForProxy(@SuppressWarnings("unchecked") ELEMENT... sequence) {
+  protected ListAssert<ELEMENT> startsWithForProxy(ELEMENT[] sequence) {
     if (!(actual instanceof ListFromStream)) {
       // don't call super.startsWith(sequence) which would lead to a stack overflow
       iterables.assertStartsWith(info, actual, sequence);

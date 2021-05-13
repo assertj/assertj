@@ -61,7 +61,7 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
     then(error).isInstanceOf(AssertionFailedError.class)
                .hasMessage(format("[my test] %n" +
                                   "expected: 42.0%n" +
-                                  "but was : 42.0f"));
+                                  " but was: 42.0f"));
   }
 
   @Test
@@ -78,7 +78,7 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
     then(error).isInstanceOf(AssertionFailedError.class)
                .hasMessage("[my test] %n" +
                            "expected: \"Person[name=Jake] (Person@%s)\"%n" +
-                           "but was : \"Person[name=Jake] (Person@%s)\"",
+                           " but was: \"Person[name=Jake] (Person@%s)\"",
                            toHexString(expected.hashCode()), toHexString(actual.hashCode()));
   }
 
@@ -97,7 +97,7 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
     then(error).isInstanceOf(AssertionFailedError.class)
                .hasMessage("[my test] %n" +
                            "expected: \"Person[name=Jake] (Person@%s)\"%n" +
-                           "but was : \"Person[name=Jake] (Person@%s)\"%n" +
+                           " but was: \"Person[name=Jake] (Person@%s)\"%n" +
                            "when comparing values using PersonComparator",
                            toHexString(expected.hashCode()), toHexString(actual.hashCode()));
   }
@@ -116,7 +116,7 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
     then(error).isInstanceOf(AssertionFailedError.class)
                .hasMessage("[my test] %n" +
                            "expected: \"null (ToStringIsNull@%s)\"%n" +
-                           "but was : null",
+                           " but was: null",
                            toHexString(expected.hashCode()));
   }
 
@@ -134,7 +134,7 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
     then(error).isInstanceOf(AssertionFailedError.class)
                .hasMessage("[my test] %n" +
                            "expected: null%n" +
-                           "but was : \"null (ToStringIsNull@%s)\"",
+                           " but was: \"null (ToStringIsNull@%s)\"",
                            toHexString(actual.hashCode()));
   }
 

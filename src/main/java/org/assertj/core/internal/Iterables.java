@@ -1163,7 +1163,7 @@ public class Iterables {
   }
 
   public <E> void assertSatisfiesExactly(AssertionInfo info, Iterable<? extends E> actual,
-                                         @SuppressWarnings("unchecked") Consumer<? super E>... allRequirements) {
+                                         Consumer<? super E>[] allRequirements) {
     assertNotNull(info, actual);
     assertHasSameSizeAs(info, actual, allRequirements); // TODO
     List<E> actualAsList = newArrayList(actual);
@@ -1179,9 +1179,8 @@ public class Iterables {
 
   }
 
-  @SafeVarargs
-  public final <E> void assertSatisfiesExactlyInAnyOrder(AssertionInfo info, Iterable<? extends E> actual,
-                                                         @SuppressWarnings("unchecked") Consumer<? super E>... consumers) {
+  public <E> void assertSatisfiesExactlyInAnyOrder(AssertionInfo info, Iterable<? extends E> actual,
+                                                   Consumer<? super E>[] consumers) {
     assertNotNull(info, actual);
     requireNonNull(consumers, "The Consumer<? super E>... expressing the assertions must not be null");
     for (Consumer<? super E> consumer : consumers)

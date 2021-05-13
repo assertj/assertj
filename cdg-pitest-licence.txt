@@ -1,0 +1,7 @@
+#Licence file for pitest git plugin
+#Tue May 04 09:26:47 BST 2021
+expires=04/05/2023
+keyVersion=1
+signature=D1RXTdu1ITmJhlRqssvVts6xi5xeyobnq4QCOeLHRuggH1sk4FECLCMPXPtAe0mkUPFI3kuioxmQcnGpm4Xol/Q3YnhI3bKZWjNNgl1XdW3SiGzKqYg/mzwXZeWPPSBQ5pl3Bf0SvcvcZaQaLzAWtgRtjRWqyuBGegASqDOqwGc\=
+packages=org.assertj.*
+type=OSSS

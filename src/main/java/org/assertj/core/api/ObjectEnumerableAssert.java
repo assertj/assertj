@@ -57,7 +57,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not contain the given values.
    */
-  SELF contains(@SuppressWarnings("unchecked") ELEMENT... values);
+  SELF contains(ELEMENT... values);
 
   /**
    * Verifies that the actual group contains only the given values and nothing else, in any order and ignoring duplicates (i.e. once a value is found, its duplicates are also considered found).
@@ -96,7 +96,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
    *           or none of the given values, or the actual group contains more values than the given ones.
    */
-  SELF containsOnly(@SuppressWarnings("unchecked") ELEMENT... values);
+  SELF containsOnly(ELEMENT... values);
 
   /**
    * Verifies that the actual group contains only null elements and nothing else.
@@ -144,7 +144,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
    *           or none of the given values, or the actual group contains more than once these values.
    */
-  SELF containsOnlyOnce(@SuppressWarnings("unchecked") ELEMENT... values);
+  SELF containsOnlyOnce(ELEMENT... values);
 
   /**
    * Verifies that the actual group contains exactly the given values and nothing else, <b>in order</b>.<br>
@@ -171,7 +171,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *           contains some or none of the given values, or the actual group contains more values than the given ones
    *           or values are the same but the order is not.
    */
-  SELF containsExactly(@SuppressWarnings("unchecked") ELEMENT... values);
+  SELF containsExactly(ELEMENT... values);
 
   /**
    * Verifies that the actual group contains exactly the given values and nothing else, <b>in any order</b>.<br>
@@ -196,7 +196,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
    *           contains some or none of the given values, or the actual group contains more values than the given ones.
    */
-  SELF containsExactlyInAnyOrder(@SuppressWarnings("unchecked") ELEMENT... values);
+  SELF containsExactlyInAnyOrder(ELEMENT... values);
 
   /**
    * Verifies that the actual group contains exactly the given values and nothing else, <b>in any order</b>.<br>
@@ -250,7 +250,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual group does not contain the given sequence.
    */
-  SELF containsSequence(@SuppressWarnings("unchecked") ELEMENT... sequence);
+  SELF containsSequence(ELEMENT... sequence);
 
   /**
    * Verifies that the actual group contains the given sequence in the correct order and <b>without extra values between the sequence values</b>.
@@ -304,7 +304,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual group contains the given sequence.
    */
-  SELF doesNotContainSequence(@SuppressWarnings("unchecked") ELEMENT... sequence);
+  SELF doesNotContainSequence(ELEMENT... sequence);
 
   /**
    * Verifies that the actual group does not contain the given sequence,
@@ -356,7 +356,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual group does not contain the given subsequence.
    */
-  SELF containsSubsequence(@SuppressWarnings("unchecked") ELEMENT... sequence);
+  SELF containsSubsequence(ELEMENT... sequence);
 
   /**
    * Verifies that the actual group contains the given subsequence in the correct order (possibly with other values between them).
@@ -405,7 +405,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual group contains the given subsequence.
    */
-  SELF doesNotContainSubsequence(@SuppressWarnings("unchecked") ELEMENT... sequence);
+  SELF doesNotContainSubsequence(ELEMENT... sequence);
 
   /**
    * Verifies that the actual group does not contain the given subsequence,
@@ -457,7 +457,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group contains any of the given values.
    */
-  SELF doesNotContain(@SuppressWarnings("unchecked") ELEMENT... values);
+  SELF doesNotContain(ELEMENT... values);
 
   /**
    * Verifies that the actual group does not contain duplicates.
@@ -502,7 +502,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not start with the given sequence of objects.
    */
-  SELF startsWith(@SuppressWarnings("unchecked") ELEMENT... sequence);
+  SELF startsWith(ELEMENT... sequence);
 
   /**
    * Verifies that the actual group ends with the given sequence of objects, without any other objects between them.
@@ -529,7 +529,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not end with the given sequence of objects.
    */
-  SELF endsWith(ELEMENT first, @SuppressWarnings("unchecked") ELEMENT... sequence);
+  SELF endsWith(ELEMENT first, ELEMENT... sequence);
 
   /**
    * Verifies that the actual group ends with the given sequence of objects, without any other objects between them.
@@ -953,14 +953,41 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * assertThat(objects).hasOnlyElementsOfTypes(String.class, Number.class);
    * assertThat(objects).hasOnlyElementsOfTypes(String.class);</code></pre>
    *
-   * @param types the expected classes and interfaces
+   * @param expectedTypes the expected types
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if not all elements of the actual group are instances of one of the given types
    * @since 2.7.0 / 3.7.0
    */
-  SELF hasOnlyElementsOfTypes(Class<?>... types);
+  SELF hasOnlyElementsOfTypes(Class<?>... expectedTypes);
+
+  /**
+   * Verifies that the actual elements are of the given types in the given order, there should be as many expected types as there are actual elements.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Iterable&lt;Object&gt; list = Arrays.asList(1, "a", "b", 1.00);
+   *
+   * // assertion succeeds
+   * assertThat(list).hasExactlyElementsOfTypes(Integer.class, String.class, String.class, Double.class);
+   *
+   * // assertions fail
+   * // missing second String type
+   * assertThat(list).hasExactlyElementsOfTypes(Integer.class, String.class, Double.class);
+   * // no Float type in actual
+   * assertThat(list).hasExactlyElementsOfTypes(Float.class, String.class, String.class, Double.class);
+   * // correct types but wrong order
+   * assertThat(list).hasExactlyElementsOfTypes(String.class, Integer.class, String.class, Double.class);
+   * // actual has more elements than the specified expected types
+   * assertThat(list).hasExactlyElementsOfTypes(String.class);</code></pre>
+   *
+   * @param expectedTypes the expected types
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given type array is {@code null}.
+   * @throws AssertionError if actual is {@code null}.
+   * @throws AssertionError if the actual elements types don't exactly match the given ones (in the given order).
+   */
+  SELF hasExactlyElementsOfTypes(Class<?>... expectedTypes);
 
   /**
    * Verifies that at least one element in the actual {@code Object} group has the specified type (matching
@@ -1196,7 +1223,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the actual {@code Iterable} is {@code null}.
    * @throws AssertionError if the actual {@code Iterable} is not subset of the given values.
    */
-  SELF isSubsetOf(@SuppressWarnings("unchecked") ELEMENT... values);
+  SELF isSubsetOf(ELEMENT... values);
 
   /**
    * Verifies that all the elements of actual match the given {@link Predicate}.
@@ -1314,7 +1341,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if there are not as many requirements as there are iterable elements.
    * @since 3.19.0
    */
-  SELF satisfiesExactly(@SuppressWarnings("unchecked") Consumer<? super ELEMENT>... allRequirements);
+  SELF satisfiesExactly(Consumer<? super ELEMENT>... allRequirements);
 
   /**
    * Verifies that at least one combination of iterable elements exists that satisfies the consumers in order (there must be as
@@ -1368,7 +1395,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * @since 3.19.0
    */
-  SELF satisfiesExactlyInAnyOrder(@SuppressWarnings("unchecked") Consumer<? super ELEMENT>... allRequirements);
+  SELF satisfiesExactlyInAnyOrder(Consumer<? super ELEMENT>... allRequirements);
 
   /**
    * Verifies whether any elements match the provided {@link Predicate}.
@@ -1464,7 +1491,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the {@code Iterable} under test does not contain any of the given {@code values}.
    * @since 2.9.0 / 3.9.0
    */
-  SELF containsAnyOf(@SuppressWarnings("unchecked") ELEMENT... values);
+  SELF containsAnyOf(ELEMENT... values);
 
   /**
    * Verifies that the {@link Iterable} under test contains at least one of the given {@link Iterable} elements.

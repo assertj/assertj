@@ -44,6 +44,7 @@ import org.assertj.core.util.CheckReturnValue;
  * @author Nicolai Parlog
  * @author Grzegorz Piwowarek
  */
+@SuppressWarnings("deprecation")
 public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert<SELF, VALUE>, VALUE> extends
     AbstractAssert<SELF, Optional<VALUE>> {
 

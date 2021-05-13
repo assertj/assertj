@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.classes;
 
+import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ClassAssert;
@@ -19,7 +20,7 @@ import org.assertj.core.api.ClassAssertBaseTest;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.ClassAssert#hasAnnotation(Class)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
 class ClassAssert_hasAnnotation_Test extends ClassAssertBaseTest {
@@ -29,10 +30,9 @@ class ClassAssert_hasAnnotation_Test extends ClassAssertBaseTest {
     return assertions.hasAnnotation(MyAnnotation.class);
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   protected void verify_internal_effects() {
-    verify(classes).assertContainsAnnotations(getInfo(assertions), getActual(assertions), MyAnnotation.class);
+    verify(classes).assertContainsAnnotations(getInfo(assertions), getActual(assertions), array(MyAnnotation.class));
   }
 
 }

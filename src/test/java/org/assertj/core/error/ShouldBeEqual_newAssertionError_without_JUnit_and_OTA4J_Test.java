@@ -79,7 +79,7 @@ class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
                                                      array(String.class, Object.class, Object.class),
                                                      format("[Jedi] %n" +
                                                             "expected: \"Yoda\"%n" +
-                                                            "but was : \"Luke\""),
+                                                            " but was: \"Luke\""),
                                                      STANDARD_REPRESENTATION.toStringOf("Yoda"),
                                                      STANDARD_REPRESENTATION.toStringOf("Luke"));
     verify(constructorInvoker).newInstance(ComparisonFailure.class.getName(),
@@ -90,6 +90,6 @@ class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
     assertThat(error).isNotInstanceOfAny(ComparisonFailure.class, AssertionFailedError.class)
                      .hasMessage(format("[Jedi] %n" +
                                         "expected: \"Yoda\"%n" +
-                                        "but was : \"Luke\""));
+                                        " but was: \"Luke\""));
   }
 }

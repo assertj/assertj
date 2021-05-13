@@ -13,7 +13,7 @@
 package org.assertj.core.api;
 
 import org.assertj.core.internal.Failures;
-
+import org.assertj.core.util.CanIgnoreReturnValue;
 
 /**
  * Common failures.
@@ -41,6 +41,7 @@ public final class Fail {
    * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("boom")));.
    * @throws AssertionError with the given message.
    */
+  @CanIgnoreReturnValue
   public static <T> T fail(String failureMessage) {
     throw Failures.instance().failure(failureMessage);
   }
@@ -54,6 +55,7 @@ public final class Fail {
    * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("b%s", ""oom)));.
    * @throws AssertionError with the given built message.
    */
+  @CanIgnoreReturnValue
   public static <T> T fail(String failureMessage, Object... args) {
     return fail(String.format(failureMessage, args));
   }
@@ -67,6 +69,7 @@ public final class Fail {
    * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("boom", cause)));.
    * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
    */
+  @CanIgnoreReturnValue
   public static <T> T fail(String failureMessage, Throwable realCause) {
     AssertionError error = Failures.instance().failure(failureMessage);
     error.initCause(realCause);
@@ -85,6 +88,7 @@ public final class Fail {
    *
    * {@link Fail#shouldHaveThrown(Class)} can be used as a replacement.
    */
+  @CanIgnoreReturnValue
   public static <T> T failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
     return shouldHaveThrown(throwableClass);
   }
@@ -99,6 +103,7 @@ public final class Fail {
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    */
+  @CanIgnoreReturnValue
   public static <T> T shouldHaveThrown(Class<? extends Throwable> throwableClass) {
     throw Failures.instance().expectedThrowableNotThrown(throwableClass);
   }

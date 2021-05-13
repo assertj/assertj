@@ -12,13 +12,13 @@
  */
 package org.assertj.core.internal.maps;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainKeys.shouldContainKeys;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
@@ -32,8 +32,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Maps#assertContainsKeys(AssertionInfo, Map, Object...)}</code>.
- * 
+ * Tests for <code>{@link Maps#assertContainsKeys(AssertionInfo, Map, Object[])}</code>.
+ *
  * @author William Delanoue
  */
 class Maps_assertContainsKeys_Test extends MapsBaseTest {
@@ -47,40 +47,44 @@ class Maps_assertContainsKeys_Test extends MapsBaseTest {
 
   @Test
   void should_pass_if_actual_contains_given_key() {
-    maps.assertContainsKeys(someInfo(), actual, "name");
+    maps.assertContainsKeys(someInfo(), actual, array("name"));
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContainsKeys(someInfo(), null, "name"))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> maps.assertContainsKey(someInfo(), null, array("name")));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
   void should_success_if_key_is_null() {
-    maps.assertContainsKeys(someInfo(), actual, (String) null);
+    maps.assertContainsKeys(someInfo(), actual, new String[] { null });
   }
 
   @Test
   void should_fail_if_actual_does_not_contain_key() {
+    // GIVEN
     AssertionInfo info = someInfo();
     String key = "power";
-
-    Throwable error = catchThrowable(() -> maps.assertContainsKeys(info, actual, key));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
+    // WHEN
+    expectAssertionError(() -> maps.assertContainsKeys(info, actual, array(key)));
+    // THEN
     verify(failures).failure(info, shouldContainKeys(actual, newLinkedHashSet(key)));
   }
 
   @Test
   void should_fail_if_actual_does_not_contain_keys() {
+    // GIVEN
     AssertionInfo info = someInfo();
     String key1 = "power";
     String key2 = "rangers";
-
-    Throwable error = catchThrowable(() -> maps.assertContainsKeys(info, actual, key1, key2));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
+    // WHEN
+    expectAssertionError(() -> maps.assertContainsKeys(info, actual, array(key1, key2)));
+    // THEN
     verify(failures).failure(info, shouldContainKeys(actual, newLinkedHashSet(key1, key2)));
   }
 }

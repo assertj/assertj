@@ -13,13 +13,12 @@
 package org.assertj.core.api;
 
 import static java.lang.String.format;
-import static java.util.stream.Collectors.toList;
 
-import java.lang.reflect.Constructor;
 import java.util.List;
 
 import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Failures;
+import org.assertj.core.util.CanIgnoreReturnValue;
 
 public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollector
     implements SoftAssertionsProvider, InstanceOfAssertFactories {
@@ -57,6 +56,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    * @return nothing, it's just to be used in {@code doSomething(optional.orElse(() -> fail("boom")));}.
    * @since 2.6.0 / 3.6.0
    */
+  @CanIgnoreReturnValue
   public <T> T fail(String failureMessage) {
     AssertionError error = Failures.instance().failure(failureMessage);
     collectAssertionError(error);
@@ -72,6 +72,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    * @return nothing, it's just to be used in {@code doSomething(optional.orElse(() -> fail("boom")));}.
    * @since 2.6.0 / 3.6.0
    */
+  @CanIgnoreReturnValue
   public <T> T fail(String failureMessage, Object... args) {
     return fail(format(failureMessage, args));
   }
@@ -85,6 +86,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    * @return nothing, it's just to be used in {@code doSomething(optional.orElse(() -> fail("boom")));}.
    * @since 2.6.0 / 3.6.0
    */
+  @CanIgnoreReturnValue
   public <T> T fail(String failureMessage, Throwable realCause) {
     AssertionError error = Failures.instance().failure(failureMessage);
     error.initCause(realCause);
@@ -121,11 +123,6 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
     collectAssertionError(error);
   }
 
-  @Override
-  public List<AssertionError> assertionErrorsCollected() {
-    return decorateErrorsCollected(super.assertionErrorsCollected());
-  }
-
   /**
    * Returns a copy of list of soft assertions collected errors.
    * @return a copy of list of soft assertions collected errors.
@@ -134,84 +131,4 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
     return decorateErrorsCollected(super.assertionErrorsCollected());
   }
 
-  /**
-   * Modifies collected errors. Override to customize modification.
-   * @param <T> the supertype to use in the list return value
-   * @param errors list of errors to decorate
-   * @return decorated list
-  */
-  protected <T extends Throwable> List<T> decorateErrorsCollected(List<? extends T> errors) {
-    return addLineNumberToErrorMessages(errors);
-  }
-
-  private <T extends Throwable> List<T> addLineNumberToErrorMessages(List<? extends T> errors) {
-    return errors.stream()
-                 .map(this::addLineNumberToErrorMessage)
-                 .collect(toList());
-  }
-
-  private <T extends Throwable> T addLineNumberToErrorMessage(T error) {
-    StackTraceElement testStackTraceElement = getFirstStackTraceElementFromTest(error.getStackTrace());
-    if (testStackTraceElement != null) {
-      try {
-        return createNewInstanceWithLineNumberInErrorMessage(error, testStackTraceElement);
-      } catch (@SuppressWarnings("unused") SecurityException | ReflectiveOperationException ignored) {}
-    }
-    return error;
-  }
-
-  private <T extends Throwable> T createNewInstanceWithLineNumberInErrorMessage(T error,
-                                                                                StackTraceElement testStackTraceElement) throws ReflectiveOperationException {
-    @SuppressWarnings("unchecked")
-    Constructor<? extends T> constructor = (Constructor<? extends T>) error.getClass().getConstructor(String.class,
-                                                                                                      Throwable.class);
-    T errorWithLineNumber = constructor.newInstance(buildErrorMessageWithLineNumber(error.getMessage(),
-                                                                                    testStackTraceElement),
-                                                    error.getCause());
-    errorWithLineNumber.setStackTrace(error.getStackTrace());
-    for (Throwable suppressed : error.getSuppressed()) {
-      errorWithLineNumber.addSuppressed(suppressed);
-    }
-    return errorWithLineNumber;
-  }
-
-  private String buildErrorMessageWithLineNumber(String originalErrorMessage, StackTraceElement testStackTraceElement) {
-    String testClassName = simpleClassNameOf(testStackTraceElement);
-    String testName = testStackTraceElement.getMethodName();
-    int lineNumber = testStackTraceElement.getLineNumber();
-    return format("%s%nat %s.%s(%s.java:%s)", originalErrorMessage, testClassName, testName, testClassName, lineNumber);
-  }
-
-  private String simpleClassNameOf(StackTraceElement testStackTraceElement) {
-    String className = testStackTraceElement.getClassName();
-    return className.substring(className.lastIndexOf('.') + 1);
-  }
-
-  private StackTraceElement getFirstStackTraceElementFromTest(StackTraceElement[] stacktrace) {
-    for (StackTraceElement element : stacktrace) {
-      String className = element.getClassName();
-      if (isProxiedAssertionClass(className)
-          || className.startsWith("sun.reflect")
-          || className.startsWith("jdk.internal.reflect")
-          || className.startsWith("java.")
-          || className.startsWith("javax.")
-          || className.startsWith("org.junit.")
-          || className.startsWith("org.eclipse.jdt.internal.junit.")
-          || className.startsWith("org.eclipse.jdt.internal.junit4.")
-          || className.startsWith("org.eclipse.jdt.internal.junit5.")
-          || className.startsWith("com.intellij.junit5.")
-          || className.startsWith("com.intellij.rt.execution.junit.")
-          || className.startsWith("com.intellij.rt.junit.") // since IntelliJ IDEA build 193.2956.37
-          || className.startsWith("org.apache.maven.surefire")
-          || className.startsWith("org.assertj")) {
-        continue;
-      }
-      return element;
-    }
-    return null;
-  }
-
-  private boolean isProxiedAssertionClass(String className) {
-    return className.contains("$ByteBuddy$");
-  }
 }

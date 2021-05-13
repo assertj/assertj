@@ -69,6 +69,7 @@ import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
+// suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports
 @SuppressWarnings("deprecation")
 public class AtomicReferenceArrayAssert<T>
     extends AbstractAssert<AtomicReferenceArrayAssert<T>, AtomicReferenceArray<T>>
@@ -459,7 +460,15 @@ public class AtomicReferenceArrayAssert<T>
    * @since 2.7.0 / 3.7.0
    */
   @Override
-  public AtomicReferenceArrayAssert<T> contains(@SuppressWarnings("unchecked") T... values) {
+  @SafeVarargs
+  public final AtomicReferenceArrayAssert<T> contains(T... values) {
+    return containsForProxy(values);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected AtomicReferenceArrayAssert<T> containsForProxy(T[] values) {
     arrays.assertContains(info, array, values);
     return myself;
   }
@@ -489,7 +498,15 @@ public class AtomicReferenceArrayAssert<T>
    * @since 2.7.0 / 3.7.0
    */
   @Override
-  public AtomicReferenceArrayAssert<T> containsOnly(@SuppressWarnings("unchecked") T... values) {
+  @SafeVarargs
+  public final AtomicReferenceArrayAssert<T> containsOnly(T... values) {
+    return containsOnlyForProxy(values);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected AtomicReferenceArrayAssert<T> containsOnlyForProxy(T[] values) {
     arrays.assertContainsOnly(info, array, values);
     return myself;
   }
@@ -599,7 +616,15 @@ public class AtomicReferenceArrayAssert<T>
    * @since 2.7.0 / 3.7.0
    */
   @Override
-  public AtomicReferenceArrayAssert<T> containsOnlyOnce(@SuppressWarnings("unchecked") T... values) {
+  @SafeVarargs
+  public final AtomicReferenceArrayAssert<T> containsOnlyOnce(T... values) {
+    return containsOnlyOnceForProxy(values);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected AtomicReferenceArrayAssert<T> containsOnlyOnceForProxy(T[] values) {
     arrays.assertContainsOnlyOnce(info, array, values);
     return myself;
   }
@@ -634,7 +659,15 @@ public class AtomicReferenceArrayAssert<T>
    * @since 2.7.0 / 3.7.0
    */
   @Override
-  public AtomicReferenceArrayAssert<T> containsExactly(@SuppressWarnings("unchecked") T... values) {
+  @SafeVarargs
+  public final AtomicReferenceArrayAssert<T> containsExactly(T... values) {
+    return containsExactlyForProxy(values);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected AtomicReferenceArrayAssert<T> containsExactlyForProxy(T[] values) {
     arrays.assertContainsExactly(info, array, values);
     return myself;
   }
@@ -660,7 +693,15 @@ public class AtomicReferenceArrayAssert<T>
    *           contains some or none of the given values, or more values than the given ones.
    */
   @Override
-  public AtomicReferenceArrayAssert<T> containsExactlyInAnyOrder(@SuppressWarnings("unchecked") T... values) {
+  @SafeVarargs
+  public final AtomicReferenceArrayAssert<T> containsExactlyInAnyOrder(T... values) {
+    return containsExactlyInAnyOrderForProxy(values);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected AtomicReferenceArrayAssert<T> containsExactlyInAnyOrderForProxy(T[] values) {
     arrays.assertContainsExactlyInAnyOrder(info, array, values);
     return myself;
   }
@@ -737,7 +778,15 @@ public class AtomicReferenceArrayAssert<T>
    * @throws AssertionError if the actual AtomicReferenceArray does not contain the given sequence.
    */
   @Override
-  public AtomicReferenceArrayAssert<T> containsSequence(@SuppressWarnings("unchecked") T... sequence) {
+  @SafeVarargs
+  public final AtomicReferenceArrayAssert<T> containsSequence(T... sequence) {
+    return containsSequenceForProxy(sequence);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected AtomicReferenceArrayAssert<T> containsSequenceForProxy(T[] sequence) {
     arrays.assertContainsSequence(info, array, sequence);
     return myself;
   }
@@ -794,7 +843,15 @@ public class AtomicReferenceArrayAssert<T>
    * @throws AssertionError if the actual AtomicReferenceArray does not contain the given sequence.
    */
   @Override
-  public AtomicReferenceArrayAssert<T> doesNotContainSequence(@SuppressWarnings("unchecked") T... sequence) {
+  @SafeVarargs
+  public final AtomicReferenceArrayAssert<T> doesNotContainSequence(T... sequence) {
+    return doesNotContainSequenceForProxy(sequence);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected AtomicReferenceArrayAssert<T> doesNotContainSequenceForProxy(T[] sequence) {
     arrays.assertDoesNotContainSequence(info, array, sequence);
     return myself;
   }
@@ -848,7 +905,15 @@ public class AtomicReferenceArrayAssert<T>
    * @throws AssertionError if the actual AtomicReferenceArray does not contain the given subsequence.
    */
   @Override
-  public AtomicReferenceArrayAssert<T> containsSubsequence(@SuppressWarnings("unchecked") T... subsequence) {
+  @SafeVarargs
+  public final AtomicReferenceArrayAssert<T> containsSubsequence(T... subsequence) {
+    return containsSubsequenceForProxy(subsequence);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected AtomicReferenceArrayAssert<T> containsSubsequenceForProxy(T[] subsequence) {
     arrays.assertContainsSubsequence(info, array, subsequence);
     return myself;
   }
@@ -900,7 +965,15 @@ public class AtomicReferenceArrayAssert<T>
    * @throws AssertionError if the actual AtomicReferenceArray contains the given subsequence.
    */
   @Override
-  public AtomicReferenceArrayAssert<T> doesNotContainSubsequence(@SuppressWarnings("unchecked") T... subsequence) {
+  @SafeVarargs
+  public final AtomicReferenceArrayAssert<T> doesNotContainSubsequence(T... subsequence) {
+    return doesNotContainSubsequenceForProxy(subsequence);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected AtomicReferenceArrayAssert<T> doesNotContainSubsequenceForProxy(T[] subsequence) {
     arrays.assertDoesNotContainSubsequence(info, array, subsequence);
     return myself;
   }
@@ -992,6 +1065,38 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
+   * Verifies that the actual elements are of the given types in the given order, there should be as many expected types as there are actual elements.
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicReferenceArray&lt;Object&gt; objects = new AtomicReferenceArray&lt;&gt;(new Object[] { 1, "a", 1.00 });
+   *
+   * // assertion succeeds
+   * assertThat(objects).hasExactlyElementsOfTypes(Integer.class, String.class, String.class, Double.class);
+   *
+   * // assertions fail
+   * // missing second String type
+   * assertThat(objects).hasExactlyElementsOfTypes(Integer.class, String.class, Double.class);
+   * // no Float type in actual
+   * assertThat(objects).hasExactlyElementsOfTypes(Float.class, String.class, String.class, Double.class);
+   * // correct types but wrong order
+   * assertThat(objects).hasExactlyElementsOfTypes(String.class, Integer.class, String.class, Double.class);
+   * // actual has more elements than the specified expected types
+   * assertThat(objects).hasExactlyElementsOfTypes(String.class);</code></pre>
+   *
+   * @param expectedTypes the expected types
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given type array is {@code null}.
+   * @throws AssertionError if actual is {@code null}.
+   * @throws AssertionError if the actual elements types don't exactly match the given ones (in the given order).
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> hasExactlyElementsOfTypes(Class<?>... expectedTypes) {
+    arrays.assertHasExactlyElementsOfTypes(info, array, expectedTypes);
+    return myself;
+  }
+
+
+  /**
    * Verifies that the actual AtomicReferenceArray does not contain the given object at the given index.
    * <p>
    * Example:
@@ -1042,7 +1147,15 @@ public class AtomicReferenceArrayAssert<T>
    * @throws AssertionError if the actual AtomicReferenceArray contains any of the given values.
    */
   @Override
-  public AtomicReferenceArrayAssert<T> doesNotContain(@SuppressWarnings("unchecked") T... values) {
+  @SafeVarargs
+  public final AtomicReferenceArrayAssert<T> doesNotContain(T... values) {
+    return doesNotContainForProxy(values);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected AtomicReferenceArrayAssert<T> doesNotContainForProxy(T[] values) {
     arrays.assertDoesNotContain(info, array, values);
     return myself;
   }
@@ -1118,7 +1231,15 @@ public class AtomicReferenceArrayAssert<T>
    * @throws AssertionError if the actual AtomicReferenceArray does not start with the given sequence of objects.
    */
   @Override
-  public AtomicReferenceArrayAssert<T> startsWith(@SuppressWarnings("unchecked") T... sequence) {
+  @SafeVarargs
+  public final AtomicReferenceArrayAssert<T> startsWith(T... sequence) {
+    return startsWithForProxy(sequence);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected AtomicReferenceArrayAssert<T> startsWithForProxy(T[] sequence) {
     arrays.assertStartsWith(info, array, sequence);
     return myself;
   }
@@ -1145,7 +1266,15 @@ public class AtomicReferenceArrayAssert<T>
    * @throws AssertionError if the actual AtomicReferenceArray does not end with the given sequence of objects.
    */
   @Override
-  public AtomicReferenceArrayAssert<T> endsWith(T first, @SuppressWarnings("unchecked") T... sequence) {
+  @SafeVarargs
+  public final AtomicReferenceArrayAssert<T> endsWith(T first, T... sequence) {
+    return endsWithForProxy(first, sequence);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected AtomicReferenceArrayAssert<T> endsWithForProxy(T first, T[] sequence) {
     arrays.assertEndsWith(info, array, first, sequence);
     return myself;
   }
@@ -1222,7 +1351,15 @@ public class AtomicReferenceArrayAssert<T>
    * @throws AssertionError if the actual {@code Iterable} is not subset of the given values.
    */
   @Override
-  public AtomicReferenceArrayAssert<T> isSubsetOf(@SuppressWarnings("unchecked") T... values) {
+  @SafeVarargs
+  public final AtomicReferenceArrayAssert<T> isSubsetOf(T... values) {
+    return isSubsetOfForProxy(values);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected AtomicReferenceArrayAssert<T> isSubsetOfForProxy(T[] values) {
     arrays.assertIsSubsetOf(info, array, Arrays.asList(values));
     return myself;
   }
@@ -3330,13 +3467,29 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   @Override
-  public AtomicReferenceArrayAssert<T> satisfiesExactly(@SuppressWarnings("unchecked") Consumer<? super T>... requirements) {
+  @SafeVarargs
+  public final AtomicReferenceArrayAssert<T> satisfiesExactly(Consumer<? super T>... requirements) {
+    return satisfiesExactlyForProxy(requirements);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected AtomicReferenceArrayAssert<T> satisfiesExactlyForProxy(Consumer<? super T>[] requirements) {
     iterables.assertSatisfiesExactly(info, newArrayList(array), requirements);
     return myself;
   }
 
   @Override
-  public AtomicReferenceArrayAssert<T> satisfiesExactlyInAnyOrder(@SuppressWarnings("unchecked") Consumer<? super T>... consumers) {
+  @SafeVarargs
+  public final AtomicReferenceArrayAssert<T> satisfiesExactlyInAnyOrder(Consumer<? super T>... consumers) {
+    return satisfiesExactlyInAnyOrderForProxy(consumers);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected AtomicReferenceArrayAssert<T> satisfiesExactlyInAnyOrderForProxy(Consumer<? super T>[] consumers) {
     iterables.assertSatisfiesExactlyInAnyOrder(info, newArrayList(array), consumers);
     return myself;
   }
@@ -3367,7 +3520,15 @@ public class AtomicReferenceArrayAssert<T>
    * @since 2.9.0 / 3.9.0
    */
   @Override
-  public AtomicReferenceArrayAssert<T> containsAnyOf(@SuppressWarnings("unchecked") T... values) {
+  @SafeVarargs
+  public final AtomicReferenceArrayAssert<T> containsAnyOf(T... values) {
+    return containsAnyOfForProxy(values);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected AtomicReferenceArrayAssert<T> containsAnyOfForProxy(T[] values) {
     arrays.assertContainsAnyOf(info, array, values);
     return myself;
   }

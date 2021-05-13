@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.util.Arrays.array;
+
 import java.lang.annotation.Annotation;
 
 import org.assertj.core.internal.Classes;
@@ -351,9 +353,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
    */
-  @SuppressWarnings("unchecked")
   public SELF hasAnnotation(Class<? extends Annotation> annotation) {
-    classes.assertContainsAnnotations(info, actual, annotation);
+    classes.assertContainsAnnotations(info, actual, array(annotation));
     return myself;
   }
 

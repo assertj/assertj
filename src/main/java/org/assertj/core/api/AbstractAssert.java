@@ -464,7 +464,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @Override
   @CheckReturnValue
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT asInstanceOf(InstanceOfAssertFactory<?, ASSERT> instanceOfAssertFactory) {
-    requireNonNull(instanceOfAssertFactory, shouldNotBeNull("instanceOfAssertFactory").create());
+    requireNonNull(instanceOfAssertFactory, shouldNotBeNull("instanceOfAssertFactory")::create);
     objects.assertIsInstanceOf(info, actual, instanceOfAssertFactory.getType());
     return (ASSERT) instanceOfAssertFactory.createAssert(actual).withAssertionState(myself);
   }
@@ -985,8 +985,8 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @CheckReturnValue
   protected <ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(String propertyOrField,
                                                                     AssertFactory<Object, ASSERT> assertFactory) {
-    requireNonNull(propertyOrField, shouldNotBeNull("propertyOrField").create());
-    requireNonNull(assertFactory, shouldNotBeNull("assertFactory").create());
+    requireNonNull(propertyOrField, shouldNotBeNull("propertyOrField")::create);
+    requireNonNull(assertFactory, shouldNotBeNull("assertFactory")::create);
     Object value = byName(propertyOrField).apply(actual);
     String extractedPropertyOrFieldDescription = extractedDescriptionOf(propertyOrField);
     String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
@@ -1011,8 +1011,8 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @CheckReturnValue
   protected <T, ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(Function<? super ACTUAL, ? extends T> extractor,
                                                                        AssertFactory<T, ASSERT> assertFactory) {
-    requireNonNull(extractor, shouldNotBeNull("extractor").create());
-    requireNonNull(assertFactory, shouldNotBeNull("assertFactory").create());
+    requireNonNull(extractor, shouldNotBeNull("extractor")::create);
+    requireNonNull(assertFactory, shouldNotBeNull("assertFactory")::create);
     T extractedValue = extractor.apply(actual);
     return (ASSERT) assertFactory.createAssert(extractedValue).withAssertionState(myself);
   }

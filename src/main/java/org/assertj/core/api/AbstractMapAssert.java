@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Collections.singleton;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.entry;
@@ -1070,7 +1071,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   // This method is protected in order to be proxied for SoftAssertions / Assumptions.
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
-  protected SELF containsKeysForProxy(@SuppressWarnings("unchecked") K... keys) {
+  protected SELF containsKeysForProxy(K[] keys) {
     maps.assertContainsKeys(info, actual, keys);
     return myself;
   }
@@ -1201,7 +1202,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     if (keys instanceof Path) {
       // do not treat Path as an Iterable
       K path = (K) keys;
-      maps.assertContainsOnlyKeys(info, actual, path);
+      maps.assertContainsOnlyKeys(info, actual, singleton(path));
     } else {
       maps.assertContainsOnlyKeys(info, actual, keys);
     }
