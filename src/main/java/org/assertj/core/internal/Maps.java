@@ -66,11 +66,10 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
+import org.assertj.core.data.MapEntry;
 import org.assertj.core.error.UnsatisfiedRequirement;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -377,22 +376,29 @@ public class Maps {
       throw failures.failure(info, shouldContainOnlyKeys(actual, keys, notFound, notExpected));
   }
 
-  private static <K> Set<K> getNotFoundKeys(Map<K, ?> actual, K[] keys) {
-    return Stream.of(keys)
-                 .filter(key -> !actual.containsKey(key))
-                 .collect(Collectors.toCollection(LinkedHashSet::new));
+  private static <K> Set<K> getNotFoundKeys(Map<K, ?> actual, K[] expectedKeys) {
+    Set<K> notFound = new LinkedHashSet<>();
+    for (K expectedKey : expectedKeys) {
+      if (!actual.containsKey(expectedKey)) {
+        notFound.add(expectedKey);
+      }
+    }
+    return notFound;
   }
 
-  private static <K> Set<K> getNotExpectedKeys(Map<K, ?> actual, K[] keys) {
-    List<K> expectedKeys = java.util.Arrays.asList(keys);
+  private static <K> Set<K> getNotExpectedKeys(Map<K, ?> actual, K[] expectedKeys) {
     try {
       Map<K, ?> clonedMap = clone(actual);
-      expectedKeys.forEach(clonedMap::remove);
+      for (K expectedKey : expectedKeys) {
+        clonedMap.remove(expectedKey);
+      }
       return clonedMap.keySet();
     } catch (NoSuchMethodException | UnsupportedOperationException e) {
       // actual cannot be cloned or is unmodifiable, falling back to LinkedHashMap
       Map<K, ?> copiedMap = new LinkedHashMap<>(actual);
-      expectedKeys.forEach(copiedMap::remove);
+      for (K expectedKey : expectedKeys) {
+        copiedMap.remove(expectedKey);
+      }
       return copiedMap.keySet();
     }
   }
@@ -453,28 +459,37 @@ public class Maps {
 
   private static <K, V> Set<Entry<? extends K, ? extends V>> getNotFoundEntries(Map<K, V> actual,
                                                                                 Entry<? extends K, ? extends V>[] entries) {
-    return Stream.of(entries)
-                 .filter(entry -> !containsEntry(actual, entry))
-                 .collect(Collectors.toCollection(LinkedHashSet::new));
+    Set<Entry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
+    for (Entry<? extends K, ? extends V> entry : entries) {
+      if (!containsEntry(actual, entry)) {
+        notFound.add(entry);
+      }
+    }
+    return notFound;
   }
 
   private static <K, V> Set<Entry<K, V>> getNotExpectedEntries(Map<K, V> actual, Entry<? extends K, ? extends V>[] entries) {
-    return mapWithoutExpectedEntries(actual, entries).entrySet()
-                                                     .stream()
-                                                     .map(entry -> entry(entry.getKey(), entry.getValue()))
-                                                     .collect(Collectors.toCollection(LinkedHashSet::new));
+    Set<Entry<K, V>> notExpected = new LinkedHashSet<>();
+    for (Entry<K, V> entry : mapWithoutExpectedEntries(actual, entries).entrySet()) {
+      MapEntry<K, V> mapEntry = entry(entry.getKey(), entry.getValue());
+      notExpected.add(mapEntry);
+    }
+    return notExpected;
   }
 
-  private static <K, V> Map<K, V> mapWithoutExpectedEntries(Map<K, V> actual, Entry<? extends K, ? extends V>[] entries) {
-    List<Entry<? extends K, ? extends V>> expectedEntries = java.util.Arrays.asList(entries);
+  private static <K, V> Map<K, V> mapWithoutExpectedEntries(Map<K, V> actual, Entry<? extends K, ? extends V>[] expectedEntries) {
     try {
       Map<K, V> clonedMap = clone(actual);
-      expectedEntries.forEach(entry -> clonedMap.remove(entry.getKey(), entry.getValue()));
+      for (Entry<? extends K, ? extends V> expectedEntry : expectedEntries) {
+        clonedMap.remove(expectedEntry.getKey(), expectedEntry.getValue());
+      }
       return clonedMap;
     } catch (NoSuchMethodException | UnsupportedOperationException e) {
       // actual cannot be cloned or is unmodifiable, falling back to LinkedHashMap
       Map<K, V> copiedMap = new LinkedHashMap<>(actual);
-      expectedEntries.forEach(entry -> copiedMap.remove(entry.getKey(), entry.getValue()));
+      for (Entry<? extends K, ? extends V> expectedEntry : expectedEntries) {
+        copiedMap.remove(expectedEntry.getKey(), expectedEntry.getValue());
+      }
       return copiedMap;
     }
   }
