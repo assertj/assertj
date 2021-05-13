@@ -16,20 +16,14 @@ import org.assertj.core.api.ArraySortedAssert;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.data.Index;
-import org.assertj.core.util.Streams;
 import org.assertj.core.util.VisibleForTesting;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
-import static java.util.Arrays.asList;
-import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
-import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldHaveAtLeastOneElementOfType.shouldHaveAtLeastOneElementOfType;
 import static org.assertj.core.error.ShouldHaveOnlyElementsOfType.shouldHaveOnlyElementsOfType;
 import static org.assertj.core.error.ShouldNotHaveAnyElementsOfTypes.shouldNotHaveAnyElementsOfTypes;
 import static org.assertj.core.internal.CommonValidations.checkIsNotNullAndNotEmpty;
-import static org.assertj.core.internal.IterableDiff.diff;
 import static org.assertj.core.util.Lists.newArrayList;
 
 /**
@@ -673,27 +667,6 @@ public class ObjectArrays {
 
   public <E> void assertHasOnlyElementsOfTypes(AssertionInfo info, E[] actual, Class<?>... types) {
     arrays.assertHasOnlyElementsOfTypes(info, failures, actual, types);
-  }
-
-  public <E> void assertHasExactlyElementsOfTypes(AssertionInfo info, E[] actual, Class<?>... types) {
-    Objects.instance().assertNotNull(info, actual);
-    List<Class<?>> actualTypeList = Streams.stream(asList(actual)).map(Object::getClass).collect(Collectors.toList());
-    /* We want to compare the types instead of elements. Using getComparisonStrategy() would return the comparison
-     strategy comparing elements not the types.*/
-    IterableDiff diff = diff(actualTypeList, asList(types), StandardComparisonStrategy.instance());
-    if (!diff.differencesFound()) {
-      // actual and values have the same types but are they in the same order ?
-      int i = 0;
-      for (Class<?> elementTypeFromActual : actualTypeList) {
-        if (!StandardComparisonStrategy.instance().areEqual(elementTypeFromActual, types[i])) {
-          throw failures.failure(info, elementsDifferAtIndex(elementTypeFromActual, types[i], i, StandardComparisonStrategy.instance()));
-        }
-        i++;
-      }
-      return;
-    }
-    throw failures.failure(info,
-      shouldContainExactly(actual, asList(types), diff.missing, diff.unexpected));
   }
 
   public <E> void assertDoesNotHaveAnyElementsOfTypes(AssertionInfo info, E[] actual, Class<?>... unexpectedTypes) {

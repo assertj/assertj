@@ -861,13 +861,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /** {@inheritDoc} */
-  @Override
-  public SELF hasExactlyElementsOfTypes(Class<?>... types) {
-    ObjectArrays.instance().assertHasExactlyElementsOfTypes(info, toArray(actual), types);
-    return myself;
-  }
-
   /**
    * {@inheritDoc}
    */

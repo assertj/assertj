@@ -986,32 +986,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Verifies that the elements are of the given types (in the given order).
-   * <p>
-   * Example:
-   * <pre><code class='java'> Object[] objects = {1, "a", 1.00};
-   *
-   * // assertion succeeds
-   * assertThat(abc).hasExactlyElementsOfTypes(Integer.class, String.class, Double.class);
-   *
-   * // assertions will fail
-   * assertThat(abc).hasExactlyElementsOfTypes(String.class, Integer.class Double.class);
-   * assertThat(abc).hasExactlyElementsOfTypes(String.class);</code></pre>
-   * <p>
-   *
-   * @param types the given {@code Iterable} we will get the types of elements from.
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not contain all the types of given {@code Iterable} in given order.
-   */
-  @Override
-  public SELF hasExactlyElementsOfTypes(Class<?>... types) {
-    arrays.assertHasExactlyElementsOfTypes(info, actual, types);
-    return myself;
-  }
-
-  /**
    * Verifies that the actual array does not contain the given object at the given index.
    * <p>
    * Example:
