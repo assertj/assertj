@@ -52,6 +52,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.MalformedInputException;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -59,6 +60,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.StringAssert;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.diff.Delta;
 
@@ -505,6 +507,16 @@ public class Files {
     requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
     Predicate<File> fileMatcher = fileMatcher(info, actual, syntaxAndPattern);
     assertIsDirectoryNotContaining(info, actual, fileMatcher, format("the '%s' pattern", syntaxAndPattern));
+  }
+
+  public String getFileContent(AssertionInfo info, File actual) {
+    assertIsFile(info, actual);
+    try {
+      return new String(java.nio.file.Files.readAllBytes(Paths.get(actual.getPath())));
+    } catch (IOException e) {
+      String msg = format("Unable to read contents of file:<%s>", actual);
+      throw new UncheckedIOException(msg, e);
+    }
   }
 
   @VisibleForTesting
