@@ -17,6 +17,9 @@ import org.junit.jupiter.api.Test;
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveCauseExactlyInstance.shouldHaveCauseExactlyInstance;
+import static org.assertj.core.error.ShouldHaveCauseInstance.shouldHaveCauseInstance;
+import static org.assertj.core.util.Strings.escapePercent;
+import static org.assertj.core.util.Throwables.getStackTrace;
 
 class ShouldHaveCauseExactlyInstance_create_Test {
 
@@ -31,5 +34,22 @@ class ShouldHaveCauseExactlyInstance_create_Test {
     then(message).isEqualTo(format("%nExpecting a throwable with cause being exactly an instance of:%n" +
       "  %s%n" +
       "but current throwable has no cause.", expected));
+  }
+
+  @Test
+  void should_create_error_message_for_wrong_cause() {
+    // GIVEN
+    Throwable expected = new IllegalStateException();
+    Throwable cause = new IllegalAccessError();
+    Throwable actual = new RuntimeException(cause);
+    // WHEN
+    String message = shouldHaveCauseInstance(actual, expected.getClass()).create();
+    // THEN
+    then(message).isEqualTo(format("%nExpecting a throwable with cause being an instance of:%n" +
+      "  %s%n" +
+      "but was an instance of:%n" +
+      "  %s%n" +
+      "Throwable that failed the check:%n" +
+      "%n" + escapePercent(getStackTrace(actual)), expected, cause));
   }
 }

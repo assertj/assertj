@@ -12,6 +12,9 @@
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.util.Strings.escapePercent;
+import static org.assertj.core.util.Throwables.getStackTrace;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Throwable} have a cause
  * <b>exactly</b> instance of a certain type.
@@ -34,7 +37,12 @@ public class ShouldHaveCauseExactlyInstance extends BasicErrorMessageFactory {
   }
 
   private ShouldHaveCauseExactlyInstance(Throwable actual, Class<? extends Throwable> expectedCauseType) {
-    super("%nExpecting a throwable with cause being exactly an instance of:%n  %s%nbut was an instance of:%n  %s",
+    super("%nExpecting a throwable with cause being exactly an instance of:%n" +
+        "  %s%n" +
+        "but was an instance of:%n" +
+        "  %s%n" +
+        "Throwable that failed the check:%n" +
+        "%n" + escapePercent(getStackTrace(actual)),
         expectedCauseType, actual.getCause());
   }
 
