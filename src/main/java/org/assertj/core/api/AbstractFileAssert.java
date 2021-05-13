@@ -16,14 +16,12 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.FileSystem;
 import java.security.MessageDigest;
 import java.util.function.Predicate;
 
-import org.apache.commons.io.FileUtils;
 import org.assertj.core.internal.Files;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
