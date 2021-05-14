@@ -35,6 +35,7 @@ import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
 import static org.assertj.core.error.ShouldBeUpperCase.shouldBeUpperCase;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
+import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringWhitespaces;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
 import static org.assertj.core.error.ShouldContainOneOrMoreWhitespaces.shouldContainOneOrMoreWhitespaces;
 import static org.assertj.core.error.ShouldContainOnlyDigits.shouldContainOnlyDigits;
@@ -519,6 +520,30 @@ public class Strings {
   }
 
   /**
+   * Verifies that the given {@code CharSequence} contains the given strings, ignoring whitespaces.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence}.
+   * @param values the values to look for.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws IllegalArgumentException if the given values is empty.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} does not contain the given sequence.
+   */
+  public void assertContainsIgnoringWhitespaces(AssertionInfo info, CharSequence actual, CharSequence... values) {
+    doCommonCheckForCharSequence(info, actual, values);
+    String actualWithoutWhitespace = removeAllWhitespaces(actual);
+    Set<CharSequence> notFound = stream(values).map(Strings::removeAllWhitespaces)
+                                               .filter(value -> !stringContains(actualWithoutWhitespace, value))
+                                               .collect(toCollection(LinkedHashSet::new));
+    if (notFound.isEmpty()) return;
+    if (values.length == 1) {
+      throw failures.failure(info, shouldContainIgnoringWhitespaces(actual, values[0], comparisonStrategy));
+    }
+    throw failures.failure(info, shouldContainIgnoringWhitespaces(actual, values, notFound, comparisonStrategy));
+  }
+
+  /**
    * Verifies that the given {@code CharSequence} does not contain any one of the given values, ignoring case considerations.
    *
    * @param info contains information about the assertion.
@@ -654,7 +679,7 @@ public class Strings {
     return removeAllWhitespaces(actual).equals(removeAllWhitespaces(expected));
   }
 
-  private String removeAllWhitespaces(CharSequence toBeStripped) {
+  private static String removeAllWhitespaces(CharSequence toBeStripped) {
     final StringBuilder result = new StringBuilder(toBeStripped.length());
     for (int i = 0; i < toBeStripped.length(); i++) {
       char c = toBeStripped.charAt(i);

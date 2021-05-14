@@ -16,12 +16,14 @@ import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
+import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringWhitespaces;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.internal.util.collections.Sets.newSet;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
@@ -39,9 +41,13 @@ class ShouldContainCharSequence_create_Test {
     // GIVEN
     ErrorMessageFactory factory = shouldContain("Yoda", "Luke");
     // WHEN
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"Yoda\"%nto contain:%n  \"Luke\" "));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yoda\"%n" +
+                                   "to contain:%n" +
+                                   "  \"Luke\" "));
   }
 
   @Test
@@ -50,9 +56,42 @@ class ShouldContainCharSequence_create_Test {
     ErrorMessageFactory factory = shouldContain("Yoda", "Luke",
                                                 new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     // WHEN
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"Yoda\"%nto contain:%n  \"Luke\" when comparing values using CaseInsensitiveStringComparator"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yoda\"%n" +
+                                   "to contain:%n" +
+                                   "  \"Luke\" when comparing values using CaseInsensitiveStringComparator"));
+  }
+
+  @Test
+  void should_create_error_message_when_ignoring_whitespaces() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldContainIgnoringWhitespaces("Yoda", "Luke", StandardComparisonStrategy.instance());
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yoda\"%n" +
+                                   "to contain (ignoring whitespaces):%n" +
+                                   "  \"Luke\" "));
+  }
+
+  @Test
+  void should_create_error_message_with_custom_comparison_strategy_when_ignoring_whitespaces() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldContainIgnoringWhitespaces("Yoda", "Luke",
+                                                                   new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yoda\"%n" +
+                                   "to contain (ignoring whitespaces):%n" +
+                                   "  \"Luke\" when comparing values using CaseInsensitiveStringComparator"));
   }
 
   @Test
@@ -60,9 +99,14 @@ class ShouldContainCharSequence_create_Test {
     // GIVEN
     ErrorMessageFactory factory = shouldContainIgnoringCase("Yoda", "Luke");
     // WHEN
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"Yoda\"%nto contain:%n  \"Luke\"%n (ignoring case)"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yoda\"%n" +
+                                   "to contain:%n" +
+                                   "  \"Luke\"%n" +
+                                   " (ignoring case)"));
   }
 
   @Test
@@ -71,9 +115,33 @@ class ShouldContainCharSequence_create_Test {
     CharSequence[] charSequences = array("Luke", "Vador", "Solo");
     ErrorMessageFactory factory = shouldContain("Yoda, Luke", charSequences, newSet("Vador", "Solo"));
     // WHEN
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"Yoda, Luke\"%nto contain:%n  [\"Luke\", \"Vador\", \"Solo\"]%nbut could not find:%n  [\"Vador\", \"Solo\"]%n "));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yoda, Luke\"%n" +
+                                   "to contain:%n" +
+                                   "  [\"Luke\", \"Vador\", \"Solo\"]%n" +
+                                   "but could not find:%n" +
+                                   "  [\"Vador\", \"Solo\"]%n "));
+  }
+
+  @Test
+  void should_create_error_message_with_several_CharSequence_values_when_ignoring_whitespaces() {
+    // GIVEN
+    CharSequence[] charSequences = array("Luke", "Vador", "Solo");
+    ErrorMessageFactory factory = shouldContainIgnoringWhitespaces("Yoda, Luke", charSequences, newSet("Vador", "Solo"),
+                                                                   StandardComparisonStrategy.instance());
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yoda, Luke\"%n" +
+                                   "to contain (ignoring whitespaces):%n" +
+                                   "  [\"Luke\", \"Vador\", \"Solo\"]%n" +
+                                   "but could not find:%n" +
+                                   "  [\"Vador\", \"Solo\"]%n "));
   }
 
 }
