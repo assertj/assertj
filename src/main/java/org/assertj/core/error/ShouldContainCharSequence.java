@@ -133,7 +133,7 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainIgnoringWhitespace(CharSequence actual, CharSequence sequence) {
-    return new ShouldContainCharSequence("%nExpecting actual:%n  %s%nto contain (ignoring whitespace):%n  %s %s", actual, sequence, StandardComparisonStrategy.instance());
+    return shouldContainIgnoringWhitespace(actual, sequence, StandardComparisonStrategy.instance());
   }
 
   /**
@@ -159,8 +159,7 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
    */
   public static ErrorMessageFactory shouldContainIgnoringWhitespace(CharSequence actual, CharSequence[] strings,
                                                                     Set<? extends CharSequence> notFound) {
-    return new ShouldContainCharSequence("%nExpecting actual:%n  %s%nto contain (ignoring whitespace):%n  %s%nbut could not find:%n  %s%n %s", actual,
-      strings, notFound, StandardComparisonStrategy.instance());
+    return shouldContainIgnoringWhitespace(actual, strings, notFound, StandardComparisonStrategy.instance());
   }
 
   /**

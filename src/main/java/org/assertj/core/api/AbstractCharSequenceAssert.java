@@ -831,8 +831,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *                                         .containsIgnoringWhitespaces(&quot;thegr  ey&quot;)
    *                                         .containsIgnoringWhitespaces(&quot;t h e g r\t\r\n ey&quot;);
    * // assertion will fail
-   * assertThat(&quot;Gandalf the grey&quot;).containsIgnoringWhitespaces(&quot;alF&quot;)
-   * </code></pre>
+   * assertThat(&quot;Gandalf the grey&quot;).containsIgnoringWhitespaces(&quot;alF&quot;)</code></pre>
    *
    * @param values the Strings to look for.
    * @return {@code this} assertion object.

@@ -532,7 +532,8 @@ public class Strings {
   public void assertContainsIgnoringWhitespace(AssertionInfo info, CharSequence actual, CharSequence... values) {
     doCommonCheckForCharSequence(info, actual, values);
     String actualWithoutWhitespace = removeAllWhitespaces(actual);
-    Set<CharSequence> notFound = stream(values).filter(value -> !stringContains(actualWithoutWhitespace, removeAllWhitespaces(value)))
+    Set<CharSequence> notFound = stream(values).map(this::removeAllWhitespaces)
+      .filter(value -> !stringContains(actualWithoutWhitespace, value))
       .collect(toCollection(LinkedHashSet::new));
     if (notFound.isEmpty()) return;
     if (values.length == 1) {
