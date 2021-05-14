@@ -12,10 +12,14 @@
  */
 package org.assertj.core.api;
 
+import static java.nio.file.Files.newBufferedReader;
+import static java.nio.file.Files.readAllBytes;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.FileSystem;
@@ -1237,10 +1241,16 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
 
   /**
    *
-   * @return
+   * @return a new StringAssert Object.
+   * @throws AssertionError if the actual {@code File} is not readable.
+   * @since 3.19.0
    */
-
   public StringAssert content() {
-    return new StringAssert(files.getFileContent(info, actual));
+    return content(Charset.defaultCharset());
+  }
+
+  public StringAssert content(Charset charset){
+    String fileContent = files.getFileContent(info, actual, charset);
+    return new StringAssert(fileContent);
   }
 }

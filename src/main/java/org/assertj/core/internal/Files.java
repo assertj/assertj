@@ -60,7 +60,6 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.StringAssert;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.diff.Delta;
 
@@ -509,10 +508,10 @@ public class Files {
     assertIsDirectoryNotContaining(info, actual, fileMatcher, format("the '%s' pattern", syntaxAndPattern));
   }
 
-  public String getFileContent(AssertionInfo info, File actual) {
-    assertIsFile(info, actual);
+  public String getFileContent(AssertionInfo info, File actual, Charset charset) {
+    assertCanRead(info, actual);
     try {
-      return new String(java.nio.file.Files.readAllBytes(Paths.get(actual.getPath())));
+      return new String(readAllBytes(actual.toPath()), charset);
     } catch (IOException e) {
       String msg = format("Unable to read contents of file:<%s>", actual);
       throw new UncheckedIOException(msg, e);
