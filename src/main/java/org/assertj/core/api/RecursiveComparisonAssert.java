@@ -423,7 +423,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   /**
    * Makes the recursive comparison to ignore the given object under test fields. Nested fields can be specified like this: {@code home.address.street}.
    * <p>
-   * The given fieldNamesToIgnore are matched agains field names, not field values.
+   * The given fieldNamesToIgnore are matched against field names, not field values.
    * <p>
    * Example:
    * <pre><code class='java'> public class Person {
