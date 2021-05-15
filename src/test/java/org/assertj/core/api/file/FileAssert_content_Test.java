@@ -41,7 +41,7 @@ class FileAssert_content_Test {
   }
 
   @Test
-  void should_pass_if_has_proper_functionality(){
+  void should_pass_if_has_proper_functionality() {
     // GIVEN
     String prefix = "ac";
     String subString = "ct";

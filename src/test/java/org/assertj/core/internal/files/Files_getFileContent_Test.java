@@ -1,17 +1,15 @@
 package org.assertj.core.internal.files;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.FilesBaseTest;
-import org.junit.jupiter.api.Test;
-
-import java.nio.charset.Charset;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.FilesBaseTest;
+import org.junit.jupiter.api.Test;
 
 class Files_getFileContent_Test extends FilesBaseTest {
   @Test

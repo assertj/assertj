@@ -1235,7 +1235,6 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
     return myself;
   }
 
-
   /**
    * Get a StringAssert object with the content of the actual {@code File}.
    * <p>
@@ -1251,7 +1250,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    *
    * @return a StringAssert object.
    * @throws AssertionError if the actual {@code File} is not readable.
-   * @since ?.??
+   * @since 3.??
    */
   public StringAssert content() {
     String fileContent = files.getFileContent(info, actual);
