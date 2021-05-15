@@ -44,7 +44,7 @@ jobs:
         # failWhenNoMutations is unset in the pom, as otherwise PRs that do not affect java code would fail
         run: mvn -e -B -Ppitest -Dfeatures="+GIT(from[HEAD~1]), +gitci" test
       - name: aggregate files
-        run: mvn -e -B pitest-git:aggregate
+        run: mvn -e -B -Ppitest pitest-git:aggregate
       - name: upload results
         uses: actions/upload-artifact@v2
         with:
