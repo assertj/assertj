@@ -24,7 +24,6 @@ import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.IterableUtil.toCollection;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newHashSet;
-import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
@@ -44,6 +43,7 @@ import java.util.stream.Stream;
 
 import org.assertj.core.internal.DeepDifference;
 import org.assertj.core.util.Objects;
+import org.assertj.core.util.introspection.FieldsOnlyIntrospectionStrategy;
 import org.assertj.core.util.introspection.IntrospectionStrategy;
 
 /**
@@ -641,7 +641,8 @@ public class RecursiveComparisonDifferenceCalculator {
 
       Collection<Field> fields = getDeclaredFieldsIncludingInherited(obj.getClass());
       for (Field field : fields) {
-        stack.addFirst(COMPARISON.getSimpleValue(field.getName(), obj));
+        // stick to FieldsOnlyIntrospectionStrategy as deep hash code is looking at fields only 
+        stack.addFirst(FieldsOnlyIntrospectionStrategy.instance().getMemberValue(field.getName(), obj));
       }
     }
     return hash;
