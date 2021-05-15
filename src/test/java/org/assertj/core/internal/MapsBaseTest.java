@@ -24,7 +24,6 @@ import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.WithPlayerData;
 import org.junit.jupiter.api.BeforeEach;
 
-
 /**
  * Base class for {@link Maps} unit tests
  * <p>
@@ -42,7 +41,7 @@ public class MapsBaseTest extends WithPlayerData {
   protected AssertionInfo info;
 
   @BeforeEach
-  public void setUp() {
+  protected void setUp() {
     actual = mapOf(entry("name", "Yoda"), entry("color", "green"));
     failures = spy(new Failures());
     maps = new Maps();
@@ -54,8 +53,9 @@ public class MapsBaseTest extends WithPlayerData {
   protected static MapEntry[] emptyEntries() {
     return new MapEntry[0];
   }
-  
+
   protected static String[] emptyKeys() {
     return new String[0];
   }
+
 }

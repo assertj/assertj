@@ -54,7 +54,6 @@ import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -379,9 +378,7 @@ public class Maps {
   private static <K> Set<K> getNotFoundKeys(Map<K, ?> actual, K[] expectedKeys) {
     Set<K> notFound = new LinkedHashSet<>();
     for (K expectedKey : expectedKeys) {
-      if (!actual.containsKey(expectedKey)) {
-        notFound.add(expectedKey);
-      }
+      if (!actual.containsKey(expectedKey)) notFound.add(expectedKey);
     }
     return notFound;
   }
@@ -453,7 +450,8 @@ public class Maps {
 
     Set<Entry<? extends K, ? extends V>> notFound = getNotFoundEntries(actual, entries);
     Set<Entry<K, V>> notExpected = getNotExpectedEntries(actual, entries);
-    if (!notFound.isEmpty() || !notExpected.isEmpty())
+
+    if (!(notFound.isEmpty() && notExpected.isEmpty()))
       throw failures.failure(info, shouldContainOnly(actual, entries, notFound, notExpected));
   }
 
@@ -461,9 +459,7 @@ public class Maps {
                                                                                 Entry<? extends K, ? extends V>[] entries) {
     Set<Entry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
     for (Entry<? extends K, ? extends V> entry : entries) {
-      if (!containsEntry(actual, entry)) {
-        notFound.add(entry);
-      }
+      if (!containsEntry(actual, entry)) notFound.add(entry);
     }
     return notFound;
   }
@@ -498,12 +494,11 @@ public class Maps {
     doCommonContainsCheck(info, actual, entries);
     if (actual.isEmpty() && entries.length == 0) return;
     failIfEntriesIsEmptyEmptySinceActualIsNotEmpty(info, actual, entries);
+
+    Set<Entry<? extends K, ? extends V>> notFound = getNotFoundEntries(actual, entries);
+    Set<Entry<K, V>> notExpected = getNotExpectedEntries(actual, entries);
+
     assertHasSameSizeAs(info, actual, entries);
-
-    Set<Entry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
-    Set<Entry<? extends K, ? extends V>> notExpected = new LinkedHashSet<>();
-
-    compareActualMapAndExpectedEntries(actual, entries, notExpected, notFound);
 
     if (notExpected.isEmpty() && notFound.isEmpty()) {
       // check entries order
@@ -522,37 +517,6 @@ public class Maps {
     throw failures.failure(info, shouldContainExactly(actual, asList(entries), notFound, notExpected));
   }
 
-  private <V, K> Map<K, V> instantiate(Class<? extends Map> mapClass) {
-    try {
-      Constructor<?> constructor = mapClass.getConstructor();
-      return (Map<K, V>) constructor.newInstance();
-    } catch (Exception e) {
-      // default map but might not honor mapClass semantics (ex: CaseInsensitiveMap)
-      return new LinkedHashMap<>();
-    }
-  }
-
-  private <K, V> void compareActualMapAndExpectedEntries(Map<K, V> actual, Entry<? extends K, ? extends V>[] entries,
-                                                         Set<Entry<? extends K, ? extends V>> notExpected,
-                                                         Set<Entry<? extends K, ? extends V>> notFound) {
-    Map<K, V> expectedEntries = entriesToMap(entries);
-    Map<K, V> actualEntries = instantiate(actual.getClass());
-    actualEntries.putAll(actual);
-    for (Entry<K, V> entry : expectedEntries.entrySet()) {
-      if (containsEntry(actualEntries, entry(entry.getKey(), entry.getValue()))) {
-        // this is an expected entry
-        actualEntries.remove(entry.getKey());
-      } else {
-        // this is a not found entry
-        notFound.add(entry(entry.getKey(), entry.getValue()));
-      }
-    }
-    // All remaining entries from actual copy are not expected entries.
-    for (Entry<K, V> entry : actualEntries.entrySet()) {
-      notExpected.add(entry(entry.getKey(), entry.getValue()));
-    }
-  }
-
   private <K, V> void doCommonContainsCheck(AssertionInfo info, Map<K, V> actual, Entry<? extends K, ? extends V>[] entries) {
     assertNotNull(info, actual);
     failIfNull(entries);
@@ -565,14 +529,6 @@ public class Maps {
       if (!containsEntry(actual, entry)) notFound.add(entry);
     }
     if (!notFound.isEmpty()) throw failures.failure(info, shouldContain(actual, entries, notFound));
-  }
-
-  private static <K, V> Map<K, V> entriesToMap(Entry<? extends K, ? extends V>[] entries) {
-    Map<K, V> expectedEntries = new LinkedHashMap<>();
-    for (Entry<? extends K, ? extends V> entry : entries) {
-      expectedEntries.put(entry.getKey(), entry.getValue());
-    }
-    return expectedEntries;
   }
 
   private static <K> void failIfEmpty(K[] keys, String errorMessage) {
