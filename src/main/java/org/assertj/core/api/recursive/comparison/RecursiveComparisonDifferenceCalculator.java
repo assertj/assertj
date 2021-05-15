@@ -19,7 +19,6 @@ import static org.assertj.core.api.recursive.comparison.ComparisonDifference.roo
 import static org.assertj.core.api.recursive.comparison.DualValue.DEFAULT_ORDERED_COLLECTION_TYPES;
 import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
 import static org.assertj.core.internal.Objects.getDeclaredFieldsIncludingInherited;
-import static org.assertj.core.internal.Objects.getFieldsNames;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.IterableUtil.toCollection;
 import static org.assertj.core.util.Lists.list;
@@ -123,11 +122,11 @@ public class RecursiveComparisonDifferenceCalculator {
         if (!nonIgnoredActualFieldsNames.isEmpty()) {
           // fields to ignore are evaluated when adding their corresponding dualValues to dualValuesToCompare which filters
           // ignored fields according to recursiveComparisonConfiguration
-          Set<String> expectedFieldsNames = getFieldsNames(expected.getClass());
+          IntrospectionStrategy introspectionStrategy = recursiveComparisonConfiguration.getIntrospectionStrategy();
+          Set<String> expectedFieldsNames = introspectionStrategy.getMemberNamesAsFields(expected.getClass());
           if (expectedFieldsNames.containsAll(nonIgnoredActualFieldsNames)) {
             // we compare actual fields vs expected, ignoring expected additional fields
             for (String nonIgnoredActualFieldName : nonIgnoredActualFieldsNames) {
-              IntrospectionStrategy introspectionStrategy = recursiveComparisonConfiguration.getIntrospectionStrategy();
               DualValue fieldDualValue = new DualValue(fieldLocation.field(nonIgnoredActualFieldName),
                                                        introspectionStrategy.getMemberValue(nonIgnoredActualFieldName, actual),
                                                        introspectionStrategy.getMemberValue(nonIgnoredActualFieldName, expected));
@@ -276,7 +275,8 @@ public class RecursiveComparisonDifferenceCalculator {
       }
 
       Set<String> actualNonIgnoredFieldsNames = recursiveComparisonConfiguration.getNonIgnoredActualFieldNames(dualValue);
-      Set<String> expectedFieldsNames = getFieldsNames(expectedFieldClass);
+      IntrospectionStrategy introspectionStrategy = recursiveComparisonConfiguration.getIntrospectionStrategy();
+      Set<String> expectedFieldsNames = introspectionStrategy.getMemberNamesAsFields(expectedFieldClass);
       // Check if expected has more fields than actual, in that case the additional fields are reported as difference
       if (!expectedFieldsNames.containsAll(actualNonIgnoredFieldsNames)) {
         // report missing fields in actual
@@ -294,7 +294,6 @@ public class RecursiveComparisonDifferenceCalculator {
         // - if actual has more fields than expected, the additional fields are ignored as expected is the reference
         for (String actualFieldName : actualNonIgnoredFieldsNames) {
           if (expectedFieldsNames.contains(actualFieldName)) {
-            IntrospectionStrategy introspectionStrategy = recursiveComparisonConfiguration.getIntrospectionStrategy();
             DualValue newDualValue = new DualValue(dualValue.fieldLocation.field(actualFieldName),
               introspectionStrategy.getMemberValue(actualFieldName, actualFieldValue),
               introspectionStrategy.getMemberValue(actualFieldName, expectedFieldValue));
