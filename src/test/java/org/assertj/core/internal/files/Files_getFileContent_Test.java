@@ -19,7 +19,7 @@ class Files_getFileContent_Test extends FilesBaseTest {
     when(actual.canRead()).thenReturn(false);
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> files.getFileContent(info, actual, Charset.defaultCharset()));
+    Throwable error = catchThrowable(() -> files.getFileContent(info, actual));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeReadable(actual));

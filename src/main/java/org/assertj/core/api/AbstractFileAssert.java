@@ -12,14 +12,10 @@
  */
 package org.assertj.core.api;
 
-import static java.nio.file.Files.newBufferedReader;
-import static java.nio.file.Files.readAllBytes;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.FileSystem;
@@ -1239,18 +1235,27 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
     return myself;
   }
 
+
   /**
+   * Get a StringAssert object with the content of the actual {@code File}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> File file = File.createTempFile(&quot;tmp&quot;, &quot;txt&quot;);
+   * Files.write(file.toPath(), new byte[]{'t', 'e', 's', 't'});
    *
-   * @return a new StringAssert Object.
+   * // assertion will pass
+   * assertThat(file).content().contains('te');
+   *
+   * // assertion will fail
+   * assertThat(file).content().contains('tet');</code></pre>
+   *
+   * @return a StringAssert object.
    * @throws AssertionError if the actual {@code File} is not readable.
-   * @since 3.19.0
+   * @since ?.??
    */
   public StringAssert content() {
-    return content(Charset.defaultCharset());
-  }
-
-  public StringAssert content(Charset charset){
-    String fileContent = files.getFileContent(info, actual, charset);
+    String fileContent = files.getFileContent(info, actual);
     return new StringAssert(fileContent);
   }
+
 }

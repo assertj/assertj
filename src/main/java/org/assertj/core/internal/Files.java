@@ -52,7 +52,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.MalformedInputException;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
-import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -508,13 +507,22 @@ public class Files {
     assertIsDirectoryNotContaining(info, actual, fileMatcher, format("the '%s' pattern", syntaxAndPattern));
   }
 
-  public String getFileContent(AssertionInfo info, File actual, Charset charset) {
+  /**
+   * Get the content of the given {@code File}.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given file.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} can not be read.
+   * @return a String object with the content of the given {@code File}.
+   */
+
+  public String getFileContent(AssertionInfo info, File actual) {
     assertCanRead(info, actual);
     try {
-      return new String(readAllBytes(actual.toPath()), charset);
+      return new String(readAllBytes(actual.toPath()));
     } catch (IOException e) {
-      String msg = format("Unable to read contents of file:<%s>", actual);
-      throw new UncheckedIOException(msg, e);
+      throw failures.failure(info, shouldBeReadable(actual));
     }
   }
 

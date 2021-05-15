@@ -13,31 +13,14 @@
 package org.assertj.core.api.file;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
-import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
-import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Paths;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Files;
-import org.assertj.core.internal.FilesBaseTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Files#assertHasSizeInBytes(AssertionInfo, File, long)}</code>
- *
- * @author Krishna Chaithanya Ganta
- */
 @DisplayName("FileAssert Content")
 class FileAssert_content_Test {
 
@@ -59,14 +42,12 @@ class FileAssert_content_Test {
 
   @Test
   void should_pass_if_has_proper_functionality(){
-    // GIVEN/WHEN
+    // GIVEN
     String prefix = "ac";
     String subString = "ct";
-    String postfix = "\r\n";
     // THEN
     assertThat(actual).content()
                       .startsWith(prefix)
-                      .contains(subString)
-                      .endsWith(postfix);
+                      .contains(subString);
   }
 }
