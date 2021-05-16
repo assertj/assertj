@@ -354,6 +354,42 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     objects.assertHasAllNullFieldsOrPropertiesExcept(info, actual);
     return myself;
   }
+  /**
+   * The method is similar to hasAllNullFieldsOrProperties().
+   * The method adds one boolean argument called excludePrimitiveTypes,if the argument is true, the fields
+   * of primitive types are ignored and not considered.
+   * Asserts that the actual object has only null fields or properties.
+   * <p>
+   * If an object has a field and a property with the same name, the property value will be used over the field.
+   * <p>
+   * Private fields are checked, but this can be disable using {@link Assertions#setAllowComparingPrivateFields(boolean)},
+   * if disable only <b>accessible</b> fields values are checked,
+   * accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
+   * <p>
+   * Example:
+   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter(null, null, null);
+   * TolkienCharacter sam = new TolkienCharacter("sam", null, null);
+   *
+   * // assertion succeeds since all frodo's fields are null
+   * assertThat(frodo).hasAllNullFieldsOrProperties();
+   *
+   * // assertion fails because sam has its name set
+   * assertThat(sam).hasAllNullFieldsOrProperties();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual object is {@code null}.
+   * @throws AssertionError if some field or properties of the actual object are not null.
+   *
+   * @since 3.12.0
+   */
+  public SELF hasAllNullFieldsOrProperties(boolean excludePrimitiveTypes){
+    if(excludePrimitiveTypes) {
+      objects.assertHasAllNullFieldsOrPropertiesExceptExcludePrimitives(info, actual);
+    }else{
+      objects.assertHasAllNullFieldsOrPropertiesExcept(info, actual);
+    }
+    return myself;
+  }
 
   /**
    * Asserts that the actual object has no null fields or properties <b>except for the given ones</b>

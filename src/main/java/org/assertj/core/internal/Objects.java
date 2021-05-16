@@ -59,13 +59,7 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.error.GroupTypeDescription;
@@ -735,6 +729,7 @@ public class Objects {
       if (ignoredFields.contains(fieldName) || !canReadFieldValue(field, actual)) continue;
       Object actualFieldValue = getPropertyOrFieldValue(actual, fieldName);
       if (actualFieldValue == null) nullFieldNames.add(fieldName);
+
     }
     if (!nullFieldNames.isEmpty())
       throw failures.failure(info, shouldHaveNoNullFieldsExcept(actual, nullFieldNames,
@@ -762,6 +757,41 @@ public class Objects {
                                                    .filter(field -> getPropertyOrFieldValue(actual, field.getName()) != null)
                                                    .map(Field::getName)
                                                    .collect(toList());
+
+    if (!nonNullFieldNames.isEmpty()) {
+      throw failures.failure(info, shouldHaveAllNullFields(actual, nonNullFieldNames, list(propertiesOrFieldsToIgnore)));
+    }
+  }
+  /**
+   * The method is similar to assertHasAllNullFieldsOrPropertiesExcept.
+   * The method doesn't consider the fields of primitive types.
+   * Asserts that the given object has null fields except the given ones.
+   *
+   * @param <A>                        the actual type.
+   * @param info                       contains information about the assertion.
+   * @param actual                     the given object.
+   * @param propertiesOrFieldsToIgnore the fields to ignore in comparison.
+   * @throws AssertionError is actual is {@code null}.
+   * @throws AssertionError if some of the fields of the actual object are not null.
+   */
+  public <A> void assertHasAllNullFieldsOrPropertiesExceptExcludePrimitives(AssertionInfo info, A actual,
+                                                           String... propertiesOrFieldsToIgnore) {
+    assertNotNull(info, actual);
+    Set<Field> declaredFields = getDeclaredFieldsIncludingInherited(actual.getClass());
+    Set<Field> filtereddeclaredFields = new HashSet<>();
+    for(Field field: declaredFields){
+      if(!field.getType().isPrimitive()){
+        filtereddeclaredFields.add(field);
+      }
+    }
+    Set<String> ignoredFields = newLinkedHashSet(propertiesOrFieldsToIgnore);
+    List<String> nonNullFieldNames = filtereddeclaredFields.stream()
+      .filter(field -> !ignoredFields.contains(field.getName()))
+      .filter(field -> canReadFieldValue(field, actual))
+      .filter(field -> getPropertyOrFieldValue(actual, field.getName()) != null)
+      .map(Field::getName)
+      .collect(toList());
+
     if (!nonNullFieldNames.isEmpty()) {
       throw failures.failure(info, shouldHaveAllNullFields(actual, nonNullFieldNames, list(propertiesOrFieldsToIgnore)));
     }
