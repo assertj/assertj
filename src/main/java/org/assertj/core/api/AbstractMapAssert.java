@@ -1138,7 +1138,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Verifies that the actual map contains only the given keys and nothing else, in any order.
    * <p>
    * The verification tries to honor the key comparison semantic of the underlying map implementation, but there might
-   * be some cases where the semantic cannot be honored and not all the unexpected elements are identified  correctly
+   * be some cases where the semantic cannot be honored and not all the unexpected elements are identified correctly
    * (e.g., due to immutability).
    * <p>
    * Examples :
@@ -1176,7 +1176,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
 
   /**
    * Verifies that the actual map contains only the given keys and nothing else, in any order.
-   *
+   * <p>
+   * The verification tries to honor the key comparison semantic of the underlying map implementation, but there might
+   * be some cases where the semantic cannot be honored and not all the unexpected elements are identified correctly
+   * (e.g., due to immutability).
    * <p>
    * Examples :
    * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap&lt;&gt;();
@@ -1303,7 +1306,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Verifies that the actual map contains only the given entries and nothing else, in any order.
    * <p>
    * The verification tries to honor the key comparison semantic of the underlying map implementation, but there might
-   * be some cases where the semantic cannot be honored and not all the unexpected elements are identified  correctly
+   * be some cases where the semantic cannot be honored and not all the unexpected elements are identified correctly
    * (e.g., due to immutability).
    * <p>
    * Examples :
