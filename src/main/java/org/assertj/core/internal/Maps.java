@@ -342,12 +342,7 @@ public class Maps {
 
   public <K, V> void assertDoesNotContainKeys(AssertionInfo info, Map<K, V> actual, K[] keys) {
     assertNotNull(info, actual);
-    Set<K> found = new LinkedHashSet<>();
-    for (K key : keys) {
-      if (key != null && actual.containsKey(key)) {
-        found.add(key);
-      }
-    }
+    Set<K> found = getFoundKeys(actual, keys);
     if (!found.isEmpty()) throw failures.failure(info, shouldNotContainKeys(actual, found));
   }
 
@@ -373,6 +368,14 @@ public class Maps {
 
     if (!notFound.isEmpty() || !notExpected.isEmpty())
       throw failures.failure(info, shouldContainOnlyKeys(actual, keys, notFound, notExpected));
+  }
+
+  private static <K> Set<K> getFoundKeys(Map<K, ?> actual, K[] expectedKeys) {
+    Set<K> found = new LinkedHashSet<>();
+    for (K expectedKey : expectedKeys) {
+      if (actual.containsKey(expectedKey)) found.add(expectedKey);
+    }
+    return found;
   }
 
   private static <K> Set<K> getNotFoundKeys(Map<K, ?> actual, K[] expectedKeys) {
