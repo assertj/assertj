@@ -355,9 +355,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     return myself;
   }
   /**
-   * The method is similar to hasAllNullFieldsOrProperties().
-   * The method adds one boolean argument called excludePrimitiveTypes,if the argument is true, the fields
-   * of primitive types are ignored and not considered.
+   * The method is similar to hasAllNullFieldsOrProperties() but ignore fields of primitive types.
    * Asserts that the actual object has only null fields or properties.
    * <p>
    * If an object has a field and a property with the same name, the property value will be used over the field.
@@ -382,12 +380,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *
    * @since 3.12.0
    */
-  public SELF hasAllNullFieldsOrProperties(boolean excludePrimitiveTypes){
-    if(excludePrimitiveTypes) {
-      objects.assertHasAllNullFieldsOrPropertiesExceptExcludePrimitives(info, actual);
-    }else{
-      objects.assertHasAllNullFieldsOrPropertiesExcept(info, actual);
-    }
+  public SELF hasAllNullFieldsOrPropertiesExceptPrimitiveTypes(){
+    objects.assertHasAllNullFieldsOrPropertiesExceptExcludePrimitives(info, actual);
     return myself;
   }
 

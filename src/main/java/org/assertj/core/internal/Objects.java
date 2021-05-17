@@ -763,8 +763,8 @@ public class Objects {
     }
   }
   /**
-   * The method is similar to assertHasAllNullFieldsOrPropertiesExcept.
-   * The method doesn't consider the fields of primitive types.
+   * The method is similar to assertHasAllNullFieldsOrPropertiesExcept but doesn't consider
+   * the fields of primitive types.
    * Asserts that the given object has null fields except the given ones.
    *
    * @param <A>                        the actual type.

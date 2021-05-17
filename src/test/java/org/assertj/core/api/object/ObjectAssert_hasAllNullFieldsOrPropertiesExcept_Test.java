@@ -44,16 +44,17 @@ class ObjectAssert_hasAllNullFieldsOrPropertiesExcept_Test extends ObjectAssertB
   }
 
   @Test
-  void testHasAllNullFieldsOrProperties_one() {
+  void testHasAllNullFieldsOrPropertiesExceptPrimitiveTypes_one() {
     Book book = new Book();
-    assertThat(book).hasAllNullFieldsOrProperties(true);
+    assertThat(book).hasAllNullFieldsOrPropertiesExceptPrimitiveTypes();
   }
   class Apple {
     String color;
+    int size;
   }
   @Test
-  void testHasAllNullFieldsOrProperties_two() {
+  void testHasAllNullFieldsOrPropertiesExceptPrimitiveTypes_two() {
     Apple apple = new Apple();
-    assertThat(apple).hasAllNullFieldsOrProperties(false);
+    assertThat(apple).hasAllNullFieldsOrPropertiesExceptPrimitiveTypes();
   }
 }
