@@ -38,12 +38,12 @@ public class ShouldHaveCauseExactlyInstance extends BasicErrorMessageFactory {
 
   private ShouldHaveCauseExactlyInstance(Throwable actual, Class<? extends Throwable> expectedCauseType) {
     super("%nExpecting a throwable with cause being exactly an instance of:%n" +
-        "  %s%n" +
+        "  \"%s\"%n" +
         "but was an instance of:%n" +
         "  %s%n" +
         "Throwable that failed the check:%n" +
         "%n" + escapePercent(getStackTrace(actual)),
-        expectedCauseType, actual.getCause());
+        expectedCauseType.toString(), actual.getCause().toString());
   }
 
   private ShouldHaveCauseExactlyInstance(Class<? extends Throwable> expectedCauseType) {

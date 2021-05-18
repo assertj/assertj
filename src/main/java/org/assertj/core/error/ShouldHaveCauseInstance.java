@@ -38,12 +38,12 @@ public class ShouldHaveCauseInstance extends BasicErrorMessageFactory {
 
   private ShouldHaveCauseInstance(Throwable actual, Class<? extends Throwable> expectedCauseType) {
     super("%nExpecting a throwable with cause being an instance of:%n" +
-        "  %s%n" +
+        "  \"%s\"%n" +
         "but was an instance of:%n" +
         "  %s%n" +
         "Throwable that failed the check:%n" +
         "%n" + escapePercent(getStackTrace(actual)),
-        expectedCauseType, actual.getCause().getClass());
+        expectedCauseType, actual.getCause().toString());
   }
 
   private ShouldHaveCauseInstance(Class<? extends Throwable> expectedCauseType) {

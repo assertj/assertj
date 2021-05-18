@@ -39,15 +39,15 @@ class ShouldHaveCauseInstance_create_Test {
   void should_create_error_message_for_wrong_cause() {
     // GIVEN
     Throwable expected = new IllegalStateException();
-    Throwable cause = new IllegalAccessError();
+    Throwable cause = new IllegalAccessError("oops...% %s %n");
     Throwable actual = new RuntimeException(cause);
     // WHEN
     String message = shouldHaveCauseInstance(actual, expected.getClass()).create();
     // THEN
     then(message).isEqualTo("%nExpecting a throwable with cause being an instance of:%n" +
-      "  %s%n" +
+      "  \"%s\"%n" +
       "but was an instance of:%n" +
-      "  %s%n" +
+      "  \"%s\"%n" +
       "Throwable that failed the check:%n" +
       "%n" + escapePercent(getStackTrace(actual)), expected, cause);
   }
