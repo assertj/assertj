@@ -87,6 +87,7 @@ import static org.assertj.core.util.Streams.stream;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
@@ -206,7 +207,7 @@ public class Iterables {
    * @param actual the given {@code Iterable}.
    * @param expectedSize the expected size of {@code actual}.
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
-   * @throws AssertionError if the number of elements in the given {@code Iterable} is different than the expected one.
+   * @throws AssertionError if the number of elements in the given {@code Iterable} is different from the expected one.
    */
   public void assertHasSize(AssertionInfo info, Iterable<?> actual, int expectedSize) {
     assertNotNull(info, actual);
@@ -343,10 +344,16 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not contain the given values.
    */
   public void assertContains(AssertionInfo info, Iterable<?> actual, Object[] values) {
-    final List<?> actualAsList = newArrayList(actual);
-    if (commonCheckThatIterableAssertionSucceeds(info, actualAsList, values)) return;
+    final Collection<?> actualAsCollection = ensureActualCanBeReadMultipleTimes(actual);
+    if (commonCheckThatIterableAssertionSucceeds(info, actualAsCollection, values)) return;
     // check for elements in values that are missing in actual.
-    assertIterableContainsGivenValues(actual.getClass(), actualAsList, values, info);
+    assertIterableContainsGivenValues(actual.getClass(), actualAsCollection, values, info);
+  }
+
+  private static Collection<?> ensureActualCanBeReadMultipleTimes(Iterable<?> actual) {
+    // ensure the assertion works for non-repeatable iterables, but avoid copy when actual is already a jdk Collection.
+    boolean isJdkCollection = actual instanceof Collection<?> && actual.getClass().getCanonicalName().startsWith("java");
+    return isJdkCollection ? (Collection<?>) actual : newArrayList(actual);
   }
 
   private void assertIterableContainsGivenValues(@SuppressWarnings("rawtypes") Class<? extends Iterable> clazz,
@@ -454,7 +461,7 @@ public class Iterables {
     assertNotNull(info, actual);
     // empty => no null elements => failure
     if (sizeOf(actual) == 0) throw failures.failure(info, shouldContainOnlyNulls(actual));
-    // look for any non null elements
+    // look for any non-null elements
     List<Object> nonNullElements = stream(actual).filter(java.util.Objects::nonNull).collect(toList());
     if (nonNullElements.size() > 0) throw failures.failure(info, shouldContainOnlyNulls(actual, nonNullElements));
   }
@@ -492,8 +499,8 @@ public class Iterables {
   }
 
   private class Lifo {
-    private int maxSize;
-    private LinkedList<Object> stack;
+    private final int maxSize;
+    private final LinkedList<Object> stack;
 
     Lifo(int maxSize) {
       this.maxSize = maxSize;
@@ -1013,8 +1020,7 @@ public class Iterables {
     }
   }
 
-  private <E> boolean conditionIsSatisfiedNTimes(Iterable<? extends E> actual, Condition<? super E> condition,
-                                                 int times) {
+  private <E> boolean conditionIsSatisfiedNTimes(Iterable<? extends E> actual, Condition<? super E> condition, int times) {
     List<E> satisfiesCondition = satisfiesCondition(actual, condition);
     return satisfiesCondition.size() == times;
   }
