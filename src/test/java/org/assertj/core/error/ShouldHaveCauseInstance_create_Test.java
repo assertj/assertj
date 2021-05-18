@@ -50,5 +50,6 @@ class ShouldHaveCauseInstance_create_Test {
       "  \"%s\"%n" +
       "Throwable that failed the check:%n" +
       "%n" + escapePercent(getStackTrace(actual)), expected, cause);
+
   }
 }
