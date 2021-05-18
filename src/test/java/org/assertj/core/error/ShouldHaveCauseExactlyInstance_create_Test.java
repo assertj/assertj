@@ -31,9 +31,9 @@ class ShouldHaveCauseExactlyInstance_create_Test {
     // WHEN
     String message = shouldHaveCauseExactlyInstance(actual, expected.getClass()).create();
     // THEN
-    then(message).isEqualTo(format("%nExpecting a throwable with cause being exactly an instance of:%n" +
+    then(message).isEqualTo("%nExpecting a throwable with cause being exactly an instance of:%n" +
       "  %s%n" +
-      "but current throwable has no cause.", expected));
+      "but current throwable has no cause.", expected);
   }
 
   @Test
@@ -45,11 +45,11 @@ class ShouldHaveCauseExactlyInstance_create_Test {
     // WHEN
     String message = shouldHaveCauseInstance(actual, expected.getClass()).create();
     // THEN
-    then(message).isEqualTo(format("%nExpecting a throwable with cause being an instance of:%n" +
+    then(message).isEqualTo("%nExpecting a throwable with cause being an instance of:%n" +
       "  %s%n" +
       "but was an instance of:%n" +
       "  %s%n" +
       "Throwable that failed the check:%n" +
-      "%n" + escapePercent(getStackTrace(actual)), expected, cause));
+      "%n" + escapePercent(getStackTrace(actual)), expected, cause);
   }
 }
