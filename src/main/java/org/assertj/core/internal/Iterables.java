@@ -84,6 +84,7 @@ import static org.assertj.core.util.Streams.stream;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
@@ -339,10 +340,18 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not contain the given values.
    */
   public void assertContains(AssertionInfo info, Iterable<?> actual, Object[] values) {
-    final List<?> actualAsList = newArrayList(actual);
-    if (commonCheckThatIterableAssertionSucceeds(info, actualAsList, values)) return;
+    final Collection<?> actualAsCollection = ensureActualCanBeReadMultipleTimes(actual);
+    if (commonCheckThatIterableAssertionSucceeds(info, actualAsCollection, values)) return;
     // check for elements in values that are missing in actual.
-    assertIterableContainsGivenValues(actual.getClass(), actualAsList, values, info);
+    assertIterableContainsGivenValues(actual.getClass(), actualAsCollection, values, info);
+  }
+
+  private Collection<?> ensureActualCanBeReadMultipleTimes(Iterable<?> actual) {
+    if (actual instanceof Collection<?>) {
+      return (Collection<?>) actual; // Avoid copy when actual is already a Collection.
+    } else {
+      return newArrayList(actual); //ensure the assertion works for non-repeatable iterables
+    }
   }
 
   private void assertIterableContainsGivenValues(@SuppressWarnings("rawtypes") Class<? extends Iterable> clazz,
