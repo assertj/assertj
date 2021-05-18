@@ -64,7 +64,6 @@ import java.util.function.Function;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
-import java.util.regex.Matcher;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -263,17 +262,6 @@ public class BDDAssertions extends Assertions {
    */
   public static OptionalLongAssert then(OptionalLong optional) {
     return assertThat(optional);
-  }
-
-  /**
-   * Create assertion for {@link java.util.regex.Matcher}
-   *
-   * @param actual the actual matcher
-   *
-   * @return the created assertion object.
-   */
-  public static MatcherAssert then(Matcher actual) {
-    return assertThat(actual);
   }
 
   /**

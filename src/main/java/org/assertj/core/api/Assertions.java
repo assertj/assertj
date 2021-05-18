@@ -69,7 +69,6 @@ import java.util.function.Function;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
-import java.util.regex.Matcher;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -274,17 +273,6 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   public static OptionalLongAssert assertThat(OptionalLong actual) {
-    return AssertionsForClassTypes.assertThat(actual);
-  }
-
-  /**
-   * Create assertion for {@link java.util.regex.Matcher}.
-   *
-   * @param actual the actual value.
-   *
-   * @return the created assertion object.
-   */
-  public static MatcherAssert assertThat(Matcher actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
