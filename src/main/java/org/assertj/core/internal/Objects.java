@@ -33,6 +33,7 @@ import static org.assertj.core.error.ShouldBeOfClassIn.shouldBeOfClassIn;
 import static org.assertj.core.error.ShouldBeSame.shouldBeSame;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldHaveAllNullFields.shouldHaveAllNullFields;
+import static org.assertj.core.error.ShouldHaveFields.shouldHaveDeclaredFields;
 import static org.assertj.core.error.ShouldHaveNoNullFields.shouldHaveNoNullFieldsExcept;
 import static org.assertj.core.error.ShouldHavePropertyOrField.shouldHavePropertyOrField;
 import static org.assertj.core.error.ShouldHavePropertyOrFieldWithValue.shouldHavePropertyOrFieldWithValue;
@@ -721,6 +722,7 @@ public class Objects {
    * @param actual                     the given object.
    * @param propertiesOrFieldsToIgnore the fields to ignore in comparison.
    * @throws AssertionError if actual is {@code null}.
+   * @throws AssertionError if any of the properties or fields to ignore doesn't exist.
    * @throws AssertionError if some of the fields of the actual object are null.
    */
   public <A> void assertHasNoNullFieldsOrPropertiesExcept(AssertionInfo info, A actual,
@@ -732,10 +734,18 @@ public class Objects {
     for (Field field : declaredFieldsIncludingInherited) {
       // ignore private field if user has decided not to use them in comparison
       String fieldName = field.getName();
-      if (ignoredFields.contains(fieldName) || !canReadFieldValue(field, actual)) continue;
+      if (ignoredFields.contains(fieldName)) {
+        ignoredFields.remove(fieldName);
+        continue;
+      }
+      if (!canReadFieldValue(field, actual)) continue;
       Object actualFieldValue = getPropertyOrFieldValue(actual, fieldName);
       if (actualFieldValue == null) nullFieldNames.add(fieldName);
     }
+    if (!ignoredFields.isEmpty())
+      throw failures.failure(info,
+                             shouldHaveDeclaredFields(actual.getClass(), newLinkedHashSet(propertiesOrFieldsToIgnore),
+                                                      ignoredFields));
     if (!nullFieldNames.isEmpty())
       throw failures.failure(info, shouldHaveNoNullFieldsExcept(actual, nullFieldNames,
                                                                 newArrayList(propertiesOrFieldsToIgnore)));

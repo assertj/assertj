@@ -96,4 +96,17 @@ class ObjectAssert_hasNoNullFieldsOrProperties_Test extends ObjectAssertBaseTest
     Jedi jedi = new Jedi("Yoda", null);
     assertThat(jedi).hasNoNullFieldsOrPropertiesExcept("lightSaberColor", "strangeNotReadablePrivateField");
   }
+
+  @Test
+  public void should_fail_if_a_field_does_not_exist() {
+    Jedi jedi = new Jedi("Yoda", "Blue");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedi).hasNoNullFieldsOrPropertiesExcept("father"))
+                                                   .withMessage(format("%n"
+                                                                       + "Expecting%n" +
+                                                                       "  org.assertj.core.test.Jedi%n" +
+                                                                       "to have the following declared fields:%n" +
+                                                                       "  [\"father\"]%n" +
+                                                                       "but it doesn't have:%n" +
+                                                                       "  [\"father\"]"));
+  }
 }
