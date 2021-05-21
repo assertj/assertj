@@ -371,6 +371,7 @@ public class Maps {
   }
 
   private static <K> Set<K> getFoundKeys(Map<K, ?> actual, K[] expectedKeys) {
+    // Stream API avoided for performance reasons
     Set<K> found = new LinkedHashSet<>();
     for (K expectedKey : expectedKeys) {
       if (actual.containsKey(expectedKey)) found.add(expectedKey);
@@ -379,6 +380,7 @@ public class Maps {
   }
 
   private static <K> Set<K> getNotFoundKeys(Map<K, ?> actual, K[] expectedKeys) {
+    // Stream API avoided for performance reasons
     Set<K> notFound = new LinkedHashSet<>();
     for (K expectedKey : expectedKeys) {
       if (!actual.containsKey(expectedKey)) notFound.add(expectedKey);
@@ -387,6 +389,7 @@ public class Maps {
   }
 
   private static <K> Set<K> getNotExpectedKeys(Map<K, ?> actual, K[] expectedKeys) {
+    // Stream API avoided for performance reasons
     try {
       Map<K, ?> clonedMap = clone(actual);
       for (K expectedKey : expectedKeys) {
@@ -460,6 +463,7 @@ public class Maps {
 
   private static <K, V> Set<Entry<? extends K, ? extends V>> getNotFoundEntries(Map<K, V> actual,
                                                                                 Entry<? extends K, ? extends V>[] entries) {
+    // Stream API avoided for performance reasons
     Set<Entry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
     for (Entry<? extends K, ? extends V> entry : entries) {
       if (!containsEntry(actual, entry)) notFound.add(entry);
@@ -468,6 +472,7 @@ public class Maps {
   }
 
   private static <K, V> Set<Entry<K, V>> getNotExpectedEntries(Map<K, V> actual, Entry<? extends K, ? extends V>[] entries) {
+    // Stream API avoided for performance reasons
     Set<Entry<K, V>> notExpected = new LinkedHashSet<>();
     for (Entry<K, V> entry : mapWithoutExpectedEntries(actual, entries).entrySet()) {
       MapEntry<K, V> mapEntry = entry(entry.getKey(), entry.getValue());
@@ -477,6 +482,7 @@ public class Maps {
   }
 
   private static <K, V> Map<K, V> mapWithoutExpectedEntries(Map<K, V> actual, Entry<? extends K, ? extends V>[] expectedEntries) {
+    // Stream API avoided for performance reasons
     try {
       Map<K, V> clonedMap = clone(actual);
       for (Entry<? extends K, ? extends V> expectedEntry : expectedEntries) {
