@@ -446,4 +446,9 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
     urls.assertIsEqualToWithSortedQueryParameters(info, actual, expected);
     return myself;
   }
+
+  public SELF representsSamePrimaryResourceAs(URL expected) {
+    urls.assertRepresentSamePrimaryResource(info, actual, expected);
+    return myself;
+  }
 }

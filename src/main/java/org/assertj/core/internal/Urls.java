@@ -25,6 +25,7 @@ import static org.assertj.core.error.uri.ShouldHavePort.shouldHavePort;
 import static org.assertj.core.error.uri.ShouldHaveProtocol.shouldHaveProtocol;
 import static org.assertj.core.error.uri.ShouldHaveQuery.shouldHaveQuery;
 import static org.assertj.core.error.uri.ShouldHaveUserInfo.shouldHaveUserInfo;
+import static org.assertj.core.error.uri.ShouldRepresentSamePrimaryRepresentationAs.shouldRepresentSamePrimaryResourceAs;
 import static org.assertj.core.internal.Comparables.assertNotNull;
 import static org.assertj.core.internal.Uris.getParameters;
 import static org.assertj.core.util.Preconditions.checkArgument;
@@ -159,4 +160,13 @@ public class Urls {
     if (differentNonQueryParams || differentSortedQueryParams)
       throw failures.failure(info, shouldBeEqualToWithSortedQueryParameters(actual, expected));
   }
+
+  public void assertRepresentSamePrimaryResource(AssertionInfo info, URL actual, URL expected) {
+    assertNotNull(info, actual);
+    String actualResource = actual.getProtocol() + "://" + actual.getHost() + actual.getPath();
+    String expectedResource = expected.getProtocol() + "://" + expected.getHost() + expected.getPath();
+    if (!actualResource.equals(expectedResource))
+      throw failures.failure(info, shouldRepresentSamePrimaryResourceAs(actual, expectedResource));
+  }
+  
 }
