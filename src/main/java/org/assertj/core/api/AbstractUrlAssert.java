@@ -447,6 +447,31 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
     return myself;
   }
 
+  /**
+   * Verifies that the actual {@code URL} represents the same primary resource as the expected {@code URL}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> URL url = new URL("http://example.com/path?a=b&amp;c=d");
+   *
+   * // this assertion succeeds ...
+   * assertThat(url).representsSamePrimaryResourceAs(new URL("http://example.com/path"))
+   *                .representsSamePrimaryResourceAs(new URL("http://example.com/path?a=b&amp;c=d"))
+   *                .representsSamePrimaryResourceAs(new URL("http://example.com/path?a=b&amp;c=d#hello"));
+   *
+   * // ... but this one fails since the protocols are different
+   * assertThat(url).representsSamePrimaryResourceAs(new URL("https://example.com/path?a=b&amp;c=e"));
+   *
+   * //... and this one fails as domains are different.
+   * assertThat(url).representsSamePrimaryResourceAs(new URL("http://example2.com/path")); </code></pre>
+   *
+   * @param expected the expected {@code URL} to compare actual to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given URL is {@code null}.
+   * @throws AssertionError if the actual {@code URL} is {@code null}.
+   * @throws AssertionError if the actual {@code URL} and the expected {@code URL} do not represent the same primary resource.
+   *
+   * @since 3.19.0
+   */
   public SELF representsSamePrimaryResourceAs(URL expected) {
     urls.assertRepresentSamePrimaryResource(info, actual, expected);
     return myself;
