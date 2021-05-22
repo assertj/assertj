@@ -13,7 +13,10 @@
 package org.assertj.core.internal.maps;
 
 import static java.lang.String.CASE_INSENSITIVE_ORDER;
+import static java.util.Collections.emptyMap;
 import static java.util.Collections.emptySet;
+import static java.util.Collections.singletonMap;
+import static java.util.Collections.unmodifiableMap;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -29,7 +32,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.set;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.LinkedHashMap;
@@ -120,12 +122,12 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
   }
 
   private static Stream<Arguments> unmodifiableMapsSuccessfulTestCases() {
-    return Stream.of(arguments(Collections.emptyMap(), emptyEntries()),
-                     arguments(Collections.singletonMap("name", "Yoda"),
+    return Stream.of(arguments(emptyMap(), emptyEntries()),
+                     arguments(singletonMap("name", "Yoda"),
                                array(entry("name", "Yoda"))),
                      arguments(new SingletonMap<>("name", "Yoda"),
                                array(entry("name", "Yoda"))),
-                     arguments(Collections.unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))),
+                     arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))),
                                array(entry("name", "Yoda"), entry("job", "Jedi"))),
                      arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"),
                                array(entry("name", "Yoda"), entry("job", "Jedi"))));
@@ -165,11 +167,11 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
   }
 
   private static Stream<Arguments> unmodifiableMapsFailureTestCases() {
-    return Stream.of(arguments(Collections.emptyMap(),
+    return Stream.of(arguments(emptyMap(),
                                array(entry("name", "Yoda")),
                                set(entry("name", "Yoda")),
                                emptySet()),
-                     arguments(Collections.singletonMap("name", "Yoda"),
+                     arguments(singletonMap("name", "Yoda"),
                                array(entry("color", "Green")),
                                set(entry("color", "Green")),
                                set(entry("name", "Yoda"))),
@@ -177,7 +179,7 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
                                array(entry("color", "Green")),
                                set(entry("color", "Green")),
                                set(entry("name", "Yoda"))),
-                     arguments(Collections.unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))),
+                     arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))),
                                array(entry("name", "Yoda"), entry("color", "Green")),
                                set(entry("color", "Green")),
                                set(entry("job", "Jedi"))),
