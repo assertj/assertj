@@ -129,7 +129,9 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
                      arguments(singletonMap("name", "Yoda"), array("name")),
                      arguments(new SingletonMap<>("name", "Yoda"), array("name")),
                      arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))), array("name", "job")),
-                     arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), array("name", "job")));
+                     arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))), array("job", "name")),
+                     arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), array("name", "job")),
+                     arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), array("job", "name")));
   }
 
   private static Stream<Arguments> modifiableMapsSuccessfulTestCases() {
@@ -145,7 +147,11 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
                  .flatMap(supplier -> Stream.of(arguments(mapOf(supplier, entry("NAME", "Yoda"), entry("Job", "Jedi")),
                                                           array("name", "job")),
                                                 arguments(mapOf(supplier, entry("NAME", "Yoda"), entry("Job", "Jedi")),
-                                                          array("Name", "Job"))));
+                                                          array("job", "name")),
+                                                arguments(mapOf(supplier, entry("NAME", "Yoda"), entry("Job", "Jedi")),
+                                                          array("Name", "Job")),
+                                                arguments(mapOf(supplier, entry("NAME", "Yoda"), entry("Job", "Jedi")),
+                                                          array("Job", "Name"))));
   }
 
   @ParameterizedTest

@@ -129,8 +129,12 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
                                array(entry("name", "Yoda"))),
                      arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))),
                                array(entry("name", "Yoda"), entry("job", "Jedi"))),
+                     arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))),
+                               array(entry("job", "Jedi"), entry("name", "Yoda"))),
                      arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"),
-                               array(entry("name", "Yoda"), entry("job", "Jedi"))));
+                               array(entry("name", "Yoda"), entry("job", "Jedi"))),
+                     arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"),
+                               array(entry("job", "Jedi"), entry("name", "Yoda"))));
   }
 
   private static Stream<Arguments> modifiableMapsSuccessfulTestCases() {
@@ -146,7 +150,11 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
                  .flatMap(supplier -> Stream.of(arguments(mapOf(supplier, entry("NAME", "Yoda"), entry("Job", "Jedi")),
                                                           array(entry("name", "Yoda"), entry("job", "Jedi"))),
                                                 arguments(mapOf(supplier, entry("NAME", "Yoda"), entry("Job", "Jedi")),
-                                                          array(entry("Name", "Yoda"), entry("Job", "Jedi")))));
+                                                          array(entry("job", "Jedi"), entry("name", "Yoda"))),
+                                                arguments(mapOf(supplier, entry("NAME", "Yoda"), entry("Job", "Jedi")),
+                                                          array(entry("Name", "Yoda"), entry("Job", "Jedi"))),
+                                                arguments(mapOf(supplier, entry("NAME", "Yoda"), entry("Job", "Jedi")),
+                                                          array(entry("Job", "Jedi"), entry("Name", "Yoda")))));
   }
 
   @ParameterizedTest
