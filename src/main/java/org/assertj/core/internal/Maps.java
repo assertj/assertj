@@ -342,6 +342,7 @@ public class Maps {
 
   public <K, V> void assertDoesNotContainKeys(AssertionInfo info, Map<K, V> actual, K[] keys) {
     assertNotNull(info, actual);
+    requireNonNull(keys, keysToLookForIsNull("array of keys"));
     Set<K> found = getFoundKeys(actual, keys);
     if (!found.isEmpty()) throw failures.failure(info, shouldNotContainKeys(actual, found));
   }
@@ -357,7 +358,7 @@ public class Maps {
 
   private <K, V> void assertContainsOnlyKeys(AssertionInfo info, Map<K, V> actual, String placeholderForErrorMessages, K[] keys) {
     assertNotNull(info, actual);
-    failIfNull(keys, keysToLookForIsNull(placeholderForErrorMessages));
+    requireNonNull(keys, keysToLookForIsNull(placeholderForErrorMessages));
     if (actual.isEmpty() && keys.length == 0) {
       return;
     }
@@ -580,10 +581,6 @@ public class Maps {
   private static <K, V> void failIfNullOrEmpty(Entry<? extends K, ? extends V>[] entries) {
     failIfNull(entries);
     failIfEmpty(entries);
-  }
-
-  private static <K> void failIfNull(K[] keys, String errorMessage) {
-    requireNonNull(keys, errorMessage);
   }
 
   private static <K, V> void failIfNull(Entry<? extends K, ? extends V>[] entries) {
