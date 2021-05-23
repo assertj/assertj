@@ -1,52 +1,44 @@
 #
-# Part one of two stage process to update PRs with pitest data when accepting PRs from untrusted forks.
+# Part two of two stage process for updating PRs with pitest results when accepting PRs from untrusted forks.
 #
-# The jobs will run the mutation analysis, but the token supplied by gtihub does not have write access.
-# The results are therefore stored as an artifact which will be used to update the PR in the second stage.
+# The version of this file that runs is the version in the main/master branch, NOT the version in the PR. It must therefore
+# be committed to main/master before the process can run for the first time.
 #
-# Projects where PRs come from the same repo can use a simpler single stage process.
+# This workflow takes an artifact containing pitest results generated in part one, and updated the PR. It runs with
+# write access.
 #
-# see https://blog.pitest.org/pitest-pr-setup/
-#
-name: Receive
+# See https://blog.pitest.org/oss-pitest-pr/
 
-# read-only repo token
-# no access to secrets
+name: Comment on the pull request
+
+# read-write repo token
+# access to secrets
 on:
-  pull_request:
+  workflow_run:
+    workflows: ["Receive"]
+    types:
+      - completed
 
 jobs:
-  store-pitest-feedback:
-    # Only run on forked repos 
-    if: github.event.pull_request.head.repo.full_name != github.repository
+  pitest-update-pr:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout project
-        uses: actions/checkout@v2
-        with:
-          # important to set a fetch depth of 2. By default the checkout action make no history available
-          fetch-depth: 2
-
-      - name: Cache local Maven repository
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven-
+      - name: debug
+        uses: hmarr/debug-action@v2
       - name: Setup Java JDK
         uses: actions/setup-java@v1.4.3
         with:
           java-version: 11
-      - name: run pitest
-        # pitest has been bound to a profile called pitest for normal running
-        # we add config to analyse only changes made within a PR and treat surviving mutants as check errors
-        # failWhenNoMutations is unset in the pom, as otherwise PRs that do not affect java code would fail
-        run: mvn -e -B -Ppitest -Dfeatures="+GIT(from[HEAD~1]), +gitci" test
-      - name: aggregate files
-        run: mvn -e -B -Ppitest pitest-git:aggregate
-      - name: upload results
-        uses: actions/upload-artifact@v2
+      - name: Download artifact
+        uses: dawidd6/action-download-artifact@v2
         with:
+          workflow: ${{ github.event.workflow_run.workflow_id }}
           name: pitest
-          path: target/pit-reports-ci/
+          path: target/pit-reports-ci
+          workflow_conclusion: success
+      - name: update pull request
+        # The updatePR maven goal is used here with an explicit version. This allows us to upload without checking out
+        # the code, but does mean the version here must be maintained. An alternative would be to checkout the code and use 
+        # the github goal. This will work as long as the artifact is extracted to the maven target directory
+        run: mvn -Ppitest -DrepoToken=${{ secrets.GITHUB_TOKEN }} com.groupcdg:pitest-github-maven-plugin:0.0.8:updatePR
