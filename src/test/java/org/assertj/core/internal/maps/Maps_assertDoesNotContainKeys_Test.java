@@ -12,32 +12,41 @@
  */
 package org.assertj.core.internal.maps;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotContainKeys.shouldNotContainKeys;
+import static org.assertj.core.internal.ErrorMessages.keysToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.util.Sets.set;
+
+import java.util.Map;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Maps;
 import org.assertj.core.internal.MapsBaseTest;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
- * Tests for <code>{@link org.assertj.core.internal.Maps#assertDoesNotContainKeys(AssertionInfo, java.util.Map, Object[])}</code>.
+ * Tests for <code>{@link Maps#assertDoesNotContainKeys(AssertionInfo, Map, Object[])}</code>.
  *
  * @author dorzey
  */
+@DisplayName("Maps assertDoesNotContainKeys")
 class Maps_assertDoesNotContainKeys_Test extends MapsBaseTest {
+
+  private static final String ARRAY_OF_KEYS = "array of keys";
 
   @Override
   @BeforeEach
-  public void setUp() {
+  protected void setUp() {
     super.setUp();
     actual.put(null, null);
   }
@@ -50,39 +59,43 @@ class Maps_assertDoesNotContainKeys_Test extends MapsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // GIVEN
-    actual = null;
+    String[] keys = { "name" };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> maps.assertDoesNotContainKeys(someInfo(), null,
-                                                                                             array("name", "color")));
+    AssertionError error = expectAssertionError(() -> maps.assertDoesNotContainKeys(someInfo(), null, keys));
     // THEN
-    then(assertionError).hasMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_pass_if_key_is_null() {
-    maps.assertDoesNotContainKeys(someInfo(), actual, new String[] { null });
+  void should_fail_if_given_keys_array_is_null() {
+    // GIVEN
+    String[] keys = null;
+    // WHEN
+    Throwable thrown = catchThrowable(() -> maps.assertDoesNotContainKeys(someInfo(), actual, keys));
+    // THEN
+    then(thrown).isInstanceOf(NullPointerException.class).hasMessage(keysToLookForIsNull(ARRAY_OF_KEYS));
   }
 
-  @Test
-  void should_fail_if_actual_contains_key() {
-    AssertionInfo info = someInfo();
-    String key = "name";
-
-    Throwable error = catchThrowable(() -> maps.assertDoesNotContainKeys(info, actual, new String[] { key }));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotContainKeys(actual, newLinkedHashSet(key)));
+  @ParameterizedTest
+  @NullSource
+  @ValueSource(strings = { "name", "color" })
+  void should_fail_if_actual_contains_key(String key) {
+    // GIVEN
+    String[] keys = { key };
+    // WHEN
+    AssertionError error = expectAssertionError(() -> maps.assertDoesNotContainKeys(someInfo(), actual, keys));
+    // THEN
+    then(error).hasMessage(shouldNotContainKeys(actual, set(key)).create());
   }
 
   @Test
   void should_fail_if_actual_contains_keys() {
-    AssertionInfo info = someInfo();
-    String key1 = "name";
-    String key2 = "color";
-
-    Throwable error = catchThrowable(() -> maps.assertDoesNotContainKeys(info, actual, new String[] { key1, key2 }));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotContainKeys(actual, newLinkedHashSet(key1, key2)));
+    // GIVEN
+    String[] keys = { "name", "color" };
+    // WHEN
+    AssertionError error = expectAssertionError(() -> maps.assertDoesNotContainKeys(someInfo(), actual, keys));
+    // THEN
+    then(error).hasMessage(shouldNotContainKeys(actual, set("name", "color")).create());
   }
+
 }

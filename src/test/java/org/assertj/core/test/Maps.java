@@ -13,7 +13,9 @@
 package org.assertj.core.test;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.TreeMap;
+import java.util.function.Supplier;
 
 import org.assertj.core.data.MapEntry;
 
@@ -24,18 +26,19 @@ public final class Maps {
 
   @SafeVarargs
   public static <K, V> LinkedHashMap<K, V> mapOf(MapEntry<K, V>... entries) {
-    LinkedHashMap<K, V> map = new LinkedHashMap<>();
-    for (MapEntry<K, V> entry : entries) {
-      map.put(entry.key, entry.value);
-    }
-    return map;
+    return mapOf(LinkedHashMap::new, entries);
   }
 
   @SafeVarargs
   public static <K extends Comparable<? super K>, V> TreeMap<K, V> treeMapOf(MapEntry<K, V>... entries) {
-    TreeMap<K, V> map = new TreeMap<>();
-    for (MapEntry<K, V> entry : entries) {
-      map.put(entry.key, entry.value);
+    return mapOf(TreeMap::new, entries);
+  }
+
+  @SafeVarargs
+  public static <K, V, M extends Map<K, V>> M mapOf(Supplier<M> supplier, Map.Entry<K, V>... entries) {
+    M map = supplier.get();
+    for (Map.Entry<K, V> entry : entries) {
+      map.put(entry.getKey(), entry.getValue());
     }
     return map;
   }

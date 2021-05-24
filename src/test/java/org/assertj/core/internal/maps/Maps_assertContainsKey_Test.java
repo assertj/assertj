@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Maps#assertContainsKey(AssertionInfo, Map, Object)}</code>.
- * 
+ *
  * @author Nicolas François
  * @author Joel Costigliola
  */
@@ -72,4 +72,5 @@ class Maps_assertContainsKey_Test extends MapsBaseTest {
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainKeys(actual, newLinkedHashSet(key)));
   }
+
 }
