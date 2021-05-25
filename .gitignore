@@ -14,7 +14,8 @@ out
 /expected.txt
 #jEnv configuration
 .java-version
-/bin/
 /dependency-reduced-pom.xml
 /bin/
 .mvn/wrapper/maven-wrapper.jar
+# macOS specific files
+.DS_Store
