@@ -216,6 +216,19 @@
               </rules>
             </configuration>
           </execution>
+          <execution>
+            <id>enforcer-java-version</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireJavaVersion>
+                  <version>[11,)</version>
+                </requireJavaVersion>
+              </rules>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
       <plugin>
