@@ -196,7 +196,7 @@
         <artifactId>maven-enforcer-plugin</artifactId>
         <executions>
           <execution>
-            <id>enforce-dependency-rules</id>
+            <id>enforce-java-and-dependencies</id>
             <goals>
               <goal>enforce</goal>
             </goals>
@@ -213,6 +213,9 @@
                   </excludes>
                 </bannedDependencies>
                 <dependencyConvergence />
+                <requireJavaVersion>
+                  <version>[11,)</version>
+                </requireJavaVersion>
               </rules>
             </configuration>
           </execution>
