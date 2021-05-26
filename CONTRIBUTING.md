@@ -5,6 +5,7 @@ Thank you for your interest in contributing to AssertJ!
 
 We appreciate your effort and to make sure that your pull request is easy to review, we ask you to note the following guidelines including legal contributor agreement:
 
+* Use JDK 11 or newer to build the project
 * Use **[AssertJ code Eclipse formatting preferences](src/ide-support/assertj-eclipse-formatter.xml)** (for IntelliJ IDEA users, you can import it with the 'Eclipse Code Formatter' Plugin)
 * Write complete Javadocs for each assertion method and include a code example (succeeding and failing assertion(s)).
 * As we use JUnit 5, favor `package-private` visibility for both test classes and test methods.
@@ -50,7 +51,7 @@ class OptionalAssert_containsInstanceOf_Test extends BaseTest {
 }
 ```
 
-It's ok not to follow some of the rules described above if you have a good reason not to (use your best judgement)
+It's ok not to follow some rules described above if you have a good reason not to (use your best judgement)
 
 [assertj-examples](https://github.com/assertj/assertj-examples) shows how to efficiently use AssertJ through fun unit test examples, it is a kind of living documentation.
 

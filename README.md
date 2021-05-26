@@ -11,7 +11,7 @@ AssertJ provides a rich and intuitive set of strongly-typed assertions to use fo
 * [AssertJ's goals](#goals)
 * [Quick start](https://assertj.github.io/doc/#assertj-core-quick-start)
 * [Latest releases](https://assertj.github.io/doc/#assertj-core-release-notes)
-* [Documentation](https://assertj.github.io/doc/#assertj-core).
+* [Documentation](https://assertj.github.io/doc/#assertj-core)
 * [Contributing](#contributing)
 
 You can ask questions in [**stackoverflow (assertj tag)**](https://stackoverflow.com/questions/tagged/assertj?mixed=1) and make suggestions by simply creating an issue.
