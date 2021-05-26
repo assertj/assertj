@@ -25,7 +25,7 @@ import org.assertj.core.api.Condition;
  * Part of the resulting description is also a verbal description of BiPredicate. 
  * The description output of the expected and the value to test could also be transformed by functions.
  *
- * <pre><code class='java'> Condition&lt;String&gt; verboseCondition = VerboseCondition.verbose(
+ * <pre><code class='java'> Condition&lt;String&gt; verboseCondition = VerboseCondition.verboseCondition(
         4, // the expected value
         (String actual, Integer expected) -&gt; actual.length() &lt; expected, // matchesBiPredicate
         "word must be shorter than", // verbal description of the matchesBiPredicate
@@ -64,8 +64,8 @@ public final class VerboseCondition<T, EXPECTED> extends Condition<T> {
    * @return the created {@code VerboseCondition}.
    * @throws NullPointerException if the matchesBiPredicate is {@code null}.
    */
-  public static <T,EXPECTED> VerboseCondition<T,EXPECTED> verbose(EXPECTED expectedValue, BiPredicate<T, EXPECTED> matchesBiPredicate) {
-      return verbose(expectedValue,matchesBiPredicate,"",null,null);
+  public static <T,EXPECTED> VerboseCondition<T,EXPECTED> verboseCondition(EXPECTED expectedValue, BiPredicate<T, EXPECTED> matchesBiPredicate) {
+      return verboseCondition(expectedValue,matchesBiPredicate,"",null,null);
   }
   
   /**
@@ -79,9 +79,9 @@ public final class VerboseCondition<T, EXPECTED> extends Condition<T> {
    * @return the created {@code VerboseCondition}.
    * @throws NullPointerException if the matchesBiPredicate is {@code null}.
    */
-  public static <T,EXPECTED> VerboseCondition<T,EXPECTED> verbose(EXPECTED expectedValue, BiPredicate<T, EXPECTED> matchesBiPredicate,
+  public static <T,EXPECTED> VerboseCondition<T,EXPECTED> verboseCondition(EXPECTED expectedValue, BiPredicate<T, EXPECTED> matchesBiPredicate,
           String matchDescription) {
-      return verbose(expectedValue,matchesBiPredicate,matchDescription,null,null);
+      return verboseCondition(expectedValue,matchesBiPredicate,matchDescription,null,null);
   }
   
   /**
@@ -97,7 +97,7 @@ public final class VerboseCondition<T, EXPECTED> extends Condition<T> {
    * @return the created {@code VerboseCondition}.
    * @throws NullPointerException if the matchesBiPredicate is {@code null}.
    */
-  public static <T,EXPECTED> VerboseCondition<T,EXPECTED> verbose(EXPECTED expectedValue, BiPredicate<T, EXPECTED> matchesBiPredicate,
+  public static <T,EXPECTED> VerboseCondition<T,EXPECTED> verboseCondition(EXPECTED expectedValue, BiPredicate<T, EXPECTED> matchesBiPredicate,
           String matchDescription, Function<EXPECTED, ?> expectedValueTransformation,
           Function<T, ?> actualValueTransformation) {
       return new VerboseCondition<T, EXPECTED>(expectedValue,matchesBiPredicate,matchDescription,expectedValueTransformation,actualValueTransformation);
@@ -113,7 +113,7 @@ public final class VerboseCondition<T, EXPECTED> extends Condition<T> {
     this.expectedValueTransformation = expectedValueTransformation;
     this.actualValueTransformation = actualValueTransformation;
     describedAs("%s <%s>",matchDescription,
-        transformIf(expectedValueTransformation, expectedValue));
+        transformIfNotNull(expectedValueTransformation, expectedValue));
   }
 
   /**
@@ -144,14 +144,14 @@ public final class VerboseCondition<T, EXPECTED> extends Condition<T> {
     StringBuilder sb = new StringBuilder();
 
      sb.append(String.format("%s <%s>", matchDescription,
-          transformIf(expectedValueTransformation, expectedValue)));
+          transformIfNotNull(expectedValueTransformation, expectedValue)));
      if (!matches) {
-    	sb.append( String.format(" but was <%s>",transformIf(actualValueTransformation, actual)));
+    	sb.append( String.format(" but was <%s>",transformIfNotNull(actualValueTransformation, actual)));
     }
     return sb.toString();
   }
 
-  private static <E> Object transformIf(Function<E, ?> transform, E object) {
+  private static <E> Object transformIfNotNull(Function<E, ?> transform, E object) {
 
     return transform == null ? object : transform.apply(object);
   }
