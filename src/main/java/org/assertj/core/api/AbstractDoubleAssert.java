@@ -890,6 +890,8 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
   /**
    * Verifies that the double value is not a finite floating-point value.
    * <p>
+   * Note that 'not finite' is not equivalent to infinite as `NaN` is neither finite or infinite.
+   * <p>
    * Example:
    * <pre><code class='java'> // assertions succeed
    * assertThat(Double.POSITIVE_INFINITY).isNotFinite();

@@ -903,6 +903,8 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
   /**
    * Verifies that the float value is not a finite floating-point value.
    * <p>
+   * Note that 'not finite' is not equivalent to infinite as `NaN` is neither finite or infinite.
+   * <p>
    * Example:
    * <pre><code class='java'> // assertions succeed
    * assertThat(Float.POSITIVE_INFINITY).isNotFinite();
