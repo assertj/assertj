@@ -225,10 +225,23 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-          <encoding>${project.build.sourceEncoding}</encoding>
+          <release>8</release>
         </configuration>
+        <executions>
+          <execution>
+            <id>jdk9</id>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <release>9</release>
+              <compileSourceRoots>
+                <compileSourceRoot>${project.basedir}/src/main/java9</compileSourceRoot>
+              </compileSourceRoots>
+              <multiReleaseOutput>true</multiReleaseOutput>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <!-- to get jacoco report we need to set argLine in surefire, without this snippet the jacoco argLine is lost -->
       <plugin>
@@ -656,43 +669,6 @@
     </pluginManagement>
   </build>
   <profiles>
-    <profile>
-      <id>java9+</id>
-      <activation>
-        <jdk>[9,)</jdk>
-      </activation>
-      <build>
-        <pluginManagement>
-          <plugins>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-compiler-plugin</artifactId>
-              <executions>
-                <execution>
-                  <id>jdk9</id>
-                  <goals>
-                    <goal>compile</goal>
-                  </goals>
-                  <configuration>
-                    <release>9</release>
-                    <compileSourceRoots>
-                      <compileSourceRoot>${project.basedir}/src/main/java9</compileSourceRoot>
-                    </compileSourceRoots>
-                    <outputDirectory>${project.build.outputDirectory}/META-INF/versions/9</outputDirectory>
-                    <compilerArgs>
-                      <arg>--patch-module</arg>
-                      <arg>org.assertj.core=${project.build.outputDirectory}</arg>
-                      <arg>--module-version</arg>
-                      <arg>${project.version}</arg>
-                    </compilerArgs>
-                  </configuration>
-                </execution>
-              </executions>
-            </plugin>
-          </plugins>
-        </pluginManagement>
-      </build>
-    </profile>
     <profile>
       <id>java13+</id>
       <activation>
