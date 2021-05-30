@@ -12,78 +12,39 @@
  */
 package org.assertj.core.condition;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 
-import org.assertj.core.api.BDDAssertions;
 import org.assertj.core.api.Condition;
 import org.junit.jupiter.api.Test;
 
 class VerboseConditionTest {
-
-  private static final Condition<String> VERBOSE_C_WITHOUT_TRANSFORM = VerboseCondition
-      .verboseCondition(actual -> actual.length() < 4, "word must be shorter than <4>");
 
   private static final Condition<String> VERBOSE_C_WITH_TRANSFORM = VerboseCondition
       .verboseCondition(actual -> actual.length() < 4, "word must be shorter than <4>",
           (s) -> String.format("%s (original word: %s)", s.length(), s));
 
   @Test
-  public void test_verboseCondition_WithoutTransformations_maches_not_executed_description() {
-    Condition<String> condition = VerboseCondition.verboseCondition(actual -> actual.length() < 4,
-        "word must be shorter than <4>");
-    ;
-    assertThat(condition).hasToString("word must be shorter than <4>");
-  }
-
-  @Test
-  public void test_verboseCondition_WithoutTransformations_maches_executed_description_when_matching() {
-
-    Condition<String> condition = VERBOSE_C_WITHOUT_TRANSFORM;
-    BDDAssertions.then(condition.matches("foo")).isTrue();
-    assertThat(condition).hasToString("word must be shorter than <4>");
-  }
-
-  @Test
-  public void test_verboseCondition_WithoutTransformations_maches_executed_description_when_not_matching() {
-
-    Condition<String> condition = VERBOSE_C_WITHOUT_TRANSFORM;
-    BDDAssertions.then(condition.matches("foooo")).isFalse();
-    assertThat(condition).hasToString("word must be shorter than <4> but was <foooo>");
-  }
-
-  @Test
-  public void test_verboseCondition_WitTransformations_maches_not_executed_description() {
-
-    Condition<String> condition = VerboseCondition.verboseCondition(actual -> actual.length() < 4,
-        "word must be shorter than <4>");
-    ;
-    assertThat(condition).hasToString("word must be shorter than <4>");
-  }
-
-  @Test
   public void test_verboseCondition_OWithTransformations_maches_executed_description_when_matching() {
 
     Condition<String> condition = VERBOSE_C_WITH_TRANSFORM;
-    BDDAssertions.then(condition.matches("foo")).isTrue();
-    assertThat(condition).hasToString("word must be shorter than <4>");
+    then(condition.matches("foo")).isTrue();
+    then(condition).hasToString("word must be shorter than <4>");
   }
 
   @Test
   public void test_verboseCondition_WithTransformations_maches_executed_description_when_not_matching() {
 
     Condition<String> condition = VERBOSE_C_WITH_TRANSFORM;
-    BDDAssertions.then(condition.matches("foooo")).isFalse();
-    assertThat(condition.matches("foooo")).isFalse();
-    assertThat(condition)
-        .hasToString("word must be shorter than <4> but was <5 (original word: foooo)>");
+    then(condition.matches("foooo")).isFalse();
+    then(condition).hasToString("word must be shorter than <4> but was <5 (original word: foooo)>");
   }
-  
+
   @Test
   public void test_matchesBiPredicate_null_throws_exception() {
 
     assertThatNullPointerException().isThrownBy(() -> {
-      VerboseCondition.verboseCondition(null, null);
+      VerboseCondition.verboseCondition(null, null, (t) -> "");
     });
   }
 

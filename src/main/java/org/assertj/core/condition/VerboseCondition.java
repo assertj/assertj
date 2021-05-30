@@ -23,14 +23,12 @@ import org.assertj.core.api.Condition;
  * description. The description output of the value to test could also be
  * transformed by functions.
  *
- * <pre>
- * <code class=
+ * <pre><code class=
  * 'java'> Condition&lt;String&gt; verboseCondition = VerboseCondition.verboseCondition(
         actual -&gt; actual.length() &lt; 4, // predicate
         "word must be shorter than &gt;4&lt;", // verbal description of the predicate
         (s) -&gt; String.format("%s (original word: %s)", s.length(), s)); // actual value transformation
- *</code>
- * </pre>
+ *</code></pre>
  * 
  * Tested against the (not matching) word `foooo` the description of the
  * condition would be `word must be shorter than &lt;4 (maximum word length)&gt;
@@ -47,45 +45,38 @@ public final class VerboseCondition<T> extends Condition<T> {
   /**
    * Creates a new <code>{@link VerboseCondition}</code>
    *
+   * <pre><code class=
+   * 'java'> Condition&lt;String&gt; verboseCondition = VerboseCondition.verboseCondition(
+          actual -&gt; actual.length() &lt; 4, // predicate
+          "word must be shorter than &gt;4&lt;", // verbal description of the predicate
+          (s) -&gt; String.format("%s (original word: %s)", s.length(), s)); // actual value transformation
+   *</code></pre>
+   *
    * @param <T>                  the type of object the given condition accept.
    * @param predicate            the Predicate that tests the value to test.
    * @param description          describes the Condition verbal.
-   * @param butWasTransformation Function that is called to transforms the value
+   * @param objectUnderTestDescription Function that is called to transforms the value
    *                             to test into a text, when the actual value does
    *                             not match the predicate.
    * @return the created {@code VerboseCondition}.
    * @throws NullPointerException if the predicate is {@code null}.
    */
   public static <T> VerboseCondition<T> verboseCondition(Predicate<T> predicate, String description,
-      Function<T, String> butWasTransformation) {
+      Function<T, String> objectUnderTestDescription) {
 
-    return new VerboseCondition<>(predicate, description, butWasTransformation);
+    return new VerboseCondition<>(predicate, description, objectUnderTestDescription);
   }
 
-  /**
-   * Creates a new <code>{@link VerboseCondition}</code>
-   *
-   * @param <T>                  the type of object the given condition accept.
-   * @param predicate            the Predicate that tests the value to test.
-   * @param description          describes the Condition verbal.
-   * @return the created {@code VerboseCondition}.
-   * @throws NullPointerException if the predicate is {@code null}.
-   */  public static <T> VerboseCondition<T> verboseCondition(Predicate<T> predicate,
-      String description) {
-
-    return verboseCondition(predicate, description, null);
-  }
-
-  private Function<T, String> butWasTransformation;
+  private Function<T, String> objectUnderTestDescription;
 
   private String description;
 
   private VerboseCondition(Predicate<T> predicate, String description,
-      Function<T, String> butWasTransformation) {
+      Function<T, String> objectUnderTestDescription) {
 
     super(predicate, description);
     this.description = description;
-    this.butWasTransformation = butWasTransformation;
+    this.objectUnderTestDescription = objectUnderTestDescription;
   }
 
   @Override
@@ -111,7 +102,7 @@ public final class VerboseCondition<T> extends Condition<T> {
 
     sb.append(String.format("%s", description));
     if (!matches) {
-      sb.append(String.format(" but was <%s>", transformIfNotNull(butWasTransformation, actual)));
+      sb.append(String.format(" but was <%s>", transformIfNotNull(objectUnderTestDescription, actual)));
     }
     return sb.toString();
   }
