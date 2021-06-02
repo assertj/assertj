@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Himanshu
  */
+@DisplayName("Strings assertMixedCase")
 class Strings_assertMixedCase_Test extends StringsBaseTest {
 
   @Test
