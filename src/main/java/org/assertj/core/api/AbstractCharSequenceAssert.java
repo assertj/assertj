@@ -183,7 +183,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
 /**
-   * Verifies that the actual {@code CharSequence} hace mixed case:
+   * Verifies that the actual {@code CharSequence} is a mixed case {@code CharSequence} by ensuring it is neither uppercase nor lowercase.
    * These assertions succeed:
    * <pre><code class='java'> assertThat("Apple").isMixedCase();
    * assertThat("Mango").isMixedCase();
