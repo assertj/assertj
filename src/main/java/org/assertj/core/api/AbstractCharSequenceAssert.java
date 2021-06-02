@@ -182,6 +182,28 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
     return myself;
   }
 
+/**
+   * Verifies that the actual {@code CharSequence} hace mixed case:
+   * These assertions succeed:
+   * <pre><code class='java'> assertThat("Apple").isMixedCase();
+   * assertThat("Mango").isMixedCase();
+   * assertThat("Cherry").isMidexxCase();</code></pre>
+   *
+   * Whereas these assertions fail:
+   * <pre><code class='java'> assertThat("himanshu ").isMixedCase();
+   * assertThat("gavy").isMixedCase();
+   * assertThat("ALPHA").isMixedCase();
+   * String nullString = null;
+   * assertThat(nullString)isMixedCase();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @since 3.11
+   */
+  public SELF isMixedCase() {
+    string.assertMixedCase(info,actual);
+    return myself;
+  }
+
   /**
    * Verifies that the actual {@code CharSequence} contains one or more whitespace characters (according to
    * {@link Character#isWhitespace(char)}).
