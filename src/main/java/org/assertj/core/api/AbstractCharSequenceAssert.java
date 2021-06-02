@@ -197,7 +197,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * assertThat(nullString)isMixedCase();</code></pre>
    *
    * @return {@code this} assertion object.
-   * @since 3.11
+   * @since 3.20
    */
   public SELF isMixedCase() {
     string.assertMixedCase(info,actual);
