@@ -15,6 +15,7 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 
 import java.io.File;
+import java.nio.file.Path;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value have certain size failed.
@@ -80,6 +81,21 @@ public class ShouldHaveSize extends BasicErrorMessageFactory {
 
   private ShouldHaveSize(File actual, long expectedSize) {
     super(SHOULD_HAVE_FILE_SIZE, actual, expectedSize, actual.length());
+  }
+
+  /**
+   * Creates a new <code>{@link ShouldHaveSize}</code> for Path file size
+   * @param actual The actual path file in the failed assertion
+   * @param expectedSize The expected size of the path file
+   * @param actualSize The actual size of the path file
+   * @return the created {@code ErrorMessageFactory}
+   */
+  public static ErrorMessageFactory shouldHaveSize(Path actual, long expectedSize, long actualSize) {
+    return new ShouldHaveSize(actual, expectedSize, actualSize);
+  }
+
+  private ShouldHaveSize(Path actual, long expectedSize, long actualSize) {
+    super(SHOULD_HAVE_FILE_SIZE, actual, expectedSize, actualSize);
   }
 
 }

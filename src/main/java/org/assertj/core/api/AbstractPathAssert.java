@@ -1108,6 +1108,40 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   }
 
   /**
+   * Assert that the tested {@link Path} has the given size in bytes.
+   * <p>
+   * Note that the actual {@link Path} must exist and must be readable.
+   * <p>
+   * Examples:
+   * <pre><code class="java"> // Given the following empty paths
+   * /root/sub-dir-1/foo.ext
+   * /root/sub-dir-1/bar.ext
+   *
+   * Path emptyPath = Paths.get("/root/sub-dir-1/foo.ext")
+   * Path nonEmptyPath = Files.write(Paths.get("/root/sub-dir-1/bar.ext"),
+   *                                 "The Quick Brown Fox.".getBytes());
+   * // the following assertions pass
+   * assertThat(emptyPath).hasSize(0);
+   * assertThat(nonEmptyPath).hasSize(20);
+   *
+   * // the following assertions fail
+   * assertThat(emptyPath).hasSize(5);
+   * assertThat(nonEmptyPath).hasSize(0);</code></code></pre>
+   *
+   * @param expectedSize the expected {@code Path} file size in bytes
+   * @return {@code this} assertion object
+   * @throws AssertionError is the actual {@code Path} is {@code null}.
+   * @throws AssertionError if the actual {@code Path} does not exist.
+   * @throws AssertionError if the actual {@code Path} is not readable.
+   * @throws AssertionError if the actual {@code Path} file size is not equal to the expected size.
+   * @throws UncheckedIOException if any I/O error occurs.
+   */
+  public SELF hasSize(long expectedSize) {
+    paths.assertHasSize(info, actual, expectedSize);
+    return myself;
+  }
+
+  /**
    * Assert that the tested {@link Path} starts with the given path.
    *
    * <p>
