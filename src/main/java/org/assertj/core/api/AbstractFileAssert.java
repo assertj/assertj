@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.FileSystem;
+import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.util.function.Predicate;
 
@@ -689,6 +690,15 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   public SELF hasName(String expected) {
     files.assertHasName(info, actual, expected);
     return myself;
+  }
+
+  /**
+   * Alias for {@link #hasName(String)}.
+   *
+   * This method can be used to easily switch between {@link File} and {@link Path} assertions.
+   */
+  public SELF hasFileName(String expected) {
+    return hasName(expected);
   }
 
   /**
