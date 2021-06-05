@@ -1111,7 +1111,8 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * Assert that the tested {@link Path} has the given size in bytes.
    * <p>
    * Note that the actual {@link Path} must exist and must be readable.
-   * <p>
+   * </p>
+   *
    * Examples:
    * <pre><code class="java"> // Given the following empty paths
    * /root/sub-dir-1/foo.ext
@@ -1126,7 +1127,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    *
    * // the following assertions fail
    * assertThat(emptyPath).hasSize(5);
-   * assertThat(nonEmptyPath).hasSize(0);</code></code></pre>
+   * assertThat(nonEmptyPath).hasSize(0);</code></pre>
    *
    * @param expectedSize the expected {@code Path} file size in bytes
    * @return {@code this} assertion object
