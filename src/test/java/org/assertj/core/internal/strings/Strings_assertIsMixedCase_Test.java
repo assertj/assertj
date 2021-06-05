@@ -14,6 +14,7 @@ package org.assertj.core.internal.strings;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeMixedCase.shouldBeMixedCase;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.internal.StringsBaseTest;
@@ -58,6 +59,12 @@ class Strings_assertIsMixedCase_Test extends StringsBaseTest {
   void should_fail_if_actual_is_uppercase() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMixedCase(someInfo(), "I AM GROOT!"))
                                                    .withMessage(shouldBeMixedCase("I AM GROOT!").create());
+  }
+
+  @Test
+  void should_fail_if_actual_is_null() {
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMixedCase(someInfo(), null))
+      .withMessage(shouldNotBeNull().create());
   }
 
 }
