@@ -695,7 +695,13 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   /**
    * Alias for {@link #hasName(String)}.
    *
-   * This method can be used to easily switch between {@link File} and {@link Path} assertions.
+   * @param expected the expected {@code File} name.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the expected name is {@code null}.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} does not have the expected name.
+   *
+   * @see java.io.File#getName() name definition.
    */
   public SELF hasFileName(String expected) {
     return hasName(expected);
