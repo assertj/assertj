@@ -1224,7 +1224,7 @@ public class Strings {
 
   public void assertMixedCase(AssertionInfo info, CharSequence actual) {
     assertNotNull(info, actual);
-    if (!(isLowerCase(actual) || isUpperCase(actual))) return;
+    if (isLowerCase(actual) == isUpperCase(actual)) return;
     throw failures.failure(info, shouldBeMixedCase(actual));
   }
 

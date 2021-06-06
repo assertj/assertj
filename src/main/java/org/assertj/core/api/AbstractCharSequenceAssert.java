@@ -1601,22 +1601,20 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} is a mixed case {@code CharSequence} by checking that is
-   * neither lowercase by applying comparison used in assertion {@code isLowerCase()},
-   * nor uppercase by applying comparison used in assertion {@code isUpperCase()}. That means that empty strings and
-   * string that contain no letters will fail the assertion.
+   * Verifies that the actual {@code CharSequence} is a mixed case {@code CharSequence} by checking that if fails
+   * both {@code isLowerCase()} assertion and {@code isUpperCase()} assertion.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat(&quot;Capitalized&quot;).isMixedCase();
    * assertThat(&quot;camelCase&quot;).isMixedCase();
    * assertThat(&quot;rAndOMcAse1234&quot;).isMixedCase();
+   * assertThat(&quot;1@3$567&quot;).isMixedCase();
+   * assertThat(&quot;&quot;).isMixedCase();
    *
    * // assertions will fail
    * assertThat(&quot;I AM GROOT!&quot;).isMixedCase();
-   * assertThat(&quot;please be quiet&quot;).isMixedCase();
-   * assertThat(&quot;1@3$567&quot;).isMixedCase();
-   * assertThat(&quot;&quot;).isMixedCase();</code></pre>
+   * assertThat(&quot;please be quiet&quot;).isMixedCase();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not mixed case.

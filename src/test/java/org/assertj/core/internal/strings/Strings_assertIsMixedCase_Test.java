@@ -18,6 +18,7 @@ import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.internal.StringsBaseTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -25,6 +26,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Andrey Kuzmin
  */
+@DisplayName("Strings assertIsMixedCase")
 class Strings_assertIsMixedCase_Test extends StringsBaseTest {
 
   @Test
@@ -38,15 +40,13 @@ class Strings_assertIsMixedCase_Test extends StringsBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_empty() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMixedCase(someInfo(), ""))
-      .withMessage(shouldBeMixedCase("").create());
+  void should_pass_if_actual_is_empty() {
+    strings.assertMixedCase(someInfo(), "");
   }
 
   @Test
-  void should_fail_if_actual_is_has_no_letters() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMixedCase(someInfo(), "@$#^"))
-      .withMessage(shouldBeMixedCase("@$#^").create());
+  void should_pas_if_actual_is_has_no_letters() {
+    strings.assertMixedCase(someInfo(), "@$#24^");
   }
 
   @Test
