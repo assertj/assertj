@@ -224,16 +224,16 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   /**
    * Makes the recursive comparison to only compare given actual fields and their subfields (no other fields will be compared).
    * <p>
-   * The fields are specified by name, not by value, for example you can specify {@code person.name} but not {@code "Jack"}
-   * as {@code "Jack"} is not a field value.
-   * <p>
    * Specifying a field will make all its subfields to be compared, for example specifying {@code person} will lead to compare
    * {@code person.name}, {@code person.address} and all other Person fields.<br>
    * On the other hand if you specify {@code person.name}, {@code person} won't be compared but {@code person.name} will be.
    * <p>
+   * The fields are specified by name, not by value, for example you can specify {@code person.name} but not {@code "Jack"}
+   * as {@code "Jack"} is not a field value.
+   * <p>
    * {@code comparingOnlyFields} can be combined with ignoring fields methods to restrict further the fields actually compared,
-   * concretely actually compared fields = {compared fields} {@code -} {ignored fields}.<br>For example if compared fields = {"foo", "bar", "baz"}
-   * and ignored fields = {"bar"} then only {"foo", "baz"} fields will be compared.
+   * the resulting compared fields = {specified compared fields} {@code -} {specified ignored fields}.<br>For example if the specified compared fields = {"foo", "bar", "baz"}
+   * and the ignored fields = {"bar"} then only {"foo", "baz"} fields will be compared.
    * <p>
    * Usage example:
    * <pre><code class='java'> public class Person {
