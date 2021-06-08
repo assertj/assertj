@@ -686,6 +686,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws AssertionError if the actual {@code File} does not have the expected name.
    *
    * @see java.io.File#getName() name definition.
+   * @see #hasFileName(String)
    */
   public SELF hasName(String expected) {
     files.assertHasName(info, actual, expected);
@@ -693,7 +694,20 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   }
 
   /**
-   * Alias for {@link #hasName(String)}.
+   * Verifies that the actual {@code File} has given name (alias of {@link #hasName(String)}).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> File xFile = new File(&quot;somewhere/xFile.java&quot;);
+   * File xDirectory = new File(&quot;somewhere/xDirectory&quot;);
+   *
+   * // assertion will pass
+   * assertThat(xFile).hasFileName(&quot;xFile.java&quot;);
+   * assertThat(xDirectory).hasFileName(&quot;xDirectory&quot;);
+   *
+   * // assertion will fail
+   * assertThat(xFile).hasFileName(&quot;xFile&quot;);
+   * assertThat(xDirectory).hasFileName(&quot;somewhere&quot;);</code></pre>
    *
    * @param expected the expected {@code File} name.
    * @return {@code this} assertion object.
@@ -702,6 +716,8 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws AssertionError if the actual {@code File} does not have the expected name.
    *
    * @see java.io.File#getName() name definition.
+   * @see #hasName(String)
+   * @since 3.20.0
    */
   public SELF hasFileName(String expected) {
     return hasName(expected);
