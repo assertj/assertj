@@ -17,7 +17,6 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
-import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -67,23 +66,13 @@ class Paths_assertHasSize_Test extends MockPathsBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_not_readable() {
-    // GIVEN
-    given(nioFilesWrapper.isReadable(actual)).willReturn(false);
-    // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasSize(info, actual, expectedSize));
-    // THEN
-    then(error).hasMessage(shouldBeReadable(actual).create());
-  }
-
-  @Test
   void should_throw_IOException_if_IO_error_occurs_when_finding_path_size() throws IOException {
     // GIVEN
     IOException exception = new IOException();
     given(nioFilesWrapper.size(actual)).willThrow(exception);
     // THEN
     assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> paths.assertHasSize(info, actual, expectedSize))
-      .withMessage(format("unable to verify size of file in path: <$s>", actual));
+      .withMessage(format("unable to verify the size of the path: <$s>", actual));
   }
 
   @Test

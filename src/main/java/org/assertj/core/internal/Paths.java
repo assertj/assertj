@@ -230,17 +230,13 @@ public class Paths {
   }
 
   public void assertHasSize(final AssertionInfo info, final Path actual, long expectedSize) {
-    assertIsReadable(info, actual);
-
-    long actualSize;
+    assertExists(info, actual);
     try {
-      actualSize = nioFilesWrapper.size(actual);
+      long actualSize = nioFilesWrapper.size(actual);
+      if (actualSize != expectedSize) throw failures.failure(info, shouldHaveSize(actual, expectedSize, actualSize));
     } catch(IOException e) {
-      throw new UncheckedIOException(format("unable to verify size of file in path: <$s>", actual), e);
+      throw new UncheckedIOException(format("unable to verify the size of the path: <$s>", actual), e);
     }
-
-    if (actualSize == expectedSize) return;
-    throw failures.failure(info, shouldHaveSize(actual, expectedSize, actualSize));
   }
 
   public void assertStartsWith(final AssertionInfo info, final Path actual, final Path start) {

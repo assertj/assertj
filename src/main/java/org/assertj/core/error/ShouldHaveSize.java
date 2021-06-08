@@ -31,6 +31,13 @@ public class ShouldHaveSize extends BasicErrorMessageFactory {
                                                       + "but had:%n"
                                                       + "  %s bytes";
 
+  private static final String SHOULD_HAVE_PATH_SIZE = "%nExpecting path%n"
+                                                      + "  %s%n"
+                                                      + "to have a size of:%n"
+                                                      + "  %s bytes%n"
+                                                      + "but had:%n"
+                                                      + "  %s bytes";
+
   /**
    * Creates a new <code>{@link ShouldHaveSize}</code>.
    * @param actual the actual value in the failed assertion.
@@ -95,7 +102,7 @@ public class ShouldHaveSize extends BasicErrorMessageFactory {
   }
 
   private ShouldHaveSize(Path actual, long expectedSize, long actualSize) {
-    super(SHOULD_HAVE_FILE_SIZE, actual, expectedSize, actualSize);
+    super(SHOULD_HAVE_PATH_SIZE, actual, expectedSize, actualSize);
   }
 
 }
