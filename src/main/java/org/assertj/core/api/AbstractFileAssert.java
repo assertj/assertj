@@ -207,6 +207,36 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   }
 
   /**
+   * Verifies that the actual {@code File} can be read by the application (alias of {@link #canRead()})
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> File tmpFile = File.createTempFile(&quot;tmp&quot;, &quot;txt&quot;);
+   * File tmpDir = Files.createTempDirectory(&quot;tmp&quot;).toFile();
+   *
+   * // assertions will pass
+   * assertThat(tmpFile).isReadable();
+   * assertThat(tmpDir).isReadable();
+   *
+   * tmpFile.setReadable(false);
+   * tmpDir.setReadable(false);
+   *
+   * // assertions will fail
+   * assertThat(tmpFile).isReadable();
+   * assertThat(tmpDir).isReadable();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} can not be read by the application.
+   *
+   * @see #canRead()
+   * @since 3.20.0
+   */
+  public SELF isReadable() {
+    return canRead();
+  }
+
+  /**
    * Verifies that the content of the actual {@code File} is equal to the content of the given one.
    * The charset to use when reading the actual file can be provided with {@link #usingCharset(Charset)} or
    * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
