@@ -1,0 +1,35 @@
+name: Binary Compatibility
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  japicmp:
+    name: Compare with the latest release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: 11
+      - name: Cache Maven Repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven
+      - name: Compare
+        run: >
+          ./mvnw -V --no-transfer-progress -e package japicmp:cmp
+          -Djapicmp.breakBuildOnBinaryIncompatibleModifications=true
+      - name: Print Result
+        run: cat target/japicmp/default-cli.diff
+      - name: Upload Reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: japicmp
+          path: target/japicmp
+          if-no-files-found: error
