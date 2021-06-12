@@ -45,14 +45,31 @@ class Strings_assertIsMixedCase_Test extends StringsBaseTest {
   }
 
   @Test
-  void should_pas_if_actual_is_has_no_letters() {
-    strings.assertMixedCase(someInfo(), "@$#24^");
+  void should_fail_if_actual_is_single_lowercase() {
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMixedCase(someInfo(), "p"))
+      .withMessage(shouldBeMixedCase("p").create());
   }
 
   @Test
   void should_fail_if_actual_is_lowercase() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMixedCase(someInfo(), "please be quiet"))
-                                                   .withMessage(shouldBeMixedCase("please be quiet").create());
+      .withMessage(shouldBeMixedCase("please be quiet").create());
+  }
+
+  @Test
+  void should_pass_if_actual_is_whitespace() {
+    strings.assertMixedCase(someInfo(), " ");
+  }
+
+  @Test
+  void should_pas_if_actual_is_has_no_letters() {
+    strings.assertMixedCase(someInfo(), "@$#24^");
+  }
+
+  @Test
+  void should_fail_if_actual_is_single_uppercase() {
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMixedCase(someInfo(), "P"))
+      .withMessage(shouldBeMixedCase("P").create());
   }
 
   @Test
