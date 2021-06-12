@@ -34,9 +34,10 @@ jobs:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-maven-
-      - name: Setup Java JDK
-        uses: actions/setup-java@v1.4.3
+      - name: Setup Java
+        uses: actions/setup-java@v2
         with:
+          distribution: 'zulu'
           java-version: 11
       - name: run pitest
         # pitest has been bound to a profile called pitest for normal running
