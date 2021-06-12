@@ -48,8 +48,7 @@ jobs:
           restore-keys: ${{ runner.os }}-maven
       - name: Test with Sonar
         run: >
-          ./mvnw -V --no-transfer-progress -e clean verify javadoc:javadoc
-          org.sonarsource.scanner.maven:sonar-maven-plugin:3.8.0.2131:sonar
+          ./mvnw -V --no-transfer-progress -e clean verify javadoc:javadoc sonar:sonar
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.organization=assertj
           -Dsonar.projectKey=joel-costigliola_assertj-core

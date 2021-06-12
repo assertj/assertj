@@ -635,6 +635,11 @@
     <pluginManagement>
       <plugins>
         <plugin>
+          <groupId>org.sonarsource.scanner.maven</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>3.9.0.2155</version>
+        </plugin>
+        <plugin>
           <groupId>net.alchim31.maven</groupId>
           <artifactId>yuicompressor-maven-plugin</artifactId>
           <version>1.5.1</version>
