@@ -307,6 +307,17 @@ public class Files {
     return linesOf(file, Charset.forName(charsetName));
   }
 
+  /**
+   * Extracts file extension from given file name
+   *
+   * @param fileName the file name
+   * @return the file extension
+   */
+  public static String getFileExtension(String fileName) {
+    int dotAt = fileName.lastIndexOf('.');
+    return dotAt == -1 ? null : fileName.substring(dotAt + 1);
+  }
+
   private static void checkArgumentCharsetIsSupported(String charsetName) {
     checkArgument(Charset.isSupported(charsetName), "Charset:<'%s'> is not supported on this system", charsetName);
   }

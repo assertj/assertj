@@ -1812,4 +1812,29 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
     return myself;
   }
 
+  /**
+   * Verifies that the actual {@code Path} has given extension.
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> Path xPath = Paths.get(&quot;xFile.java&quot;);
+   *
+   * // assertion will pass
+   * assertThat(xPath).hasExtension(&quot;java&quot;);
+   *
+   * // assertion will fail
+   * assertThat(xPath).hasExtension(&quot;png&quot;);</code></pre>
+   *
+   * @param expected the expected extension, it does not contains the {@code '.'}
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the expected extension is {@code null}.
+   * @throws AssertionError if the actual {@code Path} is {@code null}.
+   * @throws AssertionError if the actual {@code Path} is not a file (ie a directory).
+   * @throws AssertionError if the actual {@code Path} does not have the expected extension.
+   *
+   */
+  public SELF hasExtension(String expected) {
+    paths.assertHasExtension(info, actual, expected);
+    return myself;
+  }
 }

@@ -394,7 +394,7 @@ public class Files {
   public void assertHasExtension(AssertionInfo info, File actual, String expected) {
     requireNonNull(expected, "The expected extension should not be null.");
     assertIsFile(info, actual);
-    String actualExtension = getFileExtension(actual);
+    String actualExtension = org.assertj.core.util.Files.getFileExtension(actual.getName());
     if (expected.equals(actualExtension)) return;
     throw failures.failure(info, shouldHaveExtension(actual, actualExtension, expected));
   }
@@ -586,12 +586,6 @@ public class Files {
 
   private static void assertNotNull(AssertionInfo info, File actual) {
     Objects.instance().assertNotNull(info, actual);
-  }
-
-  private String getFileExtension(File file) {
-    String name = file.getName();
-    int dotAt = name.lastIndexOf('.');
-    return dotAt == -1 ? null : name.substring(dotAt + 1);
   }
 
   private void verifyIsFile(File expected) {

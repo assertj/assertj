@@ -38,6 +38,7 @@ import static org.assertj.core.error.ShouldExist.shouldExistNoFollowLinks;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
 import static org.assertj.core.error.ShouldHaveDigest.shouldHaveDigest;
+import static org.assertj.core.error.ShouldHaveExtension.shouldHaveExtension;
 import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
@@ -48,6 +49,7 @@ import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.error.ShouldStartWithPath.shouldStartWith;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
@@ -63,7 +65,9 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.api.exception.PathsException;
+import org.assertj.core.util.Files;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.diff.Delta;
 
@@ -513,6 +517,14 @@ public class Paths {
     } catch (IOException e) {
       throw new PathsException(FAILED_TO_RESOLVE_ACTUAL_REAL_PATH, e);
     }
+  }
+
+  public void assertHasExtension(AssertionInfo info, Path actual, String expectedExtension) {
+    requireNonNull(expectedExtension, "The expected extension should not be null.");
+    assertIsRegularFile(info, actual);
+    String actualExtension = Files.getFileExtension(actual.getFileName().toString());
+    if (expectedExtension.equals(actualExtension)) return;
+    throw failures.failure(info, shouldHaveExtension(actual, actualExtension, expectedExtension));
   }
 
 }
