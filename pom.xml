@@ -28,13 +28,13 @@
     <byte-buddy.version>1.11.2</byte-buddy.version>
     <opentest4j.version>1.2.0</opentest4j.version>
     <bnd.version>5.3.0</bnd.version>
+    <cdg.pitest.version>0.0.10</cdg.pitest.version>
     <!-- Dependency versions overriding -->
     <junit.version>4.13.2</junit.version>
     <junit-jupiter.version>5.7.2</junit-jupiter.version>
     <mockito.version>3.11.1</mockito.version>
     <!-- Plugin versions overriding -->
     <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
-    <cdg.pitest.version>0.0.10</cdg.pitest.version>
   </properties>
 
   <dependencyManagement>
@@ -638,6 +638,11 @@
           <groupId>org.sonarsource.scanner.maven</groupId>
           <artifactId>sonar-maven-plugin</artifactId>
           <version>3.9.0.2155</version>
+        </plugin>
+        <plugin>
+          <groupId>com.groupcdg</groupId>
+          <artifactId>pitest-github-maven-plugin</artifactId>
+          <version>${cdg.pitest.version}</version>
         </plugin>
         <plugin>
           <groupId>net.alchim31.maven</groupId>
