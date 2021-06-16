@@ -250,6 +250,29 @@ class StandardComparisonStrategy_areEqual_Test {
     then(result).isFalse();
   }
 
+  @ParameterizedTest
+  @MethodSource("arrays")
+  void should_return_false_if_array_is_non_null_and_other_is_null(Object actual) {
+    // WHEN
+    boolean result = underTest.areEqual(actual, null);
+    // THEN
+    then(result).isFalse();
+  }
+
+  private static Stream<Object> arrays() {
+    return Stream.of(
+//      new Object[] { "Luke", "Yoda", "Leia" }, // FIXME only "Luke" gets injected as single object
+      new byte[] { 1, 2, 3 },
+      new short[] { 1, 2, 3 },
+      new int[] { 1, 2, 3 },
+      new long[] { 1L, 2L, 3L },
+      new char[] { '1', '2', '3' },
+      new float[] { 1.0f, 2.0f, 3.0f },
+      new double[] { 1.0, 2.0, 3.0 },
+      new boolean[] { true, false }
+    );
+  }
+
   @Test
   void should_fail_if_equals_implementation_fails() {
     // GIVEN
@@ -279,16 +302,19 @@ class StandardComparisonStrategy_areEqual_Test {
     then(result).isEqualTo(expected);
   }
 
+  // not part of contractViolatingEquals due to test order dependency
   @Test
-  void should_work_with_inconsistent_equals_methods() {
-    NonConsistent nonConsistentX = new NonConsistent();
-
-    boolean firstInvocation = underTest.areEqual(nonConsistentX, nonConsistentX);
-    then(firstInvocation).isEqualTo(true);
-    boolean secondInvocation = underTest.areEqual(nonConsistentX, nonConsistentX);
-    then(secondInvocation).isEqualTo(false);
-    boolean thirdInvocation = underTest.areEqual(nonConsistentX, nonConsistentX);
-    then(thirdInvocation).isEqualTo(true);
+  void should_delegate_to_inconsistent_equals_implementation() {
+    // GIVEN
+    Object actual = new NonConsistent();
+    // WHEN
+    boolean[] results = {
+      underTest.areEqual(actual, actual),
+      underTest.areEqual(actual, actual),
+      underTest.areEqual(actual, actual)
+    };
+    // THEN
+    then(results).containsExactly(true, false, true);
   }
 
   private static Stream<Arguments> correctEquals() {
@@ -314,7 +340,6 @@ class StandardComparisonStrategy_areEqual_Test {
     NonTransitive nonTransitiveZ = new NonTransitive(null, null);
     NonTransitive nonTransitiveY = new NonTransitive(nonTransitiveZ, null);
     NonTransitive nonTransitiveX = new NonTransitive(nonTransitiveY, nonTransitiveZ);
-
 
     return Stream.of(arguments(alwaysTrue, null, true),
                      arguments(alwaysFalse, alwaysFalse, false),
