@@ -12,9 +12,9 @@
  */
 package org.assertj.guava.api;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
 
@@ -62,12 +62,7 @@ public class OptionalAssert_extractingCharSequence_Test {
     Throwable throwable = catchThrowable(() -> assertThat(actual).extractingCharSequence());
     // THEN
     assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(format("%n" +
-                                            "Expecting:%n" +
-                                            "  12L%n" +
-                                            "to be an instance of:%n" +
-                                            "  java.lang.CharSequence%n" +
-                                            "but was instance of:%n" +
-                                            "  java.lang.Long"));
+                         .hasMessage(shouldBeInstance(12L, CharSequence.class).create());
   }
+
 }
