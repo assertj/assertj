@@ -52,15 +52,4 @@ class MapAssert_containsExactlyInAnyOrderEntriesOf_Test extends MapAssertBaseTes
     assertThat(actualMap).containsExactlyInAnyOrderEntriesOf(expectedMap);
   }
 
-  @Test
-  void invoke_api_like_user_with_value_array() {
-
-    // GIVEN
-    Map<String, byte[]> actualMap = mapOf(entry("key1", new byte[]{1, 2}),
-      entry("key2", new byte[]{3, 4, 5}));
-    Map<String, byte[]> expectedMap = mapOf(entry("key2", new byte[]{3, 4, 5}),
-      entry("key1", new byte[]{1, 2}));
-    // THEN
-    assertThat(actualMap).containsExactlyInAnyOrderEntriesOf(expectedMap);
-  }
 }
