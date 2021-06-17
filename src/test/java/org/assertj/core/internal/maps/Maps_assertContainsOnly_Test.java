@@ -243,4 +243,14 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
                                set(entry("name", "Yoda"), entry("job", "Jedi"))));
   }
 
+  @SuppressWarnings("unchecked")
+  @Test
+  void should_pass_if_value_type_is_array() {
+    // GIVEN
+    Map<String, byte[]> actual = mapOf(entry("key1", new byte[] { 1, 2 }), entry("key2", new byte[] { 3, 4, 5 }));
+    Entry<String, byte[]>[] expected = new Entry[] { entry("key2", new byte[] { 3, 4, 5 }), entry("key1", new byte[] { 1, 2 }) };
+    // WHEN/THEN
+    assertThatNoException().isThrownBy(() -> maps.assertContainsOnly(info, actual, expected));
+  }
+
 }

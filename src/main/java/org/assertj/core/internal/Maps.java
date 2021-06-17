@@ -486,17 +486,21 @@ public class Maps {
     // Stream API avoided for performance reasons
     try {
       Map<K, V> clonedMap = clone(actual);
-      for (Entry<? extends K, ? extends V> expectedEntry : expectedEntries) {
-        clonedMap.remove(expectedEntry.getKey(), expectedEntry.getValue());
-      }
+      removeEntries(clonedMap, expectedEntries);
       return clonedMap;
     } catch (NoSuchMethodException | UnsupportedOperationException e) {
       // actual cannot be cloned or is unmodifiable, falling back to LinkedHashMap
       Map<K, V> copiedMap = new LinkedHashMap<>(actual);
-      for (Entry<? extends K, ? extends V> expectedEntry : expectedEntries) {
-        copiedMap.remove(expectedEntry.getKey(), expectedEntry.getValue());
-      }
+      removeEntries(copiedMap, expectedEntries);
       return copiedMap;
+    }
+  }
+
+  private static <K, V> void removeEntries(Map<K, V> map, Entry<? extends K, ? extends V>[] entries) {
+    for (Entry<? extends K, ? extends V> entry : entries) {
+      // must perform deep equals comparison on values as Map.remove(Object, Object) relies on
+      // Objects.equals which does not handle deep equality (e.g. arrays in map entry values)
+      if (containsEntry(map, entry)) map.remove(entry.getKey());
     }
   }
 
