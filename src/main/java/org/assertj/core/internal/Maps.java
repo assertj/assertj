@@ -485,19 +485,23 @@ public class Maps {
   private static <K, V> Map<K, V> mapWithoutExpectedEntries(Map<K, V> actual, Entry<? extends K, ? extends V>[] expectedEntries) {
     // Stream API avoided for performance reasons
     try {
-      Map<K, V> clonedMap = clone(actual);
-      for (Entry<? extends K, ? extends V> expectedEntry : expectedEntries) {
-        clonedMap.remove(expectedEntry.getKey(), expectedEntry.getValue());
-      }
-      return clonedMap;
+      return removeExpectedEntries(clone(actual), expectedEntries);
     } catch (NoSuchMethodException | UnsupportedOperationException e) {
       // actual cannot be cloned or is unmodifiable, falling back to LinkedHashMap
-      Map<K, V> copiedMap = new LinkedHashMap<>(actual);
-      for (Entry<? extends K, ? extends V> expectedEntry : expectedEntries) {
-        copiedMap.remove(expectedEntry.getKey(), expectedEntry.getValue());
-      }
-      return copiedMap;
+      return removeExpectedEntries(new LinkedHashMap<K, V>(actual), expectedEntries);
     }
+  }
+
+  private static <K, V> Map<K, V> removeExpectedEntries(Map<K, V> map, Entry<? extends K, ? extends V>[] expectedEntries) {
+    for (Entry<? extends K, ? extends V> expectedEntry : expectedEntries) {
+      K key = expectedEntry.getKey();
+      // must perform deep equals comparison on values as Map.remove(Object, Object) relies on
+      // Objects.equals which does not handle deep equality (e.g. arrays in map entry values)
+      if (map.containsKey(key) && deepEquals(map.get(key), expectedEntry.getValue())) {
+        map.remove(key);
+      }
+    }
+    return map;
   }
 
   public <K, V> void assertContainsExactly(AssertionInfo info, Map<K, V> actual, Entry<? extends K, ? extends V>[] entries) {
