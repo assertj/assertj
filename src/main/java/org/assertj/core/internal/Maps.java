@@ -494,11 +494,10 @@ public class Maps {
 
   private static <K, V> Map<K, V> removeExpectedEntries(Map<K, V> map, Entry<? extends K, ? extends V>[] expectedEntries) {
     for (Entry<? extends K, ? extends V> expectedEntry : expectedEntries) {
-      K key = expectedEntry.getKey();
       // must perform deep equals comparison on values as Map.remove(Object, Object) relies on
       // Objects.equals which does not handle deep equality (e.g. arrays in map entry values)
-      if (map.containsKey(key) && deepEquals(map.get(key), expectedEntry.getValue())) {
-        map.remove(key);
+      if (containsEntry(map, expectedEntry)) {
+        map.remove(expectedEntry.getKey());
       }
     }
     return map;
