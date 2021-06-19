@@ -197,13 +197,13 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for a {@link BigDecimal}.
    */
-  InstanceOfAssertFactory<BigDecimal, BigDecimalAssert> BIG_DECIMAL = new InstanceOfAssertFactory<>(BigDecimal.class,
+  InstanceOfAssertFactory<BigDecimal, AbstractBigDecimalAssert<?>> BIG_DECIMAL = new InstanceOfAssertFactory<>(BigDecimal.class,
                                                                                                                Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link BigInteger}.
    */
-  InstanceOfAssertFactory<BigInteger, BigIntegerAssert> BIG_INTEGER = new InstanceOfAssertFactory<>(BigInteger.class,
+  InstanceOfAssertFactory<BigInteger, AbstractBigIntegerAssert<?>> BIG_INTEGER = new InstanceOfAssertFactory<>(BigInteger.class,
                                                                                                                Assertions::assertThat);
 
   /**
@@ -214,7 +214,7 @@ public interface InstanceOfAssertFactories {
    *
    * @since 3.13.2
    */
-  InstanceOfAssertFactory<URI, UriAssert> URI_TYPE = new InstanceOfAssertFactory<>(URI.class,
+  InstanceOfAssertFactory<URI, AbstractUriAssert<?>> URI_TYPE = new InstanceOfAssertFactory<>(URI.class,
                                                                                               Assertions::assertThat);
 
   /**
@@ -225,19 +225,19 @@ public interface InstanceOfAssertFactories {
    *
    * @since 3.13.2
    */
-  InstanceOfAssertFactory<URL, UrlAssert> URL_TYPE = new InstanceOfAssertFactory<>(URL.class,
+  InstanceOfAssertFactory<URL, AbstractUrlAssert<?>> URL_TYPE = new InstanceOfAssertFactory<>(URL.class,
                                                                                               Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@code boolean} or its corresponding boxed type {@link Boolean}.
    */
-  InstanceOfAssertFactory<Boolean, BooleanAssert> BOOLEAN = new InstanceOfAssertFactory<>(Boolean.class,
+  InstanceOfAssertFactory<Boolean, AbstractBooleanAssert<?>> BOOLEAN = new InstanceOfAssertFactory<>(Boolean.class,
                                                                                                      Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@code boolean} array.
    */
-  InstanceOfAssertFactory<boolean[], BooleanArrayAssert> BOOLEAN_ARRAY = new InstanceOfAssertFactory<>(boolean[].class,
+  InstanceOfAssertFactory<boolean[], AbstractBooleanArrayAssert<?>> BOOLEAN_ARRAY = new InstanceOfAssertFactory<>(boolean[].class,
                                                                                                                   Assertions::assertThat);
 
   /**
@@ -249,13 +249,13 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for a {@code byte} or its corresponding boxed type {@link Byte}.
    */
-  InstanceOfAssertFactory<Byte, ByteAssert> BYTE = new InstanceOfAssertFactory<>(Byte.class,
+  InstanceOfAssertFactory<Byte, AbstractByteAssert<?>> BYTE = new InstanceOfAssertFactory<>(Byte.class,
                                                                                             Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@code byte} array.
    */
-  InstanceOfAssertFactory<byte[], ByteArrayAssert> BYTE_ARRAY = new InstanceOfAssertFactory<>(byte[].class,
+  InstanceOfAssertFactory<byte[], AbstractByteArrayAssert<?>> BYTE_ARRAY = new InstanceOfAssertFactory<>(byte[].class,
                                                                                                          Assertions::assertThat);
 
   /**
@@ -267,13 +267,13 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for a {@code char} or its corresponding boxed type {@link Character}.
    */
-  InstanceOfAssertFactory<Character, CharacterAssert> CHARACTER = new InstanceOfAssertFactory<>(Character.class,
+  InstanceOfAssertFactory<Character, AbstractCharacterAssert<?>> CHARACTER = new InstanceOfAssertFactory<>(Character.class,
                                                                                                            Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@code char} array.
    */
-  InstanceOfAssertFactory<char[], CharArrayAssert> CHAR_ARRAY = new InstanceOfAssertFactory<>(char[].class,
+  InstanceOfAssertFactory<char[], AbstractCharArrayAssert<?>> CHAR_ARRAY = new InstanceOfAssertFactory<>(char[].class,
                                                                                                          Assertions::assertThat);
 
   /**
@@ -292,13 +292,13 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for a {@code double} or its corresponding boxed type {@link Double}.
    */
-  InstanceOfAssertFactory<Double, DoubleAssert> DOUBLE = new InstanceOfAssertFactory<>(Double.class,
+  InstanceOfAssertFactory<Double, AbstractDoubleAssert<?>> DOUBLE = new InstanceOfAssertFactory<>(Double.class,
                                                                                                   Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@code double} array.
    */
-  InstanceOfAssertFactory<double[], DoubleArrayAssert> DOUBLE_ARRAY = new InstanceOfAssertFactory<>(double[].class,
+  InstanceOfAssertFactory<double[], AbstractDoubleArrayAssert<?>> DOUBLE_ARRAY = new InstanceOfAssertFactory<>(double[].class,
                                                                                                                Assertions::assertThat);
 
   /**
@@ -310,7 +310,7 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for a {@link File}.
    */
-  InstanceOfAssertFactory<File, FileAssert> FILE = new InstanceOfAssertFactory<>(File.class,
+  InstanceOfAssertFactory<File, AbstractFileAssert<?>> FILE = new InstanceOfAssertFactory<>(File.class,
                                                                                             Assertions::assertThat);
 
   /**
@@ -338,19 +338,19 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for an {@link InputStream}.
    */
-  InstanceOfAssertFactory<InputStream, InputStreamAssert> INPUT_STREAM = new InstanceOfAssertFactory<>(InputStream.class,
+  InstanceOfAssertFactory<InputStream, AbstractInputStreamAssert<?, ?>> INPUT_STREAM = new InstanceOfAssertFactory<>(InputStream.class,
                                                                                                                      Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@code float} or its corresponding boxed type {@link Float}.
    */
-  InstanceOfAssertFactory<Float, FloatAssert> FLOAT = new InstanceOfAssertFactory<>(Float.class,
+  InstanceOfAssertFactory<Float, AbstractFloatAssert<?>> FLOAT = new InstanceOfAssertFactory<>(Float.class,
                                                                                                Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@code float} array.
    */
-  InstanceOfAssertFactory<float[], FloatArrayAssert> FLOAT_ARRAY = new InstanceOfAssertFactory<>(float[].class,
+  InstanceOfAssertFactory<float[], AbstractFloatArrayAssert<?>> FLOAT_ARRAY = new InstanceOfAssertFactory<>(float[].class,
                                                                                                             Assertions::assertThat);
 
   /**
@@ -362,13 +362,13 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for an {@code integer} or its corresponding boxed type {@link Integer}.
    */
-  InstanceOfAssertFactory<Integer, IntegerAssert> INTEGER = new InstanceOfAssertFactory<>(Integer.class,
+  InstanceOfAssertFactory<Integer, AbstractIntegerAssert<?>> INTEGER = new InstanceOfAssertFactory<>(Integer.class,
                                                                                                      Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for an {@code int} array.
    */
-  InstanceOfAssertFactory<int[], IntArrayAssert> INT_ARRAY = new InstanceOfAssertFactory<>(int[].class,
+  InstanceOfAssertFactory<int[], AbstractIntArrayAssert<?>> INT_ARRAY = new InstanceOfAssertFactory<>(int[].class,
                                                                                                       Assertions::assertThat);
 
   /**
@@ -380,13 +380,13 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for a {@code long} or its corresponding boxed type {@link Long}.
    */
-  InstanceOfAssertFactory<Long, LongAssert> LONG = new InstanceOfAssertFactory<>(Long.class,
+  InstanceOfAssertFactory<Long, AbstractLongAssert<?>> LONG = new InstanceOfAssertFactory<>(Long.class,
                                                                                             Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@code long} array.
    */
-  InstanceOfAssertFactory<long[], LongArrayAssert> LONG_ARRAY = new InstanceOfAssertFactory<>(long[].class,
+  InstanceOfAssertFactory<long[], AbstractLongArrayAssert<?>> LONG_ARRAY = new InstanceOfAssertFactory<>(long[].class,
                                                                                                          Assertions::assertThat);
 
   /**
@@ -452,13 +452,13 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for a {@code short} or its corresponding boxed type {@link Short}.
    */
-  InstanceOfAssertFactory<Short, ShortAssert> SHORT = new InstanceOfAssertFactory<>(Short.class,
+  InstanceOfAssertFactory<Short, AbstractShortAssert<?>> SHORT = new InstanceOfAssertFactory<>(Short.class,
                                                                                                Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@code short} array.
    */
-  InstanceOfAssertFactory<short[], ShortArrayAssert> SHORT_ARRAY = new InstanceOfAssertFactory<>(short[].class,
+  InstanceOfAssertFactory<short[], AbstractShortArrayAssert<?>> SHORT_ARRAY = new InstanceOfAssertFactory<>(short[].class,
                                                                                                             Assertions::assertThat);
 
   /**
@@ -470,49 +470,49 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for a {@link Date}.
    */
-  InstanceOfAssertFactory<Date, DateAssert> DATE = new InstanceOfAssertFactory<>(Date.class,
+  InstanceOfAssertFactory<Date, AbstractDateAssert<?>> DATE = new InstanceOfAssertFactory<>(Date.class,
                                                                                             Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link ZonedDateTime}.
    */
-  InstanceOfAssertFactory<ZonedDateTime, ZonedDateTimeAssert> ZONED_DATE_TIME = new InstanceOfAssertFactory<>(ZonedDateTime.class,
+  InstanceOfAssertFactory<ZonedDateTime, AbstractZonedDateTimeAssert<?>> ZONED_DATE_TIME = new InstanceOfAssertFactory<>(ZonedDateTime.class,
                                                                                                                          Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link LocalDateTime}.
    */
-  InstanceOfAssertFactory<LocalDateTime, LocalDateTimeAssert> LOCAL_DATE_TIME = new InstanceOfAssertFactory<>(LocalDateTime.class,
+  InstanceOfAssertFactory<LocalDateTime, AbstractLocalDateTimeAssert<?>> LOCAL_DATE_TIME = new InstanceOfAssertFactory<>(LocalDateTime.class,
                                                                                                                          Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for an {@link OffsetDateTime}.
    */
-  InstanceOfAssertFactory<OffsetDateTime, OffsetDateTimeAssert> OFFSET_DATE_TIME = new InstanceOfAssertFactory<>(OffsetDateTime.class,
+  InstanceOfAssertFactory<OffsetDateTime, AbstractOffsetDateTimeAssert<?>> OFFSET_DATE_TIME = new InstanceOfAssertFactory<>(OffsetDateTime.class,
                                                                                                                             Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for an {@link OffsetTime}.
    */
-  InstanceOfAssertFactory<OffsetTime, OffsetTimeAssert> OFFSET_TIME = new InstanceOfAssertFactory<>(OffsetTime.class,
+  InstanceOfAssertFactory<OffsetTime, AbstractOffsetTimeAssert<?>> OFFSET_TIME = new InstanceOfAssertFactory<>(OffsetTime.class,
                                                                                                                Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link LocalTime}.
    */
-  InstanceOfAssertFactory<LocalTime, LocalTimeAssert> LOCAL_TIME = new InstanceOfAssertFactory<>(LocalTime.class,
+  InstanceOfAssertFactory<LocalTime, AbstractLocalTimeAssert<?>> LOCAL_TIME = new InstanceOfAssertFactory<>(LocalTime.class,
                                                                                                             Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link LocalDate}.
    */
-  InstanceOfAssertFactory<LocalDate, LocalDateAssert> LOCAL_DATE = new InstanceOfAssertFactory<>(LocalDate.class,
+  InstanceOfAssertFactory<LocalDate, AbstractLocalDateAssert<?>> LOCAL_DATE = new InstanceOfAssertFactory<>(LocalDate.class,
                                                                                                             Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for an {@link Instant}.
    */
-  InstanceOfAssertFactory<Instant, InstantAssert> INSTANT = new InstanceOfAssertFactory<>(Instant.class,
+  InstanceOfAssertFactory<Instant, AbstractInstantAssert<?>> INSTANT = new InstanceOfAssertFactory<>(Instant.class,
                                                                                                      Assertions::assertThat);
 
   /**
@@ -520,7 +520,7 @@ public interface InstanceOfAssertFactories {
    *
    * @since 3.15.0
    */
-  InstanceOfAssertFactory<Duration, DurationAssert> DURATION = new InstanceOfAssertFactory<>(Duration.class,
+  InstanceOfAssertFactory<Duration, AbstractDurationAssert<?>> DURATION = new InstanceOfAssertFactory<>(Duration.class,
                                                                                                         Assertions::assertThat);
 
   /**
@@ -528,7 +528,7 @@ public interface InstanceOfAssertFactories {
    *
    * @since 3.17.0
    */
-  InstanceOfAssertFactory<Period, PeriodAssert> PERIOD = new InstanceOfAssertFactory<>(Period.class, Assertions::assertThat);
+  InstanceOfAssertFactory<Period, AbstractPeriodAssert<?>> PERIOD = new InstanceOfAssertFactory<>(Period.class, Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicBoolean}.
@@ -727,31 +727,31 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for a {@link Throwable}.
    */
-  InstanceOfAssertFactory<Throwable, ThrowableAssert> THROWABLE = new InstanceOfAssertFactory<>(Throwable.class,
+  InstanceOfAssertFactory<Throwable, AbstractThrowableAssert<?, ? extends Throwable>> THROWABLE = new InstanceOfAssertFactory<>(Throwable.class,
                                                                                                                                 Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link CharSequence}.
    */
-  InstanceOfAssertFactory<CharSequence, CharSequenceAssert> CHAR_SEQUENCE = new InstanceOfAssertFactory<>(CharSequence.class,
+  InstanceOfAssertFactory<CharSequence, AbstractCharSequenceAssert<?, ? extends CharSequence>> CHAR_SEQUENCE = new InstanceOfAssertFactory<>(CharSequence.class,
                                                                                                                                              Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link StringBuilder}.
    */
-  InstanceOfAssertFactory<StringBuilder, CharSequenceAssert> STRING_BUILDER = new InstanceOfAssertFactory<>(StringBuilder.class,
+  InstanceOfAssertFactory<StringBuilder, AbstractCharSequenceAssert<?, ? extends CharSequence>> STRING_BUILDER = new InstanceOfAssertFactory<>(StringBuilder.class,
                                                                                                                                                Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link StringBuffer}.
    */
-  InstanceOfAssertFactory<StringBuffer, CharSequenceAssert> STRING_BUFFER = new InstanceOfAssertFactory<>(StringBuffer.class,
+  InstanceOfAssertFactory<StringBuffer, AbstractCharSequenceAssert<?, ? extends CharSequence>> STRING_BUFFER = new InstanceOfAssertFactory<>(StringBuffer.class,
                                                                                                                                              Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link String}.
    */
-  InstanceOfAssertFactory<String, StringAssert> STRING = new InstanceOfAssertFactory<>(String.class,
+  InstanceOfAssertFactory<String, AbstractStringAssert<?>> STRING = new InstanceOfAssertFactory<>(String.class,
                                                                                                   Assertions::assertThat);
 
   /**
@@ -863,7 +863,7 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for a {@link Path}.
    */
-  InstanceOfAssertFactory<Path, PathAssert> PATH = new InstanceOfAssertFactory<>(Path.class,
+  InstanceOfAssertFactory<Path, AbstractPathAssert<?>> PATH = new InstanceOfAssertFactory<>(Path.class,
                                                                                             Assertions::assertThat);
 
   /**
@@ -919,7 +919,7 @@ public interface InstanceOfAssertFactories {
    * @param comparableType the comparable type instance.
    * @return the factory instance.
    */
-  static <T extends Comparable<? super T>> InstanceOfAssertFactory<T, GenericComparableAssert<T>> comparable(Class<T> comparableType) {
+  static <T extends Comparable<? super T>> InstanceOfAssertFactory<T, AbstractComparableAssert<?, T>> comparable(Class<T> comparableType) {
     return new InstanceOfAssertFactory<>(comparableType, Assertions::assertThat);
   }
 

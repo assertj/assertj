@@ -216,7 +216,7 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  default <T extends Comparable<? super T>> GenericComparableAssert<T> assertThat(T actual) {
+  default <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThat(T actual) {
     return proxy(GenericComparableAssert.class, Comparable.class, actual);
   }
 
@@ -784,7 +784,7 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    */
   @CanIgnoreReturnValue
-  default ThrowableAssert assertThatThrownBy(ThrowingCallable shouldRaiseThrowable) {
+  default AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable) {
     return assertThat(catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
   }
 
@@ -822,7 +822,7 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    * @since 3.9.0
    */
   @CanIgnoreReturnValue
-  default ThrowableAssert assertThatThrownBy(ThrowingCallable shouldRaiseThrowable,
+  default AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable,
                                                                              String description, Object... args) {
     return assertThat(catchThrowable(shouldRaiseThrowable)).as(description, args).hasBeenThrown();
   }
@@ -868,7 +868,7 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @since 3.7.0
    */
-  default ThrowableAssert assertThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
+  default AbstractThrowableAssert<?, ? extends Throwable> assertThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
     return assertThat(catchThrowable(shouldRaiseOrNotThrowable));
   }
 
@@ -913,7 +913,7 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default UrlAssert assertThat(URL actual) {
+  default AbstractUrlAssert<?> assertThat(URL actual) {
     return proxy(UrlAssert.class, URL.class, actual);
   }
 }

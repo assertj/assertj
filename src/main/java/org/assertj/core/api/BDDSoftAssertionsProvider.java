@@ -302,7 +302,7 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
-  default <ELEMENT> ListAssert<ELEMENT> then(Stream<? extends ELEMENT> actual) {
+  default <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> then(Stream<? extends ELEMENT> actual) {
     return proxy(ListAssert.class, Stream.class, actual);
   }
 
@@ -318,7 +318,7 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
-  default ListAssert<Double> then(DoubleStream actual) {
+  default AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> then(DoubleStream actual) {
     return proxy(ListAssert.class, DoubleStream.class, actual);
   }
 
@@ -334,7 +334,7 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
-  default ListAssert<Long> then(LongStream actual) {
+  default AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> then(LongStream actual) {
     return proxy(ListAssert.class, LongStream.class, actual);
   }
 
@@ -350,7 +350,7 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
-  default ListAssert<Integer> then(IntStream actual) {
+  default AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> then(IntStream actual) {
     return proxy(ListAssert.class, IntStream.class, actual);
   }
 

@@ -281,7 +281,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static BigDecimalAssert then(BigDecimal actual) {
+  public static AbstractBigDecimalAssert<?> then(BigDecimal actual) {
     return assertThat(actual);
   }
 
@@ -292,7 +292,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  public static BigIntegerAssert then(BigInteger actual) {
+  public static AbstractBigIntegerAssert<?> then(BigInteger actual) {
     return assertThat(actual);
   }
 
@@ -302,7 +302,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static BooleanAssert then(boolean actual) {
+  public static AbstractBooleanAssert<?> then(boolean actual) {
     return assertThat(actual);
   }
 
@@ -312,7 +312,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static BooleanAssert then(Boolean actual) {
+  public static AbstractBooleanAssert<?> then(Boolean actual) {
     return assertThat(actual);
   }
 
@@ -322,7 +322,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static BooleanArrayAssert then(boolean[] actual) {
+  public static AbstractBooleanArrayAssert<?> then(boolean[] actual) {
     return assertThat(actual);
   }
 
@@ -343,7 +343,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static ByteAssert then(byte actual) {
+  public static AbstractByteAssert<?> then(byte actual) {
     return assertThat(actual);
   }
 
@@ -353,7 +353,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static ByteAssert then(Byte actual) {
+  public static AbstractByteAssert<?> then(Byte actual) {
     return assertThat(actual);
   }
 
@@ -363,7 +363,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static ByteArrayAssert then(byte[] actual) {
+  public static AbstractByteArrayAssert<?> then(byte[] actual) {
     return assertThat(actual);
   }
 
@@ -384,7 +384,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static CharacterAssert then(char actual) {
+  public static AbstractCharacterAssert<?> then(char actual) {
     return assertThat(actual);
   }
 
@@ -394,7 +394,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static CharArrayAssert then(char[] actual) {
+  public static AbstractCharArrayAssert<?> then(char[] actual) {
     return assertThat(actual);
   }
 
@@ -415,7 +415,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static CharacterAssert then(Character actual) {
+  public static AbstractCharacterAssert<?> then(Character actual) {
     return assertThat(actual);
   }
 
@@ -437,7 +437,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T extends Comparable<? super T>> GenericComparableAssert<T> then(T actual) {
+  public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> then(T actual) {
     return assertThat(actual);
   }
 
@@ -481,10 +481,10 @@ public class BDDAssertions extends Assertions {
    * in order to perform assertions on it.
    * <p>
    * Navigational methods provided:<ul>
-   * <li>{@link IterableAssert#first() first()}</li>
-   * <li>{@link IterableAssert#last() last()}</li>
-   * <li>{@link IterableAssert#element(int) element(index)}</li>
-   * <li>{@link IterableAssert#elements(int...) element(int...)}</li>
+   * <li>{@link AbstractIterableAssert#first() first()}</li>
+   * <li>{@link AbstractIterableAssert#last() last()}</li>
+   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
+   * <li>{@link AbstractIterableAssert#elements(int...) elements(int...)}</li>
    * </ul>
    * <p>
    * The available assertions after navigating to an element depend on the {@code ELEMENT_ASSERT} parameter of the given
@@ -525,10 +525,10 @@ public class BDDAssertions extends Assertions {
    * in order to perform assertions on it.
    * <p>
    * Navigational methods provided:<ul>
-   * <li>{@link IterableAssert#first() first()}</li>
-   * <li>{@link IterableAssert#last() last()}</li>
-   * <li>{@link IterableAssert#element(int) element(index)}</li>
-   * <li>{@link IterableAssert#elements(int...) element(int...)}</li>
+   * <li>{@link AbstractIterableAssert#first() first()}</li>
+   * <li>{@link AbstractIterableAssert#last() last()}</li>
+   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
+   * <li>{@link AbstractIterableAssert#elements(int...) elements(int...)}</li>
    * </ul>
    * <p>
    * The available assertions after navigating to an element depend on the given {@code assertClass}
@@ -560,10 +560,10 @@ public class BDDAssertions extends Assertions {
    * in order to perform assertions on it.
    * <p>
    * Navigational methods provided:<ul>
-   * <li>{@link IterableAssert#first() first()}</li>
-   * <li>{@link IterableAssert#last() last()}</li>
-   * <li>{@link IterableAssert#element(int) element(index)}</li>
-   * <li>{@link IterableAssert#elements(int...) element(int...)}</li>
+   * <li>{@link AbstractIterableAssert#first() first()}</li>
+   * <li>{@link AbstractIterableAssert#last() last()}</li>
+   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
+   * <li>{@link AbstractIterableAssert#elements(int...) elements(int...)}</li>
    * </ul>
    * <p>
    * The available assertions after navigating to an element depend on the {@code ELEMENT_ASSERT} parameter of the given
@@ -603,10 +603,10 @@ public class BDDAssertions extends Assertions {
    * in order to perform assertions on it.
    * <p>
    * Navigational methods provided:<ul>
-   * <li>{@link IterableAssert#first() first()}</li>
-   * <li>{@link IterableAssert#last() last()}</li>
-   * <li>{@link IterableAssert#element(int) element(index)}</li>
-   * <li>{@link IterableAssert#elements(int...) element(int...)}</li>
+   * <li>{@link AbstractIterableAssert#first() first()}</li>
+   * <li>{@link AbstractIterableAssert#last() last()}</li>
+   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
+   * <li>{@link AbstractIterableAssert#elements(int...) elements(int...)}</li>
    * </ul>
    * <p>
    * The available assertions after navigating to an element depend on the given {@code assertClass}
@@ -641,7 +641,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static DoubleAssert then(double actual) {
+  public static AbstractDoubleAssert<?> then(double actual) {
     return assertThat(actual);
   }
 
@@ -651,7 +651,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static DoubleAssert then(Double actual) {
+  public static AbstractDoubleAssert<?> then(Double actual) {
     return assertThat(actual);
   }
 
@@ -661,7 +661,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static DoubleArrayAssert then(double[] actual) {
+  public static AbstractDoubleArrayAssert<?> then(double[] actual) {
     return assertThat(actual);
   }
 
@@ -682,7 +682,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static FileAssert then(File actual) {
+  public static AbstractFileAssert<?> then(File actual) {
     return assertThat(actual);
   }
 
@@ -692,7 +692,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the path to test
    * @return the created assertion object
    */
-  public static PathAssert then(Path actual) {
+  public static AbstractPathAssert<?> then(Path actual) {
     return assertThat(actual);
   }
 
@@ -714,7 +714,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static InputStreamAssert then(InputStream actual) {
+  public static AbstractInputStreamAssert<?, ? extends InputStream> then(InputStream actual) {
     return assertThat(actual);
   }
 
@@ -724,7 +724,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static FloatAssert then(float actual) {
+  public static AbstractFloatAssert<?> then(float actual) {
     return assertThat(actual);
   }
 
@@ -734,7 +734,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static FloatAssert then(Float actual) {
+  public static AbstractFloatAssert<?> then(Float actual) {
     return assertThat(actual);
   }
 
@@ -744,7 +744,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static FloatArrayAssert then(float[] actual) {
+  public static AbstractFloatArrayAssert<?> then(float[] actual) {
     return assertThat(actual);
   }
 
@@ -765,7 +765,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static IntegerAssert then(int actual) {
+  public static AbstractIntegerAssert<?> then(int actual) {
     return assertThat(actual);
   }
 
@@ -775,7 +775,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static IntArrayAssert then(int[] actual) {
+  public static AbstractIntArrayAssert<?> then(int[] actual) {
     return assertThat(actual);
   }
 
@@ -796,7 +796,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static IntegerAssert then(Integer actual) {
+  public static AbstractIntegerAssert<?> then(Integer actual) {
     return assertThat(actual);
   }
 
@@ -817,7 +817,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static LongAssert then(long actual) {
+  public static AbstractLongAssert<?> then(long actual) {
     return assertThat(actual);
   }
 
@@ -827,7 +827,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static LongAssert then(Long actual) {
+  public static AbstractLongAssert<?> then(Long actual) {
     return assertThat(actual);
   }
 
@@ -837,7 +837,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static LongArrayAssert then(long[] actual) {
+  public static AbstractLongArrayAssert<?> then(long[] actual) {
     return assertThat(actual);
   }
 
@@ -904,7 +904,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static ShortAssert then(short actual) {
+  public static AbstractShortAssert<?> then(short actual) {
     return assertThat(actual);
   }
 
@@ -914,7 +914,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static ShortAssert then(Short actual) {
+  public static AbstractShortAssert<?> then(Short actual) {
     return assertThat(actual);
   }
 
@@ -924,7 +924,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static ShortArrayAssert then(short[] actual) {
+  public static AbstractShortArrayAssert<?> then(short[] actual) {
     return assertThat(actual);
   }
 
@@ -945,7 +945,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static CharSequenceAssert then(CharSequence actual) {
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> then(CharSequence actual) {
     return assertThat(actual);
   }
 
@@ -956,7 +956,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    * @since 3.11.0
    */
-  public static CharSequenceAssert then(StringBuilder actual) {
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> then(StringBuilder actual) {
     return assertThat(actual);
   }
 
@@ -967,7 +967,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    * @since 3.11.0
    */
-  public static CharSequenceAssert then(StringBuffer actual) {
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> then(StringBuffer actual) {
     return assertThat(actual);
   }
 
@@ -977,7 +977,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static StringAssert then(String actual) {
+  public static AbstractStringAssert<?> then(String actual) {
     return assertThat(actual);
   }
 
@@ -987,7 +987,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static DateAssert then(Date actual) {
+  public static AbstractDateAssert<?> then(Date actual) {
     return assertThat(actual);
   }
 
@@ -1148,7 +1148,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion Throwable.
    */
-  public static ThrowableAssert then(Throwable actual) {
+  public static AbstractThrowableAssert<?, ? extends Throwable> then(Throwable actual) {
     return assertThat(actual);
   }
 
@@ -1181,7 +1181,7 @@ public class BDDAssertions extends Assertions {
    * @return the created {@link ThrowableAssert}.
    */
   @CanIgnoreReturnValue
-  public static ThrowableAssert thenThrownBy(ThrowingCallable shouldRaiseThrowable) {
+  public static AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowingCallable shouldRaiseThrowable) {
     return assertThat(catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
   }
 
@@ -1217,7 +1217,7 @@ public class BDDAssertions extends Assertions {
    * @since 3.9.0
    */
   @CanIgnoreReturnValue
-  public static ThrowableAssert thenThrownBy(ThrowingCallable shouldRaiseThrowable,
+  public static AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowingCallable shouldRaiseThrowable,
                                                                              String description, Object... args) {
     return assertThat(catchThrowable(shouldRaiseThrowable)).as(description, args).hasBeenThrown();
   }
@@ -1263,7 +1263,7 @@ public class BDDAssertions extends Assertions {
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @since 3.7.0
    */
-  public static ThrowableAssert thenCode(ThrowingCallable shouldRaiseOrNotThrowable) {
+  public static AbstractThrowableAssert<?, ? extends Throwable> thenCode(ThrowingCallable shouldRaiseOrNotThrowable) {
     return assertThat(catchThrowable(shouldRaiseOrNotThrowable));
   }
 
@@ -1321,7 +1321,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static LocalDateAssert then(LocalDate actual) {
+  public static AbstractLocalDateAssert<?> then(LocalDate actual) {
     return assertThat(actual);
   }
 
@@ -1331,7 +1331,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static LocalDateTimeAssert then(LocalDateTime actual) {
+  public static AbstractLocalDateTimeAssert<?> then(LocalDateTime actual) {
     return assertThat(actual);
   }
 
@@ -1341,7 +1341,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static ZonedDateTimeAssert then(ZonedDateTime actual) {
+  public static AbstractZonedDateTimeAssert<?> then(ZonedDateTime actual) {
     return assertThat(actual);
   }
 
@@ -1351,7 +1351,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static LocalTimeAssert then(LocalTime actual) {
+  public static AbstractLocalTimeAssert<?> then(LocalTime actual) {
     return assertThat(actual);
   }
 
@@ -1361,7 +1361,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static OffsetTimeAssert then(OffsetTime actual) {
+  public static AbstractOffsetTimeAssert<?> then(OffsetTime actual) {
     return assertThat(actual);
   }
 
@@ -1372,7 +1372,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    * @since 3.7.0
    */
-  public static InstantAssert then(Instant actual) {
+  public static AbstractInstantAssert<?> then(Instant actual) {
     return assertThat(actual);
   }
 
@@ -1383,7 +1383,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    * @since 3.15.0
    */
-  public static DurationAssert then(Duration actual) {
+  public static AbstractDurationAssert<?> then(Duration actual) {
     return assertThat(actual);
   }
 
@@ -1394,7 +1394,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    * @since 3.17.0
    */
-  public static PeriodAssert then(Period actual) {
+  public static AbstractPeriodAssert<?> then(Period actual) {
     return assertThat(actual);
   }
 
@@ -1404,7 +1404,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static UriAssert then(URI actual) {
+  public static AbstractUriAssert<?> then(URI actual) {
     return assertThat(actual);
   }
 
@@ -1414,7 +1414,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static UrlAssert then(URL actual) {
+  public static AbstractUrlAssert<?> then(URL actual) {
     return assertThat(actual);
   }
 
@@ -1424,7 +1424,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static OffsetDateTimeAssert then(OffsetDateTime actual) {
+  public static AbstractOffsetDateTimeAssert<?> then(OffsetDateTime actual) {
     return assertThat(actual);
   }
 
