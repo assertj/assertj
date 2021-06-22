@@ -1601,8 +1601,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} is a mixed case {@code CharSequence} by checking that if fails
-   * both {@code isLowerCase()} assertion and {@code isUpperCase()} assertion.
+   * Verifies that the actual {@code CharSequence} is a mixed case {@code CharSequence} by comparing it to
+   * {@code actual} built with {@link String#toLowerCase()} and {@link String#toUpperCase()}.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass

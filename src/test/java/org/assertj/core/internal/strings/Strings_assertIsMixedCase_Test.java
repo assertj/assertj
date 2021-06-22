@@ -62,7 +62,7 @@ class Strings_assertIsMixedCase_Test extends StringsBaseTest {
   }
 
   @Test
-  void should_pas_if_actual_is_has_no_letters() {
+  void should_pass_if_actual_is_has_no_letters() {
     strings.assertMixedCase(someInfo(), "@$#24^");
   }
 
