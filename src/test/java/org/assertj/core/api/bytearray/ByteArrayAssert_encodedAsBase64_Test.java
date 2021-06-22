@@ -20,7 +20,6 @@ import org.assertj.core.api.AbstractStringAssert;
 import org.assertj.core.api.ByteArrayAssert;
 import org.assertj.core.api.ByteArrayAssertBaseTest;
 import org.assertj.core.api.NavigationMethodBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -28,7 +27,6 @@ import org.junit.jupiter.api.Test;
  *
  * @author Stefano Cordio
  */
-@DisplayName("ByteArrayAssert encodedAsBase64")
 class ByteArrayAssert_encodedAsBase64_Test extends ByteArrayAssertBaseTest implements NavigationMethodBaseTest<ByteArrayAssert> {
 
   @Override

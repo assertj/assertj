@@ -17,10 +17,8 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("AbstractAssert usingRecursiveComparison")
 class AbstractAssert_usingRecursiveComparison_Test {
 
   @Test

@@ -16,7 +16,6 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Char2DArrayAssert;
 import org.assertj.core.api.Char2DArrayAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -24,7 +23,6 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Maciej Wajcht
  */
-@DisplayName("Char2DArrayAssert isEmpty")
 class Char2DArrayAssert_isEmpty_Test extends Char2DArrayAssertBaseTest {
 
   @Override

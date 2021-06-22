@@ -16,9 +16,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.DoubleAssert;
 import org.assertj.core.api.DoubleAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 
-@DisplayName("DoubleAssert isNotInfinite")
 class DoubleAssert_isNotInfinite_Test extends DoubleAssertBaseTest {
 
   @Override

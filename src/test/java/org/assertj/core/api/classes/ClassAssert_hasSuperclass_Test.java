@@ -16,14 +16,12 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ClassAssert;
 import org.assertj.core.api.ClassAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 
 /**
  * Tests for <code>{@link ClassAssert#hasSuperclass(Class)}</code>.
  * 
  * @author Stefano Cordio
  */
-@DisplayName("ClassAssert hasSuperclass")
 class ClassAssert_hasSuperclass_Test extends ClassAssertBaseTest {
 
   @Override

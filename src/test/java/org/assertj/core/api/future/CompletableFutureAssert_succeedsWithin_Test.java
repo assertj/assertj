@@ -25,10 +25,8 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("CompletableFutureAssert succeedsWithin")
 class CompletableFutureAssert_succeedsWithin_Test extends AbstractFutureTest {
 
   @Test

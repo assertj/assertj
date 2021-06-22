@@ -10,7 +10,6 @@ We appreciate your effort and to make sure that your pull request is easy to rev
 * Write complete Javadocs for each assertion method and include a code example (succeeding and failing assertion(s)).
 * As we use JUnit 5, favor `package-private` visibility for both test classes and test methods.
 * Write one JUnit test class for each assertion method with the following naming convention: `<AssertClass>_<assertion>_Test`.
-* Use `@DisplayName` on the test class - see `OptionalAssert_containsInstanceOf_Test` as an example.
 * Write unit test assertions with AssertJ! Let's eat our own dog food.
 * Unit tests method naming convention is underscore-based (like python) and not camel-case, we find it is much readable for long test names!
 * Successful assertion unit test method names should start with: `should_pass_xxx` (if you find a better test name, use your best judgment and go for it!)
@@ -27,7 +26,6 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 // other imports not shown for brevity
 
-@DisplayName("OptionalAssert containsInstanceOf")
 class OptionalAssert_containsInstanceOf_Test extends BaseTest {
 
   @Test

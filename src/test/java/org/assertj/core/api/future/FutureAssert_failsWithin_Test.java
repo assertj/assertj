@@ -25,10 +25,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("FutureAssert failsWithin")
 class FutureAssert_failsWithin_Test extends AbstractFutureTest {
 
   private static final Duration ONE_SECOND = Duration.ofSeconds(1);
