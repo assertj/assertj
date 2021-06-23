@@ -122,6 +122,23 @@ BAD! (not in the same line)
 
 To be sure of what the javadoc actually looks, simply generate it and read it in your browser.
 
+## Binary compatibility
+
+Try to keep binary compatibility whenever possible. It means that you can safely:
+* Rewrite the body of methods, constructors, and initializers (like static blocks).
+* Rewrite code in the above that previously threw exceptions to no longer do so.
+* Add fields, methods, and constructors.
+* Delete elements declared private.
+* Reorder fields, methods, and constructors.
+* Move a method higher in a class hierarchy.
+* Reorder the list of direct super-interfaces in a class or interface.
+* Insert new class or interface types in a type hierarchy.
+* Add generics (since the compiler erases them).
+* Update package-private elements.
+
+Other changes could compromise binary compatibility.
+These are not automatically rejected, but we will carefully evaluate each of them to weigh all the pros and cons.
+
 ## Legal stuff:
 
 Project license(s): Apache License Version 2.0
