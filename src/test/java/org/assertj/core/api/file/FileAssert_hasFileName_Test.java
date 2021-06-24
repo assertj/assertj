@@ -16,9 +16,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 
-@DisplayName("FileAssert hasFileName")
 class FileAssert_hasFileName_Test extends FileAssertBaseTest {
 
   private final String expected = "expected.name";
