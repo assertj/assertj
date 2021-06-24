@@ -717,7 +717,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    *
    * @see java.io.File#getName() name definition.
    * @see #hasName(String)
-   * @since 3.20.0
+   * @since 3.21.0
    */
   public SELF hasFileName(String expected) {
     return hasName(expected);
