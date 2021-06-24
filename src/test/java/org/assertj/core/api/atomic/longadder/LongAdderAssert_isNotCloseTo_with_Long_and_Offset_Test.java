@@ -18,14 +18,12 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.LongAdderAssert;
 import org.assertj.core.api.LongAdderAssertBaseTest;
 import org.assertj.core.data.Offset;
-import org.junit.jupiter.api.DisplayName;
 
 /**
  * Tests for <code>{@link LongAdderAssert#isNotCloseTo(Long, Offset)}</code>.
  *
  * @author Stefano Cordio
  */
-@DisplayName("LongAdderAssert isNotCloseTo(Long, Offset)")
 class LongAdderAssert_isNotCloseTo_with_Long_and_Offset_Test extends LongAdderAssertBaseTest {
 
   private final long value = 10L;

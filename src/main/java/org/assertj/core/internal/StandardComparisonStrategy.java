@@ -84,7 +84,7 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
   public boolean areEqual(Object actual, Object other) {
     if (actual == null) return other == null;
     Class<?> actualClass = actual.getClass();
-    if (actualClass.isArray()) {
+    if (actualClass.isArray() && other != null) {
       Class<?> otherClass = other.getClass();
       if (otherClass.isArray()) {
         if (actualClass.getComponentType().isPrimitive() && otherClass.getComponentType().isPrimitive()) {

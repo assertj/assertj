@@ -83,7 +83,7 @@ class Assertions_sync_assertThat_with_BDD_and_Soft_variants_Test extends BaseAss
     Method[] assertThat_SoftAssertions_methods = findMethodsWithName(StandardSoftAssertionsProvider.class, "assertThat");
 
     // ignore the return type of soft assertions until they have the same as the Assertions
-    assertThat(assertThat_Assertions_methods).usingElementComparator(IGNORING_DECLARING_CLASS_ONLY)
+    assertThat(assertThat_Assertions_methods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_RETURN_TYPE)
                                              .containsExactlyInAnyOrder(assertThat_SoftAssertions_methods);
   }
 
@@ -95,7 +95,7 @@ class Assertions_sync_assertThat_with_BDD_and_Soft_variants_Test extends BaseAss
     Method[] then_BDDSoftAssertions_methods = findMethodsWithName(BDDSoftAssertionsProvider.class, "then");
 
     // ignore the return type of soft assertions until they have the same as the Assertions
-    assertThat(then_Assertions_methods).usingElementComparator(IGNORING_DECLARING_CLASS_ONLY)
+    assertThat(then_Assertions_methods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_RETURN_TYPE)
                                        .containsExactlyInAnyOrder(then_BDDSoftAssertions_methods);
   }
 

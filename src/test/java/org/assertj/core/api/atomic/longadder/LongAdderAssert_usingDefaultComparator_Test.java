@@ -22,7 +22,6 @@ import org.assertj.core.api.LongAdderAssertBaseTest;
 import org.assertj.core.internal.Longs;
 import org.assertj.core.internal.Objects;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -32,7 +31,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
  *
  * @author Stefano Cordio
  */
-@DisplayName("LongAdderAssert usingDefaultComparator")
 @ExtendWith(MockitoExtension.class)
 class LongAdderAssert_usingDefaultComparator_Test extends LongAdderAssertBaseTest {
 

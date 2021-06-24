@@ -20,7 +20,6 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ByteArrayAssert;
 import org.assertj.core.api.ByteArrayAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -28,7 +27,6 @@ import org.junit.jupiter.api.Test;
  *
  * @author Lucero Garcia
  */
-@DisplayName("ByteArrayAssert doesNotContain(Byte[])")
 class ByteArrayAssert_doesNotContain_with_Byte_array_Test extends ByteArrayAssertBaseTest {
 
   @Test

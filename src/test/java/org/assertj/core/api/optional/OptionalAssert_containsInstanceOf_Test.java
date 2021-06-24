@@ -20,10 +20,8 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.Optional;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("OptionalAssert containsInstanceOf")
 class OptionalAssert_containsInstanceOf_Test {
 
   @Test

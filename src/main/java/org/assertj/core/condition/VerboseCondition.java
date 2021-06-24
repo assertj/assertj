@@ -34,7 +34,7 @@ import org.assertj.core.api.Condition;
                                                                    // predicate description  
                                                                    "shorter than 4",
                                                                    // value under test description transformation function
-                                                                   s -&gt; String.format("but length was %s", s.length(), s));</code></pre>
+                                                                   s -&gt; String.format(" but length was %s", s.length(), s));</code></pre>
  * 
  * If we execute:
  * <pre><code class='java'> assertThat("foooo").is(shorterThan4);</code></pre>
@@ -43,7 +43,7 @@ import org.assertj.core.api.Condition;
  *   "foooo"
  * to be shorter than 4 but length was 5</code></pre>
  * <p>
- * Note that the beginning of the error message looks nice with {@link AbstractAssert#is(Condition) is(Condition)}, if we had used {@link AbstractAssert#has(Condition) has(Condition)} it wouldn't be so nice:
+ * Note that the beginning of the error message looks nice with {@link AbstractAssert#is(Condition) is(Condition)}, but not so much with {@link AbstractAssert#has(Condition) has(Condition)}:
  * <pre><code class='text'> Expecting actual:
  *   "foooo"
  * to have shorter than 4 but length was 5</code></pre>
@@ -74,7 +74,7 @@ public final class VerboseCondition<T> extends Condition<T> {
                                                                     // predicate description  
                                                                     "shorter than 4",
                                                                     // value under test description transformation function
-                                                                    s -&gt; String.format("but length was %s", s.length(), s));</code></pre>
+                                                                    s -&gt; String.format(" but length was %s", s.length(), s));</code></pre>
    * 
    * If we execute:
    * <pre><code class='java'> assertThat("foooo").is(shorterThan4);</code></pre>
@@ -83,7 +83,7 @@ public final class VerboseCondition<T> extends Condition<T> {
    *   "foooo"
    * to be shorter than 4 but length was 5</code></pre>
    * <p>
-   * Note that the beginning of the error message looks nice with {@link AbstractAssert#is(Condition) is(Condition)}, if we had used {@link AbstractAssert#has(Condition) has(Condition)} it wouldn't be so nice:
+   * Note that the beginning of the error message looks nice with {@link AbstractAssert#is(Condition) is(Condition)}, but not so much with {@link AbstractAssert#has(Condition) has(Condition)}:
    * <pre><code class='text'> Expecting actual:
    *   "foooo"
    * to have shorter than 4 but length was 5</code></pre>

@@ -282,7 +282,7 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  default <ELEMENT> ListAssert<ELEMENT> assertThat(Stream<? extends ELEMENT> actual) {
+  default <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(Stream<? extends ELEMENT> actual) {
     return proxy(ListAssert.class, Stream.class, actual);
   }
 
@@ -297,7 +297,7 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  default ListAssert<Double> assertThat(DoubleStream actual) {
+  default AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> assertThat(DoubleStream actual) {
     return proxy(ListAssert.class, DoubleStream.class, actual);
   }
 
@@ -312,7 +312,7 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  default ListAssert<Long> assertThat(LongStream actual) {
+  default AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> assertThat(LongStream actual) {
     return proxy(ListAssert.class, LongStream.class, actual);
   }
 
@@ -327,7 +327,7 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  default ListAssert<Integer> assertThat(IntStream actual) {
+  default AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> assertThat(IntStream actual) {
     return proxy(ListAssert.class, IntStream.class, actual);
   }
 

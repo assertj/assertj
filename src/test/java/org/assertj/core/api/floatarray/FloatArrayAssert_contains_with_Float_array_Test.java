@@ -22,7 +22,6 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.FloatArrayAssert;
 import org.assertj.core.api.FloatArrayAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -30,7 +29,6 @@ import org.junit.jupiter.api.Test;
  *
  * @author Omar Morales Ortega
  */
-@DisplayName("FloatArrayAssert contains(Float[])")
 class FloatArrayAssert_contains_with_Float_array_Test extends FloatArrayAssertBaseTest {
 
   @Test
