@@ -554,10 +554,39 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} can not be modified by the application.
+   * @see #isWritable()
    */
   public SELF canWrite() {
     files.assertCanWrite(info, actual);
     return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code File} can be modified by the application (alias of {@link #canWrite()}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> File tmpFile = File.createTempFile(&quot;tmp&quot;, &quot;txt&quot;);
+   * File tmpDir = Files.createTempDirectory(&quot;tmp&quot;).toFile();
+   *
+   * // assertions will pass
+   * assertThat(tmpFile).isWritable();
+   * assertThat(tmpDir).isWritable();
+   *
+   * tmpFile.setReadOnly();
+   * tmpDir.setReadOnly();
+   *
+   * // assertions will fail
+   * assertThat(tmpFile).isWritable();
+   * assertThat(tmpDir).isWritable();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} can not be modified by the application.
+   * @see #canWrite()
+   * @since 3.21.0
+   */
+  public SELF isWritable() {
+	  return canWrite();
   }
 
   /**
