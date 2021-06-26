@@ -17,7 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.introspection.FieldSupport.EXTRACTION_OF_PUBLIC_FIELD_ONLY;
 
 import java.util.HashMap;
@@ -27,10 +26,8 @@ import java.util.Map;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("PropertyOrFieldSupport getValueOf")
 class PropertyOrFieldSupport_getValueOf_Test {
 
   private final PropertyOrFieldSupport underTest = PropertyOrFieldSupport.EXTRACTION;

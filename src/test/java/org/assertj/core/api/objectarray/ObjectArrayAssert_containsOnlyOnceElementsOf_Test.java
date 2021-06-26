@@ -19,14 +19,12 @@ import java.util.List;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 
 /**
  * Tests for <code>{@link ObjectArrayAssert#containsOnlyOnceElementsOf(Iterable)}</code>.
  *
  * @author CAL027
  */
-@DisplayName("ObjectArrayAssert containsOnlyOnceElementsOf")
 class ObjectArrayAssert_containsOnlyOnceElementsOf_Test extends ObjectArrayAssertBaseTest {
 
   private final List<String> values = newArrayList("Yoda", "Luke");

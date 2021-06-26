@@ -23,12 +23,10 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.time.Duration;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-@DisplayName("DurationAssert isCloseTo")
 class DurationAssert_isCloseTo_Test {
 
   @ParameterizedTest(name = "PT2M should close to {0} withMarginOf {1}")

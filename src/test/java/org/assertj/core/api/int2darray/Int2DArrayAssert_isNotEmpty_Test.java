@@ -16,14 +16,12 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Int2DArrayAssert;
 import org.assertj.core.api.Int2DArrayAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 
 /**
  * Tests for <code>{@link Int2DArrayAssert#isNotEmpty()}</code>.
  * 
  * @author Maciej Wajcht
  */
-@DisplayName("Int2DArrayAssert isNotEmpty")
 class Int2DArrayAssert_isNotEmpty_Test extends Int2DArrayAssertBaseTest {
 
   @Override

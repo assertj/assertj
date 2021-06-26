@@ -21,7 +21,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.time.LocalDate;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -29,7 +28,6 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@DisplayName("LocalDateAssert")
 class LocalDateAssert_isBeforeOrEqualTo_Test extends LocalDateAssertBaseTest {
 
   @Test

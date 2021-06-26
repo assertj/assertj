@@ -23,7 +23,6 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.Float2DArrayAssert;
 import org.assertj.core.error.ErrorMessageFactory;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -31,7 +30,6 @@ import org.junit.jupiter.api.Test;
  *
  * @author Maciej Wajcht
  */
-@DisplayName("Float2DArrayAssert isDeepEqualTo")
 class Float2DArrayAssert_isDeepEqualTo_Test {
 
   @Test

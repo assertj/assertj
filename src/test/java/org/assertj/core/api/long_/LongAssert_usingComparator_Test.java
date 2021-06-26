@@ -19,17 +19,15 @@ import java.util.Comparator;
 
 import org.assertj.core.api.LongAssert;
 import org.assertj.core.api.LongAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 
 /**
  * Tests for <code>{@link LongAssert#usingComparator(Comparator)}</code>.
  *
  * @author Joel Costigliola
  */
-@DisplayName("LongAssert usingComparator")
 class LongAssert_usingComparator_Test extends LongAssertBaseTest {
 
-  private Comparator<Long> comparator = alwaysEqual();
+  private final Comparator<Long> comparator = alwaysEqual();
 
   @Override
   protected LongAssert invoke_api_method() {

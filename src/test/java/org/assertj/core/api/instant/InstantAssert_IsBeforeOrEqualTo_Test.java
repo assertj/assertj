@@ -21,10 +21,8 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.time.Instant;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("InstantAssert isBeforeOrEqualTo")
 class InstantAssert_IsBeforeOrEqualTo_Test extends InstantAssertBaseTest {
 
   @Test

@@ -31,8 +31,8 @@ import org.junit.jupiter.api.Test;
 class AbstractAssert_isInstanceOfSatisfying_Test extends AbstractAssertBaseTest {
 
   // init here to make it available in create_assertions()
-  private Jedi yoda = new Jedi("Yoda", "Green");
-  private Jedi luke = new Jedi("Luke Skywalker", "Green");
+  private final Jedi yoda = new Jedi("Yoda", "Green");
+  private final Jedi luke = new Jedi("Luke Skywalker", "Green");
   private Consumer<Jedi> jediRequirements;
 
   @BeforeEach

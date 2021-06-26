@@ -20,7 +20,6 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.LongArrayAssert;
 import org.assertj.core.api.LongArrayAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -28,7 +27,6 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Stefano Cordio
  */
-@DisplayName("LongArrayAssert containsOnlyOnce(Long[])")
 class LongArrayAssert_containsOnlyOnce_with_Long_array_Test extends LongArrayAssertBaseTest {
 
   @Test

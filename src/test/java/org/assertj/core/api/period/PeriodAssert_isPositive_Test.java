@@ -12,21 +12,19 @@
  */
 package org.assertj.core.api.period;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-import java.time.Period;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBePeriod.shouldBePositive;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
+import java.time.Period;
+
+import org.junit.jupiter.api.Test;
+
 /**
  * @author Hayden Meloche
  */
-@DisplayName("PeriodAssert isPositive")
 class PeriodAssert_isPositive_Test {
 
   @Test

@@ -28,7 +28,6 @@ import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -36,7 +35,6 @@ import org.junit.jupiter.api.Test;
  *
  * @author Stefano Cordio
  */
-@DisplayName("AbstractAssert extracting(String, AssertFactory)")
 class AbstractAssert_extracting_with_String_and_AssertFactory_Test implements NavigationMethodBaseTest<TestAssert> {
 
   private TestAssert underTest;

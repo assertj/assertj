@@ -24,7 +24,6 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.Int2DArrayAssert;
 import org.assertj.core.error.ErrorMessageFactory;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -32,7 +31,6 @@ import org.junit.jupiter.api.Test;
  *
  * @author Maciej Wajcht
  */
-@DisplayName("Int2DArrayAssert isDeepEqualTo")
 class Int2DArrayAssert_isDeepEqualTo_Test {
 
   @Test

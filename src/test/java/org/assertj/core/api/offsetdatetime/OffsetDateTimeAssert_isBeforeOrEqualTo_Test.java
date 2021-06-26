@@ -26,7 +26,6 @@ import java.time.format.DateTimeParseException;
 import org.assertj.core.api.AbstractOffsetDateTimeAssertBaseTest;
 import org.assertj.core.api.OffsetDateTimeAssert;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -34,7 +33,6 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@DisplayName("OffsetDateTimeAssert isBeforeOrEqualTo")
 class OffsetDateTimeAssert_isBeforeOrEqualTo_Test extends AbstractOffsetDateTimeAssertBaseTest {
 
   @Override

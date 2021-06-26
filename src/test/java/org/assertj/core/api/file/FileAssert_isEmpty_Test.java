@@ -12,17 +12,15 @@
  */
 package org.assertj.core.api.file;
 
+import static org.mockito.Mockito.verify;
+
 import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
-
-import static org.mockito.Mockito.verify;
 
 /**
  * Tests for <code>{@link FileAssert#isEmpty()}</code>.
  */
-@DisplayName("FileAssert isEmptyFile")
-class FileAssert_isEmptyFile_Test extends FileAssertBaseTest {
+class FileAssert_isEmpty_Test extends FileAssertBaseTest {
 
   @Override
   protected FileAssert invoke_api_method() {
@@ -33,4 +31,5 @@ class FileAssert_isEmptyFile_Test extends FileAssertBaseTest {
   protected void verify_internal_effects() {
     verify(files).assertIsEmptyFile(getInfo(assertions), getActual(assertions));
   }
+
 }

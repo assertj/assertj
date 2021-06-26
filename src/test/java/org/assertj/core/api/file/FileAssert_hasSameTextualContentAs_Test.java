@@ -22,7 +22,6 @@ import java.io.File;
 import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -31,7 +30,6 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Nikolaos Georgiou
  */
-@DisplayName("FileAssert hasSameTextualContentAs")
 class FileAssert_hasSameTextualContentAs_Test extends FileAssertBaseTest {
 
   private static File expected;

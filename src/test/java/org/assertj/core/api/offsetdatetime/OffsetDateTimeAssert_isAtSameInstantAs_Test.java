@@ -22,10 +22,8 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.OffsetDateTime;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("OffsetDateTimeAssert isAtSameInstantAs")
 class OffsetDateTimeAssert_isAtSameInstantAs_Test extends OffsetDateTimeAssertBaseTest {
 
   @Test

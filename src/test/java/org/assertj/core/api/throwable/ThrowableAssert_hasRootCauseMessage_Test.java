@@ -16,9 +16,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.api.ThrowableAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 
-@DisplayName("ThrowableAssert hasRootCauseMessage")
 class ThrowableAssert_hasRootCauseMessage_Test extends ThrowableAssertBaseTest {
 
   @Override

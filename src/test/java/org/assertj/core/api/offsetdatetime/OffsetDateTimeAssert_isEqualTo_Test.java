@@ -29,17 +29,15 @@ import java.time.temporal.Temporal;
 import org.assertj.core.api.AbstractOffsetDateTimeAssertBaseTest;
 import org.assertj.core.api.OffsetDateTimeAssert;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@DisplayName("OffsetDateTimeAssert isEqualTo")
 class OffsetDateTimeAssert_isEqualTo_Test extends AbstractOffsetDateTimeAssertBaseTest {
 
-  private Object otherType = new Object();
+  private final Object otherType = new Object();
 
   @Override
   protected OffsetDateTimeAssert invoke_api_method() {
