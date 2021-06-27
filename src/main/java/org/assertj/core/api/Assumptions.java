@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import static net.bytebuddy.matcher.ElementMatchers.any;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.AssumptionExceptionFactory.assumptionNotMet;
 import static org.assertj.core.api.ClassLoadingStrategyFactory.classLoadingStrategy;
 import static org.assertj.core.util.Arrays.array;
 
@@ -1290,33 +1291,6 @@ public class Assumptions {
                      .make()
                      .load(strategy.getClassLoader(), strategy.getClassLoadingStrategy())
                      .getLoaded();
-  }
-
-  private static RuntimeException assumptionNotMet(AssertionError assertionError) throws ReflectiveOperationException {
-    Class<?> assumptionClass = getAssumptionClass("org.testng.SkipException");
-    if (assumptionClass != null) return assumptionNotMet(assumptionClass, assertionError);
-
-    assumptionClass = getAssumptionClass("org.junit.AssumptionViolatedException");
-    if (assumptionClass != null) return assumptionNotMet(assumptionClass, assertionError);
-
-    assumptionClass = getAssumptionClass("org.opentest4j.TestAbortedException");
-    if (assumptionClass != null) return assumptionNotMet(assumptionClass, assertionError);
-
-    throw new IllegalStateException("Assumptions require TestNG, JUnit or opentest4j on the classpath");
-  }
-
-  private static Class<?> getAssumptionClass(String className) {
-    try {
-      return Class.forName(className);
-    } catch (ClassNotFoundException e) {
-      return null;
-    }
-  }
-
-  private static RuntimeException assumptionNotMet(Class<?> exceptionClass,
-                                                   AssertionError e) throws ReflectiveOperationException {
-    return (RuntimeException) exceptionClass.getConstructor(String.class, Throwable.class)
-                                            .newInstance("assumption was not met due to: " + e.getMessage(), e);
   }
 
   // for method that change the object under test (e.g. extracting)
