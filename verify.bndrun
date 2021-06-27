@@ -30,8 +30,8 @@
 # The version ranges will change as the version of
 # AssertJ and/or its dependencies change.
 -runbundles: \
-	assertj-core;version='[3.20.2,3.20.3)',\
-	assertj-core-tests;version='[3.20.2,3.20.3)',\
+	assertj-core;version='[3.21.0,3.21.1)',\
+	assertj-core-tests;version='[3.21.0,3.21.1)',\
 	junit-jupiter-api;version='[5.7.2,5.7.3)',\
 	junit-jupiter-engine;version='[5.7.2,5.7.3)',\
 	junit-platform-commons;version='[1.7.2,1.7.3)',\
