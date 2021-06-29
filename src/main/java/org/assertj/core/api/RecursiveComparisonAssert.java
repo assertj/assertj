@@ -98,9 +98,9 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * You can specify a custom comparator or equals BiPredicate per (nested) fields or type with the methods below (but before calling {@code isEqualTo} otherwise this has no effect!):
    * <ol>
    * <li> {@link #withEqualsForType(BiPredicate, Class)} for a given type</li>
+   * <li> {@link #withEqualsForFields(BiPredicate, String...)} for one or multiple fields</li>
    * <li> {@link #withComparatorForType(Comparator, Class)} for a given type</li>
-   * <li> {@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)} for one or multiple fields</li>
-   * <li> {@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)} for one or multiple fields</li>
+   * <li> {@link #withComparatorForFields(Comparator, String...)} for one or multiple fields</li>
    * </ol>
    * <p>
    * Note that field comparators always take precedence over type comparators.
