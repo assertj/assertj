@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.FileSystem;
+import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.util.function.Predicate;
 
@@ -685,10 +686,41 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws AssertionError if the actual {@code File} does not have the expected name.
    *
    * @see java.io.File#getName() name definition.
+   * @see #hasFileName(String)
    */
   public SELF hasName(String expected) {
     files.assertHasName(info, actual, expected);
     return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code File} has given name (alias of {@link #hasName(String)}).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> File xFile = new File(&quot;somewhere/xFile.java&quot;);
+   * File xDirectory = new File(&quot;somewhere/xDirectory&quot;);
+   *
+   * // assertion will pass
+   * assertThat(xFile).hasFileName(&quot;xFile.java&quot;);
+   * assertThat(xDirectory).hasFileName(&quot;xDirectory&quot;);
+   *
+   * // assertion will fail
+   * assertThat(xFile).hasFileName(&quot;xFile&quot;);
+   * assertThat(xDirectory).hasFileName(&quot;somewhere&quot;);</code></pre>
+   *
+   * @param expected the expected {@code File} name.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the expected name is {@code null}.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} does not have the expected name.
+   *
+   * @see java.io.File#getName() name definition.
+   * @see #hasName(String)
+   * @since 3.21.0
+   */
+  public SELF hasFileName(String expected) {
+    return hasName(expected);
   }
 
   /**
