@@ -230,7 +230,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws AssertionError if the actual {@code File} can not be read by the application.
    *
    * @see #canRead()
-   * @since 3.20.0
+   * @since 3.21.0
    */
   public SELF isReadable() {
     return canRead();

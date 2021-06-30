@@ -17,11 +17,8 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
 
-
-/**
- * Tests for <code>{@link FileAssert#isReadable()}</code>.
- */
 class FileAssert_isReadable_Test extends FileAssertBaseTest {
+
   @Override
   protected FileAssert invoke_api_method() {
     return assertions.isReadable();
@@ -31,4 +28,5 @@ class FileAssert_isReadable_Test extends FileAssertBaseTest {
   protected void verify_internal_effects() {
     verify(files).assertCanRead(getInfo(assertions), getActual(assertions));
   }
+
 }
