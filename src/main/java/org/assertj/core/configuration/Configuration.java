@@ -25,6 +25,7 @@ import java.util.stream.Stream;
 
 import org.assertj.core.api.AbstractDateAssert;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.Assumptions;
 import org.assertj.core.description.Description;
 import org.assertj.core.presentation.Representation;
 
@@ -47,6 +48,7 @@ public class Configuration {
   public static final boolean LENIENT_DATE_PARSING = false;
   public static final boolean PRINT_ASSERTIONS_DESCRIPTION_ENABLED = false;
   public static final int MAX_STACKTRACE_ELEMENTS_DISPLAYED = 3;
+  public static final PreferredAssumptionException PREFERRED_ASSUMPTION_EXCEPTION = PreferredAssumptionException.AUTO_DETECT;
 
   private boolean comparingPrivateFields = ALLOW_COMPARING_PRIVATE_FIELDS;
   private boolean extractingPrivateFields = ALLOW_EXTRACTING_PRIVATE_FIELDS;
@@ -59,6 +61,7 @@ public class Configuration {
   private boolean printAssertionsDescription = PRINT_ASSERTIONS_DESCRIPTION_ENABLED;
   private Consumer<Description> descriptionConsumer = null;
   private int maxStackTraceElementsDisplayed = MAX_STACKTRACE_ELEMENTS_DISPLAYED;
+  private PreferredAssumptionException preferredAssumptionException = PREFERRED_ASSUMPTION_EXCEPTION;
 
   /**
    * @return the default {@link Representation} that is used within AssertJ.
@@ -322,6 +325,31 @@ public class Configuration {
   public void setMaxStackTraceElementsDisplayed(int maxStackTraceElementsDisplayed) {
     this.maxStackTraceElementsDisplayed = maxStackTraceElementsDisplayed;
   }
+  
+  /**
+   * Returns which exception is thrown if an assumption is not met. 
+   * <p>
+   * See {@link Assumptions#setPreferredAssumptionException(PreferredAssumptionException)} for a detailed description.
+   * @return the assumption exception to throw.
+   * @since 3.21.0
+   */
+  public PreferredAssumptionException preferredAssumptionException() {
+    return preferredAssumptionException;
+  }
+  
+  /**
+   * Sets which exception is thrown if an assumption is not met. 
+   * <p>
+   * See {@link Assumptions#setPreferredAssumptionException(PreferredAssumptionException)} for a detailed description.
+   * <p>
+   * Note that this change will only be effective once {@link #apply()} or {@link #applyAndDisplay()} is called.
+   *
+   * @param preferredAssumptionException the preferred exception to use with {@link Assumptions}.
+   * @since 3.21.0
+   */
+  public void setPreferredAssumptionException(PreferredAssumptionException preferredAssumptionException) {
+    this.preferredAssumptionException = preferredAssumptionException;
+  }
 
   /**
    * Applies this configuration to AssertJ.
@@ -342,6 +370,7 @@ public class Configuration {
     // add to the previous config date formats
     AbstractDateAssert.useDefaultDateFormatsOnly();
     additionalDateFormats().forEach(Assertions::registerCustomDateFormat);
+    Assumptions.setPreferredAssumptionException(preferredAssumptionException());
   }
 
   /**
@@ -365,7 +394,8 @@ public class Configuration {
                   "- maxStackTraceElementsDisplayed................... = %s%n" +
                   "- printAssertionsDescription ...................... = %s%n" +
                   "- descriptionConsumer ............................. = %s%n" +
-                  "- removeAssertJRelatedElementsFromStackTraceEnabled = %s%n",
+                  "- removeAssertJRelatedElementsFromStackTraceEnabled = %s%n" +
+                  "- preferredAssumptionException .................... = %s%n",
                   getClass().getName(),
                   representation(),
                   comparingPrivateFieldsEnabled(),
@@ -378,7 +408,8 @@ public class Configuration {
                   maxStackTraceElementsDisplayed(),
                   printAssertionsDescription(),
                   descriptionConsumer(),
-                  removeAssertJRelatedElementsFromStackTraceEnabled());
+                  removeAssertJRelatedElementsFromStackTraceEnabled(),
+                  preferredAssumptionException());
   }
 
   private String describeAdditionalDateFormats() {

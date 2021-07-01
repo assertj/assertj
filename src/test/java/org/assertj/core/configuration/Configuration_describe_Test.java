@@ -53,7 +53,8 @@ class Configuration_describe_Test {
                                        "- maxStackTraceElementsDisplayed................... = 4%n" +
                                        "- printAssertionsDescription ...................... = false%n" +
                                        "- descriptionConsumer ............................. = sysout%n" +
-                                       "- removeAssertJRelatedElementsFromStackTraceEnabled = false%n"));
+                                       "- removeAssertJRelatedElementsFromStackTraceEnabled = false%n" +
+                                       "- preferredAssumptionException .................... = TEST_NG(org.testng.SkipException)%n"));
   }
 
   @AfterEach

@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import static net.bytebuddy.matcher.ElementMatchers.any;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.AssumptionExceptionFactory.assumptionNotMet;
 import static org.assertj.core.api.ClassLoadingStrategyFactory.classLoadingStrategy;
 import static org.assertj.core.util.Arrays.array;
 
@@ -73,6 +74,7 @@ import java.util.stream.Stream;
 import org.assertj.core.api.ClassLoadingStrategyFactory.ClassLoadingStrategyPair;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
+import org.assertj.core.configuration.PreferredAssumptionException;
 import org.assertj.core.util.CheckReturnValue;
 
 import net.bytebuddy.ByteBuddy;
@@ -1253,6 +1255,40 @@ public class Assumptions {
     return asAssumption(SpliteratorAssert.class, Spliterator.class, actual);
   }
 
+  /**
+   * Sets which exception is thrown if an assumption is not met. 
+   * <p>
+   * This method is useful if you are using a testing framework that supports assumptions and expect a specific exception to be thrown when an assumption is not met. 
+   * <p>
+   * You can choose one of:
+   * <ul>
+   * <li>{@link PreferredAssumptionException#TEST_NG} to throw a {@code org.testng.SkipException} if you are using TestNG</li>
+   * <li>{@link PreferredAssumptionException#JUNIT4} to throw a {@code org.junit.AssumptionViolatedException} if you are using JUnit 4</li>
+   * <li>{@link PreferredAssumptionException#JUNIT5} a {@code org.opentest4j.TestAbortedException} if you are using JUnit 5</li>
+   * <li>{@link PreferredAssumptionException#AUTO_DETECT} to get the default behavior where AssertJ tries different exception (explained later on)</li>
+   * </ul>
+   * <p>
+   * Make sure that the exception you choose can be found in the classpath otherwise AssertJ will throw an {@link IllegalStateException}.
+   * <p>
+   * For example JUnit4 expects {@code org.junit.AssumptionViolatedException}, you can tell AssertJ to use it as shown below:
+   * <pre><code class='java'> // after this call, AssertJ will throw an org.junit.AssumptionViolatedException when an assumption is not met   
+   * Assertions.setPreferredAssumptionExceptions(PreferredAssumptionException.JUNIT4);
+   * </code></pre>
+   * <p>
+   * By default, AssertJ uses the {@link PreferredAssumptionException#AUTO_DETECT AUTO_DETECT} mode and tries to throw one of the following exceptions, in this order:
+   * <ol>
+   * <li>{@code org.testng.SkipException} for TestNG (if available in the classpath)</li>
+   * <li>{@code org.junit.AssumptionViolatedException} for JUnit 4 (if available in the classpath)</li>
+   * <li>{@code org.opentest4j.TestAbortedException} for JUnit 5</li>
+   * </ol> 
+   *
+   * @param preferredAssumptionException the preferred exception to use with {@link Assumptions}.
+   * @since 3.21.0
+   */
+  public static void setPreferredAssumptionException(PreferredAssumptionException preferredAssumptionException) {
+    AssumptionExceptionFactory.setPreferredAssumptionException(preferredAssumptionException);
+  }
+  
   // private methods
 
   private static <ASSERTION, ACTUAL> ASSERTION asAssumption(Class<ASSERTION> assertionType,
@@ -1290,33 +1326,6 @@ public class Assumptions {
                      .make()
                      .load(strategy.getClassLoader(), strategy.getClassLoadingStrategy())
                      .getLoaded();
-  }
-
-  private static RuntimeException assumptionNotMet(AssertionError assertionError) throws ReflectiveOperationException {
-    Class<?> assumptionClass = getAssumptionClass("org.testng.SkipException");
-    if (assumptionClass != null) return assumptionNotMet(assumptionClass, assertionError);
-
-    assumptionClass = getAssumptionClass("org.junit.AssumptionViolatedException");
-    if (assumptionClass != null) return assumptionNotMet(assumptionClass, assertionError);
-
-    assumptionClass = getAssumptionClass("org.opentest4j.TestAbortedException");
-    if (assumptionClass != null) return assumptionNotMet(assumptionClass, assertionError);
-
-    throw new IllegalStateException("Assumptions require TestNG, JUnit or opentest4j on the classpath");
-  }
-
-  private static Class<?> getAssumptionClass(String className) {
-    try {
-      return Class.forName(className);
-    } catch (ClassNotFoundException e) {
-      return null;
-    }
-  }
-
-  private static RuntimeException assumptionNotMet(Class<?> exceptionClass,
-                                                   AssertionError e) throws ReflectiveOperationException {
-    return (RuntimeException) exceptionClass.getConstructor(String.class, Throwable.class)
-                                            .newInstance("assumption was not met due to: " + e.getMessage(), e);
   }
 
   // for method that change the object under test (e.g. extracting)
