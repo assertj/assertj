@@ -65,6 +65,7 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.configuration.PreferredAssumptionException;
 import org.assertj.core.util.CheckReturnValue;
 
 /**
@@ -1181,5 +1182,39 @@ public interface WithAssumptions {
    */
   default <ELEMENT> AbstractSpliteratorAssert<?, ELEMENT> assumeThat(final Spliterator<ELEMENT> spliterator) {
     return Assumptions.assumeThat(spliterator);
+  }
+
+  /**
+   * Sets which exception is thrown if an assumption is not met. 
+   * <p>
+   * This method is useful if you are using a testing framework that supports assumptions and expect a specific exception to be thrown when an assumption is not met. 
+   * <p>
+   * You can choose one of:
+   * <ul>
+   * <li>{@link PreferredAssumptionException#TEST_NG} to throw a {@code org.testng.SkipException} if you are using TestNG</li>
+   * <li>{@link PreferredAssumptionException#JUNIT4} to throw a {@code org.junit.AssumptionViolatedException} if you are using JUnit 4</li>
+   * <li>{@link PreferredAssumptionException#OPENTEST4J_JUNIT5} a {@code org.opentest4j.TestAbortedException} if you are using JUnit5</li>
+   * <li>{@link PreferredAssumptionException#AUTO_DETECT} to get the default behavior where AssertJ tries different exception (explained later on)</li>
+   * </ul>
+   * <p>
+   * Make sure that the exception you choose can be found in the classpath otherwise AssertJ will throw an {@link IllegalStateException}.
+   * <p>
+   * For example JUnit4 expects {@code org.junit.AssumptionViolatedException}, you can tell AssertJ to use it as shown below:
+   * <pre><code class='java'> // after this call, AssertJ will throw an org.junit.AssumptionViolatedException when an assumption is not met   
+   * Assertions.setPreferredAssumptionExceptions(PreferredAssumptionException.JUNIT4);
+   * </code></pre>
+   * <p>
+   * By default, AssertJ uses the {@link PreferredAssumptionException#AUTO_DETECT AUTO_DETECT} mode and tries to throw one of the following exception in this order:
+   * <ol>
+   * <li>{@code org.testng.SkipException} for TestNG (if available in the classpath)</li>
+   * <li>{@code org.junit.AssumptionViolatedException} for JUnit4 (if available in the classpath)</li>
+   * <li>{@code org.opentest4j.TestAbortedException} for JUnit5</li>
+   * </ol> 
+   *
+   * @param preferredAssumptionException the preferred exception to use with {@link Assumptions}.
+   * @since 3.21.0
+   */
+  default void setPreferredAssumptionException(PreferredAssumptionException preferredAssumptionException) {
+    AssumptionExceptionFactory.setPreferredAssumptionException(preferredAssumptionException);
   }
 }

@@ -12,27 +12,63 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.String.format;
+import static org.assertj.core.configuration.PreferredAssumptionException.AUTO_DETECT;
+import static org.assertj.core.configuration.PreferredAssumptionException.JUNIT4;
+import static org.assertj.core.configuration.PreferredAssumptionException.OPENTEST4J_JUNIT5;
+import static org.assertj.core.configuration.PreferredAssumptionException.TEST_NG;
+
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Stream;
 
-class AssumptionExceptionFactory {
+import org.assertj.core.configuration.Configuration;
+import org.assertj.core.configuration.ConfigurationProvider;
+import org.assertj.core.configuration.PreferredAssumptionException;
+import org.assertj.core.util.VisibleForTesting;
+
+/**
+ * Responsible of building the exception to throw for failing assumptions.
+ * @since 3.21.0
+ */
+public class AssumptionExceptionFactory {
+
+  private static PreferredAssumptionException preferredAssumptionException = Configuration.PREFERRED_ASSUMPTION_EXCEPTION;
 
   static RuntimeException assumptionNotMet(AssertionError assertionError) throws ReflectiveOperationException {
     Class<?> assumptionExceptionClass = selectAssumptionExceptionClass();
     return buildAssumptionException(assumptionExceptionClass, assertionError);
   }
+  
+  @VisibleForTesting
+  public static PreferredAssumptionException getPreferredAssumptionException() {
+    return preferredAssumptionException;
+  }
+
+  static void setPreferredAssumptionException(PreferredAssumptionException preferredAssumptionException) {
+    ConfigurationProvider.loadRegisteredConfiguration();
+    Objects.requireNonNull(preferredAssumptionException, "preferredAssumptionException must not be null");
+    AssumptionExceptionFactory.preferredAssumptionException = preferredAssumptionException;
+  }
 
   private static Class<?> selectAssumptionExceptionClass() {
-    return Stream.of("org.testng.SkipException", "org.junit.AssumptionViolatedException", "org.opentest4j.TestAbortedException")
-                 .map(AssumptionExceptionFactory::getClass)
+    if (preferredAssumptionException == AUTO_DETECT) return autoDetectAssumptionExceptionClass();
+    return Optional.ofNullable(getAssumptionExceptionClass(preferredAssumptionException))
+                   .orElseThrow(() -> new IllegalStateException(format("Failed to load %s class, make sure it is available in the classpath.",
+                                                                       preferredAssumptionException.getAssumptionExceptionClassName())));
+  }
+
+  private static Class<?> autoDetectAssumptionExceptionClass() {
+    return Stream.of(TEST_NG, JUNIT4, OPENTEST4J_JUNIT5)
+                 .map(AssumptionExceptionFactory::getAssumptionExceptionClass)
                  .filter(Objects::nonNull)
                  .findFirst()
                  .orElseThrow(() -> new IllegalStateException("Assumptions require TestNG, JUnit or opentest4j on the classpath"));
   }
 
-  private static Class<?> getClass(String className) {
+  private static Class<?> getAssumptionExceptionClass(PreferredAssumptionException preferredAssumptionException) {
     try {
-      return Class.forName(className);
+      return Class.forName(preferredAssumptionException.getAssumptionExceptionClassName());
     } catch (ClassNotFoundException e) {
       return null;
     }

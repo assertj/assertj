@@ -18,6 +18,7 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.assertj.core.api.AssumptionExceptionFactory;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.introspection.FieldSupport;
@@ -38,7 +39,7 @@ class Configuration_apply_Test {
     then(FieldSupport.comparison().isAllowedToUsePrivateFields()).isEqualTo(configuration.comparingPrivateFieldsEnabled());
     then(Introspection.canExtractBareNamePropertyMethods()).isEqualTo(configuration.bareNamePropertyExtractionEnabled());
     then(configuration.hasCustomRepresentation()).isTrue();
-    // a bit dodgy but since our custom representation inherits StandardRepresentation, changing maxElementsForPrinting amd
+    // a bit dodgy but since our custom representation inherits StandardRepresentation, changing maxElementsForPrinting and
     // maxLengthForSingleLineDescription will be effective.
     then(StandardRepresentation.getMaxElementsForPrinting()).isEqualTo(configuration.maxElementsForPrinting());
     then(StandardRepresentation.getMaxStackTraceElementsDisplayed()).isEqualTo(configuration.maxStackTraceElementsDisplayed());
@@ -54,6 +55,7 @@ class Configuration_apply_Test {
     Date date = new SimpleDateFormat("yyyy-MM-dd").parse("2001-02-03");
     then(date).isEqualTo("2001_02_03")
               .isEqualTo("2001|02|03");
+    then(AssumptionExceptionFactory.getPreferredAssumptionException()).isEqualTo(configuration.preferredAssumptionException());
   }
 
   @Test
