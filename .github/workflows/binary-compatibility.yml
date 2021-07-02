@@ -24,6 +24,7 @@ jobs:
       - name: Compare
         run: >
           ./mvnw -V --no-transfer-progress -e package japicmp:cmp
+          -DskipTests
           -Djapicmp.breakBuildOnBinaryIncompatibleModifications=true
       - name: Print Result
         run: cat target/japicmp/default-cli.diff
