@@ -25,4 +25,4 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-maven
       - name: Test
-        run: ./mvnw -V --no-transfer-progress -e clean verify javadoc:javadoc
+        run: ./mvnw -V --no-transfer-progress -e verify javadoc:javadoc
