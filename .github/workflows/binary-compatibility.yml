@@ -1,15 +1,21 @@
 name: Binary Compatibility
 
-on:
-  push:
-    branches: [ main ]
+on: [push, pull_request]
 
 jobs:
   japicmp:
-    name: Compare with the latest release
+    name: Verify
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - name: (branch only) Checkout `main` into subfolder
+        if: github.ref != 'refs/heads/main'
+        uses: actions/checkout@v2
+        with:
+          ref: main
+          path: assertj-core.main
+
       - name: Setup Java
         uses: actions/setup-java@v2
         with:
@@ -21,15 +27,29 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-maven
-      - name: Compare
+
+      - name: (`main` only) Compare with the latest release
+        if: github.ref == 'refs/heads/main'
         run: >
           ./mvnw -V --no-transfer-progress -e package japicmp:cmp
           -DskipTests
           -Djapicmp.breakBuildOnBinaryIncompatibleModifications=true
-      - name: Print Result
+
+      - name: (branch only) Build `main`
+        if: github.ref != 'refs/heads/main'
+        run: ./mvnw -V --no-transfer-progress -e -f assertj-core.main/pom.xml package -DskipTests
+      - name: (branch only) Compare with `main`
+        if: github.ref != 'refs/heads/main'
+        run: >
+          ./mvnw -V --no-transfer-progress -e -Pjapicmp-branch package japicmp:cmp
+          -DskipTests
+          -Djapicmp.breakBuildOnBinaryIncompatibleModifications=true
+          -Djapicmp.oldVersion.basedir=assertj-core.main
+
+      - name: Print result
         if: success() || failure()
         run: cat target/japicmp/default-cli.diff
-      - name: Upload Reports
+      - name: Upload reports
         if: success() || failure()
         uses: actions/upload-artifact@v2
         with:
