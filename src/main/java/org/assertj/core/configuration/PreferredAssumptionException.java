@@ -14,8 +14,11 @@ package org.assertj.core.configuration;
 
 import static java.lang.String.format;
 
+import java.util.Optional;
+import java.util.stream.Stream;
+
 public enum PreferredAssumptionException {
-  
+
   /**
    * {@code org.testng.SkipException} - works with TestNG
    */
@@ -27,31 +30,55 @@ public enum PreferredAssumptionException {
   /**
    * {@code org.opentest4j.TestAbortedException} - works with JUnit 5 
    */
-  OPENTEST4J_JUNIT5("org.opentest4j.TestAbortedException"),
+  JUNIT5("org.opentest4j.TestAbortedException"),
   /**
    * AssertJ will try to build the exception to throw in this order:
    * <ol>
    * <li>{@code org.testng.SkipException} for TestNG (if available in the classpath)</li>
-   * <li>{@code org.junit.AssumptionViolatedException} for JUnit4 (if available in the classpath)</li>
-   * <li>{@code org.opentest4j.TestAbortedException} for JUnit5</li>
+   * <li>{@code org.junit.AssumptionViolatedException} for JUnit 4 (if available in the classpath)</li>
+   * <li>{@code org.opentest4j.TestAbortedException} for JUnit 5</li>
    * </ol> 
-   * If none are available, AssertJ throw an {@link IllegalStateException}.
+   * If none are available, AssertJ throws an {@link IllegalStateException}.
    */
-  AUTO_DETECT("try in order org.testng.SkipException, org.junit.AssumptionViolatedException and org.opentest4j.TestAbortedException");
-
-  private PreferredAssumptionException(String assumptionException) {
-    this.assumptionExceptionClassName = assumptionException;
-  }
+  AUTO_DETECT(
+      "try in order org.testng.SkipException, org.junit.AssumptionViolatedException and org.opentest4j.TestAbortedException");
 
   private final String assumptionExceptionClassName;
-  
-  public String getAssumptionExceptionClassName() {
-    return assumptionExceptionClassName;
+
+  private PreferredAssumptionException(String assumptionExceptionClassName) {
+    this.assumptionExceptionClassName = assumptionExceptionClassName;
   }
-  
+
+  public Class<?> getAssumptionExceptionClass() {
+    if (this == AUTO_DETECT) return autoDetectAssumptionExceptionClass();
+    return loadAssumptionExceptionClass().orElseThrow(() -> assumptionExceptionClassNotFound());
+  }
+
   @Override
   public String toString() {
-    return format("%s(%s)", name(), assumptionExceptionClassName) ;
+    return format("%s(%s)", name(), assumptionExceptionClassName);
   }
-  
+
+  private IllegalStateException assumptionExceptionClassNotFound() {
+    return new IllegalStateException(format("Failed to load %s class, make sure it is available in the classpath.",
+                                            assumptionExceptionClassName));
+  }
+
+  private Class<?> autoDetectAssumptionExceptionClass() {
+    return Stream.of(TEST_NG, JUNIT4, JUNIT5)
+                 .map(PreferredAssumptionException::loadAssumptionExceptionClass)
+                 .filter(Optional::isPresent)
+                 .findFirst()
+                 .orElseThrow(() -> new IllegalStateException("Assumptions require TestNG, JUnit 4 or opentest4j on the classpath"))
+                 .get();
+  }
+
+  private Optional<Class<?>> loadAssumptionExceptionClass() {
+    try {
+      return Optional.of(Class.forName(assumptionExceptionClassName));
+    } catch (ClassNotFoundException e) {
+      return Optional.empty();
+    }
+  }
+
 }

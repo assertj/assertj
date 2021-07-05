@@ -1264,7 +1264,7 @@ public class Assumptions {
    * <ul>
    * <li>{@link PreferredAssumptionException#TEST_NG} to throw a {@code org.testng.SkipException} if you are using TestNG</li>
    * <li>{@link PreferredAssumptionException#JUNIT4} to throw a {@code org.junit.AssumptionViolatedException} if you are using JUnit 4</li>
-   * <li>{@link PreferredAssumptionException#OPENTEST4J_JUNIT5} a {@code org.opentest4j.TestAbortedException} if you are using JUnit5</li>
+   * <li>{@link PreferredAssumptionException#JUNIT5} a {@code org.opentest4j.TestAbortedException} if you are using JUnit 5</li>
    * <li>{@link PreferredAssumptionException#AUTO_DETECT} to get the default behavior where AssertJ tries different exception (explained later on)</li>
    * </ul>
    * <p>
@@ -1275,11 +1275,11 @@ public class Assumptions {
    * Assertions.setPreferredAssumptionExceptions(PreferredAssumptionException.JUNIT4);
    * </code></pre>
    * <p>
-   * By default, AssertJ uses the {@link PreferredAssumptionException#AUTO_DETECT AUTO_DETECT} mode and tries to throw one of the following exception in this order:
+   * By default, AssertJ uses the {@link PreferredAssumptionException#AUTO_DETECT AUTO_DETECT} mode and tries to throw one of the following exceptions, in this order:
    * <ol>
    * <li>{@code org.testng.SkipException} for TestNG (if available in the classpath)</li>
-   * <li>{@code org.junit.AssumptionViolatedException} for JUnit4 (if available in the classpath)</li>
-   * <li>{@code org.opentest4j.TestAbortedException} for JUnit5</li>
+   * <li>{@code org.junit.AssumptionViolatedException} for JUnit 4 (if available in the classpath)</li>
+   * <li>{@code org.opentest4j.TestAbortedException} for JUnit 5</li>
    * </ol> 
    *
    * @param preferredAssumptionException the preferred exception to use with {@link Assumptions}.
