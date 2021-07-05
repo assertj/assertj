@@ -64,15 +64,15 @@ public abstract class PathsBaseTest {
 
   @BeforeEach
   public void setUp() {
-	failures = spy(new Failures());
-	nioFilesWrapper = mock(NioFilesWrapper.class);
-	paths = new Paths(nioFilesWrapper);
-	paths.failures = failures;
-	info = someInfo();
-	diff = mock(Diff.class);
-	paths.diff = diff;
-	binaryDiff = mock(BinaryDiff.class);
-	paths.binaryDiff = binaryDiff;
+    failures = spy(new Failures());
+    nioFilesWrapper = mock(NioFilesWrapper.class);
+    paths = new Paths(nioFilesWrapper);
+    paths.failures = failures;
+    info = someInfo();
+    diff = mock(Diff.class);
+    paths.diff = diff;
+    binaryDiff = mock(BinaryDiff.class);
+    paths.binaryDiff = binaryDiff;
   }
 
   /**
@@ -80,26 +80,26 @@ public abstract class PathsBaseTest {
    */
   public static class FileSystemResource {
 
-	private final FileSystem fs;
+    private final FileSystem fs;
 
-	public FileSystemResource() {
-	  try {
-		fs = MemoryFileSystemBuilder.newLinux().build("PathsTest");
-	  } catch (IOException e) {
-		throw new RuntimeException("failed to initialize filesystem", e);
-	  }
-	}
+    public FileSystemResource() {
+      try {
+        fs = MemoryFileSystemBuilder.newLinux().build("PathsTest");
+      } catch (IOException e) {
+        throw new RuntimeException("failed to initialize filesystem", e);
+      }
+    }
 
-	public FileSystem getFileSystem() {
-	  return fs;
-	}
+    public FileSystem getFileSystem() {
+      return fs;
+    }
 
-	public void close() {
-	  try {
-		fs.close();
-	  } catch (IOException e) {
-		throw new RuntimeException("failed to close filesystem", e);
-	  }
-	}
+    public void close() {
+      try {
+        fs.close();
+      } catch (IOException e) {
+        throw new RuntimeException("failed to close filesystem", e);
+      }
+    }
   }
 }

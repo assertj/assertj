@@ -12,9 +12,12 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.String.format;
+import static java.nio.file.Files.readAllBytes;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
+import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.ClosedFileSystemException;
@@ -1812,4 +1815,62 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
     return myself;
   }
 
+  /**
+   * Returns String assertions on the content of the actual {@code Path} read with the {@link Charset#defaultCharset() default charset}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Path xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes());
+   *
+   * // assertion succeeds (default charset is used to read xFile content):
+   * assertThat(xFile).content().startsWith("The Truth Is ");
+   *
+   * // assertion fails:
+   * assertThat(xFile).content().contains("Elsewhere");</code></pre>
+   *
+   * @return a StringAssert object with the content of the actual {@code Path} read with the default {@link Charset}.
+   * @throws AssertionError if the actual {@code Path} is not readable as per {@link Files#isReadable(Path)}.
+   * @throws UncheckedIOException when failing to read the actual {@code Path}.
+   * @since 3.21.0
+   */
+  public AbstractStringAssert<?> content() {
+    // does not call content(Charset.defaultCharset()) to avoid double proxying in soft assertions.
+    return internalContent(Charset.defaultCharset());
+  }
+
+  /**
+   * Returns String assertions on the content of the actual {@code Path} read with the given {@link Charset}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Path utf8Path = Files.write(Paths.get("utf8.txt"), "é à".getBytes());
+   *
+   * // assertion succeeds:
+   * assertThat(utf8Path).content(StandardCharsets.UTF_8).endsWith("é à");
+   *
+   * // assertion fails:
+   * assertThat(utf8Path).content(StandardCharsets.UTF_8).contains("e");</code></pre>
+   *
+   * @param charset the {@link Charset} to use to read the actual {@link Path}.
+   * @return a {@link StringAssert} object with the content of the actual {@code Path} read with the default {@link Charset}.
+   * @throws AssertionError if the actual {@code Path} is not readable as per {@link Files#isReadable(Path)}.
+   * @throws UncheckedIOException when failing to read the actual {@code Path}.
+   * @since 3.21.0
+   */
+  public AbstractStringAssert<?> content(Charset charset) {
+    return internalContent(charset);
+  }
+
+  // this method was introduced to avoid to avoid double proxying in soft assertions for content()
+  private AbstractStringAssert<?> internalContent(Charset charset) {
+    paths.assertIsReadable(info, actual);
+    String pathContent = readPath(charset);
+    return new StringAssert(pathContent);
+  }
+
+  private String readPath(Charset charset) {
+    try {
+      return new String(readAllBytes(actual), charset);
+    } catch (IOException e) {
+      throw new UncheckedIOException(format("Failed to read %s content with %s charset", actual, charset), e);
+    }
+  }
 }

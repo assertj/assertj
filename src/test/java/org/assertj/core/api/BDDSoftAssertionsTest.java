@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static java.lang.String.format;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Collections.emptyList;
 import static java.util.Spliterators.emptySpliterator;
 import static java.util.stream.Collectors.toList;
@@ -23,6 +24,7 @@ import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
@@ -42,6 +44,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
@@ -1845,4 +1848,26 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     }
   }
 
+  @Test
+  void path_soft_assertions_should_report_errors_on_methods_that_switch_the_object_under_test() {
+    // GIVEN
+    Path path = new File("src/test/resources/actual_file.txt").toPath();
+    // WHEN
+    softly.then(path)
+          .overridingErrorMessage("error message")
+          .as("content()")
+          .content()
+          .startsWith("actual")
+          .startsWith("123");
+    softly.then(path)
+          .overridingErrorMessage("error message")
+          .as("content(UTF_8)")
+          .content(UTF_8)
+          .startsWith("actual")
+          .startsWith("123");
+    // THEN
+    then(softly.errorsCollected()).extracting(Throwable::getMessage)
+                                  .containsExactly("[content()] error message",
+                                                   "[content(UTF_8)] error message");
+  }
 }
