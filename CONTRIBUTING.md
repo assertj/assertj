@@ -122,7 +122,7 @@ To be sure of what the javadoc actually looks, simply generate it and read it in
 
 ## Binary compatibility
 
-Try to keep binary compatibility whenever possible. It means that you can safely:
+Try to keep [binary compatibility](https://docs.oracle.com/javase/specs/jls/se8/html/jls-13.html) whenever possible. It means that you can safely:
 * Rewrite the body of methods, constructors, and initializers (like static blocks).
 * Rewrite code in the above that previously threw exceptions to no longer do so.
 * Add fields, methods, and constructors.
