@@ -27,8 +27,10 @@ jobs:
           -DskipTests
           -Djapicmp.breakBuildOnBinaryIncompatibleModifications=true
       - name: Print Result
+        if: success() || failure()
         run: cat target/japicmp/default-cli.diff
       - name: Upload Reports
+        if: success() || failure()
         uses: actions/upload-artifact@v2
         with:
           name: japicmp
