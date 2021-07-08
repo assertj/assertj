@@ -10,7 +10,7 @@
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent-pom</artifactId>
     <version>2.2.13</version>
-    <relativePath />
+    <relativePath/>
   </parent>
   <scm>
     <developerConnection>scm:git:git@github.com:assertj/assertj-core.git</developerConnection>
@@ -213,7 +213,7 @@
                     <exclude>*:*:*:jar:compile</exclude>
                   </excludes>
                 </bannedDependencies>
-                <dependencyConvergence />
+                <dependencyConvergence/>
                 <requireJavaVersion>
                   <version>[11,)</version>
                 </requireJavaVersion>
@@ -664,7 +664,7 @@
                     </goals>
                   </pluginExecutionFilter>
                   <action>
-                    <ignore />
+                    <ignore/>
                   </action>
                 </pluginExecution>
               </pluginExecutions>
@@ -704,6 +704,14 @@
               </excludes>
               <onlyBinaryIncompatible>true</onlyBinaryIncompatible>
               <onlyModified>true</onlyModified>
+              <overrideCompatibilityChangeParameters>
+                <!-- Unlikely that AssertJ users will encounter an IncompatibleClassChangeError (ref: JLS 13.5.6) -->
+                <overrideCompatibilityChangeParameter>
+                  <compatibilityChange>METHOD_NEW_DEFAULT</compatibilityChange>
+                  <binaryCompatible>true</binaryCompatible>
+                  <sourceCompatible>true</sourceCompatible>
+                </overrideCompatibilityChangeParameter>
+              </overrideCompatibilityChangeParameters>
               <reportOnlyFilename>true</reportOnlyFilename>
             </parameter>
             <skipXmlReport>true</skipXmlReport>
