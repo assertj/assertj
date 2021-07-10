@@ -769,6 +769,26 @@
         </plugins>
       </build>
     </profile>
+    <profile>
+      <id>japicmp-branch</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>com.github.siom79.japicmp</groupId>
+              <artifactId>japicmp-maven-plugin</artifactId>
+              <configuration>
+                <oldVersion>
+                  <file>
+                    <path>${japicmp.oldVersion.basedir}/target/${project.build.finalName}.${project.packaging}</path>
+                  </file>
+                </oldVersion>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
   </profiles>
 
 </project>
