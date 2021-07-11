@@ -23,7 +23,7 @@ import java.nio.file.Path;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
-class Assumptions_assumeThat_with_content_Test {
+class Assumptions_assumeThat_with_Path_content_Test {
 
   private static final Path PATH = new File("src/test/resources/actual_file.txt").toPath();
 

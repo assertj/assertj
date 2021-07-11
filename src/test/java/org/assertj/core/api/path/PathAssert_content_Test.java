@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.path;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
@@ -48,7 +49,7 @@ class PathAssert_content_Test extends PathAssertBaseTest {
     // WHEN
     AbstractStringAssert<?> stringAssert = assertThat(path).content();
     // THEN
-    stringAssert.isEqualTo("actual%n", "");
+    stringAssert.isEqualTo(format("actual%n"));
   }
   
 }

@@ -10,44 +10,43 @@
  *
  * Copyright 2012-2021 the original author or authors.
  */
-package org.assertj.core.api.path;
+package org.assertj.core.api.file;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
-import java.nio.file.Path;
 
 import org.assertj.core.api.AbstractStringAssert;
-import org.assertj.core.api.PathAssert;
-import org.assertj.core.api.PathAssertBaseTest;
+import org.assertj.core.api.FileAssert;
+import org.assertj.core.api.FileAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-class PathAssert_content_with_charset_Test extends PathAssertBaseTest {
+class FileAssert_content_with_charset_Test extends FileAssertBaseTest {
 
   @Override
-  protected PathAssert invoke_api_method() {
+  protected FileAssert invoke_api_method() {
     assertions.content(UTF_8);
     return assertions;
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(paths).assertIsReadable(getInfo(assertions), getActual(assertions));
+    verify(files).assertCanRead(getInfo(assertions), getActual(assertions));
   }
   
   @Override
-  protected PathAssert create_assertions() {
-    return new PathAssert(new File("src/test/resources/utf8.txt").toPath());
+  protected FileAssert create_assertions() {
+    return new FileAssert(new File("src/test/resources/utf8.txt"));
   }
 
   @Test
-  public void should_return_StringAssert_on_path_content_with_given_charset() {
+  public void should_return_StringAssert_on_path_content() {
     // GIVEN
-    Path path = new File("src/test/resources/utf8.txt").toPath();
+    File file = new File("src/test/resources/utf8.txt");
     // WHEN
-    AbstractStringAssert<?> stringAssert = assertThat(path).content(UTF_8); 
+    AbstractStringAssert<?> stringAssert = assertThat(file).content(UTF_8);
     // THEN
     stringAssert.contains("é à");
   }

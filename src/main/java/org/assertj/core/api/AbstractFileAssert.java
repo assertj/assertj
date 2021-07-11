@@ -12,14 +12,16 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.String.format;
+import static java.nio.file.Files.readAllBytes;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.FileSystem;
-import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.util.function.Predicate;
 
@@ -1324,5 +1326,64 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   public SELF isNotEmpty() {
     files.assertIsNotEmptyFile(info, actual);
     return myself;
+  }
+
+  /**
+   * Returns String assertions on the content of the actual {@code File} read with the {@link Charset#defaultCharset() default charset}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> File xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes()).toFile();
+   *
+   * // assertion succeeds (default charset is used to read xFile content):
+   * assertThat(xFile).content().startsWith("The Truth Is ");
+   *
+   * // assertion fails:
+   * assertThat(xFile).content().contains("Elsewhere");</code></pre>
+   *
+   * @return a StringAssert object with the content of the actual {@code File} read with the default {@link Charset}.
+   * @throws AssertionError if the actual {@code File} is not readable.
+   * @throws UncheckedIOException when failing to read the actual {@code File}.
+   * @since 3.21.0
+   */
+  public AbstractStringAssert<?> content() {
+    // does not call content(Charset.defaultCharset()) to avoid double proxying in soft assertions.
+    return internalContent(Charset.defaultCharset());
+  }
+
+  /**
+   * Returns String assertions on the content of the actual {@code File} read with the given {@link Charset}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> File utf8File = Files.write(Paths.get("utf8.txt"), "é à".getBytes()).toFile();
+   *
+   * // assertion succeeds:
+   * assertThat(utf8File).content(StandardCharsets.UTF_8).endsWith("é à");
+   *
+   * // assertion fails:
+   * assertThat(utf8File).content(StandardCharsets.UTF_8).contains("e");</code></pre>
+   *
+   * @param charset the {@link Charset} to use to read the actual {@link File}.
+   * @return a {@link StringAssert} object with the content of the actual {@code File} read with the default {@link Charset}.
+   * @throws AssertionError if the actual {@code File} is not readable.
+   * @throws UncheckedIOException when failing to read the actual {@code File}.
+   * @since 3.21.0
+   */
+  public AbstractStringAssert<?> content(Charset charset) {
+    return internalContent(charset);
+  }
+
+  // this method was introduced to avoid to avoid double proxying in soft assertions for content()
+  private AbstractStringAssert<?> internalContent(Charset charset) {
+    files.assertCanRead(info, actual);
+    String fileContent = readFile(charset);
+    return new StringAssert(fileContent);
+  }
+
+  private String readFile(Charset charset) {
+    try {
+      return new String(readAllBytes(actual.toPath()), charset);
+    } catch (IOException e) {
+      throw new UncheckedIOException(format("Failed to read %s content with %s charset", actual, charset), e);
+    }
   }
 }

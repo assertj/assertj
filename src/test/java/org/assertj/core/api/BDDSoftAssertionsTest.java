@@ -1870,4 +1870,27 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
                                   .containsExactly("[content()] error message",
                                                    "[content(UTF_8)] error message");
   }
+
+  @Test
+  void file_soft_assertions_should_report_errors_on_methods_that_switch_the_object_under_test() {
+    // GIVEN
+    File file = new File("src/test/resources/actual_file.txt");
+    // WHEN
+    softly.then(file)
+          .overridingErrorMessage("error message")
+          .as("content()")
+          .content()
+          .startsWith("actual")
+          .startsWith("123");
+    softly.then(file)
+          .overridingErrorMessage("error message")
+          .as("content(UTF_8)")
+          .content(UTF_8)
+          .startsWith("actual")
+          .startsWith("123");
+    // THEN
+    then(softly.errorsCollected()).extracting(Throwable::getMessage)
+                                  .containsExactly("[content()] error message",
+                                                   "[content(UTF_8)] error message");
+  }
 }
