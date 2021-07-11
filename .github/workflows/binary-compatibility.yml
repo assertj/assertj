@@ -1,6 +1,10 @@
 name: Binary Compatibility
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
   japicmp:
@@ -9,12 +13,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: (branch only) Checkout `main` into subfolder
-        if: github.ref != 'refs/heads/main'
+      - name: (PR only) Checkout `${{ github.base_ref }}` into subfolder
+        if: github.base_ref != null
         uses: actions/checkout@v2
         with:
-          ref: main
-          path: assertj-core.main
+          ref: ${{ github.base_ref }}
+          path: assertj-core.${{ github.base_ref }}
 
       - name: Setup Java
         uses: actions/setup-java@v2
@@ -29,22 +33,22 @@ jobs:
           restore-keys: ${{ runner.os }}-maven
 
       - name: (`main` only) Compare with the latest release
-        if: github.ref == 'refs/heads/main'
+        if: github.base_ref == null
         run: >
           ./mvnw -V --no-transfer-progress -e package japicmp:cmp
           -DskipTests
           -Djapicmp.breakBuildOnBinaryIncompatibleModifications=true
 
-      - name: (branch only) Build `main`
-        if: github.ref != 'refs/heads/main'
-        run: ./mvnw -V --no-transfer-progress -e -f assertj-core.main/pom.xml package -DskipTests
-      - name: (branch only) Compare with `main`
-        if: github.ref != 'refs/heads/main'
+      - name: (PR only) Build `${{ github.base_ref }}`
+        if: github.base_ref != null
+        run: ./mvnw -V --no-transfer-progress -e -f assertj-core.${{ github.base_ref }}/pom.xml package -DskipTests
+      - name: (PR only) Compare `${{ github.head_ref }}` with `${{ github.base_ref }}`
+        if: github.base_ref != null
         run: >
           ./mvnw -V --no-transfer-progress -e -Pjapicmp-branch package japicmp:cmp
           -DskipTests
           -Djapicmp.breakBuildOnBinaryIncompatibleModifications=true
-          -Djapicmp.oldVersion.basedir=assertj-core.main
+          -Djapicmp.oldVersion.basedir=assertj-core.${{ github.base_ref }}
 
       - name: Print result
         if: success() || failure()
