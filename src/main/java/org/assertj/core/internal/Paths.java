@@ -42,6 +42,7 @@ import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
+import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotContain.directoryShouldNotContain;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
@@ -226,6 +227,16 @@ public class Paths {
   public void assertHasNoParentRaw(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
     if (actual.getParent() != null) throw failures.failure(info, shouldHaveNoParent(actual));
+  }
+
+  public void assertHasSize(final AssertionInfo info, final Path actual, long expectedSize) {
+    assertIsRegularFile(info, actual);
+    try {
+      long actualSize = nioFilesWrapper.size(actual);
+      if (actualSize != expectedSize) throw failures.failure(info, shouldHaveSize(actual, expectedSize));
+    } catch(IOException e) {
+      throw new UncheckedIOException(format("unable to verify the size of the path: <%s>", actual), e);
+    }
   }
 
   public void assertStartsWith(final AssertionInfo info, final Path actual, final Path start) {
