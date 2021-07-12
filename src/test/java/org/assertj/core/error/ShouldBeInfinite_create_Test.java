@@ -18,10 +18,8 @@ import static org.assertj.core.error.ShouldBeInfinite.shouldBeInfinite;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.internal.TestDescription;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("ShouldBeInfinite create")
 class ShouldBeInfinite_create_Test {
 
   @Test

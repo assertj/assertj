@@ -21,18 +21,22 @@ import org.assertj.core.annotations.Beta;
 import org.assertj.core.api.Condition;
 
 /**
- * Container-<code>{@link Condition}</code> that does a mapping and then uses nested
- * <code>{@link Condition}</code> to test the mapped actual value.
- *
+ * Container {@link Condition} that maps the object under test and then check the resulting mapped value against its nested {@link Condition}.
+ * <p>
+ * Example:
  * <pre><code class='java'> Condition&lt;String&gt; hasLineSeparator = new Condition&lt;&gt;(t -&gt; t.contains(System.lineSeparator()), "has lineSeparator");
  *
- * Condition&lt;Optional&lt;String&gt;&gt; optionalHasLineSeparator = MappedCondition.mappedCondition(Optional::get, hasLineSeparator, "optional value has lineSeparator");
+ * Condition&lt;Optional&lt;String&gt;&gt; optionalWithLineSeparator = MappedCondition.mappedCondition(Optional::get, hasLineSeparator, "optional value has lineSeparator");
  *
+ * // assertion succeeds
+ * assertThat(Optional.of("a" + System.lineSeparator())).is(optionalWithLineSeparator);
  * // returns true
- * optionalHasLineSeparator.matches(Optional.of("a" + System.lineSeparator()));
+ * optionalWithLineSeparator.matches(Optional.of("a" + System.lineSeparator()));
  *
+ * // assertion fails
+ * assertThat(Optional.of("a")).is(optionalWithLineSeparator);
  * // returns false
- * optionalHasLineSeparator.matches(Optional.of("a"));</code></pre>
+ * optionalWithLineSeparator.matches(Optional.of("a"));</code></pre>
  *
  * @param <FROM> the type of object this condition accepts.
  * @param <TO> the type of object the nested condition accepts.
@@ -49,6 +53,21 @@ public class MappedCondition<FROM, TO> extends Condition<FROM> {
   /**
    * Creates a new <code>{@link MappedCondition}</code>.
    * <p>
+   * Example:
+   * <pre><code class='java'> Condition&lt;String&gt; hasLineSeparator = new Condition&lt;&gt;(t -&gt; t.contains(System.lineSeparator()), "has lineSeparator");
+   *
+   * Condition&lt;Optional&lt;String&gt;&gt; optionalWithLineSeparator = MappedCondition.mappedCondition(Optional::get, hasLineSeparator, "optional value has lineSeparator");
+   *
+   * // assertion succeeds
+   * assertThat(Optional.of("a" + System.lineSeparator())).is(optionalWithLineSeparator);
+   * // returns true
+   * optionalWithLineSeparator.matches(Optional.of("a" + System.lineSeparator()));
+   *
+   * // assertion fails
+   * assertThat(Optional.of("a")).is(optionalWithLineSeparator);
+   * // returns false
+   * optionalWithLineSeparator.matches(Optional.of("a"));</code></pre>
+     * <p>
    * Note that the mappingDescription argument follows {@link String#format(String, Object...)} syntax.
    *
    * @param <FROM> the type of object the given condition accept.
@@ -112,8 +131,7 @@ public class MappedCondition<FROM, TO> extends Condition<FROM> {
    * @return the mapped condition description .
    */
   protected String buildMappingDescription(FROM from, TO to) {
-    StringBuilder sb = new StringBuilder();
-    sb.append("mapped");
+    StringBuilder sb = new StringBuilder("mapped");
     if (!mappingDescription.isEmpty()) sb.append(format("%n   using: %s", mappingDescription));
     sb.append(format("%n   from: <%s> %s%n", from.getClass().getSimpleName(), from));
     sb.append(format("   to:   <%s> %s%n", to.getClass().getSimpleName(), from, to));

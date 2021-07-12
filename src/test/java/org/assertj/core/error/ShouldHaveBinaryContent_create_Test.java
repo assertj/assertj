@@ -20,10 +20,8 @@ import java.io.InputStream;
 
 import org.assertj.core.internal.BinaryDiffResult;
 import org.assertj.core.internal.TestDescription;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("ShouldHaveBinaryContent create")
 class ShouldHaveBinaryContent_create_Test {
 
   @Test

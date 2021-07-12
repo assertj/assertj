@@ -16,9 +16,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.DoubleAssert;
 import org.assertj.core.api.DoubleAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 
-@DisplayName("DoubleAssert isNotFinite")
 class DoubleAssert_isNotFinite_Test extends DoubleAssertBaseTest {
 
   @Override

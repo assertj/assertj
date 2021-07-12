@@ -20,7 +20,6 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.DoubleArrayAssert;
 import org.assertj.core.api.DoubleArrayAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -28,7 +27,6 @@ import org.junit.jupiter.api.Test;
  *
  * @author Omar Morales Ortega
  */
-@DisplayName("DoubleArrayAssert containsExactlyInAnyOrder(Double[])")
 class DoubleArrayAssert_containsExactlyInAnyOrder_with_Double_array_Test extends DoubleArrayAssertBaseTest {
 
   @Test

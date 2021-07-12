@@ -19,14 +19,12 @@ import java.util.List;
 
 import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 
 /**
  * Tests for <code>{@link AtomicReferenceArrayAssert#containsOnlyOnceElementsOf(Iterable)}</code>.
  *
  * @author CAL027
  */
-@DisplayName("AtomicReferenceArrayAssert containsOnlyOnceElementsOf")
 class AtomicReferenceArrayAssert_containsOnlyOnceElementsOf_Test extends AtomicReferenceArrayAssertBaseTest {
 
   private final List<String> values = newArrayList("Yoda", "Luke");

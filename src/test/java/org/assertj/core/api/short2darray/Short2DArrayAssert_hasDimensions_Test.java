@@ -16,14 +16,12 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Short2DArrayAssert;
 import org.assertj.core.api.Short2DArrayAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 
 /**
  * Tests for <code>{@link Short2DArrayAssert#hasDimensions(int, int)}</code>.
  * 
  * @author Maciej Wajcht
  */
-@DisplayName("Short2DArrayAssert hasDimensions")
 class Short2DArrayAssert_hasDimensions_Test extends Short2DArrayAssertBaseTest {
 
   @Override

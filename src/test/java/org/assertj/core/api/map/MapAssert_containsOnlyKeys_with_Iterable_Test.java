@@ -30,7 +30,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("MapAssert containsOnlyKeys(Iterable)")
 class MapAssert_containsOnlyKeys_with_Iterable_Test extends MapAssertBaseTest {
 
   @Override

@@ -46,6 +46,7 @@ class SoftProxies {
                                                                                                                                    "asList",
                                                                                                                                    "asString",
                                                                                                                                    "asHexString",
+                                                                                                                                   "content",
                                                                                                                                    "decodedAsBase64",
                                                                                                                                    "encodedAsBase64",
                                                                                                                                    "extracting",

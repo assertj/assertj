@@ -32,17 +32,15 @@ import org.assertj.core.internal.ExtendedByTypesComparator;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("deprecation")
-@DisplayName("AtomicReferenceArrayAssert usingComparatorForType")
 class AtomicReferenceArrayAssert_usingComparatorForType_Test extends AtomicReferenceArrayAssertBaseTest {
 
   private ObjectArrays arraysBefore;
 
-  private Jedi actual = new Jedi("Yoda", "green");
-  private Jedi other = new Jedi("Luke", "blue");
+  private final Jedi actual = new Jedi("Yoda", "green");
+  private final Jedi other = new Jedi("Luke", "blue");
 
   @BeforeEach
   void before() {

@@ -16,14 +16,12 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Byte2DArrayAssert;
 import org.assertj.core.api.Byte2DArrayAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 
 /**
  * Tests for <code>{@link Byte2DArrayAssert#isNotEmpty()}</code>.
  * 
  * @author Maciej Wajcht
  */
-@DisplayName("Byte2DArrayAssert isNotEmpty")
 class Byte2DArrayAssert_isNotEmpty_Test extends Byte2DArrayAssertBaseTest {
 
   @Override

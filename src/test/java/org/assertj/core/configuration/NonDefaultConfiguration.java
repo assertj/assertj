@@ -75,4 +75,9 @@ class NonDefaultConfiguration extends Configuration {
   public List<DateFormat> additionalDateFormats() {
     return list(DATE_FORMAT1, DATE_FORMAT2);
   }
+  
+  @Override
+  public PreferredAssumptionException preferredAssumptionException() {
+    return PreferredAssumptionException.TEST_NG;
+  }
 }

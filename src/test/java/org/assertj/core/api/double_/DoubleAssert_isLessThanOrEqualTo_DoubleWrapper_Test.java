@@ -19,13 +19,11 @@ import static org.mockito.Mockito.verifyNoInteractions;
 
 import org.assertj.core.api.DoubleAssert;
 import org.assertj.core.api.DoubleAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("DoubleAssert isLessThanOrEqualTo")
 class DoubleAssert_isLessThanOrEqualTo_DoubleWrapper_Test extends DoubleAssertBaseTest {
 
-  private Double other = 11.0D;
+  private final Double other = 11.0D;
 
   @Override
   protected DoubleAssert invoke_api_method() {

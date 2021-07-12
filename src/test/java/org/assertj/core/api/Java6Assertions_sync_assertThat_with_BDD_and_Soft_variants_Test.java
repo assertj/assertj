@@ -41,7 +41,7 @@ class Java6Assertions_sync_assertThat_with_BDD_and_Soft_variants_Test extends Ba
     Method[] assertThatSoftMethods = findMethodsWithName(Java6StandardSoftAssertionsProvider.class, "assertThat");
 
     // ignore the return type of soft assertions until they have the same as the Assertions
-    assertThat(assertThatMethods).usingElementComparator(IGNORING_DECLARING_CLASS_ONLY)
+    assertThat(assertThatMethods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_RETURN_TYPE)
                                  .containsExactlyInAnyOrder(assertThatSoftMethods);
 
   }
@@ -54,7 +54,7 @@ class Java6Assertions_sync_assertThat_with_BDD_and_Soft_variants_Test extends Ba
     Method[] thenSoftMethods = findMethodsWithName(Java6BDDSoftAssertionsProvider.class, "then");
 
     // ignore the return type of soft assertions until they have the same as the Assertions
-    assertThat(thenMethods).usingElementComparator(IGNORING_DECLARING_CLASS_ONLY)
+    assertThat(thenMethods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_RETURN_TYPE)
                            .containsExactlyInAnyOrder(thenSoftMethods);
 
   }

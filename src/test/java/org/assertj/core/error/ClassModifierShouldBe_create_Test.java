@@ -19,10 +19,8 @@ import static org.assertj.core.error.ClassModifierShouldBe.shouldBePublic;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeFinal;
 
 import org.assertj.core.internal.TestDescription;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("ClassModifierShouldBe create")
 class ClassModifierShouldBe_create_Test {
 
   @Test

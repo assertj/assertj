@@ -1,7 +1,8 @@
 # AssertJ - Fluent assertions for java
 
-[![Github CI status](https://github.com/assertj/assertj-core/workflows/CI/badge.svg)](https://github.com/assertj/assertj-core/actions?query=workflow%3ACI) 
-[![Github Cross-Version status](https://github.com/assertj/assertj-core/workflows/Cross-Version/badge.svg)](https://github.com/assertj/assertj-core/actions?query=workflow%3ACross-Version) 
+[![Github CI status](https://github.com/assertj/assertj-core/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/assertj/assertj-core/actions/workflows/main.yml?query=branch%3Amain)
+[![Github Cross-Version status](https://github.com/assertj/assertj-core/actions/workflows/cross-version.yml/badge.svg?branch=main)](https://github.com/assertj/assertj-core/actions/workflows/cross-version.yml?query=branch%3Amain)
+[![Binary Compatibility](https://github.com/assertj/assertj-core/actions/workflows/binary-compatibility.yml/badge.svg?branch=main)](https://github.com/assertj/assertj-core/actions/workflows/binary-compatibility.yml?query=branch%3Amain)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.assertj/assertj-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.assertj/assertj-core)
 [![Javadocs](http://www.javadoc.io/badge/org.assertj/assertj-core.svg)](http://www.javadoc.io/doc/org.assertj/assertj-core)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=joel-costigliola_assertj-core&metric=alert_status)](https://sonarcloud.io/dashboard?id=joel-costigliola_assertj-core)

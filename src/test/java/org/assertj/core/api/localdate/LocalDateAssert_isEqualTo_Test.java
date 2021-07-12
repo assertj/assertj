@@ -21,7 +21,6 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import java.time.LocalDate;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -30,7 +29,6 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@DisplayName("LocalDateAssert isEqualTo")
 class LocalDateAssert_isEqualTo_Test extends LocalDateAssertBaseTest {
 
   @Test

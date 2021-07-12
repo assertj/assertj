@@ -16,12 +16,10 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ClassAssert;
 import org.assertj.core.api.ClassAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 
 /**
  * Tests for <code>{@link ClassAssert#isPackagePrivate()}</code>.
  */
-@DisplayName("ClassAssert isPackagePrivate")
 class ClassAssert_isPackagePrivate_Test extends ClassAssertBaseTest {
 
   @Override

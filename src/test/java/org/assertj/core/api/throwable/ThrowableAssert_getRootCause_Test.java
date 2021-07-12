@@ -17,14 +17,12 @@ import static org.assertj.core.error.ShouldHaveRootCause.shouldHaveRootCause;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("ThrowableAssert getRootCause")
 class ThrowableAssert_getRootCause_Test {
 
-  private Throwable rootCause = new NullPointerException();
-  private Throwable cause = new RuntimeException(rootCause);
+  private final Throwable rootCause = new NullPointerException();
+  private final Throwable cause = new RuntimeException(rootCause);
 
   @Test
   void should_return_throwable_assertions_for_actual_root_cause() {

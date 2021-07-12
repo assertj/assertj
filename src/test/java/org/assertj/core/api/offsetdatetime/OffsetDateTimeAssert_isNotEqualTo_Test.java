@@ -27,19 +27,17 @@ import java.time.format.DateTimeParseException;
 import org.assertj.core.api.AbstractOffsetDateTimeAssertBaseTest;
 import org.assertj.core.api.OffsetDateTimeAssert;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Only test String based assertion (tests with {@link java.time.OffsetDateTime} are already defined in assertj-core)
+ * Only test String based assertion (tests with {@link OffsetDateTime} are already defined in assertj-core)
  *
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@DisplayName("OffsetDateTimeAssert isNotEqualTo")
 class OffsetDateTimeAssert_isNotEqualTo_Test extends AbstractOffsetDateTimeAssertBaseTest {
 
-  private Object otherType = new Object();
+  private final Object otherType = new Object();
 
   @Override
   protected OffsetDateTimeAssert invoke_api_method() {

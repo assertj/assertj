@@ -218,7 +218,7 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  default <T extends Comparable<? super T>> GenericComparableAssert<T> then(T actual) {
+  default <T extends Comparable<? super T>> AbstractComparableAssert<?, T> then(T actual) {
     return proxy(GenericComparableAssert.class, Comparable.class, actual);
   }
 
@@ -802,7 +802,7 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    */
   @CanIgnoreReturnValue
-  default ThrowableAssert thenThrownBy(ThrowingCallable shouldRaiseThrowable) {
+  default AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowingCallable shouldRaiseThrowable) {
     return then(catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
   }
 
@@ -840,7 +840,7 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.9.0
    */
   @CanIgnoreReturnValue
-  default ThrowableAssert thenThrownBy(ThrowingCallable shouldRaiseThrowable,
+  default AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowingCallable shouldRaiseThrowable,
                                                                        String description, Object... args) {
     return then(catchThrowable(shouldRaiseThrowable)).as(description, args).hasBeenThrown();
   }
@@ -880,7 +880,7 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @since 3.7.0
    */
-  default ThrowableAssert thenCode(ThrowingCallable shouldRaiseOrNotThrowable) {
+  default AbstractThrowableAssert<?, ? extends Throwable> thenCode(ThrowingCallable shouldRaiseOrNotThrowable) {
     return then(catchThrowable(shouldRaiseOrNotThrowable));
   }
 
@@ -925,7 +925,7 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default UrlAssert then(URL actual) {
+  default AbstractUrlAssert<?> then(URL actual) {
     return proxy(UrlAssert.class, URL.class, actual);
   }
 

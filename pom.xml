@@ -2,15 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>assertj-core</artifactId>
-  <version>3.19.1-SNAPSHOT</version>
+  <version>3.21.0-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>AssertJ fluent assertions</name>
   <description>Rich and fluent assertions for testing for Java</description>
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent-pom</artifactId>
-    <version>2.2.10</version>
-    <relativePath />
+    <version>2.2.13</version>
+    <relativePath/>
   </parent>
   <scm>
     <developerConnection>scm:git:git@github.com:assertj/assertj-core.git</developerConnection>
@@ -25,16 +25,17 @@
 
   <properties>
     <javadocAdditionalOptions>-html5 --allow-script-in-comments --no-module-directories</javadocAdditionalOptions>
-    <byte-buddy.version>1.11.1</byte-buddy.version>
+    <byte-buddy.version>1.11.6</byte-buddy.version>
+    <hamcrest.version>2.2</hamcrest.version>
     <opentest4j.version>1.2.0</opentest4j.version>
     <bnd.version>5.3.0</bnd.version>
+    <cdg.pitest.version>0.0.11</cdg.pitest.version>
     <!-- Dependency versions overriding -->
     <junit.version>4.13.2</junit.version>
     <junit-jupiter.version>5.7.2</junit-jupiter.version>
-    <mockito.version>3.10.0</mockito.version>
+    <mockito.version>3.11.2</mockito.version>
     <!-- Plugin versions overriding -->
     <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
-    <cdg.pitest.version>0.0.8</cdg.pitest.version>
   </properties>
 
   <dependencyManagement>
@@ -52,7 +53,7 @@
       <dependency>
         <groupId>org.hamcrest</groupId>
         <artifactId>hamcrest</artifactId>
-        <version>2.2</version>
+        <version>${hamcrest.version}</version>
       </dependency>
       <dependency>
         <groupId>org.opentest4j</groupId>
@@ -133,7 +134,7 @@
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.12.3</version>
+      <version>2.12.4</version>
       <scope>test</scope>
     </dependency>
     <!-- NEEDED! Unlike File, a Path is not linked to the JRE's filesystem. In order to accurately test assertions, we need
@@ -167,25 +168,25 @@
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.9.0</version>
+      <version>2.10.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>nl.jqno.equalsverifier</groupId>
       <artifactId>equalsverifier</artifactId>
-      <version>3.6.1</version>
+      <version>3.7</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.eclipse.platform</groupId>
       <artifactId>org.eclipse.osgi</artifactId>
-      <version>3.16.200</version>
+      <version>3.16.300</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
-      <version>5.3.7</version>
+      <version>5.3.8</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -212,7 +213,7 @@
                     <exclude>*:*:*:jar:compile</exclude>
                   </excludes>
                 </bannedDependencies>
-                <dependencyConvergence />
+                <dependencyConvergence/>
                 <requireJavaVersion>
                   <version>[11,)</version>
                 </requireJavaVersion>
@@ -612,7 +613,7 @@
       <plugin>
         <groupId>org.pitest</groupId>
         <artifactId>pitest-maven</artifactId>
-        <version>1.6.6</version>
+        <version>1.6.7</version>
         <dependencies>
           <dependency>
             <groupId>org.pitest</groupId>
@@ -634,6 +635,11 @@
     </plugins>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>org.sonarsource.scanner.maven</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>3.9.0.2155</version>
+        </plugin>
         <plugin>
           <groupId>net.alchim31.maven</groupId>
           <artifactId>yuicompressor-maven-plugin</artifactId>
@@ -658,11 +664,57 @@
                     </goals>
                   </pluginExecutionFilter>
                   <action>
-                    <ignore />
+                    <ignore/>
                   </action>
                 </pluginExecution>
               </pluginExecutions>
             </lifecycleMappingMetadata>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>com.github.siom79.japicmp</groupId>
+          <artifactId>japicmp-maven-plugin</artifactId>
+          <version>0.15.3</version>
+          <configuration>
+            <dependencies>
+              <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest</artifactId>
+                <version>${hamcrest.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${junit-jupiter.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>org.opentest4j</groupId>
+                <artifactId>opentest4j</artifactId>
+                <version>${opentest4j.version}</version>
+              </dependency>
+            </dependencies>
+            <parameter>
+              <excludes>
+                <exclude>org.assertj.core.internal</exclude>
+              </excludes>
+              <onlyBinaryIncompatible>true</onlyBinaryIncompatible>
+              <onlyModified>true</onlyModified>
+              <overrideCompatibilityChangeParameters>
+                <!-- Unlikely that AssertJ users will encounter an IncompatibleClassChangeError (ref: JLS 13.5.6) -->
+                <overrideCompatibilityChangeParameter>
+                  <compatibilityChange>METHOD_NEW_DEFAULT</compatibilityChange>
+                  <binaryCompatible>true</binaryCompatible>
+                  <sourceCompatible>true</sourceCompatible>
+                </overrideCompatibilityChangeParameter>
+              </overrideCompatibilityChangeParameters>
+              <reportOnlyFilename>true</reportOnlyFilename>
+            </parameter>
+            <skipXmlReport>true</skipXmlReport>
           </configuration>
         </plugin>
       </plugins>
@@ -715,6 +767,26 @@
             <version>${cdg.pitest.version}</version>
           </plugin>
         </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>japicmp-branch</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>com.github.siom79.japicmp</groupId>
+              <artifactId>japicmp-maven-plugin</artifactId>
+              <configuration>
+                <oldVersion>
+                  <file>
+                    <path>${japicmp.oldVersion.basedir}/target/${project.build.finalName}.${project.packaging}</path>
+                  </file>
+                </oldVersion>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
       </build>
     </profile>
   </profiles>

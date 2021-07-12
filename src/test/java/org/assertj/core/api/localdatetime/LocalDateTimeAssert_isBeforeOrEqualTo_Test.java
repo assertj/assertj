@@ -23,7 +23,6 @@ import java.time.format.DateTimeParseException;
 import org.assertj.core.api.AbstractLocalDateTimeAssertBaseTest;
 import org.assertj.core.api.LocalDateTimeAssert;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -31,7 +30,6 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@DisplayName("LocalDateTimeAssert isBeforeOrEqualTo")
 class LocalDateTimeAssert_isBeforeOrEqualTo_Test extends AbstractLocalDateTimeAssertBaseTest {
 
   @Override
