@@ -230,12 +230,12 @@ public class Paths {
   }
 
   public void assertHasSize(final AssertionInfo info, final Path actual, long expectedSize) {
-    assertExists(info, actual);
+    assertIsRegularFile(info, actual);
     try {
       long actualSize = nioFilesWrapper.size(actual);
-      if (actualSize != expectedSize) throw failures.failure(info, shouldHaveSize(actual, expectedSize, actualSize));
+      if (actualSize != expectedSize) throw failures.failure(info, shouldHaveSize(actual, expectedSize));
     } catch(IOException e) {
-      throw new UncheckedIOException(format("unable to verify the size of the path: <$s>", actual), e);
+      throw new UncheckedIOException(format("unable to verify the size of the path: <%s>", actual), e);
     }
   }
 

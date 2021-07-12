@@ -12,27 +12,21 @@
  */
 package org.assertj.core.api.path;
 
-import org.assertj.core.api.PathAssert;
-import org.assertj.core.api.PathAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
-
 import static org.mockito.Mockito.verify;
 
-/**
- * Tests for <code>{@link PathAssert#hasSize(long)}</code>
- */
-@DisplayName("PathAssert hasSize")
-class PathAssert_hasSize_Test extends PathAssertBaseTest {
+import org.assertj.core.api.PathAssert;
+import org.assertj.core.api.PathAssertBaseTest;
 
-  private long expected = 22L;
+class PathAssert_hasSize_Test extends PathAssertBaseTest {
 
   @Override
   protected PathAssert invoke_api_method() {
-    return assertions.hasSize(expected);
+    return assertions.hasSize(0L);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(paths).assertHasSize(getInfo(assertions), getActual(assertions), expected);
+    verify(paths).assertHasSize(getInfo(assertions), getActual(assertions), 0L);
   }
+
 }

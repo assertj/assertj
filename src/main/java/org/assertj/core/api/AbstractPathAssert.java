@@ -1113,7 +1113,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   /**
    * Assert that the tested {@link Path} has the given size in bytes.
    * <p>
-   * Note that the actual {@link Path} must exist and must be readable.
+   * Note that the actual {@link Path} must exist and be a regular file.
    * </p>
    *
    * Examples:
@@ -1136,9 +1136,10 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @return {@code this} assertion object
    * @throws AssertionError is the actual {@code Path} is {@code null}.
    * @throws AssertionError if the actual {@code Path} does not exist.
-   * @throws AssertionError if the actual {@code Path} is not readable.
+   * @throws AssertionError if the actual {@code Path} is not a regular file.
    * @throws AssertionError if the actual {@code Path} file size is not equal to the expected size.
    * @throws UncheckedIOException if any I/O error occurs.
+   * @since 3.21.0
    */
   public SELF hasSize(long expectedSize) {
     paths.assertHasSize(info, actual, expectedSize);

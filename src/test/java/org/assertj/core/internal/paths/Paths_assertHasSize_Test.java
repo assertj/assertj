@@ -12,45 +12,42 @@
  */
 package org.assertj.core.internal.paths;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeRegularFile.shouldBeRegularFile;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
-
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Paths;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
-/**
- * Tests for <code>{@link Paths#assertHasSize(AssertionInfo, Path, long)} </code>
- */
-@DisplayName("Paths assertHasSize")
-class Paths_assertHasSize_Test extends MockPathsBaseTest {
+import org.assertj.core.internal.PathsBaseTest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
-  private long expectedSize;
+class Paths_assertHasSize_Test extends PathsBaseTest {
+
+  @TempDir
+  Path tempDir;
 
   @BeforeEach
-  public void setUpPath() {
-    given(nioFilesWrapper.exists(actual)).willReturn(true);
-    given(nioFilesWrapper.isReadable(actual)).willReturn(true);
-    expectedSize = 1L;
+  void setUpNioFilesWrapper() throws IOException {
+    given(nioFilesWrapper.exists(any())).willCallRealMethod();
+    given(nioFilesWrapper.isRegularFile(any())).willCallRealMethod();
+    given(nioFilesWrapper.size(any())).willCallRealMethod();
   }
 
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasSize(info, null, expectedSize));
+    AssertionError error = expectAssertionError(() -> paths.assertHasSize(info, null, 0L));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -58,41 +55,53 @@ class Paths_assertHasSize_Test extends MockPathsBaseTest {
   @Test
   void should_fail_if_actual_does_not_exist() {
     // GIVEN
-    given(nioFilesWrapper.exists(actual)).willReturn(false);
+    Path actual = tempDir.resolve("non-existent");
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasSize(info, actual, expectedSize));
+    AssertionError error = expectAssertionError(() -> paths.assertHasSize(info, actual, 0L));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
 
   @Test
-  void should_throw_IOException_if_IO_error_occurs_when_finding_path_size() throws IOException {
+  void should_fail_if_actual_is_not_regular_file() throws IOException {
     // GIVEN
-    IOException exception = new IOException();
-    given(nioFilesWrapper.size(actual)).willThrow(exception);
-    // THEN
-    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> paths.assertHasSize(info, actual, expectedSize))
-      .withMessage(format("unable to verify the size of the path: <$s>", actual));
-  }
-
-  @Test
-  void should_pass_if_actual_size_equals_expected_size() throws IOException{
-    // GIVEN
-    long actualSize = expectedSize;
-    given(nioFilesWrapper.size(actual)).willReturn(actualSize);
-    // THEN
-    paths.assertHasSize(info, actual, expectedSize);
-  }
-
-  @Test
-  void should_fail_if_actual_size_does_not_equal_expected_size() throws IOException{
-    // GIVEN
-    long actualSize = 2L;
-    given(nioFilesWrapper.size(actual)).willReturn(actualSize);
+    Path actual = Files.createDirectory(tempDir.resolve("directory"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasSize(info, actual, expectedSize));
+    AssertionError error = expectAssertionError(() -> paths.assertHasSize(info, actual, 0L));
     // THEN
-    then(error).hasMessage(shouldHaveSize(actual, expectedSize, actualSize).create());
+    then(error).hasMessage(shouldBeRegularFile(actual).create());
+  }
+
+  @Test
+  void should_rethrow_IOException_as_UncheckedIOException() throws IOException {
+    // GIVEN
+    Path actual = Files.createFile(tempDir.resolve("actual"));
+    IOException exception = new IOException("boom!");
+    given(nioFilesWrapper.size(actual)).willThrow(exception);
+    // WHEN
+    Throwable thrown = catchThrowable(() -> paths.assertHasSize(info, actual, 0L));
+    // THEN
+    then(thrown).isInstanceOf(UncheckedIOException.class)
+                .hasMessage("unable to verify the size of the path: <%s>", actual)
+                .hasCause(exception);
+  }
+
+  @Test
+  void should_pass_if_actual_size_is_equal_to_expected_size() throws IOException {
+    // GIVEN
+    Path actual = Files.write(tempDir.resolve("actual"), "content".getBytes());
+    // WHEN/THEN
+    paths.assertHasSize(info, actual, 7L);
+  }
+
+  @Test
+  void should_fail_if_actual_size_is_not_equal_to_expected_size() throws IOException {
+    // GIVEN
+    Path actual = Files.write(tempDir.resolve("actual"), "content".getBytes());
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertHasSize(info, actual, 6L));
+    // THEN
+    then(error).hasMessage(shouldHaveSize(actual, 6L).create());
   }
 
 }
