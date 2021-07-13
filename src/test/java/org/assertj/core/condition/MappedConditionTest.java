@@ -19,6 +19,7 @@ import static org.assertj.core.api.BDDAssertions.thenNullPointerException;
 import static org.assertj.core.condition.MappedCondition.mappedCondition;
 
 import java.util.Optional;
+import java.util.function.Function;
 
 import org.assertj.core.api.Condition;
 import org.junit.jupiter.api.Test;
@@ -110,6 +111,22 @@ class MappedConditionTest {
     // WHEN/THEN
     thenNullPointerException().isThrownBy(() -> mappedCondition(StringBuilder::toString, isBarString, nullDescription))
                               .withMessage("The given mappingDescription should not be null");
+  }
+
+  @Test
+  void mappedCondition_should_handle_null_values_in_description() {
+    // GIVEN
+    Condition<Object> isNull = new Condition<>(o -> o == null, "is null");
+    MappedCondition<Object, Object> mapped = mappedCondition(Function.identity(), isNull, "identity");
+    // WHEN
+    mapped.matches(null);
+    // THEN
+    then(mapped).hasToString(format("mapped%n" +
+                                    "   using: identity%n" +
+                                    "   from: null%n" +
+                                    "   to:   null%n" +
+                                    "   then checked:%n" +
+                                    "      is null   "));
   }
 
   @Test

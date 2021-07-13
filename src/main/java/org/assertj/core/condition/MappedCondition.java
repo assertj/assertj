@@ -133,11 +133,20 @@ public class MappedCondition<FROM, TO> extends Condition<FROM> {
   protected String buildMappingDescription(FROM from, TO to) {
     StringBuilder sb = new StringBuilder("mapped");
     if (!mappingDescription.isEmpty()) sb.append(format("%n   using: %s", mappingDescription));
-    sb.append(format("%n   from: <%s> %s%n", from.getClass().getSimpleName(), from));
-    sb.append(format("   to:   <%s> %s%n", to.getClass().getSimpleName(), from, to));
+    
+    if (from == null) sb.append(format("%n   from: %s%n", from));
+    else sb.append(format("%n   from: <%s> %s%n", className(from), from));
+    
+    if (to == null) sb.append(format("   to:   %s%n", to));
+    else sb.append(format("   to:   <%s> %s%n", className(to), to));
+    
     sb.append("   then checked:");
     sb.append(format("%n      %-10s", condition));
     return sb.toString();
+  }
+
+  private static String className(Object object) {
+    return object.getClass().getSimpleName();
   }
 
 }
