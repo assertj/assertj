@@ -14,11 +14,13 @@ package org.assertj.core.condition;
 
 import static java.lang.String.format;
 import static java.lang.System.lineSeparator;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenNullPointerException;
 import static org.assertj.core.condition.MappedCondition.mappedCondition;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import org.assertj.core.api.Condition;
 import org.junit.jupiter.api.Test;
@@ -110,6 +112,14 @@ class MappedConditionTest {
     // WHEN/THEN
     thenNullPointerException().isThrownBy(() -> mappedCondition(StringBuilder::toString, isBarString, nullDescription))
                               .withMessage("The given mappingDescription should not be null");
+  }
+
+  @Test
+  void mappedCondition_with_null_supplyer_function_should_print_null() {
+   MappedCondition<Supplier<Object>, Object> mapped= mappedCondition( Supplier::get,new Condition<>(o->o==null,"is null"), "Supplier::get");
+   boolean b= mapped.matches(()->null);
+   then(b).isTrue();
+   then(mapped.toString()).contains("to:   <null> null");
   }
 
   @Test
