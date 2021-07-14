@@ -14,11 +14,14 @@ package org.assertj.core.condition;
 
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
+import static org.assertj.core.util.Lists.list;
 
 import java.util.function.Function;
 
 import org.assertj.core.annotations.Beta;
 import org.assertj.core.api.Condition;
+import org.assertj.core.description.Description;
+import org.assertj.core.description.JoinDescription;
 
 /**
  * Container {@link Condition} that maps the object under test and then check the resulting mapped value against its nested {@link Condition}.
@@ -131,18 +134,38 @@ public class MappedCondition<FROM, TO> extends Condition<FROM> {
    * @return the mapped condition description .
    */
   protected String buildMappingDescription(FROM from, TO to) {
+
+    return buildMappingDescription(from, to, true);
+  }
+
+  private String buildMappingDescription(FROM from, TO to, boolean withNested) {
+
     StringBuilder sb = new StringBuilder("mapped");
     if (!mappingDescription.isEmpty()) sb.append(format("%n   using: %s", mappingDescription));
-    
+
     if (from == null) sb.append(format("%n   from: %s%n", from));
     else sb.append(format("%n   from: <%s> %s%n", className(from), from));
-    
+
     if (to == null) sb.append(format("   to:   %s%n", to));
     else sb.append(format("   to:   <%s> %s%n", className(to), to));
-    
+
     sb.append("   then checked:");
-    sb.append(format("%n      %-10s", condition));
+    if (withNested) {
+      sb.append(format("%n      %-10s", condition));
+    }
     return sb.toString();
+  }
+
+  @Override
+  public Description conditionDescriptionWithStatus(FROM actual) {
+    TO mappedObject = mapping.apply(actual);
+    Description descriptionsWithStatus = condition.conditionDescriptionWithStatus(mappedObject);
+    String status = status(actual).label;
+    StringBuilder sb = new StringBuilder(status);
+    sb.append(" ");
+    sb.append(buildMappingDescription(actual, mappedObject, false));
+
+    return new JoinDescription(sb.toString(), "]", list(descriptionsWithStatus));
   }
 
   private static String className(Object object) {

@@ -54,6 +54,17 @@ class MappedConditionTest {
                                                                  "   then checked:%n" +
                                                                  "      " + INNER_CONDITION_DESCRIPTION);
 
+  private final static String FOO_CONDITION_DESCRIPTION_STATUS = format("[✗] mapped%n" +
+                                                                        "   using: ::toString%n" +
+                                                                        "   from: <StringBuilder> a -%n" +
+                                                                        "   to:   <String> a -%n" +
+                                                                        "   then checked:%n" +
+                                                                        "   [✗] all of:[%n" +
+                                                                        "      [✓] has -,%n" +
+                                                                        "      [✗] is longer 4%n" +
+                                                                        "   ]%n" +
+                                                                        "]");
+
   @Test
   void mappedCondition_withDescription_works() {
     // WHEN
@@ -139,5 +150,20 @@ class MappedConditionTest {
     boolean matches = mappedCondition.matches(optionalString);
     // THEN
     then(matches).isTrue();
+  }
+
+  @Test
+  void mappedCondition_conditionDescriptionWithStatus_works() {
+    // GIVEN
+    StringBuilder theString = new StringBuilder("a -");
+    Condition<String> hasLineSeparator = new Condition<>(text -> text.contains("-"), "has -");
+    Condition<String> isLonger = new Condition<>(text -> text.length() > 4, "is longer 4");
+    // WHEN
+    Condition<StringBuilder> mappedCondition = mappedCondition(StringBuilder::toString, AllOf.allOf(hasLineSeparator, isLonger),
+                                                               "::toString");
+    boolean matches = mappedCondition.matches(theString);
+    // THEN
+    then(mappedCondition.conditionDescriptionWithStatus(theString)).hasToString(FOO_CONDITION_DESCRIPTION_STATUS);
+    then(matches).isFalse();
   }
 }
