@@ -39,7 +39,12 @@ import org.assertj.core.util.Strings;
 import org.junit.jupiter.api.BeforeEach;
 
 import com.google.common.collect.Iterators;
+import org.junit.jupiter.api.io.TempDir;
 
+/**
+ * @deprecated favor tests based on {@link PathsBaseTest} and JUnit 5 {@link TempDir}.
+ */
+@Deprecated
 public class MockPathsBaseTest extends PathsBaseTest {
 
   static final AssertionInfo INFO = someInfo();
