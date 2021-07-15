@@ -12,53 +12,62 @@
  */
 package org.assertj.core.internal.paths;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.ThrowableAssert.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeCanonicalPath.shouldBeCanonicalPath;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.assertj.core.api.exception.PathsException;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
 
-class Paths_assertIsCanonical_Test extends MockPathsBaseTest {
+class Paths_assertIsCanonical_Test extends PathsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsCanonical(info, null))
-                                                   .withMessage(actualIsNull());
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertIsCanonical(info, null));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_throw_PathsException_on_io_error() throws IOException {
-    final IOException exception = new IOException();
-    when(actual.toRealPath()).thenThrow(exception);
-
-    assertThatExceptionOfType(PathsException.class).isThrownBy(() -> paths.assertIsCanonical(info, actual))
-                                                   .withMessage("failed to resolve actual real path")
-                                                   .withCause(exception);
+  void should_rethrow_IOException_as_UncheckedIOException() throws IOException {
+    // GIVEN
+    Path actual = mock(Path.class);
+    IOException exception = new IOException("boom!");
+    given(actual.toRealPath()).willThrow(exception);
+    // WHEN
+    Throwable thrown = Assertions.catchThrowable(() -> paths.assertIsCanonical(info, actual));
+    // THEN
+    then(thrown).isInstanceOf(UncheckedIOException.class)
+                .hasCause(exception);
   }
 
   @Test
-  void should_fail_if_actual_real_path_differs_from_actual() throws IOException {
-    final Path other = mock(Path.class);
-    when(actual.toRealPath()).thenReturn(other);
-
-    Throwable error = catchThrowable(() -> paths.assertIsCanonical(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeCanonicalPath(actual));
+  void should_fail_if_actual_is_not_canonical() throws IOException {
+    // GIVEN
+    Path file = Files.createFile(tempDir.resolve("file"));
+    Path actual = Files.createSymbolicLink(tempDir.resolve("actual"), file);
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertIsCanonical(info, actual));
+    // THEN
+    then(error).hasMessage(shouldBeCanonicalPath(actual).create());
   }
 
   @Test
-  void should_succeed_if_actual_real_path_is_same_as_actual() throws IOException {
-    when(actual.toRealPath()).thenReturn(actual);
+  void should_pass_if_actual_is_canonical() throws IOException {
+    // GIVEN
+    Path actual = Files.createFile(tempDir.resolve("actual")).toRealPath();
+    // WHEN/THEN
     paths.assertIsCanonical(info, actual);
   }
+
 }

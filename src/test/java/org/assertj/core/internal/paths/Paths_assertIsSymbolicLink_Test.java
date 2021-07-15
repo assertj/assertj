@@ -12,52 +12,56 @@
  */
 package org.assertj.core.internal.paths;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.ThrowableAssert.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeSymbolicLink.shouldBeSymbolicLink;
+import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldExist.shouldExistNoFollowLinks;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-import java.nio.file.LinkOption;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
+import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
 
-class Paths_assertIsSymbolicLink_Test extends MockPathsBaseTest {
+class Paths_assertIsSymbolicLink_Test extends PathsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsSymbolicLink(info, null))
-                                                   .withMessage(actualIsNull());
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertIsSymbolicLink(info, null));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_with_should_exist_error_if_actual_does_not_exist() {
-    when(nioFilesWrapper.exists(actual, LinkOption.NOFOLLOW_LINKS)).thenReturn(false);
-
-    Throwable error = catchThrowable(() -> paths.assertIsSymbolicLink(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldExistNoFollowLinks(actual));
+  void should_fail_if_actual_does_not_exist() {
+    // GIVEN
+    Path actual = tempDir.resolve("non-existent");
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertIsSymbolicLink(info, actual));
+    // THEN
+    then(error).hasMessage(shouldExistNoFollowLinks(actual).create());
   }
 
   @Test
-  void should_fail_if_actual_exists_but_is_not_a_symbolic_link() {
-    when(nioFilesWrapper.exists(actual, LinkOption.NOFOLLOW_LINKS)).thenReturn(true);
-    when(nioFilesWrapper.isSymbolicLink(actual)).thenReturn(false);
-
-    Throwable error = catchThrowable(() -> paths.assertIsSymbolicLink(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeSymbolicLink(actual));
+  void should_fail_if_actual_is_not_a_symbolic_link() throws IOException {
+    // GIVEN
+    Path actual = Files.createFile(tempDir.resolve("actual"));
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertIsSymbolicLink(info, actual));
+    // THEN
+    then(error).hasMessage(shouldBeSymbolicLink(actual).create());
   }
 
   @Test
-  void should_succeed_if_actual_is_a_symbolic_link() {
-    when(nioFilesWrapper.exists(actual, LinkOption.NOFOLLOW_LINKS)).thenReturn(true);
-    when(nioFilesWrapper.isSymbolicLink(actual)).thenReturn(true);
+  void should_succeed_if_actual_is_a_symbolic_link() throws IOException {
+    // GIVEN
+    Path actual = Files.createSymbolicLink(tempDir.resolve("actual"), tempDir.resolve("target"));
+    // WHEN/THEN
     paths.assertIsSymbolicLink(info, actual);
   }
+
 }

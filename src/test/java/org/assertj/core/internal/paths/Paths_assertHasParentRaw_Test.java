@@ -12,70 +12,95 @@
  */
 package org.assertj.core.internal.paths;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.ThrowableAssert.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
 
-class Paths_assertHasParentRaw_Test extends MockPathsBaseTest {
-
-  private Path expectedParent;
-
-  @Override
-  @BeforeEach
-  public void init() {
-    super.init();
-    expectedParent = mock(Path.class);
-  }
+class Paths_assertHasParentRaw_Test extends PathsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasParentRaw(info, null, expectedParent))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    Path expected = tempDir.resolve("expected");
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertHasParentRaw(info, null, expected));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_provided_parent_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> paths.assertHasParentRaw(info, actual, null))
-                                    .withMessage("expected parent path should not be null");
+  void should_fail_if_expected_is_null() {
+    // GIVEN
+    Path actual = tempDir.resolve("actual");
+    // WHEN
+    Throwable thrown = Assertions.catchThrowable(() -> paths.assertHasParentRaw(info, actual, null));
+    // THEN
+    then(thrown).isInstanceOf(NullPointerException.class)
+                .hasMessage("expected parent path should not be null");
   }
 
   @Test
   void should_fail_if_actual_has_no_parent() {
-    // This is the default, but...
-    when(actual.getParent()).thenReturn(null);
-
-    Throwable error = catchThrowable(() -> paths.assertHasParentRaw(info, actual, expectedParent));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveParent(actual, expectedParent));
+    // GIVEN
+    Path actual = tempDir.getRoot();
+    Path expected = tempDir.resolve("expected");
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertHasParentRaw(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldHaveParent(actual, expected).create());
   }
 
   @Test
-  void should_fail_if_actual_parent_is_not_expected_parent() {
-    final Path actualParent = mock(Path.class);
-    when(actual.getParent()).thenReturn(actualParent);
-
-    Throwable error = catchThrowable(() -> paths.assertHasParentRaw(info, actual, expectedParent));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveParent(actual, actualParent, expectedParent));
+  void should_fail_if_actual_parent_is_not_expected_parent() throws IOException {
+    // GIVEN
+    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path expected = Files.createFile(tempDir.resolve("expected"));
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertHasParentRaw(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldHaveParent(actual, actual.getParent(), expected).create());
   }
 
   @Test
-  void should_succeed_if_parent_is_expected_parent() {
-    when(actual.getParent()).thenReturn(expectedParent);
-
-    paths.assertHasParentRaw(info, actual, expectedParent);
+  void should_pass_if_actual_has_expected_parent() throws IOException {
+    // GIVEN
+    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path expected = tempDir;
+    // WHEN
+    paths.assertHasParentRaw(info, actual, expected);
   }
+
+  @Test
+  void should_fail_if_actual_is_not_canonical() throws IOException {
+    // GIVEN
+    Path expected = Files.createDirectory(tempDir.resolve("expected"));
+    Path file = Files.createFile(expected.resolve("file"));
+    Path actual = Files.createSymbolicLink(tempDir.resolve("actual"), file);
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertHasParentRaw(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldHaveParent(actual, actual.getParent(), expected).create());
+  }
+
+  @Test
+  void should_fail_if_expected_is_not_canonical() throws IOException {
+    // GIVEN
+    Path directory = Files.createDirectory(tempDir.resolve("directory"));
+    Path expected = Files.createSymbolicLink(tempDir.resolve("expected"), directory);
+    Path actual = Files.createFile(directory.resolve("actual"));
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertHasParentRaw(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldHaveParent(actual, actual.getParent(), expected).create());
+  }
+
 }

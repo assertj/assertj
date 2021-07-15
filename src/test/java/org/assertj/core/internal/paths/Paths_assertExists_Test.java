@@ -12,38 +12,64 @@
  */
 package org.assertj.core.internal.paths;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.ThrowableAssert.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldExist.shouldExist;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
 
-class Paths_assertExists_Test extends MockPathsBaseTest {
+class Paths_assertExists_Test extends PathsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertExists(info, null))
-                                                   .withMessage(actualIsNull());
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertExists(info, null));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_does_not_exist() {
-    when(nioFilesWrapper.exists(actual)).thenReturn(false);
-
-    Throwable error = catchThrowable(() -> paths.assertExists(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldExist(actual));
+    // GIVEN
+    Path actual = tempDir.resolve("non-existent");
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertExists(info, actual));
+    // THEN
+    then(error).hasMessage(shouldExist(actual).create());
   }
 
   @Test
-  void should_pass_if_actual_exists() {
-    when(nioFilesWrapper.exists(actual)).thenReturn(true);
+  void should_pass_if_actual_exists() throws IOException {
+    // GIVEN
+    Path actual = Files.createFile(tempDir.resolve("actual"));
+    // WHEN/THEN
     paths.assertExists(info, actual);
+  }
+
+  @Test
+  void should_pass_if_actual_is_a_symbolic_link_and_target_exists() throws IOException {
+    // GIVEN
+    Path target = Files.createFile(tempDir.resolve("target"));
+    Path actual = Files.createSymbolicLink(tempDir.resolve("actual"), target);
+    // WHEN/THEN
+    paths.assertExists(info, actual);
+  }
+
+  @Test
+  void should_fail_if_actual_is_a_symbolic_link_and_target_does_not_exist() throws IOException {
+    // GIVEN
+    Path target = tempDir.resolve("non-existent");
+    Path actual = Files.createSymbolicLink(tempDir.resolve("actual"), target);
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertExists(info, actual));
+    // THEN
+    then(error).hasMessage(shouldExist(actual).create());
   }
 
 }

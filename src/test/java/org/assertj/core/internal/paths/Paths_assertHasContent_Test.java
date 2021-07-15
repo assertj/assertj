@@ -12,128 +12,119 @@
  */
 package org.assertj.core.internal.paths;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static java.nio.charset.Charset.defaultCharset;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.condition.OS.WINDOWS;
+import static org.mockito.BDDMockito.given;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Paths;
 import org.assertj.core.internal.PathsBaseTest;
 import org.assertj.core.util.diff.Delta;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
 
 /**
- * Tests for <code>{@link Paths#assertHasContent(AssertionInfo, Path, String, Charset)}</code>.
- *
  * @author Olivier Michallat
  * @author Joel Costigliola
  */
 class Paths_assertHasContent_Test extends PathsBaseTest {
 
-  private static Path path;
-  private static String expected;
-  private static Charset charset;
-  private Path mockPath;
+  private static final Charset CHARSET = defaultCharset();
 
-  @BeforeAll
-  static void setUpOnce() {
-    // Does not matter if the values differ, the actual comparison is mocked in this test
-    path = new File("src/test/resources/actual_file.txt").toPath();
-    expected = "xyz";
-    charset = Charset.defaultCharset();
-  }
-
-  @BeforeEach
-  void init() {
-    mockPath = mock(Path.class);
+  @Test
+  void should_fail_if_expected_is_null() throws IOException {
+    // GIVEN
+    Path actual = Files.createFile(tempDir.resolve("actual"));
+    // WHEN
+    Throwable thrown = catchThrowable(() -> paths.assertHasContent(info, actual, null, CHARSET));
+    // THEN
+    then(thrown).isInstanceOf(NullPointerException.class)
+                .hasMessage("The text to compare to should not be null");
   }
 
   @Test
-  void should_pass_if_path_has_expected_text_content() throws IOException {
-    when(diff.diff(path, expected, charset)).thenReturn(new ArrayList<>());
-    when(nioFilesWrapper.exists(path)).thenReturn(true);
-    when(nioFilesWrapper.isReadable(path)).thenReturn(true);
-    paths.assertHasContent(someInfo(), path, expected, charset);
+  void should_fail_if_actual_is_null() throws IOException {
+    // GIVEN
+    String expected = "expected";
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertHasContent(info, null, expected, CHARSET));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_throw_error_if_expected_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> paths.assertHasContent(someInfo(), path, null, charset))
-                                    .withMessage("The text to compare to should not be null");
+  void should_fail_if_actual_does_not_exist() throws IOException {
+    // GIVEN
+    Path actual = tempDir.resolve("non-existent");
+    String expected = "expected";
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertHasContent(info, actual, expected, CHARSET));
+    // THEN
+    then(error).hasMessage(shouldExist(actual).create());
   }
 
   @Test
-  void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasContent(someInfo(), null, expected, charset))
-                                                   .withMessage(actualIsNull());
+  @DisabledOnOs(value = WINDOWS, disabledReason = "gh-FIXME")
+  void should_fail_if_actual_is_not_readable() throws IOException {
+    // GIVEN
+    Path actual = Files.createFile(tempDir.resolve("actual"));
+    actual.toFile().setReadable(false);
+    String expected = "expected";
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertHasContent(info, actual, expected, CHARSET));
+    // THEN
+    then(error).hasMessage(shouldBeReadable(actual).create());
+  }
+
+  // FIXME add cases with different encoding
+  @Test
+  void should_pass_if_actual_has_expected_textual_content() throws IOException {
+    // GIVEN
+    Path actual = Files.write(tempDir.resolve("actual"), "Content".getBytes());
+    String expected = "Content";
+    // WHEN/THEN
+    paths.assertHasContent(info, actual, expected, CHARSET);
   }
 
   @Test
-  void should_fail_if_actual_path_does_not_exist() {
-    AssertionInfo info = someInfo();
-    when(nioFilesWrapper.exists(mockPath)).thenReturn(false);
-
-    Throwable error = catchThrowable(() -> paths.assertHasContent(info, mockPath, expected, charset));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldExist(mockPath));
+  @DisabledOnOs(value = WINDOWS, disabledReason = "gh-FIXME")
+  void should_rethrow_IOException_as_UncheckedIOException() throws IOException {
+    // GIVEN
+    Path actual = Files.createFile(tempDir.resolve("actual"));
+    String expected = "expected";
+    IOException exception = new IOException("boom!");
+    given(diff.diff(actual, expected, CHARSET)).willThrow(exception);
+    // WHEN
+    Throwable thrown = catchThrowable(() -> paths.assertHasContent(info, actual, expected, CHARSET));
+    // THEN
+    then(thrown).isInstanceOf(UncheckedIOException.class)
+                .hasMessage("Unable to verify text contents of path:<%s>", actual)
+                .hasCause(exception);
   }
 
+  // FIXME add cases with different encoding
   @Test
-  void should_fail_if_actual_is_not_a_readable_file() {
-    AssertionInfo info = someInfo();
-    when(nioFilesWrapper.exists(mockPath)).thenReturn(true);
-    when(nioFilesWrapper.isReadable(mockPath)).thenReturn(false);
-
-    Throwable error = catchThrowable(() -> paths.assertHasContent(info, mockPath, expected, charset));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeReadable(mockPath));
+  void should_fail_if_actual_does_not_have_expected_textual_content() throws IOException {
+    // GIVEN
+    Path actual = Files.write(tempDir.resolve("actual"), "Content".getBytes());
+    String expected = "Another content";
+    List<Delta<String>> diffs = diff.diff(actual, expected, CHARSET);
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertHasContent(info, actual, expected, CHARSET));
+    // THEN
+    then(error).hasMessage(shouldHaveContent(actual, CHARSET, diffs).create(info.description(), info.representation()));
   }
 
-  @Test
-  void should_throw_error_wrapping_caught_IOException() throws IOException {
-    IOException cause = new IOException();
-    when(diff.diff(path, expected, charset)).thenThrow(cause);
-    when(nioFilesWrapper.exists(path)).thenReturn(true);
-    when(nioFilesWrapper.isReadable(path)).thenReturn(true);
-
-    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> paths.assertHasContent(someInfo(), path,
-                                                                                                  expected, charset))
-                                                         .withCause(cause);
-  }
-
-  @Test
-  void should_fail_if_path_does_not_have_expected_text_content() throws IOException {
-    List<Delta<String>> diffs = newArrayList((Delta<String>) mock(Delta.class));
-    when(diff.diff(path, expected, charset)).thenReturn(diffs);
-    when(nioFilesWrapper.exists(path)).thenReturn(true);
-    when(nioFilesWrapper.isReadable(path)).thenReturn(true);
-    AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> paths.assertHasContent(info, path, expected, charset));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveContent(path, charset, diffs));
-  }
 }

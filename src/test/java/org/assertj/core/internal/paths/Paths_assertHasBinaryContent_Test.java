@@ -12,120 +12,110 @@
  */
 package org.assertj.core.internal.paths;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
-import static org.assertj.core.internal.BinaryDiffResult.noDiff;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.condition.OS.WINDOWS;
+import static org.mockito.BDDMockito.given;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BinaryDiffResult;
-import org.assertj.core.internal.Paths;
 import org.assertj.core.internal.PathsBaseTest;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
 
-/**
- * Tests for <code>{@link Paths#assertHasBinaryContent(AssertionInfo, Path, byte[])}</code>.
- */
 class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
 
-  private static Path path;
-  private static byte[] expected;
-  private Path mockPath;
-
-  @BeforeAll
-  static void setUpOnce() {
-    // Does not matter if the values binaryDiffer, the actual comparison is mocked in this test
-    path = new File("src/test/resources/actual_file.txt").toPath();
-    expected = new byte[] { 0, 1 };
-  }
-
-  @BeforeEach
-  void init() {
-    mockPath = mock(Path.class);
+  @Test
+  void should_fail_if_expected_is_null() throws IOException {
+    // GIVEN
+    Path actual = Files.createFile(tempDir.resolve("actual"));
+    // WHEN
+    Throwable thrown = catchThrowable(() -> paths.assertHasBinaryContent(info, actual, null));
+    // THEN
+    then(thrown).isInstanceOf(NullPointerException.class)
+                .hasMessage("The binary content to compare to should not be null");
   }
 
   @Test
-  void should_pass_if_path_has_expected_text_content() throws IOException {
-    when(binaryDiff.diff(path, expected)).thenReturn(noDiff());
-    when(nioFilesWrapper.exists(path)).thenReturn(true);
-    when(nioFilesWrapper.isReadable(path)).thenReturn(true);
-    paths.assertHasBinaryContent(someInfo(), path, expected);
+  void should_fail_if_actual_is_null() throws IOException {
+    // GIVEN
+    byte[] expected = "expected".getBytes();
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertHasBinaryContent(info, null, expected));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_throw_error_if_expected_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> paths.assertHasBinaryContent(someInfo(), path, null))
-                                    .withMessage("The binary content to compare to should not be null");
+  void should_fail_if_actual_does_not_exist() throws IOException {
+    // GIVEN
+    Path actual = tempDir.resolve("non-existent");
+    byte[] expected = "expected".getBytes();
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertHasBinaryContent(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldExist(actual).create());
   }
 
   @Test
-  void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasBinaryContent(someInfo(), null, expected))
-                                                   .withMessage(actualIsNull());
+  @DisabledOnOs(value = WINDOWS, disabledReason = "gh-FIXME")
+  void should_fail_if_actual_is_not_readable() throws IOException {
+    // GIVEN
+    Path actual = Files.createFile(tempDir.resolve("actual"));
+    actual.toFile().setReadable(false);
+    byte[] expected = "expected".getBytes();
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertHasBinaryContent(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldBeReadable(actual).create());
+  }
+
+  // FIXME add cases with different encoding
+  @Test
+  void should_pass_if_actual_has_expected_binary_content() throws IOException {
+    // GIVEN
+    Path actual = Files.write(tempDir.resolve("actual"), "Content".getBytes());
+    byte[] expected = "Content".getBytes();
+    // WHEN/THEN
+    paths.assertHasBinaryContent(info, actual, expected);
   }
 
   @Test
-  void should_fail_if_actual_path_does_not_exist() {
-    AssertionInfo info = someInfo();
-    when(nioFilesWrapper.exists(mockPath)).thenReturn(false);
-
-    Throwable error = catchThrowable(() -> paths.assertHasBinaryContent(info, mockPath, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldExist(mockPath));
+  @DisabledOnOs(value = WINDOWS, disabledReason = "gh-FIXME")
+  void should_rethrow_IOException_as_UncheckedIOException() throws IOException {
+    // GIVEN
+    Path actual = Files.createFile(tempDir.resolve("actual"));
+    byte[] expected = "expected".getBytes();
+    IOException exception = new IOException("boom!");
+    given(binaryDiff.diff(actual, expected)).willThrow(exception);
+    // WHEN
+    Throwable thrown = catchThrowable(() -> paths.assertHasBinaryContent(info, actual, expected));
+    // THEN
+    then(thrown).isInstanceOf(UncheckedIOException.class)
+                .hasMessage("Unable to verify binary contents of path:<%s>", actual)
+                .hasCause(exception);
   }
 
+  // FIXME add cases with different encoding
   @Test
-  void should_fail_if_actual_is_not_a_readable_file() {
-    AssertionInfo info = someInfo();
-    when(nioFilesWrapper.exists(mockPath)).thenReturn(true);
-    when(nioFilesWrapper.isReadable(mockPath)).thenReturn(false);
-
-    Throwable error = catchThrowable(() -> paths.assertHasBinaryContent(info, mockPath, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeReadable(mockPath));
+  void should_fail_if_actual_does_not_have_expected_binary_content() throws IOException {
+    // GIVEN
+    Path actual = Files.write(tempDir.resolve("actual"), "Content".getBytes());
+    byte[] expected = "Another content".getBytes();
+    BinaryDiffResult diff = binaryDiff.diff(actual, expected);
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertHasBinaryContent(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldHaveBinaryContent(actual, diff).create(info.description(), info.representation()));
   }
 
-  @Test
-  void should_throw_error_wrapping_caught_IOException() throws IOException {
-    IOException cause = new IOException();
-    when(binaryDiff.diff(path, expected)).thenThrow(cause);
-    when(nioFilesWrapper.exists(path)).thenReturn(true);
-    when(nioFilesWrapper.isReadable(path)).thenReturn(true);
-
-    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> paths.assertHasBinaryContent(someInfo(),
-                                                                                                        path, expected))
-                                                         .withCause(cause);
-  }
-
-  @Test
-  void should_fail_if_path_does_not_have_expected_binary_content() throws IOException {
-    BinaryDiffResult binaryDiffs = new BinaryDiffResult(15, (byte) 0xCA, (byte) 0xFE);
-    when(binaryDiff.diff(path, expected)).thenReturn(binaryDiffs);
-    when(nioFilesWrapper.exists(path)).thenReturn(true);
-    when(nioFilesWrapper.isReadable(path)).thenReturn(true);
-    AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> paths.assertHasBinaryContent(info, path, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveBinaryContent(path, binaryDiffs));
-  }
 }

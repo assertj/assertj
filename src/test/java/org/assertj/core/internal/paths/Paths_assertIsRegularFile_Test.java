@@ -12,50 +12,55 @@
  */
 package org.assertj.core.internal.paths;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.ThrowableAssert.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeRegularFile.shouldBeRegularFile;
 import static org.assertj.core.error.ShouldExist.shouldExist;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
 
-class Paths_assertIsRegularFile_Test extends MockPathsBaseTest {
+class Paths_assertIsRegularFile_Test extends PathsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsRegularFile(info, null))
-                                                   .withMessage(actualIsNull());
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertIsRegularFile(info, null));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_with_should_exist_error_if_actual_does_not_exist() {
-    when(nioFilesWrapper.exists(actual)).thenReturn(false);
-
-    Throwable error = catchThrowable(() -> paths.assertIsRegularFile(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldExist(actual));
+  void should_fail_if_actual_does_not_exist() {
+    // GIVEN
+    Path actual = tempDir.resolve("non-existent");
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertIsRegularFile(info, actual));
+    // THEN
+    then(error).hasMessage(shouldExist(actual).create());
   }
 
   @Test
-  void should_fail_if_target_exists_but_is_not_a_regular_file() {
-    when(nioFilesWrapper.exists(actual)).thenReturn(true);
-    when(nioFilesWrapper.isRegularFile(actual)).thenReturn(false);
-
-    Throwable error = catchThrowable(() -> paths.assertIsRegularFile(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeRegularFile(actual));
+  void should_fail_if_actual_is_not_a_regular_file() throws IOException {
+    // GIVEN
+    Path actual = Files.createDirectory(tempDir.resolve("directory"));
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertIsRegularFile(info, actual));
+    // THEN
+    then(error).hasMessage(shouldBeRegularFile(actual).create());
   }
 
   @Test
-  void should_succeed_if_actual_is_an_existing_regular_file() {
-    when(nioFilesWrapper.exists(actual)).thenReturn(true);
-    when(nioFilesWrapper.isRegularFile(actual)).thenReturn(true);
+  void should_pass_if_actual_is_a_regular_file() throws IOException {
+    // GIVEN
+    Path actual = Files.write(tempDir.resolve("actual"), "content".getBytes());
+    // WHEN/THEN
     paths.assertIsRegularFile(info, actual);
   }
+
 }

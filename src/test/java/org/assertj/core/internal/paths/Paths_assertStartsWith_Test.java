@@ -12,89 +12,110 @@
  */
 package org.assertj.core.internal.paths;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.ThrowableAssert.catchThrowable;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldStartWithPath.shouldStartWith;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.assertj.core.api.exception.PathsException;
-import org.junit.jupiter.api.BeforeEach;
+import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
 
-class Paths_assertStartsWith_Test extends MockPathsBaseTest {
+class Paths_assertStartsWith_Test extends PathsBaseTest {
 
-  private Path canonicalActual;
-  private Path canonicalOther;
-
-  @Override
-  @BeforeEach
-  public void init() {
-    super.init();
-    canonicalActual = mock(Path.class);
-    canonicalOther = mock(Path.class);
+  @Test
+  void should_fail_if_actual_is_null() throws IOException {
+    // GIVEN
+    Path other = Files.createFile(tempDir.resolve("other"));
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertStartsWith(info, null, other));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertStartsWith(info, null, other))
-                                                   .withMessage(actualIsNull());
+  void should_fail_if_other_is_null() throws IOException {
+    // GIVEN
+    Path actual = Files.createFile(tempDir.resolve("actual"));
+    // WHEN
+    Throwable thrown = catchThrowable(() -> paths.assertStartsWith(info, actual, null));
+    // THEN
+    then(thrown).isInstanceOf(NullPointerException.class)
+                .hasMessage("the expected start path should not be null");
   }
 
   @Test
-  void should_fail_if_other_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> paths.assertStartsWith(info, actual, null))
-                                    .withMessage("the expected start path should not be null");
+  void should_rethrow_IOException_as_UncheckedIOException_if_actual_cannot_be_resolved() throws IOException {
+    // GIVEN
+    Path actual = mock(Path.class);
+    Path other = Files.createFile(tempDir.resolve("other"));
+    IOException exception = new IOException("boom!");
+    given(actual.toRealPath()).willThrow(exception);
+    // WHEN
+    Throwable thrown = catchThrowable(() -> paths.assertStartsWith(info, actual, other));
+    // THEN
+    then(thrown).isInstanceOf(UncheckedIOException.class)
+                .hasCause(exception);
   }
 
   @Test
-  void should_throw_PathsException_if_actual_cannot_be_resolved() throws IOException {
-    final IOException exception = new IOException();
-    when(actual.toRealPath()).thenThrow(exception);
-
-    assertThatExceptionOfType(PathsException.class).isThrownBy(() -> paths.assertStartsWith(info, actual, other))
-                                                   .withMessage("failed to resolve actual real path")
-                                                   .withCause(exception);
-  }
-
-  @Test
-  void should_throw_PathsException_if_other_cannot_be_resolved() throws IOException {
-    final IOException exception = new IOException();
-    when(actual.toRealPath()).thenReturn(canonicalActual);
-    when(other.toRealPath()).thenThrow(exception);
-
-    assertThatExceptionOfType(PathsException.class).isThrownBy(() -> paths.assertStartsWith(info, actual, other))
-                                                   .withMessage("failed to resolve argument real path")
-                                                   .withCause(exception);
+  void should_rethrow_IOException_as_UncheckedIOException_if_other_cannot_be_resolved() throws IOException {
+    // GIVEN
+    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path other = mock(Path.class);
+    IOException exception = new IOException("boom!");
+    given(other.toRealPath()).willThrow(exception);
+    // WHEN
+    Throwable thrown = catchThrowable(() -> paths.assertStartsWith(info, actual, other));
+    // THEN
+    then(thrown).isInstanceOf(UncheckedIOException.class)
+                .hasCause(exception);
   }
 
   @Test
   void should_fail_if_actual_does_not_start_with_other() throws IOException {
-    when(actual.toRealPath()).thenReturn(canonicalActual);
-    when(other.toRealPath()).thenReturn(canonicalOther);
-    // This is the default, but let's make this explicit
-    when(canonicalActual.startsWith(canonicalOther)).thenReturn(false);
-
-    Throwable error = catchThrowable(() -> paths.assertStartsWith(info, actual, other));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldStartWith(actual, other));
+    // GIVEN
+    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path other = Files.createFile(tempDir.resolve("other"));
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertStartsWith(info, actual, other));
+    // THEN
+    then(error).hasMessage(shouldStartWith(actual, other).create());
   }
 
   @Test
-  void should_succeed_if_actual_starts_with_other() throws IOException {
-    when(actual.toRealPath()).thenReturn(canonicalActual);
-    when(other.toRealPath()).thenReturn(canonicalOther);
+  void should_pass_if_actual_starts_with_other() throws IOException {
+    // GIVEN
+    Path other = Files.createDirectory(tempDir.resolve("other")).toRealPath();
+    Path actual = Files.createFile(other.resolve("actual")).toRealPath();
+    // WHEN/THEN
+    paths.assertStartsWith(info, actual, other);
+  }
 
-    when(canonicalActual.startsWith(canonicalOther)).thenReturn(true);
+  @Test
+  void should_pass_if_actual_is_not_canonical() throws IOException {
+    // GIVEN
+    Path other = Files.createDirectory(tempDir.resolve("other"));
+    Path file = Files.createFile(other.resolve("file"));
+    Path actual = Files.createSymbolicLink(tempDir.resolve("actual"), file);
+    // WHEN/THEN
+    paths.assertStartsWith(info, actual, other);
+  }
 
+  @Test
+  void should_pass_if_other_is_not_canonical() throws IOException {
+    // GIVEN
+    Path directory = Files.createDirectory(tempDir.resolve("directory"));
+    Path other = Files.createSymbolicLink(tempDir.resolve("other"), directory);
+    Path actual = Files.createFile(directory.resolve("actual"));
+    // WHEN/THEN
     paths.assertStartsWith(info, actual, other);
   }
 

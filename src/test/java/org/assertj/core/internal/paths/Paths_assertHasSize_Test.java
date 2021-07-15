@@ -30,17 +30,11 @@ import java.nio.file.Path;
 import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
 class Paths_assertHasSize_Test extends PathsBaseTest {
 
-  @TempDir
-  Path tempDir;
-
   @BeforeEach
   void setUpNioFilesWrapper() throws IOException {
-    given(nioFilesWrapper.exists(any())).willCallRealMethod();
-    given(nioFilesWrapper.isRegularFile(any())).willCallRealMethod();
     given(nioFilesWrapper.size(any())).willCallRealMethod();
   }
 
@@ -82,7 +76,6 @@ class Paths_assertHasSize_Test extends PathsBaseTest {
     Throwable thrown = catchThrowable(() -> paths.assertHasSize(info, actual, 0L));
     // THEN
     then(thrown).isInstanceOf(UncheckedIOException.class)
-                .hasMessage("unable to verify the size of the path: <%s>", actual)
                 .hasCause(exception);
   }
 

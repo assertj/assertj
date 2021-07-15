@@ -12,74 +12,97 @@
  */
 package org.assertj.core.internal.paths;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.ThrowableAssert.catchThrowable;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldEndWithPath.shouldEndWith;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
-import org.assertj.core.api.exception.PathsException;
+import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
 
-class Paths_assertEndsWith_Test extends MockPathsBaseTest {
+class Paths_assertEndsWith_Test extends PathsBaseTest {
 
   @Test
-  void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertEndsWith(info, null, other))
-                                                   .withMessage(actualIsNull());
+  void should_fail_if_actual_is_null() throws IOException {
+    // GIVEN
+    Path other = tempDir.resolve("other");
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertEndsWith(info, null, other));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_other_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> paths.assertEndsWith(info, actual, null))
-                                    .withMessage("the expected end path should not be null");
+  void should_fail_if_other_is_null() throws IOException {
+    // GIVEN
+    Path actual = Files.createFile(tempDir.resolve("actual"));
+    // WHEN
+    Throwable thrown = catchThrowable(() -> paths.assertEndsWith(info, actual, null));
+    // THEN
+    then(thrown).isInstanceOf(NullPointerException.class)
+                .hasMessage("the expected end path should not be null");
   }
 
   @Test
-  void should_fail_with_PathsException_if_actual_cannot_be_resolved() throws IOException {
-    final IOException causeException = new IOException();
-    when(actual.toRealPath()).thenThrow(causeException);
-
-    assertThatExceptionOfType(PathsException.class).isThrownBy(() -> paths.assertEndsWith(info, actual, other))
-                                                   .withMessage("failed to resolve actual real path")
-                                                   .withCause(causeException);
+  void should_rethrow_IOException_as_UncheckedIOException_if_actual_cannot_be_resolved() throws IOException {
+    // GIVEN
+    Path actual = mock(Path.class);
+    Path other = tempDir.resolve("other");
+    IOException exception = new IOException("boom!");
+    given(actual.toRealPath()).willThrow(exception);
+    // WHEN
+    Throwable thrown = catchThrowable(() -> paths.assertEndsWith(info, actual, other));
+    // THEN
+    then(thrown).isInstanceOf(UncheckedIOException.class)
+                .hasCause(exception);
   }
 
   @Test
-  void should_fail_if_canonical_actual_does_not_end_with_normalized_other() throws IOException {
-    final Path canonicalActual = mock(Path.class);
-    final Path normalizedOther = mock(Path.class);
-
-    when(actual.toRealPath()).thenReturn(canonicalActual);
-    when(other.normalize()).thenReturn(normalizedOther);
-
-    // This is the default, but...
-    when(canonicalActual.endsWith(normalizedOther)).thenReturn(false);
-
-    Throwable error = catchThrowable(() -> paths.assertEndsWith(info, actual, other));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldEndWith(actual, other));
+  void should_fail_if_actual_does_not_end_with_other() throws IOException {
+    // GIVEN
+    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path other = tempDir.resolve("other");
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertEndsWith(info, actual, other));
+    // THEN
+    then(error).hasMessage(shouldEndWith(actual, other).create());
   }
 
   @Test
-  void should_succeed_if_canonical_actual_ends_with_normalized_other() throws IOException {
-    final Path canonicalActual = mock(Path.class);
-    final Path normalizedOther = mock(Path.class);
-
-    when(actual.toRealPath()).thenReturn(canonicalActual);
-    when(other.normalize()).thenReturn(normalizedOther);
-
-    // We want the canonical versions to be compared, not the arguments
-    when(canonicalActual.endsWith(normalizedOther)).thenReturn(true);
-
+  void should_pass_if_actual_ends_with_other() throws IOException {
+    // GIVEN
+    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path other = Paths.get("actual");
+    // WHEN/THEN
     paths.assertEndsWith(info, actual, other);
   }
+
+  @Test
+  void should_pass_if_actual_is_not_canonical() throws IOException {
+    // GIVEN
+    Path file = Files.createFile(tempDir.resolve("file"));
+    Path actual = Files.createSymbolicLink(tempDir.resolve("actual"), file);
+    Path other = Paths.get("file");
+    // WHEN/THEN
+    paths.assertEndsWith(info, actual, other);
+  }
+
+  @Test
+  void should_pass_if_other_is_not_normalized() throws IOException {
+    // GIVEN
+    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path other = Paths.get("actual", "..", "actual", ".");
+    // WHEN/THEN
+    paths.assertEndsWith(info, actual, other);
+  }
+
 }

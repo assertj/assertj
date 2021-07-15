@@ -12,98 +12,95 @@
  */
 package org.assertj.core.internal.paths;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.emptyList;
-import static org.assertj.core.util.Lists.list;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
+import static org.mockito.BDDMockito.willThrow;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Paths;
+import org.assertj.core.internal.PathsBaseTest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Paths#assertIsNotEmptyDirectory(AssertionInfo, Path)}</code>
- *
  * @author Valeriy Vyrva
  */
-class Paths_assertIsNotEmptyDirectory_Test extends MockPathsBaseTest {
+class Paths_assertIsNotEmptyDirectory_Test extends PathsBaseTest {
 
-  @Test
-  void should_pass_if_actual_is_not_empty() {
-    // GIVEN
-    List<Path> files = list(mockEmptyRegularFile("root", "Test.class"));
-    Path actual = mockDirectory("root", files);
-    // THEN
-    paths.assertIsNotEmptyDirectory(INFO, actual);
-  }
-
-  @Test
-  void should_fail_if_actual_is_empty() {
-    // GIVEN
-    Path actual = mockDirectory("root", emptyList());
-    // WHEN
-    expectAssertionError(() -> paths.assertIsNotEmptyDirectory(INFO, actual));
-    // THEN
-    verify(failures).failure(INFO, shouldNotBeEmpty());
+  @BeforeEach
+  void setUpNioFilesWrapper() throws IOException {
+    given(nioFilesWrapper.newDirectoryStream(any(), any())).willCallRealMethod();
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    // GIVEN
-    Path actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsNotEmptyDirectory(INFO, actual));
+    AssertionError error = expectAssertionError(() -> paths.assertIsNotEmptyDirectory(info, null));
     // THEN
-    assertThat(error).hasMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_does_not_exist() {
     // GIVEN
-    given(nioFilesWrapper.exists(actual)).willReturn(false);
+    Path actual = tempDir.resolve("non-existent");
     // WHEN
-    expectAssertionError(() -> paths.assertIsNotEmptyDirectory(INFO, actual));
+    AssertionError error = expectAssertionError(() -> paths.assertIsNotEmptyDirectory(info, actual));
     // THEN
-    verify(failures).failure(INFO, shouldExist(actual));
+    then(error).hasMessage(shouldExist(actual).create());
   }
 
   @Test
-  void should_fail_if_actual_exists_but_is_not_directory() {
+  void should_fail_if_actual_is_not_a_directory() throws IOException {
     // GIVEN
-    given(nioFilesWrapper.exists(actual)).willReturn(true);
-    given(nioFilesWrapper.isDirectory(actual)).willReturn(false);
+    Path actual = Files.createFile(tempDir.resolve("file"));
     // WHEN
-    expectAssertionError(() -> paths.assertIsNotEmptyDirectory(INFO, actual));
+    AssertionError error = expectAssertionError(() -> paths.assertIsNotEmptyDirectory(info, actual));
     // THEN
-    verify(failures).failure(INFO, shouldBeDirectory(actual));
+    then(error).hasMessage(shouldBeDirectory(actual).create());
   }
 
   @Test
-  void should_throw_runtime_error_wrapping_caught_IOException() throws IOException {
+  void should_pass_if_actual_is_not_empty() throws IOException {
     // GIVEN
-    IOException cause = new IOException();
-    given(nioFilesWrapper.exists(actual)).willReturn(true);
-    given(nioFilesWrapper.isDirectory(actual)).willReturn(true);
-    given(nioFilesWrapper.newDirectoryStream(eq(actual), any())).willThrow(cause);
+    Path actual = Files.createDirectory(tempDir.resolve("actual"));
+    Files.createFile(actual.resolve("file"));
+    // WHEN/THEN
+    paths.assertIsNotEmptyDirectory(info, actual);
+  }
+
+  @Test
+  void should_fail_if_actual_is_empty() throws IOException {
+    // GIVEN
+    Path actual = Files.createDirectory(tempDir.resolve("actual"));
     // WHEN
-    Throwable error = catchThrowable(() -> paths.assertIsNotEmptyDirectory(INFO, actual));
+    AssertionError error = expectAssertionError(() -> paths.assertIsNotEmptyDirectory(info, actual));
     // THEN
-    assertThat(error).isInstanceOf(UncheckedIOException.class)
-                     .hasCause(cause);
+    then(error).hasMessage(shouldNotBeEmpty(actual).create());
+  }
+
+  @Test
+  void should_rethrow_IOException_as_UncheckedIOException() throws IOException {
+    // GIVEN
+    Path actual = Files.createDirectory(tempDir.resolve("actual"));
+    IOException exception = new IOException("boom!");
+    willThrow(exception).given(nioFilesWrapper).newDirectoryStream(eq(actual), any());
+    // WHEN
+    Throwable thrown = catchThrowable(() -> paths.assertIsNotEmptyDirectory(info, actual));
+    // THEN
+    then(thrown).isInstanceOf(UncheckedIOException.class)
+                .hasCause(exception);
   }
 
 }

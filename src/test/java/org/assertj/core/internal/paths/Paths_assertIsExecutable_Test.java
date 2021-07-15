@@ -12,50 +12,58 @@
  */
 package org.assertj.core.internal.paths;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.ThrowableAssert.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeExecutable.shouldBeExecutable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.condition.OS.WINDOWS;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
 
-class Paths_assertIsExecutable_Test extends MockPathsBaseTest {
+class Paths_assertIsExecutable_Test extends PathsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsExecutable(info, null))
-                                                   .withMessage(actualIsNull());
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertIsExecutable(info, null));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_with_should_exist_error_if_actual_does_not_exist() {
-    when(nioFilesWrapper.exists(actual)).thenReturn(false);
-
-    Throwable error = catchThrowable(() -> paths.assertIsExecutable(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldExist(actual));
+  void should_fail_if_actual_does_not_exist() {
+    // GIVEN
+    Path actual = tempDir.resolve("non-existent");
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertIsExecutable(info, actual));
+    // THEN
+    then(error).hasMessage(shouldExist(actual).create());
   }
 
   @Test
-  void should_fail_if_actual_exists_but_is_not_executable() {
-    when(nioFilesWrapper.exists(actual)).thenReturn(true);
-    when(nioFilesWrapper.isExecutable(actual)).thenReturn(false);
-
-    Throwable error = catchThrowable(() -> paths.assertIsExecutable(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeExecutable(actual));
+  @DisabledOnOs(value = WINDOWS, disabledReason = "gh-FIXME")
+  void should_fail_if_actual_is_not_executable() throws IOException {
+    // GIVEN
+    Path actual = Files.createFile(tempDir.resolve("actual"));
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertIsExecutable(info, actual));
+    // THEN
+    then(error).hasMessage(shouldBeExecutable(actual).create());
   }
 
   @Test
-  void should_succeed_if_actual_exist_and_is_executable() {
-    when(nioFilesWrapper.exists(actual)).thenReturn(true);
-    when(nioFilesWrapper.isExecutable(actual)).thenReturn(true);
+  void should_pass_if_actual_is_executable() throws IOException {
+    // GIVEN
+    Path actual = Files.createFile(tempDir.resolve("actual"));
+    actual.toFile().setExecutable(true);
+    // WHEN/THEN
     paths.assertIsExecutable(info, actual);
   }
 

@@ -23,10 +23,8 @@ import java.nio.file.Path;
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("PathAssert hasSameTextualContentAs")
 class PathAssert_hasSameTextualContentAs_Test extends PathAssertBaseTest {
 
   private static Path expected;
@@ -43,7 +41,7 @@ class PathAssert_hasSameTextualContentAs_Test extends PathAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(paths).assertHasSameContentAs(getInfo(assertions), getActual(assertions), defaultCharset, expected, defaultCharset);
+    verify(paths).assertHasSameTextualContentAs(getInfo(assertions), getActual(assertions), defaultCharset, expected, defaultCharset);
   }
 
   @Test
