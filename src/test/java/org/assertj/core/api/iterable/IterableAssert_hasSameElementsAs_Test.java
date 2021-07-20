@@ -19,7 +19,7 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for <code>{@link org.assertj.core.api.AbstractIterableAssert#containsOnlyElementsOf(Iterable)} </code>.
+ * Tests for <code>{@link org.assertj.core.api.AbstractIterableAssert#hasSameElementsAs(Iterable)} </code>.
  * 
  * @author Christopher Arnott
  */

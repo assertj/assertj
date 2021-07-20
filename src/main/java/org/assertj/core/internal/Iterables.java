@@ -380,7 +380,9 @@ public class Iterables {
    */
   public void assertContainsOnly(AssertionInfo info, Iterable<?> actual, Object[] expectedValues) {
     final List<?> actualAsList = newArrayList(actual);
-    if (commonCheckThatIterableAssertionSucceeds(info, actualAsList, expectedValues)) return;
+    checkNotNullIterables(info, actualAsList, expectedValues);
+    // if both actual and values are empty, then assertion passes.
+    if (actualAsList.isEmpty() && expectedValues.length == 0) return;
 
     // after the for loop, unexpected = expectedValues - actual
     List<Object> unexpectedValues = newArrayList(actualAsList);
