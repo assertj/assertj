@@ -12,9 +12,16 @@
  */
 package org.assertj.core.api.iterable;
 
+import java.util.Collections;
 import java.util.List;
+
+import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.util.Lists.emptyList;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
@@ -35,5 +42,12 @@ class IterableAssert_hasSameElementsAs_Test extends IterableAssertBaseTest {
   @Override
   protected void verify_internal_effects() {
     verify(iterables).assertContainsOnly(getInfo(assertions), getActual(assertions), values.toArray());
+  }
+
+  @Test
+  void should_have_an_helpful_error_message_when_expected_is_empty() {
+    assertThatExceptionOfType(AssertionError.class)
+      .isThrownBy(() -> assertThat(Collections.singleton("element")).hasSameElementsAs(emptyList()))
+      .withMessageContaining("[\"element\"]");
   }
 }
