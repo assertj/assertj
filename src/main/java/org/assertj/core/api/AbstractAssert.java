@@ -817,6 +817,37 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @throws NullPointerException if given Consumer is null
    */
   public SELF satisfies(Consumer<ACTUAL> requirements) {
+    return internalSatisfies(requirements);
+  }
+
+  /**
+   * Verifies that the actual object satisfied the given requirements expressed as a {@link ThrowingConsumer}.
+   * <p>
+   * This is the same assertion as {@link #satisfies(java.util.function.Consumer)} except that a {@link ThrowingConsumer} rethrows checked exceptions as {@link RuntimeException}.
+   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are while any other {@link Throwable} are rethrown as {@link RuntimeException}. 
+   * <p>
+   * Example:
+   * <pre><code class='java'> // read() throws IOException
+   * ThrowingConsumer&lt;Reader&gt; hasReachedEOF = reader -&gt; assertThat(reader.read()).isEqualTo(-1);
+   *
+   * // assertion succeeds as the file is empty (note that if hasReachedEOF was declared as Consumer&lt;Reader&gt; the following line would not compile): 
+   * assertThat(new FileReader("empty.txt")).satisfies(hasReachedEOF);
+   *
+   * // assertion fails as the file is not empty:
+   * assertThat(new FileReader("nonEmpty.txt")).satisfies(hasReachedEOF);</code></pre>
+   *
+   * @param throwingConsumer requirements to assert on the actual object - must not be null..
+   * @return this assertion object.
+   *
+   * @throws NullPointerException if given {@link ThrowingConsumer} is null
+   * @throws RuntimeException rethrown as is by given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
+   * @throws AssertionError rethrown as is by given {@link ThrowingConsumer}  
+   */
+  public SELF satisfies(ThrowingConsumer<ACTUAL> throwingConsumer) {
+    return internalSatisfies(throwingConsumer);
+  }
+  
+  private SELF internalSatisfies(Consumer<ACTUAL> requirements) {
     requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
     requirements.accept(actual);
     return myself;
