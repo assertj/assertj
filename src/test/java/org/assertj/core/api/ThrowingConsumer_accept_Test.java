@@ -44,6 +44,17 @@ class ThrowingConsumer_accept_Test {
     then(throwable).isSameAs(runtimeException);
   }
 
+  @Test
+  void should_rethrow_assertion_error_as_is() {
+    // GIVEN
+    AssertionError assertionError = new AssertionError("boom!");
+    ThrowingConsumer<?> throwingConsumer = throwingConsumer(assertionError);
+    // WHEN
+    Throwable throwable = catchThrowable(() -> throwingConsumer.accept(null));
+    // THEN
+    then(throwable).isSameAs(assertionError);
+  }
+
   private static ThrowingConsumer<?> throwingConsumer(Throwable throwable) {
     return value -> {
       throw throwable;
