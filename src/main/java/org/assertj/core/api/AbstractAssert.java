@@ -841,12 +841,13 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * @throws NullPointerException if given {@link ThrowingConsumer} is null
    * @throws RuntimeException rethrown as is by given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
-   * @throws AssertionError rethrown as is by given {@link ThrowingConsumer}  
+   * @throws AssertionError rethrown as is by given {@link ThrowingConsumer}
+   * @since 3.21.0
    */
   public SELF satisfies(ThrowingConsumer<ACTUAL> throwingConsumer) {
     return internalSatisfies(throwingConsumer);
   }
-  
+
   private SELF internalSatisfies(Consumer<ACTUAL> requirements) {
     requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
     requirements.accept(actual);
