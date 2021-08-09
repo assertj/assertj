@@ -14,40 +14,29 @@ package org.assertj.core.api.abstract_;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.data.TolkienCharacter.Race.DRAGON;
-import static org.assertj.core.data.TolkienCharacter.Race.DWARF;
-import static org.assertj.core.data.TolkienCharacter.Race.ELF;
-import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
-import static org.assertj.core.data.TolkienCharacter.Race.MAN;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
-import java.util.function.Consumer;
 
 import org.assertj.core.api.AbstractAssertBaseTest;
 import org.assertj.core.api.ConcreteAssert;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.data.TolkienCharacter;
+import org.assertj.core.api.ThrowingConsumer;
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
-class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
-
-  private TolkienCharacter frodo = TolkienCharacter.of("Frodo", 33, HOBBIT);
-  private TolkienCharacter legolas = TolkienCharacter.of("Legolas", 1000, ELF);
-  private TolkienCharacter smaug = TolkienCharacter.of("Smaug", 171, DRAGON);
-  private Consumer<TolkienCharacter> isHobbit = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(HOBBIT);
-  private Consumer<TolkienCharacter> isElf = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(ELF);
-  private Consumer<TolkienCharacter> isDwarf = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(DWARF);
-  private Consumer<TolkienCharacter> isDragon = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(DRAGON);
+class AbstractAssert_satisfiesAnyOf_ThrowinConsumers_Test extends AbstractAssertBaseTest {
 
   @Override
   protected ConcreteAssert invoke_api_method() {
-    Consumer<Object> isZero = i -> assertThat(i).isNull();
-    Consumer<Object> isNegative = i -> assertThat(i).isInstanceOf(String.class);
+    ThrowingConsumer<Object> isZero = i -> assertThat(i).isNull();
+    ThrowingConsumer<Object> isNegative = i -> assertThat(i).isInstanceOf(String.class);
     expectAssertionError(() -> assertions.as("description").satisfiesAnyOf(isZero, isNegative));
     return null;
   }
@@ -69,58 +58,65 @@ class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
   }
 
   @Test
-  void should_pass_when_one_of_the_given_assertions_group_is_met() {
-    assertThat(frodo).satisfiesAnyOf(isHobbit, isElf);
-    assertThat(legolas).satisfiesAnyOf(isHobbit, isElf, isDwarf)
-                       .satisfiesAnyOf(isHobbit, isElf);
-    assertThat(smaug).satisfiesAnyOf(isHobbit, isElf, isDwarf, isDragon)
-                     .satisfiesAnyOf(isHobbit, isDwarf, isDragon);
+  void should_pass_when_one_of_the_given_assertions_group_is_met() throws IOException {
+    // GIVEN
+    ThrowingConsumer<FileReader> hasReachedEOF = reader -> assertThat(reader.read()).isEqualTo(-1);
+    ThrowingConsumer<FileReader> startsWithZ = reader -> assertThat(reader.read()).isEqualTo('Z');
+    // THEN
+    then(new FileReader("src/test/resources/empty.txt")).satisfiesAnyOf(hasReachedEOF, startsWithZ);
   }
 
   @Test
-  void should_pass_when_all_of_the_given_assertions_groups_are_met() {
+  void should_pass_when_all_of_the_given_assertions_groups_are_met() throws IOException {
     // GIVEN
-    Consumer<TolkienCharacter> namesStartsWithF = tolkienCharacter -> assertThat(tolkienCharacter.getName()).startsWith("F");
+    ThrowingConsumer<FileReader> hasNotReachedEOF = reader -> assertThat(reader.read()).isPositive();
+    ThrowingConsumer<FileReader> startsWitha = reader -> assertThat(reader.read()).isEqualTo('a');
     // THEN
-    assertThat(frodo).satisfiesAnyOf(isHobbit, namesStartsWithF, isHobbit);
+    then(new FileReader("src/test/resources/ascii.txt")).satisfiesAnyOf(hasNotReachedEOF, startsWitha);
   }
 
   @Test
   void should_fail_if_all_of_the_given_assertions_groups_fail() {
     // GIVEN
-    TolkienCharacter boromir = TolkienCharacter.of("Boromir", 45, MAN);
+    ThrowingConsumer<FileReader> hasReachedEOF = reader -> assertThat(reader.read()).isEqualTo(-1);
+    ThrowingConsumer<FileReader> startsWithZ = reader -> assertThat(reader.read()).isEqualTo('Z');
     // WHEN/THEN
-    expectAssertionError(() -> assertThat(boromir).as("description").satisfiesAnyOf(isHobbit, isElf));
+    expectAssertionError(() -> assertThat(new FileReader("src/test/resources/ascii.txt")).satisfiesAnyOf(hasReachedEOF,
+                                                                                                         startsWithZ));
   }
 
   @Test
   void should_throw_an_IllegalArgumentException_if_one_of_the_given_assertions_group_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(frodo).satisfiesAnyOf(isHobbit, null))
+    // GIVEN
+    ThrowingConsumer<FileReader> hasReachedEOF = reader -> assertThat(reader.read()).isEqualTo(-1);
+    // WHEN/THEN
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(new FileReader("src/test/resources/empty.txt")).satisfiesAnyOf(hasReachedEOF,
+                                                                                                                                    null))
                                         .withMessage("No assertions group should be null");
   }
 
   @Test
   void should_honor_description() {
     // GIVEN
-    Consumer<String> isEmpty = string -> assertThat(string).isEmpty();
-    Consumer<String> endsWithZ = string -> assertThat(string).endsWith("Z");
+    ThrowingConsumer<String> isEmpty = string -> assertThat(string).isEmpty();
+    ThrowingConsumer<String> endsWithZ = string -> assertThat(string).endsWith("Z");
     ThrowingCallable failingAssertionCode = () -> assertThat("abc").as("String checks").satisfiesAnyOf(isEmpty, endsWithZ);
-    // WHEN
+    // THEN
     AssertionError assertionError = expectAssertionError(failingAssertionCode);
     // THEN
-    assertThat(assertionError).hasMessageContaining("String checks");
+    then(assertionError).hasMessageContaining("String checks");
   }
 
   @Test
   void should_not_honor_overriding_error_message() {
     // GIVEN
-    Consumer<String> isEmpty = string -> assertThat(string).overridingErrorMessage("fail empty").isEmpty();
-    Consumer<String> endsWithZ = string -> assertThat(string).endsWith("Z");
+    ThrowingConsumer<String> isEmpty = string -> assertThat(string).overridingErrorMessage("fail empty").isEmpty();
+    ThrowingConsumer<String> endsWithZ = string -> assertThat(string).endsWith("Z");
     ThrowingCallable failingAssertionCode = () -> assertThat("abc").satisfiesAnyOf(isEmpty, endsWithZ);
-    // THEN
+    // WHEN
     AssertionError assertionError = expectAssertionError(failingAssertionCode);
     // THEN
-    assertThat(assertionError).hasMessageContaining("fail empty");
+    then(assertionError).hasMessageContaining("fail empty");
   }
 
 }

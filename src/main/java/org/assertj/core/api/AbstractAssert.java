@@ -888,10 +888,47 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return satisfiesAnyOfForProxy(assertions);
   }
 
+  /**
+   * Verifies that the actual object under test satisfies at least one of the given assertions group expressed as {@link ThrowingConsumer}s.
+   * <p>
+   * This allows users to perform <b>OR like assertions</b> since only one the assertions group has to be met.
+   * <p>
+   * This is the same assertion as {@link #satisfiesAnyOf(Consumer...)} but the given consumers can throw checked exceptions.<br>
+   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are while any other {@link Throwable} are rethrown as {@link RuntimeException}. 
+   * <p>
+   * {@link #overridingErrorMessage(String, Object...) Overriding error message} is not supported as it would prevent from
+   * getting the error messages of the failing assertions, these are valuable to figure out what went wrong.<br>
+   * Describing the assertion is supported (for example with {@link #as(String, Object...)}).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // read() throws IOException
+   * ThrowingConsumer&lt;FileReader&gt; hasReachedEOF = reader -&gt; assertThat(reader.read()).isEqualTo(-1);
+   * ThrowingConsumer&lt;FileReader&gt; startsWithZ = reader -&gt; assertThat(reader.read()).isEqualTo('Z');
+   *
+   * // assertion succeeds as the file is empty (note that if hasReachedEOF was declared as Consumer&lt;Reader&gt; the following line would not compile): 
+   * assertThat(new FileReader("empty.txt")).satisfiesAnyOf(hasReachedEOF, startsWithZ);
+   *
+   * // alphabet.txt contains: abcdefghijklmnopqrstuvwxyz  
+   * // assertion fails as alphabet.txt is not empty and starts with 'a':
+   * assertThat(new FileReader("alphabet.txt")).satisfiesAnyOf(hasReachedEOF, startsWithZ);</code></pre>
+   *
+   * @param assertions the group of assertions to run against the object under test - must not be null.
+   * @return this assertion object.
+   *
+   * @throws IllegalArgumentException if any given assertions group is null
+   * @throws RuntimeException rethrown as is by given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
+   * @throws AssertionError rethrown as is by given {@link ThrowingConsumer}
+   * @since 3.21.0
+   */
+  @SafeVarargs
+  public final SELF satisfiesAnyOf(ThrowingConsumer<ACTUAL>... assertions) {
+    return satisfiesAnyOfForProxy(assertions);
+  }
+
   // This method is protected in order to be proxied for SoftAssertions / Assumptions.
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
-  protected SELF satisfiesAnyOfForProxy(Consumer<ACTUAL>[] assertionsGroups) throws AssertionError {
+  protected SELF satisfiesAnyOfForProxy(Consumer<?  super ACTUAL>[] assertionsGroups) throws AssertionError {
     checkArgument(stream(assertionsGroups).allMatch(java.util.Objects::nonNull), "No assertions group should be null");
     if (stream(assertionsGroups).anyMatch(this::satisfiesAssertions)) return myself;
     // none of the assertions group was met! let's report all the errors
@@ -904,7 +941,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return assertionErrorCreator.multipleAssertionsError(info.description(), assertionErrors);
   }
 
-  private boolean satisfiesAssertions(Consumer<ACTUAL> assertions) {
+  private boolean satisfiesAssertions(Consumer<? super ACTUAL> assertions) {
     try {
       assertions.accept(actual);
     } catch (@SuppressWarnings("unused") AssertionError e) {
@@ -913,7 +950,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return true;
   }
 
-  private AssertionError catchAssertionError(Consumer<ACTUAL> assertions) {
+  private AssertionError catchAssertionError(Consumer<? super ACTUAL> assertions) {
     try {
       assertions.accept(actual);
     } catch (AssertionError assertionError) {
