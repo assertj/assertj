@@ -13,8 +13,8 @@
 package org.assertj.core.api.abstract_;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenNullPointerException;
 import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
@@ -52,6 +52,14 @@ class AbstractAssert_satisfies_with_Consumer_Test {
   }
 
   @Test
+  void should_satisfy_supertype_consumer() {
+    // GIVEN
+    Consumer<Object> notNullObjectConsumer = jedi -> assertThat(jedi).isNotNull();
+    // WHEN/THEN
+    then(yoda).satisfies(notNullObjectConsumer);
+  }
+
+  @Test
   void should_fail_according_to_requirements() {
     // GIVEN
     Jedi vader = new Jedi("Vader", "Red");
@@ -66,7 +74,7 @@ class AbstractAssert_satisfies_with_Consumer_Test {
     // GIVEN
     Consumer<Jedi> nullRequirements = null;
     // WHEN/THEN
-    assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).satisfies(nullRequirements))
-                                    .withMessage("The Consumer<T> expressing the assertions requirements must not be null");
+    thenNullPointerException().isThrownBy(() -> assertThat(yoda).satisfies(nullRequirements))
+                              .withMessage("The Consumer<T> expressing the assertions requirements must not be null");
   }
 }

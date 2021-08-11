@@ -58,6 +58,14 @@ class AbstractAssert_satisfies_with_ThrowingConsumer_Test {
   }
 
   @Test
+  void should_satisfy_supertype_consumer() {
+    // GIVEN
+    ThrowingConsumer<Object> notNullObjectConsumer = object -> assertThat(object).isNotNull();
+    // WHEN/THEN
+    then("foo").satisfies(notNullObjectConsumer);
+  }
+
+  @Test
   void should_fail_according_to_requirements() {
     // GIVEN
     Path asciiFile = Paths.get("src/test/resources/ascii.txt");
@@ -97,7 +105,7 @@ class AbstractAssert_satisfies_with_ThrowingConsumer_Test {
     // THEN
     then(throwable).isSameAs(assertionError);
   }
-  
+
   @Test
   void should_fail_if_throwing_consumer_is_null() {
     // GIVEN

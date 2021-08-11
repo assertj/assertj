@@ -816,7 +816,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * @throws NullPointerException if given Consumer is null
    */
-  public SELF satisfies(Consumer<ACTUAL> requirements) {
+  public SELF satisfies(Consumer<? super ACTUAL> requirements) {
     return internalSatisfies(requirements);
   }
 
@@ -844,11 +844,11 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @throws AssertionError rethrown as is by given {@link ThrowingConsumer}
    * @since 3.21.0
    */
-  public SELF satisfies(ThrowingConsumer<ACTUAL> throwingConsumer) {
+  public SELF satisfies(ThrowingConsumer<? super ACTUAL> throwingConsumer) {
     return internalSatisfies(throwingConsumer);
   }
 
-  private SELF internalSatisfies(Consumer<ACTUAL> requirements) {
+  private SELF internalSatisfies(Consumer<? super ACTUAL> requirements) {
     requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
     requirements.accept(actual);
     return myself;
@@ -884,7 +884,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @since 3.12.0
    */
   @SafeVarargs
-  public final SELF satisfiesAnyOf(Consumer<ACTUAL>... assertions) {
+  public final SELF satisfiesAnyOf(Consumer<? super ACTUAL>... assertions) {
     return satisfiesAnyOfForProxy(assertions);
   }
 
@@ -902,8 +902,8 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * <p>
    * Example:
    * <pre><code class='java'> // read() throws IOException
-   * ThrowingConsumer&lt;FileReader&gt; hasReachedEOF = reader -&gt; assertThat(reader.read()).isEqualTo(-1);
-   * ThrowingConsumer&lt;FileReader&gt; startsWithZ = reader -&gt; assertThat(reader.read()).isEqualTo('Z');
+   * ThrowingConsumer&lt;Reader&gt; hasReachedEOF = reader -&gt; assertThat(reader.read()).isEqualTo(-1);
+   * ThrowingConsumer&lt;Reader&gt; startsWithZ = reader -&gt; assertThat(reader.read()).isEqualTo('Z');
    *
    * // assertion succeeds as the file is empty (note that if hasReachedEOF was declared as Consumer&lt;Reader&gt; the following line would not compile): 
    * assertThat(new FileReader("empty.txt")).satisfiesAnyOf(hasReachedEOF, startsWithZ);
@@ -921,14 +921,14 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @since 3.21.0
    */
   @SafeVarargs
-  public final SELF satisfiesAnyOf(ThrowingConsumer<ACTUAL>... assertions) {
+  public final SELF satisfiesAnyOf(ThrowingConsumer<? super ACTUAL>... assertions) {
     return satisfiesAnyOfForProxy(assertions);
   }
 
   // This method is protected in order to be proxied for SoftAssertions / Assumptions.
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
-  protected SELF satisfiesAnyOfForProxy(Consumer<?  super ACTUAL>[] assertionsGroups) throws AssertionError {
+  protected SELF satisfiesAnyOfForProxy(Consumer<? super ACTUAL>[] assertionsGroups) throws AssertionError {
     checkArgument(stream(assertionsGroups).allMatch(java.util.Objects::nonNull), "No assertions group should be null");
     if (stream(assertionsGroups).anyMatch(this::satisfiesAssertions)) return myself;
     // none of the assertions group was met! let's report all the errors

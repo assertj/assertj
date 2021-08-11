@@ -21,6 +21,7 @@ import static org.mockito.Mockito.verify;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.List;
 
 import org.assertj.core.api.AbstractAssertBaseTest;
@@ -31,7 +32,7 @@ import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
-class AbstractAssert_satisfiesAnyOf_ThrowinConsumers_Test extends AbstractAssertBaseTest {
+class AbstractAssert_satisfiesAnyOf_ThrowingConsumers_Test extends AbstractAssertBaseTest {
 
   @Override
   protected ConcreteAssert invoke_api_method() {
@@ -75,6 +76,15 @@ class AbstractAssert_satisfiesAnyOf_ThrowinConsumers_Test extends AbstractAssert
     then(new FileReader("src/test/resources/ascii.txt")).satisfiesAnyOf(hasNotReachedEOF, startsWitha);
   }
 
+  @Test
+  void should_pass_when_all_of_the_given_supertype_consumers_assertions_are_met() throws IOException {
+    // GIVEN
+    ThrowingConsumer<Reader> hasNotReachedEOF = reader -> assertThat(reader.read()).isPositive();
+    ThrowingConsumer<Object> notNullObject = object -> assertThat(object).isNotNull();
+    // THEN
+    then(new FileReader("src/test/resources/ascii.txt")).satisfiesAnyOf(hasNotReachedEOF, notNullObject);
+  }
+  
   @Test
   void should_fail_if_all_of_the_given_assertions_groups_fail() {
     // GIVEN
