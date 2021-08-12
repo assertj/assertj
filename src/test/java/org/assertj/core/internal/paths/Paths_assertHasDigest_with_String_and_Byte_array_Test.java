@@ -43,11 +43,6 @@ import org.junit.jupiter.api.condition.DisabledOnOs;
  */
 class Paths_assertHasDigest_with_String_and_Byte_array_Test extends PathsBaseTest {
 
-  @BeforeEach
-  void setUpNioFilesWrapper() throws IOException {
-    given(nioFilesWrapper.newInputStream(any())).willCallRealMethod();
-  }
-
   @Test
   void should_fail_if_algorithm_is_null() throws IOException {
     // GIVEN

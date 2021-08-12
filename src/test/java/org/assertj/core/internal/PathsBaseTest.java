@@ -68,8 +68,9 @@ public abstract class PathsBaseTest {
 
   @BeforeEach
   public void setUp() {
-    nioFilesWrapper = mock(NioFilesWrapper.class);
-    paths = new Paths(nioFilesWrapper);
+    paths = Paths.instance();
+    nioFilesWrapper = spy(paths.nioFilesWrapper);
+    paths.nioFilesWrapper = nioFilesWrapper;
     failures = spy(paths.failures);
     paths.failures = failures;
     diff = spy(paths.diff);

@@ -86,20 +86,14 @@ public class Paths {
   BinaryDiff binaryDiff = new BinaryDiff();
   @VisibleForTesting
   Failures failures = Failures.instance();
-
-  private final NioFilesWrapper nioFilesWrapper;
+  @VisibleForTesting
+  NioFilesWrapper nioFilesWrapper = NioFilesWrapper.instance();
 
   public static Paths instance() {
     return INSTANCE;
   }
 
-  @VisibleForTesting
-  Paths(NioFilesWrapper nioFilesWrapper) {
-    this.nioFilesWrapper = nioFilesWrapper;
-  }
-
   private Paths() {
-    this(NioFilesWrapper.instance());
   }
 
   public void assertIsReadable(final AssertionInfo info, final Path actual) {

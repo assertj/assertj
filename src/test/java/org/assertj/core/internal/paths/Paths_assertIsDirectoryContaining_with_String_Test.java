@@ -39,11 +39,6 @@ import org.junit.jupiter.api.Test;
  */
 class Paths_assertIsDirectoryContaining_with_String_Test extends PathsBaseTest {
 
-  @BeforeEach
-  void setUpNioFilesWrapper() throws IOException {
-    given(nioFilesWrapper.newDirectoryStream(any(), any())).willCallRealMethod();
-  }
-
   @Test
   void should_fail_if_syntaxAndPattern_is_null() throws IOException {
     // GIVEN

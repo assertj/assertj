@@ -41,11 +41,6 @@ import org.junit.jupiter.api.condition.DisabledOnOs;
  */
 class Paths_assertIsDirectoryContaining_with_Predicate_Test extends PathsBaseTest {
 
-  @BeforeEach
-  void setUpNioFilesWrapper() throws IOException {
-    given(nioFilesWrapper.newDirectoryStream(any(), any())).willCallRealMethod();
-  }
-
   @Test
   void should_fail_if_filter_is_null() throws IOException {
     // GIVEN

@@ -33,11 +33,6 @@ import org.junit.jupiter.api.Test;
 
 class Paths_assertHasSize_Test extends PathsBaseTest {
 
-  @BeforeEach
-  void setUpNioFilesWrapper() throws IOException {
-    given(nioFilesWrapper.size(any())).willCallRealMethod();
-  }
-
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
