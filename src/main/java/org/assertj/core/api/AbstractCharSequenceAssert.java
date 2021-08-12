@@ -662,6 +662,25 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} contains any of the given values.
+   * <p>
+   * You can use one or several {@code CharSequence}s as in this example:
+   * <pre><code class='java'> assertThat(&quot;Gandalf the grey&quot;).containsAnyOf(&quot;alf&quot;);
+   * assertThat(&quot;Gandalf the grey&quot;).containsAnyOf(&quot;alf&quot;, &quot;grey&quot;);</code></pre>
+   *
+   * @param values the Strings to look for.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given list of values is {@code null}.
+   * @throws IllegalArgumentException if the list of given values is empty.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} does not contain any of the given strings.
+   */
+  public SELF containsAnyOf(CharSequence... values) {
+    strings.assertContainsAnyOf(info, actual, values);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} contains all the {@code CharSequence}s of the given Iterable.
    * <p>
    * Examples:

@@ -12,9 +12,9 @@
  */
 package org.assertj.core.internal.strings;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
+import static org.assertj.core.error.ShouldContainCharSequence.shouldContainAnyOf;
 import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
@@ -22,6 +22,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
@@ -61,6 +62,17 @@ class Strings_assertContains_Test extends StringsBaseTest {
   @Test
   void should_pass_if_actual_contains_sequence() {
     strings.assertContains(someInfo(), "Yoda", "Yo");
+  }
+
+  @Test
+  void should_fail_if_actual_does_not_contain_any_sequence() {
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsAnyOf(someInfo(), "Yoda", "Luke", "Leia"))
+                                                   .withMessage(shouldContainAnyOf("Yoda", array("Luke", "Leia"), comparisonStrategy).create());
+  }
+
+  @Test
+  void should_pass_if_actual_contains_any_sequence() {
+    strings.assertContainsAnyOf(someInfo(), "Master Yoda", "Yoda", "Luke");
   }
 
   @Test

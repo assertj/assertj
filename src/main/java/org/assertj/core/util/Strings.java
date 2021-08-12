@@ -128,6 +128,15 @@ public final class Strings {
   }
 
   /**
+   * Converts given vararg to string array
+   * @param values {@code CharSequence} vararg
+   * @return converted to array values
+   */
+  public static CharSequence[] toArray(CharSequence... values) {
+    return stream(values).map(CharSequence::toString).toArray(String[]::new);
+  }
+
+  /**
    * Knows how to join {@code String}s using a given delimiter.
    * 
    * @see Strings#join(String[])

@@ -33,9 +33,7 @@ import static org.assertj.core.error.ShouldBeLowerCase.shouldBeLowerCase;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
 import static org.assertj.core.error.ShouldBeUpperCase.shouldBeUpperCase;
-import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
-import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
-import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringWhitespaces;
+import static org.assertj.core.error.ShouldContainCharSequence.*;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
 import static org.assertj.core.error.ShouldContainOneOrMoreWhitespaces.shouldContainOneOrMoreWhitespaces;
 import static org.assertj.core.error.ShouldContainOnlyDigits.shouldContainOnlyDigits;
@@ -72,6 +70,7 @@ import static org.assertj.core.internal.CommonValidations.checkSameSizes;
 import static org.assertj.core.internal.CommonValidations.checkSizeBetween;
 import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
+import static org.assertj.core.util.Strings.toArray;
 import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat;
 
 import java.io.IOException;
@@ -471,6 +470,25 @@ public class Strings {
       throw failures.failure(info, shouldContain(actual, values[0], comparisonStrategy));
     }
     throw failures.failure(info, shouldContain(actual, values, notFound, comparisonStrategy));
+  }
+
+  /**
+   * Verifies that the given {@code CharSequence} contains any of the given strings.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence}.
+   * @param values the values to look for.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws IllegalArgumentException if the given values is empty.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} does not contain the given sequence.
+   */
+  public void assertContainsAnyOf(AssertionInfo info, CharSequence actual, CharSequence... values) {
+    doCommonCheckForCharSequence(info, actual, values);
+    Set<CharSequence> found = stream(values).filter(value -> stringContains(actual, value))
+      .collect(toCollection(LinkedHashSet::new));
+    if (!found.isEmpty()) return;
+      throw failures.failure(info, shouldContainAnyOf(actual, toArray(values), comparisonStrategy));
   }
 
   /**
