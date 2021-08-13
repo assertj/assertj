@@ -377,7 +377,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @throws AssertionError if the content of the actual {@code Path} is not equal to the given content.
    */
   public SELF hasContent(String expected) {
-    paths.assertHasContent(info, actual, expected, charset);
+    paths.assertHasTextualContent(info, actual, expected, charset);
     return myself;
   }
 

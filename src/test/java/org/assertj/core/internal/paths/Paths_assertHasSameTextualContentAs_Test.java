@@ -34,6 +34,8 @@ import org.assertj.core.internal.PathsBaseTest;
 import org.assertj.core.util.diff.Delta;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
 
@@ -113,26 +115,38 @@ class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
     then(error).hasMessage(shouldBeReadable(actual).create());
   }
 
-  // FIXME add cases with different encoding
-  @Test
-  void should_pass_if_actual_has_the_same_content_as_expected() throws IOException {
+  @ParameterizedTest
+  @CsvSource({
+      "Content, US-ASCII, US-ASCII",
+      "Content, US-ASCII, ISO_8859_1",
+      "Content, US-ASCII, UTF-8",
+      "Content, US-ASCII, UTF-16",
+  })
+  void should_pass_if_actual_has_the_same_content_as_expected(String content,
+                                                              Charset actualCharset,
+                                                              Charset expectedCharset) throws IOException {
     // GIVEN
-    Path actual = Files.write(tempDir.resolve("actual"), "Content".getBytes());
-    Path expected = Files.write(tempDir.resolve("expected"), "Content".getBytes());
+    Path actual = Files.write(tempDir.resolve("actual"), content.getBytes(actualCharset));
+    Path expected = Files.write(tempDir.resolve("expected"), content.getBytes(expectedCharset));
     // WHEN/THEN
-    paths.assertHasSameTextualContentAs(info, actual, CHARSET, expected, CHARSET);
+    paths.assertHasSameTextualContentAs(info, actual, actualCharset, expected, expectedCharset);
   }
 
-  // FIXME add cases with different encoding
-  @Test
-  void should_fail_if_actual_does_not_have_the_same_content_as_expected() throws IOException {
+  @ParameterizedTest
+  @CsvSource({
+      "Content, US-ASCII, Another content, US-ASCII",
+  })
+  void should_fail_if_actual_does_not_have_the_same_content_as_expected(String actualContent,
+                                                                        Charset actualCharset,
+                                                                        String expectedContent,
+                                                                        Charset expectedCharset) throws IOException {
     // GIVEN
-    Path actual = Files.write(tempDir.resolve("actual"), "Content".getBytes());
-    Path expected = Files.write(tempDir.resolve("expected"), "Another content".getBytes());
-    List<Delta<String>> diffs = diff.diff(actual, CHARSET, expected, CHARSET);
+    Path actual = Files.write(tempDir.resolve("actual"), actualContent.getBytes(actualCharset));
+    Path expected = Files.write(tempDir.resolve("expected"), expectedContent.getBytes(expectedCharset));
+    List<Delta<String>> diffs = diff.diff(actual, actualCharset, expected, expectedCharset);
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasSameTextualContentAs(info, actual, CHARSET, expected,
-                                                                                          CHARSET));
+    AssertionError error = expectAssertionError(() -> paths.assertHasSameTextualContentAs(info, actual, actualCharset,
+                                                                                          expected, expectedCharset));
     // THEN
     then(error).hasMessage(shouldHaveSameContent(actual, expected, diffs).create(info.description(), info.representation()));
   }

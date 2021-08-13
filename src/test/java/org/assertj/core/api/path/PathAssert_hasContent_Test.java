@@ -16,27 +16,17 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
-import org.junit.jupiter.api.BeforeAll;
 
-/**
- * Tests for <code>{@link PathAssert#hasContent(String)}</code>.
- */
 class PathAssert_hasContent_Test extends PathAssertBaseTest {
-
-  private static String expected;
-
-  @BeforeAll
-  static void beforeOnce() {
-    expected = "xyz";
-  }
 
   @Override
   protected PathAssert invoke_api_method() {
-    return assertions.hasContent(expected);
+    return assertions.hasContent("xyz");
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(paths).assertHasContent(getInfo(assertions), getActual(assertions), expected, getCharset(assertions));
+    verify(paths).assertHasTextualContent(getInfo(assertions), getActual(assertions), "xyz", getCharset(assertions));
   }
+
 }

@@ -79,7 +79,6 @@ class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
     then(error).hasMessage(shouldBeReadable(actual).create());
   }
 
-  // FIXME add cases with different encoding
   @Test
   void should_pass_if_actual_has_expected_binary_content() throws IOException {
     // GIVEN
@@ -87,6 +86,18 @@ class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
     byte[] expected = "Content".getBytes();
     // WHEN/THEN
     paths.assertHasBinaryContent(info, actual, expected);
+  }
+
+  @Test
+  void should_fail_if_actual_does_not_have_expected_binary_content() throws IOException {
+    // GIVEN
+    Path actual = Files.write(tempDir.resolve("actual"), "Content".getBytes());
+    byte[] expected = "Another content".getBytes();
+    BinaryDiffResult diff = binaryDiff.diff(actual, expected);
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertHasBinaryContent(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldHaveBinaryContent(actual, diff).create(info.description(), info.representation()));
   }
 
   @Test
@@ -103,19 +114,6 @@ class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
     then(thrown).isInstanceOf(UncheckedIOException.class)
                 .hasMessage("Unable to verify binary contents of path:<%s>", actual)
                 .hasCause(exception);
-  }
-
-  // FIXME add cases with different encoding
-  @Test
-  void should_fail_if_actual_does_not_have_expected_binary_content() throws IOException {
-    // GIVEN
-    Path actual = Files.write(tempDir.resolve("actual"), "Content".getBytes());
-    byte[] expected = "Another content".getBytes();
-    BinaryDiffResult diff = binaryDiff.diff(actual, expected);
-    // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasBinaryContent(info, actual, expected));
-    // THEN
-    then(error).hasMessage(shouldHaveBinaryContent(actual, diff).create(info.description(), info.representation()));
   }
 
 }

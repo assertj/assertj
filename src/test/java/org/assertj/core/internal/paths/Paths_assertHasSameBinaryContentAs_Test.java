@@ -24,6 +24,7 @@ import static org.mockito.BDDMockito.given;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -31,6 +32,8 @@ import org.assertj.core.internal.BinaryDiffResult;
 import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
 
@@ -105,23 +108,35 @@ class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
     then(error).hasMessage(shouldBeReadable(actual).create());
   }
 
-  // FIXME add cases with different encoding
-  @Test
-  void should_pass_if_actual_has_the_same_binary_content_as_expected() throws IOException {
+  @ParameterizedTest
+  @CsvSource({
+      "Content, US-ASCII, US-ASCII",
+      "Content, US-ASCII, ISO_8859_1",
+      "Content, US-ASCII, UTF-8",
+  })
+  void should_pass_if_actual_has_the_same_content_as_expected(String content,
+                                                              Charset actualCharset,
+                                                              Charset expectedCharset) throws IOException {
     // GIVEN
-    Path actual = Files.write(tempDir.resolve("actual"), "Content".getBytes());
-    Path expected = Files.write(tempDir.resolve("expected"), "Content".getBytes());
+    Path actual = Files.write(tempDir.resolve("actual"), content.getBytes(actualCharset));
+    Path expected = Files.write(tempDir.resolve("expected"), content.getBytes(expectedCharset));
     // WHEN/THEN
     paths.assertHasSameBinaryContentAs(info, actual, expected);
   }
 
-  // FIXME add cases with different encoding
-  @Test
-  void should_fail_if_actual_does_not_have_the_same_binary_content_as_expected() throws IOException {
+  @ParameterizedTest
+  @CsvSource({
+      "Content, US-ASCII, Content, UTF-16",
+      "Content, US-ASCII, Another content, US-ASCII",
+  })
+  void should_fail_if_actual_does_not_have_the_same_binary_content_as_expected(String actualContent,
+                                                                               Charset actualCharset,
+                                                                               String expectedContent,
+                                                                               Charset expectedCharset) throws IOException {
     // GIVEN
-    Path actual = Files.write(tempDir.resolve("actual"), "Content".getBytes());
-    Path expected = Files.write(tempDir.resolve("expected"), "Another content".getBytes());
-    BinaryDiffResult diff = binaryDiff.diff(actual, "Another content".getBytes());
+    Path actual = Files.write(tempDir.resolve("actual"), actualContent.getBytes(actualCharset));
+    Path expected = Files.write(tempDir.resolve("expected"), expectedContent.getBytes(expectedCharset));
+    BinaryDiffResult diff = binaryDiff.diff(actual, expectedContent.getBytes(expectedCharset));
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertHasSameBinaryContentAs(info, actual, expected));
     // THEN

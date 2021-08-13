@@ -230,7 +230,7 @@ public class Paths {
     if (!actual.getFileName().endsWith(fileName)) throw failures.failure(info, shouldHaveName(actual, fileName));
   }
 
-  public void assertHasContent(final AssertionInfo info, Path actual, String expected, Charset charset) {
+  public void assertHasTextualContent(final AssertionInfo info, Path actual, String expected, Charset charset) {
     requireNonNull(expected, "The text to compare to should not be null");
     assertIsReadable(info, actual);
     try {
