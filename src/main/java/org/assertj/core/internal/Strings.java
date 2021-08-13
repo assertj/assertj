@@ -34,6 +34,7 @@ import static org.assertj.core.error.ShouldBeMixedCase.shouldBeMixedCase;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
 import static org.assertj.core.error.ShouldBeUpperCase.shouldBeUpperCase;
+import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringWhitespaces;
@@ -472,6 +473,12 @@ public class Strings {
       throw failures.failure(info, shouldContain(actual, values[0], comparisonStrategy));
     }
     throw failures.failure(info, shouldContain(actual, values, notFound, comparisonStrategy));
+  }
+
+  public void assertContainsAnyOf(AssertionInfo info, CharSequence actual, CharSequence[] values) {
+    doCommonCheckForCharSequence(info, actual, values);
+    boolean found = stream(values).anyMatch(value -> stringContains(actual, value));
+    if (!found) throw failures.failure(info, shouldContainAnyOf(actual, values, comparisonStrategy));
   }
 
   /**

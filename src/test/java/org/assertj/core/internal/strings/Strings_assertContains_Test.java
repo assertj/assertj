@@ -21,14 +21,10 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Strings#assertContains(AssertionInfo, CharSequence, CharSequence)}</code>.
- * 
  * @author Alex Ruiz
  * @author Joel Costigliola
  */

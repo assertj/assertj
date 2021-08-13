@@ -649,15 +649,38 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <pre><code class='java'> assertThat(&quot;Gandalf the grey&quot;).contains(&quot;alf&quot;);
    * assertThat(&quot;Gandalf the grey&quot;).contains(&quot;alf&quot;, &quot;grey&quot;);</code></pre>
    *
-   * @param values the Strings to look for.
+   * @param values the values to look for.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given list of values is {@code null}.
    * @throws IllegalArgumentException if the list of given values is empty.
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings.
+   * @throws AssertionError if the actual {@code CharSequence} does not contain all the given values.
    */
   public SELF contains(CharSequence... values) {
     strings.assertContains(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} contains any of the given values.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(&quot;Gandalf the grey&quot;).containsAnyOf(&quot;grey&quot;, &quot;black&quot;);
+   *
+   * // assertions will fail
+   * assertThat(&quot;Gandalf the grey&quot;).containsAnyOf(&quot;white&quot;, &quot;black&quot;);</code></pre>
+   *
+   * @param values the values to look for.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given list of values is {@code null}.
+   * @throws IllegalArgumentException if the list of given values is empty.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} does not contain any of the given values.
+   * @since 3.21.0
+   */
+  public SELF containsAnyOf(CharSequence... values) {
+    strings.assertContainsAnyOf(info, actual, values);
     return myself;
   }
 
@@ -668,7 +691,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <pre><code class='java'> assertThat(&quot;Gandalf the grey&quot;).contains(Arrays.asList(&quot;alf&quot;));
    * assertThat(&quot;Gandalf the grey&quot;).contains(Arrays.asList(&quot;alf&quot;, &quot;grey&quot;));</code></pre>
    *
-   * @param values the Strings to look for.
+   * @param values the values to look for.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given list of values is {@code null}.
    * @throws IllegalArgumentException if the list of given values is empty.
@@ -833,12 +856,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * // assertion fails:
    * assertThat(&quot;Gandalf the grey&quot;).containsIgnoringWhitespaces(&quot;alF&quot;)</code></pre>
    *
-   * @param values the Strings to look for.
+   * @param values the values to look for.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given list of values is {@code null}.
    * @throws IllegalArgumentException if the list of given values is empty.
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings.
+   * @throws AssertionError if the actual {@code CharSequence} does not contain all the given values.
    */
   public SELF containsIgnoringWhitespaces(CharSequence... values) {
     strings.assertContainsIgnoringWhitespaces(info, actual, values);

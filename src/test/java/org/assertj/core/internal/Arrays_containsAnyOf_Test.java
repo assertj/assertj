@@ -91,7 +91,7 @@ class Arrays_containsAnyOf_Test extends BaseArraysTest {
     Throwable error = catchThrowable(() -> arrays.assertContainsAnyOf(info, failures, actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainAnyOf(actual, expected));
+    verify(failures).failure(info, shouldContainAnyOf(actual, expected, StandardComparisonStrategy.instance()));
   }
 
   // ------------------------------------------------------------------------------------------------------------------

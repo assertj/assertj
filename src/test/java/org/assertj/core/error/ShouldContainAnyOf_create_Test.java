@@ -37,7 +37,7 @@ class ShouldContainAnyOf_create_Test {
                                    "  [\"Yoda\", \"Han\", \"Han\"]%n" +
                                    "to contain at least one of the following elements:%n" +
                                    "  [\"Vador\", \"Leia\"]%n" +
-                                   "but none were found "));
+                                   "but none were found"));
   }
 
   @Test
