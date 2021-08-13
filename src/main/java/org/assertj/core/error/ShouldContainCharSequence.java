@@ -15,7 +15,6 @@ package org.assertj.core.error;
 import static org.assertj.core.util.Strings.escapePercent;
 import static org.assertj.core.util.Throwables.getStackTrace;
 
-import java.util.Arrays;
 import java.util.Set;
 
 import org.assertj.core.internal.ComparisonStrategy;
@@ -112,24 +111,6 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
   public static ErrorMessageFactory shouldContain(CharSequence actual, CharSequence[] strings,
                                                   Set<? extends CharSequence> notFound) {
     return shouldContain(actual, strings, notFound, StandardComparisonStrategy.instance());
-  }
-
-  /**
-   * Creates a new <code>{@link ShouldContainCharSequence}</code>.
-   *
-   * @param actual the actual value in the failed assertion.
-   * @param strings the sequence of values expected to be in {@code actual}.
-   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
-   * @return the created {@code ErrorMessageFactory}.
-   */
-  public static ErrorMessageFactory shouldContainAnyOf(CharSequence actual, CharSequence[] strings,
-                                                       ComparisonStrategy comparisonStrategy) {
-    return new ShouldContainCharSequence("%n" +
-      "Expecting actual:%n" +
-      "  %s%n" +
-      "to contain any of:%n" +
-      "  %s%n",
-      actual, Arrays.toString(strings), comparisonStrategy);
   }
 
   /**
