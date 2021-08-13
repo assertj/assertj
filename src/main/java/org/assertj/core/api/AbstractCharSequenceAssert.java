@@ -1577,7 +1577,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} is a lowercase {@code CharSequence} by comparing it to a lowercase {@code actual} built with {@link String#toLowerCase()}.
+   * Verifies that the actual {@code CharSequence} is a lowercase {@code CharSequence} by comparing it to
+   * a lowercase {@code actual} built with {@link String#toLowerCase()}.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
@@ -1594,6 +1595,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not lowercase.
+   * @see #isMixedCase()
+   * @see #isUpperCase()
    */
   public SELF isLowerCase() {
     strings.assertLowerCase(info, actual);
@@ -1601,7 +1604,37 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} is a uppercase {@code CharSequence} by comparing it to an uppercase {@code actual} built with {@link String#toUpperCase()}.
+   * Verifies that the actual {@code CharSequence} is a mixed case {@code CharSequence}, i.e.,
+   * neither uppercase nor lowercase.
+   * <p>
+   * If actual is empty or contains only case-independent characters, the assertion will pass.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(&quot;Capitalized&quot;).isMixedCase();
+   * assertThat(&quot;camelCase&quot;).isMixedCase();
+   * assertThat(&quot;rAndOMcAse1234&quot;).isMixedCase();
+   * assertThat(&quot;1@3$567&quot;).isMixedCase();
+   * assertThat(&quot;&quot;).isMixedCase();
+   *
+   * // assertions will fail
+   * assertThat(&quot;I AM GROOT!&quot;).isMixedCase();
+   * assertThat(&quot;please be quiet&quot;).isMixedCase();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not mixed case.
+   * @see #isLowerCase()
+   * @see #isUpperCase()
+   * @since 3.21.0
+   */
+  public SELF isMixedCase() {
+    strings.assertMixedCase(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is an uppercase {@code CharSequence} by comparing it to
+   * an uppercase {@code actual} built with {@link String#toUpperCase()}.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
@@ -1618,6 +1651,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not uppercase.
+   * @see #isLowerCase()
+   * @see #isMixedCase()
    */
   public SELF isUpperCase() {
     strings.assertUpperCase(info, actual);
