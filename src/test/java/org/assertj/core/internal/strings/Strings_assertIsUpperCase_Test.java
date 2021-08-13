@@ -21,8 +21,6 @@ import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link org.assertj.core.internal.Strings#assertUpperCase(org.assertj.core.api.AssertionInfo, CharSequence)} </code>.
- *
  * @author Marcel Overdijk
  */
 class Strings_assertIsUpperCase_Test extends StringsBaseTest {

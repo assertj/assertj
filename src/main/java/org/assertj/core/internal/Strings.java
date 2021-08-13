@@ -30,6 +30,7 @@ import static org.assertj.core.error.ShouldBeEqualNormalizingPunctuationAndWhite
 import static org.assertj.core.error.ShouldBeEqualNormalizingUnicode.shouldBeEqualNormalizingUnicode;
 import static org.assertj.core.error.ShouldBeEqualNormalizingWhitespace.shouldBeEqualNormalizingWhitespace;
 import static org.assertj.core.error.ShouldBeLowerCase.shouldBeLowerCase;
+import static org.assertj.core.error.ShouldBeMixedCase.shouldBeMixedCase;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
 import static org.assertj.core.error.ShouldBeUpperCase.shouldBeUpperCase;
@@ -1221,14 +1222,25 @@ public class Strings {
 
   public void assertLowerCase(AssertionInfo info, CharSequence actual) {
     assertNotNull(info, actual);
-    if (actual.equals(actual.toString().toLowerCase())) return;
-    throw failures.failure(info, shouldBeLowerCase(actual));
+    if (!isLowerCase(actual)) throw failures.failure(info, shouldBeLowerCase(actual));
+  }
+
+  private boolean isLowerCase(CharSequence actual) {
+    return actual.equals(actual.toString().toLowerCase());
   }
 
   public void assertUpperCase(AssertionInfo info, CharSequence actual) {
     assertNotNull(info, actual);
-    if (actual.equals(actual.toString().toUpperCase())) return;
-    throw failures.failure(info, shouldBeUpperCase(actual));
+    if (!isUpperCase(actual)) throw failures.failure(info, shouldBeUpperCase(actual));
+  }
+
+  private boolean isUpperCase(CharSequence actual) {
+    return actual.equals(actual.toString().toUpperCase());
+  }
+
+  public void assertMixedCase(AssertionInfo info, CharSequence actual) {
+    assertNotNull(info, actual);
+    if (isLowerCase(actual) != isUpperCase(actual)) throw failures.failure(info, shouldBeMixedCase(actual));
   }
 
   /***
