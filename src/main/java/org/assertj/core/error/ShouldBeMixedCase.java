@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 /**
- * Creates an error message that indicates an assertion that verifies that a character is mixed case failed.
+ * Creates an error message that indicates an assertion that verifies that a {@code CharSequence} is mixed case failed.
  * 
  * @author Andrey Kuzmin
  */
@@ -24,11 +24,12 @@ public class ShouldBeMixedCase extends BasicErrorMessageFactory {
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeMixedCase(Object actual) {
+  public static ErrorMessageFactory shouldBeMixedCase(CharSequence actual) {
     return new ShouldBeMixedCase(actual);
   }
 
-  private ShouldBeMixedCase(Object actual) {
+  private ShouldBeMixedCase(CharSequence actual) {
     super("%nExpecting %s to be mixed case", actual);
   }
+
 }

@@ -1202,30 +1202,27 @@ public class Strings {
       throw failures.failure(info, shouldBeEqualIgnoringNewLines(actual, expected), actual, expected);
   }
 
+  public void assertLowerCase(AssertionInfo info, CharSequence actual) {
+    assertNotNull(info, actual);
+    if (!isLowerCase(actual)) throw failures.failure(info, shouldBeLowerCase(actual));
+  }
+
   private boolean isLowerCase(CharSequence actual) {
     return actual.equals(actual.toString().toLowerCase());
   }
 
-  public void assertLowerCase(AssertionInfo info, CharSequence actual) {
+  public void assertUpperCase(AssertionInfo info, CharSequence actual) {
     assertNotNull(info, actual);
-    if (isLowerCase(actual)) return;
-    throw failures.failure(info, shouldBeLowerCase(actual));
+    if (!isUpperCase(actual)) throw failures.failure(info, shouldBeUpperCase(actual));
   }
 
   private boolean isUpperCase(CharSequence actual) {
     return actual.equals(actual.toString().toUpperCase());
   }
 
-  public void assertUpperCase(AssertionInfo info, CharSequence actual) {
-    assertNotNull(info, actual);
-    if (isUpperCase(actual)) return;
-    throw failures.failure(info, shouldBeUpperCase(actual));
-  }
-
   public void assertMixedCase(AssertionInfo info, CharSequence actual) {
     assertNotNull(info, actual);
-    if (isLowerCase(actual) == isUpperCase(actual)) return;
-    throw failures.failure(info, shouldBeMixedCase(actual));
+    if (isLowerCase(actual) != isUpperCase(actual)) throw failures.failure(info, shouldBeMixedCase(actual));
   }
 
   /***

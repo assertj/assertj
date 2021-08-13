@@ -12,76 +12,65 @@
  */
 package org.assertj.core.internal.strings;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeMixedCase.shouldBeMixedCase;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.internal.StringsBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
- * Tests for <code>{@link org.assertj.core.internal.Strings#assertMixedCase(org.assertj.core.api.AssertionInfo, CharSequence)} </code>.
- *
  * @author Andrey Kuzmin
  */
-@DisplayName("Strings assertIsMixedCase")
 class Strings_assertIsMixedCase_Test extends StringsBaseTest {
 
   @Test
-  void should_pass_if_actual_is_mixed_case() {
-    strings.assertMixedCase(someInfo(), "anExampleOfCamelCaseString");
-  }
-
-  @Test()
-  void should_pass_if_actual_is_mixed_case_with_numbers_and_special_symbols() {
-    strings.assertMixedCase(someInfo(), "anEx4mpl3OfC4m3lC4s3Str1ng!");
-  }
-
-  @Test
-  void should_pass_if_actual_is_empty() {
-    strings.assertMixedCase(someInfo(), "");
-  }
-
-  @Test
-  void should_fail_if_actual_is_single_lowercase() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMixedCase(someInfo(), "p"))
-      .withMessage(shouldBeMixedCase("p").create());
-  }
-
-  @Test
-  void should_fail_if_actual_is_lowercase() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMixedCase(someInfo(), "please be quiet"))
-      .withMessage(shouldBeMixedCase("please be quiet").create());
-  }
-
-  @Test
-  void should_pass_if_actual_is_whitespace() {
-    strings.assertMixedCase(someInfo(), " ");
-  }
-
-  @Test
-  void should_pass_if_actual_is_has_no_letters() {
-    strings.assertMixedCase(someInfo(), "@$#24^");
-  }
-
-  @Test
-  void should_fail_if_actual_is_single_uppercase() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMixedCase(someInfo(), "P"))
-      .withMessage(shouldBeMixedCase("P").create());
-  }
-
-  @Test
-  void should_fail_if_actual_is_uppercase() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMixedCase(someInfo(), "I AM GROOT!"))
-                                                   .withMessage(shouldBeMixedCase("I AM GROOT!").create());
-  }
-
-  @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMixedCase(someInfo(), null))
-      .withMessage(shouldNotBeNull().create());
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> strings.assertMixedCase(someInfo(), null));
+    // THEN
+    then(assertionError).hasMessage(shouldNotBeNull().create());
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {
+      "I AM GROOT!",
+      "P",
+  })
+  void should_fail_if_actual_is_uppercase(CharSequence actual) {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> strings.assertMixedCase(someInfo(), actual));
+    // THEN
+    then(assertionError).hasMessage(shouldBeMixedCase(actual).create());
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {
+      "please be quiet",
+      "p",
+  })
+  void should_fail_if_actual_is_lowercase(CharSequence actual) {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> strings.assertMixedCase(someInfo(), actual));
+    // THEN
+    then(assertionError).hasMessage(shouldBeMixedCase(actual).create());
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {
+      "",
+      " ",
+      "anExampleOfCamelCaseString",
+      "anEx4mpl3OfC4m3lC4s3Str1ng!", // with numbers and special characters
+      "@$#24^", // only numbers and special characters
+  })
+  void should_pass_if_actual_is_mixed_case(CharSequence actual) {
+    // WHEN/THEN
+    strings.assertMixedCase(someInfo(), actual);
   }
 
 }

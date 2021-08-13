@@ -28,4 +28,5 @@ class CharSequenceAssert_isMixedCase_Test extends CharSequenceAssertBaseTest {
   protected void verify_internal_effects() {
     verify(strings).assertMixedCase(getInfo(assertions), getActual(assertions));
   }
+
 }

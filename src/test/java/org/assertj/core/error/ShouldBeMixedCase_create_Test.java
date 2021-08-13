@@ -14,31 +14,20 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeUpperCase.shouldBeUpperCase;
+import static org.assertj.core.error.ShouldBeMixedCase.shouldBeMixedCase;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Alex Ruiz
- */
-class ShouldBeUpperCase_create_Test {
+class ShouldBeMixedCase_create_Test {
 
   @Test
-  void should_create_error_message_for_character() {
+  void should_create_error_message() {
     // WHEN
-    String message = shouldBeUpperCase('a').create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    String message = shouldBeMixedCase("ABC").create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting 'a' to be uppercase"));
-  }
-
-  @Test
-  void should_create_error_message_for_string() {
-    // WHEN
-    String message = shouldBeUpperCase("abc").create(new TextDescription("Test"), STANDARD_REPRESENTATION);
-    // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting \"abc\" to be uppercase"));
+    then(message).isEqualTo(format("[Test] %nExpecting \"ABC\" to be mixed case"));
   }
 
 }
