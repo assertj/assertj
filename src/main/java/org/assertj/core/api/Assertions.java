@@ -1144,7 +1144,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created {@link ThrowableAssert}.
    */
-  public static AbstractThrowableAssert<?, ? extends Throwable> assertThat(Throwable actual) {
+  public static <T extends Throwable> AbstractThrowableAssert<?, T> assertThat(T actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 

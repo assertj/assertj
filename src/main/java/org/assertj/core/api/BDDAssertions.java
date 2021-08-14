@@ -1148,7 +1148,7 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @return the created assertion Throwable.
    */
-  public static AbstractThrowableAssert<?, ? extends Throwable> then(Throwable actual) {
+  public static <T extends Throwable> AbstractThrowableAssert<?, T> then(T actual) {
     return assertThat(actual);
   }
 

@@ -20,7 +20,7 @@ import org.assertj.core.api.ThrowableAssertBaseTest;
 class ThrowableAssert_hasRootCauseMessage_Test extends ThrowableAssertBaseTest {
 
   @Override
-  protected ThrowableAssert invoke_api_method() {
+  protected ThrowableAssert<Throwable> invoke_api_method() {
     return assertions.hasRootCauseMessage("message");
   }
 

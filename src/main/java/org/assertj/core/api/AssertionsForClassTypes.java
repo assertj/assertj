@@ -694,8 +694,8 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created {@link ThrowableAssert}.
    */
-  public static AbstractThrowableAssert<?, ? extends Throwable> assertThat(Throwable actual) {
-    return new ThrowableAssert(actual);
+  public static <T extends Throwable> AbstractThrowableAssert<?, T> assertThat(T actual) {
+    return new ThrowableAssert<>(actual);
   }
 
   /**

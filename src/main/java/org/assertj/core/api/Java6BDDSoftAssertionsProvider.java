@@ -755,7 +755,8 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion Throwable.
    */
-  default ThrowableAssert then(Throwable actual) {
+  @SuppressWarnings("unchecked")
+  default <T extends Throwable> ThrowableAssert<T> then(T actual) {
     return proxy(ThrowableAssert.class, Throwable.class, actual);
   }
 

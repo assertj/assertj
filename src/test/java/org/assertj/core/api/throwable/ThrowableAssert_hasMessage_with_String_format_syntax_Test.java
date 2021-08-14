@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 class ThrowableAssert_hasMessage_with_String_format_syntax_Test extends ThrowableAssertBaseTest {
 
   @Override
-  protected ThrowableAssert invoke_api_method() {
+  protected ThrowableAssert<Throwable> invoke_api_method() {
     return assertions.hasMessage("throwable message %s", "foo");
   }
 

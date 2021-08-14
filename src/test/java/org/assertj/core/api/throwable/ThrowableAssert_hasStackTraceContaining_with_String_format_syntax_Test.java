@@ -18,14 +18,12 @@ import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.api.ThrowableAssertBaseTest;
 
 /**
- * Tests for <code>{@link ThrowableAssert#hasStackTraceContaining(String, Object...)}</code>.
- *
  * @author Krishna Chaithanya Ganta
  */
 class ThrowableAssert_hasStackTraceContaining_with_String_format_syntax_Test extends ThrowableAssertBaseTest {
 
   @Override
-  protected ThrowableAssert invoke_api_method() {
+  protected ThrowableAssert<Throwable> invoke_api_method() {
     return assertions.hasStackTraceContaining("able%s", " message");
   }
 

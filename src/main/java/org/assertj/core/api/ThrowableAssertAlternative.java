@@ -29,11 +29,11 @@ import org.assertj.core.util.CheckReturnValue;
 public class ThrowableAssertAlternative<ACTUAL extends Throwable>
     extends AbstractObjectAssert<ThrowableAssertAlternative<ACTUAL>, ACTUAL> {
 
-  private ThrowableAssert delegate;
+  private final ThrowableAssert<ACTUAL> delegate;
 
   public ThrowableAssertAlternative(final ACTUAL actual) {
     super(actual, ThrowableAssertAlternative.class);
-    delegate = new ThrowableAssert(actual);
+    delegate = new ThrowableAssert<>(actual);
   }
 
   /**

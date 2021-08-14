@@ -22,12 +22,12 @@ import org.assertj.core.internal.Throwables;
  * @author Olivier Michallat
  * @author Libor Ondrusek
  */
-public abstract class ThrowableAssertBaseTest extends BaseTestTemplate<ThrowableAssert, Throwable> {
+public abstract class ThrowableAssertBaseTest extends BaseTestTemplate<ThrowableAssert<Throwable>, Throwable> {
   protected Throwables throwables;
 
   @Override
-  protected ThrowableAssert create_assertions() {
-    return new ThrowableAssert(new Throwable("throwable message"));
+  protected ThrowableAssert<Throwable> create_assertions() {
+    return new ThrowableAssert<>(new Throwable("throwable message"));
   }
 
   @Override

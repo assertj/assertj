@@ -1036,8 +1036,8 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @return the created {@link ThrowableAssert}.
    */
-  public static AbstractThrowableAssert<?, ? extends Throwable> assertThat(Throwable actual) {
-    return new ThrowableAssert(actual);
+  public static <T extends Throwable> AbstractThrowableAssert<?, T> assertThat(T actual) {
+    return new ThrowableAssert<>(actual);
   }
 
   /**
@@ -1080,7 +1080,7 @@ public class Java6Assertions {
    */
   @CanIgnoreReturnValue
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable) {
-    return new ThrowableAssert(catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
+    return new ThrowableAssert<>(catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
   }
 
   /**

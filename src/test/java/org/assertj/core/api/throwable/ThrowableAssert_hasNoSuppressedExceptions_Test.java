@@ -19,13 +19,10 @@ import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.api.ThrowableAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for {@link org.assertj.core.api.ThrowableAssert#hasNoSuppressedExceptions()}.
- */
 class ThrowableAssert_hasNoSuppressedExceptions_Test extends ThrowableAssertBaseTest {
 
   @Override
-  protected ThrowableAssert invoke_api_method() {
+  protected ThrowableAssert<Throwable> invoke_api_method() {
     return assertions.hasNoSuppressedExceptions();
   }
 

@@ -210,7 +210,7 @@ public interface WithAssumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  default AbstractThrowableAssert<?, ? extends Throwable> assumeThat(final Throwable actual) {
+  default <T extends Throwable> AbstractThrowableAssert<?, T> assumeThat(final T actual) {
     return Assumptions.assumeThat(actual);
   }
 

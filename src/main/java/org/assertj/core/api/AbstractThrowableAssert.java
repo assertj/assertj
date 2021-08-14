@@ -177,7 +177,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    */
   public AbstractThrowableAssert<?, ?> getCause() {
     throwables.assertHasCause(info, actual);
-    return new ThrowableAssert(actual.getCause());
+    return new ThrowableAssert<>(actual.getCause());
   }
 
   /**
@@ -200,7 +200,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    */
   public AbstractThrowableAssert<?, ?> getRootCause() {
     throwables.assertHasRootCause(info, actual);
-    return new ThrowableAssert(org.assertj.core.util.Throwables.getRootCause(actual));
+    return new ThrowableAssert<>(org.assertj.core.util.Throwables.getRootCause(actual));
   }
 
   /**
