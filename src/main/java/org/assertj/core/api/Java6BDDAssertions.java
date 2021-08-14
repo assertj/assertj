@@ -901,12 +901,12 @@ public class Java6BDDAssertions {
   }
 
   /**
-   * Creates a new instance of <code>{@link org.assertj.core.api.ThrowableAssert}</code>.
+   * Creates a new instance of <code>{@link ThrowableAssert}</code>.
    *
    * @param actual the actual value.
    * @return the created assertion Throwable.
    */
-  public static AbstractThrowableAssert<?, ? extends Throwable> then(Throwable actual) {
+  public static <T extends Throwable> AbstractThrowableAssert<?, T> then(T actual) {
     return assertThat(actual);
   }
 

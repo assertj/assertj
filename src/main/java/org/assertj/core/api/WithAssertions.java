@@ -416,7 +416,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created {@link ThrowableAssert}.
    */
-  default AbstractThrowableAssert<?, ? extends Throwable> assertThat(final Throwable actual) {
+  default <T extends Throwable> AbstractThrowableAssert<?, T> assertThat(final T actual) {
     return Assertions.assertThat(actual);
   }
 

@@ -528,7 +528,8 @@ public interface InstanceOfAssertFactories {
    *
    * @since 3.17.0
    */
-  InstanceOfAssertFactory<Period, AbstractPeriodAssert<?>> PERIOD = new InstanceOfAssertFactory<>(Period.class, Assertions::assertThat);
+  InstanceOfAssertFactory<Period, AbstractPeriodAssert<?>> PERIOD = new InstanceOfAssertFactory<>(Period.class,
+                                                                                                  Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicBoolean}.
@@ -727,8 +728,22 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for a {@link Throwable}.
    */
-  InstanceOfAssertFactory<Throwable, AbstractThrowableAssert<?, ? extends Throwable>> THROWABLE = new InstanceOfAssertFactory<>(Throwable.class,
-                                                                                                                                Assertions::assertThat);
+  InstanceOfAssertFactory<Throwable, AbstractThrowableAssert<?, Throwable>> THROWABLE = new InstanceOfAssertFactory<>(Throwable.class,
+                                                                                                                      Assertions::assertThat);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link Throwable}.
+   *
+   * @param <T>  the {@code Throwable} type.
+   * @param type the element type instance.
+   * @return the factory instance.
+   *
+   * @see #THROWABLE
+   * @since 3.21.0
+   */
+  static <T extends Throwable> InstanceOfAssertFactory<T, AbstractThrowableAssert<?, T>> throwable(Class<T> type) {
+    return new InstanceOfAssertFactory<>(type, Assertions::assertThat);
+  }
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link CharSequence}.

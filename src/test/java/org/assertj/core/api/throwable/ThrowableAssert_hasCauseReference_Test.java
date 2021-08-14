@@ -19,10 +19,10 @@ import org.assertj.core.api.ThrowableAssertBaseTest;
 
 class ThrowableAssert_hasCauseReference_Test extends ThrowableAssertBaseTest {
 
-  private Throwable npe = new NullPointerException();
+  private final Throwable npe = new NullPointerException();
 
   @Override
-  protected ThrowableAssert invoke_api_method() {
+  protected ThrowableAssert<Throwable> invoke_api_method() {
     return assertions.hasCauseReference(npe);
   }
 

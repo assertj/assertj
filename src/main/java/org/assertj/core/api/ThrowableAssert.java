@@ -27,13 +27,13 @@ import java.util.concurrent.Callable;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class ThrowableAssert extends AbstractThrowableAssert<ThrowableAssert, Throwable> {
+public class ThrowableAssert<ACTUAL extends Throwable> extends AbstractThrowableAssert<ThrowableAssert<ACTUAL>, ACTUAL> {
 
   public interface ThrowingCallable {
     void call() throws Throwable;
   }
 
-  public ThrowableAssert(Throwable actual) {
+  public ThrowableAssert(ACTUAL actual) {
     super(actual, ThrowableAssert.class);
   }
 
@@ -41,7 +41,8 @@ public class ThrowableAssert extends AbstractThrowableAssert<ThrowableAssert, Th
     super(buildThrowableAssertFromCallable(runnable), ThrowableAssert.class);
   }
 
-  private static <V> Throwable buildThrowableAssertFromCallable(Callable<V> callable) throws AssertionError {
+  @SuppressWarnings("unchecked")
+  private static <V, THROWABLE extends Throwable> THROWABLE buildThrowableAssertFromCallable(Callable<V> callable) throws AssertionError {
     try {
       callable.call();
       // fail if the expected exception was *not* thrown
@@ -53,7 +54,7 @@ public class ThrowableAssert extends AbstractThrowableAssert<ThrowableAssert, Th
       throw e;
     } catch (Throwable throwable) {
       // the throwable we will check
-      return throwable;
+      return (THROWABLE) throwable;
     }
   }
 

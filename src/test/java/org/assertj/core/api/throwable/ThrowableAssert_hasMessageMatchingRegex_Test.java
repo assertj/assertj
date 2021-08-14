@@ -18,8 +18,6 @@ import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.api.ThrowableAssertBaseTest;
 
 /**
- * Tests for <code>{@link ThrowableAssert#hasMessageMatching(String)}</code>.
- * 
  * @author Libor Ondrusek
  */
 class ThrowableAssert_hasMessageMatchingRegex_Test extends ThrowableAssertBaseTest {
@@ -27,7 +25,7 @@ class ThrowableAssert_hasMessageMatchingRegex_Test extends ThrowableAssertBaseTe
   public static final String REGEX = "Given id='\\d{2,4}' not exists";
 
   @Override
-  protected ThrowableAssert invoke_api_method() {
+  protected ThrowableAssert<Throwable> invoke_api_method() {
     return assertions.hasMessageMatching(REGEX);
   }
 

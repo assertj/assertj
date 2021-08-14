@@ -18,17 +18,14 @@ import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.api.ThrowableAssertBaseTest;
 
 /**
- * Tests for <code>{@link ThrowableAssert#hasMessageFindingMatch(String)} </code>.
- *
  * @author David Haccoun
- *
  */
 class ThrowableAssert_hasMessageFindingMatch_Test extends ThrowableAssertBaseTest {
 
   private static final String REGEX = "dummy regex";
 
   @Override
-  protected ThrowableAssert invoke_api_method() {
+  protected ThrowableAssert<Throwable> invoke_api_method() {
     return assertions.hasMessageFindingMatch(REGEX);
   }
 

@@ -903,7 +903,8 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
-  public static AbstractThrowableAssert<?, ? extends Throwable> assumeThat(Throwable actual) {
+  @SuppressWarnings("unchecked")
+  public static <T extends Throwable> AbstractThrowableAssert<?, T> assumeThat(T actual) {
     return asAssumption(ThrowableAssert.class, Throwable.class, actual);
   }
 
@@ -921,6 +922,7 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
    */
+  @SuppressWarnings("unchecked")
   public static AbstractThrowableAssert<?, ? extends Throwable> assumeThatThrownBy(ThrowingCallable shouldRaiseThrowable) {
     return asAssumption(ThrowableAssert.class, Throwable.class, catchThrowable(shouldRaiseThrowable));
   }
