@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
@@ -21,7 +22,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.assertj.core.api.Assertions;
 import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
 
@@ -42,7 +42,7 @@ class Paths_assertHasParentRaw_Test extends PathsBaseTest {
     // GIVEN
     Path actual = tempDir.resolve("actual");
     // WHEN
-    Throwable thrown = Assertions.catchThrowable(() -> paths.assertHasParentRaw(info, actual, null));
+    Throwable thrown = catchThrowable(() -> paths.assertHasParentRaw(info, actual, null));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage("expected parent path should not be null");

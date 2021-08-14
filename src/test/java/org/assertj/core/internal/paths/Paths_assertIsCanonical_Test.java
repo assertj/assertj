@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.paths;
 
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeCanonicalPath.shouldBeCanonicalPath;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
@@ -24,7 +25,6 @@ import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.assertj.core.api.Assertions;
 import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
 
@@ -45,7 +45,7 @@ class Paths_assertIsCanonical_Test extends PathsBaseTest {
     IOException exception = new IOException("boom!");
     given(actual.toRealPath()).willThrow(exception);
     // WHEN
-    Throwable thrown = Assertions.catchThrowable(() -> paths.assertIsCanonical(info, actual));
+    Throwable thrown = catchThrowable(() -> paths.assertIsCanonical(info, actual));
     // THEN
     then(thrown).isInstanceOf(UncheckedIOException.class)
                 .hasCause(exception);
