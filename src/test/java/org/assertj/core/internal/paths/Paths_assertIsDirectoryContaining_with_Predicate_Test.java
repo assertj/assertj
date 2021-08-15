@@ -23,8 +23,8 @@ import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.emptyList;
-import static org.junit.jupiter.api.condition.OS.WINDOWS;
-import static org.mockito.BDDMockito.given;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.willThrow;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -34,7 +34,6 @@ import java.util.function.Predicate;
 
 import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.DisabledOnOs;
 
 /**
  * @author Valeriy Vyrva
@@ -87,13 +86,12 @@ class Paths_assertIsDirectoryContaining_with_Predicate_Test extends PathsBaseTes
   }
 
   @Test
-  @DisabledOnOs(value = WINDOWS, disabledReason = "gh-FIXME")
   void should_rethrow_IOException_as_UncheckedIOException() throws Exception {
     // GIVEN
     Path actual = createDirectory(tempDir.resolve("actual"));
     Predicate<Path> filter = path -> true;
     IOException cause = new IOException("boom!");
-    given(nioFilesWrapper.newDirectoryStream(actual, filter)).willThrow(cause);
+    willThrow(cause).given(nioFilesWrapper).newDirectoryStream(any(), any());
     // WHEN
     Throwable thrown = catchThrowable(() -> paths.assertIsDirectoryContaining(info, actual, filter));
     // THEN
