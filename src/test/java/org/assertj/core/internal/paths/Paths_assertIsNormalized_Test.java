@@ -12,41 +12,81 @@
  */
 package org.assertj.core.internal.paths;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.ThrowableAssert.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeNormalized.shouldBeNormalized;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.condition.OS.WINDOWS;
 
 import java.nio.file.Path;
 
+import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
-class Paths_assertIsNormalized_Test extends MockPathsBaseTest {
+class Paths_assertIsNormalized_Test extends PathsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsNormalized(info, null))
-                                                   .withMessage(actualIsNull());
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertIsNormalized(info, null));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
-  @Test
-  void should_fail_if_actual_is_not_normalized() {
-    when(actual.normalize()).thenReturn(mock(Path.class));
-
-    Throwable error = catchThrowable(() -> paths.assertIsNormalized(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeNormalized(actual));
+  @ParameterizedTest
+  @DisabledOnOs(WINDOWS)
+  @CsvSource({
+      "/a/./b",
+      "c/d/..",
+      "/../../e",
+  })
+  void should_fail_on_unix_if_actual_is_not_normalized(Path actual) {
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertIsNormalized(info, actual));
+    // THEN
+    then(error).hasMessage(shouldBeNormalized(actual).create());
   }
 
-  @Test
-  void should_pass_if_actual_is_normalized() {
-    when(actual.normalize()).thenReturn(actual);
+  @ParameterizedTest
+  @EnabledOnOs(WINDOWS)
+  @CsvSource({
+      "C:\\a\\.\\b",
+      "c\\d\\..",
+      "C:\\..\\..\\e",
+  })
+  void should_fail_on_windows_if_actual_is_not_normalized(Path actual) {
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertIsNormalized(info, actual));
+    // THEN
+    then(error).hasMessage(shouldBeNormalized(actual).create());
+  }
 
+  @ParameterizedTest
+  @DisabledOnOs(WINDOWS)
+  @CsvSource({
+      "/usr/lib",
+      "a/b/c",
+      "../d",
+  })
+  void should_pass_on_unix_if_actual_is_normalized(Path actual) {
+    // WHEN/THEN
     paths.assertIsNormalized(info, actual);
   }
+
+  @ParameterizedTest
+  @EnabledOnOs(WINDOWS)
+  @CsvSource({
+      "C:\\usr\\lib",
+      "a\\b\\c",
+      "..\\d",
+  })
+  void should_pass_on_windows_if_actual_is_normalized(Path actual) {
+    // WHEN/THEN
+    paths.assertIsNormalized(info, actual);
+  }
+
 }

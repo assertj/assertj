@@ -12,38 +12,52 @@
  */
 package org.assertj.core.internal.paths;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.ThrowableAssert.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
+
+import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
-class Paths_assertIsAbsolute_Test extends MockPathsBaseTest {
+class Paths_assertIsAbsolute_Test extends PathsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsAbsolute(info, null))
-                                                   .withMessage(actualIsNull());
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertIsAbsolute(info, null));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
-  @Test
+  @ParameterizedTest
+  @MethodSource("nonAbsolutePaths")
   void should_fail_if_actual_is_not_absolute() {
-    // This is the default, but make it explicit
-    when(actual.isAbsolute()).thenReturn(false);
+    // GIVEN
+    Path actual = Paths.get("relative");
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertIsAbsolute(info, actual));
+    // THEN
+    then(error).hasMessage(shouldBeAbsolutePath(actual).create());
+  }
 
-    Throwable error = catchThrowable(() -> paths.assertIsAbsolute(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeAbsolutePath(actual));
+  private static Stream<Path> nonAbsolutePaths() {
+    return Stream.of(Paths.get("foo"),
+                     Paths.get("foo", "bar"));
   }
 
   @Test
   void should_pass_if_actual_is_absolute() {
-    when(actual.isAbsolute()).thenReturn(true);
+    // GIVEN
+    Path actual = tempDir.getRoot().resolve("foo").resolve("bar");
+    // WHEN/THEN
     paths.assertIsAbsolute(info, actual);
   }
+
 }

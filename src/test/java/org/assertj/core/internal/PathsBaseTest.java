@@ -23,6 +23,7 @@ import java.nio.file.Path;
 
 import org.assertj.core.api.AssertionInfo;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.io.TempDir;
 
 import com.github.marschall.memoryfilesystem.MemoryFileSystemBuilder;
 
@@ -54,6 +55,9 @@ import com.github.marschall.memoryfilesystem.MemoryFileSystemBuilder;
  */
 public abstract class PathsBaseTest {
 
+  @TempDir
+  protected Path tempDir;
+
   protected Failures failures;
   protected Paths paths;
   protected NioFilesWrapper nioFilesWrapper;
@@ -64,15 +68,16 @@ public abstract class PathsBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
-    nioFilesWrapper = mock(NioFilesWrapper.class);
-    paths = new Paths(nioFilesWrapper);
+    paths = Paths.instance();
+    nioFilesWrapper = spy(paths.nioFilesWrapper);
+    paths.nioFilesWrapper = nioFilesWrapper;
+    failures = spy(paths.failures);
     paths.failures = failures;
-    info = someInfo();
-    diff = mock(Diff.class);
+    diff = spy(paths.diff);
     paths.diff = diff;
-    binaryDiff = mock(BinaryDiff.class);
+    binaryDiff = spy(paths.binaryDiff);
     paths.binaryDiff = binaryDiff;
+    info = someInfo();
   }
 
   /**

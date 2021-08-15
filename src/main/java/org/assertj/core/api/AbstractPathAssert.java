@@ -166,7 +166,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.15
    */
   public SELF hasSameTextualContentAs(Path expected) {
-    paths.assertHasSameContentAs(info, actual, charset, expected, Charset.defaultCharset());
+    paths.assertHasSameTextualContentAs(info, actual, charset, expected, Charset.defaultCharset());
     return myself;
   }
 
@@ -198,7 +198,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.15
    */
   public SELF hasSameTextualContentAs(Path expected, Charset expectedCharset) {
-    paths.assertHasSameContentAs(info, actual, charset, expected, expectedCharset);
+    paths.assertHasSameTextualContentAs(info, actual, charset, expected, expectedCharset);
     return myself;
   }
 
@@ -377,7 +377,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @throws AssertionError if the content of the actual {@code Path} is not equal to the given content.
    */
   public SELF hasContent(String expected) {
-    paths.assertHasContent(info, actual, expected, charset);
+    paths.assertHasTextualContent(info, actual, expected, charset);
     return myself;
   }
 

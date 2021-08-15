@@ -12,12 +12,13 @@
  */
 package org.assertj.core.internal.paths;
 
+import static java.nio.charset.Charset.defaultCharset;
 import static java.nio.file.Files.createFile;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
-import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
+import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.junit.jupiter.api.condition.OS.WINDOWS;
@@ -25,33 +26,41 @@ import static org.mockito.BDDMockito.given;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
-import org.assertj.core.internal.BinaryDiffResult;
 import org.assertj.core.internal.PathsBaseTest;
+import org.assertj.core.util.diff.Delta;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
 
-class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
+/**
+ * @author Olivier Michallat
+ * @author Joel Costigliola
+ */
+class Paths_assertHasTextualContent_Test extends PathsBaseTest {
+
+  private static final Charset CHARSET = defaultCharset();
 
   @Test
   void should_fail_if_expected_is_null() throws IOException {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasBinaryContent(info, actual, null));
+    Throwable thrown = catchThrowable(() -> paths.assertHasTextualContent(info, actual, null, CHARSET));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
-                .hasMessage("The binary content to compare to should not be null");
+                .hasMessage("The text to compare to should not be null");
   }
 
   @Test
   void should_fail_if_actual_is_null() throws IOException {
     // GIVEN
-    byte[] expected = "expected".getBytes();
+    String expected = "expected";
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasBinaryContent(info, null, expected));
+    AssertionError error = expectAssertionError(() -> paths.assertHasTextualContent(info, null, expected, CHARSET));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -60,9 +69,9 @@ class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
   void should_fail_if_actual_does_not_exist() throws IOException {
     // GIVEN
     Path actual = tempDir.resolve("non-existent");
-    byte[] expected = "expected".getBytes();
+    String expected = "expected";
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasBinaryContent(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> paths.assertHasTextualContent(info, actual, expected, CHARSET));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -73,32 +82,32 @@ class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
     actual.toFile().setReadable(false);
-    byte[] expected = "expected".getBytes();
+    String expected = "expected";
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasBinaryContent(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> paths.assertHasTextualContent(info, actual, expected, CHARSET));
     // THEN
     then(error).hasMessage(shouldBeReadable(actual).create());
   }
 
   @Test
-  void should_pass_if_actual_has_expected_binary_content() throws IOException {
+  void should_pass_if_actual_has_expected_textual_content() throws IOException {
     // GIVEN
-    Path actual = Files.write(tempDir.resolve("actual"), "Content".getBytes());
-    byte[] expected = "Content".getBytes();
+    Path actual = Files.write(tempDir.resolve("actual"), "Content".getBytes(CHARSET));
+    String expected = "Content";
     // WHEN/THEN
-    paths.assertHasBinaryContent(info, actual, expected);
+    paths.assertHasTextualContent(info, actual, expected, CHARSET);
   }
 
   @Test
-  void should_fail_if_actual_does_not_have_expected_binary_content() throws IOException {
+  void should_fail_if_actual_does_not_have_expected_textual_content() throws IOException {
     // GIVEN
-    Path actual = Files.write(tempDir.resolve("actual"), "Content".getBytes());
-    byte[] expected = "Another content".getBytes();
-    BinaryDiffResult diff = binaryDiff.diff(actual, expected);
+    Path actual = Files.write(tempDir.resolve("actual"), "Content".getBytes(CHARSET));
+    String expected = "Another content";
+    List<Delta<String>> diffs = diff.diff(actual, expected, CHARSET);
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasBinaryContent(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> paths.assertHasTextualContent(info, actual, expected, CHARSET));
     // THEN
-    then(error).hasMessage(shouldHaveBinaryContent(actual, diff).create(info.description(), info.representation()));
+    then(error).hasMessage(shouldHaveContent(actual, CHARSET, diffs).create(info.description(), info.representation()));
   }
 
   @Test
@@ -106,14 +115,14 @@ class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
   void should_rethrow_IOException_as_UncheckedIOException() throws IOException {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
-    byte[] expected = "expected".getBytes();
+    String expected = "expected";
     IOException exception = new IOException("boom!");
-    given(binaryDiff.diff(actual, expected)).willThrow(exception);
+    given(diff.diff(actual, expected, CHARSET)).willThrow(exception);
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasBinaryContent(info, actual, expected));
+    Throwable thrown = catchThrowable(() -> paths.assertHasTextualContent(info, actual, expected, CHARSET));
     // THEN
     then(thrown).isInstanceOf(UncheckedIOException.class)
-                .hasMessage("Unable to verify binary contents of path:<%s>", actual)
+                .hasMessage("Unable to verify text contents of path:<%s>", actual)
                 .hasCause(exception);
   }
 

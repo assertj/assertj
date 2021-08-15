@@ -22,53 +22,17 @@ import java.nio.file.Path;
 import java.util.function.Predicate;
 
 /**
- * Wrapper for <code>{@link java.nio.file.Files}</code> to test {@link Paths}.
+ * Wrapper for <code>{@link java.nio.file.Files}</code> to test methods throwing {@link IOException}.
  */
 public class NioFilesWrapper {
 
   private static final NioFilesWrapper INSTANCE = new NioFilesWrapper();
 
-  /**
-   * Returns the singleton instance of this class.
-   * @return the singleton instance of this class.
-   */
   static NioFilesWrapper instance() {
     return INSTANCE;
   }
 
   private NioFilesWrapper() {}
-
-  public boolean isRegularFile(Path path) {
-    return Files.isRegularFile(path);
-  }
-
-  public boolean isSymbolicLink(Path path) {
-    return Files.isSymbolicLink(path);
-  }
-
-  public boolean isDirectory(Path path) {
-    return Files.isDirectory(path);
-  }
-
-  public boolean exists(Path path, LinkOption... options) {
-    return Files.exists(path, options);
-  }
-
-  public boolean notExists(Path path, LinkOption... options) {
-    return Files.notExists(path, options);
-  }
-
-  public boolean isReadable(Path path) {
-    return Files.isReadable(path);
-  }
-
-  public boolean isWritable(Path path) {
-    return Files.isWritable(path);
-  }
-
-  public boolean isExecutable(Path path) {
-    return Files.isExecutable(path);
-  }
 
   public InputStream newInputStream(Path path, OpenOption... options) throws IOException {
     return Files.newInputStream(path, options);

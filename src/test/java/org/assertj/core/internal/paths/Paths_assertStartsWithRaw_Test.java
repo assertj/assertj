@@ -12,46 +12,86 @@
  */
 package org.assertj.core.internal.paths;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.ThrowableAssert.catchThrowable;
+import static java.nio.file.Files.createDirectory;
+import static java.nio.file.Files.createFile;
+import static java.nio.file.Files.createSymbolicLink;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldStartWithPath.shouldStartWith;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
+import java.io.IOException;
+import java.nio.file.Path;
+
+import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
 
-class Paths_assertStartsWithRaw_Test extends MockPathsBaseTest {
+class Paths_assertStartsWithRaw_Test extends PathsBaseTest {
 
   @Test
-  void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertStartsWithRaw(info, null, other))
-                                                   .withMessage(actualIsNull());
+  void should_fail_if_actual_is_null() throws IOException {
+    // GIVEN
+    Path other = createFile(tempDir.resolve("other"));
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertStartsWithRaw(info, null, other));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_other_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> paths.assertStartsWithRaw(info, actual, null))
-                                    .withMessage("the expected start path should not be null");
+  void should_fail_if_other_is_null() throws IOException {
+    // GIVEN
+    Path actual = createFile(tempDir.resolve("actual"));
+    // WHEN
+    Throwable thrown = catchThrowable(() -> paths.assertStartsWithRaw(info, actual, null));
+    // THEN
+    then(thrown).isInstanceOf(NullPointerException.class)
+                .hasMessage("the expected start path should not be null");
   }
 
   @Test
-  void should_fail_if_actual_does_not_start_with_other() {
-    // This is the default, but let's make this explicit
-    when(actual.startsWith(other)).thenReturn(false);
-
-    Throwable error = catchThrowable(() -> paths.assertStartsWithRaw(info, actual, other));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldStartWith(actual, other));
+  void should_fail_if_actual_does_not_start_with_other() throws IOException {
+    // GIVEN
+    Path actual = createFile(tempDir.resolve("actual"));
+    Path other = createFile(tempDir.resolve("other"));
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertStartsWithRaw(info, actual, other));
+    // THEN
+    then(error).hasMessage(shouldStartWith(actual, other).create());
   }
 
   @Test
-  void should_succeed_if_actual_starts_with_other() {
-    when(actual.startsWith(other)).thenReturn(true);
-
+  void should_pass_if_actual_starts_with_other() throws IOException {
+    // GIVEN
+    Path other = createDirectory(tempDir.resolve("other")).toRealPath();
+    Path actual = createFile(other.resolve("actual")).toRealPath();
+    // WHEN/THEN
     paths.assertStartsWithRaw(info, actual, other);
   }
+
+  @Test
+  void should_fail_if_actual_is_not_canonical() throws IOException {
+    // GIVEN
+    Path other = createDirectory(tempDir.resolve("other"));
+    Path file = createFile(other.resolve("file"));
+    Path actual = createSymbolicLink(tempDir.resolve("actual"), file);
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertStartsWithRaw(info, actual, other));
+    // THEN
+    then(error).hasMessage(shouldStartWith(actual, other).create());
+  }
+
+  @Test
+  void should_fail_if_other_is_not_canonical() throws IOException {
+    // GIVEN
+    Path directory = createDirectory(tempDir.resolve("directory"));
+    Path other = createSymbolicLink(tempDir.resolve("other"), directory);
+    Path actual = createFile(directory.resolve("actual"));
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertStartsWithRaw(info, actual, other));
+    // THEN
+    then(error).hasMessage(shouldStartWith(actual, other).create());
+  }
+
 }

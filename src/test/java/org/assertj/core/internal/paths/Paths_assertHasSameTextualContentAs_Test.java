@@ -12,12 +12,13 @@
  */
 package org.assertj.core.internal.paths;
 
+import static java.nio.charset.Charset.defaultCharset;
 import static java.nio.file.Files.createFile;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
-import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
+import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.junit.jupiter.api.condition.OS.WINDOWS;
@@ -28,22 +29,25 @@ import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
-import org.assertj.core.internal.BinaryDiffResult;
 import org.assertj.core.internal.PathsBaseTest;
+import org.assertj.core.util.diff.Delta;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
+class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
+
+  private static final Charset CHARSET = defaultCharset();
 
   @Test
   void should_fail_if_expected_is_null() throws IOException {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasSameBinaryContentAs(info, actual, null));
+    Throwable thrown = catchThrowable(() -> paths.assertHasSameTextualContentAs(info, actual, CHARSET, null, CHARSET));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage("The given Path to compare actual content to should not be null");
@@ -55,7 +59,7 @@ class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("actual"));
     Path expected = tempDir.resolve("non-existent");
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasSameBinaryContentAs(info, actual, expected));
+    Throwable thrown = catchThrowable(() -> paths.assertHasSameTextualContentAs(info, actual, CHARSET, expected, CHARSET));
     // THEN
     then(thrown).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("The given Path <%s> to compare actual content to should exist", expected);
@@ -69,7 +73,7 @@ class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
     Path expected = createFile(tempDir.resolve("expected"));
     expected.toFile().setReadable(false);
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasSameBinaryContentAs(info, actual, expected));
+    Throwable thrown = catchThrowable(() -> paths.assertHasSameTextualContentAs(info, actual, CHARSET, expected, CHARSET));
     // THEN
     then(thrown).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("The given Path <%s> to compare actual content to should be readable", expected);
@@ -80,7 +84,8 @@ class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
     // GIVEN
     Path expected = createFile(tempDir.resolve("expected"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasSameBinaryContentAs(info, null, expected));
+    AssertionError error = expectAssertionError(() -> paths.assertHasSameTextualContentAs(info, null, CHARSET, expected,
+                                                                                          CHARSET));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -91,7 +96,8 @@ class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
     Path actual = tempDir.resolve("non-existent");
     Path expected = createFile(tempDir.resolve("expected"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasSameBinaryContentAs(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> paths.assertHasSameTextualContentAs(info, actual, CHARSET, expected,
+                                                                                          CHARSET));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -104,7 +110,8 @@ class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
     actual.toFile().setReadable(false);
     Path expected = createFile(tempDir.resolve("expected"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasSameBinaryContentAs(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> paths.assertHasSameTextualContentAs(info, actual, CHARSET, expected,
+                                                                                          CHARSET));
     // THEN
     then(error).hasMessage(shouldBeReadable(actual).create());
   }
@@ -114,6 +121,7 @@ class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
       "Content, US-ASCII, US-ASCII",
       "Content, US-ASCII, ISO_8859_1",
       "Content, US-ASCII, UTF-8",
+      "Content, US-ASCII, UTF-16",
   })
   void should_pass_if_actual_has_the_same_content_as_expected(String content,
                                                               Charset actualCharset,
@@ -122,38 +130,38 @@ class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
     Path actual = Files.write(tempDir.resolve("actual"), content.getBytes(actualCharset));
     Path expected = Files.write(tempDir.resolve("expected"), content.getBytes(expectedCharset));
     // WHEN/THEN
-    paths.assertHasSameBinaryContentAs(info, actual, expected);
+    paths.assertHasSameTextualContentAs(info, actual, actualCharset, expected, expectedCharset);
   }
 
   @ParameterizedTest
   @CsvSource({
-      "Content, US-ASCII, Content, UTF-16",
       "Content, US-ASCII, Another content, US-ASCII",
   })
-  void should_fail_if_actual_does_not_have_the_same_binary_content_as_expected(String actualContent,
-                                                                               Charset actualCharset,
-                                                                               String expectedContent,
-                                                                               Charset expectedCharset) throws IOException {
+  void should_fail_if_actual_does_not_have_the_same_content_as_expected(String actualContent,
+                                                                        Charset actualCharset,
+                                                                        String expectedContent,
+                                                                        Charset expectedCharset) throws IOException {
     // GIVEN
     Path actual = Files.write(tempDir.resolve("actual"), actualContent.getBytes(actualCharset));
     Path expected = Files.write(tempDir.resolve("expected"), expectedContent.getBytes(expectedCharset));
-    BinaryDiffResult diff = binaryDiff.diff(actual, expectedContent.getBytes(expectedCharset));
+    List<Delta<String>> diffs = diff.diff(actual, actualCharset, expected, expectedCharset);
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasSameBinaryContentAs(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> paths.assertHasSameTextualContentAs(info, actual, actualCharset,
+                                                                                          expected, expectedCharset));
     // THEN
-    then(error).hasMessage(shouldHaveBinaryContent(actual, diff).create(info.description(), info.representation()));
+    then(error).hasMessage(shouldHaveSameContent(actual, expected, diffs).create(info.description(), info.representation()));
   }
 
   @Test
   @DisabledOnOs(value = WINDOWS, disabledReason = "gh-2312")
   void should_rethrow_IOException_as_UncheckedIOException() throws IOException {
     // GIVEN
-    Path actual = Files.write(tempDir.resolve("actual"), "Content".getBytes());
-    Path expected = Files.write(tempDir.resolve("expected"), "Content".getBytes());
+    Path actual = createFile(tempDir.resolve("actual"));
+    Path expected = createFile(tempDir.resolve("expected"));
     IOException exception = new IOException("boom!");
-    given(binaryDiff.diff(actual, "Content".getBytes())).willThrow(exception);
+    given(diff.diff(actual, CHARSET, expected, CHARSET)).willThrow(exception);
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasSameBinaryContentAs(info, actual, expected));
+    Throwable thrown = catchThrowable(() -> paths.assertHasSameTextualContentAs(info, actual, CHARSET, expected, CHARSET));
     // THEN
     then(thrown).isInstanceOf(UncheckedIOException.class)
                 .hasCause(exception);
