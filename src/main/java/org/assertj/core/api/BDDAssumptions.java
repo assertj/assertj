@@ -1383,10 +1383,8 @@ public final class BDDAssumptions {
    * @return the {@link AbstractComparableAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  @SuppressWarnings("unchecked")
-  public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> given(Comparable<? super T> actual) {
-    // cast needed to call AbstractComparableAssert<?, T> assumeThat(T actual)
-    return assumeThat((T) actual);
+  public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> given(T actual) {
+    return assumeThat(actual);
   }
 
   /**
@@ -1410,11 +1408,12 @@ public final class BDDAssumptions {
    *   // ...
    *}</code></pre>
    *
+   * @param <T> the type of the actual throwable.
    * @param actual the actual {@link Throwable} value to be validated.
    * @return the {@link AbstractThrowableAssert} assertion object to be used for validation.
    * @since 3.14.0
    */
-  public static AbstractThrowableAssert<?, ? extends Throwable> given(Throwable actual) {
+  public static <T extends Throwable> AbstractThrowableAssert<?, T> given(T actual) {
     return assumeThat(actual);
   }
 
