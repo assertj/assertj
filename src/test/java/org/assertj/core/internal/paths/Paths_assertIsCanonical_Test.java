@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.paths;
 
+import static java.nio.file.Files.createFile;
+import static java.nio.file.Files.createSymbolicLink;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeCanonicalPath.shouldBeCanonicalPath;
@@ -22,7 +24,6 @@ import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.assertj.core.internal.PathsBaseTest;
@@ -54,8 +55,8 @@ class Paths_assertIsCanonical_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_not_canonical() throws IOException {
     // GIVEN
-    Path file = Files.createFile(tempDir.resolve("file"));
-    Path actual = Files.createSymbolicLink(tempDir.resolve("actual"), file);
+    Path file = createFile(tempDir.resolve("file"));
+    Path actual = createSymbolicLink(tempDir.resolve("actual"), file);
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertIsCanonical(info, actual));
     // THEN
@@ -65,7 +66,7 @@ class Paths_assertIsCanonical_Test extends PathsBaseTest {
   @Test
   void should_pass_if_actual_is_canonical() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual")).toRealPath();
+    Path actual = createFile(tempDir.resolve("actual")).toRealPath();
     // WHEN/THEN
     paths.assertIsCanonical(info, actual);
   }

@@ -12,13 +12,15 @@
  */
 package org.assertj.core.internal.paths;
 
+import static java.nio.file.Files.createDirectory;
+import static java.nio.file.Files.createFile;
+import static java.nio.file.Files.createSymbolicLink;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.io.IOException;
 import java.nio.file.FileSystem;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.assertj.core.internal.PathsBaseTest;
@@ -44,18 +46,18 @@ class Paths_assertHasFileName_Test extends PathsBaseTest {
 
     existingDirectory = fs.getPath("/dir1/dir2");
     symlinkToExistingDirectory = fs.getPath("/symlinkToExistingDirectory");
-    Files.createDirectory(fs.getPath("/dir1"));
-    Files.createDirectory(existingDirectory);
-    Files.createSymbolicLink(symlinkToExistingDirectory, existingDirectory);
+    createDirectory(fs.getPath("/dir1"));
+    createDirectory(existingDirectory);
+    createSymbolicLink(symlinkToExistingDirectory, existingDirectory);
 
     existingFile = fs.getPath("/dir1/dir2/gc.log");
     symlinkToExistingFile = fs.getPath("/dir1/good-symlink");
-    Files.createFile(existingFile);
-    Files.createSymbolicLink(symlinkToExistingFile, existingFile);
+    createFile(existingFile);
+    createSymbolicLink(symlinkToExistingFile, existingFile);
 
     nonExistingPath = fs.getPath("/dir1/fake.log");
     symlinkToNonExistingPath = fs.getPath("/dir1/bad-symlink");
-    Files.createSymbolicLink(symlinkToNonExistingPath, nonExistingPath);
+    createSymbolicLink(symlinkToNonExistingPath, nonExistingPath);
   }
 
   @AfterAll

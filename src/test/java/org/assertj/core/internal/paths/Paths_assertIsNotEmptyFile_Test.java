@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.paths;
 
+import static java.nio.file.Files.createDirectory;
+import static java.nio.file.Files.createFile;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeRegularFile.shouldBeRegularFile;
@@ -19,7 +21,6 @@ import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 import java.io.IOException;
@@ -28,7 +29,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.assertj.core.internal.PathsBaseTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class Paths_assertIsNotEmptyFile_Test extends PathsBaseTest {
@@ -54,7 +54,7 @@ class Paths_assertIsNotEmptyFile_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_not_regular_file() throws IOException {
     // GIVEN
-    Path actual = Files.createDirectory(tempDir.resolve("directory"));
+    Path actual = createDirectory(tempDir.resolve("directory"));
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertIsNotEmptyFile(info, actual));
     // THEN
@@ -72,7 +72,7 @@ class Paths_assertIsNotEmptyFile_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_empty() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertIsNotEmptyFile(info, actual));
     // THEN
@@ -82,7 +82,7 @@ class Paths_assertIsNotEmptyFile_Test extends PathsBaseTest {
   @Test
   void should_rethrow_IOException_as_UncheckedIOException() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     IOException exception = new IOException("boom!");
     given(nioFilesWrapper.size(actual)).willThrow(exception);
     // WHEN

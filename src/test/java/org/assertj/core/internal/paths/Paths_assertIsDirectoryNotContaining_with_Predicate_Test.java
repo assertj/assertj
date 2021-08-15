@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.paths;
 
+import static java.nio.file.Files.createDirectory;
+import static java.nio.file.Files.createFile;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -21,7 +23,6 @@ import static org.assertj.core.error.ShouldNotContain.directoryShouldNotContain;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.junit.jupiter.api.condition.OS.WINDOWS;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 import java.io.IOException;
@@ -31,7 +32,6 @@ import java.nio.file.Path;
 import java.util.function.Predicate;
 
 import org.assertj.core.internal.PathsBaseTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
 
@@ -43,7 +43,7 @@ class Paths_assertIsDirectoryNotContaining_with_Predicate_Test extends PathsBase
   @Test
   void should_fail_if_filter_is_null() throws IOException {
     // GIVEN
-    Path actual = Files.createDirectory(tempDir.resolve("actual"));
+    Path actual = createDirectory(tempDir.resolve("actual"));
     Predicate<Path> filter = null;
     // WHEN
     Throwable thrown = catchThrowable(() -> paths.assertIsDirectoryNotContaining(info, actual, filter));
@@ -77,7 +77,7 @@ class Paths_assertIsDirectoryNotContaining_with_Predicate_Test extends PathsBase
   @Test
   void should_fail_if_actual_is_not_a_directory() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("file"));
+    Path actual = createFile(tempDir.resolve("file"));
     Predicate<Path> filter = path -> true;
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertIsDirectoryNotContaining(info, actual, filter));
@@ -89,7 +89,7 @@ class Paths_assertIsDirectoryNotContaining_with_Predicate_Test extends PathsBase
   @DisabledOnOs(value = WINDOWS, disabledReason = "gh-FIXME")
   void should_rethrow_IOException_as_UncheckedIOException() throws Exception {
     // GIVEN
-    Path actual = Files.createDirectory(tempDir.resolve("actual"));
+    Path actual = createDirectory(tempDir.resolve("actual"));
     Predicate<Path> filter = path -> true;
     IOException cause = new IOException("boom!");
     given(nioFilesWrapper.newDirectoryStream(actual, filter)).willThrow(cause);
@@ -103,7 +103,7 @@ class Paths_assertIsDirectoryNotContaining_with_Predicate_Test extends PathsBase
   @Test
   void should_pass_if_actual_is_empty() throws IOException {
     // GIVEN
-    Path actual = Files.createDirectory(tempDir.resolve("actual"));
+    Path actual = createDirectory(tempDir.resolve("actual"));
     Predicate<Path> filter = path -> true;
     // WHEN/THEN
     paths.assertIsDirectoryNotContaining(info, actual, filter);
@@ -112,8 +112,8 @@ class Paths_assertIsDirectoryNotContaining_with_Predicate_Test extends PathsBase
   @Test
   void should_fail_if_actual_contains_at_least_one_path_matching_the_given_predicate() throws IOException {
     // GIVEN
-    Path actual = Files.createDirectory(tempDir.resolve("actual"));
-    Path file = Files.createFile(actual.resolve("file"));
+    Path actual = createDirectory(tempDir.resolve("actual"));
+    Path file = createFile(actual.resolve("file"));
     Predicate<Path> filter = Files::isRegularFile;
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertIsDirectoryNotContaining(info, actual, filter));
@@ -124,8 +124,8 @@ class Paths_assertIsDirectoryNotContaining_with_Predicate_Test extends PathsBase
   @Test
   void should_pass_if_actual_does_not_contain_any_paths_matching_the_given_predicate() throws IOException {
     // GIVEN
-    Path actual = Files.createDirectory(tempDir.resolve("actual"));
-    Files.createDirectory(actual.resolve("directory"));
+    Path actual = createDirectory(tempDir.resolve("actual"));
+    createDirectory(actual.resolve("directory"));
     Predicate<Path> filter = Files::isRegularFile;
     // WHEN/THEN
     paths.assertIsDirectoryNotContaining(info, actual, filter);

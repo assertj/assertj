@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.paths;
 
+import static java.nio.file.Files.createDirectory;
+import static java.nio.file.Files.createFile;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -22,16 +24,13 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.emptyList;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.assertj.core.internal.PathsBaseTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -42,7 +41,7 @@ class Paths_assertIsDirectoryContaining_with_String_Test extends PathsBaseTest {
   @Test
   void should_fail_if_syntaxAndPattern_is_null() throws IOException {
     // GIVEN
-    Path actual = Files.createDirectory(tempDir.resolve("actual"));
+    Path actual = createDirectory(tempDir.resolve("actual"));
     String syntaxAndPattern = null;
     // WHEN
     Throwable thrown = catchThrowable(() -> paths.assertIsDirectoryContaining(info, actual, syntaxAndPattern));
@@ -76,7 +75,7 @@ class Paths_assertIsDirectoryContaining_with_String_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_not_a_directory() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("file"));
+    Path actual = createFile(tempDir.resolve("file"));
     String syntaxAndPattern = "glob:**";
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertIsDirectoryContaining(info, actual, syntaxAndPattern));
@@ -87,7 +86,7 @@ class Paths_assertIsDirectoryContaining_with_String_Test extends PathsBaseTest {
   @Test
   void should_rethrow_IOException_as_UncheckedIOException() throws Exception {
     // GIVEN
-    Path actual = Files.createDirectory(tempDir.resolve("actual"));
+    Path actual = createDirectory(tempDir.resolve("actual"));
     String syntaxAndPattern = "glob:*";
     IOException cause = new IOException("boom!");
     willThrow(cause).given(nioFilesWrapper).newDirectoryStream(any(), any());
@@ -101,7 +100,7 @@ class Paths_assertIsDirectoryContaining_with_String_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_empty() throws IOException {
     // GIVEN
-    Path actual = Files.createDirectory(tempDir.resolve("actual"));
+    Path actual = createDirectory(tempDir.resolve("actual"));
     String syntaxAndPattern = "glob:**";
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertIsDirectoryContaining(info, actual, syntaxAndPattern));
@@ -112,9 +111,9 @@ class Paths_assertIsDirectoryContaining_with_String_Test extends PathsBaseTest {
   @Test
   void should_pass_if_actual_contains_at_least_one_path_matching_the_given_pattern() throws IOException {
     // GIVEN
-    Path actual = Files.createDirectory(tempDir.resolve("actual"));
-    Files.createFile(actual.resolve("file"));
-    Files.createDirectory(actual.resolve("directory"));
+    Path actual = createDirectory(tempDir.resolve("actual"));
+    createFile(actual.resolve("file"));
+    createDirectory(actual.resolve("directory"));
     String syntaxAndPattern = "glob:**file";
     // WHEN/THEN
     paths.assertIsDirectoryContaining(info, actual, syntaxAndPattern);
@@ -123,8 +122,8 @@ class Paths_assertIsDirectoryContaining_with_String_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_does_not_contain_any_paths_matching_the_given_pattern() throws IOException {
     // GIVEN
-    Path actual = Files.createDirectory(tempDir.resolve("actual"));
-    Path directory = Files.createDirectory(actual.resolve("directory"));
+    Path actual = createDirectory(tempDir.resolve("actual"));
+    Path directory = createDirectory(actual.resolve("directory"));
     String syntaxAndPattern = "glob:**file";
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertIsDirectoryContaining(info, actual, syntaxAndPattern));

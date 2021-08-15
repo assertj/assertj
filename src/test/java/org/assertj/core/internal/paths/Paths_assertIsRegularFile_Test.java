@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.paths;
 
+import static java.nio.file.Files.createDirectory;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeRegularFile.shouldBeRegularFile;
 import static org.assertj.core.error.ShouldExist.shouldExist;
@@ -48,7 +49,7 @@ class Paths_assertIsRegularFile_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_not_a_regular_file() throws IOException {
     // GIVEN
-    Path actual = Files.createDirectory(tempDir.resolve("directory"));
+    Path actual = createDirectory(tempDir.resolve("directory"));
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertIsRegularFile(info, actual));
     // THEN

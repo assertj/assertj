@@ -12,6 +12,9 @@
  */
 package org.assertj.core.internal.paths;
 
+import static java.nio.file.Files.createDirectory;
+import static java.nio.file.Files.createFile;
+import static java.nio.file.Files.createSymbolicLink;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldStartWithPath.shouldStartWith;
@@ -19,7 +22,6 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.assertj.core.internal.PathsBaseTest;
@@ -30,7 +32,7 @@ class Paths_assertStartsWithRaw_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_null() throws IOException {
     // GIVEN
-    Path other = Files.createFile(tempDir.resolve("other"));
+    Path other = createFile(tempDir.resolve("other"));
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertStartsWithRaw(info, null, other));
     // THEN
@@ -40,7 +42,7 @@ class Paths_assertStartsWithRaw_Test extends PathsBaseTest {
   @Test
   void should_fail_if_other_is_null() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     // WHEN
     Throwable thrown = catchThrowable(() -> paths.assertStartsWithRaw(info, actual, null));
     // THEN
@@ -51,8 +53,8 @@ class Paths_assertStartsWithRaw_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_does_not_start_with_other() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
-    Path other = Files.createFile(tempDir.resolve("other"));
+    Path actual = createFile(tempDir.resolve("actual"));
+    Path other = createFile(tempDir.resolve("other"));
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertStartsWithRaw(info, actual, other));
     // THEN
@@ -62,8 +64,8 @@ class Paths_assertStartsWithRaw_Test extends PathsBaseTest {
   @Test
   void should_pass_if_actual_starts_with_other() throws IOException {
     // GIVEN
-    Path other = Files.createDirectory(tempDir.resolve("other")).toRealPath();
-    Path actual = Files.createFile(other.resolve("actual")).toRealPath();
+    Path other = createDirectory(tempDir.resolve("other")).toRealPath();
+    Path actual = createFile(other.resolve("actual")).toRealPath();
     // WHEN/THEN
     paths.assertStartsWithRaw(info, actual, other);
   }
@@ -71,9 +73,9 @@ class Paths_assertStartsWithRaw_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_not_canonical() throws IOException {
     // GIVEN
-    Path other = Files.createDirectory(tempDir.resolve("other"));
-    Path file = Files.createFile(other.resolve("file"));
-    Path actual = Files.createSymbolicLink(tempDir.resolve("actual"), file);
+    Path other = createDirectory(tempDir.resolve("other"));
+    Path file = createFile(other.resolve("file"));
+    Path actual = createSymbolicLink(tempDir.resolve("actual"), file);
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertStartsWithRaw(info, actual, other));
     // THEN
@@ -83,9 +85,9 @@ class Paths_assertStartsWithRaw_Test extends PathsBaseTest {
   @Test
   void should_fail_if_other_is_not_canonical() throws IOException {
     // GIVEN
-    Path directory = Files.createDirectory(tempDir.resolve("directory"));
-    Path other = Files.createSymbolicLink(tempDir.resolve("other"), directory);
-    Path actual = Files.createFile(directory.resolve("actual"));
+    Path directory = createDirectory(tempDir.resolve("directory"));
+    Path other = createSymbolicLink(tempDir.resolve("other"), directory);
+    Path actual = createFile(directory.resolve("actual"));
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertStartsWithRaw(info, actual, other));
     // THEN

@@ -12,13 +12,14 @@
  */
 package org.assertj.core.internal.paths;
 
+import static java.nio.file.Files.createFile;
+import static java.nio.file.Files.createSymbolicLink;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.assertj.core.internal.PathsBaseTest;
@@ -37,7 +38,7 @@ class Paths_assertHasNoParentRaw_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_has_parent() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertHasNoParentRaw(info, actual));
     // THEN
@@ -56,7 +57,7 @@ class Paths_assertHasNoParentRaw_Test extends PathsBaseTest {
   void should_fail_if_actual_is_not_canonical() throws IOException {
     // GIVEN
     Path root = tempDir.getRoot();
-    Path actual = Files.createSymbolicLink(tempDir.resolve("actual"), root);
+    Path actual = createSymbolicLink(tempDir.resolve("actual"), root);
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertHasNoParentRaw(info, actual));
     // THEN

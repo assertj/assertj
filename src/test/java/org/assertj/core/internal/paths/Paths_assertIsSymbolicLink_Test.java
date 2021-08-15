@@ -12,15 +12,15 @@
  */
 package org.assertj.core.internal.paths;
 
+import static java.nio.file.Files.createFile;
+import static java.nio.file.Files.createSymbolicLink;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeSymbolicLink.shouldBeSymbolicLink;
-import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldExist.shouldExistNoFollowLinks;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.assertj.core.internal.PathsBaseTest;
@@ -49,7 +49,7 @@ class Paths_assertIsSymbolicLink_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_not_a_symbolic_link() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertIsSymbolicLink(info, actual));
     // THEN
@@ -59,7 +59,7 @@ class Paths_assertIsSymbolicLink_Test extends PathsBaseTest {
   @Test
   void should_succeed_if_actual_is_a_symbolic_link() throws IOException {
     // GIVEN
-    Path actual = Files.createSymbolicLink(tempDir.resolve("actual"), tempDir.resolve("target"));
+    Path actual = createSymbolicLink(tempDir.resolve("actual"), tempDir.resolve("target"));
     // WHEN/THEN
     paths.assertIsSymbolicLink(info, actual);
   }

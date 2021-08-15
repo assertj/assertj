@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.paths;
 
+import static java.nio.file.Files.createFile;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeExecutable.shouldBeExecutable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
@@ -20,7 +21,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.junit.jupiter.api.condition.OS.WINDOWS;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.assertj.core.internal.PathsBaseTest;
@@ -51,7 +51,7 @@ class Paths_assertIsExecutable_Test extends PathsBaseTest {
   @DisabledOnOs(value = WINDOWS, disabledReason = "gh-FIXME")
   void should_fail_if_actual_is_not_executable() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertIsExecutable(info, actual));
     // THEN
@@ -61,7 +61,7 @@ class Paths_assertIsExecutable_Test extends PathsBaseTest {
   @Test
   void should_pass_if_actual_is_executable() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     actual.toFile().setExecutable(true);
     // WHEN/THEN
     paths.assertIsExecutable(info, actual);

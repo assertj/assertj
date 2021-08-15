@@ -12,6 +12,9 @@
  */
 package org.assertj.core.internal.paths;
 
+import static java.nio.file.Files.createDirectory;
+import static java.nio.file.Files.createFile;
+import static java.nio.file.Files.createSymbolicLink;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
@@ -19,7 +22,6 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.assertj.core.internal.PathsBaseTest;
@@ -62,8 +64,8 @@ class Paths_assertHasParentRaw_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_parent_is_not_expected_parent() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
-    Path expected = Files.createFile(tempDir.resolve("expected"));
+    Path actual = createFile(tempDir.resolve("actual"));
+    Path expected = createFile(tempDir.resolve("expected"));
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertHasParentRaw(info, actual, expected));
     // THEN
@@ -73,7 +75,7 @@ class Paths_assertHasParentRaw_Test extends PathsBaseTest {
   @Test
   void should_pass_if_actual_has_expected_parent() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     Path expected = tempDir;
     // WHEN
     paths.assertHasParentRaw(info, actual, expected);
@@ -82,9 +84,9 @@ class Paths_assertHasParentRaw_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_not_canonical() throws IOException {
     // GIVEN
-    Path expected = Files.createDirectory(tempDir.resolve("expected"));
-    Path file = Files.createFile(expected.resolve("file"));
-    Path actual = Files.createSymbolicLink(tempDir.resolve("actual"), file);
+    Path expected = createDirectory(tempDir.resolve("expected"));
+    Path file = createFile(expected.resolve("file"));
+    Path actual = createSymbolicLink(tempDir.resolve("actual"), file);
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertHasParentRaw(info, actual, expected));
     // THEN
@@ -94,9 +96,9 @@ class Paths_assertHasParentRaw_Test extends PathsBaseTest {
   @Test
   void should_fail_if_expected_is_not_canonical() throws IOException {
     // GIVEN
-    Path directory = Files.createDirectory(tempDir.resolve("directory"));
-    Path expected = Files.createSymbolicLink(tempDir.resolve("expected"), directory);
-    Path actual = Files.createFile(directory.resolve("actual"));
+    Path directory = createDirectory(tempDir.resolve("directory"));
+    Path expected = createSymbolicLink(tempDir.resolve("expected"), directory);
+    Path actual = createFile(directory.resolve("actual"));
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertHasParentRaw(info, actual, expected));
     // THEN

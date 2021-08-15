@@ -13,6 +13,7 @@
 package org.assertj.core.internal.paths;
 
 import static java.nio.charset.Charset.defaultCharset;
+import static java.nio.file.Files.createFile;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
@@ -46,7 +47,7 @@ class Paths_assertHasTextualContent_Test extends PathsBaseTest {
   @Test
   void should_fail_if_expected_is_null() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     // WHEN
     Throwable thrown = catchThrowable(() -> paths.assertHasTextualContent(info, actual, null, CHARSET));
     // THEN
@@ -79,7 +80,7 @@ class Paths_assertHasTextualContent_Test extends PathsBaseTest {
   @DisabledOnOs(value = WINDOWS, disabledReason = "gh-FIXME")
   void should_fail_if_actual_is_not_readable() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     actual.toFile().setReadable(false);
     String expected = "expected";
     // WHEN
@@ -113,7 +114,7 @@ class Paths_assertHasTextualContent_Test extends PathsBaseTest {
   @DisabledOnOs(value = WINDOWS, disabledReason = "gh-FIXME")
   void should_rethrow_IOException_as_UncheckedIOException() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     String expected = "expected";
     IOException exception = new IOException("boom!");
     given(diff.diff(actual, expected, CHARSET)).willThrow(exception);

@@ -12,16 +12,15 @@
  */
 package org.assertj.core.internal.paths;
 
+import static java.nio.file.Files.createFile;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
-import static org.assertj.core.error.ShouldBeWritable.shouldBeWritable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.junit.jupiter.api.condition.OS.WINDOWS;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.assertj.core.internal.PathsBaseTest;
@@ -52,7 +51,7 @@ class Paths_assertIsReadable_Test extends PathsBaseTest {
   @DisabledOnOs(value = WINDOWS, disabledReason = "gh-FIXME")
   void should_fail_if_actual_is_not_readable() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     actual.toFile().setReadable(false);
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertIsReadable(info, actual));
@@ -63,7 +62,7 @@ class Paths_assertIsReadable_Test extends PathsBaseTest {
   @Test
   void should_pass_if_actual_is_readable() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     // WHEN/THEN
     paths.assertIsReadable(info, actual);
   }

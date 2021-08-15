@@ -12,6 +12,9 @@
  */
 package org.assertj.core.internal.paths;
 
+import static java.nio.file.Files.createDirectory;
+import static java.nio.file.Files.createFile;
+import static java.nio.file.Files.createSymbolicLink;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
@@ -22,7 +25,6 @@ import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.assertj.core.internal.PathsBaseTest;
@@ -66,7 +68,7 @@ class Paths_assertHasParent_Test extends PathsBaseTest {
   void should_rethrow_IOException_as_UncheckedIOException_if_actual_cannot_be_resolved() throws IOException {
     // GIVEN
     Path actual = mock(Path.class);
-    Path expected = Files.createFile(tempDir.resolve("expected"));
+    Path expected = createFile(tempDir.resolve("expected"));
     IOException exception = new IOException("boom!");
     given(actual.toRealPath()).willThrow(exception);
     // WHEN
@@ -79,7 +81,7 @@ class Paths_assertHasParent_Test extends PathsBaseTest {
   @Test
   void should_rethrow_IOException_as_UncheckedIOException_if_other_cannot_be_resolved() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     Path expected = mock(Path.class);
     IOException exception = new IOException("boom!");
     given(expected.toRealPath()).willThrow(exception);
@@ -93,8 +95,8 @@ class Paths_assertHasParent_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_parent_is_not_expected_parent() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual")).toRealPath();
-    Path expected = Files.createFile(tempDir.resolve("expected")).toRealPath();
+    Path actual = createFile(tempDir.resolve("actual")).toRealPath();
+    Path expected = createFile(tempDir.resolve("expected")).toRealPath();
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertHasParent(info, actual, expected));
     // THEN
@@ -104,7 +106,7 @@ class Paths_assertHasParent_Test extends PathsBaseTest {
   @Test
   void should_pass_if_actual_has_expected_parent() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual")).toRealPath();
+    Path actual = createFile(tempDir.resolve("actual")).toRealPath();
     Path expected = tempDir.toRealPath();
     // WHEN/THEN
     paths.assertHasParent(info, actual, expected);
@@ -113,9 +115,9 @@ class Paths_assertHasParent_Test extends PathsBaseTest {
   @Test
   void should_pass_if_actual_is_not_canonical() throws IOException {
     // GIVEN
-    Path expected = Files.createDirectory(tempDir.resolve("expected"));
-    Path file = Files.createFile(expected.resolve("file"));
-    Path actual = Files.createSymbolicLink(tempDir.resolve("actual"), file);
+    Path expected = createDirectory(tempDir.resolve("expected"));
+    Path file = createFile(expected.resolve("file"));
+    Path actual = createSymbolicLink(tempDir.resolve("actual"), file);
     // WHEN/THEN
     paths.assertHasParent(info, actual, expected);
   }
@@ -123,9 +125,9 @@ class Paths_assertHasParent_Test extends PathsBaseTest {
   @Test
   void should_pass_if_expected_is_not_canonical() throws IOException {
     // GIVEN
-    Path directory = Files.createDirectory(tempDir.resolve("directory"));
-    Path expected = Files.createSymbolicLink(tempDir.resolve("expected"), directory);
-    Path actual = Files.createFile(directory.resolve("actual"));
+    Path directory = createDirectory(tempDir.resolve("directory"));
+    Path expected = createSymbolicLink(tempDir.resolve("expected"), directory);
+    Path actual = createFile(directory.resolve("actual"));
     // WHEN/THEN
     paths.assertHasParent(info, actual, expected);
   }

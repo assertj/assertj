@@ -13,6 +13,7 @@
 package org.assertj.core.internal.paths;
 
 import static java.nio.charset.Charset.defaultCharset;
+import static java.nio.file.Files.createFile;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
@@ -44,7 +45,7 @@ class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
   @Test
   void should_fail_if_expected_is_null() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     // WHEN
     Throwable thrown = catchThrowable(() -> paths.assertHasSameTextualContentAs(info, actual, CHARSET, null, CHARSET));
     // THEN
@@ -55,7 +56,7 @@ class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
   @Test
   void should_fail_if_expected_does_not_exist() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     Path expected = tempDir.resolve("non-existent");
     // WHEN
     Throwable thrown = catchThrowable(() -> paths.assertHasSameTextualContentAs(info, actual, CHARSET, expected, CHARSET));
@@ -68,8 +69,8 @@ class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
   @DisabledOnOs(value = WINDOWS, disabledReason = "gh-FIXME")
   void should_fail_if_expected_is_not_readable() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
-    Path expected = Files.createFile(tempDir.resolve("expected"));
+    Path actual = createFile(tempDir.resolve("actual"));
+    Path expected = createFile(tempDir.resolve("expected"));
     expected.toFile().setReadable(false);
     // WHEN
     Throwable thrown = catchThrowable(() -> paths.assertHasSameTextualContentAs(info, actual, CHARSET, expected, CHARSET));
@@ -81,7 +82,7 @@ class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_null() throws IOException {
     // GIVEN
-    Path expected = Files.createFile(tempDir.resolve("expected"));
+    Path expected = createFile(tempDir.resolve("expected"));
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertHasSameTextualContentAs(info, null, CHARSET, expected,
                                                                                           CHARSET));
@@ -93,7 +94,7 @@ class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
   void should_fail_if_actual_does_not_exist() throws IOException {
     // GIVEN
     Path actual = tempDir.resolve("non-existent");
-    Path expected = Files.createFile(tempDir.resolve("expected"));
+    Path expected = createFile(tempDir.resolve("expected"));
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertHasSameTextualContentAs(info, actual, CHARSET, expected,
                                                                                           CHARSET));
@@ -105,9 +106,9 @@ class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
   @DisabledOnOs(value = WINDOWS, disabledReason = "gh-FIXME")
   void should_fail_if_actual_is_not_readable() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     actual.toFile().setReadable(false);
-    Path expected = Files.createFile(tempDir.resolve("expected"));
+    Path expected = createFile(tempDir.resolve("expected"));
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertHasSameTextualContentAs(info, actual, CHARSET, expected,
                                                                                           CHARSET));
@@ -155,8 +156,8 @@ class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
   @DisabledOnOs(value = WINDOWS, disabledReason = "gh-FIXME")
   void should_rethrow_IOException_as_UncheckedIOException() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
-    Path expected = Files.createFile(tempDir.resolve("expected"));
+    Path actual = createFile(tempDir.resolve("actual"));
+    Path expected = createFile(tempDir.resolve("expected"));
     IOException exception = new IOException("boom!");
     given(diff.diff(actual, CHARSET, expected, CHARSET)).willThrow(exception);
     // WHEN

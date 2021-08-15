@@ -12,6 +12,9 @@
  */
 package org.assertj.core.internal.paths;
 
+import static java.nio.file.Files.createDirectory;
+import static java.nio.file.Files.createFile;
+import static java.nio.file.Files.readAllBytes;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
@@ -22,7 +25,6 @@ import static org.assertj.core.internal.Digests.toHex;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.junit.jupiter.api.condition.OS.WINDOWS;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 import java.io.IOException;
@@ -34,7 +36,6 @@ import java.security.NoSuchAlgorithmException;
 
 import org.assertj.core.internal.DigestDiff;
 import org.assertj.core.internal.PathsBaseTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
 
@@ -46,7 +47,7 @@ class Paths_assertHasDigest_with_String_and_Byte_array_Test extends PathsBaseTes
   @Test
   void should_fail_if_algorithm_is_null() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     String algorithm = null;
     byte[] expected = {};
     // WHEN
@@ -59,7 +60,7 @@ class Paths_assertHasDigest_with_String_and_Byte_array_Test extends PathsBaseTes
   @Test
   void should_fail_if_algorithm_is_invalid() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     String algorithm = "invalid";
     byte[] expected = {};
     // WHEN
@@ -73,7 +74,7 @@ class Paths_assertHasDigest_with_String_and_Byte_array_Test extends PathsBaseTes
   @Test
   void should_fail_if_expected_is_null() throws Exception {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     String algorithm = "MD5";
     byte[] expected = null;
     // WHEN
@@ -110,7 +111,7 @@ class Paths_assertHasDigest_with_String_and_Byte_array_Test extends PathsBaseTes
   @Test
   void should_fail_if_actual_is_not_a_regular_file() throws Exception {
     // GIVEN
-    Path actual = Files.createDirectory(tempDir.resolve("directory"));
+    Path actual = createDirectory(tempDir.resolve("directory"));
     String algorithm = "MD5";
     byte[] expected = {};
     // WHEN
@@ -123,7 +124,7 @@ class Paths_assertHasDigest_with_String_and_Byte_array_Test extends PathsBaseTes
   @DisabledOnOs(value = WINDOWS, disabledReason = "gh-FIXME")
   void should_fail_if_actual_is_not_readable() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     actual.toFile().setReadable(false);
     String algorithm = "MD5";
     byte[] expected = {};
@@ -137,7 +138,7 @@ class Paths_assertHasDigest_with_String_and_Byte_array_Test extends PathsBaseTes
   @DisabledOnOs(value = WINDOWS, disabledReason = "gh-FIXME")
   void should_rethrow_IOException_as_UncheckedIOException() throws Exception {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     String algorithm = "MD5";
     byte[] expected = {};
     IOException cause = new IOException("boom!");
@@ -159,7 +160,7 @@ class Paths_assertHasDigest_with_String_and_Byte_array_Test extends PathsBaseTes
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertHasDigest(info, actual, algorithm, expected));
     // THEN
-    then(error).hasMessage(shouldHaveDigest(actual, new DigestDiff(toHex(digest.digest(Files.readAllBytes(actual))),
+    then(error).hasMessage(shouldHaveDigest(actual, new DigestDiff(toHex(digest.digest(readAllBytes(actual))),
                                                                    toHex(expected),
                                                                    digest)).create());
   }
@@ -169,7 +170,7 @@ class Paths_assertHasDigest_with_String_and_Byte_array_Test extends PathsBaseTes
     // GIVEN
     Path actual = Files.write(tempDir.resolve("actual"), "Content".getBytes());
     String algorithm = "MD5";
-    byte[] expected = MessageDigest.getInstance(algorithm).digest(Files.readAllBytes(actual));
+    byte[] expected = MessageDigest.getInstance(algorithm).digest(readAllBytes(actual));
     // WHEN/THEN
     paths.assertHasDigest(info, actual, algorithm, expected);
   }

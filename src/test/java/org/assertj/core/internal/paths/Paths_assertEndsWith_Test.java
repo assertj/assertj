@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.paths;
 
+import static java.nio.file.Files.createFile;
+import static java.nio.file.Files.createSymbolicLink;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldEndWithPath.shouldEndWith;
@@ -22,7 +24,6 @@ import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -44,7 +45,7 @@ class Paths_assertEndsWith_Test extends PathsBaseTest {
   @Test
   void should_fail_if_other_is_null() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     // WHEN
     Throwable thrown = catchThrowable(() -> paths.assertEndsWith(info, actual, null));
     // THEN
@@ -69,7 +70,7 @@ class Paths_assertEndsWith_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_does_not_end_with_other() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     Path other = tempDir.resolve("other");
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertEndsWith(info, actual, other));
@@ -80,7 +81,7 @@ class Paths_assertEndsWith_Test extends PathsBaseTest {
   @Test
   void should_pass_if_actual_ends_with_other() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     Path other = Paths.get("actual");
     // WHEN/THEN
     paths.assertEndsWith(info, actual, other);
@@ -89,8 +90,8 @@ class Paths_assertEndsWith_Test extends PathsBaseTest {
   @Test
   void should_pass_if_actual_is_not_canonical() throws IOException {
     // GIVEN
-    Path file = Files.createFile(tempDir.resolve("file"));
-    Path actual = Files.createSymbolicLink(tempDir.resolve("actual"), file);
+    Path file = createFile(tempDir.resolve("file"));
+    Path actual = createSymbolicLink(tempDir.resolve("actual"), file);
     Path other = Paths.get("file");
     // WHEN/THEN
     paths.assertEndsWith(info, actual, other);
@@ -99,7 +100,7 @@ class Paths_assertEndsWith_Test extends PathsBaseTest {
   @Test
   void should_pass_if_other_is_not_normalized() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("actual"));
+    Path actual = createFile(tempDir.resolve("actual"));
     Path other = Paths.get("actual", "..", "actual", ".");
     // WHEN/THEN
     paths.assertEndsWith(info, actual, other);

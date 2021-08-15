@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal.paths;
 
+import static java.nio.file.Files.createDirectory;
+import static java.nio.file.Files.createFile;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -22,16 +24,13 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.assertj.core.internal.PathsBaseTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -60,7 +59,7 @@ class Paths_assertIsEmptyDirectory_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_not_a_directory() throws IOException {
     // GIVEN
-    Path actual = Files.createFile(tempDir.resolve("file"));
+    Path actual = createFile(tempDir.resolve("file"));
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertIsEmptyDirectory(info, actual));
     // THEN
@@ -70,7 +69,7 @@ class Paths_assertIsEmptyDirectory_Test extends PathsBaseTest {
   @Test
   void should_pass_if_actual_is_empty() throws IOException {
     // GIVEN
-    Path actual = Files.createDirectory(tempDir.resolve("actual"));
+    Path actual = createDirectory(tempDir.resolve("actual"));
     // WHEN/THEN
     paths.assertIsEmptyDirectory(info, actual);
   }
@@ -78,8 +77,8 @@ class Paths_assertIsEmptyDirectory_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_not_empty() throws IOException {
     // GIVEN
-    Path actual = Files.createDirectory(tempDir.resolve("actual"));
-    Path file = Files.createFile(actual.resolve("file"));
+    Path actual = createDirectory(tempDir.resolve("actual"));
+    Path file = createFile(actual.resolve("file"));
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertIsEmptyDirectory(info, actual));
     // THEN
@@ -89,7 +88,7 @@ class Paths_assertIsEmptyDirectory_Test extends PathsBaseTest {
   @Test
   void should_rethrow_IOException_as_UncheckedIOException() throws IOException {
     // GIVEN
-    Path actual = Files.createDirectory(tempDir.resolve("actual"));
+    Path actual = createDirectory(tempDir.resolve("actual"));
     IOException exception = new IOException("boom!");
     willThrow(exception).given(nioFilesWrapper).newDirectoryStream(eq(actual), any());
     // WHEN
