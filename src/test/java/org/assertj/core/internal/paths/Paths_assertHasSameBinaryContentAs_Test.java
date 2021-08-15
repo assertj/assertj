@@ -62,7 +62,7 @@ class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
   }
 
   @Test
-  @DisabledOnOs(value = WINDOWS, disabledReason = "gh-FIXME")
+  @DisabledOnOs(value = WINDOWS, disabledReason = "gh-2312")
   void should_fail_if_expected_is_not_readable() throws IOException {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
@@ -97,7 +97,7 @@ class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
   }
 
   @Test
-  @DisabledOnOs(value = WINDOWS, disabledReason = "gh-FIXME")
+  @DisabledOnOs(value = WINDOWS, disabledReason = "gh-2312")
   void should_fail_if_actual_is_not_readable() throws IOException {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
@@ -145,7 +145,7 @@ class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
   }
 
   @Test
-  @DisabledOnOs(value = WINDOWS, disabledReason = "gh-FIXME")
+  @DisabledOnOs(value = WINDOWS, disabledReason = "gh-2312")
   void should_rethrow_IOException_as_UncheckedIOException() throws IOException {
     // GIVEN
     Path actual = Files.write(tempDir.resolve("actual"), "Content".getBytes());

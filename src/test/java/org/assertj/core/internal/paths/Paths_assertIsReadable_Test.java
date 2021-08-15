@@ -48,7 +48,7 @@ class Paths_assertIsReadable_Test extends PathsBaseTest {
   }
 
   @Test
-  @DisabledOnOs(value = WINDOWS, disabledReason = "gh-FIXME")
+  @DisabledOnOs(value = WINDOWS, disabledReason = "gh-2312")
   void should_fail_if_actual_is_not_readable() throws IOException {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));

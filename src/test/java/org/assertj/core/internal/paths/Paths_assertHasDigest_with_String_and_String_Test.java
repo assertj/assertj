@@ -121,7 +121,7 @@ class Paths_assertHasDigest_with_String_and_String_Test extends PathsBaseTest {
   }
 
   @Test
-  @DisabledOnOs(value = WINDOWS, disabledReason = "gh-FIXME")
+  @DisabledOnOs(value = WINDOWS, disabledReason = "gh-2312")
   void should_fail_if_actual_is_not_readable() throws IOException {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
@@ -135,7 +135,7 @@ class Paths_assertHasDigest_with_String_and_String_Test extends PathsBaseTest {
   }
 
   @Test
-  @DisabledOnOs(value = WINDOWS, disabledReason = "gh-FIXME")
+  @DisabledOnOs(value = WINDOWS, disabledReason = "gh-2312")
   void should_rethrow_IOException_as_UncheckedIOException() throws Exception {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));

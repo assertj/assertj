@@ -84,7 +84,7 @@ class Paths_assertIsNormalized_Test extends PathsBaseTest {
       "a\\b\\c",
       "..\\d",
   })
-  void should_pass__on_windows_if_actual_is_normalized(Path actual) {
+  void should_pass_on_windows_if_actual_is_normalized(Path actual) {
     // WHEN/THEN
     paths.assertIsNormalized(info, actual);
   }
