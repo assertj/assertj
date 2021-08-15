@@ -33,7 +33,8 @@ jobs:
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven-
+          restore-keys: |
+            ${{ runner.os }}-maven-
       - name: Setup Java
         uses: actions/setup-java@v2
         with:
