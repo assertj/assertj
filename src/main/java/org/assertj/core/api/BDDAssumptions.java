@@ -2902,7 +2902,7 @@ public final class BDDAssumptions {
    * <li>{@code org.opentest4j.TestAbortedException} for JUnit 5</li>
    * </ol>
    *
-   * @param preferredAssumptionException the preferred exception to use with {@link Assumptions}.
+   * @param preferredAssumptionException the preferred exception to use with {@link BDDAssumptions}.
    * @since 3.21.0
    */
   public static void setPreferredAssumptionException(PreferredAssumptionException preferredAssumptionException) {
