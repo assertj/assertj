@@ -22,7 +22,6 @@ import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.willThrow;
 
 import java.io.IOException;
@@ -88,13 +87,13 @@ class Paths_assertIsNotEmptyDirectory_Test extends PathsBaseTest {
   void should_rethrow_IOException_as_UncheckedIOException() throws IOException {
     // GIVEN
     Path actual = createDirectory(tempDir.resolve("actual"));
-    IOException exception = new IOException("boom!");
-    willThrow(exception).given(nioFilesWrapper).newDirectoryStream(eq(actual), any());
+    IOException cause = new IOException("boom!");
+    willThrow(cause).given(nioFilesWrapper).newDirectoryStream(any(), any());
     // WHEN
     Throwable thrown = catchThrowable(() -> paths.assertIsNotEmptyDirectory(info, actual));
     // THEN
     then(thrown).isInstanceOf(UncheckedIOException.class)
-                .hasCause(exception);
+                .hasCause(cause);
   }
 
 }

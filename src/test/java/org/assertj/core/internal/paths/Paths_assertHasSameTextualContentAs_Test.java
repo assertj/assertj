@@ -22,7 +22,7 @@ import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.junit.jupiter.api.condition.OS.WINDOWS;
-import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willThrow;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -153,13 +153,12 @@ class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
   }
 
   @Test
-  @DisabledOnOs(value = WINDOWS, disabledReason = "gh-2312")
   void should_rethrow_IOException_as_UncheckedIOException() throws IOException {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
     Path expected = createFile(tempDir.resolve("expected"));
     IOException exception = new IOException("boom!");
-    given(diff.diff(actual, CHARSET, expected, CHARSET)).willThrow(exception);
+    willThrow(exception).given(diff).diff(actual, CHARSET, expected, CHARSET);
     // WHEN
     Throwable thrown = catchThrowable(() -> paths.assertHasSameTextualContentAs(info, actual, CHARSET, expected, CHARSET));
     // THEN

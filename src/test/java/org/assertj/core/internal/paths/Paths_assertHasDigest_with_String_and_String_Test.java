@@ -25,7 +25,7 @@ import static org.assertj.core.internal.Digests.toHex;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.junit.jupiter.api.condition.OS.WINDOWS;
-import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willThrow;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -135,14 +135,13 @@ class Paths_assertHasDigest_with_String_and_String_Test extends PathsBaseTest {
   }
 
   @Test
-  @DisabledOnOs(value = WINDOWS, disabledReason = "gh-2312")
   void should_rethrow_IOException_as_UncheckedIOException() throws Exception {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
     String algorithm = "MD5";
     String expected = "";
     IOException cause = new IOException("boom!");
-    given(nioFilesWrapper.newInputStream(actual)).willThrow(cause);
+    willThrow(cause).given(nioFilesWrapper).newInputStream(actual);
     // WHEN
     Throwable thrown = catchThrowable(() -> paths.assertHasDigest(info, actual, algorithm, expected));
     // THEN

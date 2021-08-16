@@ -21,7 +21,7 @@ import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryCon
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.junit.jupiter.api.condition.OS.WINDOWS;
-import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willThrow;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -102,13 +102,12 @@ class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
   }
 
   @Test
-  @DisabledOnOs(value = WINDOWS, disabledReason = "gh-2312")
   void should_rethrow_IOException_as_UncheckedIOException() throws IOException {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
     byte[] expected = "expected".getBytes();
     IOException exception = new IOException("boom!");
-    given(binaryDiff.diff(actual, expected)).willThrow(exception);
+    willThrow(exception).given(binaryDiff).diff(actual, expected);
     // WHEN
     Throwable thrown = catchThrowable(() -> paths.assertHasBinaryContent(info, actual, expected));
     // THEN
