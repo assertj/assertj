@@ -1531,13 +1531,13 @@ public final class BDDAssumptions {
   /**
    * Creates a new assumption's instance for a {@link Collection} value.
    *
-   * @param <ELEMENT> the type of elements.
+   * @param <E> the type of elements.
    * @param actual the actual value.
    * @return the created assumption for assertion object.
    * @see Assumptions#assumeThat(Collection)
    * @since 3.21.0
    */
-  public static <ELEMENT> FactoryBasedNavigableCollectionAssert<CollectionAssert<ELEMENT>, Collection<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> given(Collection<? extends ELEMENT> actual) {
+  public static <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> given(Collection<? extends E> actual) {
     return assumeThat(actual);
   }
 

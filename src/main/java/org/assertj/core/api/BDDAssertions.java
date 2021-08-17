@@ -804,12 +804,12 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of <code>{@link CollectionAssert}</code>.
    *
-   * @param <T> the type of elements.
+   * @param <E> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.21.0
    */
-  public static <T> CollectionAssert<T> then(Collection<? extends T> actual) {
+  public static <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> then(Collection<? extends E> actual) {
     return assertThat(actual);
   }
 

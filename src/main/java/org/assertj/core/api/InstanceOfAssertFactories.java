@@ -821,12 +821,12 @@ public interface InstanceOfAssertFactories {
    * @since 3.21.0
    */
   @SuppressWarnings("rawtypes") // rawtypes: using Class instance
-  InstanceOfAssertFactory<Collection, CollectionAssert<Object>> COLLECTION = collection(Object.class);
+  InstanceOfAssertFactory<Collection, AbstractCollectionAssert<?, Collection<?>, Object, ObjectAssert<Object>>> COLLECTION = collection(Object.class);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link Collection}.
    *
-   * @param <ELEMENT>   the {@code Collection} element type.
+   * @param <E>   the {@code Collection} element type.
    * @param elementType the element type instance.
    * @return the factory instance.
    *
@@ -834,8 +834,8 @@ public interface InstanceOfAssertFactories {
    * @since 3.21.0
    */
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
-  static <ELEMENT> InstanceOfAssertFactory<Collection, CollectionAssert<ELEMENT>> collection(Class<ELEMENT> elementType) {
-    return new InstanceOfAssertFactory<>(Collection.class, Assertions::<ELEMENT> assertThat);
+  static <E> InstanceOfAssertFactory<Collection, AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>>> collection(Class<E> elementType) {
+    return new InstanceOfAssertFactory<>(Collection.class, Assertions::<E> assertThat);
   }
 
   /**

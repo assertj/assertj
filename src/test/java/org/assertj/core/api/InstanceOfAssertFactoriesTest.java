@@ -141,6 +141,7 @@ import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
 import java.time.ZonedDateTime;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
@@ -1096,7 +1097,7 @@ class InstanceOfAssertFactoriesTest {
     // GIVEN
     Object value = asList("Homer", "Marge", "Bart", "Lisa", "Maggie");
     // WHEN
-    CollectionAssert<Object> result = assertThat(value).asInstanceOf(COLLECTION);
+    AbstractCollectionAssert<?, Collection<?>, Object, ObjectAssert<Object>> result = assertThat(value).asInstanceOf(COLLECTION);
     // THEN
     result.contains("Bart", "Lisa");
   }
@@ -1106,7 +1107,7 @@ class InstanceOfAssertFactoriesTest {
     // GIVEN
     Object value = asList("Homer", "Marge", "Bart", "Lisa", "Maggie");
     // WHEN
-    CollectionAssert<String> result = assertThat(value).asInstanceOf(collection(String.class));
+    AbstractCollectionAssert<?, Collection<? extends String>, String, ObjectAssert<String>> result = assertThat(value).asInstanceOf(collection(String.class));
     // THEN
     result.contains("Bart", "Lisa");
   }

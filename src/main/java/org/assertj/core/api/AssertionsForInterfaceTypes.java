@@ -122,12 +122,12 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
   /**
    * Creates a new instance of <code>{@link CollectionAssert}</code>.
    *
-   * @param <ELEMENT> the type of elements.
+   * @param <E> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.21.0
    */
-  public static <ELEMENT> CollectionAssert<ELEMENT> assertThat(Collection<? extends ELEMENT> actual) {
+  public static <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> assertThat(Collection<? extends E> actual) {
     return new CollectionAssert<>(actual);
   }
 

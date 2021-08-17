@@ -1060,12 +1060,12 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   /**
    * Creates a new instance of <code>{@link CollectionAssert}</code>.
    *
-   * @param <T> the type of elements.
+   * @param <E> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.21.0
    */
-  default <T> CollectionAssert<T> assertThat(final Collection<? extends T> actual) {
+  default <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> assertThat(final Collection<? extends E> actual) {
     return Assertions.assertThat(actual);
   }
 
