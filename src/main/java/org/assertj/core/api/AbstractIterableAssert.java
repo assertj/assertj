@@ -119,6 +119,13 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   protected AbstractIterableAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
+
+    if (actual instanceof SortedSet) {
+      @SuppressWarnings("unchecked")
+      SortedSet<ELEMENT> sortedSet = (SortedSet<ELEMENT>) actual;
+      Comparator<? super ELEMENT> comparator = sortedSet.comparator();
+      if (comparator != null) usingElementComparator(sortedSet.comparator());
+    }
   }
 
   /**
@@ -1517,7 +1524,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     if (actual instanceof SortedSet) {
       // Reset the natural element comparator set when building an iterable assert instance for a SortedSet as it is likely not
       // compatible with extracted values type, example with a SortedSet<Person> using a comparator on the Person's age, after
-      // extracting names we get a a List<String> which is mot suitable for the age comparator
+      // extracting names we get a List<String> which is mot suitable for the age comparator
       usingDefaultElementComparator();
     }
     return newListAssertInstance(values).withAssertionState(myself);
@@ -2392,7 +2399,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @return {@code this} assertion object.
    * @since 2.5.0 / 3.5.0 - breaking change in 3.20.0
    * @see RecursiveComparisonConfiguration
-   * @see usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
+   * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
    */
   @CheckReturnValue
   public SELF usingRecursiveFieldByFieldElementComparator() {

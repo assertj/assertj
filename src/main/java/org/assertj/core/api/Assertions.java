@@ -37,7 +37,6 @@ import java.time.Period;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalUnit;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -46,7 +45,6 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
-import java.util.SortedSet;
 import java.util.Spliterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -2872,15 +2870,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   public static <ELEMENT> IterableAssert<ELEMENT> assertThat(Iterable<? extends ELEMENT> actual) {
-    if (actual instanceof SortedSet) {
-      @SuppressWarnings("unchecked")
-      SortedSet<ELEMENT> sortedSet = (SortedSet<ELEMENT>) actual;
-      Comparator<? super ELEMENT> comparator = sortedSet.comparator();
-      return comparator == null
-          ? new IterableAssert<>(actual)
-          : new IterableAssert<ELEMENT>(actual).usingElementComparator(comparator);
-    }
-    return new IterableAssert<>(actual);
+    return AssertionsForInterfaceTypes.assertThat(actual);
   }
 
   /**
