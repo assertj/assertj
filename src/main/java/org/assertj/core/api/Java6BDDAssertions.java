@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -347,6 +348,18 @@ public class Java6BDDAssertions {
    * @return the created assertion object.
    */
   public static AbstractClassAssert<?> then(Class<?> actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link CollectionAssert}</code>.
+   *
+   * @param <T> the actual elements type
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.21.0
+   */
+  public static <T> AbstractCollectionAssert<?, Collection<? extends T>, T, ObjectAssert<T>> then(Collection<? extends T> actual) {
     return assertThat(actual);
   }
 

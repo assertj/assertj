@@ -44,7 +44,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
                                          ACTUAL extends List<? extends ELEMENT>,
                                          ELEMENT,
                                          ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
-       extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>
+       extends AbstractCollectionAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>
        implements IndexedObjectEnumerableAssert<SELF, ELEMENT> {
 // @format:on
 

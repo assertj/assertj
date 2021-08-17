@@ -33,6 +33,7 @@ import java.time.OffsetTime;
 import java.time.Period;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalUnit;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -797,6 +798,18 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractIntegerAssert<?> then(Integer actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link CollectionAssert}</code>.
+   *
+   * @param <T> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.21.0
+   */
+  public static <T> CollectionAssert<T> then(Collection<? extends T> actual) {
     return assertThat(actual);
   }
 

@@ -23,6 +23,7 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -602,6 +603,18 @@ public class Java6Assertions {
    */
   public static AbstractIntegerAssert<?> assertThat(Integer actual) {
     return new IntegerAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link CollectionAssert}</code>.
+   *
+   * @param <T> the actual elements type
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.21.0
+   */
+  public static <T> AbstractCollectionAssert<?, Collection<? extends T>, T, ObjectAssert<T>> assertThat(Collection<? extends T> actual) {
+    return new CollectionAssert<>(actual);
   }
 
   /**

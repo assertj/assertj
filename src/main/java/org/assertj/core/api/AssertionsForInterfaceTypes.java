@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -116,6 +117,18 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    */
   public static <ELEMENT> IteratorAssert<ELEMENT> assertThat(Iterator<? extends ELEMENT> actual) {
     return new IteratorAssert<>(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link CollectionAssert}</code>.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.21.0
+   */
+  public static <ELEMENT> CollectionAssert<ELEMENT> assertThat(Collection<? extends ELEMENT> actual) {
+    return new CollectionAssert<>(actual);
   }
 
   /**

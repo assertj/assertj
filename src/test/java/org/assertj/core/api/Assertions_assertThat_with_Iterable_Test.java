@@ -18,8 +18,6 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Assertions#assertThat(Iterable)}</code>.
- * 
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -27,13 +25,14 @@ class Assertions_assertThat_with_Iterable_Test {
 
   @Test
   void should_create_Assert() {
-    AbstractIterableAssert<?, Iterable<? extends Object>, Object, ObjectAssert<Object>> assertThat = Assertions.assertThat(newLinkedHashSet());
+    Iterable<Object> actual = newLinkedHashSet();
+    AbstractIterableAssert<?, Iterable<?>, Object, ObjectAssert<Object>> assertThat = assertThat(actual);
     assertThat(assertThat).isNotNull();
   }
 
   @Test
   void should_pass_actual() {
     Iterable<String> names = newLinkedHashSet("Luke");
-    assertThat(Assertions.assertThat(names).actual).isSameAs(names);
+    assertThat(assertThat(names).actual).isSameAs(names);
   }
 }

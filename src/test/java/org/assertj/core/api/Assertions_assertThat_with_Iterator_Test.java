@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -24,17 +25,15 @@ import java.util.Iterator;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Assertions#assertThat(Iterator)}</code>.
- *
  * @author Julien Meddah
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
 class Assertions_assertThat_with_Iterator_Test {
 
-  private StringIterator stringIterator = new StringIterator();
+  private final StringIterator stringIterator = new StringIterator();
 
-  private final class StringIterator implements Iterator<String> {
+  private static final class StringIterator implements Iterator<String> {
     @Override
     public boolean hasNext() {
       return true;
@@ -51,7 +50,8 @@ class Assertions_assertThat_with_Iterator_Test {
 
   @Test
   void should_create_Assert() {
-    AbstractIterableAssert<?, Iterable<? extends Object>, Object, ObjectAssert<Object>> iteratorAssert = assertThat(newLinkedHashSet());
+    Iterable<Object> actual = newLinkedHashSet();
+    AbstractIterableAssert<?, Iterable<?>, Object, ObjectAssert<Object>> iteratorAssert = assertThat(actual);
     assertThat(iteratorAssert).isNotNull();
   }
 
@@ -145,7 +145,7 @@ class Assertions_assertThat_with_Iterator_Test {
       verifyNoInteractions(iterator);
       return;
     }
-    Assertions.fail("Expected assertionError, because assert notSame on same iterator.");
+    fail("Expected assertionError, because assert notSame on same iterator.");
   }
 
 

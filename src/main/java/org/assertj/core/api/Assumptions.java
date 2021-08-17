@@ -36,6 +36,7 @@ import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
 import java.time.ZonedDateTime;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -831,6 +832,19 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link CollectionAssert}</code> assumption.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.21.0
+   */
+  @SuppressWarnings("unchecked")
+  public static <ELEMENT> FactoryBasedNavigableCollectionAssert<CollectionAssert<ELEMENT>, Collection<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assumeThat(Collection<? extends ELEMENT> actual) {
+    return asAssumption(CollectionAssert.class, Collection.class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ListAssert}</code> assumption.
    *
    * @param <ELEMENT> the type of elements.
@@ -1335,15 +1349,16 @@ public class Assumptions {
   private static AbstractAssert<?, ?> asAssumption(AbstractAssert<?, ?> assertion) {
     // @format:off
     Object actual = assertion.actual;
-    if (assertion instanceof StringAssert) return asAssumption(StringAssert.class, String.class, actual);
+    if (assertion instanceof AbstractObjectArrayAssert) return asAssumption(ObjectArrayAssert.class, Object[].class, actual);
+    if (assertion instanceof FactoryBasedNavigableCollectionAssert) return asAssumption(CollectionAssert.class, Collection.class, actual);
     if (assertion instanceof FactoryBasedNavigableListAssert) return asAssumption(ListAssert.class, List.class, actual);
     if (assertion instanceof IterableAssert) return asAssumption(IterableAssert.class, Iterable.class, actual);
-    if (assertion instanceof MapAssert) return asAssumption(MapAssert.class, Map.class, actual);
-    if (assertion instanceof AbstractObjectArrayAssert) return asAssumption(ObjectArrayAssert.class, Object[].class, actual);
     if (assertion instanceof IterableSizeAssert) return asIterableSizeAssumption(assertion);
+    if (assertion instanceof MapAssert) return asAssumption(MapAssert.class, Map.class, actual);
     if (assertion instanceof MapSizeAssert) return asMapSizeAssumption(assertion);
     if (assertion instanceof ObjectAssert) return asAssumption(ObjectAssert.class, Object.class, actual);
     if (assertion instanceof RecursiveComparisonAssert) return asRecursiveComparisonAssumption(assertion);
+    if (assertion instanceof StringAssert) return asAssumption(StringAssert.class, String.class, actual);
     // @format:on
     // should not arrive here
     throw new IllegalArgumentException("Unsupported assumption creation for " + assertion.getClass());

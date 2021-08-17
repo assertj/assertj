@@ -15,30 +15,30 @@ package org.assertj.core.api;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.lang.reflect.Constructor;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Build the Assert instance by reflection.
  * 
- * @since 2.5.0 / 3.5.0
+ * @since 3.21.0
  */
 //@format:off
-public class ClassBasedNavigableListAssert<SELF extends ClassBasedNavigableListAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>, 
-                                           ACTUAL extends List<? extends ELEMENT>, 
-                                           ELEMENT, 
-                                           ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
-       extends AbstractListAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
+public class ClassBasedNavigableCollectionAssert<SELF extends ClassBasedNavigableCollectionAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>, 
+                                                 ACTUAL extends Collection<? extends ELEMENT>, 
+                                                 ELEMENT, 
+                                                 ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
+       extends AbstractCollectionAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
 //@format:on
-  private Class<ELEMENT_ASSERT> assertClass;
 
-  public ClassBasedNavigableListAssert(ACTUAL actual, Class<ELEMENT_ASSERT> assertClass) {
-    super(actual, ClassBasedNavigableListAssert.class);
+  private final Class<ELEMENT_ASSERT> assertClass;
+
+  public ClassBasedNavigableCollectionAssert(ACTUAL actual, Class<ELEMENT_ASSERT> assertClass) {
+    super(actual, ClassBasedNavigableCollectionAssert.class);
     this.assertClass = assertClass;
   }
 
   @Override
   public ELEMENT_ASSERT toAssert(ELEMENT value, String description) {
-
     return buildAssert(value, description, value.getClass());
   }
 
@@ -63,7 +63,8 @@ public class ClassBasedNavigableListAssert<SELF extends ClassBasedNavigableListA
   @SuppressWarnings("unchecked")
   @Override
   protected SELF newAbstractIterableAssert(Iterable<? extends ELEMENT> iterable) {
-    checkArgument(iterable instanceof List, "Expecting %s to be a List", iterable);
-    return (SELF) new ClassBasedNavigableListAssert<>((List<? extends ELEMENT>) iterable, assertClass);
+    checkArgument(iterable instanceof Collection, "Expecting %s to be a Collection", iterable);
+    return (SELF) new ClassBasedNavigableCollectionAssert<>((Collection<? extends ELEMENT>) iterable, assertClass);
   }
+
 }

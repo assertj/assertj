@@ -43,6 +43,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_SEQUENCE;
 import static org.assertj.core.api.InstanceOfAssertFactories.CLASS;
+import static org.assertj.core.api.InstanceOfAssertFactories.COLLECTION;
 import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETABLE_FUTURE;
 import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETION_STAGE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DATE;
@@ -106,6 +107,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.atomicReference;
 import static org.assertj.core.api.InstanceOfAssertFactories.atomicReferenceArray;
 import static org.assertj.core.api.InstanceOfAssertFactories.atomicReferenceFieldUpdater;
 import static org.assertj.core.api.InstanceOfAssertFactories.atomicStampedReference;
+import static org.assertj.core.api.InstanceOfAssertFactories.collection;
 import static org.assertj.core.api.InstanceOfAssertFactories.comparable;
 import static org.assertj.core.api.InstanceOfAssertFactories.completableFuture;
 import static org.assertj.core.api.InstanceOfAssertFactories.completionStage;
@@ -1087,6 +1089,26 @@ class InstanceOfAssertFactoriesTest {
     IteratorAssert<String> result = assertThat(value).asInstanceOf(iterator(String.class));
     // THEN
     result.hasNext();
+  }
+
+  @Test
+  void collection_factory_should_allow_collection_assertions() {
+    // GIVEN
+    Object value = asList("Homer", "Marge", "Bart", "Lisa", "Maggie");
+    // WHEN
+    CollectionAssert<Object> result = assertThat(value).asInstanceOf(COLLECTION);
+    // THEN
+    result.contains("Bart", "Lisa");
+  }
+
+  @Test
+  void typed_collection_factory_should_allow_typed_collection_assertions() {
+    // GIVEN
+    Object value = asList("Homer", "Marge", "Bart", "Lisa", "Maggie");
+    // WHEN
+    CollectionAssert<String> result = assertThat(value).asInstanceOf(collection(String.class));
+    // THEN
+    result.contains("Bart", "Lisa");
   }
 
   @Test
