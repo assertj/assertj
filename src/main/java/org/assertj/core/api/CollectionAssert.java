@@ -35,7 +35,7 @@ public class CollectionAssert<ELEMENT> extends
 
   @Override
   protected CollectionAssert<ELEMENT> newAbstractIterableAssert(Iterable<? extends ELEMENT> iterable) {
-    return new CollectionAssert<>(newArrayList(iterable)); // FIXME should it try to clone and fallback to List?
+    return new CollectionAssert<>(newArrayList(iterable));
   }
 
 }
