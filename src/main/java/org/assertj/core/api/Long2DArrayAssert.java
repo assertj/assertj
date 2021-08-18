@@ -212,6 +212,28 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
   }
 
   /**
+   * Verifies that the first dimension of actual {@code long[][]} has the given row size.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new long[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(2);
+   *
+   * // assertions will fail
+   * assertThat(new long[][] { }).hasRowSize(1, 1);
+   * assertThat(new long[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(3);
+   * assertThat(new long[][] {{1, 2, 3}, {4, 5, 6, 7}}).hasRowSize(1); </code></pre>
+   *
+   * @param expectedFirstDimension the expected number of values in first dimension of the actual {@code long[][]}.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual number of rows are not equal to the given one.
+   */
+  @Override
+  public Long2DArrayAssert hasRowSize(int expectedFirstDimension) {
+    long2dArrays.assertHasDimensions(info, actual, expectedFirstDimension, 0);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code long[][]} has the same dimensions as the given array.
    * <p>
    * Parameter is declared as Object to accept both Object and primitive arrays.

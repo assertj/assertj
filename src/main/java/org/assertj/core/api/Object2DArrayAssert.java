@@ -215,6 +215,28 @@ public class Object2DArrayAssert<ELEMENT> extends
   }
 
   /**
+   * Verifies that the first dimension of actual {@code ELEMENT[][]} has the given row size.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new String[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(2);
+   *
+   * // assertions will fail
+   * assertThat(new String[][] { }).hasRowSize(1, 1);
+   * assertThat(new String[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(3);
+   * assertThat(new String[][] {{1, 2, 3}, {4, 5, 6, 7}}).hasRowSize(1); </code></pre>
+   *
+   * @param expectedFirstDimension the expected number of values in first dimension of the actual {@code ELEMENT[][]}.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual number of rows are not equal to the given one.
+   */
+  @Override
+  public Object2DArrayAssert<ELEMENT> hasRowSize(int expectedFirstDimension) {
+    object2dArrays.assertHasDimensions(info, actual, expectedFirstDimension, 0);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code ELEMENT[][]} has the same dimensions as the given array.
    * <p>
    * Parameter is declared as Object to accept both Object and primitive arrays.

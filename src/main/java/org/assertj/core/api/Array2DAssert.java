@@ -105,6 +105,24 @@ public interface Array2DAssert<SELF extends Array2DAssert<SELF, ELEMENT>, ELEMEN
   SELF hasDimensions(int expectedFirstDimension, int expectedSecondDimension);
 
   /**
+   * Verifies that the first dimension of 2D array has the given row size.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new int[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(2);
+   *
+   * // assertions will fail
+   * assertThat(new int[][] { }).hasRowSize(1);
+   * assertThat(new int[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(3);
+   * assertThat(new int[][] {{1, 2, 3}, {4, 5, 6, 7}}).hasRowSize(1); </code></pre>
+   *
+   * @param expectedRowSize the expected number of rows in first dimension of the actual array.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual number of rows are not equal to the given one.
+   */
+  SELF hasRowSize(int expectedRowSize);
+
+  /**
    * Verifies that the actual array has the same dimensions as the given array.
    * <p>
    * Parameter is declared as Object to accept both Object[] and primitive arrays (e.g. int[]).

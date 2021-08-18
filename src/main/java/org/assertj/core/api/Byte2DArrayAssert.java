@@ -213,6 +213,29 @@ public class Byte2DArrayAssert extends Abstract2DArrayAssert<Byte2DArrayAssert, 
   }
 
   /**
+   * Verifies that the first dimension of actual {@code byte[][]} has the given row size.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new byte[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(2);
+   *
+   * // assertions will fail
+   * assertThat(new byte[][] { }).hasRowSize(1);
+   * assertThat(new byte[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(3);
+   * assertThat(new byte[][] {{1, 2, 3}, {4, 5, 6, 7}}).hasRowSize(1); </code></pre>
+   *
+   * @param expectedFirstDimension the expected number of values in first dimension of the actual {@code byte[][].
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual number of rows are not equal to the given one.
+   */
+  @Override
+  public Byte2DArrayAssert hasRowSize(int expectedFirstDimension) {
+    byte2dArrays.assertHasDimensions(info, actual, expectedFirstDimension, 0);
+    return myself;
+  }
+
+
+  /**
    * Verifies that the actual {@code byte[][]} has the same dimensions as the given array.
    * <p>
    * Parameter is declared as Object to accept both Object and primitive arrays.
