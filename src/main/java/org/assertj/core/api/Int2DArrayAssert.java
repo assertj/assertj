@@ -125,6 +125,29 @@ public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, in
     return myself;
   }
 
+
+  /**
+   * Verifies that the first dimension of actual {@code int[][]} has the given row size.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new int[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(2);
+   *
+   * // assertions will fail
+   * assertThat(new int[][] { }).hasRowSize(1, 1);
+   * assertThat(new int[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(3);
+   * assertThat(new int[][] {{1, 2, 3}, {4, 5, 6, 7}}).hasRowSize(1); </code></pre>
+   *
+   * @param expectedFirstDimension the expected number of values in first dimension of the actual {@code int[][]}.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual number of rows are not equal to the given one.
+   */
+  @Override
+  public Int2DArrayAssert hasRowSize(int expectedFirstDimension) {
+    int2dArrays.assertHasDimensions(info, actual, expectedFirstDimension, 0);
+    return myself;
+  }
+
   /**
    * Verifies that the actual {@code int[][]} has the same dimensions as the given array.
    * <p>

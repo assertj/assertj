@@ -212,6 +212,28 @@ public class Boolean2DArrayAssert extends Abstract2DArrayAssert<Boolean2DArrayAs
   }
 
   /**
+   * Verifies that the first dimension of actual {@code boolean[][]} has the given row size.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new boolean[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(2);
+   *
+   * // assertions will fail
+   * assertThat(new boolean[][] { }).hasRowSize(1, 1);
+   * assertThat(new boolean[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(3);
+   * assertThat(new boolean[][] {{1, 2, 3}, {4, 5, 6, 7}}).hasRowSize(1); </code></pre>
+   *
+   * @param expectedFirstDimension the expected number of values in first dimension of the actual array.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual number of rows are not equal to the given one.
+   */
+  @Override
+  public Boolean2DArrayAssert hasRowSize(int expectedFirstDimension) {
+    boolean2dArrays.assertHasDimensions(info, actual, expectedFirstDimension, 0);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code boolean[][]} has the same dimensions as the given array.
    * <p>
    * Parameter is declared as Object to accept both Object and primitive arrays.
