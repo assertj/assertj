@@ -206,6 +206,7 @@ public interface WithAssumptions {
   /**
    * Creates a new instance of <code>{@link ThrowableAssert}</code> assumption.
    *
+   * @param <T> the type of the actual value.
    * @param actual the actual value.
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
