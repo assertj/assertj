@@ -899,7 +899,7 @@ public class Assumptions {
   /**
    * Creates a new instance of <code>{@link ThrowableAssert}</code> assumption.
    *
-   * @param <T> the type of actual.
+   * @param <T> the type of the actual throwable.
    * @param actual the actual value.
    * @return the created assumption for assertion object.
    * @since 2.9.0 / 3.9.0
@@ -1291,7 +1291,7 @@ public class Assumptions {
   public static void setPreferredAssumptionException(PreferredAssumptionException preferredAssumptionException) {
     AssumptionExceptionFactory.setPreferredAssumptionException(preferredAssumptionException);
   }
-  
+
   // private methods
 
   private static <ASSERTION, ACTUAL> ASSERTION asAssumption(Class<ASSERTION> assertionType,

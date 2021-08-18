@@ -1141,6 +1141,7 @@ public class Assertions implements InstanceOfAssertFactories {
   /**
    * Creates a new instance of <code>{@link ThrowableAssert}</code>.
    *
+   * @param <T> the type of the actual throwable.
    * @param actual the actual value.
    * @return the created {@link ThrowableAssert}.
    */

@@ -1145,6 +1145,7 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.ThrowableAssert}</code>.
    *
+   * @param <T> the type of the actual throwable.
    * @param actual the actual value.
    * @return the created assertion Throwable.
    */

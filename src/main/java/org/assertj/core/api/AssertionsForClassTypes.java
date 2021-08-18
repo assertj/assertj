@@ -691,6 +691,7 @@ public class AssertionsForClassTypes {
   /**
    * Creates a new instance of <code>{@link ThrowableAssert}</code>.
    *
+   * @param <T> the type of the actual throwable.
    * @param actual the actual value.
    * @return the created {@link ThrowableAssert}.
    */
@@ -795,7 +796,7 @@ public class AssertionsForClassTypes {
    * <pre><code class='java'>assertThatNoException().isThrownBy(() -&gt; { System.out.println("OK"); });</code></pre>
    *
    * This method is more or less the same of {@code assertThatCode(...).doesNotThrowAnyException();} but in a more natural way.
-
+  
    * @return the created {@link NotThrownAssert}.
    * @since 3.17.0
    */

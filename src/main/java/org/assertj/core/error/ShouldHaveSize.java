@@ -97,6 +97,7 @@ public class ShouldHaveSize extends BasicErrorMessageFactory {
    * @param actual The actual path file in the failed assertion
    * @param expectedSize The expected size of the path file
    * @return the created {@code ErrorMessageFactory}
+   * @throws IOException if an I/O error occurs
    */
   public static ErrorMessageFactory shouldHaveSize(Path actual, long expectedSize) throws IOException {
     return new ShouldHaveSize(actual, expectedSize);
