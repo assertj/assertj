@@ -28,7 +28,7 @@ import org.assertj.core.test.Employee;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
-class IterableAssert_filteredOn_consumer_Test extends IterableAssert_filtered_baseTest {
+class IterableAssert_filteredOnAssertions_consumer_Test extends IterableAssert_filtered_baseTest {
 
   private static Consumer<? super TolkienCharacter> nameStartingWithFro = hobbit -> assertThat(hobbit.getName()).startsWith("Fro");
 

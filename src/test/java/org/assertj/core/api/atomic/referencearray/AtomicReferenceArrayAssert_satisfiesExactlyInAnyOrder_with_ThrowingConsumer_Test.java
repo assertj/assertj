@@ -13,8 +13,11 @@
 package org.assertj.core.api.atomic.referencearray;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.ThrowingConsumerFactory.throwingConsumer;
 import static org.mockito.Mockito.verify;
 
 import java.util.function.Consumer;
@@ -22,13 +25,14 @@ import java.util.function.Consumer;
 import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 import org.assertj.core.api.ThrowingConsumer;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link AtomicReferenceArrayAssert#satisfiesExactlyInAnyOrder(Consumer...)}</code>.
  *
  * @author Michael Grafl
  */
-class AtomicReferenceArrayAssert_satisfiesExactlyInAnyOrder_Test extends AtomicReferenceArrayAssertBaseTest {
+class AtomicReferenceArrayAssert_satisfiesExactlyInAnyOrder_with_ThrowingConsumer_Test extends AtomicReferenceArrayAssertBaseTest {
 
   private ThrowingConsumer<Object>[] requirements = array(element -> assertThat(element).isNotNull());
 
@@ -46,4 +50,26 @@ class AtomicReferenceArrayAssert_satisfiesExactlyInAnyOrder_Test extends AtomicR
   protected void verify_internal_effects() {
     verify(iterables).assertSatisfiesExactlyInAnyOrder(info(), list(internalArray()), array(requirements));
   }
+
+  @Test
+  void should_rethrow_throwables_as_runtime_exceptions() {
+    // GIVEN
+    Throwable exception = new Throwable("boom!");
+    // WHEN
+    Throwable throwable = catchThrowable(() -> assertThat(atomicArrayOf("foo")).satisfiesExactlyInAnyOrder(throwingConsumer(exception)));
+    // THEN
+    then(throwable).isInstanceOf(RuntimeException.class)
+                   .hasCauseReference(exception);
+  }
+
+  @Test
+  void should_propagate_RuntimeException_as_is() {
+    // GIVEN
+    RuntimeException runtimeException = new RuntimeException("boom!");
+    // WHEN
+    Throwable throwable = catchThrowable(() -> assertThat(atomicArrayOf("foo")).satisfiesExactlyInAnyOrder(throwingConsumer(runtimeException)));
+    // THEN
+    then(throwable).isSameAs(runtimeException);
+  }
+
 }

@@ -3393,6 +3393,48 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> allSatisfy(Consumer<? super T> requirements) {
+    return internalAllSatisfy(requirements);
+  }
+
+  /**
+   * Verifies that all the elements satisfy the given requirements expressed as a {@link ThrowingConsumer}.
+   * <p>
+   * This is useful to perform a group of assertions on elements.
+   * <p>
+   * This is the same assertion as {@link #allSatisfy(Consumer)} but the given consumer can throw checked exceptions.<br>
+   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
+   * <p>
+   * Example:
+   * <pre><code class='java'>  // read() throws IOException
+   * // note that the code would not compile if isNotEmpty, startsWithA or startsWithZ were declared as a Consumer&lt;Reader&gt; 
+   * ThrowingConsumer&lt;Reader&gt; isNotEmpty = reader -&gt; assertThat(reader.read()).isEqualTo(-1);
+   * ThrowingConsumer&lt;Reader&gt; startsWithA = reader -&gt; assertThat(reader.read()).isEqualTo('A');
+   *
+   * // ABC.txt contains: ABC  
+   * // XYZ.txt contains: XYZ  
+   * AtomicReferenceArray&lt;FileReader&gt; fileReaders = new AtomicReferenceArray&lt;&gt;(new FileReader[] {new FileReader("ABC.txt"), new FileReader("XYZ.txt")});
+   * 
+   * // assertion succeeds as none of the files are empty
+   * assertThat(fileReaders).allSatisfy(isNotEmpty);
+   *
+   * // assertion fails as XYZ.txt does not start with 'A':
+   * assertThat(fileReaders).allSatisfy(startsWithA);</code></pre>
+   * <p>
+   * If the actual iterable is empty, this assertion succeeds as there is nothing to check.
+   *
+   * @param requirements the given {@link ThrowingConsumer}.
+   * @return {@code this} object.
+   * @throws NullPointerException if given {@link ThrowingConsumer} is null
+   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
+   * @throws AssertionError if one or more elements don't satisfy the given requirements.
+   * @since 3.21.0
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> allSatisfy(ThrowingConsumer<? super T> requirements) {
+    return internalAllSatisfy(requirements);
+  }
+
+  private AtomicReferenceArrayAssert<T> internalAllSatisfy(Consumer<? super T> requirements) {
     iterables.assertAllSatisfy(info, newArrayList(array), requirements);
     return myself;
   }
@@ -3453,6 +3495,48 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> anySatisfy(Consumer<? super T> requirements) {
+    return internalAnySatisfy(requirements);
+  }
+
+  /**
+   * Verifies that at least one element satisfies the given requirements expressed as a {@link ThrowingConsumer}.
+   * <p>
+   * This is useful to check that a group of assertions is verified by (at least) one element.
+   * <p>
+   * This is the same assertion as {@link #anySatisfy(Consumer)} but the given consumer can throw checked exceptions.<br>
+   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
+   * <p>
+   * Example:
+   * <pre><code class='java'>  // read() throws IOException
+   * // note that the code would not compile if startsWithA, startsWithY or startsWithZ were declared as a Consumer&lt;Reader&gt; 
+   * ThrowingConsumer&lt;Reader&gt; startsWithA = reader -&gt; assertThat(reader.read()).isEqualTo('A');
+   * ThrowingConsumer&lt;Reader&gt; startsWithZ = reader -&gt; assertThat(reader.read()).isEqualTo('Z');
+   *
+   * // ABC.txt contains: ABC  
+   * // XYZ.txt contains: XYZ  
+   * AtomicReferenceArray&lt;FileReader&gt; fileReaders = new AtomicReferenceArray&lt;&gt;(new FileReader[] {new FileReader("ABC.txt"), new FileReader("XYZ.txt")});
+   * 
+   * // assertion succeeds as ABC.txt starts with 'A'
+   * assertThat(fileReaders).anySatisfy(startsWithA);
+   *
+   * // assertion fails none of the files starts with 'Z':
+   * assertThat(fileReaders).anySatisfy(startsWithZ);</code></pre>
+   * <p>
+   * If the actual iterable is empty, this assertion succeeds as there is nothing to check.
+   *
+   * @param requirements the given {@link ThrowingConsumer}.
+   * @return {@code this} object.
+   * @throws NullPointerException if given {@link ThrowingConsumer} is null
+   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
+   * @throws AssertionError no elements satisfy the given requirements.
+   * @since 3.21.0
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> anySatisfy(ThrowingConsumer<? super T> requirements) {
+    return internalAnySatisfy(requirements);
+  }
+
+  private AtomicReferenceArrayAssert<T> internalAnySatisfy(Consumer<? super T> requirements) {
     iterables.assertAnySatisfy(info, newArrayList(array), requirements);
     return myself;
   }
@@ -3462,13 +3546,147 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> noneSatisfy(Consumer<? super T> restrictions) {
+    return internalNoneSatisfy(restrictions);
+  }
+
+  /**
+   * Verifies that no elements satisfy the given restrictions expressed as a {@link Consumer}.
+   * <p>
+   * This is useful to check that a group of assertions is verified by (at least) one element.
+   * <p>
+   * This is the same assertion as {@link #anySatisfy(Consumer)} but the given consumer can throw checked exceptions.<br>
+   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
+   * <p>
+   * Example:
+   * <pre><code class='java'>  // read() throws IOException
+   * // note that the code would not compile if startsWithA, startsWithY or startsWithZ were declared as a Consumer&lt;Reader&gt; 
+   * ThrowingConsumer&lt;Reader&gt; startsWithA = reader -&gt; assertThat(reader.read()).isEqualTo('A');
+   * ThrowingConsumer&lt;Reader&gt; startsWithZ = reader -&gt; assertThat(reader.read()).isEqualTo('Z');
+   *
+   * // ABC.txt contains: ABC  
+   * // XYZ.txt contains: XYZ  
+   * AtomicReferenceArray&lt;FileReader&gt; fileReaders = new AtomicReferenceArray&lt;&gt;(new FileReader[] {new FileReader("ABC.txt"), new FileReader("XYZ.txt")});
+   * 
+   * // assertion succeeds as none of the file starts 'Z'
+   * assertThat(fileReaders).noneSatisfy(startsWithZ);
+   *
+   * // assertion fails as ABC.txt starts with 'A':
+   * assertThat(fileReaders).noneSatisfy(startsWithA);</code></pre>
+   * <p>
+   * Note that this assertion succeeds if the group (collection, array, ...) is empty whatever the restrictions are.
+   *
+   * @param restrictions the given {@link ThrowingConsumer}.
+   * @return {@code this} object.
+   * @throws NullPointerException if given {@link ThrowingConsumer} is null
+   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
+   * @throws AssertionError if one or more elements satisfy the given requirements.
+   * @since 3.21.0
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> noneSatisfy(ThrowingConsumer<? super T> restrictions) {
+    return internalNoneSatisfy(restrictions);
+  }
+
+  private AtomicReferenceArrayAssert<T> internalNoneSatisfy(Consumer<? super T> restrictions) {
     iterables.assertNoneSatisfy(info, newArrayList(array), restrictions);
     return myself;
   }
 
+  /**
+   * Verifies that each element satisfies the requirements corresponding to its index, so the first element must satisfy the
+   * first requirements, the second element the second requirements etc...
+   * <p>
+   * Each requirements are expressed as a {@link Consumer}, there must be as many requirements as there are iterable elements.
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicReferenceArray&lt;TolkienCharacter&gt; characters = new AtomicReferenceArray&lt;&gt;(new TolkienCharacter[] {frodo, aragorn, legolas});
+   *
+   * // assertions succeed
+   * assertThat(characters).satisfiesExactly(character -&gt; assertThat(character.getRace()).isEqualTo("Hobbit"),
+   *                                         character -&gt; assertThat(character.isMortal()).isTrue(),
+   *                                         character -&gt; assertThat(character.getName()).isEqualTo("Legolas"));
+   *
+   * // you can specify more that one assertion per requirements
+   * assertThat(characters).satisfiesExactly(character -&gt; {
+   *                                            assertThat(character.getRace()).isEqualTo("Hobbit");
+   *                                            assertThat(character.getName()).isEqualTo("Frodo");
+   *                                         },
+   *                                         character -&gt; {
+   *                                            assertThat(character.isMortal()).isTrue();
+   *                                            assertThat(character.getName()).isEqualTo("Aragorn");
+   *                                         },
+   *                                         character -&gt; {
+   *                                            assertThat(character.getRace()).isEqualTo("Elf");
+   *                                            assertThat(character.getName()).isEqualTo("Legolas");
+   *                                         });
+   *
+   * // assertion fails as aragorn does not meet the second requirements
+   * assertThat(characters).satisfiesExactly(character -&gt; assertThat(character.getRace()).isEqualTo("Hobbit"),
+   *                                         character -&gt; assertThat(character.isMortal()).isFalse(),
+   *                                         character -&gt; assertThat(character.getName()).isEqualTo("Legolas"));</code></pre>
+   *
+   * @param requirements the requirements to meet.
+   * @return {@code this} to chain assertions.
+   * @throws NullPointerException if given requirements are null.
+   * @throws AssertionError if any element does not satisfy the requirements at the same index
+   * @throws AssertionError if there are not as many requirements as there are iterable elements.
+   * @since 3.19.0
+   */
   @Override
   @SafeVarargs
   public final AtomicReferenceArrayAssert<T> satisfiesExactly(Consumer<? super T>... requirements) {
+    return satisfiesExactlyForProxy(requirements);
+  }
+
+  /**
+   * Verifies that each element satisfies the requirements corresponding to its index, so the first element must satisfy the
+   * first requirements, the second element the second requirements etc...
+   * <p>
+   * Each requirements are expressed as a {@link ThrowingConsumer}, there must be as many requirements as there are iterable elements.
+   * <p>
+   * This is the same assertion as {@link #satisfiesExactly(Consumer...)} but the given consumers can throw checked exceptions.<br>
+   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
+   * <p>
+   * Example:
+   * <pre><code class='java'> AtomicReferenceArray&lt;TolkienCharacter&gt; characters = new AtomicReferenceArray&lt;&gt;(new TolkienCharacter[] {frodo, aragorn, legolas});
+   * 
+   * // the code would compile even if TolkienCharacter.getRace(), isMortal() or getName() threw a checked exception
+   *
+   * // assertions succeed
+   * assertThat(characters).satisfiesExactly(character -&gt; assertThat(character.getRace()).isEqualTo("Hobbit"),
+   *                                         character -&gt; assertThat(character.isMortal()).isTrue(),
+   *                                         character -&gt; assertThat(character.getName()).isEqualTo("Legolas"));
+   *
+   * // you can specify more that one assertion per requirements
+   * assertThat(characters).satisfiesExactly(character -&gt; {
+   *                                            assertThat(character.getRace()).isEqualTo("Hobbit");
+   *                                            assertThat(character.getName()).isEqualTo("Frodo");
+   *                                         },
+   *                                         character -&gt; {
+   *                                            assertThat(character.isMortal()).isTrue();
+   *                                            assertThat(character.getName()).isEqualTo("Aragorn");
+   *                                         },
+   *                                         character -&gt; {
+   *                                            assertThat(character.getRace()).isEqualTo("Elf");
+   *                                            assertThat(character.getName()).isEqualTo("Legolas");
+   *                                         });
+   *
+   * // assertion fails as aragorn does not meet the second requirements
+   * assertThat(characters).satisfiesExactly(character -&gt; assertThat(character.getRace()).isEqualTo("Hobbit"),
+   *                                         character -&gt; assertThat(character.isMortal()).isFalse(),
+   *                                         character -&gt; assertThat(character.getName()).isEqualTo("Legolas"));</code></pre>
+   *
+   * @param requirements the requirements to meet.
+   * @return {@code this} to chain assertions.
+   * @throws NullPointerException if given requirements are null.
+   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
+   * @throws AssertionError if any element does not satisfy the requirements at the same index
+   * @throws AssertionError if there are not as many requirements as there are iterable elements.
+   * @since 3.21.0
+   */
+  @Override
+  @SafeVarargs
+  public final AtomicReferenceArrayAssert<T> satisfiesExactly(ThrowingConsumer<? super T>... requirements) {
     return satisfiesExactlyForProxy(requirements);
   }
 
@@ -3480,17 +3698,125 @@ public class AtomicReferenceArrayAssert<T>
     return myself;
   }
 
+  /**
+   * Verifies that at least one combination of iterable elements exists that satisfies the consumers in order (there must be as
+   * many consumers as iterable elements and once a consumer is matched it cannot be reused to match other elements).
+   * <p>
+   * This is a variation of {@link #satisfiesExactly(Consumer...)} where order does not matter.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> AtomicReferenceArray&lt;String&gt; starWarsCharacterNames = new AtomicReferenceArray&lt;&gt;(new String[] {"Luke", "Leia", "Yoda"});
+   *
+   * // these assertions succeed:
+   * assertThat(starWarsCharacterNames).satisfiesExactlyInAnyOrder(name -&gt; assertThat(name).contains("Y"), // matches "Yoda"
+   *                                                               name -&gt; assertThat(name).contains("L"), // matches "Luke" and "Leia"
+   *                                                               name -&gt; {
+   *                                                                 assertThat(name).hasSize(4);
+   *                                                                 assertThat(name).doesNotContain("a"); // matches "Luke" but not "Leia"
+   *                                                               })
+   *                                   .satisfiesExactlyInAnyOrder(name -&gt; assertThat(name).contains("Yo"),
+   *                                                               name -&gt; assertThat(name).contains("Lu"),
+   *                                                               name -&gt; assertThat(name).contains("Le"))
+   *                                   .satisfiesExactlyInAnyOrder(name -&gt; assertThat(name).contains("Le"),
+   *                                                               name -&gt; assertThat(name).contains("Yo"),
+   *                                                               name -&gt; assertThat(name).contains("Lu"));
+   *
+   * // this assertion fails as 3 consumer/requirements are expected
+   * assertThat(starWarsCharacterNames).satisfiesExactlyInAnyOrder(name -&gt; assertThat(name).contains("Y"),
+   *                                                               name -&gt; assertThat(name).contains("L"));
+   *
+   * // this assertion fails as no element contains "Han" (first consumer/requirements can't be met)
+   * assertThat(starWarsCharacterNames).satisfiesExactlyInAnyOrder(name -&gt; assertThat(name).contains("Han"),
+   *                                                               name -&gt; assertThat(name).contains("L"),
+   *                                                               name -&gt; assertThat(name).contains("Y"));
+   *
+   * // this assertion fails as "Yoda" element can't satisfy any consumers/requirements (even though all consumers/requirements are met)
+   * assertThat(starWarsCharacterNames).satisfiesExactlyInAnyOrder(name -&gt; assertThat(name).contains("L"),
+   *                                                               name -&gt; assertThat(name).contains("L"),
+   *                                                               name -&gt; assertThat(name).contains("L"));
+   *
+   * // this assertion fails as no combination of elements can satisfy the consumers in order
+   * // the problem is if the last consumer is matched by Leia then no other consumer can match Luke (and vice versa)
+   * assertThat(starWarsCharacterNames).satisfiesExactlyInAnyOrder(name -&gt; assertThat(name).contains("Y"),
+   *                                                               name -&gt; assertThat(name).contains("o"),
+   *                                                               name -&gt; assertThat(name).contains("L"));</code></pre>
+   *
+   * @param requirements the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
+   * @return this assertion object.
+   * @throws NullPointerException if the given consumers array or any consumer is {@code null}.
+   * @throws AssertionError if there is no permutation of elements that satisfies the individual consumers in order
+   * @throws AssertionError if there are not as many requirements as there are iterable elements.
+   *
+   * @since 3.19.0
+   */
   @Override
   @SafeVarargs
-  public final AtomicReferenceArrayAssert<T> satisfiesExactlyInAnyOrder(Consumer<? super T>... consumers) {
-    return satisfiesExactlyInAnyOrderForProxy(consumers);
+  public final AtomicReferenceArrayAssert<T> satisfiesExactlyInAnyOrder(Consumer<? super T>... requirements) {
+    return satisfiesExactlyInAnyOrderForProxy(requirements);
+  }
+
+  /**
+   * Verifies that at least one combination of iterable elements exists that satisfies the {@link ThrowingConsumer}s in order (there must be as
+   * many consumers as iterable elements and once a consumer is matched it cannot be reused to match other elements).
+   * <p>
+   * This is a variation of {@link #satisfiesExactly(ThrowingConsumer...)} where order does not matter.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> AtomicReferenceArray&lt;String&gt; starWarsCharacterNames = new AtomicReferenceArray&lt;&gt;(new String[] {"Luke", "Leia", "Yoda"});
+   *
+   * // these assertions succeed:
+   * assertThat(starWarsCharacterNames).satisfiesExactlyInAnyOrder(name -&gt; assertThat(name).contains("Y"), // matches "Yoda"
+   *                                                               name -&gt; assertThat(name).contains("L"), // matches "Luke" and "Leia"
+   *                                                               name -&gt; {
+   *                                                                 assertThat(name).hasSize(4);
+   *                                                                 assertThat(name).doesNotContain("a"); // matches "Luke" but not "Leia"
+   *                                                               })
+   *                                   .satisfiesExactlyInAnyOrder(name -&gt; assertThat(name).contains("Yo"),
+   *                                                               name -&gt; assertThat(name).contains("Lu"),
+   *                                                               name -&gt; assertThat(name).contains("Le"))
+   *                                   .satisfiesExactlyInAnyOrder(name -&gt; assertThat(name).contains("Le"),
+   *                                                               name -&gt; assertThat(name).contains("Yo"),
+   *                                                               name -&gt; assertThat(name).contains("Lu"));
+   *
+   * // this assertion fails as 3 consumers/requirements are expected
+   * assertThat(starWarsCharacterNames).satisfiesExactlyInAnyOrder(name -&gt; assertThat(name).contains("Y"),
+   *                                                               name -&gt; assertThat(name).contains("L"));
+   *
+   * // this assertion fails as no element contains "Han" (first consumer/requirements can't be met)
+   * assertThat(starWarsCharacterNames).satisfiesExactlyInAnyOrder(name -&gt; assertThat(name).contains("Han"),
+   *                                                               name -&gt; assertThat(name).contains("L"),
+   *                                                               name -&gt; assertThat(name).contains("Y"));
+   *
+   * // this assertion fails as "Yoda" element can't satisfy any consumers/requirements (even though all consumers/requirements are met)
+   * assertThat(starWarsCharacterNames).satisfiesExactlyInAnyOrder(name -&gt; assertThat(name).contains("L"),
+   *                                                               name -&gt; assertThat(name).contains("L"),
+   *                                                               name -&gt; assertThat(name).contains("L"));
+   *
+   * // this assertion fails as no combination of elements can satisfy the consumers in order
+   * // the problem is if the last consumer is matched by Leia then no other consumer can match Luke (and vice versa)
+   * assertThat(starWarsCharacterNames).satisfiesExactlyInAnyOrder(name -&gt; assertThat(name).contains("Y"),
+   *                                                               name -&gt; assertThat(name).contains("o"),
+   *                                                               name -&gt; assertThat(name).contains("L"));</code></pre>
+   *
+   * @param requirements the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
+   * @return this assertion object.
+   * @throws NullPointerException if the given consumers array or any consumer is {@code null}.
+   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
+   * @throws AssertionError if there is no permutation of elements that satisfies the individual consumers in order
+   * @throws AssertionError if there are not as many requirements as there are iterable elements.
+   * @since 3.21.0
+   */
+  @Override
+  @SafeVarargs
+  public final AtomicReferenceArrayAssert<T> satisfiesExactlyInAnyOrder(ThrowingConsumer<? super T>... requirements) {
+    return satisfiesExactlyInAnyOrderForProxy(requirements);
   }
 
   // This method is protected in order to be proxied for SoftAssertions / Assumptions.
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
-  protected AtomicReferenceArrayAssert<T> satisfiesExactlyInAnyOrderForProxy(Consumer<? super T>[] consumers) {
-    iterables.assertSatisfiesExactlyInAnyOrder(info, newArrayList(array), consumers);
+  protected AtomicReferenceArrayAssert<T> satisfiesExactlyInAnyOrderForProxy(Consumer<? super T>[] requirements) {
+    iterables.assertSatisfiesExactlyInAnyOrder(info, newArrayList(array), requirements);
     return myself;
   }
 

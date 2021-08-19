@@ -12,10 +12,9 @@
  */
 package org.assertj.core.api.objectarray;
 
-import static org.assertj.core.test.ObjectArrays.arrayOf;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import java.util.function.Consumer;
@@ -30,12 +29,7 @@ import org.assertj.core.api.ObjectArrayAssertBaseTest;
  */
 class ObjectArrayAssert_satisfiesExactlyInAnyOrder_Test extends ObjectArrayAssertBaseTest {
 
-  private Consumer<Object> consumer = mock(Consumer.class);
-
-  @Override
-  protected ObjectArrayAssert<Object> create_assertions() {
-    return new ObjectArrayAssert<>(arrayOf(new Object()));
-  }
+  private Consumer<Object> consumer = element -> assertThat(element).isNotNull();
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {

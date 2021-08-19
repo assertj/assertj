@@ -12,8 +12,8 @@
  */
 package org.assertj.core.api.atomic.referencearray;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.list;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import java.util.function.Consumer;
@@ -28,7 +28,7 @@ import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
  */
 class AtomicReferenceArrayAssert_hasOnlyOneElementSatisfying_Test extends AtomicReferenceArrayAssertBaseTest {
 
-  private Consumer<Object> consumer = mock(Consumer.class);
+  private Consumer<Object> consumer = element -> assertThat(element).isNotNull();
 
   @Override
   protected AtomicReferenceArrayAssert<Object> create_assertions() {

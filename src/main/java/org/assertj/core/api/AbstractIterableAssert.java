@@ -3135,10 +3135,42 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * @param elementAssertions containing AssertJ assertions to filter on
    * @return a new assertion object with the filtered iterable under test
-   * @throws IllegalArgumentException if the given predicate is {@code null}.
+   * @throws IllegalArgumentException if the given {@link Consumer} is {@code null}.
    * @since 3.11.0
    */
   public SELF filteredOnAssertions(Consumer<? super ELEMENT> elementAssertions) {
+    return internalFilteredOnAssertions(elementAssertions);
+  }
+
+  /**
+   * Filters the iterable under test keeping only elements matching the given assertions specified with a {@link ThrowingConsumer}.
+   * <p>
+   * This is the same assertion as {@link #filteredOnAssertions(Consumer)} but the given consumer can throw checked exceptions.<br>
+   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
+   * <p>
+   * Example: check young hobbits whose age &lt; 34:
+   *
+   * <pre><code class='java'> TolkienCharacter pippin = new TolkienCharacter("Pippin", 28, HOBBIT);
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * TolkienCharacter merry = new TolkienCharacter("Merry", 36, HOBBIT);
+   * TolkienCharacter sam = new TolkienCharacter("Sam", 38, HOBBIT);
+   *
+   * List&lt;TolkienCharacter&gt; hobbits = list(frodo, sam, merry, pippin);
+   *
+   * // the code would compile even if getAge() threw a checked exception
+   * assertThat(hobbits).filteredOnAssertions(hobbit -&gt; assertThat(hobbit.getAge()).isLessThan(34))
+   *                    .containsOnly(frodo, pippin);</code></pre>
+   *
+   * @param elementAssertions containing AssertJ assertions to filter on
+   * @return a new assertion object with the filtered iterable under test
+   * @throws IllegalArgumentException if the given {@link ThrowingConsumer} is {@code null}.
+   * @since 3.21.0
+   */
+  public SELF filteredOnAssertions(ThrowingConsumer<? super ELEMENT> elementAssertions) {
+    return internalFilteredOnAssertions(elementAssertions);
+  }
+
+  private SELF internalFilteredOnAssertions(Consumer<? super ELEMENT> elementAssertions) {
     checkArgument(elementAssertions != null, "The element assertions should not be null");
     List<? extends ELEMENT> filteredIterable = stream(actual.spliterator(), false).filter(byPassingAssertions(elementAssertions))
                                                                                   .collect(toList());
@@ -3678,10 +3710,25 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @Override
   public SELF allSatisfy(Consumer<? super ELEMENT> requirements) {
+    return internalAllSatisfy(requirements);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public SELF allSatisfy(ThrowingConsumer<? super ELEMENT> requirements) {
+    return internalAllSatisfy(requirements);
+  }
+
+  private SELF internalAllSatisfy(Consumer<? super ELEMENT> requirements) {
     iterables.assertAllSatisfy(info, actual, requirements);
     return myself;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF anyMatch(Predicate<? super ELEMENT> predicate) {
     iterables.assertAnyMatch(info, actual, predicate, PredicateDescription.GIVEN);
@@ -3727,25 +3774,61 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @Override
   public SELF anySatisfy(Consumer<? super ELEMENT> requirements) {
-    iterables.assertAnySatisfy(info, actual, requirements);
-    return myself;
+    return internalAnySatisfy(requirements);
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
+  public SELF anySatisfy(ThrowingConsumer<? super ELEMENT> requirements) {
+    return internalAnySatisfy(requirements);
+  }
+
+  private SELF internalAnySatisfy(Consumer<? super ELEMENT> requirements) {
+    iterables.assertAnySatisfy(info, actual, requirements);
+    return myself;
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public SELF noneSatisfy(Consumer<? super ELEMENT> restrictions) {
+    return internalNoneSatisfy(restrictions);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public SELF noneSatisfy(ThrowingConsumer<? super ELEMENT> restrictions) {
+    return internalNoneSatisfy(restrictions);
+  }
+
+  private SELF internalNoneSatisfy(Consumer<? super ELEMENT> restrictions) {
     iterables.assertNoneSatisfy(info, actual, restrictions);
     return myself;
   }
-
+  
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @SafeVarargs
   public final SELF satisfiesExactly(Consumer<? super ELEMENT>... requirements) {
     return satisfiesExactlyForProxy(requirements);
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  @SafeVarargs
+  public final SELF satisfiesExactly(ThrowingConsumer<? super ELEMENT>... requirements) {
+    return satisfiesExactlyForProxy(requirements);
+  }
+  
   // This method is protected in order to be proxied for SoftAssertions / Assumptions.
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
@@ -3754,9 +3837,21 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @SafeVarargs
   public final SELF satisfiesExactlyInAnyOrder(Consumer<? super ELEMENT>... requirements) {
+    return satisfiesExactlyInAnyOrderForProxy(requirements);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  @SafeVarargs
+  public final SELF satisfiesExactlyInAnyOrder(ThrowingConsumer<? super ELEMENT>... requirements) {
     return satisfiesExactlyInAnyOrderForProxy(requirements);
   }
 
