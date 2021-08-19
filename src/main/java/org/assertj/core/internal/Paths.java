@@ -478,8 +478,8 @@ public class Paths {
     if (!expected.equals(extension)) throw failures.failure(info, shouldHaveExtension(actual, extension, expected));
   }
 
-  private static Optional<String> getExtension(Path actual) {
-    String fileName = actual.getFileName().toString();
+  private static Optional<String> getExtension(Path path) {
+    String fileName = path.getFileName().toString();
     int dotAt = fileName.lastIndexOf('.');
     if (dotAt == -1) return Optional.empty();
     String extension = fileName.substring(dotAt + 1);
