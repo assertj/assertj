@@ -14,6 +14,7 @@ package org.assertj.core.error;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.Objects;
 
 /**
  * Creates an error message indicating that a {@code File} or a {@code Path} should have extension.
@@ -23,13 +24,14 @@ import java.nio.file.Path;
 public class ShouldHaveExtension extends BasicErrorMessageFactory {
 
   public static ShouldHaveExtension shouldHaveExtension(File actual, String actualExtension, String expectedExtension) {
-    return actualExtension == null ? new ShouldHaveExtension(actual, expectedExtension) : new ShouldHaveExtension(
-        actual, actualExtension, expectedExtension);
+    return actualExtension == null
+        ? new ShouldHaveExtension(actual, expectedExtension)
+        : new ShouldHaveExtension(actual, actualExtension, expectedExtension);
   }
 
   public static ShouldHaveExtension shouldHaveExtension(Path actual, String actualExtension, String expectedExtension) {
-    return actualExtension == null ? new ShouldHaveExtension(actual, expectedExtension) : new ShouldHaveExtension(
-      actual, actualExtension, expectedExtension);
+    Objects.requireNonNull(actualExtension);
+    return new ShouldHaveExtension(actual, actualExtension, expectedExtension);
   }
 
   private ShouldHaveExtension(Object actual, String actualExtension, String expectedExtension) {
@@ -37,7 +39,12 @@ public class ShouldHaveExtension extends BasicErrorMessageFactory {
           actualExtension);
   }
 
+  public static ShouldHaveExtension shouldHaveExtension(Path actual, String expectedExtension) {
+    return new ShouldHaveExtension(actual, expectedExtension);
+  }
+
   private ShouldHaveExtension(Object actual, String expectedExtension) {
     super("%nExpecting%n  %s%nto have extension:%n  %s%nbut had no extension.", actual, expectedExtension);
   }
+
 }

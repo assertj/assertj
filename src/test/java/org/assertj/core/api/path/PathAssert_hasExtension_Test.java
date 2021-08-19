@@ -16,23 +16,17 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 
-/**
- * Tests for <code>{@link org.assertj.core.api.AbstractPathAssert#hasExtension(String)}</code>.
- */
-@DisplayName("PathAssert hasExtension")
 class PathAssert_hasExtension_Test extends PathAssertBaseTest {
-
-  private final String extension = "java";
 
   @Override
   protected PathAssert invoke_api_method() {
-    return assertions.hasExtension(extension);
+    return assertions.hasExtension("java");
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(paths).assertHasExtension(getInfo(assertions), getActual(assertions), extension);
+    verify(paths).assertHasExtension(getInfo(assertions), getActual(assertions), "java");
   }
+
 }

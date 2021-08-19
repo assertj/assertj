@@ -12,124 +12,101 @@
  */
 package org.assertj.core.internal.paths;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static java.nio.file.Files.createDirectory;
+import static java.nio.file.Files.createFile;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeRegularFile.shouldBeRegularFile;
+import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveExtension.shouldHaveExtension;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import org.assertj.core.api.AssertionInfo;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.IOException;
-import java.nio.file.FileSystem;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.stream.Stream;
 
-/**
- * Tests for
- * <code>{@link org.assertj.core.internal.Paths#assertHasExtension(AssertionInfo, java.nio.file.Path, String)}</code>.
- */
-@DisplayName("Paths assertHasExtension")
-class Paths_assertHasExtension_Test extends MockPathsBaseTest {
+import org.assertj.core.internal.PathsBaseTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-  private final String expectedExtension = "log";
-  public static FileSystemResource resource;
+class Paths_assertHasExtension_Test extends PathsBaseTest {
 
-  private static Path file;
-  private static Path symlink;
-  private static Path directory;
-
-  @BeforeAll
-  static void initPaths() throws IOException {
-    resource = new FileSystemResource();
-    final FileSystem fs = resource.getFileSystem();
-
-    directory = fs.getPath("/dir");
-    Files.createDirectory(directory);
-    file = fs.getPath("/dir/gc.log");
-    symlink = fs.getPath("/dir/good-symlink");
-    Files.createFile(file);
-    Files.createSymbolicLink(symlink, file);
-  }
-
-  @AfterAll
-  static void tearDown() {
-    resource.close();
+  @Test
+  void should_fail_if_actual_is_null() {
+    // GIVEN
+    Path actual = null;
+    String expected = "txt";
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertHasExtension(info, actual, expected));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_throw_error_if_actual_is_null() {
-    // WHEN/THEN
-    assertThatExceptionOfType(AssertionError.class)
-      .isThrownBy(() -> paths.assertHasExtension(someInfo(), null, expectedExtension))
-      .withMessage(actualIsNull());
+  void should_fail_if_actual_does_not_exist() {
+    // GIVEN
+    Path actual = tempDir.resolve("non-existent");
+    String expected = "txt";
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertHasExtension(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldExist(actual).create());
   }
 
   @Test
-  void should_throw_npe_if_extension_is_null() {
-    // WHEN/THEN
-    assertThatNullPointerException().isThrownBy(() -> paths.assertHasExtension(someInfo(), actual, null))
-                                    .withMessage("The expected extension should not be null.");
+  void should_fail_if_actual_is_not_a_regular_file() throws IOException {
+    // GIVEN
+    Path actual = createDirectory(tempDir.resolve("directory"));
+    String expected = "txt";
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertHasExtension(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldBeRegularFile(actual).create());
+  }
+
+  @Test
+  void should_fail_if_expected_is_null() throws IOException {
+    // GIVEN
+    Path actual = createFile(tempDir.resolve("file.txt"));
+    String expected = null;
+    // WHEN
+    Throwable thrown = catchThrowable(() -> paths.assertHasExtension(info, actual, expected));
+    // THEN
+    then(thrown).isInstanceOf(NullPointerException.class)
+                .hasMessage("The expected extension should not be null.");
   }
 
   @ParameterizedTest
-  @MethodSource("irregularFileProviders")
-  void should_throw_error_if_actual_is_not_a_regular_file(Path irregularFile) {
+  @ValueSource(strings = { "file", "file." })
+  void should_fail_if_actual_has_no_extension(String filename) throws IOException {
     // GIVEN
-    when(nioFilesWrapper.exists(actual)).thenReturn(true);
-    when(actual.getFileName()).thenReturn(irregularFile);
-
+    Path actual = createFile(tempDir.resolve(filename));
+    String expected = "log";
     // WHEN
-    Throwable error = catchThrowable(() -> paths.assertHasExtension(info, actual, expectedExtension));
-
+    AssertionError error = expectAssertionError(() -> paths.assertHasExtension(info, actual, expected));
     // THEN
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeRegularFile(actual));
-  }
-
-  private static Stream<Arguments> irregularFileProviders() {
-    return Stream.of(
-      Arguments.of(symlink),
-      Arguments.of(directory)
-    );
+    then(error).hasMessage(shouldHaveExtension(actual, expected).create());
   }
 
   @Test
-  void should_throw_error_if_actual_does_not_have_the_expected_extension() {
+  void should_fail_if_actual_does_not_have_the_expected_extension() throws IOException {
     // GIVEN
-    when(actual.getFileName()).thenReturn(file);
-    when(nioFilesWrapper.isRegularFile(actual)).thenReturn(true);
-    when(nioFilesWrapper.exists(actual)).thenReturn(true);
-
+    Path actual = createFile(tempDir.resolve("file.txt"));
+    String expected = "log";
     // WHEN
-    Throwable error = catchThrowable(() -> paths.assertHasExtension(info, actual, "png"));
-
+    AssertionError error = expectAssertionError(() -> paths.assertHasExtension(info, actual, expected));
     // THEN
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(someInfo(), shouldHaveExtension(actual, "log", "png"));
+    then(error).hasMessage(shouldHaveExtension(actual, "txt", expected).create());
   }
 
   @Test
-  void should_pass_if_actual_has_expected_extension() {
+  void should_pass_if_actual_has_expected_extension() throws IOException {
     // GIVEN
-    when(actual.getFileName()).thenReturn(file);
-    when(nioFilesWrapper.isRegularFile(actual)).thenReturn(true);
-    when(nioFilesWrapper.exists(actual)).thenReturn(true);
-
+    Path actual = createFile(tempDir.resolve("file.txt"));
+    String expected = "txt";
     // WHEN/THEN
-    paths.assertHasExtension(someInfo(), actual, expectedExtension);
+    paths.assertHasExtension(info, actual, expected);
   }
+
 }

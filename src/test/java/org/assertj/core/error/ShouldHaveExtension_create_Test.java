@@ -14,48 +14,89 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.error.ShouldHaveExtension.shouldHaveExtension;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.assertj.core.internal.TestDescription;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link ShouldHaveExtension#shouldHaveExtension(java.io.File, String, String)}</code>
- *
  * @author Jean-Christophe Gay
  */
 class ShouldHaveExtension_create_Test {
 
   private final String expectedExtension = "java";
 
-  private File actual = new FakeFile("actual-file.png");
+  private final File actual = new FakeFile("actual-file.png");
 
   @Test
   void should_create_error_message() {
-    then(createMessage("png")).isEqualTo(format("[TEST] %n" +
-                                                "Expecting%n" +
-                                                "  " + actual + "%n" +
-                                                "to have extension:%n" +
-                                                "  \"" + expectedExtension + "\"%n" +
-                                                "but had:%n" +
-                                                "  \"png\"."));
+    // GIVEN
+    ErrorMessageFactory factory = shouldHaveExtension(actual, "png", expectedExtension);
+    // WHEN
+    String message = factory.create(new TestDescription("TEST"), CONFIGURATION_PROVIDER.representation());
+    // THEN
+    then(message).isEqualTo(format("[TEST] %n" +
+                                   "Expecting%n" +
+                                   "  " + actual + "%n" +
+                                   "to have extension:%n" +
+                                   "  \"" + expectedExtension + "\"%n" +
+                                   "but had:%n" +
+                                   "  \"png\"."));
   }
 
   @Test
   void should_create_error_message_when_actual_does_not_have_extension() {
-    then(createMessage(null)).isEqualTo(format("[TEST] %n" +
-                                               "Expecting%n" +
-                                               "  " + actual + "%n" +
-                                               "to have extension:%n" +
-                                               "  \"" + expectedExtension + "\"%n" +
-                                               "but had no extension."));
+    // GIVEN
+    ErrorMessageFactory factory = shouldHaveExtension(actual, null, expectedExtension);
+    // WHEN
+    String message = factory.create(new TestDescription("TEST"), CONFIGURATION_PROVIDER.representation());
+    // THEN
+    then(message).isEqualTo(format("[TEST] %n" +
+                                   "Expecting%n" +
+                                   "  " + actual + "%n" +
+                                   "to have extension:%n" +
+                                   "  \"" + expectedExtension + "\"%n" +
+                                   "but had no extension."));
   }
 
-  private String createMessage(String actualExtension) {
-    return shouldHaveExtension(actual, actualExtension, expectedExtension).create(new TestDescription("TEST"),
-                                                                                  new StandardRepresentation());
+  @Test
+  void should_create_error_message_with_path_when_actual_does_not_have_extension() {
+    // GIVEN
+    Path actual = Paths.get("file");
+    String expectedExtension = "txt";
+    ErrorMessageFactory factory = shouldHaveExtension(actual, expectedExtension);
+    // WHEN
+    String message = factory.create(new TestDescription("TEST"), CONFIGURATION_PROVIDER.representation());
+    // THEN
+    then(message).isEqualTo(format("[TEST] %n" +
+                                   "Expecting%n" +
+                                   "  " + actual + "%n" +
+                                   "to have extension:%n" +
+                                   "  \"" + expectedExtension + "\"%n" +
+                                   "but had no extension."));
   }
+
+  @Test
+  void should_create_error_message_with_path_when_actual_has_extension() {
+    // GIVEN
+    Path actual = Paths.get("file.txt");
+    String expectedExtension = "log";
+    ErrorMessageFactory factory = shouldHaveExtension(actual, "txt", expectedExtension);
+    // WHEN
+    String message = factory.create(new TestDescription("TEST"), CONFIGURATION_PROVIDER.representation());
+    // THEN
+    then(message).isEqualTo(format("[TEST] %n" +
+                                   "Expecting%n" +
+                                   "  " + actual + "%n" +
+                                   "to have extension:%n" +
+                                   "  \"" + expectedExtension + "\"%n" +
+                                   "but had:%n" +
+                                   "  \"txt\"."));
+  }
+
 }

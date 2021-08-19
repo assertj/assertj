@@ -62,6 +62,7 @@ import java.nio.file.PathMatcher;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -470,12 +471,19 @@ public class Paths {
     }
   }
 
-  public void assertHasExtension(AssertionInfo info, Path actual, String expectedExtension) {
-    requireNonNull(expectedExtension, "The expected extension should not be null.");
+  public void assertHasExtension(AssertionInfo info, Path actual, String expected) {
+    requireNonNull(expected, "The expected extension should not be null.");
     assertIsRegularFile(info, actual);
-    String actualExtension = org.assertj.core.util.Files.getFileExtension(actual.getFileName().toString());
-    if (expectedExtension.equals(actualExtension)) return;
-    throw failures.failure(info, shouldHaveExtension(actual, actualExtension, expectedExtension));
+    String extension = getExtension(actual).orElseThrow(() -> failures.failure(info, shouldHaveExtension(actual, expected)));
+    if (!expected.equals(extension)) throw failures.failure(info, shouldHaveExtension(actual, extension, expected));
+  }
+
+  private static Optional<String> getExtension(Path actual) {
+    String fileName = actual.getFileName().toString();
+    int dotAt = fileName.lastIndexOf('.');
+    if (dotAt == -1) return Optional.empty();
+    String extension = fileName.substring(dotAt + 1);
+    return extension.equals("") ? Optional.empty() : Optional.of(extension);
   }
 
 }
