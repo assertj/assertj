@@ -17,14 +17,12 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.api.ThrowableAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("ThrowableAssert hasRootCauseMessageWithStringFormat")
 class ThrowableAssert_hasRootCauseMessage_with_String_format_syntax_Test extends ThrowableAssertBaseTest {
 
   @Override
-  protected ThrowableAssert invoke_api_method() {
+  protected ThrowableAssert<Throwable> invoke_api_method() {
     return assertions.hasRootCauseMessage("%s %s", "expected", "message");
   }
 

@@ -20,7 +20,6 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ShortArrayAssert;
 import org.assertj.core.api.ShortArrayAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -28,7 +27,6 @@ import org.junit.jupiter.api.Test;
  *
  * @author Lucero Garcia
  */
-@DisplayName("ShortArrayAssert containsExactly(Short[])")
 class ShortArrayAssert_containsExactlyInAnyOrder_with_Short_array_Test extends ShortArrayAssertBaseTest {
 
   @Test

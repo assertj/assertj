@@ -36,11 +36,10 @@ class Assertions_sync_with_InstanceOfAssertFactories_Test extends BaseAssertions
 
   private static final Class<?>[] FIELD_FACTORIES_IGNORED_TYPES = {
       // There can be no Comparable field factory with a base type.
-      GenericComparableAssert.class,
+      AbstractComparableAssert.class,
       // The comparison of the input GenericArrayTypes will always fail, since it verifies the inner TypeVariable which
       // returns the defining Method as result of TypeVariable#getGenericDeclaration().
-      ObjectArrayAssert.class,
-      Object2DArrayAssert.class,
+      ObjectArrayAssert.class, Object2DArrayAssert.class,
       // A field factory for an object is pointless.
       ObjectAssert.class,
   };

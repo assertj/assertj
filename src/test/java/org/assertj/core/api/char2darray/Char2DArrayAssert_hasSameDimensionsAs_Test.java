@@ -17,14 +17,12 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Char2DArrayAssert;
 import org.assertj.core.api.Char2DArrayAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 
 /**
  * Tests for <code>{@link Char2DArrayAssert#hasSameDimensionsAs(Object)}</code>.
  *
  * @author Maciej Wajcht
  */
-@DisplayName("Char2DArrayAssert hasSameDimensionsAs")
 class Char2DArrayAssert_hasSameDimensionsAs_Test extends Char2DArrayAssertBaseTest {
 
   @Override

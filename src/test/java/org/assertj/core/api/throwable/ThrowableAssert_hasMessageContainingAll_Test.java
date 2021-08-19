@@ -12,21 +12,18 @@
  */
 package org.assertj.core.api.throwable;
 
+import static org.mockito.Mockito.verify;
+
 import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.api.ThrowableAssertBaseTest;
 
-import static org.mockito.Mockito.verify;
-
-
 /**
- * Tests for <code>{@link ThrowableAssert#hasMessageContainingAll(CharSequence...)}</code>.
- * 
  * @author Phillip Webb
  */
 class ThrowableAssert_hasMessageContainingAll_Test extends ThrowableAssertBaseTest {
 
   @Override
-  protected ThrowableAssert invoke_api_method() {
+  protected ThrowableAssert<Throwable> invoke_api_method() {
     return assertions.hasMessageContainingAll("able", "message");
   }
 

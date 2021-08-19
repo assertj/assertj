@@ -13,8 +13,8 @@
 package org.assertj.core.api.abstract_;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenNullPointerException;
 import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
@@ -27,13 +27,11 @@ import org.junit.jupiter.api.Test;
 class AbstractAssert_satisfies_with_Consumer_Test {
 
   private Jedi yoda;
-  private Jedi luke;
   private Consumer<Jedi> jediRequirements;
 
   @BeforeEach
   void setup() {
     yoda = new Jedi("Yoda", "Green");
-    luke = new Jedi("Luke Skywalker", "Green");
     jediRequirements = jedi -> {
       assertThat(jedi.lightSaberColor).as("check light saber").isEqualTo("Green");
       assertThat(jedi.getName()).as("check name").doesNotContain("Dark");
@@ -42,13 +40,23 @@ class AbstractAssert_satisfies_with_Consumer_Test {
 
   @Test
   void should_satisfy_single_requirement() {
-    assertThat(yoda).satisfies(jedi -> assertThat(jedi.lightSaberColor).isEqualTo("Green"));
+    // GIVEN
+    Consumer<Jedi> jediRequirement = jedi -> assertThat(jedi.lightSaberColor).isEqualTo("Green");
+    // WHEN/THEN
+    then(yoda).satisfies(jediRequirement);
   }
 
   @Test
   void should_satisfy_multiple_requirements() {
     assertThat(yoda).satisfies(jediRequirements);
-    assertThat(luke).satisfies(jediRequirements);
+  }
+
+  @Test
+  void should_satisfy_supertype_consumer() {
+    // GIVEN
+    Consumer<Object> notNullObjectConsumer = jedi -> assertThat(jedi).isNotNull();
+    // WHEN/THEN
+    then(yoda).satisfies(notNullObjectConsumer);
   }
 
   @Test
@@ -63,8 +71,10 @@ class AbstractAssert_satisfies_with_Consumer_Test {
 
   @Test
   void should_fail_if_consumer_is_null() {
+    // GIVEN
     Consumer<Jedi> nullRequirements = null;
-    assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).satisfies(nullRequirements))
-                                    .withMessage("The Consumer<T> expressing the assertions requirements must not be null");
+    // WHEN/THEN
+    thenNullPointerException().isThrownBy(() -> assertThat(yoda).satisfies(nullRequirements))
+                              .withMessage("The Consumer<T> expressing the assertions requirements must not be null");
   }
 }

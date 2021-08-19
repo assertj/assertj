@@ -23,6 +23,7 @@ import java.nio.file.Path;
 
 import org.assertj.core.api.AssertionInfo;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.io.TempDir;
 
 import com.github.marschall.memoryfilesystem.MemoryFileSystemBuilder;
 
@@ -54,6 +55,9 @@ import com.github.marschall.memoryfilesystem.MemoryFileSystemBuilder;
  */
 public abstract class PathsBaseTest {
 
+  @TempDir
+  protected Path tempDir;
+
   protected Failures failures;
   protected Paths paths;
   protected NioFilesWrapper nioFilesWrapper;
@@ -64,15 +68,16 @@ public abstract class PathsBaseTest {
 
   @BeforeEach
   public void setUp() {
-	failures = spy(new Failures());
-	nioFilesWrapper = mock(NioFilesWrapper.class);
-	paths = new Paths(nioFilesWrapper);
-	paths.failures = failures;
-	info = someInfo();
-	diff = mock(Diff.class);
-	paths.diff = diff;
-	binaryDiff = mock(BinaryDiff.class);
-	paths.binaryDiff = binaryDiff;
+    paths = Paths.instance();
+    nioFilesWrapper = spy(paths.nioFilesWrapper);
+    paths.nioFilesWrapper = nioFilesWrapper;
+    failures = spy(paths.failures);
+    paths.failures = failures;
+    diff = spy(paths.diff);
+    paths.diff = diff;
+    binaryDiff = spy(paths.binaryDiff);
+    paths.binaryDiff = binaryDiff;
+    info = someInfo();
   }
 
   /**
@@ -80,26 +85,26 @@ public abstract class PathsBaseTest {
    */
   public static class FileSystemResource {
 
-	private final FileSystem fs;
+    private final FileSystem fs;
 
-	public FileSystemResource() {
-	  try {
-		fs = MemoryFileSystemBuilder.newLinux().build("PathsTest");
-	  } catch (IOException e) {
-		throw new RuntimeException("failed to initialize filesystem", e);
-	  }
-	}
+    public FileSystemResource() {
+      try {
+        fs = MemoryFileSystemBuilder.newLinux().build("PathsTest");
+      } catch (IOException e) {
+        throw new RuntimeException("failed to initialize filesystem", e);
+      }
+    }
 
-	public FileSystem getFileSystem() {
-	  return fs;
-	}
+    public FileSystem getFileSystem() {
+      return fs;
+    }
 
-	public void close() {
-	  try {
-		fs.close();
-	  } catch (IOException e) {
-		throw new RuntimeException("failed to close filesystem", e);
-	  }
-	}
+    public void close() {
+      try {
+        fs.close();
+      } catch (IOException e) {
+        throw new RuntimeException("failed to close filesystem", e);
+      }
+    }
   }
 }

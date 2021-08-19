@@ -20,13 +20,11 @@ import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThr
 import java.time.LocalDate;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
  * Only test String based assertion (tests with {@link LocalDate} are already defined in assertj-core)
  */
-@DisplayName("LocalDateAssert isNotEqualTo")
 class LocalDateAssert_isNotEqualTo_Test extends LocalDateAssertBaseTest {
 
   @Test

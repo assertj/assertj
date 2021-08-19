@@ -30,6 +30,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
+import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.test.Name;
 import org.junit.jupiter.api.Test;
 
@@ -110,7 +111,7 @@ class Iterables_assertContainsAnyOf_Test extends IterablesBaseTest {
     Throwable error = catchThrowable(() -> iterables.assertContainsAnyOf(info, actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainAnyOf(actual, expected));
+    verify(failures).failure(info, shouldContainAnyOf(actual, expected, StandardComparisonStrategy.instance()));
   }
 
   // ------------------------------------------------------------------------------------------------------------------

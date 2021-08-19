@@ -20,7 +20,6 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.CharArrayAssert;
 import org.assertj.core.api.CharArrayAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -28,7 +27,6 @@ import org.junit.jupiter.api.Test;
  *
  * @author Lucero Garcia
  */
-@DisplayName("CharacterArrayAssert contains(Character[])")
 class CharArrayAssert_contains_with_Character_array_Test extends CharArrayAssertBaseTest {
 
   @Test

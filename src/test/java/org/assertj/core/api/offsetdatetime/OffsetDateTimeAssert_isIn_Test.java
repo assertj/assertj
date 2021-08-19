@@ -21,16 +21,14 @@ import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThr
 import java.time.OffsetDateTime;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Only test String based assertion (tests with {@link java.time.OffsetDateTime} are already defined in assertj-core)
+ * Only test String based assertion (tests with {@link OffsetDateTime} are already defined in assertj-core)
  *
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@DisplayName("OffsetDateTimeAssert isIn")
 class OffsetDateTimeAssert_isIn_Test extends OffsetDateTimeAssertBaseTest {
 
   @Test

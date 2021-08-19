@@ -16,6 +16,8 @@ import static com.google.common.collect.Sets.newHashSet;
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.recursive.comparison.Author.authorsTreeSet;
 import static org.assertj.core.util.Arrays.array;
@@ -29,9 +31,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UnknownFormatConversionException;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
+import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.objects.data.PersonDto;
 import org.assertj.core.test.Person;
 import org.junit.jupiter.api.Test;
@@ -220,6 +224,20 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
     // THEN
     then(assertionError).hasMessageContaining(format("The following actual elements were not matched in the expected ArrayList:%n"
                                                      + "  [aaa]"));
+  }
+
+  // https://github.com/assertj/assertj-core/issues/2279
+  @Test
+  void should_not_throw_UnknownFormatConversionException_when_unmatched_elements_have_percent_in_their_description() {
+    // GIVEN
+    List<Tuple> first = list(tuple("VtQh0ZAo%s2FKCnQcirWL", "foo % %d"), tuple("%F", "VtQh0ZAo%s2FKCnQcirWL"));
+    List<Tuple> second = list(tuple("%F", "VtQh0ZAo%s2FKCnQcirWL"), tuple("VtQh0ZAo%s2FKCnQcirWL", "bar % %d"));
+    // WHEN
+    Throwable thrown = catchThrowable(() -> assertThat(first).usingRecursiveComparison()
+                                                             .ignoringCollectionOrder()
+                                                             .isEqualTo(second));
+    // THEN
+    then(thrown).isNotInstanceOf(UnknownFormatConversionException.class);
   }
 
   public static class WithCollection<E> {

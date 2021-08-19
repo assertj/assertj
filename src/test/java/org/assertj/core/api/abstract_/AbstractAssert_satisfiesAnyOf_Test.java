@@ -14,6 +14,7 @@ package org.assertj.core.api.abstract_;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.TolkienCharacter.Race.DRAGON;
 import static org.assertj.core.data.TolkienCharacter.Race.DWARF;
 import static org.assertj.core.data.TolkienCharacter.Race.ELF;
@@ -23,11 +24,15 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.List;
 import java.util.function.Consumer;
 
 import org.assertj.core.api.AbstractAssertBaseTest;
 import org.assertj.core.api.ConcreteAssert;
+import org.assertj.core.api.ThrowingConsumer;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.description.TextDescription;
@@ -82,18 +87,33 @@ class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
     // GIVEN
     Consumer<TolkienCharacter> namesStartsWithF = tolkienCharacter -> assertThat(tolkienCharacter.getName()).startsWith("F");
     // THEN
-    assertThat(frodo).satisfiesAnyOf(isHobbit, namesStartsWithF)
-                     .satisfiesAnyOf(isHobbit, namesStartsWithF, isHobbit, isDragon);
+    assertThat(frodo).satisfiesAnyOf(isHobbit, namesStartsWithF, isHobbit);
   }
 
+  @Test
+  void should_pass_when_all_of_the_given_supertype_consumers_assertions_are_met() {
+    // GIVEN
+    Consumer<Object> notNullObject = object -> assertThat(object).isNotNull();
+    Consumer<Object> isString = object -> assertThat(object).isInstanceOf(String.class);
+    // WHEN/THEN
+    then(frodo).satisfiesAnyOf(notNullObject, isString);
+  }
+
+  @Test
+  void should_pass_with_mix_of_consumer_and_throwing_consumer() throws IOException {
+    // GIVEN
+    ThrowingConsumer<Reader> hasNotReachedEOF = reader -> assertThat(reader.read()).isPositive();
+    Consumer<Object> notNullObject = object -> assertThat(object).isNotNull();
+    // THEN
+    then(new FileReader("src/test/resources/ascii.txt")).satisfiesAnyOf(hasNotReachedEOF, notNullObject);
+  }
+  
   @Test
   void should_fail_if_all_of_the_given_assertions_groups_fail() {
     // GIVEN
     TolkienCharacter boromir = TolkienCharacter.of("Boromir", 45, MAN);
-    // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(boromir).as("description").satisfiesAnyOf(isHobbit, isElf));
-    // THEN
-    assertThat(error).isNotNull();
+    // WHEN/THEN
+    expectAssertionError(() -> assertThat(boromir).as("description").satisfiesAnyOf(isHobbit, isElf));
   }
 
   @Test
@@ -108,7 +128,7 @@ class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
     Consumer<String> isEmpty = string -> assertThat(string).isEmpty();
     Consumer<String> endsWithZ = string -> assertThat(string).endsWith("Z");
     ThrowingCallable failingAssertionCode = () -> assertThat("abc").as("String checks").satisfiesAnyOf(isEmpty, endsWithZ);
-    // THEN
+    // WHEN
     AssertionError assertionError = expectAssertionError(failingAssertionCode);
     // THEN
     assertThat(assertionError).hasMessageContaining("String checks");

@@ -12,43 +12,56 @@
  */
 package org.assertj.core.internal.paths;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.ThrowableAssert.catchThrowable;
+import static java.nio.file.Files.createFile;
+import static java.nio.file.Files.createSymbolicLink;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
+import java.io.IOException;
 import java.nio.file.Path;
 
+import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
 
-class Paths_assertHasNoParentRaw_Test extends MockPathsBaseTest {
+class Paths_assertHasNoParentRaw_Test extends PathsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasNoParentRaw(info, null))
-                                                   .withMessage(actualIsNull());
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertHasNoParentRaw(info, null));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_actual_has_parent() {
-    final Path parent = mock(Path.class);
-    when(actual.getParent()).thenReturn(parent);
-
-    Throwable error = catchThrowable(() -> paths.assertHasNoParentRaw(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveNoParent(actual));
+  void should_fail_if_actual_has_parent() throws IOException {
+    // GIVEN
+    Path actual = createFile(tempDir.resolve("actual"));
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertHasNoParentRaw(info, actual));
+    // THEN
+    then(error).hasMessage(shouldHaveNoParent(actual).create());
   }
 
   @Test
-  void should_succeed_if_actual_has_no_parent() {
-    // This is the default, but let's make that clear
-    when(actual.getParent()).thenReturn(null);
-
+  void should_pass_if_actual_has_no_parent() {
+    // GIVEN
+    Path actual = tempDir.getRoot();
+    // WHEN/THEN
     paths.assertHasNoParentRaw(info, actual);
   }
+
+  @Test
+  void should_fail_if_actual_is_not_canonical() throws IOException {
+    // GIVEN
+    Path root = tempDir.getRoot();
+    Path actual = createSymbolicLink(tempDir.resolve("actual"), root);
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertHasNoParentRaw(info, actual));
+    // THEN
+    then(error).hasMessage(shouldHaveNoParent(actual).create());
+  }
+
 }

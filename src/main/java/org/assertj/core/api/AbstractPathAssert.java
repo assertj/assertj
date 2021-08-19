@@ -12,9 +12,12 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.String.format;
+import static java.nio.file.Files.readAllBytes;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
+import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.ClosedFileSystemException;
@@ -163,7 +166,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.15
    */
   public SELF hasSameTextualContentAs(Path expected) {
-    paths.assertHasSameContentAs(info, actual, charset, expected, Charset.defaultCharset());
+    paths.assertHasSameTextualContentAs(info, actual, charset, expected, Charset.defaultCharset());
     return myself;
   }
 
@@ -195,7 +198,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.15
    */
   public SELF hasSameTextualContentAs(Path expected, Charset expectedCharset) {
-    paths.assertHasSameContentAs(info, actual, charset, expected, expectedCharset);
+    paths.assertHasSameTextualContentAs(info, actual, charset, expected, expectedCharset);
     return myself;
   }
 
@@ -374,7 +377,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @throws AssertionError if the content of the actual {@code Path} is not equal to the given content.
    */
   public SELF hasContent(String expected) {
-    paths.assertHasContent(info, actual, expected, charset);
+    paths.assertHasTextualContent(info, actual, expected, charset);
     return myself;
   }
 
@@ -1108,6 +1111,42 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   }
 
   /**
+   * Assert that the tested {@link Path} has the given size in bytes.
+   * <p>
+   * Note that the actual {@link Path} must exist and be a regular file.
+   * </p>
+   *
+   * Examples:
+   * <pre><code class="java"> // Given the following empty paths
+   * /root/sub-dir-1/foo.ext
+   * /root/sub-dir-1/bar.ext
+   *
+   * Path emptyPath = Paths.get("/root/sub-dir-1/foo.ext")
+   * Path nonEmptyPath = Files.write(Paths.get("/root/sub-dir-1/bar.ext"),
+   *                                 "The Quick Brown Fox.".getBytes());
+   * // the following assertions pass
+   * assertThat(emptyPath).hasSize(0);
+   * assertThat(nonEmptyPath).hasSize(20);
+   *
+   * // the following assertions fail
+   * assertThat(emptyPath).hasSize(5);
+   * assertThat(nonEmptyPath).hasSize(0);</code></pre>
+   *
+   * @param expectedSize the expected {@code Path} file size in bytes
+   * @return {@code this} assertion object
+   * @throws AssertionError is the actual {@code Path} is {@code null}.
+   * @throws AssertionError if the actual {@code Path} does not exist.
+   * @throws AssertionError if the actual {@code Path} is not a regular file.
+   * @throws AssertionError if the actual {@code Path} file size is not equal to the expected size.
+   * @throws UncheckedIOException if any I/O error occurs.
+   * @since 3.21.0
+   */
+  public SELF hasSize(long expectedSize) {
+    paths.assertHasSize(info, actual, expectedSize);
+    return myself;
+  }
+
+  /**
    * Assert that the tested {@link Path} starts with the given path.
    *
    * <p>
@@ -1813,6 +1852,65 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   }
 
   /**
+   * Returns String assertions on the content of the actual {@code Path} read with the {@link Charset#defaultCharset() default charset}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Path xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes());
+   *
+   * // assertion succeeds (default charset is used to read xFile content):
+   * assertThat(xFile).content().startsWith("The Truth Is ");
+   *
+   * // assertion fails:
+   * assertThat(xFile).content().contains("Elsewhere");</code></pre>
+   *
+   * @return a StringAssert object with the content of the actual {@code Path} read with the default {@link Charset}.
+   * @throws AssertionError if the actual {@code Path} is not readable as per {@link Files#isReadable(Path)}.
+   * @throws UncheckedIOException when failing to read the actual {@code Path}.
+   * @since 3.21.0
+   */
+  public AbstractStringAssert<?> content() {
+    // does not call content(Charset.defaultCharset()) to avoid double proxying in soft assertions.
+    return internalContent(Charset.defaultCharset());
+  }
+
+  /**
+   * Returns String assertions on the content of the actual {@code Path} read with the given {@link Charset}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Path utf8Path = Files.write(Paths.get("utf8.txt"), "é à".getBytes());
+   *
+   * // assertion succeeds:
+   * assertThat(utf8Path).content(StandardCharsets.UTF_8).endsWith("é à");
+   *
+   * // assertion fails:
+   * assertThat(utf8Path).content(StandardCharsets.UTF_8).contains("e");</code></pre>
+   *
+   * @param charset the {@link Charset} to use to read the actual {@link Path}.
+   * @return a {@link StringAssert} object with the content of the actual {@code Path} read with the default {@link Charset}.
+   * @throws AssertionError if the actual {@code Path} is not readable as per {@link Files#isReadable(Path)}.
+   * @throws UncheckedIOException when failing to read the actual {@code Path}.
+   * @since 3.21.0
+   */
+  public AbstractStringAssert<?> content(Charset charset) {
+    return internalContent(charset);
+  }
+
+  // this method was introduced to avoid double proxying in soft assertions for content()
+  private AbstractStringAssert<?> internalContent(Charset charset) {
+    paths.assertIsReadable(info, actual);
+    String pathContent = readPath(charset);
+    return new StringAssert(pathContent);
+  }
+
+  private String readPath(Charset charset) {
+    try {
+      return new String(readAllBytes(actual), charset);
+    } catch (IOException e) {
+      throw new UncheckedIOException(format("Failed to read %s content with %s charset", actual, charset), e);
+    }
+  }
+
+  /**
    * Verifies that the actual {@code Path} has given extension.
    *
    * <p>
@@ -1837,4 +1935,5 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
     paths.assertHasExtension(info, actual, expected);
     return myself;
   }
+
 }

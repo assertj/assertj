@@ -26,10 +26,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("FutureAssert succeedsWithin")
 class FutureAssert_succeedsWithin_Test extends AbstractFutureTest {
 
   @Test

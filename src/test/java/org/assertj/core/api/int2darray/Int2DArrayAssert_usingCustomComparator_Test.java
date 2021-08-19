@@ -18,10 +18,8 @@ import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 import org.assertj.core.api.Int2DArrayAssert;
 import org.assertj.core.api.Int2DArrayAssertBaseTest;
 import org.assertj.core.test.AlwaysEqualComparator;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("Int2DArrayAssert usingCustomComparator")
 class Int2DArrayAssert_usingCustomComparator_Test extends Int2DArrayAssertBaseTest {
 
   private static final AlwaysEqualComparator<int[][]> ALWAYS_EQUAL = alwaysEqual();

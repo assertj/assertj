@@ -117,12 +117,10 @@ import static org.assertj.core.api.InstanceOfAssertFactories.map;
 import static org.assertj.core.api.InstanceOfAssertFactories.optional;
 import static org.assertj.core.api.InstanceOfAssertFactories.predicate;
 import static org.assertj.core.api.InstanceOfAssertFactories.stream;
+import static org.assertj.core.api.InstanceOfAssertFactories.throwable;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.mockito.Mockito.mock;
-
-import org.assertj.core.util.Strings;
-import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -171,6 +169,9 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
+
+import org.assertj.core.util.Strings;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Stefano Cordio
@@ -380,7 +381,7 @@ class InstanceOfAssertFactoriesTest {
   @Test
   void boolean_2d_array_factory_should_allow_boolean_2d_array_assertions() {
     // GIVEN
-    Object value = new boolean[][] {{ true, false }, { false, true }};
+    Object value = new boolean[][] { { true, false }, { false, true } };
     // WHEN
     Boolean2DArrayAssert result = assertThat(value).asInstanceOf(BOOLEAN_2D_ARRAY);
     // THEN
@@ -410,7 +411,7 @@ class InstanceOfAssertFactoriesTest {
   @Test
   void byte_2d_array_factory_should_allow_byte_2d_array_assertions() {
     // GIVEN
-    Object value = new byte[][] {{ 0, 1 }, { 2, 3 }};
+    Object value = new byte[][] { { 0, 1 }, { 2, 3 } };
     // WHEN
     Byte2DArrayAssert result = assertThat(value).asInstanceOf(BYTE_2D_ARRAY);
     // THEN
@@ -440,7 +441,7 @@ class InstanceOfAssertFactoriesTest {
   @Test
   void char_2d_array_factory_should_allow_char_2d_array_assertions() {
     // GIVEN
-    Object value = new char[][] {{ 'a', 'b' }, { 'c', 'd' }};
+    Object value = new char[][] { { 'a', 'b' }, { 'c', 'd' } };
     // WHEN
     Char2DArrayAssert result = assertThat(value).asInstanceOf(CHAR_2D_ARRAY);
     // THEN
@@ -480,7 +481,7 @@ class InstanceOfAssertFactoriesTest {
   @Test
   void double_2d_array_factory_should_allow_double_2d_array_assertions() {
     // GIVEN
-    Object value = new double[][] {{ 0.0, 1.0 }, { 2.0, 3.0 }};
+    Object value = new double[][] { { 0.0, 1.0 }, { 2.0, 3.0 } };
     // WHEN
     Double2DArrayAssert result = assertThat(value).asInstanceOf(DOUBLE_2D_ARRAY);
     // THEN
@@ -550,7 +551,7 @@ class InstanceOfAssertFactoriesTest {
   @Test
   void float_2d_array_factory_should_allow_float_2d_array_assertions() {
     // GIVEN
-    Object value = new float[][] {{ 0.0f, 1.0f }, { 2.0f, 3.0f }};
+    Object value = new float[][] { { 0.0f, 1.0f }, { 2.0f, 3.0f } };
     // WHEN
     Float2DArrayAssert result = assertThat(value).asInstanceOf(FLOAT_2D_ARRAY);
     // THEN
@@ -580,7 +581,7 @@ class InstanceOfAssertFactoriesTest {
   @Test
   void int_2d_array_factory_should_allow_int_2d_array_assertions() {
     // GIVEN
-    Object value = new int[][] {{ 0, 1 }, { 2, 3 }};
+    Object value = new int[][] { { 0, 1 }, { 2, 3 } };
     // WHEN
     Int2DArrayAssert result = assertThat(value).asInstanceOf(INT_2D_ARRAY);
     // THEN
@@ -610,7 +611,7 @@ class InstanceOfAssertFactoriesTest {
   @Test
   void long_2d_array_factory_should_allow_long_2d_array_assertions() {
     // GIVEN
-    Object value = new long[][] {{ 0L, 1L }, { 2L, 3L }};
+    Object value = new long[][] { { 0L, 1L }, { 2L, 3L } };
     // WHEN
     Long2DArrayAssert result = assertThat(value).asInstanceOf(LONG_2D_ARRAY);
     // THEN
@@ -640,7 +641,7 @@ class InstanceOfAssertFactoriesTest {
   @Test
   void array_2d_factory_should_allow_2d_array_assertions() {
     // GIVEN
-    Object value = new Object[][] {{ 0, "" }, { 3.0, 'b'}};
+    Object value = new Object[][] { { 0, "" }, { 3.0, 'b' } };
     // WHEN
     Object2DArrayAssert<Object> result = assertThat(value).asInstanceOf(ARRAY_2D);
     // THEN
@@ -680,7 +681,7 @@ class InstanceOfAssertFactoriesTest {
   @Test
   void short_2d_array_factory_should_allow_short_2d_array_assertions() {
     // GIVEN
-    Object value = new short[][] {{ 0, 1 }, { 2, 3 }};
+    Object value = new short[][] { { 0, 1 }, { 2, 3 } };
     // WHEN
     Short2DArrayAssert result = assertThat(value).asInstanceOf(SHORT_2D_ARRAY);
     // THEN
@@ -994,6 +995,16 @@ class InstanceOfAssertFactoriesTest {
     Object value = new RuntimeException("message");
     // WHEN
     AbstractThrowableAssert<?, ? extends Throwable> result = assertThat(value).asInstanceOf(THROWABLE);
+    // THEN
+    result.hasMessage("message");
+  }
+
+  @Test
+  void typed_throwable_factory_should_allow_typed_throwable_assertions() {
+    // GIVEN
+    Object value = new RuntimeException("message");
+    // WHEN
+    AbstractThrowableAssert<?, RuntimeException> result = assertThat(value).asInstanceOf(throwable(RuntimeException.class));
     // THEN
     result.hasMessage("message");
   }

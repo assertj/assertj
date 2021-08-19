@@ -12,10 +12,13 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.String.format;
+import static java.nio.file.Files.readAllBytes;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.FileSystem;
@@ -204,6 +207,36 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   public SELF isRelative() {
     files.assertIsRelative(info, actual);
     return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code File} can be read by the application (alias of {@link #canRead()})
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> File tmpFile = File.createTempFile(&quot;tmp&quot;, &quot;txt&quot;);
+   * File tmpDir = Files.createTempDirectory(&quot;tmp&quot;).toFile();
+   *
+   * // assertions will pass
+   * assertThat(tmpFile).isReadable();
+   * assertThat(tmpDir).isReadable();
+   *
+   * tmpFile.setReadable(false);
+   * tmpDir.setReadable(false);
+   *
+   * // assertions will fail
+   * assertThat(tmpFile).isReadable();
+   * assertThat(tmpDir).isReadable();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} can not be read by the application.
+   *
+   * @see #canRead()
+   * @since 3.21.0
+   */
+  public SELF isReadable() {
+    return canRead();
   }
 
   /**
@@ -554,10 +587,39 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} can not be modified by the application.
+   * @see #isWritable()
    */
   public SELF canWrite() {
     files.assertCanWrite(info, actual);
     return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code File} can be modified by the application (alias of {@link #canWrite()}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> File tmpFile = File.createTempFile(&quot;tmp&quot;, &quot;txt&quot;);
+   * File tmpDir = Files.createTempDirectory(&quot;tmp&quot;).toFile();
+   *
+   * // assertions will pass
+   * assertThat(tmpFile).isWritable();
+   * assertThat(tmpDir).isWritable();
+   *
+   * tmpFile.setReadOnly();
+   * tmpDir.setReadOnly();
+   *
+   * // assertions will fail
+   * assertThat(tmpFile).isWritable();
+   * assertThat(tmpDir).isWritable();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} can not be modified by the application.
+   * @see #canWrite()
+   * @since 3.21.0
+   */
+  public SELF isWritable() {
+	  return canWrite();
   }
 
   /**
@@ -685,10 +747,41 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws AssertionError if the actual {@code File} does not have the expected name.
    *
    * @see java.io.File#getName() name definition.
+   * @see #hasFileName(String)
    */
   public SELF hasName(String expected) {
     files.assertHasName(info, actual, expected);
     return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code File} has given name (alias of {@link #hasName(String)}).
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> File xFile = new File(&quot;somewhere/xFile.java&quot;);
+   * File xDirectory = new File(&quot;somewhere/xDirectory&quot;);
+   *
+   * // assertion will pass
+   * assertThat(xFile).hasFileName(&quot;xFile.java&quot;);
+   * assertThat(xDirectory).hasFileName(&quot;xDirectory&quot;);
+   *
+   * // assertion will fail
+   * assertThat(xFile).hasFileName(&quot;xFile&quot;);
+   * assertThat(xDirectory).hasFileName(&quot;somewhere&quot;);</code></pre>
+   *
+   * @param expected the expected {@code File} name.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the expected name is {@code null}.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} does not have the expected name.
+   *
+   * @see java.io.File#getName() name definition.
+   * @see #hasName(String)
+   * @since 3.21.0
+   */
+  public SELF hasFileName(String expected) {
+    return hasName(expected);
   }
 
   /**
@@ -1233,5 +1326,64 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   public SELF isNotEmpty() {
     files.assertIsNotEmptyFile(info, actual);
     return myself;
+  }
+
+  /**
+   * Returns String assertions on the content of the actual {@code File} read with the {@link Charset#defaultCharset() default charset}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> File xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes()).toFile();
+   *
+   * // assertion succeeds (default charset is used to read xFile content):
+   * assertThat(xFile).content().startsWith("The Truth Is ");
+   *
+   * // assertion fails:
+   * assertThat(xFile).content().contains("Elsewhere");</code></pre>
+   *
+   * @return a StringAssert object with the content of the actual {@code File} read with the default {@link Charset}.
+   * @throws AssertionError if the actual {@code File} is not readable.
+   * @throws UncheckedIOException when failing to read the actual {@code File}.
+   * @since 3.21.0
+   */
+  public AbstractStringAssert<?> content() {
+    // does not call content(Charset.defaultCharset()) to avoid double proxying in soft assertions.
+    return internalContent(Charset.defaultCharset());
+  }
+
+  /**
+   * Returns String assertions on the content of the actual {@code File} read with the given {@link Charset}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> File utf8File = Files.write(Paths.get("utf8.txt"), "é à".getBytes()).toFile();
+   *
+   * // assertion succeeds:
+   * assertThat(utf8File).content(StandardCharsets.UTF_8).endsWith("é à");
+   *
+   * // assertion fails:
+   * assertThat(utf8File).content(StandardCharsets.UTF_8).contains("e");</code></pre>
+   *
+   * @param charset the {@link Charset} to use to read the actual {@link File}.
+   * @return a {@link StringAssert} object with the content of the actual {@code File} read with the default {@link Charset}.
+   * @throws AssertionError if the actual {@code File} is not readable.
+   * @throws UncheckedIOException when failing to read the actual {@code File}.
+   * @since 3.21.0
+   */
+  public AbstractStringAssert<?> content(Charset charset) {
+    return internalContent(charset);
+  }
+
+  // this method was introduced to avoid to avoid double proxying in soft assertions for content()
+  private AbstractStringAssert<?> internalContent(Charset charset) {
+    files.assertCanRead(info, actual);
+    String fileContent = readFile(charset);
+    return new StringAssert(fileContent);
+  }
+
+  private String readFile(Charset charset) {
+    try {
+      return new String(readAllBytes(actual.toPath()), charset);
+    } catch (IOException e) {
+      throw new UncheckedIOException(format("Failed to read %s content with %s charset", actual, charset), e);
+    }
   }
 }

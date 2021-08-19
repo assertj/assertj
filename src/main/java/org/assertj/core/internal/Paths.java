@@ -43,18 +43,19 @@ import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
+import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotContain.directoryShouldNotContain;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.error.ShouldStartWithPath.shouldStartWith;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
@@ -65,9 +66,6 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.WritableAssertionInfo;
-import org.assertj.core.api.exception.PathsException;
-import org.assertj.core.util.Files;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.diff.Delta;
 
@@ -78,11 +76,7 @@ import org.assertj.core.util.diff.Delta;
  */
 public class Paths {
 
-  private static final String FAILED_TO_RESOLVE_ARGUMENT_REAL_PATH = "failed to resolve argument real path";
-  private static final String FAILED_TO_RESOLVE_ACTUAL_REAL_PATH = "failed to resolve actual real path";
   private static final String UNABLE_TO_COMPARE_PATH_CONTENTS = "Unable to compare contents of paths:<%s> and:<%s>";
-
-  public static final String IOERROR_FORMAT = "I/O error attempting to process assertion for path: <%s>";
 
   private static final Paths INSTANCE = new Paths();
   private static final Predicate<Path> ANY = any -> true;
@@ -93,70 +87,61 @@ public class Paths {
   BinaryDiff binaryDiff = new BinaryDiff();
   @VisibleForTesting
   Failures failures = Failures.instance();
-
-  private final NioFilesWrapper nioFilesWrapper;
+  @VisibleForTesting
+  NioFilesWrapper nioFilesWrapper = NioFilesWrapper.instance();
 
   public static Paths instance() {
     return INSTANCE;
   }
 
-  @VisibleForTesting
-  Paths(NioFilesWrapper nioFilesWrapper) {
-    this.nioFilesWrapper = nioFilesWrapper;
-  }
-
-  private Paths() {
-    this(NioFilesWrapper.instance());
-  }
+  private Paths() {}
 
   public void assertIsReadable(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
     assertExists(info, actual);
-    if (!nioFilesWrapper.isReadable(actual)) throw failures.failure(info, shouldBeReadable(actual));
+    if (!Files.isReadable(actual)) throw failures.failure(info, shouldBeReadable(actual));
   }
 
   public void assertIsWritable(AssertionInfo info, Path actual) {
     assertNotNull(info, actual);
     assertExists(info, actual);
-    if (!nioFilesWrapper.isWritable(actual)) throw failures.failure(info, shouldBeWritable(actual));
+    if (!Files.isWritable(actual)) throw failures.failure(info, shouldBeWritable(actual));
   }
 
   public void assertIsExecutable(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
     assertExists(info, actual);
-    if (!nioFilesWrapper.isExecutable(actual)) throw failures.failure(info, shouldBeExecutable(actual));
+    if (!Files.isExecutable(actual)) throw failures.failure(info, shouldBeExecutable(actual));
   }
 
   public void assertExists(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
-    if (!nioFilesWrapper.exists(actual)) throw failures.failure(info, shouldExist(actual));
+    if (!Files.exists(actual)) throw failures.failure(info, shouldExist(actual));
   }
 
   public void assertExistsNoFollowLinks(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
-    if (!nioFilesWrapper.exists(actual, LinkOption.NOFOLLOW_LINKS))
-      throw failures.failure(info, shouldExistNoFollowLinks(actual));
+    if (!Files.exists(actual, LinkOption.NOFOLLOW_LINKS)) throw failures.failure(info, shouldExistNoFollowLinks(actual));
   }
 
   public void assertDoesNotExist(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
-    if (!nioFilesWrapper.notExists(actual, LinkOption.NOFOLLOW_LINKS))
-      throw failures.failure(info, shouldNotExist(actual));
+    if (!Files.notExists(actual, LinkOption.NOFOLLOW_LINKS)) throw failures.failure(info, shouldNotExist(actual));
   }
 
   public void assertIsRegularFile(final AssertionInfo info, final Path actual) {
     assertExists(info, actual);
-    if (!nioFilesWrapper.isRegularFile(actual)) throw failures.failure(info, shouldBeRegularFile(actual));
+    if (!Files.isRegularFile(actual)) throw failures.failure(info, shouldBeRegularFile(actual));
   }
 
   public void assertIsDirectory(final AssertionInfo info, final Path actual) {
     assertExists(info, actual);
-    if (!nioFilesWrapper.isDirectory(actual)) throw failures.failure(info, shouldBeDirectory(actual));
+    if (!Files.isDirectory(actual)) throw failures.failure(info, shouldBeDirectory(actual));
   }
 
   public void assertIsSymbolicLink(final AssertionInfo info, final Path actual) {
     assertExistsNoFollowLinks(info, actual);
-    if (!nioFilesWrapper.isSymbolicLink(actual)) throw failures.failure(info, shouldBeSymbolicLink(actual));
+    if (!Files.isSymbolicLink(actual)) throw failures.failure(info, shouldBeSymbolicLink(actual));
   }
 
   public void assertIsAbsolute(final AssertionInfo info, final Path actual) {
@@ -176,55 +161,28 @@ public class Paths {
 
   public void assertIsCanonical(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
-    try {
-      if (!actual.equals(actual.toRealPath())) throw failures.failure(info, shouldBeCanonicalPath(actual));
-    } catch (IOException e) {
-      throw new PathsException(FAILED_TO_RESOLVE_ACTUAL_REAL_PATH, e);
-    }
+    if (!actual.equals(toRealPath(actual))) throw failures.failure(info, shouldBeCanonicalPath(actual));
   }
 
   public void assertHasParent(final AssertionInfo info, final Path actual, final Path expected) {
     assertNotNull(info, actual);
     checkExpectedParentPathIsNotNull(expected);
-
-    final Path canonicalActual;
-    try {
-      canonicalActual = actual.toRealPath();
-    } catch (IOException e) {
-      throw new PathsException(FAILED_TO_RESOLVE_ACTUAL_REAL_PATH, e);
-    }
-
-    final Path canonicalExpected;
-    try {
-      canonicalExpected = expected.toRealPath();
-    } catch (IOException e) {
-      throw new PathsException(FAILED_TO_RESOLVE_ARGUMENT_REAL_PATH, e);
-    }
-
-    final Path actualParent = canonicalActual.getParent();
-    if (actualParent == null) throw failures.failure(info, shouldHaveParent(actual, expected));
-    if (!actualParent.equals(canonicalExpected))
-      throw failures.failure(info, shouldHaveParent(actual, actualParent, expected));
+    Path parent = toRealPath(actual).getParent();
+    if (parent == null) throw failures.failure(info, shouldHaveParent(actual, expected));
+    if (!parent.equals(toRealPath(expected))) throw failures.failure(info, shouldHaveParent(actual, parent, expected));
   }
 
   public void assertHasParentRaw(final AssertionInfo info, final Path actual, final Path expected) {
     assertNotNull(info, actual);
     checkExpectedParentPathIsNotNull(expected);
-
-    final Path actualParent = actual.getParent();
-    if (actualParent == null) throw failures.failure(info, shouldHaveParent(actual, expected));
-    if (!actualParent.equals(expected))
-      throw failures.failure(info, shouldHaveParent(actual, actualParent, expected));
+    Path parent = actual.getParent();
+    if (parent == null) throw failures.failure(info, shouldHaveParent(actual, expected));
+    if (!parent.equals(expected)) throw failures.failure(info, shouldHaveParent(actual, parent, expected));
   }
 
   public void assertHasNoParent(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
-    try {
-      final Path canonicalActual = actual.toRealPath();
-      if (canonicalActual.getParent() != null) throw failures.failure(info, shouldHaveNoParent(actual));
-    } catch (IOException e) {
-      throw new PathsException(FAILED_TO_RESOLVE_ACTUAL_REAL_PATH, e);
-    }
+    if (toRealPath(actual).getParent() != null) throw failures.failure(info, shouldHaveNoParent(actual));
   }
 
   public void assertHasNoParentRaw(final AssertionInfo info, final Path actual) {
@@ -232,25 +190,20 @@ public class Paths {
     if (actual.getParent() != null) throw failures.failure(info, shouldHaveNoParent(actual));
   }
 
-  public void assertStartsWith(final AssertionInfo info, final Path actual, final Path start) {
+  public void assertHasSize(final AssertionInfo info, final Path actual, long expectedSize) {
+    assertIsRegularFile(info, actual);
+    try {
+      long actualSize = nioFilesWrapper.size(actual);
+      if (actualSize != expectedSize) throw failures.failure(info, shouldHaveSize(actual, expectedSize));
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
+  }
+
+  public void assertStartsWith(final AssertionInfo info, final Path actual, final Path other) {
     assertNotNull(info, actual);
-    assertExpectedStartPathIsNotNull(start);
-
-    final Path canonicalActual;
-    try {
-      canonicalActual = actual.toRealPath();
-    } catch (IOException e) {
-      throw new PathsException(FAILED_TO_RESOLVE_ACTUAL_REAL_PATH, e);
-    }
-
-    final Path canonicalOther;
-    try {
-      canonicalOther = start.toRealPath();
-    } catch (IOException e) {
-      throw new PathsException(FAILED_TO_RESOLVE_ARGUMENT_REAL_PATH, e);
-    }
-
-    if (!canonicalActual.startsWith(canonicalOther)) throw failures.failure(info, shouldStartWith(actual, start));
+    assertExpectedStartPathIsNotNull(other);
+    if (!toRealPath(actual).startsWith(toRealPath(other))) throw failures.failure(info, shouldStartWith(actual, other));
   }
 
   public void assertStartsWithRaw(final AssertionInfo info, final Path actual, final Path other) {
@@ -259,15 +212,10 @@ public class Paths {
     if (!actual.startsWith(other)) throw failures.failure(info, shouldStartWith(actual, other));
   }
 
-  public void assertEndsWith(final AssertionInfo info, final Path actual, final Path end) {
+  public void assertEndsWith(final AssertionInfo info, final Path actual, final Path other) {
     assertNotNull(info, actual);
-    assertExpectedEndPathIsNotNull(end);
-    try {
-      final Path canonicalActual = actual.toRealPath();
-      if (!canonicalActual.endsWith(end.normalize())) throw failures.failure(info, shouldEndWith(actual, end));
-    } catch (IOException e) {
-      throw new PathsException(FAILED_TO_RESOLVE_ACTUAL_REAL_PATH, e);
-    }
+    assertExpectedEndPathIsNotNull(other);
+    if (!toRealPath(actual).endsWith(other.normalize())) throw failures.failure(info, shouldEndWith(actual, other));
   }
 
   public void assertEndsWithRaw(final AssertionInfo info, final Path actual, final Path end) {
@@ -282,13 +230,12 @@ public class Paths {
     if (!actual.getFileName().endsWith(fileName)) throw failures.failure(info, shouldHaveName(actual, fileName));
   }
 
-  public void assertHasContent(final AssertionInfo info, Path actual, String expected, Charset charset) {
+  public void assertHasTextualContent(final AssertionInfo info, Path actual, String expected, Charset charset) {
     requireNonNull(expected, "The text to compare to should not be null");
     assertIsReadable(info, actual);
     try {
       List<Delta<String>> diffs = diff.diff(actual, expected, charset);
-      if (diffs.isEmpty()) return;
-      throw failures.failure(info, shouldHaveContent(actual, charset, diffs));
+      if (!diffs.isEmpty()) throw failures.failure(info, shouldHaveContent(actual, charset, diffs));
     } catch (IOException e) {
       throw new UncheckedIOException(format("Unable to verify text contents of path:<%s>", actual), e);
     }
@@ -299,8 +246,7 @@ public class Paths {
     assertIsReadable(info, actual);
     try {
       BinaryDiffResult diffResult = binaryDiff.diff(actual, expected);
-      if (diffResult.hasNoDiff()) return;
-      throw failures.failure(info, shouldHaveBinaryContent(actual, diffResult));
+      if (!diffResult.hasNoDiff()) throw failures.failure(info, shouldHaveBinaryContent(actual, diffResult));
     } catch (IOException e) {
       throw new UncheckedIOException(format("Unable to verify binary contents of path:<%s>", actual), e);
     }
@@ -308,10 +254,9 @@ public class Paths {
 
   public void assertHasSameBinaryContentAs(AssertionInfo info, Path actual, Path expected) {
     requireNonNull(expected, "The given Path to compare actual content to should not be null");
+    checkArgument(Files.exists(expected), "The given Path <%s> to compare actual content to should exist", expected);
+    checkArgument(Files.isReadable(expected), "The given Path <%s> to compare actual content to should be readable", expected);
     assertIsReadable(info, actual);
-    checkArgument(nioFilesWrapper.exists(expected), "The given Path <%s> to compare actual content to should exist", expected);
-    checkArgument(nioFilesWrapper.isReadable(expected), "The given Path <%s> to compare actual content to should be readable",
-                  expected);
     try {
       BinaryDiffResult binaryDiffResult = binaryDiff.diff(actual, readAllBytes(expected));
       if (binaryDiffResult.hasDiff()) throw failures.failure(info, shouldHaveBinaryContent(actual, binaryDiffResult));
@@ -320,17 +265,15 @@ public class Paths {
     }
   }
 
-  public void assertHasSameContentAs(AssertionInfo info, Path actual, Charset actualCharset, Path expected,
-                                     Charset expectedCharset) {
+  public void assertHasSameTextualContentAs(AssertionInfo info, Path actual, Charset actualCharset, Path expected,
+                                            Charset expectedCharset) {
     requireNonNull(expected, "The given Path to compare actual content to should not be null");
-    checkArgument(nioFilesWrapper.exists(expected), "The given Path <%s> to compare actual content to should exist", expected);
-    checkArgument(nioFilesWrapper.isReadable(expected), "The given Path <%s> to compare actual content to should be readable",
-                  expected);
+    checkArgument(Files.exists(expected), "The given Path <%s> to compare actual content to should exist", expected);
+    checkArgument(Files.isReadable(expected), "The given Path <%s> to compare actual content to should be readable", expected);
     assertIsReadable(info, actual);
     try {
       List<Delta<String>> diffs = diff.diff(actual, actualCharset, expected, expectedCharset);
-      if (diffs.isEmpty()) return;
-      throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
+      if (!diffs.isEmpty()) throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
     } catch (IOException e) {
       throw new UncheckedIOException(format(UNABLE_TO_COMPARE_PATH_CONTENTS, actual, expected), e);
     }
@@ -409,7 +352,25 @@ public class Paths {
 
   public void assertIsNotEmptyDirectory(AssertionInfo info, Path actual) {
     boolean isEmptyDirectory = directoryContent(info, actual).isEmpty();
-    if (isEmptyDirectory) throw failures.failure(info, shouldNotBeEmpty());
+    if (isEmptyDirectory) throw failures.failure(info, shouldNotBeEmpty(actual));
+  }
+
+  public void assertIsEmptyFile(AssertionInfo info, Path actual) {
+    assertIsRegularFile(info, actual);
+    try {
+      if (nioFilesWrapper.size(actual) > 0) throw failures.failure(info, shouldBeEmpty(actual));
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
+  }
+
+  public void assertIsNotEmptyFile(AssertionInfo info, Path actual) {
+    assertIsRegularFile(info, actual);
+    try {
+      if (nioFilesWrapper.size(actual) == 0) throw failures.failure(info, shouldNotBeEmpty(actual));
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
   }
 
   public static List<String> toPathNames(List<Path> files) {
@@ -501,28 +462,18 @@ public class Paths {
     requireNonNull(end, "the expected end path should not be null");
   }
 
-  public void assertIsEmptyFile(AssertionInfo info, Path actual) {
-    assertIsRegularFile(info, actual);
+  private static Path toRealPath(Path path) {
     try {
-      if (nioFilesWrapper.size(actual) > 0) throw failures.failure(info, shouldBeEmpty(actual));
+      return path.toRealPath();
     } catch (IOException e) {
-      throw new PathsException(FAILED_TO_RESOLVE_ACTUAL_REAL_PATH, e);
-    }
-  }
-
-  public void assertIsNotEmptyFile(AssertionInfo info, Path actual) {
-    assertIsRegularFile(info, actual);
-    try {
-      if (nioFilesWrapper.size(actual) == 0) throw failures.failure(info, shouldNotBeEmpty(actual));
-    } catch (IOException e) {
-      throw new PathsException(FAILED_TO_RESOLVE_ACTUAL_REAL_PATH, e);
+      throw new UncheckedIOException(e);
     }
   }
 
   public void assertHasExtension(AssertionInfo info, Path actual, String expectedExtension) {
     requireNonNull(expectedExtension, "The expected extension should not be null.");
     assertIsRegularFile(info, actual);
-    String actualExtension = Files.getFileExtension(actual.getFileName().toString());
+    String actualExtension = org.assertj.core.util.Files.getFileExtension(actual.getFileName().toString());
     if (expectedExtension.equals(actualExtension)) return;
     throw failures.failure(info, shouldHaveExtension(actual, actualExtension, expectedExtension));
   }

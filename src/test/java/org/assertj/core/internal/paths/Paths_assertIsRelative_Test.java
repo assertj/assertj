@@ -12,38 +12,43 @@
  */
 package org.assertj.core.internal.paths;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.ThrowableAssert.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeRelativePath.shouldBeRelativePath;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
 
-class Paths_assertIsRelative_Test extends MockPathsBaseTest {
+class Paths_assertIsRelative_Test extends PathsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsRelative(info, null))
-                                                   .withMessage(actualIsNull());
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertIsRelative(info, null));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_not_relative() {
-    // This is the default, but make it explicit
-    when(actual.isAbsolute()).thenReturn(true);
-
-    Throwable error = catchThrowable(() -> paths.assertIsRelative(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeRelativePath(actual));
+    // GIVEN
+    Path actual = tempDir.getRoot().resolve("absolute");
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertIsRelative(info, actual));
+    // THEN
+    then(error).hasMessage(shouldBeRelativePath(actual).create());
   }
 
   @Test
   void should_pass_if_actual_is_relative() {
-    when(actual.isAbsolute()).thenReturn(false);
+    // GIVEN
+    Path actual = Paths.get("relative");
+    // WHEN/THEN
     paths.assertIsRelative(info, actual);
   }
+
 }

@@ -282,7 +282,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static BigDecimalAssert assertThat(BigDecimal actual) {
+  public static AbstractBigDecimalAssert<?> assertThat(BigDecimal actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -293,7 +293,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  public static BigIntegerAssert assertThat(BigInteger actual) {
+  public static AbstractBigIntegerAssert<?> assertThat(BigInteger actual) {
     return new BigIntegerAssert(actual);
   }
 
@@ -303,7 +303,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static UriAssert assertThat(URI actual) {
+  public static AbstractUriAssert<?> assertThat(URI actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -313,7 +313,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static UrlAssert assertThat(URL actual) {
+  public static AbstractUrlAssert<?> assertThat(URL actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -323,7 +323,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static BooleanAssert assertThat(boolean actual) {
+  public static AbstractBooleanAssert<?> assertThat(boolean actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -333,7 +333,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static BooleanAssert assertThat(Boolean actual) {
+  public static AbstractBooleanAssert<?> assertThat(Boolean actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -343,7 +343,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static BooleanArrayAssert assertThat(boolean[] actual) {
+  public static AbstractBooleanArrayAssert<?> assertThat(boolean[] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -364,7 +364,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static ByteAssert assertThat(byte actual) {
+  public static AbstractByteAssert<?> assertThat(byte actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -374,7 +374,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static ByteAssert assertThat(Byte actual) {
+  public static AbstractByteAssert<?> assertThat(Byte actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -384,7 +384,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static ByteArrayAssert assertThat(byte[] actual) {
+  public static AbstractByteArrayAssert<?> assertThat(byte[] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -405,7 +405,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static CharacterAssert assertThat(char actual) {
+  public static AbstractCharacterAssert<?> assertThat(char actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -415,7 +415,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static CharArrayAssert assertThat(char[] actual) {
+  public static AbstractCharArrayAssert<?> assertThat(char[] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -436,7 +436,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static CharacterAssert assertThat(Character actual) {
+  public static AbstractCharacterAssert<?> assertThat(Character actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -456,7 +456,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static DoubleAssert assertThat(double actual) {
+  public static AbstractDoubleAssert<?> assertThat(double actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -466,7 +466,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static DoubleAssert assertThat(Double actual) {
+  public static AbstractDoubleAssert<?> assertThat(Double actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -476,7 +476,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static DoubleArrayAssert assertThat(double[] actual) {
+  public static AbstractDoubleArrayAssert<?> assertThat(double[] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -497,7 +497,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static FileAssert assertThat(File actual) {
+  public static AbstractFileAssert<?> assertThat(File actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -520,7 +520,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static InputStreamAssert assertThat(InputStream actual) {
+  public static AbstractInputStreamAssert<?, ? extends InputStream> assertThat(InputStream actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -530,7 +530,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static FloatAssert assertThat(float actual) {
+  public static AbstractFloatAssert<?> assertThat(float actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -540,7 +540,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static FloatAssert assertThat(Float actual) {
+  public static AbstractFloatAssert<?> assertThat(Float actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -550,7 +550,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static FloatArrayAssert assertThat(float[] actual) {
+  public static AbstractFloatArrayAssert<?> assertThat(float[] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -560,7 +560,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static IntegerAssert assertThat(int actual) {
+  public static AbstractIntegerAssert<?> assertThat(int actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -570,7 +570,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static IntArrayAssert assertThat(int[] actual) {
+  public static AbstractIntArrayAssert<?> assertThat(int[] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -602,7 +602,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static IntegerAssert assertThat(Integer actual) {
+  public static AbstractIntegerAssert<?> assertThat(Integer actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -611,9 +611,9 @@ public class Assertions implements InstanceOfAssertFactories {
    * in order to perform assertions on it.
    * <p>
    * Navigational methods provided:<ul>
-   * <li>{@link IterableAssert#first() first()}</li>
-   * <li>{@link IterableAssert#last() last()}</li>
-   * <li>{@link IterableAssert#elements(int...) element(int...)}</li>
+   * <li>{@link AbstractIterableAssert#first() first()}</li>
+   * <li>{@link AbstractIterableAssert#last() last()}</li>
+   * <li>{@link AbstractIterableAssert#elements(int...) elements(index...)}</li>
    * </ul>
    * <p>
    * The available assertions after navigating to an element depend on the {@code ELEMENT_ASSERT} parameter of the given
@@ -655,10 +655,10 @@ public class Assertions implements InstanceOfAssertFactories {
    * in order to perform assertions on it.
    * <p>
    * Navigational methods provided:<ul>
-   * <li>{@link IterableAssert#first() first()}</li>
-   * <li>{@link IterableAssert#last() last()}</li>
-   * <li>{@link IterableAssert#element(int) element(index)}</li>
-   * <li>{@link IterableAssert#elements(int...) element(int...)}</li>
+   * <li>{@link AbstractIterableAssert#first() first()}</li>
+   * <li>{@link AbstractIterableAssert#last() last()}</li>
+   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
+   * <li>{@link AbstractIterableAssert#elements(int...) element(int...)}</li>
    * </ul>
    * <p>
    * The available assertions after navigating to an element depend on the given {@code assertClass}
@@ -691,10 +691,10 @@ public class Assertions implements InstanceOfAssertFactories {
    * in order to perform assertions on it.
    * <p>
    * Navigational methods provided:<ul>
-   * <li>{@link IterableAssert#first() first()}</li>
-   * <li>{@link IterableAssert#last() last()}</li>
-   * <li>{@link IterableAssert#element(int) element(index)}</li>
-   * <li>{@link IterableAssert#elements(int...) element(int...)}</li>
+   * <li>{@link AbstractIterableAssert#first() first()}</li>
+   * <li>{@link AbstractIterableAssert#last() last()}</li>
+   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
+   * <li>{@link AbstractIterableAssert#elements(int...) elements(int...)}</li>
    * </ul>
    * <p>
    * The available assertions after navigating to an element depend on the {@code ELEMENT_ASSERT} parameter of the given
@@ -735,10 +735,10 @@ public class Assertions implements InstanceOfAssertFactories {
    * in order to perform assertions on it.
    * <p>
    * Navigational methods provided:<ul>
-   * <li>{@link IterableAssert#first() first()}</li>
-   * <li>{@link IterableAssert#last() last()}</li>
-   * <li>{@link IterableAssert#element(int) element(index)}</li>
-   * <li>{@link IterableAssert#elements(int...) element(int...)}</li>
+   * <li>{@link AbstractIterableAssert#first() first()}</li>
+   * <li>{@link AbstractIterableAssert#last() last()}</li>
+   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
+   * <li>{@link AbstractIterableAssert#elements(int...) elements(int...)}</li>
    * </ul>
    * <p>
    * The available assertions after navigating to an element depend on the given {@code assertClass}
@@ -774,7 +774,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static LongAssert assertThat(long actual) {
+  public static AbstractLongAssert<?> assertThat(long actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -784,7 +784,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static LongAssert assertThat(Long actual) {
+  public static AbstractLongAssert<?> assertThat(Long actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -794,7 +794,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static LongArrayAssert assertThat(long[] actual) {
+  public static AbstractLongArrayAssert<?> assertThat(long[] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -849,7 +849,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static ShortAssert assertThat(short actual) {
+  public static AbstractShortAssert<?> assertThat(short actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -859,7 +859,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static ShortAssert assertThat(Short actual) {
+  public static AbstractShortAssert<?> assertThat(Short actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -869,7 +869,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static ShortArrayAssert assertThat(short[] actual) {
+  public static AbstractShortArrayAssert<?> assertThat(short[] actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -890,7 +890,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static DateAssert assertThat(Date actual) {
+  public static AbstractDateAssert<?> assertThat(Date actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -900,7 +900,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static ZonedDateTimeAssert assertThat(ZonedDateTime actual) {
+  public static AbstractZonedDateTimeAssert<?> assertThat(ZonedDateTime actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -910,7 +910,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static LocalDateTimeAssert assertThat(LocalDateTime actual) {
+  public static AbstractLocalDateTimeAssert<?> assertThat(LocalDateTime actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -920,7 +920,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static OffsetDateTimeAssert assertThat(OffsetDateTime actual) {
+  public static AbstractOffsetDateTimeAssert<?> assertThat(OffsetDateTime actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -930,7 +930,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static OffsetTimeAssert assertThat(OffsetTime actual) {
+  public static AbstractOffsetTimeAssert<?> assertThat(OffsetTime actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -940,7 +940,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static LocalTimeAssert assertThat(LocalTime actual) {
+  public static AbstractLocalTimeAssert<?> assertThat(LocalTime actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -950,7 +950,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static LocalDateAssert assertThat(LocalDate actual) {
+  public static AbstractLocalDateAssert<?> assertThat(LocalDate actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -961,7 +961,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    * @since 3.7.0
    */
-  public static InstantAssert assertThat(Instant actual) {
+  public static AbstractInstantAssert<?> assertThat(Instant actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -972,7 +972,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    * @since 3.15.0
    */
-  public static DurationAssert assertThat(Duration actual) {
+  public static AbstractDurationAssert<?> assertThat(Duration actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -983,7 +983,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    * @since 3.17.0
    */
-  public static PeriodAssert assertThat(Period actual) {
+  public static AbstractPeriodAssert<?> assertThat(Period actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -1141,10 +1141,11 @@ public class Assertions implements InstanceOfAssertFactories {
   /**
    * Creates a new instance of <code>{@link ThrowableAssert}</code>.
    *
+   * @param <T> the type of the actual throwable.
    * @param actual the actual value.
    * @return the created {@link ThrowableAssert}.
    */
-  public static ThrowableAssert assertThat(Throwable actual) {
+  public static <T extends Throwable> AbstractThrowableAssert<?, T> assertThat(T actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -1177,7 +1178,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created {@link ThrowableAssert}.
    */
   @CanIgnoreReturnValue
-  public static ThrowableAssert assertThatThrownBy(ThrowingCallable shouldRaiseThrowable) {
+  public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable) {
     return assertThat(catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
   }
 
@@ -1214,7 +1215,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @since 3.9.0
    */
   @CanIgnoreReturnValue
-  public static ThrowableAssert assertThatThrownBy(ThrowingCallable shouldRaiseThrowable,
+  public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable,
                                                                                    String description, Object... args) {
     return assertThat(catchThrowable(shouldRaiseThrowable)).as(description, args).hasBeenThrown();
   }
@@ -1254,7 +1255,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created {@link ThrowableAssert}.
    * @since 3.7.0
    */
-  public static ThrowableAssert assertThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
+  public static AbstractThrowableAssert<?, ? extends Throwable> assertThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
     return AssertionsForClassTypes.assertThatCode(shouldRaiseOrNotThrowable);
   }
 
@@ -2826,7 +2827,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static CharSequenceAssert assertThat(CharSequence actual) {
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> assertThat(CharSequence actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
 
@@ -2837,7 +2838,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    * @since 3.11.0
    */
-  public static CharSequenceAssert assertThat(StringBuilder actual) {
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> assertThat(StringBuilder actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -2848,7 +2849,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    * @since 3.11.0
    */
-  public static CharSequenceAssert assertThat(StringBuffer actual) {
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> assertThat(StringBuffer actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -2858,7 +2859,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static StringAssert assertThat(String actual) {
+  public static AbstractStringAssert<?> assertThat(String actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -3058,7 +3059,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the path to test
    * @return the created assertion object
    */
-  public static PathAssert assertThat(Path actual) {
+  public static AbstractPathAssert<?> assertThat(Path actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
 
@@ -3085,7 +3086,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T extends Comparable<? super T>> GenericComparableAssert<T> assertThat(T actual) {
+  public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThat(T actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
 

@@ -16,7 +16,6 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Double2DArrayAssert;
 import org.assertj.core.api.Double2DArrayAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -24,7 +23,6 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Maciej Wajcht
  */
-@DisplayName("Double2DArrayAssert isNullOrEmpty")
 class Double2DArrayAssert_isNullOrEmpty_Test extends Double2DArrayAssertBaseTest {
 
   @Override

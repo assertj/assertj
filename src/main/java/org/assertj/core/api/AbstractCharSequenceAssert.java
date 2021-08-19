@@ -649,15 +649,38 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <pre><code class='java'> assertThat(&quot;Gandalf the grey&quot;).contains(&quot;alf&quot;);
    * assertThat(&quot;Gandalf the grey&quot;).contains(&quot;alf&quot;, &quot;grey&quot;);</code></pre>
    *
-   * @param values the Strings to look for.
+   * @param values the values to look for.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given list of values is {@code null}.
    * @throws IllegalArgumentException if the list of given values is empty.
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings.
+   * @throws AssertionError if the actual {@code CharSequence} does not contain all the given values.
    */
   public SELF contains(CharSequence... values) {
     strings.assertContains(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} contains any of the given values.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(&quot;Gandalf the grey&quot;).containsAnyOf(&quot;grey&quot;, &quot;black&quot;);
+   *
+   * // assertions will fail
+   * assertThat(&quot;Gandalf the grey&quot;).containsAnyOf(&quot;white&quot;, &quot;black&quot;);</code></pre>
+   *
+   * @param values the values to look for.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given list of values is {@code null}.
+   * @throws IllegalArgumentException if the list of given values is empty.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} does not contain any of the given values.
+   * @since 3.21.0
+   */
+  public SELF containsAnyOf(CharSequence... values) {
+    strings.assertContainsAnyOf(info, actual, values);
     return myself;
   }
 
@@ -668,7 +691,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <pre><code class='java'> assertThat(&quot;Gandalf the grey&quot;).contains(Arrays.asList(&quot;alf&quot;));
    * assertThat(&quot;Gandalf the grey&quot;).contains(Arrays.asList(&quot;alf&quot;, &quot;grey&quot;));</code></pre>
    *
-   * @param values the Strings to look for.
+   * @param values the values to look for.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given list of values is {@code null}.
    * @throws IllegalArgumentException if the list of given values is empty.
@@ -833,12 +856,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * // assertion fails:
    * assertThat(&quot;Gandalf the grey&quot;).containsIgnoringWhitespaces(&quot;alF&quot;)</code></pre>
    *
-   * @param values the Strings to look for.
+   * @param values the values to look for.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given list of values is {@code null}.
    * @throws IllegalArgumentException if the list of given values is empty.
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings.
+   * @throws AssertionError if the actual {@code CharSequence} does not contain all the given values.
    */
   public SELF containsIgnoringWhitespaces(CharSequence... values) {
     strings.assertContainsIgnoringWhitespaces(info, actual, values);
@@ -1577,7 +1600,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} is a lowercase {@code CharSequence} by comparing it to a lowercase {@code actual} built with {@link String#toLowerCase()}.
+   * Verifies that the actual {@code CharSequence} is a lowercase {@code CharSequence} by comparing it to
+   * a lowercase {@code actual} built with {@link String#toLowerCase()}.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
@@ -1594,6 +1618,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not lowercase.
+   * @see #isMixedCase()
+   * @see #isUpperCase()
    */
   public SELF isLowerCase() {
     strings.assertLowerCase(info, actual);
@@ -1601,7 +1627,37 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} is a uppercase {@code CharSequence} by comparing it to an uppercase {@code actual} built with {@link String#toUpperCase()}.
+   * Verifies that the actual {@code CharSequence} is a mixed case {@code CharSequence}, i.e.,
+   * neither uppercase nor lowercase.
+   * <p>
+   * If actual is empty or contains only case-independent characters, the assertion will pass.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(&quot;Capitalized&quot;).isMixedCase();
+   * assertThat(&quot;camelCase&quot;).isMixedCase();
+   * assertThat(&quot;rAndOMcAse1234&quot;).isMixedCase();
+   * assertThat(&quot;1@3$567&quot;).isMixedCase();
+   * assertThat(&quot;&quot;).isMixedCase();
+   *
+   * // assertions will fail
+   * assertThat(&quot;I AM GROOT!&quot;).isMixedCase();
+   * assertThat(&quot;please be quiet&quot;).isMixedCase();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not mixed case.
+   * @see #isLowerCase()
+   * @see #isUpperCase()
+   * @since 3.21.0
+   */
+  public SELF isMixedCase() {
+    strings.assertMixedCase(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is an uppercase {@code CharSequence} by comparing it to
+   * an uppercase {@code actual} built with {@link String#toUpperCase()}.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
@@ -1618,6 +1674,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not uppercase.
+   * @see #isLowerCase()
+   * @see #isMixedCase()
    */
   public SELF isUpperCase() {
     strings.assertUpperCase(info, actual);

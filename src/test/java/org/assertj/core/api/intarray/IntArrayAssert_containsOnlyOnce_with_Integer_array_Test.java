@@ -20,7 +20,6 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.IntArrayAssert;
 import org.assertj.core.api.IntArrayAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -28,7 +27,6 @@ import org.junit.jupiter.api.Test;
  *
  * @author Omar Morales Ortega
  */
-@DisplayName("IntArrayAssert containsOnlyOnce(Integer[])")
 class IntArrayAssert_containsOnlyOnce_with_Integer_array_Test extends IntArrayAssertBaseTest {
 
   @Test

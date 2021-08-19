@@ -12,59 +12,71 @@
  */
 package org.assertj.core.internal.paths;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.ThrowableAssert.catchThrowable;
+import static java.nio.file.Files.createFile;
+import static java.nio.file.Files.createSymbolicLink;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Path;
 
-import org.assertj.core.api.exception.PathsException;
+import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
 
-class Paths_assertHasNoParent_Test extends MockPathsBaseTest {
+class Paths_assertHasNoParent_Test extends PathsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertHasNoParent(info, null))
-                                                   .withMessage(actualIsNull());
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertHasNoParent(info, null));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_throw_PathsException_if_actual_cannot_be_canonicalized() throws IOException {
-    final IOException exception = new IOException();
-    when(actual.toRealPath()).thenThrow(exception);
-
-    assertThatExceptionOfType(PathsException.class).isThrownBy(() -> paths.assertHasNoParent(info, actual))
-                                                   .withMessage("failed to resolve actual real path")
-                                                   .withCause(exception);
+  void should_rethrow_IOException_as_UncheckedIOException_if_actual_cannot_be_resolved() throws IOException {
+    // GIVEN
+    Path actual = mock(Path.class);
+    IOException exception = new IOException("boom!");
+    given(actual.toRealPath()).willThrow(exception);
+    // WHEN
+    Throwable thrown = catchThrowable(() -> paths.assertHasNoParent(info, actual));
+    // THEN
+    then(thrown).isInstanceOf(UncheckedIOException.class)
+                .hasCause(exception);
   }
 
   @Test
   void should_fail_if_actual_has_parent() throws IOException {
-    final Path canonicalActual = mock(Path.class);
-    final Path parent = mock(Path.class);
-    when(actual.toRealPath()).thenReturn(canonicalActual);
-    when(canonicalActual.getParent()).thenReturn(parent);
-
-    Throwable error = catchThrowable(() -> paths.assertHasNoParent(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveNoParent(actual));
+    // GIVEN
+    Path actual = createFile(tempDir.resolve("actual")).toRealPath();
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertHasNoParent(info, actual));
+    // THEN
+    then(error).hasMessage(shouldHaveNoParent(actual).create());
   }
 
   @Test
-  void should_succeed_if_actual_has_no_parent() throws IOException {
-    final Path canonicalActual = mock(Path.class);
-    when(actual.toRealPath()).thenReturn(canonicalActual);
-    // This is the default, but let's make that clear
-    when(canonicalActual.getParent()).thenReturn(null);
-
+  void should_pass_if_actual_has_no_parent() {
+    // GIVEN
+    Path actual = tempDir.getRoot();
+    // WHEN/THEN
     paths.assertHasNoParent(info, actual);
   }
+
+  @Test
+  void should_pass_if_actual_is_not_canonical() throws IOException {
+    // GIVEN
+    Path root = tempDir.getRoot();
+    Path actual = createSymbolicLink(tempDir.resolve("actual"), root);
+    // WHEN/THEN
+    paths.assertHasNoParent(info, actual);
+  }
+
 }

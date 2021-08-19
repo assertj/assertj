@@ -21,7 +21,6 @@ import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThr
 import java.time.LocalDateTime;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -30,7 +29,6 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-@DisplayName("LocalDateTimeAssert isNotIn")
 class LocalDateTimeAssert_isNotIn_Test extends LocalDateTimeAssertBaseTest {
 
   @Test

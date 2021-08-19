@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import org.assertj.core.api.Condition;
-import org.assertj.core.condition.AllOf;
+import org.assertj.core.condition.Join;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value satisfies a <code>{@link Condition}</code>
@@ -32,7 +32,7 @@ public class ShouldHave extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static <T> ErrorMessageFactory shouldHave(T actual, Condition<? super T> condition) {
-    if (condition instanceof AllOf) return new ShouldHave(actual, (AllOf<? super T>) condition);
+    if (condition instanceof Join) return new ShouldHave(actual, (Join<? super T>) condition);
     return new ShouldHave(actual, condition);
   }
 
@@ -40,12 +40,12 @@ public class ShouldHave extends BasicErrorMessageFactory {
     super("%nExpecting actual:%n  %s%nto have %s", actual, condition);
   }
 
-  private <T> ShouldHave(T actual, AllOf<? super T> allOf) {
+  private <T> ShouldHave(T actual, Join<? super T> join) {
     super("%n" +
           "Expecting actual:%n" +
           "  %s%n" +
           // use concatenation to avoid the string to be double quoted later on
-          "to have:%n" + allOf.conditionDescriptionWithStatus(actual),
+          "to have:%n" + join.conditionDescriptionWithStatus(actual),
           actual);
   }
 }

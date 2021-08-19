@@ -24,11 +24,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeoutException;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("FutureAssert failsWithin")
-class CompletableFutureAssert_failsWithin_Test extends AbstractFutureTest{
+class CompletableFutureAssert_failsWithin_Test extends AbstractFutureTest {
 
   private static final Duration ONE_SECOND = Duration.ofSeconds(1);
 
@@ -51,7 +49,7 @@ class CompletableFutureAssert_failsWithin_Test extends AbstractFutureTest{
   @Test
   void should_allow_assertion_on_future_exception_when_future_did_not_complete_within_timeout_Duration() {
     // GIVEN
-    CompletableFuture<Void> future = futureCompletingAfter(ONE_SECOND,executorService);
+    CompletableFuture<Void> future = futureCompletingAfter(ONE_SECOND, executorService);
     // WHEN/THEN
     assertThat(future).failsWithin(Duration.ofMillis(50))
                       .withThrowableOfType(TimeoutException.class)

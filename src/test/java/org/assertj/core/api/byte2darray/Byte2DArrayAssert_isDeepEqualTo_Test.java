@@ -23,7 +23,6 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.Byte2DArrayAssert;
 import org.assertj.core.error.ErrorMessageFactory;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -31,7 +30,6 @@ import org.junit.jupiter.api.Test;
  *
  * @author Maciej Wajcht
  */
-@DisplayName("Byte2DArrayAssert isDeepEqualTo")
 class Byte2DArrayAssert_isDeepEqualTo_Test {
 
   @Test

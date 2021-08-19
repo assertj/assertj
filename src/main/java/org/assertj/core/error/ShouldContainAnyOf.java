@@ -13,9 +13,16 @@
 package org.assertj.core.error;
 
 import org.assertj.core.internal.ComparisonStrategy;
-import org.assertj.core.internal.StandardComparisonStrategy;
 
 public class ShouldContainAnyOf extends BasicErrorMessageFactory {
+
+  private static final String DEFAULT_FORMAT = "%nExpecting actual:%n" +
+                                              "  %s%n" +
+                                              "to contain at least one of the following elements:%n" +
+                                              "  %s%n" +
+                                              "but none were found";
+
+  private static final String FORMAT_WITH_COMPARISON_STRATEGY = DEFAULT_FORMAT + " %s";
 
   public static ErrorMessageFactory shouldContainAnyOf(Object actual, Object expected,
                                                        ComparisonStrategy comparisonStrategy) {
@@ -23,16 +30,15 @@ public class ShouldContainAnyOf extends BasicErrorMessageFactory {
   }
 
   public static ErrorMessageFactory shouldContainAnyOf(Object actual, Object expected) {
-    return shouldContainAnyOf(actual, expected, StandardComparisonStrategy.instance());
+    return new ShouldContainAnyOf(actual, expected);
   }
 
   private ShouldContainAnyOf(Object actual, Object expected, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting actual:%n" +
-          "  %s%n" +
-          "to contain at least one of the following elements:%n" +
-          "  %s%n" +
-          "but none were found %s",
-          actual, expected, comparisonStrategy);
+    super(FORMAT_WITH_COMPARISON_STRATEGY, actual, expected, comparisonStrategy);
+  }
+
+  private ShouldContainAnyOf(Object actual, Object expected) {
+    super(DEFAULT_FORMAT, actual, expected);
   }
 
 }

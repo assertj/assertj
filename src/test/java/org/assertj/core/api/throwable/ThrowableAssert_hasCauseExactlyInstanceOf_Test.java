@@ -18,14 +18,12 @@ import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.api.ThrowableAssertBaseTest;
 
 /**
- * Tests for {@link ThrowableAssert#hasCauseExactlyInstanceOf(Class)}.
- * 
  * @author Jean-Christophe Gay
  */
 class ThrowableAssert_hasCauseExactlyInstanceOf_Test extends ThrowableAssertBaseTest {
 
   @Override
-  protected ThrowableAssert invoke_api_method() {
+  protected ThrowableAssert<Throwable> invoke_api_method() {
     return assertions.hasCauseExactlyInstanceOf(Exception.class);
   }
 

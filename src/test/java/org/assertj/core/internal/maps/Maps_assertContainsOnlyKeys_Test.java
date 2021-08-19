@@ -47,7 +47,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Maps;
 import org.assertj.core.internal.MapsBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -61,7 +60,6 @@ import com.google.common.collect.ImmutableMap;
  *
  * @author Christopher Arnott
  */
-@DisplayName("Maps assertContainsOnlyKeys(Object[])")
 class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
 
   private static final Supplier<Map<String, String>> CASE_INSENSITIVE_TREE_MAP = () -> new TreeMap<>(CASE_INSENSITIVE_ORDER);

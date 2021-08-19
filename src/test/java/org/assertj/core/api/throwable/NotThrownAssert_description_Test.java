@@ -25,11 +25,9 @@ import org.assertj.core.api.NotThrownAssert;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-@DisplayName("NotThrownAssert description")
 class NotThrownAssert_description_Test {
 
   @BeforeAll

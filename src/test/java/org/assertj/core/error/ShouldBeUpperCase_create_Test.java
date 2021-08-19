@@ -21,8 +21,6 @@ import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link ShouldBeUpperCase#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
- *
  * @author Alex Ruiz
  */
 class ShouldBeUpperCase_create_Test {
@@ -42,4 +40,5 @@ class ShouldBeUpperCase_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %nExpecting \"abc\" to be uppercase"));
   }
+
 }

@@ -15,6 +15,9 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value have certain size failed.
@@ -24,6 +27,13 @@ import java.io.File;
 public class ShouldHaveSize extends BasicErrorMessageFactory {
 
   private static final String SHOULD_HAVE_FILE_SIZE = "%nExpecting file%n"
+                                                      + "  %s%n"
+                                                      + "to have a size of:%n"
+                                                      + "  %s bytes%n"
+                                                      + "but had:%n"
+                                                      + "  %s bytes";
+
+  private static final String SHOULD_HAVE_PATH_SIZE = "%nExpecting path%n"
                                                       + "  %s%n"
                                                       + "to have a size of:%n"
                                                       + "  %s bytes%n"
@@ -80,6 +90,21 @@ public class ShouldHaveSize extends BasicErrorMessageFactory {
 
   private ShouldHaveSize(File actual, long expectedSize) {
     super(SHOULD_HAVE_FILE_SIZE, actual, expectedSize, actual.length());
+  }
+
+  /**
+   * Creates a new <code>{@link ShouldHaveSize}</code> for Path file size
+   * @param actual The actual path file in the failed assertion
+   * @param expectedSize The expected size of the path file
+   * @return the created {@code ErrorMessageFactory}
+   * @throws IOException if an I/O error occurs
+   */
+  public static ErrorMessageFactory shouldHaveSize(Path actual, long expectedSize) throws IOException {
+    return new ShouldHaveSize(actual, expectedSize);
+  }
+
+  private ShouldHaveSize(Path actual, long expectedSize) throws IOException {
+    super(SHOULD_HAVE_PATH_SIZE, actual, expectedSize, Files.size(actual));
   }
 
 }

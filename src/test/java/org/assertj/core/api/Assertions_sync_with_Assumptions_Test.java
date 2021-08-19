@@ -25,17 +25,8 @@ class Assertions_sync_with_Assumptions_Test extends BaseAssertionsTest {
     Method[] assertThatMethods = findMethodsWithName(Assertions.class, "assertThat", SPECIAL_IGNORED_RETURN_TYPES);
     Method[] assumeThatMethods = findMethodsWithName(Assumptions.class, "assumeThat");
 
-    assertThat(assertThatMethods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_METHOD_NAME)
+    assertThat(assertThatMethods).usingElementComparator(IGNORING_DECLARING_CLASS_RETURN_TYPE_AND_METHOD_NAME)
                                  .containsExactlyInAnyOrder(assumeThatMethods);
-  }
-
-  @Test
-  void standard_assumptions_and_with_assumptions_should_have_the_same_assertions_methods() {
-    Method[] assumptionsMethods = findMethodsWithName(Assumptions.class, "assumeThat");
-    Method[] withAssumptionsMethods = findMethodsWithName(WithAssumptions.class, "assumeThat");
-
-    assertThat(withAssumptionsMethods).usingElementComparator(IGNORING_DECLARING_CLASS_ONLY)
-                                      .containsExactlyInAnyOrder(assumptionsMethods);
   }
 
 }

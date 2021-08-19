@@ -16,14 +16,12 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Float2DArrayAssert;
 import org.assertj.core.api.Float2DArrayAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 
 /**
  * Tests for <code>{@link Float2DArrayAssert#isNotEmpty()}</code>.
  * 
  * @author Maciej Wajcht
  */
-@DisplayName("Float2DArrayAssert isNotEmpty")
 class Float2DArrayAssert_isNotEmpty_Test extends Float2DArrayAssertBaseTest {
 
   @Override

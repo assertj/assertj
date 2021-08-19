@@ -17,16 +17,13 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.api.ThrowableAssertBaseTest;
 
-
 /**
- * Tests for <code>{@link ThrowableAssert#hasStackTraceContaining(String)}</code>.
- * 
  * @author Daniel Zlotin
  */
 class ThrowableAssert_hasStackTraceContaining_Test extends ThrowableAssertBaseTest {
 
   @Override
-  protected ThrowableAssert invoke_api_method() {
+  protected ThrowableAssert<Throwable> invoke_api_method() {
     return assertions.hasStackTraceContaining("able");
   }
 
@@ -34,5 +31,5 @@ class ThrowableAssert_hasStackTraceContaining_Test extends ThrowableAssertBaseTe
   protected void verify_internal_effects() {
     verify(throwables).assertHasStackTraceContaining(getInfo(assertions), getActual(assertions), "able");
   }
-  
+
 }

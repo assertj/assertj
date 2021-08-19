@@ -16,11 +16,14 @@ import static java.lang.String.format;
 import static java.lang.System.lineSeparator;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenNullPointerException;
+import static org.assertj.core.condition.AllOf.allOf;
 import static org.assertj.core.condition.MappedCondition.mappedCondition;
 
 import java.util.Optional;
+import java.util.function.Function;
 
 import org.assertj.core.api.Condition;
+import org.assertj.core.description.Description;
 import org.junit.jupiter.api.Test;
 
 class MappedConditionTest {
@@ -52,6 +55,16 @@ class MappedConditionTest {
                                                                  "   to:   <String> " + FOO + "%n" +
                                                                  "   then checked:%n" +
                                                                  "      " + INNER_CONDITION_DESCRIPTION);
+
+  private final static String FOO_CONDITION_DESCRIPTION_STATUS = format("[✗] mapped%n" +
+                                                                        "   using: ::toString%n" +
+                                                                        "   from: <StringBuilder> a -%n" +
+                                                                        "   to:   <String> a -%n" +
+                                                                        "   then checked:%n" +
+                                                                        "   [✗] all of:[%n" +
+                                                                        "      [✓] has -,%n" +
+                                                                        "      [✗] is longer than 4%n" +
+                                                                        "   ]%n");
 
   @Test
   void mappedCondition_withDescription_works() {
@@ -113,6 +126,22 @@ class MappedConditionTest {
   }
 
   @Test
+  void mappedCondition_should_handle_null_values_in_description() {
+    // GIVEN
+    Condition<Object> isNull = new Condition<>(o -> o == null, "is null");
+    MappedCondition<Object, Object> mapped = mappedCondition(Function.identity(), isNull, "identity");
+    // WHEN
+    mapped.matches(null);
+    // THEN
+    then(mapped).hasToString(format("mapped%n" +
+                                    "   using: identity%n" +
+                                    "   from: null%n" +
+                                    "   to:   null%n" +
+                                    "   then checked:%n" +
+                                    "      is null   "));
+  }
+
+  @Test
   void example() {
     // GIVEN
     Condition<String> hasLineSeparator = new Condition<>(text -> text.contains(lineSeparator()), "has lineSeparator");
@@ -122,5 +151,19 @@ class MappedConditionTest {
     boolean matches = mappedCondition.matches(optionalString);
     // THEN
     then(matches).isTrue();
+  }
+
+  @Test
+  void mappedCondition_conditionDescriptionWithStatus_works() {
+    // GIVEN
+    Condition<String> hasDash = new Condition<>(text -> text.contains("-"), "has -");
+    Condition<String> isLonger = new Condition<>(text -> text.length() > 4, "is longer than 4");
+    Condition<StringBuilder> mappedCondition = mappedCondition(StringBuilder::toString, allOf(hasDash, isLonger), "::toString");
+    StringBuilder theString = new StringBuilder("a -");
+    // WHEN
+    mappedCondition.matches(theString);
+    Description conditionDescriptionWithStatus = mappedCondition.conditionDescriptionWithStatus(theString);
+    // THEN
+    then(conditionDescriptionWithStatus.value()).isEqualTo(FOO_CONDITION_DESCRIPTION_STATUS);
   }
 }

@@ -16,7 +16,6 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Long2DArrayAssert;
 import org.assertj.core.api.Long2DArrayAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -24,7 +23,6 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Maciej Wajcht
  */
-@DisplayName("Long2DArrayAssert isEmpty")
 class Long2DArrayAssert_isEmpty_Test extends Long2DArrayAssertBaseTest {
 
   @Override

@@ -19,10 +19,8 @@ import static org.assertj.core.util.introspection.Introspection.getPropertyGette
 import java.lang.reflect.Method;
 
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("Introspection getProperty")
 class Introspection_getProperty_Test {
 
   private final Employee judy = new Employee(100000.0, 31);

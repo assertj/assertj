@@ -20,7 +20,6 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.BooleanArrayAssert;
 import org.assertj.core.api.BooleanArrayAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -28,7 +27,6 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Stefano Cordio
  */
-@DisplayName("BooleanArrayAssert endsWith(Boolean[])")
 class BooleanArrayAssert_endsWith_with_Boolean_array_Test extends BooleanArrayAssertBaseTest {
 
   @Test

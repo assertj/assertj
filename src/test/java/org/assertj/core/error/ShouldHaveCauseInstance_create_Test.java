@@ -12,11 +12,12 @@
  */
 package org.assertj.core.error;
 
-import org.junit.jupiter.api.Test;
-
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveCauseInstance.shouldHaveCauseInstance;
+import static org.assertj.core.util.Throwables.getStackTrace;
+
+import org.junit.jupiter.api.Test;
 
 class ShouldHaveCauseInstance_create_Test {
 
@@ -28,8 +29,27 @@ class ShouldHaveCauseInstance_create_Test {
     // WHEN
     String message = shouldHaveCauseInstance(actual, expected.getClass()).create();
     // THEN
+    then(message).isEqualTo("%nExpecting a throwable with cause being an instance of:%n" +
+                            "  %s%n" +
+                            "but current throwable has no cause.", expected);
+  }
+
+  @Test
+  void should_create_error_message_for_wrong_cause() {
+    // GIVEN
+    Throwable expected = new IllegalStateException();
+    Throwable cause = new IllegalAccessError("oops...% %s %n");
+    Throwable actual = new RuntimeException(cause);
+    // WHEN
+    String message = shouldHaveCauseInstance(actual, expected.getClass()).create();
+    // THEN
     then(message).isEqualTo(format("%nExpecting a throwable with cause being an instance of:%n" +
-      "  %s%n" +
-      "but current throwable has no cause.", expected));
+                                   "  java.lang.IllegalStateException%n" +
+                                   "but was an instance of:%n" +
+                                   "  java.lang.IllegalAccessError%n" +
+                                   "Throwable that failed the check:%n" +
+                                   "%n" +
+                                   "%s", getStackTrace(actual)));
+
   }
 }

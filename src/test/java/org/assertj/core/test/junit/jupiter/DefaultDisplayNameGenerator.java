@@ -10,27 +10,23 @@
  *
  * Copyright 2012-2021 the original author or authors.
  */
-package org.assertj.core.api.file;
+package org.assertj.core.test.junit.jupiter;
 
-import org.assertj.core.api.FileAssert;
-import org.assertj.core.api.FileAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGenerator;
 
-import static org.mockito.Mockito.verify;
+public class DefaultDisplayNameGenerator extends DisplayNameGenerator.ReplaceUnderscores {
 
-/**
- * Tests for <code>{@link FileAssert#isEmpty()}</code>.
- */
-@DisplayName("FileAssert isEmptyFile")
-class FileAssert_isEmptyFile_Test extends FileAssertBaseTest {
+  private static final String TEST_SUFFIX = " Test";
 
   @Override
-  protected FileAssert invoke_api_method() {
-    return assertions.isEmpty();
+  public String generateDisplayNameForClass(Class<?> testClass) {
+    return removeTestSuffixIfExists(super.generateDisplayNameForClass(testClass));
   }
 
-  @Override
-  protected void verify_internal_effects() {
-    verify(files).assertIsEmptyFile(getInfo(assertions), getActual(assertions));
+  private static String removeTestSuffixIfExists(String displayName) {
+    return displayName.endsWith(TEST_SUFFIX)
+        ? displayName.substring(0, displayName.lastIndexOf(TEST_SUFFIX))
+        : displayName;
   }
+
 }

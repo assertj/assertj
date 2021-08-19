@@ -19,10 +19,8 @@ import static org.assertj.core.error.ShouldHaveDimensions.shouldHaveSize;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.description.TextDescription;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("ShouldHaveDimensions create")
 class ShouldHaveDimensions_create_Test {
 
   @Test

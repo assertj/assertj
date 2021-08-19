@@ -1,0 +1,63 @@
+name: Binary Compatibility
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  japicmp:
+    name: Verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: (PR only) Checkout `${{ github.base_ref }}` into subfolder
+        if: github.base_ref != null
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.base_ref }}
+          path: assertj-core.${{ github.base_ref }}
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: 11
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: (`main` only) Compare with the latest release
+        if: github.base_ref == null
+        run: >
+          ./mvnw -V --no-transfer-progress -e package japicmp:cmp
+          -DskipTests
+          -Djapicmp.breakBuildOnBinaryIncompatibleModifications=true
+
+      - name: (PR only) Build `${{ github.base_ref }}`
+        if: github.base_ref != null
+        run: ./mvnw -V --no-transfer-progress -e -f assertj-core.${{ github.base_ref }}/pom.xml package -DskipTests
+      - name: (PR only) Compare `${{ github.head_ref }}` with `${{ github.base_ref }}`
+        if: github.base_ref != null
+        run: >
+          ./mvnw -V --no-transfer-progress -e -Pjapicmp-branch package japicmp:cmp
+          -DskipTests
+          -Djapicmp.breakBuildOnBinaryIncompatibleModifications=true
+          -Djapicmp.oldVersion.basedir=assertj-core.${{ github.base_ref }}
+
+      - name: Print result
+        if: success() || failure()
+        run: cat target/japicmp/default-cli.diff
+      - name: Upload reports
+        if: success() || failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: japicmp
+          path: target/japicmp
+          if-no-files-found: error
