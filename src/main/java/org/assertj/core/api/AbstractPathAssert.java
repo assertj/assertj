@@ -1895,7 +1895,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
     return internalContent(charset);
   }
 
-  // this method was introduced to avoid to avoid double proxying in soft assertions for content()
+  // this method was introduced to avoid double proxying in soft assertions for content()
   private AbstractStringAssert<?> internalContent(Charset charset) {
     paths.assertIsReadable(info, actual);
     String pathContent = readPath(charset);
@@ -1909,4 +1909,31 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
       throw new UncheckedIOException(format("Failed to read %s content with %s charset", actual, charset), e);
     }
   }
+
+  /**
+   * Verifies that the actual {@code Path} has given extension.
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> Path path = Paths.get(&quot;file.java&quot;);
+   *
+   * // assertion will pass
+   * assertThat(path).hasExtension(&quot;java&quot;);
+   *
+   * // assertion will fail
+   * assertThat(path).hasExtension(&quot;png&quot;);</code></pre>
+   *
+   * @param expected the expected extension, without the {@code '.'}.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the expected extension is {@code null}.
+   * @throws AssertionError if the actual {@code Path} is {@code null}.
+   * @throws AssertionError if the actual {@code Path} is not a regular file.
+   * @throws AssertionError if the actual {@code Path} does not have the expected extension.
+   * @since 3.21.0
+   */
+  public SELF hasExtension(String expected) {
+    paths.assertHasExtension(info, actual, expected);
+    return myself;
+  }
+
 }

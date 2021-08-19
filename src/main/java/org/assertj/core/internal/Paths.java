@@ -38,6 +38,7 @@ import static org.assertj.core.error.ShouldExist.shouldExistNoFollowLinks;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
 import static org.assertj.core.error.ShouldHaveDigest.shouldHaveDigest;
+import static org.assertj.core.error.ShouldHaveExtension.shouldHaveExtension;
 import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
@@ -61,6 +62,7 @@ import java.nio.file.PathMatcher;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -93,8 +95,7 @@ public class Paths {
     return INSTANCE;
   }
 
-  private Paths() {
-  }
+  private Paths() {}
 
   public void assertIsReadable(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
@@ -468,6 +469,21 @@ public class Paths {
     } catch (IOException e) {
       throw new UncheckedIOException(e);
     }
+  }
+
+  public void assertHasExtension(AssertionInfo info, Path actual, String expected) {
+    requireNonNull(expected, "The expected extension should not be null.");
+    assertIsRegularFile(info, actual);
+    String extension = getExtension(actual).orElseThrow(() -> failures.failure(info, shouldHaveExtension(actual, expected)));
+    if (!expected.equals(extension)) throw failures.failure(info, shouldHaveExtension(actual, extension, expected));
+  }
+
+  private static Optional<String> getExtension(Path path) {
+    String fileName = path.getFileName().toString();
+    int dotAt = fileName.lastIndexOf('.');
+    if (dotAt == -1) return Optional.empty();
+    String extension = fileName.substring(dotAt + 1);
+    return extension.equals("") ? Optional.empty() : Optional.of(extension);
   }
 
 }
