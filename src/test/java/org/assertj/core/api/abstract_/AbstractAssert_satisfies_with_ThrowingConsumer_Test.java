@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenNullPointerException;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.ThrowingConsumerFactory.throwingConsumer;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -115,9 +116,4 @@ class AbstractAssert_satisfies_with_ThrowingConsumer_Test {
                               .withMessage("The Consumer<T> expressing the assertions requirements must not be null");
   }
 
-  private static ThrowingConsumer<String> throwingConsumer(Throwable throwable) {
-    return value -> {
-      throw throwable;
-    };
-  }
 }
