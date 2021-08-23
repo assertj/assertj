@@ -28,9 +28,8 @@ class FileAssert_size_Test {
 
     assertThat(file).size()
       .isGreaterThan(4L)
-      .isLessThan(8L)
-      .isEqualTo(7L)
-      .isBetween(1L, 7L)
+      .isLessThan(20L)
+      .isBetween(1L, 10L)
       .returnToFile().hasContent("actual");
   }
 
