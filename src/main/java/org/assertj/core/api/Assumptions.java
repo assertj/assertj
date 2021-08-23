@@ -1386,6 +1386,7 @@ public class Assumptions {
     if (assertion instanceof DurationAssert) return asAssumption(DurationAssert.class, Duration.class, actual);
     if (assertion instanceof FactoryBasedNavigableListAssert) return asAssumption(ListAssert.class, List.class, actual);
     if (assertion instanceof FileAssert) return asAssumption(FileAssert.class, File.class, actual);
+    if (assertion instanceof FileSizeAssert) return asFileSizeAssumption(assertion);
     if (assertion instanceof FloatAssert) return asAssumption(FloatAssert.class, Float.class, actual);
     if (assertion instanceof Float2DArrayAssert) return asAssumption(Float2DArrayAssert.class, float[][].class, actual);
     if (assertion instanceof FloatArrayAssert) return asAssumption(FloatArrayAssert.class, float[].class, actual);
@@ -1453,5 +1454,11 @@ public class Assumptions {
     IterableSizeAssert<?> iterableSizeAssert = (IterableSizeAssert<?>) assertion;
     Class<?>[] constructorTypes = array(AbstractIterableAssert.class, Integer.class);
     return asAssumption(IterableSizeAssert.class, constructorTypes, iterableSizeAssert.returnToIterable(), assertion.actual);
+  }
+
+  private static AbstractAssert<?, ?> asFileSizeAssumption(AbstractAssert<?, ?> assertion) {
+    FileSizeAssert<?> fileSizeAssert = (FileSizeAssert<?>) assertion;
+    Class<?>[] constructorTypes = array(AbstractFileAssert.class);
+    return asAssumption(FileSizeAssert.class, constructorTypes, fileSizeAssert.returnToFile());
   }
 }

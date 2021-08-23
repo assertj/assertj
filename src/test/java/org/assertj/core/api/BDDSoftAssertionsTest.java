@@ -1893,4 +1893,25 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
                                   .containsExactly("[content()] error message",
                                                    "[content(UTF_8)] error message");
   }
+
+  @Test
+  void file_soft_assertions_should_work_with_navigation_methods() {
+    // GIVEN
+    File file = new File("src/test/resources/actual_file.txt");
+    // WHEN
+    softly.then(file)
+          .overridingErrorMessage("error message")
+          .as("size()")
+          .size()
+          .isGreaterThan(0)
+          .isLessThan(1)
+          .returnToFile()
+          .as("content()")
+          .content()
+          .startsWith("actual")
+          .startsWith("123");
+    // THEN
+    then(softly.errorsCollected()).extracting(Throwable::getMessage)
+                                  .containsExactly("[size()] error message", "[content()] error message");
+  }
 }

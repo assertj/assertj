@@ -130,6 +130,18 @@ class SoftProxies {
                                               () -> generateProxyClass(assertClass));
   }
 
+  FileSizeAssert<?> createFileSizeAssertProxy(FileSizeAssert<?> fileSizeAssert) {
+    Class<?> proxyClass = createSoftAssertionProxyClass(FileSizeAssert.class);
+    try {
+      Constructor<?> constructor = proxyClass.getConstructor(AbstractFileAssert.class);
+      FileSizeAssert<?> proxiedAssert = (FileSizeAssert<?>) constructor.newInstance(fileSizeAssert.returnToFile());
+      ((AssertJProxySetup) proxiedAssert).assertj$setup(new ProxifyMethodChangingTheObjectUnderTest(this), collector);
+      return proxiedAssert;
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   IterableSizeAssert<?> createIterableSizeAssertProxy(IterableSizeAssert<?> iterableSizeAssert) {
     Class<?> proxyClass = createSoftAssertionProxyClass(IterableSizeAssert.class);
     try {
