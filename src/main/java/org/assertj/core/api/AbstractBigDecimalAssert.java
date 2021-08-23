@@ -19,6 +19,7 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.Integers;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -233,8 +234,8 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
-   * assertThat(new BigDecimal(&quot;8.0&quot;)).isEqualByComparingTo(&quot;8.0&quot;);
-   * // assertion will pass because 8.0 is equals to 8.00 using {@link BigDecimal#compareTo(Object)}
+   * assertThat(new BigDecimal(&quot;8.0&quot;)).isEqualByComparingTo(&quot;8.0&quot;); // TODO : REMOVE "//" LATER
+   * // assertion will pass because 8.0 is equals to 8.00 using {@link BigDecimal#//compareTo(Object)}
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isEqualByComparingTo(&quot;8.00&quot;);
    *
    * // assertion will fail
@@ -261,6 +262,25 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    */
   public SELF isNotEqualByComparingTo(String notExpected) {
     return isNotEqualByComparingTo(new BigDecimal(notExpected));
+  }
+
+  /**
+   * Verifies the scale of the BigDecimal passed is equal to the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new BigDecimal(&quot;8.00&quot;)).isScaleEqualTo(2);
+   * assertThat(new BigDecimal(&quot;8.00&quot;).setScale(4)).isScaleEqualTo(4);
+   *
+   * // assertion will fail
+   * assertThat(new BigDecimal(&quot;8.00&quot;)).isScaleEqualTo(3);
+   * assertThat(new BigDecimal(&quot;8.00&quot;).setScale(4)).isScaleEqualTo(2);</code></pre>
+   * @param expected the expected scale value..
+   * @return {@code this} assertion object.
+   */
+  public SELF isScaleEqualTo(int expected) {
+    bigDecimals.assertEqual(info, actual.scale(), expected);
+    return myself;
   }
 
   @Override
