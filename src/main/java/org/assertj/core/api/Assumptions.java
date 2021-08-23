@@ -1341,6 +1341,7 @@ public class Assumptions {
     if (assertion instanceof MapAssert) return asAssumption(MapAssert.class, Map.class, actual);
     if (assertion instanceof AbstractObjectArrayAssert) return asAssumption(ObjectArrayAssert.class, Object[].class, actual);
     if (assertion instanceof IterableSizeAssert) return asIterableSizeAssumption(assertion);
+    if (assertion instanceof FileSizeAssert) return asFileSizeAssumption(assertion);
     if (assertion instanceof MapSizeAssert) return asMapSizeAssumption(assertion);
     if (assertion instanceof ObjectAssert) return asAssumption(ObjectAssert.class, Object.class, actual);
     if (assertion instanceof RecursiveComparisonAssert) return asRecursiveComparisonAssumption(assertion);
@@ -1366,5 +1367,11 @@ public class Assumptions {
     IterableSizeAssert<?> iterableSizeAssert = (IterableSizeAssert<?>) assertion;
     Class<?>[] constructorTypes = array(AbstractIterableAssert.class, Integer.class);
     return asAssumption(IterableSizeAssert.class, constructorTypes, iterableSizeAssert.returnToIterable(), assertion.actual);
+  }
+
+  private static AbstractAssert<?, ?> asFileSizeAssumption(AbstractAssert<?, ?> assertion) {
+    FileSizeAssert<?> fileSizeAssert = (FileSizeAssert<?>) assertion;
+    Class<?>[] constructorTypes = array(AbstractIterableAssert.class, Long.class);
+    return asAssumption(FileSizeAssert.class, constructorTypes, fileSizeAssert.returnToFile(), assertion.actual);
   }
 }
