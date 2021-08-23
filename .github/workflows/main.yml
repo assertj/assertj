@@ -18,13 +18,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 11
-      - name: Cache local Maven repository
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+          cache: 'maven'
       - name: Test
         run: ./mvnw -V --no-transfer-progress -e verify javadoc:javadoc
 
@@ -41,13 +35,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 11
-      - name: Cache local Maven repository
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+          cache: 'maven'
       - name: Test with Sonar
         run: >
           ./mvnw -V --no-transfer-progress -e verify javadoc:javadoc sonar:sonar

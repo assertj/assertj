@@ -28,18 +28,12 @@ jobs:
           # important to set a fetch depth of 2. By default the checkout action make no history available
           fetch-depth: 2
 
-      - name: Cache local Maven repository
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
       - name: Setup Java
         uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
           java-version: 11
+          cache: 'maven'
       - name: run pitest
         # pitest has been bound to a profile called pitest for normal running
         # we add config to analyse only changes made within a PR and treat surviving mutants as check errors
