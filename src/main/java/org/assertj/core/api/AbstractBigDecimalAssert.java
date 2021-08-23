@@ -234,8 +234,8 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
-   * assertThat(new BigDecimal(&quot;8.0&quot;)).isEqualByComparingTo(&quot;8.0&quot;); // TODO : REMOVE "//" LATER
-   * // assertion will pass because 8.0 is equals to 8.00 using {@link BigDecimal#//compareTo(Object)}
+   * assertThat(new BigDecimal(&quot;8.0&quot;)).isEqualByComparingTo(&quot;8.0&quot;);
+   * // assertion will pass because 8.0 is equals to 8.00 using {@link BigDecimal#compareTo(Object)}
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isEqualByComparingTo(&quot;8.00&quot;);
    *
    * // assertion will fail
