@@ -51,17 +51,17 @@ class Classes_assertHasMethods_Test extends ClassesBaseTest {
   @Test
   void should_fail_if_no_methods_are_expected_and_methods_are_available() {
     SortedSet<String> expectedMethods = newTreeSet("publicMethod",
-                                                 "protectedMethod",
-                                                 "privateMethod",
-                                                 "finalize",
-                                                 "wait",
-                                                 "equals",
-                                                 "toString",
-                                                 "hashCode",
-                                                 "getClass",
-                                                 "clone",
-                                                 "notify",
-                                                 "notifyAll");
+                                                   "protectedMethod",
+                                                   "privateMethod",
+                                                   "finalize",
+                                                   "wait",
+                                                   "equals",
+                                                   "toString",
+                                                   "hashCode",
+                                                   "getClass",
+                                                   "clone",
+                                                   "notify",
+                                                   "notifyAll");
     if (isJavaVersionBefore14()) {
       expectedMethods.add("registerNatives");
     }
@@ -98,4 +98,39 @@ class Classes_assertHasMethods_Test extends ClassesBaseTest {
     BigDecimal javaVersion = new BigDecimal(System.getProperty("java.specification.version"));
     return javaVersion.compareTo(new BigDecimal("14")) < 0;
   }
+
+  @Test
+  void should_pass_with_direct_default_method() {
+    // GIVEN
+    Class<?> actual = ClassWithDirectDefaultMethod.class;
+    String[] expected = { "method" };
+    // WHEN/THEN
+    classes.assertHasMethods(someInfo(), actual, expected);
+  }
+
+  private static class ClassWithDirectDefaultMethod implements InterfaceWithDefaultMethod {
+  }
+
+  private interface InterfaceWithDefaultMethod {
+
+    @SuppressWarnings("unused")
+    default void method() {}
+
+  }
+
+  @Test
+  void should_pass_with_indirect_default_method() {
+    // GIVEN
+    Class<?> actual = ClassWithIndirectDefaultMethod.class;
+    String[] expected = { "method" };
+    // WHEN/THEN
+    classes.assertHasMethods(someInfo(), actual, expected);
+  }
+
+  private static class ClassWithIndirectDefaultMethod implements InterfaceInheritingDefaultMethod {
+  }
+
+  private interface InterfaceInheritingDefaultMethod extends InterfaceWithDefaultMethod {
+  }
+
 }

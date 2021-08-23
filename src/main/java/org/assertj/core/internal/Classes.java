@@ -431,7 +431,7 @@ public class Classes {
    * @param actual the "actual" {@code Class}.
    * @param methods the methods who must be present in the class.
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of the methods.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all the methods.
    */
   public void assertHasMethods(AssertionInfo info, Class<?> actual, String... methods) {
     assertNotNull(info, actual);
@@ -445,7 +445,7 @@ public class Classes {
    * @param actual the "actual" {@code Class}.
    * @param methods the methods who must be declared in the class.
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of the methods.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all the methods.
    */
   public void assertHasDeclaredMethods(AssertionInfo info, Class<?> actual, String... methods) {
     assertNotNull(info, actual);
@@ -476,7 +476,7 @@ public class Classes {
    * @param actual the "actual" {@code Class}.
    * @param methods the public methods who must be present in the class.
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of the public methods.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all the public methods.
    */
   public void assertHasPublicMethods(AssertionInfo info, Class<?> actual, String... methods) {
     assertNotNull(info, actual);
@@ -555,7 +555,10 @@ public class Classes {
     if (superclass != null) {
       allMethods.addAll(newLinkedHashSet(getAllMethods(superclass)));
     }
-    return allMethods.toArray(new Method[allMethods.size()]);
+    for (Class<?> anInterface : actual.getInterfaces()) {
+      allMethods.addAll(newLinkedHashSet(getAllMethods(anInterface)));
+    }
+    return allMethods.toArray(new Method[0]);
   }
 
   private static <M extends Member> Set<M> filterSyntheticMembers(M[] members) {
