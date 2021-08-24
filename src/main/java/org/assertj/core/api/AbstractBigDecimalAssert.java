@@ -20,6 +20,7 @@ import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Integers;
+import org.assertj.core.internal.Objects;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -269,16 +270,17 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
-   * assertThat(new BigDecimal(&quot;8.00&quot;)).isScaleEqualTo(2);
-   * assertThat(new BigDecimal(&quot;8.00&quot;).setScale(4)).isScaleEqualTo(4);
+   * assertThat(new BigDecimal(&quot;8.00&quot;)).hasScaleOf(2);
+   * assertThat(new BigDecimal(&quot;8.00&quot;).setScale(4)).hasScaleOf(4);
    *
    * // assertion will fail
-   * assertThat(new BigDecimal(&quot;8.00&quot;)).isScaleEqualTo(3);
-   * assertThat(new BigDecimal(&quot;8.00&quot;).setScale(4)).isScaleEqualTo(2);</code></pre>
+   * assertThat(new BigDecimal(&quot;8.00&quot;)).hasScaleOf(3);
+   * assertThat(new BigDecimal(&quot;8.00&quot;).setScale(4)).hasScaleOf(2);</code></pre>
    * @param expected the expected scale value..
    * @return {@code this} assertion object.
    */
-  public SELF isScaleEqualTo(int expected) {
+  public SELF hasScaleOf(int expected) {
+    isNotNull();
     bigDecimals.assertEqual(info, actual.scale(), expected);
     return myself;
   }
