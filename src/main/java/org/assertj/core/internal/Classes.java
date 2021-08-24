@@ -555,8 +555,8 @@ public class Classes {
     if (superclass != null) {
       allMethods.addAll(newLinkedHashSet(getAllMethods(superclass)));
     }
-    for (Class<?> anInterface : actual.getInterfaces()) {
-      allMethods.addAll(newLinkedHashSet(getAllMethods(anInterface)));
+    for (Class<?> superinterface : actual.getInterfaces()) {
+      allMethods.addAll(newLinkedHashSet(getAllMethods(superinterface)));
     }
     return allMethods.toArray(new Method[0]);
   }

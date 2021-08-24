@@ -100,15 +100,15 @@ class Classes_assertHasMethods_Test extends ClassesBaseTest {
   }
 
   @Test
-  void should_pass_with_direct_default_method() {
+  void should_pass_with_directly_inherited_default_method() {
     // GIVEN
-    Class<?> actual = ClassWithDirectDefaultMethod.class;
+    Class<?> actual = ClassWithDirectlyInheritedDefaultMethod.class;
     String[] expected = { "method" };
     // WHEN/THEN
     classes.assertHasMethods(someInfo(), actual, expected);
   }
 
-  private static class ClassWithDirectDefaultMethod implements InterfaceWithDefaultMethod {
+  private static class ClassWithDirectlyInheritedDefaultMethod implements InterfaceWithDefaultMethod {
   }
 
   private interface InterfaceWithDefaultMethod {
@@ -119,15 +119,15 @@ class Classes_assertHasMethods_Test extends ClassesBaseTest {
   }
 
   @Test
-  void should_pass_with_indirect_default_method() {
+  void should_pass_with_indirectly_inherited_default_method() {
     // GIVEN
-    Class<?> actual = ClassWithIndirectDefaultMethod.class;
+    Class<?> actual = ClassWithIndirectlyInheritedDefaultMethod.class;
     String[] expected = { "method" };
     // WHEN/THEN
     classes.assertHasMethods(someInfo(), actual, expected);
   }
 
-  private static class ClassWithIndirectDefaultMethod implements InterfaceInheritingDefaultMethod {
+  private static class ClassWithIndirectlyInheritedDefaultMethod implements InterfaceInheritingDefaultMethod {
   }
 
   private interface InterfaceInheritingDefaultMethod extends InterfaceWithDefaultMethod {
