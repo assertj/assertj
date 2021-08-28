@@ -28,6 +28,7 @@
   </issueManagement>
 
   <properties>
+    <argLine>-Dfile.encoding=${project.build.sourceEncoding}</argLine>
     <javadocAdditionalOptions>-html5 --allow-script-in-comments --no-module-directories</javadocAdditionalOptions>
     <byte-buddy.version>1.11.13</byte-buddy.version>
     <hamcrest.version>2.2</hamcrest.version>
@@ -337,11 +338,11 @@
           </execution>
         </executions>
       </plugin>
-      <!-- to get jacoco report we need to set argLine in surefire, without this snippet the jacoco argLine is lost -->
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <argLine>-Dfile.encoding=${project.build.sourceEncoding} ${argLine}</argLine>
+          <argLine>@{argLine}</argLine>
           <trimStackTrace>false</trimStackTrace>
           <excludes>
             <exclude>org/assertj/core/osgi/**</exclude>
@@ -536,50 +537,6 @@
           </execution>
         </executions>
       </plugin>
-      <!-- generate jacoco report -->
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <configuration>
-          <excludes>
-            <!-- exclude hamcrest as its classes are compiled in target/classes for an unknown reason related to hamcrest
-              dependency being optional -->
-            <exclude>**/*hamcrest*/**</exclude>
-          </excludes>
-        </configuration>
-        <!-- jacoco is executed in the prepare-package phase instead of the verify phase, it can not determine code coverage
-          of the unpacked shaded classes -->
-        <executions>
-          <execution>
-            <id>jacoco-report</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>report</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>default-check</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-            <configuration>
-              <rules>
-                <rule implementation="org.jacoco.maven.RuleConfiguration">
-                  <element>BUNDLE</element>
-                  <limits>
-                    <limit implementation="org.jacoco.report.check.Limit">
-                      <counter>CLASS</counter>
-                      <value>COVEREDRATIO</value>
-                      <minimum>0.98</minimum>
-                    </limit>
-                  </limits>
-                </rule>
-              </rules>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <groupId>net.alchim31.maven</groupId>
         <artifactId>yuicompressor-maven-plugin</artifactId>
@@ -744,9 +701,14 @@
         <jdk>[16,)</jdk>
       </activation>
       <properties>
-        <argLine>-Dnet.bytebuddy.experimental=true --add-opens=java.base/java.lang=ALL-UNNAMED
-          --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.math=ALL-UNNAMED
-          --add-opens=java.base/sun.nio.fs=ALL-UNNAMED</argLine>
+        <argLine>
+          -Dfile.encoding=${project.build.sourceEncoding}
+          -Dnet.bytebuddy.experimental=true
+          --add-opens=java.base/java.lang=ALL-UNNAMED
+          --add-opens=java.base/java.math=ALL-UNNAMED
+          --add-opens=java.base/java.util=ALL-UNNAMED
+          --add-opens=java.base/sun.nio.fs=ALL-UNNAMED
+        </argLine>
       </properties>
     </profile>
     <profile>
@@ -795,6 +757,56 @@
             </plugin>
           </plugins>
         </pluginManagement>
+      </build>
+    </profile>
+    <profile>
+      <id>coverage</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <configuration>
+              <excludes>
+                <!-- exclude hamcrest as its classes are compiled in target/classes for an unknown reason related to hamcrest
+                  dependency being optional -->
+                <exclude>**/*hamcrest*/**</exclude>
+              </excludes>
+            </configuration>
+            <!-- jacoco is executed in the prepare-package phase instead of the verify phase, it can not determine code coverage
+              of the unpacked shaded classes -->
+            <executions>
+              <execution>
+                <id>jacoco-report</id>
+                <phase>prepare-package</phase>
+                <goals>
+                  <goal>report</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>default-check</id>
+                <phase>prepare-package</phase>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+                <configuration>
+                  <rules>
+                    <rule implementation="org.jacoco.maven.RuleConfiguration">
+                      <element>BUNDLE</element>
+                      <limits>
+                        <limit implementation="org.jacoco.report.check.Limit">
+                          <counter>CLASS</counter>
+                          <value>COVEREDRATIO</value>
+                          <minimum>0.98</minimum>
+                        </limit>
+                      </limits>
+                    </rule>
+                  </rules>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
       </build>
     </profile>
   </profiles>
