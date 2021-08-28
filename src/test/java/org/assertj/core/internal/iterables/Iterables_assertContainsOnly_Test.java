@@ -13,18 +13,17 @@
 package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.internal.iterables.SinglyIterableFactory.createSinglyIterable;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
@@ -61,7 +60,7 @@ class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
 
   @Test
   void should_pass_if_actual_contains_given_values_only_more_than_once() {
-    actual.addAll(newArrayList("Luke", "Luke"));
+    actual.addAll(list("Luke", "Luke"));
     iterables.assertContainsOnly(someInfo(), actual, array("Luke", "Yoda", "Leia"));
   }
 
@@ -73,62 +72,79 @@ class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
   @Test
   void should_pass_if_actual_and_given_values_are_empty() {
     actual.clear();
-    iterables.assertContainsOnly(someInfo(), actual, array());
+    iterables.assertContainsOnly(someInfo(), actual, emptyArray());
   }
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsOnly(someInfo(), actual,
-                                                                                                  emptyArray()));
+    // GIVEN
+    Object[] expected = array("Luke", "Yoda", "Leia");
+    actual.clear();
+    // WHEN
+    expectAssertionError(() -> iterables.assertContainsOnly(someInfo(), actual, expected));
+    // THEN
+    verify(failures).failure(info, shouldContainOnly(actual, expected, list("Luke", "Yoda", "Leia"), emptyList()));
+  }
+
+  @Test
+  void should_fail_if_actual_is_empty_and_array_of_values_to_look_for_is_not() {
+    // GIVEN
+    Object[] expected = emptyArray();
+    // WHEN
+    expectAssertionError(() -> iterables.assertContainsOnly(someInfo(), actual, expected));
+    // THEN
+    verify(failures).failure(info, shouldContainOnly(actual, expected, emptyList(), list("Luke", "Yoda", "Leia")));
   }
 
   @Test
   void should_throw_error_if_array_of_values_to_look_for_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> iterables.assertContainsOnly(someInfo(), emptyList(), null))
-                                    .withMessage(valuesToLookForIsNull());
+    // GIVEN
+    Object[] expected = null;
+    // WHEN
+    NullPointerException npe = catchThrowableOfType(() -> iterables.assertContainsOnly(someInfo(), actual, expected),
+                                                    NullPointerException.class);
+    // THEN
+    then(npe).hasMessage(valuesToLookForIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsOnly(someInfo(), null,
-                                                                                                  array("Yoda")))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> iterables.assertContainsOnly(someInfo(), null, array("Yoda")));
+    // THEN
+    then(assertionError).hasMessage(shouldNotBeNull().create());
   }
 
   @Test
   void should_fail_if_actual_does_not_contain_all_given_values() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     Object[] expected = { "Luke", "Yoda", "Han" };
-
-    Throwable error = catchThrowable(() -> iterables.assertContainsOnly(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainOnly(actual, expected, newArrayList("Han"), newArrayList("Leia")));
+    // WHEN
+    expectAssertionError(() -> iterables.assertContainsOnly(info, actual, expected));
+    // THEN
+    verify(failures).failure(info, shouldContainOnly(actual, expected, list("Han"), list("Leia")));
   }
 
   @Test
   void should_fail_if_actual_contains_additional_elements() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     Object[] expected = { "Luke", "Yoda" };
-
-    Throwable error = catchThrowable(() -> iterables.assertContainsOnly(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainOnly(actual, expected, newArrayList(), newArrayList("Leia")));
+    // WHEN
+    expectAssertionError(() -> iterables.assertContainsOnly(info, actual, expected));
+    // THEN
+    verify(failures).failure(info, shouldContainOnly(actual, expected, emptyList(), list("Leia")));
   }
 
   @Test
   void should_fail_if_actual_contains_a_subset_of_expected_elements() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     Object[] expected = { "Luke", "Yoda", "Obiwan", "Leia" };
-
-    Throwable error = catchThrowable(() -> iterables.assertContainsOnly(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldContainOnly(actual, expected, newArrayList("Obiwan"), newArrayList()));
+    // WHEN
+    expectAssertionError(() -> iterables.assertContainsOnly(info, actual, expected));
+    // THEN
+    verify(failures).failure(info, shouldContainOnly(actual, expected, list("Obiwan"), emptyList()));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -137,41 +153,35 @@ class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
 
   @Test
   void should_pass_if_actual_contains_given_values_only_according_to_custom_comparison_strategy() {
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual,
-                                                                      array("LUKE", "YODA", "Leia"));
+    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual, array("LUKE", "YODA", "Leia"));
   }
 
   @Test
   void should_pass_if_actual_contains_given_values_only_in_different_order_according_to_custom_comparison_strategy() {
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual,
-                                                                      array("LEIA", "yoda", "LukE"));
+    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual, array("LEIA", "yoda", "LukE"));
   }
 
   @Test
   void should_pass_if_actual_contains_given_values_only_more_than_once_according_to_custom_comparison_strategy() {
-    actual.addAll(newArrayList("Luke", "Luke"));
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual,
-                                                                      array("luke", "YOda", "LeIA"));
+    actual.addAll(list("Luke", "Luke"));
+    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual, array("luke", "YOda", "LeIA"));
   }
 
   @Test
   void should_pass_if_actual_contains_given_values_only_even_if_duplicated_according_to_custom_comparison_strategy() {
-    actual.addAll(newArrayList("LUKE"));
+    actual.addAll(list("LUKE"));
     iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual,
                                                                       array("LUke", "LUKE", "lukE", "YOda", "Leia"));
   }
 
   @Test
   void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     Object[] expected = { "Luke", "Yoda", "Han" };
-
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(info, actual,
-                                                                                                             expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainOnly(actual, expected, newArrayList("Han"), newArrayList("Leia"),
-                                                     comparisonStrategy));
+    // WHEN
+    expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(info, actual, expected));
+    // THEN
+    verify(failures).failure(info, shouldContainOnly(actual, expected, list("Han"), list("Leia"), comparisonStrategy));
   }
 
   @Test

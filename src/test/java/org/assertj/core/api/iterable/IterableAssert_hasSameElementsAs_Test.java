@@ -12,14 +12,16 @@
  */
 package org.assertj.core.api.iterable;
 
-import java.util.List;
-import org.assertj.core.api.ConcreteIterableAssert;
-import org.assertj.core.api.IterableAssertBaseTest;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
+import java.util.List;
+
+import org.assertj.core.api.ConcreteIterableAssert;
+import org.assertj.core.api.IterableAssertBaseTest;
+
 /**
- * Tests for <code>{@link org.assertj.core.api.AbstractIterableAssert#containsOnlyElementsOf(Iterable)} </code>.
+ * Tests for <code>{@link org.assertj.core.api.AbstractIterableAssert#hasSameElementsAs(Iterable)} </code>.
  * 
  * @author Christopher Arnott
  */
@@ -36,4 +38,5 @@ class IterableAssert_hasSameElementsAs_Test extends IterableAssertBaseTest {
   protected void verify_internal_effects() {
     verify(iterables).assertContainsOnly(getInfo(assertions), getActual(assertions), values.toArray());
   }
+
 }
