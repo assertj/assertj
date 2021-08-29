@@ -12,9 +12,9 @@
  */
 package org.assertj.core.error;
 
+import static java.util.Objects.deepEquals;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
-import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Objects.hashCodeFor;
 
 import java.util.Objects;
@@ -232,8 +232,8 @@ public class ShouldBeEqual implements AssertionErrorFactory {
     if (o == null) return false;
     if (getClass() != o.getClass()) return false;
     ShouldBeEqual other = (ShouldBeEqual) o;
-    if (!areEqual(actual, other.actual)) return false;
-    return areEqual(expected, other.expected);
+    if (!deepEquals(actual, other.actual)) return false;
+    return deepEquals(expected, other.expected);
   }
 
   @Override

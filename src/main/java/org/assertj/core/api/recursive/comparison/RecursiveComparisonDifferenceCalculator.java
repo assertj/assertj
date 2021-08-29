@@ -13,6 +13,7 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static java.lang.String.format;
+import static java.util.Objects.deepEquals;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toMap;
 import static org.assertj.core.api.recursive.comparison.ComparisonDifference.rootComparisonDifference;
@@ -43,7 +44,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 import org.assertj.core.internal.DeepDifference;
-import org.assertj.core.util.Objects;
 
 /**
  * Based on {@link DeepDifference} but takes a {@link RecursiveComparisonConfiguration}, {@link DeepDifference}
@@ -689,7 +689,7 @@ public class RecursiveComparisonDifferenceCalculator {
     Comparator typeComparator = recursiveComparisonConfiguration.getComparatorForType(fieldType);
     if (typeComparator != null) return typeComparator.compare(actualFieldValue, expectedFieldValue) == 0;
     // default comparison using equals
-    return Objects.areEqual(actualFieldValue, expectedFieldValue);
+    return deepEquals(actualFieldValue, expectedFieldValue);
   }
 
   private static ComparisonDifference expectedAndActualTypeDifference(Object actual, Object expected) {

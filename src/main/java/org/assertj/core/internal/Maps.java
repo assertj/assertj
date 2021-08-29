@@ -51,7 +51,6 @@ import static org.assertj.core.internal.ErrorMessages.keysToLookForIsNull;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.asList;
 import static org.assertj.core.util.IterableUtil.toArray;
-import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.lang.reflect.InvocationTargetException;
@@ -519,7 +518,7 @@ public class Maps {
       // check entries order
       int index = 0;
       for (K keyFromActual : actual.keySet()) {
-        if (!areEqual(keyFromActual, entries[index].getKey())) {
+        if (!deepEquals(keyFromActual, entries[index].getKey())) {
           Entry<K, V> actualEntry = entry(keyFromActual, actual.get(keyFromActual));
           throw failures.failure(info, elementsDifferAtIndex(actualEntry, entries[index], index));
         }
