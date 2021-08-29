@@ -224,7 +224,7 @@ public class Maps {
     assertNotNull(info, actual);
     // if both actual and values are empty, then assertion passes.
     if (actual.isEmpty() && entries.length == 0) return;
-    failIfEntriesIsEmptyEmptySinceActualIsNotEmpty(info, actual, entries);
+    failIfEntriesIsEmptySinceActualIsNotEmpty(info, actual, entries);
     failIfAnyEntryNotFoundInActualMap(info, actual, entries);
   }
 
@@ -242,7 +242,7 @@ public class Maps {
     assertNotNull(info, actual);
     // if both actual and values are empty, then assertion passes.
     if (actual.isEmpty() && entries.length == 0) return;
-    failIfEntriesIsEmptyEmptySinceActualIsNotEmpty(info, actual, entries);
+    failIfEntriesIsEmptySinceActualIsNotEmpty(info, actual, entries);
     for (Entry<? extends K, ? extends V> entry : entries) {
       if (containsEntry(actual, entry)) return;
     }
@@ -452,7 +452,7 @@ public class Maps {
   public <K, V> void assertContainsOnly(AssertionInfo info, Map<K, V> actual, Entry<? extends K, ? extends V>[] entries) {
     doCommonContainsCheck(info, actual, entries);
     if (actual.isEmpty() && entries.length == 0) return;
-    failIfEntriesIsEmptyEmptySinceActualIsNotEmpty(info, actual, entries);
+    failIfEntriesIsEmptySinceActualIsNotEmpty(info, actual, entries);
 
     Set<Entry<? extends K, ? extends V>> notFound = getNotFoundEntries(actual, entries);
     Set<Entry<K, V>> notExpected = getNotExpectedEntries(actual, entries);
@@ -506,7 +506,7 @@ public class Maps {
   public <K, V> void assertContainsExactly(AssertionInfo info, Map<K, V> actual, Entry<? extends K, ? extends V>[] entries) {
     doCommonContainsCheck(info, actual, entries);
     if (actual.isEmpty() && entries.length == 0) return;
-    failIfEntriesIsEmptyEmptySinceActualIsNotEmpty(info, actual, entries);
+    failIfEntriesIsEmptySinceActualIsNotEmpty(info, actual, entries);
     assertHasSameSizeAs(info, actual, entries);
 
     Set<Entry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
@@ -604,8 +604,8 @@ public class Maps {
   }
 
   // this should be only called when actual is not empty
-  private <K, V> void failIfEntriesIsEmptyEmptySinceActualIsNotEmpty(AssertionInfo info, Map<K, V> actual,
-                                                                     Entry<? extends K, ? extends V>[] entries) {
+  private <K, V> void failIfEntriesIsEmptySinceActualIsNotEmpty(AssertionInfo info, Map<K, V> actual,
+                                                                Entry<? extends K, ? extends V>[] entries) {
     if (entries.length == 0) throw failures.failure(info, shouldBeEmpty(actual));
   }
 
