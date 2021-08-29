@@ -13,45 +13,16 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.test.TestData.someInfo;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.FileSystem;
 import java.nio.file.Path;
 
 import org.assertj.core.api.AssertionInfo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.io.TempDir;
 
-import com.github.marschall.memoryfilesystem.MemoryFileSystemBuilder;
-
 /**
- * Base test class for {@link Path} instances
- *
- * <p>
- * Assertion on {@link Path} objects are of two categories:
- * </p>
- *
- * <ul>
- * <li>assertions on the {@link Path} object themselves: those do not require a {@link FileSystem};</li>
- * <li>assertions inducing filesystem I/O: those <em>do</em> require a {@link FileSystem}.</li>
- * </ul>
- *
- * <p>
- * An advantage when compared with {@link File} is that we do not need to pollute the developer's machine with temporary
- * files/directories/etc for I/O bound tests; all that is required is a filesystem implementation.
- * </p>
- *
- * <p>
- * <a href="https://github.com/marschall/memoryfilesystem">memoryfilesystem</a> is chosen for its great support of
- * getting/setting file attributes etc, and for its emulation of both Unix and Windows filesystems.
- * </p>
- *
- * @see Path
- * @see FileSystem
- * @see Files
+ * Base class for {@link Paths} tests.
  */
 public abstract class PathsBaseTest {
 
@@ -67,7 +38,7 @@ public abstract class PathsBaseTest {
   protected BinaryDiff binaryDiff;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     paths = Paths.instance();
     nioFilesWrapper = spy(paths.nioFilesWrapper);
     paths.nioFilesWrapper = nioFilesWrapper;
@@ -80,31 +51,4 @@ public abstract class PathsBaseTest {
     info = someInfo();
   }
 
-  /**
-   * A {@link FileSystem} for test classes which need them
-   */
-  public static class FileSystemResource {
-
-    private final FileSystem fs;
-
-    public FileSystemResource() {
-      try {
-        fs = MemoryFileSystemBuilder.newLinux().build("PathsTest");
-      } catch (IOException e) {
-        throw new RuntimeException("failed to initialize filesystem", e);
-      }
-    }
-
-    public FileSystem getFileSystem() {
-      return fs;
-    }
-
-    public void close() {
-      try {
-        fs.close();
-      } catch (IOException e) {
-        throw new RuntimeException("failed to close filesystem", e);
-      }
-    }
-  }
 }
