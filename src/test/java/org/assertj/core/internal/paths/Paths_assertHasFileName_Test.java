@@ -30,53 +30,72 @@ class Paths_assertHasFileName_Test extends PathsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
+    // GIVEN
+    Path actual = null;
+    String filename = "actual";
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasFileName(info, null, "actual"));
+    AssertionError error = expectAssertionError(() -> paths.assertHasFileName(info, actual, filename));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_fileName_is_null() {
+  void should_fail_if_filename_is_null() {
     // GIVEN
     Path actual = tempDir.resolve("actual");
+    String filename = null;
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasFileName(info, actual, null));
+    Throwable thrown = catchThrowable(() -> paths.assertHasFileName(info, actual, filename));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage("expected fileName should not be null");
   }
 
   @Test
-  void should_pass_if_non_existing_actual_has_given_fileName() {
+  void should_fail_if_actual_does_not_have_given_filename() {
     // GIVEN
     Path actual = tempDir.resolve("actual");
-    // WHEN/THEN
-    paths.assertHasFileName(info, actual, "actual");
+    String filename = "filename";
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertHasFileName(info, null, filename));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_pass_if_existing_actual_file_has_given_fileName() throws IOException {
+  void should_pass_with_non_existing_path() {
+    // GIVEN
+    Path actual = tempDir.resolve("actual");
+    String filename = "actual";
+    // WHEN/THEN
+    paths.assertHasFileName(info, actual, filename);
+  }
+
+  @Test
+  void should_pass_with_existing_regular_file() throws IOException {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
+    String filename = "actual";
     // WHEN/THEN
-    paths.assertHasFileName(info, actual, "actual");
+    paths.assertHasFileName(info, actual, filename);
   }
 
   @Test
-  void should_pass_if_existing_actual_directory_has_given_fileName() throws IOException {
+  void should_pass_with_existing_directory() throws IOException {
     // GIVEN
     Path actual = createDirectory(tempDir.resolve("actual"));
+    String filename = "actual";
     // WHEN/THEN
-    paths.assertHasFileName(info, actual, "actual");
+    paths.assertHasFileName(info, actual, filename);
   }
 
   @Test
-  void should_pass_if_existing_actual_symbolic_link_has_given_fileName() throws IOException {
+  void should_pass_with_existing_symbolic_link() throws IOException {
     // GIVEN
     Path actual = createSymbolicLink(tempDir.resolve("actual"), tempDir);
+    String filename = "actual";
     // WHEN/THEN
-    paths.assertHasFileName(info, actual, "actual");
+    paths.assertHasFileName(info, actual, filename);
   }
 
 }
