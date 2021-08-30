@@ -16,11 +16,12 @@ import static java.lang.String.format;
 import static java.time.temporal.ChronoUnit.MILLIS;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.api.BDDAssertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Maps.newHashMap;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -45,6 +46,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicLongFieldUpdater;
@@ -369,6 +371,12 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
   void should_format_assertj_map_entry() {
     MapEntry<String, Integer> entry = entry("A", 1);
     assertThat(toStringOf(entry)).isEqualTo("\"A\"=1");
+  }
+
+  @Test
+  void should_format_java_map_entry() {
+    Entry<String, Integer> entry = newHashMap("key", 123).entrySet().iterator().next();
+    assertThat(toStringOf(entry)).isEqualTo("\"key\"=123");
   }
 
   @Test

@@ -235,7 +235,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof Collection<?>) return smartFormat((Collection<?>) object);
     if (object instanceof Map<?, ?>) return toStringOf((Map<?, ?>) object);
     if (object instanceof Tuple) return toStringOf((Tuple) object);
-    if (object instanceof MapEntry) return toStringOf((MapEntry<?, ?>) object);
+    if (object instanceof Map.Entry) return toStringOf((Map.Entry<?, ?>) object);
     if (object instanceof Method) return ((Method) object).toGenericString();
     if (object instanceof InsertDelta<?>) return toStringOf((InsertDelta<?>) object);
     if (object instanceof ChangeDelta<?>) return toStringOf((ChangeDelta<?>) object);
@@ -457,6 +457,10 @@ public class StandardRepresentation implements Representation {
 
   protected String toStringOf(MapEntry<?, ?> mapEntry) {
     return String.format("%s=%s", toStringOf(mapEntry.key), toStringOf(mapEntry.value));
+  }
+
+  protected String toStringOf(Entry<?, ?> javaMapEntry) {
+    return String.format("%s=%s", toStringOf(javaMapEntry.getKey()), toStringOf(javaMapEntry.getValue()));
   }
 
   protected String toStringOf(Map<?, ?> map) {
