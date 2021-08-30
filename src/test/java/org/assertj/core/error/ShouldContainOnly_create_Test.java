@@ -185,9 +185,9 @@ class ShouldContainOnly_create_Test {
                                    + "Expecting map:%n"
                                    + "  {\"color\"=\"green\", \"name\"=\"Yoda\"}%n"
                                    + "to contain only:%n"
-                                   + "  [MapEntry[key=\"name\", value=\"Yoda\"]]%n"
+                                   + "  [\"name\"=\"Yoda\"]%n"
                                    + "but the following map entries were unexpected:%n"
-                                   + "  [MapEntry[key=\"color\", value=\"green\"]]%n"));
+                                   + "  [\"color\"=\"green\"]%n"));
   }
 
   @Test
@@ -206,9 +206,9 @@ class ShouldContainOnly_create_Test {
                                    + "Expecting map:%n"
                                    + "  {\"name\"=\"Yoda\"}%n"
                                    + "to contain only:%n"
-                                   + "  [MapEntry[key=\"name\", value=\"Yoda\"], MapEntry[key=\"color\", value=\"green\"]]%n"
+                                   + "  [\"name\"=\"Yoda\", \"color\"=\"green\"]%n"
                                    + "but could not find the following map entries:%n"
-                                   + "  [MapEntry[key=\"color\", value=\"green\"]]%n"));
+                                   + "  [\"color\"=\"green\"]%n"));
   }
 
   @Test
@@ -227,11 +227,11 @@ class ShouldContainOnly_create_Test {
                                    + "Expecting map:%n"
                                    + "  {\"name\"=\"Yoda\"}%n"
                                    + "to contain only:%n"
-                                   + "  [MapEntry[key=\"color\", value=\"green\"]]%n"
+                                   + "  [\"color\"=\"green\"]%n"
                                    + "map entries not found:%n"
-                                   + "  [MapEntry[key=\"color\", value=\"green\"]]%n"
+                                   + "  [\"color\"=\"green\"]%n"
                                    + "and map entries not expected:%n"
-                                   + "  [MapEntry[key=\"name\", value=\"Yoda\"]]%n"));
+                                   + "  [\"name\"=\"Yoda\"]%n"));
   }
 
   @Test

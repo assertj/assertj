@@ -368,7 +368,7 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
   @Test
   void should_format_assertj_map_entry() {
     MapEntry<String, Integer> entry = entry("A", 1);
-    assertThat(toStringOf(entry)).isEqualTo("MapEntry[key=\"A\", value=1]");
+    assertThat(toStringOf(entry)).isEqualTo("\"A\"=1");
   }
 
   @Test

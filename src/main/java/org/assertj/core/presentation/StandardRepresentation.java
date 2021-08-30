@@ -456,7 +456,7 @@ public class StandardRepresentation implements Representation {
   }
 
   protected String toStringOf(MapEntry<?, ?> mapEntry) {
-    return String.format("MapEntry[key=%s, value=%s]", toStringOf(mapEntry.key), toStringOf(mapEntry.value));
+    return String.format("%s=%s", toStringOf(mapEntry.key), toStringOf(mapEntry.value));
   }
 
   protected String toStringOf(Map<?, ?> map) {

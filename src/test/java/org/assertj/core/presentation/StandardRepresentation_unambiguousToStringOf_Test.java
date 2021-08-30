@@ -376,7 +376,7 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
   @Test
   void should_format_assertj_map_entry() {
     MapEntry<String, Integer> entry = entry("A", 1);
-    assertThat(unambiguousToStringOf(entry)).isEqualTo(format("MapEntry[key=\"A\", value=1] (MapEntry@%s)",
+    assertThat(unambiguousToStringOf(entry)).isEqualTo(format("\"A\"=1 (MapEntry@%s)",
                                                               toHexString(System.identityHashCode(entry))));
   }
 

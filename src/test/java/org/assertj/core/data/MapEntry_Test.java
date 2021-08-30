@@ -51,7 +51,7 @@ class MapEntry_Test {
     // WHEN
     String result = underTest.toString();
     // THEN
-    then(result).isEqualTo("MapEntry[key=\"name\", value=\"Yoda\"]");
+    then(result).isEqualTo("\"name\"=\"Yoda\"");
   }
 
   @Test
@@ -61,7 +61,7 @@ class MapEntry_Test {
     // WHEN
     String result = underTest.toString();
     // THEN
-    then(result).isEqualTo("MapEntry[key=\"name\", value=[\"Yoda\"]]");
+    then(result).isEqualTo("\"name\"=[\"Yoda\"]");
   }
 
 }

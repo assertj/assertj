@@ -123,9 +123,9 @@ class ShouldContain_create_Test {
                                    + "Expecting map:%n"
                                    + "  {\"1\"=2.0}%n"
                                    + "to contain:%n"
-                                   + "  MapEntry[key=\"3\", value=4.0]%n"
+                                   + "  \"3\"=4.0%n"
                                    + "but could not find the following map entries:%n"
-                                   + "  MapEntry[key=\"3\", value=4.0]%n"));
+                                   + "  \"3\"=4.0%n"));
   }
 
   @Test

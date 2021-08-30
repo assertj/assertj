@@ -179,9 +179,9 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(0)).hasMessageStartingWith(format("%nExpecting map:%n"
                                                             + "  {\"54\"=\"55\"}%n"
                                                             + "to contain:%n"
-                                                            + "  [MapEntry[key=\"1\", value=\"2\"]]%n"
+                                                            + "  [\"1\"=\"2\"]%n"
                                                             + "but could not find the following map entries:%n"
-                                                            + "  [MapEntry[key=\"1\", value=\"2\"]]%n"));
+                                                            + "  [\"1\"=\"2\"]%n"));
     assertThat(errors.get(1)).hasMessageStartingWith(format("%nExpecting empty but was: {\"54\"=\"55\"}"));
   }
 
@@ -370,9 +370,9 @@ class SoftAssertionsTest extends BaseAssertionsTest {
       assertThat(errors.get(39)).contains(format("%nExpecting map:%n"
                                                  + "  {\"54\"=\"55\"}%n"
                                                  + "to contain:%n"
-                                                 + "  [MapEntry[key=\"1\", value=\"2\"]]%n"
+                                                 + "  [\"1\"=\"2\"]%n"
                                                  + "but could not find the following map entries:%n"
-                                                 + "  [MapEntry[key=\"1\", value=\"2\"]]%n"));
+                                                 + "  [\"1\"=\"2\"]%n"));
 
       assertThat(errors.get(40)).contains(shouldBeEqualMessage("12:00", "13:00"));
       assertThat(errors.get(41)).contains(shouldBeEqualMessage("12:00Z", "13:00Z"));
@@ -2031,7 +2031,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     List<Throwable> errors = softly.errorsCollected();
     assertThat(errors).hasSize(17);
-    assertThat(errors.get(0)).hasMessageContaining("MapEntry[key=\"abc\", value=\"ABC\"]");
+    assertThat(errors.get(0)).hasMessageContaining("\"abc\"=\"ABC\"");
     assertThat(errors.get(1)).hasMessageContaining("empty");
     assertThat(errors.get(2)).hasMessageContaining("gh")
                              .hasMessageContaining("IJ");
