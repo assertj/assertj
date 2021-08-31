@@ -280,8 +280,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * @return {@code this} assertion object.
    */
   public SELF hasScaleOf(int expected) {
-    isNotNull();
-    bigDecimals.assertEqual(info, actual.scale(), expected);
+    bigDecimals.assertHasScale(info, actual, expected);
     return myself;
   }
 

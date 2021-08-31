@@ -26,7 +26,7 @@ class BigDecimalsAssert_assertHasScaleOf_Test extends BigDecimalAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(bigDecimals).assertEqual(getInfo(assertions), getActual(assertions).scale(), 0);
+    verify(bigDecimals).assertHasScale(getInfo(assertions), getActual(assertions), 0);
   }
 
 }

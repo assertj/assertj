@@ -82,6 +82,7 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
    */
   @Override
   public boolean areEqual(Object actual, Object other) {
+    System.out.println(actual.equals(other) + " tite");
     if (actual == null) return other == null;
     Class<?> actualClass = actual.getClass();
     if (actualClass.isArray() && other != null) {
