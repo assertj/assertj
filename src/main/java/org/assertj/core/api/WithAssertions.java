@@ -33,6 +33,7 @@ import java.time.OffsetTime;
 import java.time.Period;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalUnit;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -1053,6 +1054,18 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   default AbstractDoubleAssert<?> assertThat(final Double actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link CollectionAssert}</code>.
+   *
+   * @param <E> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.21.0
+   */
+  default <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> assertThat(final Collection<? extends E> actual) {
     return Assertions.assertThat(actual);
   }
 

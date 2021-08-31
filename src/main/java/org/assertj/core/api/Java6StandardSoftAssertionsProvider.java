@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -208,6 +209,19 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   }
 
   /**
+   * Creates a new instance of <code>{@link CollectionAssert}</code>.
+   *
+   * @param <T> the actual element's type.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.21.0
+   */
+  @SuppressWarnings("unchecked")
+  default <T> CollectionAssert<T> assertThat(Collection<? extends T> actual) {
+    return proxy(CollectionAssert.class, Collection.class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link GenericComparableAssert}</code> with
    * standard comparison semantics.
    *
@@ -222,8 +236,6 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
 
   /**
    * Creates a new instance of <code>{@link IterableAssert}</code>.
-   * <p>
-   * We don't return {@link IterableAssert} as it has overridden methods to annotated with {@link SafeVarargs}.
    *
    * @param <T> the actual element's type.
    * @param actual the actual value.
@@ -405,8 +417,6 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
 
   /**
    * Creates a new instance of <code>{@link ListAssert}</code>.
-   * <p>
-   * We don't return {@link IterableAssert} as it has overridden methods to annotated with {@link SafeVarargs}.
    *
    * @param <T> the actual element's type.
    * @param actual the actual value.

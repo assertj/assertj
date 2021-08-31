@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static java.util.Arrays.asList;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
@@ -43,6 +42,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_SEQUENCE;
 import static org.assertj.core.api.InstanceOfAssertFactories.CLASS;
+import static org.assertj.core.api.InstanceOfAssertFactories.COLLECTION;
 import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETABLE_FUTURE;
 import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETION_STAGE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DATE;
@@ -106,6 +106,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.atomicReference;
 import static org.assertj.core.api.InstanceOfAssertFactories.atomicReferenceArray;
 import static org.assertj.core.api.InstanceOfAssertFactories.atomicReferenceFieldUpdater;
 import static org.assertj.core.api.InstanceOfAssertFactories.atomicStampedReference;
+import static org.assertj.core.api.InstanceOfAssertFactories.collection;
 import static org.assertj.core.api.InstanceOfAssertFactories.comparable;
 import static org.assertj.core.api.InstanceOfAssertFactories.completableFuture;
 import static org.assertj.core.api.InstanceOfAssertFactories.completionStage;
@@ -120,6 +121,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.stream;
 import static org.assertj.core.api.InstanceOfAssertFactories.throwable;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.mock;
 
 import java.io.ByteArrayInputStream;
@@ -139,6 +141,7 @@ import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
 import java.time.ZonedDateTime;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
@@ -1052,7 +1055,7 @@ class InstanceOfAssertFactoriesTest {
   @Test
   void iterable_factory_should_allow_iterable_assertions() {
     // GIVEN
-    Object value = asList("Homer", "Marge", "Bart", "Lisa", "Maggie");
+    Object value = list("Homer", "Marge", "Bart", "Lisa", "Maggie");
     // WHEN
     IterableAssert<Object> result = assertThat(value).asInstanceOf(ITERABLE);
     // THEN
@@ -1062,7 +1065,7 @@ class InstanceOfAssertFactoriesTest {
   @Test
   void typed_iterable_factory_should_allow_typed_iterable_assertions() {
     // GIVEN
-    Object value = asList("Homer", "Marge", "Bart", "Lisa", "Maggie");
+    Object value = list("Homer", "Marge", "Bart", "Lisa", "Maggie");
     // WHEN
     IterableAssert<String> result = assertThat(value).asInstanceOf(iterable(String.class));
     // THEN
@@ -1072,7 +1075,7 @@ class InstanceOfAssertFactoriesTest {
   @Test
   void iterator_factory_should_allow_iterator_assertions() {
     // GIVEN
-    Object value = asList("Homer", "Marge", "Bart", "Lisa", "Maggie").iterator();
+    Object value = list("Homer", "Marge", "Bart", "Lisa", "Maggie").iterator();
     // WHEN
     IteratorAssert<Object> result = assertThat(value).asInstanceOf(ITERATOR);
     // THEN
@@ -1082,7 +1085,7 @@ class InstanceOfAssertFactoriesTest {
   @Test
   void typed_iterator_factory_should_allow_typed_iterator_assertions() {
     // GIVEN
-    Object value = asList("Homer", "Marge", "Bart", "Lisa", "Maggie").iterator();
+    Object value = list("Homer", "Marge", "Bart", "Lisa", "Maggie").iterator();
     // WHEN
     IteratorAssert<String> result = assertThat(value).asInstanceOf(iterator(String.class));
     // THEN
@@ -1090,9 +1093,29 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
+  void collection_factory_should_allow_collection_assertions() {
+    // GIVEN
+    Object value = list("Homer", "Marge", "Bart", "Lisa", "Maggie");
+    // WHEN
+    AbstractCollectionAssert<?, Collection<?>, Object, ObjectAssert<Object>> result = assertThat(value).asInstanceOf(COLLECTION);
+    // THEN
+    result.contains("Bart", "Lisa");
+  }
+
+  @Test
+  void typed_collection_factory_should_allow_typed_collection_assertions() {
+    // GIVEN
+    Object value = list("Homer", "Marge", "Bart", "Lisa", "Maggie");
+    // WHEN
+    AbstractCollectionAssert<?, Collection<? extends String>, String, ObjectAssert<String>> result = assertThat(value).asInstanceOf(collection(String.class));
+    // THEN
+    result.contains("Bart", "Lisa");
+  }
+
+  @Test
   void list_factory_should_allow_list_assertions() {
     // GIVEN
-    Object value = asList("Homer", "Marge", "Bart", "Lisa", "Maggie");
+    Object value = list("Homer", "Marge", "Bart", "Lisa", "Maggie");
     // WHEN
     ListAssert<Object> result = assertThat(value).asInstanceOf(LIST);
     // THEN
@@ -1102,7 +1125,7 @@ class InstanceOfAssertFactoriesTest {
   @Test
   void typed_list_factory_should_allow_typed_list_assertions() {
     // GIVEN
-    Object value = asList("Homer", "Marge", "Bart", "Lisa", "Maggie");
+    Object value = list("Homer", "Marge", "Bart", "Lisa", "Maggie");
     // WHEN
     ListAssert<String> result = assertThat(value).asInstanceOf(list(String.class));
     // THEN

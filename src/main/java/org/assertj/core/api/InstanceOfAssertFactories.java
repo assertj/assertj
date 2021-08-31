@@ -28,6 +28,7 @@ import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
 import java.time.ZonedDateTime;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -811,6 +812,30 @@ public interface InstanceOfAssertFactories {
   @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
   static <ELEMENT> InstanceOfAssertFactory<Iterator, IteratorAssert<ELEMENT>> iterator(Class<ELEMENT> elementType) {
     return new InstanceOfAssertFactory<>(Iterator.class, Assertions::<ELEMENT> assertThat);
+  }
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link Collection}, assuming {@code Object} as element type.
+   *
+   * @see #collection(Class)
+   * @since 3.21.0
+   */
+  @SuppressWarnings("rawtypes") // rawtypes: using Class instance
+  InstanceOfAssertFactory<Collection, AbstractCollectionAssert<?, Collection<?>, Object, ObjectAssert<Object>>> COLLECTION = collection(Object.class);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link Collection}.
+   *
+   * @param <E>   the {@code Collection} element type.
+   * @param elementType the element type instance.
+   * @return the factory instance.
+   *
+   * @see #COLLECTION
+   * @since 3.21.0
+   */
+  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
+  static <E> InstanceOfAssertFactory<Collection, AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>>> collection(Class<E> elementType) {
+    return new InstanceOfAssertFactory<>(Collection.class, Assertions::<E> assertThat);
   }
 
   /**

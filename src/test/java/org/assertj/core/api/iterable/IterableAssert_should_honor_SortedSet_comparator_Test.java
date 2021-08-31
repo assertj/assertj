@@ -13,7 +13,7 @@
 package org.assertj.core.api.iterable;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.core.util.Sets.newTreeSet;
 
@@ -21,51 +21,50 @@ import java.util.Comparator;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.stream.Stream;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class IterableAssert_should_honor_SortedSet_comparator_Test {
 
-  private Iterable<Set<String>> sets;
+  @ParameterizedTest
+  @MethodSource("sets")
+  void should_honor_sorted_set_comparator(Iterable<String> actual) {
+    // WHEN/THEN
+    assertThat(actual).contains("foo");
+    assertThat(actual).containsAll(newLinkedHashSet("foo"));
+    assertThat(actual).containsAnyElementsOf(newLinkedHashSet("foo", "bar"));
+    assertThat(actual).containsAnyOf("foo", "bar");
+    assertThat(actual).containsExactly("foo");
+    assertThat(actual).containsExactlyElementsOf(newLinkedHashSet("foo"));
+    assertThat(actual).containsExactlyInAnyOrder("foo");
+    assertThat(actual).containsExactlyInAnyOrderElementsOf(newLinkedHashSet("foo"));
+    assertThat(actual).containsOnly("foo");
+    assertThat(actual).isSubsetOf(newLinkedHashSet("foo"));
+    assertThat(actual).containsOnlyOnce("foo");
+    assertThat(actual).containsOnlyOnceElementsOf(newLinkedHashSet("foo"));
+    assertThat(actual).containsSequence("foo");
+    assertThat(actual).containsSequence(newLinkedHashSet("foo"));
+    assertThat(actual).containsSubsequence("foo");
+    assertThat(actual).containsSubsequence(newLinkedHashSet("foo"));
+    assertThatAssertionErrorIsThrownBy(() -> assertThat(actual).doesNotContain("foo", "FOO"));
+    assertThatAssertionErrorIsThrownBy(() -> assertThat(actual).doesNotContainAnyElementsOf(newLinkedHashSet("foo", "FOO")));
+    assertThatAssertionErrorIsThrownBy(() -> assertThat(actual).doesNotContainSequence("foo"));
+    assertThatAssertionErrorIsThrownBy(() -> assertThat(actual).doesNotContainSequence(newLinkedHashSet("foo")));
+    assertThatAssertionErrorIsThrownBy(() -> assertThat(actual).doesNotContainSubsequence("foo"));
+    assertThatAssertionErrorIsThrownBy(() -> assertThat(actual).doesNotContainSubsequence(newLinkedHashSet("foo")));
+  }
 
-  @BeforeEach
-  void setup() {
+  private static Stream<Set<String>> sets() {
     Set<String> treeSetWithComparator = new TreeSet<>(Comparator.comparing(String::toUpperCase));
     treeSetWithComparator.add("FOO");
     SortedSet<String> sortedSetWithComparator = new TreeSet<>(Comparator.comparing(String::toUpperCase));
     sortedSetWithComparator.add("FOO");
     Set<String> treeSet = newTreeSet("foo");
     SortedSet<String> sortedSet = newTreeSet("foo");
-    sets = newArrayList(sortedSetWithComparator, treeSetWithComparator, sortedSet, treeSet);
-  }
 
-  @Test
-  void should_honor_sorted_set_comparator() {
-    assertThat(sets).allSatisfy(set -> {
-      assertThat(set).contains("foo");
-      assertThat(set).containsAll(newLinkedHashSet("foo"));
-      assertThat(set).containsAnyElementsOf(newLinkedHashSet("foo", "bar"));
-      assertThat(set).containsAnyOf("foo", "bar");
-      assertThat(set).containsExactly("foo");
-      assertThat(set).containsExactlyElementsOf(newLinkedHashSet("foo"));
-      assertThat(set).containsExactlyInAnyOrder("foo");
-      assertThat(set).containsExactlyInAnyOrderElementsOf(newLinkedHashSet("foo"));
-      assertThat(set).containsOnly("foo");
-      assertThat(set).isSubsetOf(newLinkedHashSet("foo"));
-      assertThat(set).containsOnlyOnce("foo");
-      assertThat(set).containsOnlyOnceElementsOf(newLinkedHashSet("foo"));
-      assertThat(set).containsSequence("foo");
-      assertThat(set).containsSequence(newLinkedHashSet("foo"));
-      assertThat(set).containsSubsequence("foo");
-      assertThat(set).containsSubsequence(newLinkedHashSet("foo"));
-    });
-    assertThat(sets).noneSatisfy(set -> assertThat(set).doesNotContain("foo", "FOO"));
-    assertThat(sets).noneSatisfy(set -> assertThat(set).doesNotContainAnyElementsOf(newLinkedHashSet("foo", "FOO")));
-    assertThat(sets).noneSatisfy(set -> assertThat(set).doesNotContainSequence("foo"));
-    assertThat(sets).noneSatisfy(set -> assertThat(set).doesNotContainSequence(newLinkedHashSet("foo")));
-    assertThat(sets).noneSatisfy(set -> assertThat(set).doesNotContainSubsequence("foo"));
-    assertThat(sets).noneSatisfy(set -> assertThat(set).doesNotContainSubsequence(newLinkedHashSet("foo")));
+    return Stream.of(sortedSetWithComparator, treeSetWithComparator, sortedSet, treeSet);
   }
 
 }

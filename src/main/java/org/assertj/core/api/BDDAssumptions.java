@@ -31,6 +31,7 @@ import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
 import java.time.ZonedDateTime;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -1524,6 +1525,19 @@ public final class BDDAssumptions {
    * @since 3.14.0
    */
   public static <ELEMENT> IteratorAssert<ELEMENT> given(Iterator<? extends ELEMENT> actual) {
+    return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance for a {@link Collection} value.
+   *
+   * @param <E> the type of elements.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @see Assumptions#assumeThat(Collection)
+   * @since 3.21.0
+   */
+  public static <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> given(Collection<? extends E> actual) {
     return assumeThat(actual);
   }
 
