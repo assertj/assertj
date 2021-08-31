@@ -263,6 +263,26 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
     return isNotEqualByComparingTo(new BigDecimal(notExpected));
   }
 
+  /**
+   * Verifies the BigDecimal under test has the given scale.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new BigDecimal(&quot;8.00&quot;)).hasScaleOf(2);
+   * assertThat(new BigDecimal(&quot;8.00&quot;).setScale(4)).hasScaleOf(4);
+   *
+   * // assertion will fail
+   * assertThat(new BigDecimal(&quot;8.00&quot;)).hasScaleOf(3);
+   * assertThat(new BigDecimal(&quot;8.00&quot;).setScale(4)).hasScaleOf(2);</code></pre>
+   * 
+   * @param expectedScale the expected scale value.
+   * @return {@code this} assertion object.
+   */
+  public SELF hasScaleOf(int expectedScale) {
+    bigDecimals.assertHasScale(info, actual, expectedScale);
+    return myself;
+  }
+
   @Override
   @CheckReturnValue
   public SELF usingComparator(Comparator<? super BigDecimal> customComparator) {

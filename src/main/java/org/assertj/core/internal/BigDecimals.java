@@ -14,9 +14,11 @@ package org.assertj.core.internal;
 
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.ZERO;
+import static org.assertj.core.error.ShouldHaveScale.shouldHaveScale;
 
 import java.math.BigDecimal;
 
+import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -75,4 +77,11 @@ public class BigDecimals extends Numbers<BigDecimal> {
     if (value2 == null) return false;
     return value1.compareTo(value2) == 0;
   }
+
+  public void assertHasScale(AssertionInfo info, BigDecimal actual, int expectedScale) {
+    assertNotNull(info, actual);
+    if (areEqual(actual.scale(), expectedScale)) return;
+    throw failures.failure(info, shouldHaveScale(actual, expectedScale));
+  }
+
 }

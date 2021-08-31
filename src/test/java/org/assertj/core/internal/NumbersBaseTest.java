@@ -13,16 +13,19 @@
 package org.assertj.core.internal;
 
 
-import org.assertj.core.util.AbsValueComparator;
-import org.junit.jupiter.api.BeforeEach;
+import static org.assertj.core.test.TestData.someInfo;
+import static org.mockito.Mockito.spy;
 
 import java.util.Comparator;
 
-import static org.mockito.Mockito.spy;
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.util.AbsValueComparator;
+import org.junit.jupiter.api.BeforeEach;
 
 public abstract class NumbersBaseTest<NUMBERS_TYPE extends Numbers<?>, NUMBER_TYPE extends Number> {
 
   protected Failures failures;
+  protected AssertionInfo info = someInfo();
   protected NUMBERS_TYPE numbers;
 
   protected ComparatorBasedComparisonStrategy comparatorComparisonStrategy;
