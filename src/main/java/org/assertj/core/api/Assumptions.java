@@ -1350,7 +1350,7 @@ public class Assumptions {
     // @format:off
     Object actual = assertion.actual;
     if (assertion instanceof AbstractObjectArrayAssert) return asAssumption(ObjectArrayAssert.class, Object[].class, actual);
-    if (assertion instanceof FactoryBasedNavigableCollectionAssert) return asAssumption(CollectionAssert.class, Collection.class, actual);
+    if (assertion instanceof CollectionAssert) return asAssumption(CollectionAssert.class, Collection.class, actual);
     if (assertion instanceof FactoryBasedNavigableListAssert) return asAssumption(ListAssert.class, List.class, actual);
     if (assertion instanceof IterableAssert) return asAssumption(IterableAssert.class, Iterable.class, actual);
     if (assertion instanceof IterableSizeAssert) return asIterableSizeAssumption(assertion);

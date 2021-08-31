@@ -27,10 +27,15 @@ import java.util.Collection;
  * @since 3.21.0
  */
 public class CollectionAssert<ELEMENT> extends
-    FactoryBasedNavigableCollectionAssert<CollectionAssert<ELEMENT>, Collection<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
+    AbstractCollectionAssert<CollectionAssert<ELEMENT>, Collection<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
   public CollectionAssert(Collection<? extends ELEMENT> actual) {
-    super(actual, CollectionAssert.class, new ObjectAssertFactory<>());
+    super(actual, CollectionAssert.class);
+  }
+
+  @Override
+  protected ObjectAssert<ELEMENT> toAssert(ELEMENT value, String description) {
+    return new ObjectAssertFactory<ELEMENT>().createAssert(value).as(description);
   }
 
   @Override
