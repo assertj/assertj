@@ -12,7 +12,16 @@
  */
 package org.assertj.core.api;
 
+import static java.util.function.UnaryOperator.identity;
+import static org.assertj.core.error.ShouldBeUnmodifiable.shouldBeUnmodifiable;
+
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.NavigableSet;
+import java.util.Set;
+
+import org.assertj.core.annotations.Beta;
 
 /**
  * Base class for all implementations of assertions for {@link Collection}s.
@@ -35,6 +44,80 @@ public abstract class AbstractCollectionAssert<SELF extends AbstractCollectionAs
 
   protected AbstractCollectionAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
+  }
+
+  /**
+   * Verifies that the actual collection is unmodifiable, i.e., throws an {@link UnsupportedOperationException} with
+   * any attempt to modify the collection.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(Collections.unmodifiableCollection(new ArrayList&lt;&gt;())).isUnmodifiable();
+   * assertThat(Collections.unmodifiableList(new ArrayList&lt;&gt;())).isUnmodifiable();
+   * assertThat(Collections.unmodifiableSet(new HashSet&lt;&gt;())).isUnmodifiable();
+   *
+   * // assertions will fail
+   * assertThat(new ArrayList&lt;&gt;()).isUnmodifiable();
+   * assertThat(new HashSet&lt;&gt;()).isUnmodifiable();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual collection is modifiable.
+   * @see Collections#unmodifiableCollection(Collection)
+   * @see Collections#unmodifiableList(List)
+   * @see Collections#unmodifiableSet(Set)
+   */
+  @Beta
+  public SELF isUnmodifiable() {
+    isNotNull();
+    assertIsUnmodifiable();
+    return myself;
+  }
+
+  @SuppressWarnings("unchecked")
+  private void assertIsUnmodifiable() {
+    expectUnsupportedOperationException(() -> actual.add(null), "Collection.add(null)");
+    expectUnsupportedOperationException(() -> actual.addAll(emptyCollection()), "Collection.addAll(emptyCollection())");
+    expectUnsupportedOperationException(() -> actual.clear(), "Collection.clear()");
+    expectUnsupportedOperationException(() -> actual.iterator().remove(), "Collection.iterator().remove()");
+    expectUnsupportedOperationException(() -> actual.remove(null), "Collection.remove(null)");
+    expectUnsupportedOperationException(() -> actual.removeAll(emptyCollection()), "Collection.removeAll(emptyCollection())");
+    expectUnsupportedOperationException(() -> actual.removeIf(element -> true), "Collection.removeIf(element -> true)");
+    expectUnsupportedOperationException(() -> actual.retainAll(emptyCollection()), "Collection.retainAll(emptyCollection())");
+
+    if (actual instanceof List) {
+      List<ELEMENT> list = (List<ELEMENT>) actual;
+      expectUnsupportedOperationException(() -> list.add(0, null), "List.add(0, null)");
+      expectUnsupportedOperationException(() -> list.addAll(0, emptyCollection()), "List.addAll(0, emptyCollection())");
+      expectUnsupportedOperationException(() -> list.listIterator().add(null), "List.listIterator().add(null)");
+      expectUnsupportedOperationException(() -> list.listIterator().remove(), "List.listIterator().remove()");
+      expectUnsupportedOperationException(() -> list.listIterator().set(null), "List.listIterator().set(null)");
+      expectUnsupportedOperationException(() -> list.remove(0), "List.remove(0)");
+      expectUnsupportedOperationException(() -> list.replaceAll(identity()), "List.replaceAll(identity())");
+      expectUnsupportedOperationException(() -> list.set(0, null), "List.set(0, null)");
+      expectUnsupportedOperationException(() -> list.sort((o1, o2) -> 0), "List.sort((o1, o2) -> 0)");
+    }
+
+    if (actual instanceof NavigableSet) {
+      NavigableSet<ELEMENT> set = (NavigableSet<ELEMENT>) actual;
+      expectUnsupportedOperationException(() -> set.descendingIterator().remove(), "NavigableSet.descendingIterator().remove()");
+      expectUnsupportedOperationException(() -> set.pollFirst(), "NavigableSet.pollFirst()");
+      expectUnsupportedOperationException(() -> set.pollLast(), "NavigableSet.pollLast()");
+    }
+  }
+
+  private void expectUnsupportedOperationException(Runnable runnable, String method) {
+    try {
+      runnable.run();
+      throwAssertionError(shouldBeUnmodifiable(method));
+    } catch (UnsupportedOperationException e) {
+      // happy path
+    } catch (RuntimeException e) {
+      throwAssertionError(shouldBeUnmodifiable(method, e));
+    }
+  }
+
+  private <E extends ELEMENT> Collection<E> emptyCollection() {
+    return Collections.emptyList();
   }
 
 }
