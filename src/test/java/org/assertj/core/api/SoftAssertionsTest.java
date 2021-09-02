@@ -178,10 +178,10 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors).hasSize(2);
     assertThat(errors.get(0)).hasMessageStartingWith(format("%nExpecting map:%n"
                                                             + "  {\"54\"=\"55\"}%n"
-                                                            + "to contain:%n"
+                                                            + "to contain entries:%n"
                                                             + "  [\"1\"=\"2\"]%n"
                                                             + "but could not find the following map entries:%n"
-                                                            + "  [\"1\"=\"2\"]%n"));
+                                                            + "  [\"1\"=\"2\"]"));
     assertThat(errors.get(1)).hasMessageStartingWith(format("%nExpecting empty but was: {\"54\"=\"55\"}"));
   }
 
@@ -369,10 +369,10 @@ class SoftAssertionsTest extends BaseAssertionsTest {
                                                  + "  \"something was wrong\""));
       assertThat(errors.get(39)).contains(format("%nExpecting map:%n"
                                                  + "  {\"54\"=\"55\"}%n"
-                                                 + "to contain:%n"
+                                                 + "to contain entries:%n"
                                                  + "  [\"1\"=\"2\"]%n"
                                                  + "but could not find the following map entries:%n"
-                                                 + "  [\"1\"=\"2\"]%n"));
+                                                 + "  [\"1\"=\"2\"]"));
 
       assertThat(errors.get(40)).contains(shouldBeEqualMessage("12:00", "13:00"));
       assertThat(errors.get(41)).contains(shouldBeEqualMessage("12:00Z", "13:00Z"));

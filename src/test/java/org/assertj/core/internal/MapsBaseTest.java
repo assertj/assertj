@@ -49,8 +49,8 @@ public class MapsBaseTest extends WithPlayerData {
     info = someInfo();
   }
 
-  @SuppressWarnings("rawtypes")
-  protected static MapEntry[] emptyEntries() {
+  @SuppressWarnings("unchecked")
+  protected static <K, V> MapEntry<K, V>[] emptyEntries() {
     return new MapEntry[0];
   }
 

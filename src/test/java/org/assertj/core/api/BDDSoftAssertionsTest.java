@@ -177,10 +177,10 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors).hasSize(2);
     assertThat(errors.get(0)).hasMessageContaining(format("Expecting map:%n"
                                                           + "  {\"54\"=\"55\"}%n"
-                                                          + "to contain:%n"
+                                                          + "to contain entries:%n"
                                                           + "  [\"1\"=\"2\"]%n"
                                                           + "but could not find the following map entries:%n"
-                                                          + "  [\"1\"=\"2\"]%n"));
+                                                          + "  [\"1\"=\"2\"]"));
     assertThat(errors.get(1)).hasMessageContaining(format("Expecting empty but was: {\"54\"=\"55\"}"));
 
   }
@@ -336,10 +336,10 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
                                                + "  \"something was wrong\""));
     assertThat(errors.get(39)).contains(format("%nExpecting map:%n"
                                                + "  {\"54\"=\"55\"}%n"
-                                               + "to contain:%n"
+                                               + "to contain entries:%n"
                                                + "  [\"1\"=\"2\"]%n"
                                                + "but could not find the following map entries:%n"
-                                               + "  [\"1\"=\"2\"]%n"));
+                                               + "  [\"1\"=\"2\"]"));
     assertThat(errors.get(40)).contains(shouldBeEqualMessage("12:00", "13:00"));
     assertThat(errors.get(41)).contains(shouldBeEqualMessage("12:00Z", "13:00Z"));
     assertThat(errors.get(42)).contains(shouldBeEqualMessage("Optional[not empty]", "\"empty\""));

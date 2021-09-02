@@ -22,8 +22,8 @@ import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfy
 import static org.assertj.core.error.NoElementsShouldSatisfy.noElementsShouldSatisfy;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
-import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
+import static org.assertj.core.error.ShouldContainEntries.shouldContainEntries;
 import static org.assertj.core.error.ShouldContainEntry.shouldContainEntry;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
@@ -558,11 +558,16 @@ public class Maps {
 
   private <K, V> void failIfAnyEntryNotFoundInActualMap(AssertionInfo info, Map<K, V> actual,
                                                         Entry<? extends K, ? extends V>[] entries) {
-    Set<Entry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
+    Set<Entry<? extends K, ? extends V>> entriesWithKeyNotFound = new LinkedHashSet<>();
+    Set<Entry<? extends K, ? extends V>> entriesWithWrongValue = new LinkedHashSet<>();
     for (Entry<? extends K, ? extends V> entry : entries) {
-      if (!containsEntry(actual, entry)) notFound.add(entry);
+      requireNonNull(entry, ErrorMessages.entryToLookForIsNull());
+      if (!actual.containsKey(entry.getKey())) entriesWithKeyNotFound.add(entry);
+      else if (!containsEntry(actual, entry)) entriesWithWrongValue.add(entry); // can only be wrong value since key was found
     }
-    if (!notFound.isEmpty()) throw failures.failure(info, shouldContain(actual, entries, notFound));
+    if (!entriesWithWrongValue.isEmpty() || !entriesWithKeyNotFound.isEmpty())
+      throw failures.failure(info, shouldContainEntries(actual, entries, entriesWithWrongValue, entriesWithKeyNotFound,
+                                                        info.representation()));
   }
 
   private static <K, V> Map<K, V> entriesToMap(Entry<? extends K, ? extends V>[] entries) {
