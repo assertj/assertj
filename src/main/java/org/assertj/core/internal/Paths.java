@@ -320,13 +320,14 @@ public class Paths {
 
   public void assertIsDirectoryContaining(AssertionInfo info, Path actual, String syntaxAndPattern) {
     requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
-    PathMatcher pathMatcher = pathMatcher(info, actual, syntaxAndPattern);
-    assertIsDirectoryContaining(info, actual, pathMatcher::matches, format("the '%s' pattern", syntaxAndPattern));
+    Filter<Path> filter = fileNameFilter(info, actual, syntaxAndPattern);
+    assertIsDirectoryContaining(info, actual, filter, format("the '%s' pattern", syntaxAndPattern));
   }
 
   public void assertIsDirectoryRecursivelyContaining(AssertionInfo info, Path actual, String syntaxAndPattern) {
     requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
-    PathMatcher pathMatcher = pathMatcher(info, actual, syntaxAndPattern);
+    assertNotNull(info, actual);
+    PathMatcher pathMatcher = actual.getFileSystem().getPathMatcher(syntaxAndPattern);
     assertIsDirectoryRecursivelyContaining(info, actual, pathMatcher::matches,
                                            format("the '%s' pattern", syntaxAndPattern));
   }
@@ -343,8 +344,8 @@ public class Paths {
 
   public void assertIsDirectoryNotContaining(AssertionInfo info, Path actual, String syntaxAndPattern) {
     requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
-    PathMatcher pathMatcher = pathMatcher(info, actual, syntaxAndPattern);
-    assertIsDirectoryNotContaining(info, actual, pathMatcher::matches, format("the '%s' pattern", syntaxAndPattern));
+    Filter<Path> filter = fileNameFilter(info, actual, syntaxAndPattern);
+    assertIsDirectoryNotContaining(info, actual, filter, format("the '%s' pattern", syntaxAndPattern));
   }
 
   public void assertIsEmptyDirectory(AssertionInfo info, Path actual) {
@@ -432,9 +433,10 @@ public class Paths {
     }
   }
 
-  private PathMatcher pathMatcher(AssertionInfo info, Path actual, String syntaxAndPattern) {
+  private Filter<Path> fileNameFilter(AssertionInfo info, Path actual, String syntaxAndPattern) {
     assertNotNull(info, actual);
-    return actual.getFileSystem().getPathMatcher(syntaxAndPattern);
+    PathMatcher matcher = actual.getFileSystem().getPathMatcher(syntaxAndPattern);
+    return entry -> matcher.matches(entry.getFileName());
   }
 
   private static void assertNotNull(final AssertionInfo info, final Path actual) {
