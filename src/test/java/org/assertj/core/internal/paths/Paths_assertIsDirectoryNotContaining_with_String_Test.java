@@ -110,11 +110,11 @@ class Paths_assertIsDirectoryNotContaining_with_String_Test extends PathsBaseTes
   @ParameterizedTest
   @ValueSource(strings = {
       "glob:**file",
-//    "glob:file",    // fails due to gh-2329
+      "glob:file",
       "regex:.*file",
-//    "regex:file",   // fails due to gh-2329
+      "regex:file",
   })
-  void should_fail_if_actual_directly_contains_any_entries_matching_the_given_pattern(String syntaxAndPattern) throws IOException {
+  void should_fail_if_actual_contains_at_least_one_path_matching_the_given_pattern(String syntaxAndPattern) throws IOException {
     // GIVEN
     Path actual = createDirectory(tempDir.resolve("actual"));
     Path file = createFile(actual.resolve("file"));
