@@ -1936,4 +1936,28 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
     return myself;
   }
 
+  /**
+   * Verifies that the actual {@code Path} has no extension.
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> Path pathWithoutExtension = Paths.get(&quot;file&quot;);
+   * Path pathWithExtension = Paths.get(&quot;file.txt&quot;);
+   *
+   * // assertion will pass
+   * assertThat(pathWithoutExtension).hasExtension();
+   *
+   * // assertion will fail
+   * assertThat(pathWithExtension).hasExtension();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code Path} is {@code null}.
+   * @throws AssertionError if the actual {@code Path} is not a regular file.
+   * @throws AssertionError if the actual {@code Path} does have an extension.
+   */
+  public SELF hasNoExtension() {
+    paths.assertHasNoExtension(info, actual);
+    return myself;
+  }
+
 }
