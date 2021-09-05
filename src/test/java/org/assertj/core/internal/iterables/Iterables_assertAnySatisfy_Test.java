@@ -13,6 +13,7 @@
 package org.assertj.core.internal.iterables;
 
 import static java.lang.String.format;
+import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -21,7 +22,6 @@ import static org.assertj.core.error.ElementsShouldSatisfy.unsatisfiedRequiremen
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.emptyList;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test;
 
 class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
 
-  private List<String> actual = newArrayList("Luke", "Leia", "Yoda", "Obiwan");
+  private final List<String> actual = newArrayList("Luke", "Leia", "Yoda", "Obiwan");
 
   @Test
   void must_not_check_all_elements() {
@@ -85,25 +85,25 @@ class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     List<UnsatisfiedRequirement> errors = list(unsatisfiedRequirement("Luke", format("%n" +
-                                                                                                           "Expecting actual:%n" +
-                                                                                                           "  \"Luke\"%n" +
-                                                                                                           "to contain:%n" +
-                                                                                                           "  \"W\" ")),
-                                                                     unsatisfiedRequirement("Leia", format("%n" +
-                                                                                                           "Expecting actual:%n" +
-                                                                                                           "  \"Leia\"%n" +
-                                                                                                           "to contain:%n" +
-                                                                                                           "  \"W\" ")),
-                                                                     unsatisfiedRequirement("Yoda", format("%n" +
-                                                                                                           "Expecting actual:%n" +
-                                                                                                           "  \"Yoda\"%n" +
-                                                                                                           "to contain:%n" +
-                                                                                                           "  \"W\" ")),
-                                                                     unsatisfiedRequirement("Obiwan", format("%n" +
-                                                                                                             "Expected size: 4 but was: 6 in:%n"
-                                                                                                             +
-                                                                                                             "\"Obiwan\"")));
-      verify(failures).failure(info, elementsShouldSatisfyAny(actual, errors, someInfo()));
+                                                                                     "Expecting actual:%n" +
+                                                                                     "  \"Luke\"%n" +
+                                                                                     "to contain:%n" +
+                                                                                     "  \"W\" ")),
+                                               unsatisfiedRequirement("Leia", format("%n" +
+                                                                                     "Expecting actual:%n" +
+                                                                                     "  \"Leia\"%n" +
+                                                                                     "to contain:%n" +
+                                                                                     "  \"W\" ")),
+                                               unsatisfiedRequirement("Yoda", format("%n" +
+                                                                                     "Expecting actual:%n" +
+                                                                                     "  \"Yoda\"%n" +
+                                                                                     "to contain:%n" +
+                                                                                     "  \"W\" ")),
+                                               unsatisfiedRequirement("Obiwan", format("%n" +
+                                                                                       "Expected size: 4 but was: 6 in:%n"
+                                                                                       +
+                                                                                       "\"Obiwan\"")));
+    verify(failures).failure(info, elementsShouldSatisfyAny(actual, errors, someInfo()));
   }
 
   @Test

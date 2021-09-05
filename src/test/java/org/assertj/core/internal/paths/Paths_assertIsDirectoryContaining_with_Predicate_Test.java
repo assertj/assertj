@@ -14,6 +14,7 @@ package org.assertj.core.internal.paths;
 
 import static java.nio.file.Files.createDirectory;
 import static java.nio.file.Files.createFile;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -22,7 +23,6 @@ import static org.assertj.core.error.ShouldContain.directoryShouldContain;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.emptyList;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.willThrow;
 

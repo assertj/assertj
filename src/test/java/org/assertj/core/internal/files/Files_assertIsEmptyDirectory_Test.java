@@ -12,13 +12,13 @@
  */
 package org.assertj.core.internal.files;
 
+import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldBeEmptyDirectory.shouldBeEmptyDirectory;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.emptyList;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -28,14 +28,10 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.List;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Files#assertIsEmptyDirectory(AssertionInfo, File)}</code>
- *
  * @author Valeriy Vyrva
  */
 class Files_assertIsEmptyDirectory_Test extends FilesBaseTest {

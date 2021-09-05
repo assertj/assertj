@@ -12,24 +12,21 @@
  */
 package org.assertj.core.api.iterator;
 
+import static java.util.Collections.emptyIterator;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.error.ShouldHaveNext.shouldHaveNext;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.emptyList;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.verify;
 
 import java.util.Iterator;
 
-import org.assertj.core.api.AbstractIteratorAssert;
 import org.assertj.core.api.IteratorAssert;
 import org.assertj.core.api.IteratorAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link AbstractIteratorAssert#hasNext()} ()}</code>.
- *
  * @author Stephan Windmüller
  */
 class IteratorAssert_hasNext_Test extends IteratorAssertBaseTest {
@@ -53,7 +50,7 @@ class IteratorAssert_hasNext_Test extends IteratorAssertBaseTest {
   @Test
   void should_fail_for_exhausted_iterator() {
     // GIVEN
-    Iterator<Object> iterator = emptyList().iterator();
+    Iterator<Object> iterator = emptyIterator();
     // WHEN
     AssertionError error = catchThrowableOfType(assertThat(iterator)::hasNext, AssertionError.class);
     // THEN

@@ -12,12 +12,12 @@
  */
 package org.assertj.core.internal.objects;
 
+import static java.util.Collections.emptyList;
 import static org.assertj.core.error.ShouldHaveAllNullFields.shouldHaveAllNullFields;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
-import static org.assertj.core.util.Lists.emptyList;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.verify;
 

@@ -12,11 +12,11 @@
  */
 package org.assertj.core.internal.paths;
 
+import static java.util.Collections.emptyList;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldContainRecursively.directoryShouldContainRecursively;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
-import static org.assertj.core.util.Lists.emptyList;
 import static org.assertj.core.util.Lists.list;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.Mockito.verify;

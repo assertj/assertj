@@ -13,9 +13,9 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
+import static java.util.Collections.emptyList;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveAllNullFields.shouldHaveAllNullFields;
-import static org.assertj.core.util.Lists.emptyList;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.List;
@@ -26,9 +26,6 @@ import org.assertj.core.test.Person;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for
- * <code>{@link ShouldHaveAllNullFields#shouldHaveAllNullFields(Object, List, List)}</code>
- *
  * @author Vladimir Chernikov
  */
 class ShouldHaveAllNullFields_create_Test {

@@ -19,14 +19,15 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Lists#newArrayList()}</code>.
- * 
  * @author Christian Rösch
  */
+@SuppressWarnings("deprecation")
 class Lists_emptyList_Test {
+
   @Test
   void should_return_empty_List() {
     List<String> list = Lists.emptyList();
     assertThat(list).isEmpty();
   }
+
 }
