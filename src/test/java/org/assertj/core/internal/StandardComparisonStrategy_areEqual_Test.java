@@ -18,18 +18,14 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 /**
- * Tests for {@link StandardComparisonStrategy#areEqual(Object, Object)}.
- * 
  * @author Joel Costigliola
  */
-@DisplayName("StandardComparisonStrategy areEqual")
 class StandardComparisonStrategy_areEqual_Test {
 
   private final StandardComparisonStrategy underTest = StandardComparisonStrategy.instance();
@@ -261,16 +257,15 @@ class StandardComparisonStrategy_areEqual_Test {
 
   private static Stream<Object> arrays() {
     return Stream.of(
-//      new Object[] { "Luke", "Yoda", "Leia" }, // FIXME only "Luke" gets injected as single object
-      new byte[] { 1, 2, 3 },
-      new short[] { 1, 2, 3 },
-      new int[] { 1, 2, 3 },
-      new long[] { 1L, 2L, 3L },
-      new char[] { '1', '2', '3' },
-      new float[] { 1.0f, 2.0f, 3.0f },
-      new double[] { 1.0, 2.0, 3.0 },
-      new boolean[] { true, false }
-    );
+//                   new Object[] { "Luke", "Yoda", "Leia" }, // FIXME junit-team/junit5#2708
+                     new byte[] { 1, 2, 3 },
+                     new short[] { 1, 2, 3 },
+                     new int[] { 1, 2, 3 },
+                     new long[] { 1L, 2L, 3L },
+                     new char[] { '1', '2', '3' },
+                     new float[] { 1.0f, 2.0f, 3.0f },
+                     new double[] { 1.0, 2.0, 3.0 },
+                     new boolean[] { true, false });
   }
 
   @Test
@@ -309,9 +304,9 @@ class StandardComparisonStrategy_areEqual_Test {
     Object actual = new NonConsistent();
     // WHEN
     boolean[] results = {
-      underTest.areEqual(actual, actual),
-      underTest.areEqual(actual, actual),
-      underTest.areEqual(actual, actual)
+        underTest.areEqual(actual, actual),
+        underTest.areEqual(actual, actual),
+        underTest.areEqual(actual, actual)
     };
     // THEN
     then(results).containsExactly(true, false, true);
