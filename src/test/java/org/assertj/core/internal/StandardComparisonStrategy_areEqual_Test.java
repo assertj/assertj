@@ -267,7 +267,8 @@ class StandardComparisonStrategy_areEqual_Test {
                      new boolean[] { true, false });
   }
 
-  // https://github.com/junit-team/junit5/issues/2708
+  // Arrays of objects require additional wrapping to avoid expanding into individual elements.
+  // See https://github.com/junit-team/junit5/issues/1665 and https://github.com/junit-team/junit5/issues/2708
   private static Arguments argument(Object[] array) {
     return () -> new Object[] { array };
   }
