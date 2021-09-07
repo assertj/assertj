@@ -256,8 +256,7 @@ class StandardComparisonStrategy_areEqual_Test {
   }
 
   private static Stream<Object> arrays() {
-    return Stream.of(
-//                   new Object[] { "Luke", "Yoda", "Leia" }, // FIXME junit-team/junit5#2708
+    return Stream.of(argument(new Object[] { "Luke", "Yoda", "Leia" }),
                      new byte[] { 1, 2, 3 },
                      new short[] { 1, 2, 3 },
                      new int[] { 1, 2, 3 },
@@ -266,6 +265,11 @@ class StandardComparisonStrategy_areEqual_Test {
                      new float[] { 1.0f, 2.0f, 3.0f },
                      new double[] { 1.0, 2.0, 3.0 },
                      new boolean[] { true, false });
+  }
+
+  // https://github.com/junit-team/junit5/issues/2708
+  private static Arguments argument(Object[] array) {
+    return () -> new Object[] { array };
   }
 
   @Test
