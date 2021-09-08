@@ -203,14 +203,14 @@ public class RecursiveComparisonDifferenceCalculator {
       final Object actualFieldValue = dualValue.actual;
       final Object expectedFieldValue = dualValue.expected;
 
-      if (actualFieldValue == expectedFieldValue) continue;
-
       // Custom comparators take precedence over all other types of comparison
       if (recursiveComparisonConfiguration.hasCustomComparator(dualValue)) {
         if (!propertyOrFieldValuesAreEqual(dualValue, recursiveComparisonConfiguration)) comparisonState.addDifference(dualValue);
         // since we used a custom comparator we don't need to inspect the nested fields any further
         continue;
       }
+
+      if (actualFieldValue == expectedFieldValue) continue;
 
       if (actualFieldValue == null || expectedFieldValue == null) {
         // one of the value is null while the other is not as we already know that actualFieldValue != expectedFieldValue
@@ -679,8 +679,6 @@ public class RecursiveComparisonDifferenceCalculator {
     final String fieldName = dualValue.getConcatenatedPath();
     final Object actualFieldValue = dualValue.actual;
     final Object expectedFieldValue = dualValue.expected;
-    // no need to look into comparators if objects are the same
-    if (actualFieldValue == expectedFieldValue) return true;
     // check field comparators as they take precedence over type comparators
     Comparator fieldComparator = recursiveComparisonConfiguration.getComparatorForField(fieldName);
     if (fieldComparator != null) return fieldComparator.compare(actualFieldValue, expectedFieldValue) == 0;

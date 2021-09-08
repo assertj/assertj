@@ -13,6 +13,7 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.internal.objects.SymmetricDateComparator.SYMMETRIC_DATE_COMPARATOR;
 import static org.assertj.core.test.AlwaysDifferentComparator.alwaysDifferent;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
@@ -20,11 +21,13 @@ import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP
 import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.sql.Timestamp;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Objects;
 import java.util.function.BiPredicate;
 import java.util.stream.Stream;
 
@@ -239,21 +242,6 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
   }
 
   @Test
-  void should_ignore_comparators_when_fields_are_the_same() {
-    // GIVEN
-    Timestamp dateOfBirth = new Timestamp(3L);
-    Patient actual = new Patient(dateOfBirth);
-    Patient expected = new Patient(dateOfBirth);
-    // WHEN
-    assertThat(actual).usingRecursiveComparison()
-                      .withComparatorForFields(NEVER_EQUALS, "dateOfBirth")
-                      .isEqualTo(expected);
-    assertThat(actual).usingRecursiveComparison()
-                      .withEqualsForFields((o1, o2) -> false, "dateOfBirth")
-                      .isEqualTo(expected);
-  }
-
-  @Test
   void should_treat_timestamp_as_equal_to_date_when_registering_a_date_symmetric_comparator() {
     // GIVEN
     Person actual = new Person("Fred");
@@ -313,4 +301,40 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
                       .isEqualTo(expected);
   }
 
+  @Test
+  void should_use_custom_equal_over_reference_comparison() {
+    // GIVEN
+    Foo actual = new Foo(1);
+    Foo expected = new Foo(1);
+    BiPredicate<Integer, Integer> greaterThan = (i1, i2) -> Objects.equals(i1, i2 + 1);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison()
+                                                                                 .withEqualsForFields(greaterThan, "bar")
+                                                                                 .isEqualTo(expected));
+    // THEN
+    then(assertionError).hasMessageContainingAll("- these fields were compared with the following comparators:", "  - bar -> ");
+  }
+
+  @Test
+  void should_use_custom_comparator_over_reference_comparison() {
+    // GIVEN
+    Foo actual = new Foo(1);
+    Foo expected = new Foo(1);
+    BiPredicate<Integer, Integer> greaterThan = (i1, i2) -> Objects.equals(i1, i2 + 1);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison()
+                                                                                 .withComparatorForFields(NEVER_EQUALS, "bar")
+                                                                                 .isEqualTo(expected));
+    // THEN
+    then(assertionError).hasMessageContainingAll("- these fields were compared with the following comparators:", "  - bar -> ");
+  }
+
+  private static class Foo {
+
+    private final Integer bar;
+
+    private Foo(Integer bar) {
+      this.bar = bar;
+    }
+  }
 }

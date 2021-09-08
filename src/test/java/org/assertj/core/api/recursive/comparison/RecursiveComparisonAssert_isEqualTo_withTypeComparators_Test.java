@@ -14,11 +14,13 @@ package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.internal.objects.SymmetricDateComparator.SYMMETRIC_DATE_COMPARATOR;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.sql.Timestamp;
@@ -181,18 +183,33 @@ class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
   }
 
   @Test
-  void should_ignore_comparators_when_fields_are_the_same() {
+  void should_use_custom_comparator_over_reference_comparison() {
     // GIVEN
     Timestamp dateOfBirth = new Timestamp(3L);
     Patient actual = new Patient(dateOfBirth);
     Patient expected = new Patient(dateOfBirth);
     // THEN
-    assertThat(actual).usingRecursiveComparison()
-                      .withComparatorForType(NEVER_EQUALS, Timestamp.class)
-                      .isEqualTo(expected);
-    assertThat(actual).usingRecursiveComparison()
-                      .withEqualsForType((o1, o2) -> false, Timestamp.class)
-                      .isEqualTo(expected);
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison()
+                                                                                 .withComparatorForType(NEVER_EQUALS,
+                                                                                                        Timestamp.class)
+                                                                                 .isEqualTo(expected));
+    // THEN
+    then(assertionError).hasMessageContaining("- java.sql.Timestamp -> org.assertj.core.test.NeverEqualComparator");
+  }
+
+  @Test
+  void should_use_custom_equal_over_reference_comparison() {
+    // GIVEN
+    Timestamp dateOfBirth = new Timestamp(3L);
+    Patient actual = new Patient(dateOfBirth);
+    Patient expected = new Patient(dateOfBirth);
+    // THEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison()
+                                                                                 .withEqualsForType((o1, o2) -> false,
+                                                                                                    Timestamp.class)
+                                                                                 .isEqualTo(expected));
+    then(assertionError).hasMessageContaining("- java.sql.Timestamp -> ");
+    // THEN
   }
 
   @Test
