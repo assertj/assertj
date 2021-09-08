@@ -481,14 +481,16 @@ public class Files {
 
   public void assertIsDirectoryContaining(AssertionInfo info, File actual, String syntaxAndPattern) {
     requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
-    FileFilter filter = fileFilter(info, actual, syntaxAndPattern);
-    assertIsDirectoryContaining(info, actual, filter, format("the '%s' pattern", syntaxAndPattern));
+    FileFilter fileNameFilter = fileNameFilter(info, actual, syntaxAndPattern);
+    assertIsDirectoryContaining(info, actual, fileNameFilter, format("the '%s' pattern", syntaxAndPattern));
   }
 
   public void assertIsDirectoryRecursivelyContaining(AssertionInfo info, File actual, String syntaxAndPattern) {
     requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
-    FileFilter filter = fileFilter(info, actual, syntaxAndPattern);
-    assertIsDirectoryRecursivelyContaining(info, actual, filter::accept, format("the '%s' pattern", syntaxAndPattern));
+    assertNotNull(info, actual);
+    PathMatcher pathMatcher = actual.toPath().getFileSystem().getPathMatcher(syntaxAndPattern);
+    assertIsDirectoryRecursivelyContaining(info, actual, file -> pathMatcher.matches(file.toPath()),
+                                           format("the '%s' pattern", syntaxAndPattern));
   }
 
   public void assertIsDirectoryRecursivelyContaining(AssertionInfo info, File actual, Predicate<File> filter) {
@@ -503,8 +505,8 @@ public class Files {
 
   public void assertIsDirectoryNotContaining(AssertionInfo info, File actual, String syntaxAndPattern) {
     requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
-    FileFilter filter = fileFilter(info, actual, syntaxAndPattern);
-    assertIsDirectoryNotContaining(info, actual, filter, format("the '%s' pattern", syntaxAndPattern));
+    FileFilter fileNameFilter = fileNameFilter(info, actual, syntaxAndPattern);
+    assertIsDirectoryNotContaining(info, actual, fileNameFilter, format("the '%s' pattern", syntaxAndPattern));
   }
 
   // non-public section
@@ -566,10 +568,10 @@ public class Files {
     }
   }
 
-  private static FileFilter fileFilter(AssertionInfo info, File actual, String syntaxAndPattern) {
+  private FileFilter fileNameFilter(AssertionInfo info, File actual, String syntaxAndPattern) {
     assertNotNull(info, actual);
     PathMatcher matcher = actual.toPath().getFileSystem().getPathMatcher(syntaxAndPattern);
-    return file -> matcher.matches(file.toPath());
+    return file -> matcher.matches(file.toPath().getFileName());
   }
 
   private static void assertNotNull(AssertionInfo info, File actual) {

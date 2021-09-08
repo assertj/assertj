@@ -24,23 +24,18 @@ import static org.mockito.Mockito.verify;
 import java.nio.file.Path;
 import java.util.List;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Paths;
 import org.assertj.core.internal.PathsSimpleBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 /**
- * Tests for <code>{@link Paths#assertIsDirectoryRecursivelyContaining(AssertionInfo, Path, String)}</code>
- *
  * @author David Haccoun
  */
-class Paths_assertIsDirectoryRecursivelyContaining_SyntaxAndPattern_Test extends PathsSimpleBaseTest {
+class Paths_assertIsDirectoryRecursivelyContaining_with_String_Test extends PathsSimpleBaseTest {
 
   private static final String TXT_EXTENSION_PATTERN = "regex:.+\\.txt";
-  private static final String TXT_EXTENSION_PATTERN_DESCRIPTION = format("the '%s' pattern",
-                                                                         TXT_EXTENSION_PATTERN);
+  private static final String TXT_EXTENSION_PATTERN_DESCRIPTION = format("the '%s' pattern", TXT_EXTENSION_PATTERN);
 
   @ParameterizedTest
   @ValueSource(strings = { "regex:.+oo2\\.data", "regex:.+\\.json", "regex:.+bar2\\.json" })

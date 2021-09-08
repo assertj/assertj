@@ -30,17 +30,13 @@ import java.io.FileFilter;
 import java.util.List;
 import java.util.function.Predicate;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Files#assertIsDirectoryContaining(AssertionInfo, File, Predicate)}</code>
- *
  * @author Valeriy Vyrva
  */
-class Files_assertIsDirectoryContaining_Predicate_Test extends FilesBaseTest {
+class Files_assertIsDirectoryContaining_with_Predicate_Test extends FilesBaseTest {
 
   private static final Predicate<File> JAVA_SOURCE = file -> file.getName().endsWith(".java");
 

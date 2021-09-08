@@ -328,8 +328,7 @@ public class Paths {
     requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
     assertNotNull(info, actual);
     PathMatcher pathMatcher = actual.getFileSystem().getPathMatcher(syntaxAndPattern);
-    assertIsDirectoryRecursivelyContaining(info, actual, pathMatcher::matches,
-                                           format("the '%s' pattern", syntaxAndPattern));
+    assertIsDirectoryRecursivelyContaining(info, actual, pathMatcher::matches, format("the '%s' pattern", syntaxAndPattern));
   }
 
   public void assertIsDirectoryRecursivelyContaining(AssertionInfo info, Path actual, Predicate<Path> filter) {

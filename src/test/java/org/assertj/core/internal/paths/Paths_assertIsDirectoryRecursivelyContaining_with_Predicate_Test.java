@@ -26,8 +26,6 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Paths;
 import org.assertj.core.internal.PathsSimpleBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -37,11 +35,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 /**
- * Tests for <code>{@link Paths#assertIsDirectoryRecursivelyContaining(AssertionInfo, Path, java.util.function.Predicate)}</code>
- *
  * @author David Haccoun
  */
-class Paths_assertIsDirectoryRecursivelyContaining_Predicate_Test extends PathsSimpleBaseTest {
+class Paths_assertIsDirectoryRecursivelyContaining_with_Predicate_Test extends PathsSimpleBaseTest {
 
   private static final String THE_GIVEN_FILTER_DESCRIPTION = "the given filter";
 
