@@ -35,6 +35,7 @@ import java.util.Map;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.diff.Delta;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Base class for testing <code>{@link Files}</code>, set up diff and failures attributes (which is why it is in
@@ -45,6 +46,9 @@ import org.junit.jupiter.api.BeforeEach;
 public class FilesBaseTest {
 
   protected static final AssertionInfo INFO = someInfo();
+
+  @TempDir
+  protected Path tempDir;
 
   protected File actual;
   protected Failures failures;
@@ -125,8 +129,8 @@ public class FilesBaseTest {
     given(file.listFiles(any(FileFilter.class))).will(invocation -> {
       FileFilter filter = invocation.getArgument(0);
       return filesByName.keySet().stream()
-                        .map(name -> filesByName.get(name))
-                        .filter(fileWithName -> filter.accept(fileWithName))
+                        .map(filesByName::get)
+                        .filter(filter::accept)
                         .toArray(File[]::new);
     });
     return file;

@@ -13,14 +13,17 @@
 package org.assertj.core.internal.files;
 
 import static java.lang.String.format;
+import static java.nio.file.Files.createDirectory;
+import static java.nio.file.Files.createFile;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldNotContain.directoryShouldNotContain;
-import static org.assertj.core.internal.files.Files_assertIsDirectoryContaining_SyntaxAndPattern_Test.mockPathMatcher;
+import static org.assertj.core.internal.files.Files_assertIsDirectoryContaining_with_String_Test.mockPathMatcher;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
@@ -30,19 +33,18 @@ import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.util.List;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
- * Tests for <code>{@link Files#assertIsDirectoryNotContaining(AssertionInfo, File, String)}</code>
- *
  * @author Valeriy Vyrva
  */
-class Files_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends FilesBaseTest {
+class Files_assertIsDirectoryNotContaining_with_String_Test extends FilesBaseTest {
 
   private static final String JAVA_SOURCE_PATTERN = "regex:.+\\.java";
   private static final String JAVA_SOURCE_PATTERN_DESCRIPTION = format("the '%s' pattern", JAVA_SOURCE_PATTERN);
@@ -167,6 +169,26 @@ class Files_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends FilesBa
     // THEN
     verify(failures).failure(INFO,
                              directoryShouldNotContain(actual, list(file2, file4), JAVA_SOURCE_PATTERN_DESCRIPTION));
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {
+      "glob:**file",
+      "glob:file",
+      "regex:.*file",
+      "regex:file",
+  })
+  void should_fail_if_actual_contains_at_least_one_path_matching_the_given_pattern(String syntaxAndPattern) throws IOException {
+    // GIVEN
+    File actual = createDirectory(tempDir.resolve("actual")).toFile();
+    File file = createFile(actual.toPath().resolve("file")).toFile();
+    // WHEN
+    AssertionError error = expectAssertionError(() -> files.assertIsDirectoryNotContaining(INFO, actual,
+                                                                                           syntaxAndPattern));
+    // THEN
+    then(error).hasMessage(directoryShouldNotContain(actual,
+                                                     toFileNames(singletonList(file)),
+                                                     "the '" + syntaxAndPattern + "' pattern").create());
   }
 
 }

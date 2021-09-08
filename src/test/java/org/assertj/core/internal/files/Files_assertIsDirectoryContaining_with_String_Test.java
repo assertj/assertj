@@ -13,6 +13,8 @@
 package org.assertj.core.internal.files;
 
 import static java.lang.String.format;
+import static java.nio.file.Files.createDirectory;
+import static java.nio.file.Files.createFile;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
@@ -30,6 +32,7 @@ import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
@@ -37,17 +40,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
- * Tests for <code>{@link Files#assertIsDirectoryContaining(AssertionInfo, File, String)}</code>
- *
  * @author Valeriy Vyrva
  */
-class Files_assertIsDirectoryContaining_SyntaxAndPattern_Test extends FilesBaseTest {
+class Files_assertIsDirectoryContaining_with_String_Test extends FilesBaseTest {
 
   private static final String JAVA_SOURCE_PATTERN = "regex:.+\\.java";
   private static final String JAVA_SOURCE_PATTERN_DESCRIPTION = format("the '%s' pattern", JAVA_SOURCE_PATTERN);
@@ -192,4 +193,21 @@ class Files_assertIsDirectoryContaining_SyntaxAndPattern_Test extends FilesBaseT
     }
     given(path.getFileSystem()).willReturn(fileSystem);
   }
+
+  @ParameterizedTest
+  @ValueSource(strings = {
+      "glob:**file",
+      "glob:file",
+      "regex:.*file",
+      "regex:file",
+  })
+  void should_pass_if_actual_contains_at_least_one_path_matching_the_given_pattern(String syntaxAndPattern) throws IOException {
+    // GIVEN
+    File actual = createDirectory(tempDir.resolve("actual")).toFile();
+    createFile(actual.toPath().resolve("file"));
+    createDirectory(actual.toPath().resolve("directory"));
+    // WHEN/THEN
+    files.assertIsDirectoryContaining(INFO, actual, syntaxAndPattern);
+  }
+
 }
