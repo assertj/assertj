@@ -16,9 +16,11 @@ import static java.lang.String.format;
 import static java.nio.file.Files.createDirectory;
 import static java.nio.file.Files.createFile;
 import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldContain.directoryShouldContain;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
@@ -201,13 +203,50 @@ class Files_assertIsDirectoryContaining_with_String_Test extends FilesBaseTest {
       "regex:.*file",
       "regex:file",
   })
-  void should_pass_if_actual_contains_at_least_one_path_matching_the_given_pattern(String syntaxAndPattern) throws IOException {
+  void should_pass_if_actual_directly_contains_any_entries_matching_the_given_pattern(String syntaxAndPattern) throws IOException {
     // GIVEN
     File actual = createDirectory(tempDir.resolve("actual")).toFile();
-    createFile(actual.toPath().resolve("file"));
     createDirectory(actual.toPath().resolve("directory"));
+    createFile(actual.toPath().resolve("file"));
     // WHEN/THEN
     files.assertIsDirectoryContaining(INFO, actual, syntaxAndPattern);
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {
+      "glob:**file",
+      "glob:file",
+      "regex:.*file",
+      "regex:file",
+  })
+  void should_fail_if_actual_does_not_contain_any_entries_matching_the_given_pattern(String syntaxAndPattern) throws IOException {
+    // GIVEN
+    File actual = createDirectory(tempDir.resolve("actual")).toFile();
+    File directory = createDirectory(actual.toPath().resolve("directory")).toFile();
+    // WHEN
+    AssertionError error = expectAssertionError(() -> files.assertIsDirectoryContaining(INFO, actual, syntaxAndPattern));
+    // THEN
+    then(error).hasMessage(directoryShouldContain(actual, toFileNames(singletonList(directory)),
+                                                  format("the '%s' pattern", syntaxAndPattern)).create());
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {
+      "glob:**file",
+      "glob:file",
+      "regex:.*file",
+      "regex:file",
+  })
+  void should_fail_if_actual_recursively_contains_any_entries_matching_the_given_pattern(String syntaxAndPattern) throws IOException {
+    // GIVEN
+    File actual = createDirectory(tempDir.resolve("actual")).toFile();
+    File directory = createDirectory(actual.toPath().resolve("directory")).toFile();
+    createFile(directory.toPath().resolve("file"));
+    // WHEN
+    AssertionError error = expectAssertionError(() -> files.assertIsDirectoryContaining(INFO, actual, syntaxAndPattern));
+    // THEN
+    then(error).hasMessage(directoryShouldContain(actual, toFileNames(singletonList(directory)),
+                                                  format("the '%s' pattern", syntaxAndPattern)).create());
   }
 
 }

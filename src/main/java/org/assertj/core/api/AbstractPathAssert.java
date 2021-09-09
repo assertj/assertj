@@ -25,6 +25,7 @@ import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
+import java.nio.file.PathMatcher;
 import java.nio.file.ProviderMismatchException;
 import java.nio.file.spi.FileSystemProvider;
 import java.security.MessageDigest;
@@ -1501,16 +1502,16 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   }
 
   /**
-   * Verify that the actual {@code Path} is a directory containing at least one file matching the given {@code String}
-   * interpreted as a path matcher (as per {@link FileSystem#getPathMatcher(String)}).
+   * Verify that the actual {@code Path} is a directory containing at least one entry with name matching
+   * the given {@code String}, interpreted as a path matcher (as per {@link FileSystem#getPathMatcher(String)}).
    * <p>
    * Note that the actual {@link Path} must exist and be a directory.
    * <p>
    * Given the following directory structure:
    * <pre><code class="text"> /root/
    * /root/sub-dir-1/
-   * /root/sub-dir-1/file-1.ext
-   * /root/sub-dir-1/file-2.ext
+   * /root/sub-dir-1/file-1.txt
+   * /root/sub-dir-1/file-2.txt
    * /root/sub-file-1.ext
    * /root/sub-file-2.ext</code></pre>
    *
@@ -1518,24 +1519,28 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * <pre><code class="java"> Path root = Paths.get("root");
    *
    * // The following assertions succeed:
-   * assertThat(root).isDirectoryContaining("glob:**sub-dir*")
+   * assertThat(root).isDirectoryContaining("glob:sub-dir*")
+   *                 .isDirectoryContaining("glob:**sub-dir*")
+   *                 .isDirectoryContaining("glob:sub-file*")
    *                 .isDirectoryContaining("glob:**sub-file*")
+   *                 .isDirectoryContaining("glob:*.ext")
    *                 .isDirectoryContaining("glob:**.ext")
    *                 .isDirectoryContaining("regex:.*ext")
-   *                 .isDirectoryContaining("glob:**.{ext,bin");
+   *                 .isDirectoryContaining("glob:*.{ext,bin}");
    *
    * // The following assertions fail:
-   * assertThat(root).isDirectoryContaining("glob:**dir");
-   * assertThat(root).isDirectoryContaining("glob:**.bin");
-   * assertThat(root).isDirectoryContaining("glob:**.{java,class}"); </code></pre>
+   * assertThat(root).isDirectoryContaining("glob:sub-dir-1/file*");
+   * assertThat(root).isDirectoryContaining("glob:*.txt");
+   * assertThat(root).isDirectoryContaining("glob:**.txt");
+   * assertThat(root).isDirectoryContaining("glob:*.{java,class}"); </code></pre>
    *
-   * @param syntaxAndPattern the syntax and pattern for {@link java.nio.file.PathMatcher} as described in {@link FileSystem#getPathMatcher(String)}.
+   * @param syntaxAndPattern the syntax and pattern for {@link PathMatcher} as described in {@link FileSystem#getPathMatcher(String)}.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given syntaxAndPattern is {@code null}.
    * @throws AssertionError       if actual is {@code null}.
    * @throws AssertionError       if actual does not exist.
    * @throws AssertionError       if actual is not a directory.
-   * @throws AssertionError       if actual does not contain any files matching the given path matcher.
+   * @throws AssertionError       if actual does not contain any entries with name matching the given path matcher.
    * @see FileSystem#getPathMatcher(String)
    * @since 3.13.0
    */
@@ -1574,7 +1579,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * assertThat(root).isDirectoryRecursivelyContaining("glob:**.bin");
    * assertThat(root).isDirectoryRecursivelyContaining("glob:**.{java,class}"); </code></pre>
    *
-   * @param syntaxAndPattern the syntax and pattern for {@link java.nio.file.PathMatcher} as described in {@link FileSystem#getPathMatcher(String)}.
+   * @param syntaxAndPattern the syntax and pattern for {@link PathMatcher} as described in {@link FileSystem#getPathMatcher(String)}.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given syntaxAndPattern is {@code null}.
    * @throws AssertionError       if actual is {@code null}.
@@ -1673,16 +1678,16 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   }
 
   /**
-   * Verify that the actual {@code Path} is a directory that does not contain any files matching the given {@code String}
-   * interpreted as a path matcher (as per {@link FileSystem#getPathMatcher(String)}).
+   * Verify that the actual {@code Path} is a directory that does not contain any entries with name matching
+   * the given {@code String}, interpreted as a path matcher (as per {@link FileSystem#getPathMatcher(String)}).
    * <p>
    * Note that the actual {@link Path} must exist and be a directory.
    * <p>
    * Given the following directory structure:
    * <pre><code class="text"> /root/
    * /root/sub-dir-1/
-   * /root/sub-dir-1/file-1.ext
-   * /root/sub-dir-1/file-2.ext
+   * /root/sub-dir-1/file-1.txt
+   * /root/sub-dir-1/file-2.txt
    * /root/sub-file-1.ext
    * /root/sub-file-2.ext</code></pre>
    *
@@ -1690,25 +1695,29 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * <pre><code class="java"> Path root = Paths.get("root");
    *
    * // The following assertions succeed:
-   * assertThat(root).isDirectoryNotContaining("glob:**dir")
-   *                 .isDirectoryNotContaining("glob:**.bin")
-   *                 .isDirectoryNotContaining("regex:.*bin")
-   *                 .isDirectoryNotContaining("glob:**.{java,class}");
+   * assertThat(root).isDirectoryNotContaining("glob:sub-dir-1/file*")
+   *                 .isDirectoryNotContaining("glob:*.txt")
+   *                 .isDirectoryNotContaining("glob:**.txt")
+   *                 .isDirectoryNotContaining("regex:.*txt")
+   *                 .isDirectoryNotContaining("glob:*.{java,class}");
    *
    * // The following assertions fail:
+   * assertThat(root).isDirectoryNotContaining("glob:sub-dir*");
    * assertThat(root).isDirectoryNotContaining("glob:**sub-dir*");
+   * assertThat(root).isDirectoryNotContaining("glob:sub-file*");
    * assertThat(root).isDirectoryNotContaining("glob:**sub-file*");
+   * assertThat(root).isDirectoryNotContaining("glob:*.ext");
    * assertThat(root).isDirectoryNotContaining("glob:**.ext");
    * assertThat(root).isDirectoryNotContaining("regex:.*ext");
-   * assertThat(root).isDirectoryNotContaining("glob:**.{ext,bin"); </code></pre>
+   * assertThat(root).isDirectoryNotContaining("glob:*.{ext,bin}"); </code></pre>
    *
-   * @param syntaxAndPattern the syntax and pattern for {@link java.nio.file.PathMatcher} as described in {@link FileSystem#getPathMatcher(String)}.
+   * @param syntaxAndPattern the syntax and pattern for {@link PathMatcher} as described in {@link FileSystem#getPathMatcher(String)}.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given syntaxAndPattern is {@code null}.
    * @throws AssertionError       if actual is {@code null}.
    * @throws AssertionError       if actual does not exist.
    * @throws AssertionError       if actual is not a directory.
-   * @throws AssertionError       if actual contains a file matching the given path matcher.
+   * @throws AssertionError       if actual contains an entry with name matching the given path matcher.
    * @see FileSystem#getPathMatcher(String)
    * @since 3.13.0
    */
