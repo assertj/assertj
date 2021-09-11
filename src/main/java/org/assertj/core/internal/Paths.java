@@ -40,6 +40,7 @@ import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
 import static org.assertj.core.error.ShouldHaveDigest.shouldHaveDigest;
 import static org.assertj.core.error.ShouldHaveExtension.shouldHaveExtension;
 import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
+import static org.assertj.core.error.ShouldHaveNoExtension.shouldHaveNoExtension;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
@@ -466,6 +467,12 @@ public class Paths {
     assertIsRegularFile(info, actual);
     String extension = getExtension(actual).orElseThrow(() -> failures.failure(info, shouldHaveExtension(actual, expected)));
     if (!expected.equals(extension)) throw failures.failure(info, shouldHaveExtension(actual, extension, expected));
+  }
+
+  public void assertHasNoExtension(AssertionInfo info, Path actual) {
+    assertIsRegularFile(info, actual);
+    Optional<String> extension = getExtension(actual);
+    if (extension.isPresent()) throw failures.failure(info, shouldHaveNoExtension(actual, extension.get()));
   }
 
   private static Optional<String> getExtension(Path path) {
