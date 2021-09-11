@@ -22,7 +22,7 @@ import java.nio.file.Path;
 public class ShouldHaveNoExtension extends BasicErrorMessageFactory {
 
   @VisibleForTesting
-  public static final String PATH_HAS_EXTENSION = "%nExpected actual path:%n  %s%n not to have an extension, but extension was:%n  %s";
+  public static final String PATH_HAS_EXTENSION = "%nExpected actual path:%n  %s%n not to have an extension, but extension was: %s";
 
   public static ShouldHaveNoExtension shouldHaveNoExtension(Path actual, String extension) {
     return new ShouldHaveNoExtension(actual, extension);

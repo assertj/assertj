@@ -1945,10 +1945,10 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * Path pathWithExtension = Paths.get(&quot;file.txt&quot;);
    *
    * // assertion will pass
-   * assertThat(pathWithoutExtension).hasExtension();
+   * assertThat(pathWithoutExtension).hasNoExtension();
    *
    * // assertion will fail
-   * assertThat(pathWithExtension).hasExtension();</code></pre>
+   * assertThat(pathWithExtension).hasNoExtension();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code Path} is {@code null}.
