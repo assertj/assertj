@@ -177,15 +177,45 @@ class Files_assertIsDirectoryNotContaining_with_String_Test extends FilesBaseTes
       "regex:.*file",
       "regex:file",
   })
-  void should_fail_if_actual_contains_at_least_one_path_matching_the_given_pattern(String syntaxAndPattern) throws IOException {
+  void should_fail_if_actual_directly_contains_any_entries_matching_the_given_pattern(String syntaxAndPattern) throws IOException {
     // GIVEN
     File actual = createDirectory(tempDir.resolve("actual")).toFile();
     File file = createFile(actual.toPath().resolve("file")).toFile();
     // WHEN
-    AssertionError error = expectAssertionError(() -> files.assertIsDirectoryNotContaining(INFO, actual,
-                                                                                           syntaxAndPattern));
+    AssertionError error = expectAssertionError(() -> files.assertIsDirectoryNotContaining(INFO, actual, syntaxAndPattern));
     // THEN
     then(error).hasMessage(directoryShouldNotContain(actual, list(file), "the '" + syntaxAndPattern + "' pattern").create());
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {
+      "glob:**file",
+      "glob:file",
+      "regex:.*file",
+      "regex:file",
+  })
+  void should_pass_if_actual_does_not_contain_any_entries_matching_the_given_pattern(String syntaxAndPattern) throws IOException {
+    // GIVEN
+    File actual = createDirectory(tempDir.resolve("actual")).toFile();
+    createDirectory(actual.toPath().resolve("directory"));
+    // WHEN/THEN
+    files.assertIsDirectoryNotContaining(INFO, actual, syntaxAndPattern);
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {
+      "glob:**file",
+      "glob:file",
+      "regex:.*file",
+      "regex:file",
+  })
+  void should_pass_if_actual_recursively_contains_any_entries_matching_the_given_pattern(String syntaxAndPattern) throws IOException {
+    // GIVEN
+    File actual = createDirectory(tempDir.resolve("actual")).toFile();
+    File directory = createDirectory(actual.toPath().resolve("directory")).toFile();
+    createFile(directory.toPath().resolve("file"));
+    // WHEN/THEN
+    files.assertIsDirectoryNotContaining(INFO, actual, syntaxAndPattern);
   }
 
 }

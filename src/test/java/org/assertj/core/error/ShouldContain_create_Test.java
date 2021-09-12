@@ -338,8 +338,7 @@ class ShouldContain_create_Test {
                                    "  root%n" +
                                    "to contain at least one file matching glob:**.java but there was none.%n" +
                                    "The directory content was:%n" +
-                                   "  [%s, %s]",
-                                   directory.resolve("foo.txt"), directory.resolve("bar.txt")));
+                                   "  [foo.txt, bar.txt]"));
   }
 
 }

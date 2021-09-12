@@ -568,7 +568,7 @@ public class Files {
     }
   }
 
-  private FileFilter fileNameFilter(AssertionInfo info, File actual, String syntaxAndPattern) {
+  private static FileFilter fileNameFilter(AssertionInfo info, File actual, String syntaxAndPattern) {
     assertNotNull(info, actual);
     PathMatcher matcher = actual.toPath().getFileSystem().getPathMatcher(syntaxAndPattern);
     return file -> matcher.matches(file.toPath().getFileName());

@@ -109,8 +109,7 @@ class ShouldNotContain_create_Test {
                                    "Expecting directory:%n" +
                                    "  root%n" +
                                    "not to contain any files matching glob:**.java but found some:%n" +
-                                   "  [%s, %s]",
-                                   directory.resolve("foo.txt"), directory.resolve("bar.txt")));
+                                   "  [foo.txt, bar.txt]"));
   }
 
 }
