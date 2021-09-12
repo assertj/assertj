@@ -16,7 +16,6 @@ import static java.lang.String.format;
 import static java.nio.file.Files.createDirectory;
 import static java.nio.file.Files.createFile;
 import static java.util.Collections.emptyList;
-import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -53,7 +52,7 @@ class Files_assertIsDirectoryNotContaining_with_String_Test extends FilesBaseTes
   void should_pass_if_actual_does_not_contain_files_matching_the_given_pathMatcherPattern() {
     // GIVEN
     File file = mockRegularFile("root", "Test.class");
-    List<File> items = singletonList(file);
+    List<File> items = list(file);
     File actual = mockDirectory(items, "root");
     mockPathMatcher(actual);
     // THEN
@@ -186,9 +185,7 @@ class Files_assertIsDirectoryNotContaining_with_String_Test extends FilesBaseTes
     AssertionError error = expectAssertionError(() -> files.assertIsDirectoryNotContaining(INFO, actual,
                                                                                            syntaxAndPattern));
     // THEN
-    then(error).hasMessage(directoryShouldNotContain(actual,
-                                                     toFileNames(singletonList(file)),
-                                                     "the '" + syntaxAndPattern + "' pattern").create());
+    then(error).hasMessage(directoryShouldNotContain(actual, list(file), "the '" + syntaxAndPattern + "' pattern").create());
   }
 
 }

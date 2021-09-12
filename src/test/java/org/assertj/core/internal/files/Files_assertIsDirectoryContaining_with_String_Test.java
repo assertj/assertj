@@ -16,7 +16,6 @@ import static java.lang.String.format;
 import static java.nio.file.Files.createDirectory;
 import static java.nio.file.Files.createFile;
 import static java.util.Collections.emptyList;
-import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -226,7 +225,7 @@ class Files_assertIsDirectoryContaining_with_String_Test extends FilesBaseTest {
     // WHEN
     AssertionError error = expectAssertionError(() -> files.assertIsDirectoryContaining(INFO, actual, syntaxAndPattern));
     // THEN
-    then(error).hasMessage(directoryShouldContain(actual, toFileNames(singletonList(directory)),
+    then(error).hasMessage(directoryShouldContain(actual, list(directory),
                                                   format("the '%s' pattern", syntaxAndPattern)).create());
   }
 
@@ -245,7 +244,7 @@ class Files_assertIsDirectoryContaining_with_String_Test extends FilesBaseTest {
     // WHEN
     AssertionError error = expectAssertionError(() -> files.assertIsDirectoryContaining(INFO, actual, syntaxAndPattern));
     // THEN
-    then(error).hasMessage(directoryShouldContain(actual, toFileNames(singletonList(directory)),
+    then(error).hasMessage(directoryShouldContain(actual, list(directory),
                                                   format("the '%s' pattern", syntaxAndPattern)).create());
   }
 
