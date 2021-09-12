@@ -69,11 +69,12 @@ public class ShouldNotContain extends BasicErrorMessageFactory {
   }
 
   public static ErrorMessageFactory directoryShouldNotContain(Path actual, List<Path> matchingContent, String filterDescription) {
-    return new ShouldNotContain(actual, toPathNames(matchingContent), filterDescription);
+    return new ShouldNotContain(actual, toPathFileNames(matchingContent), filterDescription);
   }
 
-  private static List<String> toPathNames(List<Path> files) {
+  private static List<String> toPathFileNames(List<Path> files) {
     return files.stream()
+                .map(Path::getFileName)
                 .map(Path::toString)
                 .collect(toList());
   }

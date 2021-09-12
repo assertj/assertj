@@ -83,11 +83,12 @@ public class ShouldContain extends BasicErrorMessageFactory {
   }
 
   public static ErrorMessageFactory directoryShouldContain(Path actual, List<Path> directoryContent, String filterDescription) {
-    return new ShouldContain(actual, toPathNames(directoryContent), filterDescription);
+    return new ShouldContain(actual, toPathFileNames(directoryContent), filterDescription);
   }
 
-  private static List<String> toPathNames(List<Path> files) {
+  private static List<String> toPathFileNames(List<Path> files) {
     return files.stream()
+                .map(Path::getFileName)
                 .map(Path::toString)
                 .collect(toList());
   }
