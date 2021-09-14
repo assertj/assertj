@@ -20,7 +20,6 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldNotContain.directoryShouldNotContain;
-import static org.assertj.core.internal.Files.toFileNames;
 import static org.assertj.core.internal.files.Files_assertIsDirectoryContaining_SyntaxAndPattern_Test.mockPathMatcher;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -135,7 +134,7 @@ class Files_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends FilesBa
     // WHEN
     expectAssertionError(() -> files.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE_PATTERN));
     // THEN
-    verify(failures).failure(INFO, directoryShouldNotContain(actual, toFileNames(items), JAVA_SOURCE_PATTERN_DESCRIPTION));
+    verify(failures).failure(INFO, directoryShouldNotContain(actual, items, JAVA_SOURCE_PATTERN_DESCRIPTION));
   }
 
   @Test
@@ -149,7 +148,7 @@ class Files_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends FilesBa
     // WHEN
     expectAssertionError(() -> files.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE_PATTERN));
     // THEN
-    verify(failures).failure(INFO, directoryShouldNotContain(actual, toFileNames(items), JAVA_SOURCE_PATTERN_DESCRIPTION));
+    verify(failures).failure(INFO, directoryShouldNotContain(actual, items, JAVA_SOURCE_PATTERN_DESCRIPTION));
   }
 
   @Test
@@ -167,7 +166,7 @@ class Files_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends FilesBa
     expectAssertionError(() -> files.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE_PATTERN));
     // THEN
     verify(failures).failure(INFO,
-                             directoryShouldNotContain(actual, toFileNames(list(file2, file4)), JAVA_SOURCE_PATTERN_DESCRIPTION));
+                             directoryShouldNotContain(actual, list(file2, file4), JAVA_SOURCE_PATTERN_DESCRIPTION));
   }
 
 }

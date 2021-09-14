@@ -23,6 +23,8 @@ import static org.mockito.Mockito.mock;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
@@ -82,7 +84,8 @@ class ShouldNotContain_create_Test {
     // GIVEN
     File directory = mock(File.class);
     given(directory.getAbsolutePath()).willReturn("root");
-    ErrorMessageFactory factory = directoryShouldNotContain(directory, list("foo.txt", "bar.txt"), "glob:**.java");
+    List<File> matchingContent = list(new File("root", "foo.txt"), new File("root", "bar.txt"));
+    ErrorMessageFactory factory = directoryShouldNotContain(directory, matchingContent, "glob:**.java");
     // WHEN
     String message = factory.create(new TextDescription("Test"));
     // THEN
@@ -96,9 +99,9 @@ class ShouldNotContain_create_Test {
   @Test
   void should_create_error_message_for_path_directory() {
     // GIVEN
-    Path directory = mock(Path.class);
-    given(directory.toString()).willReturn("root");
-    ErrorMessageFactory factory = directoryShouldNotContain(directory, list("foo.txt", "bar.txt"), "glob:**.java");
+    Path directory = Paths.get("root");
+    List<Path> matchingContent = list(directory.resolve("foo.txt"), directory.resolve("bar.txt"));
+    ErrorMessageFactory factory = directoryShouldNotContain(directory, matchingContent, "glob:**.java");
     // WHEN
     String message = factory.create(new TextDescription("Test"));
     // THEN
@@ -106,7 +109,8 @@ class ShouldNotContain_create_Test {
                                    "Expecting directory:%n" +
                                    "  root%n" +
                                    "not to contain any files matching glob:**.java but found some:%n" +
-                                   "  [foo.txt, bar.txt]"));
+                                   "  [%s, %s]",
+                                   directory.resolve("foo.txt"), directory.resolve("bar.txt")));
   }
 
 }

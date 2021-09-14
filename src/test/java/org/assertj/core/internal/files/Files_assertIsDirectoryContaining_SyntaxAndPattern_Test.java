@@ -19,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldContain.directoryShouldContain;
-import static org.assertj.core.internal.Files.toFileNames;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
@@ -172,7 +171,7 @@ class Files_assertIsDirectoryContaining_SyntaxAndPattern_Test extends FilesBaseT
     // WHEN
     expectAssertionError(() -> files.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE_PATTERN));
     // THEN
-    verify(failures).failure(INFO, directoryShouldContain(actual, toFileNames(items), JAVA_SOURCE_PATTERN_DESCRIPTION));
+    verify(failures).failure(INFO, directoryShouldContain(actual, items, JAVA_SOURCE_PATTERN_DESCRIPTION));
   }
 
   static void mockPathMatcher(File actual) {

@@ -55,6 +55,7 @@ import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.DirectoryStream;
+import java.nio.file.DirectoryStream.Filter;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
@@ -80,7 +81,7 @@ public class Paths {
   private static final String UNABLE_TO_COMPARE_PATH_CONTENTS = "Unable to compare contents of paths:<%s> and:<%s>";
 
   private static final Paths INSTANCE = new Paths();
-  private static final Predicate<Path> ANY = any -> true;
+  private static final Filter<Path> ANY = any -> true;
 
   @VisibleForTesting
   Diff diff = new Diff();
@@ -314,7 +315,7 @@ public class Paths {
 
   public void assertIsDirectoryContaining(AssertionInfo info, Path actual, Predicate<Path> filter) {
     requireNonNull(filter, "The paths filter should not be null");
-    assertIsDirectoryContaining(info, actual, filter, "the given filter");
+    assertIsDirectoryContaining(info, actual, filter::test, "the given filter");
   }
 
   public void assertIsDirectoryContaining(AssertionInfo info, Path actual, String syntaxAndPattern) {
@@ -337,7 +338,7 @@ public class Paths {
 
   public void assertIsDirectoryNotContaining(AssertionInfo info, Path actual, Predicate<Path> filter) {
     requireNonNull(filter, "The paths filter should not be null");
-    assertIsDirectoryNotContaining(info, actual, filter, "the given filter");
+    assertIsDirectoryNotContaining(info, actual, filter::test, "the given filter");
   }
 
   public void assertIsDirectoryNotContaining(AssertionInfo info, Path actual, String syntaxAndPattern) {
@@ -374,15 +375,9 @@ public class Paths {
     }
   }
 
-  public static List<String> toPathNames(List<Path> files) {
-    return files.stream()
-                .map(Path::toString)
-                .collect(toList());
-  }
+  // non-public section
 
-  // non public section
-
-  private List<Path> filterDirectory(AssertionInfo info, Path actual, Predicate<Path> filter) {
+  private List<Path> filterDirectory(AssertionInfo info, Path actual, Filter<Path> filter) {
     assertIsDirectory(info, actual);
     try (DirectoryStream<Path> stream = nioFilesWrapper.newDirectoryStream(actual, filter)) {
       return stream(stream.spliterator(), false).collect(toList());
@@ -395,10 +390,10 @@ public class Paths {
     return filterDirectory(info, actual, ANY);
   }
 
-  private void assertIsDirectoryContaining(AssertionInfo info, Path actual, Predicate<Path> filter, String filterPresentation) {
+  private void assertIsDirectoryContaining(AssertionInfo info, Path actual, Filter<Path> filter, String filterPresentation) {
     List<Path> matchingFiles = filterDirectory(info, actual, filter);
     if (matchingFiles.isEmpty()) {
-      throw failures.failure(info, directoryShouldContain(actual, directoryContentDescription(info, actual), filterPresentation));
+      throw failures.failure(info, directoryShouldContain(actual, directoryContent(info, actual), filterPresentation));
     }
   }
 
@@ -430,16 +425,11 @@ public class Paths {
     }
   }
 
-  private void assertIsDirectoryNotContaining(AssertionInfo info, Path actual, Predicate<Path> filter,
-                                              String filterPresentation) {
+  private void assertIsDirectoryNotContaining(AssertionInfo info, Path actual, Filter<Path> filter, String filterPresentation) {
     List<Path> matchingPaths = filterDirectory(info, actual, filter);
     if (matchingPaths.size() > 0) {
-      throw failures.failure(info, directoryShouldNotContain(actual, toPathNames(matchingPaths), filterPresentation));
+      throw failures.failure(info, directoryShouldNotContain(actual, matchingPaths, filterPresentation));
     }
-  }
-
-  private List<String> directoryContentDescription(AssertionInfo info, Path actual) {
-    return toPathNames(directoryContent(info, actual));
   }
 
   private PathMatcher pathMatcher(AssertionInfo info, Path actual, String syntaxAndPattern) {

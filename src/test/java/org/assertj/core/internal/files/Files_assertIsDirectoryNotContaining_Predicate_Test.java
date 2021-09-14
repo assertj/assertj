@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldNotContain.directoryShouldNotContain;
-import static org.assertj.core.internal.Files.toFileNames;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
@@ -126,7 +125,7 @@ class Files_assertIsDirectoryNotContaining_Predicate_Test extends FilesBaseTest 
     // WHEN
     expectAssertionError(() -> files.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE));
     // THEN
-    verify(failures).failure(INFO, directoryShouldNotContain(actual, toFileNames(items), "the given filter"));
+    verify(failures).failure(INFO, directoryShouldNotContain(actual, items, "the given filter"));
   }
 
   @Test
@@ -139,7 +138,7 @@ class Files_assertIsDirectoryNotContaining_Predicate_Test extends FilesBaseTest 
     // WHEN
     expectAssertionError(() -> files.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE));
     // THEN
-    verify(failures).failure(INFO, directoryShouldNotContain(actual, toFileNames(items), "the given filter"));
+    verify(failures).failure(INFO, directoryShouldNotContain(actual, items, "the given filter"));
   }
 
   @Test
@@ -155,7 +154,7 @@ class Files_assertIsDirectoryNotContaining_Predicate_Test extends FilesBaseTest 
     // WHEN
     expectAssertionError(() -> files.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE));
     // THEN
-    verify(failures).failure(INFO, directoryShouldNotContain(actual, toFileNames(list(file2, file4)), "the given filter"));
+    verify(failures).failure(INFO, directoryShouldNotContain(actual, list(file2, file4), "the given filter"));
   }
 
 }

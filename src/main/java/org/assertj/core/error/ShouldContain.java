@@ -12,19 +12,21 @@
  */
 package org.assertj.core.error;
 
+import static java.util.stream.Collectors.toList;
+import static org.assertj.core.error.GroupTypeDescription.getGroupTypeDescription;
+import static org.assertj.core.util.Strings.escapePercent;
+
 import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 
 import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
-import static org.assertj.core.error.GroupTypeDescription.getGroupTypeDescription;
-import static org.assertj.core.util.Strings.escapePercent;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains a given set of values failed.
  * A group of elements can be a collection, an array or a {@code String}.<br>
- * It also mention the {@link ComparisonStrategy} used.
+ * It also mentions the {@link ComparisonStrategy} used.
  *
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -70,12 +72,24 @@ public class ShouldContain extends BasicErrorMessageFactory {
     return shouldContain(actual, expected, notFound, StandardComparisonStrategy.instance());
   }
 
-  public static ErrorMessageFactory directoryShouldContain(File actual, List<String> directoryContent, String filterDescription) {
-    return new ShouldContain(actual, directoryContent, filterDescription);
+  public static ErrorMessageFactory directoryShouldContain(File actual, List<File> directoryContent, String filterDescription) {
+    return new ShouldContain(actual, toFileNames(directoryContent), filterDescription);
   }
 
-  public static ErrorMessageFactory directoryShouldContain(Path actual, List<String> directoryContent, String filterDescription) {
-    return new ShouldContain(actual, directoryContent, filterDescription);
+  private static List<String> toFileNames(List<File> files) {
+    return files.stream()
+                .map(File::getName)
+                .collect(toList());
+  }
+
+  public static ErrorMessageFactory directoryShouldContain(Path actual, List<Path> directoryContent, String filterDescription) {
+    return new ShouldContain(actual, toPathNames(directoryContent), filterDescription);
+  }
+
+  private static List<String> toPathNames(List<Path> files) {
+    return files.stream()
+                .map(Path::toString)
+                .collect(toList());
   }
 
   private ShouldContain(Object actual, Object expected, Object notFound, ComparisonStrategy comparisonStrategy,

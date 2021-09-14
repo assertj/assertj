@@ -12,6 +12,8 @@
  */
 package org.assertj.core.error;
 
+import static java.util.stream.Collectors.toList;
+
 import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
@@ -56,14 +58,24 @@ public class ShouldNotContain extends BasicErrorMessageFactory {
     super("%nExpecting%n  %s%nnot to contain%n  %s%nbut found%n  %s%n%s", actual, expected, found, comparisonStrategy);
   }
 
-  public static ErrorMessageFactory directoryShouldNotContain(File actual, List<String> matchingContent,
-                                                              String filterDescription) {
-    return new ShouldNotContain(actual, matchingContent, filterDescription);
+  public static ErrorMessageFactory directoryShouldNotContain(File actual, List<File> matchingContent, String filterDescription) {
+    return new ShouldNotContain(actual, toFileNames(matchingContent), filterDescription);
   }
 
-  public static ErrorMessageFactory directoryShouldNotContain(Path actual, List<String> matchingContent,
-                                                              String filterDescription) {
-    return new ShouldNotContain(actual, matchingContent, filterDescription);
+  private static List<String> toFileNames(List<File> files) {
+    return files.stream()
+                .map(File::getName)
+                .collect(toList());
+  }
+
+  public static ErrorMessageFactory directoryShouldNotContain(Path actual, List<Path> matchingContent, String filterDescription) {
+    return new ShouldNotContain(actual, toPathNames(matchingContent), filterDescription);
+  }
+
+  private static List<String> toPathNames(List<Path> files) {
+    return files.stream()
+                .map(Path::toString)
+                .collect(toList());
   }
 
   private ShouldNotContain(Object actual, List<String> matchingContent, String filterDescription) {

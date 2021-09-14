@@ -25,6 +25,8 @@ import static org.mockito.Mockito.mock;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.Map;
 
 import org.assertj.core.data.MapEntry;
@@ -35,10 +37,6 @@ import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for
- * <code>{@link ShouldContain#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
- * .
- *
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author Joel Costigliola
@@ -295,7 +293,8 @@ class ShouldContain_create_Test {
     // GIVEN
     File directory = mock(File.class);
     given(directory.getAbsolutePath()).willReturn("root");
-    ErrorMessageFactory factory = directoryShouldContain(directory, list("foo.txt", "bar.txt"), "glob:**.java");
+    List<File> directoryContent = list(new File("root", "foo.txt"), new File("root", "bar.txt"));
+    ErrorMessageFactory factory = directoryShouldContain(directory, directoryContent, "glob:**.java");
     // WHEN
     String message = factory.create(new TextDescription("Test"));
     // THEN
@@ -312,7 +311,8 @@ class ShouldContain_create_Test {
     // GIVEN
     File directory = mock(File.class);
     given(directory.getAbsolutePath()).willReturn("root%dir");
-    ErrorMessageFactory factory = directoryShouldContain(directory, list("foo%1.txt", "bar%2.txt"), "glob:**%Test.java");
+    List<File> directoryContent = list(new File("root%dir", "foo%1.txt"), new File("root%dir", "bar%2.txt"));
+    ErrorMessageFactory factory = directoryShouldContain(directory, directoryContent, "glob:**%Test.java");
     // WHEN
     String message = factory.create(new TextDescription("Test"));
     // THEN
@@ -327,9 +327,9 @@ class ShouldContain_create_Test {
   @Test
   void should_create_error_message_for_path_directory() {
     // GIVEN
-    Path directory = mock(Path.class);
-    given(directory.toString()).willReturn("root");
-    ErrorMessageFactory factory = directoryShouldContain(directory, list("foo.txt", "bar.txt"), "glob:**.java");
+    Path directory = Paths.get("root");
+    List<Path> directoryContent = list(directory.resolve("foo.txt"), directory.resolve("bar.txt"));
+    ErrorMessageFactory factory = directoryShouldContain(directory, directoryContent, "glob:**.java");
     // WHEN
     String message = factory.create(new TextDescription("Test"));
     // THEN
@@ -338,7 +338,8 @@ class ShouldContain_create_Test {
                                    "  root%n" +
                                    "to contain at least one file matching glob:**.java but there was none.%n" +
                                    "The directory content was:%n" +
-                                   "  [foo.txt, bar.txt]"));
+                                   "  [%s, %s]",
+                                   directory.resolve("foo.txt"), directory.resolve("bar.txt")));
   }
 
 }

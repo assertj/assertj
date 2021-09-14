@@ -14,7 +14,6 @@ package org.assertj.core.internal.paths;
 
 import static java.nio.file.Files.createDirectory;
 import static java.nio.file.Files.createFile;
-import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
@@ -22,6 +21,7 @@ import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldNotContain.directoryShouldNotContain;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Lists.list;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.willThrow;
 
@@ -116,7 +116,7 @@ class Paths_assertIsDirectoryNotContaining_with_Predicate_Test extends PathsBase
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertIsDirectoryNotContaining(info, actual, filter));
     // THEN
-    then(error).hasMessage(directoryShouldNotContain(actual, singletonList(file.toString()), "the given filter").create());
+    then(error).hasMessage(directoryShouldNotContain(actual, list(file), "the given filter").create());
   }
 
   @Test
