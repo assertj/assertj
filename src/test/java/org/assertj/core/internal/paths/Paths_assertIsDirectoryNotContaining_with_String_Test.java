@@ -31,6 +31,8 @@ import java.nio.file.Path;
 
 import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  * @author Valeriy Vyrva
@@ -105,24 +107,50 @@ class Paths_assertIsDirectoryNotContaining_with_String_Test extends PathsBaseTes
     paths.assertIsDirectoryNotContaining(info, actual, syntaxAndPattern);
   }
 
-  @Test
-  void should_fail_if_actual_contains_at_least_one_path_matching_the_given_pattern() throws IOException {
+  @ParameterizedTest
+  @ValueSource(strings = {
+      "glob:**file",
+//    "glob:file",    // fails due to gh-2329
+      "regex:.*file",
+//    "regex:file",   // fails due to gh-2329
+  })
+  void should_fail_if_actual_directly_contains_any_entries_matching_the_given_pattern(String syntaxAndPattern) throws IOException {
     // GIVEN
     Path actual = createDirectory(tempDir.resolve("actual"));
     Path file = createFile(actual.resolve("file"));
-    String syntaxAndPattern = "glob:**file";
     // WHEN
     AssertionError error = expectAssertionError(() -> paths.assertIsDirectoryNotContaining(info, actual, syntaxAndPattern));
     // THEN
-    then(error).hasMessage(directoryShouldNotContain(actual, list(file), "the 'glob:**file' pattern").create());
+    then(error).hasMessage(directoryShouldNotContain(actual, list(file), "the '" + syntaxAndPattern + "' pattern").create());
   }
 
-  @Test
-  void should_pass_if_actual_does_not_contain_any_paths_matching_the_given_pattern() throws IOException {
+  @ParameterizedTest
+  @ValueSource(strings = {
+      "glob:**file",
+      "glob:file",
+      "regex:.*file",
+      "regex:file",
+  })
+  void should_pass_if_actual_does_not_contain_any_entries_matching_the_given_pattern(String syntaxAndPattern) throws IOException {
     // GIVEN
     Path actual = createDirectory(tempDir.resolve("actual"));
     createDirectory(actual.resolve("directory"));
-    String syntaxAndPattern = "glob:**file";
+    // WHEN/THEN
+    paths.assertIsDirectoryNotContaining(info, actual, syntaxAndPattern);
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {
+      "glob:**file",
+      "glob:file",
+      "regex:.*file",
+      "regex:file",
+  })
+  void should_pass_if_actual_recursively_contains_any_entries_matching_the_given_pattern(String syntaxAndPattern) throws IOException {
+    // GIVEN
+    Path actual = createDirectory(tempDir.resolve("actual"));
+    Path directory = createDirectory(actual.resolve("directory"));
+    createFile(directory.resolve("file"));
     // WHEN/THEN
     paths.assertIsDirectoryNotContaining(info, actual, syntaxAndPattern);
   }
