@@ -66,7 +66,7 @@ class Paths_assertHasExtension_Test extends PathsBaseTest {
   }
 
   @Test
-  void should_fail_if_expected_is_null() throws IOException {
+  void should_fail_if_expected_extension_is_null() throws IOException {
     // GIVEN
     Path actual = createFile(tempDir.resolve("file.txt"));
     String expected = null;

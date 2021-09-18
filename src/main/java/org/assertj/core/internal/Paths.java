@@ -49,6 +49,7 @@ import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotContain.directoryShouldNotContain;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.error.ShouldStartWithPath.shouldStartWith;
+import static org.assertj.core.util.Files.getFileNameExtension;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.io.IOException;
@@ -477,10 +478,7 @@ public class Paths {
 
   private static Optional<String> getExtension(Path path) {
     String fileName = path.getFileName().toString();
-    int dotAt = fileName.lastIndexOf('.');
-    if (dotAt == -1) return Optional.empty();
-    String extension = fileName.substring(dotAt + 1);
-    return extension.equals("") ? Optional.empty() : Optional.of(extension);
+    return getFileNameExtension(fileName);
   }
 
 }

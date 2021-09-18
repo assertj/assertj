@@ -26,6 +26,7 @@ import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -35,6 +36,9 @@ import java.util.UUID;
  * @author Alex Ruiz
  */
 public class Files {
+
+  private Files() {}
+
   /**
    * Returns the names of the files inside the specified directory.
    *
@@ -311,6 +315,11 @@ public class Files {
     checkArgument(Charset.isSupported(charsetName), "Charset:<'%s'> is not supported on this system", charsetName);
   }
 
-  private Files() {}
+  public static Optional<String> getFileNameExtension(String fileName) {
+    int dotAt = fileName.lastIndexOf('.');
+    if (dotAt == -1) return Optional.empty();
+    String extension = fileName.substring(dotAt + 1);
+    return extension.equals("") ? Optional.empty() : Optional.of(extension);
+  }
 
 }

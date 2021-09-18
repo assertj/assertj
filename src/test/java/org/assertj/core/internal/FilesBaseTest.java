@@ -35,6 +35,7 @@ import java.util.Map;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.diff.Delta;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Base class for testing <code>{@link Files}</code>, set up diff and failures attributes (which is why it is in
@@ -46,6 +47,8 @@ public class FilesBaseTest {
 
   protected static final AssertionInfo INFO = someInfo();
 
+  @TempDir
+  protected File tempDir;
   protected File actual;
   protected Failures failures;
   protected Files files;
@@ -55,6 +58,7 @@ public class FilesBaseTest {
   protected BinaryDiff binaryDiff;
   protected NioFilesWrapper nioFilesWrapper;
 
+  @SuppressWarnings("unchecked")
   @BeforeEach
   public void setUp() {
     actual = mock(File.class);

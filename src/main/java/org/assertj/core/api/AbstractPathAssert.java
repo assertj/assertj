@@ -1934,8 +1934,9 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    *
    * <p>
    * Example:
-   * <pre><code class='java'> // assertion succeeds
+   * <pre><code class='java'> // assertions succeed
    * assertThat(Paths.get(&quot;file&quot;)).hasNoExtension();
+   * assertThat(Paths.get(&quot;file.&quot;)).hasNoExtension();
    *
    * // assertion fails
    * assertThat(Paths.get(&quot;file.txt&quot;)).hasNoExtension();</code></pre>

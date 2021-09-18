@@ -18,6 +18,7 @@ import static org.assertj.core.error.ShouldHaveNoExtension.shouldHaveNoExtension
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.mockito.Mockito.mock;
 
+import java.io.File;
 import java.nio.file.Path;
 
 import org.assertj.core.internal.TestDescription;
@@ -28,7 +29,7 @@ class ShouldHaveNoExtension_create_Test {
   private static final TestDescription TEST_DESCRIPTION = new TestDescription("Test");
 
   @Test
-  void should_create_error_message() {
+  void should_create_error_message_for_path() {
     // GIVEN
     final Path path = mock(Path.class);
     // WHEN
@@ -37,6 +38,21 @@ class ShouldHaveNoExtension_create_Test {
     then(actualMessage).isEqualTo(format("[Test] %n" +
                                          "Expected actual path:%n" +
                                          "  %s%n" +
-                                         " not to have an extension, but extension was: \"java\"", path));
+                                         " not to have an extension, but extension was: \"java\"",
+                                         STANDARD_REPRESENTATION.toStringOf(path)));
+  }
+
+  @Test
+  void should_create_error_message_for_file() {
+    // GIVEN
+    final File file = new File("foo.java");
+    // WHEN
+    String actualMessage = shouldHaveNoExtension(file, "java").create(TEST_DESCRIPTION, STANDARD_REPRESENTATION);
+    // THEN
+    then(actualMessage).isEqualTo(format("[Test] %n" +
+                                         "Expected actual file:%n" +
+                                         "  %s%n" +
+                                         " not to have an extension, but extension was: \"java\"",
+                                         STANDARD_REPRESENTATION.toStringOf(file)));
   }
 }

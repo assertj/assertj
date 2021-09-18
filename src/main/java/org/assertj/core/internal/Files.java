@@ -33,6 +33,7 @@ import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
 import static org.assertj.core.error.ShouldHaveDigest.shouldHaveDigest;
 import static org.assertj.core.error.ShouldHaveExtension.shouldHaveExtension;
 import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
+import static org.assertj.core.error.ShouldHaveNoExtension.shouldHaveNoExtension;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
@@ -41,6 +42,7 @@ import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotContain.directoryShouldNotContain;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.internal.Digests.digestDiff;
+import static org.assertj.core.util.Files.getFileNameExtension;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
@@ -56,6 +58,7 @@ import java.nio.file.PathMatcher;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -395,9 +398,14 @@ public class Files {
   public void assertHasExtension(AssertionInfo info, File actual, String expected) {
     requireNonNull(expected, "The expected extension should not be null.");
     assertIsFile(info, actual);
-    String actualExtension = getFileExtension(actual);
-    if (expected.equals(actualExtension)) return;
-    throw failures.failure(info, shouldHaveExtension(actual, actualExtension, expected));
+    String extension = getFileExtension(actual).orElseThrow(() -> failures.failure(info, shouldHaveExtension(actual, expected)));
+    if (!expected.equals(extension)) throw failures.failure(info, shouldHaveExtension(actual, extension, expected));
+  }
+
+  public void assertHasNoExtension(AssertionInfo info, File actual) {
+    assertIsFile(info, actual);
+    Optional<String> extension = getFileExtension(actual);
+    if (extension.isPresent()) throw failures.failure(info, shouldHaveNoExtension(actual, extension.get()));
   }
 
   /**
@@ -576,10 +584,8 @@ public class Files {
     Objects.instance().assertNotNull(info, actual);
   }
 
-  private String getFileExtension(File file) {
-    String name = file.getName();
-    int dotAt = name.lastIndexOf('.');
-    return dotAt == -1 ? null : name.substring(dotAt + 1);
+  private Optional<String> getFileExtension(File file) {
+    return getFileNameExtension(file.getName());
   }
 
   private void verifyIsFile(File expected) {

@@ -1372,6 +1372,28 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
     return internalContent(charset);
   }
 
+  /**
+   * Verifies that the actual {@code File} has no extension.
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(new File(&quot;file&quot;)).hasNoExtension();
+   * assertThat(new File(&quot;file.&quot;)).hasNoExtension();
+   *
+   * // assertion fails
+   * assertThat(new File(&quot;file.txt&quot;)).hasNoExtension();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} is not a file (ie a directory or does not exist).
+   * @throws AssertionError if the actual {@code File} does have an extension.
+   */
+  public SELF hasNoExtension() {
+    files.assertHasNoExtension(info, actual);
+    return myself;
+  }
+
   // this method was introduced to avoid to avoid double proxying in soft assertions for content()
   private AbstractStringAssert<?> internalContent(Charset charset) {
     files.assertCanRead(info, actual);

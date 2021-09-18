@@ -12,20 +12,21 @@
  */
 package org.assertj.core.internal.files;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveExtension.shouldHaveExtension;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Files.newFile;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-import org.assertj.core.api.AssertionInfo;
+import java.io.File;
+
 import org.assertj.core.internal.FilesBaseTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  * Tests for
@@ -39,45 +40,65 @@ class Files_assertHasExtension_Test extends FilesBaseTest {
   private String expectedExtension = "java";
 
   @Test
-  void should_throw_error_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasExtension(someInfo(), null,
-                                                                                              expectedExtension))
-                                                   .withMessage(actualIsNull());
+  void should_fail_if_actual_is_null() {
+    // GIVEN
+    File actual = null;
+    String expected = "txt";
+    // WHEN
+    AssertionError error = expectAssertionError(() -> files.assertHasExtension(INFO, actual, expected));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_throw_npe_if_extension_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> files.assertHasExtension(someInfo(), actual, null))
-                                    .withMessage("The expected extension should not be null.");
+  void should_fail_if_expected_extension_is_null() {
+    // GIVEN
+    File actual = new File("file.txt");
+    String expected = null;
+    // WHEN
+    Throwable thrown = catchThrowable(() -> files.assertHasExtension(INFO, actual, expected));
+    // THEN
+    then(thrown).isInstanceOf(NullPointerException.class)
+                .hasMessage("The expected extension should not be null.");
   }
 
   @Test
   void should_throw_error_if_actual_is_not_a_file() {
-    AssertionInfo info = someInfo();
-    when(actual.isFile()).thenReturn(false);
-
-    Throwable error = catchThrowable(() -> files.assertHasExtension(info, actual, expectedExtension));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeFile(actual));
+    // GIVEN
+    File actual = tempDir;
+    // WHEN
+    expectAssertionError(() -> files.assertHasExtension(INFO, actual, expectedExtension));
+    // THEN
+    verify(failures).failure(INFO, shouldBeFile(actual));
   }
 
   @Test
   void should_throw_error_if_actual_does_not_have_the_expected_extension() {
-    AssertionInfo info = someInfo();
-    when(actual.isFile()).thenReturn(true);
-    when(actual.getName()).thenReturn("file.png");
+    // GIVEN
+    File actual = newFile(tempDir.getAbsolutePath() + "/file.png");
+    // WHEN
+    expectAssertionError(() -> files.assertHasExtension(INFO, actual, expectedExtension));
+    // THEN
+    verify(failures).failure(INFO, shouldHaveExtension(actual, "png", expectedExtension));
+  }
 
-    Throwable error = catchThrowable(() -> files.assertHasExtension(info, actual, expectedExtension));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveExtension(actual, "png", expectedExtension));
+  @ParameterizedTest
+  @ValueSource(strings = { "file", "file." })
+  void should_fail_if_actual_has_no_extension(String filename) {
+    // GIVEN
+    File actual = newFile(tempDir.getAbsolutePath() + "/" + filename);
+    String expected = "log";
+    // WHEN
+    AssertionError error = expectAssertionError(() -> files.assertHasExtension(INFO, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldHaveExtension(actual, expected).create());
   }
 
   @Test
   void should_pass_if_actual_has_expected_extension() {
-    when(actual.isFile()).thenReturn(true);
-    when(actual.getName()).thenReturn("file.java");
-    files.assertHasExtension(someInfo(), actual, expectedExtension);
+    // GIVEN
+    File actual = newFile(tempDir.getAbsolutePath() + "/file.java");
+    // WHEN/THEN
+    files.assertHasExtension(INFO, actual, expectedExtension);
   }
 }

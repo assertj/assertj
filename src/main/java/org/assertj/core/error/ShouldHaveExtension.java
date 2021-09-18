@@ -43,6 +43,10 @@ public class ShouldHaveExtension extends BasicErrorMessageFactory {
     return new ShouldHaveExtension(actual, expectedExtension);
   }
 
+  public static ShouldHaveExtension shouldHaveExtension(File actual, String expectedExtension) {
+    return new ShouldHaveExtension(actual, expectedExtension);
+  }
+
   private ShouldHaveExtension(Object actual, String expectedExtension) {
     super("%nExpecting%n  %s%nto have extension:%n  %s%nbut had no extension.", actual, expectedExtension);
   }

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.error;
 
+import java.io.File;
 import java.nio.file.Path;
 
 /**
@@ -20,12 +21,21 @@ import java.nio.file.Path;
 public class ShouldHaveNoExtension extends BasicErrorMessageFactory {
 
   private static final String PATH_HAS_EXTENSION = "%nExpected actual path:%n  %s%n not to have an extension, but extension was: %s";
+  private static final String FILE_HAS_EXTENSION = "%nExpected actual file:%n  %s%n not to have an extension, but extension was: %s";
 
   public static ShouldHaveNoExtension shouldHaveNoExtension(Path actual, String extension) {
     return new ShouldHaveNoExtension(actual, extension);
   }
 
+  public static ShouldHaveNoExtension shouldHaveNoExtension(File actual, String extension) {
+    return new ShouldHaveNoExtension(actual, extension);
+  }
+
   private ShouldHaveNoExtension(Path actual, String extension) {
     super(PATH_HAS_EXTENSION, actual, extension);
+  }
+
+  private ShouldHaveNoExtension(File actual, String extension) {
+    super(FILE_HAS_EXTENSION, actual, extension);
   }
 }
