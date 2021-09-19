@@ -10,7 +10,7 @@
   </parent>
 
   <artifactId>assertj-core</artifactId>
-  <version>3.21.0</version>
+  <version>3.21.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>AssertJ fluent assertions</name>
@@ -20,7 +20,7 @@
     <developerConnection>scm:git:git@github.com:assertj/assertj-core.git</developerConnection>
     <connection>scm:git:git@github.com:assertj/assertj-core.git</connection>
     <url>git@github.com:assertj/assertj-core</url>
-    <tag>assertj-core-3.21.0</tag>
+    <tag>HEAD</tag>
   </scm>
   <issueManagement>
     <system>github</system>
