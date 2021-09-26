@@ -435,7 +435,6 @@
           <includes>
             <include>**/*Test.java</include>
           </includes>
-          <argLine>-Xms512m</argLine>
         </configuration>
       </plugin>
       <plugin>
