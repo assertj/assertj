@@ -5,11 +5,13 @@ on:
 
 jobs:
   release:
-    name: Release
+
+    name: Release to Maven Central
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Maven Central Repository
+      - name: Set up Maven Central
         uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
@@ -18,7 +20,8 @@ jobs:
           server-username: OSSRH_USERNAME
           server-password: OSSRH_TOKEN
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-      - name: Deploy to Maven Central
+
+      - name: Publish to Maven Central
         run: |
           git config user.name '${{ github.actor }}'
           git config user.email '${{ github.actor }}@users.noreply.github.com'
