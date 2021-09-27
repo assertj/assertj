@@ -29,7 +29,7 @@ import static org.assertj.guava.api.InstanceOfAssertFactories.table;
 
 import java.io.IOException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMultimap;
@@ -44,10 +44,10 @@ import com.google.common.io.ByteSource;
  * @author Stefano Cordio
  * @since 3.3.0
  */
-public class InstanceOfAssertFactoriesTest {
+class InstanceOfAssertFactoriesTest {
 
   @Test
-  public void byte_source_factory_should_allow_byte_source_assertions() throws IOException {
+  void byte_source_factory_should_allow_byte_source_assertions() throws IOException {
     // GIVEN
     Object value = ByteSource.empty();
     // WHEN
@@ -57,7 +57,7 @@ public class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  public void multimap_factory_should_allow_multimap_assertions() {
+  void multimap_factory_should_allow_multimap_assertions() {
     // GIVEN
     Object value = ImmutableMultimap.of("key", "value");
     // WHEN
@@ -67,7 +67,7 @@ public class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  public void typed_multimap_factory_should_allow_typed_multimap_assertions() {
+  void typed_multimap_factory_should_allow_typed_multimap_assertions() {
     // GIVEN
     Object value = ImmutableMultimap.of("key", "value");
     // WHEN
@@ -77,7 +77,7 @@ public class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  public void optional_factory_should_allow_optional_assertions() {
+  void optional_factory_should_allow_optional_assertions() {
     // GIVEN
     Object value = Optional.of("something");
     // WHEN
@@ -87,7 +87,7 @@ public class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  public void typed_optional_factory_should_allow_typed_optional_assertions() {
+  void typed_optional_factory_should_allow_typed_optional_assertions() {
     // GIVEN
     Object value = Optional.of("something");
     // WHEN
@@ -97,7 +97,7 @@ public class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  public void range_factory_should_allow_range_assertions() {
+  void range_factory_should_allow_range_assertions() {
     // GIVEN
     Object value = Range.atLeast(0);
     // WHEN
@@ -107,7 +107,7 @@ public class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  public void range_map_factory_should_allow_range_map_assertions() {
+  void range_map_factory_should_allow_range_map_assertions() {
     // GIVEN
     Object value = ImmutableRangeMap.of(Range.atLeast(0), "value");
     // WHEN
@@ -117,7 +117,7 @@ public class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  public void range_set_factory_should_allow_range_set_assertions() {
+  void range_set_factory_should_allow_range_set_assertions() {
     // GIVEN
     Object value = ImmutableRangeSet.of(Range.closed(0, 1));
     // WHEN
@@ -127,7 +127,7 @@ public class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  public void table_factory_should_allow_table_assertions() {
+  void table_factory_should_allow_table_assertions() {
     // GIVEN
     Object value = ImmutableTable.of(0, 0.0, "value");
     // WHEN
@@ -137,7 +137,7 @@ public class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  public void typed_table_factory_should_allow_typed_table_assertions() {
+  void typed_table_factory_should_allow_typed_table_assertions() {
     // GIVEN
     Object value = ImmutableTable.of(0, 0.0, "value");
     // WHEN
@@ -148,7 +148,7 @@ public class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  public void multiset_factory_should_allow_multiset_assertions() {
+  void multiset_factory_should_allow_multiset_assertions() {
     // GIVEN
     Object value = ImmutableMultiset.of("value");
     // WHEN
@@ -158,7 +158,7 @@ public class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  public void typed_multiset_factory_should_allow_typed_multiset_assertions() {
+  void typed_multiset_factory_should_allow_typed_multiset_assertions() {
     // GIVEN
     Object value = ImmutableMultiset.of("value");
     // WHEN
