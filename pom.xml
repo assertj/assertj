@@ -13,17 +13,17 @@
   <packaging>bundle</packaging>
 
   <name>AssertJ fluent assertions for Guava</name>
-  <url>https://github.com/joel-costigliola/assertj-guava</url>
+  <url>https://github.com/assertj/assertj-guava</url>
 
   <scm>
-    <developerConnection>scm:git:git@github.com:joel-costigliola/assertj-guava.git</developerConnection>
-    <connection>scm:git:git@github.com:joel-costigliola/assertj-guava.git</connection>
-    <url>git@github.com:joel-costigliola/assertj-guava</url>
+    <developerConnection>scm:git:git@github.com:assertj/assertj-guava.git</developerConnection>
+    <connection>scm:git:git@github.com:assertj/assertj-guava.git</connection>
+    <url>git@github.com:assertj/assertj-guava</url>
     <tag>HEAD</tag>
   </scm>
   <issueManagement>
     <system>github</system>
-    <url>https://github.com/joel-costigliola/assertj-guava/issues</url>
+    <url>https://github.com/assertj/assertj-guava/issues</url>
   </issueManagement>
 
   <properties>
@@ -33,6 +33,13 @@
   </properties>
 
   <dependencies>
+    <!-- Compile -->
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${assertj-core.version}</version>
+    </dependency>
+    <!-- Provided -->
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
@@ -40,17 +47,19 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.assertj</groupId>
-      <artifactId>assertj-core</artifactId>
-      <version>${assertj-core.version}</version>
+      <groupId>org.opentest4j</groupId>
+      <artifactId>opentest4j</artifactId>
+      <version>1.2.0</version>
+      <scope>provided</scope>
+      <optional>true</optional>
     </dependency>
-    <!-- test dependencies -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
       <scope>provided</scope>
       <optional>true</optional>
     </dependency>
+    <!-- Test -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
@@ -72,13 +81,6 @@
           <artifactId>assertj-core</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.opentest4j</groupId>
-      <artifactId>opentest4j</artifactId>
-      <version>1.2.0</version>
-      <scope>provided</scope>
-      <optional>true</optional>
     </dependency>
   </dependencies>
 
