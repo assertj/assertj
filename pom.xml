@@ -6,7 +6,7 @@
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent-pom</artifactId>
     <version>2.2.14</version>
-    <relativePath />
+    <relativePath/>
   </parent>
 
   <artifactId>assertj-core</artifactId>
@@ -129,6 +129,12 @@
       <artifactId>equalsverifier</artifactId>
       <version>3.7.1</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -215,7 +221,7 @@
                     </goals>
                   </pluginExecutionFilter>
                   <action>
-                    <ignore />
+                    <ignore/>
                   </action>
                 </pluginExecution>
               </pluginExecutions>
@@ -292,7 +298,7 @@
                     <exclude>*:*:*:jar:compile</exclude>
                   </excludes>
                 </bannedDependencies>
-                <dependencyConvergence />
+                <dependencyConvergence/>
                 <requireJavaVersion>
                   <version>[11,)</version>
                 </requireJavaVersion>
