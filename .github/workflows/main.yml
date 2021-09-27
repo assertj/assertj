@@ -18,14 +18,9 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 11
-      - name: Cache Maven Repository
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven
+          cache: 'maven'
       - name: Test
-        run: ./mvnw -V --no-transfer-progress clean verify javadoc:javadoc
+        run: ./mvnw -V --no-transfer-progress -e verify javadoc:javadoc
 
   sonar:
     name: Sonar code analysis
@@ -33,20 +28,15 @@ jobs:
     if: github.repository == 'assertj/assertj-guava' && github.event_name == 'push'
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
       - name: Setup Java
         uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
           java-version: 11
+          cache: 'maven'
       - name: Build with Maven
         run: >
-          ./mvnw -V --no-transfer-progress clean verify javadoc:javadoc
+          ./mvnw -V --no-transfer-progress -e verify javadoc:javadoc
           org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.organization=assertj
