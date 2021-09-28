@@ -59,12 +59,6 @@
       <artifactId>junit-jupiter</artifactId>
       <scope>test</scope>
     </dependency>
-    <!-- required to run JUnit4 tests in eclipse without to explicitly select JUnit 4 runner ... -->
-    <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 
   <build>

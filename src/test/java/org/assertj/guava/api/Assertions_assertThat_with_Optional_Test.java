@@ -12,32 +12,37 @@
  */
 package org.assertj.guava.api;
 
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.guava.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
 
 import org.junit.jupiter.api.Test;
 
 import com.google.common.base.Optional;
 
 /**
- * Tests for <code>{@link Assertions#assertThat(Optional)}</code>.
- *
  * @author Joel Costigliola
  */
-public class Assertions_assertThat_with_Optional_Test {
+@SuppressWarnings("Guava")
+class Assertions_assertThat_with_Optional_Test {
 
   @Test
-  public void should_create_Assert() {
+  void should_create_Assert() {
+    // GIVEN
     Optional<String> actual = Optional.of("value");
-    assertNotNull(assertThat(actual));
-    assertEquals(OptionalAssert.class, assertThat(actual).getClass());
+    // WHEN
+    OptionalAssert<String> assertion = assertThat(actual);
+    // THEN
+    then(assertion).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() {
+  void should_pass_actual() {
+    // GIVEN
     Optional<String> actual = Optional.of("value");
-    assertSame(actual, assertThat(actual).getActual());
+    // WHEN
+    Optional<String> result = assertThat(actual).getActual();
+    // THEN
+    then(result).isSameAs(actual);
   }
+
 }

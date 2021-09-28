@@ -17,20 +17,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 
-public class MultimapAssert_containsValues_Test extends MultimapAssertBaseTest {
+class MultimapAssert_containsValues_Test extends MultimapAssertBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_given_values() {
+  void should_pass_if_actual_contains_given_values() {
     assertThat(actual).containsValues("Manu Ginobili");
     assertThat(actual).containsValues("Magic Johnson", "Derrick Rose");
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
     // WHEN
@@ -41,7 +41,7 @@ public class MultimapAssert_containsValues_Test extends MultimapAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_values_to_look_for_are_null() {
+  void should_fail_if_values_to_look_for_are_null() {
     // GIVEN
     String[] values = null;
     // WHEN
@@ -52,7 +52,7 @@ public class MultimapAssert_containsValues_Test extends MultimapAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_values_to_look_for_are_empty() {
+  void should_fail_if_values_to_look_for_are_empty() {
     // WHEN
     Throwable throwable = catchThrowable(() -> assertThat(actual).containsValues());
     // THEN
@@ -61,7 +61,7 @@ public class MultimapAssert_containsValues_Test extends MultimapAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_all_given_values() {
+  void should_fail_if_actual_does_not_contain_all_given_values() {
     try {
       assertThat(actual).containsValues("Magic Johnson", "Lebron James");
     } catch (AssertionError e) {
@@ -77,7 +77,7 @@ public class MultimapAssert_containsValues_Test extends MultimapAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_the_given_value() {
+  void should_fail_if_actual_does_not_contain_the_given_value() {
     try {
       assertThat(actual).containsValues("Lebron James");
     } catch (AssertionError e) {
