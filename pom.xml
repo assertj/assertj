@@ -654,7 +654,7 @@
       <plugin>
         <groupId>org.pitest</groupId>
         <artifactId>pitest-maven</artifactId>
-        <version>1.7.0</version>
+        <version>1.7.1</version>
         <dependencies>
           <dependency>
             <groupId>org.pitest</groupId>
