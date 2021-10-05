@@ -28,7 +28,7 @@
 
   <properties>
     <javadocAdditionalOptions>-html5 --allow-script-in-comments --no-module-directories</javadocAdditionalOptions>
-    <guava.version>31.0-jre</guava.version>
+    <guava.version>31.0.1-jre</guava.version>
     <assertj-core.version>3.20.2</assertj-core.version>
   </properties>
 
