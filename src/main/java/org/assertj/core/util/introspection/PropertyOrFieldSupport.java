@@ -16,6 +16,7 @@ import static java.lang.String.format;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.util.Map;
+import java.util.Optional;
 
 import org.assertj.core.util.VisibleForTesting;
 
@@ -60,7 +61,11 @@ public class PropertyOrFieldSupport {
     return getSimpleValue(propertyOrFieldName, input);
   }
 
+  @SuppressWarnings("rawtypes")
   public Object getSimpleValue(String name, Object input) {
+    // if name is "value" and input is an optional, reflection is not necessary
+    if (name.equals("value") && input instanceof Optional) return ((Optional) input).get();
+
     // try to get name as a property, then try as a field, then try as a map key
     try {
       return propertySupport.propertyValueOf(name, Object.class, input);

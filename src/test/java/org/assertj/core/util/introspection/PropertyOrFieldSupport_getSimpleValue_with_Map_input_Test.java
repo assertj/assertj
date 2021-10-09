@@ -19,28 +19,21 @@ import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.HashMap;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-/**
- * Tests for <code>{@link PropertyOrFieldSupport#getSimpleValue(String, Object)}</code> with {@code Map} input.
- *
- * @author Stefano Cordio
- */
-@DisplayName("PropertyOrFieldSupport getSimpleValue(String, Map)")
 class PropertyOrFieldSupport_getSimpleValue_with_Map_input_Test {
 
   private final PropertyOrFieldSupport underTest = PropertyOrFieldSupport.EXTRACTION;
-  private final AbstractMap<String, String> map = new HashMap<>();
+  private final AbstractMap<String, String> input = new HashMap<>();
 
   @Test
   void should_extract_property_value_even_if_map_key_matches_given_name() {
     // GIVEN
-    map.put("empty", "value"); // key clashes with AbstractMap#isEmpty()
+    input.put("empty", "value"); // key clashes with AbstractMap#isEmpty()
     // WHEN
-    Object value = underTest.getSimpleValue("empty", map);
+    Object value = underTest.getSimpleValue("empty", input);
     // THEN
     then(value).isInstanceOf(Boolean.class);
   }
@@ -48,9 +41,9 @@ class PropertyOrFieldSupport_getSimpleValue_with_Map_input_Test {
   @Test
   void should_extract_field_value_even_if_map_key_matches_given_name() {
     // GIVEN
-    map.put("keySet", "value"); // key clashes with AbstractMap#keySet
+    input.put("keySet", "value"); // key clashes with AbstractMap#keySet
     // WHEN
-    Object value = underTest.getSimpleValue("keySet", map);
+    Object value = underTest.getSimpleValue("keySet", input);
     // THEN
     then(value).isInstanceOf(Collection.class);
   }
@@ -62,9 +55,9 @@ class PropertyOrFieldSupport_getSimpleValue_with_Map_input_Test {
   })
   void should_extract_map_value_when_no_property_or_field_matches_given_name(String key, String expected) {
     // GIVEN
-    map.put(key, expected);
+    input.put(key, expected);
     // WHEN
-    Object value = underTest.getSimpleValue(key, map);
+    Object value = underTest.getSimpleValue(key, input);
     // THEN
     then(value).isEqualTo(expected);
   }
@@ -72,7 +65,7 @@ class PropertyOrFieldSupport_getSimpleValue_with_Map_input_Test {
   @Test
   void should_fail_when_given_name_is_not_found() {
     // WHEN
-    Throwable thrown = catchThrowable(() -> underTest.getSimpleValue("unknown", map));
+    Throwable thrown = catchThrowable(() -> underTest.getSimpleValue("unknown", input));
     // THEN
     then(thrown).isInstanceOf(IntrospectionError.class);
   }

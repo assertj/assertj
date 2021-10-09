@@ -20,19 +20,14 @@ import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 
 import java.math.BigDecimal;
 import java.util.Comparator;
+import java.util.Optional;
 
-import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link ObjectAssert#extracting(String)}</code>.
- */
-@DisplayName("ObjectAssert extracting(String)")
 class ObjectAssert_extracting_with_String_Test {
 
   private Employee luke;
@@ -60,6 +55,16 @@ class ObjectAssert_extracting_with_String_Test {
     // WHEN/THEN
     assertThat(luke).extracting("name.first")
                     .isEqualTo("Luke");
+  }
+
+  @Test
+  void should_allow_assertions_on_nested_optional_value() {
+    // GIVEN
+    Person chewbacca = new Person("Chewbacca");
+    chewbacca.setNickname(Optional.of("Chewie"));
+    // WHEN/THEN
+    assertThat(chewbacca).extracting("nickname.value")
+                         .isEqualTo("Chewie");
   }
 
   @Test
@@ -108,10 +113,15 @@ class ObjectAssert_extracting_with_String_Test {
   private static class Person {
 
     private final String name;
+    private Optional<String> nickname = Optional.empty();
     private BigDecimal height;
 
     public Person(String name) {
       this.name = name;
+    }
+
+    public void setNickname(Optional<String> nickname) {
+      this.nickname = nickname;
     }
 
     public void setHeight(BigDecimal height) {
