@@ -31,4 +31,8 @@ public class CharacterAssert extends AbstractCharacterAssert<CharacterAssert> {
   public CharacterAssert(Character actual) {
     super(actual, CharacterAssert.class);
   }
+
+  public CharacterAssert(char actual) {
+    super(actual, CharacterAssert.class);
+  }
 }
