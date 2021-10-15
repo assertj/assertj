@@ -13,9 +13,11 @@
 package org.assertj.core.api;
 
 import static net.bytebuddy.matcher.ElementMatchers.any;
+import static net.bytebuddy.matcher.ElementMatchers.not;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.AssumptionExceptionFactory.assumptionNotMet;
 import static org.assertj.core.api.ClassLoadingStrategyFactory.classLoadingStrategy;
+import static org.assertj.core.api.SoftProxies.METHODS_NOT_TO_PROXY;
 import static org.assertj.core.util.Arrays.array;
 
 import java.io.File;
@@ -1337,8 +1339,7 @@ public class Assumptions {
   protected static <ASSERTION> Class<? extends ASSERTION> generateAssumptionClass(Class<ASSERTION> assertionType) {
     ClassLoadingStrategyPair strategy = classLoadingStrategy(assertionType);
     return BYTE_BUDDY.subclass(assertionType)
-                     // TODO ignore non assertion methods ?
-                     .method(any())
+                     .method(any().and(not(METHODS_NOT_TO_PROXY)))
                      .intercept(ASSUMPTION)
                      .make()
                      .load(strategy.getClassLoader(), strategy.getClassLoadingStrategy())
