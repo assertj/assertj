@@ -61,22 +61,20 @@ public class PropertyOrFieldSupport {
     return getSimpleValue(propertyOrFieldName, input);
   }
 
-  @SuppressWarnings("rawtypes")
+  @SuppressWarnings({ "unchecked", "rawtypes" })
   public Object getSimpleValue(String name, Object input) {
-    // if name is "value" and input is an optional, reflection is not necessary
-    if (name.equals("value") && input instanceof Optional) return ((Optional) input).get();
+    // if input is an optional and name is "value", let's get the optional value directly
+    if (input instanceof Optional && name.equals("value")) return ((Optional) input).orElse(null);
 
-    // try to get name as a property, then try as a field, then try as a map key
     try {
+      // try to get name as a property
       return propertySupport.propertyValueOf(name, Object.class, input);
     } catch (IntrospectionError propertyIntrospectionError) {
-      // no luck as a property, let's try as a field
+      // try to get name as a field
       try {
         return fieldSupport.fieldValue(name, Object.class, input);
       } catch (IntrospectionError fieldIntrospectionError) {
-        // neither field nor property found with given name
-
-        // if the input object is a map, try name as a map key
+        // if input is a map, try to use the name value as a map key
         if (input instanceof Map) {
           Map<?, ?> map = (Map<?, ?>) input;
           if (map.containsKey(name)) return map.get(name);
