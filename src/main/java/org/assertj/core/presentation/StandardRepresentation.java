@@ -330,7 +330,12 @@ public class StandardRepresentation implements Representation {
    * @return to {@code toString} representation for the given object
    */
   protected String fallbackToStringOf(Object object) {
-    return object.toString();
+    String str = object.toString();
+    if (str == null) return null;
+    if (str.contains("\r\n")) return String.format("\r\n%s", str).replace("\r\n", "\r\n  ");
+    if (str.contains("\n")) return String.format("\n%s", str).replace("\n", "\n  ");
+    if (str.contains("\r")) return String.format("\r%s", str).replace("\r", "\r  ");
+    return str;
   }
 
   protected String toStringOf(Number number) {
@@ -368,7 +373,7 @@ public class StandardRepresentation implements Representation {
   protected String toStringOf(ComparatorBasedComparisonStrategy comparatorBasedComparisonStrategy) {
     String comparatorDescription = comparatorBasedComparisonStrategy.getComparatorDescription();
     return comparatorDescription == null ? toStringOf(comparatorBasedComparisonStrategy.getComparator())
-        : quote(comparatorDescription);
+      : quote(comparatorDescription);
   }
 
   protected String toStringOf(Calendar calendar) {
@@ -470,7 +475,7 @@ public class StandardRepresentation implements Representation {
     if (!entriesIterator.hasNext()) return "{}";
     StringBuilder builder = new StringBuilder("{");
     int printedElements = 0;
-    for (;;) {
+    for (; ; ) {
       Entry<?, ?> entry = (Entry<?, ?>) entriesIterator.next();
       if (printedElements == maxElementsForPrinting) {
         builder.append(DEFAULT_MAX_ELEMENTS_EXCEEDED);
