@@ -12,11 +12,20 @@
  */
 package org.assertj.core.api.map;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Stream;
+
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 
 /**
@@ -35,4 +44,11 @@ class MapAssert_doesNotContainKey_Test extends MapAssertBaseTest {
   protected void verify_internal_effects() {
     verify(maps).assertDoesNotContainKeys(getInfo(assertions), getActual(assertions), array("key1"));
   }
+  
+  @ParameterizedTest
+  @MethodSource("maps_without_null_keys")
+  protected void should_pass_when_asserting_for_null_on_map_that_does_not_contain_null(final Map<?, ?> actual) {
+    assertThat(actual).doesNotContainKey(null);
+  }
+
 }
