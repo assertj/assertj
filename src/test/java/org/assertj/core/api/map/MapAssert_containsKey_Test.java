@@ -19,17 +19,13 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Stream;
 
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 /**
@@ -70,11 +66,4 @@ class MapAssert_containsKey_Test extends MapAssertBaseTest {
     then(assertionError).hasMessage(shouldContainKeys(actual, helper).create());
   }
 
-  protected static Stream<Arguments> maps_without_null_keys() {
-    Map<String, String> map = new HashMap<>();
-    map.put("Whatever", "Don't care");
-    return Stream.of(
-                     Arguments.of(map),
-                     Arguments.of(Collections.unmodifiableMap(map)));
-  }
 }
