@@ -374,7 +374,18 @@ public class Maps {
     // Stream API avoided for performance reasons
     Set<K> found = new LinkedHashSet<>();
     for (K expectedKey : expectedKeys) {
-      if (actual.containsKey(expectedKey)) found.add(expectedKey);
+      try {
+        if (actual.containsKey(expectedKey)) found.add(expectedKey);
+      } catch (NullPointerException npe) {
+        if (expectedKey != null) {
+          /*
+           * The specification of containsKey in java.util.Map is that it may throw an NPE if the key is null and the
+           * implementation disallows that. In that case the map in question will not have a null key and we can
+           * ignore the NPE. However, if the expected key is *not* null, we must rethrow because there is a different problem.
+           */
+          throw npe;
+        }
+      }
     }
     return found;
   }
@@ -390,6 +401,9 @@ public class Maps {
           // The specification of containsKey in java.util.Map is that it may throw an NPE if the key is null and the
           // implementation disallows that. In the case of null key, assume it is an implementation decision.
           notFound.add(expectedKey);
+        } else {
+          // The NPE was thrown for a different reason than the key being null. Rethrow it.
+          throw npe;
         }
       }
     }
