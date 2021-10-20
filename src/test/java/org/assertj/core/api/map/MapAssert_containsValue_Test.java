@@ -34,4 +34,6 @@ class MapAssert_containsValue_Test extends MapAssertBaseTest {
   protected void verify_internal_effects() {
     verify(maps).assertContainsValue(getInfo(assertions), getActual(assertions), "key1");
   }
+  
+  
 }
