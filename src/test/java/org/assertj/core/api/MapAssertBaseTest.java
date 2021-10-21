@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 import org.assertj.core.internal.Maps;
@@ -63,9 +64,24 @@ public abstract class MapAssertBaseTest extends BaseTestTemplate<MapAssert<Objec
   }
 
   protected static Stream<Arguments> maps_without_null_keys() {
-    Map<String, String> map = new HashMap<>();
-    map.put("Whatever", "Don't care");
+    Map<String, String> map = basicHashMap();
+    return Stream.of(
+                     Arguments.of(map),
+                     // Maven won't compile this with release set to 8...
+                     // Arguments.of(Map.of("Whatever", "Don't care")),
+                     // This simulates what you get with Map.of(a, b)
+                     Arguments.of(java_util_Map_of_simulation()),
+                     Arguments.of(concurrentMap()),
+                     Arguments.of(Collections.unmodifiableMap(map)));
+  }
 
+  private static Map<String, String> concurrentMap() {
+    Map<String, String> concurrentMap = new ConcurrentHashMap<>();
+    concurrentMap.put("Whatever", "Don't care");
+    return concurrentMap;
+  }
+
+  private static Map<String, String> java_util_Map_of_simulation() {
     class SingletonNoNullKeysMap<K, V> extends HashMap<K, V> {
       
       private final K k0;
@@ -83,14 +99,12 @@ public abstract class MapAssertBaseTest extends BaseTestTemplate<MapAssert<Objec
       
     }
     Map<String, String> javaInternalMapSimulator = new SingletonNoNullKeysMap<>("Whatever", "Don't care");
-    
-    
-    return Stream.of(
-                     Arguments.of(map),
-                     // Maven won't compile this with release set to 8...
-                     // Arguments.of(Map.of("Whatever", "Don't care")),
-                     // This simulates what you get with Map.of(a, b)
-                     Arguments.of(javaInternalMapSimulator),
-                     Arguments.of(Collections.unmodifiableMap(map)));
+    return javaInternalMapSimulator;
+  }
+
+  private static Map<String, String> basicHashMap() {
+    Map<String, String> map = new HashMap<>();
+    map.put("Whatever", "Don't care");
+    return map;
   }
 }
