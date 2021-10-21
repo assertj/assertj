@@ -71,6 +71,8 @@ import org.assertj.core.data.MapEntry;
 import org.assertj.core.error.UnsatisfiedRequirement;
 import org.assertj.core.util.VisibleForTesting;
 
+import net.bytebuddy.asm.Advice.Thrown;
+
 /**
  * Reusable assertions for <code>{@link Map}</code>s.
  *
@@ -451,7 +453,25 @@ public class Maps {
 
   public <K, V> void assertContainsValue(AssertionInfo info, Map<K, V> actual, V value) {
     assertNotNull(info, actual);
-    if (!actual.containsValue(value)) throw failures.failure(info, shouldContainValue(actual, value));
+    boolean assertionFailed = false;
+    try {
+      if (!actual.containsValue(value)) assertionFailed = true;
+    } catch (NullPointerException npe) {
+      if (value == null) {
+        /*
+         * According to the specification of containsValue, an implementation that disallows null values
+         * may throw an NPE on containsValue(null). So is value is null, assume this is what is happening
+         * and throw the same exception since actual will definitely not contain a null value.
+         */
+        assertionFailed = true;
+      } else {
+        /*
+         * The NPE was thrown for some other reason than described above; rethrow.
+         */
+        throw npe;
+      }
+    }
+    if (assertionFailed) throw failures.failure(info, shouldContainValue(actual, value));
   }
 
   public <K, V> void assertContainsValues(AssertionInfo info, Map<K, V> actual, V[] values) {

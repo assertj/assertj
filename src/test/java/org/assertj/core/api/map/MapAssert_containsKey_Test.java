@@ -46,13 +46,12 @@ class MapAssert_containsKey_Test extends MapAssertBaseTest {
   }
 
   @ParameterizedTest
-  @MethodSource("maps_without_null_keys")
+  @MethodSource("maps_without_null_keys_or_values")
   protected void should_fail_when_asserting_for_null_on_map_that_does_not_contain_null(final Map<?, ?> actual) {
     Set<String> helper = new HashSet<>();
     helper.add(null);
 
     // GIVEN
-    @SuppressWarnings("serial")
     // actual is a Map that has no null keys
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).containsKey(null));

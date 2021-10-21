@@ -63,12 +63,12 @@ public abstract class MapAssertBaseTest extends BaseTestTemplate<MapAssert<Objec
     return map;
   }
 
-  protected static Stream<Arguments> maps_without_null_keys() {
+  protected static Stream<Arguments> maps_without_null_keys_or_values() {
     Map<String, String> map = basicHashMap();
     return Stream.of(
                      Arguments.of(map),
                      // Maven won't compile this with release set to 8...
-                     // Arguments.of(Map.of("Whatever", "Don't care")),
+                      Arguments.of(Map.of("Whatever", "Don't care")),
                      // This simulates what you get with Map.of(a, b)
                      Arguments.of(java_util_Map_of_simulation()),
                      Arguments.of(concurrentMap()),
@@ -95,6 +95,11 @@ public abstract class MapAssertBaseTest extends BaseTestTemplate<MapAssert<Objec
       @Override
       public boolean containsKey(Object o) {
           return o.equals(k0); // implicit nullcheck of o
+      }
+      
+      @Override
+      public boolean containsValue(Object o) {
+          return o.equals(v0); // implicit nullcheck of o
       }
       
     }
