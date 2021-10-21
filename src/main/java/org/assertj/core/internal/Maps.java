@@ -381,18 +381,7 @@ public class Maps {
     // Stream API avoided for performance reasons
     Set<K> found = new LinkedHashSet<>();
     for (K expectedKey : expectedKeys) {
-      try {
-        if (actual.containsKey(expectedKey)) found.add(expectedKey);
-      } catch (NullPointerException npe) {
-        if (expectedKey != null) {
-          /*
-           * The specification of containsKey in java.util.Map is that it may throw an NPE if the key is null and the
-           * implementation disallows that. In that case the map in question will not have a null key and we can
-           * ignore the NPE. However, if the expected key is *not* null, we must rethrow because there is a different problem.
-           */
-          throw npe;
-        }
-      }
+      doCheckOnMapPresentContents((exp) -> actual.containsKey(exp), expectedKey, () -> found.add(expectedKey));
     }
     return found;
   }
@@ -466,7 +455,9 @@ public class Maps {
 
   public <K, V> void assertDoesNotContainValue(AssertionInfo info, Map<K, V> actual, V value) {
     assertNotNull(info, actual);
-    if (actual.containsValue(value)) throw failures.failure(info, shouldNotContainValue(actual, value));
+    AtomicBoolean assertionFailed = new AtomicBoolean(false);
+    doCheckOnMapPresentContents((val) -> actual.containsValue(val), value, () -> assertionFailed.set(true));
+    if (assertionFailed.get()) throw failures.failure(info, shouldNotContainValue(actual, value)); 
   }
 
   public <K, V> void assertContainsOnly(AssertionInfo info, Map<K, V> actual, Entry<? extends K, ? extends V>[] entries) {
@@ -633,22 +624,41 @@ public class Maps {
                                                                 Entry<? extends K, ? extends V>[] entries) {
     if (entries.length == 0) throw failures.failure(info, shouldBeEmpty(actual));
   }
-  
+
   private static <T, U> void doCheckOnMapMissingContents(Predicate<T> contentsCondition, T predicateOperand,
-                                                  NonaryFunction onConditionMet) {
+                                                         NonaryFunction onConditionMet) {
     try {
       if (contentsCondition.test(predicateOperand)) onConditionMet.apply();
     } catch (NullPointerException npe) {
       if (predicateOperand == null) {
         /*
          * The specification of Map allows for map implementations that refuse null keys or values. In this
-         * case, certain operations may throw NPEs if passed a null argument (containsKey and 
+         * case, certain operations may throw NPEs if passed a null argument (containsKey and
          * containsValue, for example). If we catch an NPE here and the argument to the predicate
          * is null, we will assume we are dealing with a predicate that uses such a method and proceed as if
          * the predicate had yielded true.
          */
         onConditionMet.apply();
       } else {
+        // The NPE was thrown for a different reason than described above. Rethrow it.
+        throw npe;
+      }
+    }
+  }
+  
+  private static <T, U> void doCheckOnMapPresentContents(Predicate<T> contentsCondition, T predicateOperand,
+                                                         NonaryFunction onConditionMet) {
+    try {
+      if (contentsCondition.test(predicateOperand)) onConditionMet.apply();
+    } catch (NullPointerException npe) {
+      /*
+       * The specification of Map allows for map implementations that refuse null keys or values. In this
+       * case, certain operations may throw NPEs if passed a null argument (containsKey and
+       * containsValue, for example). If we catch an NPE here and the argument to the predicate
+       * is null, we will assume we are dealing with a predicate that uses such a method and ignore the 
+       * exception as the map will definitely not contain null.
+       */
+      if (predicateOperand != null) {
         // The NPE was thrown for a different reason than described above. Rethrow it.
         throw npe;
       }

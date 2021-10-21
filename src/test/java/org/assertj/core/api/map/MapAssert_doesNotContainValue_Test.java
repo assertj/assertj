@@ -14,8 +14,13 @@ package org.assertj.core.api.map;
 
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
+
+import java.util.Map;
 
 
 /**
@@ -33,5 +38,11 @@ class MapAssert_doesNotContainValue_Test extends MapAssertBaseTest {
   @Override
   protected void verify_internal_effects() {
     verify(maps).assertDoesNotContainValue(getInfo(assertions), getActual(assertions), "value1");
+  }
+  
+  @ParameterizedTest
+  @MethodSource("maps_without_null_keys_or_values")
+  protected void should_pass_when_asserting_for_null_on_map_that_does_not_contain_null(final Map<?, ?> actual) {
+    assertThat(actual).doesNotContainValue(null);
   }
 }
