@@ -65,6 +65,7 @@ import java.util.concurrent.atomic.LongAdder;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.data.MapEntry;
@@ -203,6 +204,7 @@ public class StandardRepresentation implements Representation {
   public String toStringOf(Object object) {
     if (object == null) return null;
     if (hasCustomFormatterFor(object)) return customFormat(object);
+    if (object instanceof RecursiveComparisonConfiguration) return toStringOf((RecursiveComparisonConfiguration) object);
     if (object instanceof ComparatorBasedComparisonStrategy) return toStringOf((ComparatorBasedComparisonStrategy) object);
     if (object instanceof Calendar) return toStringOf((Calendar) object);
     if (object instanceof Class<?>) return toStringOf((Class<?>) object);
@@ -368,6 +370,10 @@ public class StandardRepresentation implements Representation {
     // if toString has not been redefined, let's use comparator simple class name.
     if (comparator.toString().contains(comparatorSimpleClassName + "@")) return comparatorSimpleClassName;
     return comparator.toString();
+  }
+
+  protected String toStringOf(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+    return recursiveComparisonConfiguration.toString();
   }
 
   protected String toStringOf(ComparatorBasedComparisonStrategy comparatorBasedComparisonStrategy) {
