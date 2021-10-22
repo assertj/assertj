@@ -67,7 +67,7 @@ public abstract class MapAssertBaseTest extends BaseTestTemplate<MapAssert<Objec
     Map<String, String> map = basicHashMap();
     return Stream.of(
                      Arguments.of(map),
-                     // Maven won't compile this with release set to 8...
+                     // This won't compile this with release set to 8...
                      // Arguments.of(Map.of("Whatever", "Don't care")),
                      // This simulates what you get with Map.of(a, b)
                      Arguments.of(java_util_Map_of_simulation()),
