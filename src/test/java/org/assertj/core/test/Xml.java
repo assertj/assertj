@@ -14,7 +14,7 @@ package org.assertj.core.test;
 
 import java.util.Objects;
 
-public class Xml {
+public abstract class Xml {
   protected final String value;
 
   public Xml(String value) {
@@ -33,6 +33,8 @@ public class Xml {
     return new MacXml(value);
   }
 
+  protected abstract String getLineSeparator();
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -46,17 +48,21 @@ public class Xml {
     return Objects.hash(value);
   }
 
+  @Override
+  public String toString() {
+    return
+      "<xml>" + getLineSeparator() +
+      "  <value>" + value + "</value>" + getLineSeparator() +
+      "</xml>";
+  }
+
   public static class UnixXml extends Xml {
     public UnixXml(String value) {
       super(value);
     }
 
-    @Override
-    public String toString() {
-      return
-        "<xml>\n" +
-        "  <value>" + value + "</value>\n" +
-        "</xml>";
+    @Override protected String getLineSeparator() {
+      return "\n";
     }
   }
 
@@ -65,12 +71,8 @@ public class Xml {
       super(value);
     }
 
-    @Override
-    public String toString() {
-      return
-        "<xml>\r" +
-        "  <value>" + value + "</value>\r" +
-        "</xml>";
+    @Override protected String getLineSeparator() {
+      return "\r";
     }
   }
 
@@ -79,12 +81,8 @@ public class Xml {
       super(value);
     }
 
-    @Override
-    public String toString() {
-      return
-        "<xml>\r\n" +
-        "  <value>" + value + "</value>\r\n" +
-        "</xml>";
+    @Override protected String getLineSeparator() {
+      return "\r\n";
     }
   }
 }
