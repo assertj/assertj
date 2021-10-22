@@ -46,7 +46,7 @@ class MapAssert_doesNotContainKey_Test extends MapAssertBaseTest {
   }
   
   @ParameterizedTest
-  @MethodSource("maps_without_null_keys")
+  @MethodSource("maps_without_null_keys_or_values")
   protected void should_pass_when_asserting_for_null_on_map_that_does_not_contain_null(final Map<?, ?> actual) {
     assertThat(actual).doesNotContainKey(null);
   }

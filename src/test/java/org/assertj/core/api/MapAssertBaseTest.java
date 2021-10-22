@@ -63,7 +63,7 @@ public abstract class MapAssertBaseTest extends BaseTestTemplate<MapAssert<Objec
     return map;
   }
 
-  protected static Stream<Arguments> maps_without_null_keys() {
+  protected static Stream<Arguments> maps_without_null_keys_or_values() {
     Map<String, String> map = basicHashMap();
     return Stream.of(
                      Arguments.of(map),
@@ -83,20 +83,25 @@ public abstract class MapAssertBaseTest extends BaseTestTemplate<MapAssert<Objec
 
   private static Map<String, String> java_util_Map_of_simulation() {
     class SingletonNoNullKeysMap<K, V> extends HashMap<K, V> {
-      
+
       private final K k0;
       private final V v0;
 
       SingletonNoNullKeysMap(K k0, V v0) {
-          this.k0 = Objects.requireNonNull(k0);
-          this.v0 = Objects.requireNonNull(v0);
+        this.k0 = Objects.requireNonNull(k0);
+        this.v0 = Objects.requireNonNull(v0);
       }
-      
+
       @Override
       public boolean containsKey(Object o) {
-          return o.equals(k0); // implicit nullcheck of o
+        return o.equals(k0); // implicit nullcheck of o
       }
-      
+
+      @Override
+      public boolean containsValue(Object o) {
+        return o.equals(v0); // implicit nullcheck of o
+      }
+
     }
     Map<String, String> javaInternalMapSimulator = new SingletonNoNullKeysMap<>("Whatever", "Don't care");
     return javaInternalMapSimulator;
