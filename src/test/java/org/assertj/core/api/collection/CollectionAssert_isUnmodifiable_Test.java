@@ -39,6 +39,7 @@ import org.apache.commons.collections4.set.UnmodifiableNavigableSet;
 import org.apache.commons.collections4.set.UnmodifiableSet;
 import org.apache.commons.collections4.set.UnmodifiableSortedSet;
 import org.assertj.core.error.ErrorMessageFactory;
+import org.assertj.core.test.jdk11.Jdk11;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -109,6 +110,12 @@ class CollectionAssert_isUnmodifiable_Test {
                      ImmutableList.of(new Object()),
                      ImmutableSet.of(new Object()),
                      ImmutableSortedSet.of("element"),
+                     Jdk11.List.of(),
+                     Jdk11.List.of("element"), // same implementation for 1 or 2 parameters
+                     Jdk11.List.of("element", "element", "element"), // same implementation for 3+ parameters
+                     Jdk11.Set.of(),
+                     Jdk11.Set.of("element"), // same implementation for 1 or 2 parameters
+                     Jdk11.Set.of("element1", "element2", "element3"), // same implementation for 3+ parameters
                      Sets.unmodifiableNavigableSet(newTreeSet("element")),
                      UnmodifiableCollection.unmodifiableCollection(list(new Object())),
                      UnmodifiableList.unmodifiableList(list(new Object())),
