@@ -27,6 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 import org.assertj.core.internal.Maps;
+import org.assertj.core.test.jdk11.Jdk11;
 import org.junit.jupiter.params.provider.Arguments;
 
 /**
@@ -68,10 +69,7 @@ public abstract class MapAssertBaseTest extends BaseTestTemplate<MapAssert<Objec
     Map<String, String> map = newHashMap("Whatever", "Don't care");
     return Stream.of(
                      Arguments.of(map),
-                     // This won't compile this with release set to 8...
-                     // Arguments.of(Map.of("Whatever", "Don't care")),
-                     // This simulates what you get with Map.of(a, b)
-                     Arguments.of(java_util_Map_of_simulation()),
+                     Arguments.of(Jdk11.Map.of("Whatever", "Don't care")),
                      Arguments.of(concurrentMap()),
                      Arguments.of(Collections.unmodifiableMap(map)));
   }
@@ -82,29 +80,4 @@ public abstract class MapAssertBaseTest extends BaseTestTemplate<MapAssert<Objec
     return concurrentMap;
   }
 
-  private static Map<String, String> java_util_Map_of_simulation() {
-    class SingletonNoNullKeysMap<K, V> extends HashMap<K, V> {
-
-      private final K k0;
-      private final V v0;
-
-      SingletonNoNullKeysMap(K k0, V v0) {
-        this.k0 = Objects.requireNonNull(k0);
-        this.v0 = Objects.requireNonNull(v0);
-      }
-
-      @Override
-      public boolean containsKey(Object o) {
-        return o.equals(k0); // implicit nullcheck of o
-      }
-
-      @Override
-      public boolean containsValue(Object o) {
-        return o.equals(v0); // implicit nullcheck of o
-      }
-
-    }
-    Map<String, String> javaInternalMapSimulator = new SingletonNoNullKeysMap<>("Whatever", "Don't care");
-    return javaInternalMapSimulator;
-  }
 }
