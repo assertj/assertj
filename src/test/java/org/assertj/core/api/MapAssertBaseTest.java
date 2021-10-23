@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonMap;
+import static org.assertj.core.util.Maps.newHashMap;
 import static org.mockito.Mockito.mock;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
@@ -64,7 +65,7 @@ public abstract class MapAssertBaseTest extends BaseTestTemplate<MapAssert<Objec
   }
 
   protected static Stream<Arguments> maps_without_null_keys_or_values() {
-    Map<String, String> map = basicHashMap();
+    Map<String, String> map = newHashMap("Whatever", "Don't care");
     return Stream.of(
                      Arguments.of(map),
                      // This won't compile this with release set to 8...
@@ -105,11 +106,5 @@ public abstract class MapAssertBaseTest extends BaseTestTemplate<MapAssert<Objec
     }
     Map<String, String> javaInternalMapSimulator = new SingletonNoNullKeysMap<>("Whatever", "Don't care");
     return javaInternalMapSimulator;
-  }
-
-  private static Map<String, String> basicHashMap() {
-    Map<String, String> map = new HashMap<>();
-    map.put("Whatever", "Don't care");
-    return map;
   }
 }
