@@ -769,4 +769,23 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
     if (actual != null) throw Failures.instance().failure(info, shouldNotHaveThrown(actual));
   }
 
+  /**
+   * A shortcut for <code>extracting(Throwable::getMessage, as(InstanceOfAssertFactories.STRING))</code> which allows to extract an exception's message and then assert on a {@link Throwable}.
+   * <p>
+   * Java 8 example :
+   * <pre><code class='java'> {@literal @}Test
+   *  public void testException() {
+   *    assertThatThrownBy(() -&gt; { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
+   *                                                               .message();
+   * }</code></pre>
+   *
+   * // assertion will fail if the provided {@link ThrowableAssert.ThrowingCallable} does not raise an exception, an error is immediately thrown
+   *
+   * @param
+   * @return the created {@link StringAssert}.
+   */
+  public StringAssert message() {
+    return new StringAssert(((Throwable) actual).getMessage());
+  }
+
 }
