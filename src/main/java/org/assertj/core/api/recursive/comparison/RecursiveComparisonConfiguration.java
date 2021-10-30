@@ -35,6 +35,7 @@ import java.util.stream.Stream;
 
 import org.assertj.core.api.RecursiveComparisonAssert;
 import org.assertj.core.api.recursive.AbstractRecursiveOperationConfiguration;
+import org.assertj.core.api.recursive.FieldLocation;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.Representation;
@@ -644,11 +645,6 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
            && dualValue.isActualFieldAnEmptyOptionalOfAnyType();
   }
 
-  private boolean matchesAnIgnoredFieldRegex(FieldLocation fieldLocation) {
-    return getIgnoredFieldsRegexes().stream()
-                               .anyMatch(regex -> regex.matcher(fieldLocation.getPathToUseInRules()).matches());
-  }
-
   private boolean matchesAnIgnoredFieldType(DualValue dualValue) {
     Object actual = dualValue.actual;
     if (actual != null) return getIgnoredTypes().contains(actual.getClass());
@@ -658,10 +654,6 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     if (strictTypeChecking && expected != null) return getIgnoredTypes().contains(expected.getClass());
     // if strictTypeChecking is disabled, we can't safely ignore the field (if we did, we would ignore all null fields!).
     return false;
-  }
-
-  private boolean matchesAnIgnoredField(FieldLocation fieldLocation) {
-    return getIgnoredFields().stream().anyMatch(fieldLocation::matches);
   }
 
   private boolean matchesAnIgnoredCollectionOrderInField(FieldLocation fieldLocation) {

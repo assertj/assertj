@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2021 the original author or authors.
  */
-package org.assertj.core.api.recursive.comparison;
+package org.assertj.core.api.recursive;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.list;
@@ -19,6 +19,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.recursive.FieldLocation;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
