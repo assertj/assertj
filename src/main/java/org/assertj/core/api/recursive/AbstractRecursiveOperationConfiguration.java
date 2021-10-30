@@ -1,0 +1,150 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ *
+ * Copyright 2012-2021 the original author or authors.
+ */
+package org.assertj.core.api.recursive;
+
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toList;
+import static org.assertj.core.util.Lists.list;
+
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
+
+import org.assertj.core.api.RecursiveComparisonAssert;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
+import org.assertj.core.util.VisibleForTesting;
+
+public abstract class AbstractRecursiveOperationConfiguration {
+  private boolean ignoreAllActualNullFields = false;
+  private boolean ignoreAllActualEmptyOptionalFields = false;
+  private Set<String> ignoredFields = new LinkedHashSet<>();
+  private List<Pattern> ignoredFieldsRegexes = new ArrayList<>();
+  private Set<Class<?>> ignoredTypes = new LinkedHashSet<>();
+  
+  @VisibleForTesting
+  public boolean getIgnoreAllActualNullFields() {
+    return ignoreAllActualNullFields;
+  }
+
+  /**
+   * Sets whether actual null fields are ignored in the recursive comparison.
+   * <p>
+   * See {@link RecursiveComparisonAssert#ignoringActualNullFields()} for code examples.
+   *
+   * @param ignoreAllActualNullFields whether to ignore actual null fields in the recursive comparison
+   */
+  public void setIgnoreAllActualNullFields(boolean ignoreAllActualNullFields) {
+    this.ignoreAllActualNullFields = ignoreAllActualNullFields;
+  }
+  
+  /**
+   * Sets whether actual empty optional fields are ignored in the recursive comparison.
+   * <p>
+   * See {@link RecursiveComparisonAssert#ignoringActualNullFields()} for code examples.
+   *
+   * @param ignoringAllActualEmptyOptionalFields whether to ignore actual empty optional fields in the recursive comparison
+   */
+  public void setIgnoreAllActualEmptyOptionalFields(boolean ignoringAllActualEmptyOptionalFields) {
+    this.ignoreAllActualEmptyOptionalFields = ignoringAllActualEmptyOptionalFields;
+  }
+
+  @VisibleForTesting
+  public boolean getIgnoreAllActualEmptyOptionalFields() {
+    return ignoreAllActualEmptyOptionalFields;
+  }
+  
+
+  /**
+   * Adds the given fields to the set of fields from the object under test to ignore in the recursive comparison.
+   * <p>
+   * The fields are ignored by name, not by value.
+   * <p>
+   * See {@link RecursiveComparisonAssert#ignoringFields(String...) RecursiveComparisonAssert#ignoringFields(String...)} for examples.
+   *
+   * @param fieldsToIgnore the fields of the object under test to ignore in the comparison.
+   */
+  public void ignoreFields(String... fieldsToIgnore) {
+    List<String> fieldLocations = list(fieldsToIgnore);
+    ignoredFields.addAll(fieldLocations);
+  }
+
+  /**
+   * Returns the set of fields from the object under test to ignore in the recursive comparison.
+   *
+   * @return the set of fields from the object under test to ignore in the recursive comparison.
+   */
+  public Set<String> getIgnoredFields() {
+    return ignoredFields;
+  }
+  
+
+  /**
+   * Allows to ignore in the recursive comparison the object under test fields matching the given regexes. The given regexes are added to the already registered ones.
+   * <p>
+   * See {@link RecursiveComparisonAssert#ignoringFieldsMatchingRegexes(String...) RecursiveComparisonAssert#ignoringFieldsMatchingRegexes(String...)} for examples.
+   *
+   * @param regexes regexes used to ignore fields in the comparison.
+   */
+  public void ignoreFieldsMatchingRegexes(String... regexes) {
+    List<Pattern> patterns = Stream.of(regexes)
+                                   .map(Pattern::compile)
+                                   .collect(toList());
+    ignoredFieldsRegexes.addAll(patterns);
+  }
+  
+
+  public List<Pattern> getIgnoredFieldsRegexes() {
+    return ignoredFieldsRegexes;
+  }
+  
+
+  /**
+   * Adds the given types to the list fields from the object under test types to ignore in the recursive comparison.
+   * The fields are ignored if their types exactly match one of the ignored types, if a field is a subtype of an ignored type it won't be ignored.
+   * <p>
+   * Note that if some object under test fields are null, they are not ignored by this method as their type can't be evaluated.
+   * <p>
+   * See {@link RecursiveComparisonAssert#ignoringFields(String...) RecursiveComparisonAssert#ignoringFieldsOfTypes(Class...)} for examples.
+   *
+   * @param types the types of the object under test to ignore in the comparison.
+   */
+  public void ignoreFieldsOfTypes(Class<?>... types) {
+    stream(types).map(AbstractRecursiveOperationConfiguration::asWrapperIfPrimitiveType).forEach(ignoredTypes::add);
+  }
+
+  private static Class<?> asWrapperIfPrimitiveType(Class<?> type) {
+    if (!type.isPrimitive()) return type;
+    if (type.equals(boolean.class)) return Boolean.class;
+    if (type.equals(byte.class)) return Byte.class;
+    if (type.equals(int.class)) return Integer.class;
+    if (type.equals(short.class)) return Short.class;
+    if (type.equals(char.class)) return Character.class;
+    if (type.equals(float.class)) return Float.class;
+    if (type.equals(double.class)) return Double.class;
+    // should not arrive here since we have tested primitive types first
+    return type;
+  }
+  
+  /**
+   * Returns the set of fields from the object under test types to ignore in the recursive comparison.
+   *
+   * @return the set of fields from the object under test types to ignore in the recursive comparison.
+   */
+  public Set<Class<?>> getIgnoredTypes() {
+    return ignoredTypes;
+  }
+
+}

@@ -13,7 +13,6 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static java.lang.String.format;
-import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
@@ -36,13 +35,14 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.RecursiveComparisonAssert;
+import org.assertj.core.api.recursive.AbstractRecursiveOperationConfiguration;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.Strings;
 import org.assertj.core.util.VisibleForTesting;
 
-public class RecursiveComparisonConfiguration {
+public class RecursiveComparisonConfiguration extends AbstractRecursiveOperationConfiguration {
 
   private static final String DEFAULT_DELIMITER = ", ";
   private static final boolean DEFAULT_IGNORE_ALL_OVERRIDDEN_EQUALS = true;
@@ -50,12 +50,7 @@ public class RecursiveComparisonConfiguration {
   private boolean strictTypeChecking = false;
 
   // fields to ignore section
-  private boolean ignoreAllActualNullFields = false;
-  private boolean ignoreAllActualEmptyOptionalFields = false;
   private boolean ignoreAllExpectedNullFields = false;
-  private Set<String> ignoredFields = new LinkedHashSet<>();
-  private List<Pattern> ignoredFieldsRegexes = new ArrayList<>();
-  private Set<Class<?>> ignoredTypes = new LinkedHashSet<>();
 
   // fields to compare (no other field will be)
   private Set<String> comparedFields = new LinkedHashSet<>();
@@ -77,10 +72,10 @@ public class RecursiveComparisonConfiguration {
 
   private RecursiveComparisonConfiguration(Builder builder) {
     this.strictTypeChecking = builder.strictTypeChecking;
-    this.ignoreAllActualNullFields = builder.ignoreAllActualNullFields;
-    this.ignoreAllActualEmptyOptionalFields = builder.ignoreAllActualEmptyOptionalFields;
+    setIgnoreAllActualNullFields(builder.ignoreAllActualNullFields);
+    setIgnoreAllActualEmptyOptionalFields(builder.ignoreAllActualEmptyOptionalFields);
     this.ignoreAllExpectedNullFields = builder.ignoreAllExpectedNullFields;
-    this.ignoredFields = newLinkedHashSet(builder.ignoredFields);
+    ignoreFields(builder.ignoredFields);
     this.comparedFields = newLinkedHashSet(builder.comparedFields);
     ignoreFieldsMatchingRegexes(builder.ignoredFieldsMatchingRegexes);
     ignoreFieldsOfTypes(builder.ignoredTypes);
@@ -130,11 +125,6 @@ public class RecursiveComparisonConfiguration {
   }
 
   @VisibleForTesting
-  boolean getIgnoreAllActualNullFields() {
-    return ignoreAllActualNullFields;
-  }
-
-  @VisibleForTesting
   boolean getIgnoreAllExpectedNullFields() {
     return ignoreAllExpectedNullFields;
   }
@@ -142,33 +132,6 @@ public class RecursiveComparisonConfiguration {
   @VisibleForTesting
   boolean getIgnoreAllOverriddenEquals() {
     return ignoreAllOverriddenEquals;
-  }
-
-  /**
-   * Sets whether actual empty optional fields are ignored in the recursive comparison.
-   * <p>
-   * See {@link RecursiveComparisonAssert#ignoringActualNullFields()} for code examples.
-   *
-   * @param ignoringAllActualEmptyOptionalFields whether to ignore actual empty optional fields in the recursive comparison
-   */
-  public void setIgnoreAllActualEmptyOptionalFields(boolean ignoringAllActualEmptyOptionalFields) {
-    this.ignoreAllActualEmptyOptionalFields = ignoringAllActualEmptyOptionalFields;
-  }
-
-  @VisibleForTesting
-  boolean getIgnoreAllActualEmptyOptionalFields() {
-    return ignoreAllActualEmptyOptionalFields;
-  }
-
-  /**
-   * Sets whether actual null fields are ignored in the recursive comparison.
-   * <p>
-   * See {@link RecursiveComparisonAssert#ignoringActualNullFields()} for code examples.
-   *
-   * @param ignoreAllActualNullFields whether to ignore actual null fields in the recursive comparison
-   */
-  public void setIgnoreAllActualNullFields(boolean ignoreAllActualNullFields) {
-    this.ignoreAllActualNullFields = ignoreAllActualNullFields;
   }
 
   /**
@@ -180,20 +143,6 @@ public class RecursiveComparisonConfiguration {
    */
   public void setIgnoreAllExpectedNullFields(boolean ignoreAllExpectedNullFields) {
     this.ignoreAllExpectedNullFields = ignoreAllExpectedNullFields;
-  }
-
-  /**
-   * Adds the given fields to the set of fields from the object under test to ignore in the recursive comparison.
-   * <p>
-   * The fields are ignored by name, not by value.
-   * <p>
-   * See {@link RecursiveComparisonAssert#ignoringFields(String...) RecursiveComparisonAssert#ignoringFields(String...)} for examples.
-   *
-   * @param fieldsToIgnore the fields of the object under test to ignore in the comparison.
-   */
-  public void ignoreFields(String... fieldsToIgnore) {
-    List<String> fieldLocations = list(fieldsToIgnore);
-    ignoredFields.addAll(fieldLocations);
   }
 
   /**
@@ -214,71 +163,12 @@ public class RecursiveComparisonConfiguration {
   }
 
   /**
-   * Allows to ignore in the recursive comparison the object under test fields matching the given regexes. The given regexes are added to the already registered ones.
-   * <p>
-   * See {@link RecursiveComparisonAssert#ignoringFieldsMatchingRegexes(String...) RecursiveComparisonAssert#ignoringFieldsMatchingRegexes(String...)} for examples.
-   *
-   * @param regexes regexes used to ignore fields in the comparison.
-   */
-  public void ignoreFieldsMatchingRegexes(String... regexes) {
-    List<Pattern> patterns = Stream.of(regexes)
-                                   .map(Pattern::compile)
-                                   .collect(toList());
-    ignoredFieldsRegexes.addAll(patterns);
-  }
-
-  /**
-   * Adds the given types to the list fields from the object under test types to ignore in the recursive comparison.
-   * The fields are ignored if their types exactly match one of the ignored types, if a field is a subtype of an ignored type it won't be ignored.
-   * <p>
-   * Note that if some object under test fields are null, they are not ignored by this method as their type can't be evaluated.
-   * <p>
-   * See {@link RecursiveComparisonAssert#ignoringFields(String...) RecursiveComparisonAssert#ignoringFieldsOfTypes(Class...)} for examples.
-   *
-   * @param types the types of the object under test to ignore in the comparison.
-   */
-  public void ignoreFieldsOfTypes(Class<?>... types) {
-    stream(types).map(RecursiveComparisonConfiguration::asWrapperIfPrimitiveType).forEach(ignoredTypes::add);
-  }
-
-  private static Class<?> asWrapperIfPrimitiveType(Class<?> type) {
-    if (!type.isPrimitive()) return type;
-    if (type.equals(boolean.class)) return Boolean.class;
-    if (type.equals(byte.class)) return Byte.class;
-    if (type.equals(int.class)) return Integer.class;
-    if (type.equals(short.class)) return Short.class;
-    if (type.equals(char.class)) return Character.class;
-    if (type.equals(float.class)) return Float.class;
-    if (type.equals(double.class)) return Double.class;
-    // should not arrive here since we have tested primitive types first
-    return type;
-  }
-
-  /**
-   * Returns the set of fields from the object under test to ignore in the recursive comparison.
-   *
-   * @return the set of fields from the object under test to ignore in the recursive comparison.
-   */
-  public Set<String> getIgnoredFields() {
-    return ignoredFields;
-  }
-
-  /**
    * Returns the set of fields to compare from the object under test (no other fields will be compared).
    *
    * @return the set of fields from the object under test to compare.
    */
   public Set<String> getComparedFields() {
     return comparedFields;
-  }
-
-  /**
-   * Returns the set of fields from the object under test types to ignore in the recursive comparison.
-   *
-   * @return the set of fields from the object under test types to ignore in the recursive comparison.
-   */
-  public Set<Class<?>> getIgnoredTypes() {
-    return ignoredTypes;
   }
 
   /**
@@ -495,10 +385,6 @@ public class RecursiveComparisonConfiguration {
     return strictTypeChecking;
   }
 
-  public List<Pattern> getIgnoredFieldsRegexes() {
-    return ignoredFieldsRegexes;
-  }
-
   public List<Class<?>> getIgnoredOverriddenEqualsForTypes() {
     return ignoredOverriddenEqualsForTypes;
   }
@@ -522,11 +408,11 @@ public class RecursiveComparisonConfiguration {
 
   @Override
   public int hashCode() {
-    return java.util.Objects.hash(fieldComparators, ignoreAllActualEmptyOptionalFields, ignoreAllActualNullFields,
+    return java.util.Objects.hash(fieldComparators, getIgnoreAllActualEmptyOptionalFields(), getIgnoreAllActualNullFields(),
                                   ignoreAllExpectedNullFields, ignoreAllOverriddenEquals, ignoreCollectionOrder,
-                                  ignoredCollectionOrderInFields, ignoredCollectionOrderInFieldsMatchingRegexes, ignoredFields,
-                                  ignoredFieldsRegexes, ignoredOverriddenEqualsForFields, ignoredOverriddenEqualsForTypes,
-                                  ignoredOverriddenEqualsForFieldsMatchingRegexes, ignoredTypes, strictTypeChecking,
+                                  ignoredCollectionOrderInFields, ignoredCollectionOrderInFieldsMatchingRegexes, getIgnoredFields(),
+                                  getIgnoredFieldsRegexes(), ignoredOverriddenEqualsForFields, ignoredOverriddenEqualsForTypes,
+                                  ignoredOverriddenEqualsForFieldsMatchingRegexes, getIgnoredTypes(), strictTypeChecking,
                                   typeComparators, comparedFields);
   }
 
@@ -537,20 +423,20 @@ public class RecursiveComparisonConfiguration {
     if (getClass() != obj.getClass()) return false;
     RecursiveComparisonConfiguration other = (RecursiveComparisonConfiguration) obj;
     return java.util.Objects.equals(fieldComparators, other.fieldComparators)
-           && ignoreAllActualEmptyOptionalFields == other.ignoreAllActualEmptyOptionalFields
-           && ignoreAllActualNullFields == other.ignoreAllActualNullFields
+           && getIgnoreAllActualEmptyOptionalFields() == other.getIgnoreAllActualEmptyOptionalFields()
+           && getIgnoreAllActualNullFields() == other.getIgnoreAllActualNullFields()
            && ignoreAllExpectedNullFields == other.ignoreAllExpectedNullFields
            && ignoreAllOverriddenEquals == other.ignoreAllOverriddenEquals
            && ignoreCollectionOrder == other.ignoreCollectionOrder
            && java.util.Objects.equals(ignoredCollectionOrderInFields, other.ignoredCollectionOrderInFields)
-           && java.util.Objects.equals(ignoredFields, other.ignoredFields)
+           && java.util.Objects.equals(getIgnoredFields(), other.getIgnoredFields())
            && java.util.Objects.equals(comparedFields, other.comparedFields)
-           && java.util.Objects.equals(ignoredFieldsRegexes, other.ignoredFieldsRegexes)
+           && java.util.Objects.equals(getIgnoredFieldsRegexes(), other.getIgnoredFieldsRegexes())
            && java.util.Objects.equals(ignoredOverriddenEqualsForFields, other.ignoredOverriddenEqualsForFields)
            && java.util.Objects.equals(ignoredOverriddenEqualsForTypes, other.ignoredOverriddenEqualsForTypes)
            && java.util.Objects.equals(ignoredOverriddenEqualsForFieldsMatchingRegexes,
                                        other.ignoredOverriddenEqualsForFieldsMatchingRegexes)
-           && java.util.Objects.equals(ignoredTypes, other.ignoredTypes) && strictTypeChecking == other.strictTypeChecking
+           && java.util.Objects.equals(getIgnoredTypes(), other.getIgnoredTypes()) && strictTypeChecking == other.strictTypeChecking
            && java.util.Objects.equals(typeComparators, other.typeComparators)
            && java.util.Objects.equals(ignoredCollectionOrderInFieldsMatchingRegexes,
                                        other.ignoredCollectionOrderInFieldsMatchingRegexes);
@@ -673,13 +559,13 @@ public class RecursiveComparisonConfiguration {
   }
 
   private void describeIgnoredFieldsRegexes(StringBuilder description) {
-    if (!ignoredFieldsRegexes.isEmpty())
+    if (!getIgnoredFieldsRegexes().isEmpty())
       description.append(format("- the fields matching the following regexes were ignored in the comparison: %s%n",
-                                describeRegexes(ignoredFieldsRegexes)));
+                                describeRegexes(getIgnoredFieldsRegexes())));
   }
 
   private void describeIgnoredFields(StringBuilder description) {
-    if (!ignoredFields.isEmpty())
+    if (!getIgnoredFields().isEmpty())
       description.append(format("- the following fields were ignored in the comparison: %s%n", describeIgnoredFields()));
   }
 
@@ -689,12 +575,12 @@ public class RecursiveComparisonConfiguration {
   }
 
   private void describeIgnoredFieldsForTypes(StringBuilder description) {
-    if (!ignoredTypes.isEmpty())
+    if (!getIgnoredTypes().isEmpty())
       description.append(format("- the following types were ignored in the comparison: %s%n", describeIgnoredTypes()));
   }
 
   private void describeIgnoreAllActualNullFields(StringBuilder description) {
-    if (ignoreAllActualNullFields) description.append(format("- all actual null fields were ignored in the comparison%n"));
+    if (getIgnoreAllActualNullFields()) description.append(format("- all actual null fields were ignored in the comparison%n"));
   }
 
   private void describeIgnoreAllActualEmptyOptionalFields(StringBuilder description) {
@@ -774,33 +660,33 @@ public class RecursiveComparisonConfiguration {
   }
 
   private boolean matchesAnIgnoredNullField(DualValue dualValue) {
-    return (ignoreAllActualNullFields && dualValue.actual == null)
+    return (getIgnoreAllActualNullFields() && dualValue.actual == null)
            || (ignoreAllExpectedNullFields && dualValue.expected == null);
   }
 
   private boolean matchesAnIgnoredEmptyOptionalField(DualValue dualValue) {
-    return ignoreAllActualEmptyOptionalFields
+    return getIgnoreAllActualEmptyOptionalFields()
            && dualValue.isActualFieldAnEmptyOptionalOfAnyType();
   }
 
   private boolean matchesAnIgnoredFieldRegex(FieldLocation fieldLocation) {
-    return ignoredFieldsRegexes.stream()
+    return getIgnoredFieldsRegexes().stream()
                                .anyMatch(regex -> regex.matcher(fieldLocation.getPathToUseInRules()).matches());
   }
 
   private boolean matchesAnIgnoredFieldType(DualValue dualValue) {
     Object actual = dualValue.actual;
-    if (actual != null) return ignoredTypes.contains(actual.getClass());
+    if (actual != null) return getIgnoredTypes().contains(actual.getClass());
     Object expected = dualValue.expected;
     // actual is null => we can't evaluate its type, we can only reliably check dualValue.expected's type if
     // strictTypeChecking is enabled which guarantees expected is of the same type.
-    if (strictTypeChecking && expected != null) return ignoredTypes.contains(expected.getClass());
+    if (strictTypeChecking && expected != null) return getIgnoredTypes().contains(expected.getClass());
     // if strictTypeChecking is disabled, we can't safely ignore the field (if we did, we would ignore all null fields!).
     return false;
   }
 
   private boolean matchesAnIgnoredField(FieldLocation fieldLocation) {
-    return ignoredFields.stream().anyMatch(fieldLocation::matches);
+    return getIgnoredFields().stream().anyMatch(fieldLocation::matches);
   }
 
   private boolean matchesAnIgnoredCollectionOrderInField(FieldLocation fieldLocation) {
@@ -813,7 +699,7 @@ public class RecursiveComparisonConfiguration {
   }
 
   private String describeIgnoredFields() {
-    return join(ignoredFields);
+    return join(getIgnoredFields());
   }
 
   private String describeComparedFields() {
@@ -821,7 +707,7 @@ public class RecursiveComparisonConfiguration {
   }
 
   private String describeIgnoredTypes() {
-    List<String> typesDescription = ignoredTypes.stream()
+    List<String> typesDescription = getIgnoredTypes().stream()
                                                 .map(Class::getName)
                                                 .collect(toList());
     return join(typesDescription);
