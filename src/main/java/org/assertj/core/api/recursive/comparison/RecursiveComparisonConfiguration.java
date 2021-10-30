@@ -23,7 +23,6 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -39,12 +38,10 @@ import org.assertj.core.api.recursive.AbstractRecursiveOperationConfiguration;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.Representation;
-import org.assertj.core.util.Strings;
 import org.assertj.core.util.VisibleForTesting;
 
 public class RecursiveComparisonConfiguration extends AbstractRecursiveOperationConfiguration {
 
-  private static final String DEFAULT_DELIMITER = ", ";
   private static final boolean DEFAULT_IGNORE_ALL_OVERRIDDEN_EQUALS = true;
   public static final String INDENT_LEVEL_2 = "  -";
   private boolean strictTypeChecking = false;
@@ -558,17 +555,6 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
            || matchesAnIgnoredCollectionOrderInFieldRegex(fieldLocation);
   }
 
-  private void describeIgnoredFieldsRegexes(StringBuilder description) {
-    if (!getIgnoredFieldsRegexes().isEmpty())
-      description.append(format("- the fields matching the following regexes were ignored in the comparison: %s%n",
-                                describeRegexes(getIgnoredFieldsRegexes())));
-  }
-
-  private void describeIgnoredFields(StringBuilder description) {
-    if (!getIgnoredFields().isEmpty())
-      description.append(format("- the following fields were ignored in the comparison: %s%n", describeIgnoredFields()));
-  }
-
   private void describeComparedFields(StringBuilder description) {
     if (!comparedFields.isEmpty())
       description.append(format("- the comparison was performed on the following fields: %s%n", describeComparedFields()));
@@ -577,15 +563,6 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   private void describeIgnoredFieldsForTypes(StringBuilder description) {
     if (!getIgnoredTypes().isEmpty())
       description.append(format("- the following types were ignored in the comparison: %s%n", describeIgnoredTypes()));
-  }
-
-  private void describeIgnoreAllActualNullFields(StringBuilder description) {
-    if (getIgnoreAllActualNullFields()) description.append(format("- all actual null fields were ignored in the comparison%n"));
-  }
-
-  private void describeIgnoreAllActualEmptyOptionalFields(StringBuilder description) {
-    if (getIgnoreAllActualEmptyOptionalFields())
-      description.append(format("- all actual empty optional fields were ignored in the comparison (including Optional, OptionalInt, OptionalLong and OptionalDouble)%n"));
   }
 
   private void describeIgnoreAllExpectedNullFields(StringBuilder description) {
@@ -698,34 +675,12 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return ignoredCollectionOrderInFieldsMatchingRegexes.stream().anyMatch(regex -> regex.matcher(pathToUseInRules).matches());
   }
 
-  private String describeIgnoredFields() {
-    return join(getIgnoredFields());
-  }
-
   private String describeComparedFields() {
     return join(comparedFields);
   }
 
-  private String describeIgnoredTypes() {
-    List<String> typesDescription = getIgnoredTypes().stream()
-                                                .map(Class::getName)
-                                                .collect(toList());
-    return join(typesDescription);
-  }
-
-  private static String join(Collection<String> typesDescription) {
-    return Strings.join(typesDescription).with(DEFAULT_DELIMITER);
-  }
-
   private String describeIgnoredCollectionOrderInFields() {
     return join(ignoredCollectionOrderInFields);
-  }
-
-  private String describeRegexes(List<Pattern> regexes) {
-    List<String> fieldsDescription = regexes.stream()
-                                            .map(Pattern::pattern)
-                                            .collect(toList());
-    return join(fieldsDescription);
   }
 
   private boolean isConfiguredToIgnoreSomeButNotAllOverriddenEqualsMethods() {
