@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2021 the original author or authors.
  */
-package org.assertj.core.api.recursive.comparison;
+package org.assertj.core.api.recursive;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.list;
@@ -18,6 +18,7 @@ import static org.assertj.core.util.Lists.list;
 import java.util.Collections;
 import java.util.List;
 
+import org.assertj.core.api.recursive.FieldLocation;
 import org.junit.jupiter.api.Test;
 
 import nl.jqno.equalsverifier.EqualsVerifier;

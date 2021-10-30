@@ -10,11 +10,12 @@
  *
  * Copyright 2012-2021 the original author or authors.
  */
-package org.assertj.core.api.recursive.comparison;
+package org.assertj.core.api.recursive;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.list;
 
+import org.assertj.core.api.recursive.FieldLocation;
 import org.junit.jupiter.api.Test;
 
 class FieldLocation_field_Test {

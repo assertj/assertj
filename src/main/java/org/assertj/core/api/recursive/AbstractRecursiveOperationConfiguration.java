@@ -200,6 +200,15 @@ public abstract class AbstractRecursiveOperationConfiguration {
     return Strings.join(typesDescription).with(DEFAULT_DELIMITER);
   }
   
+  protected boolean matchesAnIgnoredFieldRegex(FieldLocation fieldLocation) {
+    return getIgnoredFieldsRegexes().stream()
+                               .anyMatch(regex -> regex.matcher(fieldLocation.getPathToUseInRules()).matches());
+  }
+
+  protected boolean matchesAnIgnoredField(FieldLocation fieldLocation) {
+    return getIgnoredFields().stream().anyMatch(fieldLocation::matches);
+  }
+  
   private String describeIgnoredFields() {
     return join(getIgnoredFields());
   }
