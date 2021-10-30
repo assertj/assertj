@@ -1297,7 +1297,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *               assertThat(stats.reboundsPerGame).isBetween(9, 12);
    *            });</code></pre>
    * <p>
-   * {@code assertWith} is variation of {@link AbstractAssert#satisfies(Consumer)} hopefully easier to find for some users.
+   * {@code assertWith} is variation of {@link AbstractAssert#satisfies(Consumer[])} hopefully easier to find for some users.
    *
    * @param <T> the type of the actual value.
    * @param actual the actual value.
@@ -1306,7 +1306,8 @@ public class Assertions implements InstanceOfAssertFactories {
    * @since 3.20.0
    */
   @CanIgnoreReturnValue
-  public static <T> ObjectAssert<T> assertWith(T actual, Consumer<T> requirements) {
+  @SafeVarargs
+  public static <T> ObjectAssert<T> assertWith(T actual, Consumer<T>... requirements) {
     return assertThat(actual).satisfies(requirements);
   }
 

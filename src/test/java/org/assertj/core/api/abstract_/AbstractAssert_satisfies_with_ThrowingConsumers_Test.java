@@ -17,7 +17,7 @@ import static java.nio.file.Files.readAllLines;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.BDDAssertions.thenNullPointerException;
+import static org.assertj.core.api.BDDAssertions.thenIllegalArgumentException;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.ThrowingConsumerFactory.throwingConsumer;
 
@@ -25,24 +25,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.assertj.core.api.ThrowingConsumer;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class AbstractAssert_satisfies_with_ThrowingConsumer_Test {
-
-  private ThrowingConsumer<Path> isEOF;
-
-  @BeforeEach
-  void setup() {
-    isEOF = path -> {
-      assertThat(isReadable(path)).isTrue();
-      // this would not compile if isEOF was declared as Consumer<Path> since it can throw an IOException
-      assertThat(readAllLines(path)).isEmpty();
-    };
-  }
+class AbstractAssert_satisfies_with_ThrowingConsumers_Test {
 
   @Test
-  void should_satisfy_single_requirement() {
+  void should_pass_satisfying_single_requirement() {
     // GIVEN
     Path emptyFile = Paths.get("src/test/resources/empty.txt");
     ThrowingConsumer<Path> isEmpty = path -> assertThat(readAllLines(path)).isEmpty();
@@ -51,15 +39,17 @@ class AbstractAssert_satisfies_with_ThrowingConsumer_Test {
   }
 
   @Test
-  void should_satisfy_multiple_requirements() {
+  void should_pass_satisfying_multiple_requirements() {
     // GIVEN
     Path emptyFile = Paths.get("src/test/resources/empty.txt");
+    ThrowingConsumer<Path> readableConsumer = path -> assertThat(isReadable(path)).isTrue();
+    ThrowingConsumer<Path> emptyConsumer = path -> assertThat(readAllLines(path)).isEmpty();
     // WHEN/THEN
-    then(emptyFile).satisfies(isEOF);
+    then(emptyFile).satisfies(readableConsumer, emptyConsumer);
   }
 
   @Test
-  void should_satisfy_supertype_consumer() {
+  void should_pass_with_supertype_consumer() {
     // GIVEN
     ThrowingConsumer<Object> notNullObjectConsumer = object -> assertThat(object).isNotNull();
     // WHEN/THEN
@@ -67,13 +57,40 @@ class AbstractAssert_satisfies_with_ThrowingConsumer_Test {
   }
 
   @Test
-  void should_fail_according_to_requirements() {
+  void should_fail_not_satisfying_single_requirement() {
     // GIVEN
     Path asciiFile = Paths.get("src/test/resources/ascii.txt");
+    ThrowingConsumer<Path> emptyConsumer = path -> assertThat(readAllLines(path)).isEmpty();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(asciiFile).satisfies(isEOF));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(asciiFile).satisfies(emptyConsumer));
     // THEN
     then(assertionError).hasMessageContaining("Expecting empty but was: [\"abc\"]");
+  }
+
+  @Test
+  void should_fail_not_satisfying_any_requirements() {
+    // GIVEN
+    Path asciiFile = Paths.get("src/test/resources/ascii.txt");
+    ThrowingConsumer<Path> emptyConsumer = path -> assertThat(readAllLines(path)).as("empty check").isEmpty();
+    ThrowingConsumer<Path> directoryConsumer = path -> assertThat(path).as("directory check").isDirectory();
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(asciiFile).satisfies(emptyConsumer, directoryConsumer));
+    // THEN
+    then(assertionError.getMessage()).contains("empty check", "directory check");
+  }
+
+  @Test
+  void should_fail_not_satisfying_some_requirements() {
+    // GIVEN
+    Path asciiFile = Paths.get("src/test/resources/ascii.txt");
+    ThrowingConsumer<Path> notEmptyConsumer = path -> assertThat(readAllLines(path)).as("not empty check").isNotEmpty();
+    ThrowingConsumer<Path> directoryConsumer = path -> assertThat(path).as("directory check").isDirectory();
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(asciiFile).satisfies(directoryConsumer, notEmptyConsumer));
+    // THEN
+    then(assertionError.getMessage())
+      .contains("directory check")
+      .doesNotContain("not empty check");
   }
 
   @Test
@@ -98,22 +115,11 @@ class AbstractAssert_satisfies_with_ThrowingConsumer_Test {
   }
 
   @Test
-  void should_propagate_AssertionError_as_is() {
-    // GIVEN
-    AssertionError assertionError = new AssertionError("boom!");
-    // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat("foo").satisfies(throwingConsumer(assertionError)));
-    // THEN
-    then(throwable).isSameAs(assertionError);
-  }
-
-  @Test
   void should_fail_if_throwing_consumer_is_null() {
     // GIVEN
     ThrowingConsumer<String> nullRequirements = null;
     // WHEN/THEN
-    thenNullPointerException().isThrownBy(() -> assertThat("foo").satisfies(nullRequirements))
-                              .withMessage("The Consumer<T> expressing the assertions requirements must not be null");
+    thenIllegalArgumentException().isThrownBy(() -> assertThat("foo").satisfies(nullRequirements))
+                                  .withMessage("No assertions group should be null");
   }
-
 }

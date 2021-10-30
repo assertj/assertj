@@ -781,77 +781,108 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   }
 
   /**
-   * Verifies that the actual object satisfied the given requirements expressed as a {@link Consumer}.
+   * Verifies that the actual object satisfied the given requirements expressed as {@link Consumer}s.
    * <p>
    * This is useful to perform a group of assertions on a single object.
+   * If each assertion is passed as a separate argument, all of them will be evaluated and assertion error will contain all failures.
    * <p>
    * Grouping assertions example :
    * <pre><code class='java'> // second constructor parameter is the light saber color
    * Jedi yoda = new Jedi("Yoda", "Green");
    * Jedi luke = new Jedi("Luke Skywalker", "Green");
    *
-   * Consumer&lt;Jedi&gt; jediRequirements = jedi -&gt; {
-   *   assertThat(jedi.getLightSaberColor()).isEqualTo("Green");
-   *   assertThat(jedi.getName()).doesNotContain("Dark");
-   * };
+   * Consumer&lt;Jedi&gt; redLightSaber = jedi -&gt; assertThat(jedi.getLightSaberColor()).isEqualTo("Red");
+   * Consumer&lt;Jedi&gt; greenLightSaber = jedi -&gt; assertThat(jedi.getLightSaberColor()).isEqualTo("Green");
+   * Consumer&lt;Jedi&gt; notDarth = jedi -&gt; assertThat(jedi.getName()).doesNotContain("Darth");
+   * Consumer&lt;Jedi&gt; darth = jedi -&gt; assertThat(jedi.getName()).contains("Darth");
    *
    * // assertions succeed:
-   * assertThat(yoda).satisfies(jediRequirements);
-   * assertThat(luke).satisfies(jediRequirements);
+   * assertThat(yoda).satisfies(greenLightSaber);
+   * assertThat(luke).satisfies(greenLightSaber, notDarth);
    *
    * // assertions fails:
-   * Jedi vader = new Jedi("Vader", "Red");
-   * assertThat(vader).satisfies(jediRequirements);</code></pre>
+   * Jedi vader = new Jedi("Darth Vader", "Red");
+   * assertThat(vader).satisfies(greenLightSaber);
+   * assertThat(vader).satisfies(darth, greenLightSaber);
+   * assertThat(vader).satisfies(greenLightSaber, notDarth);</code></pre>
    * <p>
    * In the following example, {@code satisfies} prevents the need of define a local variable in order to run multiple assertions:
    * <pre><code class='java'> // no need to define team.getPlayers().get(0).getStats() as a local variable
-   * assertThat(team.getPlayers().get(0).getStats()).satisfies(stats -&gt; {
-   *   assertThat(stats.pointPerGame).isGreaterThan(25.7);
-   *   assertThat(stats.assistsPerGame).isGreaterThan(7.2);
-   *   assertThat(stats.reboundsPerGame).isBetween(9, 12);
-   * };</code></pre>
+   * assertThat(team.getPlayers().get(0).getStats()).satisfies(
+   *   stat -> assertThat(stats.pointPerGame).isGreaterThan(25.7),
+   *   stat -> assertThat(stats.assistsPerGame).isGreaterThan(7.2),
+   *   stat -> assertThat(stats.reboundsPerGame).isBetween(9, 12)
+   * );</code></pre>
    *
    * @param requirements to assert on the actual object - must not be null.
    * @return this assertion object.
    *
    * @throws NullPointerException if given Consumer is null
    */
-  public SELF satisfies(Consumer<? super ACTUAL> requirements) {
-    return internalSatisfies(requirements);
+  @SafeVarargs
+  public final SELF satisfies(Consumer<? super ACTUAL>... requirements) {
+    return satisfiesForProxy(requirements);
   }
 
   /**
-   * Verifies that the actual object satisfied the given requirements expressed as a {@link ThrowingConsumer}.
+   * Verifies that the actual object satisfied the given requirements expressed as {@link ThrowingConsumer}s.
    * <p>
-   * This is the same assertion as {@link #satisfies(java.util.function.Consumer)} except that a {@link ThrowingConsumer} rethrows checked exceptions as {@link RuntimeException}.
-   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
+   * This is the same assertion as {@link #satisfies(Consumer[])} except that a {@link ThrowingConsumer} rethrows checked exceptions as {@link RuntimeException}.
+   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}.
+   * If each assertion is passed as a separate argument, all of them will be evaluated and assertion error will contain all failures.
    * <p>
    * Example:
    * <pre><code class='java'> // read() throws IOException
    * ThrowingConsumer&lt;Reader&gt; hasReachedEOF = reader -&gt; assertThat(reader.read()).isEqualTo(-1);
+   * ThrowingConsumer&lt;Reader&gt; nextCharacterA = reader -&gt; assertThat(reader.read()).isEqualTo('a');
+   * ThrowingConsumer&lt;Reader&gt; nextCharacterB = reader -&gt; assertThat(reader.read()).isEqualTo('b');
+   * ThrowingConsumer&lt;Reader&gt; nextCharacterZ = reader -&gt; assertThat(reader.read()).isEqualTo('z');
    *
-   * // assertion succeeds as the file is empty (note that if hasReachedEOF was declared as a Consumer&lt;Reader&gt; the following line would not compile): 
+   * // alphabet.txt contains: abcdefghijklmnopqrstuvwxyz
+   * // empty.txt is empty
+   *
+   * // assertion succeeds:
    * assertThat(new FileReader("empty.txt")).satisfies(hasReachedEOF);
+   * assertThat(new FileReader("alphabet.txt")).satisfies(nextCharacterA, nextCharacterB);
    *
-   * // assertion fails as the file is not empty:
-   * assertThat(new FileReader("nonEmpty.txt")).satisfies(hasReachedEOF);</code></pre>
+   * // assertion fails:
+   * assertThat(new FileReader("alphabet.txt")).satisfies(nextCharacterA, hasReachedEOF);
+   * assertThat(new FileReader("alphabet.txt")).satisfies(nextCharacterB, nextCharacterZ);</code></pre>
    *
-   * @param throwingConsumer requirements to assert on the actual object - must not be null..
+   * @param assertions the group of assertions to run against the object under test - must not be null.
    * @return this assertion object.
    *
-   * @throws NullPointerException if given {@link ThrowingConsumer} is null
-   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
+   * @throws IllegalArgumentException if any given assertions group is null
+   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
    * @throws AssertionError rethrown as is by the given {@link ThrowingConsumer}
    * @since 3.21.0
    */
-  public SELF satisfies(ThrowingConsumer<? super ACTUAL> throwingConsumer) {
-    return internalSatisfies(throwingConsumer);
+  @SafeVarargs
+  public final SELF satisfies(ThrowingConsumer<? super ACTUAL>... assertions) {
+    return satisfiesForProxy(assertions);
   }
 
-  private SELF internalSatisfies(Consumer<? super ACTUAL> requirements) {
-    requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
-    requirements.accept(actual);
-    return myself;
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF satisfiesForProxy(Consumer<? super ACTUAL>[] assertionsGroups) throws AssertionError {
+    checkArgument(stream(assertionsGroups).allMatch(java.util.Objects::nonNull), "No assertions group should be null");
+    if (stream(assertionsGroups).allMatch(this::satisfiesAssertions)) return myself;
+    // some assertions groups were not met! let's report all the errors
+    List<AssertionError> assertionErrors = stream(assertionsGroups).map(this::catchOptionalAssertionError)
+                                                                   .filter(Optional::isPresent)
+                                                                   .map(Optional::get)
+                                                                   .collect(toList());
+    throw multipleAssertionsError(assertionErrors);
+  }
+
+  private Optional<AssertionError> catchOptionalAssertionError(Consumer<? super ACTUAL> assertions) {
+    try {
+      assertions.accept(actual);
+      return Optional.empty();
+    } catch (AssertionError assertionError) {
+      return Optional.of(assertionError);
+    }
   }
 
   /**
