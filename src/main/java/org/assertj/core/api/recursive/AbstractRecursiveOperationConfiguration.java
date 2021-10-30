@@ -39,6 +39,16 @@ public abstract class AbstractRecursiveOperationConfiguration {
   private List<Pattern> ignoredFieldsRegexes = new ArrayList<>();
   private Set<Class<?>> ignoredTypes = new LinkedHashSet<>();
   
+  protected AbstractRecursiveOperationConfiguration(AbstractBuilder<?> builder) {
+    setIgnoreAllActualNullFields(builder.ignoreAllActualNullFields);
+    setIgnoreAllActualEmptyOptionalFields(builder.ignoreAllActualEmptyOptionalFields);
+    ignoreFields(builder.ignoredFields);
+    ignoreFieldsMatchingRegexes(builder.ignoredFieldsMatchingRegexes);
+    ignoreFieldsOfTypes(builder.ignoredTypes);
+  }
+  
+  protected AbstractRecursiveOperationConfiguration() {}
+  
   @VisibleForTesting
   public boolean getIgnoreAllActualNullFields() {
     return ignoreAllActualNullFields;
@@ -192,5 +202,89 @@ public abstract class AbstractRecursiveOperationConfiguration {
   
   private String describeIgnoredFields() {
     return join(getIgnoredFields());
+  }
+  
+  protected static class AbstractBuilder<BUILDER_TYPE extends AbstractBuilder<BUILDER_TYPE>> {
+    private final BUILDER_TYPE thisBuilder;
+    
+    private boolean ignoreAllActualNullFields;
+    private boolean ignoreAllActualEmptyOptionalFields;
+    private String[] ignoredFields = {};
+    private String[] ignoredFieldsMatchingRegexes = {};
+    private Class<?>[] ignoredTypes = {};
+    
+    
+    @SuppressWarnings("unchecked")
+    protected AbstractBuilder(Class<? extends AbstractBuilder<BUILDER_TYPE>> selfType) {
+      thisBuilder = (BUILDER_TYPE) selfType.cast(this);
+    }
+    
+    /**
+     * Sets whether actual null fields are ignored in the recursive comparison.
+     * <p>
+     * See {@link RecursiveComparisonAssert#ignoringActualNullFields()} for code examples.
+     *
+     * @param ignoreAllActualNullFields whether to ignore actual null fields in the recursive comparison
+     * @return this builder.
+     */
+    public BUILDER_TYPE withIgnoreAllActualNullFields(boolean ignoreAllActualNullFields) {
+      this.ignoreAllActualNullFields = ignoreAllActualNullFields;
+      return thisBuilder;
+    }
+
+    /**
+     * Sets whether actual empty optional fields are ignored in the recursive comparison.
+     * <p>
+     * See {@link RecursiveComparisonAssert#ignoringActualEmptyOptionalFields()} for code examples.
+     *
+     * @param ignoreAllActualEmptyOptionalFields whether to ignore actual empty optional fields in the recursive comparison
+     * @return this builder.
+     */
+    public BUILDER_TYPE withIgnoreAllActualEmptyOptionalFields(boolean ignoreAllActualEmptyOptionalFields) {
+      this.ignoreAllActualEmptyOptionalFields = ignoreAllActualEmptyOptionalFields;
+      return thisBuilder;
+    }
+
+    /**
+     * Adds the given fields to the set of fields from the object under test to ignore in the recursive comparison. Nested fields can be specified like this: home.address.street.
+     * <p>
+     * See {@link RecursiveComparisonAssert#ignoringFields(String...) RecursiveComparisonAssert#ignoringFields(String...)} for examples.
+     *
+     * @param fieldsToIgnore the fields of the object under test to ignore in the comparison.
+     * @return this builder.
+     */
+    public BUILDER_TYPE withIgnoredFields(String... fieldsToIgnore) {
+      this.ignoredFields = fieldsToIgnore;
+      return thisBuilder;
+    }
+    
+    /**
+     * Allows to ignore in the recursive comparison the object under test fields matching the given regexes. The given regexes are added to the already registered ones.
+     * <p>
+     * See {@link RecursiveComparisonAssert#ignoringFieldsMatchingRegexes(String...) RecursiveComparisonAssert#ignoringFieldsMatchingRegexes(String...)} for examples.
+     *
+     * @param regexes regexes used to ignore fields in the comparison.
+     * @return this builder.
+     */
+    public BUILDER_TYPE withIgnoredFieldsMatchingRegexes(String... regexes) {
+      this.ignoredFieldsMatchingRegexes = regexes;
+      return thisBuilder;
+    }
+
+    /**
+     * Adds the given types to the list fields from the object under test types to ignore in the recursive comparison.
+     * The fields are ignored if their types exactly match one of the ignored types, if a field is a subtype of an ignored type it won't be ignored.
+     * <p>
+     * Note that if some object under test fields are null, they are not ignored by this method as their type can't be evaluated.
+     * <p>
+     * See {@link RecursiveComparisonAssert#ignoringFields(String...) RecursiveComparisonAssert#ignoringFieldsOfTypes(Class...)} for examples.
+     *
+     * @param types the types of the object under test to ignore in the comparison.
+     * @return this builder.
+     */
+    public BUILDER_TYPE withIgnoredFieldsOfTypes(Class<?>... types) {
+      this.ignoredTypes = types;
+      return thisBuilder;
+    }
   }
 }
