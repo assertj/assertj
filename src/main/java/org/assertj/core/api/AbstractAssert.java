@@ -809,9 +809,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * In the following example, {@code satisfies} prevents the need of define a local variable in order to run multiple assertions:
    * <pre><code class='java'> // no need to define team.getPlayers().get(0).getStats() as a local variable
    * assertThat(team.getPlayers().get(0).getStats()).satisfies(
-   *   stat -> assertThat(stats.pointPerGame).isGreaterThan(25.7),
-   *   stat -> assertThat(stats.assistsPerGame).isGreaterThan(7.2),
-   *   stat -> assertThat(stats.reboundsPerGame).isBetween(9, 12)
+   *   stat -&gt; assertThat(stats.pointPerGame).isGreaterThan(25.7),
+   *   stat -&gt; assertThat(stats.assistsPerGame).isGreaterThan(7.2),
+   *   stat -&gt; assertThat(stats.reboundsPerGame).isBetween(9, 12)
    * );</code></pre>
    *
    * @param requirements to assert on the actual object - must not be null.
