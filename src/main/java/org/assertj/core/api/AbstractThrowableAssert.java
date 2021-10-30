@@ -781,11 +781,10 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    *
    * // assertion will fail if the provided {@link ThrowableAssert.ThrowingCallable} does not raise an exception, an error is immediately thrown
    *
-   * @param
    * @return the created {@link StringAssert}.
    */
-  public StringAssert message() {
-    return new StringAssert(((Throwable) actual).getMessage());
+  public AbstractStringAssert<?> message() {
+    return new AbstractStringAssert(((Throwable) actual).getMessage(), AbstractStringAssert.class);
   }
 
 }
