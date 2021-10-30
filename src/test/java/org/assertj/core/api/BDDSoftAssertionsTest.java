@@ -1931,4 +1931,21 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     then(softly.errorsCollected()).extracting(Throwable::getMessage)
                                   .containsExactly("[size()] error message", "[content()] error message");
   }
+
+  @Test
+  void throwable_soft_assertions_should_work_with_message_navigation_method() {
+    // GIVEN
+    Throwable throwable = new Throwable("Boom!");
+    // WHEN
+    softly.then(throwable)
+          .message()
+          .overridingErrorMessage("startsWith")
+          .startsWith("bar")
+          .overridingErrorMessage("endsWith")
+          .endsWith("?");
+    // THEN
+    assertThat(softly.errorsCollected()).extracting(Throwable::getMessage)
+                                        .containsExactly("startsWith", "endsWith");
+  }
+
 }

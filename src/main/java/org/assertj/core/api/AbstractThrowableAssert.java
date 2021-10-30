@@ -769,4 +769,28 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
     if (actual != null) throw Failures.instance().failure(info, shouldNotHaveThrown(actual));
   }
 
+  /**
+   * A shortcut for <code>extracting(Throwable::getMessage, as(InstanceOfAssertFactories.STRING))</code> which allows 
+   * to extract a throwable's message and then execute assertions on it.
+   * <p>
+   * Note that once you have navigated to the throwable's message you can't navigate back to the throwable.
+   * <p>
+   * Example :
+   * <pre><code class='java'> Throwable throwable = new Throwable("boom!");
+   *
+   * // assertions succeed:
+   * assertThat(throwable).message().startsWith("boo")
+   *                                .endsWith("!");
+   *                                
+   * // assertion fails:
+   * assertThat(throwable).message().isEmpty();</code></pre>
+   *
+   * @return the created {@link StringAssert} on the throwable message.
+   * @since 3.22.0
+   */
+  public AbstractStringAssert<?> message() {
+    objects.assertNotNull(info, actual);
+    return new StringAssert(actual.getMessage());
+  }
+
 }
