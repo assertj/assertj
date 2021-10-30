@@ -12,11 +12,13 @@
  */
 package org.assertj.core.api.recursive;
 
+import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,10 +26,13 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.RecursiveComparisonAssert;
-import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
+import org.assertj.core.util.Strings;
 import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractRecursiveOperationConfiguration {
+  
+  private static final String DEFAULT_DELIMITER = ", ";
+  
   private boolean ignoreAllActualNullFields = false;
   private boolean ignoreAllActualEmptyOptionalFields = false;
   private Set<String> ignoredFields = new LinkedHashSet<>();
@@ -146,5 +151,46 @@ public abstract class AbstractRecursiveOperationConfiguration {
   public Set<Class<?>> getIgnoredTypes() {
     return ignoredTypes;
   }
+  
+  protected void describeIgnoreAllActualNullFields(StringBuilder description) {
+    if (getIgnoreAllActualNullFields()) description.append(format("- all actual null fields were ignored in the comparison%n"));
+  }
 
+  protected void describeIgnoreAllActualEmptyOptionalFields(StringBuilder description) {
+    if (getIgnoreAllActualEmptyOptionalFields())
+      description.append(format("- all actual empty optional fields were ignored in the comparison (including Optional, OptionalInt, OptionalLong and OptionalDouble)%n"));
+  }
+
+  protected void describeIgnoredFields(StringBuilder description) {
+    if (!getIgnoredFields().isEmpty())
+      description.append(format("- the following fields were ignored in the comparison: %s%n", describeIgnoredFields()));
+  }
+
+  protected void describeIgnoredFieldsRegexes(StringBuilder description) {
+    if (!getIgnoredFieldsRegexes().isEmpty())
+      description.append(format("- the fields matching the following regexes were ignored in the comparison: %s%n",
+                                describeRegexes(getIgnoredFieldsRegexes())));
+  }
+  
+  protected String describeIgnoredTypes() {
+    List<String> typesDescription = getIgnoredTypes().stream()
+                                                .map(Class::getName)
+                                                .collect(toList());
+    return join(typesDescription);
+  }
+  
+  protected String describeRegexes(List<Pattern> regexes) {
+    List<String> fieldsDescription = regexes.stream()
+                                            .map(Pattern::pattern)
+                                            .collect(toList());
+    return join(fieldsDescription);
+  }
+  
+  protected static String join(Collection<String> typesDescription) {
+    return Strings.join(typesDescription).with(DEFAULT_DELIMITER);
+  }
+  
+  private String describeIgnoredFields() {
+    return join(getIgnoredFields());
+  }
 }
