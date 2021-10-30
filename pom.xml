@@ -30,7 +30,7 @@
   <properties>
     <argLine>-Dfile.encoding=${project.build.sourceEncoding}</argLine>
     <javadocAdditionalOptions>-html5 --allow-script-in-comments --no-module-directories</javadocAdditionalOptions>
-    <byte-buddy.version>1.11.21</byte-buddy.version>
+    <byte-buddy.version>1.11.22</byte-buddy.version>
     <hamcrest.version>2.2</hamcrest.version>
     <opentest4j.version>1.2.0</opentest4j.version>
     <bnd.version>6.0.0</bnd.version>
