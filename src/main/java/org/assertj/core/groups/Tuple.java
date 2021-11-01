@@ -33,6 +33,11 @@ public final class Tuple {
   public List<Object> toList() {
     return values;
   }
+  
+  public <T> T getByIndexAndType(int index, Class<T> clazz) {
+    Object o = values.get(index);
+    return clazz.cast(o);
+  }
 
   @Override
   public boolean equals(Object obj) {
