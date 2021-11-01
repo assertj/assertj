@@ -76,7 +76,7 @@ class AbstractAssert_satisfies_with_ThrowingConsumers_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(asciiFile).satisfies(emptyConsumer, directoryConsumer));
     // THEN
-    then(assertionError.getMessage()).contains("empty check", "directory check");
+    then(assertionError).hasMessageContaining("empty check", "directory check");
   }
 
   @Test
@@ -86,11 +86,12 @@ class AbstractAssert_satisfies_with_ThrowingConsumers_Test {
     ThrowingConsumer<Path> notEmptyConsumer = path -> assertThat(readAllLines(path)).as("not empty check").isNotEmpty();
     ThrowingConsumer<Path> directoryConsumer = path -> assertThat(path).as("directory check").isDirectory();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(asciiFile).satisfies(directoryConsumer, notEmptyConsumer));
+    AssertionError assertionError = expectAssertionError(
+      () -> assertThat(asciiFile).satisfies(directoryConsumer, notEmptyConsumer));
     // THEN
-    then(assertionError.getMessage())
-      .contains("directory check")
-      .doesNotContain("not empty check");
+    then(assertionError)
+      .hasMessageContaining("directory check")
+      .hasMessageNotContaining("not empty check");
   }
 
   @Test
@@ -120,6 +121,16 @@ class AbstractAssert_satisfies_with_ThrowingConsumers_Test {
     ThrowingConsumer<String> nullRequirements = null;
     // WHEN/THEN
     thenIllegalArgumentException().isThrownBy(() -> assertThat("foo").satisfies(nullRequirements))
+                                  .withMessage("No assertions group should be null");
+  }
+
+  @Test
+  void should_fail_if_one_of_the_consumers_is_null() {
+    // GIVEN
+    ThrowingConsumer<String> nullRequirement = null;
+    ThrowingConsumer<String> nonNullRequirement = string -> assertThat(true).isTrue();
+    // WHEN/THEN
+    thenIllegalArgumentException().isThrownBy(() -> assertThat("bar").satisfies(nonNullRequirement, nullRequirement))
                                   .withMessage("No assertions group should be null");
   }
 }

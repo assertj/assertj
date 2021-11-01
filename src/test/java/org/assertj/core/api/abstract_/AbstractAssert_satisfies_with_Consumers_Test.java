@@ -49,7 +49,7 @@ class AbstractAssert_satisfies_with_Consumers_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(yoda).satisfies(isNamedVader));
     // THEN
-    then(assertionError.getMessage()).contains("check vader");
+    then(assertionError).hasMessageContaining("check vader");
   }
 
   @Test
@@ -60,7 +60,7 @@ class AbstractAssert_satisfies_with_Consumers_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(yoda).satisfies(isNamedVader, isDarth));
     // THEN
-    then(assertionError.getMessage()).contains("check vader", "check darth");
+    then(assertionError).hasMessageContaining("check vader", "check darth");
   }
 
   @Test
@@ -71,9 +71,9 @@ class AbstractAssert_satisfies_with_Consumers_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(yoda).satisfies(isNamedYoda, isDarth));
     // THEN
-    then(assertionError.getMessage())
-      .contains("check darth")
-      .doesNotContain("check yoda");
+    then(assertionError)
+      .hasMessageContaining("check darth")
+      .hasMessageNotContaining("check yoda");
   }
 
   @Test
@@ -90,6 +90,16 @@ class AbstractAssert_satisfies_with_Consumers_Test {
     Consumer<Jedi> nullRequirements = null;
     // WHEN/THEN
     thenIllegalArgumentException().isThrownBy(() -> assertThat(yoda).satisfies(nullRequirements))
+                                  .withMessage("No assertions group should be null");
+  }
+
+  @Test
+  void should_fail_if_one_of_the_consumers_is_null() {
+    // GIVEN
+    Consumer<Jedi> nullRequirement = null;
+    Consumer<Jedi> nonNullRequirement = jedi -> assertThat(true).isTrue();
+    // WHEN/THEN
+    thenIllegalArgumentException().isThrownBy(() -> assertThat(yoda).satisfies(nonNullRequirement, nullRequirement))
                                   .withMessage("No assertions group should be null");
   }
 }
