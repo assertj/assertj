@@ -308,6 +308,13 @@ class BDDAssertions_then_Test {
   }
 
   @Test
+  void then_with_multiple_requirements() {
+    thenWith("foo",
+             string -> assertThat(string).startsWith("f"),
+             string -> assertThat(string).endsWith("o"));
+  }
+
+  @Test
   void then_URI() {
     then(URI.create("http://assertj.org")).hasNoPort();
   }

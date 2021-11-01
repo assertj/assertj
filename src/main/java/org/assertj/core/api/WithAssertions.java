@@ -2595,13 +2595,12 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * <p>
    * Example:
    * <pre><code> assertWith(team.getPlayers().get(0).getStats(),
-   *            stats -&gt; {
-   *               assertThat(stats.pointPerGame).isGreaterThan(25.7);
-   *               assertThat(stats.assistsPerGame).isGreaterThan(7.2);
-   *               assertThat(stats.reboundsPerGame).isBetween(9, 12);
-   *            });</code></pre>
+   *            stats -&gt; assertThat(stats.pointPerGame).isGreaterThan(25.7),
+   *            stats -&gt; assertThat(stats.assistsPerGame).isGreaterThan(7.2),
+   *            stats -&gt; assertThat(stats.reboundsPerGame).isBetween(9, 12)
+   *            );</code></pre>
    * <p>
-   * {@code assertWith} is variation of {@link AbstractAssert#satisfies(Consumer)} hopefully easier to find for some users.
+   * {@code assertWith} is variation of {@link AbstractAssert#satisfies(Consumer[])} hopefully easier to find for some users.
    *
    * @param <T> the type of the actual value.
    * @param actual the actual value.
@@ -2610,7 +2609,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @since 3.20.0
    */
   @CanIgnoreReturnValue
-  default <T> ObjectAssert<T> assertWith(T actual, Consumer<T> requirements) {
+  default <T> ObjectAssert<T> assertWith(T actual, @SuppressWarnings("unchecked") Consumer<T>... requirements) {
     return assertThat(actual).satisfies(requirements);
   }
 
