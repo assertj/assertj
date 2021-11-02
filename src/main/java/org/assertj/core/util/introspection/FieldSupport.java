@@ -23,8 +23,10 @@ import static org.assertj.core.util.Streams.stream;
 import static org.assertj.core.util.introspection.FieldUtils.readField;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.util.VisibleForTesting;
@@ -253,6 +255,35 @@ public enum FieldSupport {
     if (allowUsingPrivateFields) return true;
     // only read public field
     return isPublic(field.getModifiers());
+  }
+
+  /**
+   * Return the type of the field from the target object.
+   * @param fieldName
+   * @param targetObject
+   * @return
+   */
+  public static Class<?> getFieldType(String fieldName, Object targetObject) {
+    return getFieldType(fieldName, targetObject.getClass());
+  }
+
+  private static Class<?> getFieldType(String fieldName, Class<?> targetObjectClass) {
+    try {
+      Optional<Field> possiblyField = Arrays.stream(targetObjectClass.getDeclaredFields())
+      .filter(f -> fieldName.equals(f.getName()))
+      .findAny();
+      if (possiblyField.isPresent()) return possiblyField.get().getType();
+      else {
+        Class<?> superclass = targetObjectClass.getSuperclass();
+        if (superclass != null) return getFieldType(fieldName, superclass);
+        else throw new NoSuchFieldException();
+      }
+    } catch (NoSuchFieldException | SecurityException e) {
+      throw new IllegalStateException(
+              String.format("Could not find field %s on class %s, even though its name was retrieved from the class earlier", 
+                            fieldName, 
+                            targetObjectClass.getCanonicalName()), e);
+    }
   }
 
 }

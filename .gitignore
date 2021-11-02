@@ -8,6 +8,7 @@ out
 /.settings
 /.classpath
 /.project
+.externalToolBuilders/
 #Other
 /clover.license
 /actual.txt
