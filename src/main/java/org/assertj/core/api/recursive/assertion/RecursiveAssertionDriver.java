@@ -44,8 +44,8 @@ public class RecursiveAssertionDriver {
   private void assertRecursively(Predicate<Object> predicate, Object node, Class<?> nodeType, FieldLocation fieldLocation) {
     boolean nodeWasAlreadyBlack = markNodeAsBlack(node);
     if (nodeWasAlreadyBlack) return;
-    if (node == null && configuration.getIgnoreAllActualNullFields()) return;
-    if (nodeType.isPrimitive() && !configuration.getAssertOverPrimitiveFields()) return;
+    if (node_is_null_and_we_are_ignoring_those(node)) return;
+    if (node_is_primitive_and_we_are_ignoring_those(nodeType)) return;
 
     // TODO 1: Check conditions that should cause us to ignore this field (ignore by name, type, null...)
     doTheActualAssertionAndRegisterInCaseOfFailure(predicate, node, fieldLocation);
@@ -53,6 +53,14 @@ public class RecursiveAssertionDriver {
     // TODO 4: Check for map/collections/arrays/optionals
     // TODO 5: Make the recursive call for all applicable fields
     recurseIntoFieldsOfCurrentNode(predicate, node, fieldLocation);
+  }
+
+  private boolean node_is_null_and_we_are_ignoring_those(Object node) {
+    return node == null && configuration.getIgnoreAllActualNullFields();
+  }
+
+  private boolean node_is_primitive_and_we_are_ignoring_those(Class<?> nodeType) {
+    return nodeType.isPrimitive() && !configuration.getAssertOverPrimitiveFields();
   }
 
   private void recurseIntoFieldsOfCurrentNode(Predicate<Object> predicate, Object node, FieldLocation fieldLocation) {
