@@ -16,7 +16,6 @@ import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newHashSet;
 
-import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -52,16 +51,27 @@ public class RecursiveAssertionDriver {
     // TODO 3: Check recursive conditions
     // TODO 4: Check for map/collections/arrays/optionals
     // TODO 5: Make the recursive call for all applicable fields
+    recurseIntoFieldsOfCurrentNode(predicate, node, fieldLocation);
+  }
+
+  private void recurseIntoFieldsOfCurrentNode(Predicate<Object> predicate, Object node, FieldLocation fieldLocation) {
+    if (node != null) {      
+      findFieldsOfCurrentNodeAndDoRecursiveCall(predicate, node, fieldLocation);
+    }
+    // current node is null, end of the line
+  }
+
+  private void findFieldsOfCurrentNodeAndDoRecursiveCall(Predicate<Object> predicate, Object node, FieldLocation fieldLocation) {
     Set<String> namesOfFieldsInNode = Objects.getFieldsNames(node.getClass());
     namesOfFieldsInNode.stream()
-                       .map(name -> tuple(name, PropertyOrFieldSupport.EXTRACTION.getSimpleValue(name, node),
-                                          getFieldType(name, node)))
-                       .forEach(tuple -> {
-                         String fieldName = tuple.getByIndexAndType(0, String.class);
-                         Object nextNodeValue = tuple.getByIndexAndType(1, Object.class);
-                         Class<?> nextNodeType = tuple.getByIndexAndType(2, Class.class);
-                         assertRecursively(predicate, nextNodeValue, nextNodeType, fieldLocation.field(fieldName));
-                       });
+    .map(name -> tuple(name, PropertyOrFieldSupport.EXTRACTION.getSimpleValue(name, node),
+                       FieldSupport.getFieldType(name, node)))
+    .forEach(tuple -> {
+      String fieldName = tuple.getByIndexAndType(0, String.class);
+      Object nextNodeValue = tuple.getByIndexAndType(1, Object.class);
+      Class<?> nextNodeType = tuple.getByIndexAndType(2, Class.class);
+      assertRecursively(predicate, nextNodeValue, nextNodeType, fieldLocation.field(fieldName));
+    });
   }
 
   private void doTheActualAssertionAndRegisterInCaseOfFailure(Predicate<Object> predicate, Object node,
@@ -95,17 +105,6 @@ public class RecursiveAssertionDriver {
            .append(hexString);
     // @formatter:on
     return builder.toString();
-  }
-
-  private Class<?> getFieldType(String name, Object node) {
-    try {
-      return node.getClass().getDeclaredField(name).getType();
-    } catch (NoSuchFieldException | SecurityException e) {
-      throw new IllegalStateException(
-              String.format("Could not find field %s on class %s, even though its name was retrieved from the class earlier", 
-                            name, 
-                            node.getClass().getCanonicalName()), e);
-    }
   }
 
 }

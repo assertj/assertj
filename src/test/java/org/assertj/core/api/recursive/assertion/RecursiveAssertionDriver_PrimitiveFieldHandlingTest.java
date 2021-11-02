@@ -46,13 +46,34 @@ class RecursiveAssertionDriver_PrimitiveFieldHandlingTest extends AbstractRecurs
     then(failedFields).hasSize(2).doesNotContain(FieldLocation.rootFieldLocation().field("primitiveField"));
   }
 
+  @Test
+  void should_assert_over_inherited_primitive_field_when_configured_to_do_so() {
+    // GIVEN
+    RecursiveAssertionDriver objectUnderTest = testSubjectWithDefaultConfiguration();
+    Object objectToAssertOver = objectHierarchyToAssertOver();
+    // WHEN
+    List<FieldLocation> failedFields = objectUnderTest.assertOverObjectGraph(failingMockPredicate, objectToAssertOver);
+    // THEN
+    then(failedFields).hasSize(4).contains(FieldLocation.rootFieldLocation().field("primitiveField"),
+                                           FieldLocation.rootFieldLocation().field("objectField"),
+                                           FieldLocation.rootFieldLocation().field("anotherObjectField"));
+  }
+  
   private Object objectToAssertOver() {
     return new ClassWithPrimitiveAndObjectField();
   }
   
-  class ClassWithPrimitiveAndObjectField {
+  private Object objectHierarchyToAssertOver() {
+    return new SubClassWithAdditionalField();
+  }
+  
+  private class ClassWithPrimitiveAndObjectField {
     private int primitiveField = 0;
     private Object objectField = new Object();
+  }
+  
+  private class SubClassWithAdditionalField extends ClassWithPrimitiveAndObjectField {
+    private Object anotherObjectField = new Object(); 
   }
 
 }

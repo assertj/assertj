@@ -49,6 +49,17 @@ class RecursiveAssertionDriver_RecursionTest extends AbstractRecursiveAssertionD
     // WHEN / THEN
     thenNoException().isThrownBy(() -> objectUnderTest.assertOverObjectGraph(boomOnOveruse, objectTree));
   }
+  
+  @Test
+  void should_not_attempt_to_recurse_into_null_fields() {
+    // GIVEN
+    RecursiveAssertionDriver objectUnderTest = testSubjectWithDefaultConfiguration();
+    Top objectTree = simpleCycleStructure();
+    objectTree.linkToMiddle.linkToBottom.loopBackToTop = null;
+    Predicate<Object> boomOnOveruse = predicateThatThrowsWhenCalledTooOften(100);
+    // WHEN / THEN
+    thenNoException().isThrownBy(() -> objectUnderTest.assertOverObjectGraph(boomOnOveruse, objectTree));
+  }
 
   private Predicate<Object> predicateThatThrowsWhenCalledTooOften(int maxCalls) {
     AtomicInteger callLimit = new AtomicInteger(maxCalls - 1);
