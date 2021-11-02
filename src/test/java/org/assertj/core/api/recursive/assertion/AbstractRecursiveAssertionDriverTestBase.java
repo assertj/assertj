@@ -44,4 +44,11 @@ abstract class AbstractRecursiveAssertionDriverTestBase {
     return new RecursiveAssertionDriver(configuration);
   }
 
+  protected Object objectWithNullField() {
+    return new ClassWithNullField();
+  }
+
+  class ClassWithNullField {
+    private Object nullField = null;
+  }
 }

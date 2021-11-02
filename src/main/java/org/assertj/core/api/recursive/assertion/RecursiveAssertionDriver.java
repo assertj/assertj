@@ -48,6 +48,7 @@ public class RecursiveAssertionDriver {
   private void assertRecursively(Predicate<Object> predicate, Object node, Class<?> nodeType, FieldLocation fieldLocation) {
     boolean nodeWasAlreadyBlack = markNodeAsBlack(node);
     if (nodeWasAlreadyBlack) return;
+    if (node == null && configuration.getIgnoreAllActualNullFields()) return;
     if (nodeType.isPrimitive() && !configuration.getAssertOverPrimitiveFields()) return;
 
     // TODO 1: Check conditions that should cause us to ignore this field (ignore by name, type, null...)
@@ -98,9 +99,11 @@ public class RecursiveAssertionDriver {
   }
 
   private boolean markNodeAsBlack(Object node) {
+    // Cannot mark null nodes, so just lie and say marking succeeded...
+    if (node == null) return false;
+
     String objectId = identityToString(node);
-    boolean nodeWasAlreadyBlack = !markedBlackSet.add(objectId);
-    return nodeWasAlreadyBlack;
+    return !markedBlackSet.add(objectId);
   }
 
   /*
