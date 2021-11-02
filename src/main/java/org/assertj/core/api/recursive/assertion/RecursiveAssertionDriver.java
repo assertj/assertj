@@ -12,25 +12,21 @@
  */
 package org.assertj.core.api.recursive.assertion;
 
-import static org.assertj.core.api.Assertions.tuple;
-import static org.assertj.core.util.Lists.list;
-import static org.assertj.core.util.Sets.newHashSet;
+import org.assertj.core.api.recursive.FieldLocation;
+import org.assertj.core.internal.Objects;
+import org.assertj.core.util.introspection.FieldSupport;
+import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import org.assertj.core.api.recursive.FieldLocation;
-import org.assertj.core.internal.Objects;
-import org.assertj.core.util.introspection.FieldSupport;
-import org.assertj.core.util.introspection.PropertyOrFieldSupport;
-import org.junit.platform.commons.logging.Logger;
-import org.junit.platform.commons.logging.LoggerFactory;
+import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Sets.newHashSet;
 
 public class RecursiveAssertionDriver {
-  
-  private static final Logger LOGGER = LoggerFactory.getLogger(RecursiveAssertionDriver.class);
 
   private final Set<String> markedBlackSet = newHashSet();
   private final List<FieldLocation> fieldsThatFailedTheAssertion = list();
@@ -60,7 +56,7 @@ public class RecursiveAssertionDriver {
   }
 
   private void recurseIntoFieldsOfCurrentNode(Predicate<Object> predicate, Object node, FieldLocation fieldLocation) {
-    if (nodeShouldBeRecursedInto(node)) {      
+    if (nodeShouldBeRecursedInto(node)) {
       findFieldsOfCurrentNodeAndDoRecursiveCall(predicate, node, fieldLocation);
     }
   }
@@ -74,21 +70,21 @@ public class RecursiveAssertionDriver {
   private boolean node_is_a_jcl_type_and_we_skip_those(Object node) {
     boolean skipJCLTypes = configuration.isSkipJavaLibraryTypeObjects();
     boolean isJCLType = node.getClass().getCanonicalName().startsWith("java.")
-        || node.getClass().getCanonicalName().startsWith("javax.");
+                        || node.getClass().getCanonicalName().startsWith("javax.");
     return isJCLType && skipJCLTypes;
   }
 
   private void findFieldsOfCurrentNodeAndDoRecursiveCall(Predicate<Object> predicate, Object node, FieldLocation fieldLocation) {
     Set<String> namesOfFieldsInNode = Objects.getFieldsNames(node.getClass());
     namesOfFieldsInNode.stream()
-    .map(name -> tuple(name, PropertyOrFieldSupport.EXTRACTION.getSimpleValue(name, node),
-                       FieldSupport.getFieldType(name, node)))
-    .forEach(tuple -> {
-      String fieldName = tuple.getByIndexAndType(0, String.class);
-      Object nextNodeValue = tuple.getByIndexAndType(1, Object.class);
-      Class<?> nextNodeType = tuple.getByIndexAndType(2, Class.class);
-      assertRecursively(predicate, nextNodeValue, nextNodeType, fieldLocation.field(fieldName));
-    });
+                       .map(name -> tuple(name, PropertyOrFieldSupport.EXTRACTION.getSimpleValue(name, node),
+                                          FieldSupport.getFieldType(name, node)))
+                       .forEach(tuple -> {
+                         String fieldName = tuple.getByIndexAndType(0, String.class);
+                         Object nextNodeValue = tuple.getByIndexAndType(1, Object.class);
+                         Class<?> nextNodeType = tuple.getByIndexAndType(2, Class.class);
+                         assertRecursively(predicate, nextNodeValue, nextNodeType, fieldLocation.field(fieldName));
+                       });
   }
 
   private void doTheActualAssertionAndRegisterInCaseOfFailure(Predicate<Object> predicate, Object node,
@@ -108,7 +104,7 @@ public class RecursiveAssertionDriver {
 
   /*
    * This is taken verbatim from org.apache.commons.lang3.ObjectUtils .
-   * 
+   *
    * It would be much cleaner if we would be allowed to use ObjectUtils directly.
    */
   private String identityToString(final Object object) {
