@@ -35,7 +35,7 @@ class RecursiveAssertionDriver_AssertionApplicationTest extends AbstractRecursiv
     then(failedFields).isEmpty();
     verify(succeedingMockPredicate, times(1)).test(eq(emptyTestObject));
   }
-  
+
   @Test
   void should_mark_the_root_object_as_failed_when_it_fails_the_predicate() {
     // GIVEN
@@ -46,6 +46,31 @@ class RecursiveAssertionDriver_AssertionApplicationTest extends AbstractRecursiv
     // THEN
     then(failedFields).singleElement().hasFieldOrPropertyWithValue("getPathToUseInRules", "");
     verify(failingMockPredicate, times(1)).test(eq(emptyTestObject));
+  }
+
+  @Test
+  void should_assert_over_null_when_configured_to_do_so() {
+    // GIVEN
+    RecursiveAssertionDriver objectUnderTest = testSubjectWithDefaultConfiguration();
+    Object emptyTestObject = objectWithNullField();
+    // WHEN
+    List<FieldLocation> failedFields = objectUnderTest.assertOverObjectGraph(failingMockPredicate, emptyTestObject);
+    // THEN
+    then(failedFields).hasSize(2).contains(FieldLocation.rootFieldLocation(),
+                                           FieldLocation.rootFieldLocation().field("nullField"));
+  }
+
+  @Test
+  void should_not_assert_over_null_when_configured_not_to_do_so() {
+    // GIVEN
+    RecursiveAssertionConfiguration configuration = RecursiveAssertionConfiguration.builder().withIgnoreAllActualNullFields(true)
+                                                                                   .build();
+    RecursiveAssertionDriver objectUnderTest = new RecursiveAssertionDriver(configuration);
+    Object emptyTestObject = objectWithNullField();
+    // WHEN
+    List<FieldLocation> failedFields = objectUnderTest.assertOverObjectGraph(failingMockPredicate, emptyTestObject);
+    // THEN
+    then(failedFields).hasSize(1).contains(FieldLocation.rootFieldLocation());
   }
 
 }
