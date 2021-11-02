@@ -25,8 +25,12 @@ import org.assertj.core.api.recursive.FieldLocation;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
+import org.junit.platform.commons.logging.Logger;
+import org.junit.platform.commons.logging.LoggerFactory;
 
 public class RecursiveAssertionDriver {
+  
+  private static final Logger LOGGER = LoggerFactory.getLogger(RecursiveAssertionDriver.class);
 
   private final Set<String> markedBlackSet = newHashSet();
   private final List<FieldLocation> fieldsThatFailedTheAssertion = list();
@@ -55,10 +59,22 @@ public class RecursiveAssertionDriver {
   }
 
   private void recurseIntoFieldsOfCurrentNode(Predicate<Object> predicate, Object node, FieldLocation fieldLocation) {
-    if (node != null) {      
+    if (nodeShouldBeRecursedInto(node)) {      
       findFieldsOfCurrentNodeAndDoRecursiveCall(predicate, node, fieldLocation);
     }
-    // current node is null, end of the line
+  }
+
+  private boolean nodeShouldBeRecursedInto(Object node) {
+    boolean nodeShouldBeRecursedInto = node != null;
+    nodeShouldBeRecursedInto = nodeShouldBeRecursedInto && !node_is_a_jcl_type_and_we_skip_those(node);
+    return nodeShouldBeRecursedInto;
+  }
+
+  private boolean node_is_a_jcl_type_and_we_skip_those(Object node) {
+    boolean skipJCLTypes = configuration.isSkipJavaLibraryTypeObjects();
+    boolean isJCLType = node.getClass().getCanonicalName().startsWith("java.")
+        || node.getClass().getCanonicalName().startsWith("javax.");
+    return isJCLType && skipJCLTypes;
   }
 
   private void findFieldsOfCurrentNodeAndDoRecursiveCall(Predicate<Object> predicate, Object node, FieldLocation fieldLocation) {
