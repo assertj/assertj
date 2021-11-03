@@ -69,30 +69,4 @@ class RecursiveAssertionDriver_RecursionTest extends AbstractRecursiveAssertionD
       return false;
     };
   }
-
-
-
-  Top simpleCycleStructure() {
-    Top top = new Top();
-    Middle middle = new Middle();
-    Bottom bottom = new Bottom();
-    
-    top.linkToMiddle = middle;
-    middle.linkToBottom = bottom;
-    bottom.loopBackToTop = top;
-    
-    return top;
-  }
-  
-  class Top {
-    Middle linkToMiddle;
-  }
-  
-  class Middle {
-    Bottom linkToBottom;
-  }
-  
-  class Bottom {
-    Top loopBackToTop;
-  }
 }

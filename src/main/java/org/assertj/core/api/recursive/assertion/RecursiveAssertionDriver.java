@@ -19,6 +19,7 @@ import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -42,17 +43,24 @@ public class RecursiveAssertionDriver {
   }
 
   private void assertRecursively(Predicate<Object> predicate, Object node, Class<?> nodeType, FieldLocation fieldLocation) {
+    if (nodeMustBeIgnored(node, nodeType, fieldLocation)) return;
+
     boolean nodeWasAlreadyBlack = markNodeAsBlack(node);
     if (nodeWasAlreadyBlack) return;
-    if (node_is_null_and_we_are_ignoring_those(node)) return;
-    if (node_is_primitive_and_we_are_ignoring_those(nodeType)) return;
 
-    // TODO 1: Check conditions that should cause us to ignore this field (ignore by name, type, null...)
     doTheActualAssertionAndRegisterInCaseOfFailure(predicate, node, fieldLocation);
     // TODO 3: Check recursive conditions
     // TODO 4: Check for map/collections/arrays/optionals
     // TODO 5: Make the recursive call for all applicable fields
     recurseIntoFieldsOfCurrentNode(predicate, node, fieldLocation);
+  }
+
+  private boolean nodeMustBeIgnored(Object node, Class<?> nodeType, FieldLocation fieldLocation) {
+    return node_is_null_and_we_are_ignoring_those(node)
+           || node_is_primitive_and_we_are_ignoring_those(nodeType)
+           || node_is_empty_optional_and_we_are_ignoring_those(node, nodeType)
+           || node_is_being_ignored_by_name_or_name_patten(fieldLocation)
+           || node_is_being_ignored_by_type(nodeType);
   }
 
   private boolean node_is_null_and_we_are_ignoring_those(Object node) {
@@ -61,6 +69,21 @@ public class RecursiveAssertionDriver {
 
   private boolean node_is_primitive_and_we_are_ignoring_those(Class<?> nodeType) {
     return nodeType.isPrimitive() && !configuration.getAssertOverPrimitiveFields();
+  }
+
+  private boolean node_is_empty_optional_and_we_are_ignoring_those(Object node, Class<?> nodeType) {
+    return configuration.getIgnoreAllActualEmptyOptionalFields()
+           && Optional.class.isAssignableFrom(nodeType)
+           && !((Optional) node).isPresent();
+  }
+
+  private boolean node_is_being_ignored_by_name_or_name_patten(FieldLocation fieldLocation) {
+    return configuration.matchesAnIgnoredField(fieldLocation)
+           || configuration.matchesAnIgnoredFieldRegex(fieldLocation);
+  }
+
+  private boolean node_is_being_ignored_by_type(Class<?> nodeType) {
+    return configuration.getIgnoredTypes().contains(nodeType);
   }
 
   private void recurseIntoFieldsOfCurrentNode(Predicate<Object> predicate, Object node, FieldLocation fieldLocation) {

@@ -48,7 +48,31 @@ abstract class AbstractRecursiveAssertionDriverTestBase {
     return new ClassWithNullField();
   }
 
+  Top simpleCycleStructure() {
+    Top top = new Top();
+    Middle middle = new Middle();
+    Bottom bottom = new Bottom();
+
+    top.linkToMiddle = middle;
+    middle.linkToBottom = bottom;
+    bottom.loopBackToTop = top;
+
+    return top;
+  }
+
   class ClassWithNullField {
     private Object nullField = null;
+  }
+
+  class Top {
+    RecursiveAssertionDriver_RecursionTest.Middle linkToMiddle;
+  }
+
+  class Middle {
+    RecursiveAssertionDriver_RecursionTest.Bottom linkToBottom;
+  }
+
+  class Bottom {
+    Top loopBackToTop;
   }
 }
