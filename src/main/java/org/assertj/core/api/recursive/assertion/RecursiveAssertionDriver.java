@@ -14,13 +14,12 @@ package org.assertj.core.api.recursive.assertion;
 
 import org.assertj.core.api.recursive.FieldLocation;
 import org.assertj.core.internal.Objects;
+import org.assertj.core.util.Arrays;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.text.MessageFormat;
+import java.util.*;
 import java.util.function.Predicate;
 
 import static org.assertj.core.api.Assertions.tuple;
@@ -28,6 +27,8 @@ import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newHashSet;
 
 public class RecursiveAssertionDriver {
+
+  private static final MessageFormat INDEX_FORMAT = new MessageFormat("[{0, number}]");
 
   private final Set<String> markedBlackSet = newHashSet();
   private final List<FieldLocation> fieldsThatFailedTheAssertion = list();
@@ -48,11 +49,11 @@ public class RecursiveAssertionDriver {
     boolean nodeWasAlreadyBlack = markNodeAsBlack(node);
     if (nodeWasAlreadyBlack) return;
 
-    doTheActualAssertionAndRegisterInCaseOfFailure(predicate, node, fieldLocation);
+    checkPoliciesAndAssert(predicate, node, nodeType, fieldLocation);
     // TODO 3: Check recursive conditions
     // TODO 4: Check for map/collections/arrays/optionals
     // TODO 5: Make the recursive call for all applicable fields
-    recurseIntoFieldsOfCurrentNode(predicate, node, fieldLocation);
+    recurseIntoFieldsOfCurrentNode(predicate, node, nodeType, fieldLocation);
   }
 
   private boolean nodeMustBeIgnored(Object node, Class<?> nodeType, FieldLocation fieldLocation) {
@@ -86,9 +87,73 @@ public class RecursiveAssertionDriver {
     return configuration.getIgnoredTypes().contains(nodeType);
   }
 
-  private void recurseIntoFieldsOfCurrentNode(Predicate<Object> predicate, Object node, FieldLocation fieldLocation) {
-    if (nodeShouldBeRecursedInto(node)) {
+  private void checkPoliciesAndAssert(Predicate<Object> predicate, Object node, Class<?> nodeType, FieldLocation fieldLocation) {
+    if (policyDoesNotForbidAssertingOverNode(nodeType)) {
+      doTheActualAssertionAndRegisterInCaseOfFailure(predicate, node, fieldLocation);
+    }
+  }
+
+  private boolean policyDoesNotForbidAssertingOverNode(Class<?> nodeType) {
+    boolean policyForbidsAsserting = node_is_a_collection_and_policy_is_to_ignore_container(nodeType);
+    return !policyForbidsAsserting;
+  }
+
+  private boolean node_is_a_collection_and_policy_is_to_ignore_container(Class<?> nodeType) {
+    boolean nodeIsCollection = isCollection(nodeType) || isArray(nodeType);
+    boolean policyIsIgnoreContainer =
+      configuration.getCollectionAssertionPolicy() == RecursiveAssertionConfiguration.CollectionAssertionPolicy.ELEMENTS_ONLY;
+    return policyIsIgnoreContainer && nodeIsCollection;
+  }
+
+  private void recurseIntoFieldsOfCurrentNode(Predicate<Object> predicate, Object node, Class<?> nodeType,
+                                              FieldLocation fieldLocation) {
+    if (node_is_a_special_type_which_requires_special_treatment(nodeType)) {
+      if (policy_is_to_recurse_over_special_types(nodeType)) {
+        doRecursionForSpecialTypes(predicate, node, nodeType, fieldLocation);
+      }
+    } else if (nodeShouldBeRecursedInto(node)) {
       findFieldsOfCurrentNodeAndDoRecursiveCall(predicate, node, fieldLocation);
+    }
+  }
+
+  private boolean node_is_a_special_type_which_requires_special_treatment(Class<?> nodeType) {
+    return isCollection(nodeType)
+           || Map.class.isAssignableFrom(nodeType)
+           || isArray(nodeType);
+  }
+
+  private boolean policy_is_to_recurse_over_special_types(Class<?> nodeType) {
+    return (isCollection(nodeType)
+            || isArray(nodeType))
+           && (configuration.getCollectionAssertionPolicy()
+        != RecursiveAssertionConfiguration.CollectionAssertionPolicy.COLLECTION_OBJECT_ONLY);
+  }
+
+  private void doRecursionForSpecialTypes(Predicate<Object> predicate, Object node, Class<?> nodeType,
+                                          FieldLocation fieldLocation) {
+    if (isCollection(nodeType)) {
+      recurseIntoCollection(predicate, (Collection) node, fieldLocation);
+    }
+    if (isArray(nodeType)) {
+      recurseIntoArray(predicate, node, nodeType, fieldLocation);
+    }
+  }
+
+  private void recurseIntoCollection(Predicate<Object> predicate, Collection node, FieldLocation fieldLocation) {
+    int idx = 0;
+    for (Object o : node) {
+      assertRecursively(predicate, o, o != null ? o.getClass() : Object.class,
+                        fieldLocation.field(INDEX_FORMAT.format(new Integer[] { idx })));
+      idx++;
+    }
+  }
+
+  private void recurseIntoArray(Predicate<Object> predicate, Object node, Class<?> nodeType, FieldLocation fieldLocation) {
+    Class<?> arrayType = nodeType.getComponentType();
+    Object[] arr = Arrays.asObjectArray(node);
+    for (int i = 0; i < arr.length; i++) {
+      assertRecursively(predicate, arr[i], arrayType,
+                        fieldLocation.field(INDEX_FORMAT.format(new Integer[] { i })));
     }
   }
 
@@ -151,6 +216,14 @@ public class RecursiveAssertionDriver {
            .append(hexString);
     // @formatter:on
     return builder.toString();
+  }
+
+  private boolean isCollection(Class<?> nodeType) {
+    return Collection.class.isAssignableFrom(nodeType);
+  }
+
+  private boolean isArray(Class<?> nodeType) {
+    return nodeType.isArray();
   }
 
 }
