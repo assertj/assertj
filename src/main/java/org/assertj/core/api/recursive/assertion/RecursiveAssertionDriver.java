@@ -18,19 +18,19 @@ import org.assertj.core.util.Arrays;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 
-import java.text.MessageFormat;
 import java.util.*;
 import java.util.function.Predicate;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newHashSet;
 
 public class RecursiveAssertionDriver {
 
-  private static final MessageFormat INDEX_FORMAT = new MessageFormat("[{0, number}]");
-  private static final MessageFormat KEY_FORMAT = new MessageFormat("KEY[{0}]");
-  private static final MessageFormat VALUE_FORMAT = new MessageFormat("VAL[{0}]");
+  private static final String INDEX_FORMAT = "[%d]";
+  private static final String KEY_FORMAT = "KEY[%s]";
+  private static final String VALUE_FORMAT = "VAL[%s]";
 
   private final Set<String> markedBlackSet = newHashSet();
   private final List<FieldLocation> fieldsThatFailedTheAssertion = list();
@@ -157,7 +157,7 @@ public class RecursiveAssertionDriver {
     int idx = 0;
     for (Object o : node) {
       assertRecursively(predicate, o, o != null ? o.getClass() : Object.class,
-                        fieldLocation.field(INDEX_FORMAT.format(new Integer[] { idx })));
+                        fieldLocation.field(format(INDEX_FORMAT, idx)));
       idx++;
     }
   }
@@ -167,7 +167,7 @@ public class RecursiveAssertionDriver {
     Object[] arr = Arrays.asObjectArray(node);
     for (int i = 0; i < arr.length; i++) {
       assertRecursively(predicate, arr[i], arrayType,
-                        fieldLocation.field(INDEX_FORMAT.format(new Integer[] { i })));
+                        fieldLocation.field(format(INDEX_FORMAT, i)));
     }
   }
 
@@ -190,13 +190,13 @@ public class RecursiveAssertionDriver {
   }
 
   private void recurseIntoMapElement(Predicate<Object> predicate, FieldLocation fieldLocation, Object nextNode,
-                                     MessageFormat format) {
+                                     String msgFormat) {
     Class<?> nextNodeType = nextNode != null ? nextNode.getClass() : Object.class;
-    String[] nextNodeFieldName = new String[] { nextNode != null ? nextNode.toString() : "null" };
+    String nextNodeFieldName = nextNode != null ? nextNode.toString() : "null";
     assertRecursively(predicate,
                       nextNode,
                       nextNodeType,
-                      fieldLocation.field(format.format(nextNodeFieldName)));
+                      fieldLocation.field(format(msgFormat, nextNodeFieldName)));
   }
 
   private boolean nodeShouldBeRecursedInto(Object node) {
