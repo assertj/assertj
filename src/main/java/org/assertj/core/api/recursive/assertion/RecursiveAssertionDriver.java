@@ -29,6 +29,8 @@ import static org.assertj.core.util.Sets.newHashSet;
 public class RecursiveAssertionDriver {
 
   private static final MessageFormat INDEX_FORMAT = new MessageFormat("[{0, number}]");
+  private static final MessageFormat KEY_FORMAT = new MessageFormat("KEY[{0}]");
+  private static final MessageFormat VALUE_FORMAT = new MessageFormat("VAL[{0}]");
 
   private final Set<String> markedBlackSet = newHashSet();
   private final List<FieldLocation> fieldsThatFailedTheAssertion = list();
@@ -95,6 +97,7 @@ public class RecursiveAssertionDriver {
 
   private boolean policyDoesNotForbidAssertingOverNode(Class<?> nodeType) {
     boolean policyForbidsAsserting = node_is_a_collection_and_policy_is_to_ignore_container(nodeType);
+    policyForbidsAsserting = policyForbidsAsserting || node_is_a_map_and_policy_is_to_ignore_container(nodeType);
     return !policyForbidsAsserting;
   }
 
@@ -103,6 +106,11 @@ public class RecursiveAssertionDriver {
     boolean policyIsIgnoreContainer =
       configuration.getCollectionAssertionPolicy() == RecursiveAssertionConfiguration.CollectionAssertionPolicy.ELEMENTS_ONLY;
     return policyIsIgnoreContainer && nodeIsCollection;
+  }
+
+  private boolean node_is_a_map_and_policy_is_to_ignore_container(Class<?> nodeType) {
+    return configuration.getMapAssertionPolicy() == RecursiveAssertionConfiguration.MapAssertionPolicy.VALUES_ONLY
+           && isMap(nodeType);
   }
 
   private void recurseIntoFieldsOfCurrentNode(Predicate<Object> predicate, Object node, Class<?> nodeType,
@@ -118,24 +126,30 @@ public class RecursiveAssertionDriver {
 
   private boolean node_is_a_special_type_which_requires_special_treatment(Class<?> nodeType) {
     return isCollection(nodeType)
-           || Map.class.isAssignableFrom(nodeType)
+           || isMap(nodeType)
            || isArray(nodeType);
   }
 
   private boolean policy_is_to_recurse_over_special_types(Class<?> nodeType) {
-    return (isCollection(nodeType)
-            || isArray(nodeType))
-           && (configuration.getCollectionAssertionPolicy()
-        != RecursiveAssertionConfiguration.CollectionAssertionPolicy.COLLECTION_OBJECT_ONLY);
+    boolean recurseOverCollection = (isCollection(nodeType)
+                 || isArray(nodeType))
+                && (configuration.getCollectionAssertionPolicy()
+                    != RecursiveAssertionConfiguration.CollectionAssertionPolicy.COLLECTION_OBJECT_ONLY);
+    boolean recurseOverMap = isMap(nodeType)
+      && configuration.getMapAssertionPolicy() != RecursiveAssertionConfiguration.MapAssertionPolicy.MAP_OBJECT_ONLY;
+    return recurseOverCollection || recurseOverMap;
   }
 
   private void doRecursionForSpecialTypes(Predicate<Object> predicate, Object node, Class<?> nodeType,
                                           FieldLocation fieldLocation) {
     if (isCollection(nodeType)) {
-      recurseIntoCollection(predicate, (Collection) node, fieldLocation);
+      recurseIntoCollection(predicate, (Collection<?>) node, fieldLocation);
     }
     if (isArray(nodeType)) {
       recurseIntoArray(predicate, node, nodeType, fieldLocation);
+    }
+    if (isMap(nodeType)) {
+      recurseIntoMap(predicate, (Map<?, ?>) node, fieldLocation);
     }
   }
 
@@ -155,6 +169,34 @@ public class RecursiveAssertionDriver {
       assertRecursively(predicate, arr[i], arrayType,
                         fieldLocation.field(INDEX_FORMAT.format(new Integer[] { i })));
     }
+  }
+
+  private void recurseIntoMap(Predicate<Object> predicate, Map<?, ?> node, FieldLocation fieldLocation) {
+    // If we are here, we can assume the policy is not MAP_OBJECT_ONLY
+    // For both policies VALUES_ONLY and MAP_OBJECT_AND_ENTRIES we have to recurse over
+    // the values.
+    recurseIntoMapValues(predicate, node, fieldLocation);
+    if (configuration.getMapAssertionPolicy() == RecursiveAssertionConfiguration.MapAssertionPolicy.MAP_OBJECT_AND_ENTRIES) {
+      recurseIntoMapKeys(predicate, node, fieldLocation);
+    }
+  }
+
+  private void recurseIntoMapValues(Predicate<Object> predicate, Map<?, ?> currentNode, FieldLocation fieldLocation) {
+    currentNode.values().forEach(nextNode -> recurseIntoMapElement(predicate, fieldLocation, nextNode, VALUE_FORMAT));
+  }
+
+  private void recurseIntoMapKeys(Predicate<Object> predicate, Map<?, ?> currentNode, FieldLocation fieldLocation) {
+    currentNode.keySet().forEach(nextNode -> recurseIntoMapElement(predicate, fieldLocation, nextNode, KEY_FORMAT));
+  }
+
+  private void recurseIntoMapElement(Predicate<Object> predicate, FieldLocation fieldLocation, Object nextNode,
+                                     MessageFormat format) {
+    Class<?> nextNodeType = nextNode != null ? nextNode.getClass() : Object.class;
+    String[] nextNodeFieldName = new String[] { nextNode != null ? nextNode.toString() : "null" };
+    assertRecursively(predicate,
+                      nextNode,
+                      nextNodeType,
+                      fieldLocation.field(format.format(nextNodeFieldName)));
   }
 
   private boolean nodeShouldBeRecursedInto(Object node) {
@@ -224,6 +266,10 @@ public class RecursiveAssertionDriver {
 
   private boolean isArray(Class<?> nodeType) {
     return nodeType.isArray();
+  }
+
+  private boolean isMap(Class<?> nodeType) {
+    return Map.class.isAssignableFrom(nodeType);
   }
 
 }
