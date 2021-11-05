@@ -14,10 +14,14 @@ package org.assertj.core.api.recursive.assertion;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.recursive.AbstractRecursiveOperationConfiguration;
 import org.assertj.core.util.VisibleForTesting;
+
+import static java.lang.String.format;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 
 public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationConfiguration {
 
@@ -54,6 +58,63 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
     return mapAssertionPolicy;
   }
 
+  @Override
+  public String toString() {
+    CONFIGURATION_PROVIDER.representation();
+    StringBuilder description = new StringBuilder();
+    describeIgnoreAllActualNullFields(description);
+    describeIgnoreAllActualEmptyOptionalFields(description);
+    describeIgnoredFields(description);
+    describeIgnoredFieldsRegexes(description);
+    describeAssertOverPrimitiveFields(description);
+    describeSkipJCLTypeObjects(description);
+    describeCollectionAssertionPolicy(description);
+    describeMapAssertionPolicy(description);
+    return description.toString();
+  }
+
+  private void describeAssertOverPrimitiveFields(StringBuilder description) {
+    if (!getAssertOverPrimitiveFields()) description.append(format("- primitive fields were ignored in the recursive assertion%n"));
+  }
+
+  private void describeSkipJCLTypeObjects(StringBuilder description) {
+    if (!isSkipJavaLibraryTypeObjects()) description.append(format("- fields from Java Class Library types were included in the recursive assertion%n"));
+  }
+
+  private void describeCollectionAssertionPolicy(StringBuilder description) {
+    if (getCollectionAssertionPolicy() != CollectionAssertionPolicy.COLLECTION_OBJECT_AND_ELEMENTS)
+      description.append(format("- the collection assertion policy was %s%n", getCollectionAssertionPolicy().name()));
+  }
+
+  private void describeMapAssertionPolicy(StringBuilder description) {
+    if (getMapAssertionPolicy() != MapAssertionPolicy.MAP_OBJECT_AND_ENTRIES)
+      description.append(format("- the map assertion policy was %s%n", getMapAssertionPolicy().name()));
+  }
+
+  @Override public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    RecursiveAssertionConfiguration that = (RecursiveAssertionConfiguration) o;
+    return getIgnoreAllActualEmptyOptionalFields() == that.getIgnoreAllActualEmptyOptionalFields()
+           && getIgnoreAllActualNullFields() == that.getIgnoreAllActualNullFields()
+           && java.util.Objects.equals(getIgnoredFields(), that.getIgnoredFields())
+           && java.util.Objects.equals(getIgnoredFieldsRegexes(), that.getIgnoredFieldsRegexes())
+           && getAssertOverPrimitiveFields() == that.getAssertOverPrimitiveFields()
+           && isSkipJavaLibraryTypeObjects() == that.isSkipJavaLibraryTypeObjects()
+           && getCollectionAssertionPolicy() == that.getCollectionAssertionPolicy()
+           && getMapAssertionPolicy() == that.getMapAssertionPolicy();
+  }
+
+  @Override public int hashCode() {
+    return Objects.hash(getIgnoreAllActualEmptyOptionalFields(), getIgnoreAllActualNullFields(),
+                        getIgnoredFields(), getIgnoredFieldsRegexes(), getIgnoredTypes(),
+                        getAssertOverPrimitiveFields(), isSkipJavaLibraryTypeObjects(), getCollectionAssertionPolicy(),
+                        getMapAssertionPolicy());
+  }
+
+  /**
+   * @return A {@link Builder} that will assist the developer in creating a valid instance of {@link RecursiveAssertionConfiguration}.
+   */
   public static Builder builder() {
     return new Builder();
   }
@@ -152,7 +213,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
    * @author bzt
    *
    */
-  public static enum CollectionAssertionPolicy {
+  public enum CollectionAssertionPolicy {
     
     /**
      * <p>Apply the {@link Predicate} (recursively) to the elements of the collection object only. Consider the following example:<p>
@@ -217,7 +278,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
    * Possible policies to use regarding maps when recursively asserting over the fields of an object tree.
    * @author bzt
    */
-  public static enum MapAssertionPolicy {
+  public enum MapAssertionPolicy {
     
     /**
      * <p>Apply the {@link Predicate} to the map object but not to its elements. Consider the following example:<p>
