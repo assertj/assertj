@@ -90,6 +90,10 @@ public final class FieldLocation implements Comparable<FieldLocation> {
                .collect(joining("."));
   }
 
+  public String getPathToUseInErrorReport() {
+    return String.join(".", decomposedPath);
+  }
+
   public String getFieldName() {
     if (decomposedPath.isEmpty()) return "";
     return decomposedPath.get(decomposedPath.size() - 1);
@@ -98,5 +102,4 @@ public final class FieldLocation implements Comparable<FieldLocation> {
   public static FieldLocation rootFieldLocation() {
     return new FieldLocation(emptyList());
   }
-
 }

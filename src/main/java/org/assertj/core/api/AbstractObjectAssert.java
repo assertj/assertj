@@ -27,6 +27,7 @@ import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
@@ -1172,6 +1173,23 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @Override
   public RecursiveComparisonAssert<?> usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     return super.usingRecursiveComparison(recursiveComparisonConfiguration).withTypeComparators(comparatorByType);
+  }
+
+  /**
+   * TODO
+   * @return
+   */
+  public RecursiveAssertionAssert<?> usingRecursiveAssertion() {
+    return super.usingRecursiveAssertion();
+  }
+
+  /**
+   * TODO
+   * @param recursiveAssertionConfiguration
+   * @return
+   */
+  public RecursiveAssertionAssert<?> usingRecursiveAssertion(RecursiveAssertionConfiguration recursiveAssertionConfiguration) {
+    return super.usingRecursiveAssertion(recursiveAssertionConfiguration);
   }
 
   // override for proxyable friendly AbstractObjectAssert
