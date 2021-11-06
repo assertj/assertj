@@ -23,6 +23,15 @@ import java.util.function.Predicate;
 import static org.assertj.core.error.ShouldNotBeEqualComparingFieldByFieldRecursively.shouldNotBeEqualComparingFieldByFieldRecursively;
 import static org.assertj.core.error.ShouldNotSatisfyPredicateRecursively.shouldNotSatisfyRecursively;
 
+/**
+ * <p>An assertion that supports asserting a {@link Predicate} over all the fields of an object graph. Cycle avoidance is used,
+ * so a graph that has cyclic references is essentially reduced to a tree by this class (the actual object graph is not changed
+ * of course, it is treated as an immutable value).</p>
+ *
+ * <p>This class is <em>absolutely not</em> thread safe!! When using this class, care must be taken to ensure that its instances
+ * are thread-bound. However, it <em>can</em> be re-used for multiple assertions over the same object graph.</p>
+ * @param <SELF>
+ */
 public class RecursiveAssertionAssert<SELF extends RecursiveAssertionAssert<SELF>> extends AbstractAssert<SELF, Object> {
 
   private final RecursiveAssertionConfiguration recursiveAssertionConfiguration;
@@ -85,6 +94,9 @@ public class RecursiveAssertionAssert<SELF extends RecursiveAssertionAssert<SELF
    * @since 3.22.0
    */
   public RecursiveAssertionAssert<?> allFieldsSatisfy(Predicate<Object> toBeAssertedRecursively) {
+    // Reset the driver in case this is not the first predicate being run over actual.
+    recursiveAssertionDriver.reset();
+
     List<FieldLocation> failedFields = recursiveAssertionDriver.assertOverObjectGraph(toBeAssertedRecursively, actual);
     if (!failedFields.isEmpty())
       throw objects.getFailures()

@@ -45,6 +45,11 @@ public class RecursiveAssertionDriver {
     return Collections.unmodifiableList(fieldsThatFailedTheAssertion);
   }
 
+  public void reset() {
+    markedBlackSet.clear();
+    fieldsThatFailedTheAssertion.clear();
+  }
+
   private void assertRecursively(Predicate<Object> predicate, Object node, Class<?> nodeType, FieldLocation fieldLocation) {
     if (nodeMustBeIgnored(node, nodeType, fieldLocation)) return;
 
