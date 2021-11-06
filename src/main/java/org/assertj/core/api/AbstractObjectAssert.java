@@ -1176,17 +1176,93 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * TODO
-   * @return
+   * <p>Enable asserting over all the fields of an entire object graph. The assertion in question (which takes the form of a
+   * {@link java.util.function.Predicate}) is recursively applied to all fields in the object graph of which the {@code actual}
+   * object is the root (i.e. that are reachable by recursively dereferencing fields, starting at {@code actual}).</p>
+   *
+   * <p>The recursive algorithm employs cycle detection, so object graphs with cyclic references can safely be asserted over
+   * without causing looping.</p>
+   *
+   * <p>This method enables recursive asserting using default configuration, which means:</p>
+   * <ul>
+   *   <li>All fields of all objects have the {@link java.util.function.Predicate} applied to them (including primitive fields),
+   *   no fields are excluded.</li>
+   *   <li>No fields are excluded based on their (declared) type; but</li>
+   *   <li>The recursion does not enter into Java Class Library types (java.*, javax.*)</li>
+   *   <li>The {@link java.util.function.Predicate} is applied to {@link java.util.Collection} and array objects and their elements</li>
+   *   <li>The {@link java.util.function.Predicate} is applied to {@link java.util.Map} objects, their keys and their values</li>
+   * </ul>
+   *
+   * <p>It is possible to assert several predicates over the object graph in a row.</p>
+   *
+   * <p>The classes used in recursive asserting are <em>not</em> thread safe. Care must be taken when running tests in parallel
+   * not to run assertions over object graphs that are being shared between tests.</p>
+   *
+   * <p><strong>Example</strong></p>
+   * <pre><code style='java'> class Author {
+   *     String name;
+   *     String email;
+   *     List<Book> books = new ArrayList<>();
+   *
+   *     Author(String name, String email) {
+   *       this.name = name;
+   *       this.email = email;
+   *     }
+   *   }
+   *
+   *   class Book {
+   *     String title;
+   *     Author[] authors;
+   *
+   *     Book(String title, Author[] authors) {
+   *       this.title = title;
+   *       this.authors = authors;
+   *     }
+   *   }
+   *  ...
+   *
+   *   Author root = new Author("Pramod Sadalage", "p.sadalage@recursive.test");
+   *   Author another = new Author("Martin Fowler", "m.fowler@recursive.test");
+   *   Author last = new Author("Kent Beck", "k.beck@recursive.test");
+   *
+   *   Book firstbook = new Book("NoSql Distilled", new Author[]{root, another});
+   *   root.books.add(firstbook);
+   *   another.books.add(firstbook);
+   *   Book otherbook = new Book("Refactoring", new Author[] {another, last});
+   *   another.books.add(otherbook);
+   *   last.books.add(otherbook);
+   *   ...
+   *
+   *   assertThat(root).withRecursiveAssertion().allFieldsSatisfy(theField -> theField != null); </code>
+   * </pre>
+   *
+   * <p>In case one or more fields in the object graph fails the predicate test, the entire assertion will fail. Failing fields
+   * will be listed in the failure report using a JSON path-ish notation.</p>
+   *
+   * @return A new instance of {@link RecursiveAssertionAssert} built with a default {@link RecursiveAssertionConfiguration}.
    */
   public RecursiveAssertionAssert<?> usingRecursiveAssertion() {
     return super.usingRecursiveAssertion();
   }
 
   /**
-   * TODO
-   * @param recursiveAssertionConfiguration
-   * @return
+   * <p>The same as {@link #usingRecursiveAssertion()}, but this method allows the developer to pass in an explicit recursion
+   * configuration. This configuration gives fine-grained control over what to include in the recursion, such as:</p>
+   *
+   * <ul>
+   *   <li>Exclusion of fields that are null</li>
+   *   <li>Exclusion of fields by path</li>
+   *   <li>Exclusion of fields by type</li>
+   *   <li>Exclusion of primitive fields</li>
+   *   <li>Inclusion of Java Class Library types in the recursive execution</li>
+   *   <li>Treatment of {@link java.util.Collection} and array objects</li>
+   *   <li>Treatment of {@link java.util.Map} objects</li>
+   * </ul>
+   *
+   * <p>Please refer to the documentation of {@link RecursiveAssertionConfiguration.Builder} for more details.</p>
+   *
+   * @param recursiveAssertionConfiguration The recursion configuration described above.
+   * @return A new instance of {@link RecursiveAssertionAssert} built with a default {@link RecursiveAssertionConfiguration}.
    */
   public RecursiveAssertionAssert<?> usingRecursiveAssertion(RecursiveAssertionConfiguration recursiveAssertionConfiguration) {
     return super.usingRecursiveAssertion(recursiveAssertionConfiguration);
