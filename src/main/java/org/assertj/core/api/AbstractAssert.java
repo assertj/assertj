@@ -34,6 +34,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.description.Description;
@@ -1028,6 +1029,18 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   // this would avoid duplicating this code in all subclasses
   protected RecursiveComparisonAssert<?> usingRecursiveComparison() {
     return usingRecursiveComparison(new RecursiveComparisonConfiguration());
+  }
+
+  // this method is meant to be overridden and made public in subclasses that want to expose it
+  // this would avoid duplicating this code in all subclasses
+  protected RecursiveAssertionAssert<?> usingRecursiveAssertion(RecursiveAssertionConfiguration recursiveAssertionConfiguration) {
+    return new RecursiveAssertionAssert<>(actual, recursiveAssertionConfiguration);
+  }
+
+  // this method is meant to be overridden and made public in subclasses that want to expose it
+  // this would avoid duplicating this code in all subclasses
+  protected RecursiveAssertionAssert<?> usingRecursiveAssertion() {
+    return new RecursiveAssertionAssert<>(actual, RecursiveAssertionConfiguration.builder().build());
   }
 
   /**
