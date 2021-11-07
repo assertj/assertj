@@ -141,7 +141,8 @@ class RecursiveAssertionDriver_AssertionApplicationTest extends AbstractRecursiv
     // WHEN
     List<FieldLocation> failedFields = objectUnderTest.assertOverObjectGraph(failingMockPredicate, testObject);
     // THEN
-    then(failedFields).hasSize(1).contains(FieldLocation.rootFieldLocation());
+    then(failedFields).hasSize(2).contains(FieldLocation.rootFieldLocation(),
+                                           FieldLocation.rootFieldLocation().field("VAL"));
   }
 
 }

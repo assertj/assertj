@@ -31,6 +31,7 @@ public class RecursiveAssertionDriver {
   private static final String INDEX_FORMAT = "[%d]";
   private static final String KEY_FORMAT = "KEY[%s]";
   private static final String VALUE_FORMAT = "VAL[%s]";
+  private static final String OPTIONAL_VALUE = "VAL";
 
   private final Set<String> markedBlackSet = newHashSet();
   private final List<FieldLocation> fieldsThatFailedTheAssertion = list();
@@ -81,8 +82,14 @@ public class RecursiveAssertionDriver {
 
   private boolean node_is_empty_optional_and_we_are_ignoring_those(Object node, Class<?> nodeType) {
     return configuration.getIgnoreAllActualEmptyOptionalFields()
-           && Optional.class.isAssignableFrom(nodeType)
-           && !((Optional) node).isPresent();
+           && isAnEmptyOptional(node, nodeType);
+  }
+
+  private boolean isAnEmptyOptional(Object node, Class<?> nodeType) {
+    return (isOptional(nodeType) && !((Optional<?>)node).isPresent())
+      || (isOptionalInt(nodeType) && !((OptionalInt)node).isPresent())
+      || (isOptionalDouble(nodeType) && !((OptionalDouble)node).isPresent())
+      || (isOptionalLong(nodeType) && !((OptionalLong)node).isPresent());
   }
 
   private boolean node_is_being_ignored_by_name_or_name_patten(FieldLocation fieldLocation) {
@@ -132,17 +139,23 @@ public class RecursiveAssertionDriver {
   private boolean node_is_a_special_type_which_requires_special_treatment(Class<?> nodeType) {
     return isCollection(nodeType)
            || isMap(nodeType)
-           || isArray(nodeType);
+           || isArray(nodeType)
+           || node_is_an_optional_requiring_special_treatment(nodeType);
   }
 
   private boolean policy_is_to_recurse_over_special_types(Class<?> nodeType) {
     boolean recurseOverCollection = (isCollection(nodeType)
-                 || isArray(nodeType))
-                && (configuration.getCollectionAssertionPolicy()
-                    != RecursiveAssertionConfiguration.CollectionAssertionPolicy.COLLECTION_OBJECT_ONLY);
+                                     || isArray(nodeType))
+                                    && (configuration.getCollectionAssertionPolicy()
+                                        != RecursiveAssertionConfiguration.CollectionAssertionPolicy.COLLECTION_OBJECT_ONLY);
     boolean recurseOverMap = isMap(nodeType)
-      && configuration.getMapAssertionPolicy() != RecursiveAssertionConfiguration.MapAssertionPolicy.MAP_OBJECT_ONLY;
-    return recurseOverCollection || recurseOverMap;
+                             && configuration.getMapAssertionPolicy()
+                                != RecursiveAssertionConfiguration.MapAssertionPolicy.MAP_OBJECT_ONLY;
+    return recurseOverCollection || recurseOverMap || node_is_an_optional_requiring_special_treatment(nodeType);
+  }
+
+  private boolean node_is_an_optional_requiring_special_treatment(Class<?> nodeType) {
+    return configuration.isSkipJavaLibraryTypeObjects() && isOptionalType(nodeType);
   }
 
   private void doRecursionForSpecialTypes(Predicate<Object> predicate, Object node, Class<?> nodeType,
@@ -156,9 +169,21 @@ public class RecursiveAssertionDriver {
     if (isMap(nodeType)) {
       recurseIntoMap(predicate, (Map<?, ?>) node, fieldLocation);
     }
+    if (isOptional(nodeType)) {
+      recurseIntoOptionalValue(predicate, (Optional<?>) node, fieldLocation);
+    }
+    if (isOptionalInt(nodeType)) {
+      recurseIntoOptionalIntValue(predicate, (OptionalInt) node, fieldLocation);
+    }
+    if (isOptionalDouble(nodeType)) {
+      recurseIntoOptionalDoubleValue(predicate, (OptionalDouble) node, fieldLocation);
+    }
+    if (isOptionalLong(nodeType)) {
+      recurseIntoOptionalLongValue(predicate, (OptionalLong) node, fieldLocation);
+    }
   }
 
-  private void recurseIntoCollection(Predicate<Object> predicate, Collection node, FieldLocation fieldLocation) {
+  private void recurseIntoCollection(Predicate<Object> predicate, Collection<?> node, FieldLocation fieldLocation) {
     int idx = 0;
     for (Object o : node) {
       assertRecursively(predicate, o, o != null ? o.getClass() : Object.class,
@@ -204,6 +229,37 @@ public class RecursiveAssertionDriver {
                       fieldLocation.field(format(msgFormat, nextNodeFieldName)));
   }
 
+  private void recurseIntoOptionalValue(Predicate<Object> predicate, Optional<?> node, FieldLocation fieldLocation) {
+    Object nextNode = null;
+    Class<?> nextNodeType = Object.class;
+    if (node.isPresent()) {
+      nextNode = node.get();
+      nextNodeType = nextNode.getClass();
+    }
+    assertRecursively(predicate, nextNode, nextNodeType, fieldLocation.field(OPTIONAL_VALUE));
+  }
+
+  private void recurseIntoOptionalIntValue(Predicate<Object> predicate, OptionalInt node, FieldLocation fieldLocation) {
+    if (node.isPresent()) assertRecursively(predicate, node.getAsInt(), int.class, fieldLocation.field(OPTIONAL_VALUE));
+    /* Note (bzt): At this time I am electing not to make a recursive call in case of an empty OptionalInt, because I
+     * can't decide on what to pass as a node value.
+     */
+  }
+
+  private void recurseIntoOptionalDoubleValue(Predicate<Object> predicate, OptionalDouble node, FieldLocation fieldLocation) {
+    if (node.isPresent()) assertRecursively(predicate, node.getAsDouble(), double.class, fieldLocation.field(OPTIONAL_VALUE));
+    /* Note (bzt): At this time I am electing not to make a recursive call in case of an empty OptionalDouble, because I
+     * can't decide on what to pass as a node value.
+     */
+  }
+
+  private void recurseIntoOptionalLongValue(Predicate<Object> predicate, OptionalLong node, FieldLocation fieldLocation) {
+    if (node.isPresent()) assertRecursively(predicate, node.getAsLong(), long.class, fieldLocation.field(OPTIONAL_VALUE));
+    /* Note (bzt): At this time I am electing not to make a recursive call in case of an empty OptionalLong, because I
+     * can't decide on what to pass as a node value.
+     */
+  }
+
   private boolean nodeShouldBeRecursedInto(Object node) {
     boolean nodeShouldBeRecursedInto = node != null;
     nodeShouldBeRecursedInto = nodeShouldBeRecursedInto && !node_is_a_jcl_type_and_we_skip_those(node);
@@ -225,7 +281,9 @@ public class RecursiveAssertionDriver {
                        .forEach(tuple -> {
                          String fieldName = tuple.getByIndexAndType(0, String.class);
                          Object nextNodeValue = tuple.getByIndexAndType(1, Object.class);
-                         Class<?> nextNodeType = tuple.getByIndexAndType(2, Class.class);
+                         Class<?> declaredFieldType = tuple.getByIndexAndType(2, Class.class);
+                         Class<?> nextNodeType = nextNodeValue != null ? nextNodeValue.getClass() : declaredFieldType;
+                         if (declaredFieldType.isPrimitive()) nextNodeType = declaredFieldType;
                          assertRecursively(predicate, nextNodeValue, nextNodeType, fieldLocation.field(fieldName));
                        });
   }
@@ -275,6 +333,30 @@ public class RecursiveAssertionDriver {
 
   private boolean isMap(Class<?> nodeType) {
     return Map.class.isAssignableFrom(nodeType);
+  }
+
+  private boolean isOptional(Class<?> nodeType) {
+    return Optional.class.isAssignableFrom(nodeType);
+  }
+
+
+  private boolean isOptionalLong(Class<?> nodeType) {
+    return OptionalLong.class.isAssignableFrom(nodeType);
+  }
+
+  private boolean isOptionalInt(Class<?> nodeType) {
+    return OptionalInt.class.isAssignableFrom(nodeType);
+  }
+
+  private boolean isOptionalDouble(Class<?> nodeType) {
+    return OptionalDouble.class.isAssignableFrom(nodeType);
+  }
+
+  private boolean isOptionalType(Class<?> nodeType) {
+    return isOptional(nodeType)
+      || isOptionalInt(nodeType)
+      || isOptionalDouble(nodeType)
+      || isOptionalLong(nodeType);
   }
 
 }
