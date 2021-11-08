@@ -14,12 +14,15 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldContainSubsequence.actualDoesNotHaveEnoughElementsToContainSubsequence;
 import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
@@ -31,24 +34,52 @@ import org.junit.jupiter.api.Test;
 class ShouldContainSubsequence_create_Test {
 
   @Test
-  void should_create_error_message() {
+  void should_create_error_message_when_actual_has_less_elements_then_subsequence() {
     // GIVEN
-    ErrorMessageFactory factory = shouldContainSubsequence(list("Yoda", "Luke"), list("Han", "Leia"));
+    ErrorMessageFactory factory = actualDoesNotHaveEnoughElementsToContainSubsequence(list("Yoda"), array("Yoda", "Leia"));
     // WHEN
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  [\"Yoda\", \"Luke\"]%nto contain subsequence:%n  [\"Han\", \"Leia\"]%n"));
+    then(message).isEqualTo(format("[Test] %nExpecting actual to contain the specified subsequence but actual does not have enough elements to contain it, actual size is 1 when subsequence size is 2%n"
+                                   + "actual:%n"
+                                   + "  [\"Yoda\"]%n"
+                                   + "subsequence:%n"
+                                   + "  [\"Yoda\", \"Leia\"]"));
+  }
+
+  @Test
+  void should_create_error_message_with_first_subsequence_element_not_found_and_its_index() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldContainSubsequence(list("Yoda", "Luke"), array("Yoda", "Leia"), 1,
+                                                           StandardComparisonStrategy.instance());
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n"
+                                   + "Expecting actual to contain the specified subsequence but failed to find the element at subsequence index 1 in actual:%n"
+                                   + "subsequence element not found in actual:%n"
+                                   + "  \"Leia\"%n"
+                                   + "actual:%n"
+                                   + "  [\"Yoda\", \"Luke\"]%n"
+                                   + "subsequence:%n"
+                                   + "  [\"Yoda\", \"Leia\"]"));
   }
 
   @Test
   void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
-    ErrorMessageFactory factory = shouldContainSubsequence(list("Yoda", "Luke"), list("Han", "Leia"),
+    ErrorMessageFactory factory = shouldContainSubsequence(list("Yoda", "Luke"), array("Yoda", "Leia"), 1,
                                                            new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     // WHEN
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  [\"Yoda\", \"Luke\"]%nto contain subsequence:%n  [\"Han\", \"Leia\"]%n"
-                                   + "when comparing values using CaseInsensitiveStringComparator"));
+    then(message).isEqualTo(format("[Test] %n"
+                                   + "Expecting actual to contain the specified subsequence but failed to find the element at subsequence index 1 in actual when comparing elements using CaseInsensitiveStringComparator:%n"
+                                   + "subsequence element not found in actual:%n"
+                                   + "  \"Leia\"%n"
+                                   + "actual:%n"
+                                   + "  [\"Yoda\", \"Luke\"]%n"
+                                   + "subsequence:%n"
+                                   + "  [\"Yoda\", \"Leia\"]"));
   }
 }

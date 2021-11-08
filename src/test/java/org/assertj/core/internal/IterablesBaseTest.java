@@ -33,6 +33,8 @@ import org.junit.jupiter.api.BeforeEach;
  */
 public class IterablesBaseTest {
 
+  protected static final AssertionInfo INFO = someInfo();
+
   protected List<String> actual;
   protected Failures failures;
   protected Iterables iterables;

@@ -47,6 +47,7 @@ import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainOnlyNulls.shouldContainOnlyNulls;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
+import static org.assertj.core.error.ShouldContainSubsequence.actualDoesNotHaveEnoughElementsToContainSubsequence;
 import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
@@ -549,6 +550,9 @@ public class Iterables {
    */
   public void assertContainsSubsequence(AssertionInfo info, Iterable<?> actual, Object[] subsequence) {
     if (commonCheckThatIterableAssertionSucceeds(info, actual, subsequence)) return;
+    if (sizeOf(actual) < subsequence.length) {
+      throw failures.failure(info, actualDoesNotHaveEnoughElementsToContainSubsequence(actual, subsequence));
+    }
 
     Iterator<?> actualIterator = actual.iterator();
     int subsequenceIndex = 0;
@@ -558,12 +562,7 @@ public class Iterables {
       if (areEqual(actualNext, subsequenceNext)) subsequenceIndex++;
     }
 
-    if (subsequenceIndex < subsequence.length) throw actualDoesNotContainSubsequence(info, actual, subsequence);
-  }
-
-  public void assertContainsSubsequence(AssertionInfo info, Iterable<?> actual, List<?> subsequence) {
-    checkIsNotNull(subsequence);
-    assertContainsSubsequence(info, actual, subsequence.toArray());
+    if (subsequenceIndex < subsequence.length) throw actualDoesNotContainSubsequence(info, actual, subsequence, subsequenceIndex);
   }
 
   /**
@@ -644,13 +643,13 @@ public class Iterables {
     return failures.failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));
   }
 
-  private AssertionError actualDoesContainSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence,
-                                                   int index) {
+  private AssertionError actualDoesContainSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence, int index) {
     return failures.failure(info, shouldNotContainSequence(actual, sequence, index, comparisonStrategy));
   }
 
-  private AssertionError actualDoesNotContainSubsequence(AssertionInfo info, Iterable<?> actual, Object[] subsequence) {
-    return failures.failure(info, shouldContainSubsequence(actual, subsequence, comparisonStrategy));
+  private AssertionError actualDoesNotContainSubsequence(AssertionInfo info, Iterable<?> actual, Object[] subsequence,
+                                                         int subsequenceIndex) {
+    return failures.failure(info, shouldContainSubsequence(actual, subsequence, subsequenceIndex, comparisonStrategy));
   }
 
   private AssertionError actualContainsSubsequence(AssertionInfo info, Iterable<?> actual, Object[] subsequence,

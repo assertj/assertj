@@ -43,6 +43,7 @@ import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainOnlyNulls.shouldContainOnlyNulls;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
+import static org.assertj.core.error.ShouldContainSubsequence.actualDoesNotHaveEnoughElementsToContainSubsequence;
 import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
@@ -71,6 +72,7 @@ import static org.assertj.core.internal.IterableDiff.diff;
 import static org.assertj.core.util.ArrayWrapperList.wrap;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.Arrays.prepend;
+import static org.assertj.core.util.Arrays.sizeOf;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkArgument;
@@ -277,7 +279,7 @@ public class Arrays {
     assertIsArray(info, values);
 
     List<Object> actualAsList = asList(actual);
-    IterableDiff diff = diff(actualAsList, asList(values), comparisonStrategy);
+    IterableDiff<?> diff = diff(actualAsList, asList(values), comparisonStrategy);
     if (!diff.differencesFound()) {
       // actual and values have the same elements but are they in the same order ?
       int arrayLength = sizeOf(actual);
@@ -289,9 +291,7 @@ public class Arrays {
       }
       return;
     }
-    throw failures.failure(info,
-                           shouldContainExactly(actual, asList(values), diff.missing, diff.unexpected,
-                                                comparisonStrategy));
+    throw failures.failure(info, shouldContainExactly(actual, asList(values), diff.missing, diff.unexpected, comparisonStrategy));
   }
 
   void assertContainsExactlyInAnyOrder(AssertionInfo info, Failures failures, Object actual, Object values) {
@@ -308,8 +308,7 @@ public class Arrays {
 
     if (notExpected.isEmpty() && notFound.isEmpty()) return;
 
-    throw failures.failure(info,
-                           shouldContainExactlyInAnyOrder(actual, values, notFound, notExpected, comparisonStrategy));
+    throw failures.failure(info, shouldContainExactlyInAnyOrder(actual, values, notFound, notExpected, comparisonStrategy));
   }
 
   void assertContainsOnlyOnce(AssertionInfo info, Failures failures, Object actual, Object values) {
@@ -375,8 +374,7 @@ public class Arrays {
   private boolean containsSequenceAtGivenIndex(int actualStartIndex, Object actualArray, Object sequence) {
     int sequenceSize = sizeOf(sequence);
     for (int i = 0; i < sequenceSize; i++) {
-      if (areEqual(Array.get(sequence, i), Array.get(actualArray, i + actualStartIndex)))
-        continue;
+      if (areEqual(Array.get(sequence, i), Array.get(actualArray, i + actualStartIndex))) continue;
       return false;
     }
     return true;
@@ -387,21 +385,20 @@ public class Arrays {
 
     int sizeOfActual = sizeOf(actual);
     int sizeOfSubsequence = sizeOf(subsequence);
-    // look for given subsequence, stop check when there is not enough elements remaining in actual to contain
-    // subsequence
-    int lastIndexWhereEndOfSubsequenceCanBeFound = sizeOfActual - sizeOfSubsequence;
-
+    if (sizeOfActual < sizeOfSubsequence) {
+      throw failures.failure(info, actualDoesNotHaveEnoughElementsToContainSubsequence(actual, subsequence));
+    }
     int actualIndex = 0;
     int subsequenceIndex = 0;
-    while (actualIndex <= lastIndexWhereEndOfSubsequenceCanBeFound && subsequenceIndex < sizeOfSubsequence) {
+    while (actualIndex < sizeOfActual && subsequenceIndex < sizeOfSubsequence) {
       if (areEqual(Array.get(actual, actualIndex), Array.get(subsequence, subsequenceIndex))) {
         subsequenceIndex++;
-        lastIndexWhereEndOfSubsequenceCanBeFound++;
       }
       actualIndex++;
     }
-    if (subsequenceIndex < sizeOfSubsequence)
-      throw failures.failure(info, shouldContainSubsequence(actual, subsequence, comparisonStrategy));
+    if (subsequenceIndex < sizeOfSubsequence) { // only subsequenceIndex subsequence elements were found
+      throw failures.failure(info, shouldContainSubsequence(actual, subsequence, subsequenceIndex, comparisonStrategy));
+    }
   }
 
   void assertHasOnlyElementsOfTypes(AssertionInfo info, Failures failures, Object actual, Class<?>[] expectedTypes) {
@@ -769,11 +766,6 @@ public class Arrays {
 
   static void assertNotNull(AssertionInfo info, Object array) {
     Objects.instance().assertNotNull(info, array);
-  }
-
-  static int sizeOf(Object array) {
-    if (array instanceof Object[]) return ((Object[]) array).length;
-    return getLength(array);
   }
 
   private static void failIfEmptySinceActualIsNotEmpty(Object values) {

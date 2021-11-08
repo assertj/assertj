@@ -94,7 +94,7 @@ public final class CommonValidations {
   }
 
   public static void failIfEmptySinceActualIsNotEmpty(Object[] values) {
-    if (values.length == 0) throw new AssertionError("actual is not empty");
+    if (values.length == 0) throw new AssertionError("actual is not empty while group of values to look for is.");
   }
 
   public static void hasSameSizeAsCheck(AssertionInfo info, Object actual, Object other, int sizeOfActual) {

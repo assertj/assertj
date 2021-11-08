@@ -46,9 +46,7 @@ class IterableAssert_containsSubsequence_List_Test extends IterableAssertBaseTes
 
   @Test
   void should_throw_error_if_subsequence_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> {
-      List<Object> nullList = null;
-      assertions.containsSubsequence(nullList);
-    }).withMessage(nullSubsequence());
+    List<Object> nullList = null;
+    assertThatNullPointerException().isThrownBy(() -> assertions.containsSubsequence(nullList)).withMessage(nullSubsequence());
   }
 }

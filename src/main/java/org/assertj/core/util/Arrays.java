@@ -12,6 +12,7 @@
  */
 package org.assertj.core.util;
 
+import static java.lang.reflect.Array.getLength;
 import static java.util.Arrays.stream;
 import static java.util.Collections.emptyList;
 import static java.util.Objects.requireNonNull;
@@ -200,6 +201,10 @@ public class Arrays {
     return result;
   }
 
-  private Arrays() {}
+  public static int sizeOf(Object array) {
+    if (array instanceof Object[]) return ((Object[]) array).length;
+    return getLength(array);
+  }
 
+  private Arrays() {}
 }

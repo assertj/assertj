@@ -12,8 +12,15 @@
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.util.Arrays.isArray;
+import static org.assertj.core.util.Arrays.sizeOf;
+
+import java.lang.reflect.Array;
+
 import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.util.Arrays;
+import org.assertj.core.util.IterableUtil;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a group of elements contains a subsequence
@@ -23,31 +30,61 @@ import org.assertj.core.internal.StandardComparisonStrategy;
  */
 public class ShouldContainSubsequence extends BasicErrorMessageFactory {
 
+  public static ShouldContainSubsequence actualDoesNotHaveEnoughElementsToContainSubsequence(Object actual, Object subsequence) {
+    return new ShouldContainSubsequence(actual, subsequence);
+  }
+
+  private ShouldContainSubsequence(Object actual, Object subsequence) {
+    super("%nExpecting actual to contain the specified subsequence but actual does not have enough elements to contain it, actual size is %s when subsequence size is %s%nactual:%n  %s%nsubsequence:%n  %s",
+          sizeOfArrayOrIterable(actual), sizeOf(subsequence), actual, subsequence);
+  }
+
+  public static ShouldContainSubsequence actualDoesNotHaveEnoughElementsLeftToContainSubsequence(Object actual,
+                                                                                                 Object subsequence,
+                                                                                                 int actualIndex,
+                                                                                                 int subsequenceIndex) {
+    return new ShouldContainSubsequence(actual, subsequence, actualIndex, subsequenceIndex);
+  }
+
+  private ShouldContainSubsequence(Object actual, Object subsequence, int actualIndex, int subsequenceIndex) {
+    super("%nExpecting actual to contain the specified subsequence but actual does not have enough elements left to compare after reaching element %s out of %s with %s subsequence element(s) still to find."
+          + "%nactual:%n  %s%nsubsequence:%n  %s",
+          actualIndex + 1, sizeOfArrayOrIterable(actual), sizeOf(subsequence) - subsequenceIndex, actual, subsequence);
+  }
+
+  private static Object sizeOfArrayOrIterable(Object actual) {
+    return isArray(actual) ? Arrays.sizeOf(actual) : IterableUtil.sizeOf((Iterable<?>) actual);
+  }
+
   /**
    * Creates a new <code>{@link ShouldContainSubsequence}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param subsequence the subsequence of values expected to be in {@code actual}.
+   * @param subsequenceIndex the index of the first token in {@code subsequence} that was not found in {@code actual}.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainSubsequence(Object actual, Object subsequence,
-      ComparisonStrategy comparisonStrategy) {
-    return new ShouldContainSubsequence(actual, subsequence, comparisonStrategy);
+  public static ShouldContainSubsequence shouldContainSubsequence(Object actual, Object subsequence, int subsequenceIndex,
+                                                                  ComparisonStrategy comparisonStrategy) {
+    return new ShouldContainSubsequence(actual, subsequence, subsequenceIndex, comparisonStrategy);
   }
 
-  /**
-   * Creates a new <code>{@link ShouldContainSubsequence}</code>.
-   * 
-   * @param actual the actual value in the failed assertion.
-   * @param subsequence the subsequence of values expected to be in {@code actual}.
-   * @return the created {@code ErrorMessageFactory}.
-   */
-  public static ErrorMessageFactory shouldContainSubsequence(Object actual, Object subsequence) {
-    return new ShouldContainSubsequence(actual, subsequence, StandardComparisonStrategy.instance());
+  private ShouldContainSubsequence(Object actual, Object subsequence, int subsequenceIndex,
+                                   ComparisonStrategy comparisonStrategy) {
+    // Failed to find token at subsequence index %s in actual:%n %s
+    super("%nExpecting actual to contain the specified subsequence but failed to find the element at subsequence index %s in actual"
+          + describeComparisonStrategy(comparisonStrategy) + ":%n"
+          + "subsequence element not found in actual:%n"
+          + "  %s%n"
+          + "actual:%n"
+          + "  %s%n"
+          + "subsequence:%n  %s",
+          subsequenceIndex, Array.get(subsequence, subsequenceIndex), actual, subsequence);
   }
 
-  private ShouldContainSubsequence(Object actual, Object subsequence, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting actual:%n  %s%nto contain subsequence:%n  %s%n%s", actual, subsequence, comparisonStrategy);
+  private static String describeComparisonStrategy(ComparisonStrategy comparisonStrategy) {
+    return comparisonStrategy == StandardComparisonStrategy.instance() ? ""
+        : " when comparing elements using " + comparisonStrategy;
   }
 }
