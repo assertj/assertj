@@ -25,17 +25,17 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
-import java.util.Collection;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+
 /**
- * Tests for <code>{@link Iterables#assertContainsSubsequence(AssertionInfo, Collection, Object[])}</code>.
- * 
+ * Tests for <code>{@link Iterables#assertContainsSubsequence(AssertionInfo, Iterable, Object[])}</code>.
+ *
  * @author Marcin Mikosik
  */
 class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest {
@@ -80,7 +80,28 @@ class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest {
     Throwable error = catchThrowable(() -> iterables.assertContainsSubsequence(info, actual, subsequence));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verifyFailureThrownWhenSubsequenceNotFound(info, subsequence);
+    verifyFailureThrownWhenSubsequenceNotFound(info, subsequence, 3);
+  }
+
+  @Test
+  void should_fail_if_subsequence_is_bigger_than_actual_real_message() {
+    AssertionInfo info = someInfo();
+    Object[] subsequence = { "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
+
+    String message = Assertions.assertThrows(AssertionError.class,
+        () -> iterables.assertContainsSubsequence(info, actual, subsequence))
+      .getMessage();
+
+    Assertions.assertArrayEquals(new String[]{
+      "",
+      "Expecting actual to contain the specified subsequence but failed to find subsequence element",
+      "  \"Han\"",
+      "(at subsequence index 3) in actual:",
+      "  [\"Yoda\", \"Luke\", \"Leia\", \"Obi-Wan\"]",
+      "The subsequence was:",
+      "  [\"Luke\", \"Leia\", \"Obi-Wan\", \"Han\", \"C-3PO\", \"R2-D2\", \"Anakin\"]",
+      ""
+    }, message.split("\\R", -1));
   }
 
   @Test
@@ -91,7 +112,7 @@ class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest {
     Throwable error = catchThrowable(() -> iterables.assertContainsSubsequence(info, actual, subsequence));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verifyFailureThrownWhenSubsequenceNotFound(info, subsequence);
+    verifyFailureThrownWhenSubsequenceNotFound(info, subsequence, 0);
   }
 
   @Test
@@ -102,11 +123,11 @@ class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest {
     Throwable error = catchThrowable(() -> iterables.assertContainsSubsequence(info, actual, subsequence));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verifyFailureThrownWhenSubsequenceNotFound(info, subsequence);
+    verifyFailureThrownWhenSubsequenceNotFound(info, subsequence, 2);
   }
 
-  private void verifyFailureThrownWhenSubsequenceNotFound(AssertionInfo info, Object[] subsequence) {
-    verify(failures).failure(info, shouldContainSubsequence(actual, subsequence));
+  private void verifyFailureThrownWhenSubsequenceNotFound(AssertionInfo info, Object[] subsequence, int subsequenceIndex) {
+    verify(failures).failure(info, shouldContainSubsequence(actual, subsequence, subsequenceIndex));
   }
 
   @Test
@@ -150,7 +171,7 @@ class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest {
     Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(info, actual, subsequence));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainSubsequence(actual, subsequence, comparisonStrategy));
+    verify(failures).failure(info, shouldContainSubsequence(actual, subsequence, 0, comparisonStrategy));
   }
 
   @Test
@@ -161,7 +182,7 @@ class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest {
     Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(info, actual, subsequence));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainSubsequence(actual, subsequence, comparisonStrategy));
+    verify(failures).failure(info, shouldContainSubsequence(actual, subsequence, 2, comparisonStrategy));
   }
 
   @Test

@@ -28,6 +28,20 @@ public class ShouldContainSubsequence extends BasicErrorMessageFactory {
    * 
    * @param actual the actual value in the failed assertion.
    * @param subsequence the subsequence of values expected to be in {@code actual}.
+   * @param subsequenceIndex the index of the first token in {@code subsequence} that was not found in {@code actual}.
+   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldContainSubsequence(Iterable<?> actual, Object[] subsequence,
+      int subsequenceIndex, ComparisonStrategy comparisonStrategy) {
+    return new ShouldContainSubsequence(actual, subsequence, subsequenceIndex, comparisonStrategy);
+  }
+
+  /**
+   * Creates a new <code>{@link ShouldContainSubsequence}</code>.
+   *
+   * @param actual the actual value in the failed assertion.
+   * @param subsequence the subsequence of values expected to be in {@code actual}.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
@@ -47,7 +61,26 @@ public class ShouldContainSubsequence extends BasicErrorMessageFactory {
     return new ShouldContainSubsequence(actual, subsequence, StandardComparisonStrategy.instance());
   }
 
+  /**
+   * Creates a new <code>{@link ShouldContainSubsequence}</code>.
+   *
+   * @param actual the actual value in the failed assertion.
+   * @param subsequence the subsequence of values expected to be in {@code actual}.
+   * @param subsequenceIndex the index of the first token in {@code subsequence} that was not found in {@code actual}.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldContainSubsequence(Iterable<?> actual, Object[] subsequence,
+      int subsequenceIndex) {
+    return new ShouldContainSubsequence(actual, subsequence, subsequenceIndex, StandardComparisonStrategy.instance());
+  }
+
   private ShouldContainSubsequence(Object actual, Object subsequence, ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nto contain subsequence:%n  %s%n%s", actual, subsequence, comparisonStrategy);
+  }
+
+  private ShouldContainSubsequence(Iterable<?> actual, Object[] subsequence, int subsequenceIndex,
+      ComparisonStrategy comparisonStrategy) {
+    super("%nExpecting actual to contain the specified subsequence but failed to find subsequence element%n  %s%n(at subsequence index %s) in actual:%n  %s%nThe subsequence was:%n  %s%n%s",
+        subsequence[subsequenceIndex], subsequenceIndex, actual, subsequence, comparisonStrategy);
   }
 }

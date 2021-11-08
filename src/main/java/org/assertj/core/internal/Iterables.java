@@ -558,7 +558,9 @@ public class Iterables {
       if (areEqual(actualNext, subsequenceNext)) subsequenceIndex++;
     }
 
-    if (subsequenceIndex < subsequence.length) throw actualDoesNotContainSubsequence(info, actual, subsequence);
+    if (subsequenceIndex < subsequence.length) {
+      throw actualDoesNotContainSubsequence(info, actual, subsequence, subsequenceIndex);
+    }
   }
 
   public void assertContainsSubsequence(AssertionInfo info, Iterable<?> actual, List<?> subsequence) {
@@ -649,8 +651,9 @@ public class Iterables {
     return failures.failure(info, shouldNotContainSequence(actual, sequence, index, comparisonStrategy));
   }
 
-  private AssertionError actualDoesNotContainSubsequence(AssertionInfo info, Iterable<?> actual, Object[] subsequence) {
-    return failures.failure(info, shouldContainSubsequence(actual, subsequence, comparisonStrategy));
+  private AssertionError actualDoesNotContainSubsequence(AssertionInfo info, Iterable<?> actual, Object[] subsequence,
+                                                         int subsequenceIndex) {
+    return failures.failure(info, shouldContainSubsequence(actual, subsequence, subsequenceIndex, comparisonStrategy));
   }
 
   private AssertionError actualContainsSubsequence(AssertionInfo info, Iterable<?> actual, Object[] subsequence,
