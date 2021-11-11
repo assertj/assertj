@@ -21,13 +21,15 @@ import java.lang.annotation.Target;
 import org.assertj.core.api.BDDSoftAssertions;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.SoftAssertionsProvider;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
- * Annotation used with {@link SoftAssertionsExtension} for specify wich test instance fields should be initialised with
+ * Annotation used with {@link SoftAssertionsExtension} for specify which test instance fields should be initialised with
  * a {@link SoftAssertionsProvider} concrete implementation, for example {@link SoftAssertions}, {@link BDDSoftAssertions} or any
  * custom soft assertions class.
  */
 @Retention(RUNTIME)
 @Target(FIELD)
+@ExtendWith(SoftAssertionsExtension.class)
 public @interface InjectSoftAssertions {
 }
