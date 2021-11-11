@@ -2684,6 +2684,38 @@ public interface WithAssertions extends InstanceOfAssertFactories {
     return Assertions.catchThrowableOfType(shouldRaiseThrowable, type);
   }
 
+  default Exception catchException(ThrowingCallable shouldRaiseThrowable) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, Exception.class);
+  }
+
+  default RuntimeException catchRuntimeException(ThrowingCallable shouldRaiseThrowable) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, RuntimeException.class);
+  }
+
+  default NullPointerException catchNullPointerException(ThrowingCallable shouldRaiseThrowable) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, NullPointerException.class);
+  }
+
+  default IllegalArgumentException catchIllegalArgumentException(ThrowingCallable shouldRaiseThrowable) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, IllegalArgumentException.class);
+  }
+
+  default IOException catchIOException(ThrowingCallable shouldRaiseThrowable) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, IOException.class);
+  }
+
+  default ReflectiveOperationException catchReflectiveOperationException(ThrowingCallable shouldRaiseThrowable) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, ReflectiveOperationException.class);
+  }
+
+  default IllegalStateException catchIllegalStateException(ThrowingCallable shouldRaiseThrowable) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, IllegalStateException.class);
+  }
+
+  default IndexOutOfBoundsException catchIndexOutOfBoundsException(ThrowingCallable shouldRaiseThrowable) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, IndexOutOfBoundsException.class);
+  }
+
   /**
    * Entry point to check that an exception of type T is thrown by a given {@code throwingCallable}
    * which allows to chain assertions on the thrown exception.

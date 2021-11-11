@@ -1747,6 +1747,38 @@ public class BDDAssertions extends Assertions {
     return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, type);
   }
 
+  public static Exception catchException(ThrowingCallable shouldRaiseThrowable) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, Exception.class);
+  }
+  
+  public static RuntimeException catchRuntimeException(ThrowingCallable shouldRaiseThrowable) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, RuntimeException.class);
+  }
+
+  public static NullPointerException catchNullPointerException(ThrowingCallable shouldRaiseThrowable) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, NullPointerException.class);
+  }
+
+  public static IllegalArgumentException catchIllegalArgumentException(ThrowingCallable shouldRaiseThrowable) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, IllegalArgumentException.class);
+  }
+
+  public static IOException catchIOException(ThrowingCallable shouldRaiseThrowable) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, IOException.class);
+  }
+
+  public static ReflectiveOperationException catchReflectiveOperationException(ThrowingCallable shouldRaiseThrowable) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, ReflectiveOperationException.class);
+  }
+
+  public static IllegalStateException catchIllegalStateException(ThrowingCallable shouldRaiseThrowable) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, IllegalStateException.class);
+  }
+
+  public static IndexOutOfBoundsException catchIndexOutOfBoundsException(ThrowingCallable shouldRaiseThrowable) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, IndexOutOfBoundsException.class);
+  }
+
   /**
    * Entry point to check that an exception of type T is thrown by a given {@code throwingCallable}
    * which allows to chain assertions on the thrown exception.
