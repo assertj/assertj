@@ -208,10 +208,10 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Iterable&lt;Ring&gt; elvesRingsDifferentOrder = newArrayList(nenya, narya, vilya, vilya);
    *
    * // assertion will pass
-   * assertThat(elvesRings).containsExactlyInAnyOrder(elvesRingsDifferentOrder);
+   * assertThat(elvesRings).containsExactlyInAnyOrderElementsOf(elvesRingsDifferentOrder);
    *
    * // assertion will fail as vilya is contained twice in elvesRings.
-   * assertThat(elvesRings).containsExactlyInAnyOrder(elvesRingsSomeMissing);</code></pre>
+   * assertThat(elvesRings).containsExactlyInAnyOrderElementsOf(elvesRingsSomeMissing);</code></pre>
    * <p>
    * If you want to directly specify the elements to check, use {@link #containsExactlyInAnyOrder(Object...) containsExactlyInAnyOrder(Object...)} instead.
    *
