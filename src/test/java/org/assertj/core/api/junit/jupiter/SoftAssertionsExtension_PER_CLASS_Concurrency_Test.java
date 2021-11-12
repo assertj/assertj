@@ -117,17 +117,21 @@ public class SoftAssertionsExtension_PER_CLASS_Concurrency_Test {
       if (softly.wasSuccess()) {
         List<AssertionError> collected = collector.assertionErrorsCollected();
         softly.assertThat(collected).as("size").hasSize(3);
-        softly.assertThat(collected.get(0)).as("zero").hasMessageContainingAll("1", "0");
-        softly.assertThat(collected.get(1)).as("one").hasMessageContainingAll("3", "4");
-        softly.assertThat(collected.get(2)).as("two").hasMessageContainingAll("5", "6");
+        if (softly.wasSuccess()) {
+          softly.assertThat(collected.get(0)).as("zero").hasMessageContainingAll("1", "0");
+          softly.assertThat(collected.get(1)).as("one").hasMessageContainingAll("3", "4");
+          softly.assertThat(collected.get(2)).as("two").hasMessageContainingAll("5", "6");
+        }
       }
       collector = ConcurrencyTest.map.get("test2");
       softly.assertThat(collector).as("test2").isNotNull();
       if (softly.wasSuccess()) {
         List<AssertionError> collected = collector.assertionErrorsCollected();
         softly.assertThat(collected).as("size2").hasSize(2);
-        softly.assertThat(collected.get(0)).as("zero2").hasMessageContainingAll("2", "1");
-        softly.assertThat(collected.get(1)).as("one2").hasMessageContainingAll("4", "5");
+        if (softly.wasSuccess()) {
+          softly.assertThat(collected.get(0)).as("zero2").hasMessageContainingAll("2", "1");
+          softly.assertThat(collected.get(1)).as("one2").hasMessageContainingAll("4", "5");
+        }
       }
     }
   }
