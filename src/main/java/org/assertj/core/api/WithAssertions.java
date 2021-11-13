@@ -2684,36 +2684,220 @@ public interface WithAssertions extends InstanceOfAssertFactories {
     return Assertions.catchThrowableOfType(shouldRaiseThrowable, type);
   }
 
-  default Exception catchException(ThrowingCallable shouldRaiseThrowable) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, Exception.class);
+  /**
+   * Allows catching an instance of {@link Exception}.
+   * <p>
+   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null
+   * otherwise it checks that the caught {@link Throwable} is of type {@link Exception} and casts it making it convenient to perform subtype-specific assertions on it.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * Exception exception = catchException(() -&gt; {throw new Exception("boom!");});
+   * // assertions succeed
+   * assertThat(exception).hasMessage("boom!");
+   *
+   * // succeeds as catchException returns null when the code does not throw any exceptions
+   * assertThat(catchException(() -&gt; {})).isNull();
+   *
+   * // fails as the thrown instance is not an Exception
+   * catchException(() -&gt; {throw new Throwable("boom!");});
+   *
+   * @param shouldRaiseException The lambda with the code that should raise the exception.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
+   * @since 3.21.0
+   */
+  default Exception catchException(ThrowingCallable shouldRaiseException) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseException, Exception.class);
   }
 
-  default RuntimeException catchRuntimeException(ThrowingCallable shouldRaiseThrowable) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, RuntimeException.class);
+  /**
+   * Allows catching an instance of {@link RuntimeException}.
+   * <p>
+   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null
+   * otherwise it checks that the caught {@link Throwable} is of type {@link RuntimeException} and casts it making it convenient to perform subtype-specific assertions on it.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * RuntimeException runtimeException = catchRuntimeException(() -&gt; {throw new RuntimeException("boom!");});
+   * // assertions succeed
+   * assertThat(runtimeException).hasMessage("boom!");
+   *
+   * // succeeds as catchRuntimeException returns null when the code does not throw any exceptions
+   * assertThat(catchRuntimeException(() -&gt; {})).isNull();
+   *
+   * // fails as the thrown instance is not a RuntimeException
+   * catchRuntimeException(() -&gt; {throw new Exception("boom!");});
+   *
+   * @param shouldRaiseRuntimeException The lambda with the code that should raise the exception.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
+   * @since 3.21.0
+   */
+  default RuntimeException catchRuntimeException(ThrowingCallable shouldRaiseRuntimeException) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseRuntimeException, RuntimeException.class);
   }
 
-  default NullPointerException catchNullPointerException(ThrowingCallable shouldRaiseThrowable) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, NullPointerException.class);
+  /**
+   * Allows catching an instance of {@link NullPointerException}.
+   * <p>
+   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null
+   * otherwise it checks that the caught {@link Throwable} is of type {@link RuntimeException} and casts it making it convenient to perform subtype-specific assertions on it.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * NullPointerException nullPointerException = catchNullPointerException(() -&gt; {throw new NullPointerException("boom!");});
+   * // assertions succeed
+   * assertThat(nullPointerException).hasMessage("boom!");
+   *
+   * // succeeds as catchNullPointerException returns null when the code does not throw any exceptions
+   * assertThat(catchNullPointerException(() -&gt; {})).isNull();
+   *
+   * // fails as the thrown instance is not a NullPointerException
+   * catchNullPointerException(() -&gt; {throw new Exception("boom!");});
+   *
+   * @param shouldRaiseNullPointerException The lambda with the code that should raise the exception.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
+   * @since 3.21.0
+   */
+  default NullPointerException catchNullPointerException(ThrowingCallable shouldRaiseNullPointerException) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseNullPointerException, NullPointerException.class);
   }
 
-  default IllegalArgumentException catchIllegalArgumentException(ThrowingCallable shouldRaiseThrowable) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, IllegalArgumentException.class);
+  /**
+   * Allows catching an instance of {@link IllegalArgumentException}.
+   * <p>
+   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null
+   * otherwise it checks that the caught {@link Throwable} is of type {@link IllegalArgumentException} and casts it making it convenient to perform subtype-specific assertions on it.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * IllegalArgumentException illegalArgumentException = catchIllegalArgumentException(() -&gt; {throw new IllegalArgumentException("boom!");});
+   * // assertions succeed
+   * assertThat(illegalArgumentException).hasMessage("boom!");
+   *
+   * // succeeds as catchNullPointerException returns null when the code does not throw any exceptions
+   * assertThat(catchIllegalArgumentException(() -&gt; {})).isNull();
+   *
+   * // fails as the thrown instance is not an IllegalArgumentException
+   * catchIllegalArgumentException(() -&gt; {throw new Exception("boom!");});
+   *
+   * @param shouldRaiseIllegalArgumentException The lambda with the code that should raise the exception.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
+   * @since 3.21.0
+   */
+  default IllegalArgumentException catchIllegalArgumentException(ThrowingCallable shouldRaiseIllegalArgumentException) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseIllegalArgumentException, IllegalArgumentException.class);
   }
 
-  default IOException catchIOException(ThrowingCallable shouldRaiseThrowable) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, IOException.class);
+  /**
+   * Allows catching an instance of {@link IOException}.
+   * <p>
+   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null
+   * otherwise it checks that the caught {@link Throwable} is of type {@link IOException} and casts it making it convenient to perform subtype-specific assertions on it.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * IOException iOException = catchIOException(() -&gt; {throw new IOException("boom!");});
+   * // assertions succeed
+   * assertThat(iOException).hasMessage("boom!");
+   *
+   * // succeeds as catchIOException returns null when the code does not throw any exceptions
+   * assertThat(catchIOException(() -&gt; {})).isNull();
+   *
+   * // fails as the thrown instance is not an IOException
+   * catchIOException(() -&gt; {throw new Exception("boom!");});
+   *
+   * @param shouldRaiseIOException The lambda with the code that should raise the exception.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
+   * @since 3.21.0
+   */
+  default IOException catchIOException(ThrowingCallable shouldRaiseIOException) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseIOException, IOException.class);
   }
 
-  default ReflectiveOperationException catchReflectiveOperationException(ThrowingCallable shouldRaiseThrowable) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, ReflectiveOperationException.class);
+  /**
+   * Allows catching an instance of {@link ReflectiveOperationException}.
+   * <p>
+   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null
+   * otherwise it checks that the caught {@link Throwable} is of type {@link ReflectiveOperationException} and casts it making it convenient to perform subtype-specific assertions on it.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * ReflectiveOperationException reflectiveOperationException = catchReflectiveOperationException(() -&gt; {throw new ReflectiveOperationException("boom!");});
+   * // assertions succeed
+   * assertThat(reflectiveOperationException).hasMessage("boom!");
+   *
+   * // succeeds as catchReflectiveOperationException returns null when the code does not throw any exceptions
+   * assertThat(catchReflectiveOperationException(() -&gt; {})).isNull();
+   *
+   * // fails as the thrown instance is not an IOException
+   * catchReflectiveOperationException(() -&gt; {throw new Exception("boom!");});
+   *
+   * @param shouldRaiseReflectiveOperationException The lambda with the code that should raise the exception.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
+   * @since 3.21.0
+   */
+  default ReflectiveOperationException catchReflectiveOperationException(ThrowingCallable shouldRaiseReflectiveOperationException) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseReflectiveOperationException, ReflectiveOperationException.class);
   }
 
-  default IllegalStateException catchIllegalStateException(ThrowingCallable shouldRaiseThrowable) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, IllegalStateException.class);
+  /**
+   * Allows catching an instance of {@link IllegalStateException}.
+   * <p>
+   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null
+   * otherwise it checks that the caught {@link Throwable} is of type {@link IllegalStateException} and casts it making it convenient to perform subtype-specific assertions on it.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * IllegalStateException illegalStateException = catchIllegalStateException(() -&gt; {throw new IllegalStateException("boom!");});
+   * // assertions succeed
+   * assertThat(illegalStateException).hasMessage("boom!");
+   *
+   * // succeeds as catchReflectiveOperationException returns null when the code does not throw any exceptions
+   * assertThat(catchIllegalStateException(() -&gt; {})).isNull();
+   *
+   * // fails as the thrown instance is not an IOException
+   * catchIllegalStateException(() -&gt; {throw new Exception("boom!");});
+   *
+   * @param shouldRaiseIllegalStateException The lambda with the code that should raise the exception.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
+   * @since 3.21.0
+   */
+  default IllegalStateException catchIllegalStateException(ThrowingCallable shouldRaiseIllegalStateException) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseIllegalStateException, IllegalStateException.class);
   }
 
-  default IndexOutOfBoundsException catchIndexOutOfBoundsException(ThrowingCallable shouldRaiseThrowable) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, IndexOutOfBoundsException.class);
+  /**
+   * Allows catching an instance of {@link IndexOutOfBoundsException}.
+   * <p>
+   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null
+   * otherwise it checks that the caught {@link Throwable} is of type {@link IndexOutOfBoundsException} and casts it making it convenient to perform subtype-specific assertions on it.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * IndexOutOfBoundsException indexOutOfBoundsException = catchIndexOutOfBoundsException(() -&gt; {throw new IndexOutOfBoundsException("boom!");});
+   * // assertions succeed
+   * assertThat(indexOutOfBoundsException).hasMessage("boom!");
+   *
+   * // succeeds as catchIndexOutOfBoundsException returns null when the code does not throw any exceptions
+   * assertThat(catchIndexOutOfBoundsException(() -&gt; {})).isNull();
+   *
+   * // fails as the thrown instance is not an IOException
+   * catchIndexOutOfBoundsException(() -&gt; {throw new Exception("boom!");});
+   *
+   * @param shouldRaiseIndexOutOfBoundException The lambda with the code that should raise the exception.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
+   * @since 3.21.0
+   */
+  default IndexOutOfBoundsException catchIndexOutOfBoundsException(ThrowingCallable shouldRaiseIndexOutOfBoundException) {
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseIndexOutOfBoundException, IndexOutOfBoundsException.class);
   }
 
   /**
