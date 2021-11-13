@@ -117,6 +117,14 @@ class AbstractAssert_extracting_with_Function_and_AssertFactory_Test implements 
     then(error).isSameAs(explosion);
   }
 
+  @Test
+  void should_throw_assertion_error_if_actual_is_null(){
+    // WHEN
+    Throwable thrown = catchThrowable(()->assertThatObject(null).extracting(Object::getClass));
+    // THEN
+    then(thrown).isInstanceOf(AssertionError.class).hasMessageContaining("Expecting actual not to be null");
+  }
+
   @Override
   public TestAssert getAssertion() {
     return underTest;
