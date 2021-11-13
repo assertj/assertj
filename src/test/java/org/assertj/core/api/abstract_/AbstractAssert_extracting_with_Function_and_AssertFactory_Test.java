@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.abstract_;
 
+import static org.assertj.core.api.Assertions.assertThatObject;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_SEQUENCE;
@@ -115,6 +116,14 @@ class AbstractAssert_extracting_with_Function_and_AssertFactory_Test implements 
     Throwable error = catchThrowable(() -> underTest.extracting(bomb, Assertions::assertThat));
     // THEN
     then(error).isSameAs(explosion);
+  }
+
+  @Test
+  void should_throw_assertion_error_if_object_is_null(){
+    // WHEN
+    Throwable thrown = catchThrowable(()->assertThatObject(null).extracting(Object::getClass));
+    // THEN
+    then(thrown).isInstanceOf(AssertionError.class).hasMessageContaining("Expecting actual not to be null");
   }
 
   @Override

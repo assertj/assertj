@@ -37,10 +37,7 @@ import java.util.function.Supplier;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.description.Description;
-import org.assertj.core.error.AssertionErrorCreator;
-import org.assertj.core.error.BasicErrorMessageFactory;
-import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.error.MessageFormatter;
+import org.assertj.core.error.*;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Conditions;
 import org.assertj.core.internal.Failures;
@@ -1110,6 +1107,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
                                                                        AssertFactory<T, ASSERT> assertFactory) {
     requireNonNull(extractor, shouldNotBeNull("extractor")::create);
     requireNonNull(assertFactory, shouldNotBeNull("assertFactory")::create);
+    if (actual == null) {
+      throwAssertionError(ShouldNotBeNull.shouldNotBeNull());
+    }
     T extractedValue = extractor.apply(actual);
     return (ASSERT) assertFactory.createAssert(extractedValue).withAssertionState(myself);
   }
