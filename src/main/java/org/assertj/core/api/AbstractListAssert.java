@@ -152,7 +152,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
 
   /**
    * Verifies that the actual {@link List} contains a value at given {@code Index} that satisfies the given {@code requirements}.
-   * <p>
+   * <p>e
    * Example:
    * <pre><code class='java'> List&lt;TolkienCharacter&gt; ringBearers = newArrayList(frodo, elrond, gandalf);
    *

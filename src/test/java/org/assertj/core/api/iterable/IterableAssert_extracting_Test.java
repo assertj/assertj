@@ -32,6 +32,7 @@ import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRES
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TUPLE;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.sql.Timestamp;
@@ -129,6 +130,44 @@ class IterableAssert_extracting_Test {
     assertThat(jedis).extracting("name")
                      .as("null property")
                      .containsOnly(null, new Name("Luke", "Skywalker"));
+  }
+
+  @Test
+  void should_throw_a_proper_assertion_error_if_any_element_is_null_when_extracting_using_a_function(){
+    // GIVEN
+    yoda.setName(null);
+    // WHEN/THEN
+    assertThatExceptionOfType(AssertionError.class)
+      .isThrownBy(()->assertThat(jedis)
+        .extracting(firstNameFunction))
+      .withMessage(actualIsNull());
+
+    assertThatExceptionOfType(AssertionError.class)
+      .isThrownBy(()->assertThat(jedis)
+        .extracting(lastNameFunction))
+      .withMessage(actualIsNull());
+  }
+
+  @Test
+  void should_throw_a_proper_assertion_error_if_any_element_is_null_when_extracting_using_throwing_extractor(){
+    // GIVEN
+    yoda.setName(null);
+    // WHEN/THEN
+    assertThatExceptionOfType(AssertionError.class)
+      .isThrownBy(()->assertThat(jedis)
+        .extracting(throwingFirstNameExtractor))
+      .withMessage(actualIsNull());
+  }
+
+  @Test
+  void should_throw_a_proper_assertion_error_if_any_extracted_values_is_null_from_given_iterable_by_using_functions(){
+    // GIVEN
+    yoda.setName(null);
+    // WHEN/THEN
+    assertThatExceptionOfType(AssertionError.class)
+      .isThrownBy(()->assertThat(jedis)
+        .extracting(firstNameFunction,lastNameFunction))
+      .withMessage(actualIsNull());
   }
 
   @Test

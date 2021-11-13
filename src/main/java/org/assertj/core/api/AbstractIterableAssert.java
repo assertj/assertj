@@ -18,6 +18,7 @@ import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.description.Description.mostRelevantDescription;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOfMethod;
@@ -55,6 +56,7 @@ import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.condition.Not;
 import org.assertj.core.description.Description;
+import org.assertj.core.error.ShouldNotBeNull;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;
@@ -1391,8 +1393,15 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   private <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> internalExtracting(Function<? super ELEMENT, V> extractor) {
-    List<V> values = FieldsOrPropertiesExtractor.extract(actual, extractor);
-    return newListAssertInstanceForMethodsChangingElementType(values);
+    try{
+      List<V> values = FieldsOrPropertiesExtractor.extract(actual, extractor);
+      return newListAssertInstanceForMethodsChangingElementType(values);
+    }
+    catch(NullPointerException ex){
+      throwAssertionError(ShouldNotBeNull.shouldNotBeNull());
+    }
+    return null;
+
   }
 
   /**
@@ -1950,12 +1959,18 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   // in order to avoid compiler warning in user code
   protected AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extractingForProxy(Function<? super ELEMENT, ?>[] extractors) {
     // combine all extractors into one function
-    Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
-                                                                                          .map(extractor -> extractor.apply(objectToExtractValueFrom))
-                                                                                          .toArray());
-    List<Tuple> tuples = stream(actual.spliterator(), false).map(tupleExtractor)
-                                                            .collect(toList());
-    return newListAssertInstanceForMethodsChangingElementType(tuples);
+    try{
+      Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
+        .map(extractor -> extractor.apply(objectToExtractValueFrom))
+        .toArray());
+      List<Tuple> tuples = stream(actual.spliterator(), false).map(tupleExtractor)
+        .collect(toList());
+      return newListAssertInstanceForMethodsChangingElementType(tuples);
+    }
+    catch(NullPointerException ex){
+      throwAssertionError(ShouldNotBeNull.shouldNotBeNull());
+    }
+    return null;
   }
 
   /**
