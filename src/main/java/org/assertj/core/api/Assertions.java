@@ -1396,7 +1396,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * assertThat(catchException(() -&gt; {})).isNull();
    *
    * // fails as the thrown instance is not an Exception
-   * catchException(() -&gt; {throw new Throwable("boom!");});
+   * catchException(() -&gt; {throw new Throwable("boom!");});</code></pre>
    *
    * @param shouldRaiseException The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
@@ -1423,7 +1423,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * assertThat(catchRuntimeException(() -&gt; {})).isNull();
    *
    * // fails as the thrown instance is not a RuntimeException
-   * catchRuntimeException(() -&gt; {throw new Exception("boom!");});
+   * catchRuntimeException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
    * @param shouldRaiseRuntimeException The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
@@ -1450,7 +1450,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * assertThat(catchNullPointerException(() -&gt; {})).isNull();
    *
    * // fails as the thrown instance is not a NullPointerException
-   * catchNullPointerException(() -&gt; {throw new Exception("boom!");});
+   * catchNullPointerException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
    * @param shouldRaiseNullPointerException The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
@@ -1477,7 +1477,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * assertThat(catchIllegalArgumentException(() -&gt; {})).isNull();
    *
    * // fails as the thrown instance is not an IllegalArgumentException
-   * catchIllegalArgumentException(() -&gt; {throw new Exception("boom!");});
+   * catchIllegalArgumentException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
    * @param shouldRaiseIllegalArgumentException The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
@@ -1504,7 +1504,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * assertThat(catchIOException(() -&gt; {})).isNull();
    *
    * // fails as the thrown instance is not an IOException
-   * catchIOException(() -&gt; {throw new Exception("boom!");});
+   * catchIOException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
    * @param shouldRaiseIOException The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
@@ -1531,7 +1531,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * assertThat(catchReflectiveOperationException(() -&gt; {})).isNull();
    *
    * // fails as the thrown instance is not an IOException
-   * catchReflectiveOperationException(() -&gt; {throw new Exception("boom!");});
+   * catchReflectiveOperationException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
    * @param shouldRaiseReflectiveOperationException The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
@@ -1558,7 +1558,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * assertThat(catchIllegalStateException(() -&gt; {})).isNull();
    *
    * // fails as the thrown instance is not an IOException
-   * catchIllegalStateException(() -&gt; {throw new Exception("boom!");});
+   * catchIllegalStateException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
    * @param shouldRaiseIllegalStateException The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
@@ -1585,7 +1585,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * assertThat(catchIndexOutOfBoundsException(() -&gt; {})).isNull();
    *
    * // fails as the thrown instance is not an IOException
-   * catchIndexOutOfBoundsException(() -&gt; {throw new Exception("boom!");});
+   * catchIndexOutOfBoundsException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
    * @param shouldRaiseIndexOutOfBoundException The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
