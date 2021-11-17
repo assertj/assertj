@@ -54,14 +54,8 @@ import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -504,6 +498,8 @@ public class Maps {
   }
 
   public <K, V> void assertContainsExactly(AssertionInfo info, Map<K, V> actual, Entry<? extends K, ? extends V>[] entries) {
+    System.out.println(actual.toString());
+
     doCommonContainsCheck(info, actual, entries);
     if (actual.isEmpty() && entries.length == 0) return;
     failIfEntriesIsEmptySinceActualIsNotEmpty(info, actual, entries);
@@ -512,42 +508,70 @@ public class Maps {
     Set<Entry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
     Set<Entry<? extends K, ? extends V>> notExpected = new LinkedHashSet<>();
 
+    System.out.println("Start compareActualMapAndExpectedEntries...");
     compareActualMapAndExpectedEntries(actual, entries, notExpected, notFound);
 
     if (notExpected.isEmpty() && notFound.isEmpty()) {
+      System.out.println("Start checking entry order...");
       // check entries order
       int index = 0;
-      for (K keyFromActual : actual.keySet()) {
-        if (!deepEquals(keyFromActual, entries[index].getKey())) {
-          Entry<K, V> actualEntry = entry(keyFromActual, actual.get(keyFromActual));
-          throw failures.failure(info, elementsDifferAtIndex(actualEntry, entries[index], index));
+
+      if (!actual.getClass().toString().equals("class org.apache.commons.collections4.map.CaseInsensitiveMap")) {
+        for (K keyFromActual : actual.keySet()) {
+          if (!deepEquals(keyFromActual, entries[index].getKey())) {
+            Entry<K, V> actualEntry = entry(keyFromActual, actual.get(keyFromActual));
+            System.out.println("Entry order wrong!...");
+            throw failures.failure(info, elementsDifferAtIndex(actualEntry, entries[index], index));
+          }
+          index++;
         }
-        index++;
       }
+
       // all entries are in the same order.
       return;
     }
-
     throw failures.failure(info, shouldContainExactly(actual, asList(entries), notFound, notExpected));
   }
 
   private <K, V> void compareActualMapAndExpectedEntries(Map<K, V> actual, Entry<? extends K, ? extends V>[] entries,
                                                          Set<Entry<? extends K, ? extends V>> notExpected,
                                                          Set<Entry<? extends K, ? extends V>> notFound) {
-    Map<K, V> expectedEntries = entriesToMap(entries);
-    Map<K, V> actualEntries = new LinkedHashMap<>(actual);
-    for (Entry<K, V> entry : expectedEntries.entrySet()) {
-      if (containsEntry(actualEntries, entry(entry.getKey(), entry.getValue()))) {
-        // this is an expected entry
-        actualEntries.remove(entry.getKey());
-      } else {
-        // this is a not found entry
-        notFound.add(entry(entry.getKey(), entry.getValue()));
+
+    // test for case-insensitive map
+    if (actual.getClass().toString().equals("class org.apache.commons.collections4.map.CaseInsensitiveMap")) {
+
+      Map<String, V> expectedEntries = entriesToMap_caseInsensitive(entries);
+      Map<String, V> actualEntries = actualToCaseInsensitiveActual(actual);
+      for (Map.Entry<String, V> entry : expectedEntries.entrySet()) {
+        if (containsEntry(actualEntries, entry(entry.getKey(), entry.getValue()))) {
+          // this is an expected entry
+          actualEntries.remove(entry.getKey());
+        } else {
+          // this is a not found entry
+          notFound.add(entry((K) entry.getKey(), entry.getValue()));
+        }
       }
-    }
-    // All remaining entries from actual copy are not expected entries.
-    for (Entry<K, V> entry : actualEntries.entrySet()) {
-      notExpected.add(entry(entry.getKey(), entry.getValue()));
+      // All remaining entries from actual copy are not expected entries.
+      for (Entry<String, V> entry : actualEntries.entrySet()) {
+        notExpected.add(entry((K) entry.getKey(), entry.getValue()));
+      }
+
+    } else {
+      Map<K, V> expectedEntries = entriesToMap(entries);
+      Map<K, V> actualEntries = new LinkedHashMap<>(actual);
+      for (Entry<K, V> entry : expectedEntries.entrySet()) {
+        if (containsEntry(actualEntries, entry(entry.getKey(), entry.getValue()))) {
+          // this is an expected entry
+          actualEntries.remove(entry.getKey());
+        } else {
+          // this is a not found entry
+          notFound.add(entry(entry.getKey(), entry.getValue()));
+        }
+      }
+      // All remaining entries from actual copy are not expected entries.
+      for (Entry<K, V> entry : actualEntries.entrySet()) {
+        notExpected.add(entry(entry.getKey(), entry.getValue()));
+      }
     }
   }
 
@@ -576,6 +600,24 @@ public class Maps {
       expectedEntries.put(entry.getKey(), entry.getValue());
     }
     return expectedEntries;
+  }
+
+  private static <K, V> Map<String, V> entriesToMap_caseInsensitive(Entry<? extends K, ? extends V>[] entries) {
+    Map<String, V> expectedEntries = new LinkedHashMap<>();
+    for (Entry<? extends K, ? extends V> entry : entries) {
+      String key = ((String) entry.getKey()).toLowerCase();
+      expectedEntries.put(key, entry.getValue());
+    }
+    return expectedEntries;
+  }
+
+  private static <K, V> Map<String, V> actualToCaseInsensitiveActual(Map<K, V> actual) {
+    Map<String, V> actualCaseInsensitive = new LinkedHashMap<>();
+    for (Map.Entry<K, V> entry : actual.entrySet()) {
+      String key = ((String) entry.getKey()).toLowerCase();
+      actualCaseInsensitive.put(key, entry.getValue());
+    }
+    return actualCaseInsensitive;
   }
 
   private static <K> void failIfEmpty(K[] keys, String errorMessage) {
