@@ -12,23 +12,30 @@
  */
 package org.assertj.core.internal.paths;
 
+import static java.nio.file.Files.createFile;
 import static java.util.Collections.emptyList;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldContainRecursively.directoryShouldContainRecursively;
 import static org.assertj.core.error.ShouldExist.shouldExist;
+import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
-import static org.mockito.Mockito.verify;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.AbstractThrowableAssert;
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.ThrowableAssert;
+import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.internal.Paths;
-import org.assertj.core.internal.PathsSimpleBaseTest;
+import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -41,16 +48,24 @@ import org.junit.jupiter.params.provider.MethodSource;
  *
  * @author David Haccoun
  */
-class Paths_assertIsDirectoryRecursivelyContaining_Predicate_Test extends PathsSimpleBaseTest {
-
+class Paths_assertIsDirectoryRecursivelyContaining_Predicate_Test extends PathsBaseTest {
+  /**
+   * AssertionInfo
+   */
+  private static final AssertionInfo INFO = someInfo();
+  /**
+   * Filter
+   */
   private static final String THE_GIVEN_FILTER_DESCRIPTION = "the given filter";
 
+  /**
+   * Actual matches class
+   */
   @TestInstance(PER_CLASS)
   @Nested
-  class Actual_matches {
-
+    /* default */ class Actual_matches {
     @BeforeEach
-    void createFixturePaths() {
+      /* default */ void createFixturePaths() throws IOException {
       // @format:off
       // The layout:
       //  root
@@ -60,15 +75,25 @@ class Paths_assertIsDirectoryRecursivelyContaining_Predicate_Test extends PathsS
       //  |         |—— foobar2.json
       //  |—— foo2.data
       // @format:on
-      Path rootDir = createDirectoryWithDefaultParent("root", "foo2.data");
-      Path fooDir = createDirectory(rootDir, "foo");
-      createDirectory(fooDir, "foobar", "foobar1.data", "foobar2.json");
+      final Path rootDirPath = tempDir.resolve("root");
+      final Path rootDir = Files.createDirectory(rootDirPath);
+      createFile(createFoo2DataPath(rootDir));
+      final Path fooDir = Files.createDirectory(createFooDataPath(rootDir));
+      final Path foobar = Files.createDirectory(createFooBarPath(fooDir));
+      createFile(createFooBar1Path(foobar));
+      createFile(createFooBar2Path(foobar));
     }
+
+    private Path createFoo2DataPath(final Path rootDir) { return rootDir.resolve("foo2.data"); }
+    private Path createFooDataPath(final Path rootDir) { return rootDir.resolve("foo"); }
+    private Path createFooBarPath(final Path fooDir) { return fooDir.resolve("foobar"); }
+    private Path createFooBar1Path(final Path foobar) { return foobar.resolve("foobar1.data"); }
+    private Path createFooBar2Path(final Path foobar) { return foobar.resolve("foobar2.json"); }
 
     @ParameterizedTest
     @MethodSource("foundMatchProvider")
-    void should_pass_if_actual_contains_any_paths_matching_the_given_predicate(Predicate<Path> predicate) {
-      paths.assertIsDirectoryRecursivelyContaining(INFO, tempDir, predicate);
+    /* default */ void should_pass_if_actual_contains_any_paths_matching_the_given_predicate(final Predicate<Path> predicate) {
+      paths.assertIsDirectoryRecursivelyContaining(someInfo(), tempDir, predicate);
     }
 
     private Stream<Predicate<Path>> foundMatchProvider() {
@@ -81,49 +106,68 @@ class Paths_assertIsDirectoryRecursivelyContaining_Predicate_Test extends PathsS
   }
 
   @Test
-  void should_fail_if_actual_does_not_exist() {
+  /* default */ void should_fail_if_actual_does_not_exist() {
     // GIVEN
-    Path notExistingPath = tempDir.resolve("doesnt-exist-file");
-    Predicate<Path> anyPredicate = f -> true;
+    final Path notExistingPath = tempDir.resolve("non-existent-file");
+    final Predicate<Path> anyPredicate = f -> true;
     // WHEN
-    expectAssertionError(() -> paths.assertIsDirectoryRecursivelyContaining(INFO, notExistingPath, anyPredicate));
+    final AssertionError error = expectAssertionError(() -> paths.assertIsDirectoryRecursivelyContaining(INFO, notExistingPath, anyPredicate));
     // THEN
-    verify(failures).failure(INFO, shouldExist(notExistingPath));
+    final ErrorMessageFactory message = shouldExist(notExistingPath);
+    final String text = createMessage(message);
+    makeThrowableAssert(then(error), text);
   }
 
   @Test
-  void should_fail_if_actual_exists_but_is_not_a_directory() {
+  /* default */ void should_fail_if_actual_exists_but_is_not_a_directory() throws IOException {
     // GIVEN
-    Path rootDir = createDirectoryWithDefaultParent("root", "foo2.data");
-    Path existingPath = rootDir.resolve("foo2.data");
-    Predicate<Path> alwaysTrue = f -> true;
+    final Path rootDirPath = tempDir.resolve("root");
+    final Path rootDir = Files.createDirectory(rootDirPath);
+    final Path existingPath = createFile(createFoo2DataPath(rootDir));
+    final Predicate<Path> alwaysTrue = path -> true;
     // WHEN
-    expectAssertionError(() -> paths.assertIsDirectoryRecursivelyContaining(INFO, existingPath, alwaysTrue));
+    final AssertionError error = expectAssertionError(() -> paths.assertIsDirectoryRecursivelyContaining(INFO, existingPath, alwaysTrue));
     // THEN
-    verify(failures).failure(INFO, shouldBeDirectory(existingPath));
+    final ErrorMessageFactory message = shouldBeDirectory(existingPath);
+    final String text = createMessage(message);
+    makeThrowableAssert(then(error), text);
   }
 
   @Test
-  void should_fail_if_actual_is_empty() {
+  /* default */ void should_fail_if_actual_is_empty() {
     // GIVEN
-    Predicate<Path> alwaysTrue = f -> true;
+    final Predicate<Path> alwaysTrue = f -> true;
     // WHEN
-    expectAssertionError(() -> paths.assertIsDirectoryRecursivelyContaining(INFO, tempDir, alwaysTrue));
+    final AssertionError error = expectAssertionError(() -> paths.assertIsDirectoryRecursivelyContaining(INFO, tempDir, alwaysTrue));
     // THEN
-    verify(failures).failure(INFO, directoryShouldContainRecursively(tempDir, emptyList(), THE_GIVEN_FILTER_DESCRIPTION));
+    final ErrorMessageFactory message = directoryShouldContainRecursively(tempDir, emptyList(), THE_GIVEN_FILTER_DESCRIPTION);
+    final String text = createMessage(message);
+    makeThrowableAssert(then(error), text);
   }
 
   @Test
-  void should_fail_if_actual_does_not_contain_any_paths_matching_the_given_predicate() {
+  /* default */ void should_fail_if_actual_does_not_contain_any_paths_matching_the_given_predicate() throws IOException {
     // GIVEN
-    Path fooDir = createDirectory(tempDir, "foo", "foo2.data");
-    createDirectory(fooDir, "foo3");
-    Predicate<Path> alwaysFalse = f -> false;
+    final Path fooDirPath = tempDir.resolve("foo");
+    final Path fooDir = Files.createDirectory(fooDirPath);
+    final Path foo2Path = createFoo2DataPath(fooDir);
+    createFile(foo2Path);
+    final Path foo3Path = createFoo3DataPath(fooDir);
+    Files.createDirectory(foo3Path);
+    final Predicate<Path> alwaysFalse = f -> false;
     // WHEN
-    expectAssertionError(() -> paths.assertIsDirectoryRecursivelyContaining(INFO, tempDir, alwaysFalse));
+    final AssertionError error = expectAssertionError(() -> paths.assertIsDirectoryRecursivelyContaining(INFO, tempDir, alwaysFalse));
     // THEN
-    List<Path> fooDirContent = list(fooDir, fooDir.resolve("foo2.data"), fooDir.resolve("foo3"));
-    verify(failures).failure(INFO, directoryShouldContainRecursively(tempDir, fooDirContent, THE_GIVEN_FILTER_DESCRIPTION));
+    final List<Path> fooDirContent = list(fooDir, foo2Path, foo3Path);
+    final ErrorMessageFactory message = directoryShouldContainRecursively(tempDir, fooDirContent, THE_GIVEN_FILTER_DESCRIPTION);
+    final String text = createMessage(message);
+    makeThrowableAssert(then(error), text);
   }
+  private String createMessage(final ErrorMessageFactory error) { return error.create(); }
+  private ThrowableAssert makeThrowableAssert(final AbstractThrowableAssert throwableAssert, final String text) {
+    return (ThrowableAssert) throwableAssert.hasMessage(text);
+  }
+  private Path createFoo2DataPath(final Path dir) { return dir.resolve("foo2.data"); }
+  private Path createFoo3DataPath(final Path dir) { return dir.resolve("foo3"); }
 
 }
