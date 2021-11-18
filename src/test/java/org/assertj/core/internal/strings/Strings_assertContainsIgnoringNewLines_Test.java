@@ -35,9 +35,7 @@ class StringsassertContainsIgnoringNewLinesTest extends StringsBaseTest {
   @ParameterizedTest
   @ValueSource(strings = { "Al", "ice\nandBob", "Alice\nandBob", TESTSTRINGAB })
   /* default */ void shouldPassIfActualContainsValueWhenNewLinesAreIgnored(final String value) {
-    // GIVEN
-    final String actual = TESTSTRINGAB;
-    // WHEN / THEN
-    strings.assertContainsIgnoringNewLines(INFO, actual, value);
+    // GIVEN / WHEN / THEN
+    strings.assertContainsIgnoringNewLines(INFO, TESTSTRINGAB, value);
   }
 }

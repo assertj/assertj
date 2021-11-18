@@ -535,8 +535,6 @@ public class Strings {
    * @param info contains information about the assertion.
    * @param actual the actual {@code CharSequence}.
    * @param values the values to look for.
-   */
-  /**
    * @throws NullPointerException if the given sequence is {@code null}.
    * @throws IllegalArgumentException if the given values is empty.
    * @throws AssertionError if the given {@code CharSequence} is {@code null}.
@@ -549,7 +547,9 @@ public class Strings {
     final Stream<CharSequence> notFoundStream2 = mapContainsIgnoringNewLines(notFoundStream);
     final Stream<CharSequence> stream = filterContainsIgnoringNewLines(actualNoNewLines, notFoundStream2);
     final Set<CharSequence> notFound = collectContainsIgnoringNewLines(stream);
-    if (isEmptyContainsIgnoringNewLines(notFound)) { return; }
+    if (isEmptyContainsIgnoringNewLines(notFound)) {
+      return;
+    }
     final int one = 1;
     if (values.length == one) {
       throw failures.failure(info, containsIgnoringNewLines(actual, values[0], null, null, comparisonStrategy));
@@ -560,13 +560,16 @@ public class Strings {
   private Stream<CharSequence> mapContainsIgnoringNewLines(final Stream<CharSequence> notFoundStream) {
     return notFoundStream.map(Strings::removeNewLines);
   }
+
   private Stream<CharSequence> filterContainsIgnoringNewLines(final String actualNoNewLines,
                                                               final Stream<CharSequence> notFoundStream) {
     return notFoundStream.filter(value -> !stringContains(actualNoNewLines, value));
   }
+
   private Set<CharSequence> collectContainsIgnoringNewLines(final Stream<CharSequence> notFoundStream) {
     return notFoundStream.collect(toCollection(LinkedHashSet::new));
   }
+
   private boolean isEmptyContainsIgnoringNewLines(final Set<CharSequence> notFound) {
     return notFound.isEmpty();
   }
@@ -1137,7 +1140,7 @@ public class Strings {
     // should not arrive here since we this method is used from assertContainsSubsequence at a step where we know that toFind
     // was found and we are checking whether it was at the right place/order.
     throw new IllegalStateException(format("%s should have been found in %s, please raise an assertj-core issue", toFind,
-      string));
+                                           string));
   }
 
   public void assertXmlEqualsTo(AssertionInfo info, CharSequence actualXml, CharSequence expectedXml) {

@@ -184,7 +184,7 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
       result = new ShouldContainCharSequence("%n" +
                                              expectingActual +
                                              "  %s%n" +
-                                             "to contain (ignoring newlines):%n" +
+                                             "to contain (ignoring new lines):%n" +
                                              "  %s%n" +
                                              "but could not find:%n" +
                                              "  %s%n" +
@@ -192,11 +192,11 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
                                              actual, strings, notFound, comparisonWay);
     } else {
       result = new ShouldContainCharSequence("%n" +
-                                            expectingActual +
-                                            "  %s%n" +
-                                            "to contain (ignoring newlines):%n" +
-                                            "  %s %s",
-                                            actual, sequence, comparisonWay);
+                                             expectingActual +
+                                             "  %s%n" +
+                                             "to contain (ignoring new lines):%n" +
+                                             "  %s %s",
+                                             actual, sequence, comparisonWay);
     }
     return result;
   }
