@@ -22,8 +22,6 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.internal.util.collections.Sets.newSet;
 
-import org.assertj.core.api.AbstractStringAssert;
-import org.assertj.core.api.StringAssert;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
@@ -38,13 +36,10 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  */
 class ShouldContainCharSequence_create_Test {
-  /**
-   * Test string
-   */
   private final static String BOB = "Bob";
 
   @Test
-  /* default */ void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldContain("Yoda", "Luke");
     // WHEN
@@ -58,7 +53,7 @@ class ShouldContainCharSequence_create_Test {
   }
 
   @Test
-  /* default */ void should_create_error_message_with_custom_comparison_strategy() {
+  void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldContain("Yoda", "Luke",
                                                 new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
@@ -73,7 +68,7 @@ class ShouldContainCharSequence_create_Test {
   }
 
   @Test
-  /* default */ void should_create_error_message_when_ignoring_whitespaces() {
+  void should_create_error_message_when_ignoring_whitespaces() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainIgnoringWhitespaces("Yoda", "Luke", StandardComparisonStrategy.instance());
     // WHEN
@@ -87,7 +82,7 @@ class ShouldContainCharSequence_create_Test {
   }
 
   @Test
-  /* default */ void should_create_error_message_with_custom_comparison_strategy_when_ignoring_whitespaces() {
+  void should_create_error_message_with_custom_comparison_strategy_when_ignoring_whitespaces() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainIgnoringWhitespaces("Yoda", "Luke",
                                                                    new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
@@ -102,7 +97,7 @@ class ShouldContainCharSequence_create_Test {
   }
 
   @Test
-  /* default */ void should_create_error_message_when_ignoring_case() {
+  void should_create_error_message_when_ignoring_case() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainIgnoringCase("Yoda", "Luke");
     // WHEN
@@ -117,7 +112,7 @@ class ShouldContainCharSequence_create_Test {
   }
 
   @Test
-  /* default */ void should_create_error_message_with_several_CharSequence_values() {
+  void should_create_error_message_with_several_CharSequence_values() {
     // GIVEN
     CharSequence[] charSequences = array("Luke", "Vador", "Solo");
     ErrorMessageFactory factory = shouldContain("Yoda, Luke", charSequences, newSet("Vador", "Solo"));
@@ -134,7 +129,7 @@ class ShouldContainCharSequence_create_Test {
   }
 
   @Test
-  /* default */ void should_create_error_message_with_several_CharSequence_values_when_ignoring_whitespaces() {
+  void should_create_error_message_with_several_CharSequence_values_when_ignoring_whitespaces() {
     // GIVEN
     CharSequence[] charSequences = array("Luke", "Vador", "Solo");
     ErrorMessageFactory factory = shouldContainIgnoringWhitespaces("Yoda, Luke", charSequences, newSet("Vador", "Solo"),
@@ -152,22 +147,22 @@ class ShouldContainCharSequence_create_Test {
   }
 
   @Test
-  /* default */ void should_create_error_message_with_custom_comparison_strategy_when_ignoring_new_lines() {
+  void should_create_error_message_with_custom_comparison_strategy_when_ignoring_new_lines() {
     // GIVEN
     final ErrorMessageFactory factory = containsIgnoringNewLines("Alice", BOB, null, null,
                                                                  new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     // WHEN
     final String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    makeStringAssert(then(message), format("[Test] %n" +
-                                           "Expecting actual:%n" +
-                                           "  \"Alice\"%n" +
-                                           "to contain (ignoring new lines):%n" +
-                                           "  \"Bob\" when comparing values using CaseInsensitiveStringComparator"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Alice\"%n" +
+                                   "to contain (ignoring new lines):%n" +
+                                   "  \"Bob\" when comparing values using CaseInsensitiveStringComparator"));
   }
 
   @Test
-  /* default */ void should_create_error_message_with_several_CharSequence_values_when_ignoring_new_lines() {
+  void should_create_error_message_with_several_CharSequence_values_when_ignoring_new_lines() {
     // GIVEN
     final CharSequence[] charSequences = array("Alice", "Al", BOB);
     final ErrorMessageFactory factory = containsIgnoringNewLines("Alice\nBo", null, charSequences, newSet("Al", BOB),
@@ -175,16 +170,12 @@ class ShouldContainCharSequence_create_Test {
     // WHEN
     final String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    makeStringAssert(then(message), format("[Test] %n" +
-                                           "Expecting actual:%n" +
-                                           "  \"Alice%nBo\"%n" +
-                                           "to contain (ignoring new lines):%n" +
-                                           "  [\"Alice\", \"Al\", \"Bob\"]%n" +
-                                           "but could not find:%n" +
-                                           "  [\"Al\", \"Bob\"]%n "));
-  }
-
-  private StringAssert makeStringAssert(final AbstractStringAssert stringAssert, final String text) {
-    return (StringAssert) stringAssert.isEqualTo(text);
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Alice\nBo\"%n" +
+                                   "to contain (ignoring new lines):%n" +
+                                   "  [\"Alice\", \"Al\", \"Bob\"]%n" +
+                                   "but could not find:%n" +
+                                   "  [\"Al\", \"Bob\"]%n "));
   }
 }

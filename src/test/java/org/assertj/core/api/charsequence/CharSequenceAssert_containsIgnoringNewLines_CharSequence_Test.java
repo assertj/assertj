@@ -1,59 +1,42 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
- */
-/* Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- */
-/* Copyright 2012-2021 the original author or authors.
+ *
+ * Copyright 2012-2021 the original author or authors.
  */
 
 package org.assertj.core.api.charsequence;
 
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
-import org.assertj.core.internal.Strings;
 
 /**
  * Tests for <code>{@link
  * CharSequenceAssert#containsIgnoringNewLines(CharSequence...)}
  * (CharSequence...)}</code>.
  */
-@SuppressWarnings("PMD.ClassNamingConventions")
 class CharSequenceAssert_containsIgnoringNewLines_CharSequence_Test extends CharSequenceAssertBaseTest {
-  /** Unused constructor
-   */
-  public CharSequenceAssert_containsIgnoringNewLines_CharSequence_Test() {
-    super();
-  }
-
   @Override
   protected CharSequenceAssert invoke_api_method() {
     CharSequenceAssert result;
-
     try {
       result = assertions.containsIgnoringNewLines("Al", "Bob");
     } catch (CloneNotSupportedException e) {
-      result = assertions;
+      result = null;
     }
     return result;
   }
 
   @Override
   protected void verify_internal_effects() {
-    call(verify(strings), getInfo(assertions), getActual(assertions));
-  }
-
-  private void call(final Strings strings, final AssertionInfo info, final CharSequence actual) {
-    strings.assertContainsIgnoringNewLines(info, actual, "Al", "Bob");
+    verify(strings).assertContainsIgnoringNewLines(getInfo(assertions), getActual(assertions), "Al", "Bob");
   }
 }
