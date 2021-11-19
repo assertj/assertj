@@ -36,7 +36,6 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  */
 class ShouldContainCharSequence_create_Test {
-  private final static String BOB = "Bob";
 
   @Test
   void should_create_error_message() {
@@ -149,33 +148,33 @@ class ShouldContainCharSequence_create_Test {
   @Test
   void should_create_error_message_with_custom_comparison_strategy_when_ignoring_new_lines() {
     // GIVEN
-    final ErrorMessageFactory factory = containsIgnoringNewLines("Alice", BOB, null, null,
+    final ErrorMessageFactory factory = containsIgnoringNewLines("Yoda", "Luke", null, null,
                                                                  new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     // WHEN
     final String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting actual:%n" +
-                                   "  \"Alice\"%n" +
+                                   "  \"Yoda\"%n" +
                                    "to contain (ignoring new lines):%n" +
-                                   "  \"Bob\" when comparing values using CaseInsensitiveStringComparator"));
+                                   "  \"Luke\" when comparing values using CaseInsensitiveStringComparator"));
   }
 
   @Test
   void should_create_error_message_with_several_CharSequence_values_when_ignoring_new_lines() {
     // GIVEN
-    final CharSequence[] charSequences = array("Alice", "Al", BOB);
-    final ErrorMessageFactory factory = containsIgnoringNewLines("Alice\nBo", null, charSequences, newSet("Al", BOB),
+    final CharSequence[] charSequences = array("Vador", "Luke", "Solo");
+    final ErrorMessageFactory factory = containsIgnoringNewLines("Yoda\nLuke", null, charSequences, newSet("Vador", "Solo"),
                                                                  StandardComparisonStrategy.instance());
     // WHEN
     final String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting actual:%n" +
-                                   "  \"Alice\nBo\"%n" +
+                                   "  \"Yoda\nLuke\"%n" +
                                    "to contain (ignoring new lines):%n" +
-                                   "  [\"Alice\", \"Al\", \"Bob\"]%n" +
+                                   "  [\"Vador\", \"Luke\", \"Solo\"]%n" +
                                    "but could not find:%n" +
-                                   "  [\"Al\", \"Bob\"]%n "));
+                                   "  [\"Vador\", \"Solo\"]%n "));
   }
 }
