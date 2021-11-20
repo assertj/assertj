@@ -602,6 +602,12 @@ public class Maps {
     return expectedEntries;
   }
 
+  /**
+   * A method that convert the expected entries to a map for case-insensitive map comparison
+   *
+   * @param entries as the expected entries
+   * @return a LinkedHashMap where all keys are lower-cased string
+   */
   private static <K, V> Map<String, V> entriesToMap_caseInsensitive(Entry<? extends K, ? extends V>[] entries) {
     Map<String, V> expectedEntries = new LinkedHashMap<>();
     for (Entry<? extends K, ? extends V> entry : entries) {
@@ -611,6 +617,13 @@ public class Maps {
     return expectedEntries;
   }
 
+  /**
+   * A method that converts the input actual map to a LinkedHashMap with lower-case string keys
+   * so that its elements can be compared
+   *
+   * @param actual input case-insensitive map to be compared
+   * @return a LinkedHashMap where all keys are lower-cased string
+   */
   private static <K, V> Map<String, V> actualToCaseInsensitiveActual(Map<K, V> actual) {
     Map<String, V> actualCaseInsensitive = new LinkedHashMap<>();
     for (Map.Entry<K, V> entry : actual.entrySet()) {
