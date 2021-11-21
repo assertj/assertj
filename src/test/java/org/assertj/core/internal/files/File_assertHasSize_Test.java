@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
  */
 @DisplayName("Files.assertHasSize:")
 class File_assertHasSize_Test extends FilesBaseTest {
-
+  // random
   private static File actual;
 
   @BeforeAll
