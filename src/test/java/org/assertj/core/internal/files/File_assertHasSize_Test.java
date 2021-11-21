@@ -34,9 +34,9 @@ import org.junit.jupiter.api.Test;
  *
  * @author Krishna Chaithanya Ganta
  */
-@DisplayName("Files.assertHasSize:")
+@DisplayName("Files.assertHasSizeInBytes:")
 class File_assertHasSize_Test extends FilesBaseTest {
-  // random
+
   private static File actual;
 
   @BeforeAll
@@ -57,8 +57,9 @@ class File_assertHasSize_Test extends FilesBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> files.assertHasSizeInBytes(info, actual, 36L));
+    AssertionError error = expectAssertionError(() -> files.assertHasSizeInBytes(info, actual, 36L));
     // THEN
+    assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldHaveSize(actual, 36L));
   }
 
@@ -68,8 +69,9 @@ class File_assertHasSize_Test extends FilesBaseTest {
     AssertionInfo info = someInfo();
     File notAFile = new File("xyz");
     // WHEN
-    expectAssertionError(() -> files.assertHasSizeInBytes(info, notAFile, 36L));
+    AssertionError error = expectAssertionError(() -> files.assertHasSizeInBytes(info, notAFile, 36L));
     // THEN
+    assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeFile(notAFile));
   }
 

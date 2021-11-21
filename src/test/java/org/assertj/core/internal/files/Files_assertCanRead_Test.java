@@ -18,15 +18,14 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.io.File;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -36,6 +35,7 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * 
  */
+@DisplayName("Files.assertCanRead:")
 class Files_assertCanRead_Test extends FilesBaseTest {
 
   @Test
@@ -46,10 +46,10 @@ class Files_assertCanRead_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_can_not_read() {
-    when(actual.canRead()).thenReturn(false);
+    File notAFile = new File("xyz");
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> files.assertCanRead(info, actual));
+    Throwable error = catchThrowable(() -> files.assertCanRead(info, notAFile));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeReadable(actual));
@@ -57,7 +57,7 @@ class Files_assertCanRead_Test extends FilesBaseTest {
 
   @Test
   void should_pass_if_actual_can_read() {
-    when(actual.canRead()).thenReturn(true);
+    File actual = new File("src/test/resources/actual_file.txt");
     files.assertCanRead(someInfo(), actual);
   }
 

@@ -27,6 +27,7 @@ import java.io.File;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -36,6 +37,7 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * 
  */
+@DisplayName("Files.assertCanWrite:")
 class Files_assertCanWrite_Test extends FilesBaseTest {
 
   @Test
@@ -46,7 +48,7 @@ class Files_assertCanWrite_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_can_not_write() {
-    when(actual.canWrite()).thenReturn(false);
+    File actual = new File("xyz");
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> files.assertCanWrite(info, actual));
@@ -57,7 +59,7 @@ class Files_assertCanWrite_Test extends FilesBaseTest {
 
   @Test
   void should_pass_if_actual_can_write() {
-    when(actual.canWrite()).thenReturn(true);
+    File actual = new File("src/test/resources/to_write.txt");
     files.assertCanWrite(someInfo(), actual);
   }
 
