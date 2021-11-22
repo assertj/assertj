@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
@@ -36,6 +37,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.DigestDiff;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -43,6 +45,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valeriy Vyrva
  */
+@DisplayName("Files.assertHasDigest_DigestString:")
 class Files_assertHasDigest_DigestString_Test extends FilesBaseTest {
   private final MessageDigest digest = mock(MessageDigest.class);
   private final String expected = "";
