@@ -33,7 +33,7 @@
     <byte-buddy.version>1.12.1</byte-buddy.version>
     <hamcrest.version>2.2</hamcrest.version>
     <opentest4j.version>1.2.0</opentest4j.version>
-    <bnd.version>6.0.0</bnd.version>
+    <bnd.version>6.1.0</bnd.version>
     <cdg.pitest.version>0.1.0</cdg.pitest.version>
     <!-- Dependency versions overriding -->
     <junit.version>4.13.2</junit.version>
