@@ -19,6 +19,7 @@ import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
+import static org.assertj.core.util.Files.newFile;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -27,6 +28,7 @@ import java.io.File;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -35,6 +37,7 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
+@DisplayName("Files.assertIsDirectory:")
 class Files_assertIsDirectory_Test extends FilesBaseTest {
 
   @Test
@@ -45,7 +48,7 @@ class Files_assertIsDirectory_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_actual_is_not_directory() {
-    when(actual.isDirectory()).thenReturn(false);
+    File actual = newFile(tempDir.getAbsolutePath() + "/file.txt");
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> files.assertIsDirectory(info, actual));
@@ -56,7 +59,7 @@ class Files_assertIsDirectory_Test extends FilesBaseTest {
 
   @Test
   void should_pass_if_actual_is_directory() {
-    when(actual.isDirectory()).thenReturn(true);
+    File actual = tempDir;
     files.assertIsDirectory(someInfo(), actual);
   }
 }
