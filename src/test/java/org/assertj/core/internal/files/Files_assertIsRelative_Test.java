@@ -28,6 +28,7 @@ import java.io.File;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -36,6 +37,7 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
+@DisplayName("Files.assertIsRelative:")
 class Files_assertIsRelative_Test extends FilesBaseTest {
 
   @Test
@@ -58,7 +60,6 @@ class Files_assertIsRelative_Test extends FilesBaseTest {
   @Test
   void should_pass_if_actual_is_relative_path() {
     File actual = new File("src/test/resources/actual_file.txt");
-//    when(actual.isAbsolute()).thenReturn(false);
     files.assertIsRelative(someInfo(), actual);
   }
 }

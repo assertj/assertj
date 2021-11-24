@@ -24,10 +24,11 @@ import java.io.File;
 import java.io.IOException;
 
 import org.assertj.core.internal.FilesBaseTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-
+@DisplayName("Files.assertHasNoExtension:")
 class Files_assertHasNoExtension_Test extends FilesBaseTest {
 
   @Test
@@ -62,7 +63,6 @@ class Files_assertHasNoExtension_Test extends FilesBaseTest {
   @Test
   void should_fail_if_actual_has_extension() {
     // GIVEN
-//    File actual = new File("src/test/resources/ascii.txt");
     File actual = newFile(tempDir.getAbsolutePath() + "/text.txt");
     // WHEN
     AssertionError error = expectAssertionError(() -> files.assertHasNoExtension(INFO, actual));

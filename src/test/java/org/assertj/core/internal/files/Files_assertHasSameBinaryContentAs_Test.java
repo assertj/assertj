@@ -38,7 +38,7 @@ import org.assertj.core.internal.FilesBaseTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-@DisplayName("Files.assertHasSameBinaryContentAs")
+@DisplayName("Files.assertHasSameBinaryContentAs:")
 class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
 
   private static File actual;

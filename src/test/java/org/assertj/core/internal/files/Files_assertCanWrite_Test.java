@@ -19,6 +19,7 @@ import static org.assertj.core.error.ShouldBeWritable.shouldBeWritable;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
+import static org.assertj.core.util.Files.newFile;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -59,7 +60,7 @@ class Files_assertCanWrite_Test extends FilesBaseTest {
 
   @Test
   void should_pass_if_actual_can_write() {
-    File actual = new File("src/test/resources/to_write.txt");
+    File actual = newFile(tempDir.getAbsolutePath() + "to_write.txt");
     files.assertCanWrite(someInfo(), actual);
   }
 
