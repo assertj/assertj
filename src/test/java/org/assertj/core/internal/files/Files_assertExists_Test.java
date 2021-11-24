@@ -27,6 +27,7 @@ import java.io.File;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -35,6 +36,7 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
+@DisplayName("Files.assertExists:")
 class Files_assertExists_Test extends FilesBaseTest {
 
   @Test
@@ -45,7 +47,7 @@ class Files_assertExists_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_actual_does_not_exist() {
-    when(actual.exists()).thenReturn(false);
+    File actual = new File("xyz");
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> files.assertExists(info, actual));
@@ -56,7 +58,7 @@ class Files_assertExists_Test extends FilesBaseTest {
 
   @Test
   void should_pass_if_actual_exists() {
-    when(actual.exists()).thenReturn(true);
+    File actual = new File("src/test/resources/actual_file.txt");
     files.assertExists(someInfo(), actual);
   }
 }

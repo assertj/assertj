@@ -20,7 +20,9 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
+import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -36,12 +38,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.BinaryDiffResult;
+import org.assertj.core.internal.Diff;
 import org.assertj.core.internal.FilesBaseTest;
 import org.assertj.core.util.Files;
-import org.assertj.core.util.Lists;
 import org.assertj.core.util.diff.Delta;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -50,6 +52,7 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
+@DisplayName("Files.assertSameContentAs:")
 class Files_assertSameContentAs_Test extends FilesBaseTest {
 
   private static File actual;
@@ -115,15 +118,15 @@ class Files_assertSameContentAs_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_files_do_not_have_equal_content() throws IOException {
-    List<Delta<String>> diffs = Lists.newArrayList(delta);
-    when(diff.diff(actual, defaultCharset(), expected, defaultCharset())).thenReturn(diffs);
-    when(binaryDiff.diff(actual, readAllBytes(expected.toPath()))).thenReturn(new BinaryDiffResult(1, -1, -1));
+    Diff diff = new Diff();
+    List<Delta<String>> diffs = diff.diff(actual, defaultCharset(), expected, defaultCharset());
+
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> files.assertSameContentAs(info, actual, defaultCharset(), expected, defaultCharset()));
+    Throwable error = catchThrowable(() -> unMockedFiles.assertSameContentAs(info, actual, defaultCharset(), expected, defaultCharset()));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveSameContent(actual, expected, diffs));
+    then(error).hasMessage(shouldHaveSameContent(actual, expected, diffs).create(info.description(), info.representation()));
   }
 
   @Test
