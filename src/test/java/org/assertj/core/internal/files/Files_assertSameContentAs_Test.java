@@ -52,7 +52,6 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-@DisplayName("Files.assertSameContentAs:")
 class Files_assertSameContentAs_Test extends FilesBaseTest {
 
   private static File actual;

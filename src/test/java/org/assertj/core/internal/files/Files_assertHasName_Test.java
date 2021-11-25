@@ -37,7 +37,6 @@ import java.io.File;
  * 
  * @author Jean-Christophe Gay
  */
-@DisplayName("Files.assertHasName:")
 class Files_assertHasName_Test extends FilesBaseTest {
 
   private String expectedName = "expected.name";

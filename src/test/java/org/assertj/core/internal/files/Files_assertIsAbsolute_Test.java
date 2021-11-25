@@ -37,7 +37,6 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-@DisplayName("Files.assertIsAbsolute:")
 class Files_assertIsAbsolute_Test extends FilesBaseTest {
 
   @Test

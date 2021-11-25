@@ -39,7 +39,6 @@ import static org.mockito.Mockito.when;
  * 
  * @author Jean-Christophe Gay
  */
-@DisplayName("Files.assertHasParent:")
 class Files_assertHasParent_Test extends FilesBaseTest {
 
   private File actual = new File("./some/test");

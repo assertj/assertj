@@ -49,7 +49,6 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valeriy Vyrva
  */
-@DisplayName("Files.assertHasDigest_AlgorithmString:")
 class Files_assertHasDigest_AlgorithmString_Test extends FilesBaseTest {
   private final String algorithm = "MD5";
   private final String expected = "";

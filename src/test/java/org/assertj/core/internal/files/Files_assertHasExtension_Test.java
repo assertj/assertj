@@ -37,7 +37,6 @@ import org.junit.jupiter.params.provider.ValueSource;
  * 
  * @author Jean-Christophe Gay
  */
-@DisplayName("Files.assertHasExtension:")
 class Files_assertHasExtension_Test extends FilesBaseTest {
 
   private final String expectedExtension = "java";
@@ -68,9 +67,8 @@ class Files_assertHasExtension_Test extends FilesBaseTest {
     // GIVEN
     File actual = tempDir;
     // WHEN
-    AssertionError error = expectAssertionError(() -> files.assertHasExtension(INFO, actual, expectedExtension));
+    expectAssertionError(() -> files.assertHasExtension(INFO, actual, expectedExtension));
     // THEN
-    assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(INFO, shouldBeFile(actual));
   }
 
@@ -79,9 +77,8 @@ class Files_assertHasExtension_Test extends FilesBaseTest {
     // GIVEN
     File actual = newFile(tempDir.getAbsolutePath() + "/file.png");
     // WHEN
-    AssertionError error = expectAssertionError(() -> files.assertHasExtension(INFO, actual, expectedExtension));
+    expectAssertionError(() -> files.assertHasExtension(INFO, actual, expectedExtension));
     // THEN
-    assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(INFO, shouldHaveExtension(actual, "png", expectedExtension));
   }
 

@@ -46,7 +46,6 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valeriy Vyrva
  */
-@DisplayName("Files.assertIsDirectoryNotContaining_SyntaxAndPattern:")
 class Files_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends FilesBaseTest {
 
   private static final String JAVA_SOURCE_PATTERN = "regex:.+\\.java";

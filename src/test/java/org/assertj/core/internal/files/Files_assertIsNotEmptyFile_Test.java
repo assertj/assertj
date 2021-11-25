@@ -34,7 +34,6 @@ import static org.mockito.BDDMockito.verifyNoInteractions;
 /**
  * Tests for <code>{@link Files#assertIsNotEmptyFile(AssertionInfo, File)}</code>
  */
-@DisplayName("Files assertIsNotEmptyFile")
 class Files_assertIsNotEmptyFile_Test extends FilesBaseTest {
 
   @Test

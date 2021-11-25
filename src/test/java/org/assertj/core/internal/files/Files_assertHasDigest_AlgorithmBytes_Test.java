@@ -49,7 +49,6 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valeriy Vyrva
  */
-@DisplayName("Files.assertHasDigest_AlgorithmBytes:")
 class Files_assertHasDigest_AlgorithmBytes_Test extends FilesBaseTest {
   private final String algorithm = "MD5";
   private final byte[] expected = new byte[0];

@@ -38,7 +38,6 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * 
  */
-@DisplayName("Files.assertCanWrite:")
 class Files_assertCanWrite_Test extends FilesBaseTest {
 
   @Test

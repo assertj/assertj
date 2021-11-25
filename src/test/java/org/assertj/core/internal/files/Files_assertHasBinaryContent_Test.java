@@ -47,7 +47,6 @@ import org.junit.jupiter.api.Test;
  * @author Olivier Michallat
  * @author Joel Costigliola
  */
-@DisplayName("Files.assertHasBinaryContent")
 class Files_assertHasBinaryContent_Test extends FilesBaseTest {
 
   private static File actual;

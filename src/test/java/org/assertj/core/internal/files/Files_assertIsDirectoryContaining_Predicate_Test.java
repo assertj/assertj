@@ -43,7 +43,6 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valeriy Vyrva
  */
-@DisplayName("Files.assertIsDirectoryContaining_Predicate:")
 class Files_assertIsDirectoryContaining_Predicate_Test extends FilesBaseTest {
 
   private static final Predicate<File> JAVA_SOURCE = file -> file.getName().endsWith(".java");

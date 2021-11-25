@@ -36,7 +36,6 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-@DisplayName("Files.assertExists:")
 class Files_assertExists_Test extends FilesBaseTest {
 
   @Test

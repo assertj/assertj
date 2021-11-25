@@ -50,7 +50,6 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valeriy Vyrva
  */
-@DisplayName("Files.assertIsDirectoryContaining_SyntaxAndPattern:")
 class Files_assertIsDirectoryContaining_SyntaxAndPattern_Test extends FilesBaseTest {
 
   private static final String JAVA_SOURCE_PATTERN = "regex:.+\\.java";
@@ -61,7 +60,6 @@ class Files_assertIsDirectoryContaining_SyntaxAndPattern_Test extends FilesBaseT
     // GIVEN
     File actual = newFolder(tempDir.getAbsolutePath() + "/folder");
     newFile(actual.getAbsolutePath() + "/Test.java");
-//    mockPathMatcher(actual);
     //WHEN/THEN
     files.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE_PATTERN);
   }
@@ -72,7 +70,6 @@ class Files_assertIsDirectoryContaining_SyntaxAndPattern_Test extends FilesBaseT
     File actual = newFolder(tempDir.getAbsolutePath() + "/folder");
     newFile(actual.getAbsolutePath() + "/Test.java");
     newFile(actual.getAbsolutePath() + "/Utils.java");
-//    mockPathMatcher(actual);
     //WHEN/THEN
     files.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE_PATTERN);
   }
