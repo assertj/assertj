@@ -47,7 +47,6 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valeriy Vyrva
  */
-@DisplayName("Files.assertHasDigest_DigestString:")
 class Files_assertHasDigest_DigestString_Test extends FilesBaseTest {
   private final MessageDigest digest = mock(MessageDigest.class);
   private final String expected = "";

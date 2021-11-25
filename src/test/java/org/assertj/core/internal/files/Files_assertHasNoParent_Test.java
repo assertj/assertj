@@ -34,7 +34,6 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Jean-Christophe Gay
  */
-@DisplayName("Files.assertHasNoParent:")
 class Files_assertHasNoParent_Test extends FilesBaseTest {
 
   @Test

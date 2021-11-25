@@ -38,7 +38,6 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-@DisplayName("Files.assertIsFile:")
 class Files_assertIsFile_Test extends FilesBaseTest {
 
   @Test

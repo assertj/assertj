@@ -51,7 +51,6 @@ import org.junit.jupiter.api.Test;
  * @author Olivier Michallat
  * @author Joel Costigliola
  */
-@DisplayName("Files.assertHasContent:")
 class Files_assertHasContent_Test extends FilesBaseTest {
 
   private static File actual;

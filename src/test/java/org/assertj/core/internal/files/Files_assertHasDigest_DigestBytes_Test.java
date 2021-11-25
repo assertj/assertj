@@ -48,7 +48,6 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valeriy Vyrva
  */
-@DisplayName("Files.assertHasDigest_DigestBytes:")
 class Files_assertHasDigest_DigestBytes_Test extends FilesBaseTest {
   private final MessageDigest digest = mock(MessageDigest.class);
   private final byte[] expected = new byte[0];

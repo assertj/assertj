@@ -37,7 +37,6 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Valeriy Vyrva
  */
-@DisplayName("Files.assertIsEmptyDirectory:")
 class Files_assertIsEmptyDirectory_Test extends FilesBaseTest {
 
   @Test

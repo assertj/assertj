@@ -35,7 +35,6 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * 
  */
-@DisplayName("Files.assertCanRead:")
 class Files_assertCanRead_Test extends FilesBaseTest {
 
   @Test
