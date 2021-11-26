@@ -204,6 +204,31 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
+   * Returns a new list assertion of every cause in the chain of causes.
+   * The list is ordered from the current {@link Throwable} up to the root cause.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable rootCause = new JdbcException("invalid query");
+   * Throwable cause =  new RuntimeException("some failure", rootCause);
+   * Throwable throwable = new Exception("boom!", cause);
+   *
+   * // typical use:
+   * assertThat(throwable).asCausesChain()
+   *                      .extracting(Throwable::getMessage)
+   *                      .anyMatch("some failure");</code></pre>
+   *
+   * @return a new assertion object
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} does not have a cause.
+   *
+   * @since 3.16.0
+   */
+  public ListAssert<Throwable> asCausesChain() {
+    throwables.assertHasCause(info, actual);
+    return AssertionsForInterfaceTypes.assertThat(org.assertj.core.util.Throwables.getCausesChain(actual));
+  }
+
+  /**
    * Verifies that the message of the actual {@code Throwable} starts with the given description.
    * <p>
    * Examples:

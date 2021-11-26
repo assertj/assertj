@@ -21,8 +21,10 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 /**
  * Utility methods related to <code>{@link Throwable}</code>s.
@@ -146,6 +148,21 @@ public final class Throwables {
     while ((cause = throwable.getCause()) != null)
       throwable = cause;
     return throwable;
+  }
+
+  /**
+   * Get the causes chain of a {@link Throwable}.
+   *
+   * @param throwable the {@code Throwable} to get causes chain from.
+   * @return the causes chain, including the {@link Throwable} provided as parameter.
+   */
+  public static List<Throwable> getCausesChain(Throwable throwable) {
+    List<Throwable> throwables = new ArrayList<>();
+    while (throwable != null) {
+      throwables.add(throwable);
+      throwable = throwable.getCause();
+    }
+    return throwables;
   }
 
   /**
