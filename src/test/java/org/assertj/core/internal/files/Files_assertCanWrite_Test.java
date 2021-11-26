@@ -12,23 +12,18 @@
  */
 package org.assertj.core.internal.files;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.error.ShouldBeWritable.shouldBeWritable;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
 import static org.assertj.core.util.Files.newFile;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.io.File;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -38,7 +33,6 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * 
  */
-@DisplayName("Files.assertCanWrite:")
 class Files_assertCanWrite_Test extends FilesBaseTest {
 
   @Test
@@ -49,11 +43,12 @@ class Files_assertCanWrite_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_can_not_write() {
+    // GIVEN
     File actual = new File("xyz");
     AssertionInfo info = someInfo();
-
+    // WHEN
     Throwable error = catchThrowable(() -> files.assertCanWrite(info, actual));
-
+    // THEN
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeWritable(actual));
   }

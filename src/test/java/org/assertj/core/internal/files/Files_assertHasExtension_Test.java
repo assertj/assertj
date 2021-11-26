@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.files;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
@@ -25,7 +24,6 @@ import static org.mockito.Mockito.verify;
 import java.io.File;
 
 import org.assertj.core.internal.FilesBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -37,7 +35,6 @@ import org.junit.jupiter.params.provider.ValueSource;
  * 
  * @author Jean-Christophe Gay
  */
-@DisplayName("Files.assertHasExtension:")
 class Files_assertHasExtension_Test extends FilesBaseTest {
 
   private final String expectedExtension = "java";
@@ -68,9 +65,8 @@ class Files_assertHasExtension_Test extends FilesBaseTest {
     // GIVEN
     File actual = tempDir;
     // WHEN
-    AssertionError error = expectAssertionError(() -> files.assertHasExtension(INFO, actual, expectedExtension));
+    expectAssertionError(() -> files.assertHasExtension(INFO, actual, expectedExtension));
     // THEN
-    assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(INFO, shouldBeFile(actual));
   }
 
@@ -79,9 +75,8 @@ class Files_assertHasExtension_Test extends FilesBaseTest {
     // GIVEN
     File actual = newFile(tempDir.getAbsolutePath() + "/file.png");
     // WHEN
-    AssertionError error = expectAssertionError(() -> files.assertHasExtension(INFO, actual, expectedExtension));
+    expectAssertionError(() -> files.assertHasExtension(INFO, actual, expectedExtension));
     // THEN
-    assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(INFO, shouldHaveExtension(actual, "png", expectedExtension));
   }
 

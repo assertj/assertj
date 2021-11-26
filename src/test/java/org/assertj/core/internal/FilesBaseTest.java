@@ -53,6 +53,7 @@ public class FilesBaseTest {
   protected Failures failures;
   protected Files files;
   protected Files unMockedFiles;
+  protected Failures unMockedFailures;
   protected Diff diff;
   protected Delta<String> delta;
   protected BinaryDiff binaryDiff;
@@ -63,9 +64,11 @@ public class FilesBaseTest {
   public void setUp() {
     actual = mock(File.class);
     failures = spy(new Failures());
+    unMockedFailures = spy(new Failures());
     files = new Files();
     unMockedFiles = new Files();
     files.failures = failures;
+    unMockedFiles.failures = unMockedFailures;
     diff = mock(Diff.class);
     delta = mock(Delta.class);
     when(delta.toString()).thenReturn("Extra lines at line 2 : [line1a, line1b]");

@@ -17,28 +17,23 @@ import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
-import static org.assertj.core.internal.BinaryDiffResult.noDiff;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Files.newFile;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BinaryDiff;
 import org.assertj.core.internal.BinaryDiffResult;
 import org.assertj.core.internal.FilesBaseTest;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-@DisplayName("Files.assertHasSameBinaryContentAs:")
 class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
 
   private static File actual;
@@ -55,7 +50,7 @@ class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
 
   @Test
   void should_pass_if_file_has_expected_binary_content() throws IOException {
-    // GIVEN
+    // GIVEN/WHEN
     byte[] data = "some content".getBytes();
 
     File actual = newFile(tempDir.getAbsolutePath() + "/actual.txt");
@@ -68,13 +63,13 @@ class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
       myWriter.write(data, 0, data.length);
     }
 
-    // WHEN/THEN
+    // THEN
     unMockedFiles.assertSameBinaryContentAs(someInfo(), actual, expected);
   }
 
   @Test
   void should_throw_error_if_expected_is_null() {
-    // GIVEn/WHEN
+    // GIVEN/WHEN
     NullPointerException npe = catchThrowableOfType(() -> files.assertSameBinaryContentAs(someInfo(), actual, null),
                                                     NullPointerException.class);
     // THEN
@@ -128,9 +123,8 @@ class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
     BinaryDiff binaryDiff = new BinaryDiff();
     BinaryDiffResult diff = binaryDiff.diff(actual, expectedBytes);
     // WHEN
-    AssertionInfo info = someInfo();
-    AssertionError error = expectAssertionError(() -> unMockedFiles.assertSameBinaryContentAs(someInfo(), actual, expected));
+    expectAssertionError(() -> unMockedFiles.assertSameBinaryContentAs(someInfo(), actual, expected));
     // THEN
-    then(error).hasMessage(shouldHaveBinaryContent(actual, diff).create(info.description(), info.representation()));
+    verify(unMockedFailures).failure(someInfo(), shouldHaveBinaryContent(actual, diff));
   }
 }

@@ -12,23 +12,18 @@
  */
 package org.assertj.core.internal.files;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Files.newFile;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+
+import java.io.File;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.FilesBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.io.File;
 
 /**
  * Tests for
@@ -37,7 +32,6 @@ import java.io.File;
  * 
  * @author Jean-Christophe Gay
  */
-@DisplayName("Files.assertHasName:")
 class Files_assertHasName_Test extends FilesBaseTest {
 
   private String expectedName = "expected.name";

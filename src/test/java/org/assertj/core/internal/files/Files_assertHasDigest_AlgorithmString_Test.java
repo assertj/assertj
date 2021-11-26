@@ -13,11 +13,7 @@
 package org.assertj.core.internal.files;
 
 import static java.nio.file.Files.readAllBytes;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
@@ -32,7 +28,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -41,7 +40,6 @@ import org.assertj.core.internal.DigestDiff;
 import org.assertj.core.internal.Digests;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -49,7 +47,6 @@ import org.junit.jupiter.api.Test;
  *
  * @author Valeriy Vyrva
  */
-@DisplayName("Files.assertHasDigest_AlgorithmString:")
 class Files_assertHasDigest_AlgorithmString_Test extends FilesBaseTest {
   private final String algorithm = "MD5";
   private final String expected = "";
@@ -145,7 +142,7 @@ class Files_assertHasDigest_AlgorithmString_Test extends FilesBaseTest {
     // WHEN
     AssertionError error = expectAssertionError(() -> unMockedFiles.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
-    then(error).hasMessage(shouldHaveDigest(actual, digestDiff).create());
+    verify(unMockedFailures).failure(INFO, shouldHaveDigest(actual, digestDiff));
   }
 
   @Test

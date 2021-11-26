@@ -12,20 +12,17 @@
  */
 package org.assertj.core.internal.files;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.FilesBaseTest;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-import java.io.File;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
+
+import java.io.File;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.FilesBaseTest;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
@@ -34,7 +31,6 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Jean-Christophe Gay
  */
-@DisplayName("Files.assertHasNoParent:")
 class Files_assertHasNoParent_Test extends FilesBaseTest {
 
   @Test

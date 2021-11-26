@@ -12,37 +12,27 @@
  */
 package org.assertj.core.internal.files;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
-import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
-import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Files.newFile;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.*;
-import org.assertj.core.util.Lists;
+import org.assertj.core.internal.Diff;
+import org.assertj.core.internal.Files;
+import org.assertj.core.internal.FilesBaseTest;
 import org.assertj.core.util.diff.Delta;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -51,7 +41,6 @@ import org.junit.jupiter.api.Test;
  * @author Olivier Michallat
  * @author Joel Costigliola
  */
-@DisplayName("Files.assertHasContent:")
 class Files_assertHasContent_Test extends FilesBaseTest {
 
   private static File actual;
@@ -80,11 +69,12 @@ class Files_assertHasContent_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_actual_is_not_file() {
+    // GIVEN
     AssertionInfo info = someInfo();
     File notAFile = new File("xyz");
-
+    // WHEN
     Throwable error = catchThrowable(() -> files.assertHasContent(info, notAFile, expected, charset));
-
+    // THEN
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeFile(notAFile));
   }
@@ -107,13 +97,13 @@ class Files_assertHasContent_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_file_does_not_have_expected_text_content() throws IOException {
+    // GIVEN
     Diff diff = new Diff();
     List<Delta<String>> diffs = diff.diff(actual, expected, charset);
     AssertionInfo info = someInfo();
-
-    AssertionError error = expectAssertionError(() -> unMockedFiles.assertHasContent(info, actual, expected, charset));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    then(error).hasMessage(shouldHaveContent(actual, charset, diffs).create(info.description(), info.representation()));
+    // WHEN
+    expectAssertionError(() -> unMockedFiles.assertHasContent(info, actual, expected, charset));
+    // THEN
+    verify(unMockedFailures).failure(info, shouldHaveContent(actual, charset, diffs));
   }
 }

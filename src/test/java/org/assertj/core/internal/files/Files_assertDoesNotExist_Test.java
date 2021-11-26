@@ -12,22 +12,17 @@
  */
 package org.assertj.core.internal.files;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.io.File;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -36,7 +31,6 @@ import org.junit.jupiter.api.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-@DisplayName("Files.assertDoesNotExist:")
 class Files_assertDoesNotExist_Test extends FilesBaseTest {
 
   @Test
@@ -47,11 +41,12 @@ class Files_assertDoesNotExist_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_actual_exists() {
+    // GIVEN
     File actual = new File("src/test/resources/actual_file.txt");
     AssertionInfo info = someInfo();
-
+    // WHEN
     Throwable error = catchThrowable(() -> files.assertDoesNotExist(info, actual));
-
+    // THEN
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotExist(actual));
   }

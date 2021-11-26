@@ -12,9 +12,7 @@
  */
 package org.assertj.core.internal.files;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -25,7 +23,6 @@ import java.io.File;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -35,7 +32,6 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  * 
  */
-@DisplayName("Files.assertCanRead:")
 class Files_assertCanRead_Test extends FilesBaseTest {
 
   @Test
@@ -46,13 +42,14 @@ class Files_assertCanRead_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_can_not_read() {
+    // GIVEN
     File notAFile = new File("xyz");
     AssertionInfo info = someInfo();
-
+    // WHEN
     Throwable error = catchThrowable(() -> files.assertCanRead(info, notAFile));
-
+    // THEN
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeReadable(actual));
+    verify(failures).failure(info, shouldBeReadable(notAFile));
   }
 
   @Test

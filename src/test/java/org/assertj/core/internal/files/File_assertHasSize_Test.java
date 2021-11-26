@@ -26,7 +26,6 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -34,7 +33,6 @@ import org.junit.jupiter.api.Test;
  *
  * @author Krishna Chaithanya Ganta
  */
-@DisplayName("Files.assertHasSizeInBytes:")
 class File_assertHasSize_Test extends FilesBaseTest {
 
   private static File actual;
@@ -57,9 +55,8 @@ class File_assertHasSize_Test extends FilesBaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    AssertionError error = expectAssertionError(() -> files.assertHasSizeInBytes(info, actual, 36L));
+    expectAssertionError(() -> files.assertHasSizeInBytes(info, actual, 36L));
     // THEN
-    assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldHaveSize(actual, 36L));
   }
 
@@ -69,9 +66,8 @@ class File_assertHasSize_Test extends FilesBaseTest {
     AssertionInfo info = someInfo();
     File notAFile = new File("xyz");
     // WHEN
-    AssertionError error = expectAssertionError(() -> files.assertHasSizeInBytes(info, notAFile, 36L));
+    expectAssertionError(() -> files.assertHasSizeInBytes(info, notAFile, 36L));
     // THEN
-    assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeFile(notAFile));
   }
 

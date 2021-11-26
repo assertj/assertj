@@ -12,14 +12,6 @@
  */
 package org.assertj.core.internal.files;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Files;
-import org.assertj.core.internal.FilesBaseTest;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-import java.io.File;
-
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
@@ -27,14 +19,19 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Files.newFile;
 import static org.assertj.core.util.Files.newFolder;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.verify;
 import static org.mockito.BDDMockito.verifyNoInteractions;
+
+import java.io.File;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Files;
+import org.assertj.core.internal.FilesBaseTest;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Files#assertIsEmptyFile(AssertionInfo, File)}</code>
  */
-@DisplayName("Files.assertIsEmptyFile:")
 class Files_assertIsEmptyFile_Test extends FilesBaseTest {
 
   @Test
