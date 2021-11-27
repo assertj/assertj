@@ -12,10 +12,13 @@
  */
 package org.assertj.core.api;
 
-import java.net.URI;
-
 import org.assertj.core.internal.Uris;
 import org.assertj.core.util.VisibleForTesting;
+
+import java.net.URI;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Base class for all implementations of assertions for {@link URI}s.
@@ -411,6 +414,126 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    */
   public SELF hasNoParameter(String name, String value) {
     uris.assertHasNoParameter(info, actual, name, value);
+    return myself;
+  }
+
+
+  /**
+   * Verifies that the actual {@code URI} has the parameters exactly same as in given collection.<br>
+   * <br>
+   * <b>Recomended for use when expecting non-repeatable params</b> e.g.:<br>
+   *  <pre><code class='java'>
+   *  Collection&lt;MapEntry&lt;String, String&gt;&gt; expectedParams = Map.of(
+   *     "a", "v1",
+   *     "b", "v2",
+   *     "c", "v3"
+   *  ).entrySet();
+   *  </code></pre>
+   * But collection can also contains more entries with same key, will be merged to multivalue map e.g.:<br>
+   *  <pre><code class='java'>
+   *  List.of(
+   *     Map.entry("a", "v1"),
+   *     Map.entry("a", "v2"),
+   *     Map.entry("b", "v1")
+   *  );
+   *  </code></pre>
+   * will represent expected params:
+   *  <pre>
+   *  a = {v1, v2},
+   *  b = {v1}
+   *  </pre>
+   * Use {@code null} to indicate an absent value (e.g. {@code foo&bar}) as opposed to an empty value (e.g.
+   * {@code foo=&bar=}).
+   * <p>
+   * Examples:
+   * <pre><code class='java'>
+   * // These assertions succeed:
+   * assertThat(new URI("http://www.helloworld.org/index.html?firstName=Andrew&amp;lastName=Schrek&amp;option")).containsExactlyParameters(List.of(
+   *       new AbstractMap.SimpleEntry&lt;&gt;("firstName", "Andrew"),
+   *       new AbstractMap.SimpleEntry&lt;&gt;("lastName", "Sneck"),
+   *       new AbstractMap.SimpleEntry&lt;&gt;("option", null)
+   *    )
+   * );
+   * assertThat(new URI("http://www.helloworld.org/index.html?firstName=Andrew&amp;lastName=Schrek&amp;option=first")).containsExactlyParameters(Map.of(
+   *        "firstName", "Andrew",
+   *        "lastName", "Sneck",
+   *        "option", "v3"
+   *     ).entrySet()
+   * );
+   *
+   * // These assertions fail:
+   * assertThat(new URI("http://www.helloworld.org/index.html?firstName=Andrew&amp;lastName=Schrek&amp;option=first")).containsExactlyParameters(List.of(
+   *       new AbstractMap.SimpleEntry&lt;&gt;("firstName", "Andrew"),
+   *       new AbstractMap.SimpleEntry&lt;&gt;("lastName", "Sneck"),
+   *       new AbstractMap.SimpleEntry&lt;&gt;("option", null)
+   *    )
+   * );
+   * assertThat(new URI("http://www.helloworld.org/index.html?firstName=Andrew&amp;lastName=Schrek&amp;option")).containsExactlyParameters(Map.of(
+   *        "firstName", "Andrew",
+   *        "lastName", "Sneck",
+   *        "option", "v3"
+   *     ).entrySet()
+   * );
+   * </code></pre>
+   *
+   * @param expectedParameters collection of map entries which each represent paramName-paramValue
+   * @return {@code this} assertion object.
+   * @throws AssertionError           if the actual does not have the expected parameter.
+   * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
+   */
+  public SELF containsExactlyParameters(Collection<Map.Entry<String, String>> expectedParameters) {
+    uris.assertContainsExactlyParameters(info, actual, expectedParameters);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code URI} has the parameters exactly same as in given multi-value map.<br>
+   * <br>
+   * <b>Recomended for use when expecting repeatable params</b> e.g.:<br>
+   *  <pre><code class='java'>
+   *  MapEntry&lt;String, List&lt;String&gt;&gt; expectedParams = Map.of(
+   *     "a", List.of("v1","v2),
+   *     "b", List.of("v2"),
+   *     "c", List.of("v3")
+   *  );
+   *  </code></pre>
+   * Use {@code null} to indicate an absent value (e.g. {@code foo&bar}) as opposed to an empty value (e.g.
+   * {@code foo=&bar=}).
+   * <p>
+   * Examples:
+   * <pre><code class='java'>
+   * // These assertions succeed:
+   * assertThat(new URI("http://www.helloworld.org/index.html?firstName=Andrew&amp;lastName=Schrek&amp;option")).containsExactlyParameters(Map.of(
+   *       "firstName", List.of("Andrew"),
+   *       "lastName", List.of("Sneck"),
+   *       "option", List.of(null)
+   * ));
+   * assertThat(new URI("http://www.helloworld.org/index.html?firstName=Andrew&amp;lastName=Schrek&amp;option=first&amp;option=second")).containsExactlyParameters(Map.of(
+   *        "firstName", List.of("Andrew"),
+   *        "lastName", List.of("Sneck"),
+   *        "option", List.of("first", "second")
+   * ));
+   *
+   * // These assertions fail:
+   * assertThat(new URI("http://www.helloworld.org/index.html?firstName=Andrew&amp;lastName=Schrek&amp;option")).containsExactlyParameters(Map.of(
+   *       "firstName", List.of("Andrew"),
+   *       "lastName", List.of("Sneck"),
+   *       "option", List.of()
+   * ));
+   * assertThat(new URI("http://www.helloworld.org/index.html?firstName=Andrew&amp;lastName=Schrek&amp;option=first&amp;option=second")).containsExactlyParameters(Map.of(
+   *        "firstName", List.of("Andrew"),
+   *        "lastName", List.of("Sneck"),
+   *        "option", List.of("second")
+   * ));
+   * </code></pre>
+   *
+   * @param expectedParameters collection of map entries which each represent paramName-paramValue
+   * @return {@code this} assertion object.
+   * @throws AssertionError           if the actual does not have the expected parameter.
+   * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
+   */
+  public SELF containsExactlyParameters(Map<String, List<String>> expectedParameters) {
+    uris.assertContainsExactlyParameters(info, actual, expectedParameters);
     return myself;
   }
 }
