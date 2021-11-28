@@ -12,15 +12,11 @@
  */
 package org.assertj.core.internal.files;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.io.File;
 
@@ -39,24 +35,27 @@ class Files_assertIsAbsolute_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertIsAbsolute(someInfo(), null))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    File actual = null;
+    // WHEN
+    AssertionError error = expectAssertionError(() -> files.assertIsAbsolute(INFO, actual));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_not_absolute_path() {
-    when(actual.isAbsolute()).thenReturn(false);
-    AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> files.assertIsAbsolute(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeAbsolutePath(actual));
+    // GIVEN
+    File actual = new File("xyz");
+    // WHEN
+    expectAssertionError(() -> files.assertIsAbsolute(INFO, actual));
+    // THEN
+    verify(failures).failure(INFO, shouldBeAbsolutePath(actual));
   }
 
   @Test
   void should_pass_if_actual_is_absolute_path() {
-    when(actual.isAbsolute()).thenReturn(true);
-    files.assertIsAbsolute(someInfo(), actual);
+    File actual = new File(tempDir.getAbsolutePath() + "/file.txt");
+    files.assertIsAbsolute(INFO, actual);
   }
 }

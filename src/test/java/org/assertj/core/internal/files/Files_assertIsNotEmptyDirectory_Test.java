@@ -12,21 +12,22 @@
  */
 package org.assertj.core.internal.files;
 
-import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Files.newFile;
+import static org.assertj.core.util.Files.newFolder;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Files;
@@ -43,9 +44,8 @@ class Files_assertIsNotEmptyDirectory_Test extends FilesBaseTest {
   @Test
   void should_pass_if_actual_is_not_empty() {
     // GIVEN
-    File file = mockRegularFile("root", "Test.class");
-    List<File> items = list(file);
-    File actual = mockDirectory(items, "root");
+    File actual = newFolder(tempDir.getAbsolutePath() + "/folder");
+    newFile(actual.getAbsolutePath() + "/Test.java");
     // THEN
     files.assertIsNotEmptyDirectory(INFO, actual);
   }
@@ -53,7 +53,7 @@ class Files_assertIsNotEmptyDirectory_Test extends FilesBaseTest {
   @Test
   void should_fail_if_actual_is_empty() {
     // GIVEN
-    File actual = mockDirectory(emptyList(), "root");
+    File actual = newFolder(tempDir.getAbsolutePath() + "/folder");
     // WHEN
     expectAssertionError(() -> files.assertIsNotEmptyDirectory(INFO, actual));
     // THEN
@@ -67,13 +67,13 @@ class Files_assertIsNotEmptyDirectory_Test extends FilesBaseTest {
     // WHEN
     AssertionError error = expectAssertionError(() -> files.assertIsNotEmptyDirectory(INFO, actual));
     // THEN
-    assertThat(error).hasMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_does_not_exist() {
     // GIVEN
-    given(actual.exists()).willReturn(false);
+    File actual = new File("xyz");
     // WHEN
     expectAssertionError(() -> files.assertIsNotEmptyDirectory(INFO, actual));
     // THEN
@@ -83,24 +83,24 @@ class Files_assertIsNotEmptyDirectory_Test extends FilesBaseTest {
   @Test
   void should_fail_if_actual_exists_but_is_not_directory() {
     // GIVEN
-    given(actual.exists()).willReturn(true);
-    given(actual.isDirectory()).willReturn(false);
+    File actual = newFile(tempDir.getAbsolutePath() + "/Test.java");
     // WHEN
     expectAssertionError(() -> files.assertIsNotEmptyDirectory(INFO, actual));
     // THEN
     verify(failures).failure(INFO, shouldBeDirectory(actual));
   }
 
+  // use mock as it's hard to simulate listFiles(FileFilter.class) to return null
   @Test
   void should_throw_error_on_null_listing() {
     // GIVEN
+    File actual = mock(File.class);
     given(actual.exists()).willReturn(true);
     given(actual.isDirectory()).willReturn(true);
     given(actual.listFiles(any(FileFilter.class))).willReturn(null);
     // WHEN
-    Throwable error = catchThrowable(() -> files.assertIsNotEmptyDirectory(INFO, actual));
+    Throwable error = catchThrowableOfType(() -> files.assertIsNotEmptyDirectory(INFO, actual), NullPointerException.class);
     // THEN
-    assertThat(error).isInstanceOf(NullPointerException.class)
-                     .hasMessage("Directory listing should not be null");
+    assertThat(error).hasMessage("Directory listing should not be null");
   }
 }

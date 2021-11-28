@@ -12,24 +12,21 @@
  */
 package org.assertj.core.internal.files;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.FilesBaseTest;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
-import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import org.assertj.core.internal.FilesBaseTest;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
@@ -45,71 +42,82 @@ class Files_assertHasParent_Test extends FilesBaseTest {
 
   @Test
   void should_throw_error_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasParent(someInfo(), null, expectedParent))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    File actual = null;
+    // WHEN
+    AssertionError error = expectAssertionError(() -> files.assertHasParent(INFO, actual, expectedParent));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
   void should_throw_npe_if_expected_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> files.assertHasParent(someInfo(), actual, null))
-                                    .withMessage("The expected parent file should not be null.");
+    // GIVEN
+    File expected = null;
+    // WHEN
+    NullPointerException npe = catchThrowableOfType(() -> files.assertHasParent(INFO, actual, expected),
+                                                    NullPointerException.class);
+    // THEN
+    then(npe).hasMessage("The expected parent file should not be null.");
   }
 
   @Test
   void should_fail_if_actual_has_no_parent() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     File withoutParent = new File("without-parent");
-
-    Throwable error = catchThrowable(() -> files.assertHasParent(info, withoutParent, expectedParent));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveParent(withoutParent, expectedParent));
+    // WHEN
+    expectAssertionError(() -> files.assertHasParent(INFO, withoutParent, expectedParent));
+    // THEN
+    verify(failures).failure(INFO, shouldHaveParent(withoutParent, expectedParent));
   }
 
   @Test
   void should_fail_if_actual_does_not_have_the_expected_parent() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     File expectedParent = new File("./expected-parent");
-
-    Throwable error = catchThrowable(() -> files.assertHasParent(info, actual, expectedParent));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveParent(actual, expectedParent));
+    // WHEN
+    expectAssertionError(() -> files.assertHasParent(INFO, actual, expectedParent));
+    // THEN
+    verify(failures).failure(INFO, shouldHaveParent(actual, expectedParent));
   }
 
   @Test
   void should_pass_if_actual_has_expected_parent() {
-    files.assertHasParent(someInfo(), actual, expectedParent);
+    files.assertHasParent(INFO, actual, expectedParent);
   }
 
   @Test
   void should_pass_if_actual_has_expected_parent_when_actual_form_is_absolute() {
-    files.assertHasParent(someInfo(), actual.getAbsoluteFile(), expectedParent);
+    files.assertHasParent(INFO, actual.getAbsoluteFile(), expectedParent);
   }
 
   @Test
   void should_pass_if_actual_has_expected_parent_when_actual_form_is_canonical() throws Exception {
-    files.assertHasParent(someInfo(), actual.getCanonicalFile(), expectedParent);
+    files.assertHasParent(INFO, actual.getCanonicalFile(), expectedParent);
   }
 
   @Test
   void should_throw_exception_when_canonical_form_representation_fail() throws Exception {
+    // GIVEN
     File actual = mock(File.class);
-    File expectedParent = mock(File.class);
-
-    when(actual.getParentFile()).thenReturn(expectedParent);
-    when(expectedParent.getCanonicalFile()).thenThrow(new IOException());
-
-    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> files.assertHasParent(someInfo(), actual,
-                                                                                                 expectedParent));
+    File actualParent = mock(File.class);
+    when(actual.getParentFile()).thenReturn(actualParent);
+    when(actualParent.getCanonicalFile()).thenThrow(new IOException());
+    // WHEN
+    UncheckedIOException uioe = catchThrowableOfType(() -> files.assertHasParent(INFO, actual, actualParent),
+                                                     UncheckedIOException.class);
+    // THEN
+    then(uioe).hasMessageStartingWith("Unable to get canonical form of");
   }
 
   @Test
   void should_throw_exception_when_canonical_form_representation_fail_for_expected_parent() throws Exception {
     File expectedParent = mock(File.class);
     when(expectedParent.getCanonicalFile()).thenThrow(new IOException());
-
-    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> files.assertHasParent(someInfo(), actual,
-                                                                                                 expectedParent));
+    // WHEN
+    UncheckedIOException uioe = catchThrowableOfType(() -> files.assertHasParent(INFO, actual, expectedParent),
+                                                     UncheckedIOException.class);
+    // THEN
+    then(uioe).hasMessageStartingWith("Unable to get canonical form of");
   }
 }

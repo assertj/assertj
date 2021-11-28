@@ -12,30 +12,31 @@
  */
 package org.assertj.core.internal.files;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static java.nio.file.Files.readAllBytes;
+import static org.apache.commons.io.FileUtils.writeByteArrayToFile;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveDigest.shouldHaveDigest;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.internal.Digests.toHex;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Files.newFile;
+import static org.assertj.core.util.Files.newFolder;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.DigestDiff;
-import org.assertj.core.internal.Digests;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
 import org.junit.jupiter.api.Test;
@@ -48,21 +49,23 @@ import org.junit.jupiter.api.Test;
 class Files_assertHasDigest_AlgorithmBytes_Test extends FilesBaseTest {
   private final String algorithm = "MD5";
   private final byte[] expected = new byte[0];
-  private final String real = "3AC1AFA2A89B7E4F1866502877BF1DC5";
 
   @Test
   void should_fail_if_actual_is_null() {
-    AssertionInfo info = someInfo();
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasDigest(info, null, algorithm, expected))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    File actual = null;
+    // WHEN
+    AssertionError error = expectAssertionError(() -> files.assertHasDigest(INFO, actual, algorithm, expected));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
   void should_fail_with_should_exist_error_if_actual_does_not_exist() {
     // GIVEN
-    given(actual.exists()).willReturn(false);
+    File actual = new File("xyz");
     // WHEN
-    catchThrowable(() -> files.assertHasDigest(INFO, actual, algorithm, expected));
+    expectAssertionError(() -> files.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
     verify(failures).failure(INFO, shouldExist(actual));
   }
@@ -70,10 +73,9 @@ class Files_assertHasDigest_AlgorithmBytes_Test extends FilesBaseTest {
   @Test
   void should_fail_if_actual_exists_but_is_not_file() {
     // GIVEN
-    given(actual.exists()).willReturn(true);
-    given(actual.isFile()).willReturn(false);
+    File actual = newFolder(tempDir.getAbsolutePath() + "/tmp");
     // WHEN
-    catchThrowable(() -> files.assertHasDigest(INFO, actual, algorithm, expected));
+    expectAssertionError(() -> files.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
     verify(failures).failure(INFO, shouldBeFile(actual));
   }
@@ -81,40 +83,47 @@ class Files_assertHasDigest_AlgorithmBytes_Test extends FilesBaseTest {
   @Test
   void should_fail_if_actual_exists_but_is_not_readable() {
     // GIVEN
-    given(actual.exists()).willReturn(true);
-    given(actual.isFile()).willReturn(true);
-    given(actual.canRead()).willReturn(false);
+    File actual = newFile(tempDir.getAbsolutePath() + "/Test.java");
+    actual.setReadable(false);
     // WHEN
-    catchThrowable(() -> files.assertHasDigest(INFO, actual, algorithm, expected));
+    expectAssertionError(() -> files.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
     verify(failures).failure(INFO, shouldBeReadable(actual));
   }
 
   @Test
   void should_throw_error_if_digest_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> files.assertHasDigest(INFO, null, (MessageDigest) null, expected))
-                                    .withMessage("The message digest algorithm should not be null");
+    // GIVEN
+    MessageDigest digest = null;
+    // WHEN
+    NullPointerException npe = catchThrowableOfType(() -> files.assertHasDigest(INFO, actual, digest, expected),
+                                                    NullPointerException.class);
+    // THEN
+    then(npe).hasMessage("The message digest algorithm should not be null");
   }
 
   @Test
   void should_throw_error_if_expected_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> files.assertHasDigest(INFO, null, algorithm, (byte[]) null))
-                                    .withMessage("The binary representation of digest to compare to should not be null");
+    // GIVEN
+    byte[] expected = null;
+    // WHEN
+    NullPointerException npe = catchThrowableOfType(() -> files.assertHasDigest(INFO, actual, algorithm, expected),
+                                                    NullPointerException.class);
+    // THEN
+    then(npe).hasMessage("The binary representation of digest to compare to should not be null");
   }
 
   @Test
   void should_throw_error_wrapping_caught_IOException() throws IOException {
     // GIVEN
+    File actual = newFile(tempDir.getAbsolutePath() + "/tmp.txt");
     IOException cause = new IOException();
-    given(actual.exists()).willReturn(true);
-    given(actual.isFile()).willReturn(true);
-    given(actual.canRead()).willReturn(true);
     given(nioFilesWrapper.newInputStream(any())).willThrow(cause);
     // WHEN
-    Throwable error = catchThrowable(() -> files.assertHasDigest(INFO, actual, algorithm, expected));
+    UncheckedIOException uioe = catchThrowableOfType(() -> files.assertHasDigest(INFO, actual, algorithm, expected),
+                                                     UncheckedIOException.class);
     // THEN
-    assertThat(error).isInstanceOf(UncheckedIOException.class)
-                     .hasCause(cause);
+    then(uioe).hasCause(cause);
   }
 
   @Test
@@ -122,39 +131,37 @@ class Files_assertHasDigest_AlgorithmBytes_Test extends FilesBaseTest {
     // GIVEN
     String unknownDigestAlgorithm = "UnknownDigestAlgorithm";
     // WHEN
-    Throwable error = catchThrowable(() -> files.assertHasDigest(INFO, actual, unknownDigestAlgorithm, expected));
+    IllegalStateException ise = catchThrowableOfType(() -> files.assertHasDigest(INFO, actual, unknownDigestAlgorithm, expected),
+                                                     IllegalStateException.class);
     // THEN
-    assertThat(error).isInstanceOf(IllegalStateException.class)
-                     .hasMessage("Unable to find digest implementation for: <UnknownDigestAlgorithm>");
+    then(ise).hasMessage("Unable to find digest implementation for: <UnknownDigestAlgorithm>");
   }
 
   @Test
   void should_fail_if_actual_does_not_have_expected_digest() throws IOException, NoSuchAlgorithmException {
     // GIVEN
-    InputStream stream = getClass().getResourceAsStream("/red.png");
-    given(actual.exists()).willReturn(true);
-    given(actual.isFile()).willReturn(true);
-    given(actual.canRead()).willReturn(true);
-    given(nioFilesWrapper.newInputStream(any())).willReturn(stream);
+    String algorithm = "MD5";
+    File actual = newFile(tempDir.getAbsolutePath() + "/tmp.txt");
+    writeByteArrayToFile(actual, "Bad Content".getBytes());
+    MessageDigest digest = MessageDigest.getInstance("MD5");
+    byte[] expected = digest.digest("Content".getBytes());
+    DigestDiff digestDiff = new DigestDiff(toHex(digest.digest(readAllBytes(actual.toPath()))), toHex(expected), digest);
     // WHEN
-    catchThrowable(() -> files.assertHasDigest(INFO, actual, algorithm, expected));
+    expectAssertionError(() -> unMockedFiles.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
-    verify(failures).failure(INFO, shouldHaveDigest(actual, new DigestDiff(real, "", MessageDigest.getInstance(algorithm))));
-    failIfStreamIsOpen(stream);
+    verify(unMockedFailures).failure(INFO, shouldHaveDigest(actual, digestDiff));
   }
 
   @Test
-  void should_pass_if_actual_has_expected_digest() throws IOException {
+  void should_pass_if_actual_has_expected_digest() throws Exception {
     // GIVEN
-    InputStream stream = getClass().getResourceAsStream("/red.png");
-    given(actual.exists()).willReturn(true);
-    given(actual.isFile()).willReturn(true);
-    given(actual.canRead()).willReturn(true);
-    given(nioFilesWrapper.newInputStream(any())).willReturn(stream);
-    // WHEN
-    files.assertHasDigest(INFO, actual, algorithm, Digests.fromHex(real));
-    // THEN
-    failIfStreamIsOpen(stream);
+    String algorithm = "MD5";
+    byte[] data = "Content".getBytes();
+    File actual = newFile(tempDir.getAbsolutePath() + "/tmp.txt");
+    writeByteArrayToFile(actual, data);
+    byte[] expected = MessageDigest.getInstance(algorithm).digest(data);
+    // WHEN/THEN
+    unMockedFiles.assertHasDigest(INFO, actual, algorithm, expected);
   }
 
 }

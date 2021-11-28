@@ -12,14 +12,14 @@
  */
 package org.assertj.core.internal.files;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.apache.commons.io.FileUtils.writeByteArrayToFile;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Files.newFile;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -27,7 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 
-import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.BinaryDiff;
 import org.assertj.core.internal.BinaryDiffResult;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
@@ -54,53 +54,68 @@ class Files_assertHasBinaryContent_Test extends FilesBaseTest {
 
   @Test
   void should_throw_error_if_expected_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> files.assertHasBinaryContent(someInfo(), actual, null))
-                                    .withMessage("The binary content to compare to should not be null");
+    // GIVEN
+    byte[] expectedContent = null;
+    // WHEN
+    NullPointerException npe = catchThrowableOfType(() -> files.assertHasBinaryContent(INFO, actual, expectedContent),
+                                                    NullPointerException.class);
+    // THEN
+    then(npe).hasMessage("The binary content to compare to should not be null");
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasBinaryContent(someInfo(), null, expected))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    File actual = null;
+    // WHEN
+    AssertionError error = expectAssertionError(() -> files.assertHasBinaryContent(INFO, actual, expected));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_not_file() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     File notAFile = new File("xyz");
-
-    Throwable error = catchThrowable(() -> files.assertHasBinaryContent(info, notAFile, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeFile(notAFile));
+    // WHEN
+    expectAssertionError(() -> files.assertHasBinaryContent(INFO, notAFile, expected));
+    // THEN
+    verify(failures).failure(INFO, shouldBeFile(notAFile));
   }
 
   @Test
   void should_pass_if_file_has_expected_binary_content() throws IOException {
-    when(binaryDiff.diff(actual, expected)).thenReturn(BinaryDiffResult.noDiff());
-    files.assertHasBinaryContent(someInfo(), actual, expected);
+    // GIVEN
+    File actual = newFile(tempDir.getAbsolutePath() + "/tmp.txt");
+    writeByteArrayToFile(actual, "actual".getBytes());
+    byte[] expected = "actual".getBytes();
+    // WHEN/THEN
+    unMockedFiles.assertHasBinaryContent(INFO, actual, expected);
   }
 
   @Test
   void should_throw_error_wrapping_caught_IOException() throws IOException {
+    // GIVEN
     IOException cause = new IOException();
     when(binaryDiff.diff(actual, expected)).thenThrow(cause);
-
-    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> files.assertHasBinaryContent(someInfo(),
-                                                                                                        actual,
-                                                                                                        expected))
-                                                         .withCause(cause);
+    // THEN
+    UncheckedIOException uioe = catchThrowableOfType(() -> files.assertHasBinaryContent(INFO, actual, expected),
+                                                     UncheckedIOException.class);
+    // THEN
+    then(uioe).hasCause(cause);
   }
 
   @Test
   void should_fail_if_file_does_not_have_expected_binary_content() throws IOException {
-    BinaryDiffResult diff = new BinaryDiffResult(15, (byte) 0xCA, (byte) 0xFE);
-    when(binaryDiff.diff(actual, expected)).thenReturn(diff);
-    AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> files.assertHasBinaryContent(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveBinaryContent(actual, diff));
+    // GIVEN
+    File actual = newFile(tempDir.getAbsolutePath() + "/tmp.txt");
+    writeByteArrayToFile(actual, "actual".getBytes());
+    byte[] expected = "fake".getBytes();
+    BinaryDiff binaryDiff = new BinaryDiff();
+    BinaryDiffResult diff = binaryDiff.diff(actual, expected);
+    // WHEN
+    expectAssertionError(() -> unMockedFiles.assertHasBinaryContent(INFO, actual, expected));
+    // THEN
+    verify(unMockedFailures).failure(INFO, shouldHaveBinaryContent(actual, diff));
   }
 }

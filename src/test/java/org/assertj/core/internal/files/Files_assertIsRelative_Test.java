@@ -12,15 +12,12 @@
  */
 package org.assertj.core.internal.files;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeRelativePath.shouldBeRelativePath;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
+import static org.assertj.core.util.Files.newFile;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.io.File;
 
@@ -39,24 +36,29 @@ class Files_assertIsRelative_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertIsRelative(someInfo(), null))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    File actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> files.assertIsRelative(INFO, actual));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_not_relative_path() {
-    when(actual.isAbsolute()).thenReturn(true);
-    AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> files.assertIsRelative(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeRelativePath(actual));
+    // GIVEN
+    File actual = newFile(tempDir.getAbsolutePath() + "/Test.java");
+    // WHEN
+    expectAssertionError(() -> files.assertIsRelative(INFO, actual));
+    // THEN
+    verify(failures).failure(INFO, shouldBeRelativePath(actual));
   }
 
   @Test
   void should_pass_if_actual_is_relative_path() {
-    when(actual.isAbsolute()).thenReturn(false);
-    files.assertIsRelative(someInfo(), actual);
+    // GIVEN
+    File actual = new File("src/test/resources/actual_file.txt");
+    // THEN
+    files.assertIsRelative(INFO, actual);
   }
 }

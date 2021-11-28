@@ -12,13 +12,11 @@
  */
 package org.assertj.core.internal.files;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -27,13 +25,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Diff;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
-import org.assertj.core.util.Lists;
 import org.assertj.core.util.diff.Delta;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -60,52 +57,61 @@ class Files_assertHasContent_Test extends FilesBaseTest {
 
   @Test
   void should_throw_error_if_expected_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> files.assertHasContent(someInfo(), actual, null, charset))
-                                    .withMessage("The text to compare to should not be null");
+    // GIVEN
+    String expectedContent = null;
+    // WHEN
+    NullPointerException npe = catchThrowableOfType(() -> files.assertHasContent(INFO, actual, expectedContent, charset),
+                                                    NullPointerException.class);
+    // THEN
+    then(npe).hasMessage("The text to compare to should not be null");
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasContent(someInfo(), null, expected, charset))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    File actual = null;
+    // WHEN
+    AssertionError error = expectAssertionError(() -> files.assertHasContent(INFO, actual, expected, charset));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_not_file() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     File notAFile = new File("xyz");
-
-    Throwable error = catchThrowable(() -> files.assertHasContent(info, notAFile, expected, charset));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeFile(notAFile));
+    // WHEN
+    expectAssertionError(() -> files.assertHasContent(INFO, notAFile, expected, charset));
+    // THEN
+    verify(failures).failure(INFO, shouldBeFile(notAFile));
   }
 
   @Test
-  void should_pass_if_file_has_text_content() throws IOException {
-    when(diff.diff(actual, expected, charset)).thenReturn(new ArrayList<>());
-    files.assertHasContent(someInfo(), actual, expected, charset);
+  void should_pass_if_file_has_text_content() {
+    String expected = "actual";
+    files.assertHasContent(INFO, actual, expected, charset);
   }
 
   @Test
   void should_throw_error_wrapping_caught_IOException() throws IOException {
+    // GIVEN
     IOException cause = new IOException();
     when(diff.diff(actual, expected, charset)).thenThrow(cause);
-
-    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> files.assertHasContent(someInfo(), actual,
-                                                                                                  expected, charset))
-                                                         .withCause(cause);
+    // WHEN
+    UncheckedIOException uioe = catchThrowableOfType(() -> files.assertHasContent(INFO, actual, expected, charset),
+                                                     UncheckedIOException.class);
+    // THEN
+    then(uioe).hasCause(cause);
   }
 
   @Test
   void should_fail_if_file_does_not_have_expected_text_content() throws IOException {
-    List<Delta<String>> diffs = Lists.newArrayList(delta);
-    when(diff.diff(actual, expected, charset)).thenReturn(diffs);
-    AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> files.assertHasContent(info, actual, expected, charset));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveContent(actual, charset, diffs));
+    // GIVEN
+    Diff diff = new Diff();
+    List<Delta<String>> diffs = diff.diff(actual, expected, charset);
+    // WHEN
+    expectAssertionError(() -> unMockedFiles.assertHasContent(INFO, actual, expected, charset));
+    // THEN
+    verify(unMockedFailures).failure(INFO, shouldHaveContent(actual, charset, diffs));
   }
 }

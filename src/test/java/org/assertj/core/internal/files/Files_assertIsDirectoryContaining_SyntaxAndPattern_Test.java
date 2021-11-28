@@ -14,28 +14,24 @@ package org.assertj.core.internal.files;
 
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldContain.directoryShouldContain;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Files.newFile;
+import static org.assertj.core.util.Files.newFolder;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.nio.file.FileSystem;
-import java.nio.file.Path;
-import java.nio.file.PathMatcher;
 import java.util.List;
-import java.util.Optional;
-import java.util.regex.Pattern;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Files;
@@ -55,41 +51,32 @@ class Files_assertIsDirectoryContaining_SyntaxAndPattern_Test extends FilesBaseT
   @Test
   void should_pass_if_actual_contains_a_file_matching_the_given_pathMatcherPattern() {
     // GIVEN
-    File file = mockRegularFile("Test.java");
-    List<File> items = list(file);
-    // WHEN
-    File actual = mockDirectory(items, "root");
-    mockPathMatcher(actual);
-    // THEN
+    File actual = newFolder(tempDir.getAbsolutePath() + "/folder");
+    newFile(actual.getAbsolutePath() + "/Test.java");
+    // WHEN/THEN
     files.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE_PATTERN);
   }
 
   @Test
   void should_pass_if_all_actual_files_match_the_given_pathMatcherPattern() {
     // GIVEN
-    File file1 = mockRegularFile("Test.java");
-    File file2 = mockRegularFile("Utils.java");
-    List<File> items = list(file1, file2);
-    // WHEN
-    File actual = mockDirectory(items, "root");
-    mockPathMatcher(actual);
-    // THEN
+    File actual = newFolder(tempDir.getAbsolutePath() + "/folder");
+    newFile(actual.getAbsolutePath() + "/Test.java");
+    newFile(actual.getAbsolutePath() + "/Utils.java");
+    // WHEN/THEN
     files.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE_PATTERN);
   }
 
   @Test
   void should_pass_if_actual_contains_some_files_matching_the_given_pathMatcherPattern() {
     // GIVEN
-    File file1 = mockRegularFile("Test.class");
-    File file2 = mockRegularFile("Test.java");
-    File file3 = mockRegularFile("Utils.class");
-    File file4 = mockRegularFile("Utils.java");
-    File file5 = mockRegularFile("application.yml");
-    List<File> items = list(file1, file2, file3, file4, file5);
-    // WHEN
-    File actual = mockDirectory(items, "root");
-    mockPathMatcher(actual);
-    // THEN
+    File actual = newFolder(tempDir.getAbsolutePath() + "/folder");
+    newFile(actual.getAbsolutePath() + "/Test.java");
+    newFile(actual.getAbsolutePath() + "/Test.class");
+    newFile(actual.getAbsolutePath() + "/Utils.class");
+    newFile(actual.getAbsolutePath() + "/Utils.java");
+    newFile(actual.getAbsolutePath() + "/application.yml");
+    // WHEN/THEN
     files.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE_PATTERN);
   }
 
@@ -109,14 +96,13 @@ class Files_assertIsDirectoryContaining_SyntaxAndPattern_Test extends FilesBaseT
     // WHEN
     AssertionError error = expectAssertionError(() -> files.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE_PATTERN));
     // THEN
-    assertThat(error).hasMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_does_not_exist() {
     // GIVEN
-    given(actual.exists()).willReturn(false);
-    mockPathMatcher(actual);
+    File actual = new File("xyz");
     // WHEN
     expectAssertionError(() -> files.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE_PATTERN));
     // THEN
@@ -126,18 +112,18 @@ class Files_assertIsDirectoryContaining_SyntaxAndPattern_Test extends FilesBaseT
   @Test
   void should_fail_if_actual_exists_but_is_not_a_directory() {
     // GIVEN
-    given(actual.exists()).willReturn(true);
-    given(actual.isDirectory()).willReturn(false);
-    mockPathMatcher(actual);
+    File actual = newFile(tempDir.getAbsolutePath() + "/Test.java");
     // WHEN
     expectAssertionError(() -> files.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE_PATTERN));
     // THEN
     verify(failures).failure(INFO, shouldBeDirectory(actual));
   }
 
+  // use mock as it's hard to simulate listFiles(FileFilter.class) to return null
   @Test
   void should_throw_error_on_null_listing() {
     // GIVEN
+    File actual = mock(File.class);
     given(actual.exists()).willReturn(true);
     given(actual.isDirectory()).willReturn(true);
     given(actual.listFiles(any(FileFilter.class))).willReturn(null);
@@ -145,16 +131,14 @@ class Files_assertIsDirectoryContaining_SyntaxAndPattern_Test extends FilesBaseT
     // WHEN
     Throwable error = catchThrowable(() -> files.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE_PATTERN));
     // THEN
-    assertThat(error).isInstanceOf(NullPointerException.class)
-                     .hasMessage("Directory listing should not be null");
+    then(error).isInstanceOf(NullPointerException.class)
+               .hasMessage("Directory listing should not be null");
   }
 
   @Test
   void should_fail_if_actual_is_empty() {
     // GIVEN
-    List<File> items = emptyList();
-    File actual = mockDirectory(items, "root");
-    mockPathMatcher(actual);
+    File actual = newFolder(tempDir.getAbsolutePath() + "/folder");
     // WHEN
     expectAssertionError(() -> files.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE_PATTERN));
     // THEN
@@ -164,32 +148,13 @@ class Files_assertIsDirectoryContaining_SyntaxAndPattern_Test extends FilesBaseT
   @Test
   void should_fail_if_actual_does_not_contain_any_files_matching_the_given_pathMatcherPattern() {
     // GIVEN
-    File file = mockRegularFile("root", "Test.class");
+    File actual = newFolder(tempDir.getAbsolutePath() + "/folder");
+    File file = newFile(actual.getAbsolutePath() + "/Test.class");
     List<File> items = list(file);
-    File actual = mockDirectory(items, "root");
-    mockPathMatcher(actual);
     // WHEN
     expectAssertionError(() -> files.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE_PATTERN));
     // THEN
     verify(failures).failure(INFO, directoryShouldContain(actual, items, JAVA_SOURCE_PATTERN_DESCRIPTION));
   }
 
-  static void mockPathMatcher(File actual) {
-    FileSystem fileSystem = mock(FileSystem.class);
-    given(fileSystem.getPathMatcher(anyString())).will(invocation -> {
-      String regex = invocation.getArgument(0).toString().split(":")[1];
-      Pattern pattern = Pattern.compile("^" + regex + "$", Pattern.CASE_INSENSITIVE);
-      return (PathMatcher) path -> Optional.ofNullable(path.getFileName())
-                                           .map(Path::toString)
-                                           .filter(pattern.asPredicate())
-                                           .isPresent();
-    });
-    Path path = actual.toPath();
-    if (path == null) {
-      path = mock(Path.class);
-      given(actual.toPath()).willReturn(path);
-      given(path.toFile()).willReturn(actual);
-    }
-    given(path.getFileSystem()).willReturn(fileSystem);
-  }
 }

@@ -12,15 +12,11 @@
  */
 package org.assertj.core.internal.files;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldExist.shouldExist;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.io.File;
 
@@ -39,24 +35,27 @@ class Files_assertExists_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertExists(someInfo(), null))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    File actual = null;
+    // WHEN
+    AssertionError error = expectAssertionError(() -> files.assertExists(INFO, actual));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_does_not_exist() {
-    when(actual.exists()).thenReturn(false);
-    AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> files.assertExists(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldExist(actual));
+    // GIVEN
+    File actual = new File("xyz");
+    // WHEN
+    expectAssertionError(() -> files.assertExists(INFO, actual));
+    // THEN
+    verify(failures).failure(INFO, shouldExist(actual));
   }
 
   @Test
   void should_pass_if_actual_exists() {
-    when(actual.exists()).thenReturn(true);
-    files.assertExists(someInfo(), actual);
+    File actual = new File("src/test/resources/actual_file.txt");
+    files.assertExists(INFO, actual);
   }
 }

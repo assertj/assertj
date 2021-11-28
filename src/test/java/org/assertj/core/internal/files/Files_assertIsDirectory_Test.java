@@ -12,15 +12,12 @@
  */
 package org.assertj.core.internal.files;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
+import static org.assertj.core.util.Files.newFile;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.io.File;
 
@@ -39,24 +36,27 @@ class Files_assertIsDirectory_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertIsDirectory(someInfo(), null))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    File actual = null;
+    // WHEN
+    AssertionError error = expectAssertionError(() -> files.assertIsDirectory(INFO, actual));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_not_directory() {
-    when(actual.isDirectory()).thenReturn(false);
-    AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> files.assertIsDirectory(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeDirectory(actual));
+    // GIVEN
+    File actual = newFile(tempDir.getAbsolutePath() + "/file.txt");
+    // WHEN
+    expectAssertionError(() -> files.assertIsDirectory(INFO, actual));
+    // THEN
+    verify(failures).failure(INFO, shouldBeDirectory(actual));
   }
 
   @Test
   void should_pass_if_actual_is_directory() {
-    when(actual.isDirectory()).thenReturn(true);
-    files.assertIsDirectory(someInfo(), actual);
+    File actual = tempDir;
+    files.assertIsDirectory(INFO, actual);
   }
 }

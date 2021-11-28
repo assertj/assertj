@@ -12,15 +12,12 @@
  */
 package org.assertj.core.internal.files;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
+import static org.assertj.core.util.Files.newFile;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.io.File;
 
@@ -39,24 +36,29 @@ class Files_assertIsFile_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertIsFile(someInfo(), null))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    File actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> files.assertIsFile(INFO, actual));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_not_file() {
-    when(actual.isFile()).thenReturn(false);
-    AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> files.assertIsFile(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeFile(actual));
+    // GIVEN
+    File actual = new File("xyz");
+    // WHEN
+    expectAssertionError(() -> files.assertIsFile(INFO, actual));
+    // THEN
+    verify(failures).failure(INFO, shouldBeFile(actual));
   }
 
   @Test
   void should_pass_if_actual_is_file() {
-    when(actual.isFile()).thenReturn(true);
-    files.assertIsFile(someInfo(), actual);
+    // GIVEN
+    File actual = newFile(tempDir.getAbsolutePath() + "/Test.java");
+    // THEN
+    files.assertIsFile(INFO, actual);
   }
 }

@@ -12,15 +12,14 @@
  */
 package org.assertj.core.internal.files;
 
-import static com.google.common.io.Files.touch;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveNoExtension.shouldHaveNoExtension;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Files.newFile;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.assertj.core.internal.FilesBaseTest;
 import org.junit.jupiter.api.Test;
@@ -62,7 +61,7 @@ class Files_assertHasNoExtension_Test extends FilesBaseTest {
   @Test
   void should_fail_if_actual_has_extension() {
     // GIVEN
-    File actual = new File("src/test/resources/ascii.txt");
+    File actual = newFile(tempDir.getAbsolutePath() + "/text.txt");
     // WHEN
     AssertionError error = expectAssertionError(() -> files.assertHasNoExtension(INFO, actual));
     // THEN
@@ -71,11 +70,10 @@ class Files_assertHasNoExtension_Test extends FilesBaseTest {
 
   @ParameterizedTest
   @ValueSource(strings = { "file", "file." })
-  void should_pass_if_actual_has_no_extension(String filename) throws IOException {
-    // GIVEN
-    File actual = new File(tempDir.getAbsolutePath() + "/" + filename);
-    touch(actual);
-    // WHEN/THEN
+  void should_pass_if_actual_has_no_extension(String filename) {
+    // GIVEN / WHEN
+    File actual = newFile(tempDir.getAbsolutePath() + "/" + filename);
+    // THEN
     files.assertHasNoExtension(INFO, actual);
   }
 

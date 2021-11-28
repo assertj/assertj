@@ -37,15 +37,14 @@ import org.junit.jupiter.params.provider.ValueSource;
  */
 class Files_assertHasExtension_Test extends FilesBaseTest {
 
-  private String expectedExtension = "java";
+  private final String expectedExtension = "java";
 
   @Test
   void should_fail_if_actual_is_null() {
     // GIVEN
-    File actual = null;
     String expected = "txt";
     // WHEN
-    AssertionError error = expectAssertionError(() -> files.assertHasExtension(INFO, actual, expected));
+    AssertionError error = expectAssertionError(() -> files.assertHasExtension(INFO, null, expected));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -54,9 +53,8 @@ class Files_assertHasExtension_Test extends FilesBaseTest {
   void should_fail_if_expected_extension_is_null() {
     // GIVEN
     File actual = new File("file.txt");
-    String expected = null;
     // WHEN
-    Throwable thrown = catchThrowable(() -> files.assertHasExtension(INFO, actual, expected));
+    Throwable thrown = catchThrowable(() -> files.assertHasExtension(INFO, actual, null));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage("The expected extension should not be null.");

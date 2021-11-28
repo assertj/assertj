@@ -12,21 +12,16 @@
  */
 package org.assertj.core.internal.files;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.FilesBaseTest;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.mockito.Mockito.verify;
 
 import java.io.File;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
-import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import org.assertj.core.internal.FilesBaseTest;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
@@ -39,24 +34,27 @@ class Files_assertHasNoParent_Test extends FilesBaseTest {
 
   @Test
   void should_throw_error_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasNoParent(someInfo(), null))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    File actual = null;
+    // WHEN
+    AssertionError error = expectAssertionError(() -> files.assertHasNoParent(INFO, actual));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_has_parent() {
-    AssertionInfo info = someInfo();
-    when(actual.getParentFile()).thenReturn(mock(File.class));
-
-    Throwable error = catchThrowable(() -> files.assertHasNoParent(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveNoParent(actual));
+    // GIVEN
+    File actual = new File("x/y/z");
+    // WHEN
+    expectAssertionError(() -> files.assertHasNoParent(INFO, actual));
+    // THEN
+    verify(failures).failure(INFO, shouldHaveNoParent(actual));
   }
 
   @Test
   void should_pass_if_actual_has_no_parent() {
-    when(actual.getParentFile()).thenReturn(null);
-    files.assertHasNoParent(someInfo(), actual);
+    File actual = new File("xyz");
+    files.assertHasNoParent(INFO, actual);
   }
 }

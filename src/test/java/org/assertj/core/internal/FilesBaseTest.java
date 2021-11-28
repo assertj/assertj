@@ -15,6 +15,7 @@ package org.assertj.core.internal;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -28,9 +29,12 @@ import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
+import java.nio.file.PathMatcher;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.regex.Pattern;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.diff.Delta;
@@ -53,6 +57,7 @@ public class FilesBaseTest {
   protected Failures failures;
   protected Files files;
   protected Files unMockedFiles;
+  protected Failures unMockedFailures;
   protected Diff diff;
   protected Delta<String> delta;
   protected BinaryDiff binaryDiff;
@@ -63,9 +68,11 @@ public class FilesBaseTest {
   public void setUp() {
     actual = mock(File.class);
     failures = spy(new Failures());
+    unMockedFailures = spy(new Failures());
     files = new Files();
     unMockedFiles = new Files();
     files.failures = failures;
+    unMockedFiles.failures = unMockedFailures;
     diff = mock(Diff.class);
     delta = mock(Delta.class);
     when(delta.toString()).thenReturn("Extra lines at line 2 : [line1a, line1b]");
@@ -82,6 +89,25 @@ public class FilesBaseTest {
     } catch (IOException e) {
       assertThat(e).hasNoCause().hasMessage("Stream closed");
     }
+  }
+
+  protected static void mockPathMatcher(File actual) {
+    FileSystem fileSystem = mock(FileSystem.class);
+    given(fileSystem.getPathMatcher(anyString())).will(invocation -> {
+      String regex = invocation.getArgument(0).toString().split(":")[1];
+      Pattern pattern = Pattern.compile("^" + regex + "$", Pattern.CASE_INSENSITIVE);
+      return (PathMatcher) path -> Optional.ofNullable(path.getFileName())
+                                           .map(Path::toString)
+                                           .filter(pattern.asPredicate())
+                                           .isPresent();
+    });
+    Path path = actual.toPath();
+    if (path == null) {
+      path = mock(Path.class);
+      given(actual.toPath()).willReturn(path);
+      given(path.toFile()).willReturn(actual);
+    }
+    given(path.getFileSystem()).willReturn(fileSystem);
   }
 
   protected File mockFile(String... names) {

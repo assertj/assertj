@@ -12,17 +12,16 @@
  */
 package org.assertj.core.internal.files;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Files.newFile;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-import org.assertj.core.api.AssertionInfo;
+import java.io.File;
+
 import org.assertj.core.internal.FilesBaseTest;
 import org.junit.jupiter.api.Test;
 
@@ -39,30 +38,38 @@ class Files_assertHasName_Test extends FilesBaseTest {
 
   @Test
   void should_throw_error_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasName(someInfo(), null, expectedName))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    File actual = null;
+    // WHEN
+    AssertionError error = expectAssertionError(() -> files.assertHasName(INFO, actual, expectedName));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
   void should_throw_npe_if_name_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> files.assertHasName(someInfo(), actual, null))
-                                    .withMessage("The expected name should not be null.");
+    // GIVEN
+    String expectedName = null;
+    // WHEN
+    NullPointerException npe = catchThrowableOfType(() -> files.assertHasName(INFO, actual, expectedName),
+                                                    NullPointerException.class);
+    // THEN
+    then(npe).hasMessage("The expected name should not be null.");
   }
 
   @Test
   void should_throw_error_if_actual_does_not_have_the_expected_name() {
-    AssertionInfo info = someInfo();
-    when(actual.getName()).thenReturn("not.expected.name");
-
-    Throwable error = catchThrowable(() -> files.assertHasName(info, actual, expectedName));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveName(actual, expectedName));
+    // GIVEN
+    File actual = newFile(tempDir.getAbsolutePath() + "/not_expected.name");
+    // WHEN
+    expectAssertionError(() -> files.assertHasName(INFO, actual, expectedName));
+    // THEN
+    verify(failures).failure(INFO, shouldHaveName(actual, expectedName));
   }
 
   @Test
   void should_pass_if_actual_has_expected_name() {
-    when(actual.getName()).thenReturn(expectedName);
-    files.assertHasName(someInfo(), actual, expectedName);
+    File actual = newFile(tempDir.getAbsolutePath() + "/expected.name");
+    files.assertHasName(INFO, actual, expectedName);
   }
 }
