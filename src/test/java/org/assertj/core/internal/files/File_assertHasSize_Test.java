@@ -45,34 +45,31 @@ class File_assertHasSize_Test extends FilesBaseTest {
   @Test
   void should_throw_error_if_actual_is_null() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> files.assertHasSizeInBytes(someInfo(), null, actual.length()));
+    AssertionError assertionError = expectAssertionError(() -> files.assertHasSizeInBytes(INFO, null, actual.length()));
     // THEN
     assertThat(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
   void should_throw_error_if_actual_file_does_not_have_the_expected_size() {
-    // GIVEN
-    AssertionInfo info = someInfo();
-    // WHEN
-    expectAssertionError(() -> files.assertHasSizeInBytes(info, actual, 36L));
+    // GIVEN / WHEN
+    expectAssertionError(() -> files.assertHasSizeInBytes(INFO, actual, 36L));
     // THEN
-    verify(failures).failure(info, shouldHaveSize(actual, 36L));
+    verify(failures).failure(INFO, shouldHaveSize(actual, 36L));
   }
 
   @Test
   void should_fail_if_actual_is_not_a_file() {
     // GIVEN
-    AssertionInfo info = someInfo();
     File notAFile = new File("xyz");
     // WHEN
-    expectAssertionError(() -> files.assertHasSizeInBytes(info, notAFile, 36L));
+    expectAssertionError(() -> files.assertHasSizeInBytes(INFO, notAFile, 36L));
     // THEN
-    verify(failures).failure(info, shouldBeFile(notAFile));
+    verify(failures).failure(INFO, shouldBeFile(notAFile));
   }
 
   @Test
   void should_pass_if_actual_has_expected_size() {
-    files.assertHasSizeInBytes(someInfo(), actual, actual.length());
+    files.assertHasSizeInBytes(INFO, actual, actual.length());
   }
 }

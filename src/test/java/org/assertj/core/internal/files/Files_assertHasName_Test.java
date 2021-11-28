@@ -15,6 +15,7 @@ package org.assertj.core.internal.files;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Files.newFile;
 import static org.mockito.Mockito.verify;
@@ -38,30 +39,29 @@ class Files_assertHasName_Test extends FilesBaseTest {
 
   @Test
   void should_throw_error_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasName(someInfo(), null, expectedName))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasName(INFO, null, expectedName))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_throw_npe_if_name_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> files.assertHasName(someInfo(), actual, null))
+    assertThatNullPointerException().isThrownBy(() -> files.assertHasName(INFO, actual, null))
                                     .withMessage("The expected name should not be null.");
   }
 
   @Test
   void should_throw_error_if_actual_does_not_have_the_expected_name() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     File actual = newFile(tempDir.getAbsolutePath() + "/not_expected.name");
-
-    Throwable error = catchThrowable(() -> files.assertHasName(info, actual, expectedName));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveName(actual, expectedName));
+    // WHEN
+    expectAssertionError(() -> files.assertHasName(INFO, actual, expectedName));
+    // THEN
+    verify(failures).failure(INFO, shouldHaveName(actual, expectedName));
   }
 
   @Test
   void should_pass_if_actual_has_expected_name() {
     File actual = newFile(tempDir.getAbsolutePath() + "/expected.name");
-    files.assertHasName(someInfo(), actual, expectedName);
+    files.assertHasName(INFO, actual, expectedName);
   }
 }

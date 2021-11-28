@@ -15,6 +15,7 @@ package org.assertj.core.internal.files;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Files.newFile;
 import static org.mockito.Mockito.verify;
@@ -36,7 +37,7 @@ class Files_assertIsDirectory_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertIsDirectory(someInfo(), null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertIsDirectory(INFO, null))
                                                    .withMessage(actualIsNull());
   }
 
@@ -44,17 +45,15 @@ class Files_assertIsDirectory_Test extends FilesBaseTest {
   void should_fail_if_actual_is_not_directory() {
     // GIVEN
     File actual = newFile(tempDir.getAbsolutePath() + "/file.txt");
-    AssertionInfo info = someInfo();
     // WHEN
-    Throwable error = catchThrowable(() -> files.assertIsDirectory(info, actual));
+    expectAssertionError(() -> files.assertIsDirectory(INFO, actual));
     // THEN
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeDirectory(actual));
+    verify(failures).failure(INFO, shouldBeDirectory(actual));
   }
 
   @Test
   void should_pass_if_actual_is_directory() {
     File actual = tempDir;
-    files.assertIsDirectory(someInfo(), actual);
+    files.assertIsDirectory(INFO, actual);
   }
 }

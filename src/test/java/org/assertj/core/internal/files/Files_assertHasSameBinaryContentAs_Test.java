@@ -64,13 +64,13 @@ class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
     }
 
     // THEN
-    unMockedFiles.assertSameBinaryContentAs(someInfo(), actual, expected);
+    unMockedFiles.assertSameBinaryContentAs(INFO, actual, expected);
   }
 
   @Test
   void should_throw_error_if_expected_is_null() {
     // GIVEN/WHEN
-    NullPointerException npe = catchThrowableOfType(() -> files.assertSameBinaryContentAs(someInfo(), actual, null),
+    NullPointerException npe = catchThrowableOfType(() -> files.assertSameBinaryContentAs(INFO, actual, null),
                                                     NullPointerException.class);
     // THEN
     then(npe).hasMessage("The file to compare to should not be null");
@@ -79,7 +79,7 @@ class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // GIVEN/WHEN
-    AssertionError error = expectAssertionError(() -> files.assertSameBinaryContentAs(someInfo(), null, expected));
+    AssertionError error = expectAssertionError(() -> files.assertSameBinaryContentAs(INFO, null, expected));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -89,7 +89,7 @@ class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
     // GIVEN
     File notAFile = new File("xyz");
     // WHEN
-    AssertionError error = expectAssertionError(() -> files.assertSameBinaryContentAs(someInfo(), notAFile, expected));
+    AssertionError error = expectAssertionError(() -> files.assertSameBinaryContentAs(INFO, notAFile, expected));
     // THEN
     then(error).hasMessage(shouldBeFile(notAFile).create());
   }
@@ -99,7 +99,7 @@ class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
     // GIVEN
     File notAFile = new File("xyz");
     // WHEN
-    IllegalArgumentException iae = catchThrowableOfType(() -> files.assertSameBinaryContentAs(someInfo(), actual, notAFile),
+    IllegalArgumentException iae = catchThrowableOfType(() -> files.assertSameBinaryContentAs(INFO, actual, notAFile),
                                                         IllegalArgumentException.class);
     // THEN
     then(iae).hasMessage("Expected file:<'%s'> should be an existing file", notAFile);
@@ -111,7 +111,7 @@ class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
     IOException cause = new IOException();
     given(binaryDiff.diff(actual, expectedBytes)).willThrow(cause);
     // WHEN
-    UncheckedIOException uioe = catchThrowableOfType(() -> files.assertSameBinaryContentAs(someInfo(), actual, expected),
+    UncheckedIOException uioe = catchThrowableOfType(() -> files.assertSameBinaryContentAs(INFO, actual, expected),
                                                      UncheckedIOException.class);
     // THEN
     then(uioe).hasCause(cause);
@@ -123,8 +123,8 @@ class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
     BinaryDiff binaryDiff = new BinaryDiff();
     BinaryDiffResult diff = binaryDiff.diff(actual, expectedBytes);
     // WHEN
-    expectAssertionError(() -> unMockedFiles.assertSameBinaryContentAs(someInfo(), actual, expected));
+    expectAssertionError(() -> unMockedFiles.assertSameBinaryContentAs(INFO, actual, expected));
     // THEN
-    verify(unMockedFailures).failure(someInfo(), shouldHaveBinaryContent(actual, diff));
+    verify(unMockedFailures).failure(INFO, shouldHaveBinaryContent(actual, diff));
   }
 }

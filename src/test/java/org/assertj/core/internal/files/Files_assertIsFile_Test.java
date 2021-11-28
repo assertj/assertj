@@ -15,6 +15,7 @@ package org.assertj.core.internal.files;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Files.newFile;
 import static org.mockito.Mockito.verify;
@@ -36,7 +37,7 @@ class Files_assertIsFile_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertIsFile(someInfo(), null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertIsFile(INFO, null))
                                                    .withMessage(actualIsNull());
   }
 
@@ -44,12 +45,10 @@ class Files_assertIsFile_Test extends FilesBaseTest {
   void should_fail_if_actual_is_not_file() {
     // GIVEN
     File actual = new File("xyz");
-    AssertionInfo info = someInfo();
     // WHEN
-    Throwable error = catchThrowable(() -> files.assertIsFile(info, actual));
+    expectAssertionError(() -> files.assertIsFile(INFO, actual));
     // THEN
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeFile(actual));
+    verify(failures).failure(INFO, shouldBeFile(actual));
   }
 
   @Test
@@ -57,6 +56,6 @@ class Files_assertIsFile_Test extends FilesBaseTest {
     // GIVEN
     File actual = newFile(tempDir.getAbsolutePath() + "/Test.java");
     // THEN
-    files.assertIsFile(someInfo(), actual);
+    files.assertIsFile(INFO, actual);
   }
 }

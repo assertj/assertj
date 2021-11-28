@@ -15,6 +15,7 @@ package org.assertj.core.internal.files;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.error.ShouldBeRelativePath.shouldBeRelativePath;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Files.newFile;
 import static org.mockito.Mockito.verify;
@@ -36,7 +37,7 @@ class Files_assertIsRelative_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertIsRelative(someInfo(), null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertIsRelative(INFO, null))
                                                    .withMessage(actualIsNull());
   }
 
@@ -44,12 +45,10 @@ class Files_assertIsRelative_Test extends FilesBaseTest {
   void should_fail_if_actual_is_not_relative_path() {
     // GIVEN
     File actual = newFile(tempDir.getAbsolutePath() + "/Test.java");
-    AssertionInfo info = someInfo();
     // WHEN
-    Throwable error = catchThrowable(() -> files.assertIsRelative(info, actual));
+    expectAssertionError(() -> files.assertIsRelative(INFO, actual));
     // THEN
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeRelativePath(actual));
+    verify(failures).failure(INFO, shouldBeRelativePath(actual));
   }
 
   @Test
@@ -57,6 +56,6 @@ class Files_assertIsRelative_Test extends FilesBaseTest {
     // GIVEN
     File actual = new File("src/test/resources/actual_file.txt");
     // THEN
-    files.assertIsRelative(someInfo(), actual);
+    files.assertIsRelative(INFO, actual);
   }
 }

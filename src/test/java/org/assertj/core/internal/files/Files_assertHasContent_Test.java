@@ -57,32 +57,31 @@ class Files_assertHasContent_Test extends FilesBaseTest {
 
   @Test
   void should_throw_error_if_expected_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> files.assertHasContent(someInfo(), actual, null, charset))
+    assertThatNullPointerException().isThrownBy(() -> files.assertHasContent(INFO, actual, null, charset))
                                     .withMessage("The text to compare to should not be null");
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasContent(someInfo(), null, expected, charset))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasContent(INFO, null, expected, charset))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_not_file() {
     // GIVEN
-    AssertionInfo info = someInfo();
+
     File notAFile = new File("xyz");
     // WHEN
-    Throwable error = catchThrowable(() -> files.assertHasContent(info, notAFile, expected, charset));
+    expectAssertionError(() -> files.assertHasContent(INFO, notAFile, expected, charset));
     // THEN
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeFile(notAFile));
+    verify(failures).failure(INFO, shouldBeFile(notAFile));
   }
 
   @Test
   void should_pass_if_file_has_text_content() throws IOException {
     String expected = "actual";
-    files.assertHasContent(someInfo(), actual, expected, charset);
+    files.assertHasContent(INFO, actual, expected, charset);
   }
 
   @Test
@@ -90,7 +89,7 @@ class Files_assertHasContent_Test extends FilesBaseTest {
     IOException cause = new IOException();
     when(diff.diff(actual, expected, charset)).thenThrow(cause);
 
-    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> files.assertHasContent(someInfo(), actual,
+    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> files.assertHasContent(INFO, actual,
                                                                                                   expected, charset))
                                                          .withCause(cause);
   }
@@ -100,10 +99,9 @@ class Files_assertHasContent_Test extends FilesBaseTest {
     // GIVEN
     Diff diff = new Diff();
     List<Delta<String>> diffs = diff.diff(actual, expected, charset);
-    AssertionInfo info = someInfo();
     // WHEN
-    expectAssertionError(() -> unMockedFiles.assertHasContent(info, actual, expected, charset));
+    expectAssertionError(() -> unMockedFiles.assertHasContent(INFO, actual, expected, charset));
     // THEN
-    verify(unMockedFailures).failure(info, shouldHaveContent(actual, charset, diffs));
+    verify(unMockedFailures).failure(INFO, shouldHaveContent(actual, charset, diffs));
   }
 }

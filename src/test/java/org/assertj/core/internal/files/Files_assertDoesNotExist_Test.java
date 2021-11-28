@@ -15,6 +15,7 @@ package org.assertj.core.internal.files;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -35,7 +36,7 @@ class Files_assertDoesNotExist_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertDoesNotExist(someInfo(), null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertDoesNotExist(INFO, null))
                                                    .withMessage(actualIsNull());
   }
 
@@ -43,17 +44,15 @@ class Files_assertDoesNotExist_Test extends FilesBaseTest {
   void should_fail_if_actual_exists() {
     // GIVEN
     File actual = new File("src/test/resources/actual_file.txt");
-    AssertionInfo info = someInfo();
     // WHEN
-    Throwable error = catchThrowable(() -> files.assertDoesNotExist(info, actual));
+    expectAssertionError(() -> files.assertDoesNotExist(INFO, actual));
     // THEN
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotExist(actual));
+    verify(failures).failure(INFO, shouldNotExist(actual));
   }
 
   @Test
   void should_pass_if_actual_does_not_exist() {
     File actual = new File("xyz");
-    files.assertDoesNotExist(someInfo(), actual);
+    files.assertDoesNotExist(INFO, actual);
   }
 }

@@ -19,7 +19,6 @@ import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveDigest.shouldHaveDigest;
 import static org.assertj.core.internal.Digests.toHex;
-import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Files.newFile;
@@ -53,8 +52,8 @@ class Files_assertHasDigest_AlgorithmString_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    AssertionInfo info = someInfo();
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasDigest(info, null, algorithm, expected))
+
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasDigest(INFO, null, algorithm, expected))
                                                    .withMessage(actualIsNull());
   }
 
@@ -63,7 +62,7 @@ class Files_assertHasDigest_AlgorithmString_Test extends FilesBaseTest {
     // GIVEN
     File actual = new File("xyz");
     // WHEN
-    catchThrowable(() -> files.assertHasDigest(INFO, actual, algorithm, expected));
+    expectAssertionError(() -> files.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
     verify(failures).failure(INFO, shouldExist(actual));
   }
@@ -73,7 +72,7 @@ class Files_assertHasDigest_AlgorithmString_Test extends FilesBaseTest {
     // GIVEN
     File actual = newFolder(tempDir.getAbsolutePath() + "/tmp");
     // WHEN
-    catchThrowable(() -> files.assertHasDigest(INFO, actual, algorithm, expected));
+    expectAssertionError(() -> files.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
     verify(failures).failure(INFO, shouldBeFile(actual));
   }
@@ -84,7 +83,7 @@ class Files_assertHasDigest_AlgorithmString_Test extends FilesBaseTest {
     File actual = newFile(tempDir.getAbsolutePath() + "/Test.java");
     actual.setReadable(false);
     // WHEN
-    catchThrowable(() -> files.assertHasDigest(INFO, actual, algorithm, expected));
+    expectAssertionError(() -> files.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
     verify(failures).failure(INFO, shouldBeReadable(actual));
   }
@@ -140,7 +139,7 @@ class Files_assertHasDigest_AlgorithmString_Test extends FilesBaseTest {
     String expected = toHex(digest.digest(actualData));
     DigestDiff digestDiff = new DigestDiff(toHex(digest.digest(readAllBytes(actual.toPath()))), expected, digest);
     // WHEN
-    AssertionError error = expectAssertionError(() -> unMockedFiles.assertHasDigest(INFO, actual, algorithm, expected));
+    expectAssertionError(() -> unMockedFiles.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
     verify(unMockedFailures).failure(INFO, shouldHaveDigest(actual, digestDiff));
   }

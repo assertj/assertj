@@ -15,6 +15,7 @@ package org.assertj.core.internal.files;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.error.ShouldBeWritable.shouldBeWritable;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Files.newFile;
 import static org.mockito.Mockito.verify;
@@ -37,7 +38,7 @@ class Files_assertCanWrite_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertCanWrite(someInfo(), null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertCanWrite(INFO, null))
                                                    .withMessage(actualIsNull());
   }
 
@@ -45,18 +46,16 @@ class Files_assertCanWrite_Test extends FilesBaseTest {
   void should_fail_if_can_not_write() {
     // GIVEN
     File actual = new File("xyz");
-    AssertionInfo info = someInfo();
     // WHEN
-    Throwable error = catchThrowable(() -> files.assertCanWrite(info, actual));
+    expectAssertionError(() -> files.assertCanWrite(INFO, actual));
     // THEN
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeWritable(actual));
+    verify(failures).failure(INFO, shouldBeWritable(actual));
   }
 
   @Test
   void should_pass_if_actual_can_write() {
     File actual = newFile(tempDir.getAbsolutePath() + "to_write.txt");
-    files.assertCanWrite(someInfo(), actual);
+    files.assertCanWrite(INFO, actual);
   }
 
 }

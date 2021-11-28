@@ -52,8 +52,8 @@ class Files_assertHasDigest_AlgorithmBytes_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    AssertionInfo info = someInfo();
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasDigest(info, null, algorithm, expected))
+
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasDigest(INFO, null, algorithm, expected))
                                                    .withMessage(actualIsNull());
   }
 

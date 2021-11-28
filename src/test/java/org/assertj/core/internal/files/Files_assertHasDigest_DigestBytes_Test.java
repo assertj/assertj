@@ -60,7 +60,7 @@ class Files_assertHasDigest_DigestBytes_Test extends FilesBaseTest {
     // GIVEN
     File actual = new File("xyz");
     // WHEN
-    catchThrowable(() -> files.assertHasDigest(INFO, actual, digest, expected));
+    expectAssertionError(() -> files.assertHasDigest(INFO, actual, digest, expected));
     // THEN
     verify(failures).failure(INFO, shouldExist(actual));
   }
@@ -70,7 +70,7 @@ class Files_assertHasDigest_DigestBytes_Test extends FilesBaseTest {
     // GIVEN
     File actual = newFolder(tempDir.getAbsolutePath() + "/tmp");
     // WHEN
-    catchThrowable(() -> files.assertHasDigest(INFO, actual, digest, expected));
+    expectAssertionError(() -> files.assertHasDigest(INFO, actual, digest, expected));
     // THEN
     verify(failures).failure(INFO, shouldBeFile(actual));
   }
@@ -81,7 +81,7 @@ class Files_assertHasDigest_DigestBytes_Test extends FilesBaseTest {
     File actual = newFile(tempDir.getAbsolutePath() + "/Test.java");
     actual.setReadable(false);
     // WHEN
-    catchThrowable(() -> files.assertHasDigest(INFO, actual, digest, expected));
+    expectAssertionError(() -> files.assertHasDigest(INFO, actual, digest, expected));
     // THEN
     verify(failures).failure(INFO, shouldBeReadable(actual));
   }

@@ -55,26 +55,24 @@ class Files_assertHasBinaryContent_Test extends FilesBaseTest {
 
   @Test
   void should_throw_error_if_expected_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> files.assertHasBinaryContent(someInfo(), actual, null))
+    assertThatNullPointerException().isThrownBy(() -> files.assertHasBinaryContent(INFO, actual, null))
                                     .withMessage("The binary content to compare to should not be null");
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasBinaryContent(someInfo(), null, expected))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertHasBinaryContent(INFO, null, expected))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_not_file() {
     // GIVEN
-    AssertionInfo info = someInfo();
     File notAFile = new File("xyz");
     // WHEN
-    Throwable error = catchThrowable(() -> files.assertHasBinaryContent(info, notAFile, expected));
+    expectAssertionError(() -> files.assertHasBinaryContent(INFO, notAFile, expected));
     // THEN
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeFile(notAFile));
+    verify(failures).failure(INFO, shouldBeFile(notAFile));
   }
 
   @Test
@@ -85,7 +83,7 @@ class Files_assertHasBinaryContent_Test extends FilesBaseTest {
       myWriter.write(data, 0, data.length);
     }
     byte[] expected = "actual".getBytes();
-    unMockedFiles.assertHasBinaryContent(someInfo(), actual, expected);
+    unMockedFiles.assertHasBinaryContent(INFO, actual, expected);
   }
 
   @Test
@@ -93,7 +91,7 @@ class Files_assertHasBinaryContent_Test extends FilesBaseTest {
     IOException cause = new IOException();
     when(binaryDiff.diff(actual, expected)).thenThrow(cause);
 
-    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> files.assertHasBinaryContent(someInfo(),
+    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> files.assertHasBinaryContent(INFO,
                                                                                                         actual,
                                                                                                         expected))
                                                          .withCause(cause);
@@ -111,10 +109,10 @@ class Files_assertHasBinaryContent_Test extends FilesBaseTest {
 
     BinaryDiff binaryDiff = new BinaryDiff();
     BinaryDiffResult diff = binaryDiff.diff(actual, expected);
-    AssertionInfo info = someInfo();
+
     // WHEN
-    expectAssertionError(() -> unMockedFiles.assertHasBinaryContent(info, actual, expected));
+    expectAssertionError(() -> unMockedFiles.assertHasBinaryContent(INFO, actual, expected));
     // THEN
-    verify(unMockedFailures).failure(info, shouldHaveBinaryContent(actual, diff));
+    verify(unMockedFailures).failure(INFO, shouldHaveBinaryContent(actual, diff));
   }
 }

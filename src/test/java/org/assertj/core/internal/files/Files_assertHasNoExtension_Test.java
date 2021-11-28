@@ -30,8 +30,7 @@ class Files_assertHasNoExtension_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    // GIVEN
-    // WHEN
+    // GIVEN / WHEN
     AssertionError error = expectAssertionError(() -> files.assertHasNoExtension(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
@@ -70,9 +69,9 @@ class Files_assertHasNoExtension_Test extends FilesBaseTest {
   @ParameterizedTest
   @ValueSource(strings = { "file", "file." })
   void should_pass_if_actual_has_no_extension(String filename) throws IOException {
-    // GIVEN
+    // GIVEN / WHEN
     File actual = newFile(tempDir.getAbsolutePath() + "/" + filename);
-    // WHEN/THEN
+    // THEN
     files.assertHasNoExtension(INFO, actual);
   }
 

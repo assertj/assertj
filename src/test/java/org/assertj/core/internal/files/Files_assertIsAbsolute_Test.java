@@ -15,6 +15,7 @@ package org.assertj.core.internal.files;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -35,7 +36,7 @@ class Files_assertIsAbsolute_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertIsAbsolute(someInfo(), null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertIsAbsolute(INFO, null))
                                                    .withMessage(actualIsNull());
   }
 
@@ -43,17 +44,15 @@ class Files_assertIsAbsolute_Test extends FilesBaseTest {
   void should_fail_if_actual_is_not_absolute_path() {
     // GIVEN
     File actual = new File("xyz");
-    AssertionInfo info = someInfo();
     // WHEN
-    Throwable error = catchThrowable(() -> files.assertIsAbsolute(info, actual));
+    expectAssertionError(() -> files.assertIsAbsolute(INFO, actual));
     // THEN
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeAbsolutePath(actual));
+    verify(failures).failure(INFO, shouldBeAbsolutePath(actual));
   }
 
   @Test
   void should_pass_if_actual_is_absolute_path() {
     File actual = new File(tempDir.getAbsolutePath() + "/file.txt");
-    files.assertIsAbsolute(someInfo(), actual);
+    files.assertIsAbsolute(INFO, actual);
   }
 }

@@ -15,6 +15,7 @@ package org.assertj.core.internal.files;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -36,26 +37,24 @@ class Files_assertCanRead_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertCanRead(someInfo(), null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> files.assertCanRead(INFO, null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_can_not_read() {
     // GIVEN
-    File notAFile = new File("xyz");
-    AssertionInfo info = someInfo();
+    File nonExistentFile = new File("xyz");
     // WHEN
-    Throwable error = catchThrowable(() -> files.assertCanRead(info, notAFile));
+    expectAssertionError(() -> files.assertCanRead(INFO, nonExistentFile));
     // THEN
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeReadable(notAFile));
+    verify(failures).failure(INFO, shouldBeReadable(nonExistentFile));
   }
 
   @Test
   void should_pass_if_actual_can_read() {
     File actual = new File("src/test/resources/actual_file.txt");
-    files.assertCanRead(someInfo(), actual);
+    files.assertCanRead(INFO, actual);
   }
 
 }
