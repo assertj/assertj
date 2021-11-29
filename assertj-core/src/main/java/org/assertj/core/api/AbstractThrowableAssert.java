@@ -12,11 +12,14 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldNotHaveThrown.shouldNotHaveThrown;
 import static org.assertj.core.error.ShouldNotHaveThrownExcept.shouldNotHaveThrownExcept;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.IllegalFormatException;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.assertj.core.error.BasicErrorMessageFactory;
@@ -177,6 +180,44 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   public AbstractThrowableAssert<?, ?> rootCause() {
     throwables.assertHasRootCause(info, actual);
     return new ThrowableAssert<>(org.assertj.core.util.Throwables.getRootCause(actual)).withAssertionState(myself);
+  }
+
+  /**
+   * Returns a new list assertion including the actual {@link Throwable} and all its causes (if any) down to the root cause.
+   * <p>
+   * The list only contains the actual throwable if there is no cause.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable rootCause = new JdbcException("invalid query");
+   * Throwable cause =  new RuntimeException("some failure", rootCause);
+   * Throwable throwable = new Exception("boom!", cause);
+   *
+   * // typical use:
+   * assertThat(throwable).throwablesChain()
+   *                      .extracting(Throwable::getMessage)
+   *                      .anyMatch("some failure");
+   *
+   * // if there is no cause, throwablesChain simply returns the top level throwable
+   * assertThat(rootCause).throwablesChain()
+   *                      .containsExactly(rootCause);</code></pre>
+   *
+   * @return a new assertion object
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @since 4.0.0
+   */
+  public ListAssert<Throwable> throwablesChain() {
+    isNotNull();
+    List<Throwable> throwablesChain = getThrowablesChain(actual);
+    return assertThat(throwablesChain);
+  }
+
+  private static List<Throwable> getThrowablesChain(Throwable throwable) {
+    List<Throwable> throwables = new ArrayList<>();
+    while (throwable != null) {
+      throwables.add(throwable);
+      throwable = throwable.getCause();
+    }
+    return throwables;
   }
 
   /**
