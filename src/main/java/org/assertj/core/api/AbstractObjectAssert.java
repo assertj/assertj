@@ -16,14 +16,12 @@ import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -1092,6 +1090,46 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     objects.assertEqual(info, from.apply(actual), expected);
     return myself;
   }
+
+
+
+  /**
+   * Verifies that the object under test returns the given expected value from the given {@link Function},
+   * a typical usage is to pass a method reference to assert object's property.
+   * <p>
+   * Wrapping the given {@link Function} with {@link Assertions#from(Function)} makes the assertion more readable.
+   * <p>
+   * Example:
+   * <pre><code class="java"> // from is not mandatory but it makes the assertions more readable
+   * assertThat(frodo).returns("Frodo", from(TolkienCharacter::getName))
+   *                  .returns("Frodo", TolkienCharacter::getName) // no from :(
+   *                  .returns(HOBBIT, from(TolkienCharacter::getRace));</code></pre>
+   *
+   * @param expected the value the object under test method's call should return.
+   * @param from {@link Function} used to acquire the value to test from the object under test. Must not be {@code null}
+   * @param <T> the expected value type the given {@code method} returns.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if given {@code from} function is null
+   */
+  public <T> SELF returnsValue(T expected, Function<ACTUAL, T> from) {
+    requireNonNull(from, "The given getter method/Function must not be null");
+
+    Object result = from.apply(actual);
+    if (result instanceof Optional) {
+      Optional opt_result = (Optional) result;
+      if (!opt_result.isPresent()) {
+        throwAssertionError(shouldBePresent(opt_result));
+      }
+      Object actual_val = opt_result.get();
+      objects.assertEqual(info, actual_val, expected);
+
+    } else {
+      objects.assertEqual(info, from.apply(actual), expected);
+    }
+
+    return myself;
+  }
+
 
   /**
    * Enable using a recursive field by field comparison strategy when calling the chained {@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion.
