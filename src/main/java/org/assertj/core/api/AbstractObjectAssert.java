@@ -1096,6 +1096,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   /**
    * Verifies that the object under test returns the given expected value from the given {@link Function},
    * a typical usage is to pass a method reference to assert object's property.
+   * Note that this is an extension to the returns function, which takes into account when the return type
+   * of the function is an Optional object, in response to issue #2341
    * <p>
    * Wrapping the given {@link Function} with {@link Assertions#from(Function)} makes the assertion more readable.
    * <p>
