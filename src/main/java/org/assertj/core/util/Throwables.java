@@ -151,21 +151,6 @@ public final class Throwables {
   }
 
   /**
-   * Get the causes chain of a {@link Throwable}.
-   *
-   * @param throwable the {@code Throwable} to get causes chain from.
-   * @return the causes chain, including the {@link Throwable} provided as parameter.
-   */
-  public static List<Throwable> getCausesChain(Throwable throwable) {
-    List<Throwable> throwables = new ArrayList<>();
-    while (throwable != null) {
-      throwables.add(throwable);
-      throwable = throwable.getCause();
-    }
-    return throwables;
-  }
-
-  /**
    * Get the stack trace from a {@link Throwable} as a {@link String}.
    *
    * <p>

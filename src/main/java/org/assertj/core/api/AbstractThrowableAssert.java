@@ -15,7 +15,9 @@ package org.assertj.core.api;
 import static java.lang.String.format;
 import static org.assertj.core.error.ShouldNotHaveThrown.shouldNotHaveThrown;
 
+import java.util.ArrayList;
 import java.util.IllegalFormatException;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.assertj.core.error.BasicErrorMessageFactory;
@@ -204,8 +206,8 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
-   * Returns a new list assertion of every cause in the chain of causes.
-   * The list is ordered from the current {@link Throwable} up to the root cause.
+   * Returns a new list assertion of every cause from the current {@link Throwable} down to the root cause.
+   * The list is empty if there is no cause.
    * <p>
    * Examples:
    * <pre><code class='java'> Throwable rootCause = new JdbcException("invalid query");
@@ -213,19 +215,31 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * Throwable throwable = new Exception("boom!", cause);
    *
    * // typical use:
-   * assertThat(throwable).asCausesChain()
+   * assertThat(throwable).causesChain()
    *                      .extracting(Throwable::getMessage)
    *                      .anyMatch("some failure");</code></pre>
    *
    * @return a new assertion object
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-   * @throws AssertionError if the actual {@code Throwable} does not have a cause.
    *
    * @since 3.16.0
    */
-  public ListAssert<Throwable> asCausesChain() {
-    throwables.assertHasCause(info, actual);
-    return AssertionsForInterfaceTypes.assertThat(org.assertj.core.util.Throwables.getCausesChain(actual));
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  public AbstractListAssert<?, List<Throwable>, Throwable, ? extends AbstractThrowableAssert<?, Throwable>> causesChain() {
+    isNotNull();
+    return (AbstractListAssert) AssertionsForInterfaceTypes.assertThat(getCausesChain(actual));
+  }
+
+  /**
+   * Get the causes chain of a {@link Throwable}.
+   */
+  private static List<Throwable> getCausesChain(Throwable throwable) {
+    List<Throwable> throwables = new ArrayList<>();
+    while (throwable != null) {
+      throwables.add(throwable);
+      throwable = throwable.getCause();
+    }
+    return throwables;
   }
 
   /**

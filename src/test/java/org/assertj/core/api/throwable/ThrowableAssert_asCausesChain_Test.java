@@ -13,6 +13,7 @@
 package org.assertj.core.api.throwable;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveCause.shouldHaveCause;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -29,7 +30,7 @@ class ThrowableAssert_asCausesChain_Test {
     // GIVEN
     Throwable throwable = new Throwable("initial", intermediateCause);
     // WHEN/THEN
-    assertThat(throwable).asCausesChain()
+    assertThat(throwable).causesChain()
                          .containsExactly(throwable, intermediateCause, rootCause);
   }
 
@@ -38,9 +39,9 @@ class ThrowableAssert_asCausesChain_Test {
     // GIVEN
     Throwable actual = new Throwable();
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).asCausesChain());
+    AssertionError error = expectAssertionError(() -> assertThat(actual).causesChain());
     // THEN
-    assertThat(error).hasMessage(shouldHaveCause(actual).create());
+    then(error).hasMessage(shouldHaveCause(actual).create());
   }
 
   @Test
@@ -48,9 +49,9 @@ class ThrowableAssert_asCausesChain_Test {
     // GIVEN
     Throwable actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).asCausesChain());
+    AssertionError error = expectAssertionError(() -> assertThat(actual).causesChain());
     // THEN
-    assertThat(error).hasMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
 }
