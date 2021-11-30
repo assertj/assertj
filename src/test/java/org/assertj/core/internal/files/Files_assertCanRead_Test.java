@@ -51,7 +51,7 @@ class Files_assertCanRead_Test extends FilesBaseTest {
     Throwable error = catchThrowable(() -> files.assertCanRead(info, notAFile));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeReadable(actual));
+    verify(failures).failure(info, shouldBeReadable(notAFile));
   }
 
   @Test

@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.description.Description.mostRelevantDescription;
+import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.extractor.Extractors.byName;
@@ -1103,9 +1104,9 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * Example:
    * <pre><code class="java"> // from is not mandatory but it makes the assertions more readable
-   * assertThat(frodo).returns("Frodo", from(TolkienCharacter::getName))
-   *                  .returns("Frodo", TolkienCharacter::getName) // no from :(
-   *                  .returns(HOBBIT, from(TolkienCharacter::getRace));</code></pre>
+   * ObjectWithOptionalField frodo = new ObjectWithOptionalField(Optional.of("Frodo"));
+   * assertThat(frodo).returnsValue("Frodo", from(ObjectWithOptionalField::getOptString))
+   *                  .returnsValue("Frodo", ObjectWithOptionalField::getOptString);</code></pre>  // no from :(
    *
    * @param expected the value the object under test method's call should return.
    * @param from {@link Function} used to acquire the value to test from the object under test. Must not be {@code null}
@@ -1129,6 +1130,40 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
       objects.assertEqual(info, from.apply(actual), expected);
     }
 
+    return myself;
+  }
+
+  /**
+   * Verifies that the object under test returns empty optional from the given {@link Function},
+   * a typical usage is to pass a method reference to assert object's property.
+   * Note that this is an extension to the returns function, which takes into account when the return type
+   * of the function is an Optional object, in response to issue #2341
+   * <p>
+   * Wrapping the given {@link Function} with {@link Assertions#from(Function)} makes the assertion more readable.
+   * <p>
+   * Example:
+   * <pre><code class="java"> // from is not mandatory but it makes the assertions more readable
+   * ObjectWithOptionalField frodo = new ObjectWithOptionalField(Optional.empty());
+   * assertThat(frodo).returnsEmpty(from(ObjectWithOptionalField::getOptString))
+   *                  .returnsEmpty(ObjectWithOptionalField::getOptString);</code></pre>  // no from :(
+   *
+   * @param from {@link Function} used to acquire the value to test from the object under test. Must not be {@code null}
+   * @param <T> the expected value type the given {@code method} returns.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if given {@code from} function is null
+   */
+  public <T> SELF returnsEmpty(Function<ACTUAL, T> from) {
+    requireNonNull(from, "The given getter method/Function must not be null");
+
+    Object result = from.apply(actual);
+    objects.assertNotNull(info, result);
+
+    if (result instanceof Optional) {
+      Optional opt_result = (Optional) result;
+      if (opt_result.isPresent()) {
+        throwAssertionError((shouldBeEmpty(opt_result)));
+      }
+    }
     return myself;
   }
 
