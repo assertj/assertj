@@ -64,7 +64,7 @@ class Paths_assertIsDirectoryRecursivelyContaining_with_String_Test extends Path
     /**
      * AssertionInfo
      */
-    private final static AssertionInfo INFO = someInfo();
+    private final AssertionInfo INFO = someInfo();
 
     private ActualMatches() {}
 
