@@ -211,11 +211,10 @@ public class ShouldBeEqual implements AssertionErrorFactory {
   private AssertionError newComparisonFailure(String description) throws Exception {
     Object o = constructorInvoker.newInstance("org.junit.ComparisonFailure",
                                               MSG_ARG_TYPES,
-                                              array(description,
-                                                    representation.toStringOf(expected),
-                                                    representation.toStringOf(actual)));
-    if (o instanceof AssertionError) return (AssertionError) o;
-    return null;
+                                              description,
+                                              representation.toStringOf(expected),
+                                              representation.toStringOf(actual));
+    return o instanceof AssertionError ? (AssertionError) o : null;
   }
 
   protected String detailedActual() {
