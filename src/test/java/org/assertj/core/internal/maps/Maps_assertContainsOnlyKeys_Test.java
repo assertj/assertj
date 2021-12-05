@@ -12,11 +12,11 @@
  */
 package org.assertj.core.internal.maps;
 
-import static java.lang.String.CASE_INSENSITIVE_ORDER;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.emptySet;
 import static java.util.Collections.singletonMap;
 import static java.util.Collections.unmodifiableMap;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -32,53 +32,25 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.set;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-import java.util.HashMap;
-import java.util.IdentityHashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.apache.commons.collections4.map.CaseInsensitiveMap;
 import org.apache.commons.collections4.map.SingletonMap;
 import org.apache.commons.lang3.ArrayUtils;
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Maps;
 import org.assertj.core.internal.MapsBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.util.LinkedCaseInsensitiveMap;
 
 import com.google.common.collect.ImmutableMap;
 
 /**
- * Tests for <code>{@link Maps#assertContainsOnlyKeys(AssertionInfo, Map, Object[])}</code>.
- *
  * @author Christopher Arnott
  */
 class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
-
-  private static final Supplier<Map<String, String>> CASE_INSENSITIVE_TREE_MAP = () -> new TreeMap<>(CASE_INSENSITIVE_ORDER);
-
-  @SuppressWarnings("unchecked")
-  private static final Supplier<Map<String, String>>[] CASE_INSENSITIVE_MAPS = new Supplier[] {
-      // org.apache.commons.collections4.map.CaseInsensitiveMap not included due to slightly different behavior
-      LinkedCaseInsensitiveMap::new,
-      CASE_INSENSITIVE_TREE_MAP
-  };
-
-  @SuppressWarnings("unchecked")
-  private static final Supplier<Map<String, String>>[] MODIFIABLE_MAPS = ArrayUtils.addAll(CASE_INSENSITIVE_MAPS,
-                                                                                           CaseInsensitiveMap::new,
-                                                                                           HashMap::new,
-                                                                                           IdentityHashMap::new,
-                                                                                           LinkedHashMap::new);
-
-  private static final String ARRAY_OF_KEYS = "array of keys";
 
   @Test
   void should_fail_if_actual_is_null() {
@@ -97,7 +69,7 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
     // WHEN
     Throwable thrown = catchThrowable(() -> maps.assertContainsOnlyKeys(someInfo(), actual, keys));
     // THEN
-    then(thrown).isInstanceOf(NullPointerException.class).hasMessage(keysToLookForIsNull(ARRAY_OF_KEYS));
+    then(thrown).isInstanceOf(NullPointerException.class).hasMessage(keysToLookForIsNull("array of keys"));
   }
 
   @Test
@@ -107,7 +79,7 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
     // WHEN
     Throwable thrown = catchThrowable(() -> maps.assertContainsOnlyKeys(someInfo(), actual, keys));
     // THEN
-    then(thrown).isInstanceOf(IllegalArgumentException.class).hasMessage(keysToLookForIsEmpty(ARRAY_OF_KEYS));
+    then(thrown).isInstanceOf(IllegalArgumentException.class).hasMessage(keysToLookForIsEmpty("array of keys"));
   }
 
   @ParameterizedTest
@@ -161,10 +133,11 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
   })
   void should_fail(Map<String, String> actual, String[] expected, Set<String> notFound, Set<String> notExpected) {
     // WHEN
-    AssertionError error = expectAssertionError(() -> maps.assertContainsOnlyKeys(info, actual, expected));
-    // THEN
-    then(error).as(actual.getClass().getName())
-               .hasMessage(shouldContainOnlyKeys(actual, expected, notFound, notExpected).create());
+    assertThatExceptionOfType(AssertionError.class).as(actual.getClass().getName())
+                                                   .isThrownBy(() -> maps.assertContainsOnlyKeys(info, actual, expected))
+                                                   // THEN
+                                                   .withMessage(shouldContainOnlyKeys(actual, expected,
+                                                                                      notFound, notExpected).create());
   }
 
   private static Stream<Arguments> unmodifiableMapsFailureTestCases() {

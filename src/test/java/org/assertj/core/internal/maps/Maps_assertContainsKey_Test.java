@@ -23,17 +23,12 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
 
-import java.util.Map;
-
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Maps;
 import org.assertj.core.internal.MapsBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Maps#assertContainsKey(AssertionInfo, Map, Object)}</code>.
- *
  * @author Nicolas François
  * @author Joel Costigliola
  */

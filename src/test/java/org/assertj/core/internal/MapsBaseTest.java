@@ -12,17 +12,26 @@
  */
 package org.assertj.core.internal;
 
+import static java.lang.String.CASE_INSENSITIVE_ORDER;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
+import java.util.HashMap;
+import java.util.IdentityHashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.function.Supplier;
 
+import org.apache.commons.collections4.map.CaseInsensitiveMap;
+import org.apache.commons.lang3.ArrayUtils;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.WithPlayerData;
 import org.junit.jupiter.api.BeforeEach;
+import org.springframework.util.LinkedCaseInsensitiveMap;
 
 /**
  * Base class for {@link Maps} unit tests
@@ -33,6 +42,22 @@ import org.junit.jupiter.api.BeforeEach;
  * 
  */
 public class MapsBaseTest extends WithPlayerData {
+
+  private static final Supplier<Map<String, String>> CASE_INSENSITIVE_TREE_MAP = () -> new TreeMap<>(CASE_INSENSITIVE_ORDER);
+
+  @SuppressWarnings("unchecked")
+  protected static final Supplier<Map<String, String>>[] CASE_INSENSITIVE_MAPS = new Supplier[] {
+      // org.apache.commons.collections4.map.CaseInsensitiveMap not included due to slightly different behavior
+      LinkedCaseInsensitiveMap::new,
+      CASE_INSENSITIVE_TREE_MAP
+  };
+
+  @SuppressWarnings("unchecked")
+  protected static final Supplier<Map<String, String>>[] MODIFIABLE_MAPS = ArrayUtils.addAll(CASE_INSENSITIVE_MAPS,
+                                                                                             CaseInsensitiveMap::new,
+                                                                                             HashMap::new,
+                                                                                             IdentityHashMap::new,
+                                                                                             LinkedHashMap::new);
 
   protected Map<String, String> actual;
   protected Failures failures;

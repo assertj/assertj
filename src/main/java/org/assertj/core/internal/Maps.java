@@ -325,6 +325,12 @@ public class Maps {
 
   public <K, V> void assertContainsKeys(AssertionInfo info, Map<K, V> actual, K[] keys) {
     assertNotNull(info, actual);
+    requireNonNull(keys, keysToLookForIsNull("array of keys"));
+    if (actual.isEmpty() && keys.length == 0) {
+      return;
+    }
+    failIfEmpty(keys, keysToLookForIsEmpty("array of keys"));
+
     Set<K> notFound = getNotFoundKeys(actual, keys);
     if (notFound.isEmpty()) return;
     throw failures.failure(info, shouldContainKeys(actual, notFound));
@@ -351,8 +357,7 @@ public class Maps {
   }
 
   public <K, V> void assertContainsOnlyKeys(AssertionInfo info, Map<K, V> actual, Iterable<? extends K> keys) {
-    final K[] keysAsArray = toArray(keys);
-    assertContainsOnlyKeys(info, actual, "keys iterable", keysAsArray);
+    assertContainsOnlyKeys(info, actual, "keys iterable", toArray(keys));
   }
 
   private <K, V> void assertContainsOnlyKeys(AssertionInfo info, Map<K, V> actual, String placeholderForErrorMessages, K[] keys) {
