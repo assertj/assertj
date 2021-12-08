@@ -69,6 +69,7 @@ import org.assertj.core.internal.OnFieldsComparator;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.CheckReturnValue;
+import org.assertj.core.util.Strings;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
@@ -94,6 +95,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     AbstractAssert<SELF, ELEMENT[]>
     implements IndexedObjectEnumerableAssert<AbstractObjectArrayAssert<SELF, ELEMENT>, ELEMENT>,
     ArraySortedAssert<AbstractObjectArrayAssert<SELF, ELEMENT>, ELEMENT> {
+
+  private static final String ASSERT = "Assert";
 
   @VisibleForTesting
   ObjectArrays arrays = ObjectArrays.instance();
@@ -3932,6 +3935,104 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Beta
   public RecursiveComparisonAssert<?> usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     return super.usingRecursiveComparison(recursiveComparisonConfiguration).withTypeComparators(comparatorsByType);
+  }
+
+  /**
+   * Verifies that the array under test contains a single element and allows to perform assertions on that element.
+   * <p>
+   * By default available assertions after {@code singleElement()} are {@code Object} assertions, it is possible though to
+   * get more specific assertions by using {@link #singleElement(InstanceOfAssertFactory) singleElement(element assert factory)}
+   * <p>
+   * Example:
+   * <pre><code class='java'> String[] babySimpsons = { "Maggie" };
+   *
+   * // assertion succeeds, only Object assertions are available after singleElement()
+   * assertThat(babySimpsons).singleElement()
+   *                         .isEqualTo("Maggie");
+   *
+   * // assertion fails
+   * assertThat(babySimpsons).singleElement()
+   *                         .isEqualTo("Homer");
+   *
+   * // assertion fails because list contains no elements
+   * assertThat(emptyList()).singleElement();
+   *
+   *
+   * // assertion fails because list contains more than one element
+   * String[] simpsons = { "Homer", "Marge", "Lisa", "Bart", "Maggie" };
+   * assertThat(simpsons).singleElement();</code></pre>
+   *
+   * @return the assertion on the first element
+   * @throws AssertionError if the actual array does not contain exactly one element.
+   * @since 3.22.0
+   * @see #singleElement(InstanceOfAssertFactory)
+   */
+  @CheckReturnValue
+  public ObjectAssert<ELEMENT> singleElement() {
+    return internalSingleElement();
+  }
+
+  /**
+   * Verifies that the array under test contains a single element and allows to perform assertions on that element, 
+   * the assertions are strongly typed according to the given {@link AssertFactory} parameter.
+   * <p>
+   * Example: use of {@code String} assertions after {@code singleElement(as(STRING))}
+   * <pre><code class='java'> import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
+   * import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
+   * import static org.assertj.core.api.Assertions.as; // syntactic sugar
+   *
+   * String[] babySimpsons = { "Maggie" };
+   *
+   * // assertion succeeds
+   * assertThat(babySimpsons).singleElement(as(STRING))
+   *                         .startsWith("Mag");
+   *
+   * // assertion fails
+   * assertThat(babySimpsons).singleElement(as(STRING))
+   *                         .startsWith("Lis");
+   *
+   * // assertion fails because of wrong factory type
+   * assertThat(babySimpsons).singleElement(as(INTEGER))
+   *                         .isZero();
+   *
+   * // assertion fails because list contains no elements
+   * assertThat(emptyList()).singleElement(as(STRING));
+   *
+   * // assertion fails because list contains more than one element
+   * String[] simpsons = { "Homer", "Marge", "Lisa", "Bart", "Maggie" };
+   * assertThat(simpsons).singleElement(as(STRING));</code></pre>
+   *
+   * @param <ASSERT>      the type of the resulting {@code Assert}
+   * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
+   * @return a new narrowed {@link Assert} instance for assertions chaining on the single element
+   * @throws AssertionError if the actual array does not contain exactly one element.
+   * @throws NullPointerException if the given factory is {@code null}.
+   * @since 3.22.0
+   */
+  @CheckReturnValue
+  public <ASSERT extends AbstractAssert<?, ?>> ASSERT singleElement(InstanceOfAssertFactory<?, ASSERT> assertFactory) {
+    return internalSingleElement().asInstanceOf(assertFactory);
+  }
+
+  private ObjectAssert<ELEMENT> internalSingleElement() {
+    arrays.assertHasSize(info, actual, 1);
+    return toAssert(actual[0], navigationDescription("check single element"));
+  }
+
+  protected String navigationDescription(String propertyName) {
+    String text = descriptionText();
+    if (Strings.isNullOrEmpty(text)) {
+      text = removeAssert(this.getClass().getSimpleName());
+    }
+    return text + " " + propertyName;
+  }
+
+  private static String removeAssert(String text) {
+    return text.endsWith(ASSERT) ? text.substring(0, text.length() - ASSERT.length()) : text;
+  }
+
+  private ObjectAssert<ELEMENT> toAssert(ELEMENT value, String description) {
+    return new ObjectAssert<>(value).as(description);
   }
 
   // lazy init TypeComparators

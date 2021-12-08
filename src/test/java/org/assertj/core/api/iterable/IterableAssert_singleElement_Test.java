@@ -22,7 +22,6 @@ import org.assertj.core.api.AssertFactory;
 import org.assertj.core.api.IterableAssert;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.StringAssert;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -30,7 +29,6 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Michael Grafl
  */
-@DisplayName("IterableAssert singleElement")
 class IterableAssert_singleElement_Test {
 
   private final Iterable<String> babySimpsons = list("Maggie");
@@ -60,6 +58,14 @@ class IterableAssert_singleElement_Test {
     AssertionError assertionError = expectAssertionError(() -> assertThat(simpsons).singleElement());
     // THEN
     then(assertionError).hasMessageContaining("Expected size: 1 but was: 5");
+  }
+
+  @Test
+  void should_fail_with_an_error_describing_thenavigation() {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(babySimpsons).singleElement().isEqualTo("Bart"));
+    // THEN
+    then(assertionError).hasMessageStartingWith("[Iterable check single element]");
   }
 
   @Test

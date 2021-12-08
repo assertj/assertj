@@ -3532,7 +3532,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Verifies that the {@link Iterable} under test contains a single element and allows to perform assertions that element.
+   * Verifies that the {@link Iterable} under test contains a single element and allows to perform assertions on that element.
    * <p>
    * This is a shorthand for <code>hasSize(1).first()</code>.
    * <p>
@@ -3544,7 +3544,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <li>the general <code>assertThat(Iterable)</code> and narrow down the single element with an assert factory, see: {@link #singleElement(InstanceOfAssertFactory) singleElement(element assert factory)}</li>
    * </ul>
    * <p>
-   * Example: default {@code Object} assertions
+   * Example:
    * <pre><code class='java'> List&lt;String&gt; babySimpsons = list("Maggie");
    *
    * // assertion succeeds, only Object assertions are available after singleElement()
@@ -3599,12 +3599,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Verifies that the {@link Iterable} under test contains a single element and allows to perform assertions on that element.<br>
-   * The assertions are strongly typed according to the given {@link AssertFactory} parameter.
+   * Verifies that the {@link Iterable} under test contains a single element and allows to perform assertions on that element, 
+   * the assertions are strongly typed according to the given {@link AssertFactory} parameter.
    * <p>
    * This is a shorthand for <code>hasSize(1).first(assertFactory)</code>.
    * <p>
-   * Example: use of {@code String} assertions after {@code singleElement(as(STRING)}
+   * Example: use of {@code String} assertions after {@code singleElement(as(STRING))}
    * <pre><code class='java'> import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
    * import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
    * import static org.assertj.core.api.Assertions.as; // syntactic sugar
@@ -3644,7 +3644,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   private ELEMENT_ASSERT internalSingleElement() {
     iterables.assertHasSize(info, actual, 1);
-    return internalFirst();
+    return toAssert(actual.iterator().next(), navigationDescription("check single element"));
   }
 
   /**
