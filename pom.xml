@@ -151,7 +151,7 @@
     <dependency>
       <groupId>org.eclipse.platform</groupId>
       <artifactId>org.eclipse.osgi</artifactId>
-      <version>3.17.0</version>
+      <version>3.17.100</version>
       <scope>test</scope>
     </dependency>
     <dependency>
