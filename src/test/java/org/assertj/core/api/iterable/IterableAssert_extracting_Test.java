@@ -133,7 +133,7 @@ class IterableAssert_extracting_Test {
   }
 
   @Test
-  void should_throw_a_proper_assertion_error_if_any_element_is_null_when_extracting_using_a_function(){
+  void should_throw_assertion_error_if_any_element_is_null_when_extracting_using_a_function(){
     // GIVEN
     yoda.setName(null);
     // WHEN/THEN
@@ -149,7 +149,7 @@ class IterableAssert_extracting_Test {
   }
 
   @Test
-  void should_throw_a_proper_assertion_error_if_any_element_is_null_when_extracting_using_throwing_extractor(){
+  void should_throw_assertion_error_if_any_element_is_null_when_extracting_using_throwing_extractor(){
     // GIVEN
     yoda.setName(null);
     // WHEN/THEN
@@ -160,7 +160,7 @@ class IterableAssert_extracting_Test {
   }
 
   @Test
-  void should_throw_a_proper_assertion_error_if_any_extracted_values_is_null_from_given_iterable_by_using_functions(){
+  void should_throw_assertion_error_if_any_extracted_values_is_null_from_given_iterable_by_using_functions(){
     // GIVEN
     yoda.setName(null);
     // WHEN/THEN
