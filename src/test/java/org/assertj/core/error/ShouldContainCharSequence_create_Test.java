@@ -14,6 +14,7 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldContainCharSequence.containsIgnoringNewLines;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringWhitespaces;
@@ -144,4 +145,36 @@ class ShouldContainCharSequence_create_Test {
                                    "  [\"Vador\", \"Solo\"]%n "));
   }
 
+  @Test
+  void should_create_error_message_with_custom_comparison_strategy_when_ignoring_new_lines() {
+    // GIVEN
+    final ErrorMessageFactory factory = containsIgnoringNewLines("Alice", "Bill", null, null,
+                                                                 new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+    // WHEN
+    final String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Alice\"%n" +
+                                   "to contain (ignoring new lines):%n" +
+                                   "  \"Bill\" when comparing values using CaseInsensitiveStringComparator"));
+  }
+
+  @Test
+  void should_create_error_message_with_several_CharSequence_values_when_ignoring_new_lines() {
+    // GIVEN
+    final CharSequence[] charSequences = array("Alice", "Al", "Bob");
+    final ErrorMessageFactory factory = containsIgnoringNewLines("Alice\nBo", null, charSequences, newSet("Al", "Bob"),
+                                                                 StandardComparisonStrategy.instance());
+    // WHEN
+    final String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Alice\nBo\"%n" +
+                                   "to contain (ignoring new lines):%n" +
+                                   "  [\"Alice\", \"Al\", \"Bob\"]%n" +
+                                   "but could not find:%n" +
+                                   "  [\"Al\", \"Bob\"]%n "));
+  }
 }

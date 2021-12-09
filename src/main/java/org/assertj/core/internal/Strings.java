@@ -35,6 +35,7 @@ import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
 import static org.assertj.core.error.ShouldBeUpperCase.shouldBeUpperCase;
 import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
+import static org.assertj.core.error.ShouldContainCharSequence.containsIgnoringNewLines;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringWhitespaces;
@@ -525,6 +526,33 @@ public class Strings {
     assertNotNull(info, actual);
     if (!actual.toString().toLowerCase().contains(sequence.toString().toLowerCase()))
       throw failures.failure(info, shouldContainIgnoringCase(actual, sequence));
+  }
+
+  /**
+   * Verifies the given {@code CharSequence} has the strings, ignoring newlines.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence}.
+   * @param values the values to look for.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws IllegalArgumentException if the given values is empty.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if actual {@code CharSequence} doesn't have sequence
+   */
+  public void assertContainsIgnoringNewLines(final AssertionInfo info, final CharSequence actual, final CharSequence... values) {
+    doCommonCheckForCharSequence(info, actual, values);
+    final String actualNoNewLines = removeNewLines(actual);
+    Set<CharSequence> notFound = stream(values).map(Strings::removeNewLines)
+                                               .filter(value -> !stringContains(actualNoNewLines, value))
+                                               .collect(toCollection(LinkedHashSet::new));
+
+    if (notFound.isEmpty()) {
+      return;
+    }
+    if (values.length == 1) {
+      throw failures.failure(info, containsIgnoringNewLines(actual, values[0], null, null, comparisonStrategy));
+    }
+    throw failures.failure(info, containsIgnoringNewLines(actual, null, values, notFound, comparisonStrategy));
   }
 
   /**

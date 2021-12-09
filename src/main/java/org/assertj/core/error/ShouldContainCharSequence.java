@@ -166,6 +166,39 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
                                          actual, strings, notFound, comparisonStrategy);
   }
 
+  /** Creates a new <code>{@link ShouldContainCharSequence}</code>.
+   * @param actual  the actual value in the failed assertion.
+   * @param strings the sequence of values expected to be in {@code actual}.
+   * @param notFound the values not found.
+   * @param comparisonWay the {@link ComparisonStrategy} to evaluate assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory containsIgnoringNewLines(final CharSequence actual,
+                                                             final CharSequence sequence,
+                                                             final CharSequence[] strings,
+                                                             final Set<? extends CharSequence> notFound,
+                                                             final ComparisonStrategy comparisonWay) {
+    final String expectingActual = "Expecting actual:%n";
+    if (sequence == null) {
+      return new ShouldContainCharSequence("%n" +
+                                           expectingActual +
+                                           "  %s%n" +
+                                           "to contain (ignoring new lines):%n" +
+                                           "  %s%n" +
+                                           "but could not find:%n" +
+                                           "  %s%n" +
+                                           " %s",
+                                           actual, strings, notFound, comparisonWay);
+    }
+    return new ShouldContainCharSequence("%n" +
+                                         expectingActual +
+                                         "  %s%n" +
+                                         "to contain (ignoring new lines):%n" +
+                                         "  %s %s",
+                                         actual, sequence, comparisonWay);
+
+  }
+
   private ShouldContainCharSequence(String format, CharSequence actual, CharSequence sequence,
                                     ComparisonStrategy comparisonStrategy) {
     super(format, actual, sequence, comparisonStrategy);

@@ -869,6 +869,37 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} contains all the given values
+   * , ignoring new line differences.
+   * <p>
+   * You can use one or several {@code CharSequence}s as in this example:
+   *
+   * <pre><code class='java'> // assertions succeed:
+   * assertThat(&quot;Gandalf\nthe\ngrey&quot;)
+   * .containsIgnoringNewLines(&quot;alf&quot;)
+   * .containsIgnoringNewLines(&quot;alf&quot;, &quot;grey&quot;)
+   * .containsIgnoringNewLines(&quot;thegrey&quot;)
+   * .containsIgnoringNewLines(&quot;thegr\ney&quot;)
+   * .containsIgnoringNewLines(&quot;t\nh\ne\ng\nr\ney&quot;);
+   * // assertion fails:
+   * assertThat(&quot;Gandalf\nthe\ngrey&quot;)
+   * .containsIgnoringNewLines(&quot;alF&quot;)
+   * assertThat(&quot;Gandalf\nthe\ngrey&quot;)
+   * .containsIgnoringNewLines(&quot;t\nh\ne\ng\nr\t\r\ney&quot;)</code></pre>
+   * @param values the values to look for.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given list of values is {@code null}.
+   * @throws IllegalArgumentException if the list of given values is empty.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} does not contain
+   * all the given values.
+   */
+  public SELF containsIgnoringNewLines(final CharSequence... values) {
+    strings.assertContainsIgnoringNewLines(info, actual, values);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} does not contain any of the given values.
    * <p>
    * Example:
