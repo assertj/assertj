@@ -1038,7 +1038,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map does not contain the given key.
    */
   public SELF containsKey(K key) {
-    return containsKeys(key);
+    return containsKeyForProxy(key);
   }
 
   /**
@@ -1066,6 +1066,12 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @SafeVarargs
   public final SELF containsKeys(K... keys) {
     return containsKeysForProxy(keys);
+  }
+
+  // FIX THIS
+  protected SELF containsKeyForProxy(K key) {
+    maps.assertContainsKey(info, actual, key);
+    return myself;
   }
 
   // This method is protected in order to be proxied for SoftAssertions / Assumptions.
@@ -1097,7 +1103,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map contains the given key.
    */
   public SELF doesNotContainKey(K key) {
-    return doesNotContainKeys(key);
+    return doesNotContainKeyForProxy(key);
   }
 
   /**
@@ -1124,6 +1130,12 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @SafeVarargs
   public final SELF doesNotContainKeys(K... keys) {
     return doesNotContainKeysForProxy(keys);
+  }
+
+  // FIX THIS!!!
+  protected SELF doesNotContainKeyForProxy(K key) {
+    maps.assertDoesNotContainKey(info, actual, key);
+    return myself;
   }
 
   // This method is protected in order to be proxied for SoftAssertions / Assumptions.

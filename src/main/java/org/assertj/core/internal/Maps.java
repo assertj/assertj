@@ -323,6 +323,11 @@ public class Maps {
     throw failures.failure(info, shouldNotContain(actual, entries, found));
   }
 
+  public <K, V> void assertContainsKey(AssertionInfo info, Map<K, V> actual, K key) {
+    assertNotNull(info, actual);
+    if (!actual.containsKey(key)) throw failures.failure(info, shouldContainKey(actual, new Condition<K>(key.toString())));
+  }
+
   public <K, V> void assertContainsKeys(AssertionInfo info, Map<K, V> actual, K[] keys) {
     assertNotNull(info, actual);
     requireNonNull(keys, keysToLookForIsNull("array of keys"));
@@ -334,10 +339,6 @@ public class Maps {
     Set<K> notFound = getNotFoundKeys(actual, keys);
     if (notFound.isEmpty()) return;
     throw failures.failure(info, shouldContainKeys(actual, notFound));
-  }
-
-  public <K, V> void assertContainsKey(AssertionInfo info, Map<K, V> actual, K key) {
-    assertContainsKeys(info, actual, array(key));
   }
 
   public <K, V> void assertDoesNotContainKey(AssertionInfo info, Map<K, V> actual, K key) {
