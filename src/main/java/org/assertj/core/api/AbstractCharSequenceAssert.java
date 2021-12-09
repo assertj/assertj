@@ -868,6 +868,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
     return myself;
   }
 
+  // CS427 Issue link: https://github.com/assertj/assertj-core/issues/2060
   /**
    * Verifies that the actual {@code CharSequence} contains all the given values
    * , ignoring new line differences.

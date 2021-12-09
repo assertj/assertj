@@ -166,6 +166,7 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
                                          actual, strings, notFound, comparisonStrategy);
   }
 
+  // CS427 Issue link: https://github.com/assertj/assertj-core/issues/2060
   /** Creates a new <code>{@link ShouldContainCharSequence}</code>.
    * @param actual  the actual value in the failed assertion.
    * @param strings the sequence of values expected to be in {@code actual}.

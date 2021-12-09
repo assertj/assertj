@@ -145,6 +145,7 @@ class ShouldContainCharSequence_create_Test {
                                    "  [\"Vador\", \"Solo\"]%n "));
   }
 
+  // CS427 Issue link: https://github.com/assertj/assertj-core/issues/2060
   @Test
   void should_create_error_message_with_custom_comparison_strategy_when_ignoring_new_lines() {
     // GIVEN
@@ -160,6 +161,7 @@ class ShouldContainCharSequence_create_Test {
                                    "  \"Luke\" when comparing values using CaseInsensitiveStringComparator"));
   }
 
+  // CS427 Issue link: https://github.com/assertj/assertj-core/issues/2060
   @Test
   void should_create_error_message_with_several_CharSequence_values_when_ignoring_new_lines() {
     // GIVEN

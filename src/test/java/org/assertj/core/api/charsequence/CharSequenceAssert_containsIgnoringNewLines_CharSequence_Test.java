@@ -18,6 +18,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
 
+// CS427 Issue link: https://github.com/assertj/assertj-core/issues/2060
 /**
  * Tests for <code>{@link
  * CharSequenceAssert#containsIgnoringNewLines(CharSequence...)}

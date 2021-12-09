@@ -528,6 +528,7 @@ public class Strings {
       throw failures.failure(info, shouldContainIgnoringCase(actual, sequence));
   }
 
+  // CS427 Issue link: https://github.com/assertj/assertj-core/issues/2060
   /**
    * Verifies the given {@code CharSequence} has the strings, ignoring newlines.
    *
