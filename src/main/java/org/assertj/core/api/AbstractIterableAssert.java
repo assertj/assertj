@@ -1398,7 +1398,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
       return newListAssertInstanceForMethodsChangingElementType(values);
     }
     catch(NullPointerException ex){
-      throwAssertionError(ShouldNotBeNull.shouldNotBeNull());
+      throwAssertionError(shouldNotBeNull());
     }
     return null;
 
