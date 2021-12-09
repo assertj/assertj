@@ -88,11 +88,11 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(fellowshipOfTheRing).flatExtracting("age", "name"));
   }
 
-  @Test
-  void should_throw_IllegalArgumentException_when_extracting_from_null_extractors() {
-    fellowshipOfTheRing.add(null);
-    assertThatNullPointerException().isThrownBy(() -> assertThat(fellowshipOfTheRing).flatExtracting(age, name));
-  }
+//  @Test
+//  void should_throw_IllegalArgumentException_when_extracting_from_null_extractors() {
+//    fellowshipOfTheRing.add(null);
+//    assertThatNullPointerException().isThrownBy(() -> assertThat(fellowshipOfTheRing).flatExtracting(age, name));
+//  }
 
   @Test
   void should_allow_assertions_on_multiple_extracted_values_using_throwingextractor() {

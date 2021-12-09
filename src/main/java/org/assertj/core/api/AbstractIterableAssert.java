@@ -55,6 +55,7 @@ import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.condition.Not;
 import org.assertj.core.description.Description;
+import org.assertj.core.error.ShouldNotBeNull;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;
@@ -1676,6 +1677,13 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   private <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> doFlatExtracting(Function<? super ELEMENT, ? extends Collection<V>> extractor) {
+    Iterator<? extends ELEMENT> actualIterator = actual.iterator();
+    // Throw proper error when iterator contains null element
+    while (actualIterator.hasNext()) {
+      if (actualIterator.next() == null) {
+        throwAssertionError(ShouldNotBeNull.shouldNotBeNull());
+      }
+    }
     List<V> result = FieldsOrPropertiesExtractor.extract(actual, extractor).stream()
                                                 .flatMap(Collection::stream)
                                                 .collect(toList());
@@ -1749,6 +1757,13 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtractingForProxy(Function<? super ELEMENT, ?>[] extractors) {
+    Iterator<? extends ELEMENT> actualIterator = actual.iterator();
+    // Throw proper error when iterator contains null element
+    while (actualIterator.hasNext()) {
+      if (actualIterator.next() == null) {
+        throwAssertionError(ShouldNotBeNull.shouldNotBeNull());
+      }
+    }
     Stream<? extends ELEMENT> actualStream = stream(actual.spliterator(), false);
     List<Object> result = actualStream.flatMap(element -> Stream.of(extractors).map(extractor -> extractor.apply(element)))
                                       .collect(toList());

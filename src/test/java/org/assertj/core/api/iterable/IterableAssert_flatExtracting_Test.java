@@ -15,6 +15,8 @@ package org.assertj.core.api.iterable;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithNamesOf;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithTypeOf;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
@@ -22,6 +24,7 @@ import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRES
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
 import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.sql.Timestamp;
@@ -84,6 +87,52 @@ class IterableAssert_flatExtracting_Test {
   }
 
   @Test
+  void should_deal_with_null_properly_end() {
+    Throwable thrown = catchThrowable(()
+      ->assertThat(newArrayList(homer, null))
+      .flatExtracting(childrenExtractor)
+      .containsOnly(bart, lisa, maggie, pebbles));
+
+    then(thrown).isInstanceOf(AssertionError.class)
+      .hasMessageContaining("Expecting actual not to be null");
+  }
+
+  @Test
+  void should_deal_with_null_properly_middle() {
+    Throwable thrown = catchThrowable(()
+      ->assertThat(newArrayList(homer, null, fred))
+      .flatExtracting(childrenExtractor)
+      .containsOnly(bart, lisa, maggie, pebbles));
+
+    then(thrown)
+      .isInstanceOf(AssertionError.class)
+      .hasMessageContaining("Expecting actual not to be null");
+  }
+
+  @Test
+  void should_deal_with_null_properly_front() {
+    Throwable thrown = catchThrowable(()
+      ->assertThat(newArrayList(null, homer, fred))
+      .flatExtracting(childrenExtractor)
+      .containsOnly(bart, lisa, maggie, pebbles));
+
+    then(thrown)
+      .isInstanceOf(AssertionError.class)
+      .hasMessageContaining("Expecting actual not to be null");
+  }
+
+  @Test
+  void should_deal_with_null_properly_multiple() {
+    Throwable thrown = catchThrowable(()
+      ->assertThat(newArrayList(null, null, fred))
+      .flatExtracting(childrenExtractor)
+      .containsOnly(bart, lisa, maggie, pebbles));
+
+    then(thrown).isInstanceOf(AssertionError.class)
+      .hasMessageContaining("Expecting actual not to be null");
+  }
+
+  @Test
   void should_allow_assertions_on_joined_lists_when_extracting_children_with_extractor() {
     assertThat(newArrayList(homer, fred)).flatExtracting(childrenExtractor)
                                          .containsOnly(bart, lisa, maggie, pebbles);
@@ -107,15 +156,15 @@ class IterableAssert_flatExtracting_Test {
                                                 .isEmpty();
   }
 
-  @Test
-  void should_bubble_up_null_pointer_exception_from_extractor() {
-    assertThatNullPointerException().isThrownBy(() -> assertThat(newArrayList(homer, null)).flatExtracting(childrenExtractor));
-  }
+//  @Test
+//  void should_bubble_up_null_pointer_exception_from_extractor() {
+//    assertThatNullPointerException().isThrownBy(() -> assertThat(newArrayList(homer, null)).flatExtracting(childrenExtractor));
+//  }
 
-  @Test
-  void should_bubble_up_null_pointer_exception_from_lambda_extractor() {
-    assertThatNullPointerException().isThrownBy(() -> assertThat(newArrayList(homer, null)).flatExtracting(children));
-  }
+//  @Test
+//  void should_bubble_up_null_pointer_exception_from_lambda_extractor() {
+//    assertThatNullPointerException().isThrownBy(() -> assertThat(newArrayList(homer, null)).flatExtracting(children));
+//  }
 
   @Test
   void should_rethrow_throwing_extractor_checked_exception_as_a_runtime_exception() {

@@ -53,6 +53,7 @@ import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguratio
 import org.assertj.core.condition.Not;
 import org.assertj.core.data.Index;
 import org.assertj.core.description.Description;
+import org.assertj.core.error.ShouldNotBeNull;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;
@@ -2744,6 +2745,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   private <V, C extends Collection<V>> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> doFlatExtracting(Function<? super ELEMENT, C> extractor) {
+    // Throw proper error when object array contains null value
+    for (ELEMENT element : actual) {
+      if (element == null) {
+        throwAssertionError(ShouldNotBeNull.shouldNotBeNull());
+      }
+    }
     List<V> result = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), extractor).stream()
                                                 .flatMap(Collection::stream).collect(toList());
     return newListAssertInstance(result).withAssertionState(myself);
