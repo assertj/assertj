@@ -17,7 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainKey.shouldContainKey;
 import static org.assertj.core.error.ShouldContainKeys.shouldContainKeys;
-import static org.assertj.core.error.ShouldContainValues.shouldContainValues;
 import static org.assertj.core.error.ShouldNotContainKey.shouldNotContainKey;
 import static org.assertj.core.error.ShouldNotContainKeys.shouldNotContainKeys;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;

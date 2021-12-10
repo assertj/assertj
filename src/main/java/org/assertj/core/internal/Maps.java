@@ -48,7 +48,6 @@ import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.internal.ErrorMessages.keysToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.keysToLookForIsNull;
-import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.asList;
 import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Preconditions.checkArgument;
