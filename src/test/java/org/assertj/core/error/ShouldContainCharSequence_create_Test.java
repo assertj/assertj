@@ -166,14 +166,16 @@ class ShouldContainCharSequence_create_Test {
   void should_create_error_message_with_several_CharSequence_values_when_ignoring_new_lines() {
     // GIVEN
     final CharSequence[] charSequences = array("Vador", "Luke", "Solo");
-    final ErrorMessageFactory factory = containsIgnoringNewLines("Yoda\nLuke", null, charSequences, newSet("Vador", "Solo"),
+    final ErrorMessageFactory factory = containsIgnoringNewLines("Yoda" + System.lineSeparator() + "Luke", null, charSequences,
+                                                                 newSet("Vador", "Solo"),
+
                                                                  StandardComparisonStrategy.instance());
     // WHEN
     final String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting actual:%n" +
-                                   "  \"Yoda\nLuke\"%n" +
+                                   "  \"Yoda%nLuke\"%n" +
                                    "to contain (ignoring new lines):%n" +
                                    "  [\"Vador\", \"Luke\", \"Solo\"]%n" +
                                    "but could not find:%n" +

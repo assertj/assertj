@@ -543,7 +543,7 @@ public class Strings {
   public void assertContainsIgnoringNewLines(final AssertionInfo info, final CharSequence actual, final CharSequence... values) {
     doCommonCheckForCharSequence(info, actual, values);
     final String actualNoNewLines = removeNewLines(actual);
-    Set<CharSequence> notFound = stream(values).map(Strings::removeNewLines)
+    final Set<CharSequence> notFound = stream(values).map(Strings::removeNewLines)
                                                .filter(value -> !stringContains(actualNoNewLines, value))
                                                .collect(toCollection(LinkedHashSet::new));
 
