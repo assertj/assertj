@@ -14,6 +14,7 @@ package org.assertj.core.internal.files;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.FilesBaseTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -24,9 +25,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Tests for
@@ -45,8 +44,8 @@ class Files_assertHasNoParent_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_actual_has_parent() {
+    File actual = new File("x/y/z");
     AssertionInfo info = someInfo();
-    when(actual.getParentFile()).thenReturn(mock(File.class));
 
     Throwable error = catchThrowable(() -> files.assertHasNoParent(info, actual));
 
@@ -56,7 +55,7 @@ class Files_assertHasNoParent_Test extends FilesBaseTest {
 
   @Test
   void should_pass_if_actual_has_no_parent() {
-    when(actual.getParentFile()).thenReturn(null);
+    File actual = new File("xyz");
     files.assertHasNoParent(someInfo(), actual);
   }
 }

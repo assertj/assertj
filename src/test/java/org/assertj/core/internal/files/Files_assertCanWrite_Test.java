@@ -19,6 +19,7 @@ import static org.assertj.core.error.ShouldBeWritable.shouldBeWritable;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
+import static org.assertj.core.util.Files.newFile;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -27,6 +28,7 @@ import java.io.File;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -46,7 +48,7 @@ class Files_assertCanWrite_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_can_not_write() {
-    when(actual.canWrite()).thenReturn(false);
+    File actual = new File("xyz");
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> files.assertCanWrite(info, actual));
@@ -57,7 +59,7 @@ class Files_assertCanWrite_Test extends FilesBaseTest {
 
   @Test
   void should_pass_if_actual_can_write() {
-    when(actual.canWrite()).thenReturn(true);
+    File actual = newFile(tempDir.getAbsolutePath() + "to_write.txt");
     files.assertCanWrite(someInfo(), actual);
   }
 

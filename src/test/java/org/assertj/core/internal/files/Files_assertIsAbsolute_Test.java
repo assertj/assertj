@@ -19,6 +19,7 @@ import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
+import static org.assertj.core.util.Files.newFile;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -27,6 +28,7 @@ import java.io.File;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -45,7 +47,7 @@ class Files_assertIsAbsolute_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_actual_is_not_absolute_path() {
-    when(actual.isAbsolute()).thenReturn(false);
+    File actual = new File("xyz");
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> files.assertIsAbsolute(info, actual));
@@ -56,7 +58,7 @@ class Files_assertIsAbsolute_Test extends FilesBaseTest {
 
   @Test
   void should_pass_if_actual_is_absolute_path() {
-    when(actual.isAbsolute()).thenReturn(true);
+    File actual = new File(tempDir.getAbsolutePath() + "/file.txt");
     files.assertIsAbsolute(someInfo(), actual);
   }
 }

@@ -25,6 +25,8 @@ import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Files.newFile;
+import static org.assertj.core.util.Files.newFolder;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.verify;
 import static org.mockito.BDDMockito.verifyNoInteractions;
@@ -32,14 +34,12 @@ import static org.mockito.BDDMockito.verifyNoInteractions;
 /**
  * Tests for <code>{@link Files#assertIsEmptyFile(AssertionInfo, File)}</code>
  */
-@DisplayName("Files assertIsEmptyFile")
 class Files_assertIsEmptyFile_Test extends FilesBaseTest {
 
   @Test
   void should_pass_if_actual_is_empty() {
     // GIVEN
-    given(actual.isFile()).willReturn(true);
-    given(actual.length()).willReturn(0L);
+    File actual = newFile(tempDir.getAbsolutePath() + "/Test.java");
     // WHEN
     files.assertIsEmptyFile(INFO, actual);
     // THEN
@@ -49,8 +49,7 @@ class Files_assertIsEmptyFile_Test extends FilesBaseTest {
   @Test
   void should_fail_if_actual_is_not_empty() {
     // GIVEN
-    given(actual.isFile()).willReturn(true);
-    given(actual.length()).willReturn(1L);
+    File actual = new File("src/test/resources/actual_file.txt");
     // WHEN
     expectAssertionError(() -> files.assertIsEmptyFile(INFO, actual));
     // THEN
@@ -60,8 +59,7 @@ class Files_assertIsEmptyFile_Test extends FilesBaseTest {
   @Test
   void should_fail_if_actual_is_a_directory() {
     // GIVEN
-    given(actual.isFile()).willReturn(false);
-    given(actual.length()).willReturn(1L);
+    File actual = newFolder(tempDir.getAbsolutePath() + "/folder");
     // WHEN
     expectAssertionError(() -> files.assertIsEmptyFile(INFO, actual));
     // THEN

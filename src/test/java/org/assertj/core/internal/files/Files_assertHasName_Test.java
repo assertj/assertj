@@ -19,12 +19,16 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Files.newFile;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.FilesBaseTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
 
 /**
  * Tests for
@@ -52,7 +56,7 @@ class Files_assertHasName_Test extends FilesBaseTest {
   @Test
   void should_throw_error_if_actual_does_not_have_the_expected_name() {
     AssertionInfo info = someInfo();
-    when(actual.getName()).thenReturn("not.expected.name");
+    File actual = newFile(tempDir.getAbsolutePath() + "/not_expected.name");
 
     Throwable error = catchThrowable(() -> files.assertHasName(info, actual, expectedName));
 
@@ -62,7 +66,7 @@ class Files_assertHasName_Test extends FilesBaseTest {
 
   @Test
   void should_pass_if_actual_has_expected_name() {
-    when(actual.getName()).thenReturn(expectedName);
+    File actual = newFile(tempDir.getAbsolutePath() + "/expected.name");
     files.assertHasName(someInfo(), actual, expectedName);
   }
 }

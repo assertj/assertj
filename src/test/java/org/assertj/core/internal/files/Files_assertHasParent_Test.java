@@ -14,6 +14,7 @@ package org.assertj.core.internal.files;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.FilesBaseTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -108,7 +109,6 @@ class Files_assertHasParent_Test extends FilesBaseTest {
   void should_throw_exception_when_canonical_form_representation_fail_for_expected_parent() throws Exception {
     File expectedParent = mock(File.class);
     when(expectedParent.getCanonicalFile()).thenThrow(new IOException());
-
     assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> files.assertHasParent(someInfo(), actual,
                                                                                                  expectedParent));
   }

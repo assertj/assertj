@@ -197,7 +197,6 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
                                          "to contain (ignoring new lines):%n" +
                                          "  %s %s",
                                          actual, sequence, comparisonWay);
-
   }
 
   private ShouldContainCharSequence(String format, CharSequence actual, CharSequence sequence,

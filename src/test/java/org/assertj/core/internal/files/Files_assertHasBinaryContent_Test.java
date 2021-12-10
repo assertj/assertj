@@ -12,26 +12,33 @@
  */
 package org.assertj.core.internal.files;
 
+import static java.nio.file.Files.createFile;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Files.newFile;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.BinaryDiff;
 import org.assertj.core.internal.BinaryDiffResult;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -77,8 +84,14 @@ class Files_assertHasBinaryContent_Test extends FilesBaseTest {
 
   @Test
   void should_pass_if_file_has_expected_binary_content() throws IOException {
-    when(binaryDiff.diff(actual, expected)).thenReturn(BinaryDiffResult.noDiff());
-    files.assertHasBinaryContent(someInfo(), actual, expected);
+
+    File actual = newFile(tempDir.getAbsolutePath() + "/tmp.txt");
+    byte[] data = "actual".getBytes();
+    try (FileOutputStream myWriter = new FileOutputStream(actual)) {
+      myWriter.write(data, 0, data.length);
+    }
+    byte[] expected = "actual".getBytes();
+    unMockedFiles.assertHasBinaryContent(someInfo(), actual, expected);
   }
 
   @Test
@@ -94,13 +107,20 @@ class Files_assertHasBinaryContent_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_file_does_not_have_expected_binary_content() throws IOException {
-    BinaryDiffResult diff = new BinaryDiffResult(15, (byte) 0xCA, (byte) 0xFE);
-    when(binaryDiff.diff(actual, expected)).thenReturn(diff);
+    File actual = newFile(tempDir.getAbsolutePath() + "/tmp.txt");
+    byte[] data = "actual".getBytes();
+    try (FileOutputStream myWriter = new FileOutputStream(actual)) {
+      myWriter.write(data, 0, data.length);
+    }
+    byte[] expected = "fake".getBytes();
+
+    BinaryDiff binaryDiff = new BinaryDiff();
+    BinaryDiffResult diff = binaryDiff.diff(actual, expected);
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> files.assertHasBinaryContent(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> unMockedFiles.assertHasBinaryContent(info, actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldHaveBinaryContent(actual, diff));
+    then(error).hasMessage(shouldHaveBinaryContent(actual, diff).create(info.description(), info.representation()));
   }
 }

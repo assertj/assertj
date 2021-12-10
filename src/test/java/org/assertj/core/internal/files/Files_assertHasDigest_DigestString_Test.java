@@ -12,30 +12,34 @@
  */
 package org.assertj.core.internal.files;
 
+import static java.nio.file.Files.readAllBytes;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveDigest.shouldHaveDigest;
+import static org.assertj.core.internal.Digests.toHex;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Files.newFile;
+import static org.assertj.core.util.Files.newFolder;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UncheckedIOException;
+import java.io.*;
 import java.security.MessageDigest;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.DigestDiff;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -56,7 +60,7 @@ class Files_assertHasDigest_DigestString_Test extends FilesBaseTest {
   @Test
   void should_fail_with_should_exist_error_if_actual_does_not_exist() {
     // GIVEN
-    given(actual.exists()).willReturn(false);
+    File actual = new File("xyz");
     // WHEN
     catchThrowable(() -> files.assertHasDigest(INFO, actual, digest, expected));
     // THEN
@@ -66,8 +70,7 @@ class Files_assertHasDigest_DigestString_Test extends FilesBaseTest {
   @Test
   void should_fail_if_actual_exists_but_is_not_file() {
     // GIVEN
-    given(actual.exists()).willReturn(true);
-    given(actual.isFile()).willReturn(false);
+    File actual = newFolder(tempDir.getAbsolutePath() + "/tmp");
     // WHEN
     catchThrowable(() -> files.assertHasDigest(INFO, actual, digest, expected));
     // THEN
@@ -77,9 +80,8 @@ class Files_assertHasDigest_DigestString_Test extends FilesBaseTest {
   @Test
   void should_fail_if_actual_exists_but_is_not_readable() {
     // GIVEN
-    given(actual.exists()).willReturn(true);
-    given(actual.isFile()).willReturn(true);
-    given(actual.canRead()).willReturn(false);
+    File actual = newFile(tempDir.getAbsolutePath() + "/Test.java");
+    actual.setReadable(false);
     // WHEN
     catchThrowable(() -> files.assertHasDigest(INFO, actual, digest, expected));
     // THEN
@@ -101,10 +103,8 @@ class Files_assertHasDigest_DigestString_Test extends FilesBaseTest {
   @Test
   void should_throw_error_wrapping_caught_IOException() throws IOException {
     // GIVEN
+    File actual = newFile(tempDir.getAbsolutePath() + "/tmp.txt");
     IOException cause = new IOException();
-    given(actual.exists()).willReturn(true);
-    given(actual.isFile()).willReturn(true);
-    given(actual.canRead()).willReturn(true);
     given(nioFilesWrapper.newInputStream(any())).willThrow(cause);
     // WHEN
     Throwable error = catchThrowable(() -> files.assertHasDigest(INFO, actual, digest, expected));
@@ -125,34 +125,36 @@ class Files_assertHasDigest_DigestString_Test extends FilesBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_does_not_have_expected_digest() throws IOException {
+  void should_fail_if_actual_does_not_have_expected_digest() throws Exception {
     // GIVEN
-    InputStream stream = getClass().getResourceAsStream("/red.png");
-    given(actual.exists()).willReturn(true);
-    given(actual.isFile()).willReturn(true);
-    given(actual.canRead()).willReturn(true);
-    given(nioFilesWrapper.newInputStream(any())).willReturn(stream);
-    given(digest.digest()).willReturn(new byte[] { 0, 1 });
+    File actual = newFile(tempDir.getAbsolutePath() + "/tmp.txt");
+    byte[] modifiedData = "Bad Content".getBytes();
+    try (FileOutputStream myWriter = new FileOutputStream(actual)) {
+      myWriter.write(modifiedData, 0, modifiedData.length);
+    }
+    byte[] actualData = "Content".getBytes();
+    MessageDigest digest = MessageDigest.getInstance("MD5");
+    String expected = toHex(digest.digest(actualData));
+    DigestDiff digestDiff = new DigestDiff(toHex(digest.digest(readAllBytes(actual.toPath()))), expected, digest);
     // WHEN
-    catchThrowable(() -> files.assertHasDigest(INFO, actual, digest, expected));
+    AssertionError error = expectAssertionError(() -> unMockedFiles.assertHasDigest(INFO, actual, digest, expected));
     // THEN
-    verify(failures).failure(INFO, shouldHaveDigest(actual, new DigestDiff("0001", "", digest)));
-    failIfStreamIsOpen(stream);
+    then(error).hasMessage(shouldHaveDigest(actual, digestDiff).create());
   }
 
   @Test
-  void should_pass_if_actual_has_expected_digest() throws IOException {
+  void should_pass_if_actual_has_expected_digest() throws Exception {
     // GIVEN
-    InputStream stream = getClass().getResourceAsStream("/red.png");
-    given(actual.exists()).willReturn(true);
-    given(actual.isFile()).willReturn(true);
-    given(actual.canRead()).willReturn(true);
-    given(nioFilesWrapper.newInputStream(any())).willReturn(stream);
-    given(digest.digest()).willReturn(expected.getBytes());
-    // WHEN
-    files.assertHasDigest(INFO, actual, digest, expected);
-    // THEN
-    failIfStreamIsOpen(stream);
+    File actual = newFile(tempDir.getAbsolutePath() + "/tmp.txt");
+    byte[] data = "Content".getBytes();
+    try (FileOutputStream myWriter = new FileOutputStream(actual)) {
+      myWriter.write(data, 0, data.length);
+    }
+
+    MessageDigest digest = MessageDigest.getInstance("MD5");
+    String expected = toHex(digest.digest(data));
+    // WHEN/THEN
+    unMockedFiles.assertHasDigest(INFO, actual, digest, expected);
   }
 
 }

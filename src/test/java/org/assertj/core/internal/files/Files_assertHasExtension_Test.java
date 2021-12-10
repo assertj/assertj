@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.files;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
@@ -24,6 +25,7 @@ import static org.mockito.Mockito.verify;
 import java.io.File;
 
 import org.assertj.core.internal.FilesBaseTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -37,15 +39,14 @@ import org.junit.jupiter.params.provider.ValueSource;
  */
 class Files_assertHasExtension_Test extends FilesBaseTest {
 
-  private String expectedExtension = "java";
+  private final String expectedExtension = "java";
 
   @Test
   void should_fail_if_actual_is_null() {
     // GIVEN
-    File actual = null;
     String expected = "txt";
     // WHEN
-    AssertionError error = expectAssertionError(() -> files.assertHasExtension(INFO, actual, expected));
+    AssertionError error = expectAssertionError(() -> files.assertHasExtension(INFO, null, expected));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -54,9 +55,8 @@ class Files_assertHasExtension_Test extends FilesBaseTest {
   void should_fail_if_expected_extension_is_null() {
     // GIVEN
     File actual = new File("file.txt");
-    String expected = null;
     // WHEN
-    Throwable thrown = catchThrowable(() -> files.assertHasExtension(INFO, actual, expected));
+    Throwable thrown = catchThrowable(() -> files.assertHasExtension(INFO, actual, null));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage("The expected extension should not be null.");

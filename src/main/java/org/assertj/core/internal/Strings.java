@@ -88,6 +88,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
@@ -554,6 +555,51 @@ public class Strings {
       throw failures.failure(info, containsIgnoringNewLines(actual, values[0], null, null, comparisonStrategy));
     }
     throw failures.failure(info, containsIgnoringNewLines(actual, null, values, notFound, comparisonStrategy));
+  }
+
+  /**
+   * Verifies the given {@code CharSequence} has the strings, ignoring newlines.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence}.
+   * @param values the values to look for.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws IllegalArgumentException if the given values is empty.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if actual {@code CharSequence} doesn't have sequence
+   */
+  public void assertContainsIgnoringNewLines(final AssertionInfo info, final CharSequence actual, final CharSequence... values) {
+    doCommonCheckForCharSequence(info, actual, values);
+    final String actualNoNewLines = removeNewLines(actual);
+    final Stream<CharSequence> notFoundStream = stream(values);
+    final Stream<CharSequence> notFoundStream2 = mapContainsIgnoringNewLines(notFoundStream);
+    final Stream<CharSequence> stream = filterContainsIgnoringNewLines(actualNoNewLines, notFoundStream2);
+    final Set<CharSequence> notFound = collectContainsIgnoringNewLines(stream);
+    if (isEmptyContainsIgnoringNewLines(notFound)) {
+      return;
+    }
+    final int one = 1;
+    if (values.length == one) {
+      throw failures.failure(info, containsIgnoringNewLines(actual, values[0], null, null, comparisonStrategy));
+    }
+    throw failures.failure(info, containsIgnoringNewLines(actual, null, values, notFound, comparisonStrategy));
+  }
+
+  private Stream<CharSequence> mapContainsIgnoringNewLines(final Stream<CharSequence> notFoundStream) {
+    return notFoundStream.map(Strings::removeNewLines);
+  }
+
+  private Stream<CharSequence> filterContainsIgnoringNewLines(final String actualNoNewLines,
+                                                              final Stream<CharSequence> notFoundStream) {
+    return notFoundStream.filter(value -> !stringContains(actualNoNewLines, value));
+  }
+
+  private Set<CharSequence> collectContainsIgnoringNewLines(final Stream<CharSequence> notFoundStream) {
+    return notFoundStream.collect(toCollection(LinkedHashSet::new));
+  }
+
+  private boolean isEmptyContainsIgnoringNewLines(final Set<CharSequence> notFound) {
+    return notFound.isEmpty();
   }
 
   /**
