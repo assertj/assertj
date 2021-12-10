@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+// CS427 Issue link: https://github.com/assertj/assertj-core/issues/2060
 /**
  * Tests for <code>{@link Strings#assertContainsIgnoringNewLines(AssertionInfo, CharSequence, CharSequence...)} </code>.
  */

@@ -166,6 +166,7 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
                                          actual, strings, notFound, comparisonStrategy);
   }
 
+  // CS427 Issue link: https://github.com/assertj/assertj-core/issues/2060
   /** Creates a new <code>{@link ShouldContainCharSequence}</code>.
    * @param actual  the actual value in the failed assertion.
    * @param strings the sequence of values expected to be in {@code actual}.
@@ -178,27 +179,24 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
                                                              final CharSequence[] strings,
                                                              final Set<? extends CharSequence> notFound,
                                                              final ComparisonStrategy comparisonWay) {
-    ErrorMessageFactory result;
     final String expectingActual = "Expecting actual:%n";
     if (sequence == null) {
-      result = new ShouldContainCharSequence("%n" +
-                                             expectingActual +
-                                             "  %s%n" +
-                                             "to contain (ignoring new lines):%n" +
-                                             "  %s%n" +
-                                             "but could not find:%n" +
-                                             "  %s%n" +
-                                             " %s",
-                                             actual, strings, notFound, comparisonWay);
-    } else {
-      result = new ShouldContainCharSequence("%n" +
-                                             expectingActual +
-                                             "  %s%n" +
-                                             "to contain (ignoring new lines):%n" +
-                                             "  %s %s",
-                                             actual, sequence, comparisonWay);
+      return new ShouldContainCharSequence("%n" +
+                                           expectingActual +
+                                           "  %s%n" +
+                                           "to contain (ignoring new lines):%n" +
+                                           "  %s%n" +
+                                           "but could not find:%n" +
+                                           "  %s%n" +
+                                           " %s",
+                                           actual, strings, notFound, comparisonWay);
     }
-    return result;
+    return new ShouldContainCharSequence("%n" +
+                                         expectingActual +
+                                         "  %s%n" +
+                                         "to contain (ignoring new lines):%n" +
+                                         "  %s %s",
+                                         actual, sequence, comparisonWay);
   }
 
   private ShouldContainCharSequence(String format, CharSequence actual, CharSequence sequence,

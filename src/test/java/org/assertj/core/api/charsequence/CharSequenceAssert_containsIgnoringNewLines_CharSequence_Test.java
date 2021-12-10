@@ -18,6 +18,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
 
+// CS427 Issue link: https://github.com/assertj/assertj-core/issues/2060
 /**
  * Tests for <code>{@link
  * CharSequenceAssert#containsIgnoringNewLines(CharSequence...)}
@@ -27,11 +28,7 @@ class CharSequenceAssert_containsIgnoringNewLines_CharSequence_Test extends Char
   @Override
   protected CharSequenceAssert invoke_api_method() {
     CharSequenceAssert result;
-    try {
-      result = assertions.containsIgnoringNewLines("Al", "Bob");
-    } catch (CloneNotSupportedException e) {
-      result = null;
-    }
+    result = assertions.containsIgnoringNewLines("Al", "Bob");
     return result;
   }
 
