@@ -1,5 +1,10 @@
 package org.assertj.core.api;
 
+/**
+ * Base class for BigDecimal scale assertions.
+ *
+ * @since 3.22.0
+ */
 public abstract class AbstractBigDecimalScaleAssert<SELF extends AbstractBigDecimalAssert<SELF>>
     extends AbstractIntegerAssert<AbstractBigDecimalScaleAssert<SELF>>{
 
