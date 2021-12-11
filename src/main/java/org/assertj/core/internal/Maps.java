@@ -323,16 +323,15 @@ public class Maps {
   }
 
   /**
-   * Checks if given map contains given key and returns assertion failure if key is not found.
+   * Checks if given map contains given key and returns assertion failure if
+   * key is not found.
    *
    * @param info information about an assertion
    * @param actual Map object to apply key check
    * @param key key to search for in Map object
-   * @param <K> accepts generic types for key in given Map
-   * @param <V> accepts generic types values in given Map
    * // CS427 Issue link: https://github.com/assertj/assertj-core/issues/2428
    */
-  public <K, V> void assertContainsKey(AssertionInfo info, Map<K, V> actual, K key) {
+  public <K, V> void assertContainsKey(final AssertionInfo info, final Map<K, V> actual, final K key) {
     assertNotNull(info, actual);
     if (!actual.containsKey(key)) throw failures.failure(info, shouldContainKey(actual, new Condition<K>(key.toString())));
   }
