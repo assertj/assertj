@@ -1,0 +1,469 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta charset="UTF-8"/>
+      <title>SpotBugs Report</title>
+      <style type="text/css">
+		.tablerow0 {
+			background: #EEEEEE;
+		}
+
+		.tablerow1 {
+			background: white;
+		}
+
+		.detailrow0 {
+			background: #EEEEEE;
+		}
+
+		.detailrow1 {
+			background: white;
+		}
+
+		.tableheader {
+			background: #b9b9fe;
+			font-size: larger;
+		}
+		</style>
+   </head>
+   <body>
+      <h1>SpotBugs Report</h1>
+      <p>Produced using <a href="https://spotbugs.github.io">SpotBugs</a>4.4.2.</p>
+      <p>Project: 
+			assertj-core[assertj-core]</p>
+      <h2>Metrics</h2>
+      <p>366 lines of code analyzed,
+	in 1 classes, 
+	in 1 packages.</p>
+      <table width="500" cellpadding="5" cellspacing="2">
+         <tr class="tableheader">
+            <th align="left">Metric</th>
+            <th align="right">Total</th>
+            <th align="right">Density*</th>
+         </tr>
+         <tr class="tablerow0">
+            <td>High Priority Warnings</td>
+            <td align="right"/>
+            <td align="right">NaN</td>
+         </tr>
+         <tr class="tablerow1">
+            <td>Medium Priority Warnings</td>
+            <td align="right">25</td>
+            <td align="right">68.31</td>
+         </tr>
+         <tr class="$totalClass">
+            <td>
+               <b>Total Warnings</b>
+            </td>
+            <td align="right">
+               <b>25</b>
+            </td>
+            <td align="right">
+               <b>68.31</b>
+            </td>
+         </tr>
+      </table>
+      <p>
+         <i>(* Defects per Thousand lines of non-commenting source statements)</i>
+      </p>
+      <p>
+         <br/>
+         <br/>
+      </p>
+      <h2>Summary</h2>
+      <table width="500" cellpadding="5" cellspacing="2">
+         <tr class="tableheader">
+            <th align="left">Warning Type</th>
+            <th align="right">Number</th>
+         </tr>
+         <tr class="tablerow0">
+            <td>
+               <a href="#Warnings_MALICIOUS_CODE">Malicious code vulnerability Warnings</a>
+            </td>
+            <td align="right">25</td>
+         </tr>
+         <tr class="tablerow1">
+            <td>
+               <b>Total</b>
+            </td>
+            <td align="right">
+               <b>25</b>
+            </td>
+         </tr>
+      </table>
+      <p>
+         <br/>
+         <br/>
+      </p>
+      <h1>Warnings</h1>
+      <p>Click on each warning link to see a full description of the issue, and
+	    details of how to resolve it.</p>
+      <h2>
+         <a name="Warnings_MALICIOUS_CODE">Malicious code vulnerability Warnings</a>
+      </h2>
+      <table class="warningtable"
+             width="100%"
+             cellspacing="2"
+             cellpadding="5">
+         <tr class="tableheader">
+            <th align="left">Warning</th>
+            <th align="left">Priority</th>
+            <th align="left">Details</th>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>org.assertj.core.api.AbstractMapAssert.allSatisfy(BiConsumer) may expose internal representation by returning AbstractAssert.myself<br/>
+                  <br/>
+                  <br/>In file AbstractMapAssert.java AbstractMapAssert.java,
+					
+						line 105 105<br/>In class org.assertj.core.api.AbstractMapAssert<br/>In method org.assertj.core.api.AbstractMapAssert.allSatisfy(BiConsumer)<br/>Field org.assertj.core.api.AbstractAssert.myself<br/>At AbstractMapAssert.java:[line 105]<br/>At AbstractMapAssert.java:[line 105]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>org.assertj.core.api.AbstractMapAssert.anySatisfy(BiConsumer) may expose internal representation by returning AbstractAssert.myself<br/>
+                  <br/>
+                  <br/>In file AbstractMapAssert.java AbstractMapAssert.java,
+					
+						line 138 138<br/>In class org.assertj.core.api.AbstractMapAssert<br/>In method org.assertj.core.api.AbstractMapAssert.anySatisfy(BiConsumer)<br/>Field org.assertj.core.api.AbstractAssert.myself<br/>At AbstractMapAssert.java:[line 138]<br/>At AbstractMapAssert.java:[line 138]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>org.assertj.core.api.AbstractMapAssert.containsAllEntriesOf(Map) may expose internal representation by returning AbstractAssert.myself<br/>
+                  <br/>
+                  <br/>In file AbstractMapAssert.java AbstractMapAssert.java,
+					
+						line 600 600<br/>In class org.assertj.core.api.AbstractMapAssert<br/>In method org.assertj.core.api.AbstractMapAssert.containsAllEntriesOf(Map)<br/>Field org.assertj.core.api.AbstractAssert.myself<br/>At AbstractMapAssert.java:[line 600]<br/>At AbstractMapAssert.java:[line 600]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>org.assertj.core.api.AbstractMapAssert.containsEntry(Object, Object) may expose internal representation by returning AbstractAssert.myself<br/>
+                  <br/>
+                  <br/>In file AbstractMapAssert.java AbstractMapAssert.java,
+					
+						line 719 719<br/>In class org.assertj.core.api.AbstractMapAssert<br/>In method org.assertj.core.api.AbstractMapAssert.containsEntry(Object, Object)<br/>Field org.assertj.core.api.AbstractAssert.myself<br/>At AbstractMapAssert.java:[line 719]<br/>At AbstractMapAssert.java:[line 719]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>org.assertj.core.api.AbstractMapAssert.containsOnlyKeys(Iterable) may expose internal representation by returning AbstractAssert.myself<br/>
+                  <br/>
+                  <br/>In file AbstractMapAssert.java AbstractMapAssert.java,
+					
+						line 1217 1217<br/>In class org.assertj.core.api.AbstractMapAssert<br/>In method org.assertj.core.api.AbstractMapAssert.containsOnlyKeys(Iterable)<br/>Field org.assertj.core.api.AbstractAssert.myself<br/>At AbstractMapAssert.java:[line 1217]<br/>At AbstractMapAssert.java:[line 1217]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>org.assertj.core.api.AbstractMapAssert.containsValue(Object) may expose internal representation by returning AbstractAssert.myself<br/>
+                  <br/>
+                  <br/>In file AbstractMapAssert.java AbstractMapAssert.java,
+					
+						line 1243 1243<br/>In class org.assertj.core.api.AbstractMapAssert<br/>In method org.assertj.core.api.AbstractMapAssert.containsValue(Object)<br/>Field org.assertj.core.api.AbstractAssert.myself<br/>At AbstractMapAssert.java:[line 1243]<br/>At AbstractMapAssert.java:[line 1243]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>org.assertj.core.api.AbstractMapAssert.doesNotContainEntry(Object, Object) may expose internal representation by returning AbstractAssert.myself<br/>
+                  <br/>
+                  <br/>In file AbstractMapAssert.java AbstractMapAssert.java,
+					
+						line 1017 1017<br/>In class org.assertj.core.api.AbstractMapAssert<br/>In method org.assertj.core.api.AbstractMapAssert.doesNotContainEntry(Object, Object)<br/>Field org.assertj.core.api.AbstractAssert.myself<br/>At AbstractMapAssert.java:[line 1017]<br/>At AbstractMapAssert.java:[line 1017]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>org.assertj.core.api.AbstractMapAssert.doesNotContainValue(Object) may expose internal representation by returning AbstractAssert.myself<br/>
+                  <br/>
+                  <br/>In file AbstractMapAssert.java AbstractMapAssert.java,
+					
+						line 1304 1304<br/>In class org.assertj.core.api.AbstractMapAssert<br/>In method org.assertj.core.api.AbstractMapAssert.doesNotContainValue(Object)<br/>Field org.assertj.core.api.AbstractAssert.myself<br/>At AbstractMapAssert.java:[line 1304]<br/>At AbstractMapAssert.java:[line 1304]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>org.assertj.core.api.AbstractMapAssert.hasEntrySatisfying(Object, Consumer) may expose internal representation by returning AbstractAssert.myself<br/>
+                  <br/>
+                  <br/>In file AbstractMapAssert.java AbstractMapAssert.java,
+					
+						line 790 790<br/>In class org.assertj.core.api.AbstractMapAssert<br/>In method org.assertj.core.api.AbstractMapAssert.hasEntrySatisfying(Object, Consumer)<br/>Field org.assertj.core.api.AbstractAssert.myself<br/>At AbstractMapAssert.java:[line 790]<br/>At AbstractMapAssert.java:[line 790]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>org.assertj.core.api.AbstractMapAssert.hasEntrySatisfying(Object, Condition) may expose internal representation by returning AbstractAssert.myself<br/>
+                  <br/>
+                  <br/>In file AbstractMapAssert.java AbstractMapAssert.java,
+					
+						line 755 755<br/>In class org.assertj.core.api.AbstractMapAssert<br/>In method org.assertj.core.api.AbstractMapAssert.hasEntrySatisfying(Object, Condition)<br/>Field org.assertj.core.api.AbstractAssert.myself<br/>At AbstractMapAssert.java:[line 755]<br/>At AbstractMapAssert.java:[line 755]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>org.assertj.core.api.AbstractMapAssert.hasEntrySatisfying(Condition) may expose internal representation by returning AbstractAssert.myself<br/>
+                  <br/>
+                  <br/>In file AbstractMapAssert.java AbstractMapAssert.java,
+					
+						line 827 827<br/>In class org.assertj.core.api.AbstractMapAssert<br/>In method org.assertj.core.api.AbstractMapAssert.hasEntrySatisfying(Condition)<br/>Field org.assertj.core.api.AbstractAssert.myself<br/>At AbstractMapAssert.java:[line 827]<br/>At AbstractMapAssert.java:[line 827]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>org.assertj.core.api.AbstractMapAssert.hasEntrySatisfying(Condition, Condition) may expose internal representation by returning AbstractAssert.myself<br/>
+                  <br/>
+                  <br/>In file AbstractMapAssert.java AbstractMapAssert.java,
+					
+						line 871 871<br/>In class org.assertj.core.api.AbstractMapAssert<br/>In method org.assertj.core.api.AbstractMapAssert.hasEntrySatisfying(Condition, Condition)<br/>Field org.assertj.core.api.AbstractAssert.myself<br/>At AbstractMapAssert.java:[line 871]<br/>At AbstractMapAssert.java:[line 871]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>org.assertj.core.api.AbstractMapAssert.hasKeySatisfying(Condition) may expose internal representation by returning AbstractAssert.myself<br/>
+                  <br/>
+                  <br/>In file AbstractMapAssert.java AbstractMapAssert.java,
+					
+						line 911 911<br/>In class org.assertj.core.api.AbstractMapAssert<br/>In method org.assertj.core.api.AbstractMapAssert.hasKeySatisfying(Condition)<br/>Field org.assertj.core.api.AbstractAssert.myself<br/>At AbstractMapAssert.java:[line 911]<br/>At AbstractMapAssert.java:[line 911]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>org.assertj.core.api.AbstractMapAssert.hasSameSizeAs(Iterable) may expose internal representation by returning AbstractAssert.myself<br/>
+                  <br/>
+                  <br/>In file AbstractMapAssert.java AbstractMapAssert.java,
+					
+						line 452 452<br/>In class org.assertj.core.api.AbstractMapAssert<br/>In method org.assertj.core.api.AbstractMapAssert.hasSameSizeAs(Iterable)<br/>Field org.assertj.core.api.AbstractAssert.myself<br/>At AbstractMapAssert.java:[line 452]<br/>At AbstractMapAssert.java:[line 452]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>org.assertj.core.api.AbstractMapAssert.hasSameSizeAs(Object) may expose internal representation by returning AbstractAssert.myself<br/>
+                  <br/>
+                  <br/>In file AbstractMapAssert.java AbstractMapAssert.java,
+					
+						line 424 424<br/>In class org.assertj.core.api.AbstractMapAssert<br/>In method org.assertj.core.api.AbstractMapAssert.hasSameSizeAs(Object)<br/>Field org.assertj.core.api.AbstractAssert.myself<br/>At AbstractMapAssert.java:[line 424]<br/>At AbstractMapAssert.java:[line 424]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>org.assertj.core.api.AbstractMapAssert.hasSameSizeAs(Map) may expose internal representation by returning AbstractAssert.myself<br/>
+                  <br/>
+                  <br/>In file AbstractMapAssert.java AbstractMapAssert.java,
+					
+						line 486 486<br/>In class org.assertj.core.api.AbstractMapAssert<br/>In method org.assertj.core.api.AbstractMapAssert.hasSameSizeAs(Map)<br/>Field org.assertj.core.api.AbstractAssert.myself<br/>At AbstractMapAssert.java:[line 486]<br/>At AbstractMapAssert.java:[line 486]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>org.assertj.core.api.AbstractMapAssert.hasSize(int) may expose internal representation by returning AbstractAssert.myself<br/>
+                  <br/>
+                  <br/>In file AbstractMapAssert.java AbstractMapAssert.java,
+					
+						line 260 260<br/>In class org.assertj.core.api.AbstractMapAssert<br/>In method org.assertj.core.api.AbstractMapAssert.hasSize(int)<br/>Field org.assertj.core.api.AbstractAssert.myself<br/>At AbstractMapAssert.java:[line 260]<br/>At AbstractMapAssert.java:[line 260]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>org.assertj.core.api.AbstractMapAssert.hasSizeBetween(int, int) may expose internal representation by returning AbstractAssert.myself<br/>
+                  <br/>
+                  <br/>In file AbstractMapAssert.java AbstractMapAssert.java,
+					
+						line 392 392<br/>In class org.assertj.core.api.AbstractMapAssert<br/>In method org.assertj.core.api.AbstractMapAssert.hasSizeBetween(int, int)<br/>Field org.assertj.core.api.AbstractAssert.myself<br/>At AbstractMapAssert.java:[line 392]<br/>At AbstractMapAssert.java:[line 392]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>org.assertj.core.api.AbstractMapAssert.hasSizeGreaterThan(int) may expose internal representation by returning AbstractAssert.myself<br/>
+                  <br/>
+                  <br/>In file AbstractMapAssert.java AbstractMapAssert.java,
+					
+						line 285 285<br/>In class org.assertj.core.api.AbstractMapAssert<br/>In method org.assertj.core.api.AbstractMapAssert.hasSizeGreaterThan(int)<br/>Field org.assertj.core.api.AbstractAssert.myself<br/>At AbstractMapAssert.java:[line 285]<br/>At AbstractMapAssert.java:[line 285]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>org.assertj.core.api.AbstractMapAssert.hasSizeGreaterThanOrEqualTo(int) may expose internal representation by returning AbstractAssert.myself<br/>
+                  <br/>
+                  <br/>In file AbstractMapAssert.java AbstractMapAssert.java,
+					
+						line 312 312<br/>In class org.assertj.core.api.AbstractMapAssert<br/>In method org.assertj.core.api.AbstractMapAssert.hasSizeGreaterThanOrEqualTo(int)<br/>Field org.assertj.core.api.AbstractAssert.myself<br/>At AbstractMapAssert.java:[line 312]<br/>At AbstractMapAssert.java:[line 312]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>org.assertj.core.api.AbstractMapAssert.hasSizeLessThan(int) may expose internal representation by returning AbstractAssert.myself<br/>
+                  <br/>
+                  <br/>In file AbstractMapAssert.java AbstractMapAssert.java,
+					
+						line 338 338<br/>In class org.assertj.core.api.AbstractMapAssert<br/>In method org.assertj.core.api.AbstractMapAssert.hasSizeLessThan(int)<br/>Field org.assertj.core.api.AbstractAssert.myself<br/>At AbstractMapAssert.java:[line 338]<br/>At AbstractMapAssert.java:[line 338]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>org.assertj.core.api.AbstractMapAssert.hasSizeLessThanOrEqualTo(int) may expose internal representation by returning AbstractAssert.myself<br/>
+                  <br/>
+                  <br/>In file AbstractMapAssert.java AbstractMapAssert.java,
+					
+						line 365 365<br/>In class org.assertj.core.api.AbstractMapAssert<br/>In method org.assertj.core.api.AbstractMapAssert.hasSizeLessThanOrEqualTo(int)<br/>Field org.assertj.core.api.AbstractAssert.myself<br/>At AbstractMapAssert.java:[line 365]<br/>At AbstractMapAssert.java:[line 365]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>org.assertj.core.api.AbstractMapAssert.hasValueSatisfying(Condition) may expose internal representation by returning AbstractAssert.myself<br/>
+                  <br/>
+                  <br/>In file AbstractMapAssert.java AbstractMapAssert.java,
+					
+						line 951 951<br/>In class org.assertj.core.api.AbstractMapAssert<br/>In method org.assertj.core.api.AbstractMapAssert.hasValueSatisfying(Condition)<br/>Field org.assertj.core.api.AbstractAssert.myself<br/>At AbstractMapAssert.java:[line 951]<br/>At AbstractMapAssert.java:[line 951]</p>
+            </td>
+         </tr>
+         <tr class="tablerow0">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>org.assertj.core.api.AbstractMapAssert.isNotEmpty() may expose internal representation by returning AbstractAssert.myself<br/>
+                  <br/>
+                  <br/>In file AbstractMapAssert.java AbstractMapAssert.java,
+					
+						line 235 235<br/>In class org.assertj.core.api.AbstractMapAssert<br/>In method org.assertj.core.api.AbstractMapAssert.isNotEmpty()<br/>Field org.assertj.core.api.AbstractAssert.myself<br/>At AbstractMapAssert.java:[line 235]<br/>At AbstractMapAssert.java:[line 235]</p>
+            </td>
+         </tr>
+         <tr class="tablerow1">
+            <td width="20%" valign="top">
+               <a href="#EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+            </td>
+            <td width="10%" valign="top">Medium</td>
+            <td width="70%">
+               <p>org.assertj.core.api.AbstractMapAssert.noneSatisfy(BiConsumer) may expose internal representation by returning AbstractAssert.myself<br/>
+                  <br/>
+                  <br/>In file AbstractMapAssert.java AbstractMapAssert.java,
+					
+						line 173 173<br/>In class org.assertj.core.api.AbstractMapAssert<br/>In method org.assertj.core.api.AbstractMapAssert.noneSatisfy(BiConsumer)<br/>Field org.assertj.core.api.AbstractAssert.myself<br/>At AbstractMapAssert.java:[line 173]<br/>At AbstractMapAssert.java:[line 173]</p>
+            </td>
+         </tr>
+      </table>
+      <p>
+         <br/>
+         <br/>
+      </p>
+      <p>
+         <br/>
+         <br/>
+      </p>
+      <h1>
+         <a name="Details">Warning Types</a>
+      </h1>
+      <h2>
+         <a name="EI_EXPOSE_REP">May expose internal representation by returning reference to mutable object</a>
+      </h2>
+
+  <p> Returning a reference to a mutable object value stored in one of the object's fields
+  exposes the internal representation of the object.&nbsp;
+   If instances
+   are accessed by untrusted code, and unchecked changes to
+   the mutable object would compromise security or other
+   important properties, you will need to do something different.
+  Returning a new copy of the object is better approach in many situations.</p>
+
+    <p>
+         <br/>
+         <br/>
+      </p>
+   </body>
+</html>
