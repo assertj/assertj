@@ -1068,7 +1068,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     return containsKeysForProxy(keys);
   }
 
-  // FIX THIS
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  // CS427 Issue link: https://github.com/assertj/assertj-core/issues/2428
   protected SELF containsKeyForProxy(K key) {
     maps.assertContainsKey(info, actual, key);
     return myself;
@@ -1101,6 +1104,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @return {@code this} assertions object
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map contains the given key.
+   *
+   *  // CS427 Issue link: https://github.com/assertj/assertj-core/issues/2428
    */
   public SELF doesNotContainKey(K key) {
     return doesNotContainKeyForProxy(key);
@@ -1132,7 +1137,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     return doesNotContainKeysForProxy(keys);
   }
 
-  // FIX THIS!!!
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  // CS427 Issue link: https://github.com/assertj/assertj-core/issues/2428
   protected SELF doesNotContainKeyForProxy(K key) {
     maps.assertDoesNotContainKey(info, actual, key);
     return myself;
