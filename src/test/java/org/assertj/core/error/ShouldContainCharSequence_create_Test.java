@@ -168,7 +168,6 @@ class ShouldContainCharSequence_create_Test {
     final CharSequence[] charSequences = array("Vador", "Luke", "Solo");
     final ErrorMessageFactory factory = containsIgnoringNewLines("Yoda" + System.lineSeparator() + "Luke", null, charSequences,
                                                                  newSet("Vador", "Solo"),
-
                                                                  StandardComparisonStrategy.instance());
     // WHEN
     final String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
