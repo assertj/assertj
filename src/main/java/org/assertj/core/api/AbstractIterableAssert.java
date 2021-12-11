@@ -18,6 +18,7 @@ import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.description.Description.mostRelevantDescription;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOfMethod;
@@ -1391,6 +1392,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   private <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> internalExtracting(Function<? super ELEMENT, V> extractor) {
+    if (actual == null) throwAssertionError(shouldNotBeNull());
     List<V> values = FieldsOrPropertiesExtractor.extract(actual, extractor);
     return newListAssertInstanceForMethodsChangingElementType(values);
   }
@@ -1949,12 +1951,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extractingForProxy(Function<? super ELEMENT, ?>[] extractors) {
+    if (actual == null) throwAssertionError(shouldNotBeNull());
     // combine all extractors into one function
     Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
                                                                                           .map(extractor -> extractor.apply(objectToExtractValueFrom))
                                                                                           .toArray());
-    List<Tuple> tuples = stream(actual.spliterator(), false).map(tupleExtractor)
-                                                            .collect(toList());
+    List<Tuple> tuples = stream(actual.spliterator(), false).map(tupleExtractor).collect(toList());
     return newListAssertInstanceForMethodsChangingElementType(tuples);
   }
 
@@ -3796,7 +3798,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     iterables.assertAnySatisfy(info, actual, requirements);
     return myself;
   }
-  
+
   /**
    * {@inheritDoc}
    */
@@ -3817,7 +3819,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     iterables.assertNoneSatisfy(info, actual, restrictions);
     return myself;
   }
-  
+
   /**
    * {@inheritDoc}
    */
@@ -3835,7 +3837,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   public final SELF satisfiesExactly(ThrowingConsumer<? super ELEMENT>... requirements) {
     return satisfiesExactlyForProxy(requirements);
   }
-  
+
   // This method is protected in order to be proxied for SoftAssertions / Assumptions.
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code

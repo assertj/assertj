@@ -1110,9 +1110,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
                                                                        AssertFactory<T, ASSERT> assertFactory) {
     requireNonNull(extractor, shouldNotBeNull("extractor")::create);
     requireNonNull(assertFactory, shouldNotBeNull("assertFactory")::create);
-    if (actual == null) {
-      throwAssertionError(shouldNotBeNull());
-    }
+    if (actual == null) throwAssertionError(shouldNotBeNull());
     T extractedValue = extractor.apply(actual);
     return (ASSERT) assertFactory.createAssert(extractedValue).withAssertionState(myself);
   }

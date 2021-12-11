@@ -19,6 +19,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_SEQUENCE;
 import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.function.Function;
 
@@ -125,7 +126,7 @@ class AbstractAssert_extracting_with_Function_and_AssertFactory_Test implements 
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThatObject(actual).extracting(Object::getClass));
     // THEN
-    then(assertionError).hasMessageContaining(shouldNotBeNull().create());
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Override
