@@ -49,8 +49,6 @@ class Assertions_assertThat_with_Map_Test {
     assertThat(assertions.actual).isSameAs(actual);
   }
 
-  // Use parameterized tests https://github.com/assertj/assertj-core/blob/9eb27d7005ce807d01d0180df794625db278c61e/src/test/java/org/assertj/core/api/map/MapAssert_containsValue_Test.java
-
   /**
    * Tests that AbstractMapAssert returns correct error for shouldContainKey
    * // CS427 Issue link: https://github.com/assertj/assertj-core/issues/2428
