@@ -1031,13 +1031,11 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * // assertion will fail
    * assertThat(ringBearers).containsKey(oneRing);</code></pre>
-   *
-   * // CS427 Issue link: https://github.com/assertj/assertj-core/issues/2428
-   * 
    * @param key the given key
    * @return {@code this} assertions object
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain the given key.
+   * // CS427 Issue link: https://github.com/assertj/assertj-core/issues/2428
    */
   public SELF containsKey(K key) {
     return containsKeyForProxy(key);
@@ -1103,7 +1101,6 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * assertThat(elvesRingBearers).doesNotContainKey(vilya);</code></pre>
    *
    * // CS427 Issue link: https://github.com/assertj/assertj-core/issues/2428
-   *
    * @param key the given key
    * @return {@code this} assertions object
    * @throws AssertionError if the actual map is {@code null}.
