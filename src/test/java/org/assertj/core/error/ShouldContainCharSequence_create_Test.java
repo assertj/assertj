@@ -14,11 +14,13 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldContainCharSequence.containsIgnoringNewLines;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringWhitespaces;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Sets.set;
 import static org.mockito.internal.util.collections.Sets.newSet;
 
 import org.assertj.core.description.TextDescription;
@@ -144,4 +146,37 @@ class ShouldContainCharSequence_create_Test {
                                    "  [\"Vador\", \"Solo\"]%n "));
   }
 
+  @Test
+  void should_create_error_message_with_custom_comparison_strategy_when_ignoring_new_lines() {
+    // GIVEN
+    final ErrorMessageFactory factory = containsIgnoringNewLines("Yoda", array("Yoda", "Luke"), set("Luke"),
+                                                                 new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+    // WHEN
+    final String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yoda\"%n" +
+                                   "to contain (ignoring new lines):%n" +
+                                   "  \"Luke\" when comparing values using CaseInsensitiveStringComparator"));
+  }
+
+  @Test
+  void should_create_error_message_with_several_CharSequence_values_when_ignoring_new_lines() {
+    // GIVEN
+    CharSequence actual = "Yoda" + System.lineSeparator() + "Luke";
+    final CharSequence[] charSequences = array("Vador", "Luke", "Solo");
+    final ErrorMessageFactory factory = containsIgnoringNewLines(actual, charSequences, set("Vador", "Solo"),
+                                                                 StandardComparisonStrategy.instance());
+    // WHEN
+    final String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yoda%nLuke\"%n" +
+                                   "to contain (ignoring new lines):%n" +
+                                   "  [\"Vador\", \"Luke\", \"Solo\"]%n" +
+                                   "but could not find:%n" +
+                                   "  [\"Vador\", \"Solo\"]%n "));
+  }
 }
