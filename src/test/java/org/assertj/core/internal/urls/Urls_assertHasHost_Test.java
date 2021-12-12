@@ -13,6 +13,7 @@
 package org.assertj.core.internal.urls;
 
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 import static org.assertj.core.error.uri.ShouldHaveHost.shouldHaveHost;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -34,6 +35,15 @@ class Urls_assertHasHost_Test extends UrlsBaseTest {
     AssertionError assertionError = expectAssertionError(() -> urls.assertHasHost(info, url, expectedHost));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
+  }
+
+  @Test
+  void should_fail_if_expected_host_is_null() throws MalformedURLException {
+    // GIVEN
+    URL url = new URL("https://example.com");
+    String expectedHost = null;
+    // WHEN
+    thenThrownBy(() -> urls.assertHasHost(info, url, expectedHost)).isInstanceOf(NullPointerException.class);
   }
 
   @Test

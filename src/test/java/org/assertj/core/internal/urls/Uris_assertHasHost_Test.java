@@ -13,12 +13,16 @@
 package org.assertj.core.internal.urls;
 
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 import static org.assertj.core.error.uri.ShouldHaveHost.shouldHaveHost;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
+import java.net.MalformedURLException;
 import java.net.URI;
 
+import java.net.URISyntaxException;
+import java.net.URL;
 import org.assertj.core.internal.UrisBaseTest;
 import org.junit.jupiter.api.Test;
 
@@ -33,6 +37,16 @@ class Uris_assertHasHost_Test extends UrisBaseTest {
     AssertionError assertionError = expectAssertionError(() -> uris.assertHasHost(info, uri, expectedHost));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
+  }
+
+  @Test
+  void should_fail_if_expected_host_is_null() throws URISyntaxException {
+    // GIVEN
+    URI uri = new URI("https://example.com");
+    String expectedHost = null;
+    // WHEN
+    thenThrownBy(() -> uris.assertHasHost(info, uri, expectedHost))
+      .isInstanceOf(NullPointerException.class);
   }
 
   @Test

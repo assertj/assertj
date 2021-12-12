@@ -133,6 +133,24 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
   }
 
   /**
+   * Verifies that the actual {@code URI} has no host.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // This assertion succeeds:
+   * assertThat(new URI("file:///home/user/Documents/hello-world.txt")).hasNoHost();
+   *
+   * // This assertion fails:
+   * assertThat(new URI("http://helloworld.org:8080/index.html")).hasNoHost();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual has a host.
+   */
+  public SELF hasNoHost() {
+    uris.assertHasNoHost(info, actual);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code URI} has the expected authority.
    * <p>
    * Examples:
