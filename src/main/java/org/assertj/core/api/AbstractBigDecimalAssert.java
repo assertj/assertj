@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Objects.requireNonNull;
+
 import java.math.BigDecimal;
 import java.util.Comparator;
 
@@ -492,5 +494,33 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
   @Override
   public SELF isGreaterThanOrEqualTo(BigDecimal other) {
     return super.isGreaterThanOrEqualTo(other);
+  }
+
+  /**
+   * Returns an {@code Assert} object that allows performing assertions on the scale of the {@link BigDecimal} under test.
+   * <p>
+   * Once this method is called, the object under test is no longer the {@link BigDecimal} but its scale.
+   * To perform assertions on the {@link BigDecimal}, call {@link AbstractBigDecimalScaleAssert#returnToBigDecimal()}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> BigDecimal bgDecimal = new BigDecimal(&quot;9.3231&quot;);
+   *
+   * // assertions succeed
+   * assertThat(bgDecimal).scale().isGreaterThan(1)
+   *                              .isLessThan(5)
+   *                      .returnToBigDecimal().isPositive();
+   * assertThat(bgDecimal.setScale(5)).scale().isLessThan(6);
+   *
+   * // assertions fails
+   * assertThat(bgDecimal).scale().isBetween(5, 8);
+   * assertThat(bgDecimal.setScale(5)).scale().isLessThan(5);</code></pre>
+   *
+   * @return AbstractBigDecimalScaleAssert built with the {@code BigDecimal}'s scale.
+   * @throws NullPointerException if the given {@code BigDecimal} is {@code null}.
+   */
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  public AbstractBigDecimalScaleAssert<SELF> scale() {
+    requireNonNull(actual, "Can not perform assertions on the scale of a null BigDecimal");
+    return new BigDecimalScaleAssert(myself);
   }
 }

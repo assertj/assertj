@@ -65,6 +65,7 @@ class SoftProxies {
                                                                                                                                    "map",
                                                                                                                                    "message",
                                                                                                                                    "newAbstractIterableAssert",
+                                                                                                                                   "scale",
                                                                                                                                    "size",
                                                                                                                                    "succeedsWithin",
                                                                                                                                    "toAssert",
@@ -136,6 +137,18 @@ class SoftProxies {
     try {
       Constructor<?> constructor = proxyClass.getConstructor(AbstractFileAssert.class);
       FileSizeAssert<?> proxiedAssert = (FileSizeAssert<?>) constructor.newInstance(fileSizeAssert.returnToFile());
+      ((AssertJProxySetup) proxiedAssert).assertj$setup(new ProxifyMethodChangingTheObjectUnderTest(this), collector);
+      return proxiedAssert;
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  BigDecimalScaleAssert<?> createBigDecimalScaleAssertProxy(BigDecimalScaleAssert<?> bigDecimalScaleAssert) {
+    Class<?> proxyClass = createSoftAssertionProxyClass(BigDecimalScaleAssert.class);
+    try {
+      Constructor<?> constructor = proxyClass.getConstructor(AbstractBigDecimalAssert.class);
+      BigDecimalScaleAssert<?> proxiedAssert = (BigDecimalScaleAssert<?>) constructor.newInstance(bigDecimalScaleAssert.returnToBigDecimal());
       ((AssertJProxySetup) proxiedAssert).assertj$setup(new ProxifyMethodChangingTheObjectUnderTest(this), collector);
       return proxiedAssert;
     } catch (Exception e) {
@@ -218,4 +231,5 @@ class SoftProxies {
     return publicMethods.or(forProxyProtectedMethods);
 
   }
+
 }
