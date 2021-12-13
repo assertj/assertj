@@ -401,8 +401,7 @@ class IterableAssert_extracting_Test {
                                                                                       .extracting(new Extractor<Employee, String>() {
                                                                                         @Override
                                                                                         public String extract(Employee input) {
-                                                                                          return input.getName()
-                                                                                                      .getFirst();
+                                                                                          return input.getName().getFirst();
                                                                                         }
                                                                                       }).isEmpty())
                                                    .withMessageContaining("[check employees first name]");

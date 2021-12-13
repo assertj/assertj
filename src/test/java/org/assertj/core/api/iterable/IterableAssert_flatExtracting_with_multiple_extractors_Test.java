@@ -15,6 +15,7 @@ package org.assertj.core.api.iterable;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithNamesOf;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithTypeOf;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
@@ -26,6 +27,7 @@ import static org.assertj.core.data.TolkienCharacter.Race.MAN;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -72,44 +74,59 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
   }
 
   @Test
+  void should_throw_assertion_error_if_actual_is_null() {
+    // GIVEN
+    List<TolkienCharacter> hobbits = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(hobbits).flatExtracting(age, name));
+    // THEN
+    then(assertionError).hasMessageContaining("Expecting actual not to be null");
+  }
+
+  @Test
   void should_throw_IllegalArgumentException_when_no_fields_or_properties_are_specified() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(fellowshipOfTheRing).flatExtracting(new String[0]));
+    // GIVEN
+    String[] fields = new String[0];
+    // WHEN/THEN
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(fellowshipOfTheRing).flatExtracting(fields));
   }
 
   @Test
   void should_throw_IllegalArgumentException_when_null_fields_or_properties_vararg() {
+    // GIVEN
     String[] fields = null;
+    // WHEN/THEN
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(fellowshipOfTheRing).flatExtracting(fields));
   }
 
   @Test
   void should_throw_IllegalArgumentException_when_extracting_from_null() {
+    // GIVEN
     fellowshipOfTheRing.add(null);
+    // WHEN/THEN
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(fellowshipOfTheRing).flatExtracting("age", "name"));
   }
 
   @Test
   void should_throw_IllegalArgumentException_when_extracting_from_null_extractors() {
+    // GIVEN
     fellowshipOfTheRing.add(null);
+    // WHEN/THEN
     assertThatNullPointerException().isThrownBy(() -> assertThat(fellowshipOfTheRing).flatExtracting(age, name));
   }
 
   @Test
-  void should_allow_assertions_on_multiple_extracted_values_using_throwingextractor() {
+  void should_allow_assertions_on_multiple_extracted_values_using_throwing_extractor() {
     assertThat(fellowshipOfTheRing).flatExtracting(input -> {
-      if (input.getAge() < 20) {
-        throw new Exception("age < 20");
-      }
+      if (input.getAge() < 20) throw new Exception("age < 20");
       return input.getName();
     }, input2 -> {
-      if (input2.getAge() < 20) {
-        throw new Exception("age < 20");
-      }
+      if (input2.getAge() < 20) throw new Exception("age < 20");
       return input2.getAge();
-      }
-    ).contains(33, "Frodo", 38, "Sam");
+    }).contains(33, "Frodo", 38, "Sam");
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   void flatExtracting_with_multiple_extractors_should_keep_assertion_state() {
     // WHEN
@@ -126,14 +143,15 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
                                                   .contains(33, "frodo", 38, "SAM");
     // @format:on
     // THEN
-    assertThat(assertion.descriptionText()).isEqualTo("test description");
-    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
-    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    assertThat(comparatorsByTypeOf(assertion).get(String.class)).isSameAs(CaseInsensitiveStringComparator.instance);
-    assertThat(comparatorForElementFieldsWithTypeOf(assertion).get(Timestamp.class)).isSameAs(ALWAY_EQUALS_TIMESTAMP);
-    assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
+    then(assertion.descriptionText()).isEqualTo("test description");
+    then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+    then(comparatorsByTypeOf(assertion).get(String.class)).isSameAs(CaseInsensitiveStringComparator.instance);
+    then(comparatorForElementFieldsWithTypeOf(assertion).get(Timestamp.class)).isSameAs(ALWAY_EQUALS_TIMESTAMP);
+    then(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   void flatExtracting_with_multiple_ThrowingExtractors_should_keep_assertion_state() {
     // WHEN
@@ -150,11 +168,11 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
                                             .contains(33, "frodo", 38, "SAM");
     // @format:on
     // THEN
-    assertThat(assertion.descriptionText()).isEqualTo("test description");
-    assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
-    assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    assertThat(comparatorsByTypeOf(assertion).get(String.class)).isSameAs(CaseInsensitiveStringComparator.instance);
-    assertThat(comparatorForElementFieldsWithTypeOf(assertion).get(Timestamp.class)).isSameAs(ALWAY_EQUALS_TIMESTAMP);
-    assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
+    then(assertion.descriptionText()).isEqualTo("test description");
+    then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
+    then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
+    then(comparatorsByTypeOf(assertion).get(String.class)).isSameAs(CaseInsensitiveStringComparator.instance);
+    then(comparatorForElementFieldsWithTypeOf(assertion).get(Timestamp.class)).isSameAs(ALWAY_EQUALS_TIMESTAMP);
+    then(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
   }
 }
