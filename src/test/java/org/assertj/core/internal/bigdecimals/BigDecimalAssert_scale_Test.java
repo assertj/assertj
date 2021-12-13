@@ -8,15 +8,17 @@ import java.math.BigDecimal;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
-class BigDecimalAssert_scale_Test extends BigDecimalsBaseTest {
+class BigDecimalAssert_scale_Test {
 
   @Test
   void should_be_able_to_use_scale_assertions_on_big_decimal_scale() throws Exception {
+    //GIVEN
+    BigDecimal THREE_DECIMAL = new BigDecimal("1.111");
     //THEN
-    assertThat(ONE_WITH_3_DECIMALS).scale().isLessThan(4)
-                                           .isGreaterThan(2)
-                                           .isPositive()
-                                   .returnToBigDecimal().hasScaleOf(3);
+    assertThat(THREE_DECIMAL).scale().isLessThan(4)
+                                     .isGreaterThan(2)
+                                     .isPositive()
+                             .returnToBigDecimal().hasScaleOf(3);
   }
 
   @Test
