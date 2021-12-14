@@ -15,6 +15,7 @@ package org.assertj.core.api.recursive.comparison;
 import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
@@ -38,6 +39,7 @@ import java.util.stream.Stream;
 import org.assertj.core.api.RecursiveComparisonAssert;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
+import org.assertj.core.internal.TypeMessages;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.Strings;
 import org.assertj.core.util.VisibleForTesting;
@@ -75,6 +77,10 @@ public class RecursiveComparisonConfiguration {
   private TypeComparators typeComparators = defaultTypeComparators();
   private FieldComparators fieldComparators = new FieldComparators();
 
+  // registered messages section
+  private TypeMessages typeMessages = new TypeMessages();
+  private FieldMessages fieldMessages = new FieldMessages();
+
   private RecursiveComparisonConfiguration(Builder builder) {
     this.strictTypeChecking = builder.strictTypeChecking;
     this.ignoreAllActualNullFields = builder.ignoreAllActualNullFields;
@@ -93,6 +99,8 @@ public class RecursiveComparisonConfiguration {
     ignoreCollectionOrderInFieldsMatchingRegexes(builder.ignoredCollectionOrderInFieldsMatchingRegexes);
     this.typeComparators = builder.typeComparators;
     this.fieldComparators = builder.fieldComparators;
+    this.fieldMessages = builder.fieldMessages;
+    this.typeMessages = builder.typeMessages;
   }
 
   public RecursiveComparisonConfiguration() {}
@@ -103,6 +111,14 @@ public class RecursiveComparisonConfiguration {
 
   public Comparator<?> getComparatorForField(String fieldName) {
     return fieldComparators.getComparatorForField(fieldName);
+  }
+
+  public boolean hasCustomMessageForField(String fieldName) {
+    return fieldMessages.hasMessageForField(fieldName);
+  }
+
+  public String getMessageForField(String fieldName) {
+    return fieldMessages.getMessageForField(fieldName);
   }
 
   public FieldComparators getFieldComparators() {
@@ -118,7 +134,15 @@ public class RecursiveComparisonConfiguration {
   }
 
   public Comparator<?> getComparatorForType(Class<?> fieldType) {
-    return typeComparators.get(fieldType);
+    return typeComparators.getComparatorForType(fieldType);
+  }
+
+  public boolean hasCustomMessageForType(Class<?> fieldType) {
+    return typeMessages.hasMessageForType(fieldType);
+  }
+
+  public String getMessageForType(Class<?> fieldType) {
+    return typeMessages.getMessageForType(fieldType);
   }
 
   public TypeComparators getTypeComparators() {
@@ -397,7 +421,8 @@ public class RecursiveComparisonConfiguration {
   /**
    * Registers the given {@link Comparator} to compare the fields with the given type.
    * <p>
-   * Comparators registered with this method have less precedence than comparators registered with {@link #registerComparatorForFields(Comparator, String...)}.
+   * Comparators registered with this method have less precedence than comparators registered with
+   * {@link #registerComparatorForFields(Comparator, String...)}.
    * <p>
    * Note that registering a {@link Comparator} for a given type will override the previously registered BiPredicate/Comparator (if any).
    * <p>
@@ -410,13 +435,14 @@ public class RecursiveComparisonConfiguration {
    */
   public <T> void registerComparatorForType(Comparator<? super T> comparator, Class<T> type) {
     requireNonNull(comparator, "Expecting a non null Comparator");
-    typeComparators.put(type, comparator);
+    typeComparators.registerComparator(type, comparator);
   }
 
   /**
    * Registers the given {@link BiPredicate} to compare the fields with the given type.
    * <p>
-   * BiPredicates specified with this method have less precedence than the ones registered with {@link #registerEqualsForFields(BiPredicate, String...)}
+   * BiPredicates specified with this method have less precedence than the ones registered with
+   * {@link #registerEqualsForFields(BiPredicate, String...)}
    * or comparators registered with {@link #registerComparatorForFields(Comparator, String...)}.
    * <p>
    * Note that registering a {@link BiPredicate} for a given type will override the previously registered BiPredicate/Comparator (if any).
@@ -480,6 +506,39 @@ public class RecursiveComparisonConfiguration {
   }
 
   /**
+   * Registers the giving message which would be shown when differences in the given fields while comparison occurred.
+   * <p>
+   * The fields must be specified from the root object, for example if {@code Foo} has a {@code Bar} field and both
+   * have an {@code id} field, one can register a message for Foo and Bar's {@code id} by calling:
+   * <pre><code class='java'> registerErrorMessageForFields("some message", "foo.id", "foo.bar.id")</code></pre>
+   * <p>
+   * Messages registered with this method have precedence over the ones registered with {@link #registerErrorMessageForType(String, Class)}.
+   * <p>
+   * In case of {@code null} as message the default error message will be used (See {@link ComparisonDifference#DEFAULT_TEMPLATE}).
+   *
+   * @param message the error message that will be thrown when comparison error occurred
+   * @param fieldLocations the field locations the error message should be used for
+   */
+  public void registerErrorMessageForFields(String message, String... fieldLocations) {
+    Stream.of(fieldLocations).forEach(fieldLocation -> fieldMessages.registerMessage(fieldLocation, message));
+  }
+
+  /**
+   * Registers the giving message which would be shown when differences for the giving type while comparison
+   * occurred.
+   * <p>
+   * Message registered with this method have less precedence than the ones registered with {@link #registerErrorMessageForFields(String, String...)}.
+   * <p>
+   * In case of {@code null} as message the default error message will be used (See {@link ComparisonDifference#DEFAULT_TEMPLATE}).
+   *
+   * @param message the error message that will be thrown when comparison error occurred
+   * @param clazz the type the error message should be used for
+   */
+  public void registerErrorMessageForType(String message, Class<?> clazz) {
+    typeMessages.registerMessage(clazz, message);
+  }
+
+  /**
    * Sets whether the recursive comparison will check that actual's type is compatible with expected's type (the same applies for each field).
    * Compatible means that the expected's type is the same or a subclass of actual's type.
    * <p>
@@ -524,10 +583,12 @@ public class RecursiveComparisonConfiguration {
   public int hashCode() {
     return java.util.Objects.hash(fieldComparators, ignoreAllActualEmptyOptionalFields, ignoreAllActualNullFields,
                                   ignoreAllExpectedNullFields, ignoreAllOverriddenEquals, ignoreCollectionOrder,
-                                  ignoredCollectionOrderInFields, ignoredCollectionOrderInFieldsMatchingRegexes, ignoredFields,
-                                  ignoredFieldsRegexes, ignoredOverriddenEqualsForFields, ignoredOverriddenEqualsForTypes,
+                                  ignoredCollectionOrderInFields, ignoredCollectionOrderInFieldsMatchingRegexes,
+                                  ignoredFields,
+                                  ignoredFieldsRegexes, ignoredOverriddenEqualsForFields,
+                                  ignoredOverriddenEqualsForTypes,
                                   ignoredOverriddenEqualsForFieldsMatchingRegexes, ignoredTypes, strictTypeChecking,
-                                  typeComparators, comparedFields);
+                                  typeComparators, comparedFields, fieldMessages, typeMessages);
   }
 
   @Override
@@ -550,10 +611,13 @@ public class RecursiveComparisonConfiguration {
            && java.util.Objects.equals(ignoredOverriddenEqualsForTypes, other.ignoredOverriddenEqualsForTypes)
            && java.util.Objects.equals(ignoredOverriddenEqualsForFieldsMatchingRegexes,
                                        other.ignoredOverriddenEqualsForFieldsMatchingRegexes)
-           && java.util.Objects.equals(ignoredTypes, other.ignoredTypes) && strictTypeChecking == other.strictTypeChecking
+           && java.util.Objects.equals(ignoredTypes, other.ignoredTypes)
+           && strictTypeChecking == other.strictTypeChecking
            && java.util.Objects.equals(typeComparators, other.typeComparators)
            && java.util.Objects.equals(ignoredCollectionOrderInFieldsMatchingRegexes,
-                                       other.ignoredCollectionOrderInFieldsMatchingRegexes);
+                                       other.ignoredCollectionOrderInFieldsMatchingRegexes)
+           && java.util.Objects.equals(fieldMessages, other.fieldMessages)
+           && java.util.Objects.equals(typeMessages, other.typeMessages);
   }
 
   public String multiLineDescription(Representation representation) {
@@ -572,6 +636,8 @@ public class RecursiveComparisonConfiguration {
     describeRegisteredComparatorByTypes(description);
     describeRegisteredComparatorForFields(description);
     describeTypeCheckingStrictness(description);
+    describeRegisteredErrorMessagesForFields(description);
+    describeRegisteredErrorMessagesForTypes(description);
     return description.toString();
   }
 
@@ -662,7 +728,7 @@ public class RecursiveComparisonConfiguration {
   }
 
   @VisibleForTesting
-  boolean shouldIgnoreOverriddenEqualsOf(Class<? extends Object> clazz) {
+  boolean shouldIgnoreOverriddenEqualsOf(Class<?> clazz) {
     return matchesAnIgnoredOverriddenEqualsRegex(clazz) || matchesAnIgnoredOverriddenEqualsType(clazz);
   }
 
@@ -699,7 +765,8 @@ public class RecursiveComparisonConfiguration {
 
   private void describeIgnoreAllActualEmptyOptionalFields(StringBuilder description) {
     if (getIgnoreAllActualEmptyOptionalFields())
-      description.append(format("- all actual empty optional fields were ignored in the comparison (including Optional, OptionalInt, OptionalLong and OptionalDouble)%n"));
+      description.append(format(
+          "- all actual empty optional fields were ignored in the comparison (including Optional, OptionalInt, OptionalLong and OptionalDouble)%n"));
   }
 
   private void describeIgnoreAllExpectedNullFields(StringBuilder description) {
@@ -754,15 +821,15 @@ public class RecursiveComparisonConfiguration {
 
   private void describeIgnoredCollectionOrderInFieldsMatchingRegexes(StringBuilder description) {
     if (!ignoredCollectionOrderInFieldsMatchingRegexes.isEmpty())
-      description.append(format("- collection order was ignored in the fields matching the following regexes in the comparison: %s%n",
-                                describeRegexes(ignoredCollectionOrderInFieldsMatchingRegexes)));
+      description.append(
+          format("- collection order was ignored in the fields matching the following regexes in the comparison: %s%n",
+                 describeRegexes(ignoredCollectionOrderInFieldsMatchingRegexes)));
   }
 
   private boolean matchesAnIgnoredOverriddenEqualsRegex(Class<?> clazz) {
     if (ignoredOverriddenEqualsForFieldsMatchingRegexes.isEmpty()) return false; // shortcut
     String canonicalName = clazz.getCanonicalName();
-    return ignoredOverriddenEqualsForFieldsMatchingRegexes.stream()
-                                                          .anyMatch(regex -> regex.matcher(canonicalName).matches());
+    return ignoredOverriddenEqualsForFieldsMatchingRegexes.stream().anyMatch(regex -> regex.matcher(canonicalName).matches());
   }
 
   private boolean matchesAnIgnoredOverriddenEqualsType(Class<?> clazz) {
@@ -893,6 +960,37 @@ public class RecursiveComparisonConfiguration {
     description.append(format(str));
   }
 
+  private void describeRegisteredErrorMessagesForFields(StringBuilder description) {
+    if (!fieldMessages.isEmpty()) {
+      description.append(format("- these fields had overridden error messages:%n"));
+      describeErrorMessagesForFields(description);
+      if (!typeMessages.isEmpty()) {
+        description.append(format("- field custom messages take precedence over type messages.%n"));
+      }
+    }
+  }
+
+  private void describeErrorMessagesForFields(StringBuilder description) {
+    String fields = fieldMessages.messageByFields()
+                                 .map(Entry::getKey)
+                                 .collect(joining(DEFAULT_DELIMITER));
+    description.append(format("%s %s%n", INDENT_LEVEL_2, fields));
+  }
+
+  private void describeRegisteredErrorMessagesForTypes(StringBuilder description) {
+    if (!typeMessages.isEmpty()) {
+      description.append("- these types had overridden error messages:%n");
+      describeErrorMessagesForType(description);
+    }
+  }
+
+  private void describeErrorMessagesForType(StringBuilder description) {
+    String types = typeMessages.messageByTypes()
+                               .map(it -> it.getKey().getName())
+                               .collect(joining(DEFAULT_DELIMITER));
+    description.append(format("%s %s%n", INDENT_LEVEL_2, types));
+  }
+
   /**
    * Creates builder to build {@link RecursiveComparisonConfiguration}.
    * @return created builder
@@ -922,6 +1020,8 @@ public class RecursiveComparisonConfiguration {
     private String[] ignoredCollectionOrderInFieldsMatchingRegexes = {};
     private TypeComparators typeComparators = defaultTypeComparators();
     private FieldComparators fieldComparators = new FieldComparators();
+    private FieldMessages fieldMessages = new FieldMessages();
+    private TypeMessages typeMessages = new TypeMessages();
 
     private Builder() {}
 
@@ -1144,7 +1244,7 @@ public class RecursiveComparisonConfiguration {
      */
     public <T> Builder withComparatorForType(Comparator<? super T> comparator, Class<T> type) {
       requireNonNull(comparator, "Expecting a non null Comparator");
-      this.typeComparators.put(type, comparator);
+      this.typeComparators.registerComparator(type, comparator);
       return this;
     }
 
@@ -1217,6 +1317,46 @@ public class RecursiveComparisonConfiguration {
      */
     public Builder withEqualsForFields(BiPredicate<?, ?> equals, String... fields) {
       return withComparatorForFields(toComparator(equals), fields);
+    }
+
+    /**
+     * Registers the giving message which would be shown when differences in the given fields while comparison occurred.
+     * <p>
+     * The fields must be specified from the root object, for example if {@code Foo} has a {@code Bar} field and both
+     * have an {@code id} field, one can register a message for Foo and Bar's {@code id} by calling:
+     * <pre><code class='java'> withErrorMessageForFields("some message", "foo.id", "foo.bar.id")</code></pre>
+     * <p>
+     * Messages registered with this method have precedence over the ones registered with {@link #withErrorMessageForType(String, Class)}.
+     * <p>
+     * In case of {@code null} as message the default error message will be used (See
+     * {@link ComparisonDifference#DEFAULT_TEMPLATE}).
+     *
+     * @param message the error message that will be thrown when comparison error occurred.
+     * @param fields the fields the error message should be used for.
+     * @return this builder.
+     * @throws NullPointerException if the giving list of arguments is null.
+     */
+    public Builder withErrorMessageForFields(String message, String... fields) {
+      Stream.of(fields).forEach(fieldLocation -> fieldMessages.registerMessage(fieldLocation, message));
+      return this;
+    }
+
+    /**
+     * Registers the giving message which would be shown when differences for the giving type while comparison
+     * occurred.
+     * <p>
+     * Message registered with this method have less precedence than the ones registered with {@link #withErrorMessageForFields(String, String...)}.
+     * <p>
+     * In case of {@code null} as message the default error message will be used (See
+     * {@link ComparisonDifference#DEFAULT_TEMPLATE}).
+     *
+     * @param message the error message that will be thrown when comparison error occurred
+     * @param type the type the error message should be used for
+     * @return this builder
+     */
+    public Builder withErrorMessageForType(String message, Class<?> type) {
+      this.typeMessages.registerMessage(type, message);
+      return this;
     }
 
     public RecursiveComparisonConfiguration build() {

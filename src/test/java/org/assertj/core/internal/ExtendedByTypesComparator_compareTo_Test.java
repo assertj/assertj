@@ -38,7 +38,7 @@ class ExtendedByTypesComparator_compareTo_Test {
 
   @BeforeAll
   public static void beforeClass() {
-    COMPARATORS_BY_TYPE.put(BigDecimal.class, new BigDecimalComparator());
+    COMPARATORS_BY_TYPE.registerComparator(BigDecimal.class, new BigDecimalComparator());
   }
 
   @ParameterizedTest

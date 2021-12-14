@@ -12,85 +12,55 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
-import static java.lang.String.format;
-import static org.assertj.core.util.Strings.join;
-
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.TreeMap;
 import java.util.stream.Stream;
-
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * An internal holder of the comparators for fields described by their path without element index.
  * <p>
  * Examples: {@code name.first} or {@code names.first} but not {@code names[1].first} or {@code names.[1].first}
  */
-public class FieldComparators {
-
-  @VisibleForTesting
-  Map<String, Comparator<?>> fieldComparators;
-
-  public FieldComparators() {
-    fieldComparators = new TreeMap<>();
-  }
+public class FieldComparators extends FieldHolder<Comparator<?>> {
 
   /**
-   * Puts the {@code comparator} for the given {@code clazz}.
+   * Puts the {@code comparator} for the given {@code fieldLocation}.
    *
    * @param fieldLocation the FieldLocation where to apply the comparator
-   * @param comparator the comparator it self
+   * @param comparator the comparator itself
    */
   public void registerComparator(String fieldLocation, Comparator<?> comparator) {
-    fieldComparators.put(fieldLocation, comparator);
+    super.put(fieldLocation, comparator);
   }
 
   /**
-   * @return {@code true} is there are registered comparators, {@code false} otherwise
+   * Checks, whether an any comparator is associated with the giving field location.
+   *
+   * @param fieldLocation the field location which association need to check
+   * @return is field location contain a custom comparator
    */
-  public boolean isEmpty() {
-    return fieldComparators.isEmpty();
-  }
-
-  @Override
-  public int hashCode() {
-    return fieldComparators.hashCode();
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    return obj instanceof FieldComparators && Objects.equals(fieldComparators, ((FieldComparators) obj).fieldComparators);
-  }
-
-  @Override
-  public String toString() {
-    List<String> registeredComparatorsDescription = new ArrayList<>();
-    for (Entry<String, Comparator<?>> fieldComparator : this.fieldComparators.entrySet()) {
-      registeredComparatorsDescription.add(formatRegisteredComparator(fieldComparator));
-    }
-    return format("{%s}", join(registeredComparatorsDescription).with(", "));
-  }
-
-  private static String formatRegisteredComparator(Entry<String, Comparator<?>> fieldComparator) {
-    return format("%s -> %s", fieldComparator, fieldComparator.getValue());
-  }
-
   public boolean hasComparatorForField(String fieldLocation) {
     // TODO sanitize here?
-    return fieldComparators.containsKey(fieldLocation);
+    return super.hasEntity(fieldLocation);
   }
 
+  /**
+   * Retrieves a custom comparator, which is associated with the giving field location. If this location does not
+   * associate with any custom comparators - this method returns null.
+   *
+   * @param fieldLocation the field location that has to be associated with a comparator
+   * @return a custom comparator or null
+   */
   public Comparator<?> getComparatorForField(String fieldLocation) {
-    return fieldComparators.get(fieldLocation);
+    return super.get(fieldLocation);
   }
 
+  /**
+   * Returns a sequence of associated field-comparator pairs.
+   *
+   * @return sequence of field-comparator pairs
+   */
   public Stream<Entry<String, Comparator<?>>> comparatorByFields() {
-    return fieldComparators.entrySet().stream();
+    return super.entryByField();
   }
-
 }

@@ -74,7 +74,7 @@ public final class DualValue {
 
   @Override
   public String toString() {
-    return format("DualValue [fielLocation=%s, actual=%s, expected=%s]", fieldLocation, actual, expected);
+    return format("DualValue [fieldLocation=%s, actual=%s, expected=%s]", fieldLocation, actual, expected);
   }
 
   public List<String> getDecomposedPath() {

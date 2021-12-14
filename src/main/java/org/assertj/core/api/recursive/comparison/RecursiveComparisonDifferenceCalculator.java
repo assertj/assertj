@@ -79,11 +79,11 @@ public class RecursiveComparisonDifferenceCalculator {
     }
 
     void addDifference(DualValue dualValue) {
-      differences.add(new ComparisonDifference(dualValue));
+      differences.add(new ComparisonDifference(dualValue, null, getCustomErrorMessage(dualValue)));
     }
 
     void addDifference(DualValue dualValue, String description) {
-      differences.add(new ComparisonDifference(dualValue, description));
+      differences.add(new ComparisonDifference(dualValue, description, getCustomErrorMessage(dualValue)));
     }
 
     void addKeyDifference(DualValue parentDualValue, Object actualKey, Object expectedKey) {
@@ -157,6 +157,18 @@ public class RecursiveComparisonDifferenceCalculator {
       return isRootObject || noCustomComparisonForDualValue;
     }
 
+    private String getCustomErrorMessage(DualValue dualValue) {
+      String fieldName = dualValue.getConcatenatedPath();
+      // field custome messages take precedence over type messages
+      if (recursiveComparisonConfiguration.hasCustomMessageForField(fieldName)) {
+        return recursiveComparisonConfiguration.getMessageForField(fieldName);
+      }
+      Class<?> fieldType = dualValue.actual != null ? dualValue.actual.getClass() : dualValue.expected.getClass();
+      if (recursiveComparisonConfiguration.hasCustomMessageForType(fieldType)) {
+        return recursiveComparisonConfiguration.getMessageForType(fieldType);
+      }
+      return null;
+    }
   }
 
   /**
@@ -700,7 +712,8 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   private static ComparisonDifference expectedAndActualTypeDifference(Object actual, Object expected) {
-    String additionalInformation = format("actual and expected are considered different since the comparison enforces strict type check and expected type %s is not a subtype of actual type %s",
+    String additionalInformation = format(
+                                          "actual and expected are considered different since the comparison enforces strict type check and expected type %s is not a subtype of actual type %s",
                                           expected.getClass().getName(), actual.getClass().getName());
     return rootComparisonDifference(actual, expected, additionalInformation);
   }

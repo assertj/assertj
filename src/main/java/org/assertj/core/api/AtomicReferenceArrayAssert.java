@@ -2048,7 +2048,7 @@ public class AtomicReferenceArrayAssert<T>
   @CheckReturnValue
   public <C> AtomicReferenceArrayAssert<T> usingComparatorForElementFieldsWithType(Comparator<C> comparator,
                                                                                    Class<C> type) {
-    getComparatorsForElementPropertyOrFieldTypes().put(type, comparator);
+    getComparatorsForElementPropertyOrFieldTypes().registerComparator(type, comparator);
     return myself;
   }
 
@@ -2083,8 +2083,8 @@ public class AtomicReferenceArrayAssert<T>
       usingElementComparator(new ExtendedByTypesComparator(getComparatorsByType()));
     }
 
-    getComparatorsForElementPropertyOrFieldTypes().put(type, comparator);
-    getComparatorsByType().put(type, comparator);
+    getComparatorsForElementPropertyOrFieldTypes().registerComparator(type, comparator);
+    getComparatorsByType().registerComparator(type, comparator);
 
     return myself;
   }
@@ -2196,13 +2196,14 @@ public class AtomicReferenceArrayAssert<T>
    * <p>
    * Another point worth mentioning: <b>elements order does matter if the expected iterable is ordered</b>, for example comparing a {@code Set<Person>} to a {@code List<Person>} fails as {@code List} is ordered and {@code Set} is not.<br>
    * The ordering can be ignored by calling {@link RecursiveComparisonAssert#ignoringCollectionOrder ignoringCollectionOrder} allowing ordered/unordered iterable comparison, note that {@link RecursiveComparisonAssert#ignoringCollectionOrder ignoringCollectionOrder} is applied recursively on any nested iterable fields, if this behavior is too generic,
-   * use the more fine grained {@link RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...) ignoringCollectionOrderInFields} or
+   * use the more fine-grained {@link RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...)
+   * ignoringCollectionOrderInFields} or
    * {@link RecursiveComparisonAssert#ignoringCollectionOrderInFieldsMatchingRegexes(String...) ignoringCollectionOrderInFieldsMatchingRegexes}.
    *
    * @return {@code this} assertion object.
    * @since 2.7.0 / 3.7.0 - breaking change in 3.20.0
    * @see RecursiveComparisonConfiguration
-   * @see usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
+   * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
    */
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> usingRecursiveFieldByFieldElementComparator() {

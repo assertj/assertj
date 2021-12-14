@@ -21,6 +21,7 @@ import java.util.function.BiPredicate;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.RandomUtils;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration.Builder;
 import org.assertj.core.test.AlwaysEqualComparator;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +30,7 @@ class RecursiveComparisonConfiguration_builder_Test {
   @Test
   void should_use_same_defaults_as_constructor() {
     // GIVEN
-    RecursiveComparisonConfiguration configurationBuiltWithBuilder = RecursiveComparisonConfiguration.builder().build();
+    RecursiveComparisonConfiguration configurationBuiltWithBuilder = configBuilder().build();
     RecursiveComparisonConfiguration configurationBuiltWithConstructor = new RecursiveComparisonConfiguration();
     // WHEN/THEN
     then(configurationBuiltWithBuilder).isEqualTo(configurationBuiltWithConstructor);
@@ -40,9 +41,7 @@ class RecursiveComparisonConfiguration_builder_Test {
     // GIVEN
     boolean value = RandomUtils.nextBoolean();
     // WHEN
-    RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
-                                                                                     .withIgnoreAllActualNullFields(value)
-                                                                                     .build();
+    RecursiveComparisonConfiguration configuration = configBuilder().withIgnoreAllActualNullFields(value).build();
     // THEN
     then(configuration.getIgnoreAllActualNullFields()).isEqualTo(value);
   }
@@ -52,9 +51,7 @@ class RecursiveComparisonConfiguration_builder_Test {
     // GIVEN
     boolean value = RandomUtils.nextBoolean();
     // WHEN
-    RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
-                                                                                     .withIgnoreAllActualEmptyOptionalFields(value)
-                                                                                     .build();
+    RecursiveComparisonConfiguration configuration = configBuilder().withIgnoreAllActualEmptyOptionalFields(value).build();
     // THEN
     then(configuration.getIgnoreAllActualEmptyOptionalFields()).isEqualTo(value);
   }
@@ -64,9 +61,7 @@ class RecursiveComparisonConfiguration_builder_Test {
     // GIVEN
     boolean value = RandomUtils.nextBoolean();
     // WHEN
-    RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
-                                                                                     .withIgnoreAllExpectedNullFields(value)
-                                                                                     .build();
+    RecursiveComparisonConfiguration configuration = configBuilder().withIgnoreAllExpectedNullFields(value).build();
     // THEN
     then(configuration.getIgnoreAllExpectedNullFields()).isEqualTo(value);
   }
@@ -76,9 +71,7 @@ class RecursiveComparisonConfiguration_builder_Test {
     // GIVEN
     boolean value = RandomUtils.nextBoolean();
     // WHEN
-    RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
-                                                                                     .withIgnoreAllOverriddenEquals(value)
-                                                                                     .build();
+    RecursiveComparisonConfiguration configuration = configBuilder().withIgnoreAllOverriddenEquals(value).build();
     // THEN
     then(configuration.getIgnoreAllOverriddenEquals()).isEqualTo(value);
   }
@@ -88,9 +81,7 @@ class RecursiveComparisonConfiguration_builder_Test {
     // GIVEN
     boolean value = RandomUtils.nextBoolean();
     // WHEN
-    RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
-                                                                                     .withIgnoreCollectionOrder(value)
-                                                                                     .build();
+    RecursiveComparisonConfiguration configuration = configBuilder().withIgnoreCollectionOrder(value).build();
     // THEN
     then(configuration.getIgnoreCollectionOrder()).isEqualTo(value);
   }
@@ -100,9 +91,7 @@ class RecursiveComparisonConfiguration_builder_Test {
     // GIVEN
     String[] values = { "foo", "bar" };
     // WHEN
-    RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
-                                                                                     .withIgnoredCollectionOrderInFields(values)
-                                                                                     .build();
+    RecursiveComparisonConfiguration configuration = configBuilder().withIgnoredCollectionOrderInFields(values).build();
     // THEN
     then(configuration.getIgnoredCollectionOrderInFields()).containsExactly(values);
   }
@@ -112,9 +101,8 @@ class RecursiveComparisonConfiguration_builder_Test {
     // GIVEN
     String[] values = { "foo", "bar" };
     // WHEN
-    RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
-                                                                                     .withIgnoredCollectionOrderInFieldsMatchingRegexes(values)
-                                                                                     .build();
+    RecursiveComparisonConfiguration configuration = configBuilder().withIgnoredCollectionOrderInFieldsMatchingRegexes(values)
+                                                                    .build();
     // THEN
     then(configuration.getIgnoredCollectionOrderInFieldsMatchingRegexes()).extracting(Pattern::pattern)
                                                                           .containsExactly(values);
@@ -125,9 +113,7 @@ class RecursiveComparisonConfiguration_builder_Test {
     // GIVEN
     String[] values = { "foo", "bar" };
     // WHEN
-    RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
-                                                                                     .withComparedFields(values)
-                                                                                     .build();
+    RecursiveComparisonConfiguration configuration = configBuilder().withComparedFields(values).build();
     // THEN
     then(configuration.getComparedFields()).containsExactly(values);
   }
@@ -137,9 +123,7 @@ class RecursiveComparisonConfiguration_builder_Test {
     // GIVEN
     String[] values = { "foo", "bar" };
     // WHEN
-    RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
-                                                                                     .withIgnoredFields(values)
-                                                                                     .build();
+    RecursiveComparisonConfiguration configuration = configBuilder().withIgnoredFields(values).build();
     // THEN
     then(configuration.getIgnoredFields()).containsExactly(values);
   }
@@ -149,9 +133,7 @@ class RecursiveComparisonConfiguration_builder_Test {
     // GIVEN
     String[] values = { "foo", "bar" };
     // WHEN
-    RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
-                                                                                     .withIgnoredFieldsMatchingRegexes(values)
-                                                                                     .build();
+    RecursiveComparisonConfiguration configuration = configBuilder().withIgnoredFieldsMatchingRegexes(values).build();
     // THEN
     then(configuration.getIgnoredFieldsRegexes()).extracting(Pattern::pattern)
                                                  .containsExactly(values);
@@ -162,9 +144,7 @@ class RecursiveComparisonConfiguration_builder_Test {
     // GIVEN
     String[] values = { "foo", "bar" };
     // WHEN
-    RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
-                                                                                     .withIgnoredOverriddenEqualsForFields(values)
-                                                                                     .build();
+    RecursiveComparisonConfiguration configuration = configBuilder().withIgnoredOverriddenEqualsForFields(values).build();
     // THEN
     then(configuration.getIgnoredOverriddenEqualsForFields()).containsExactly(values);
   }
@@ -174,9 +154,7 @@ class RecursiveComparisonConfiguration_builder_Test {
     // GIVEN
     Class<?>[] values = { String.class, Long.class, int.class };
     // WHEN
-    RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
-                                                                                     .withIgnoredOverriddenEqualsForTypes(values)
-                                                                                     .build();
+    RecursiveComparisonConfiguration configuration = configBuilder().withIgnoredOverriddenEqualsForTypes(values).build();
     // THEN
     then(configuration.getIgnoredOverriddenEqualsForTypes()).containsExactly(String.class, Long.class, int.class);
   }
@@ -186,9 +164,8 @@ class RecursiveComparisonConfiguration_builder_Test {
     // GIVEN
     String[] values = { "foo", "bar" };
     // WHEN
-    RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
-                                                                                     .withIgnoredOverriddenEqualsForFieldsMatchingRegexes(values)
-                                                                                     .build();
+    RecursiveComparisonConfiguration configuration = configBuilder().withIgnoredOverriddenEqualsForFieldsMatchingRegexes(values)
+                                                                    .build();
     // THEN
     then(configuration.getIgnoredOverriddenEqualsForFieldsMatchingRegexes()).extracting(Pattern::pattern)
                                                                             .containsExactly(values);
@@ -199,9 +176,7 @@ class RecursiveComparisonConfiguration_builder_Test {
     // GIVEN
     boolean value = RandomUtils.nextBoolean();
     // WHEN
-    RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
-                                                                                     .withStrictTypeChecking(value)
-                                                                                     .build();
+    RecursiveComparisonConfiguration configuration = configBuilder().withStrictTypeChecking(value).build();
     // THEN
     then(configuration.isInStrictTypeCheckingMode()).isEqualTo(value);
   }
@@ -211,9 +186,7 @@ class RecursiveComparisonConfiguration_builder_Test {
     // GIVEN
     Class<?>[] values = { String.class, Long.class, Object.class, int.class };
     // WHEN
-    RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
-                                                                                     .withIgnoredFieldsOfTypes(values)
-                                                                                     .build();
+    RecursiveComparisonConfiguration configuration = configBuilder().withIgnoredFieldsOfTypes(values).build();
     // THEN
     then(configuration.getIgnoredTypes()).containsExactly(String.class, Long.class, Object.class, Integer.class);
   }
@@ -225,11 +198,9 @@ class RecursiveComparisonConfiguration_builder_Test {
     String barLocation = "foo.bar";
     AlwaysEqualComparator<?> alwaysEqualComparator = alwaysEqual();
     // WHEN
-    RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
-                                                                                     .withComparatorForFields(alwaysEqualComparator,
-                                                                                                              fooLocation,
-                                                                                                              barLocation)
-                                                                                     .build();
+    RecursiveComparisonConfiguration configuration = configBuilder().withComparatorForFields(alwaysEqualComparator, fooLocation,
+                                                                                             barLocation)
+                                                                    .build();
     // THEN
     then(configuration.hasComparatorForField(fooLocation)).isTrue();
     then(configuration.getComparatorForField(fooLocation)).isSameAs(alwaysEqualComparator);
@@ -242,9 +213,7 @@ class RecursiveComparisonConfiguration_builder_Test {
     // GIVEN
     Comparator<Integer> integerComparator = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> RecursiveComparisonConfiguration.builder()
-                                                                               .withComparatorForFields(integerComparator,
-                                                                                                        "age"));
+    Throwable throwable = catchThrowable(() -> configBuilder().withComparatorForFields(integerComparator, "age"));
     // THEN
     then(throwable).isInstanceOf(NullPointerException.class)
                    .hasMessage("Expecting a non null Comparator");
@@ -255,9 +224,7 @@ class RecursiveComparisonConfiguration_builder_Test {
     // GIVEN
     Comparator<Integer> integerComparator = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> RecursiveComparisonConfiguration.builder()
-                                                                               .withComparatorForType(integerComparator,
-                                                                                                      Integer.class));
+    Throwable throwable = catchThrowable(() -> configBuilder().withComparatorForType(integerComparator, Integer.class));
     // THEN
     then(throwable).isInstanceOf(NullPointerException.class)
                    .hasMessage("Expecting a non null Comparator");
@@ -268,8 +235,7 @@ class RecursiveComparisonConfiguration_builder_Test {
     // GIVEN
     BiPredicate<String, String> stringEquals = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> RecursiveComparisonConfiguration.builder().withEqualsForType(stringEquals,
-                                                                                                            String.class));
+    Throwable throwable = catchThrowable(() -> configBuilder().withEqualsForType(stringEquals, String.class));
     // THEN
     then(throwable).isInstanceOf(NullPointerException.class)
                    .hasMessage("Expecting a non null BiPredicate");
@@ -280,8 +246,7 @@ class RecursiveComparisonConfiguration_builder_Test {
     // GIVEN
     BiPredicate<String, String> stringEquals = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> RecursiveComparisonConfiguration.builder().withEqualsForFields(stringEquals,
-                                                                                                              "id"));
+    Throwable throwable = catchThrowable(() -> configBuilder().withEqualsForFields(stringEquals, "id"));
     // THEN
     then(throwable).isInstanceOf(NullPointerException.class)
                    .hasMessage("Expecting a non null BiPredicate");
@@ -294,11 +259,9 @@ class RecursiveComparisonConfiguration_builder_Test {
     String titleLocation = "title";
     BiPredicate<String, String> stringEquals = (String s1, String s2) -> s1.equalsIgnoreCase(s2);
     // WHEN
-    RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
-                                                                                     .withEqualsForFields(stringEquals,
-                                                                                                          nameLocation,
-                                                                                                          titleLocation)
-                                                                                     .build();
+    RecursiveComparisonConfiguration configuration = configBuilder().withEqualsForFields(stringEquals, nameLocation,
+                                                                                         titleLocation)
+                                                                    .build();
     // THEN
     then(configuration.hasComparatorForField(nameLocation)).isTrue();
     then(configuration.hasComparatorForField(titleLocation)).isTrue();
@@ -309,10 +272,8 @@ class RecursiveComparisonConfiguration_builder_Test {
     // GIVEN
     AlwaysEqualComparator<String> alwaysEqualComparator = alwaysEqual();
     // WHEN
-    RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
-                                                                                     .withComparatorForType(alwaysEqualComparator,
-                                                                                                            String.class)
-                                                                                     .build();
+    RecursiveComparisonConfiguration configuration = configBuilder().withComparatorForType(alwaysEqualComparator, String.class)
+                                                                    .build();
     // THEN
     then(configuration.hasComparatorForType(String.class)).isTrue();
     then(configuration.getComparatorForType(String.class)).isSameAs(alwaysEqualComparator);
@@ -324,11 +285,42 @@ class RecursiveComparisonConfiguration_builder_Test {
     BiPredicate<String, String> stringEquals = (String s1, String s2) -> s1.equalsIgnoreCase(s2);
 
     // WHEN
-    RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration.builder()
-                                                                                     .withEqualsForType(stringEquals,
-                                                                                                        String.class)
-                                                                                     .build();
+    RecursiveComparisonConfiguration configuration = configBuilder().withEqualsForType(stringEquals, String.class).build();
     // THEN
     then(configuration.hasComparatorForType(String.class)).isTrue();
   }
+
+  @Test
+  void should_set_message_for_field() {
+    // GIVEN
+    String nameLocation = "name";
+    String titleLocation = "title";
+    String message = "error message";
+    // WHEN
+    RecursiveComparisonConfiguration configuration = configBuilder().withErrorMessageForFields(message, nameLocation,
+                                                                                               titleLocation)
+                                                                    .build();
+    // THEN
+    then(configuration.hasCustomMessageForField(nameLocation)).isTrue();
+    then(configuration.getMessageForField(nameLocation)).isEqualTo(message);
+
+    then(configuration.hasCustomMessageForField(titleLocation)).isTrue();
+    then(configuration.getMessageForField(titleLocation)).isEqualTo(message);
+  }
+
+  @Test
+  void should_set_message_for_type() {
+    // GIVEN
+    String message = "error message";
+    // WHEN
+    RecursiveComparisonConfiguration configuration = configBuilder().withErrorMessageForType(message, String.class).build();
+    // THEN
+    then(configuration.hasCustomMessageForType(String.class)).isTrue();
+    then(configuration.getMessageForType(String.class)).isEqualTo(message);
+  }
+
+  private static Builder configBuilder() {
+    return RecursiveComparisonConfiguration.builder();
+  }
+
 }

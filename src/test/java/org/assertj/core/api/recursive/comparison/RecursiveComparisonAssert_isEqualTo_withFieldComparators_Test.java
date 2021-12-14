@@ -43,10 +43,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
-    extends RecursiveComparisonAssert_isEqualTo_BaseTest {
+class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
-  @SuppressWarnings("unused")
   @ParameterizedTest(name = "{4}: actual={0} / expected={1} - comparators {2} - fields {3}")
   @MethodSource("recursivelyEqualObjectsWhenUsingFieldComparators")
   void should_pass_for_objects_with_the_same_data_when_using_registered_comparators_by_fields(Object actual,
@@ -59,7 +57,6 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
                       .isEqualTo(expected);
   }
 
-  @SuppressWarnings("unused")
   @ParameterizedTest(name = "{4}: actual={0} / expected={1} - comparators {2} - fields {3}")
   @MethodSource("recursivelyEqualObjectsWhenUsingFieldComparators")
   void should_pass_for_objects_with_the_same_data_when_using_registered_BiPredicate_by_fields(Object actual,
@@ -179,12 +176,12 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
     goliathTwin.height = 3.1;
 
     // THEN
-    assertThat(goliath).usingRecursiveComparison()
-                       .withComparatorForFields(new AtPrecisionComparator<>(0.2), "height")
-                       .isEqualTo(goliathTwin);
-    assertThat(goliath).usingRecursiveComparison()
-                       .withEqualsForFields((Double d1, Double d2) -> Math.abs(d1 - d2) <= 0.2, "height")
-                       .isEqualTo(goliathTwin);
+    then(goliath).usingRecursiveComparison()
+                 .withComparatorForFields(new AtPrecisionComparator<>(0.2), "height")
+                 .isEqualTo(goliathTwin);
+    then(goliath).usingRecursiveComparison()
+                 .withEqualsForFields((Double d1, Double d2) -> Math.abs(d1 - d2) <= 0.2, "height")
+                 .isEqualTo(goliathTwin);
   }
 
   @Test
@@ -201,10 +198,10 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
     goliathTwin.home.address.number = 5;
 
     // THEN
-    assertThat(goliath).usingRecursiveComparison()
-                       .withComparatorForFields(new AtPrecisionComparator<>(0.2), "height")
-                       .withComparatorForFields(new AtPrecisionComparator<>(10), "home.address.number")
-                       .isEqualTo(goliathTwin);
+    then(goliath).usingRecursiveComparison()
+                 .withComparatorForFields(new AtPrecisionComparator<>(0.2), "height")
+                 .withComparatorForFields(new AtPrecisionComparator<>(10), "home.address.number")
+                 .isEqualTo(goliathTwin);
   }
 
   @Test
@@ -221,10 +218,10 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
     goliathTwin.home.address.number = 5;
 
     // THEN
-    assertThat(goliath).usingRecursiveComparison()
-                       .withEqualsForFields((Double d1, Double d2) -> Math.abs(d1 - d2) <= 0.2, "height")
-                       .withEqualsForFields((Integer i1, Integer i2) -> Math.abs(i1 - i2) <= 10, "home.address.number")
-                       .isEqualTo(goliathTwin);
+    then(goliath).usingRecursiveComparison()
+                 .withEqualsForFields((Double d1, Double d2) -> Math.abs(d1 - d2) <= 0.2, "height")
+                 .withEqualsForFields((Integer i1, Integer i2) -> Math.abs(i1 - i2) <= 10, "home.address.number")
+                 .isEqualTo(goliathTwin);
   }
 
   @Test
@@ -233,12 +230,12 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
     Patient actual = new Patient(null);
     Patient expected = new Patient(new Timestamp(3L));
     // THEN
-    assertThat(actual).usingRecursiveComparison()
-                      .withComparatorForFields(ALWAY_EQUALS_TIMESTAMP, "dateOfBirth")
-                      .isEqualTo(expected);
-    assertThat(actual).usingRecursiveComparison()
-                      .withEqualsForFields((o1, o2) -> true, "dateOfBirth")
-                      .isEqualTo(expected);
+    then(actual).usingRecursiveComparison()
+                .withComparatorForFields(ALWAY_EQUALS_TIMESTAMP, "dateOfBirth")
+                .isEqualTo(expected);
+    then(actual).usingRecursiveComparison()
+                .withEqualsForFields((o1, o2) -> true, "dateOfBirth")
+                .isEqualTo(expected);
   }
 
   @Test
@@ -249,12 +246,12 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
     Person other = new Person(actual.name);
     other.dateOfBirth = new Date(1000L);
     // THEN
-    assertThat(actual).usingRecursiveComparison()
-                      .withComparatorForFields(SYMMETRIC_DATE_COMPARATOR, "dateOfBirth")
-                      .isEqualTo(other);
-    assertThat(other).usingRecursiveComparison()
-                     .withEqualsForFields(asBiPredicate(SYMMETRIC_DATE_COMPARATOR), "dateOfBirth")
-                     .isEqualTo(actual);
+    then(actual).usingRecursiveComparison()
+                .withComparatorForFields(SYMMETRIC_DATE_COMPARATOR, "dateOfBirth")
+                .isEqualTo(other);
+    then(other).usingRecursiveComparison()
+               .withEqualsForFields(asBiPredicate(SYMMETRIC_DATE_COMPARATOR), "dateOfBirth")
+               .isEqualTo(actual);
   }
 
   @Test
@@ -263,22 +260,22 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
     Patient actual = new Patient(new Timestamp(1L));
     Patient expected = new Patient(new Timestamp(3L));
     // THEN
-    assertThat(actual).usingRecursiveComparison()
-                      .withComparatorForType(NEVER_EQUALS, Timestamp.class)
-                      .withComparatorForFields(ALWAY_EQUALS_TIMESTAMP, "dateOfBirth")
-                      .isEqualTo(expected);
-    assertThat(actual).usingRecursiveComparison()
-                      .withComparatorForFields(ALWAY_EQUALS_TIMESTAMP, "dateOfBirth")
-                      .withComparatorForType(NEVER_EQUALS, Timestamp.class)
-                      .isEqualTo(expected);
-    assertThat(actual).usingRecursiveComparison()
-                      .withEqualsForType((o1, o2) -> false, Timestamp.class)
-                      .withEqualsForFields((o1, o2) -> true, "dateOfBirth")
-                      .isEqualTo(expected);
-    assertThat(actual).usingRecursiveComparison()
-                      .withEqualsForFields((o1, o2) -> true, "dateOfBirth")
-                      .withEqualsForType((o1, o2) -> false, Timestamp.class)
-                      .isEqualTo(expected);
+    then(actual).usingRecursiveComparison()
+                .withComparatorForType(NEVER_EQUALS, Timestamp.class)
+                .withComparatorForFields(ALWAY_EQUALS_TIMESTAMP, "dateOfBirth")
+                .isEqualTo(expected);
+    then(actual).usingRecursiveComparison()
+                .withComparatorForFields(ALWAY_EQUALS_TIMESTAMP, "dateOfBirth")
+                .withComparatorForType(NEVER_EQUALS, Timestamp.class)
+                .isEqualTo(expected);
+    then(actual).usingRecursiveComparison()
+                .withEqualsForType((o1, o2) -> false, Timestamp.class)
+                .withEqualsForFields((o1, o2) -> true, "dateOfBirth")
+                .isEqualTo(expected);
+    then(actual).usingRecursiveComparison()
+                .withEqualsForFields((o1, o2) -> true, "dateOfBirth")
+                .withEqualsForType((o1, o2) -> false, Timestamp.class)
+                .isEqualTo(expected);
   }
 
   @Test
@@ -291,14 +288,14 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
     expected.neighbour = new AlwaysEqualPerson();
     expected.neighbour.name = "Omar2";
     // THEN
-    assertThat(actual).usingRecursiveComparison()
-                      .withComparatorForFields(ALWAY_EQUALS, "neighbour") // fails if commented
-                      .ignoringOverriddenEqualsForFields("neighbour")
-                      .isEqualTo(expected);
-    assertThat(actual).usingRecursiveComparison()
-                      .withEqualsForFields((o1, o2) -> true, "neighbour") // fails if commented
-                      .ignoringOverriddenEqualsForFields("neighbour")
-                      .isEqualTo(expected);
+    then(actual).usingRecursiveComparison()
+                .withComparatorForFields(ALWAY_EQUALS, "neighbour") // fails if commented
+                .ignoringOverriddenEqualsForFields("neighbour")
+                .isEqualTo(expected);
+    then(actual).usingRecursiveComparison()
+                .withEqualsForFields((o1, o2) -> true, "neighbour") // fails if commented
+                .ignoringOverriddenEqualsForFields("neighbour")
+                .isEqualTo(expected);
   }
 
   @Test
@@ -320,7 +317,6 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
     // GIVEN
     Foo actual = new Foo(1);
     Foo expected = new Foo(1);
-    BiPredicate<Integer, Integer> greaterThan = (i1, i2) -> Objects.equals(i1, i2 + 1);
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison()
                                                                                  .withComparatorForFields(NEVER_EQUALS, "bar")
@@ -331,6 +327,7 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test
 
   private static class Foo {
 
+    @SuppressWarnings("unused")
     private final Integer bar;
 
     private Foo(Integer bar) {

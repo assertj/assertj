@@ -55,7 +55,7 @@ public class ExtendedByTypesComparator implements Comparator<Object> {
     if (actual == null || other == null) return NOT_EQUAL;
 
     @SuppressWarnings("rawtypes")
-    Comparator comparatorByType = comparatorsByType == null ? null : comparatorsByType.get(actual.getClass());
+    Comparator comparatorByType = comparatorsByType == null ? null : comparatorsByType.getComparatorForType(actual.getClass());
     if (comparatorByType != null) {
       return other.getClass().isInstance(actual) ? comparatorByType.compare(actual, other) : NOT_EQUAL;
     }

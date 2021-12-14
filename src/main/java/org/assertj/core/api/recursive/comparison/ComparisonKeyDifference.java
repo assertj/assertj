@@ -42,7 +42,7 @@ public class ComparisonKeyDifference extends ComparisonDifference {
     UnambiguousRepresentation unambiguousRepresentation = new UnambiguousRepresentation(representation, actual, expected);
     UnambiguousRepresentation unambiguousKeyRepresentation = new UnambiguousRepresentation(representation, actualKey,
                                                                                            expectedKey);
-    return format(TEMPLATE + "%n" + TEMPLATE_FOR_KEY_DIFFERENCE,
+    return format(DEFAULT_TEMPLATE + "%n" + TEMPLATE_FOR_KEY_DIFFERENCE,
                   fieldPathDescription(),
                   unambiguousRepresentation.getActual(),
                   unambiguousRepresentation.getExpected(),

@@ -1922,7 +1922,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Deprecated
   @CheckReturnValue
   public <C> SELF usingComparatorForElementFieldsWithType(Comparator<C> comparator, Class<C> type) {
-    getComparatorsForElementPropertyOrFieldTypes().put(type, comparator);
+    getComparatorsForElementPropertyOrFieldTypes().registerComparator(type, comparator);
     return myself;
   }
 
@@ -1958,8 +1958,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     if (arrays.getComparator() == null) {
       usingElementComparator(new ExtendedByTypesComparator(getComparatorsByType()));
     }
-    getComparatorsForElementPropertyOrFieldTypes().put(type, comparator);
-    getComparatorsByType().put(type, comparator);
+    getComparatorsForElementPropertyOrFieldTypes().registerComparator(type, comparator);
+    getComparatorsByType().registerComparator(type, comparator);
     return myself;
   }
 

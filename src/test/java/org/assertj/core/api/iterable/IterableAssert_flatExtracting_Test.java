@@ -87,25 +87,25 @@ class IterableAssert_flatExtracting_Test {
   @Test
   void should_allow_assertions_on_joined_lists_when_extracting_children_with_extractor() {
     assertThat(list(homer, fred)).flatExtracting(childrenExtractor)
-                                 .containsOnly(bart, lisa, maggie, pebbles);
+      .containsOnly(bart, lisa, maggie, pebbles);
   }
 
   @Test
   void should_allow_assertions_on_joined_lists_when_extracting_children() {
     assertThat(list(homer, fred)).flatExtracting(children)
-                                 .containsOnly(bart, lisa, maggie, pebbles);
+      .containsOnly(bart, lisa, maggie, pebbles);
   }
 
   @Test
   void should_allow_assertions_on_empty_result_lists_with_extractor() {
     assertThat(list(bart, lisa, maggie)).flatExtracting(childrenExtractor)
-                                        .isEmpty();
+      .isEmpty();
   }
 
   @Test
   void should_allow_assertions_on_empty_result_lists() {
     assertThat(list(bart, lisa, maggie)).flatExtracting(children)
-                                        .isEmpty();
+      .isEmpty();
   }
 
   @Test
@@ -191,8 +191,8 @@ class IterableAssert_flatExtracting_Test {
     List<CartoonCharacter> cartoonCharacters = list(homer);
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(cartoonCharacters).as("expected description")
-                                                                                            .flatExtracting(childrenExtractor)
-                                                                                            .isEmpty());
+      .flatExtracting(childrenExtractor)
+      .isEmpty());
     // THEN
     then(assertionError).hasMessageContaining("[expected description]");
   }
@@ -203,8 +203,8 @@ class IterableAssert_flatExtracting_Test {
     List<CartoonCharacter> cartoonCharacters = list(homer);
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(cartoonCharacters).as("expected description")
-                                                                                            .flatExtracting(children)
-                                                                                            .isEmpty());
+      .flatExtracting(children)
+      .isEmpty());
     // THEN
     then(assertionError).hasMessageContaining("[expected description]");
   }
@@ -215,8 +215,8 @@ class IterableAssert_flatExtracting_Test {
     List<CartoonCharacter> cartoonCharacters = list(homer);
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(cartoonCharacters).as("expected description")
-                                                                                            .flatExtracting("children")
-                                                                                            .isEmpty());
+      .flatExtracting("children")
+      .isEmpty());
     // THEN
     then(assertionError).hasMessageContaining("[expected description]");
   }
@@ -227,8 +227,8 @@ class IterableAssert_flatExtracting_Test {
     List<CartoonCharacter> cartoonCharacters = list(homer);
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(cartoonCharacters).as("expected description")
-                                                                                            .flatExtracting("children", "name")
-                                                                                            .isEmpty());
+      .flatExtracting("children", "name")
+      .isEmpty());
     // THEN
     then(assertionError).hasMessageContaining("[expected description]");
   }
@@ -239,8 +239,8 @@ class IterableAssert_flatExtracting_Test {
     List<CartoonCharacter> cartoonCharacters = list(homer);
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(cartoonCharacters).as("expected description")
-                                                                                            .flatExtracting(children, children)
-                                                                                            .isEmpty());
+      .flatExtracting(children, children)
+      .isEmpty());
     // THEN
     then(assertionError).hasMessageContaining("[expected description]");
   }
@@ -251,9 +251,9 @@ class IterableAssert_flatExtracting_Test {
     List<CartoonCharacter> cartoonCharacters = list(homer);
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(cartoonCharacters).as("expected description")
-                                                                                            .flatExtracting(throwingExtractor,
-                                                                                                            throwingExtractor)
-                                                                                            .isEmpty());
+      .flatExtracting(throwingExtractor,
+        throwingExtractor)
+      .isEmpty());
     // THEN
     then(assertionError).hasMessageContaining("[expected description]");
   }
@@ -267,21 +267,23 @@ class IterableAssert_flatExtracting_Test {
     // not all comparators are used but we want to test that they are passed correctly after extracting
     // @format:off
     AbstractListAssert<?, ?, ?, ?> assertion
-            = assertThat(list(homer, fred)).as("test description")
-                                                   .withFailMessage("error message")
-                                                   .withRepresentation(UNICODE_REPRESENTATION)
-                                                   .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "foo")
-                                                   .usingComparatorForElementFieldsWithType(ALWAY_EQUALS_TIMESTAMP, Timestamp.class)
-                                                   .usingComparatorForType(cartoonCharacterAlwaysEqualComparator, CartoonCharacter.class)
-                                                   .flatExtracting(childrenExtractor)
-                                                   .contains(bart, lisa, new CartoonCharacter("Unknown"));
+      = assertThat(list(homer, fred)).as("test description")
+      .withFailMessage("error message")
+      .withRepresentation(UNICODE_REPRESENTATION)
+      .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "foo")
+      .usingComparatorForElementFieldsWithType(ALWAY_EQUALS_TIMESTAMP, Timestamp.class)
+      .usingComparatorForType(cartoonCharacterAlwaysEqualComparator, CartoonCharacter.class)
+      .flatExtracting(childrenExtractor)
+      .contains(bart, lisa, new CartoonCharacter("Unknown"));
     // @format:on
     // THEN
     then(assertion.descriptionText()).isEqualTo("test description");
     then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    then(comparatorsByTypeOf(assertion).get(CartoonCharacter.class)).isSameAs(cartoonCharacterAlwaysEqualComparator);
-    then(comparatorForElementFieldsWithTypeOf(assertion).get(Timestamp.class)).isSameAs(ALWAY_EQUALS_TIMESTAMP);
+    then(comparatorsByTypeOf(assertion).getComparatorForType(CartoonCharacter.class))
+      .isSameAs(cartoonCharacterAlwaysEqualComparator);
+    then(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class))
+      .isSameAs(ALWAY_EQUALS_TIMESTAMP);
     then(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
   }
 
@@ -294,21 +296,23 @@ class IterableAssert_flatExtracting_Test {
     // not all comparators are used but we want to test that they are passed correctly after extracting
     // @format:off
     AbstractListAssert<?, ?, ?, ?> assertion
-            = assertThat(list(homer, fred)).as("test description")
-                                                   .withFailMessage("error message")
-                                                   .withRepresentation(UNICODE_REPRESENTATION)
-                                                   .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "foo")
-                                                   .usingComparatorForElementFieldsWithType(ALWAY_EQUALS_TIMESTAMP, Timestamp.class)
-                                                   .usingComparatorForType(cartoonCharacterAlwaysEqualComparator, CartoonCharacter.class)
-                                                   .flatExtracting(children)
-                                                   .contains(bart, lisa, new CartoonCharacter("Unknown"));
+      = assertThat(list(homer, fred)).as("test description")
+      .withFailMessage("error message")
+      .withRepresentation(UNICODE_REPRESENTATION)
+      .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "foo")
+      .usingComparatorForElementFieldsWithType(ALWAY_EQUALS_TIMESTAMP, Timestamp.class)
+      .usingComparatorForType(cartoonCharacterAlwaysEqualComparator, CartoonCharacter.class)
+      .flatExtracting(children)
+      .contains(bart, lisa, new CartoonCharacter("Unknown"));
     // @format:on
     // THEN
     then(assertion.descriptionText()).isEqualTo("test description");
     then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    then(comparatorsByTypeOf(assertion).get(CartoonCharacter.class)).isSameAs(cartoonCharacterAlwaysEqualComparator);
-    then(comparatorForElementFieldsWithTypeOf(assertion).get(Timestamp.class)).isSameAs(ALWAY_EQUALS_TIMESTAMP);
+    then(comparatorsByTypeOf(assertion).getComparatorForType(CartoonCharacter.class))
+      .isSameAs(cartoonCharacterAlwaysEqualComparator);
+    then(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class))
+      .isSameAs(ALWAY_EQUALS_TIMESTAMP);
     then(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
   }
 
@@ -321,21 +325,23 @@ class IterableAssert_flatExtracting_Test {
     // not all comparators are used but we want to test that they are passed correctly after extracting
     // @format:off
     AbstractListAssert<?, ?, ?, ?> assertion
-           = assertThat(list(homer, fred)).as("test description")
-                                                  .withFailMessage("error message")
-                                                  .withRepresentation(UNICODE_REPRESENTATION)
-                                                  .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "foo")
-                                                  .usingComparatorForElementFieldsWithType(ALWAY_EQUALS_TIMESTAMP, Timestamp.class)
-                                                  .usingComparatorForType(cartoonCharacterAlwaysEqualComparator, CartoonCharacter.class)
-                                                  .flatExtracting(childrenThrowingExtractor)
-                                                  .contains(bart, lisa, new CartoonCharacter("Unknown"));
+      = assertThat(list(homer, fred)).as("test description")
+      .withFailMessage("error message")
+      .withRepresentation(UNICODE_REPRESENTATION)
+      .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "foo")
+      .usingComparatorForElementFieldsWithType(ALWAY_EQUALS_TIMESTAMP, Timestamp.class)
+      .usingComparatorForType(cartoonCharacterAlwaysEqualComparator, CartoonCharacter.class)
+      .flatExtracting(childrenThrowingExtractor)
+      .contains(bart, lisa, new CartoonCharacter("Unknown"));
     // @format:on
     // THEN
     then(assertion.descriptionText()).isEqualTo("test description");
     then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    then(comparatorsByTypeOf(assertion).get(CartoonCharacter.class)).isSameAs(cartoonCharacterAlwaysEqualComparator);
-    then(comparatorForElementFieldsWithTypeOf(assertion).get(Timestamp.class)).isSameAs(ALWAY_EQUALS_TIMESTAMP);
+    then(comparatorsByTypeOf(assertion).getComparatorForType(CartoonCharacter.class))
+      .isSameAs(cartoonCharacterAlwaysEqualComparator);
+    then(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class))
+      .isSameAs(ALWAY_EQUALS_TIMESTAMP);
     then(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
   }
 

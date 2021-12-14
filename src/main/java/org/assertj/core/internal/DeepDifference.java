@@ -345,7 +345,7 @@ public class DeepDifference {
     if (comparatorByPropertyOrField.containsKey(fieldName)) return true;
     // we know that dualKey.key1 != dualKey.key2 at this point, so one the key is not null
     Class<?> keyType = dualKey.key1 != null ? dualKey.key1.getClass() : dualKey.key2.getClass();
-    return comparatorByType.get(keyType) != null;
+    return comparatorByType.getComparatorForType(keyType) != null;
   }
 
   private static Deque<DualKey> initStack(Object a, Object b, List<String> parentPath,

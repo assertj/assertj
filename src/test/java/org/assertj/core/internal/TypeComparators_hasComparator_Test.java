@@ -30,7 +30,7 @@ class TypeComparators_hasComparator_Test {
 
   @Test
   void should_find_comparator() {
-    typeComparators.put(Foo.class, newComparator());
+    typeComparators.registerComparator(Foo.class, newComparator());
     // WHEN
     boolean comparatorFound = typeComparators.hasComparatorForType(Foo.class);
     // THEN
@@ -39,7 +39,7 @@ class TypeComparators_hasComparator_Test {
 
   @Test
   void should_find_parent_comparator() {
-    typeComparators.put(Bar.class, newComparator());
+    typeComparators.registerComparator(Bar.class, newComparator());
     // WHEN
     boolean comparatorFound = typeComparators.hasComparatorForType(Foo.class);
     // THEN
@@ -52,9 +52,9 @@ class TypeComparators_hasComparator_Test {
     Comparator<I3> i3Comparator = newComparator();
     Comparator<I4> i4Comparator = newComparator();
     Comparator<Foo> fooComparator = newComparator();
-    typeComparators.put(I3.class, i3Comparator);
-    typeComparators.put(I4.class, i4Comparator);
-    typeComparators.put(Foo.class, fooComparator);
+    typeComparators.registerComparator(I3.class, i3Comparator);
+    typeComparators.registerComparator(I4.class, i4Comparator);
+    typeComparators.registerComparator(Foo.class, fooComparator);
     // WHEN
     boolean comparatorFound = typeComparators.hasComparatorForType(I5.class);
     // THEN
