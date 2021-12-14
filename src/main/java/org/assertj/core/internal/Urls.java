@@ -13,10 +13,12 @@
 package org.assertj.core.internal;
 
 import static java.util.Objects.deepEquals;
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.uri.ShouldBeEqualToWithSortedQueryParameters.shouldBeEqualToWithSortedQueryParameters;
 import static org.assertj.core.error.uri.ShouldHaveAnchor.shouldHaveAnchor;
 import static org.assertj.core.error.uri.ShouldHaveAuthority.shouldHaveAuthority;
 import static org.assertj.core.error.uri.ShouldHaveHost.shouldHaveHost;
+import static org.assertj.core.error.uri.ShouldHaveNoHost.shouldHaveNoHost;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameter;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameters;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveParameter;
@@ -80,7 +82,13 @@ public class Urls {
 
   public void assertHasHost(AssertionInfo info, URL actual, String expected) {
     assertNotNull(info, actual);
+    requireNonNull(expected, "The expected host should not be null");
     if (!Objects.equals(actual.getHost(), expected)) throw failures.failure(info, shouldHaveHost(actual, expected));
+  }
+
+  public void assertHasNoHost(AssertionInfo info, URL actual) {
+    assertNotNull(info, actual);
+    if (actual.getHost() != null && !actual.getHost().isEmpty()) throw failures.failure(info, shouldHaveNoHost(actual));
   }
 
   public void assertHasAuthority(AssertionInfo info, URL actual, String expected) {

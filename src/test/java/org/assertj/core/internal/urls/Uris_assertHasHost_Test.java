@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.urls;
 
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveHost.shouldHaveHost;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
@@ -27,40 +28,53 @@ class Uris_assertHasHost_Test extends UrisBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // GIVEN
-    URI uri = null;
-    String expectedHost = "www.helloworld.org";
+    URI actual = null;
+    String expected = "www.helloworld.org";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasHost(info, uri, expectedHost));
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasHost(info, actual, expected));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
+  void should_fail_if_expected_is_null() {
+    // GIVEN
+    URI actual = URI.create("http://www.helloworld.org");
+    String expected = null;
+    // WHEN
+    Throwable thrown = catchThrowable(() -> uris.assertHasHost(info, actual, expected));
+    // THEN
+    then(thrown).isInstanceOf(NullPointerException.class)
+                .hasMessage("The expected host should not be null");
+  }
+
+  @Test
   void should_pass_if_actual_URI_has_the_given_host() {
     // GIVEN
-    URI uri = URI.create("http://www.helloworld.org");
-    String expectedHost = "www.helloworld.org";
+    URI actual = URI.create("http://www.helloworld.org");
+    String expected = "www.helloworld.org";
     // WHEN/THEN
-    uris.assertHasHost(info, uri, expectedHost);
+    uris.assertHasHost(info, actual, expected);
   }
 
   @Test
   void should_pass_if_actual_URI_with_path_has_the_given_host() {
     // GIVEN
-    URI uri = URI.create("http://www.helloworld.org/pages");
-    String expectedHost = "www.helloworld.org";
+    URI actual = URI.create("http://www.helloworld.org/pages");
+    String expected = "www.helloworld.org";
     // WHEN/THEN
-    uris.assertHasHost(info, uri, expectedHost);
+    uris.assertHasHost(info, actual, expected);
   }
 
   @Test
   void should_fail_if_actual_URI_has_not_the_expected_host() {
     // GIVEN
-    URI uri = URI.create("http://example.com/pages/");
-    String expectedHost = "example.org";
+    URI actual = URI.create("http://example.com/pages/");
+    String expected = "example.org";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasHost(info, uri, expectedHost));
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasHost(info, actual, expected));
     // THEN
-    then(assertionError).hasMessage(shouldHaveHost(uri, expectedHost).create());
+    then(assertionError).hasMessage(shouldHaveHost(actual, expected).create());
   }
+
 }

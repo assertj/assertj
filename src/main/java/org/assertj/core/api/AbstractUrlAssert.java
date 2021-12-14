@@ -155,6 +155,25 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
   }
 
   /**
+   * Verifies that the actual {@code URL} has no host.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // This assertion succeeds:
+   * assertThat(new URL("file:///home/user/Documents/hello-world.txt")).hasNoHost();
+   *
+   * // This assertion fails:
+   * assertThat(new URL("http://helloworld.org:8080/index.html")).hasNoHost();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if actual has a host.
+   * @since 3.22.0
+   */
+  public SELF hasNoHost() {
+    urls.assertHasNoHost(info, actual);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code URL} has the expected authority.
    * <p>
    * Examples:

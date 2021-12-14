@@ -12,9 +12,11 @@
  */
 package org.assertj.core.internal;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.uri.ShouldHaveAuthority.shouldHaveAuthority;
 import static org.assertj.core.error.uri.ShouldHaveFragment.shouldHaveFragment;
 import static org.assertj.core.error.uri.ShouldHaveHost.shouldHaveHost;
+import static org.assertj.core.error.uri.ShouldHaveNoHost.shouldHaveNoHost;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameter;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameters;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveParameter;
@@ -73,7 +75,13 @@ public class Uris {
 
   public void assertHasHost(AssertionInfo info, URI actual, String expected) {
     assertNotNull(info, actual);
+    requireNonNull(expected, "The expected host should not be null");
     if (!Objects.equals(actual.getHost(), expected)) throw failures.failure(info, shouldHaveHost(actual, expected));
+  }
+
+  public void assertHasNoHost(AssertionInfo info, URI actual) {
+    assertNotNull(info, actual);
+    if (actual.getHost() != null) throw failures.failure(info, shouldHaveNoHost(actual));
   }
 
   public void assertHasAuthority(AssertionInfo info, URI actual, String expected) {
