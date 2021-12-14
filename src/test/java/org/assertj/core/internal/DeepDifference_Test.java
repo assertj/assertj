@@ -156,7 +156,7 @@ class DeepDifference_Test {
   @Test
   void testUnorderedCollectionWithCustomComparatorsByType() {
     TypeComparators comparatorsWithBigDecimalComparator = new TypeComparators();
-    comparatorsWithBigDecimalComparator.put(BigDecimal.class, BIG_DECIMAL_COMPARATOR);
+    comparatorsWithBigDecimalComparator.registerComparator(BigDecimal.class, BIG_DECIMAL_COMPARATOR);
 
     Set<BigDecimal> a = newLinkedHashSet(new BigDecimal("1.0"), new BigDecimal("3"), new BigDecimal("2"), new BigDecimal("4"));
     Set<BigDecimal> b = newLinkedHashSet(new BigDecimal("4"), new BigDecimal("1"), new BigDecimal("2.0"), new BigDecimal("3"));
@@ -319,7 +319,7 @@ class DeepDifference_Test {
     }
 
     TypeComparators typeComparators = new TypeComparators();
-    typeComparators.put(Map.class, new AlwaysEqualMapComparator());
+    typeComparators.registerComparator(Map.class, new AlwaysEqualMapComparator());
     assertThat(DeepDifference.determineDifferences(a, b, noFieldComparators(), typeComparators)).isEmpty();
   }
 

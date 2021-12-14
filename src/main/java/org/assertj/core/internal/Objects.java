@@ -703,7 +703,7 @@ public class Objects {
     if (fieldComparator != null) return fieldComparator.compare(actualFieldValue, otherFieldValue) == 0;
     // check if a type comparators exist for the field type
     Class fieldType = actualFieldValue != null ? actualFieldValue.getClass() : otherFieldValue.getClass();
-    Comparator typeComparator = comparatorByType.get(fieldType);
+    Comparator typeComparator = comparatorByType.getComparatorForType(fieldType);
     if (typeComparator != null) return typeComparator.compare(actualFieldValue, otherFieldValue) == 0;
     // default comparison using equals
     return deepEquals(actualFieldValue, otherFieldValue);

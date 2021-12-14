@@ -65,12 +65,12 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
   @Test
   void should_allow_assertions_on_multiple_extracted_values_flattened_in_a_single_list() {
     assertThat(fellowshipOfTheRing).flatExtracting("age", "name")
-                                   .as("extract ages and names")
-                                   .containsSequence(33, "Frodo", 38, "Sam");
+      .as("extract ages and names")
+      .containsSequence(33, "Frodo", 38, "Sam");
 
     assertThat(fellowshipOfTheRing).flatExtracting(age, name)
-                                   .as("extract ages and names")
-                                   .contains(33, "Frodo", 38, "Sam");
+      .as("extract ages and names")
+      .contains(33, "Frodo", 38, "Sam");
   }
 
   @Test
@@ -133,21 +133,23 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
     // not all comparators are used but we want to test that they are passed correctly after extracting
     // @format:off
     AbstractListAssert<?, ?, ?, ?> assertion
-                 = assertThat(fellowshipOfTheRing).as("test description")
-                                                  .withFailMessage("error message")
-                                                  .withRepresentation(UNICODE_REPRESENTATION)
-                                                  .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "foo")
-                                                  .usingComparatorForElementFieldsWithType(ALWAY_EQUALS_TIMESTAMP, Timestamp.class)
-                                                  .usingComparatorForType(CaseInsensitiveStringComparator.instance, String.class)
-                                                  .flatExtracting(age, name)
-                                                  .contains(33, "frodo", 38, "SAM");
+      = assertThat(fellowshipOfTheRing).as("test description")
+      .withFailMessage("error message")
+      .withRepresentation(UNICODE_REPRESENTATION)
+      .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "foo")
+      .usingComparatorForElementFieldsWithType(ALWAY_EQUALS_TIMESTAMP, Timestamp.class)
+      .usingComparatorForType(CaseInsensitiveStringComparator.instance, String.class)
+      .flatExtracting(age, name)
+      .contains(33, "frodo", 38, "SAM");
     // @format:on
     // THEN
     then(assertion.descriptionText()).isEqualTo("test description");
     then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    then(comparatorsByTypeOf(assertion).get(String.class)).isSameAs(CaseInsensitiveStringComparator.instance);
-    then(comparatorForElementFieldsWithTypeOf(assertion).get(Timestamp.class)).isSameAs(ALWAY_EQUALS_TIMESTAMP);
+    then(comparatorsByTypeOf(assertion).getComparatorForType(String.class))
+      .isSameAs(CaseInsensitiveStringComparator.instance);
+    then(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class))
+      .isSameAs(ALWAY_EQUALS_TIMESTAMP);
     then(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
   }
 
@@ -158,21 +160,23 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
     // not all comparators are used but we want to test that they are passed correctly after extracting
     // @format:off
     AbstractListAssert<?, ?, ?, ?> assertion
-           = assertThat(fellowshipOfTheRing).as("test description")
-                                            .withFailMessage("error message")
-                                            .withRepresentation(UNICODE_REPRESENTATION)
-                                            .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "foo")
-                                            .usingComparatorForElementFieldsWithType(ALWAY_EQUALS_TIMESTAMP, Timestamp.class)
-                                            .usingComparatorForType(CaseInsensitiveStringComparator.instance, String.class)
-                                            .flatExtracting(ageThrowingExtractor, nameThrowingExtractor)
-                                            .contains(33, "frodo", 38, "SAM");
+      = assertThat(fellowshipOfTheRing).as("test description")
+      .withFailMessage("error message")
+      .withRepresentation(UNICODE_REPRESENTATION)
+      .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "foo")
+      .usingComparatorForElementFieldsWithType(ALWAY_EQUALS_TIMESTAMP, Timestamp.class)
+      .usingComparatorForType(CaseInsensitiveStringComparator.instance, String.class)
+      .flatExtracting(ageThrowingExtractor, nameThrowingExtractor)
+      .contains(33, "frodo", 38, "SAM");
     // @format:on
     // THEN
     then(assertion.descriptionText()).isEqualTo("test description");
     then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    then(comparatorsByTypeOf(assertion).get(String.class)).isSameAs(CaseInsensitiveStringComparator.instance);
-    then(comparatorForElementFieldsWithTypeOf(assertion).get(Timestamp.class)).isSameAs(ALWAY_EQUALS_TIMESTAMP);
+    then(comparatorsByTypeOf(assertion).getComparatorForType(String.class))
+      .isSameAs(CaseInsensitiveStringComparator.instance);
+    then(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class))
+      .isSameAs(ALWAY_EQUALS_TIMESTAMP);
     then(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
   }
 }

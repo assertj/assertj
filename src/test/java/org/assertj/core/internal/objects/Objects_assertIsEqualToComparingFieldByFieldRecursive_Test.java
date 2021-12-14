@@ -404,7 +404,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     other.dateOfBirth = new Date(1000L);
 
     TypeComparators typeComparators = new TypeComparators();
-    typeComparators.put(Timestamp.class, SYMMETRIC_DATE_COMPARATOR);
+    typeComparators.registerComparator(Timestamp.class, SYMMETRIC_DATE_COMPARATOR);
 
     objects.assertIsEqualToComparingFieldByFieldRecursively(someInfo(), actual, other, noFieldComparators(),
                                                             typeComparators);

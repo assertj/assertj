@@ -236,8 +236,8 @@ class IterableAssert_flatExtracting_with_SortedSet_Test {
     assertThat(assertion.descriptionText()).isEqualTo("test description");
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    assertThat(comparatorsByTypeOf(assertion).get(CartoonCharacter.class)).isSameAs(cartoonCharacterAlwaysEqualComparator);
-    assertThat(comparatorForElementFieldsWithTypeOf(assertion).get(Timestamp.class)).isSameAs(ALWAY_EQUALS_TIMESTAMP);
+    assertThat(comparatorsByTypeOf(assertion).getComparatorForType(CartoonCharacter.class)).isSameAs(cartoonCharacterAlwaysEqualComparator);
+    assertThat(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class)).isSameAs(ALWAY_EQUALS_TIMESTAMP);
     assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
   }
 
@@ -262,8 +262,8 @@ class IterableAssert_flatExtracting_with_SortedSet_Test {
     assertThat(assertion.descriptionText()).isEqualTo("test description");
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    assertThat(comparatorsByTypeOf(assertion).get(CartoonCharacter.class)).isSameAs(cartoonCharacterAlwaysEqualComparator);
-    assertThat(comparatorForElementFieldsWithTypeOf(assertion).get(Timestamp.class)).isSameAs(ALWAY_EQUALS_TIMESTAMP);
+    assertThat(comparatorsByTypeOf(assertion).getComparatorForType(CartoonCharacter.class)).isSameAs(cartoonCharacterAlwaysEqualComparator);
+    assertThat(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class)).isSameAs(ALWAY_EQUALS_TIMESTAMP);
     assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
   }
 
@@ -288,8 +288,8 @@ class IterableAssert_flatExtracting_with_SortedSet_Test {
     assertThat(assertion.descriptionText()).isEqualTo("test description");
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    assertThat(comparatorsByTypeOf(assertion).get(CartoonCharacter.class)).isSameAs(cartoonCharacterAlwaysEqualComparator);
-    assertThat(comparatorForElementFieldsWithTypeOf(assertion).get(Timestamp.class)).isSameAs(ALWAY_EQUALS_TIMESTAMP);
+    assertThat(comparatorsByTypeOf(assertion).getComparatorForType(CartoonCharacter.class)).isSameAs(cartoonCharacterAlwaysEqualComparator);
+    assertThat(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class)).isSameAs(ALWAY_EQUALS_TIMESTAMP);
     assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
   }
 

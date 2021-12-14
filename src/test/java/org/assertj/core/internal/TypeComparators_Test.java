@@ -35,11 +35,11 @@ class TypeComparators_Test {
   void should_return_exact_match() {
     Comparator<Foo> fooComparator = newComparator();
     Comparator<Bar> barComparator = newComparator();
-    typeComparators.put(Foo.class, fooComparator);
-    typeComparators.put(Bar.class, barComparator);
+    typeComparators.registerComparator(Foo.class, fooComparator);
+    typeComparators.registerComparator(Bar.class, barComparator);
 
-    Comparator<?> foo = typeComparators.get(Foo.class);
-    Comparator<?> bar = typeComparators.get(Bar.class);
+    Comparator<?> foo = typeComparators.getComparatorForType(Foo.class);
+    Comparator<?> bar = typeComparators.getComparatorForType(Bar.class);
     assertThat(foo).isEqualTo(fooComparator);
     assertThat(bar).isEqualTo(barComparator);
   }
@@ -47,10 +47,10 @@ class TypeComparators_Test {
   @Test
   void should_return_parent_comparator() {
     Comparator<Bar> barComparator = newComparator();
-    typeComparators.put(Bar.class, barComparator);
+    typeComparators.registerComparator(Bar.class, barComparator);
 
-    Comparator<?> foo = typeComparators.get(Foo.class);
-    Comparator<?> bar = typeComparators.get(Bar.class);
+    Comparator<?> foo = typeComparators.getComparatorForType(Foo.class);
+    Comparator<?> bar = typeComparators.getComparatorForType(Bar.class);
     assertThat(foo).isEqualTo(bar);
     assertThat(bar).isEqualTo(barComparator);
   }
@@ -63,17 +63,17 @@ class TypeComparators_Test {
     Comparator<I1> i1Comparator = newComparator();
     Comparator<I2> i2Comparator = newComparator();
     Comparator<Foo> fooComparator = newComparator();
-    typeComparators.put(I3.class, i3Comparator);
-    typeComparators.put(I4.class, i4Comparator);
-    typeComparators.put(I1.class, i1Comparator);
-    typeComparators.put(I2.class, i2Comparator);
-    typeComparators.put(Foo.class, fooComparator);
+    typeComparators.registerComparator(I3.class, i3Comparator);
+    typeComparators.registerComparator(I4.class, i4Comparator);
+    typeComparators.registerComparator(I1.class, i1Comparator);
+    typeComparators.registerComparator(I2.class, i2Comparator);
+    typeComparators.registerComparator(Foo.class, fooComparator);
 
-    Comparator<?> foo = typeComparators.get(Foo.class);
-    Comparator<?> bar = typeComparators.get(Bar.class);
-    Comparator<?> i3 = typeComparators.get(I3.class);
-    Comparator<?> i4 = typeComparators.get(I4.class);
-    Comparator<?> i5 = typeComparators.get(I5.class);
+    Comparator<?> foo = typeComparators.getComparatorForType(Foo.class);
+    Comparator<?> bar = typeComparators.getComparatorForType(Bar.class);
+    Comparator<?> i3 = typeComparators.getComparatorForType(I3.class);
+    Comparator<?> i4 = typeComparators.getComparatorForType(I4.class);
+    Comparator<?> i5 = typeComparators.getComparatorForType(I5.class);
     assertThat(foo).isEqualTo(fooComparator);
     assertThat(bar).isEqualTo(i3Comparator);
     assertThat(i3).isEqualTo(i3Comparator);
@@ -87,11 +87,11 @@ class TypeComparators_Test {
     Comparator<I3> i3Comparator = newComparator();
     Comparator<I4> i4Comparator = newComparator();
     Comparator<Foo> fooComparator = newComparator();
-    typeComparators.put(I3.class, i3Comparator);
-    typeComparators.put(I4.class, i4Comparator);
-    typeComparators.put(Foo.class, fooComparator);
+    typeComparators.registerComparator(I3.class, i3Comparator);
+    typeComparators.registerComparator(I4.class, i4Comparator);
+    typeComparators.registerComparator(Foo.class, fooComparator);
 
-    Comparator<?> i5 = typeComparators.get(I5.class);
+    Comparator<?> i5 = typeComparators.getComparatorForType(I5.class);
     assertThat(i5).isNull();
   }
 

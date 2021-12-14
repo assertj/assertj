@@ -27,7 +27,6 @@ import java.util.function.BiPredicate;
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -40,8 +39,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   public RecursiveComparisonAssert(Object actual, RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     super(actual, RecursiveComparisonAssert.class);
     this.recursiveComparisonConfiguration = recursiveComparisonConfiguration;
-    recursiveComparisonDifferenceCalculator = new RecursiveComparisonDifferenceCalculator();
-    Failures.instance();
+    this.recursiveComparisonDifferenceCalculator = new RecursiveComparisonDifferenceCalculator();
   }
 
   void setRecursiveComparisonConfiguration(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
@@ -205,17 +203,15 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    */
   @Override
   public SELF isNotEqualTo(Object other) {
-    if (actual == other) throw objects.getFailures().failure(info,
-                                                             shouldNotBeEqualComparingFieldByFieldRecursively(actual, other,
-                                                                                                              recursiveComparisonConfiguration,
-                                                                                                              info.representation()));
+    if (actual == other) throw objects.getFailures().failure(info, shouldNotBeEqualComparingFieldByFieldRecursively(actual, other,
+                                                                                                                    recursiveComparisonConfiguration,
+                                                                                                                    info.representation()));
     if (other != null && actual != null) {
       List<ComparisonDifference> differences = determineDifferencesWith(other);
       if (differences.isEmpty())
-        throw objects.getFailures().failure(info,
-                                            shouldNotBeEqualComparingFieldByFieldRecursively(actual, other,
-                                                                                             recursiveComparisonConfiguration,
-                                                                                             info.representation()));
+        throw objects.getFailures().failure(info, shouldNotBeEqualComparingFieldByFieldRecursively(actual, other,
+                                                                                                   recursiveComparisonConfiguration,
+                                                                                                   info.representation()));
     }
     // either one of actual or other was null (but not both) or there were no differences
     return myself;
@@ -1233,6 +1229,173 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
     return myself;
   }
 
+  /**
+   * Overrides an error message which would be shown when differences in the given fields while comparison occurred
+   * with the giving error message.
+   * <p>
+   * The fields must be specified from the root object, for example if {@code Foo} has a {@code Bar} field and both
+   * have an {@code id} field, one can register a message for Foo and Bar's {@code id} by calling:
+   * <pre><code class='java'> withErrorMessageForFields("some message", "foo.id", "foo.bar.id")</code></pre>
+   * <p>
+   * Messages registered with this method have precedence over the ones registered with
+   * {@link #withErrorMessageForType(String, Class)} or the messages registered with
+   * {@link #withErrorMessageForType(String, List, Class)}.
+   * <p>
+   * In case of {@code null} as message the default error message will be used (See
+   * {@link ComparisonDifference#DEFAULT_TEMPLATE}).
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class TolkienCharacter {
+   *   String name;
+   *   double height;
+   * }
+   *
+   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2);
+   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.4);
+   *
+   * String message = &quot;The difference in the property 'height'&quot;;
+   *
+   * // assertion fails
+   * assertThat(frodo).usingRecursiveComparison()
+   *                  .withErrorMessageForFields(message, "height")
+   *                  .isEqualTo(tallerFrodo);</code></pre>
+   *
+   * @param message the error message that will be thrown when comparison error occurred.
+   * @param fieldLocations the fields the error message should be used for.
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   */
+  @CheckReturnValue
+  public SELF withErrorMessageForFields(String message, String... fieldLocations) {
+    recursiveComparisonConfiguration.registerErrorMessageForFields(message, fieldLocations);
+    return myself;
+  }
+
+  /**
+   * Overrides an error message which would be shown when differences in the given fields while comparison occurred
+   * with the giving error message.
+   * <p>
+   * The fields must be specified from the root object, for example if {@code Foo} has a {@code Bar} field and both
+   * have an {@code id} field, one can register a message for Foo and Bar's {@code id} by calling:
+   * <pre><code class='java'> withErrorMessageForFields("some message", List.of("arg1", "arg2") "foo.id", "foo.bar.id")
+   * </code></pre>
+   * <p>
+   * Messages registered with this method have precedence over the ones registered with
+   * {@link #withErrorMessageForType(String, Class)} or the messages registered with
+   * {@link #withErrorMessageForType(String, List, Class)}.
+   * <p>
+   * In case of {@code null} as message the default error message will be used (See
+   * {@link ComparisonDifference#DEFAULT_TEMPLATE}).
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class TolkienCharacter {
+   *   String name;
+   *   double height;
+   * }
+   *
+   * double actualHeight = 1.2;
+   * double expectedHeight = 1.4;
+   *
+   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, actualHeight);
+   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, expectedHeight);
+   *
+   * String message = &quot;Difference in property 'height':%n - Expected height is %s%n - Actual height is %s&quot;;
+   *
+   * // assertion fails
+   * assertThat(frodo).usingRecursiveComparison()
+   *                  .withErrorMessageForType(message, List.of(expectedHeight, actualHeight), "height")
+   *                  .isEqualTo(tallerFrodo);</code></pre>
+   *
+   * @param message the error message that will be thrown when comparison error occurred.
+   * @param args message arguments.
+   * @param fieldLocations the fields the error message should be used for.
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   * @throws NullPointerException if the giving list of arguments is null.
+   */
+  @CheckReturnValue
+  public SELF withErrorMessageForFields(String message, List<Object> args, String... fieldLocations) {
+    recursiveComparisonConfiguration.registerErrorMessageForFields(message, args, fieldLocations);
+    return myself;
+  }
+
+  /**
+   * Overrides an error message which would be shown when differences for the giving type while comparison occurred with
+   * the giving error message.
+   * <p>
+   * Message registered with this method have less precedence than the ones registered with
+   * {@link #withErrorMessageForFields(String, String...)} or the message registered with
+   * {@link #withErrorMessageForFields(String, List, String...)}.
+   * <p>
+   * In case of {@code null} as message the default error message will be used (See
+   * {@link ComparisonDifference#DEFAULT_TEMPLATE}).
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class TolkienCharacter {
+   *   String name;
+   *   double height;
+   * }
+   *
+   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2);
+   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.4);
+   *
+   * String message = &quot;The difference in the property 'height'&quot;;
+   *
+   * // assertion fails
+   * assertThat(frodo).usingRecursiveComparison()
+   *                  .withErrorMessageForType(message, Double.class)
+   *                  .isEqualTo(tallerFrodo);</code></pre>
+   *
+   * @param message the error message that will be thrown when comparison error occurred.
+   * @param type the type the error message should be used for.
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   */
+  @CheckReturnValue
+  public SELF withErrorMessageForType(String message, Class<?> type) {
+    recursiveComparisonConfiguration.registerErrorMessageForType(message, type);
+    return myself;
+  }
+
+  /**
+   * Overrides an error message which would be shown when differences for the giving type while comparison occurred with
+   * the giving error message.
+   * <p>
+   * Message registered with this method have less precedence than the ones registered with
+   * {@link #withErrorMessageForFields(String, String...)} or the message registered with
+   * {@link #withErrorMessageForFields(String, List, String...)}.
+   * <p>
+   * In case of {@code null} as message the default error message will be used (See
+   * {@link ComparisonDifference#DEFAULT_TEMPLATE}).
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class TolkienCharacter {
+   *   String name;
+   *   double height;
+   * }
+   *
+   * double actualHeight = 1.2;
+   * double expectedHeight = 1.4;
+   *
+   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, actualHeight);
+   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, expectedHeight);
+   *
+   * String message = &quot;Difference in property 'height':%n - Expected height is %s%n - Actual height is %s&quot;;
+   *
+   * // assertion fails
+   * assertThat(frodo).usingRecursiveComparison()
+   *                  .withErrorMessageForType(message, List.of(expectedHeight, actualHeight), Double.class)
+   *                  .isEqualTo(tallerFrodo);</code></pre>
+   *
+   * @param message the error message that will be thrown when comparison error occurred.
+   * @param args message arguments.
+   * @param type the type the error message should be used for.
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   * @throws NullPointerException if the giving list of arguments is null.
+   */
+  @CheckReturnValue
+  public SELF withErrorMessageForType(String message, List<Object> args, Class<?> type) {
+    recursiveComparisonConfiguration.registerErrorMessageForType(message, args, type);
+    return myself;
+  }
+
   SELF withTypeComparators(TypeComparators typeComparators) {
     Optional.ofNullable(typeComparators)
             .map(TypeComparators::comparatorByTypes)
@@ -1257,5 +1420,4 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   private List<ComparisonDifference> determineDifferencesWith(Object expected) {
     return recursiveComparisonDifferenceCalculator.determineDifferences(actual, expected, recursiveComparisonConfiguration);
   }
-
 }

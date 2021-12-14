@@ -48,7 +48,7 @@ class ExtendedByTypesComparator_toString_Test {
     FieldByFieldComparator fieldByFieldComparator = new FieldByFieldComparator(comparatorByField,
                                                                                defaultTypeComparators());
     TypeComparators comparatorsByType = new TypeComparators();
-    comparatorsByType.put(BigDecimal.class, new BigDecimalComparator());
+    comparatorsByType.registerComparator(BigDecimal.class, new BigDecimalComparator());
     ExtendedByTypesComparator actual = new ExtendedByTypesComparator(fieldByFieldComparator, comparatorsByType);
     // THEN
     assertThat(actual).hasToString(format("field/property by field/property comparator on all fields/properties%n"

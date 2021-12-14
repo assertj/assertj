@@ -116,7 +116,7 @@ class ObjectAssert_extracting_with_Function_Test {
     then(result.descriptionText()).isEqualTo("test description");
     then(result.info.overridingErrorMessage()).isEqualTo("error message");
     then(result.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
-    then(comparatorsByTypeOf(result).get(String.class)).isSameAs(ALWAY_EQUALS_STRING);
+    then(comparatorsByTypeOf(result).getComparatorForType(String.class)).isSameAs(ALWAY_EQUALS_STRING);
     then(comparatorByPropertyOrFieldOf(result).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
     then(comparatorOf(result).getComparator()).isSameAs(ALWAY_EQUALS);
   }
