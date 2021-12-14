@@ -16,11 +16,15 @@ import static java.lang.String.format;
 import static java.util.Collections.synchronizedList;
 import static java.util.Collections.unmodifiableList;
 import static java.util.stream.Collectors.toList;
+import static org.assertj.core.extractor.Extractors.byName;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
+
+import org.assertj.core.util.introspection.IntrospectionError;
 
 public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
 
@@ -160,17 +164,49 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
 
   private static <T extends Throwable> T createNewInstanceWithLineNumberInErrorMessage(T error,
                                                                                        StackTraceElement testStackTraceElement) throws ReflectiveOperationException {
+    T errorWithLineNumber = isOpentest4jAssertionFailedError(error)
+        ? buildOpentest4jAssertionFailedErrorWithLineNumbers(error, testStackTraceElement)
+        : buildAssertionErrorWithLineNumbersButNoActualOrExpectedValues(error, testStackTraceElement);
+    errorWithLineNumber.setStackTrace(error.getStackTrace());
+    Stream.of(error.getSuppressed()).forEach(suppressed -> errorWithLineNumber.addSuppressed(suppressed));
+    return errorWithLineNumber;
+  }
+
+  private static <T extends Throwable> boolean isOpentest4jAssertionFailedError(T error) {
+    return "org.opentest4j.AssertionFailedError".equals(error.getClass().getName());
+  }
+
+  private static <T extends Throwable> T buildAssertionErrorWithLineNumbersButNoActualOrExpectedValues(T error,
+                                                                                                       StackTraceElement testStackTraceElement) throws ReflectiveOperationException {
     @SuppressWarnings("unchecked")
     Constructor<? extends T> constructor = (Constructor<? extends T>) error.getClass().getConstructor(String.class,
                                                                                                       Throwable.class);
-    T errorWithLineNumber = constructor.newInstance(buildErrorMessageWithLineNumber(error.getMessage(),
-                                                                                    testStackTraceElement),
-                                                    error.getCause());
-    errorWithLineNumber.setStackTrace(error.getStackTrace());
-    for (Throwable suppressed : error.getSuppressed()) {
-      errorWithLineNumber.addSuppressed(suppressed);
+    return constructor.newInstance(buildErrorMessageWithLineNumber(error.getMessage(), testStackTraceElement), error.getCause());
+  }
+
+  private static <T extends Throwable> T buildOpentest4jAssertionFailedErrorWithLineNumbers(T error,
+                                                                                            StackTraceElement testStackTraceElement) throws ReflectiveOperationException {
+    // AssertionFailedError has actual and expected fields of type ValueWrapper
+    Object actualWrapper = byName("actual").apply(error);
+    Object expectedWrapper = byName("expected").apply(error);
+    if (actualWrapper != null && expectedWrapper != null) {
+      // try to call AssertionFailedError(String message, Object expected, Object actual, Throwable cause)
+      try {
+        Object actual = byName("value").apply(actualWrapper);
+        Object expected = byName("value").apply(expectedWrapper);
+        Constructor<? extends T> constructor = (Constructor<? extends T>) error.getClass().getConstructor(String.class,
+                                                                                                          Object.class,
+                                                                                                          Object.class,
+                                                                                                          Throwable.class);
+        return constructor.newInstance(buildErrorMessageWithLineNumber(error.getMessage(), testStackTraceElement),
+                                                        expected,
+                                                        actual,
+                                                        error.getCause());
+      } catch (IntrospectionError e) {
+        // fallback to AssertionFailedError(String message, Throwable cause) constructor
+      }
     }
-    return errorWithLineNumber;
+    return buildAssertionErrorWithLineNumbersButNoActualOrExpectedValues(error, testStackTraceElement);
   }
 
   private static String buildErrorMessageWithLineNumber(String originalErrorMessage, StackTraceElement testStackTraceElement) {
