@@ -12,8 +12,8 @@
  */
 package org.assertj.core.internal.urls;
 
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 import static org.assertj.core.error.uri.ShouldHaveHost.shouldHaveHost;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -29,49 +29,53 @@ class Urls_assertHasHost_Test extends UrlsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // GIVEN
-    URL url = null;
-    String expectedHost = "www.helloworld.org";
+    URL actual = null;
+    String expected = "www.helloworld.org";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasHost(info, url, expectedHost));
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasHost(info, actual, expected));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_expected_host_is_null() throws MalformedURLException {
+  void should_fail_if_expected_is_null() throws MalformedURLException {
     // GIVEN
-    URL url = new URL("https://example.com");
-    String expectedHost = null;
+    URL actual = new URL("https://example.com");
+    String expected = null;
     // WHEN
-    thenThrownBy(() -> urls.assertHasHost(info, url, expectedHost)).isInstanceOf(NullPointerException.class);
+    Throwable thrown = catchThrowable(() -> urls.assertHasHost(info, actual, expected));
+    // THEN
+    then(thrown).isInstanceOf(NullPointerException.class)
+                .hasMessage("The expected host should not be null");
   }
 
   @Test
   void should_pass_if_actual_URL_has_the_given_host() throws MalformedURLException {
     // GIVEN
-    URL url = new URL("http://www.helloworld.org");
-    String expectedHost = "www.helloworld.org";
+    URL actual = new URL("http://www.helloworld.org");
+    String expected = "www.helloworld.org";
     // WHEN/THEN
-    urls.assertHasHost(info, url, expectedHost);
+    urls.assertHasHost(info, actual, expected);
   }
 
   @Test
   void should_pass_if_actual_URL_with_path_has_the_given_host() throws MalformedURLException {
     // GIVEN
-    URL url = new URL("http://www.helloworld.org/pages");
-    String expectedHost = "www.helloworld.org";
+    URL actual = new URL("http://www.helloworld.org/pages");
+    String expected = "www.helloworld.org";
     // WHEN/THEN
-    urls.assertHasHost(info, url, expectedHost);
+    urls.assertHasHost(info, actual, expected);
   }
 
   @Test
   void should_fail_if_actual_URL_has_not_the_expected_host() throws MalformedURLException {
     // GIVEN
-    URL url = new URL("http://example.com/pages/");
-    String expectedHost = "example.org";
+    URL actual = new URL("http://example.com/pages/");
+    String expected = "example.org";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasHost(info, url, expectedHost));
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasHost(info, actual, expected));
     // THEN
-    then(assertionError).hasMessage(shouldHaveHost(url, expectedHost).create());
+    then(assertionError).hasMessage(shouldHaveHost(actual, expected).create());
   }
+
 }

@@ -12,15 +12,13 @@
  */
 package org.assertj.core.api.uri;
 
+import static org.mockito.Mockito.verify;
+
 import org.assertj.core.api.UriAssert;
 import org.assertj.core.api.UriAssertBaseTest;
 
-import static org.mockito.Mockito.verify;
-
-/**
- * Test for <code>{@link org.assertj.core.api.UriAssert#hasNoHost()}</code>.
- */
 class UriAssert_hasNoHost_Test extends UriAssertBaseTest {
+
   @Override
   protected UriAssert invoke_api_method() {
     return assertions.hasNoHost();
@@ -30,4 +28,5 @@ class UriAssert_hasNoHost_Test extends UriAssertBaseTest {
   protected void verify_internal_effects() {
     verify(uris).assertHasNoHost(getInfo(assertions), getActual(assertions));
   }
+
 }

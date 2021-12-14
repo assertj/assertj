@@ -12,44 +12,53 @@
  */
 package org.assertj.core.internal.urls;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import org.assertj.core.internal.UrisBaseTest;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullAndEmptySource;
-import org.junit.jupiter.params.provider.ValueSource;
-
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveNoHost.shouldHaveNoHost;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.stream.Stream;
+
+import org.assertj.core.internal.UrisBaseTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class Uris_assertHasNoHost_Test extends UrisBaseTest {
 
   @Test
-  void should_fail_if_host_is_present() throws URISyntaxException {
+  void should_fail_if_actual_is_null() {
     // GIVEN
-    URI uri = new URI("https://example.com");
+    URI actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasNoHost(info, uri));
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasNoHost(info, actual));
     // THEN
-    then(assertionError).hasMessage(shouldHaveNoHost(uri).create());
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_pass_if_no_host_present_via_str_constructor() throws URISyntaxException {
+  void should_fail_if_host_is_present() throws URISyntaxException {
     // GIVEN
-    URI uri = new URI("file:///etc/lsb-release");
-    // WHEN/THEN
-    uris.assertHasNoHost(info, uri);
+    URI actual = new URI("https://example.com");
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> uris.assertHasNoHost(info, actual));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveNoHost(actual).create());
   }
 
   @ParameterizedTest
-  @NullAndEmptySource
-  void should_pass_if_host_is_explicitly_missing(String host) throws URISyntaxException {
-    // GIVEN
-    URI uri = new URI("file", host, "/etc/lsb-release", null);
+  @MethodSource("uris_with_no_host")
+  void should_pass_if_host_is_not_present(URI actual) {
     // WHEN/THEN
-    uris.assertHasNoHost(info, uri);
+    uris.assertHasNoHost(info, actual);
   }
+
+  private static Stream<URI> uris_with_no_host() throws URISyntaxException {
+    return Stream.of(new URI("file:///etc/lsb-release"),
+                     new URI("file", "", "/etc/lsb-release", null),
+                     new URI("file", null, "/etc/lsb-release", null));
+  }
+
 }

@@ -75,14 +75,13 @@ public class Uris {
 
   public void assertHasHost(AssertionInfo info, URI actual, String expected) {
     assertNotNull(info, actual);
-    requireNonNull(expected, "The expected host should not be null.");
+    requireNonNull(expected, "The expected host should not be null");
     if (!Objects.equals(actual.getHost(), expected)) throw failures.failure(info, shouldHaveHost(actual, expected));
   }
 
   public void assertHasNoHost(AssertionInfo info, URI actual) {
     assertNotNull(info, actual);
-    if (actual.getHost() != null && !actual.getHost().isEmpty())
-      throw failures.failure(info, shouldHaveNoHost(actual));
+    if (actual.getHost() != null) throw failures.failure(info, shouldHaveNoHost(actual));
   }
 
   public void assertHasAuthority(AssertionInfo info, URI actual, String expected) {

@@ -82,14 +82,13 @@ public class Urls {
 
   public void assertHasHost(AssertionInfo info, URL actual, String expected) {
     assertNotNull(info, actual);
-    requireNonNull(expected, "The expected host should not be null.");
+    requireNonNull(expected, "The expected host should not be null");
     if (!Objects.equals(actual.getHost(), expected)) throw failures.failure(info, shouldHaveHost(actual, expected));
   }
 
   public void assertHasNoHost(AssertionInfo info, URL actual) {
     assertNotNull(info, actual);
-    if (actual.getHost() != null && !actual.getHost().isEmpty())
-      throw failures.failure(info, shouldHaveNoHost(actual));
+    if (actual.getHost() != null && !actual.getHost().isEmpty()) throw failures.failure(info, shouldHaveNoHost(actual));
   }
 
   public void assertHasAuthority(AssertionInfo info, URL actual, String expected) {

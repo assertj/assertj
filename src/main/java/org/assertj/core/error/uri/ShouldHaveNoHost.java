@@ -14,26 +14,28 @@ package org.assertj.core.error.uri;
 
 import java.net.URI;
 import java.net.URL;
+
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
 public class ShouldHaveNoHost extends BasicErrorMessageFactory {
 
-  private static final String SHOULD_HAVE_NO_HOST = "Expected no host to be present for <%s>, but found: <%s>";
+  private static final String SHOULD_HAVE_NO_HOST = "%n" +
+                                                    "Expecting no host for:%n" +
+                                                    "  %s%n" +
+                                                    "but found:%n" +
+                                                    "  %s";
 
   public static ErrorMessageFactory shouldHaveNoHost(URI actual) {
-    return new ShouldHaveNoHost(actual);
-  }
-
-  private ShouldHaveNoHost(URI actual) {
-    super(SHOULD_HAVE_NO_HOST, actual, null, actual.getHost());
+    return new ShouldHaveNoHost(actual, actual.getHost());
   }
 
   public static ErrorMessageFactory shouldHaveNoHost(URL actual) {
-    return new ShouldHaveNoHost(actual);
+    return new ShouldHaveNoHost(actual, actual.getHost());
   }
 
-  private ShouldHaveNoHost(URL actual) {
-    super(SHOULD_HAVE_NO_HOST, actual, null, actual.getHost());
+  private ShouldHaveNoHost(Object actual, String host) {
+    super(SHOULD_HAVE_NO_HOST, actual, host);
   }
+
 }

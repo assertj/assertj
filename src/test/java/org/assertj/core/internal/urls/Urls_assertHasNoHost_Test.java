@@ -12,43 +12,53 @@
  */
 package org.assertj.core.internal.urls;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import org.assertj.core.internal.UrlsBaseTest;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullAndEmptySource;
-
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveNoHost.shouldHaveNoHost;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.stream.Stream;
+
+import org.assertj.core.internal.UrlsBaseTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class Urls_assertHasNoHost_Test extends UrlsBaseTest {
 
   @Test
-  void should_fail_if_host_present() throws MalformedURLException {
+  void should_fail_if_actual_is_null() {
     // GIVEN
-    URL url = new URL("https://example.com");
+    URL actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasNoHost(info, url));
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasNoHost(info, actual));
     // THEN
-    then(assertionError).hasMessage(shouldHaveNoHost(url).create());
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_pass_if_no_host_present() throws MalformedURLException {
+  void should_fail_if_host_present() throws MalformedURLException {
     // GIVEN
-    URL url = new URL("file:///etc/lsb-release");
-    // WHEN/THEN
-    urls.assertHasNoHost(info, url);
+    URL actual = new URL("https://example.com");
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> urls.assertHasNoHost(info, actual));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveNoHost(actual).create());
   }
 
   @ParameterizedTest
-  @NullAndEmptySource
-  void should_pass_if_host_is_explicitly_missing(String host) throws MalformedURLException {
-    // GIVEN
-    URL url = new URL("file", host, "/etc/lsb-release");
+  @MethodSource("urls_with_no_host")
+  void should_pass_if_host_is_not_present(URL actual) {
     // WHEN/THEN
-    urls.assertHasNoHost(info, url);
+    urls.assertHasNoHost(info, actual);
   }
+
+  private static Stream<URL> urls_with_no_host() throws MalformedURLException {
+    return Stream.of(new URL("file:///etc/lsb-release"),
+                     new URL("file", "", "/etc/lsb-release"),
+                     new URL("file", null, "/etc/lsb-release"));
+  }
+
 }

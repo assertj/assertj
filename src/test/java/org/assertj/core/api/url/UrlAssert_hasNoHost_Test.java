@@ -12,14 +12,11 @@
  */
 package org.assertj.core.api.url;
 
+import static org.mockito.Mockito.verify;
+
 import org.assertj.core.api.UrlAssert;
 import org.assertj.core.api.UrlAssertBaseTest;
 
-import static org.mockito.Mockito.verify;
-
-/**
- * Test for <code>{@link org.assertj.core.api.UrlAssert#hasNoHost()}</code>.
- */
 class UrlAssert_hasNoHost_Test extends UrlAssertBaseTest {
 
   @Override
@@ -31,4 +28,5 @@ class UrlAssert_hasNoHost_Test extends UrlAssertBaseTest {
   protected void verify_internal_effects() {
     verify(urls).assertHasNoHost(getInfo(assertions), getActual(assertions));
   }
+
 }

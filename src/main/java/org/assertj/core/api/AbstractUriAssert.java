@@ -143,7 +143,8 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * assertThat(new URI("http://helloworld.org:8080/index.html")).hasNoHost();</code></pre>
    *
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual has a host.
+   * @throws AssertionError if actual has a host.
+   * @since 3.22.0
    */
   public SELF hasNoHost() {
     uris.assertHasNoHost(info, actual);
