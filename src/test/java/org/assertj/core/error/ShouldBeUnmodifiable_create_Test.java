@@ -20,7 +20,7 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-class ShouldBeUnmodifiableTest {
+class ShouldBeUnmodifiable_create_Test {
 
   @Test
   void should_create_error_message_with_String() {
