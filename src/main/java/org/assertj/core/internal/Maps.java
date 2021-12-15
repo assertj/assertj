@@ -48,7 +48,6 @@ import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.internal.ErrorMessages.keysToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.keysToLookForIsNull;
-import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.asList;
 import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Preconditions.checkArgument;
@@ -323,6 +322,20 @@ public class Maps {
     throw failures.failure(info, shouldNotContain(actual, entries, found));
   }
 
+  /**
+   * Checks if given map contains given key and returns assertion failure if
+   * key is not found.
+   *
+   * @param info information about an assertion
+   * @param actual Map object to apply key check
+   * @param key key to search for in Map object
+   * // CS427 Issue link: https://github.com/assertj/assertj-core/issues/2428
+   */
+  public <K, V> void assertContainsKey(final AssertionInfo info, final Map<K, V> actual, final K key) {
+    assertNotNull(info, actual);
+    if (!actual.containsKey(key)) throw failures.failure(info, shouldContainKey(actual, new Condition<K>(key.toString())));
+  }
+
   public <K, V> void assertContainsKeys(AssertionInfo info, Map<K, V> actual, K[] keys) {
     assertNotNull(info, actual);
     requireNonNull(keys, keysToLookForIsNull("array of keys"));
@@ -334,10 +347,6 @@ public class Maps {
     Set<K> notFound = getNotFoundKeys(actual, keys);
     if (notFound.isEmpty()) return;
     throw failures.failure(info, shouldContainKeys(actual, notFound));
-  }
-
-  public <K, V> void assertContainsKey(AssertionInfo info, Map<K, V> actual, K key) {
-    assertContainsKeys(info, actual, array(key));
   }
 
   public <K, V> void assertDoesNotContainKey(AssertionInfo info, Map<K, V> actual, K key) {
