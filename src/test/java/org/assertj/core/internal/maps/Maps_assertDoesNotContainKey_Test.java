@@ -12,64 +12,124 @@
  */
 package org.assertj.core.internal.maps;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.util.Collections.emptyMap;
+import static java.util.Collections.singletonMap;
+import static java.util.Collections.unmodifiableMap;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldNotContainKey.shouldNotContainKey;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.Map;
+import java.util.stream.Stream;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Maps;
+import org.apache.commons.collections4.map.CaseInsensitiveMap;
+import org.apache.commons.collections4.map.SingletonMap;
+import org.apache.commons.lang3.ArrayUtils;
 import org.assertj.core.internal.MapsBaseTest;
-import org.junit.jupiter.api.BeforeEach;
+import org.assertj.core.test.jdk11.Jdk11;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
+import com.google.common.collect.ImmutableMap;
 
 /**
- * Tests for <code>{@link Maps#assertDoesNotContainKey(AssertionInfo, Map, Object)}</code>.
- * 
  * @author Nicolas François
  * @author Joel Costigliola
  */
 class Maps_assertDoesNotContainKey_Test extends MapsBaseTest {
 
-  @Override
-  @BeforeEach
-  public void setUp() {
-    super.setUp();
-    actual = mapOf(entry("name", "Yoda"), entry("color", "green"));
-  }
-
-  @Test
-  void should_pass_if_actual_contains_given_key() {
-    maps.assertDoesNotContainKey(someInfo(), actual, "power");
-  }
-
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertDoesNotContainKey(someInfo(), null, "power"))
-                                                   .withMessage(actualIsNull());
-  }
-
-  @Test
-  void should_success_if_key_is_null() {
-    maps.assertDoesNotContainKey(someInfo(), actual, null);
-  }
-
-  @Test
-  void should_fail_if_actual_does_not_contain_key() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     String key = "name";
-
-    Throwable error = catchThrowable(() -> maps.assertDoesNotContainKey(info, actual, key));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotContainKey(actual, key));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> maps.assertDoesNotContainKey(someInfo(), null, key));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
+
+  @ParameterizedTest
+  @MethodSource({
+      "unmodifiableMapsSuccessfulTestCases",
+      "modifiableMapsSuccessfulTestCases",
+      "caseInsensitiveMapsSuccessfulTestCases",
+  })
+  void should_pass(Map<String, String> actual, String expected) {
+    // WHEN/THEN
+    assertThatNoException().as(actual.getClass().getName())
+                           .isThrownBy(() -> maps.assertDoesNotContainKey(info, actual, expected));
+  }
+
+  private static Stream<Arguments> unmodifiableMapsSuccessfulTestCases() {
+    return Stream.of(arguments(emptyMap(), "name"),
+                     arguments(singletonMap("name", "Yoda"), "color"),
+                     arguments(new SingletonMap<>("name", "Yoda"), "color"),
+                     arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))), "color"),
+                     arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), "color"),
+                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"), "color"),
+                     // implementation not permitting null keys
+                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"), null));
+  }
+
+  private static Stream<Arguments> modifiableMapsSuccessfulTestCases() {
+    return Stream.of(MODIFIABLE_MAPS)
+                 .flatMap(supplier -> Stream.of(arguments(mapOf(supplier, entry("name", "Yoda")),
+                                                          "color"),
+                                                arguments(mapOf(supplier, entry("name", "Yoda"), entry("job", "Jedi")),
+                                                          "color")));
+  }
+
+  private static Stream<Arguments> caseInsensitiveMapsSuccessfulTestCases() {
+    return Stream.of(ArrayUtils.add(CASE_INSENSITIVE_MAPS, CaseInsensitiveMap::new))
+                 .flatMap(supplier -> Stream.of(arguments(mapOf(supplier, entry("NAME", "Yoda"), entry("Job", "Jedi")),
+                                                          "color"),
+                                                arguments(mapOf(supplier, entry("NAME", "Yoda"), entry("Job", "Jedi")),
+                                                          "Color")));
+  }
+
+  @ParameterizedTest
+  @MethodSource({
+      "unmodifiableMapsFailureTestCases",
+      "modifiableMapsFailureTestCases",
+      "caseInsensitiveMapsFailureTestCases",
+  })
+  void should_fail(Map<String, String> actual, String expected) {
+    // WHEN
+    assertThatExceptionOfType(AssertionError.class).as(actual.getClass().getName())
+                                                   .isThrownBy(() -> maps.assertDoesNotContainKey(info, actual, expected))
+                                                   // THEN
+                                                   .withMessage(shouldNotContainKey(actual, expected).create());
+  }
+
+  private static Stream<Arguments> unmodifiableMapsFailureTestCases() {
+    return Stream.of(arguments(singletonMap("name", "Yoda"), "name"),
+                     arguments(new SingletonMap<>("name", "Yoda"), "name"),
+                     arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))), "name"),
+                     arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), "name"),
+                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"), "name"));
+  }
+
+  private static Stream<Arguments> modifiableMapsFailureTestCases() {
+    return Stream.of(MODIFIABLE_MAPS)
+                 .flatMap(supplier -> Stream.of(arguments(mapOf(supplier, entry("name", "Yoda"), entry("job", "Jedi")), "name"),
+                                                arguments(mapOf(supplier, entry("name", "Yoda"), entry("job", "Jedi")), "job")));
+  }
+
+  private static Stream<Arguments> caseInsensitiveMapsFailureTestCases() {
+    return Stream.of(ArrayUtils.add(CASE_INSENSITIVE_MAPS, CaseInsensitiveMap::new))
+                 .flatMap(supplier -> Stream.of(arguments(mapOf(supplier, entry("NAME", "Yoda"), entry("Job", "Jedi")),
+                                                          "name"),
+                                                arguments(mapOf(supplier, entry("NAME", "Yoda"), entry("Job", "Jedi")),
+                                                          "Name")));
+  }
+
 }

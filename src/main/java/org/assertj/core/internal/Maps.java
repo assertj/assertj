@@ -342,7 +342,7 @@ public class Maps {
 
   public <K, V> void assertDoesNotContainKey(AssertionInfo info, Map<K, V> actual, K key) {
     assertNotNull(info, actual);
-    if (actual.containsKey(key)) throw failures.failure(info, shouldNotContainKey(actual, key));
+    if (containsKey(actual, key)) throw failures.failure(info, shouldNotContainKey(actual, key));
   }
 
   public <K, V> void assertDoesNotContainKeys(AssertionInfo info, Map<K, V> actual, K[] keys) {
@@ -379,7 +379,7 @@ public class Maps {
     // Stream API avoided for performance reasons
     Set<K> found = new LinkedHashSet<>();
     for (K expectedKey : expectedKeys) {
-      if (actual.containsKey(expectedKey)) found.add(expectedKey);
+      if (containsKey(actual, expectedKey)) found.add(expectedKey);
     }
     return found;
   }
@@ -388,9 +388,18 @@ public class Maps {
     // Stream API avoided for performance reasons
     Set<K> notFound = new LinkedHashSet<>();
     for (K expectedKey : expectedKeys) {
-      if (!actual.containsKey(expectedKey)) notFound.add(expectedKey);
+      if (!containsKey(actual, expectedKey)) notFound.add(expectedKey);
     }
     return notFound;
+  }
+
+  private static <K> boolean containsKey(Map<K, ?> actual, K key) {
+    try {
+      return actual.containsKey(key);
+    } catch (NullPointerException e) {
+      if (key == null) return false; // null keys not permitted
+      throw e;
+    }
   }
 
   private static <K> Set<K> getNotExpectedKeys(Map<K, ?> actual, K[] expectedKeys) {

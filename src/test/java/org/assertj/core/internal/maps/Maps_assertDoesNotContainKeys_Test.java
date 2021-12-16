@@ -38,6 +38,7 @@ import org.apache.commons.collections4.map.CaseInsensitiveMap;
 import org.apache.commons.collections4.map.SingletonMap;
 import org.apache.commons.lang3.ArrayUtils;
 import org.assertj.core.internal.MapsBaseTest;
+import org.assertj.core.test.jdk11.Jdk11;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -87,7 +88,10 @@ class Maps_assertDoesNotContainKeys_Test extends MapsBaseTest {
                      arguments(singletonMap("name", "Yoda"), array("color")),
                      arguments(new SingletonMap<>("name", "Yoda"), array("color")),
                      arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))), array("color", "age")),
-                     arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), array("color", "age")));
+                     arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), array("color", "age")),
+                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"), array("color", "age")),
+                     // implementation not permitting null keys
+                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"), array((String) null)));
   }
 
   private static Stream<Arguments> modifiableMapsSuccessfulTestCases() {
@@ -138,7 +142,10 @@ class Maps_assertDoesNotContainKeys_Test extends MapsBaseTest {
                                set("name", "job")),
                      arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"),
                                array("job", "name"),
-                               set("job", "name")));
+                               set("job", "name")),
+                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"),
+                               array("name", "job"),
+                               set("name", "job")));
   }
 
   private static Stream<Arguments> modifiableMapsFailureTestCases() {

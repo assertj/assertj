@@ -39,6 +39,7 @@ import org.apache.commons.collections4.map.CaseInsensitiveMap;
 import org.apache.commons.collections4.map.SingletonMap;
 import org.apache.commons.lang3.ArrayUtils;
 import org.assertj.core.internal.MapsBaseTest;
+import org.assertj.core.test.jdk11.Jdk11;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -100,7 +101,9 @@ class Maps_assertContainsKeys_Test extends MapsBaseTest {
                      arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))), array("name", "job")),
                      arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))), array("job", "name")),
                      arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), array("name", "job")),
-                     arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), array("job", "name")));
+                     arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), array("job", "name")),
+                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"), array("job", "name")),
+                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"), array("name", "job")));
   }
 
   private static Stream<Arguments> modifiableMapsSuccessfulTestCases() {
@@ -155,7 +158,13 @@ class Maps_assertContainsKeys_Test extends MapsBaseTest {
                                set("color")),
                      arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"),
                                array("name", "color"),
-                               set("color")));
+                               set("color")),
+                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"),
+                               array("name", "color"),
+                               set("color")),
+                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"),
+                               array((String) null), // implementation not permitting null keys
+                               set((String) null)));
   }
 
   private static Stream<Arguments> modifiableMapsFailureTestCases() {
