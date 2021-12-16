@@ -91,7 +91,7 @@ class Maps_assertDoesNotContainKeys_Test extends MapsBaseTest {
                      arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), array("color", "age")),
                      arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"), array("color", "age")),
                      // implementation not permitting null keys
-                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"), array((String) null)));
+                     arguments(Jdk11.Map.of("name", "Yoda"), array((String) null)));
   }
 
   private static Stream<Arguments> modifiableMapsSuccessfulTestCases() {
@@ -145,7 +145,10 @@ class Maps_assertDoesNotContainKeys_Test extends MapsBaseTest {
                                set("job", "name")),
                      arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"),
                                array("name", "job"),
-                               set("name", "job")));
+                               set("name", "job")),
+                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"),
+                               array("job", "name"),
+                               set("job", "name")));
   }
 
   private static Stream<Arguments> modifiableMapsFailureTestCases() {

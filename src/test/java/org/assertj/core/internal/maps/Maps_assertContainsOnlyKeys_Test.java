@@ -168,10 +168,10 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
                                array("name", "color"),
                                set("color"),
                                set("job")),
-                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"),
+                     arguments(Jdk11.Map.of("name", "Yoda"),
                                array((String) null), // implementation not permitting null keys
                                set((String) null),
-                               set("name", "job")));
+                               set("name")));
   }
 
   private static Stream<Arguments> modifiableMapsFailureTestCases() {
