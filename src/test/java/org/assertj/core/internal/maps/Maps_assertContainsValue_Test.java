@@ -12,64 +12,104 @@
  */
 package org.assertj.core.internal.maps;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.util.Collections.emptyMap;
+import static java.util.Collections.singletonMap;
+import static java.util.Collections.unmodifiableMap;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainValue.shouldContainValue;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.Map;
+import java.util.stream.Stream;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Maps;
+import org.apache.commons.collections4.map.SingletonMap;
 import org.assertj.core.internal.MapsBaseTest;
-import org.junit.jupiter.api.BeforeEach;
+import org.assertj.core.test.jdk11.Jdk11;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
+import com.google.common.collect.ImmutableMap;
 
 /**
- * Tests for <code>{@link Maps#assertContainsValue(AssertionInfo, Map, Object)}</code>.
- * 
  * @author Nicolas François
  * @author Joel Costigliola
  */
 class Maps_assertContainsValue_Test extends MapsBaseTest {
 
-  @Override
-  @BeforeEach
-  public void setUp() {
-    super.setUp();
-    actual = mapOf(entry("name", "Yoda"), entry("color", "green"), entry(null, null));
-  }
-
-  @Test
-  void should_pass_if_actual_contains_given_value() {
-    maps.assertContainsValue(someInfo(), actual, "Yoda");
-  }
-
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertContainsValue(someInfo(), null, "Yoda"))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    String value = "Yoda";
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> maps.assertContainsValue(someInfo(), null, value));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
-  @Test
-  void should_success_if_value_is_null() {
-    maps.assertContainsValue(someInfo(), actual, null);
+  @ParameterizedTest
+  @MethodSource({
+      "unmodifiableMapsSuccessfulTestCases",
+      "modifiableMapsSuccessfulTestCases",
+  })
+  void should_pass(Map<String, String> actual, String expected) {
+    // WHEN/THEN
+    assertThatNoException().as(actual.getClass().getName())
+                           .isThrownBy(() -> maps.assertContainsValue(info, actual, expected));
   }
 
-  @Test
-  void should_fail_if_actual_does_not_contain_value() {
-    AssertionInfo info = someInfo();
-    String value = "veryOld";
-
-    Throwable error = catchThrowable(() -> maps.assertContainsValue(info, actual, value));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainValue(actual, value));
+  private static Stream<Arguments> unmodifiableMapsSuccessfulTestCases() {
+    return Stream.of(arguments(singletonMap("name", "Yoda"), "Yoda"),
+                     arguments(new SingletonMap<>("name", "Yoda"), "Yoda"),
+                     arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))), "Yoda"),
+                     arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), "Yoda"),
+                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"), "Yoda"));
   }
+
+  private static Stream<Arguments> modifiableMapsSuccessfulTestCases() {
+    return Stream.of(MODIFIABLE_MAPS)
+                 .flatMap(supplier -> Stream.of(arguments(mapOf(supplier, entry("name", "Yoda"), entry("job", "Jedi")), "Yoda"),
+                                                arguments(mapOf(supplier, entry("name", "Yoda"), entry("job", "Jedi")), "Jedi")));
+  }
+
+  @ParameterizedTest
+  @MethodSource({
+      "unmodifiableMapsFailureTestCases",
+      "modifiableMapsFailureTestCases",
+  })
+  void should_fail(Map<String, String> actual, String expected) {
+    // WHEN
+    assertThatExceptionOfType(AssertionError.class).as(actual.getClass().getName())
+                                                   .isThrownBy(() -> maps.assertContainsValue(info, actual, expected))
+                                                   // THEN
+                                                   .withMessage(shouldContainValue(actual, expected).create());
+  }
+
+  private static Stream<Arguments> unmodifiableMapsFailureTestCases() {
+    return Stream.of(arguments(emptyMap(), "Yoda"),
+                     arguments(singletonMap("name", "Yoda"), "green"),
+                     arguments(new SingletonMap<>("name", "Yoda"), "green"),
+                     arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))), "green"),
+                     arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), "green"),
+                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"), "green"),
+                     // implementation not permitting null keys
+                     arguments(Jdk11.Map.of("name", "Yoda"), null));
+  }
+
+  private static Stream<Arguments> modifiableMapsFailureTestCases() {
+    return Stream.of(MODIFIABLE_MAPS)
+                 .flatMap(supplier -> Stream.of(arguments(mapOf(supplier, entry("name", "Yoda")),
+                                                          "green"),
+                                                arguments(mapOf(supplier, entry("name", "Yoda"), entry("job", "Jedi")),
+                                                          "green")));
+  }
+
 }

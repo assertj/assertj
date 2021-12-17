@@ -51,9 +51,9 @@ class Maps_assertContainsKey_Test extends MapsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // GIVEN
-    String keys = "name";
+    String key = "name";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> maps.assertContainsKey(someInfo(), null, keys));
+    AssertionError assertionError = expectAssertionError(() -> maps.assertContainsKey(someInfo(), null, key));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

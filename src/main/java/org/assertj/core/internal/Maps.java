@@ -48,6 +48,7 @@ import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.internal.ErrorMessages.keysToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.keysToLookForIsNull;
+import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsEmpty;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.asList;
 import static org.assertj.core.util.IterableUtil.toArray;
@@ -319,21 +320,17 @@ public class Maps {
         found.add(entry);
       }
     }
-    if (found.isEmpty()) return;
-    throw failures.failure(info, shouldNotContain(actual, entries, found));
+    if (!found.isEmpty()) throw failures.failure(info, shouldNotContain(actual, entries, found));
   }
 
   public <K, V> void assertContainsKeys(AssertionInfo info, Map<K, V> actual, K[] keys) {
     assertNotNull(info, actual);
     requireNonNull(keys, keysToLookForIsNull("array of keys"));
-    if (actual.isEmpty() && keys.length == 0) {
-      return;
-    }
+    if (actual.isEmpty() && keys.length == 0) return;
     failIfEmpty(keys, keysToLookForIsEmpty("array of keys"));
 
     Set<K> notFound = getNotFoundKeys(actual, keys);
-    if (notFound.isEmpty()) return;
-    throw failures.failure(info, shouldContainKeys(actual, notFound));
+    if (!notFound.isEmpty()) throw failures.failure(info, shouldContainKeys(actual, notFound));
   }
 
   public <K, V> void assertContainsKey(AssertionInfo info, Map<K, V> actual, K key) {
@@ -443,24 +440,40 @@ public class Maps {
 
   public <K, V> void assertContainsValue(AssertionInfo info, Map<K, V> actual, V value) {
     assertNotNull(info, actual);
-    if (!actual.containsValue(value)) throw failures.failure(info, shouldContainValue(actual, value));
+    if (!containsValue(actual, value)) throw failures.failure(info, shouldContainValue(actual, value));
   }
 
   public <K, V> void assertContainsValues(AssertionInfo info, Map<K, V> actual, V[] values) {
     assertNotNull(info, actual);
     requireNonNull(values, "The array of values to look for should not be null");
     if (actual.isEmpty() && values.length == 0) return;
-    //
-    Set<V> valuesNotFound = new LinkedHashSet<>();
-    for (V valueToLookFor : values) {
-      if (!actual.containsValue(valueToLookFor)) valuesNotFound.add(valueToLookFor);
-    }
-    if (!valuesNotFound.isEmpty()) throw failures.failure(info, shouldContainValues(actual, valuesNotFound));
+    failIfEmpty(values, valuesToLookForIsEmpty());
+
+    Set<V> notFound = getNotFoundValues(actual, values);
+    if (!notFound.isEmpty()) throw failures.failure(info, shouldContainValues(actual, notFound));
   }
 
   public <K, V> void assertDoesNotContainValue(AssertionInfo info, Map<K, V> actual, V value) {
     assertNotNull(info, actual);
-    if (actual.containsValue(value)) throw failures.failure(info, shouldNotContainValue(actual, value));
+    if (containsValue(actual, value)) throw failures.failure(info, shouldNotContainValue(actual, value));
+  }
+
+  private static <V> Set<V> getNotFoundValues(Map<?, V> actual, V[] expectedValues) {
+    // Stream API avoided for performance reasons
+    Set<V> notFound = new LinkedHashSet<>();
+    for (V expectedValue : expectedValues) {
+      if (!containsValue(actual, expectedValue)) notFound.add(expectedValue);
+    }
+    return notFound;
+  }
+
+  private static <V> boolean containsValue(Map<?, V> actual, V value) {
+    try {
+      return actual.containsValue(value);
+    } catch (NullPointerException e) {
+      if (value == null) return false; // null values not permitted
+      throw e;
+    }
   }
 
   public <K, V> void assertContainsOnly(AssertionInfo info, Map<K, V> actual, Entry<? extends K, ? extends V>[] entries) {
