@@ -41,6 +41,8 @@ import org.assertj.core.internal.DigestDiff;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 /**
  * Tests for <code>{@link Files#assertHasDigest(AssertionInfo, File, MessageDigest, String)}</code>
@@ -82,6 +84,7 @@ class Files_assertHasDigest_DigestString_Test extends FilesBaseTest {
     verify(failures).failure(INFO, shouldBeFile(actual));
   }
 
+  @DisabledOnOs(OS.WINDOWS)
   @Test
   void should_fail_if_actual_exists_but_is_not_readable() {
     // GIVEN
