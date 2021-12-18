@@ -122,7 +122,7 @@ class Files_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends FilesBa
   @Test
   void should_fail_if_one_actual_file_matches_the_filter() {
     // GIVEN
-    File actual = newFolder(tempDir.getAbsolutePath() + "/folder");
+    File actual = newFolder(tempDir.getAbsolutePath() + "/folder1");
     File file = newFile(actual.getAbsolutePath() + "/Test.java");
     List<File> items = list(file);
     // WHEN
@@ -134,10 +134,10 @@ class Files_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends FilesBa
   @Test
   void should_fail_if_all_actual_files_match_the_filter() {
     // GIVEN
-    File actual = newFolder(tempDir.getAbsolutePath() + "/folder");
+    File actual = newFolder(tempDir.getAbsolutePath() + "/folder2");
     File file1 = newFile(actual.getAbsolutePath() + "/Test.java");
     File file2 = newFile(actual.getAbsolutePath() + "/Utils.java");
-    List<File> items = list(file2, file1);
+    List<File> items = list(file1, file2);
     // WHEN
     expectAssertionError(() -> files.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE_PATTERN));
     // THEN
@@ -147,7 +147,7 @@ class Files_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends FilesBa
   @Test
   void should_fail_if_some_actual_files_match_the_filter() {
     // GIVEN
-    File actual = newFolder(tempDir.getAbsolutePath() + "/folder");
+    File actual = newFolder(tempDir.getAbsolutePath() + "/folder3");
     File file1 = newFile(actual.getAbsolutePath() + "/Test.java");
     File file2 = newFile(actual.getAbsolutePath() + "/Utils.java");
     newFile(actual.getAbsolutePath() + "/Test.class");
@@ -156,7 +156,6 @@ class Files_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends FilesBa
     // WHEN
     expectAssertionError(() -> files.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE_PATTERN));
     // THEN
-    verify(failures).failure(INFO,
-                             directoryShouldNotContain(actual, list(file2, file1), JAVA_SOURCE_PATTERN_DESCRIPTION));
+    verify(failures).failure(INFO, directoryShouldNotContain(actual, list(file1, file2), JAVA_SOURCE_PATTERN_DESCRIPTION));
   }
 }
