@@ -205,7 +205,7 @@ public class RecursiveComparisonDifferenceCalculator {
 
       // Custom comparators take precedence over all other types of comparison
       if (recursiveComparisonConfiguration.hasCustomComparator(dualValue)) {
-        if (!propertyOrFieldValuesAreEqual(dualValue, recursiveComparisonConfiguration)) comparisonState.addDifference(dualValue);
+        if (!areDualValueEqual(dualValue, recursiveComparisonConfiguration)) comparisonState.addDifference(dualValue);
         // since we used a custom comparator we don't need to inspect the nested fields any further
         continue;
       }
@@ -673,21 +673,30 @@ public class RecursiveComparisonDifferenceCalculator {
     return false;
   }
 
-  @SuppressWarnings({ "unchecked", "rawtypes" })
-  private static boolean propertyOrFieldValuesAreEqual(DualValue dualValue,
-                                                       RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  private static boolean areDualValueEqual(DualValue dualValue,
+                                           RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     final String fieldName = dualValue.getConcatenatedPath();
     final Object actualFieldValue = dualValue.actual;
     final Object expectedFieldValue = dualValue.expected;
     // check field comparators as they take precedence over type comparators
     Comparator fieldComparator = recursiveComparisonConfiguration.getComparatorForField(fieldName);
-    if (fieldComparator != null) return fieldComparator.compare(actualFieldValue, expectedFieldValue) == 0;
+    if (fieldComparator != null) return areEqualUsingComparator(actualFieldValue, expectedFieldValue, fieldComparator);
     // check if a type comparators exist for the field type
     Class fieldType = actualFieldValue != null ? actualFieldValue.getClass() : expectedFieldValue.getClass();
     Comparator typeComparator = recursiveComparisonConfiguration.getComparatorForType(fieldType);
-    if (typeComparator != null) return typeComparator.compare(actualFieldValue, expectedFieldValue) == 0;
+    if (typeComparator != null) return areEqualUsingComparator(actualFieldValue, expectedFieldValue, typeComparator);
     // default comparison using equals
     return deepEquals(actualFieldValue, expectedFieldValue);
+  }
+
+  private static boolean areEqualUsingComparator(final Object actual, final Object expected, Comparator<Object> comparator) {
+    try {
+      return comparator.compare(actual, expected) == 0;
+    } catch (ClassCastException e) {
+      // this occurs when comparing field of different types, Person.id is an int and PersonDto.id is a long
+      return false;
+    }
   }
 
   private static ComparisonDifference expectedAndActualTypeDifference(Object actual, Object expected) {
