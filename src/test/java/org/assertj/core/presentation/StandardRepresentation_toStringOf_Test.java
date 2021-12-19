@@ -22,8 +22,10 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Maps.newHashMap;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -66,8 +68,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 /**
- * Tests for {@link org.assertj.core.presentation.StandardRepresentation#toStringOf(Object)}.
- *
  * @author Joel Costigliola
  */
 class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationTest {
@@ -114,9 +114,34 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
   }
 
   @Test
+  void should_return_toString_of_anonymous_Class_with_generic_description() {
+    Object anonymous = new Object() {};
+    assertThat(STANDARD_REPRESENTATION.toStringOf(anonymous.getClass())).isEqualTo("anonymous class");
+  }
+
+  @Test
+  void should_return_toString_of_anonymous_Class_array_with_generic_description() {
+    Object anonymous = new Object() {};
+    Object anonymousArray = Array.newInstance(anonymous.getClass(), 1);
+    assertThat(STANDARD_REPRESENTATION.toStringOf(anonymousArray.getClass())).isEqualTo("anonymous class array");
+  }
+
+  @Test
+  void should_return_toString_of_local_Class_with_its_simple_name() {
+    class LocalClass {}
+    assertThat(STANDARD_REPRESENTATION.toStringOf(LocalClass.class)).isEqualTo("local class LocalClass");
+  }
+
+  @Test
+  void should_return_toString_of_local_Class_array_with_its_simple_name() {
+    class LocalClass {}
+    assertThat(STANDARD_REPRESENTATION.toStringOf(LocalClass[].class)).isEqualTo("local class LocalClass[]");
+  }
+
+  @Test
   void should_return_toString_of_Collection_of_String() {
     Collection<String> collection = list("s1", "s2");
-    assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo(format("[\"s1\", \"s2\"]"));
+    assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo("[\"s1\", \"s2\"]");
   }
 
   @Test
@@ -531,9 +556,9 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
   }
 
   private static Stream<Arguments> durations() {
-    return Stream.of(Arguments.of(Duration.of(1L, MILLIS), "0.001S"),
-                     Arguments.of(Duration.of(1234L, MILLIS), "1.234S"),
-                     Arguments.of(Duration.of(3_661_001L, MILLIS), "1H1M1.001S"));
+    return Stream.of(arguments(Duration.of(1L, MILLIS), "0.001S"),
+                     arguments(Duration.of(1234L, MILLIS), "1.234S"),
+                     arguments(Duration.of(3_661_001L, MILLIS), "1H1M1.001S"));
   }
 
   private String toStringOf(Object o) {

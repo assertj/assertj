@@ -262,7 +262,7 @@ public class StandardRepresentation implements Representation {
       return !Object.class.equals(classDeclaringToString);
     } catch (NoSuchMethodException | SecurityException e) {
       // NoSuchMethodException should not occur as toString is always defined.
-      // if SecurityException occurs, returning false to use our own representation 
+      // if SecurityException occurs, returning false to use our own representation
       return false;
     }
   }
@@ -273,7 +273,7 @@ public class StandardRepresentation implements Representation {
   private static boolean hasOverriddenToStringInSubclassOf(Class<?> objectClass, Class<?> clazz) {
     try {
       Class<?> classDeclaringToString = objectClass.getMethod("toString").getDeclaringClass();
-      // check if any classes between objectClass and clazz (excluded) have overridden toString 
+      // check if any classes between objectClass and clazz (excluded) have overridden toString
       Class<?> classToCheck = objectClass;
       while (!classToCheck.equals(clazz)) {
         if (classDeclaringToString.equals(classToCheck)) return true;
@@ -281,7 +281,7 @@ public class StandardRepresentation implements Representation {
       }
     } catch (NoSuchMethodException | SecurityException e) {
       // NoSuchMethodException should not occur as toString is always defined.
-      // if SecurityException occurs, returning false to use our own representation 
+      // if SecurityException occurs, returning false to use our own representation
     }
     return false;
   }
@@ -376,7 +376,11 @@ public class StandardRepresentation implements Representation {
   }
 
   protected String toStringOf(Class<?> c) {
-    return c.getCanonicalName();
+    String canonicalName = c.getCanonicalName();
+    if (canonicalName != null) return canonicalName;
+    if (c.getSimpleName().equals("")) return "anonymous class";
+    if (c.getSimpleName().equals("[]")) return "anonymous class array";
+    return String.format("local class %s", c.getSimpleName());
   }
 
   protected String toStringOf(String s) {
