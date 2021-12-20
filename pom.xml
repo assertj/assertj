@@ -17,9 +17,9 @@
   <description>Rich and fluent assertions for testing for Java</description>
 
   <scm>
-    <developerConnection>scm:git:git@github.com:assertj/assertj-core.git</developerConnection>
-    <connection>scm:git:git@github.com:assertj/assertj-core.git</connection>
-    <url>git@github.com:assertj/assertj-core</url>
+    <developerConnection>scm:git:https://github.com/assertj/assertj-core.git</developerConnection>
+    <connection>scm:git:https://github.com/assertj/assertj-core.git</connection>
+    <url>https://github.com/assertj/assertj-core</url>
     <tag>HEAD</tag>
   </scm>
   <issueManagement>
