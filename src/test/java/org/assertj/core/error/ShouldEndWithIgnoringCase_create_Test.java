@@ -14,56 +14,45 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
+import static org.assertj.core.error.ShouldEndWithIgnoringCase.shouldEndWithIgnoringCase;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
-import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.jupiter.api.BeforeEach;
+import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.util.OtherStringTestComparator;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link ShouldStartWith#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
- *
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
-class ShouldStartWith_create_Test {
-
-  private ErrorMessageFactory factory;
-
-  @BeforeEach
-  public void setUp() {
-    factory = shouldStartWith(list("Yoda", "Luke"), list("Han", "Leia"));
-  }
+class ShouldEndWithIgnoringCase_create_Test {
 
   @Test
   void should_create_error_message() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldEndWithIgnoringCase("Gandalf the grey", "gandalf",
+                                                            StandardComparisonStrategy.instance());
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting actual:%n" +
-                                   "  [\"Yoda\", \"Luke\"]%n" +
-                                   "to start with:%n" +
-                                   "  [\"Han\", \"Leia\"]%n"));
+                                   "  \"Gandalf the grey\"%n" +
+                                   "to end with (ignoring case):%n" +
+                                   "  \"gandalf\"%n"));
   }
 
   @Test
   void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
-    factory = shouldStartWith(list("Yoda", "Luke"), list("Han", "Leia"),
-                              new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+    ErrorMessageFactory factory = shouldEndWithIgnoringCase("Gandalf the grey", "gandalf",
+                                                            new ComparatorBasedComparisonStrategy(new OtherStringTestComparator()));
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting actual:%n" +
-                                   "  [\"Yoda\", \"Luke\"]%n" +
-                                   "to start with:%n" +
-                                   "  [\"Han\", \"Leia\"]%n" +
-                                   "when comparing values using CaseInsensitiveStringComparator"));
+    then(message).isEqualTo(String.format("[Test] %n" +
+                                          "Expecting actual:%n" +
+                                          "  \"Gandalf the grey\"%n" +
+                                          "to end with (ignoring case):%n" +
+                                          "  \"gandalf\"%n"
+                                          + "when comparing values using other String comparator"));
   }
 }

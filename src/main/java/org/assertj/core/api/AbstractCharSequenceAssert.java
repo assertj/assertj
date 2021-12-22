@@ -1012,6 +1012,29 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} starts with the given prefix, ignoring case considerations.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(&quot;Gandalf the grey&quot;).startsWithIgnoringCase(&quot;Gandalf&quot;);
+   * assertThat(&quot;Gandalf the grey&quot;).startsWithIgnoringCase(&quot;gandalf&quot;);
+   *
+   * // assertion will fail
+   * assertThat(&quot;Gandalf the grey&quot;).startsWithIgnoringCase(&quot;grey&quot;);</code></pre>
+   *
+   * @param prefix the given prefix.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given prefix is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} does not start with the given prefix, ignoring case.
+   * @since 3.22.0
+   */
+  public SELF startsWithIgnoringCase(CharSequence prefix) {
+    strings.assertStartsWithIgnoringCase(info, actual, prefix);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} does not start with the given prefix.
    * <p>
    * Example:
@@ -1035,7 +1058,31 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} ends with the given suffix.
+   * Verifies that the actual {@code CharSequence} does not start with the given prefix, ignoring case considerations.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(&quot;Gandalf the grey&quot;).doesNotStartWithIgnoringCase(&quot;fro&quot;);
+   * assertThat(&quot;Gandalf the grey&quot;).doesNotStartWithIgnoringCase(&quot;grey&quot;);
+   *
+   * // assertions will fail
+   * assertThat(&quot;Gandalf the grey&quot;).doesNotStartWithIgnoringCase(&quot;Gandalf&quot;);
+   * assertThat(&quot;Gandalf the grey&quot;).doesNotStartWithIgnoringCase(&quot;gandalf&quot;);</code></pre>
+   *
+   * @param prefix the given prefix.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given prefix is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} starts with the given prefix, ignoring case.
+   * @since 3.22.0
+   */
+  public SELF doesNotStartWithIgnoringCase(CharSequence prefix) {
+    strings.assertDoesNotStartWithIgnoringCase(info, actual, prefix);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} ends with the given suffix, ignoring case considerations.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -1052,6 +1099,29 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   public SELF endsWith(CharSequence suffix) {
     strings.assertEndsWith(info, actual, suffix);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} ends with the given suffix, ignoring case considerations.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(&quot;Frodo&quot;).endsWithIgnoringCase(&quot;do&quot;);
+   * assertThat(&quot;Frodo&quot;).endsWithIgnoringCase(&quot;DO&quot;);
+   *
+   * // assertion will fail
+   * assertThat(&quot;Frodo&quot;).endsWithIgnoringCase(&quot;Fro&quot;);</code></pre>
+   *
+   * @param suffix the given suffix.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given suffix is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} does not end with the given suffix, ignoring case.
+   * @since 3.22.0
+   */
+  public SELF endsWithIgnoringCase(CharSequence suffix) {
+    strings.assertEndsWithIgnoringCase(info, actual, suffix);
     return myself;
   }
 
@@ -1074,6 +1144,28 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   public SELF doesNotEndWith(CharSequence suffix) {
     strings.assertDoesNotEndWith(info, actual, suffix);
+    return myself;
+  }
+
+/**
+   * Verifies that the actual {@code CharSequence} does not end with the given suffix, ignoring case considerations.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(&quot;Frodo&quot;).doesNotEndWithIgnoringCase(&quot;Fro&quot;);
+   *
+   * // assertions will fail
+   * assertThat(&quot;Frodo&quot;).doesNotEndWithIgnoringCase(&quot;do&quot;);
+   * assertThat(&quot;Frodo&quot;).doesNotEndWithIgnoringCase(&quot;DO&quot;);</code></pre>
+   *
+   * @param suffix the given suffix.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given suffix is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} ends with the given suffix, ignoring case.
+   */
+  public SELF doesNotEndWithIgnoringCase(CharSequence suffix) {
+    strings.assertDoesNotEndWithIgnoringCase(info, actual, suffix);
     return myself;
   }
 

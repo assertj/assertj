@@ -38,7 +38,11 @@ class ShouldEndWith_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  [\"Yoda\", \"Luke\"]%nto end with:%n  [\"Han\", \"Leia\"]%n"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  [\"Yoda\", \"Luke\"]%n" +
+                                   "to end with:%n" +
+                                   "  [\"Han\", \"Leia\"]%n"));
   }
 
   @Test
@@ -49,7 +53,11 @@ class ShouldEndWith_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(String.format("[Test] %nExpecting actual:%n  [\"Yoda\", \"Luke\"]%nto end with:%n  [\"Han\", \"Leia\"]%n"
+    then(message).isEqualTo(String.format("[Test] %n" +
+                                          "Expecting actual:%n" +
+                                          "  [\"Yoda\", \"Luke\"]%n" +
+                                          "to end with:%n" +
+                                          "  [\"Han\", \"Leia\"]%n"
                                           + "when comparing values using CaseInsensitiveStringComparator"));
   }
 }
