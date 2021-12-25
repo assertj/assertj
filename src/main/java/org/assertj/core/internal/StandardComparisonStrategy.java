@@ -60,11 +60,6 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
     });
   }
 
-  @Override
-  public String asText() {
-    return "";
-  }
-
   /**
    * Returns {@code true} if the arguments are deeply equal to each other, {@code false} otherwise.
    * <p>

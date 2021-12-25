@@ -12,6 +12,8 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
+import static java.lang.System.lineSeparator;
 import static java.util.Objects.deepEquals;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
@@ -157,10 +159,39 @@ public class ShouldBeEqual implements AssertionErrorFactory {
       // only drawback is that it won't look nice in IDEs.
       return defaultDetailedErrorMessage(description, representation);
     }
+    String actualRepresentation = representation.toStringOf(actual);
+    String expectedRepresentation = representation.toStringOf(expected);
+    if (hasMultilineValue(actualRepresentation, expectedRepresentation)) {
+      return errorMessageForMultilineValues(description, representation, actualRepresentation, expectedRepresentation);
+    }
+
     return comparisonStrategy.isStandard()
         ? messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE, expected, actual)
         : messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR,
                                   expected, actual, comparisonStrategy);
+  }
+
+  private String errorMessageForMultilineValues(Description description, Representation representation,
+                                                String actualRepresentation, String expectedRepresentation) {
+    String desc = DescriptionFormatter.instance().format(description);
+    return desc + messageForMultilineValues(actualRepresentation, expectedRepresentation, representation);
+  }
+
+  private boolean hasMultilineValue(String actualRepresentation, String expectedRepresentation) {
+    return (actualRepresentation != null && actualRepresentation.contains(lineSeparator())) ||
+           (expectedRepresentation != null && expectedRepresentation.contains(lineSeparator()));
+  }
+
+  private String messageForMultilineValues(String actualRepresentation, String expectedRepresentation,
+                                           Representation representation) {
+    return comparisonStrategy.isStandard()
+        ? format(EXPECTED_BUT_WAS_MESSAGE, indent(expectedRepresentation), indent(actualRepresentation))
+        : format(EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR, indent(expectedRepresentation), indent(actualRepresentation),
+                 comparisonStrategy.asText());
+  }
+
+  protected String indent(String valueRepresentation) {
+    return String.format("%n%s", valueRepresentation).replace(lineSeparator(), lineSeparator() + "  ");
   }
 
   /**
@@ -174,10 +205,17 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    *         <b>detailed</b> representation.
    */
   protected String defaultDetailedErrorMessage(Description description, Representation representation) {
-    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy)
-      return messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR,
-                                     detailedExpected(), detailedActual(), comparisonStrategy);
-    return messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE, detailedExpected(), detailedActual());
+    String actualRepresentation = detailedActual();
+    String expectedRepresentation = detailedExpected();
+    if (hasMultilineValue(actualRepresentation, expectedRepresentation)) {
+      return errorMessageForMultilineValues(description, representation, actualRepresentation, expectedRepresentation);
+    }
+
+    return comparisonStrategy instanceof ComparatorBasedComparisonStrategy
+        ? messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR, expectedRepresentation,
+                                  actualRepresentation, comparisonStrategy)
+        : messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE, expectedRepresentation,
+                                  actualRepresentation);
   }
 
   private AssertionError assertionFailedError(String message, Representation representation) {

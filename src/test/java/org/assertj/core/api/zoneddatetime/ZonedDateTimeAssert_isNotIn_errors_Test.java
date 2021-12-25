@@ -15,9 +15,10 @@ package org.assertj.core.api.zoneddatetime;
 import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.time.ZonedDateTime;
 
@@ -41,11 +42,17 @@ class ZonedDateTimeAssert_isNotIn_errors_Test extends ZonedDateTimeAssertBaseTes
 
   @Test
   void test_isNotIn_assertion_error_message() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0,
-                                                                                                 UTC)).isNotIn(ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC).toString(), ZonedDateTime.of(2012, 1, 1, 3, 3, 3, 0, UTC).toString()))
-                                                   .withMessage(format("%nExpecting actual:%n  2000-01-05T03:00:05Z (java.time.ZonedDateTime)%nnot to be in:%n"
-                                                                       +
-                                                                       "  [2000-01-05T03:00:05Z (java.time.ZonedDateTime),%n    2012-01-01T03:03:03Z (java.time.ZonedDateTime)]%n"));
+    // GIVEN
+    ZonedDateTime actual = ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC);
+    ZonedDateTime other = ZonedDateTime.of(2012, 1, 1, 3, 3, 3, 0, UTC);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotIn(actual.toString(), other.toString()));
+    // THEN
+    then(assertionError).hasMessage(format("%nExpecting actual:%n" +
+                                           "  2000-01-05T03:00:05Z (java.time.ZonedDateTime)%n" +
+                                           "not to be in:%n" +
+                                           "  [2000-01-05T03:00:05Z (java.time.ZonedDateTime),%n" +
+                                           "    2012-01-01T03:03:03Z (java.time.ZonedDateTime)]%n"));
   }
 
   @Test

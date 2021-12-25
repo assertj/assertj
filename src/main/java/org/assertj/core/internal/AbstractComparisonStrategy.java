@@ -73,8 +73,6 @@ public abstract class AbstractComparisonStrategy implements ComparisonStrategy {
     return areEqual(actual, other) || isGreaterThan(actual, other);
   }
 
-  public abstract String asText();
-
   @Override
   public boolean isStandard() {
     return false;

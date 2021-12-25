@@ -12,7 +12,8 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.internal.*;
+import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value is not in a group of values (e.g. an array or

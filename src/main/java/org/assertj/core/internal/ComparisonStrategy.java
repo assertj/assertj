@@ -154,4 +154,16 @@ public interface ComparisonStrategy {
    */
   boolean isStandard();
 
+  /**
+   * Used in error messages when a custom comparison strategy was used to compare values.
+   * <p>
+   * For example {@link ComparatorBasedComparisonStrategy} returns: 
+   * <pre><code>"when comparing values using " + toString()</code></pre>
+   *   
+   * @return the comparison strategy description used in error messages.
+   */
+  default String asText() {
+    return "";
+  };
+
 }
