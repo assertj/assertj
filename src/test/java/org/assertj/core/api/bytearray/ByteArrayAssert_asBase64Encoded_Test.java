@@ -23,15 +23,13 @@ import org.assertj.core.api.NavigationMethodBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link ByteArrayAssert#encodedAsBase64()}</code>.
- *
  * @author Stefano Cordio
  */
-class ByteArrayAssert_encodedAsBase64_Test extends ByteArrayAssertBaseTest implements NavigationMethodBaseTest<ByteArrayAssert> {
+class ByteArrayAssert_asBase64Encoded_Test extends ByteArrayAssertBaseTest implements NavigationMethodBaseTest<ByteArrayAssert> {
 
   @Override
   protected ByteArrayAssert invoke_api_method() {
-    assertions.encodedAsBase64();
+    assertions.asBase64Encoded();
     return null;
   }
 
@@ -52,13 +50,13 @@ class ByteArrayAssert_encodedAsBase64_Test extends ByteArrayAssertBaseTest imple
 
   @Override
   public AbstractAssert<?, ?> invoke_navigation_method(ByteArrayAssert assertion) {
-    return assertion.encodedAsBase64();
+    return assertion.asBase64Encoded();
   }
 
   @Test
   void should_return_string_assertion() {
     // WHEN
-    AbstractAssert<?, ?> result = assertions.encodedAsBase64();
+    AbstractAssert<?, ?> result = assertions.asBase64Encoded();
     // THEN
     then(result).isInstanceOf(AbstractStringAssert.class);
   }

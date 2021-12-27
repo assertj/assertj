@@ -20,20 +20,16 @@ import org.assertj.core.api.AbstractByteArrayAssert;
 import org.assertj.core.api.NavigationMethodBaseTest;
 import org.assertj.core.api.StringAssert;
 import org.assertj.core.api.StringAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link StringAssert#decodedAsBase64()}</code>.
- *
  * @author Stefano Cordio
  */
-@DisplayName("StringAssert decodedAsBase64")
-class StringAssert_decodedAsBase64_Test extends StringAssertBaseTest implements NavigationMethodBaseTest<StringAssert> {
+class StringAssert_asBase64Decoded_Test extends StringAssertBaseTest implements NavigationMethodBaseTest<StringAssert> {
 
   @Override
   protected StringAssert invoke_api_method() {
-    assertions.decodedAsBase64();
+    assertions.asBase64Decoded();
     return null;
   }
 
@@ -54,13 +50,13 @@ class StringAssert_decodedAsBase64_Test extends StringAssertBaseTest implements 
 
   @Override
   public AbstractAssert<?, ?> invoke_navigation_method(StringAssert assertion) {
-    return assertion.decodedAsBase64();
+    return assertion.asBase64Decoded();
   }
 
   @Test
   void should_return_byte_array_assertion() {
     // WHEN
-    AbstractAssert<?, ?> result = assertions.decodedAsBase64();
+    AbstractAssert<?, ?> result = assertions.asBase64Decoded();
     // THEN
     then(result).isInstanceOf(AbstractByteArrayAssert.class);
   }

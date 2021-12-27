@@ -248,6 +248,33 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * <p>
    * Examples:
    * <pre><code class='java'> // assertion succeeds
+   * assertThat(&quot;QXNzZXJ0Sg==&quot;).asBase64Decoded().containsExactly("AssertJ".getBytes());
+   *
+   * // assertion succeeds even without padding as it is optional by specification
+   * assertThat(&quot;QXNzZXJ0Sg&quot;).asBase64Decoded().containsExactly("AssertJ".getBytes());
+   *
+   * // assertion fails as it has invalid Base64 characters
+   * assertThat(&quot;inv@lid&quot;).asBase64Decoded();</code></pre>
+   *
+   * @return a new {@link ByteArrayAssert} instance whose array under test is the result of the decoding.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not a valid Base64 encoded string.
+   *
+   * @since 3.22.0
+   */
+  @CheckReturnValue
+  public AbstractByteArrayAssert<?> asBase64Decoded() {
+    strings.assertIsBase64(info, actual);
+    return new ByteArrayAssert(Base64.getDecoder().decode(actual)).withAssertionState(myself);
+  }
+
+  /**
+   * @deprecated use {@link #asBase64Decoded()} instead.
+   * <p>
+   * Decodes the actual value as a Base64 encoded string, the decoded bytes becoming the new array under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertion succeeds
    * assertThat(&quot;QXNzZXJ0Sg==&quot;).decodedAsBase64().containsExactly("AssertJ".getBytes());
    *
    * // assertion succeeds even without padding as it is optional by specification
@@ -262,10 +289,10 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    *
    * @since 3.16.0
    */
+  @Deprecated
   @CheckReturnValue
   public AbstractByteArrayAssert<?> decodedAsBase64() {
-    strings.assertIsBase64(info, actual);
-    return new ByteArrayAssert(Base64.getDecoder().decode(actual)).withAssertionState(myself);
+    return asBase64Decoded();
   }
 
   /**

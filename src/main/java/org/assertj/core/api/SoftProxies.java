@@ -42,13 +42,13 @@ import net.bytebuddy.matcher.ElementMatcher.Junction;
 
 class SoftProxies {
 
-  private static final Junction<MethodDescription> METHODS_CHANGING_THE_OBJECT_UNDER_TEST = methodsChangingTheObjectUnderTestNamed("asInstanceOf",
+  private static final Junction<MethodDescription> METHODS_CHANGING_THE_OBJECT_UNDER_TEST = methodsChangingTheObjectUnderTestNamed("asBase64Decoded",
+                                                                                                                                   "asBase64Encoded",
+                                                                                                                                   "asInstanceOf",
                                                                                                                                    "asList",
                                                                                                                                    "asString",
                                                                                                                                    "asHexString",
                                                                                                                                    "content",
-                                                                                                                                   "decodedAsBase64",
-                                                                                                                                   "encodedAsBase64",
                                                                                                                                    "extracting",
                                                                                                                                    "extractingByKey",
                                                                                                                                    "extractingByKeys",

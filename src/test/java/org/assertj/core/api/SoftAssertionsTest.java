@@ -2151,13 +2151,13 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     String base64String = "QXNzZXJ0Sg==";
     // WHEN
     softly.assertThat(base64String)
-          .as("decodedAsBase64()")
+          .as("asBase64Decoded()")
           .overridingErrorMessage("error message 1")
-          .decodedAsBase64()
+          .asBase64Decoded()
           .isEmpty();
     // THEN
     then(softly.errorsCollected()).extracting(Throwable::getMessage)
-                                  .containsExactly("[decodedAsBase64()] error message 1");
+                                  .containsExactly("[asBase64Decoded()] error message 1");
   }
 
   @Test
@@ -2166,13 +2166,13 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     byte[] byteArray = "AssertJ".getBytes();
     // WHEN
     softly.assertThat(byteArray)
-          .as("encodedAsBase64()")
+          .as("asBase64Encoded()")
           .overridingErrorMessage("error message 1")
-          .encodedAsBase64()
+          .asBase64Encoded()
           .isEmpty();
     // THEN
     then(softly.errorsCollected()).extracting(Throwable::getMessage)
-                                  .containsExactly("[encodedAsBase64()] error message 1");
+                                  .containsExactly("[asBase64Encoded()] error message 1");
   }
 
   @Test
@@ -2181,7 +2181,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     String base64String = "QXNzZXJ0Sg==";
     // WHEN
     softly.assertThat(base64String)
-          .decodedAsBase64()
+          .asBase64Decoded()
           .containsExactly("AssertJ".getBytes());
     // THEN
     softly.assertAll();
@@ -2193,7 +2193,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     byte[] byteArray = "AssertJ".getBytes();
     // WHEN
     softly.assertThat(byteArray)
-          .encodedAsBase64()
+          .asBase64Encoded()
           .isEqualTo("QXNzZXJ0Sg==");
     // THEN
     softly.assertAll();

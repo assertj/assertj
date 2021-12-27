@@ -1327,6 +1327,26 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * <p>
    * Examples:
    * <pre><code class='java'> // assertion succeeds
+   * assertThat("AssertJ".getBytes()).asBase64Encoded().isEqualTo(&quot;QXNzZXJ0Sg==&quot;);</code></pre>
+   *
+   * @return a new {@link StringAssert} instance whose string under test is the result of the encoding.
+   * @throws AssertionError if the actual value is {@code null}.
+   *
+   * @since 3.22.0
+   */
+  @CheckReturnValue
+  public AbstractStringAssert<?> asBase64Encoded() {
+    objects.assertNotNull(info, actual);
+    return new StringAssert(Base64.getEncoder().encodeToString(actual)).withAssertionState(myself);
+  }
+
+  /**
+   * @deprecated use {@link #asBase64Encoded()} instead.
+   * <p>
+   * Encodes the actual array into a Base64 string, the encoded string becoming the new object under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertion succeeds
    * assertThat("AssertJ".getBytes()).encodedAsBase64().isEqualTo(&quot;QXNzZXJ0Sg==&quot;);</code></pre>
    *
    * @return a new {@link StringAssert} instance whose string under test is the result of the encoding.
@@ -1334,10 +1354,10 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    *
    * @since 3.16.0
    */
+  @Deprecated
   @CheckReturnValue
   public AbstractStringAssert<?> encodedAsBase64() {
-    objects.assertNotNull(info, actual);
-    return new StringAssert(Base64.getEncoder().encodeToString(actual)).withAssertionState(myself);
+    return asBase64Encoded();
   }
 
   private static byte[] toPrimitiveByteArray(Byte[] values) {
