@@ -407,7 +407,7 @@ public class Maps {
         clonedMap.remove(expectedKey);
       }
       return clonedMap.keySet();
-    } catch (NoSuchMethodException | UnsupportedOperationException e) {
+    } catch (NoSuchMethodException | RuntimeException e) {
       // actual cannot be cloned or is unmodifiable, falling back to LinkedHashMap
       Map<K, ?> copiedMap = new LinkedHashMap<>(actual);
       for (K expectedKey : expectedKeys) {
@@ -514,7 +514,7 @@ public class Maps {
       Map<K, V> clonedMap = clone(actual);
       removeEntries(clonedMap, expectedEntries);
       return clonedMap;
-    } catch (NoSuchMethodException | UnsupportedOperationException e) {
+    } catch (NoSuchMethodException | RuntimeException e) {
       // actual cannot be cloned or is unmodifiable, falling back to LinkedHashMap
       Map<K, V> copiedMap = new LinkedHashMap<>(actual);
       removeEntries(copiedMap, expectedEntries);

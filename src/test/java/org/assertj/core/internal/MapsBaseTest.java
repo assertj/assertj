@@ -13,16 +13,21 @@
 package org.assertj.core.internal;
 
 import static java.lang.String.CASE_INSENSITIVE_ORDER;
+import static java.util.Comparator.naturalOrder;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.mockito.Answers.RETURNS_DEEP_STUBS;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.apache.commons.collections4.map.CaseInsensitiveMap;
@@ -30,6 +35,10 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.WithPlayerData;
+import org.hibernate.collection.internal.PersistentMap;
+import org.hibernate.collection.internal.PersistentSortedMap;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
+import org.hibernate.persister.collection.CollectionPersister;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.util.LinkedCaseInsensitiveMap;
 
@@ -39,7 +48,6 @@ import org.springframework.util.LinkedCaseInsensitiveMap;
  * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Maps} attributes appropriately.
  * 
  * @author Joel Costigliola
- * 
  */
 public class MapsBaseTest extends WithPlayerData {
 
@@ -57,7 +65,29 @@ public class MapsBaseTest extends WithPlayerData {
                                                                                              CaseInsensitiveMap::new,
                                                                                              HashMap::new,
                                                                                              IdentityHashMap::new,
-                                                                                             LinkedHashMap::new);
+                                                                                             LinkedHashMap::new,
+                                                                                             MapsBaseTest::persistentMap,
+                                                                                             MapsBaseTest::persistentSortedMap);
+
+  private static <K, V> PersistentMap<K, V> persistentMap() {
+    return hibernateMap(PersistentMap::new, HashMap::new);
+  }
+
+  private static <K extends Comparable<? super K>, V> PersistentSortedMap<K, V> persistentSortedMap() {
+    return hibernateMap(session -> new PersistentSortedMap<K, V>(session, naturalOrder()), TreeMap::new);
+  }
+
+  private static <K, V, T extends PersistentMap<K, V>> T hibernateMap(Function<SharedSessionContractImplementor, T> supplier,
+                                                                      Supplier<Map<K, V>> innerMapSupplier) {
+    SharedSessionContractImplementor session = mock(SharedSessionContractImplementor.class, RETURNS_DEEP_STUBS);
+    T persistentMap = supplier.apply(session);
+
+    CollectionPersister persister = mock(CollectionPersister.class, RETURNS_DEEP_STUBS);
+    when(persister.getCollectionType().instantiate(0)).thenReturn(innerMapSupplier.get());
+
+    persistentMap.initializeEmptyCollection(persister);
+    return persistentMap;
+  }
 
   protected Map<String, String> actual;
   protected Failures failures;

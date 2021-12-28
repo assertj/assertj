@@ -60,6 +60,11 @@
         <artifactId>hamcrest</artifactId>
         <version>${hamcrest.version}</version>
       </dependency>
+      <dependency> <!-- Included by hibernate-core -->
+        <groupId>org.jboss.logging</groupId>
+        <artifactId>jboss-logging</artifactId>
+        <version>3.4.2.Final</version>
+      </dependency>
       <dependency>
         <groupId>org.opentest4j</groupId>
         <artifactId>opentest4j</artifactId>
@@ -153,6 +158,18 @@
       <artifactId>org.eclipse.osgi</artifactId>
       <version>3.17.100</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate.orm</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>6.0.0.Beta3</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>jakarta.inject</groupId>
+          <artifactId>jakarta.inject-api</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.junit.platform</groupId>
