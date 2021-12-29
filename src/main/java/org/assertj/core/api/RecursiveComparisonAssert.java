@@ -1274,9 +1274,9 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * The recursive comparison was performed with this configuration:
    * - no overridden equals methods were used in the comparison (except for java types)
    * - these types were compared with the following comparators:
-   *   - java.lang.Double -> DoubleComparator[precision=1.0E-15]
-   *   - java.lang.Float -> FloatComparator[precision=1.0E-6]
-   *   - java.nio.file.Path -> lexicographic comparator (Path natural order)
+   *   - java.lang.Double -&gt; DoubleComparator[precision=1.0E-15]
+   *   - java.lang.Float -&gt; FloatComparator[precision=1.0E-6]
+   *   - java.nio.file.Path -&gt; lexicographic comparator (Path natural order)
    * - actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).
    * - these fields had overridden error messages:
    *   - height</code></pre>
@@ -1332,9 +1332,9 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * The recursive comparison was performed with this configuration:
    * - no overridden equals methods were used in the comparison (except for java types)
    * - these types were compared with the following comparators:
-   *   - java.lang.Double -> DoubleComparator[precision=1.0E-15]
-   *   - java.lang.Float -> FloatComparator[precision=1.0E-6]
-   *   - java.nio.file.Path -> lexicographic comparator (Path natural order)
+   *   - java.lang.Double -&gt; DoubleComparator[precision=1.0E-15]
+   *   - java.lang.Float -&gt; FloatComparator[precision=1.0E-6]
+   *   - java.nio.file.Path -&gt; lexicographic comparator (Path natural order)
    * - actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).
    * - these types had overridden error messages:
    *   - height</code></pre>
