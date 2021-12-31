@@ -23,25 +23,22 @@ import org.assertj.core.api.ObjectAssertBaseTest;
 import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Takuya "Mura-Mi" Murakami
- */
-class ObjectAssert_returns_Test extends ObjectAssertBaseTest {
+class ObjectAssert_doesNotReturn_Test extends ObjectAssertBaseTest {
 
   @Override
   protected ObjectAssert<Jedi> invoke_api_method() {
-    return assertions.returns("Yoda", Jedi::getName);
+    return assertions.doesNotReturn("Yoda", Jedi::getName);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(objects).assertEqual(getInfo(assertions), getActual(assertions).getName(), "Yoda");
+    verify(objects).assertNotEqual(getInfo(assertions), getActual(assertions).getName(), "Yoda");
   }
 
   @Test
   void should_fail_with_throwing_NullPointerException_if_method_is_null() {
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertions.returns("May the force be with you.", null));
+    Throwable thrown = catchThrowable(() -> assertions.doesNotReturn("May the force be with you.", null));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage("The given getter method/Function must not be null");
@@ -52,8 +49,8 @@ class ObjectAssert_returns_Test extends ObjectAssertBaseTest {
     // GIVEN
     Jedi yoda = new Jedi("Yoda", "Green");
     // WHEN/THEN
-    assertThat(yoda).returns("Yoda", from(Jedi::getName))
-                    .returns("Yoda", Jedi::getName);
+    assertThat(yoda).doesNotReturn("Luke", from(Jedi::getName))
+                    .doesNotReturn("Luke", Jedi::getName);
   }
 
 }
