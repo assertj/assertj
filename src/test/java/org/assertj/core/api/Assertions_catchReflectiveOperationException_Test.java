@@ -12,15 +12,15 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchReflectiveOperationException;
 import static org.assertj.core.api.Assertions_catchThrowable_Test.codeThrowing;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.mock;
+
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.Test;
 
 class Assertions_catchReflectiveOperationException_Test {
 
@@ -55,11 +55,11 @@ class Assertions_catchReflectiveOperationException_Test {
   @Test
   void catchReflectiveOperationException_should_catch_mocked_throwable() {
     // GIVEN
-    ReflectiveOperationException runtimeException = mock(ReflectiveOperationException.class);
+    ReflectiveOperationException exception = mock(ReflectiveOperationException.class);
     // WHEN
-    Throwable actual = catchReflectiveOperationException(codeThrowing(runtimeException));
+    Throwable actual = catchReflectiveOperationException(codeThrowing(exception));
     // THEN
-    then(actual).isSameAs(runtimeException);
+    then(actual).isSameAs(exception);
   }
 
   static ThrowingCallable raisingException(final String reason) {

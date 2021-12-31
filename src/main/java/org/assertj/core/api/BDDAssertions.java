@@ -12,24 +12,6 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.api.filter.FilterOperator;
-import org.assertj.core.api.filter.InFilter;
-import org.assertj.core.api.filter.NotFilter;
-import org.assertj.core.api.filter.NotInFilter;
-import org.assertj.core.condition.AllOf;
-import org.assertj.core.condition.AnyOf;
-import org.assertj.core.condition.DoesNotHave;
-import org.assertj.core.condition.Not;
-import org.assertj.core.configuration.Configuration;
-import org.assertj.core.data.*;
-import org.assertj.core.description.Description;
-import org.assertj.core.groups.Properties;
-import org.assertj.core.groups.Tuple;
-import org.assertj.core.presentation.*;
-import org.assertj.core.util.CanIgnoreReturnValue;
-import org.assertj.core.util.CheckReturnValue;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,18 +23,78 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.text.DateFormat;
-import java.time.*;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
+import java.time.Period;
+import java.time.ZonedDateTime;
 import java.time.temporal.TemporalUnit;
-import java.util.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
+import java.util.Spliterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
-import java.util.concurrent.atomic.*;
-import java.util.function.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicLongArray;
+import java.util.concurrent.atomic.AtomicLongFieldUpdater;
+import java.util.concurrent.atomic.AtomicMarkableReference;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
+import java.util.concurrent.atomic.AtomicStampedReference;
+import java.util.concurrent.atomic.LongAdder;
+import java.util.function.Consumer;
+import java.util.function.DoublePredicate;
+import java.util.function.Function;
+import java.util.function.IntPredicate;
+import java.util.function.LongPredicate;
+import java.util.function.Predicate;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
+
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.filter.FilterOperator;
+import org.assertj.core.api.filter.InFilter;
+import org.assertj.core.api.filter.NotFilter;
+import org.assertj.core.api.filter.NotInFilter;
+import org.assertj.core.condition.AllOf;
+import org.assertj.core.condition.AnyOf;
+import org.assertj.core.condition.DoesNotHave;
+import org.assertj.core.condition.Not;
+import org.assertj.core.configuration.Configuration;
+import org.assertj.core.data.Index;
+import org.assertj.core.data.MapEntry;
+import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
+import org.assertj.core.data.TemporalUnitOffset;
+import org.assertj.core.description.Description;
+import org.assertj.core.groups.Properties;
+import org.assertj.core.groups.Tuple;
+import org.assertj.core.presentation.BinaryRepresentation;
+import org.assertj.core.presentation.HexadecimalRepresentation;
+import org.assertj.core.presentation.Representation;
+import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.core.presentation.UnicodeRepresentation;
+import org.assertj.core.util.CanIgnoreReturnValue;
+import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Behavior-driven development style entry point for assertion methods for different types. Each method in this class is a static factory
@@ -1136,7 +1178,7 @@ public class BDDAssertions extends Assertions {
    *
    * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately thrown,
    * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br>
-   * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below:
+   * To use a test description, use {@link #catchThrowable(ThrowingCallable)} as shown below:
    * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error
    * thenThrownBy(() -&gt; {}).as("display me")
    *                       .isInstanceOf(Exception.class);
@@ -1214,7 +1256,7 @@ public class BDDAssertions extends Assertions {
    *
    * If the provided {@link ThrowingCallable} does not validate against next assertions, an error is immediately raised,
    * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br>
-   * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below.
+   * To use a test description, use {@link #catchThrowable(ThrowingCallable)} as shown below.
    *
    * <pre><code class='java'> ThrowingCallable doNothing = () -&gt; {
    *   // do nothing
@@ -1638,7 +1680,7 @@ public class BDDAssertions extends Assertions {
    * <p>
    * This caught {@link Throwable} can then be asserted.
    * <p>
-   * If you need to assert on the real type of Throwable caught (e.g. IOException), use {@link #catchThrowableOfType(ThrowableAssert.ThrowingCallable, Class)}.
+   * If you need to assert on the real type of Throwable caught (e.g. IOException), use {@link #catchThrowableOfType(ThrowingCallable, Class)}.
    * <p>
    * Example:
    * <pre><code class='java'>{@literal @}Test
@@ -1653,7 +1695,7 @@ public class BDDAssertions extends Assertions {
    *
    * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowableOfType(ThrowableAssert.ThrowingCallable, Class)
+   * @see #catchThrowableOfType(ThrowingCallable, Class)
    *
    * @since 3.20.0
    */
@@ -1696,7 +1738,7 @@ public class BDDAssertions extends Assertions {
    * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
    * @param type The type of exception that the code is expected to raise.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
+   * @see #catchThrowable(ThrowingCallable)
    *
    * @since 3.20.0
    */
@@ -1725,8 +1767,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param shouldRaiseException The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
-   * @since 3.21.0
+   * @see #catchThrowable(ThrowingCallable)
+   * @since 3.22.0
    */
   public static Exception catchException(ThrowingCallable shouldRaiseException) {
     return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseException, Exception.class);
@@ -1752,8 +1794,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param shouldRaiseRuntimeException The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
-   * @since 3.21.0
+   * @see #catchThrowable(ThrowingCallable)
+   * @since 3.22.0
    */
   public static RuntimeException catchRuntimeException(ThrowingCallable shouldRaiseRuntimeException) {
     return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseRuntimeException, RuntimeException.class);
@@ -1779,8 +1821,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param shouldRaiseNullPointerException The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
-   * @since 3.21.0
+   * @see #catchThrowable(ThrowingCallable)
+   * @since 3.22.0
    */
   public static NullPointerException catchNullPointerException(ThrowingCallable shouldRaiseNullPointerException) {
     return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseNullPointerException, NullPointerException.class);
@@ -1806,8 +1848,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param shouldRaiseIllegalArgumentException The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
-   * @since 3.21.0
+   * @see #catchThrowable(ThrowingCallable)
+   * @since 3.22.0
    */
   public static IllegalArgumentException catchIllegalArgumentException(ThrowingCallable shouldRaiseIllegalArgumentException) {
     return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseIllegalArgumentException, IllegalArgumentException.class);
@@ -1833,8 +1875,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param shouldRaiseIOException The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
-   * @since 3.21.0
+   * @see #catchThrowable(ThrowingCallable)
+   * @since 3.22.0
    */
   public static IOException catchIOException(ThrowingCallable shouldRaiseIOException) {
     return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseIOException, IOException.class);
@@ -1860,8 +1902,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param shouldRaiseReflectiveOperationException The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
-   * @since 3.21.0
+   * @see #catchThrowable(ThrowingCallable)
+   * @since 3.22.0
    */
   public static ReflectiveOperationException catchReflectiveOperationException(ThrowingCallable shouldRaiseReflectiveOperationException) {
     return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseReflectiveOperationException, ReflectiveOperationException.class);
@@ -1887,8 +1929,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param shouldRaiseIllegalStateException The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
-   * @since 3.21.0
+   * @see #catchThrowable(ThrowingCallable)
+   * @since 3.22.0
    */
   public static IllegalStateException catchIllegalStateException(ThrowingCallable shouldRaiseIllegalStateException) {
     return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseIllegalStateException, IllegalStateException.class);
@@ -1914,8 +1956,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param shouldRaiseIndexOutOfBoundException The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
-   * @since 3.21.0
+   * @see #catchThrowable(ThrowingCallable)
+   * @since 3.22.0
    */
   public static IndexOutOfBoundsException catchIndexOutOfBoundsException(ThrowingCallable shouldRaiseIndexOutOfBoundException) {
     return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseIndexOutOfBoundException, IndexOutOfBoundsException.class);
@@ -1930,7 +1972,7 @@ public class BDDAssertions extends Assertions {
    *           .isThrownBy(() -&gt; { throw new IOException("boom!"); })
    *           .withMessage("boom!"); </code></pre>
    *
-   * This method is more or less the same of {@link #thenThrownBy(ThrowableAssert.ThrowingCallable)} but in a more natural way.
+   * This method is more or less the same of {@link #thenThrownBy(ThrowingCallable)} but in a more natural way.
    *
    * @param <T> the exception type.
    * @param exceptionType the exception type class.

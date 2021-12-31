@@ -1160,7 +1160,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately thrown,
    * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br>
-   * To use a test description, use {@link #catchThrowable(ThrowableAssert.ThrowingCallable)} as shown below:
+   * To use a test description, use {@link #catchThrowable(ThrowingCallable)} as shown below:
    * <pre><code class='java'> // assertion will fail but "display me" won't appear in the error
    * assertThatThrownBy(() -&gt; {}).as("display me")
    *                             .isInstanceOf(Exception.class);
@@ -1316,7 +1316,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * <p>
    * This caught {@link Throwable} can then be asserted.
    * <p>
-   * If you need to assert on the real type of Throwable caught (e.g. IOException), use {@link #catchThrowableOfType(ThrowableAssert.ThrowingCallable, Class)}.
+   * If you need to assert on the real type of Throwable caught (e.g. IOException), use {@link #catchThrowableOfType(ThrowingCallable, Class)}.
    * <p>
    * Example:
    * <pre><code class='java'>{@literal @}Test
@@ -1331,7 +1331,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowableOfType(ThrowableAssert.ThrowingCallable, Class)
+   * @see #catchThrowableOfType(ThrowingCallable, Class)
    */
   public static Throwable catchThrowable(ThrowingCallable shouldRaiseThrowable) {
     return AssertionsForClassTypes.catchThrowable(shouldRaiseThrowable);
@@ -1372,7 +1372,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
    * @param type The type of exception that the code is expected to raise.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
+   * @see #catchThrowable(ThrowingCallable)
    * @since 3.9.0
    */
   public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(ThrowingCallable shouldRaiseThrowable,
@@ -1400,8 +1400,8 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @param shouldRaiseException The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
-   * @since 3.21.0
+   * @see #catchThrowable(ThrowingCallable)
+   * @since 3.22.0
    */
   public static Exception catchException(ThrowingCallable shouldRaiseException) {
     return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseException, Exception.class);
@@ -1427,8 +1427,8 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @param shouldRaiseRuntimeException The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
-   * @since 3.21.0
+   * @see #catchThrowable(ThrowingCallable)
+   * @since 3.22.0
    */
   public static RuntimeException catchRuntimeException(ThrowingCallable shouldRaiseRuntimeException) {
     return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseRuntimeException, RuntimeException.class);
@@ -1454,8 +1454,8 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @param shouldRaiseNullPointerException The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
-   * @since 3.21.0
+   * @see #catchThrowable(ThrowingCallable)
+   * @since 3.22.0
    */
   public static NullPointerException catchNullPointerException(ThrowingCallable shouldRaiseNullPointerException) {
     return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseNullPointerException, NullPointerException.class);
@@ -1481,8 +1481,8 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @param shouldRaiseIllegalArgumentException The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
-   * @since 3.21.0
+   * @see #catchThrowable(ThrowingCallable)
+   * @since 3.22.0
    */
   public static IllegalArgumentException catchIllegalArgumentException(ThrowingCallable shouldRaiseIllegalArgumentException) {
     return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseIllegalArgumentException, IllegalArgumentException.class);
@@ -1508,8 +1508,8 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @param shouldRaiseIOException The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
-   * @since 3.21.0
+   * @see #catchThrowable(ThrowingCallable)
+   * @since 3.22.0
    */
   public static IOException catchIOException(ThrowingCallable shouldRaiseIOException) {
     return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseIOException, IOException.class);
@@ -1535,8 +1535,8 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @param shouldRaiseReflectiveOperationException The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
-   * @since 3.21.0
+   * @see #catchThrowable(ThrowingCallable)
+   * @since 3.22.0
    */
   public static ReflectiveOperationException catchReflectiveOperationException(ThrowingCallable shouldRaiseReflectiveOperationException) {
     return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseReflectiveOperationException, ReflectiveOperationException.class);
@@ -1562,8 +1562,8 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @param shouldRaiseIllegalStateException The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
-   * @since 3.21.0
+   * @see #catchThrowable(ThrowingCallable)
+   * @since 3.22.0
    */
   public static IllegalStateException catchIllegalStateException(ThrowingCallable shouldRaiseIllegalStateException) {
     return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseIllegalStateException, IllegalStateException.class);
@@ -1589,8 +1589,8 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @param shouldRaiseIndexOutOfBoundException The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
-   * @since 3.21.0
+   * @see #catchThrowable(ThrowingCallable)
+   * @since 3.22.0
    */
   public static IndexOutOfBoundsException catchIndexOutOfBoundsException(ThrowingCallable shouldRaiseIndexOutOfBoundException) {
     return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseIndexOutOfBoundException, IndexOutOfBoundsException.class);
@@ -1605,7 +1605,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *           .isThrownBy(() -&gt; { throw new IOException("boom!"); })
    *           .withMessage("boom!"); </code></pre>
    *
-   * This method is more or less the same of {@link #assertThatThrownBy(ThrowableAssert.ThrowingCallable)} but in a more natural way.
+   * This method is more or less the same of {@link #assertThatThrownBy(ThrowingCallable)} but in a more natural way.
    *
    * @param <T> the exception type.
    * @param exceptionType the exception type class.
