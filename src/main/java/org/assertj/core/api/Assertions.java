@@ -2211,13 +2211,14 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
-   * A syntax sugar to write fluent assertion using {@link ObjectAssert#returns(Object, Function)}.
+   * A syntax sugar to write fluent assertion using {@link ObjectAssert#returns(Object, Function)} and
+   * {@link ObjectAssert#doesNotReturn(Object, Function)}.
    * <p>
    * Example:
    * <pre><code class="java"> Jedi yoda = new Jedi("Yoda", "Green");
    * assertThat(yoda).returns("Yoda", from(Jedi::getName))
    *                 .returns(2.4, from(Jedi::getHeight))
-   *                 .returns(150, from(Jedi::getWeight)); </code></pre>
+   *                 .doesNotReturn(null, from(Jedi::getWeight)); </code></pre>
    *
    * @param extractor A function to extract test subject's property
    * @param <F> Type of test subject

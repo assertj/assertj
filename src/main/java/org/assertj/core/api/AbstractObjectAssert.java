@@ -654,7 +654,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * Private fields are matched by default but this can be changed by calling {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
-   * If you are looking to chain multiple assertions on different properties in a type safe way, consider chaining {@link #returns(Object, Function)} calls.
+   * If you are looking to chain multiple assertions on different properties in a type safe way, consider chaining
+   * {@link #returns(Object, Function)} and {@link #doesNotReturn(Object, Function)} calls.
    * <p>
    * Example:
    * <pre><code class='java'> public class TolkienCharacter {
@@ -1090,6 +1091,32 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   public <T> SELF returns(T expected, Function<ACTUAL, T> from) {
     requireNonNull(from, "The given getter method/Function must not be null");
     objects.assertEqual(info, from.apply(actual), expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the object under test does not return the given expected value from the given {@link Function},
+   * a typical usage is to pass a method reference to assert object's property.
+   * <p>
+   * Wrapping the given {@link Function} with {@link Assertions#from(Function)} makes the assertion more readable.
+   * <p>
+   * Example:
+   * <pre><code class="java"> // from is not mandatory but it makes the assertions more readable
+   * assertThat(frodo).doesNotReturn("Bilbo", from(TolkienCharacter::getName))
+   *                  .doesNotReturn("Bilbo", TolkienCharacter::getName) // no from :(
+   *                  .doesNotReturn(null, from(TolkienCharacter::getRace));</code></pre>
+   *
+   * @param expected the value the object under test method's call should not return.
+   * @param from {@link Function} used to acquire the value to test from the object under test. Must not be {@code null}
+   * @param <T> the expected value type the given {@code method} returns.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if given {@code from} function is null
+   *
+   * @since 3.22.0
+   */
+  public <T> SELF doesNotReturn(T expected, Function<ACTUAL, T> from) {
+    requireNonNull(from, "The given getter method/Function must not be null");
+    objects.assertNotEqual(info, from.apply(actual), expected);
     return myself;
   }
 
