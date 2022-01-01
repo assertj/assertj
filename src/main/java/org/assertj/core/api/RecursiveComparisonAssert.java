@@ -1307,9 +1307,9 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * }
    *
    * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2);
-   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.4);
+   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodon&quot;, 1.4);
    *
-   * String message = &quot;The field 'height' double differ.&quot;;
+   * String message = &quot;Double field differ.&quot;;
    *
    * // assertion fails
    * assertThat(frodo).usingRecursiveComparison()
@@ -1323,7 +1323,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    *   TolkienCharacter [name=Frodon, height=1.4]
    * when recursively comparing field by field, but found the following 2 differences:
    * 
-   * The field 'height' double differ.
+   * Double field differ.
    * 
    * field/property 'name' differ:
    * - actual value  : "Frodo"
