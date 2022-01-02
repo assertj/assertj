@@ -286,6 +286,13 @@ public class StandardRepresentation implements Representation {
     return false;
   }
 
+  /**
+   * Returns the {@code String} representation of the given object with its type and hexadecimal identity hash code so that
+   * it can be differentiated from other objects with the same {@link #toStringOf(Object)} representation.
+   *
+   * @param object the object to represent.
+   * @return the unambiguous {@code toString} representation of the given object.
+   */
   @Override
   public String unambiguousToStringOf(Object obj) {
     // some types have already an unambiguous toString, no need to double down
