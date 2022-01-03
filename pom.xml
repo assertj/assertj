@@ -6,11 +6,11 @@
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent-pom</artifactId>
     <version>2.2.14</version>
-    <relativePath/>
+    <relativePath />
   </parent>
 
   <artifactId>assertj-core</artifactId>
-  <version>3.22.0-SNAPSHOT</version>
+  <version>3.22.0</version>
   <packaging>jar</packaging>
 
   <name>AssertJ fluent assertions</name>
@@ -20,7 +20,7 @@
     <developerConnection>scm:git:https://github.com/assertj/assertj-core.git</developerConnection>
     <connection>scm:git:https://github.com/assertj/assertj-core.git</connection>
     <url>https://github.com/assertj/assertj-core</url>
-    <tag>HEAD</tag>
+    <tag>assertj-core-3.22.0</tag>
   </scm>
   <issueManagement>
     <system>github</system>
@@ -238,7 +238,7 @@
                     </goals>
                   </pluginExecutionFilter>
                   <action>
-                    <ignore/>
+                    <ignore />
                   </action>
                 </pluginExecution>
               </pluginExecutions>
@@ -315,7 +315,7 @@
                     <exclude>*:*:*:jar:compile</exclude>
                   </excludes>
                 </bannedDependencies>
-                <dependencyConvergence/>
+                <dependencyConvergence />
                 <requireJavaVersion>
                   <version>[11,)</version>
                 </requireJavaVersion>
