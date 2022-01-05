@@ -13,7 +13,6 @@
 package org.assertj.core.api;
 
 import static java.util.function.UnaryOperator.identity;
-import static org.assertj.core.error.ShouldBeUnmodifiable.shouldBeUnmodifiable;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -22,6 +21,8 @@ import java.util.NavigableSet;
 import java.util.Set;
 
 import org.assertj.core.annotations.Beta;
+import org.assertj.core.internal.Immutables;
+import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Collection}s.
@@ -41,6 +42,9 @@ public abstract class AbstractCollectionAssert<SELF extends AbstractCollectionAs
                                                ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
     extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
 //@format:on
+
+  @VisibleForTesting
+  Immutables immutables = Immutables.instance();
 
   protected AbstractCollectionAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
@@ -75,44 +79,33 @@ public abstract class AbstractCollectionAssert<SELF extends AbstractCollectionAs
 
   @SuppressWarnings("unchecked")
   private void assertIsUnmodifiable() {
-    expectUnsupportedOperationException(() -> actual.add(null), "Collection.add(null)");
-    expectUnsupportedOperationException(() -> actual.addAll(emptyCollection()), "Collection.addAll(emptyCollection())");
-    expectUnsupportedOperationException(() -> actual.clear(), "Collection.clear()");
-    expectUnsupportedOperationException(() -> actual.iterator().remove(), "Collection.iterator().remove()");
-    expectUnsupportedOperationException(() -> actual.remove(null), "Collection.remove(null)");
-    expectUnsupportedOperationException(() -> actual.removeAll(emptyCollection()), "Collection.removeAll(emptyCollection())");
-    expectUnsupportedOperationException(() -> actual.removeIf(element -> true), "Collection.removeIf(element -> true)");
-    expectUnsupportedOperationException(() -> actual.retainAll(emptyCollection()), "Collection.retainAll(emptyCollection())");
+    immutables.expectUnsupportedOperationException(info, () -> actual.add(null), "Collection.add(null)");
+    immutables.expectUnsupportedOperationException(info, () -> actual.addAll(emptyCollection()), "Collection.addAll(emptyCollection())");
+    immutables.expectUnsupportedOperationException(info, () -> actual.clear(), "Collection.clear()");
+    immutables.expectUnsupportedOperationException(info, () -> actual.iterator().remove(), "Collection.iterator().remove()");
+    immutables.expectUnsupportedOperationException(info, () -> actual.remove(null), "Collection.remove(null)");
+    immutables.expectUnsupportedOperationException(info, () -> actual.removeAll(emptyCollection()), "Collection.removeAll(emptyCollection())");
+    immutables.expectUnsupportedOperationException(info, () -> actual.removeIf(element -> true), "Collection.removeIf(element -> true)");
+    immutables.expectUnsupportedOperationException(info, () -> actual.retainAll(emptyCollection()), "Collection.retainAll(emptyCollection())");
 
     if (actual instanceof List) {
       List<ELEMENT> list = (List<ELEMENT>) actual;
-      expectUnsupportedOperationException(() -> list.add(0, null), "List.add(0, null)");
-      expectUnsupportedOperationException(() -> list.addAll(0, emptyCollection()), "List.addAll(0, emptyCollection())");
-      expectUnsupportedOperationException(() -> list.listIterator().add(null), "List.listIterator().add(null)");
-      expectUnsupportedOperationException(() -> list.listIterator().remove(), "List.listIterator().remove()");
-      expectUnsupportedOperationException(() -> list.listIterator().set(null), "List.listIterator().set(null)");
-      expectUnsupportedOperationException(() -> list.remove(0), "List.remove(0)");
-      expectUnsupportedOperationException(() -> list.replaceAll(identity()), "List.replaceAll(identity())");
-      expectUnsupportedOperationException(() -> list.set(0, null), "List.set(0, null)");
-      expectUnsupportedOperationException(() -> list.sort((o1, o2) -> 0), "List.sort((o1, o2) -> 0)");
+      immutables.expectUnsupportedOperationException(info, () -> list.add(0, null), "List.add(0, null)");
+      immutables.expectUnsupportedOperationException(info, () -> list.addAll(0, emptyCollection()), "List.addAll(0, emptyCollection())");
+      immutables.expectUnsupportedOperationException(info, () -> list.listIterator().add(null), "List.listIterator().add(null)");
+      immutables.expectUnsupportedOperationException(info, () -> list.listIterator().remove(), "List.listIterator().remove()");
+      immutables.expectUnsupportedOperationException(info, () -> list.listIterator().set(null), "List.listIterator().set(null)");
+      immutables.expectUnsupportedOperationException(info, () -> list.remove(0), "List.remove(0)");
+      immutables.expectUnsupportedOperationException(info, () -> list.replaceAll(identity()), "List.replaceAll(identity())");
+      immutables.expectUnsupportedOperationException(info, () -> list.set(0, null), "List.set(0, null)");
+      immutables.expectUnsupportedOperationException(info, () -> list.sort((o1, o2) -> 0), "List.sort((o1, o2) -> 0)");
     }
 
     if (actual instanceof NavigableSet) {
       NavigableSet<ELEMENT> set = (NavigableSet<ELEMENT>) actual;
-      expectUnsupportedOperationException(() -> set.descendingIterator().remove(), "NavigableSet.descendingIterator().remove()");
-      expectUnsupportedOperationException(() -> set.pollFirst(), "NavigableSet.pollFirst()");
-      expectUnsupportedOperationException(() -> set.pollLast(), "NavigableSet.pollLast()");
-    }
-  }
-
-  private void expectUnsupportedOperationException(Runnable runnable, String method) {
-    try {
-      runnable.run();
-      throwAssertionError(shouldBeUnmodifiable(method));
-    } catch (UnsupportedOperationException e) {
-      // happy path
-    } catch (RuntimeException e) {
-      throwAssertionError(shouldBeUnmodifiable(method, e));
+      immutables.expectUnsupportedOperationException(info, () -> set.descendingIterator().remove(), "NavigableSet.descendingIterator().remove()");
+      immutables.expectUnsupportedOperationException(info, () -> set.pollFirst(), "NavigableSet.pollFirst()");
+      immutables.expectUnsupportedOperationException(info, () -> set.pollLast(), "NavigableSet.pollLast()");
     }
   }
 
