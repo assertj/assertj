@@ -325,7 +325,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *    static class StaticNestedClass { }
    * }
    * // these assertions fail:
-   * assertThat(OuterClass.StaticNestedClass.class).isStatic();</code></pre>
+   * assertThat(OuterClass.StaticNestedClass.class).isNotStatic();</code></pre>
    *
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
