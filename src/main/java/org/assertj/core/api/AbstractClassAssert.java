@@ -293,8 +293,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * Verifies that the actual {@code Class} is static (has {@code static} modifier).
    * <p>
    * Example:
-   * <pre><code class='java'>
-   * class OuterClass {
+   * <pre><code class='java'> class OuterClass {
    *    static class StaticNestedClass { }
    * }
    * // these assertions succeed:
