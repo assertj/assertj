@@ -83,6 +83,26 @@ public class ClassModifierShouldBe extends BasicErrorMessageFactory {
     return new ClassModifierShouldBe(actual, true, PACKAGE_PRIVATE);
   }
 
+  /**
+   * Creates a new instance for a positive check of the {@code static} modifier.
+   *
+   * @param actual the actual value in the failed assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldBeStatic(Class<?> actual) {
+    return new ClassModifierShouldBe(actual, true, Modifier.toString(Modifier.STATIC));
+  }
+
+  /**
+   * Creates a new instance for a negative check of the {@code static} modifier.
+   *
+   * @param actual the actual value in the failed assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldNotBeStatic(Class<?> actual) {
+    return new ClassModifierShouldBe(actual, false, Modifier.toString(Modifier.STATIC));
+  }
+
   private static String modifiers(Class<?> actual) {
     int modifiers = actual.getModifiers();
     boolean isPackagePrivate = !isPublic(modifiers) && !isProtected(modifiers) && !isPrivate(modifiers);
