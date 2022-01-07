@@ -229,7 +229,7 @@ public class Double2DArrayAssert extends Abstract2DArrayAssert<Double2DArrayAsse
    * @throws AssertionError if the actual number of rows are not equal to the given one.
    */
   @Override
-  public Double2DArrayAssert hasRowSize(int expectedFirstDimension) {
+  public Double2DArrayAssert hasNumberOfRows(int expectedFirstDimension) {
     double2dArrays.assertHasDimensions(info, actual, expectedFirstDimension, 0);
     return myself;
   }

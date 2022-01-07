@@ -224,7 +224,7 @@ public class Float2DArrayAssert extends Abstract2DArrayAssert<Float2DArrayAssert
    * @throws AssertionError if the actual number of rows are not equal to the given one.
    */
   @Override
-  public Float2DArrayAssert hasRowSize(int expectedFirstDimension) {
+  public Float2DArrayAssert hasNumberOfRows(int expectedFirstDimension) {
     float2dArrays.assertHasDimensions(info, actual, expectedFirstDimension, 0);
     return myself;
   }

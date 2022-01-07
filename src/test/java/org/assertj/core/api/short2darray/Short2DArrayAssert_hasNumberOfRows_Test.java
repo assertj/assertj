@@ -10,27 +10,27 @@
  *
  * Copyright 2012-2021 the original author or authors.
  */
-package org.assertj.core.api.int2darray;
+package org.assertj.core.api.short2darray;
 
-import org.assertj.core.api.Int2DArrayAssert;
-import org.assertj.core.api.Int2DArrayAssertBaseTest;
+import org.assertj.core.api.Short2DArrayAssert;
+import org.assertj.core.api.Short2DArrayAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for <code>{@link Int2DArrayAssert#hasRowSize(int)}</code>.
+ * Tests for <code>{@link Short2DArrayAssert#hasNumberOfRows(int)}</code>.
  * 
  * @author Sekar Mylsamy
  */
-class Int2DArrayAssert_hasRowSize_Test extends Int2DArrayAssertBaseTest {
+class Short2DArrayAssert_hasNumberOfRows_Test extends Short2DArrayAssertBaseTest {
 
   @Override
-  protected Int2DArrayAssert invoke_api_method() {
-    return assertions.hasRowSize(3);
+  protected Short2DArrayAssert invoke_api_method() {
+    return assertions.hasNumberOfRows(1);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertHasDimensions(getInfo(assertions), getActual(assertions), 3, 0);
+    verify(arrays).assertHasDimensions(getInfo(assertions), getActual(assertions), 1, 0);
   }
 }

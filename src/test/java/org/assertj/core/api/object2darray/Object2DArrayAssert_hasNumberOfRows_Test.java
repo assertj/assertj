@@ -19,16 +19,16 @@ import org.junit.jupiter.api.DisplayName;
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for <code>{@link Object2DArrayAssert#hasRowSize(int)}</code>.
+ * Tests for <code>{@link Object2DArrayAssert#hasNumberOfRows(int)}</code>.
  * 
  * @author Sekar Mylsamy
  */
 @DisplayName("Object2DArrayAssert hasRowSize")
-class Object2DArrayAssert_hasRowSize_Test extends Object2DArrayAssertBaseTest {
+class Object2DArrayAssert_hasNumberOfRows_Test extends Object2DArrayAssertBaseTest {
 
   @Override
   protected Object2DArrayAssert<Object> invoke_api_method() {
-    return assertions.hasRowSize(1);
+    return assertions.hasNumberOfRows(1);
   }
 
   @Override

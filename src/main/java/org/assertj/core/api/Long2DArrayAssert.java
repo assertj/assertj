@@ -228,7 +228,7 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
    * @throws AssertionError if the actual number of rows are not equal to the given one.
    */
   @Override
-  public Long2DArrayAssert hasRowSize(int expectedFirstDimension) {
+  public Long2DArrayAssert hasNumberOfRows(int expectedFirstDimension) {
     long2dArrays.assertHasDimensions(info, actual, expectedFirstDimension, 0);
     return myself;
   }

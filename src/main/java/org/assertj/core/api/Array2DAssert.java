@@ -120,7 +120,7 @@ public interface Array2DAssert<SELF extends Array2DAssert<SELF, ELEMENT>, ELEMEN
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual number of rows are not equal to the given one.
    */
-  SELF hasRowSize(int expectedRowSize);
+  SELF hasNumberOfRows(int expectedRowSize);
 
   /**
    * Verifies that the actual array has the same dimensions as the given array.

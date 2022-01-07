@@ -227,7 +227,7 @@ public class Short2DArrayAssert extends Abstract2DArrayAssert<Short2DArrayAssert
    * @throws AssertionError if the actual number of rows are not equal to the given one.
    */
   @Override
-  public Short2DArrayAssert hasRowSize(int expectedFirstDimension) {
+  public Short2DArrayAssert hasNumberOfRows(int expectedFirstDimension) {
     short2dArrays.assertHasDimensions(info, actual, expectedFirstDimension, 0);
     return myself;
   }

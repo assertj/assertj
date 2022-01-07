@@ -228,7 +228,7 @@ public class Boolean2DArrayAssert extends Abstract2DArrayAssert<Boolean2DArrayAs
    * @throws AssertionError if the actual number of rows are not equal to the given one.
    */
   @Override
-  public Boolean2DArrayAssert hasRowSize(int expectedFirstDimension) {
+  public Boolean2DArrayAssert hasNumberOfRows(int expectedFirstDimension) {
     boolean2dArrays.assertHasDimensions(info, actual, expectedFirstDimension, 0);
     return myself;
   }

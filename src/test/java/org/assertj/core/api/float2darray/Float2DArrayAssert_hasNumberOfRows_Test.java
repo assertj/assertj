@@ -10,23 +10,23 @@
  *
  * Copyright 2012-2021 the original author or authors.
  */
-package org.assertj.core.api.long2darray;
+package org.assertj.core.api.float2darray;
 
-import org.assertj.core.api.Long2DArrayAssert;
-import org.assertj.core.api.Long2DArrayAssertBaseTest;
+import org.assertj.core.api.Float2DArrayAssert;
+import org.assertj.core.api.Float2DArrayAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for <code>{@link Long2DArrayAssert#hasRowSize(int)}</code>.
+ * Tests for <code>{@link Float2DArrayAssert#hasNumberOfRows(int)}</code>.
  * 
  * @author Sekar Mylsamy
  */
-class Long2DArrayAssert_hasRowSize_Test extends Long2DArrayAssertBaseTest {
+class Float2DArrayAssert_hasNumberOfRows_Test extends Float2DArrayAssertBaseTest {
 
   @Override
-  protected Long2DArrayAssert invoke_api_method() {
-    return assertions.hasRowSize(1);
+  protected Float2DArrayAssert invoke_api_method() {
+    return assertions.hasNumberOfRows(1);
   }
 
   @Override

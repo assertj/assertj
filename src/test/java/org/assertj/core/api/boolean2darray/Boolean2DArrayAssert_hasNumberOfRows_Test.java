@@ -10,23 +10,25 @@
  *
  * Copyright 2012-2021 the original author or authors.
  */
-package org.assertj.core.api.char2darray;
+package org.assertj.core.api.boolean2darray;
 
-import org.assertj.core.api.Char2DArrayAssert;
-import org.assertj.core.api.Char2DArrayAssertBaseTest;
+import org.assertj.core.api.Boolean2DArrayAssert;
+import org.assertj.core.api.Boolean2DArrayAssertBaseTest;
+import org.junit.jupiter.api.DisplayName;
 
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for <code>{@link Char2DArrayAssert#hasRowSize(int)}</code>.
+ * Tests for <code>{@link Boolean2DArrayAssert#hasNumberOfRows(int)}</code>.
  * 
  * @author Sekar Mylsamy
  */
-class Char2DArrayAssert_hasRowSize_Test extends Char2DArrayAssertBaseTest {
+@DisplayName("Boolean2DArrayAssert hasRowSize")
+class Boolean2DArrayAssert_hasNumberOfRows_Test extends Boolean2DArrayAssertBaseTest {
 
   @Override
-  protected Char2DArrayAssert invoke_api_method() {
-    return assertions.hasRowSize(1);
+  protected Boolean2DArrayAssert invoke_api_method() {
+    return assertions.hasNumberOfRows(1);
   }
 
   @Override

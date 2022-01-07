@@ -231,7 +231,7 @@ public class Object2DArrayAssert<ELEMENT> extends
    * @throws AssertionError if the actual number of rows are not equal to the given one.
    */
   @Override
-  public Object2DArrayAssert<ELEMENT> hasRowSize(int expectedFirstDimension) {
+  public Object2DArrayAssert<ELEMENT> hasNumberOfRows(int expectedFirstDimension) {
     object2dArrays.assertHasDimensions(info, actual, expectedFirstDimension, 0);
     return myself;
   }
