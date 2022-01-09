@@ -116,11 +116,11 @@ public interface Array2DAssert<SELF extends Array2DAssert<SELF, ELEMENT>, ELEMEN
    * assertThat(new int[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(3);
    * assertThat(new int[][] {{1, 2, 3}, {4, 5, 6, 7}}).hasRowSize(1); </code></pre>
    *
-   * @param expectedRowSize the expected number of rows in first dimension of the actual array.
+   * @param expectedNumberOfRows the expected number of rows in first dimension of the actual array.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual number of rows are not equal to the given one.
    */
-  SELF hasNumberOfRows(int expectedRowSize);
+  SELF hasNumberOfRows(int expectedNumberOfRows);
 
   /**
    * Verifies that the actual array has the same dimensions as the given array.

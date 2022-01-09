@@ -224,13 +224,13 @@ public class Double2DArrayAssert extends Abstract2DArrayAssert<Double2DArrayAsse
    * assertThat(new double[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(3);
    * assertThat(new double[][] {{1, 2, 3}, {4, 5, 6, 7}}).hasRowSize(1); </code></pre>
    *
-   * @param expectedFirstDimension the expected number of values in first dimension of the actual {@code double[][]}.
+   * @param expectedNumberOfRows the expected number of values in first dimension of the actual {@code double[][]}.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual number of rows are not equal to the given one.
    */
   @Override
-  public Double2DArrayAssert hasNumberOfRows(int expectedFirstDimension) {
-    double2dArrays.assertHasDimensions(info, actual, expectedFirstDimension, 0);
+  public Double2DArrayAssert hasNumberOfRows(int expectedNumberOfRows) {
+    double2dArrays.assertNumberOfRows(info, actual, expectedNumberOfRows);
     return myself;
   }
 

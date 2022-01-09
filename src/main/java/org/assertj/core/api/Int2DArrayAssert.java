@@ -138,13 +138,13 @@ public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, in
    * assertThat(new int[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(3);
    * assertThat(new int[][] {{1, 2, 3}, {4, 5, 6, 7}}).hasRowSize(1); </code></pre>
    *
-   * @param expectedFirstDimension the expected number of values in first dimension of the actual {@code int[][]}.
+   * @param expectedNumberOfRows the expected number of values in first dimension of the actual {@code int[][]}.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual number of rows are not equal to the given one.
    */
   @Override
-  public Int2DArrayAssert hasNumberOfRows(int expectedFirstDimension) {
-    int2dArrays.assertHasDimensions(info, actual, expectedFirstDimension, 0);
+  public Int2DArrayAssert hasNumberOfRows(int expectedNumberOfRows) {
+    int2dArrays.assertNumberOfRows(info, actual, expectedNumberOfRows);
     return myself;
   }
 

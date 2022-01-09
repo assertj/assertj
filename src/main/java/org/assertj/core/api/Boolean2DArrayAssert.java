@@ -223,13 +223,13 @@ public class Boolean2DArrayAssert extends Abstract2DArrayAssert<Boolean2DArrayAs
    * assertThat(new boolean[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(3);
    * assertThat(new boolean[][] {{1, 2, 3}, {4, 5, 6, 7}}).hasRowSize(1); </code></pre>
    *
-   * @param expectedFirstDimension the expected number of values in first dimension of the actual array.
+   * @param expectedNumberOfRows the expected number of values in first dimension of the actual array.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual number of rows are not equal to the given one.
    */
   @Override
-  public Boolean2DArrayAssert hasNumberOfRows(int expectedFirstDimension) {
-    boolean2dArrays.assertHasDimensions(info, actual, expectedFirstDimension, 0);
+  public Boolean2DArrayAssert hasNumberOfRows(int expectedNumberOfRows) {
+    boolean2dArrays.assertNumberOfRows(info, actual, expectedNumberOfRows);
     return myself;
   }
 

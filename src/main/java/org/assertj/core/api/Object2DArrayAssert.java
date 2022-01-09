@@ -226,13 +226,13 @@ public class Object2DArrayAssert<ELEMENT> extends
    * assertThat(new String[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(3);
    * assertThat(new String[][] {{1, 2, 3}, {4, 5, 6, 7}}).hasRowSize(1); </code></pre>
    *
-   * @param expectedFirstDimension the expected number of values in first dimension of the actual {@code ELEMENT[][]}.
+   * @param expectedNumberOfRows the expected number of values in first dimension of the actual {@code ELEMENT[][]}.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual number of rows are not equal to the given one.
    */
   @Override
-  public Object2DArrayAssert<ELEMENT> hasNumberOfRows(int expectedFirstDimension) {
-    object2dArrays.assertHasDimensions(info, actual, expectedFirstDimension, 0);
+  public Object2DArrayAssert<ELEMENT> hasNumberOfRows(int expectedNumberOfRows) {
+    object2dArrays.assertNumberOfRows(info, actual, expectedNumberOfRows);
     return myself;
   }
 

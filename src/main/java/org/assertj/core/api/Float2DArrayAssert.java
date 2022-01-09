@@ -219,13 +219,13 @@ public class Float2DArrayAssert extends Abstract2DArrayAssert<Float2DArrayAssert
    * assertThat(new float[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(3);
    * assertThat(new float[][] {{1, 2, 3}, {4, 5, 6, 7}}).hasRowSize(2); </code></pre>
    *
-   * @param expectedFirstDimension the expected number of values in first dimension of the actual {@code float[][]}.
+   * @param expectedNumberOfRows the expected number of values in first dimension of the actual {@code float[][]}.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual number of rows are not equal to the given one.
    */
   @Override
-  public Float2DArrayAssert hasNumberOfRows(int expectedFirstDimension) {
-    float2dArrays.assertHasDimensions(info, actual, expectedFirstDimension, 0);
+  public Float2DArrayAssert hasNumberOfRows(int expectedNumberOfRows) {
+    float2dArrays.assertNumberOfRows(info, actual, expectedNumberOfRows);
     return myself;
   }
 

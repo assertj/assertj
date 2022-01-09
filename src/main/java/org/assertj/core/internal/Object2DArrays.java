@@ -111,6 +111,17 @@ public class Object2DArrays<ELEMENT> {
   }
 
   /**
+   * Asserts that the number of rows in the given array is equal to the expected one.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param expectedNumberOfRows the expected first dimension size of {@code actual}.
+   */
+  public void assertNumberOfRows(AssertionInfo info, ELEMENT[][] actual, int expectedNumberOfRows) {
+    arrays.assertNumberOfRows(info, failures, actual, expectedNumberOfRows);
+  }
+
+  /**
    * Verifies that the given array contains the given object at the given index.
    *
    * @param info contains information about the assertion.

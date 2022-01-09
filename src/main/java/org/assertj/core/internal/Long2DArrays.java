@@ -109,6 +109,17 @@ public class Long2DArrays {
   }
 
   /**
+   * Asserts that the number of rows in the given array is equal to the expected one.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param expectedNumberOfRows the expected first dimension size of {@code actual}.
+   */
+  public void assertNumberOfRows(AssertionInfo info, long[][] actual, int expectedNumberOfRows) {
+    arrays.assertNumberOfRows(info, failures, actual, expectedNumberOfRows);
+  }
+
+  /**
    * Verifies that the given array contains the given value at the given index.
    * 
    * @param info contains information about the assertion.
