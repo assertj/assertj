@@ -26,6 +26,16 @@ import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.BinaryNode;
+import com.fasterxml.jackson.databind.node.BooleanNode;
+import com.fasterxml.jackson.databind.node.IntNode;
+import com.fasterxml.jackson.databind.node.MissingNode;
+import com.fasterxml.jackson.databind.node.NullNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.POJONode;
+import com.fasterxml.jackson.databind.node.TextNode;
+
 class DualValue_iterableValues_Test {
 
   private static final List<String> PATH = list("foo", "bar");
@@ -105,7 +115,8 @@ class DualValue_iterableValues_Test {
   }
 
   static Stream<Iterable<?>> iterables() {
-    return Stream.of(list("a", "b"), newTreeSet("a", "b"), newLinkedHashSet("a", "b"), newHashSet("a", "b"));
+    return Stream.of(list("a", "b"), newTreeSet("a", "b"), newLinkedHashSet("a", "b"), newHashSet("a", "b"), new ObjectNode(null),
+                     new ArrayNode(null));
   }
 
   @ParameterizedTest
@@ -131,8 +142,9 @@ class DualValue_iterableValues_Test {
   }
 
   static Stream<Object> nonIterables() {
-    // even though Path is an iterable, it must not be considered as such
-    return Stream.of(123, "abc", array("a", "b"), Paths.get("/tmp"));
+    // even though Path and ValueNode are iterables, they must not be considered as such
+    return Stream.of(123, "abc", array("a", "b"), Paths.get("/tmp"), new TextNode("foo"), new IntNode(42), BooleanNode.TRUE,
+                     new POJONode(new Object()), MissingNode.getInstance(), NullNode.getInstance(), new BinaryNode(new byte[0]));
   }
 
 }

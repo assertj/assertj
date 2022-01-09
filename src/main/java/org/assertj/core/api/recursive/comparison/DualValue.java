@@ -170,8 +170,8 @@ public final class DualValue {
   }
 
   public boolean isActualFieldAnIterable() {
-    // ignore Path to be consistent with isExpectedFieldAnIterable
-    return actual instanceof Iterable && !(actual instanceof Path);
+    // ignore Path and ValueNode to be consistent with isExpectedFieldAnIterable
+    return actual instanceof Iterable && !(actual instanceof Path || isActualFieldAJsonValueNode());
   }
 
   public boolean isExpectedFieldAnIterable() {
@@ -179,7 +179,26 @@ public final class DualValue {
     // Iterable are compared element by element recursively
     // Ex: /tmp/foo.txt path has /tmp as its first element
     // so /tmp is going to be compared recursively but /tmp first element is itself leading to an infinite recursion
-    return expected instanceof Iterable && !(expected instanceof Path);
+    // Don't consider ValueNode as an Iterable as they only contain one value and iterating them does not make sense.
+    return expected instanceof Iterable && !(expected instanceof Path || isExpectedFieldAJsonValueNode());
+  }
+
+  private boolean isActualFieldAJsonValueNode() {
+    return isAJsonValueNode(actual);
+  }
+
+  private boolean isExpectedFieldAJsonValueNode() {
+    return isAJsonValueNode(expected);
+  }
+
+  private static boolean isAJsonValueNode(Object value) {
+    try {
+      Class<?> valueNodeClass = Class.forName("com.fasterxml.jackson.databind.node.ValueNode");
+      return valueNodeClass.isInstance(value);
+    } catch (ClassNotFoundException e) {
+      // value cannot be a ValueNode because the class couldn't be located
+      return false;
+    }
   }
 
   private static boolean isAnOrderedCollection(Object value) {
