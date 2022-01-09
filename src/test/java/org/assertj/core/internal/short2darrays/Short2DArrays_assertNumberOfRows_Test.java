@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.verify;
 
-class Short2DArrays_hasNumberOfRows_Test extends Short2DArraysBaseTest {
+class Short2DArrays_assertNumberOfRows_Test extends Short2DArraysBaseTest {
 
   @Test
   void should_delegate_to_Arrays2D() {
