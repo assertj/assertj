@@ -28,11 +28,11 @@ class Byte2DArrayAssert_hasNumberOfRows_Test extends Byte2DArrayAssertBaseTest {
 
   @Override
   protected Byte2DArrayAssert invoke_api_method() {
-    return assertions.hasNumberOfRows(3);
+    return assertions.hasNumberOfRows(1);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertHasDimensions(getInfo(assertions), getActual(assertions), 3, 0);
+    verify(arrays).assertNumberOfRows(getInfo(assertions), getActual(assertions), 1);
   }
 }

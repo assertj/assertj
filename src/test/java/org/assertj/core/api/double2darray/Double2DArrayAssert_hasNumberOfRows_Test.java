@@ -26,11 +26,11 @@ class Double2DArrayAssert_hasNumberOfRows_Test extends Double2DArrayAssertBaseTe
 
   @Override
   protected Double2DArrayAssert invoke_api_method() {
-    return assertions.hasNumberOfRows(2);
+    return assertions.hasNumberOfRows(1);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertHasDimensions(getInfo(assertions), getActual(assertions), 2, 0);
+    verify(arrays).assertNumberOfRows(getInfo(assertions), getActual(assertions), 1);
   }
 }

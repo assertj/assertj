@@ -31,6 +31,6 @@ class Long2DArrayAssert_hasNumberOfRows_Test extends Long2DArrayAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertHasDimensions(getInfo(assertions), getActual(assertions), 1, 0);
+    verify(arrays).assertNumberOfRows(getInfo(assertions), getActual(assertions), 1);
   }
 }
