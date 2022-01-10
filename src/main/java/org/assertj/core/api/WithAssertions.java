@@ -2976,6 +2976,46 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link Exception}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<Exception> assertThatException() {
+    return assertThatExceptionOfType(Exception.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IndexOutOfBoundsException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<IndexOutOfBoundsException> assertThatIndexOutOfBoundsException() {
+    return assertThatExceptionOfType(IndexOutOfBoundsException.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link ReflectiveOperationException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<ReflectiveOperationException> assertThatReflectiveOperationException() {
+    return assertThatExceptionOfType(ReflectiveOperationException.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link RuntimeException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<RuntimeException> assertThatRuntimeException() {
+    return assertThatExceptionOfType(RuntimeException.class);
+  }
+
+  /**
    * Create assertion for {@link Predicate}.
    *
    * @param actual the actual value.

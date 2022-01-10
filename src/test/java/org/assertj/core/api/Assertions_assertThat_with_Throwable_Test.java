@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.test.ThrowingCallableFactory.codeThrowing;
 import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
@@ -127,12 +128,6 @@ class Assertions_assertThat_with_Throwable_Test {
 
   private static ThrowingCallable raisingException(final String reason) {
     return codeThrowing(new Exception(reason));
-  }
-
-  protected static ThrowingCallable codeThrowing(Throwable t) {
-    return () -> {
-      throw t;
-    };
   }
 
 }

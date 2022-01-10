@@ -2033,6 +2033,46 @@ public class BDDAssertions extends Assertions {
     return assertThatIllegalStateException();
   }
 
+  /**
+   * Alias for {@link #thenExceptionOfType(Class)} for {@link Exception}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<Exception> thenException() {
+    return assertThatException();
+  }
+
+  /**
+   * Alias for {@link #thenExceptionOfType(Class)} for {@link IndexOutOfBoundsException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<IndexOutOfBoundsException> thenIndexOutOfBoundsException() {
+    return assertThatIndexOutOfBoundsException();
+  }
+
+  /**
+   * Alias for {@link #thenExceptionOfType(Class)} for {@link ReflectiveOperationException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<ReflectiveOperationException> thenReflectiveOperationException() {
+    return assertThatReflectiveOperationException();
+  }
+
+  /**
+   * Alias for {@link #thenExceptionOfType(Class)} for {@link RuntimeException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<RuntimeException> thenRuntimeException() {
+    return assertThatRuntimeException();
+  }
+
   // -------------------------------------------------------------------------------------------------
   // fail methods : not assertions but here to have a single entry point to all AssertJ features.
   // -------------------------------------------------------------------------------------------------

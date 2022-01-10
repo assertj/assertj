@@ -1674,6 +1674,50 @@ public class Assertions implements InstanceOfAssertFactories {
     return assertThatExceptionOfType(IllegalStateException.class);
   }
 
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link Exception}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<Exception> assertThatException(){
+    return assertThatExceptionOfType(Exception.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link RuntimeException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<RuntimeException> assertThatRuntimeException(){
+    return assertThatExceptionOfType(RuntimeException.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link ReflectiveOperationException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<ReflectiveOperationException> assertThatReflectiveOperationException(){
+    return assertThatExceptionOfType(ReflectiveOperationException.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IndexOutOfBoundsException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<IndexOutOfBoundsException> assertThatIndexOutOfBoundsException(){
+    return assertThatExceptionOfType(IndexOutOfBoundsException.class);
+  }
+
   // -------------------------------------------------------------------------------------------------
   // fail methods : not assertions but here to have a single entry point to all AssertJ features.
   // -------------------------------------------------------------------------------------------------
@@ -3457,7 +3501,7 @@ public class Assertions implements InstanceOfAssertFactories {
   /**
    * Reset the representaion being used to the one from the {@link Configuration} to revert the effect of calling {@link #useRepresentation(Representation)}.
    * <p>
-   * Unless a specific {@link Configuration} is in use, this method resets the representation to the {@link StandardRepresentation}. 
+   * Unless a specific {@link Configuration} is in use, this method resets the representation to the {@link StandardRepresentation}.
    *
    * @since 2.5.0 / 3.5.0
    */
