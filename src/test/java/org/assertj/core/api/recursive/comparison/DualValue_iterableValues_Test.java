@@ -26,15 +26,9 @@ import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.BinaryNode;
-import com.fasterxml.jackson.databind.node.BooleanNode;
-import com.fasterxml.jackson.databind.node.IntNode;
-import com.fasterxml.jackson.databind.node.MissingNode;
-import com.fasterxml.jackson.databind.node.NullNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.node.POJONode;
-import com.fasterxml.jackson.databind.node.TextNode;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 class DualValue_iterableValues_Test {
 
@@ -115,8 +109,7 @@ class DualValue_iterableValues_Test {
   }
 
   static Stream<Iterable<?>> iterables() {
-    return Stream.of(list("a", "b"), newTreeSet("a", "b"), newLinkedHashSet("a", "b"), newHashSet("a", "b"), new ObjectNode(null),
-                     new ArrayNode(null));
+    return Stream.of(list("a", "b"), newTreeSet("a", "b"), newLinkedHashSet("a", "b"), newHashSet("a", "b"));
   }
 
   @ParameterizedTest
@@ -142,9 +135,48 @@ class DualValue_iterableValues_Test {
   }
 
   static Stream<Object> nonIterables() {
-    // even though Path and ValueNode are iterables, they must not be considered as such
-    return Stream.of(123, "abc", array("a", "b"), Paths.get("/tmp"), new TextNode("foo"), new IntNode(42), BooleanNode.TRUE,
-                     new POJONode(new Object()), MissingNode.getInstance(), NullNode.getInstance(), new BinaryNode(new byte[0]));
+    return Stream.of(123, "abc", array("a", "b"), Paths.get("/tmp"));
+  }
+
+  @ParameterizedTest
+  @MethodSource("iterableJsonNodes")
+  void isExpectedFieldAnIterable_should_return_true_when_expected_is_an_iterable_json_node(JsonNode expected) {
+    // GIVEN
+    DualValue dualValue = new DualValue(PATH, "", expected.findValue("value"));
+    // WHEN
+    boolean isExpectedFieldAnIterable = dualValue.isExpectedFieldAnIterable();
+    // THEN
+    assertThat(isExpectedFieldAnIterable).isTrue();
+  }
+
+  static Stream<JsonNode> iterableJsonNodes() {
+    return Stream.of("{\"value\": {}}", "{\"value\": []}")
+                 .map(json -> toJsonNode(json));
+  }
+
+  @ParameterizedTest
+  @MethodSource("nonIterableJsonNodes")
+  void isExpectedFieldAnIterable_should_return_false_when_expected_is_a_non_iterable_json_node(JsonNode expected) {
+    // GIVEN
+    DualValue dualValue = new DualValue(PATH, "", expected.findValue("value"));
+    // WHEN
+    boolean isExpectedFieldAnIterable = dualValue.isExpectedFieldAnIterable();
+    // THEN
+    assertThat(isExpectedFieldAnIterable).isFalse();
+  }
+
+  static Stream<JsonNode> nonIterableJsonNodes() {
+    return Stream.of("{\"value\": \"foo\"}", "{\"value\": 42}", "{\"value\": true}")
+                 .map(json -> toJsonNode(json));
+  }
+
+  private static JsonNode toJsonNode(String value) {
+    ObjectMapper objectMapper = new ObjectMapper();
+    try {
+      return objectMapper.readTree(value);
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
+    }
   }
 
 }
