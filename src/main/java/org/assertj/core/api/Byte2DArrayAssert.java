@@ -224,7 +224,7 @@ public class Byte2DArrayAssert extends Abstract2DArrayAssert<Byte2DArrayAssert, 
    * assertThat(new byte[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(3);
    * assertThat(new byte[][] {{1, 2, 3}, {4, 5, 6, 7}}).hasRowSize(1); </code></pre>
    *
-   * @param expectedNumberOfRows the expected number of values in first dimension of the actual {@code byte[][].
+   * @param expectedNumberOfRows the expected number of values in first dimension of the actual {@code byte[][]}.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual number of rows are not equal to the given one.
    */
