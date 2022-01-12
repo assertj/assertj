@@ -504,9 +504,8 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
         </configuration>
         <executions>
           <execution>
-            <phase>validate</phase>
-            <goals>
-              <goal>format</goal>
+             <goals>
+              <goal>check</goal>
             </goals>
           </execution>
         </executions>
