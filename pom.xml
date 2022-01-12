@@ -489,7 +489,7 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
           <properties>
             <!-- Values to be substituted in template -->
             <inceptionYear>2012</inceptionYear>
-            <currentYear>2021</currentYear>
+            <currentYear>2022</currentYear>
           </properties>
           <strictCheck>true</strictCheck>
           <includes>
