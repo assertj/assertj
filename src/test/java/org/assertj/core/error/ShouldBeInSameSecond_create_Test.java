@@ -8,18 +8,18 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.error;
-
-import org.assertj.core.description.TextDescription;
-import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.jupiter.api.Test;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeInSameSecond.shouldBeInSameSecond;
 import static org.assertj.core.util.DateUtil.parseDatetime;
+
+import org.assertj.core.description.TextDescription;
+import org.assertj.core.presentation.StandardRepresentation;
+import org.junit.jupiter.api.Test;
 
 class ShouldBeInSameSecond_create_Test {
 

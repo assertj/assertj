@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent-pom</artifactId>
-    <version>2.2.14</version>
+    <version>2.2.15</version>
     <relativePath />
   </parent>
 
@@ -350,7 +350,6 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <argLine>@{argLine}</argLine>
           <trimStackTrace>false</trimStackTrace>
           <excludes>
             <exclude>org/assertj/core/osgi/**</exclude>
