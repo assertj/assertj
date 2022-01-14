@@ -109,8 +109,7 @@ public final class Fail {
   }
 
   /**
-   * This constructor is protected to make it possible to subclass this class. Since all its methods are static, there is no point
-   * on creating a new instance of it.
+   * Since all its methods are static and the class is final, there is no point on creating a new instance of it.
    */
-  protected Fail() {}
+  private Fail() {}
 }
