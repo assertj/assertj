@@ -12,8 +12,9 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.entry;
+import static org.assertj.core.api.BDDAssertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.recursive.comparison.Color.BLUE;
 import static org.assertj.core.api.recursive.comparison.Color.GREEN;
@@ -22,10 +23,12 @@ import static org.assertj.core.api.recursive.comparison.RecursiveComparisonAsser
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
+import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.util.Lists.list;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.verify;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
@@ -45,6 +48,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @DisplayName("RecursiveComparisonAssert isEqualTo")
 class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
@@ -420,6 +426,38 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
                 .withComparatorForFields(new DoubleComparator(0.01), "values.value")
                 .ignoringCollectionOrderInFields("values")
                 .isEqualTo(expected);
+  }
+
+  @Test
+  void should_not_handle_value_node_as_iterable() throws IOException {
+    // GIVEN
+    ObjectMapper om = new ObjectMapper();
+    JsonNode actual = om.readTree("{\"someNotImportantValue\":1,\"importantValue\":\"10\"}");
+    JsonNode expected = om.readTree("{\"someNotImportantValue\":10,\"importantValue\":\"1\"}");
+    // WHEN
+    compareRecursivelyFailsAsExpected(actual, expected);
+    // THEN
+    ComparisonDifference difference1 = diff("_children.importantValue._value", "10", "1");
+    ComparisonDifference difference2 = diff("_children.someNotImportantValue._value", 1, 10);
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference1, difference2);
+  }
+
+  // issue #2459
+  @Test
+  void should_not_handle_object_node_as_iterable() throws IOException {
+    // GIVEN
+    ObjectMapper om = new ObjectMapper();
+    JsonNode actual = om.readTree("{\"someNotImportantValue\":1,\"importantValue\":\"10\"}");
+    JsonNode expected = om.readTree("{\"foo\":1,\"bar\":\"10\"}");
+    // WHEN
+    compareRecursivelyFailsAsExpected(actual, expected);
+    // THEN
+    ComparisonDifference difference = diff("_children",
+                                           mapOf(entry("importantValue", "10"), entry("someNotImportantValue", 1)),
+                                           mapOf(entry("bar", "10"), entry("foo", 1)),
+                                           format("The following actual map entries were not found in the expected map:%n"
+                                                  + "  {importantValue=\"10\", someNotImportantValue=1}"));
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference);
   }
 
   public static class Wrappers {
