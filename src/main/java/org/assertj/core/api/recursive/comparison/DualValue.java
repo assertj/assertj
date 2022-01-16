@@ -171,7 +171,7 @@ public final class DualValue {
 
   public boolean isActualFieldAnIterable() {
     // ignore Path and ValueNode to be consistent with isExpectedFieldAnIterable
-    return actual instanceof Iterable && !(actual instanceof Path || isActualFieldAJsonValueNode());
+    return actual instanceof Iterable && !(actual instanceof Path || isAJsonValueNode(actual)());
   }
 
   public boolean isExpectedFieldAnIterable() {
