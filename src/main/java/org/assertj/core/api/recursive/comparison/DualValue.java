@@ -180,7 +180,7 @@ public final class DualValue {
     // Ex: /tmp/foo.txt path has /tmp as its first element
     // so /tmp is going to be compared recursively but /tmp first element is itself leading to an infinite recursion
     // Don't consider ValueNode as an Iterable as they only contain one value and iterating them does not make sense.
-    return expected instanceof Iterable && !(expected instanceof Path || isExpectedFieldAJsonValueNode());
+    return expected instanceof Iterable && !(expected instanceof Path || isAJsonValueNode(expected));
   }
 
   private boolean isActualFieldAJsonValueNode() {
