@@ -82,10 +82,6 @@
             <Export-Package>org.assertj.guava.api.*,org.assertj.guava.data.*,org.assertj.guava.error.*</Export-Package>
             <Bundle-RequiredExecutionEnvironment>JavaSE-1.8</Bundle-RequiredExecutionEnvironment>
             <Bundle-Description>${project.name}</Bundle-Description>
-            <Import-Package>
-              com.google.common*;version="${guava.version}",
-              org.assertj.core*;version="[${assertj-core.version},$(version;+;${assertj-core.version}))"
-            </Import-Package>
             <_removeheaders>Bnd-LastModified,Built-By</_removeheaders>
           </instructions>
         </configuration>
