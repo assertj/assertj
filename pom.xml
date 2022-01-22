@@ -61,6 +61,38 @@
   </dependencies>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.github.siom79.japicmp</groupId>
+          <artifactId>japicmp-maven-plugin</artifactId>
+          <version>0.15.4</version>
+          <configuration>
+            <dependencies>
+              <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${junit-jupiter.version}</version>
+              </dependency>
+            </dependencies>
+            <parameter>
+              <excludes>
+                <exclude>org.assertj.guava.internal</exclude>
+              </excludes>
+              <onlyBinaryIncompatible>true</onlyBinaryIncompatible>
+              <onlyModified>true</onlyModified>
+              <reportOnlyFilename>true</reportOnlyFilename>
+            </parameter>
+            <skipXmlReport>true</skipXmlReport>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -157,5 +189,28 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>japicmp-branch</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>com.github.siom79.japicmp</groupId>
+              <artifactId>japicmp-maven-plugin</artifactId>
+              <configuration>
+                <oldVersion>
+                  <file>
+                    <path>${japicmp.oldVersion.basedir}/target/${project.build.finalName}.${project.packaging}</path>
+                  </file>
+                </oldVersion>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+  </profiles>
 
 </project>
