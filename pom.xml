@@ -10,7 +10,6 @@
 
   <artifactId>assertj-guava</artifactId>
   <version>3.4.1-SNAPSHOT</version>
-  <packaging>bundle</packaging>
 
   <name>AssertJ fluent assertions for Guava</name>
   <url>https://github.com/assertj/assertj-guava</url>
@@ -73,10 +72,18 @@
         </configuration>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
         <version>5.1.4</version>
-        <extensions>true</extensions>
         <configuration>
           <instructions>
             <Export-Package>org.assertj.guava.api.*,org.assertj.guava.data.*,org.assertj.guava.error.*</Export-Package>
@@ -85,6 +92,13 @@
             <_removeheaders>Bnd-LastModified,Built-By</_removeheaders>
           </instructions>
         </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>manifest</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <!-- generate jacoco report -->
       <plugin>
@@ -99,6 +113,7 @@
       </plugin>
       <!-- to get jacoco report we need to set argLine in surefire, without this snippet the jacoco argLine is lost -->
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <argLine>${argLine}</argLine>
