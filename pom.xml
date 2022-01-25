@@ -118,7 +118,7 @@
     <!-- Dependency versions -->
     <junit.version>4.13.2</junit.version>
     <junit-jupiter.version>5.8.2</junit-jupiter.version>
-    <mockito.version>4.2.0</mockito.version>
+    <mockito.version>4.3.1</mockito.version>
     <!-- Plugin versions -->
     <findbugs-maven-plugin.version>3.0.5</findbugs-maven-plugin.version>
     <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
@@ -159,23 +159,15 @@
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
         <version>${junit-jupiter.version}</version>
-        <scope>import</scope>
         <type>pom</type>
+        <scope>import</scope>
       </dependency>
       <dependency>
         <groupId>org.mockito</groupId>
-        <artifactId>mockito-core</artifactId>
+        <artifactId>mockito-bom</artifactId>
         <version>${mockito.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.mockito</groupId>
-        <artifactId>mockito-inline</artifactId>
-        <version>${mockito.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.mockito</groupId>
-        <artifactId>mockito-junit-jupiter</artifactId>
-        <version>${mockito.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
       </dependency>
     </dependencies>
   </dependencyManagement>
