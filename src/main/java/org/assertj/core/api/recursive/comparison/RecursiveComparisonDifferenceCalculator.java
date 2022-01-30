@@ -15,7 +15,6 @@ package org.assertj.core.api.recursive.comparison;
 import static java.lang.String.format;
 import static java.util.Objects.deepEquals;
 import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toMap;
 import static org.assertj.core.api.recursive.comparison.ComparisonDifference.rootComparisonDifference;
 import static org.assertj.core.api.recursive.comparison.DualValue.DEFAULT_ORDERED_COLLECTION_TYPES;
 import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
@@ -35,6 +34,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -472,9 +472,6 @@ public class RecursiveComparisonDifferenceCalculator {
       comparisonState.addDifference(dualValue, format(DIFFERENT_SIZE_ERROR, "sorted maps", actualMap.size(), expectedMap.size()));
       // no need to inspect entries, maps are not equal as they don't have the same size
       return;
-      // TODO instead we could register the diff between expected and actual that is:
-      // - unexpected actual entries (the ones not matching any expected)
-      // - expected entries not found in actual.
     }
     Iterator<Map.Entry<K, V>> expectedMapEntries = expectedMap.entrySet().iterator();
     for (Map.Entry<?, ?> actualEntry : actualMap.entrySet()) {
@@ -503,35 +500,19 @@ public class RecursiveComparisonDifferenceCalculator {
       comparisonState.addDifference(dualValue, format(DIFFERENT_SIZE_ERROR, "maps", actualMap.size(), expectedMap.size()));
       // no need to inspect entries, maps are not equal as they don't have the same size
       return;
-      // TODO instead we could register the diff between expected and actual that is:
-      // - unexpected actual entries (the ones not matching any expected)
-      // - expected entries not found in actual.
     }
-
-    // index expected entries by their key deep hash code
-    Map<Integer, Map.Entry<?, ?>> expectedEntriesByDeepHashCode = expectedMap.entrySet().stream()
-                                                                             .collect(toMap(entry -> deepHashCode(entry.getKey()),
-                                                                                            entry -> entry));
-    // index actual keys by their deep hash code
-    Map<?, Integer> actualDeepHashCodesByKey = actualMap.keySet().stream().collect(toMap(key -> key, key -> deepHashCode(key)));
-    Map<?, ?> unmatchedActualEntries = actualDeepHashCodesByKey.entrySet().stream()
-                                                               .filter(entry -> !expectedEntriesByDeepHashCode.containsKey(entry.getValue()))
-                                                               // back to actual entries
-                                                               .collect(toMap(entry -> entry.getKey(),
-                                                                              entry -> actualMap.get(entry.getKey())));
-    if (!unmatchedActualEntries.isEmpty()) {
-      comparisonState.addDifference(dualValue,
-                                    format("The following actual map entries were not found in the expected map:%n  %s",
-                                           unmatchedActualEntries));
+    // actual and expected maps same size but do they have the same keys?
+    Set<?> expectedKeysNotFound = new LinkedHashSet<>(expectedMap.keySet());
+    expectedKeysNotFound.removeAll(actualMap.keySet());
+    if (!expectedKeysNotFound.isEmpty()) {
+      comparisonState.addDifference(dualValue, format("The following keys were not found in the actual map value:%n  %s",
+                                                      expectedKeysNotFound));
       return;
     }
-
-    for (Map.Entry<?, ?> actualEntry : actualMap.entrySet()) {
-      int deepHashCode = actualDeepHashCodesByKey.get(actualEntry.getKey());
-      Map.Entry<?, ?> expectedEntry = expectedEntriesByDeepHashCode.get(deepHashCode);
-      // since we have found an entry in expected with the actual entry key, we just need to compare entry values.
-      FieldLocation keyFieldLocation = keyFieldLocation(dualValue.fieldLocation, actualEntry.getKey());
-      comparisonState.registerForComparison(new DualValue(keyFieldLocation, actualEntry.getValue(), expectedEntry.getValue()));
+    // actual and expected maps have the same keys, we need now to compare their values
+    for (Object key : expectedMap.keySet()) {
+      FieldLocation keyFieldLocation = keyFieldLocation(dualValue.fieldLocation, key);
+      comparisonState.registerForComparison(new DualValue(keyFieldLocation, actualMap.get(key), expectedMap.get(key)));
     }
   }
 

@@ -25,6 +25,7 @@ import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Maps.newHashMap;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.verify;
 
@@ -34,6 +35,7 @@ import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
@@ -455,9 +457,31 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
     ComparisonDifference difference = diff("_children",
                                            mapOf(entry("importantValue", "10"), entry("someNotImportantValue", 1)),
                                            mapOf(entry("bar", "10"), entry("foo", 1)),
-                                           format("The following actual map entries were not found in the expected map:%n"
-                                                  + "  {importantValue=\"10\", someNotImportantValue=1}"));
+                                           format("The following keys were not found in the actual map value:%n  [foo, bar]"));
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference);
+  }
+
+  @Test
+  void issue_2475_example_should_succeed() {
+    then(issue2475Map()).usingRecursiveComparison()
+                        .isEqualTo(issue2475Map());
+  }
+
+  private static Map<String, List<String>> issue2475Map() {
+    Map<String, List<String>> map = newHashMap("VMP", list("OztNUFPcnceerHAppabgHT",
+                                                           "IW",
+                                                           "AfBSmPEYfOBwGzWHzQveOi",
+                                                           "dSalYEgeHNTe",
+                                                           "mXjwEZBxeimMiWrmRVePVAwWHtRXfqQyD",
+                                                           "TGgLRwnPQUbZWFr",
+                                                           "pQWceZdDmTXdyQXcJdB",
+                                                           "ProMMnAnRXg"));
+    map.put("Uko", list("pUisdBNIy",
+                        "rfX",
+                        "BagGdILqDLrNRfotwKqjCVNOJxSNoYKtSgBLMEJEJymhZjZvDuwvsqBiJuJpmvWOkiuSobCjRkeWVenaqIdlltsiUMPNtKcDMOAKiRRHHfikxUnOotnJFzNjwyYrcbkNBjxlvici",
+                        "AR",
+                        "dDvIHrhSxskuTvDSdUZwoUDdxFxxaxBWkTiprWPqSPZumdoHkvwPRrecqCLagzeeOjCuSufGwLoKATVaXfIPmjYsVfGuwlyEysXwWbVfPLgbVkaPaQdcVFQfADfDKEJeuQZlKKSsfuXICYWrmOGILeuqXKZyfEXHLnGILUcWmaVRRjrSjXXnHiTXYgdkrDeLEXZnAlbIEUYSblPqOaxuvpmOS"));
+    return map;
   }
 
   public static class Wrappers {
