@@ -422,38 +422,39 @@ public class RecursiveComparisonDifferenceCalculator {
       comparisonState.addDifference(dualValue, format(DIFFERENT_SIZE_ERROR, "collections", actualSize, expectedSize));
       // no need to inspect elements, iterables are not equal as they don't have the same size
       return;
-      // TODO instead we could register the diff between expected and actual that is:
-      // - unexpected actual elements (the ones not matching any expected)
-      // - expected elements not found in actual.
     }
-    // copy expected as we will remove elements found in actual
-    Collection<?> expectedCopy = new LinkedList<>(toCollection(expected));
-    List<Object> unmatchedActualElements = list();
-    for (Object actualElement : actual) {
-      boolean actualElementMatched = false;
-      // compare recursively actualElement to all remaining expected elements
-      Iterator<?> expectedIterator = expectedCopy.iterator();
-      while (expectedIterator.hasNext()) {
-        Object expectedElement = expectedIterator.next();
+    // copy actual as we will remove elements found in expected
+    Collection<?> actualCopy = new LinkedList<>(toCollection(actual));
+    List<Object> expectedElementsNotFound = list();
+    for (Object expectedElement : expected) {
+      boolean expectedElementMatched = false;
+      // compare recursively expectedElement to all remaining actual elements
+      Iterator<?> actualIterator = actualCopy.iterator();
+      while (actualIterator.hasNext()) {
+        Object actualElement = actualIterator.next();
         // we need to get the currently visited dual values otherwise a cycle would cause an infinite recursion.
         List<ComparisonDifference> differences = determineDifferences(actualElement, expectedElement, dualValue.fieldLocation,
                                                                       false, comparisonState.visitedDualValues,
                                                                       comparisonState.recursiveComparisonConfiguration);
         if (differences.isEmpty()) {
-          // found an element in expected matching actualElement, remove it as it can't be used to match other actual elements
-          expectedIterator.remove();
-          actualElementMatched = true;
+          // found an element in actual matching expectedElement, remove it as it can't be used to match other expected elements
+          actualIterator.remove();
+          expectedElementMatched = true;
           // jump to next actual element check
           break;
         }
       }
-      if (!actualElementMatched) unmatchedActualElements.add(actualElement);
+      if (!expectedElementMatched) {
+        expectedElementsNotFound.add(expectedElement);
+      }
     }
 
-    if (!unmatchedActualElements.isEmpty()) {
-      String unmatched = format("The following actual elements were not matched in the expected %s:%n  %s",
-                                expected.getClass().getSimpleName(), unmatchedActualElements);
+    if (!expectedElementsNotFound.isEmpty()) {
+      String unmatched = format("The following expected elements were not matched in the actual %s:%n  %s",
+                                actual.getClass().getSimpleName(), expectedElementsNotFound);
       comparisonState.addDifference(dualValue, unmatched);
+      // TODO could improve the error by listing the actual elements not in expected but that would need
+      // another double loop inverting actual and expected to find the actual elements not matched in expected
     }
   }
 

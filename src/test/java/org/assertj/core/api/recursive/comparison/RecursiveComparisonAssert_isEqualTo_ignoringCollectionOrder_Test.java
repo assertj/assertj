@@ -162,7 +162,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
 
     // THEN
     ComparisonDifference friendsDifference = diff("friends", actual.friends, expected.friends,
-                                                  format("The following actual elements were not matched in the expected ArrayList:%n"
+                                                  format("The following expected elements were not matched in the actual ArrayList:%n"
                                                          + "  [Person [dateOfBirth=null, name=Dr. John Watson, phone=null, home=Home [address=Address [number=1]]]]"));
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, friendsDifference);
   }
@@ -234,7 +234,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
 
     // THEN
     ComparisonDifference friendsDifference = diff("friends", actual.friends, expected.friends,
-                                                  format("The following actual elements were not matched in the expected ArrayList:%n"
+                                                  format("The following expected elements were not matched in the actual ArrayList:%n"
                                                          + "  [Person [dateOfBirth=null, name=Dr. John Watson, phone=null, home=Home [address=Address [number=1]]]]"));
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, friendsDifference);
   }
