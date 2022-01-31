@@ -1834,8 +1834,26 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
     return myself;
   }
 
+  /**
+   * Verifies that the actual {@code CharSequence} is numeric {@code CharSequence} by using regex pattern
+   * matching {@code actual} built with {@link Pattern}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat("2").isNumeric();
+   *
+   * // assertions will fail
+   * assertThat(&quot;!&quot;).isNumeric();
+   * assertThat(" ").isNumeric();
+   * assertThat("Z").isNumeric();
+   * assertThat(&quot;L3go!&quot;).isNumeric();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not numeric.
+   */
   public SELF isNumeric(){
-    return matches("\\p{Digit}");
+    strings.assertNumeric(info, actual);
+    return myself;
   }
 
   public SELF isPrintable(){
