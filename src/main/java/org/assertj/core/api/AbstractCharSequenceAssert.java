@@ -1738,4 +1738,33 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
     strings.assertEqualsToNormalizingUnicode(info, actual, expected);
     return myself;
   }
+
+  public SELF isAlphabetic(){
+    return matches("\\p{Alpha}");
+  }
+
+  public SELF isAlphanumeric(){
+    return matches("\\p{Alnum}");
+  }
+
+  public SELF isASCII(){
+    return matches("\\p{ASCII}");
+  }
+
+  public SELF isHexadecimal(){
+    return matches("\\p{XDigit}");
+  }
+
+  public SELF isNumeric(){
+    return matches("\\p{Digit}");
+  }
+
+  public SELF isPrintable(){
+    return matches("\\p{Print}");
+  }
+
+  public SELF isVisible(){
+    return matches("\\p{Graph}");
+  }
+
 }
