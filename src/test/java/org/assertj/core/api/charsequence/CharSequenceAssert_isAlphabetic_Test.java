@@ -13,6 +13,6 @@ public class CharSequenceAssert_isAlphabetic_Test extends CharSequenceAssertBase
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertMatches(getInfo(assertions), getActual(assertions), "\\p{Alpha}");
+    verify(strings).assertAlphabetic(getInfo(assertions), getActual(assertions));
   }
 }

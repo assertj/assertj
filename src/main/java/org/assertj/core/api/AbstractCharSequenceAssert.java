@@ -1740,7 +1740,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   public SELF isAlphabetic(){
-    return matches("\\p{Alpha}");
+    strings.assertAlphabetic(info, actual);
+    return myself;
   }
 
   public SELF isAlphanumeric(){
