@@ -1787,8 +1787,27 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
     return myself;
   }
 
+  /**
+   * Verifies that the actual {@code CharSequence} is ASCII {@code CharSequence} by using regex pattern
+   * matching {@code actual} built with {@link Pattern}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(&quot;lego&quot;).isASCII();
+   * assertThat("").isASCII();
+   * assertThat("a1").isASCII();
+   * assertThat("L3go").isASCII();
+   *
+   * // assertions will fail
+   * assertThat(&quot;\u2303&quot;).isASCII();
+   * assertThat(&quot;L3go123\u230300abc&quot;).isASCII();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not ASCII.
+   */
   public SELF isASCII(){
-    return matches("\\p{ASCII}");
+    strings.assertASCII(info, actual);
+    return myself;
   }
 
   public SELF isHexadecimal(){

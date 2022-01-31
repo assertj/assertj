@@ -20,6 +20,7 @@ import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
 import static org.assertj.core.error.ShouldBeAlphabetic.shouldBeAlphabetic;
 import static org.assertj.core.error.ShouldBeAlphanumeric.shouldBeAlphanumeric;
+import static org.assertj.core.error.ShouldBeASCII.shouldBeASCII;
 import static org.assertj.core.error.ShouldBeBase64.shouldBeBase64;
 import static org.assertj.core.error.ShouldBeBlank.shouldBeBlank;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
@@ -1293,5 +1294,10 @@ public class Strings {
   public void assertAlphanumeric(AssertionInfo info, CharSequence actual) {
     assertNotNull(info, actual);
     if (!Pattern.matches("\\p{Alnum}*", actual)) throw failures.failure(info, shouldBeAlphanumeric(actual));
+  }
+
+  public void assertASCII(AssertionInfo info, CharSequence actual) {
+    assertNotNull(info, actual);
+    if (!Pattern.matches("\\p{ASCII}*", actual)) throw failures.failure(info, shouldBeASCII(actual));
   }
 }
