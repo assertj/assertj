@@ -959,11 +959,6 @@ public class Strings {
     if (!Pattern.matches(regex.toString(), actual)) throw failures.failure(info, shouldMatch(actual, regex));
   }
 
-  public void assertAlphabetic(AssertionInfo info, CharSequence actual) {
-    assertNotNull(info, actual);
-    if (!Pattern.matches("\\p{Alpha}*", actual)) throw failures.failure(info, shouldBeAlphabetic(actual));
-  }
-
   /**
    * Verifies that the given {@code CharSequence} does not match the given regular expression.
    *
@@ -1287,5 +1282,10 @@ public class Strings {
     checkIsNotNull(sequence);
     checkIsNotEmpty(sequence);
     checkCharSequenceArrayDoesNotHaveNullElements(sequence);
+  }
+
+  public void assertAlphabetic(AssertionInfo info, CharSequence actual) {
+    assertNotNull(info, actual);
+    if (!Pattern.matches("\\p{Alpha}*", actual)) throw failures.failure(info, shouldBeAlphabetic(actual));
   }
 }
