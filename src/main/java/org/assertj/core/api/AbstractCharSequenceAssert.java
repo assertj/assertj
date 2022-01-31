@@ -1877,8 +1877,26 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
     return myself;
   }
 
+  /**
+   * Verifies that the actual {@code CharSequence} is visible {@code CharSequence} by using regex pattern
+   * matching {@code actual} built with {@link Pattern}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat("2").isVisible();
+   * assertThat("a").isVisible();
+   * assertThat(".").isVisible();
+   *
+   * // assertions will fail
+   * assertThat(&quot\t&quot;).isVisible();
+   * assertThat(&quot;\n&quot;).isVisible();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not visible.
+   */
   public SELF isVisible(){
-    return matches("\\p{Graph}");
+    strings.assertVisible(info, actual);
+    return myself;
   }
 
 }

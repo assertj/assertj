@@ -19,6 +19,7 @@ import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
 import static org.assertj.core.error.ShouldBeAlphabetic.shouldBeAlphabetic;
+import static org.assertj.core.error.ShouldBeVisible.shouldBeVisible;
 import static org.assertj.core.error.ShouldBePrintable.shouldBePrintable;
 import static org.assertj.core.error.ShouldBeNumeric.shouldBeNumeric;
 import static org.assertj.core.error.ShouldBeHexadecimal.shouldBeHexadecimal;
@@ -1317,5 +1318,10 @@ public class Strings {
   public void assertPrintable(AssertionInfo info, CharSequence actual) {
     assertNotNull(info, actual);
     if (!Pattern.matches("\\p{Print}*", actual)) throw failures.failure(info, shouldBePrintable(actual));
+  }
+
+  public void assertVisible(AssertionInfo info, CharSequence actual) {
+    assertNotNull(info, actual);
+    if (!Pattern.matches("\\p{Graph}*", actual)) throw failures.failure(info, shouldBeVisible(actual));
   }
 }
