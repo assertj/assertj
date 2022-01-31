@@ -1763,8 +1763,28 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
     return myself;
   }
 
+  /**
+   * Verifies that the actual {@code CharSequence} is alphanumeric {@code CharSequence} by using regex pattern
+   * matching {@code actual} built with {@link Pattern}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(&quot;lego&quot;).isAlphanumeric();
+   * assertThat("").isAlphanumeric();
+   * assertThat("a1").isAlphanumeric();
+   * assertThat("L3go").isAlphanumeric();
+   *
+   * // assertions will fail
+   * assertThat(&quot;!&quot;).isAlphanumeric();
+   * assertThat(" ").isAlphanumeric();
+   * assertThat(&quot;L3go!&quot;).isAlphanumeric();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not alphabetic.
+   */
   public SELF isAlphanumeric(){
-    return matches("\\p{Alnum}");
+    strings.assertAlphanumeric(info, actual);
+    return myself;
   }
 
   public SELF isASCII(){
