@@ -1856,8 +1856,25 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
     return myself;
   }
 
+  /**
+   * Verifies that the actual {@code CharSequence} is printable {@code CharSequence} by using regex pattern
+   * matching {@code actual} built with {@link Pattern}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat("2").isPrintable();
+   * assertThat("a").isPrintable();
+   *
+   * // assertions will fail
+   * assertThat(&quot\t&quot;).isPrintable();
+   * assertThat(&quot;\n&quot;).isPrintable();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not printable.
+   */
   public SELF isPrintable(){
-    return matches("\\p{Print}");
+    strings.assertPrintable(info, actual);
+    return myself;
   }
 
   public SELF isVisible(){
