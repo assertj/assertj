@@ -13,6 +13,12 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.contentOf;
+import static org.assertj.core.error.ShouldBeASCII.shouldBeASCII;
+import static org.assertj.core.error.ShouldBeAlphabetic.shouldBeAlphabetic;
+import static org.assertj.core.error.ShouldBeAlphanumeric.shouldBeAlphanumeric;
+import static org.assertj.core.error.ShouldBeHexadecimal.shouldBeHexadecimal;
+import static org.assertj.core.error.ShouldBePrintable.shouldBePrintable;
+import static org.assertj.core.error.ShouldBeVisible.shouldBeVisible;
 import static org.assertj.core.util.IterableUtil.toArray;
 
 import java.io.File;
@@ -618,6 +624,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} contains non-digit characters or is {@code null}.
    */
+  @Deprecated
   public SELF containsOnlyDigits() {
     strings.assertContainsOnlyDigits(info, actual);
     return myself;
@@ -1929,4 +1936,162 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
     strings.assertEqualsToNormalizingUnicode(info, actual, expected);
     return myself;
   }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is alphabetic by checking it against the {@code \p{Alpha}+} regex pattern
+   * POSIX character classes (US-ASCII only).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(&quot;lego&quot;).isAlphabetic();
+   * assertThat(&quot;a&quot;).isAlphabetic();
+   * assertThat(&quot;Lego&quot;).isAlphabetic();
+   *
+   * // assertions will fail
+   * assertThat(&quot;1&quot;).isAlphabetic();
+   * assertThat(&quot; &quot;).isAlphabetic();
+   * assertThat(&quot;&quot;).isAlphabetic();
+   * assertThat(&quot;L3go&quot;).isAlphabetic();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not alphabetic.
+   * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
+   */
+  public SELF isAlphabetic(){
+    isNotNull();
+    if (!Pattern.matches("\\p{Alpha}+", actual)) throwAssertionError(shouldBeAlphabetic(actual));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is alphanumeric by checking it against the {@code \p{Alnum}+} regex pattern
+   * POSIX character classes (US-ASCII only).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(&quot;lego&quot;).isAlphanumeric();
+   * assertThat(&quot;a1&quot;).isAlphanumeric();
+   * assertThat(&quot;L3go&quot;).isAlphanumeric();
+   *
+   * // assertions will fail
+   * assertThat(&quot;!&quot;).isAlphanumeric();
+   * assertThat(&quot;&quot;).isAlphanumeric();
+   * assertThat(&quot; &quot;).isAlphanumeric();
+   * assertThat(&quot;L3go!&quot;).isAlphanumeric();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not alphanumeric.
+   * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
+   */
+  public SELF isAlphanumeric(){
+    isNotNull();
+    if (!Pattern.matches("\\p{Alnum}+", actual)) throwAssertionError(shouldBeAlphanumeric(actual));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is ASCII by checking it against the {@code \p{ASCII}+} regex pattern
+   * POSIX character classes (US-ASCII only).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(&quot;lego&quot;).isASCII();
+   * assertThat(&quot;a1&quot;).isASCII();
+   * assertThat(&quot;L3go&quot;).isASCII();
+   *
+   * // assertions will fail
+   * assertThat(&quot;&quot;).isASCII();
+   * assertThat(&quot;♪&quot;).isASCII();
+   * assertThat(&quot;\u2303&quot;).isASCII();
+   * assertThat(&quot;L3go123\u230300abc&quot;).isASCII();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not ASCII.
+   * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
+   */
+  public SELF isASCII(){
+    isNotNull();
+    if (!Pattern.matches("\\p{ASCII}+", actual)) throwAssertionError(shouldBeASCII(actual));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is hexadecimal by checking it against the {@code \p{XDigit}+} regex pattern
+   * POSIX character classes (US-ASCII only).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(&quot;A&quot;).isHexadecimal();
+   * assertThat(&quot;2&quot;).isHexadecimal();
+   *
+   * // assertions will fail
+   * assertThat(&quot;!&quot;).isHexadecimal();
+   * assertThat(&quot;&quot;).isHexadecimal();
+   * assertThat(&quot; &quot;).isHexadecimal();
+   * assertThat(&quot;Z&quot;).isHexadecimal();
+   * assertThat(&quot;L3go!&quot;).isHexadecimal();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not hexadecimal.
+   * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
+   */
+  public SELF isHexadecimal(){
+    isNotNull();
+    if (!Pattern.matches("\\p{XDigit}+", actual)) throwAssertionError(shouldBeHexadecimal(actual));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is printable by checking it against the {@code \p{Print}+} regex pattern
+   * POSIX character classes (US-ASCII only).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(&quot;2&quot;).isPrintable();
+   * assertThat(&quot;a&quot;).isPrintable();
+   * assertThat(&quot;~&quot;).isPrintable();
+   * assertThat(&quot;&quot;).isPrintable();
+   *
+   * // assertions will fail
+   * assertThat(&quot;\t&quot;).isPrintable();
+   * assertThat(&quot;§&quot;).isPrintable();
+   * assertThat(&quot;©&quot;).isPrintable();
+   * assertThat(&quot;\n&quot;).isPrintable();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not printable.
+   * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
+   */
+  public SELF isPrintable(){
+    isNotNull();
+    if (!Pattern.matches("\\p{Print}+", actual)) throwAssertionError(shouldBePrintable(actual));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is visible by checking it against the {@code \p{Graph}+} regex pattern
+   * POSIX character classes (US-ASCII only).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(&quot;2&quot;).isVisible();
+   * assertThat(&quot;a&quot;).isVisible();
+   * assertThat(&quot;.&quot;).isVisible();
+   *
+   * // assertions will fail
+   * assertThat(&quot;\t&quot;).isVisible();
+   * assertThat(&quot;\n&quot;).isVisible();
+   * assertThat(&quot;&quot;).isVisible();
+   * assertThat(&quot; &quot;).isVisible();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not visible.
+   * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
+   */
+  public SELF isVisible(){
+    isNotNull();
+    if (!Pattern.matches("\\p{Graph}+", actual)) throwAssertionError(shouldBeVisible(actual));
+    return myself;
+  }
+
 }

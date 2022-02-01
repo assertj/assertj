@@ -34,6 +34,7 @@ import static org.assertj.core.error.ShouldBeMixedCase.shouldBeMixedCase;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
 import static org.assertj.core.error.ShouldBeUpperCase.shouldBeUpperCase;
+import static org.assertj.core.error.ShouldBeVisible.shouldBeVisible;
 import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
 import static org.assertj.core.error.ShouldContainCharSequence.containsIgnoringNewLines;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
@@ -1391,5 +1392,10 @@ public class Strings {
     checkIsNotNull(sequence);
     checkIsNotEmpty(sequence);
     checkCharSequenceArrayDoesNotHaveNullElements(sequence);
+  }
+
+  public void assertVisible(AssertionInfo info, CharSequence actual) {
+    assertNotNull(info, actual);
+    if (!Pattern.matches("\\p{Graph}*", actual)) throw failures.failure(info, shouldBeVisible(actual));
   }
 }
