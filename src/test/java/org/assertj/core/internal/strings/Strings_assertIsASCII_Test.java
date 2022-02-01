@@ -27,7 +27,7 @@ public class Strings_assertIsASCII_Test extends StringsBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_has_ASCII_chars() {
+  void should_fail_if_actual_has_non_ASCII_chars() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertASCII(someInfo(), "01234\u2303abc"))
       .withMessage(shouldBeASCII("01234\u2303abc").create());
   }

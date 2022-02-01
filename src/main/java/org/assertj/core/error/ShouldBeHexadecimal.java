@@ -9,4 +9,3 @@ public class ShouldBeHexadecimal extends BasicErrorMessageFactory {
     super("%nExpecting %s to be hexadecimal", actual);
   }
 }
-

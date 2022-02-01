@@ -615,7 +615,9 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} contains non-digit characters or is {@code null}.
+   * @deprecated Use {@link #isNumeric()} instead.
    */
+  @Deprecated
   public SELF containsOnlyDigits() {
     strings.assertContainsOnlyDigits(info, actual);
     return myself;
@@ -1889,7 +1891,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * // assertions will fail
    * assertThat(&quot\t&quot;).isVisible();
-   * assertThat(&quot;\n&quot;).isVisible();</code></pre>
+   * assertThat(&quot;\n&quot;).isVisible();
+   * assertThat(" ").isVisible();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not visible.
