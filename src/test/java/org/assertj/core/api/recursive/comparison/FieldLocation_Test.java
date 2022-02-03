@@ -56,4 +56,20 @@ class FieldLocation_Test {
     then(result).isEqualTo("FieldLocation [pathToUseInRules=location, decomposedPath=[location]]");
   }
 
+  @Test
+  void should_build_from_string_simple_path() {
+    // WHEN
+    FieldLocation underTest = new FieldLocation("name");
+    // THEN
+    then(underTest.getDecomposedPath()).isEqualTo(list("name"));
+  }
+
+  @Test
+  void should_build_from_string_nested_path() {
+    // WHEN
+    FieldLocation underTest = new FieldLocation("name.first.second");
+    // THEN
+    then(underTest.getDecomposedPath()).isEqualTo(list("name", "first", "second"));
+  }
+
 }

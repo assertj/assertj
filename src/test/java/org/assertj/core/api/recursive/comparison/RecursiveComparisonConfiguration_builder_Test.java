@@ -115,7 +115,7 @@ class RecursiveComparisonConfiguration_builder_Test {
     // WHEN
     RecursiveComparisonConfiguration configuration = configBuilder().withComparedFields(values).build();
     // THEN
-    then(configuration.getComparedFields()).containsExactly(values);
+    then(configuration.getComparedFields()).containsExactly(new FieldLocation("foo"), new FieldLocation("bar"));
   }
 
   @Test

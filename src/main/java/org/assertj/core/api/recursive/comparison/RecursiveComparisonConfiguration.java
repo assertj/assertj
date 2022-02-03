@@ -60,7 +60,7 @@ public class RecursiveComparisonConfiguration {
   private Set<Class<?>> ignoredTypes = new LinkedHashSet<>();
 
   // fields to compare (no other field will be)
-  private Set<String> comparedFields = new LinkedHashSet<>();
+  private Set<FieldLocation> comparedFields = new LinkedHashSet<>();
 
   // overridden equals method to ignore section
   private List<Class<?>> ignoredOverriddenEqualsForTypes = new ArrayList<>();
@@ -233,8 +233,7 @@ public class RecursiveComparisonConfiguration {
    * @param fieldNamesToCompare the fields of the object under test to compare in the comparison.
    */
   public void compareOnlyFields(String... fieldNamesToCompare) {
-    List<String> fieldLocations = list(fieldNamesToCompare);
-    comparedFields.addAll(fieldLocations);
+    Stream.of(fieldNamesToCompare).map(FieldLocation::new).forEach(comparedFields::add);
   }
 
   /**
@@ -292,7 +291,7 @@ public class RecursiveComparisonConfiguration {
    *
    * @return the set of fields from the object under test to compare.
    */
-  public Set<String> getComparedFields() {
+  public Set<FieldLocation> getComparedFields() {
     return comparedFields;
   }
 
@@ -655,12 +654,13 @@ public class RecursiveComparisonConfiguration {
     return comparedFields.stream().anyMatch(matchesComparedField(fieldLocation));
   }
 
-  private static Predicate<String> matchesComparedField(FieldLocation field) {
+  private static Predicate<FieldLocation> matchesComparedField(FieldLocation field) {
     // a field f must be compared if any compared fields is f itself (obviously), a parent of f or a child of f.
-    // Examples:
-    // - "name.first" must be compared if "name" is a compared field (alongwith any other "name" subfields as "name.last")
-    // - "name" must be compared if "name.first" is a compared field otherwise "name" is ignored and "name.first" never evaluated
-    return fieldToCompare -> field.startsWith(fieldToCompare) || fieldToCompare.startsWith(field.getPathToUseInRules());
+    // - "name.first" must be compared if "name" is a compared field so will other "name" subfields like "name.last"
+    // - "name" must be compared if "name.first" is a compared field otherwise "name" is ignored and "name.first" too
+    return comparedField -> field.matches(comparedField) // exact match
+                            || field.hasParent(comparedField) // ex: field "name.first" and "name" compared field
+                            || field.hasChild(comparedField); // ex: field "name" and "name.first" compared field
   }
 
   Set<String> getNonIgnoredActualFieldNames(DualValue dualValue) {
@@ -765,8 +765,7 @@ public class RecursiveComparisonConfiguration {
 
   private void describeIgnoreAllActualEmptyOptionalFields(StringBuilder description) {
     if (getIgnoreAllActualEmptyOptionalFields())
-      description.append(format(
-          "- all actual empty optional fields were ignored in the comparison (including Optional, OptionalInt, OptionalLong and OptionalDouble)%n"));
+      description.append(format("- all actual empty optional fields were ignored in the comparison (including Optional, OptionalInt, OptionalLong and OptionalDouble)%n"));
   }
 
   private void describeIgnoreAllExpectedNullFields(StringBuilder description) {
@@ -821,9 +820,8 @@ public class RecursiveComparisonConfiguration {
 
   private void describeIgnoredCollectionOrderInFieldsMatchingRegexes(StringBuilder description) {
     if (!ignoredCollectionOrderInFieldsMatchingRegexes.isEmpty())
-      description.append(
-          format("- collection order was ignored in the fields matching the following regexes in the comparison: %s%n",
-                 describeRegexes(ignoredCollectionOrderInFieldsMatchingRegexes)));
+      description.append(format("- collection order was ignored in the fields matching the following regexes in the comparison: %s%n",
+                                describeRegexes(ignoredCollectionOrderInFieldsMatchingRegexes)));
   }
 
   private boolean matchesAnIgnoredOverriddenEqualsRegex(Class<?> clazz) {
@@ -884,7 +882,7 @@ public class RecursiveComparisonConfiguration {
   }
 
   private String describeComparedFields() {
-    return join(comparedFields);
+    return join(comparedFields.stream().map(FieldLocation::shortDescription).collect(toList()));
   }
 
   private String describeIgnoredTypes() {
@@ -1008,7 +1006,7 @@ public class RecursiveComparisonConfiguration {
     private boolean ignoreAllActualEmptyOptionalFields;
     private boolean ignoreAllExpectedNullFields;
     private String[] ignoredFields = {};
-    private String[] comparedFields = {};
+    private FieldLocation[] comparedFields = {};
     private String[] ignoredFieldsMatchingRegexes = {};
     private Class<?>[] ignoredTypes = {};
     private Class<?>[] ignoredOverriddenEqualsForTypes = {};
@@ -1102,7 +1100,7 @@ public class RecursiveComparisonConfiguration {
      * @return this builder.
      */
     public Builder withComparedFields(String... fieldsToCompare) {
-      this.comparedFields = fieldsToCompare;
+      this.comparedFields = Stream.of(fieldsToCompare).map(FieldLocation::new).toArray(FieldLocation[]::new);
       return this;
     }
 
