@@ -25,7 +25,7 @@ import org.assertj.core.util.VisibleForTesting;
 
 public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> extends AbstractCharSequenceAssert<SELF, String> {
 
-  protected AbstractStringAssert(String actual, Class<?> selfType) {
+  AbstractStringAssert(String actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
