@@ -20,19 +20,16 @@ import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 
 import java.math.BigDecimal;
 
+import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.NavigationMethodBaseTest;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link ObjectAssert#extracting(String[])}</code>.
- */
-@DisplayName("ObjectAssert extracting(String[])")
-class ObjectAssert_extracting_with_String_Array_Test {
+class ObjectAssert_extracting_with_String_Array_Test implements NavigationMethodBaseTest<ObjectAssert<Employee>> {
 
   private Employee luke;
   private Employee leia;
@@ -113,6 +110,16 @@ class ObjectAssert_extracting_with_String_Array_Test {
     assertThat(obiwan).extracting("name", "height")
                       .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
                       .containsExactly("Obi-Wan", new BigDecimal("1.82"));
+  }
+
+  @Override
+  public ObjectAssert<Employee> getAssertion() {
+    return new ObjectAssert<>(luke);
+  }
+
+  @Override
+  public AbstractAssert<?, ?> invoke_navigation_method(ObjectAssert<Employee> assertion) {
+    return assertion.extracting("id", "name");
   }
 
   @SuppressWarnings("unused")

@@ -24,7 +24,9 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractObjectAssert;
+import org.assertj.core.api.NavigationMethodBaseTest;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
@@ -34,10 +36,7 @@ import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link ObjectAssert#extracting(Function)}</code>.
- */
-class ObjectAssert_extracting_with_Function_Test {
+class ObjectAssert_extracting_with_Function_Test implements NavigationMethodBaseTest<ObjectAssert<Employee>> {
 
   private Employee luke;
 
@@ -91,16 +90,6 @@ class ObjectAssert_extracting_with_Function_Test {
   }
 
   @Test
-  void extracting_should_honor_registered_comparator() {
-    // GIVEN
-    ObjectAssert<Employee> assertion = assertThat(luke).usingComparator(ALWAYS_EQUALS);
-    // WHEN
-    AbstractObjectAssert<?, String> result = assertion.extracting(firstName);
-    // THEN
-    result.isEqualTo("YODA");
-  }
-
-  @Test
   void extracting_should_keep_assertion_state() {
     // GIVEN
     // not all comparators are used but we want to test that they are passed correctly after extracting
@@ -133,4 +122,15 @@ class ObjectAssert_extracting_with_Function_Test {
   private static Map<String, Comparator<?>> comparatorByPropertyOrFieldOf(AbstractObjectAssert<?, ?> assertion) {
     return (Map<String, Comparator<?>>) PropertyOrFieldSupport.EXTRACTION.getValueOf("comparatorByPropertyOrField", assertion);
   }
+
+  @Override
+  public ObjectAssert<Employee> getAssertion() {
+    return new ObjectAssert<>(luke);
+  }
+
+  @Override
+  public AbstractAssert<?, ?> invoke_navigation_method(ObjectAssert<Employee> assertion) {
+    return assertion.extracting(Employee::getAge);
+  }
+
 }

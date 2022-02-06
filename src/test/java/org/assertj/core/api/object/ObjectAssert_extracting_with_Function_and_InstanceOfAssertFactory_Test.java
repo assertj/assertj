@@ -27,21 +27,16 @@ import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractCharSequenceAssert;
 import org.assertj.core.api.AbstractIntegerAssert;
 import org.assertj.core.api.AbstractStringAssert;
-import org.assertj.core.api.InstanceOfAssertFactory;
 import org.assertj.core.api.NavigationMethodBaseTest;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link ObjectAssert#extracting(Function, InstanceOfAssertFactory)}</code>.
- *
  * @author Stefano Cordio
  */
-@DisplayName("ObjectAssert extracting(Function, InstanceOfAssertFactory)")
 class ObjectAssert_extracting_with_Function_and_InstanceOfAssertFactory_Test
     implements NavigationMethodBaseTest<ObjectAssert<Employee>> {
 
@@ -130,7 +125,7 @@ class ObjectAssert_extracting_with_Function_and_InstanceOfAssertFactory_Test
 
   @Override
   public ObjectAssert<Employee> getAssertion() {
-    return assertThat(luke);
+    return new ObjectAssert<>(luke);
   }
 
   @Override

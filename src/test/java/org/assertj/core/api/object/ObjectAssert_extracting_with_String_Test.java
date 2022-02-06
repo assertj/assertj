@@ -22,13 +22,16 @@ import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.Optional;
 
+import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.NavigationMethodBaseTest;
+import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ObjectAssert_extracting_with_String_Test {
+class ObjectAssert_extracting_with_String_Test implements NavigationMethodBaseTest<ObjectAssert<Employee>> {
 
   private Employee luke;
   private Employee leia;
@@ -107,6 +110,16 @@ class ObjectAssert_extracting_with_String_Test {
     // THEN
     then(thrown).isInstanceOf(IntrospectionError.class)
                 .hasMessageContaining("Can't find any field or property with name 'foo'.");
+  }
+
+  @Override
+  public ObjectAssert<Employee> getAssertion() {
+    return new ObjectAssert<>(luke);
+  }
+
+  @Override
+  public AbstractAssert<?, ?> invoke_navigation_method(ObjectAssert<Employee> assertion) {
+    return assertion.extracting("name.first");
   }
 
   @SuppressWarnings("unused")

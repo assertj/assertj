@@ -29,22 +29,17 @@ import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractBigDecimalAssert;
 import org.assertj.core.api.AbstractLongAssert;
 import org.assertj.core.api.AbstractStringAssert;
-import org.assertj.core.api.InstanceOfAssertFactory;
 import org.assertj.core.api.NavigationMethodBaseTest;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link ObjectAssert#extracting(String, InstanceOfAssertFactory)}</code>.
- *
  * @author Stefano Cordio
  */
-@DisplayName("ObjectAssert extracting(String, InstanceOfAssertFactory)")
 class ObjectAssert_extracting_with_String_and_InstanceOfAssertFactory_Test
     implements NavigationMethodBaseTest<ObjectAssert<Employee>> {
 
@@ -125,7 +120,7 @@ class ObjectAssert_extracting_with_String_and_InstanceOfAssertFactory_Test
 
   @Override
   public ObjectAssert<Employee> getAssertion() {
-    return assertThat(luke);
+    return new ObjectAssert<>(luke);
   }
 
   @Override

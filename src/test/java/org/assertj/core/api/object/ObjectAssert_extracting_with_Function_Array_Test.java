@@ -23,7 +23,9 @@ import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 import java.util.List;
 import java.util.function.Function;
 
+import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractListAssert;
+import org.assertj.core.api.NavigationMethodBaseTest;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.test.Employee;
@@ -32,10 +34,7 @@ import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link ObjectAssert#extracting(Function[])}</code>.
- */
-class ObjectAssert_extracting_with_Function_Array_Test {
+class ObjectAssert_extracting_with_Function_Array_Test implements NavigationMethodBaseTest<ObjectAssert<Employee>> {
 
   private Employee luke;
 
@@ -111,6 +110,16 @@ class ObjectAssert_extracting_with_Function_Array_Test {
 
   private static Objects comparatorOf(AbstractListAssert<?, ?, ?, ?> assertion) {
     return (Objects) PropertyOrFieldSupport.EXTRACTION.getValueOf("objects", assertion);
+  }
+
+  @Override
+  public ObjectAssert<Employee> getAssertion() {
+    return new ObjectAssert<>(luke);
+  }
+
+  @Override
+  public AbstractAssert<?, ?> invoke_navigation_method(ObjectAssert<Employee> assertion) {
+    return assertion.extracting(Employee::getName, Employee::getAge);
   }
 
 }
