@@ -21,8 +21,8 @@ import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.internal.objects.SymmetricDateComparator.SYMMETRIC_DATE_COMPARATOR;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.verify;
@@ -352,7 +352,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     Patient adam = new Patient(null);
     Patient eve = new Patient(new Timestamp(3L));
     // THEN
-    assertThat(adam).usingComparatorForFields(ALWAY_EQUALS, "dateOfBirth", "health")
+    assertThat(adam).usingComparatorForFields(ALWAYS_EQUALS, "dateOfBirth", "health")
                     .isEqualToComparingFieldByFieldRecursively(eve);
   }
 
@@ -363,7 +363,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     Patient adam = new Patient(null);
     Patient eve = new Patient(new Timestamp(3L));
     // THEN
-    assertThat(adam).usingComparatorForType(ALWAY_EQUALS_TIMESTAMP, Timestamp.class)
+    assertThat(adam).usingComparatorForType(ALWAYS_EQUALS_TIMESTAMP, Timestamp.class)
                     .isEqualToComparingFieldByFieldRecursively(eve);
   }
 

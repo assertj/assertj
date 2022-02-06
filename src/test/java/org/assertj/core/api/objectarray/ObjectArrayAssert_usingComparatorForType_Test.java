@@ -16,7 +16,7 @@ import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS_STRING;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
@@ -48,7 +48,7 @@ class ObjectArrayAssert_usingComparatorForType_Test extends ObjectArrayAssertBas
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {
-    return assertions.usingComparatorForType(ALWAY_EQUALS_STRING, String.class);
+    return assertions.usingComparatorForType(ALWAYS_EQUALS_STRING, String.class);
   }
 
   @Override
@@ -65,7 +65,7 @@ class ObjectArrayAssert_usingComparatorForType_Test extends ObjectArrayAssertBas
     // GIVEN
     Object[] array = array("some", "other", new BigDecimal(42));
     // THEN
-    assertThat(array).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+    assertThat(array).usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                      .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
                      .contains("other", "any", new BigDecimal("42.0"))
                      .containsOnly("other", "any", new BigDecimal("42.00"))
@@ -77,7 +77,7 @@ class ObjectArrayAssert_usingComparatorForType_Test extends ObjectArrayAssertBas
     // GIVEN
     Object[] array = array(actual, "some");
     // THEN
-    assertThat(array).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+    assertThat(array).usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                      .usingElementComparatorIgnoringFields("name")
                      .contains(other, "any");
   }
@@ -87,7 +87,7 @@ class ObjectArrayAssert_usingComparatorForType_Test extends ObjectArrayAssertBas
     // GIVEN
     Object[] array = array(actual, "some");
     // THEN
-    assertThat(array).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+    assertThat(array).usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                      .usingElementComparatorOnFields("name", "lightSaberColor")
                      .contains(other, "any");
   }
@@ -97,7 +97,7 @@ class ObjectArrayAssert_usingComparatorForType_Test extends ObjectArrayAssertBas
     // GIVEN
     Object[] array = array(actual, "some");
     // THEN
-    assertThat(array).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+    assertThat(array).usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                      .usingFieldByFieldElementComparator()
                      .contains(other, "any");
   }
@@ -107,7 +107,7 @@ class ObjectArrayAssert_usingComparatorForType_Test extends ObjectArrayAssertBas
     // GIVEN
     Object[] array = array(actual, "some");
     // THEN
-    AssertionError error = expectAssertionError(() -> assertThat(array).usingComparatorForElementFieldsWithType(ALWAY_EQUALS_STRING,
+    AssertionError error = expectAssertionError(() -> assertThat(array).usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_STRING,
                                                                                                                 String.class)
                                                                        .usingFieldByFieldElementComparator()
                                                                        .contains(other, "any"));
@@ -130,7 +130,7 @@ class ObjectArrayAssert_usingComparatorForType_Test extends ObjectArrayAssertBas
     Object[] array = array(actual, actual);
     // THEN
     assertThat(array).usingComparatorForElementFieldsWithType(NEVER_EQUALS_STRING, String.class)
-                     .usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+                     .usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                      .usingFieldByFieldElementComparator()
                      .contains(other, other);
   }
@@ -138,7 +138,7 @@ class ObjectArrayAssert_usingComparatorForType_Test extends ObjectArrayAssertBas
   @Test
   void should_be_able_to_replace_a_registered_comparator_by_type() {
     assertThat(asList(actual, actual)).usingComparatorForType(NEVER_EQUALS_STRING, String.class)
-                                      .usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+                                      .usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                                       .usingFieldByFieldElementComparator()
                                       .contains(other, other);
   }
@@ -147,7 +147,7 @@ class ObjectArrayAssert_usingComparatorForType_Test extends ObjectArrayAssertBas
   void should_be_able_to_replace_a_registered_comparator_by_field() {
     // @format:off
     assertThat(asList(actual, actual)).usingComparatorForElementFieldsWithNames(NEVER_EQUALS_STRING, "name", "lightSaberColor")
-                                      .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name", "lightSaberColor")
+                                      .usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING, "name", "lightSaberColor")
                                       .usingFieldByFieldElementComparator()
                                       .contains(other, other);
     // @format:on
@@ -158,7 +158,7 @@ class ObjectArrayAssert_usingComparatorForType_Test extends ObjectArrayAssertBas
     // GIVEN
     Object[] array = array(actual, actual);
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(array).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+    AssertionError error = expectAssertionError(() -> assertThat(array).usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                                                                        .usingComparatorForElementFieldsWithType(NEVER_EQUALS_STRING,
                                                                                                                 String.class)
                                                                        .usingFieldByFieldElementComparator()

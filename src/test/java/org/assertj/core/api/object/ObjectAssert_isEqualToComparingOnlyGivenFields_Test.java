@@ -15,7 +15,7 @@ package org.assertj.core.api.object;
 import static java.util.Collections.EMPTY_MAP;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 import static org.mockito.Mockito.verify;
 
 import java.util.Comparator;
@@ -53,7 +53,7 @@ class ObjectAssert_isEqualToComparingOnlyGivenFields_Test extends ObjectAssertBa
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Luke", "Blue");
 
-    assertThat(actual).usingComparatorForFields(ALWAY_EQUALS_STRING, "name")
+    assertThat(actual).usingComparatorForFields(ALWAYS_EQUALS_STRING, "name")
                       .isEqualToComparingOnlyGivenFields(other, "name");
   }
 
@@ -63,7 +63,7 @@ class ObjectAssert_isEqualToComparingOnlyGivenFields_Test extends ObjectAssertBa
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
-    assertThat(actual).usingComparatorForFields(ALWAY_EQUALS_STRING, "name")
+    assertThat(actual).usingComparatorForFields(ALWAYS_EQUALS_STRING, "name")
                       .usingComparatorForType(comparator, String.class)
                       .isEqualToComparingOnlyGivenFields(other, "name");
   }
@@ -73,7 +73,7 @@ class ObjectAssert_isEqualToComparingOnlyGivenFields_Test extends ObjectAssertBa
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "blue");
 
-    assertThat(actual).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+    assertThat(actual).usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                       .isEqualToComparingOnlyGivenFields(other, "name");
   }
 

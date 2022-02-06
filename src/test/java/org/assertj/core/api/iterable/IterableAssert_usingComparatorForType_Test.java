@@ -16,7 +16,7 @@ import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS_STRING;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
@@ -51,7 +51,7 @@ class IterableAssert_usingComparatorForType_Test extends IterableAssertBaseTest 
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {
-    return assertions.usingComparatorForType(ALWAY_EQUALS_STRING, String.class);
+    return assertions.usingComparatorForType(ALWAYS_EQUALS_STRING, String.class);
   }
 
   @Override
@@ -68,7 +68,7 @@ class IterableAssert_usingComparatorForType_Test extends IterableAssertBaseTest 
     // GIVEN
     List<Object> list = asList("some", "other", new BigDecimal(42));
     // THEN
-    assertThat(list).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+    assertThat(list).usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                     .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
                     .contains("other", "any", new BigDecimal("42.0"))
                     .containsOnly("other", "any", new BigDecimal("42.00"))
@@ -77,7 +77,7 @@ class IterableAssert_usingComparatorForType_Test extends IterableAssertBaseTest 
 
   @Test
   void should_use_comparator_for_type_when_using_element_comparator_ignoring_fields() {
-    assertThat(asList(actual, "some")).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+    assertThat(asList(actual, "some")).usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                                       .usingElementComparatorIgnoringFields("name")
                                       .isNotEmpty()
                                       .contains(other, "any")
@@ -86,14 +86,14 @@ class IterableAssert_usingComparatorForType_Test extends IterableAssertBaseTest 
 
   @Test
   void should_use_comparator_for_type_when_using_element_comparator_on_fields() {
-    assertThat(asList(actual, "some")).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+    assertThat(asList(actual, "some")).usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                                       .usingElementComparatorOnFields("name", "lightSaberColor")
                                       .contains(other, "any");
   }
 
   @Test
   void should_use_comparator_for_type_when_using_field_by_field_element_comparator() {
-    assertThat(asList(actual, "some")).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+    assertThat(asList(actual, "some")).usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                                       .usingFieldByFieldElementComparator()
                                       .contains(other, "any");
   }
@@ -104,7 +104,7 @@ class IterableAssert_usingComparatorForType_Test extends IterableAssertBaseTest 
     List<Comparable<? extends Comparable<?>>> list = list(actual, "some");
     // WHEN
     AssertionError error = expectAssertionError(() -> {
-      assertThat(list).usingComparatorForElementFieldsWithType(ALWAY_EQUALS_STRING, String.class)
+      assertThat(list).usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_STRING, String.class)
                       .usingElementComparatorIgnoringFields("name")
                       .contains(other, "any");
     });
@@ -124,7 +124,7 @@ class IterableAssert_usingComparatorForType_Test extends IterableAssertBaseTest 
   @Test
   void should_use_comparator_set_last_on_elements() {
     assertThat(asList(actual, actual)).usingComparatorForElementFieldsWithType(NEVER_EQUALS_STRING, String.class)
-                                      .usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+                                      .usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                                       .usingFieldByFieldElementComparator()
                                       .contains(other, other);
   }
@@ -132,7 +132,7 @@ class IterableAssert_usingComparatorForType_Test extends IterableAssertBaseTest 
   @Test
   void should_be_able_to_replace_a_registered_comparator_by_type() {
     assertThat(list("foo", "bar")).usingComparatorForType(NEVER_EQUALS_STRING, String.class)
-                                  .usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+                                  .usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                                   .contains("baz");
   }
 
@@ -140,7 +140,7 @@ class IterableAssert_usingComparatorForType_Test extends IterableAssertBaseTest 
   void should_be_able_to_replace_a_registered_comparator_by_field() {
     // @format:off
     assertThat(asList(actual, actual)).usingComparatorForElementFieldsWithNames(NEVER_EQUALS_STRING, "name", "lightSaberColor")
-                                      .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name", "lightSaberColor")
+                                      .usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING, "name", "lightSaberColor")
                                       .usingFieldByFieldElementComparator()
                                       .contains(other, other);
     // @format:on
@@ -150,7 +150,7 @@ class IterableAssert_usingComparatorForType_Test extends IterableAssertBaseTest 
   void should_fail_because_of_comparator_set_last() {
     // WHEN
     AssertionError error = expectAssertionError(() -> {
-      assertThat(asList(actual, actual)).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+      assertThat(asList(actual, actual)).usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                                         .usingComparatorForElementFieldsWithType(NEVER_EQUALS_STRING, String.class)
                                         .usingFieldByFieldElementComparator()
                                         .contains(other, other);

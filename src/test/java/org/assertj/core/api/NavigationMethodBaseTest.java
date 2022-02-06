@@ -14,7 +14,7 @@ package org.assertj.core.api;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS;
 
 import java.util.UUID;
 
@@ -35,7 +35,7 @@ public interface NavigationMethodBaseTest<ASSERT extends AbstractAssert<ASSERT, 
   @Test
   default void should_honor_registered_comparator() {
     // GIVEN
-    ASSERT underTest = getAssertion().usingComparator(ALWAY_EQUALS);
+    ASSERT underTest = getAssertion().usingComparator(ALWAYS_EQUALS);
     // WHEN
     AbstractAssert<?, ?> result = invoke_navigation_method(underTest);
     // THEN
@@ -48,7 +48,7 @@ public interface NavigationMethodBaseTest<ASSERT extends AbstractAssert<ASSERT, 
     ASSERT underTest = getAssertion().as("description")
                                      .withFailMessage("error message")
                                      .withRepresentation(UNICODE_REPRESENTATION)
-                                     .usingComparator(ALWAY_EQUALS);
+                                     .usingComparator(ALWAYS_EQUALS);
     // WHEN
     AbstractAssert<?, ?> result = invoke_navigation_method(underTest);
     // THEN

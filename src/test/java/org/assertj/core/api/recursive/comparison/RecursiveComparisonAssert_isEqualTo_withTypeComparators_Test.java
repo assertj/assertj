@@ -16,8 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.internal.objects.SymmetricDateComparator.SYMMETRIC_DATE_COMPARATOR;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
@@ -175,7 +175,7 @@ class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
     Patient expected = new Patient(new Timestamp(3L));
     // THEN
     assertThat(actual).usingRecursiveComparison()
-                      .withComparatorForType(ALWAY_EQUALS_TIMESTAMP, Timestamp.class)
+                      .withComparatorForType(ALWAYS_EQUALS_TIMESTAMP, Timestamp.class)
                       .isEqualTo(expected);
     assertThat(actual).usingRecursiveComparison()
                       .withEqualsForType((o1, o2) -> true, Timestamp.class)
@@ -239,7 +239,7 @@ class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
     expected.neighbour.name = "Omar2";
     // THEN
     assertThat(actual).usingRecursiveComparison()
-                      .withComparatorForType(ALWAY_EQUALS, AlwaysEqualPerson.class) // fails if commented
+                      .withComparatorForType(ALWAYS_EQUALS, AlwaysEqualPerson.class) // fails if commented
                       .ignoringOverriddenEqualsForFields("neighbour")
                       .isEqualTo(expected);
     assertThat(actual).usingRecursiveComparison()

@@ -22,7 +22,7 @@ import static org.assertj.core.api.recursive.comparison.ColorWithCode.RED;
 import static org.assertj.core.api.recursive.comparison.RecursiveComparisonAssert_isEqualTo_Test.EmployeeDTO.JobTitle.QA_ENGINEER;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Maps.newHashMap;
@@ -94,11 +94,11 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
     // GIVEN
     Person actual = new Person("John");
     // WHEN
-    RecursiveComparisonConfiguration assertion = assertThat(actual).usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+    RecursiveComparisonConfiguration assertion = assertThat(actual).usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                                                                    .usingRecursiveComparison()
                                                                    .getRecursiveComparisonConfiguration();
     // THEN
-    assertThat(assertion.comparatorByTypes()).contains(entry(String.class, ALWAY_EQUALS_STRING));
+    assertThat(assertion.comparatorByTypes()).contains(entry(String.class, ALWAYS_EQUALS_STRING));
   }
 
   @Test

@@ -19,10 +19,10 @@ import org.assertj.core.groups.Tuple;
 
 public class AlwaysEqualComparator<T> implements Comparator<T> {
 
-  public static final AlwaysEqualComparator<Object> ALWAY_EQUALS = alwaysEqual();
-  public static final AlwaysEqualComparator<String> ALWAY_EQUALS_STRING = alwaysEqual();
-  public static final AlwaysEqualComparator<Timestamp> ALWAY_EQUALS_TIMESTAMP = alwaysEqual();
-  public static final AlwaysEqualComparator<Tuple> ALWAY_EQUALS_TUPLE = alwaysEqual();
+  public static final AlwaysEqualComparator<Object> ALWAYS_EQUALS = alwaysEqual();
+  public static final AlwaysEqualComparator<String> ALWAYS_EQUALS_STRING = alwaysEqual();
+  public static final AlwaysEqualComparator<Timestamp> ALWAYS_EQUALS_TIMESTAMP = alwaysEqual();
+  public static final AlwaysEqualComparator<Tuple> ALWAYS_EQUALS_TUPLE = alwaysEqual();
 
   @Override
   public int compare(T o1, T o2) {

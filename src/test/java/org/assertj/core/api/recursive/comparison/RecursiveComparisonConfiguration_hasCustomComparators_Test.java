@@ -13,7 +13,7 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS;
 
 import java.util.function.BiPredicate;
 
@@ -47,7 +47,7 @@ class RecursiveComparisonConfiguration_hasCustomComparators_Test {
     // GIVEN
     recursiveComparisonConfiguration.getTypeComparators().clear();
     // WHEN
-    recursiveComparisonConfiguration.registerComparatorForFields(ALWAY_EQUALS, "foo");
+    recursiveComparisonConfiguration.registerComparatorForFields(ALWAYS_EQUALS, "foo");
     // THEN
     assertThat(recursiveComparisonConfiguration.hasCustomComparators()).isTrue();
   }

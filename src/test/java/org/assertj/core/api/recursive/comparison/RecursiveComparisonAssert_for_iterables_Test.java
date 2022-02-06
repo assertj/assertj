@@ -16,7 +16,7 @@ import static com.google.common.collect.Sets.newHashSet;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.util.Comparator;
@@ -49,7 +49,7 @@ class RecursiveComparisonAssert_for_iterables_Test {
   @Test
   void should_propagate_comparator_by_type() {
     // GIVEN
-    Comparator<String> alwayEqualsString = ALWAY_EQUALS_STRING;
+    Comparator<String> alwayEqualsString = ALWAYS_EQUALS_STRING;
     // WHEN
     RecursiveComparisonConfiguration assertion = assertThat(actual).usingComparatorForType(alwayEqualsString, String.class)
                                                                    .usingRecursiveComparison()

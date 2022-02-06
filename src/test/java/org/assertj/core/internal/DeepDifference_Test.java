@@ -23,7 +23,7 @@ import static java.lang.Math.tan;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.internal.ObjectsBaseTest.noFieldComparators;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -173,7 +173,7 @@ class DeepDifference_Test {
     SetWrapper b = new SetWrapper(newLinkedHashSet(new Wrapper("1"), new Wrapper("2")));
 
     Map<String, Comparator<?>> fieldComparators = new HashMap<>();
-    fieldComparators.put("set.o", ALWAY_EQUALS_STRING);
+    fieldComparators.put("set.o", ALWAYS_EQUALS_STRING);
     assertHaveNoDifferences(a, b, fieldComparators, defaultTypeComparators());
   }
 

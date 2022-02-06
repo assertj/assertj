@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS;
 
 import java.util.Comparator;
 import java.util.List;
@@ -54,11 +54,11 @@ class RecursiveComparisonConfiguration_comparatorByType_Test {
     AbsValueComparator<Integer> integerComparator = new AbsValueComparator<>();
     recursiveComparisonConfiguration.registerComparatorForType(integerComparator, Integer.class);
     recursiveComparisonConfiguration.registerEqualsForType((Tuple t1, Tuple t2) -> false, Tuple.class);
-    recursiveComparisonConfiguration.registerComparatorForType(ALWAY_EQUALS, Double.class);
+    recursiveComparisonConfiguration.registerComparatorForType(ALWAYS_EQUALS, Double.class);
     // THEN
     assertThat(recursiveComparisonConfiguration.getComparatorForType(Integer.class)).isSameAs(integerComparator);
     assertThat(recursiveComparisonConfiguration.getComparatorForType(Tuple.class)).isNotNull();
-    assertThat(recursiveComparisonConfiguration.getComparatorForType(Double.class)).isSameAs(ALWAY_EQUALS);
+    assertThat(recursiveComparisonConfiguration.getComparatorForType(Double.class)).isSameAs(ALWAYS_EQUALS);
   }
 
   @Test

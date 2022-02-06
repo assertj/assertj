@@ -20,8 +20,8 @@ import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
 import static org.assertj.core.api.GroupAssertTestHelper.throwingFirstNameExtractor;
 import static org.assertj.core.api.GroupAssertTestHelper.throwingLastNameExtractor;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TUPLE;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_TUPLE;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
@@ -127,14 +127,14 @@ class IterableAssert_extracting_with_throwing_extractor_Test {
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
                                                                 .withFailMessage("error message")
                                                                 .withRepresentation(UNICODE_REPRESENTATION)
-                                                                .usingComparatorForType(ALWAY_EQUALS_TUPLE, Tuple.class)
+                                                                .usingComparatorForType(ALWAYS_EQUALS_TUPLE, Tuple.class)
                                                                 .extracting(throwingFirstNameExtractor, throwingLastNameExtractor)
                                                                 .contains(tuple("YODA", null), tuple("Luke", "Skywalker"));
     // THEN
     then(assertion.descriptionText()).isEqualTo("test description");
     then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    then(comparatorsByTypeOf(assertion).get(Tuple.class)).isSameAs(ALWAY_EQUALS_TUPLE);
+    then(comparatorsByTypeOf(assertion).get(Tuple.class)).isSameAs(ALWAYS_EQUALS_TUPLE);
   }
 
   @Test
@@ -144,14 +144,14 @@ class IterableAssert_extracting_with_throwing_extractor_Test {
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
                                                                 .withFailMessage("error message")
                                                                 .withRepresentation(UNICODE_REPRESENTATION)
-                                                                .usingComparatorForType(ALWAY_EQUALS_STRING, String.class)
+                                                                .usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                                                                 .extracting(throwingFirstNameExtractor)
                                                                 .contains("YODA", "Luke");
     // THEN
     then(assertion.descriptionText()).isEqualTo("test description");
     then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    then(comparatorsByTypeOf(assertion).get(String.class)).isSameAs(ALWAY_EQUALS_STRING);
+    then(comparatorsByTypeOf(assertion).get(String.class)).isSameAs(ALWAYS_EQUALS_STRING);
   }
 
 }

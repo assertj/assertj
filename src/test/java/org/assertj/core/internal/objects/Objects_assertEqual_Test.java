@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.verify;
 
@@ -36,7 +36,7 @@ import org.junit.jupiter.params.provider.CsvSource;
  */
 class Objects_assertEqual_Test extends ObjectsBaseTest {
 
-  private static final Objects OBJECTS_WITH_ALWAY_EQUALS_COMPARATOR = new Objects(new ComparatorBasedComparisonStrategy(ALWAY_EQUALS));
+  private static final Objects OBJECTS_WITH_ALWAY_EQUALS_COMPARATOR = new Objects(new ComparatorBasedComparisonStrategy(ALWAYS_EQUALS));
 
   @Test
   void should_pass_if_objects_are_equal() {

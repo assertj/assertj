@@ -17,8 +17,8 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 
 import java.util.List;
 import java.util.function.Function;
@@ -97,16 +97,16 @@ class ObjectAssert_extracting_with_Function_Array_Test {
     ObjectAssert<Employee> assertion = assertThat(luke).as("test description")
                                                        .withFailMessage("error message")
                                                        .withRepresentation(UNICODE_REPRESENTATION)
-                                                       .usingComparator(ALWAY_EQUALS)
-                                                       .usingComparatorForFields(ALWAY_EQUALS_STRING, "foo")
-                                                       .usingComparatorForType(ALWAY_EQUALS_STRING, String.class);
+                                                       .usingComparator(ALWAYS_EQUALS)
+                                                       .usingComparatorForFields(ALWAYS_EQUALS_STRING, "foo")
+                                                       .usingComparatorForType(ALWAYS_EQUALS_STRING, String.class);
     // WHEN
     AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> result = assertion.extracting(firstName, Employee::getName);
     // THEN
     then(result.descriptionText()).isEqualTo("test description");
     then(result.info.overridingErrorMessage()).isEqualTo("error message");
     then(result.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
-    then(comparatorOf(result).getComparator()).isSameAs(ALWAY_EQUALS);
+    then(comparatorOf(result).getComparator()).isSameAs(ALWAYS_EQUALS);
   }
 
   private static Objects comparatorOf(AbstractListAssert<?, ?, ?, ?> assertion) {

@@ -16,8 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.internal.objects.SymmetricDateComparator.SYMMETRIC_DATE_COMPARATOR;
 import static org.assertj.core.test.AlwaysDifferentComparator.alwaysDifferent;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
 import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
 import static org.assertj.core.util.Arrays.array;
@@ -231,7 +231,7 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test extends Recu
     Patient expected = new Patient(new Timestamp(3L));
     // THEN
     then(actual).usingRecursiveComparison()
-                .withComparatorForFields(ALWAY_EQUALS_TIMESTAMP, "dateOfBirth")
+                .withComparatorForFields(ALWAYS_EQUALS_TIMESTAMP, "dateOfBirth")
                 .isEqualTo(expected);
     then(actual).usingRecursiveComparison()
                 .withEqualsForFields((o1, o2) -> true, "dateOfBirth")
@@ -262,10 +262,10 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test extends Recu
     // THEN
     then(actual).usingRecursiveComparison()
                 .withComparatorForType(NEVER_EQUALS, Timestamp.class)
-                .withComparatorForFields(ALWAY_EQUALS_TIMESTAMP, "dateOfBirth")
+                .withComparatorForFields(ALWAYS_EQUALS_TIMESTAMP, "dateOfBirth")
                 .isEqualTo(expected);
     then(actual).usingRecursiveComparison()
-                .withComparatorForFields(ALWAY_EQUALS_TIMESTAMP, "dateOfBirth")
+                .withComparatorForFields(ALWAYS_EQUALS_TIMESTAMP, "dateOfBirth")
                 .withComparatorForType(NEVER_EQUALS, Timestamp.class)
                 .isEqualTo(expected);
     then(actual).usingRecursiveComparison()
@@ -289,7 +289,7 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test extends Recu
     expected.neighbour.name = "Omar2";
     // THEN
     then(actual).usingRecursiveComparison()
-                .withComparatorForFields(ALWAY_EQUALS, "neighbour") // fails if commented
+                .withComparatorForFields(ALWAYS_EQUALS, "neighbour") // fails if commented
                 .ignoringOverriddenEqualsForFields("neighbour")
                 .isEqualTo(expected);
     then(actual).usingRecursiveComparison()

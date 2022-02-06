@@ -13,7 +13,7 @@
 package org.assertj.core.api.iterable;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.Comparator;
@@ -58,7 +58,7 @@ class IterableAssert_usingElementComparatorOnFields_Test extends IterableAssertB
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
-    assertThat(list(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name")
+    assertThat(list(actual)).usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING, "name")
                             .usingElementComparatorOnFields("name", "lightSaberColor")
                             .contains(other);
   }
@@ -69,7 +69,7 @@ class IterableAssert_usingElementComparatorOnFields_Test extends IterableAssertB
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
-    assertThat(list(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name")
+    assertThat(list(actual)).usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING, "name")
                             .usingComparatorForElementFieldsWithType(comparator, String.class)
                             .usingElementComparatorOnFields("name", "lightSaberColor")
                             .contains(other);
@@ -80,7 +80,7 @@ class IterableAssert_usingElementComparatorOnFields_Test extends IterableAssertB
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "blue");
 
-    assertThat(list(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS_STRING, String.class)
+    assertThat(list(actual)).usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_STRING, String.class)
                             .usingElementComparatorOnFields("name", "lightSaberColor")
                             .contains(other);
   }
