@@ -67,12 +67,7 @@ class IterableAssert_extracting_Test {
   private final List<TolkienCharacter> fellowshipOfTheRing = new ArrayList<>();
 
   @SuppressWarnings("deprecation")
-  private static final Extractor<Employee, String> firstName = new Extractor<Employee, String>() {
-    @Override
-    public String extract(Employee input) {
-      return input.getName().getFirst();
-    }
-  };
+  private static final Extractor<Employee, String> firstName = input -> input.getName().getFirst();
 
   private static final Function<Employee, Integer> age = Employee::getAge;
 

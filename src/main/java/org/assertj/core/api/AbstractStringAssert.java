@@ -264,7 +264,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    */
   @CheckReturnValue
   public AbstractByteArrayAssert<?> asBase64Decoded() {
-    strings.assertIsBase64(info, actual);
+    isBase64();
     return new ByteArrayAssert(Base64.getDecoder().decode(actual)).withAssertionState(myself);
   }
 

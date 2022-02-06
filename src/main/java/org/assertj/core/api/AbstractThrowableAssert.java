@@ -166,6 +166,30 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * Throwable exception = new Exception("boom!", cause);
    *
    * // typical use:
+   * assertThat(throwableWithMessage).cause()
+   *                                 .hasMessageStartingWith("wrong amount");</code></pre>
+   *
+   * @return a new assertion object
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} does not have a cause.
+   *
+   * @since 3.23.0
+   */
+  public AbstractThrowableAssert<?, ?> cause() {
+    throwables.assertHasCause(info, actual);
+    return new ThrowableAssert<>(actual.getCause()).withAssertionState(myself);
+  }
+
+  /**
+   * @deprecated use {@link #cause()} instead.
+   * <p>
+   * Returns a new assertion object that uses the cause of the current Throwable as the actual Throwable under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable cause =  new IllegalArgumentException("wrong amount 123");
+   * Throwable exception = new Exception("boom!", cause);
+   *
+   * // typical use:
    * assertThat(throwableWithMessage).getCause()
    *                                 .hasMessageStartingWith("wrong amount");</code></pre>
    *
@@ -175,12 +199,38 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    *
    * @since 3.16.0
    */
+  @Deprecated
   public AbstractThrowableAssert<?, ?> getCause() {
     throwables.assertHasCause(info, actual);
     return new ThrowableAssert<>(actual.getCause()).withAssertionState(myself);
   }
 
   /**
+   * Returns a new assertion object that uses the root cause of the current Throwable as the actual Throwable under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable rootCause =  new JdbcException("invalid query");
+   * Throwable cause =  new RuntimeException(rootCause);
+   * Throwable exception = new Exception("boom!", cause);
+   *
+   * // typical use:
+   * assertThat(throwableWithMessage).rootCause()
+   *                                 .hasMessageStartingWith("invalid");</code></pre>
+   *
+   * @return a new assertion object
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} does not have a root cause.
+   *
+   * @since 3.23.0
+   */
+  public AbstractThrowableAssert<?, ?> rootCause() {
+    throwables.assertHasRootCause(info, actual);
+    return new ThrowableAssert<>(org.assertj.core.util.Throwables.getRootCause(actual)).withAssertionState(myself);
+  }
+
+  /**
+   * @deprecated use {@link #rootCause()} instead.
+   * <p>
    * Returns a new assertion object that uses the root cause of the current Throwable as the actual Throwable under test.
    * <p>
    * Examples:
@@ -198,6 +248,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    *
    * @since 3.16.0
    */
+  @Deprecated
   public AbstractThrowableAssert<?, ?> getRootCause() {
     throwables.assertHasRootCause(info, actual);
     return new ThrowableAssert<>(org.assertj.core.util.Throwables.getRootCause(actual)).withAssertionState(myself);

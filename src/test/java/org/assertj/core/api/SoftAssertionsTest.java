@@ -2494,7 +2494,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // WHEN
     softly.assertThat(throwable)
           .hasMessage("not top level message")
-          .getCause()
+          .cause()
           .hasMessage("not cause message");
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
@@ -2512,7 +2512,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // WHEN
     softly.assertThat(throwable)
           .hasMessage("not top level message")
-          .getRootCause()
+          .rootCause()
           .hasMessage("not root cause message");
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();

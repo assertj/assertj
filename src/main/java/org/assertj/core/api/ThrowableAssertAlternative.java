@@ -659,7 +659,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @since 3.16.0
    */
   public ThrowableAssertAlternative<?> havingCause() {
-    AbstractThrowableAssert<?, ?> causeAssert = delegate.getCause();
+    AbstractThrowableAssert<?, ?> causeAssert = delegate.cause();
     return new ThrowableAssertAlternative<>(causeAssert.actual);
   }
 
@@ -674,7 +674,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @since 3.16.0
    */
   public ThrowableAssertAlternative<?> havingRootCause() {
-    AbstractThrowableAssert<?, ?> rootCauseAssert = delegate.getRootCause();
+    AbstractThrowableAssert<?, ?> rootCauseAssert = delegate.rootCause();
     return new ThrowableAssertAlternative<>(rootCauseAssert.actual);
   }
 

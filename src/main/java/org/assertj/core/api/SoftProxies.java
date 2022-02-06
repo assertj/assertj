@@ -48,6 +48,7 @@ class SoftProxies {
                                                                                                                                    "asList",
                                                                                                                                    "asString",
                                                                                                                                    "asHexString",
+                                                                                                                                   "cause",
                                                                                                                                    "content",
                                                                                                                                    "extracting",
                                                                                                                                    "extractingByKey",
@@ -60,11 +61,12 @@ class SoftProxies {
                                                                                                                                    "flatExtracting",
                                                                                                                                    "flatMap",
                                                                                                                                    "get",
-                                                                                                                                   "getCause",
-                                                                                                                                   "getRootCause",
+                                                                                                                                   "getCause", // deprecated
+                                                                                                                                   "getRootCause", // deprecated
                                                                                                                                    "map",
                                                                                                                                    "message",
                                                                                                                                    "newAbstractIterableAssert",
+                                                                                                                                   "rootCause",
                                                                                                                                    "scale",
                                                                                                                                    "size",
                                                                                                                                    "succeedsWithin",
