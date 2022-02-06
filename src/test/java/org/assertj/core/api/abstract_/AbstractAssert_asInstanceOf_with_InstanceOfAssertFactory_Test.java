@@ -28,11 +28,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link AbstractAssert#asInstanceOf(InstanceOfAssertFactory)}</code>.
- *
  * @author Stefano Cordio
  */
-@DisplayName("AbstractAssert asInstanceOf(InstanceOfAssertFactory)")
 class AbstractAssert_asInstanceOf_with_InstanceOfAssertFactory_Test extends AbstractAssertBaseTest
     implements NavigationMethodBaseTest<ConcreteAssert> {
 

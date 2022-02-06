@@ -36,8 +36,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link AbstractAssert#extracting(Function, AssertFactory)}</code>.
- *
  * @author Stefano Cordio
  */
 class AbstractAssert_extracting_with_Function_and_AssertFactory_Test implements NavigationMethodBaseTest<TestAssert> {

@@ -17,9 +17,12 @@ import static org.assertj.core.error.ShouldHaveCause.shouldHaveCause;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
+import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.NavigationMethodBaseTest;
+import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.Test;
 
-class ThrowableAssert_getCause_Test {
+class ThrowableAssert_getCause_Test implements NavigationMethodBaseTest<ThrowableAssert<Throwable>> {
 
   private final Throwable cause = new NullPointerException();
 
@@ -51,4 +54,15 @@ class ThrowableAssert_getCause_Test {
     // THEN
     assertThat(error).hasMessage(actualIsNull());
   }
+
+  @Override
+  public ThrowableAssert<Throwable> getAssertion() {
+    return new ThrowableAssert<>(new Throwable(cause));
+  }
+
+  @Override
+  public AbstractAssert<?, ?> invoke_navigation_method(ThrowableAssert<Throwable> assertion) {
+    return assertion.getCause();
+  }
+
 }

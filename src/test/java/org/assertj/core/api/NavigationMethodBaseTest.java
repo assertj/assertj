@@ -35,9 +35,9 @@ public interface NavigationMethodBaseTest<ASSERT extends AbstractAssert<ASSERT, 
   @Test
   default void should_honor_registered_comparator() {
     // GIVEN
-    ASSERT assertion = getAssertion().usingComparator(ALWAY_EQUALS);
+    ASSERT underTest = getAssertion().usingComparator(ALWAY_EQUALS);
     // WHEN
-    AbstractAssert<?, ?> result = invoke_navigation_method(assertion);
+    AbstractAssert<?, ?> result = invoke_navigation_method(underTest);
     // THEN
     result.isEqualTo(UUID.randomUUID()); // random value to avoid false positives
   }
@@ -45,17 +45,17 @@ public interface NavigationMethodBaseTest<ASSERT extends AbstractAssert<ASSERT, 
   @Test
   default void should_keep_existing_assertion_state() {
     // GIVEN
-    ASSERT assertion = getAssertion().as("description")
+    ASSERT underTest = getAssertion().as("description")
                                      .withFailMessage("error message")
                                      .withRepresentation(UNICODE_REPRESENTATION)
                                      .usingComparator(ALWAY_EQUALS);
     // WHEN
-    AbstractAssert<?, ?> result = invoke_navigation_method(assertion);
+    AbstractAssert<?, ?> result = invoke_navigation_method(underTest);
     // THEN
-    then(result).hasFieldOrPropertyWithValue("objects", extractObjectField(assertion))
+    then(result).hasFieldOrPropertyWithValue("objects", extractObjectField(underTest))
                 .extracting(AbstractAssert::getWritableAssertionInfo)
                 .usingRecursiveComparison()
-                .isEqualTo(assertion.info);
+                .isEqualTo(underTest.info);
   }
 
   static Object extractObjectField(AbstractAssert<?, ?> assertion) {
