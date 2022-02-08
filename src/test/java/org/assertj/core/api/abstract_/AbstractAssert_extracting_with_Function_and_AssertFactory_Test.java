@@ -120,9 +120,9 @@ class AbstractAssert_extracting_with_Function_and_AssertFactory_Test implements 
   @Test
   void should_throw_assertion_error_if_actual_is_null() {
     // GIVEN
-    Object actual = null;
+    TestAssert underTest = new TestAssert(null);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThatObject(actual).extracting(Object::getClass));
+    AssertionError assertionError = expectAssertionError(() -> underTest.extracting(Employee::getAge, Assertions::assertThat));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

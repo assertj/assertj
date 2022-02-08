@@ -17,6 +17,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractIntegerAssert;
@@ -103,6 +104,16 @@ class AbstractAssert_extracting_with_String_and_AssertFactory_Test implements Na
                                                                .isNull());
     // THEN
     then(error).hasMessageContaining("[Extracted: name.first]");
+  }
+
+  @Test
+  void should_throw_assertion_error_if_actual_is_null() {
+    // GIVEN
+    TestAssert underTest = new TestAssert(null);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> underTest.extracting("age", Assertions::assertThat));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Override
