@@ -23,7 +23,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @param <SELF> the "self" type of this assertion class.
  * @see java.net.URI
  */
-public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> extends AbstractAssert<SELF, URI> {
+public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> extends AbstractComparableAssert<SELF, URI> {
 
   @VisibleForTesting
   protected Uris uris = Uris.instance();
