@@ -30,17 +30,17 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: ${{ github.base_ref }}
-          path: assertj-core.${{ github.base_ref }}
+          path: ${{ github.run_id }}.${{ github.base_ref }}
       - name: (PR only) Build `${{ github.base_ref }}`
         if: github.base_ref != null
-        run: ./mvnw -V --no-transfer-progress -e -f assertj-core.${{ github.base_ref }}/pom.xml package -DskipTests
+        run: ./mvnw -V --no-transfer-progress -e -f ${{ github.run_id }}.${{ github.base_ref }}/pom.xml package -DskipTests
       - name: (PR only) Compare `${{ github.head_ref }}` with `${{ github.base_ref }}`
         if: github.base_ref != null
         run: >
           ./mvnw -V --no-transfer-progress -e -Pjapicmp-branch package japicmp:cmp
           -DskipTests
           -Djapicmp.breakBuildOnBinaryIncompatibleModifications=true
-          -Djapicmp.oldVersion.basedir=assertj-core.${{ github.base_ref }}
+          -Djapicmp.oldVersion.basedir=${{ github.run_id }}.${{ github.base_ref }}
       - name: (PR only) Add label
         if: github.base_ref != null && failure()
         uses: actions/github-script@v5
