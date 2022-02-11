@@ -113,9 +113,9 @@ public class RecursiveComparisonDifferenceCalculator {
       if (!visitedDualValues.contains(dualValue)) dualValuesToCompare.addFirst(dualValue);
     }
 
-    private void initDualValuesToCompare(Object actual, Object expected, FieldLocation fieldLocation, boolean isRootObject) {
+    private void initDualValuesToCompare(Object actual, Object expected, FieldLocation fieldLocation) {
       DualValue dualValue = new DualValue(fieldLocation, actual, expected);
-      boolean mustCompareFieldsRecursively = mustCompareFieldsRecursively(isRootObject, dualValue);
+      boolean mustCompareFieldsRecursively = mustCompareFieldsRecursively(dualValue);
       if (dualValue.hasNoNullValues() && dualValue.hasNoContainerValues() && mustCompareFieldsRecursively) {
         // disregard the equals method and start comparing fields
         Set<String> nonIgnoredActualFieldsNames = recursiveComparisonConfiguration.getNonIgnoredActualFieldNames(dualValue);
@@ -151,10 +151,9 @@ public class RecursiveComparisonDifferenceCalculator {
                                                                        .ifPresent(dualValuesToCompare::remove));
     }
 
-    private boolean mustCompareFieldsRecursively(boolean isRootObject, DualValue dualValue) {
-      boolean noCustomComparisonForDualValue = !recursiveComparisonConfiguration.hasCustomComparator(dualValue)
-                                               && !shouldHonorOverriddenEquals(dualValue, recursiveComparisonConfiguration);
-      return isRootObject || noCustomComparisonForDualValue;
+    private boolean mustCompareFieldsRecursively(DualValue dualValue) {
+      return !recursiveComparisonConfiguration.hasCustomComparator(dualValue)
+             && !shouldHonorOverriddenEquals(dualValue, recursiveComparisonConfiguration);
     }
 
     private String getCustomErrorMessage(DualValue dualValue) {
@@ -198,16 +197,16 @@ public class RecursiveComparisonDifferenceCalculator {
       return list(expectedAndActualTypeDifference(actual, expected));
     }
     List<DualValue> visited = list();
-    return determineDifferences(actual, expected, rootFieldLocation(), true, visited, recursiveComparisonConfiguration);
+    return determineDifferences(actual, expected, rootFieldLocation(), visited, recursiveComparisonConfiguration);
   }
 
   // TODO keep track of ignored fields in an RecursiveComparisonExecution class ?
 
   private static List<ComparisonDifference> determineDifferences(Object actual, Object expected, FieldLocation fieldLocation,
-                                                                 boolean isRootObject, List<DualValue> visited,
+                                                                 List<DualValue> visited,
                                                                  RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     ComparisonState comparisonState = new ComparisonState(visited, recursiveComparisonConfiguration);
-    comparisonState.initDualValuesToCompare(actual, expected, fieldLocation, isRootObject);
+    comparisonState.initDualValuesToCompare(actual, expected, fieldLocation);
 
     while (comparisonState.hasDualValuesToCompare()) {
       final DualValue dualValue = comparisonState.pickDualValueToCompare();
@@ -434,7 +433,7 @@ public class RecursiveComparisonDifferenceCalculator {
         Object actualElement = actualIterator.next();
         // we need to get the currently visited dual values otherwise a cycle would cause an infinite recursion.
         List<ComparisonDifference> differences = determineDifferences(actualElement, expectedElement, dualValue.fieldLocation,
-                                                                      false, comparisonState.visitedDualValues,
+                                                                      comparisonState.visitedDualValues,
                                                                       comparisonState.recursiveComparisonConfiguration);
         if (differences.isEmpty()) {
           // found an element in actual matching expectedElement, remove it as it can't be used to match other expected elements

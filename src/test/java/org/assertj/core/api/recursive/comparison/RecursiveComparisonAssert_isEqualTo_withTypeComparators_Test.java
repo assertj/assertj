@@ -49,7 +49,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
     extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
-  @SuppressWarnings("unused")
   @ParameterizedTest(name = "{3}: actual={0} / expected={1} - comparatorsByType: {2}")
   @MethodSource("recursivelyEqualObjectsWhenUsingTypeComparators")
   void should_pass_for_objects_with_the_same_data_when_using_registered_comparator_by_types(Object actual,
@@ -65,7 +64,6 @@ class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
                       .isEqualTo(expected);
   }
 
-  @SuppressWarnings("unused")
   @ParameterizedTest(name = "{3}: actual={0} / expected={1} - comparatorsByType: {2}")
   @MethodSource("recursivelyEqualObjectsWhenUsingTypeComparators")
   void should_pass_for_objects_with_the_same_data_when_using_registered_equals_by_types(Object actual,
@@ -133,7 +131,6 @@ class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
     expected.neighbour = new Person("Jack");
     expected.neighbour.home.address.number = 123;
     // register comparators for some type that will fail the comparison
-    recursiveComparisonConfiguration.registerComparatorForType(new AlwaysDifferentComparator<>(), Person.class);
     recursiveComparisonConfiguration.registerComparatorForType(new AlwaysDifferentComparator<>(), Date.class);
     recursiveComparisonConfiguration.registerEqualsForType((Address a1, Address a2) -> false, Address.class);
 
@@ -143,9 +140,10 @@ class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
     // THEN
     ComparisonDifference dateOfBirthDifference = diff("dateOfBirth", actual.dateOfBirth, expected.dateOfBirth);
     ComparisonDifference addressDifference = diff("home.address", actual.home.address, expected.home.address);
-    ComparisonDifference neighbourDifference = diff("neighbour", actual.neighbour, expected.neighbour);
-    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected,
-                                                              dateOfBirthDifference, addressDifference, neighbourDifference);
+    ComparisonDifference neighbourAddressDifference = diff("neighbour.home.address", actual.neighbour.home.address,
+                                                           expected.neighbour.home.address);
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, dateOfBirthDifference,
+                                                              addressDifference, neighbourAddressDifference);
   }
 
   @Test

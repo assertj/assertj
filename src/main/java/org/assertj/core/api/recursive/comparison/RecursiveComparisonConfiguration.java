@@ -712,7 +712,7 @@ public class RecursiveComparisonConfiguration {
     String fieldName = dualValue.getConcatenatedPath();
     if (hasComparatorForField(fieldName)) return true;
     if (dualValue.actual == null && dualValue.expected == null) return false;
-    // best effort assuming actual and expected have the same type (not 100% true as we can compare object of differennt types)
+    // best effort assuming actual and expected have the same type (not 100% true as we can compare object of different types)
     Class<?> valueType = dualValue.actual != null ? dualValue.actual.getClass() : dualValue.expected.getClass();
     return hasComparatorForType(valueType);
   }
@@ -720,7 +720,7 @@ public class RecursiveComparisonConfiguration {
   boolean shouldIgnoreOverriddenEqualsOf(DualValue dualValue) {
     // we must compare java basic types otherwise the recursive comparison loops infinitely!
     if (dualValue.isActualJavaType()) return false;
-    // enums don't have fields, comparing them field by field has no sense, we need to use equals which is overridden and final
+    // enums don't have fields, comparing them field by field makes no sense, we need to use equals which is overridden and final
     if (dualValue.isActualAnEnum()) return false;
     return ignoreAllOverriddenEquals
            || matchesAnIgnoredOverriddenEqualsField(dualValue.fieldLocation)
