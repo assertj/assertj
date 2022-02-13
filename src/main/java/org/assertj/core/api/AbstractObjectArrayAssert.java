@@ -2078,7 +2078,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return {@code this} assertion object.
    * @since 2.5.0 / 3.5.0 - breaking change in 3.20.0
    * @see RecursiveComparisonConfiguration
-   * @see usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
+   * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
    */
   @CheckReturnValue
   public SELF usingRecursiveFieldByFieldElementComparator() {
