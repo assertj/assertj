@@ -42,7 +42,7 @@ jobs:
           -Djapicmp.oldVersion.basedir=${{ github.run_id }}.${{ github.base_ref }}
       - name: (PR only) Add label
         if: github.base_ref != null && failure()
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         with:
           script: |
             github.rest.issues.addLabels({
@@ -53,7 +53,7 @@ jobs:
             })
       - name: (PR only) Remove label
         if: github.base_ref != null && success()
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         continue-on-error: true
         with:
           script: |
