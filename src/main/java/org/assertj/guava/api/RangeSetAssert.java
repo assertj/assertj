@@ -29,7 +29,7 @@ import static org.assertj.guava.error.RangeSetShouldEncloseAnyOf.shouldEncloseAn
 import static org.assertj.guava.error.RangeSetShouldIntersect.shouldIntersect;
 import static org.assertj.guava.error.RangeSetShouldIntersectAnyOf.shouldIntersectAnyOf;
 import static org.assertj.guava.error.RangeSetShouldNotEnclose.shouldNotEnclose;
-import static org.assertj.guava.error.RangeSetShouldNotIntersect.shouldNotIntersects;
+import static org.assertj.guava.error.RangeSetShouldNotIntersect.shouldNotIntersect;
 
 import java.util.List;
 
@@ -701,7 +701,7 @@ public class RangeSetAssert<T extends Comparable<T>> extends AbstractAssert<Rang
 
   private void assertRangeSetDoesNotIntersectGivenValues(Range<T>[] ranges) {
     List<?> intersected = stream(ranges).filter(actual::intersects).collect(toList());
-    if (!intersected.isEmpty()) throwAssertionError(shouldNotIntersects(actual, ranges, intersected));
+    if (!intersected.isEmpty()) throwAssertionError(shouldNotIntersect(actual, ranges, intersected));
   }
 
   /**

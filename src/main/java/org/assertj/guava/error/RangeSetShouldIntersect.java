@@ -15,12 +15,12 @@ package org.assertj.guava.error;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
+import com.google.common.collect.Range;
 import com.google.common.collect.RangeSet;
 
 /**
- * Creates an error message indicating that the given {@link com.google.common.collect.RangeSet} does not intersect
- * neither another one {@link com.google.common.collect.RangeSet} nor some set of
- * {@link com.google.common.collect.Range}.
+ * Creates an error message indicating that the given {@link RangeSet} does not intersect
+ * either another one {@link RangeSet} or some set of {@link Range}.
  *
  * @author Ilya Koshaleu
  */
@@ -33,12 +33,13 @@ public class RangeSetShouldIntersect extends BasicErrorMessageFactory {
   /**
    * Creates a new <code>{@link BasicErrorMessageFactory}</code>.
    *
-   * @param actual actual {@link com.google.common.collect.RangeSet}.
-   * @param expected expected {@link com.google.common.collect.RangeSet} that have to be intersected.
+   * @param actual actual {@link RangeSet}.
+   * @param expected expected {@link RangeSet} that have to be intersected.
    * @param notIntersected not intersected ranges.
    */
   private RangeSetShouldIntersect(Object actual, Object expected, Object notIntersected) {
     super("%nExpecting:%n  %s%nto intersect%n  %s%nbut it does not intersect%n  %s%n",
           actual, expected, notIntersected);
   }
+
 }

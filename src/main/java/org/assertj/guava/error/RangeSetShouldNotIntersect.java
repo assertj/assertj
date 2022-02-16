@@ -20,6 +20,11 @@ import org.assertj.core.error.ErrorMessageFactory;
  */
 public class RangeSetShouldNotIntersect extends BasicErrorMessageFactory {
 
+  public static ErrorMessageFactory shouldNotIntersect(Object actual, Object unexpected, Iterable<?> intersected) {
+    return new RangeSetShouldNotIntersect(actual, unexpected, intersected);
+  }
+
+  @Deprecated
   public static ErrorMessageFactory shouldNotIntersects(Object actual, Object unexpected, Iterable<?> intersected) {
     return new RangeSetShouldNotIntersect(actual, unexpected, intersected);
   }
@@ -35,4 +40,5 @@ public class RangeSetShouldNotIntersect extends BasicErrorMessageFactory {
     super("%nExpecting:%n  %s%nnot to intersect%n  %s%nbut it intersects%n  %s%n",
           actual, unexpected, intersected);
   }
+
 }

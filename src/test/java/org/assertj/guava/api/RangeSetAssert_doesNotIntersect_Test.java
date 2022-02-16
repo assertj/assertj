@@ -21,7 +21,7 @@ import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
-import static org.assertj.guava.error.RangeSetShouldNotIntersect.shouldNotIntersects;
+import static org.assertj.guava.error.RangeSetShouldNotIntersect.shouldNotIntersect;
 import static org.assertj.guava.testkit.AssertionErrors.expectAssertionError;
 
 import org.junit.jupiter.api.Test;
@@ -74,7 +74,7 @@ class RangeSetAssert_doesNotIntersect_Test {
     // WHEN
     AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotIntersect(ranges));
     // THEN
-    then(error).hasMessage(shouldNotIntersects(actual, ranges, asList(open(90, 170))).create());
+    then(error).hasMessage(shouldNotIntersect(actual, ranges, asList(open(90, 170))).create());
   }
 
   @Test
