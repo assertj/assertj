@@ -12,29 +12,24 @@
  */
 package org.assertj.guava.api;
 
-import static com.google.common.collect.ImmutableRangeSet.of;
 import static com.google.common.collect.Range.closed;
-import static com.google.common.collect.TreeRangeSet.create;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContain.shouldContain;
-import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsEmpty;
-import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
+import static org.assertj.guava.testkit.AssertionErrors.expectAssertionError;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.google.common.collect.ImmutableRangeSet;
 import com.google.common.collect.RangeSet;
 
 /**
- * Tests for <code>{@link RangeSetAssert#contains(Comparable[])}</code>.
- *
  * @author Ilya Koshaleu
  */
-@DisplayName("RangeSetAssert contains")
 class RangeSetAssert_contains_Test {
 
   @Test
@@ -42,61 +37,69 @@ class RangeSetAssert_contains_Test {
     // GIVEN
     RangeSet<Integer> actual = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).contains(1));
+    AssertionError error = expectAssertionError(() -> assertThat(actual).contains(1));
     // THEN
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_expected_values_are_null() {
+  void should_fail_if_values_is_null() {
     // GIVEN
-    RangeSet<Integer> actual = create();
-    Integer[] elements = null;
+    RangeSet<Integer> actual = ImmutableRangeSet.of();
+    Integer[] values = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).contains(elements));
+    Throwable thrown = catchThrowable(() -> assertThat(actual).contains(values));
     // THEN
-    assertThat(throwable).isInstanceOf(IllegalArgumentException.class)
-                         .hasMessage(valuesToLookForIsNull());
+    then(thrown).isInstanceOf(NullPointerException.class)
+                .hasMessage(shouldNotBeNull("values").create());
   }
 
   @Test
-  void should_pass_if_both_expected_values_and_actual_are_empty() {
+  void should_fail_if_values_is_empty() {
     // GIVEN
-    RangeSet<Integer> actual = create();
-    // THEN
-    assertThat(actual).contains();
-  }
-
-  @Test
-  void should_fail_if_expected_values_are_empty() {
-    // GIVEN
-    RangeSet<Integer> actual = of(closed(0, 1));
+    RangeSet<Integer> actual = ImmutableRangeSet.of(closed(0, 1));
+    Integer[] values = {};
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).contains());
+    Throwable thrown = catchThrowable(() -> assertThat(actual).contains(values));
     // THEN
-    assertThat(throwable).isInstanceOf(IllegalArgumentException.class)
-                         .hasMessage(valuesToLookForIsEmpty());
-
+    then(thrown).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Expecting values not to be empty");
   }
 
   @Test
-  void should_fail_if_the_given_range_set_does_not_contain_element() {
+  void should_fail_if_actual_does_not_contain_values() {
     // GIVEN
-    RangeSet<Integer> actual = of(closed(0, 3));
-    Integer[] expected = array(3, 4, 5);
+    RangeSet<Integer> actual = ImmutableRangeSet.of(closed(0, 3));
+    Integer[] values = array(3, 4, 5);
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).contains(expected));
+    AssertionError error = expectAssertionError(() -> assertThat(actual).contains(values));
     // THEN
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(shouldContain(actual, expected, array(4, 5)).create());
+    then(error).hasMessage(shouldContain(actual, values, array(4, 5)).create());
   }
 
   @Test
-  void should_pass_if_the_given_range_set_contains_element() {
+  void should_pass_if_both_actual_and_values_are_empty() {
     // GIVEN
-    RangeSet<Integer> actual = of(closed(0, 10));
-    // THEN
+    RangeSet<Integer> actual = ImmutableRangeSet.of();
+    Integer[] values = {};
+    // WHEN/THEN
+    assertThat(actual).contains(values);
+  }
+
+  @Test
+  void should_pass_if_actual_contains_values() {
+    // GIVEN
+    RangeSet<Integer> actual = ImmutableRangeSet.of(closed(0, 10));
+    // WHEN/THEN
     assertThat(actual).contains(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
   }
+
+  @Test
+  void should_pass_if_actual_contains_duplicated_values() {
+    // GIVEN
+    RangeSet<Integer> actual = ImmutableRangeSet.of(closed(0, 10));
+    // WHEN/THEN
+    assertThat(actual).contains(1, 1, 5, 5, 10, 10);
+  }
+
 }

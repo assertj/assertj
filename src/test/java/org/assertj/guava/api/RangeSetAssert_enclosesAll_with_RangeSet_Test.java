@@ -17,83 +17,88 @@ import static com.google.common.collect.Range.open;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
-import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.guava.api.Assertions.assertThat;
-import static org.assertj.guava.error.RangeSetShouldIntersectAnyOf.shouldIntersectAnyOf;
+import static org.assertj.guava.error.RangeSetShouldEnclose.shouldEnclose;
 import static org.assertj.guava.testkit.AssertionErrors.expectAssertionError;
 
 import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.ImmutableRangeSet;
-import com.google.common.collect.Range;
 import com.google.common.collect.RangeSet;
 
-class RangeSetAssert_intersectsAnyOf_Test {
+class RangeSetAssert_enclosesAll_with_RangeSet_Test {
 
   @Test
   void should_fail_if_actual_is_null() {
     // GIVEN
     RangeSet<Integer> actual = null;
+    RangeSet<Integer> rangeSet = ImmutableRangeSet.of(closed(0, 1));
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).intersectsAnyOf(closed(0, 1)));
+    AssertionError error = expectAssertionError(() -> assertThat(actual).enclosesAll(rangeSet));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_ranges_is_null() {
+  void should_fail_if_rangeSet_is_null() {
     // GIVEN
     RangeSet<Integer> actual = ImmutableRangeSet.of();
-    Range<Integer>[] ranges = null;
+    RangeSet<Integer> rangeSet = null;
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertThat(actual).intersectsAnyOf(ranges));
+    Throwable thrown = catchThrowable(() -> assertThat(actual).enclosesAll(rangeSet));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
-                .hasMessage(shouldNotBeNull("ranges").create());
+                .hasMessage(shouldNotBeNull("rangeSet").create());
   }
 
   @Test
-  void should_fail_if_ranges_is_empty() {
+  void should_fail_if_rangeSet_is_empty() {
     // GIVEN
     RangeSet<Integer> actual = ImmutableRangeSet.of(closed(0, 1));
-    Range<Integer>[] ranges = array();
+    RangeSet<Integer> rangeSet = ImmutableRangeSet.of();
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertThat(actual).intersectsAnyOf(ranges));
+    Throwable thrown = catchThrowable(() -> assertThat(actual).enclosesAll(rangeSet));
     // THEN
     then(thrown).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("Expecting ranges not to be empty");
+                .hasMessage("Expecting rangeSet not to be empty");
   }
 
   @Test
-  void should_fail_if_the_given_set_does_not_intersect_ranges() {
-    // GIVEN
-    RangeSet<Integer> actual = ImmutableRangeSet.of(open(0, 100));
-    Range<Integer>[] ranges = array(closed(-100, 0),
-                                    closed(100, 200));
-    // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).intersectsAnyOf(ranges));
-    // THEN
-    then(error).hasMessage(shouldIntersectAnyOf(actual, ranges).create());
-  }
-
-  @Test
-  void should_pass_if_both_actual_and_ranges_are_empty() {
-    // GIVEN
-    RangeSet<Integer> actual = ImmutableRangeSet.of();
-    Range<Integer>[] ranges = array();
-    // WHEN/THEN
-    assertThat(actual).intersectsAnyOf(ranges);
-  }
-
-  @Test
-  void should_pass_if_the_given_set_encloses_ranges() {
+  void should_fail_if_actual_does_not_enclose_rangeSet() {
     // GIVEN
     RangeSet<Integer> actual = ImmutableRangeSet.of(closed(0, 100));
-    Range<Integer>[] ranges = array(open(-100, 0),
-                                    open(90, 110));
+    RangeSet<Integer> expected = ImmutableRangeSet.<Integer> builder()
+                                                  .add(closed(50, 70))
+                                                  .add(closed(120, 150))
+                                                  .build();
+    // WHEN
+    AssertionError error = expectAssertionError(() -> assertThat(actual).enclosesAll(expected));
+    // THEN
+    then(error).hasMessage(shouldEnclose(actual, expected, list(closed(120, 150))).create());
+  }
+
+  @Test
+  void should_pass_if_both_actual_and_rangeSet_are_empty() {
+    // GIVEN
+    RangeSet<Integer> actual = ImmutableRangeSet.of();
+    RangeSet<Integer> rangeSet = ImmutableRangeSet.of();
     // WHEN/THEN
-    assertThat(actual).intersectsAnyOf(ranges);
+    assertThat(actual).enclosesAll(rangeSet);
+  }
+
+  @Test
+  void should_pass_if_actual_encloses_rangeSet() {
+    // GIVEN
+    RangeSet<Integer> actual = ImmutableRangeSet.of(closed(0, 100));
+    RangeSet<Integer> rangeSet = ImmutableRangeSet.<Integer> builder()
+                                                  .add(closed(0, 10))
+                                                  .add(open(50, 60))
+                                                  .add(open(90, 100))
+                                                  .build();
+    // WHEN/THEN
+    assertThat(actual).enclosesAll(rangeSet);
   }
 
 }

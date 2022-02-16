@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2021 the original author or authors.
  */
-package org.assertj.guava.test.junit.jupiter;
+package org.assertj.guava.testkit.junit.jupiter;
 
 import org.junit.jupiter.api.DisplayNameGenerator;
 

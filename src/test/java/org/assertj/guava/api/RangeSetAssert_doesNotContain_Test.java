@@ -12,29 +12,24 @@
  */
 package org.assertj.guava.api;
 
-import static com.google.common.collect.ImmutableRangeSet.of;
 import static com.google.common.collect.Range.closed;
-import static com.google.common.collect.TreeRangeSet.create;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
-import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsEmpty;
-import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
+import static org.assertj.guava.testkit.AssertionErrors.expectAssertionError;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.google.common.collect.ImmutableRangeSet;
 import com.google.common.collect.RangeSet;
 
 /**
- * Tests for <code>{@link RangeSetAssert#doesNotContain(Comparable[])}</code>.
- *
  * @author Ilya Koshaleu
  */
-@DisplayName("RangeSetAssert doesNotContain")
 class RangeSetAssert_doesNotContain_Test {
 
   @Test
@@ -42,52 +37,52 @@ class RangeSetAssert_doesNotContain_Test {
     // GIVEN
     RangeSet<Integer> actual = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).doesNotContain(1));
+    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotContain(1));
     // THEN
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_expected_values_are_null() {
+  void should_fail_if_values_is_null() {
     // GIVEN
-    RangeSet<Integer> actual = create();
-    Integer[] elements = null;
+    RangeSet<Integer> actual = ImmutableRangeSet.of();
+    Integer[] values = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).doesNotContain(elements));
+    Throwable thrown = catchThrowable(() -> assertThat(actual).doesNotContain(values));
     // THEN
-    assertThat(throwable).isInstanceOf(IllegalArgumentException.class)
-                         .hasMessage(valuesToLookForIsNull());
+    then(thrown).isInstanceOf(NullPointerException.class)
+                .hasMessage(shouldNotBeNull("values").create());
   }
 
   @Test
-  void should_fail_if_expected_values_are_empty() {
+  void should_fail_if_values_is_empty() {
     // GIVEN
-    RangeSet<Integer> actual = create();
+    RangeSet<Integer> actual = ImmutableRangeSet.of(closed(0, 1));
+    Integer[] values = {};
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).doesNotContain());
+    Throwable thrown = catchThrowable(() -> assertThat(actual).doesNotContain(values));
     // THEN
-    assertThat(throwable).isInstanceOf(IllegalArgumentException.class)
-                         .hasMessage(valuesToLookForIsEmpty());
+    then(thrown).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Expecting values not to be empty");
   }
 
   @Test
-  void should_pass_if_the_given_range_set_does_not_contain_element() {
+  void should_fail_if_actual_contains_values() {
     // GIVEN
-    RangeSet<Integer> actual = of(closed(1, 10));
-    // THEN
-    assertThat(actual).doesNotContain(11, 12, 13, 14);
-  }
-
-  @Test
-  void should_fail_if_the_given_range_set_contains_element() {
-    // GIVEN
-    RangeSet<Integer> actual = of(closed(1, 10));
-    Integer[] expected = array(0, 2, 3, 4);
+    RangeSet<Integer> actual = ImmutableRangeSet.of(closed(1, 10));
+    Integer[] values = array(0, 2, 3, 4);
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).doesNotContain(expected));
+    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotContain(values));
     // THEN
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(shouldNotContain(actual, expected, array(2, 3, 4)).create());
+    then(error).hasMessage(shouldNotContain(actual, values, array(2, 3, 4)).create());
   }
+
+  @Test
+  void should_pass_if_actual_does_not_contain_values() {
+    // GIVEN
+    RangeSet<Integer> actual = ImmutableRangeSet.of(closed(0, 3));
+    // WHEN/THEN
+    assertThat(actual).doesNotContain(4, 5);
+  }
+
 }

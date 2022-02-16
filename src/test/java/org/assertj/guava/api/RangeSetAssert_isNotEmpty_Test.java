@@ -12,55 +12,49 @@
  */
 package org.assertj.guava.api;
 
-import static com.google.common.collect.ImmutableRangeSet.of;
-import static com.google.common.collect.TreeRangeSet.create;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.util.FailureMessages.actualIsEmpty;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
+import static org.assertj.guava.testkit.AssertionErrors.expectAssertionError;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.google.common.collect.ImmutableRangeSet;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeSet;
 
 /**
- * Tests for <code>{@link RangeSetAssert#isNotEmpty()}</code>.
- *
  * @author Ilya Koshaleu
  */
-@DisplayName("RangeSetAssert isNotEmpty")
 class RangeSetAssert_isNotEmpty_Test {
 
   @Test
-  void should_fail_if_the_given_set_is_empty() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
-    RangeSet<Integer> rangeSet = create();
+    RangeSet<Integer> actual = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(rangeSet).isNotEmpty());
+    AssertionError error = expectAssertionError(() -> assertThat(actual).isNotEmpty());
     // THEN
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(actualIsEmpty());
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_the_given_set_is_null() {
+  void should_fail_if_actual_is_empty() {
     // GIVEN
-    RangeSet<Integer> rangeSet = null;
+    RangeSet<Integer> actual = ImmutableRangeSet.of();
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(rangeSet).isNotEmpty());
+    AssertionError error = expectAssertionError(() -> assertThat(actual).isNotEmpty());
     // THEN
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(actualIsNull());
+    then(error).hasMessage(shouldNotBeEmpty().create());
   }
 
   @Test
-  void should_pass_if_the_given_set_is_not_empty() {
+  void should_pass_if_actual_is_not_empty() {
     // GIVEN
-    RangeSet<Integer> rangeSet = of(Range.closed(1, 10));
-    // THEN
-    assertThat(rangeSet).isNotEmpty();
+    RangeSet<Integer> actual = ImmutableRangeSet.of(Range.closed(1, 10));
+    // WHEN/THEN
+    assertThat(actual).isNotEmpty();
   }
+
 }

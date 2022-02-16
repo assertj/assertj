@@ -12,32 +12,28 @@
  */
 package org.assertj.guava.api;
 
-import static com.google.common.collect.ImmutableRangeSet.of;
 import static com.google.common.collect.Range.closed;
-import static com.google.common.collect.TreeRangeSet.create;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptySet;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
-import static org.assertj.core.internal.ErrorMessages.iterableValuesToLookForIsEmpty;
-import static org.assertj.core.internal.ErrorMessages.iterableValuesToLookForIsNull;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.guava.api.Assertions.assertThat;
+import static org.assertj.guava.testkit.AssertionErrors.expectAssertionError;
 
 import java.util.List;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.google.common.collect.ImmutableRangeSet;
 import com.google.common.collect.RangeSet;
 
 /**
- * Tests for <code>{@link RangeSetAssert#containsAnyRangesOf(Iterable)}</code>.
- *
  * @author Ilya Koshaleu
  */
-@DisplayName("RangeSetAssert containsAnyRangesOf")
 class RangeSetAssert_containsAnyRangesOf_Test {
 
   @Test
@@ -45,60 +41,62 @@ class RangeSetAssert_containsAnyRangesOf_Test {
     // GIVEN
     RangeSet<Integer> actual = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).containsAnyRangesOf(asList(1, 2)));
+    AssertionError error = expectAssertionError(() -> assertThat(actual).containsAnyRangesOf(asList(1, 2)));
     // THEN
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_expected_values_are_null() {
+  void should_fail_if_values_is_null() {
     // GIVEN
-    RangeSet<Integer> actual = create();
-    Iterable<Integer> elements = null;
+    RangeSet<Integer> actual = ImmutableRangeSet.of();
+    Iterable<Integer> values = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).containsAnyRangesOf(elements));
+    Throwable thrown = catchThrowable(() -> assertThat(actual).containsAnyRangesOf(values));
     // THEN
-    assertThat(throwable).isInstanceOf(IllegalArgumentException.class)
-                         .hasMessage(iterableValuesToLookForIsNull());
+    then(thrown).isInstanceOf(NullPointerException.class)
+                .hasMessage(shouldNotBeNull("values").create());
   }
 
   @Test
-  void should_pass_if_both_expected_values_and_actual_are_empty() {
+  void should_fail_if_values_is_empty() {
     // GIVEN
-    RangeSet<Integer> actual = create();
-    // THEN
-    assertThat(actual).containsAnyRangesOf(emptySet());
-  }
-
-  @Test
-  void should_fail_if_expected_values_are_empty() {
-    // GIVEN
-    RangeSet<Integer> actual = of(closed(0, 1));
+    RangeSet<Integer> actual = ImmutableRangeSet.of(closed(0, 1));
+    Iterable<Integer> values = emptySet();
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).containsAnyRangesOf(emptySet()));
+    Throwable thrown = catchThrowable(() -> assertThat(actual).containsAnyRangesOf(values));
     // THEN
-    assertThat(throwable).isInstanceOf(IllegalArgumentException.class)
-                         .hasMessage(iterableValuesToLookForIsEmpty());
+    then(thrown).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Expecting values not to be empty");
   }
 
   @Test
-  void should_fail_if_the_given_range_set_does_not_contain_element() {
+  void should_fail_if_actual_does_not_contain_values() {
     // GIVEN
-    RangeSet<Integer> actual = of(closed(0, 3));
-    List<Integer> expected = asList(4, 5);
+    RangeSet<Integer> actual = ImmutableRangeSet.of(closed(0, 3));
+    List<Integer> values = list(4, 5);
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).containsAnyRangesOf(expected));
+    AssertionError error = expectAssertionError(() -> assertThat(actual).containsAnyRangesOf(values));
     // THEN
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(shouldContainAnyOf(actual, expected).create());
+    then(error).hasMessage(shouldContainAnyOf(actual, values).create());
   }
 
   @Test
-  void should_pass_if_the_given_range_set_contains_part_of_elements() {
+  void should_pass_if_both_actual_and_values_are_empty() {
     // GIVEN
-    RangeSet<Integer> actual = of(closed(1, 10));
-    // THEN
-    assertThat(actual).containsAnyRangesOf(asList(0, 1, 2, 12, 13));
+    RangeSet<Integer> actual = ImmutableRangeSet.of();
+    Iterable<Integer> values = emptySet();
+    // WHEN/THEN
+    assertThat(actual).containsAnyRangesOf(values);
   }
+
+  @Test
+  void should_pass_if_actual_contains_any_values() {
+    // GIVEN
+    RangeSet<Integer> actual = ImmutableRangeSet.of(closed(1, 10));
+    Iterable<Integer> values = list(0, 1, 2, 12, 13);
+    // WHEN/THEN
+    assertThat(actual).containsAnyRangesOf(values);
+  }
+
 }

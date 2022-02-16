@@ -13,19 +13,17 @@
 package org.assertj.guava.api;
 
 import static com.google.common.collect.Range.closed;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
 import static org.assertj.guava.error.ShouldHaveSize.shouldHaveSize;
+import static org.assertj.guava.testkit.AssertionErrors.expectAssertionError;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.ImmutableRangeSet;
 import com.google.common.collect.RangeSet;
 
-@DisplayName("RangeSetAssert hasSize")
 class RangeSetAssert_hasSize_Test {
 
   @Test
@@ -33,10 +31,9 @@ class RangeSetAssert_hasSize_Test {
     // GIVEN
     RangeSet<Integer> actual = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).hasSize(5));
+    AssertionError error = expectAssertionError(() -> assertThat(actual).hasSize(5));
     // THEN
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
@@ -48,10 +45,10 @@ class RangeSetAssert_hasSize_Test {
                                                 .add(closed(40, 45))
                                                 .build();
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).hasSize(5));
+    AssertionError error = expectAssertionError(() -> assertThat(actual).hasSize(5));
     // THEN
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(shouldHaveSize(actual, actual.asRanges().size(), 5).create());
+    then(error).isInstanceOf(AssertionError.class)
+               .hasMessage(shouldHaveSize(actual, actual.asRanges().size(), 5).create());
   }
 
   @Test
@@ -62,7 +59,8 @@ class RangeSetAssert_hasSize_Test {
                                                 .add(closed(20, 35))
                                                 .add(closed(40, 45))
                                                 .build();
-    // THEN
+    // WHEN/THEN
     assertThat(actual).hasSize(actual.asRanges().size());
   }
+
 }

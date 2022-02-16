@@ -10,20 +10,19 @@
  *
  * Copyright 2012-2021 the original author or authors.
  */
-package org.assertj.guava.internal;
+package org.assertj.guava.testkit;
 
-/**
- * @author Ilya Koshaleu
- */
-public final class ErrorMessages {
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
 
-  public static String rangeSetValuesToLookForIsNull() {
-    return "Range set of values to look for should not be null";
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+
+public class AssertionErrors {
+
+  public static AssertionError expectAssertionError(ThrowingCallable shouldRaiseAssertionError) {
+    AssertionError error = catchThrowableOfType(shouldRaiseAssertionError, AssertionError.class);
+    assertThat(error).as("The code under test should have raised an AssertionError").isNotNull();
+    return error;
   }
 
-  public static String rangeSetValuesToLookForIsEmpty() {
-    return "Range set of values to look for should not be empty";
-  }
-
-  private ErrorMessages() {}
 }

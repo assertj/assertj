@@ -12,51 +12,46 @@
  */
 package org.assertj.guava.api;
 
-import static com.google.common.collect.ImmutableRangeSet.of;
 import static com.google.common.collect.Range.closed;
-import static com.google.common.collect.TreeRangeSet.create;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.guava.api.Assertions.assertThat;
+import static org.assertj.guava.testkit.AssertionErrors.expectAssertionError;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.google.common.collect.ImmutableRangeSet;
 import com.google.common.collect.RangeSet;
 
 /**
-  * Tests for <code>{@link RangeSetAssert#isNullOrEmpty()}</code>.
-  *
   * @author Ilya Koshaleu
   */
-@DisplayName("RangeSetAssert isNullOrEmpty")
 class RangeSetAssert_isNullOrEmpty_Test {
 
   @Test
   void should_pass_if_actual_is_null() {
     // GIVEN
     RangeSet<Integer> actual = null;
-    // THEN
+    // WHEN/THEN
     assertThat(actual).isNullOrEmpty();
   }
 
   @Test
   void should_pass_if_actual_is_empty() {
     // GIVEN
-    RangeSet<Integer> actual = create();
+    RangeSet<Integer> actual = ImmutableRangeSet.of();
     // THEN
     assertThat(actual).isNullOrEmpty();
   }
 
   @Test
-  void should_fail_if_actual_is_non_null_and_non_empty() {
+  void should_fail_if_actual_is_not_null_and_not_empty() {
     // GIVEN
-    RangeSet<Integer> actual = of(closed(1, 10));
+    RangeSet<Integer> actual = ImmutableRangeSet.of(closed(1, 10));
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).isNullOrEmpty());
-    // THEN
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(shouldBeNullOrEmpty(actual).create());
+    AssertionError error = expectAssertionError(() -> assertThat(actual).isNullOrEmpty());
+    // WHEN/THEN
+    then(error).hasMessage(shouldBeNullOrEmpty(actual).create());
   }
+
 }
