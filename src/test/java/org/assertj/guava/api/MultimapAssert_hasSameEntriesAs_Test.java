@@ -12,46 +12,48 @@
  */
 package org.assertj.guava.api;
 
-import static com.google.common.collect.Lists.newArrayList;
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.entry;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.guava.api.Assertions.assertThat;
+import static org.assertj.guava.testkit.AssertionErrors.expectAssertionError;
 
 import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 
-public class MultimapAssert_hasSameEntriesAs_Test extends MultimapAssertBaseTest {
+class MultimapAssert_hasSameEntriesAs_Test extends MultimapAssertBaseTest {
 
-  private Multimap<String, String> other = LinkedHashMultimap.create();
+  private final Multimap<String, String> other = LinkedHashMultimap.create();
 
   @Test
-  public void should_pass_if_actual_has_the_same_entries_as_the_given_multimap() {
+  void should_pass_if_actual_has_the_same_entries_as_the_given_multimap() {
     // GIVEN
-    other.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
-    other.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
-    other.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+    other.putAll("Lakers", list("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
+    other.putAll("Bulls", list("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+    other.putAll("Spurs", list("Tony Parker", "Tim Duncan", "Manu Ginobili"));
     // THEN
     assertThat(actual).hasSameEntriesAs(other);
     assertThat(other).hasSameEntriesAs(actual);
   }
 
   @Test
-  public void should_pass_with_multimaps_having_the_same_entries_with_different_but_compatible_generic_types() {
+  void should_pass_with_multimaps_having_the_same_entries_with_different_but_compatible_generic_types() {
     // GIVEN
     Multimap<Object, Object> other = LinkedHashMultimap.create();
-    other.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
-    other.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
-    other.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+    other.putAll("Lakers", list("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
+    other.putAll("Bulls", list("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+    other.putAll("Spurs", list("Tony Parker", "Tim Duncan", "Manu Ginobili"));
     // THEN
     assertThat(other).hasSameEntriesAs(actual);
   }
 
   @Test
-  public void should_pass_if_both_multimaps_are_empty() {
+  void should_pass_if_both_multimaps_are_empty() {
     // GIVEN
     actual.clear();
     // THEN
@@ -59,66 +61,53 @@ public class MultimapAssert_hasSameEntriesAs_Test extends MultimapAssertBaseTest
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).hasSameEntriesAs(other));
+    Throwable thrown = catchThrowable(() -> assertThat(actual).hasSameEntriesAs(other));
     // THEN
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(actualIsNull());
+    then(thrown).isInstanceOf(AssertionError.class)
+                .hasMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_multimap_to_compare_actual_with_is_null() {
+  void should_fail_if_multimap_to_compare_actual_with_is_null() {
     // GIVEN
-    other = null;
+    Multimap<String, String> other = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).hasSameEntriesAs(other));
+    Throwable thrown = catchThrowable(() -> assertThat(actual).hasSameEntriesAs(other));
     // THEN
-    assertThat(throwable).isInstanceOf(IllegalArgumentException.class)
-                         .hasMessage("The multimap to compare actual with should not be null");
+    then(thrown).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("The multimap to compare actual with should not be null");
   }
 
   @Test
-  public void should_fail_if_actual_contains_entries_not_in_given_multimap() {
+  void should_fail_if_actual_contains_entries_not_in_given_multimap() {
     // GIVEN
-    other.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
-    other.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+    other.putAll("Lakers", list("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
+    other.putAll("Bulls", list("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).hasSameEntriesAs(other));
+    AssertionError error = expectAssertionError(() -> assertThat(actual).hasSameEntriesAs(other));
     // THEN
-    // @format:off
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(format(
-                             "%nExpecting LinkedListMultimap:%n" +
-                             "  {Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}%n" +
-                             "to contain only:%n" +
-                             "  {Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose]}%n" +
-                             "but the following element(s) were unexpected:%n" +
-                             "  [Spurs=Tony Parker, Spurs=Tim Duncan, Spurs=Manu Ginobili]%n"));
-    // @format:on
+    then(error).hasMessage(shouldContainOnly(actual, other, null,
+                                             list(entry("Spurs", "Tony Parker"), entry("Spurs", "Tim Duncan"),
+                                                  entry("Spurs", "Manu Ginobili"))).create());
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_all_given_multimap_entries() {
+  void should_fail_if_actual_does_not_contain_all_given_multimap_entries() {
     // GIVEN
-    other.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
-    other.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
-    other.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
-    other.putAll("Warriors", newArrayList("Stephen Curry", "Klay Thompson"));
+    other.putAll("Lakers", list("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
+    other.putAll("Bulls", list("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+    other.putAll("Spurs", list("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+    other.putAll("Warriors", list("Stephen Curry", "Klay Thompson"));
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).hasSameEntriesAs(other));
+    AssertionError error = expectAssertionError(() -> assertThat(actual).hasSameEntriesAs(other));
     // THEN
-    // @format:off
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(format(
-                               "%nExpecting LinkedListMultimap:%n" +
-                               "  {Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}%n" +
-                               "to contain only:%n" +
-                               "  {Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili], Warriors=[Stephen Curry, Klay Thompson]}%n" +
-                               "but could not find the following element(s):%n" +
-                               "  [Warriors=Stephen Curry, Warriors=Klay Thompson]%n"));
-    // @format:on
+    then(error).hasMessage(shouldContainOnly(actual, other,
+                                             list(entry("Warriors", "Stephen Curry"), entry("Warriors", "Klay Thompson")),
+                                             null).create());
   }
+
 }

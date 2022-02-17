@@ -12,70 +12,65 @@
  */
 package org.assertj.guava.api;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.entry;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldContain.shouldContain;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
+import static org.assertj.guava.testkit.AssertionErrors.expectAssertionError;
 
 import org.assertj.core.data.MapEntry;
 import org.junit.jupiter.api.Test;
 
-public class MultimapAssert_contains_Test extends MultimapAssertBaseTest {
+class MultimapAssert_contains_Test extends MultimapAssertBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_given_entries() {
+  void should_pass_if_actual_contains_given_entries() {
     assertThat(actual).contains(entry("Bulls", "Derrick Rose"));
     assertThat(actual).contains(entry("Lakers", "Kobe Bryant"), entry("Spurs", "Tim Duncan"));
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).contains(entry("Lakers", "Kobe Bryant")));
+    AssertionError error = expectAssertionError(() -> assertThat(actual).contains(entry("Lakers", "Kobe Bryant")));
     // THEN
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_entries_to_look_for_are_null() {
+  void should_fail_if_entries_to_look_for_are_null() {
     // GIVEN
     MapEntry<String, String>[] entries = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).contains(entries));
+    Throwable thrown = catchThrowable(() -> assertThat(actual).contains(entries));
     // THEN
-    assertThat(throwable).isInstanceOf(IllegalArgumentException.class)
-                         .hasMessage("The entries to look for should not be null");
+    then(thrown).isInstanceOf(IllegalArgumentException.class)
+                   .hasMessage("The entries to look for should not be null");
   }
 
   @Test
-  public void should_fail_if_entries_to_look_for_are_empty() {
+  void should_fail_if_entries_to_look_for_are_empty() {
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).contains());
+    Throwable thrown = catchThrowable(() -> assertThat(actual).contains());
     // THEN
-    assertThat(throwable).isInstanceOf(IllegalArgumentException.class)
-                         .hasMessage("The entries to look for should not be empty");
+    then(thrown).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("The entries to look for should not be empty");
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_all_given_entries() {
+  void should_fail_if_actual_does_not_contain_all_given_entries() {
+    // GIVEN
+    MapEntry<String, String>[] entries = array(entry("Lakers", "Kobe Bryant"), entry("Spurs", "Derrick Rose"));
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).contains(entry("Lakers", "Kobe Bryant"),
-                                                                           entry("Spurs", "Derrick Rose")));
+    AssertionError error = expectAssertionError(() -> assertThat(actual).contains(entries));
     // THEN
-    // @format:off
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(format("%nExpecting LinkedListMultimap:%n" +
-                                     "  {Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}%n" +
-                                     "to contain:%n" +
-                                     "  [MapEntry[key=\"Lakers\", value=\"Kobe Bryant\"],%n" +
-                                     "    MapEntry[key=\"Spurs\", value=\"Derrick Rose\"]]%n" +
-                                     "but could not find the following element(s):%n" +
-                                     "  [MapEntry[key=\"Spurs\", value=\"Derrick Rose\"]]%n"));
-      // @format:on
+    then(error).hasMessage(shouldContain(actual, entries, singleton(entry("Spurs", "Derrick Rose"))).create());
   }
+
 }
