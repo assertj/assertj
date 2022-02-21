@@ -14,6 +14,7 @@ package org.assertj.core.internal.maps;
 
 import static java.util.Collections.emptyMap;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
@@ -21,6 +22,7 @@ import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.internal.ErrorMessages.entriesToLookForIsNull;
+import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.asList;
@@ -28,12 +30,14 @@ import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThr
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.verify;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -41,6 +45,9 @@ import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.MapsBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Tests for
@@ -149,6 +156,47 @@ class Maps_assertContainsExactly_Test extends MapsBaseTest {
     verify(failures).failure(info, shouldContainExactly(actual, asList(expectedEntries),
                                                         newHashSet(entry("color", "yellow")),
                                                         newHashSet(entry("color", "green"))));
+  }
+
+  @ParameterizedTest
+  @MethodSource({
+      "caseInsensitiveMapsSuccessfulTestCases"
+  })
+  void should_pass(Map<String, String> map, MapEntry<String, String>[] entries) {
+    maps.assertContainsExactly(someInfo(), map, entries);
+  }
+
+  @ParameterizedTest
+  @MethodSource({
+      "caseInsensitiveMapsFailureTestCases"
+  })
+  void should_fail(Map<String, String> map, MapEntry<String, String>[] entries) {
+    assertThatExceptionOfType(AssertionError.class).as(map.getClass().getName())
+                                                   .isThrownBy(() -> maps.assertContainsExactly(someInfo(),
+                                                                                                map,
+                                                                                                entries));
+  }
+
+  private static Stream<Arguments> caseInsensitiveMapsSuccessfulTestCases() {
+    return Stream.of(CASE_INSENSITIVE_MAPS)
+                 .map(supplier -> mapOf(supplier,
+                                        entry("banana", "fruit"),
+                                        entry("poTATo", "vegetable")))
+                 .flatMap(m -> Stream.of(
+                                         arguments(m, array(entry("banana", "fruit"), entry("poTATo", "vegetable"))),
+                                         arguments(m, array(entry("BANANA", "fruit"), entry("potato", "vegetable")))));
+  }
+
+  private static Stream<Arguments> caseInsensitiveMapsFailureTestCases() {
+    return Stream.of(CASE_INSENSITIVE_MAPS)
+                 .map(supplier -> mapOf(supplier,
+                                        entry("banana", "fruit"),
+                                        entry("poTATo", "vegetable")))
+                 .flatMap(m -> Stream.of(
+                                         arguments(m, array(entry("banana", "fruit"), entry("tomato", "vegetable"))),
+                                         arguments(m, array(entry("potato", "vegetable"), entry("BANANA", "fruit"))),
+                                         arguments(m, array(entry("banana", "vegetable"), entry("tomato", "fruit"))),
+                                         arguments(m, array(entry("banana", "plane"), entry("poTATo", "train")))));
   }
 
   @SafeVarargs

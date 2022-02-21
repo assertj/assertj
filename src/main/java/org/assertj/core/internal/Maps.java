@@ -438,6 +438,16 @@ public class Maps {
     }
   }
 
+  private static <K, V> Map<K, V> createEmptyMap(Map<K, V> map) {
+    try {
+      Map<K, V> cloned = clone(map);
+      cloned.clear();
+      return cloned;
+    } catch (NoSuchMethodException e) {
+      return new LinkedHashMap<>();
+    }
+  }
+
   public <K, V> void assertContainsValue(AssertionInfo info, Map<K, V> actual, V value) {
     assertNotNull(info, actual);
     if (!containsValue(actual, value)) throw failures.failure(info, shouldContainValue(actual, value));
@@ -544,11 +554,15 @@ public class Maps {
     if (notExpected.isEmpty() && notFound.isEmpty()) {
       // check entries order
       int index = 0;
+      Map<K, V> emptyMap = createEmptyMap(actual);
       for (K keyFromActual : actual.keySet()) {
-        if (!deepEquals(keyFromActual, entries[index].getKey())) {
+        // Temporarily add entry with actual key to a map to use the built-in comparison
+        emptyMap.put(keyFromActual, null);
+        if (!emptyMap.containsKey(entries[index].getKey())) {
           Entry<K, V> actualEntry = entry(keyFromActual, actual.get(keyFromActual));
           throw failures.failure(info, elementsDifferAtIndex(actualEntry, entries[index], index));
         }
+        emptyMap.remove(keyFromActual);
         index++;
       }
       // all entries are in the same order.
@@ -562,7 +576,12 @@ public class Maps {
                                                          Set<Entry<? extends K, ? extends V>> notExpected,
                                                          Set<Entry<? extends K, ? extends V>> notFound) {
     Map<K, V> expectedEntries = entriesToMap(entries);
-    Map<K, V> actualEntries = new LinkedHashMap<>(actual);
+    Map<K, V> actualEntries = null;
+    try {
+      actualEntries = clone(actual);
+    } catch (NoSuchMethodException e) {
+      actualEntries = new LinkedHashMap<>(actual);
+    }
     for (Entry<K, V> entry : expectedEntries.entrySet()) {
       if (containsEntry(actualEntries, entry(entry.getKey(), entry.getValue()))) {
         // this is an expected entry
