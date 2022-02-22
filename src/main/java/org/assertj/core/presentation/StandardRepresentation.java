@@ -323,8 +323,8 @@ public class StandardRepresentation implements Representation {
    */
   // not static so that it can be overridden
   protected boolean hasAlreadyAnUnambiguousToStringOf(Object obj) {
-    for (int i = 0; i < TYPE_WITH_UNAMBIGUOUS_REPRESENTATION.length; i++) {
-      if (TYPE_WITH_UNAMBIGUOUS_REPRESENTATION[i].isInstance(obj)) return true;
+    for (Class<?> aClass : TYPE_WITH_UNAMBIGUOUS_REPRESENTATION) {
+      if (aClass.isInstance(obj)) return true;
     }
     return false;
   }
