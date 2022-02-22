@@ -25,8 +25,8 @@ public class ComparatorFactory {
     Comparator<Double> closeToComparator = new Comparator<Double>() {
       @Override
       public int compare(Double o1, Double o2) {
-        if (abs(o1.doubleValue() - o2.doubleValue()) < precision) return 0;
-        return o1.doubleValue() - o2.doubleValue() > 0 ? 1 : -1;
+        if (abs(o1 - o2) < precision) return 0;
+        return o1 - o2 > 0 ? 1 : -1;
       }
 
       @Override
@@ -42,8 +42,8 @@ public class ComparatorFactory {
     Comparator<Float> closeToComparator = new Comparator<Float>() {
       @Override
       public int compare(Float o1, Float o2) {
-        if(abs(o1.floatValue() - o2.floatValue()) < precision) return 0;
-        return o1.floatValue() - o2.floatValue() > 0 ? 1 : -1;
+        if(abs(o1 - o2) < precision) return 0;
+        return o1 - o2 > 0 ? 1 : -1;
       }
 
       @Override
