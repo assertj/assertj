@@ -637,7 +637,8 @@ class ImmutableCollections {
       size = input.length; // implicit nullcheck of input
 
       elements = (E[]) new Object[EXPAND_FACTOR * input.length];
-      for (E e : input) {
+      for (int i = 0; i < input.length; i++) {
+        E e = input[i];
         int idx = probe(e); // implicit nullcheck of e
         if (idx >= 0) {
           throw new IllegalArgumentException("duplicate element: " + e);
@@ -1172,8 +1173,8 @@ final class CollSer implements Serializable {
   private void writeObject(ObjectOutputStream oos) throws IOException {
     oos.defaultWriteObject();
     oos.writeInt(array.length);
-    for (Object o : array) {
-      oos.writeObject(o);
+    for (int i = 0; i < array.length; i++) {
+      oos.writeObject(array[i]);
     }
   }
 
