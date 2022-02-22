@@ -20,38 +20,38 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
 
-class DualValue_isActualJavaType_Test {
+class DualValue_isExpectedJavaType_Test {
 
   private static final List<String> PATH = list("foo", "bar");
 
   @Test
-  void isActualJavaType_should_return_true_when_actual_is_a_java_type() {
-    // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", Pair.of(1, "a"));
-    // WHEN
-    boolean isActualJavaType = dualValue.isActualJavaType();
-    // THEN
-    then(isActualJavaType).isTrue();
-  }
-
-  @Test
-  void isActualJavaType_should_return_false_when_actual_is_not_a_java_type() {
+  void isExpectedJavaType_should_return_true_when_expected_is_a_java_type() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, Pair.of(1, "a"), "");
     // WHEN
-    boolean isActualJavaType = dualValue.isActualJavaType();
+    boolean isExpectedJavaType = dualValue.isExpectedJavaType();
     // THEN
-    then(isActualJavaType).isFalse();
+    then(isExpectedJavaType).isTrue();
   }
 
   @Test
-  void isActualJavaType_should_return_false_when_actual_is_null() {
+  void isExpectedJavaType_should_return_false_when_expected_is_not_a_java_type() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, null, "");
+    DualValue dualValue = new DualValue(PATH, "", Pair.of(1, "a"));
     // WHEN
-    boolean isActualJavaType = dualValue.isActualJavaType();
+    boolean isExpectedJavaType = dualValue.isExpectedJavaType();
     // THEN
-    then(isActualJavaType).isFalse();
+    then(isExpectedJavaType).isFalse();
+  }
+
+  @Test
+  void isExpectedJavaType_should_return_false_when_expected_is_null() {
+    // GIVEN
+    DualValue dualValue = new DualValue(PATH, "", null);
+    // WHEN
+    boolean isExpectedJavaType = dualValue.isExpectedJavaType();
+    // THEN
+    then(isExpectedJavaType).isFalse();
   }
 
 }

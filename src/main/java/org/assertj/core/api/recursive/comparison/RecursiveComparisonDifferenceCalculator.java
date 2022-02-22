@@ -18,7 +18,6 @@ import static java.util.stream.Collectors.joining;
 import static org.assertj.core.api.recursive.comparison.ComparisonDifference.rootComparisonDifference;
 import static org.assertj.core.api.recursive.comparison.DualValue.DEFAULT_ORDERED_COLLECTION_TYPES;
 import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
-import static org.assertj.core.internal.Objects.getDeclaredFieldsIncludingInherited;
 import static org.assertj.core.internal.Objects.getFieldsNames;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.IterableUtil.toCollection;
@@ -27,12 +26,10 @@ import static org.assertj.core.util.Sets.newHashSet;
 import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
 
 import java.lang.reflect.Array;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -41,6 +38,13 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicLongArray;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.stream.Stream;
 
 import org.assertj.core.internal.DeepDifference;
@@ -59,11 +63,11 @@ public class RecursiveComparisonDifferenceCalculator {
                                                               + describeOrderedCollectionTypes();
 
   private static final String VALUE_FIELD_NAME = "value";
+  private static final String ARRAY_FIELD_NAME = "array";
   private static final String STRICT_TYPE_ERROR = "the fields are considered different since the comparison enforces strict type check and %s is not a subtype of %s";
   private static final String DIFFERENT_SIZE_ERROR = "actual and expected values are %s of different size, actual size=%s when expected size=%s";
   private static final String MISSING_FIELDS = "%s can't be compared to %s as %s does not declare all %s fields, it lacks these: %s";
   private static final Map<Class<?>, Boolean> customEquals = new ConcurrentHashMap<>();
-  private static final Map<Class<?>, Boolean> customHash = new ConcurrentHashMap<>();
 
   private static class ComparisonState {
     // Not using a Set as we want to precisely track visited values, a set would remove duplicates
@@ -116,8 +120,10 @@ public class RecursiveComparisonDifferenceCalculator {
     private void initDualValuesToCompare(Object actual, Object expected, FieldLocation fieldLocation) {
       DualValue dualValue = new DualValue(fieldLocation, actual, expected);
       boolean mustCompareFieldsRecursively = mustCompareFieldsRecursively(dualValue);
-      if (dualValue.hasNoNullValues() && dualValue.hasNoContainerValues() && mustCompareFieldsRecursively) {
+      if (dualValue.hasNoNullValues() && mustCompareFieldsRecursively) {
         // disregard the equals method and start comparing fields
+        // TODO should fail if actual and expected don't have the same fields to compare (taking into account ignored/compared
+        // fields)
         Set<String> nonIgnoredActualFieldsNames = recursiveComparisonConfiguration.getNonIgnoredActualFieldNames(dualValue);
         if (!nonIgnoredActualFieldsNames.isEmpty()) {
           // fields to ignore are evaluated when adding their corresponding dualValues to dualValuesToCompare which filters
@@ -152,8 +158,10 @@ public class RecursiveComparisonDifferenceCalculator {
     }
 
     private boolean mustCompareFieldsRecursively(DualValue dualValue) {
+
       return !recursiveComparisonConfiguration.hasCustomComparator(dualValue)
-             && !shouldHonorOverriddenEquals(dualValue, recursiveComparisonConfiguration);
+             && !shouldHonorEquals(dualValue, recursiveComparisonConfiguration)
+             && dualValue.hasNoContainerValues();
     }
 
     private String getCustomErrorMessage(DualValue dualValue) {
@@ -271,7 +279,37 @@ public class RecursiveComparisonDifferenceCalculator {
         continue;
       }
 
-      if (shouldCompareDualValue(recursiveComparisonConfiguration, dualValue)) {
+      // compare Atomic types by value manually as they are container type and we can't use introspection in java 17+
+      if (dualValue.isExpectedFieldAnAtomicBoolean()) {
+        compareAtomicBoolean(dualValue, comparisonState);
+        continue;
+      }
+      if (dualValue.isExpectedFieldAnAtomicInteger()) {
+        compareAtomicInteger(dualValue, comparisonState);
+        continue;
+      }
+      if (dualValue.isExpectedFieldAnAtomicIntegerArray()) {
+        compareAtomicIntegerArray(dualValue, comparisonState);
+        continue;
+      }
+      if (dualValue.isExpectedFieldAnAtomicLong()) {
+        compareAtomicLong(dualValue, comparisonState);
+        continue;
+      }
+      if (dualValue.isExpectedFieldAnAtomicLongArray()) {
+        compareAtomicLongArray(dualValue, comparisonState);
+        continue;
+      }
+      if (dualValue.isExpectedFieldAnAtomicReference()) {
+        compareAtomicReference(dualValue, comparisonState);
+        continue;
+      }
+      if (dualValue.isExpectedFieldAnAtomicReferenceArray()) {
+        compareAtomicReferenceArray(dualValue, comparisonState);
+        continue;
+      }
+
+      if (shouldHonorEquals(dualValue, recursiveComparisonConfiguration)) {
         if (!actualFieldValue.equals(expectedFieldValue)) comparisonState.addDifference(dualValue);
         continue;
       }
@@ -314,12 +352,6 @@ public class RecursiveComparisonDifferenceCalculator {
     return comparisonState.getDifferences();
   }
 
-  private static boolean shouldCompareDualValue(RecursiveComparisonConfiguration recursiveComparisonConfiguration,
-                                                final DualValue dualValue) {
-    return !recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(dualValue)
-           && hasOverriddenEquals(dualValue.actual.getClass());
-  }
-
   // avoid comparing enum recursively since they contain static fields which are ignored in recursive comparison
   // this would make different field enum value to be considered the same!
   private static void compareAsEnums(final DualValue dualValue,
@@ -339,6 +371,15 @@ public class RecursiveComparisonDifferenceCalculator {
     Enum<?> expectedEnum = (Enum<?>) dualValue.expected;
     // we must only compare actual and expected enum by value but not by type
     if (!actualEnum.name().equals(expectedEnum.name())) comparisonState.addDifference(dualValue);
+  }
+
+  private static boolean shouldHonorEquals(DualValue dualValue,
+                                           RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+    // since java 17 we can't introspect java types and get their fields so by default we compare them with equals
+    // unless for some container like java types: iterables, array, optional, atomic values where we take the contained values
+    // through accessors and register them in the recursive comparison.
+    boolean shouldHonorJavaTypeEquals = dualValue.hasSomeJavaTypeValue() && !dualValue.isExpectedAContainer();
+    return shouldHonorJavaTypeEquals || shouldHonorOverriddenEquals(dualValue, recursiveComparisonConfiguration);
   }
 
   private static boolean shouldHonorOverriddenEquals(DualValue dualValue,
@@ -540,6 +581,140 @@ public class RecursiveComparisonDifferenceCalculator {
     comparisonState.registerForComparison(new DualValue(dualValue.fieldLocation.field(VALUE_FIELD_NAME), value1, value2));
   }
 
+  private static void compareAtomicBoolean(DualValue dualValue, ComparisonState comparisonState) {
+    if (!dualValue.isActualFieldAnAtomicBoolean()) {
+      comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an AtomicBoolean"));
+      return;
+    }
+    AtomicBoolean actual = (AtomicBoolean) dualValue.actual;
+    AtomicBoolean expected = (AtomicBoolean) dualValue.expected;
+    Object value1 = actual.get();
+    Object value2 = expected.get();
+    // we add VALUE_FIELD_NAME to the path since we register AtomicBoolean.value fields.
+    comparisonState.registerForComparison(new DualValue(dualValue.fieldLocation.field(VALUE_FIELD_NAME), value1, value2));
+  }
+
+  private static void compareAtomicInteger(DualValue dualValue, ComparisonState comparisonState) {
+    if (!dualValue.isActualFieldAnAtomicInteger()) {
+      comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an AtomicInteger"));
+      return;
+    }
+    AtomicInteger actual = (AtomicInteger) dualValue.actual;
+    AtomicInteger expected = (AtomicInteger) dualValue.expected;
+    Object value1 = actual.get();
+    Object value2 = expected.get();
+    // we add VALUE_FIELD_NAME to the path since we register AtomicInteger.value fields.
+    comparisonState.registerForComparison(new DualValue(dualValue.fieldLocation.field(VALUE_FIELD_NAME), value1, value2));
+  }
+
+  private static void compareAtomicIntegerArray(DualValue dualValue, ComparisonState comparisonState) {
+    if (!dualValue.isActualFieldAnAtomicIntegerArray()) {
+      comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an AtomicIntegerArray"));
+      return;
+    }
+    AtomicIntegerArray actual = (AtomicIntegerArray) dualValue.actual;
+    AtomicIntegerArray expected = (AtomicIntegerArray) dualValue.expected;
+
+    // both values in dualValue are arrays
+    int actualArrayLength = actual.length();
+    int expectedArrayLength = expected.length();
+    if (actualArrayLength != expectedArrayLength) {
+      comparisonState.addDifference(dualValue,
+                                    format(DIFFERENT_SIZE_ERROR, "AtomicIntegerArrays", actualArrayLength, expectedArrayLength));
+      // no need to inspect elements, arrays are not equal as they don't have the same size
+      return;
+    }
+    // register each pair of actual/expected elements for recursive comparison
+    FieldLocation arrayFieldLocation = dualValue.fieldLocation;
+    for (int i = 0; i < actualArrayLength; i++) {
+      Object actualElement = actual.get(i);
+      Object expectedElement = expected.get(i);
+      FieldLocation elementFieldLocation = arrayFieldLocation.field(format(ARRAY_FIELD_NAME + "[%d]", i));
+      comparisonState.registerForComparison(new DualValue(elementFieldLocation, actualElement, expectedElement));
+    }
+  }
+
+  private static void compareAtomicLong(DualValue dualValue, ComparisonState comparisonState) {
+    if (!dualValue.isActualFieldAnAtomicLong()) {
+      comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an AtomicLong"));
+      return;
+    }
+    AtomicLong actual = (AtomicLong) dualValue.actual;
+    AtomicLong expected = (AtomicLong) dualValue.expected;
+    Object value1 = actual.get();
+    Object value2 = expected.get();
+    // we add VALUE_FIELD_NAME to the path since we register AtomicLong.value fields.
+    comparisonState.registerForComparison(new DualValue(dualValue.fieldLocation.field(VALUE_FIELD_NAME), value1, value2));
+  }
+
+  private static void compareAtomicLongArray(DualValue dualValue, ComparisonState comparisonState) {
+    if (!dualValue.isActualFieldAnAtomicLongArray()) {
+      comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an AtomicLongArray"));
+      return;
+    }
+    AtomicLongArray actual = (AtomicLongArray) dualValue.actual;
+    AtomicLongArray expected = (AtomicLongArray) dualValue.expected;
+
+    // both values in dualValue are arrays
+    int actualArrayLength = actual.length();
+    int expectedArrayLength = expected.length();
+    if (actualArrayLength != expectedArrayLength) {
+      comparisonState.addDifference(dualValue,
+                                    format(DIFFERENT_SIZE_ERROR, "AtomicLongArrays", actualArrayLength, expectedArrayLength));
+      // no need to inspect elements, arrays are not equal as they don't have the same size
+      return;
+    }
+    // register each pair of actual/expected elements for recursive comparison
+    FieldLocation arrayFieldLocation = dualValue.fieldLocation;
+    for (int i = 0; i < actualArrayLength; i++) {
+      Object actualElement = actual.get(i);
+      Object expectedElement = expected.get(i);
+      FieldLocation elementFieldLocation = arrayFieldLocation.field(format(ARRAY_FIELD_NAME + "[%d]", i));
+      comparisonState.registerForComparison(new DualValue(elementFieldLocation, actualElement, expectedElement));
+    }
+  }
+
+  private static void compareAtomicReferenceArray(DualValue dualValue, ComparisonState comparisonState) {
+    if (!dualValue.isActualFieldAnAtomicReferenceArray()) {
+      comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an AtomicReferenceArray"));
+      return;
+    }
+    AtomicReferenceArray<?> actual = (AtomicReferenceArray<?>) dualValue.actual;
+    AtomicReferenceArray<?> expected = (AtomicReferenceArray<?>) dualValue.expected;
+
+    // both values in dualValue are arrays
+    int actualArrayLength = actual.length();
+    int expectedArrayLength = expected.length();
+    if (actualArrayLength != expectedArrayLength) {
+      comparisonState.addDifference(dualValue,
+                                    format(DIFFERENT_SIZE_ERROR, "AtomicReferenceArrays", actualArrayLength,
+                                           expectedArrayLength));
+      // no need to inspect elements, arrays are not equal as they don't have the same size
+      return;
+    }
+    // register each pair of actual/expected elements for recursive comparison
+    FieldLocation arrayFieldLocation = dualValue.fieldLocation;
+    for (int i = 0; i < actualArrayLength; i++) {
+      Object actualElement = actual.get(i);
+      Object expectedElement = expected.get(i);
+      FieldLocation elementFieldLocation = arrayFieldLocation.field(format(ARRAY_FIELD_NAME + "[%d]", i));
+      comparisonState.registerForComparison(new DualValue(elementFieldLocation, actualElement, expectedElement));
+    }
+  }
+
+  private static void compareAtomicReference(DualValue dualValue, ComparisonState comparisonState) {
+    if (!dualValue.isActualFieldAnAtomicReference()) {
+      comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an AtomicReference"));
+      return;
+    }
+    AtomicReference<?> actual = (AtomicReference<?>) dualValue.actual;
+    AtomicReference<?> expected = (AtomicReference<?>) dualValue.expected;
+    Object value1 = actual.get();
+    Object value2 = expected.get();
+    // we add VALUE_FIELD_NAME to the path since we register AtomicReference.value fields.
+    comparisonState.registerForComparison(new DualValue(dualValue.fieldLocation.field(VALUE_FIELD_NAME), value1, value2));
+  }
+
   /**
    * Determine if the passed in class has a non-Object.equals() method. This
    * method caches its results in static ConcurrentHashMap to benefit
@@ -564,105 +739,6 @@ public class RecursiveComparisonDifferenceCalculator {
       c = c.getSuperclass();
     }
     customEquals.put(origClass, false);
-    return false;
-  }
-
-  /**
-   * Get a deterministic hashCode (int) value for an Object, regardless of
-   * when it was created or where it was loaded into memory. The problem with
-   * java.lang.Object.hashCode() is that it essentially relies on memory
-   * location of an object (what identity it was assigned), whereas this
-   * method will produce the same hashCode for any object graph, regardless of
-   * how many times it is created.<br>
-   * <br>
-   *
-   * This method will handle cycles correctly (A-&gt;B-&gt;C-&gt;A). In this
-   * case, Starting with object A, B, or C would yield the same hashCode. If
-   * an object encountered (root, subobject, etc.) has a hashCode() method on
-   * it (that is not Object.hashCode()), that hashCode() method will be called
-   * and it will stop traversal on that branch.
-   *
-   * @param obj Object who hashCode is desired.
-   * @return the 'deep' hashCode value for the passed in object.
-   */
-  static int deepHashCode(Object obj) {
-    Set<Object> visited = new HashSet<>();
-    LinkedList<Object> stack = new LinkedList<>();
-    stack.addFirst(obj);
-    int hash = 0;
-
-    while (!stack.isEmpty()) {
-      obj = stack.removeFirst();
-      if (obj == null || visited.contains(obj)) {
-        continue;
-      }
-
-      visited.add(obj);
-
-      if (obj.getClass().isArray()) {
-        int len = Array.getLength(obj);
-        for (int i = 0; i < len; i++) {
-          stack.addFirst(Array.get(obj, i));
-        }
-        continue;
-      }
-
-      if (obj instanceof Collection) {
-        stack.addAll(0, (Collection<?>) obj);
-        continue;
-      }
-
-      if (obj instanceof Map) {
-        stack.addAll(0, ((Map<?, ?>) obj).keySet());
-        stack.addAll(0, ((Map<?, ?>) obj).values());
-        continue;
-      }
-
-      if (obj instanceof Double || obj instanceof Float) {
-        // just take the integral value for hashcode
-        // equality tests things more comprehensively
-        stack.add(Math.round(((Number) obj).doubleValue()));
-        continue;
-      }
-
-      if (hasCustomHashCode(obj.getClass())) {
-        // A real hashCode() method exists, call it.
-        hash += obj.hashCode();
-        continue;
-      }
-
-      Collection<Field> fields = getDeclaredFieldsIncludingInherited(obj.getClass());
-      for (Field field : fields) {
-        stack.addFirst(COMPARISON.getSimpleValue(field.getName(), obj));
-      }
-    }
-    return hash;
-  }
-
-  /**
-   * Determine if the passed in class has a non-Object.hashCode() method. This
-   * method caches its results in static ConcurrentHashMap to benefit
-   * execution performance.
-   *
-   * @param c Class to check.
-   * @return true, if the passed in Class has a .hashCode() method somewhere
-   *         between itself and just below Object in it's inheritance.
-   */
-  static boolean hasCustomHashCode(Class<?> c) {
-    Class<?> origClass = c;
-    if (customHash.containsKey(c)) {
-      return customHash.get(c);
-    }
-
-    while (!Object.class.equals(c)) {
-      try {
-        c.getDeclaredMethod("hashCode");
-        customHash.put(origClass, true);
-        return true;
-      } catch (Exception ignored) {}
-      c = c.getSuperclass();
-    }
-    customHash.put(origClass, false);
     return false;
   }
 
@@ -693,8 +769,7 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   private static ComparisonDifference expectedAndActualTypeDifference(Object actual, Object expected) {
-    String additionalInformation = format(
-                                          "actual and expected are considered different since the comparison enforces strict type check and expected type %s is not a subtype of actual type %s",
+    String additionalInformation = format("actual and expected are considered different since the comparison enforces strict type check and expected type %s is not a subtype of actual type %s",
                                           expected.getClass().getName(), actual.getClass().getName());
     return rootComparisonDifference(actual, expected, additionalInformation);
   }
