@@ -20,9 +20,9 @@ public class ComparatorFactory {
 
   public static final ComparatorFactory INSTANCE = new ComparatorFactory();
 
-  public Comparator<Double> doubleComparatorWithPrecision(final double precision) {
-    @SuppressWarnings("unused") // can't use <> with anonymous class in java 8
-    Comparator<Double> closeToComparator = new Comparator<Double>() {
+  public Comparator<Double> doubleComparatorWithPrecision(double precision) {
+    // can't use <> with anonymous class in java 8
+    return new Comparator<Double>() {
       @Override
       public int compare(Double o1, Double o2) {
         if (abs(o1 - o2) < precision) return 0;
@@ -34,15 +34,14 @@ public class ComparatorFactory {
         return "double comparator at precision " + precision;
       }
     };
-    return closeToComparator;
   }
 
-  public Comparator<Float> floatComparatorWithPrecision(final float precision) {
-    @SuppressWarnings("unused")
-    Comparator<Float> closeToComparator = new Comparator<Float>() {
+  public Comparator<Float> floatComparatorWithPrecision(float precision) {
+    // can't use <> with anonymous class in java 8
+    return new Comparator<Float>() {
       @Override
       public int compare(Float o1, Float o2) {
-        if(abs(o1 - o2) < precision) return 0;
+        if (abs(o1 - o2) < precision) return 0;
         return o1 - o2 > 0 ? 1 : -1;
       }
 
@@ -51,6 +50,6 @@ public class ComparatorFactory {
         return "float comparator at precision " + precision;
       }
     };
-    return closeToComparator;
   }
+
 }
