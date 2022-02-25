@@ -16,6 +16,9 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 
+import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.Map;
+
 import org.junit.jupiter.api.Test;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -62,6 +65,50 @@ class MapEntry_Test {
     String result = underTest.toString();
     // THEN
     then(result).isEqualTo("\"name\"=[\"Yoda\"]");
+  }
+
+  @Test
+  void hashCode_non_null_key_and_value() {
+    // GIVEN
+    MapEntry<String, String> underTest = entry("name", "Yoda");
+    Map.Entry<String, String> spec = new SimpleImmutableEntry<>("name", "Yoda");
+    // WHEN
+    int result = underTest.hashCode();
+    // THEN
+    then(result).isEqualTo(spec.hashCode());
+  }
+
+  @Test
+  void hashCode_null_key() {
+    // GIVEN
+    MapEntry<String, String> underTest = entry(null, "Yoda");
+    Map.Entry<String, String> spec = new SimpleImmutableEntry<>(null, "Yoda");
+    // WHEN
+    int result = underTest.hashCode();
+    // THEN
+    then(result).isEqualTo(spec.hashCode());
+  }
+
+  @Test
+  void hashCode_null_value() {
+    // GIVEN
+    MapEntry<String, String> underTest = entry("name", null);
+    Map.Entry<String, String> spec = new SimpleImmutableEntry<>("name", null);
+    // WHEN
+    int result = underTest.hashCode();
+    // THEN
+    then(result).isEqualTo(spec.hashCode());
+  }
+
+  @Test
+  void hashCode_null_key_and_value() {
+    // GIVEN
+    MapEntry<String, String> underTest = entry(null, null);
+    Map.Entry<String, String> spec = new SimpleImmutableEntry<>(null, null);
+    // WHEN
+    int result = underTest.hashCode();
+    // THEN
+    then(result).isEqualTo(spec.hashCode());
   }
 
 }
