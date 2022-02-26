@@ -16,16 +16,15 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
-import java.util.Map;
+import java.util.Objects;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 
 /**
- * Tests for {@link MapEntry}.
- *
  * @author Alex Ruiz
  */
 class MapEntry_Test {
@@ -35,6 +34,23 @@ class MapEntry_Test {
     // WHEN/THEN
     EqualsVerifier.forClass(MapEntry.class)
                   .verify();
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "name, Yoda",
+    " , Yoda",
+    "name, ",
+    " , ",
+  })
+  void should_honor_Entry_hashCode_contract(String key, String value) {
+    // GIVEN
+    MapEntry<String, String> underTest = entry(key, value);
+    int expected = Objects.hashCode(key) ^ Objects.hashCode(value);
+    // WHEN
+    int result = underTest.hashCode();
+    // THEN
+    then(result).isEqualTo(expected);
   }
 
   @Test
@@ -65,50 +81,6 @@ class MapEntry_Test {
     String result = underTest.toString();
     // THEN
     then(result).isEqualTo("\"name\"=[\"Yoda\"]");
-  }
-
-  @Test
-  void hashCode_non_null_key_and_value() {
-    // GIVEN
-    MapEntry<String, String> underTest = entry("name", "Yoda");
-    Map.Entry<String, String> spec = new SimpleImmutableEntry<>("name", "Yoda");
-    // WHEN
-    int result = underTest.hashCode();
-    // THEN
-    then(result).isEqualTo(spec.hashCode());
-  }
-
-  @Test
-  void hashCode_null_key() {
-    // GIVEN
-    MapEntry<String, String> underTest = entry(null, "Yoda");
-    Map.Entry<String, String> spec = new SimpleImmutableEntry<>(null, "Yoda");
-    // WHEN
-    int result = underTest.hashCode();
-    // THEN
-    then(result).isEqualTo(spec.hashCode());
-  }
-
-  @Test
-  void hashCode_null_value() {
-    // GIVEN
-    MapEntry<String, String> underTest = entry("name", null);
-    Map.Entry<String, String> spec = new SimpleImmutableEntry<>("name", null);
-    // WHEN
-    int result = underTest.hashCode();
-    // THEN
-    then(result).isEqualTo(spec.hashCode());
-  }
-
-  @Test
-  void hashCode_null_key_and_value() {
-    // GIVEN
-    MapEntry<String, String> underTest = entry(null, null);
-    Map.Entry<String, String> spec = new SimpleImmutableEntry<>(null, null);
-    // WHEN
-    int result = underTest.hashCode();
-    // THEN
-    then(result).isEqualTo(spec.hashCode());
   }
 
 }
