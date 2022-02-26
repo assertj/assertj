@@ -13,15 +13,12 @@
 package org.assertj.guava.api;
 
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
-import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
+import static org.assertj.guava.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.guava.error.ShouldHaveSize.shouldHaveSize;
 
 import java.io.IOException;
 
 import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.internal.Failures;
-import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.util.VisibleForTesting;
 
 import com.google.common.io.ByteSource;
 
@@ -31,9 +28,6 @@ import com.google.common.io.ByteSource;
  * @author Andrew Gaul
  */
 public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSource> {
-
-  @VisibleForTesting
-  Failures failures = Failures.instance();
 
   protected ByteSourceAssert(ByteSource actual) {
     super(actual, ByteSourceAssert.class);
@@ -56,7 +50,7 @@ public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSourc
    */
   public ByteSourceAssert hasSameContentAs(ByteSource other) throws IOException {
     objects.assertNotNull(info, actual);
-    if (!actual.contentEquals(other)) throw failures.failure(info, shouldBeEqual(actual, other, new StandardRepresentation()));
+    if (!actual.contentEquals(other)) throw assertionError(shouldHaveSameContent(actual, other));
     return this;
   }
 

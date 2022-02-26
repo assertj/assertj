@@ -12,11 +12,11 @@
  */
 package org.assertj.guava.api;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
+import static org.assertj.guava.error.ShouldHaveSameContent.shouldHaveSameContent;
+import static org.assertj.guava.testkit.AssertionErrors.expectAssertionError;
 
 import java.io.IOException;
 
@@ -25,43 +25,40 @@ import org.junit.jupiter.api.Test;
 import com.google.common.io.ByteSource;
 
 /**
- * Tests for <code>{@link ByteSource#contentEquals(ByteSource)}</code>.
- *
  * @author Andrew Gaul
  */
-public class ByteSourceAssert_hasSameContentAs_Test {
+class ByteSourceAssert_hasSameContentAs_Test {
 
   @Test
-  public void should_pass_if_size_of_actual_is_equal_to_expected_size() throws IOException {
+  void should_pass_if_size_of_actual_is_equal_to_expected_size() throws IOException {
     // GIVEN
     ByteSource actual = ByteSource.wrap(new byte[1]);
     ByteSource other = ByteSource.wrap(new byte[1]);
-    // THEN
+    // WHEN/THEN
     assertThat(actual).hasSameContentAs(other);
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     ByteSource actual = null;
     ByteSource other = ByteSource.wrap(new byte[1]);
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).hasSameContentAs(other));
+    AssertionError error = expectAssertionError(() -> assertThat(actual).hasSameContentAs(other));
     // THEN
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(actualIsNull());
+    then(error).isInstanceOf(AssertionError.class)
+               .hasMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_content_of_actual_is_not_equal_to_expected_content() {
+  void should_fail_if_content_of_actual_is_not_equal_to_expected_content() {
     // GIVEN
     ByteSource actual = ByteSource.wrap(new byte[1]);
     ByteSource other = ByteSource.wrap(new byte[] { (byte) 1 });
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).hasSameContentAs(other));
+    AssertionError error = expectAssertionError(() -> assertThat(actual).hasSameContentAs(other));
     // THEN
-    assertThat(throwable).hasMessage(format("%nexpected: ByteSource.wrap(01)%n" +
-                                            " but was: ByteSource.wrap(00)"));
+    then(error).hasMessage(shouldHaveSameContent(actual, other).create());
   }
 
 }
