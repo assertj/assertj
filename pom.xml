@@ -493,6 +493,7 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
           <mapping>
             <java>SLASHSTAR_STYLE</java>
           </mapping>
+          <errorMessage>Some files do not have the expected license header. Run license:format to update them.</errorMessage>
         </configuration>
         <executions>
           <execution>
