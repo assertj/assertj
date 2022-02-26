@@ -58,7 +58,7 @@ public final class MapEntry<K, V> implements Map.Entry<K, V> {
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, value);
+    return Objects.hashCode(key) ^ Objects.hashCode(value);
   }
 
   @Override
