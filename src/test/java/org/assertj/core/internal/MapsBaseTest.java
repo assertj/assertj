@@ -69,11 +69,11 @@ public class MapsBaseTest extends WithPlayerData {
                                                                                              MapsBaseTest::persistentMap,
                                                                                              MapsBaseTest::persistentSortedMap);
 
-  private static <K, V> PersistentMap<K, V> persistentMap() {
+  protected static <K, V> PersistentMap<K, V> persistentMap() {
     return hibernateMap(PersistentMap::new, HashMap::new);
   }
 
-  private static <K extends Comparable<? super K>, V> PersistentSortedMap<K, V> persistentSortedMap() {
+  protected static <K extends Comparable<? super K>, V> PersistentSortedMap<K, V> persistentSortedMap() {
     return hibernateMap(session -> new PersistentSortedMap<K, V>(session, naturalOrder()), TreeMap::new);
   }
 

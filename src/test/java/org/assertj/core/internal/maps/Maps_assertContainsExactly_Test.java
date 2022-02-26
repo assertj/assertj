@@ -12,7 +12,8 @@
  */
 package org.assertj.core.internal.maps;
 
-import static java.util.Collections.emptyMap;
+import static java.util.Collections.*;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -33,16 +34,18 @@ import static org.assertj.core.util.Lists.list;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.verify;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
+import com.google.common.collect.ImmutableMap;
+import org.apache.commons.collections4.map.CaseInsensitiveMap;
+import org.apache.commons.collections4.map.SingletonMap;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.MapsBaseTest;
+import org.assertj.core.test.jdk11.Jdk11;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -160,15 +163,21 @@ class Maps_assertContainsExactly_Test extends MapsBaseTest {
 
   @ParameterizedTest
   @MethodSource({
-      "caseInsensitiveMapsSuccessfulTestCases"
+      "orderedSensitiveSuccessfulArguments",
+      "orderedInsensitiveSuccessfulArguments",
+      "unorderedSensitiveSuccessfulArguments",
+      "unorderedInsensitiveSuccessfulArguments"
   })
   void should_pass(Map<String, String> map, MapEntry<String, String>[] entries) {
-    maps.assertContainsExactly(someInfo(), map, entries);
+    assertThatNoException().as(map.getClass().getName()).isThrownBy(() -> maps.assertContainsExactly(someInfo(), map, entries));
   }
 
   @ParameterizedTest
   @MethodSource({
-      "caseInsensitiveMapsFailureTestCases"
+      "orderedSensitiveFailureArguments",
+      "orderedInsensitiveFailureArguments",
+      "unorderedSensitiveFailureArguments",
+      "unorderedInsensitiveFailureArguments"
   })
   void should_fail(Map<String, String> map, MapEntry<String, String>[] entries) {
     assertThatExceptionOfType(AssertionError.class).as(map.getClass().getName())
@@ -177,26 +186,129 @@ class Maps_assertContainsExactly_Test extends MapsBaseTest {
                                                                                                 entries));
   }
 
-  private static Stream<Arguments> caseInsensitiveMapsSuccessfulTestCases() {
-    return Stream.of(CASE_INSENSITIVE_MAPS)
-                 .map(supplier -> mapOf(supplier,
-                                        entry("banana", "fruit"),
-                                        entry("poTATo", "vegetable")))
-                 .flatMap(m -> Stream.of(
-                                         arguments(m, array(entry("banana", "fruit"), entry("poTATo", "vegetable"))),
-                                         arguments(m, array(entry("BANANA", "fruit"), entry("potato", "vegetable")))));
+  private static Stream<MapEntry<String, String>[]> orderedFailureTestCases() {
+    return Stream.of(
+                     array(entry("potato", "vegetable")),
+                     array(entry("banana", "fruit"), entry("potato", "vegetable"), entry("tomato", "vegetable")),
+                     array(entry("banana", "fruit"), entry("tomato", "vegetable")),
+                     array(entry("banana", "fruit"), entry("potato", "food")),
+                     array(entry("potato", "vegetable"), entry("banana", "fruit")));
   }
 
-  private static Stream<Arguments> caseInsensitiveMapsFailureTestCases() {
-    return Stream.of(CASE_INSENSITIVE_MAPS)
-                 .map(supplier -> mapOf(supplier,
-                                        entry("banana", "fruit"),
-                                        entry("poTATo", "vegetable")))
-                 .flatMap(m -> Stream.of(
-                                         arguments(m, array(entry("banana", "fruit"), entry("tomato", "vegetable"))),
-                                         arguments(m, array(entry("potato", "vegetable"), entry("BANANA", "fruit"))),
-                                         arguments(m, array(entry("banana", "vegetable"), entry("tomato", "fruit"))),
-                                         arguments(m, array(entry("banana", "plane"), entry("poTATo", "train")))));
+  private static Stream<MapEntry<String, String>[]> orderedSuccessTestCases() {
+    return Stream.<MapEntry<String, String>[]> of(array(entry("banana", "fruit"), entry("poTATo", "vegetable")));
+  }
+
+  private static Stream<MapEntry<String, String>[]> unorderedFailureTestCases() {
+    return Stream.of(array(entry("banana", "fruit"), entry("potato", "vegetable")),
+                     array(entry("strawberry", "fruit")),
+                     array(entry("banana", "food")),
+                     new MapEntry[0]);
+  }
+
+  private static Stream<MapEntry<String, String>[]> unorderedSuccessTestCases() {
+    return Stream.<MapEntry<String, String>[]> of(array(entry("banana", "fruit")));
+  }
+
+  private static Stream<MapEntry<String, String>[]> unorderedInsensitiveFailureTestCases() {
+    return Stream.<MapEntry<String, String>[]> of(array(entry("banana", "FRUIT")));
+  }
+
+  private static Stream<MapEntry<String, String>[]> unorderedInsensitiveSuccessTestCases() {
+    return Stream.<MapEntry<String, String>[]> of(array(entry("BANANA", "fruit")));
+  }
+
+  private static Stream<MapEntry<String, String>[]> orderedInsensitiveFailureTestCases() {
+    return Stream.of(array(entry("banana", "fruit"), entry("tomato", "vegetable")),
+                     array(entry("potato", "vegetable"), entry("BANANA", "fruit")),
+                     array(entry("banana", "vegetable"), entry("tomato", "fruit")),
+                     array(entry("banana", "plane"), entry("poTATo", "train")));
+  }
+
+  private static Stream<MapEntry<String, String>[]> orderedInsensitiveSuccessTestCases() {
+    return Stream.<MapEntry<String, String>[]> of(array(entry("BANANA", "fruit"), entry("potato", "vegetable")));
+  }
+
+  private static Stream<Arguments> orderedSensitiveSuccessfulArguments() {
+    Stream<Map<String, String>> maps = Stream.<Supplier<Map<String, String>>> of(
+                                                                                 LinkedHashMap::new,
+                                                                                 MapsBaseTest::persistentSortedMap)
+                                             .map(supplier -> mapOf(supplier,
+                                                                    entry("banana", "fruit"),
+                                                                    entry("poTATo", "vegetable")));
+    return mapsAndEntriesToArguments(maps, Maps_assertContainsExactly_Test::orderedSuccessTestCases);
+  }
+
+  private static Stream<Arguments> orderedInsensitiveSuccessfulArguments() {
+    Stream<Map<String, String>> maps = Stream.of(CASE_INSENSITIVE_MAPS)
+                                             .map(supplier -> mapOf(supplier,
+                                                                    entry("banana", "fruit"),
+                                                                    entry("poTATo", "vegetable")));
+    return mapsAndEntriesToArguments(maps, () -> Stream.concat(orderedSuccessTestCases(), orderedInsensitiveSuccessTestCases()));
+  }
+
+  private static Stream<Arguments> orderedSensitiveFailureArguments() {
+    Stream<Map<String, String>> maps = Stream.<Supplier<Map<String, String>>> of(LinkedHashMap::new,
+                                                                                 MapsBaseTest::persistentSortedMap)
+                                             .map(supplier -> mapOf(supplier,
+                                                                    entry("banana", "fruit"),
+                                                                    entry("poTATo", "vegetable")));
+    return mapsAndEntriesToArguments(maps, Maps_assertContainsExactly_Test::orderedFailureTestCases);
+  }
+
+  private static Stream<Arguments> orderedInsensitiveFailureArguments() {
+    Stream<Map<String, String>> maps = Stream.of(CASE_INSENSITIVE_MAPS)
+                                             .map(supplier -> mapOf(supplier,
+                                                                    entry("banana", "fruit"),
+                                                                    entry("poTATo", "vegetable")));
+    return mapsAndEntriesToArguments(maps, () -> Stream.concat(orderedFailureTestCases(), orderedInsensitiveFailureTestCases()));
+  }
+
+  private static Stream<Arguments> unorderedSensitiveSuccessfulArguments() {
+    Stream<Map<String, String>> maps = Stream.concat(
+                                                     Stream.<Supplier<Map<String, String>>> of(HashMap::new,
+                                                                                               IdentityHashMap::new,
+                                                                                               MapsBaseTest::persistentMap)
+                                                           .map(supplier -> mapOf(supplier, entry("banana", "fruit"))),
+                                                     Stream.of(
+                                                               singletonMap("banana", "fruit"),
+                                                               new SingletonMap<>("banana", "fruit"),
+                                                               unmodifiableMap(mapOf(entry("banana", "fruit"))),
+                                                               ImmutableMap.of("banana", "fruit"),
+                                                               Jdk11.Map.of("banana", "fruit")));
+    return mapsAndEntriesToArguments(maps, Maps_assertContainsExactly_Test::unorderedSuccessTestCases);
+  }
+
+  private static Stream<Arguments> unorderedInsensitiveSuccessfulArguments() {
+    Stream<Map<String, String>> maps = Stream.of(mapOf(CaseInsensitiveMap::new, entry("banana", "fruit")));
+    return mapsAndEntriesToArguments(maps,
+                                     () -> Stream.concat(unorderedSuccessTestCases(), unorderedInsensitiveSuccessTestCases()));
+  }
+
+  private static Stream<Arguments> unorderedSensitiveFailureArguments() {
+    Stream<Map<String, String>> maps = Stream.concat(
+                                                     Stream.<Supplier<Map<String, String>>> of(HashMap::new,
+                                                                                               IdentityHashMap::new,
+                                                                                               MapsBaseTest::persistentMap)
+                                                           .map(supplier -> mapOf(supplier, entry("banana", "fruit"))),
+                                                     Stream.of(
+                                                               singletonMap("banana", "fruit"),
+                                                               new SingletonMap<>("banana", "fruit"),
+                                                               unmodifiableMap(mapOf(entry("banana", "fruit"))),
+                                                               ImmutableMap.of("banana", "fruit"),
+                                                               Jdk11.Map.of("banana", "fruit")));
+    return mapsAndEntriesToArguments(maps, Maps_assertContainsExactly_Test::unorderedInsensitiveSuccessTestCases);
+  }
+
+  private static Stream<Arguments> unorderedInsensitiveFailureArguments() {
+    Stream<Map<String, String>> maps = Stream.of(mapOf(CaseInsensitiveMap::new, entry("banana", "fruit")));
+    return mapsAndEntriesToArguments(maps,
+                                     () -> Stream.concat(unorderedFailureTestCases(), unorderedInsensitiveFailureTestCases()));
+  }
+
+  private static Stream<Arguments> mapsAndEntriesToArguments(Stream<Map<String, String>> maps,
+                                                             Supplier<Stream<MapEntry<String, String>[]>> entries) {
+    return maps.flatMap(m -> entries.get().map(entryArray -> arguments(m, entryArray)));
   }
 
   @SafeVarargs
