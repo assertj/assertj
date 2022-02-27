@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -928,4 +929,113 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   default AbstractUrlAssert<?> assertThat(URL actual) {
     return proxy(UrlAssert.class, URL.class, actual);
   }
+
+  /**
+   * Entry point to check that an exception of type T is thrown by a given {@code throwingCallable}
+   * which allows to chain assertions on the thrown exception.
+   * <p>
+   * Example:
+   * <pre><code class='java'> softly.assertThatExceptionOfType(IOException.class)
+   *           .isThrownBy(() -&gt; { throw new IOException("boom!"); })
+   *           .withMessage("boom!"); </code></pre>
+   *
+   * This method is more or less the same of {@link #assertThatThrownBy(ThrowingCallable)} but in a more natural way.
+   *
+   * @param <T> the Throwable type.
+   * @param throwableType the Throwable type class.
+   * @return the created {@link ThrowableTypeAssert}.
+   * @since 3.23.0.
+   */
+  default <T extends Throwable> ThrowableTypeAssert<T> assertThatExceptionOfType(final Class<T> throwableType) {
+    return new SoftThrowableTypeAssert<>(throwableType, this);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link RuntimeException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<RuntimeException> assertThatRuntimeException() {
+    return assertThatExceptionOfType(RuntimeException.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link NullPointerException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<NullPointerException> assertThatNullPointerException() {
+    return assertThatExceptionOfType(NullPointerException.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IllegalArgumentException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<IllegalArgumentException> assertThatIllegalArgumentException() {
+    return assertThatExceptionOfType(IllegalArgumentException.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IOException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<IOException> assertThatIOException() {
+    return assertThatExceptionOfType(IOException.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IllegalStateException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<IllegalStateException> assertThatIllegalStateException() {
+    return assertThatExceptionOfType(IllegalStateException.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link Exception}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<Exception> assertThatException() {
+    return assertThatExceptionOfType(Exception.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link ReflectiveOperationException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<ReflectiveOperationException> assertThatReflectiveOperationException() {
+    return assertThatExceptionOfType(ReflectiveOperationException.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IndexOutOfBoundsException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<IndexOutOfBoundsException> assertThatIndexOutOfBoundsException() {
+    return assertThatExceptionOfType(IndexOutOfBoundsException.class);
+  }
+
 }

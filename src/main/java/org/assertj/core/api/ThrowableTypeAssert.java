@@ -59,8 +59,12 @@ public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<Th
     Throwable throwable = ThrowableAssert.catchThrowable(throwingCallable);
     assertThat(throwable).as(description).hasBeenThrown().isInstanceOf(expectedThrowableType);
     @SuppressWarnings("unchecked")
-    T c = (T) throwable;
-    return new ThrowableAssertAlternative<>(c).as(description);
+    T castThrowable = (T) throwable;
+    return buildThrowableTypeAssert(castThrowable).as(description);
+  }
+
+  protected ThrowableAssertAlternative<T> buildThrowableTypeAssert(T throwable) {
+    return new ThrowableAssertAlternative<>(throwable);
   }
 
   /** {@inheritDoc} */
@@ -70,4 +74,5 @@ public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<Th
     this.description = description;
     return this;
   }
+
 }
