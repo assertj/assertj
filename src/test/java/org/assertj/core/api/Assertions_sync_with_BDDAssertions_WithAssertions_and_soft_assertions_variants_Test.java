@@ -16,6 +16,7 @@ import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.list;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -24,20 +25,23 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * @author Filip Hrisafov
  */
-class Assertions_sync_assertThat_with_BDD_and_Soft_variants_Test extends BaseAssertionsTest {
+class Assertions_sync_with_BDDAssertions_WithAssertions_and_soft_assertions_variants_Test extends BaseAssertionsTest {
 
   // Assertions - BDDAssertions sync tests
 
-  @Test
-  void standard_assertions_and_bdd_assertions_should_have_the_same_assertions_methods() {
+  @ParameterizedTest
+  @MethodSource("standard_and_bdd_assertion_methods")
+  void standard_assertions_and_bdd_assertions_should_have_the_same_assertions_methods(String assertionMethod,
+                                                                                      String bddAssertionMethod) {
     // GIVEN
-    Method[] assertThat_Assertions_methods = findMethodsWithName(Assertions.class, "assertThat");
-    Method[] then_Assertions_methods = findMethodsWithName(BDDAssertions.class, "then");
+    Method[] assertThat_Assertions_methods = findMethodsWithName(Assertions.class, assertionMethod);
+    Method[] then_Assertions_methods = findMethodsWithName(BDDAssertions.class, bddAssertionMethod);
     // THEN
     then(then_Assertions_methods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_METHOD_NAME)
                                  .containsExactlyInAnyOrder(assertThat_Assertions_methods);
@@ -120,15 +124,16 @@ class Assertions_sync_assertThat_with_BDD_and_Soft_variants_Test extends BaseAss
                      "assertThatReflectiveOperationException");
   }
 
+  private static String toBDDAssertionMethod(String assertionMethod) {
+    return assertionMethod.replace("assertThat", "then");
+  }
+
   private static Stream<String> bdd_assertion_methods() {
-    return Stream.of("then",
-                     "thenException",
-                     "thenRuntimeException",
-                     "thenNullPointerException",
-                     "thenIllegalArgumentException",
-                     "thenIOException",
-                     "thenIndexOutOfBoundsException",
-                     "thenReflectiveOperationException");
+    return assertion_methods().map(assertionMethod -> toBDDAssertionMethod(assertionMethod));
+  }
+
+  private static Stream<Arguments> standard_and_bdd_assertion_methods() {
+    return assertion_methods().map(assertionMethod -> arguments(assertionMethod, toBDDAssertionMethod(assertionMethod)));
   }
 
   private static Set<Method> non_assertThat_methodsOf(Method[] declaredMethods) {
