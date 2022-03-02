@@ -35,6 +35,7 @@ import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -104,6 +105,19 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
   default OptionalLongAssert then(OptionalLong actual) {
     return proxy(OptionalLongAssert.class, OptionalLong.class, actual);
   }
+
+  /**
+   * Create assertion for {@link java.util.regex.Matcher}.
+   *
+   * @param actual the actual matcher
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  default MatcherAssert then(Matcher actual) {
+    return proxy(MatcherAssert.class, Matcher.class, actual);
+  }
+
 
   /**
   * Creates a new instance of <code>{@link LocalDateAssert}</code>.

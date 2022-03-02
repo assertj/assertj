@@ -65,6 +65,7 @@ import java.util.function.Function;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -2340,6 +2341,17 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    */
   default OptionalDoubleAssert assertThat(final OptionalDouble optional) {
     return Assertions.assertThat(optional);
+  }
+
+  /**
+   * Create assertion for {@link java.util.regex.Matcher}
+   *
+   *
+   * @param matcher the actual matcher.
+   * @return the created assertion object.
+   */
+  default MatcherAssert assertThat(final Matcher matcher) {
+    return Assertions.assertThat(matcher);
   }
 
   /**

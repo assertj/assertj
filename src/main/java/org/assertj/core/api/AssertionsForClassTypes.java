@@ -39,6 +39,7 @@ import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
 
+import java.util.regex.Matcher;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
@@ -118,6 +119,17 @@ public class AssertionsForClassTypes {
    */
   public static OptionalIntAssert assertThat(OptionalInt actual) {
     return new OptionalIntAssert(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.regex.Matcher}
+   *
+   * @param actual the actual value
+   *
+   * @return the created assertion object
+   */
+  public static MatcherAssert assertThat(Matcher actual) {
+    return new MatcherAssert(actual);
   }
 
   /**
