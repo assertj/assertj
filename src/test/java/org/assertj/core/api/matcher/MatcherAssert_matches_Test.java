@@ -17,21 +17,24 @@ import java.util.regex.Pattern;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.MatcherShouldMatch.shouldMatch;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 @DisplayName("MatcherAssert matches")
 public class MatcherAssert_matches_Test {
 
   @Test
-  void should_fail_when_if_is_null() {
+  void should_fail_if_Matcher_is_null() {
     // GIVEN
     Matcher nullActual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(nullActual).matches());
     // THEN
-    assertThatAssertionErrorIsThrownBy(() -> assertThat(nullActual).matches()).withMessage(actualIsNull());
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test

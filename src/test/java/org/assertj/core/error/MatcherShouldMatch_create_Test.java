@@ -36,6 +36,6 @@ public class MatcherShouldMatch_create_Test {
     String message = shouldMatch(actual).create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-      + "Expecting \"Matcher\" to match."));
+      + "Expecting %s to match.", actual));
   }
 }

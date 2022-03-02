@@ -21,7 +21,7 @@ import java.util.regex.Matcher;
  */
 public class MatcherShouldMatch extends BasicErrorMessageFactory {
   private MatcherShouldMatch(Matcher matcher) {
-    super("%nExpecting %s to match.", matcher.getClass().getSimpleName());
+    super("%nExpecting %s to match.", matcher);
   }
 
   /**
