@@ -2095,7 +2095,7 @@ public class BDDAssertions extends Assertions {
    *
    * @param <T> dummy return value type
    * @param failureMessage error message.
-   * @return nothing, it's just to be used in {@code doSomething(optional.orElse(() -> fail("boom")));}.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("boom")));}.
    * @throws AssertionError with the given message.
    *
    * @since 3.20.0
@@ -2111,7 +2111,7 @@ public class BDDAssertions extends Assertions {
    * @param <T> dummy return value type
    * @param failureMessage error message.
    * @param args Arguments referenced by the format specifiers in the format string.
-   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("b%s", ""oom)));.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("b%s", ""oom)));}.
    * @throws AssertionError with the given built message.
    *
    * @since 3.20.0
@@ -2126,7 +2126,7 @@ public class BDDAssertions extends Assertions {
    * @param <T> dummy return value type
    * @param failureMessage the description of the failed assertion. It can be {@code null}.
    * @param realCause cause of the error.
-   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("boom", cause)));.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("boom", cause)));}.
    * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
    *
    * @since 3.20.0
@@ -2141,7 +2141,7 @@ public class BDDAssertions extends Assertions {
    * but had not been.
    * @param <T> dummy return value type
    * @param throwableClass the Throwable class that was expected to be thrown.
-   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; shouldHaveThrown(IOException.class)));.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> shouldHaveThrown(IOException.class)));}.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    *
