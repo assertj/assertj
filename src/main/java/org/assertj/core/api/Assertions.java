@@ -1752,7 +1752,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param <T> dummy return value type
    * @param failureMessage error message.
    * @param args Arguments referenced by the format specifiers in the format string.
-   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("b%s", ""oom)));}.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("b%s", "oom")));}.
    * @throws AssertionError with the given built message.
    */
   @CanIgnoreReturnValue
