@@ -61,7 +61,7 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
    * @throws AssertionError if the actual {@link Optional} contains nothing or does not have the given value.
    */
   public OptionalAssert<T> contains(final Object value) {
-    objects.assertNotNull(info, actual);
+    isNotNull();
     if (!actual.isPresent()) {
       throw assertionError(shouldBePresentWithValue(value));
     }
@@ -86,7 +86,7 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
    * @throws AssertionError if the actual {@link Optional} contains a (non-null) instance.
    */
   public OptionalAssert<T> isAbsent() {
-    objects.assertNotNull(info, actual);
+    isNotNull();
     if (actual.isPresent()) {
       throw assertionError(shouldBeAbsent(actual));
     }
@@ -108,7 +108,7 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
    * @throws AssertionError if the actual {@link Optional} contains a null instance.
    */
   public OptionalAssert<T> isPresent() {
-    objects.assertNotNull(info, actual);
+    isNotNull();
     if (!actual.isPresent()) {
       throw assertionError(shouldBePresent(actual));
     }

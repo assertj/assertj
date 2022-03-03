@@ -63,7 +63,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
    * @throws AssertionError if the actual {@link com.google.common.collect.Range} does not contain the given values.
    */
   public RangeAssert<T> contains(@SuppressWarnings("unchecked") final T... values) {
-    objects.assertNotNull(info, actual);
+    isNotNull();
     throwIllegalArgumentExceptionIfTrue(values == null, "The values to look for should not be null");
 
     // if both actual and values are empty, then assertion passes.
@@ -98,7 +98,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
    * @throws AssertionError if the actual {@link com.google.common.collect.Range} contains the given values.
    */
   public RangeAssert<T> doesNotContain(@SuppressWarnings("unchecked") final T... values) {
-    objects.assertNotNull(info, actual);
+    isNotNull();
 
     final List<T> valuesFound = newArrayList();
     for (final T value : values) {
@@ -127,7 +127,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
    * @throws AssertionError if the actual {@link com.google.common.collect.Range} lower bound is opened.
    */
   public RangeAssert<T> hasClosedLowerBound() throws AssertionError {
-    objects.assertNotNull(info, actual);
+    isNotNull();
 
     if (actual.lowerBoundType() != BoundType.CLOSED) {
       throw assertionError(shouldHaveClosedLowerBound(actual));
@@ -150,7 +150,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
    * @throws AssertionError if the actual {@link com.google.common.collect.Range} upper bound is opened.
    */
   public RangeAssert<T> hasClosedUpperBound() throws AssertionError {
-    objects.assertNotNull(info, actual);
+    isNotNull();
 
     if (actual.upperBoundType() != BoundType.CLOSED) {
       throw assertionError(shouldHaveClosedUpperBound(actual));
@@ -175,7 +175,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
    *           the given values.
    */
   public RangeAssert<T> hasLowerEndpointEqualTo(final T value) throws AssertionError {
-    objects.assertNotNull(info, actual);
+    isNotNull();
 
     if (!actual.lowerEndpoint().equals(value)) {
       throw assertionError(shouldHaveEqualLowerEndpoint(actual, value));
@@ -198,7 +198,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
    * @throws AssertionError if the actual {@link com.google.common.collect.Range} lower bound is closed.
    */
   public RangeAssert<T> hasOpenedLowerBound() throws AssertionError {
-    objects.assertNotNull(info, actual);
+    isNotNull();
 
     if (actual.lowerBoundType() != BoundType.OPEN) {
       throw assertionError(shouldHaveOpenedLowerBound(actual));
@@ -221,7 +221,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
    * @throws AssertionError if the actual {@link com.google.common.collect.Range} upper bound is closed.
    */
   public RangeAssert<T> hasOpenedUpperBound() throws AssertionError {
-    objects.assertNotNull(info, actual);
+    isNotNull();
 
     if (actual.upperBoundType() != BoundType.OPEN) {
       throw assertionError(shouldHaveOpenedUpperBound(actual));
@@ -246,7 +246,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
    *           the given values.
    */
   public RangeAssert<T> hasUpperEndpointEqualTo(final T value) throws AssertionError {
-    objects.assertNotNull(info, actual);
+    isNotNull();
 
     if (!actual.upperEndpoint().equals(value)) {
       throw assertionError(shouldHaveEqualUpperEndpoint(actual, value));
@@ -269,7 +269,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
    * @throws AssertionError if the actual {@link com.google.common.collect.Range} is not empty.
    */
   public RangeAssert<T> isEmpty() throws AssertionError {
-    objects.assertNotNull(info, actual);
+    isNotNull();
 
     if (!actual.isEmpty()) {
       throw assertionError(shouldBeEmpty(actual));
@@ -292,7 +292,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
    * @throws AssertionError if the actual {@link com.google.common.collect.Range} is empty.
    */
   public RangeAssert<T> isNotEmpty() throws AssertionError {
-    objects.assertNotNull(info, actual);
+    isNotNull();
 
     if (actual.isEmpty()) {
       throw assertionError(shouldNotBeEmpty());

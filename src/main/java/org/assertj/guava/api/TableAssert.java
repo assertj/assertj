@@ -59,7 +59,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * @throws AssertionError           if the actual {@link Table} does not have the expected row size.
    */
   public TableAssert<R, C, V> hasRowCount(int expectedSize) {
-    objects.assertNotNull(info, actual);
+    isNotNull();
     checkExpectedSizeArgument(expectedSize);
 
     if (actual.rowKeySet().size() != expectedSize) {
@@ -89,7 +89,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * @throws AssertionError           if the actual {@link Table} does not have the expected column size.
    */
   public TableAssert<R, C, V> hasColumnCount(int expectedSize) {
-    objects.assertNotNull(info, actual);
+    isNotNull();
     checkExpectedSizeArgument(expectedSize);
 
     if (actual.columnKeySet().size() != expectedSize) {
@@ -119,7 +119,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * @throws AssertionError           if the actual {@link Table} does not have the expected number of cells.
    */
   public TableAssert<R, C, V> hasSize(int expectedSize) {
-    objects.assertNotNull(info, actual);
+    isNotNull();
     checkExpectedSizeArgument(expectedSize);
 
     if (actual.size() != expectedSize) {
@@ -149,7 +149,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * @throws AssertionError           if the actual {@link Table} does not contain the given rows.
    */
   public TableAssert<R, C, V> containsRows(@SuppressWarnings("unchecked") R... rows) {
-    objects.assertNotNull(info, actual);
+    isNotNull();
     checkArgument(rows != null, "The rows to look for should not be null.");
     checkArgument(rows.length > 0, "The rows to look for should not be empty.");
 
@@ -187,7 +187,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * @throws AssertionError           if the actual {@link Table} does not contain the given columns.
    */
   public TableAssert<R, C, V> containsColumns(@SuppressWarnings("unchecked") C... columns) {
-    objects.assertNotNull(info, actual);
+    isNotNull();
     checkArgument(columns != null, "The columns to look for should not be null.");
     checkArgument(columns.length > 0, "The columns to look for should not be empty.");
 
@@ -226,7 +226,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * @throws AssertionError           if the actual {@link Table} does not contain the given values.
    */
   public TableAssert<R, C, V> containsValues(@SuppressWarnings("unchecked") V... values) {
-    objects.assertNotNull(info, actual);
+    isNotNull();
     checkArgument(values != null, "The values to look for should not be null.");
     checkArgument(values.length > 0, "The values to look for should not be empty.");
 
@@ -268,7 +268,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * @throws AssertionError if the expected value is {@code null}.
    */
   public TableAssert<R, C, V> containsCell(R row, C column, V expectedValue) {
-    objects.assertNotNull(info, actual);
+    isNotNull();
     checkArgument(row != null, "The row to look for should not be null.");
     checkArgument(column != null, "The column to look for should not be null.");
     checkArgument(expectedValue != null, "The value to look for should not be null.");
@@ -295,7 +295,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * @throws AssertionError if the actual {@link Table} is not empty.
    */
   public void isEmpty() {
-    objects.assertNotNull(info, actual);
+    isNotNull();
     if (!actual.isEmpty()) {
       throw assertionError(ShouldBeEmpty.shouldBeEmpty(actual));
     }

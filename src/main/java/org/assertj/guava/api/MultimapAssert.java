@@ -75,7 +75,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * @throws AssertionError           if the actual {@link Multimap} does not contain the given keys.
    */
   public MultimapAssert<K, V> containsKeys(@SuppressWarnings("unchecked") K... keys) {
-    objects.assertNotNull(info, actual);
+    isNotNull();
     throwIllegalArgumentExceptionIfTrue(keys == null, "The keys to look for should not be null");
     throwIllegalArgumentExceptionIfTrue(keys.length == 0, "The keys to look for should not be empty");
 
@@ -116,7 +116,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    */
   @SafeVarargs
   public final MultimapAssert<K, V> contains(MapEntry<K, V>... entries) {
-    objects.assertNotNull(info, actual);
+    isNotNull();
     throwIllegalArgumentExceptionIfTrue(entries == null, "The entries to look for should not be null");
     throwIllegalArgumentExceptionIfTrue(entries.length == 0, "The entries to look for should not be empty");
 
@@ -156,7 +156,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * @throws AssertionError           if the actual {@link Multimap} does not contain the given values.
    */
   public MultimapAssert<K, V> containsValues(@SuppressWarnings("unchecked") V... values) {
-    objects.assertNotNull(info, actual);
+    isNotNull();
     throwIllegalArgumentExceptionIfTrue(values == null, "The values to look for should not be null");
     throwIllegalArgumentExceptionIfTrue(values.length == 0, "The values to look for should not be empty");
 
@@ -186,7 +186,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * @throws AssertionError if the actual {@link Multimap} is not empty.
    */
   public void isEmpty() {
-    objects.assertNotNull(info, actual);
+    isNotNull();
     if (!actual.isEmpty()) {
       throw assertionError(shouldBeEmpty(actual));
     }
@@ -208,7 +208,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * @throws AssertionError if the actual {@link Multimap} is empty.
    */
   public void isNotEmpty() {
-    objects.assertNotNull(info, actual);
+    isNotNull();
     if (actual.isEmpty()) {
       throw assertionError(shouldNotBeEmpty());
     }
@@ -234,7 +234,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * @throws AssertionError if the number of values of the actual {@link Multimap} is not equal to the given one.
    */
   public MultimapAssert<K, V> hasSize(int expectedSize) {
-    objects.assertNotNull(info, actual);
+    isNotNull();
     int sizeOfActual = actual.size();
     if (sizeOfActual == expectedSize) {
       return this;
@@ -270,7 +270,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * @throws AssertionError           if actual {@link Multimap} does not have the same entries as the other {@link Multimap}.
    */
   public final MultimapAssert<K, V> hasSameEntriesAs(Multimap<? extends K, ? extends V> other) {
-    objects.assertNotNull(info, actual);
+    isNotNull();
     throwIllegalArgumentExceptionIfTrue(other == null, "The multimap to compare actual with should not be null");
 
     Set<?> entriesNotExpectedInActual = difference(newLinkedHashSet(actual.entries()), newLinkedHashSet(other.entries()));
@@ -305,7 +305,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * @throws AssertionError           if actual {@link Multimap} does not have contain all the given {@link Multimap} entries.
    */
   public final MultimapAssert<K, V> containsAllEntriesOf(Multimap<? extends K, ? extends V> other) {
-    objects.assertNotNull(info, actual);
+    isNotNull();
     throwIllegalArgumentExceptionIfTrue(other == null, "The multimap to compare actual with should not be null");
 
     Set<?> entriesNotFoundInActual = difference(newLinkedHashSet(other.entries()), newLinkedHashSet(actual.entries()));

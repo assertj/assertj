@@ -49,7 +49,7 @@ public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSourc
    * @throws AssertionError if the actual {@link ByteSource} does not contain the same content.
    */
   public ByteSourceAssert hasSameContentAs(ByteSource other) throws IOException {
-    objects.assertNotNull(info, actual);
+    isNotNull();
     if (!actual.contentEquals(other)) throw assertionError(shouldHaveSameContent(actual, other));
     return this;
   }
@@ -67,7 +67,7 @@ public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSourc
    * @throws AssertionError if the actual {@link ByteSource} is not empty.
    */
   public void isEmpty() throws IOException {
-    objects.assertNotNull(info, actual);
+    isNotNull();
     if (!actual.isEmpty()) throw assertionError(shouldBeEmpty(actual));
   }
 
@@ -87,7 +87,7 @@ public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSourc
    * @throws AssertionError if the number of values of the actual {@link ByteSource} is not equal to the given one.
    */
   public ByteSourceAssert hasSize(long expectedSize) throws IOException {
-    objects.assertNotNull(info, actual);
+    isNotNull();
     long sizeOfActual = actual.size();
     if (sizeOfActual != expectedSize) throw assertionError(shouldHaveSize(actual, sizeOfActual, expectedSize));
     return this;
