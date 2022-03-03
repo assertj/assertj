@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -117,8 +117,7 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveCompar
     Map<String, Author> singletonGeorgeMartinMap = singletonMap(georgeMartin.name, georgeMartin);
     return Stream.of(Arguments.of(singletonPratchettMap, singletonGeorgeMartinMap, "group",
                                   singletonPratchettMap, singletonGeorgeMartinMap,
-                                  format("The following actual map entries were not found in the expected map:%n"
-                                         + "  {Terry Pratchett=Author [name=Terry Pratchett]}")),
+                                  format("The following keys were not found in the actual map value:%n  [George Martin]")),
                      Arguments.of(nonSortedPratchettAndMartin, singletonPratchettMap, "group",
                                   nonSortedPratchettAndMartin, singletonPratchettMap,
                                   "actual and expected values are maps of different size, actual size=2 when expected size=1"),
@@ -132,8 +131,7 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveCompar
                                   none, pratchett, null),
                      Arguments.of(singletonPratchettMap, singletonMap(georgeMartin.name, pratchett), "group",
                                   singletonPratchettMap, singletonMap(georgeMartin.name, pratchett),
-                                  format("The following actual map entries were not found in the expected map:%n"
-                                         + "  {Terry Pratchett=Author [name=Terry Pratchett]}")),
+                                  format("The following keys were not found in the actual map value:%n  [George Martin]")),
                      Arguments.of(singletonPratchettMap, empty, "group",
                                   singletonPratchettMap, empty,
                                   "actual and expected values are maps of different size, actual size=1 when expected size=0"));
@@ -162,8 +160,7 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveCompar
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison()
                                                                                  .isEqualTo(expected));
     // THEN
-    then(assertionError).hasMessageContaining(format("The following actual map entries were not found in the expected map:%n"
-                                                     + "  {b=b, e=e}"));
+    then(assertionError).hasMessageContaining(format("The following keys were not found in the actual map value:%n  [c, d]"));
   }
 
   static Stream<Arguments> mapWithNonMaps() {

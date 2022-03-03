@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -1073,6 +1073,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @param propertyOrField the property/field to extract from the initial object under test
    * @param assertFactory   the factory for the creation of the new {@code Assert}
    * @return the new {@code Assert} instance
+   * @throws AssertionError if the object under test is {@code null}
    *
    * @since 3.16.0
    * @see AbstractObjectAssert#extracting(String)
@@ -1084,6 +1085,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
                                                                     AssertFactory<Object, ASSERT> assertFactory) {
     requireNonNull(propertyOrField, shouldNotBeNull("propertyOrField")::create);
     requireNonNull(assertFactory, shouldNotBeNull("assertFactory")::create);
+    isNotNull();
     Object value = byName(propertyOrField).apply(actual);
     String extractedPropertyOrFieldDescription = extractedDescriptionOf(propertyOrField);
     String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
@@ -1099,6 +1101,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @param extractor     the extractor function used to extract the value from the object under test
    * @param assertFactory the factory for the creation of the new {@code Assert}
    * @return the new {@code Assert} instance
+   * @throws AssertionError if the object under test is {@code null}
    *
    * @since 3.16.0
    * @see AbstractObjectAssert#extracting(Function)
@@ -1110,7 +1113,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
                                                                        AssertFactory<T, ASSERT> assertFactory) {
     requireNonNull(extractor, shouldNotBeNull("extractor")::create);
     requireNonNull(assertFactory, shouldNotBeNull("assertFactory")::create);
-    if (actual == null) throwAssertionError(shouldNotBeNull());
+    isNotNull();
     T extractedValue = extractor.apply(actual);
     return (ASSERT) assertFactory.createAssert(extractedValue).withAssertionState(myself);
   }

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api.iterable;
 
@@ -17,7 +17,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.Lists.newArrayList;
 
@@ -169,7 +169,7 @@ class IterableAssert_usingFieldByFieldElementComparator_Test extends IterableAss
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
-    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name")
+    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING, "name")
                                      .usingFieldByFieldElementComparator()
                                      .contains(other);
   }
@@ -180,7 +180,7 @@ class IterableAssert_usingFieldByFieldElementComparator_Test extends IterableAss
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
-    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name")
+    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING, "name")
                                      .usingComparatorForElementFieldsWithType(comparator, String.class)
                                      .usingFieldByFieldElementComparator()
                                      .contains(other);
@@ -191,7 +191,7 @@ class IterableAssert_usingFieldByFieldElementComparator_Test extends IterableAss
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "blue");
 
-    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS_STRING, String.class)
+    assertThat(singletonList(actual)).usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_STRING, String.class)
                                      .usingFieldByFieldElementComparator()
                                      .contains(other);
   }

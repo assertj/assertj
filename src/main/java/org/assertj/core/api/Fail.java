@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -38,7 +38,7 @@ public final class Fail {
    *
    * @param <T> dummy return value type
    * @param failureMessage error message.
-   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("boom")));.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("boom")));}.
    * @throws AssertionError with the given message.
    */
   @CanIgnoreReturnValue
@@ -52,7 +52,7 @@ public final class Fail {
    * @param <T> dummy return value type
    * @param failureMessage error message.
    * @param args Arguments referenced by the format specifiers in the format string.
-   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("b%s", ""oom)));.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("b%s", ""oom)));}.
    * @throws AssertionError with the given built message.
    */
   @CanIgnoreReturnValue
@@ -66,7 +66,7 @@ public final class Fail {
    * @param <T> dummy return value type
    * @param failureMessage the description of the failed assertion. It can be {@code null}.
    * @param realCause cause of the error.
-   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("boom", cause)));.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("boom", cause)));}.
    * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
    */
   @CanIgnoreReturnValue
@@ -82,7 +82,7 @@ public final class Fail {
    *
    * @param <T> dummy return value type
    * @param throwableClass the Throwable class that was expected to be thrown.
-   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; failBecauseExceptionWasNotThrown(IOException.class)));.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> failBecauseExceptionWasNotThrown(IOException.class)));}.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    *
@@ -99,7 +99,7 @@ public final class Fail {
    *
    * @param <T> dummy return value type
    * @param throwableClass the Throwable class that was expected to be thrown.
-   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; shouldHaveThrown(IOException.class)));.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> shouldHaveThrown(IOException.class)));}.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    */
@@ -109,8 +109,7 @@ public final class Fail {
   }
 
   /**
-   * This constructor is protected to make it possible to subclass this class. Since all its methods are static, there is no point
-   * on creating a new instance of it.
+   * Since all its methods are static and the class is final, there is no point on creating a new instance of it.
    */
-  protected Fail() {}
+  private Fail() {}
 }

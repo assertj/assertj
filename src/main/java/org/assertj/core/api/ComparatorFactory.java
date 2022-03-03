@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -20,13 +20,13 @@ public class ComparatorFactory {
 
   public static final ComparatorFactory INSTANCE = new ComparatorFactory();
 
-  public Comparator<Double> doubleComparatorWithPrecision(final double precision) {
-    @SuppressWarnings("unused") // can't use <> with anonymous class in java 8
-    Comparator<Double> closeToComparator = new Comparator<Double>() {
+  public Comparator<Double> doubleComparatorWithPrecision(double precision) {
+    // can't use <> with anonymous class in java 8
+    return new Comparator<Double>() {
       @Override
       public int compare(Double o1, Double o2) {
-        if (abs(o1.doubleValue() - o2.doubleValue()) < precision) return 0;
-        return o1.doubleValue() - o2.doubleValue() > 0 ? 1 : -1;
+        if (abs(o1 - o2) < precision) return 0;
+        return o1 - o2 > 0 ? 1 : -1;
       }
 
       @Override
@@ -34,16 +34,15 @@ public class ComparatorFactory {
         return "double comparator at precision " + precision;
       }
     };
-    return closeToComparator;
   }
 
-  public Comparator<Float> floatComparatorWithPrecision(final float precision) {
-    @SuppressWarnings("unused")
-    Comparator<Float> closeToComparator = new Comparator<Float>() {
+  public Comparator<Float> floatComparatorWithPrecision(float precision) {
+    // can't use <> with anonymous class in java 8
+    return new Comparator<Float>() {
       @Override
       public int compare(Float o1, Float o2) {
-        if(abs(o1.floatValue() - o2.floatValue()) < precision) return 0;
-        return o1.floatValue() - o2.floatValue() > 0 ? 1 : -1;
+        if (abs(o1 - o2) < precision) return 0;
+        return o1 - o2 > 0 ? 1 : -1;
       }
 
       @Override
@@ -51,6 +50,6 @@ public class ComparatorFactory {
         return "float comparator at precision " + precision;
       }
     };
-    return closeToComparator;
   }
+
 }

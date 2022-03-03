@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -16,7 +16,7 @@ import static com.google.common.collect.Sets.newHashSet;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.util.Comparator;
@@ -49,7 +49,7 @@ class RecursiveComparisonAssert_for_iterables_Test {
   @Test
   void should_propagate_comparator_by_type() {
     // GIVEN
-    Comparator<String> alwayEqualsString = ALWAY_EQUALS_STRING;
+    Comparator<String> alwayEqualsString = ALWAYS_EQUALS_STRING;
     // WHEN
     RecursiveComparisonConfiguration assertion = assertThat(actual).usingComparatorForType(alwayEqualsString, String.class)
                                                                    .usingRecursiveComparison()

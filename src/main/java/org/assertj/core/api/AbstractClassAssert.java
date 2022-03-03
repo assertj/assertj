@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -286,6 +286,54 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    */
   public SELF isPackagePrivate() {
     classes.assertIsPackagePrivate(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is static (has {@code static} modifier).
+   * <p>
+   * Example:
+   * <pre><code class='java'> class OuterClass {
+   *    static class StaticNestedClass { }
+   * }
+   * // this assertion succeeds:
+   * assertThat(OuterClass.StaticNestedClass.class).isStatic();
+   *
+   * // these assertions fail:
+   * assertThat(Object.class).isStatic();
+   * assertThat(Throwable.class).isStatic();</code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not static.
+   * @since 3.23.0
+   */
+  public SELF isStatic() {
+    classes.assertIsStatic(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is not static (does not have {@code static} modifier).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // these assertions succeed:
+   * assertThat(Object.class).isNotStatic();
+   * assertThat(Throwable.class).isNotStatic();
+   *
+   * class OuterClass {
+   *    static class StaticNestedClass { }
+   * }
+   * // this assertion fails:
+   * assertThat(OuterClass.StaticNestedClass.class).isNotStatic();</code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is static.
+   * @since 3.23.0
+   */
+  public SELF isNotStatic() {
+    classes.assertIsNotStatic(info, actual);
     return myself;
   }
 

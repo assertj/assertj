@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -48,6 +48,7 @@ class SoftProxies {
                                                                                                                                    "asList",
                                                                                                                                    "asString",
                                                                                                                                    "asHexString",
+                                                                                                                                   "cause",
                                                                                                                                    "content",
                                                                                                                                    "extracting",
                                                                                                                                    "extractingByKey",
@@ -60,11 +61,13 @@ class SoftProxies {
                                                                                                                                    "flatExtracting",
                                                                                                                                    "flatMap",
                                                                                                                                    "get",
-                                                                                                                                   "getCause",
-                                                                                                                                   "getRootCause",
+                                                                                                                                   "getCause", // deprecated
+                                                                                                                                   "getRootCause", // deprecated
                                                                                                                                    "map",
                                                                                                                                    "message",
                                                                                                                                    "newAbstractIterableAssert",
+                                                                                                                                   "rootCause",
+                                                                                                                                   "scale",
                                                                                                                                    "size",
                                                                                                                                    "succeedsWithin",
                                                                                                                                    "toAssert",
@@ -136,6 +139,18 @@ class SoftProxies {
     try {
       Constructor<?> constructor = proxyClass.getConstructor(AbstractFileAssert.class);
       FileSizeAssert<?> proxiedAssert = (FileSizeAssert<?>) constructor.newInstance(fileSizeAssert.returnToFile());
+      ((AssertJProxySetup) proxiedAssert).assertj$setup(new ProxifyMethodChangingTheObjectUnderTest(this), collector);
+      return proxiedAssert;
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  BigDecimalScaleAssert<?> createBigDecimalScaleAssertProxy(BigDecimalScaleAssert<?> bigDecimalScaleAssert) {
+    Class<?> proxyClass = createSoftAssertionProxyClass(BigDecimalScaleAssert.class);
+    try {
+      Constructor<?> constructor = proxyClass.getConstructor(AbstractBigDecimalAssert.class);
+      BigDecimalScaleAssert<?> proxiedAssert = (BigDecimalScaleAssert<?>) constructor.newInstance(bigDecimalScaleAssert.returnToBigDecimal());
       ((AssertJProxySetup) proxiedAssert).assertj$setup(new ProxifyMethodChangingTheObjectUnderTest(this), collector);
       return proxiedAssert;
     } catch (Exception e) {
@@ -218,4 +233,5 @@ class SoftProxies {
     return publicMethods.or(forProxyProtectedMethods);
 
   }
+
 }

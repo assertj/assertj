@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.test;
 
@@ -19,10 +19,10 @@ import org.assertj.core.groups.Tuple;
 
 public class AlwaysEqualComparator<T> implements Comparator<T> {
 
-  public static final AlwaysEqualComparator<Object> ALWAY_EQUALS = alwaysEqual();
-  public static final AlwaysEqualComparator<String> ALWAY_EQUALS_STRING = alwaysEqual();
-  public static final AlwaysEqualComparator<Timestamp> ALWAY_EQUALS_TIMESTAMP = alwaysEqual();
-  public static final AlwaysEqualComparator<Tuple> ALWAY_EQUALS_TUPLE = alwaysEqual();
+  public static final AlwaysEqualComparator<Object> ALWAYS_EQUALS = alwaysEqual();
+  public static final AlwaysEqualComparator<String> ALWAYS_EQUALS_STRING = alwaysEqual();
+  public static final AlwaysEqualComparator<Timestamp> ALWAYS_EQUALS_TIMESTAMP = alwaysEqual();
+  public static final AlwaysEqualComparator<Tuple> ALWAYS_EQUALS_TUPLE = alwaysEqual();
 
   @Override
   public int compare(T o1, T o2) {

@@ -30,11 +30,12 @@
 # The version ranges will change as the version of
 # AssertJ and/or its dependencies change.
 -runbundles: \
-	assertj-core;version='[3.22.0,3.22.1)',\
-	assertj-core-tests;version='[3.22.0,3.22.1)',\
+	assertj-core;version='[3.23.0,3.23.1)',\
+	assertj-core-tests;version='[3.23.0,3.23.1)',\
 	junit-jupiter-api;version='[5.8.2,5.8.3)',\
 	junit-jupiter-engine;version='[5.8.2,5.8.3)',\
 	junit-platform-commons;version='[1.8.2,1.8.3)',\
 	junit-platform-engine;version='[1.8.2,1.8.3)',\
 	junit-platform-launcher;version='[1.8.2,1.8.3)',\
+	net.bytebuddy.byte-buddy;version='[1.12.8,1.12.9)',\
 	org.opentest4j;version='[1.2.0,1.2.1)'

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -42,6 +42,7 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.nio.file.Path;
@@ -1946,6 +1947,22 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     assertThat(softly.errorsCollected()).extracting(Throwable::getMessage)
                                         .containsExactly("startsWith", "endsWith");
+  }
+
+  @Test
+  void big_decimal_soft_assertions_should_work_with_scale_navigation_method() {
+    // GIVEN
+    BigDecimal bigDecimal = new BigDecimal(BigInteger.TEN, 5);
+    // WHEN
+    softly.then(bigDecimal)
+          .scale()
+          .overridingErrorMessage("isGreaterThan")
+          .isGreaterThan(6)
+          .overridingErrorMessage("isLessThan")
+          .isLessThan(4);
+    // THEN
+    assertThat(softly.errorsCollected()).extracting(Throwable::getMessage)
+                                        .containsExactly("isGreaterThan", "isLessThan");
   }
 
 }

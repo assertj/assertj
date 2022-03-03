@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -164,6 +164,38 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
                                          "  %s%n" +
                                          " %s",
                                          actual, strings, notFound, comparisonStrategy);
+  }
+
+  /** 
+   * Creates a new <code>{@link ShouldContainCharSequence}</code>.
+   * 
+   * @param actual  the actual value in the failed assertion.
+   * @param expectedValues the sequence of values expected to be in {@code actual}.
+   * @param notFound the values not found.
+   * @param comparisonWay the {@link ComparisonStrategy} to evaluate assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory containsIgnoringNewLines(final CharSequence actual,
+                                                             final CharSequence[] expectedValues,
+                                                             final Set<? extends CharSequence> notFound,
+                                                             final ComparisonStrategy comparisonWay) {
+    final String start = "%n" +
+                         "Expecting actual:%n" +
+                         "  %s%n" +
+                         "to contain (ignoring new lines):%n";
+    if (notFound.size() > 1) {
+      return new ShouldContainCharSequence(start +
+                                           "  %s%n" +
+                                           "but could not find:%n" +
+                                           "  %s%n" +
+                                           " %s",
+                                           actual, expectedValues, notFound, comparisonWay);
+    }
+    // notFound.size() == 1 since it's not empty and not > 1
+    return new ShouldContainCharSequence(start +
+                                         "  %s %s",
+                                         actual, notFound.iterator().next(), comparisonWay);
+
   }
 
   private ShouldContainCharSequence(String format, CharSequence actual, CharSequence sequence,

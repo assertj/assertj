@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -30,6 +30,13 @@ import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicLongArray;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.stream.Stream;
 
 // logically immutable
@@ -90,8 +97,20 @@ public final class DualValue {
   }
 
   public boolean isActualJavaType() {
-    if (actual == null) return false;
-    return actual.getClass().getName().startsWith("java.");
+    return isJavaType(actual);
+  }
+
+  public boolean isExpectedJavaType() {
+    return isJavaType(expected);
+  }
+
+  public boolean hasSomeJavaTypeValue() {
+    return isActualJavaType() || isExpectedJavaType();
+  }
+
+  private static boolean isJavaType(Object o) {
+    if (o == null) return false;
+    return o.getClass().getName().startsWith("java.");
   }
 
   public boolean isExpectedFieldAnArray() {
@@ -145,6 +164,62 @@ public final class DualValue {
     return expected instanceof Optional;
   }
 
+  public boolean isExpectedFieldAnAtomicReference() {
+    return expected instanceof AtomicReference;
+  }
+
+  public boolean isActualFieldAnAtomicReference() {
+    return actual instanceof AtomicReference;
+  }
+
+  public boolean isExpectedFieldAnAtomicReferenceArray() {
+    return expected instanceof AtomicReferenceArray;
+  }
+
+  public boolean isActualFieldAnAtomicReferenceArray() {
+    return actual instanceof AtomicReferenceArray;
+  }
+
+  public boolean isExpectedFieldAnAtomicInteger() {
+    return expected instanceof AtomicInteger;
+  }
+
+  public boolean isActualFieldAnAtomicInteger() {
+    return actual instanceof AtomicInteger;
+  }
+
+  public boolean isExpectedFieldAnAtomicIntegerArray() {
+    return expected instanceof AtomicIntegerArray;
+  }
+
+  public boolean isActualFieldAnAtomicIntegerArray() {
+    return actual instanceof AtomicIntegerArray;
+  }
+
+  public boolean isExpectedFieldAnAtomicLong() {
+    return expected instanceof AtomicLong;
+  }
+
+  public boolean isActualFieldAnAtomicLong() {
+    return actual instanceof AtomicLong;
+  }
+
+  public boolean isExpectedFieldAnAtomicLongArray() {
+    return expected instanceof AtomicLongArray;
+  }
+
+  public boolean isActualFieldAnAtomicLongArray() {
+    return actual instanceof AtomicLongArray;
+  }
+
+  public boolean isExpectedFieldAnAtomicBoolean() {
+    return expected instanceof AtomicBoolean;
+  }
+
+  public boolean isActualFieldAnAtomicBoolean() {
+    return actual instanceof AtomicBoolean;
+  }
+
   public boolean isActualFieldAMap() {
     return actual instanceof Map;
   }
@@ -170,16 +245,41 @@ public final class DualValue {
   }
 
   public boolean isActualFieldAnIterable() {
-    // ignore Path to be consistent with isExpectedFieldAnIterable
-    return actual instanceof Iterable && !(actual instanceof Path);
+    return isAnIterable(actual);
   }
 
   public boolean isExpectedFieldAnIterable() {
+    return isAnIterable(expected);
+  }
+
+  private static boolean isAnIterable(Object value) {
     // Don't consider Path as an Iterable as recursively comparing them leads to a stack overflow, here's why:
     // Iterable are compared element by element recursively
     // Ex: /tmp/foo.txt path has /tmp as its first element
     // so /tmp is going to be compared recursively but /tmp first element is itself leading to an infinite recursion
-    return expected instanceof Iterable && !(expected instanceof Path);
+    // Don't consider ValueNode as an Iterable as they only contain one value and iterating them does not make sense.
+    // Don't consider or ObjectNode as an Iterable as it holds a map but would only iterate on values and not entries.
+    return value instanceof Iterable && !(value instanceof Path || isAJsonValueNode(value) || isAnObjectNode(value));
+  }
+
+  private static boolean isAJsonValueNode(Object value) {
+    try {
+      Class<?> valueNodeClass = Class.forName("com.fasterxml.jackson.databind.node.ValueNode");
+      return valueNodeClass.isInstance(value);
+    } catch (ClassNotFoundException e) {
+      // value cannot be a ValueNode because the class couldn't be located
+      return false;
+    }
+  }
+
+  private static boolean isAnObjectNode(Object value) {
+    try {
+      Class<?> objectNodeClass = Class.forName("com.fasterxml.jackson.databind.node.ObjectNode");
+      return objectNodeClass.isInstance(value);
+    } catch (ClassNotFoundException e) {
+      // value cannot be an ObjectNode because the class couldn't be located
+      return false;
+    }
   }
 
   private static boolean isAnOrderedCollection(Object value) {
@@ -195,8 +295,14 @@ public final class DualValue {
   }
 
   public boolean hasNoContainerValues() {
-    return !isContainer(actual) && !isContainer(expected);
+    return !isContainer(actual) && !isExpectedAContainer();
   }
+
+  // TODO test
+  public boolean isExpectedAContainer() {
+    return isContainer(expected);
+  }
+
 
   public boolean hasNoNullValues() {
     return actual != null && expected != null;
@@ -206,6 +312,13 @@ public final class DualValue {
     return o instanceof Iterable ||
            o instanceof Map ||
            o instanceof Optional ||
+           o instanceof AtomicReference ||
+           o instanceof AtomicReferenceArray ||
+           o instanceof AtomicBoolean ||
+           o instanceof AtomicInteger ||
+           o instanceof AtomicIntegerArray ||
+           o instanceof AtomicLong ||
+           o instanceof AtomicLongArray ||
            isArray(o);
   }
 

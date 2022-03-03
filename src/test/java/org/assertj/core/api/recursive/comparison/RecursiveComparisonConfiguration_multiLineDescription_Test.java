@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -16,7 +16,7 @@ import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.test.AlwaysDifferentComparator.alwaysDifferent;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TUPLE;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_TUPLE;
 
 import java.time.ZonedDateTime;
 import java.util.Comparator;
@@ -228,7 +228,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
   void should_show_the_registered_comparator_by_types_and_the_default_ones() {
     // GIVEN
     recursiveComparisonConfiguration.registerComparatorForType(new AbsValueComparator<>(), Integer.class);
-    recursiveComparisonConfiguration.registerComparatorForType(AlwaysEqualComparator.ALWAY_EQUALS_TUPLE, Tuple.class);
+    recursiveComparisonConfiguration.registerComparatorForType(AlwaysEqualComparator.ALWAYS_EQUALS_TUPLE, Tuple.class);
     recursiveComparisonConfiguration.registerEqualsForType(STRING_EQUALS, String.class);
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
@@ -244,7 +244,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
   @Test
   void should_show_the_registered_comparator_for_specific_fields_alphabetically() {
     // GIVEN
-    recursiveComparisonConfiguration.registerComparatorForFields(ALWAY_EQUALS_TUPLE, "foo");
+    recursiveComparisonConfiguration.registerComparatorForFields(ALWAYS_EQUALS_TUPLE, "foo");
     recursiveComparisonConfiguration.registerComparatorForFields(alwaysDifferent(), "bar");
     recursiveComparisonConfiguration.registerComparatorForFields(new PercentageComparator(), "height");
     // WHEN
@@ -307,8 +307,8 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     recursiveComparisonConfiguration.ignoreCollectionOrderInFields("foo", "bar", "foo.bar");
     recursiveComparisonConfiguration.ignoreCollectionOrderInFieldsMatchingRegexes("f.*", "ba.", "foo.*");
     recursiveComparisonConfiguration.registerComparatorForType(new AbsValueComparator<>(), Integer.class);
-    recursiveComparisonConfiguration.registerComparatorForType(AlwaysEqualComparator.ALWAY_EQUALS_TUPLE, Tuple.class);
-    recursiveComparisonConfiguration.registerComparatorForFields(ALWAY_EQUALS_TUPLE, "foo");
+    recursiveComparisonConfiguration.registerComparatorForType(AlwaysEqualComparator.ALWAYS_EQUALS_TUPLE, Tuple.class);
+    recursiveComparisonConfiguration.registerComparatorForFields(ALWAYS_EQUALS_TUPLE, "foo");
     recursiveComparisonConfiguration.registerComparatorForFields(alwaysDifferent(), "bar.baz");
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);

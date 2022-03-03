@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -16,6 +16,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.list;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
@@ -149,6 +150,53 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
 
   private static String[] arrayOf(List<String> list) {
     return list.toArray(new String[0]);
+  }
+
+  @SuppressWarnings("unused")
+  static class Staff {
+
+    private Boolean deleted;
+    private ZonedDateTime deletedAt;
+    private String defaultRole;
+    private String defaultRoleName;
+
+    void setDeleted(Boolean deleted) {
+      this.deleted = deleted;
+    }
+
+    void setDeletedAt(ZonedDateTime deletedAt) {
+      this.deletedAt = deletedAt;
+    }
+
+    void setDefaultRole(String defaultRole) {
+      this.defaultRole = defaultRole;
+    }
+
+    void setDefaultRoleName(String defaultRoleName) {
+      this.defaultRoleName = defaultRoleName;
+    }
+
+  }
+
+  // #2359
+  @Test
+  void should_not_compare_given_fields_starting_with_given_name_but_fully_matching_name() {
+    // GIVEN
+    Staff actual = new Staff();
+    actual.setDeleted(true);
+    actual.setDeletedAt(ZonedDateTime.parse("2021-10-05T04:21:05.863+00:00"));
+    actual.setDefaultRole("MANAGER");
+    actual.setDefaultRoleName("MANAGER");
+    Staff expected = new Staff();
+    expected.setDeleted(true);
+    expected.setDeletedAt(null);
+    expected.setDefaultRole("MANAGER");
+    expected.setDefaultRoleName("UX MANAGER");
+    // WHEN/THEN
+    // defaultRoleName or deletedAt should not be compared.
+    then(actual).usingRecursiveComparison()
+                .comparingOnlyFields("defaultRole", "deleted")
+                .isEqualTo(expected);
   }
 
 }

@@ -8,13 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.internal;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 
 import org.assertj.core.util.BigDecimalComparator;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,7 +41,7 @@ class FieldByFieldComparator_toString_Test {
   void should_return_description_of_FieldByFieldComparator_with_field_comparators() {
     // GIVEN
     fieldByFieldComparator.comparatorsByPropertyOrField.put("weight", new BigDecimalComparator());
-    fieldByFieldComparator.comparatorsByPropertyOrField.put("name", ALWAY_EQUALS_STRING);
+    fieldByFieldComparator.comparatorsByPropertyOrField.put("name", ALWAYS_EQUALS_STRING);
     // THEN
     assertThat(fieldByFieldComparator).hasToString(format("field/property by field/property comparator on all fields/properties%n"
                                                           + "Comparators used:%n"

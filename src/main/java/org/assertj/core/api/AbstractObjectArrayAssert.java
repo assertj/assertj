@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -2078,7 +2078,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return {@code this} assertion object.
    * @since 2.5.0 / 3.5.0 - breaking change in 3.20.0
    * @see RecursiveComparisonConfiguration
-   * @see usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
+   * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
    */
   @CheckReturnValue
   public SELF usingRecursiveFieldByFieldElementComparator() {

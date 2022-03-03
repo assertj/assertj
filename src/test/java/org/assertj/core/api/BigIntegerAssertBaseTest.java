@@ -8,17 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api;
 
-import org.assertj.core.internal.BigIntegers;
-import org.assertj.core.internal.Comparables;
+import static java.math.BigInteger.ONE;
+import static org.mockito.Mockito.mock;
 
 import java.math.BigInteger;
 
-import static java.math.BigInteger.ONE;
-import static org.mockito.Mockito.mock;
+import org.assertj.core.internal.BigIntegers;
+import org.assertj.core.internal.Comparables;
 
 
 public abstract class BigIntegerAssertBaseTest extends ComparableAssertBaseTest<BigIntegerAssert, BigInteger> {

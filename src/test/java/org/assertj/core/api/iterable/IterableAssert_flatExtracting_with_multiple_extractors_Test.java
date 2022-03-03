@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api.iterable;
 
@@ -25,8 +25,8 @@ import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
 import static org.assertj.core.data.TolkienCharacter.Race.MAIA;
 import static org.assertj.core.data.TolkienCharacter.Race.MAN;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.sql.Timestamp;
@@ -136,8 +136,8 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
       = assertThat(fellowshipOfTheRing).as("test description")
       .withFailMessage("error message")
       .withRepresentation(UNICODE_REPRESENTATION)
-      .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "foo")
-      .usingComparatorForElementFieldsWithType(ALWAY_EQUALS_TIMESTAMP, Timestamp.class)
+      .usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING, "foo")
+      .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP, Timestamp.class)
       .usingComparatorForType(CaseInsensitiveStringComparator.instance, String.class)
       .flatExtracting(age, name)
       .contains(33, "frodo", 38, "SAM");
@@ -149,8 +149,8 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
     then(comparatorsByTypeOf(assertion).getComparatorForType(String.class))
       .isSameAs(CaseInsensitiveStringComparator.instance);
     then(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class))
-      .isSameAs(ALWAY_EQUALS_TIMESTAMP);
-    then(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
+      .isSameAs(ALWAYS_EQUALS_TIMESTAMP);
+    then(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
   }
 
   @SuppressWarnings("deprecation")
@@ -163,8 +163,8 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
       = assertThat(fellowshipOfTheRing).as("test description")
       .withFailMessage("error message")
       .withRepresentation(UNICODE_REPRESENTATION)
-      .usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "foo")
-      .usingComparatorForElementFieldsWithType(ALWAY_EQUALS_TIMESTAMP, Timestamp.class)
+      .usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING, "foo")
+      .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP, Timestamp.class)
       .usingComparatorForType(CaseInsensitiveStringComparator.instance, String.class)
       .flatExtracting(ageThrowingExtractor, nameThrowingExtractor)
       .contains(33, "frodo", 38, "SAM");
@@ -176,7 +176,7 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
     then(comparatorsByTypeOf(assertion).getComparatorForType(String.class))
       .isSameAs(CaseInsensitiveStringComparator.instance);
     then(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class))
-      .isSameAs(ALWAY_EQUALS_TIMESTAMP);
-    then(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
+      .isSameAs(ALWAYS_EQUALS_TIMESTAMP);
+    then(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
   }
 }

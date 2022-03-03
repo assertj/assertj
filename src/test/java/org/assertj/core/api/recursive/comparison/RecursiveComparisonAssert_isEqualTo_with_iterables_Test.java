@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -70,8 +70,8 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
     Map<String, Person> actualAsMap = newHashMap("sheldon", sheldon);
     return Stream.of(Arguments.of(actualAsIterable, expectAsIterable,
                                   diff("", actualAsIterable, expectAsIterable,
-                                       format("The following actual elements were not matched in the expected HashSet:%n"
-                                              + "  [Person[name='Sheldon']]"))),
+                                       format("The following expected elements were not matched in the actual HashSet:%n"
+                                              + "  [PersonDto [name=Sheldon, home=HomeDto [address=AddressDto [number=1]]]]"))),
                      Arguments.of(actualAsArray, expectedAsArray, diff("[0]", sheldon, sheldonDto)),
                      Arguments.of(actualAsOptional, expectedAsOptional, diff("value", sheldon, sheldonDto)),
                      Arguments.of(actualAsMap, expectedAsMap, diff("sheldon", sheldon, sheldonDto)));
@@ -161,16 +161,15 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
                      // pair of different elements, this is why actual and expected are set and not element values.
                      Arguments.of(pratchettHashSet, newHashSet(none), "group",
                                   pratchettHashSet, newHashSet(none),
-                                  format("The following actual elements were not matched in the expected HashSet:%n"
-                                         + "  [Author [name=Terry Pratchett]]")),
+                                  format("The following expected elements were not matched in the actual HashSet:%n  [null]")),
                      Arguments.of(newHashSet(none), pratchettHashSet, "group",
                                   newHashSet(none), pratchettHashSet,
-                                  format("The following actual elements were not matched in the expected HashSet:%n"
-                                         + "  [null]")),
+                                  format("The following expected elements were not matched in the actual HashSet:%n"
+                                         + "  [Author [name=Terry Pratchett]]")),
                      Arguments.of(pratchettHashSet, newHashSet(georgeMartin), "group",
                                   pratchettHashSet, newHashSet(georgeMartin),
-                                  format("The following actual elements were not matched in the expected HashSet:%n"
-                                         + "  [Author [name=Terry Pratchett]]")),
+                                  format("The following expected elements were not matched in the actual HashSet:%n"
+                                         + "  [Author [name=George Martin]]")),
                      Arguments.of(authorsTreeSet(pratchett, georgeMartin), authorsTreeSet(pratchett), "group",
                                   authorsTreeSet(pratchett, georgeMartin), authorsTreeSet(pratchett),
                                   "actual and expected values are collections of different size, actual size=2 when expected size=1"),
@@ -222,8 +221,7 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
                                                                                  .ignoringCollectionOrder()
                                                                                  .isEqualTo(expected));
     // THEN
-    then(assertionError).hasMessageContaining(format("The following actual elements were not matched in the expected ArrayList:%n"
-                                                     + "  [aaa]"));
+    then(assertionError).hasMessageContaining(format("The following expected elements were not matched in the actual ArrayList:%n  [bbb]"));
   }
 
   // https://github.com/assertj/assertj-core/issues/2279

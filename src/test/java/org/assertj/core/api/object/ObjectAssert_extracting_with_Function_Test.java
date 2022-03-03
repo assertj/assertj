@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api.object;
 
@@ -17,14 +17,16 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 
 import java.util.Comparator;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractObjectAssert;
+import org.assertj.core.api.NavigationMethodBaseTest;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
@@ -34,10 +36,7 @@ import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link ObjectAssert#extracting(Function)}</code>.
- */
-class ObjectAssert_extracting_with_Function_Test {
+class ObjectAssert_extracting_with_Function_Test implements NavigationMethodBaseTest<ObjectAssert<Employee>> {
 
   private Employee luke;
 
@@ -91,34 +90,24 @@ class ObjectAssert_extracting_with_Function_Test {
   }
 
   @Test
-  void extracting_should_honor_registered_comparator() {
-    // GIVEN
-    ObjectAssert<Employee> assertion = assertThat(luke).usingComparator(ALWAY_EQUALS);
-    // WHEN
-    AbstractObjectAssert<?, String> result = assertion.extracting(firstName);
-    // THEN
-    result.isEqualTo("YODA");
-  }
-
-  @Test
   void extracting_should_keep_assertion_state() {
     // GIVEN
     // not all comparators are used but we want to test that they are passed correctly after extracting
     AbstractObjectAssert<?, Employee> assertion = assertThat(luke).as("test description")
                                                                   .withFailMessage("error message")
                                                                   .withRepresentation(UNICODE_REPRESENTATION)
-                                                                  .usingComparator(ALWAY_EQUALS)
-                                                                  .usingComparatorForFields(ALWAY_EQUALS_STRING, "foo")
-                                                                  .usingComparatorForType(ALWAY_EQUALS_STRING, String.class);
+                                                                  .usingComparator(ALWAYS_EQUALS)
+                                                                  .usingComparatorForFields(ALWAYS_EQUALS_STRING, "foo")
+                                                                  .usingComparatorForType(ALWAYS_EQUALS_STRING, String.class);
     // WHEN
     AbstractObjectAssert<?, ?> result = assertion.extracting(firstName);
     // THEN
     then(result.descriptionText()).isEqualTo("test description");
     then(result.info.overridingErrorMessage()).isEqualTo("error message");
     then(result.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
-    then(comparatorsByTypeOf(result).getComparatorForType(String.class)).isSameAs(ALWAY_EQUALS_STRING);
-    then(comparatorByPropertyOrFieldOf(result).get("foo")).isSameAs(ALWAY_EQUALS_STRING);
-    then(comparatorOf(result).getComparator()).isSameAs(ALWAY_EQUALS);
+    then(comparatorsByTypeOf(result).getComparatorForType(String.class)).isSameAs(ALWAYS_EQUALS_STRING);
+    then(comparatorByPropertyOrFieldOf(result).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
+    then(comparatorOf(result).getComparator()).isSameAs(ALWAYS_EQUALS);
   }
 
   private static Objects comparatorOf(AbstractObjectAssert<?, ?> assertion) {
@@ -133,4 +122,15 @@ class ObjectAssert_extracting_with_Function_Test {
   private static Map<String, Comparator<?>> comparatorByPropertyOrFieldOf(AbstractObjectAssert<?, ?> assertion) {
     return (Map<String, Comparator<?>>) PropertyOrFieldSupport.EXTRACTION.getValueOf("comparatorByPropertyOrField", assertion);
   }
+
+  @Override
+  public ObjectAssert<Employee> getAssertion() {
+    return new ObjectAssert<>(luke);
+  }
+
+  @Override
+  public AbstractAssert<?, ?> invoke_navigation_method(ObjectAssert<Employee> assertion) {
+    return assertion.extracting(Employee::getAge);
+  }
+
 }

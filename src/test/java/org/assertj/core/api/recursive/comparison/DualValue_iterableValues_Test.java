@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
 import static com.google.common.collect.Sets.newHashSet;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -25,6 +25,10 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 class DualValue_iterableValues_Test {
 
@@ -38,7 +42,7 @@ class DualValue_iterableValues_Test {
     // WHEN
     boolean isActualFieldAnOrderedCollection = dualValue.isActualFieldAnOrderedCollection();
     // THEN
-    assertThat(isActualFieldAnOrderedCollection).isTrue();
+    then(isActualFieldAnOrderedCollection).isTrue();
   }
 
   @ParameterizedTest
@@ -49,7 +53,7 @@ class DualValue_iterableValues_Test {
     // WHEN
     boolean isExpectedFieldAnOrderedCollection = dualValue.isExpectedFieldAnOrderedCollection();
     // THEN
-    assertThat(isExpectedFieldAnOrderedCollection).isTrue();
+    then(isExpectedFieldAnOrderedCollection).isTrue();
   }
 
   static Stream<Iterable<?>> orderedCollections() {
@@ -64,7 +68,7 @@ class DualValue_iterableValues_Test {
     // WHEN
     boolean isActualFieldAnOrderedCollection = dualValue.isActualFieldAnOrderedCollection();
     // THEN
-    assertThat(isActualFieldAnOrderedCollection).isFalse();
+    then(isActualFieldAnOrderedCollection).isFalse();
   }
 
   @ParameterizedTest
@@ -75,7 +79,7 @@ class DualValue_iterableValues_Test {
     // WHEN
     boolean isExpectedFieldAnOrderedCollection = dualValue.isExpectedFieldAnOrderedCollection();
     // THEN
-    assertThat(isExpectedFieldAnOrderedCollection).isFalse();
+    then(isExpectedFieldAnOrderedCollection).isFalse();
   }
 
   static Stream<Object> nonOrdered() {
@@ -90,7 +94,7 @@ class DualValue_iterableValues_Test {
     // WHEN
     boolean isActualFieldAnIterable = dualValue.isActualFieldAnIterable();
     // THEN
-    assertThat(isActualFieldAnIterable).isTrue();
+    then(isActualFieldAnIterable).isTrue();
   }
 
   @ParameterizedTest
@@ -101,7 +105,7 @@ class DualValue_iterableValues_Test {
     // WHEN
     boolean isExpectedFieldAnIterable = dualValue.isExpectedFieldAnIterable();
     // THEN
-    assertThat(isExpectedFieldAnIterable).isTrue();
+    then(isExpectedFieldAnIterable).isTrue();
   }
 
   static Stream<Iterable<?>> iterables() {
@@ -116,7 +120,7 @@ class DualValue_iterableValues_Test {
     // WHEN
     boolean isActualFieldAnIterable = dualValue.isActualFieldAnIterable();
     // THEN
-    assertThat(isActualFieldAnIterable).isFalse();
+    then(isActualFieldAnIterable).isFalse();
   }
 
   @ParameterizedTest
@@ -127,12 +131,74 @@ class DualValue_iterableValues_Test {
     // WHEN
     boolean isExpectedFieldAnIterable = dualValue.isExpectedFieldAnIterable();
     // THEN
-    assertThat(isExpectedFieldAnIterable).isFalse();
+    then(isExpectedFieldAnIterable).isFalse();
   }
 
   static Stream<Object> nonIterables() {
-    // even though Path is an iterable, it must not be considered as such
     return Stream.of(123, "abc", array("a", "b"), Paths.get("/tmp"));
+  }
+
+  @ParameterizedTest
+  @MethodSource("iterableJsonNodes")
+  void isExpectedFieldAnIterable_should_return_true_when_expected_is_an_array_json_node(JsonNode expected) {
+    // GIVEN
+    DualValue dualValue = new DualValue(PATH, "", expected.findValue("value"));
+    // WHEN
+    boolean isExpectedFieldAnIterable = dualValue.isExpectedFieldAnIterable();
+    // THEN
+    then(isExpectedFieldAnIterable).isTrue();
+  }
+
+  @ParameterizedTest
+  @MethodSource("nonIterableJsonNodes")
+  void isExpectedFieldAnIterable_should_return_false_when_expected_is_a_json_node_that_should_not_be_treated_as_an_iterable(JsonNode expected) {
+    // GIVEN
+    DualValue dualValue = new DualValue(PATH, "", expected.findValue("value"));
+    // WHEN
+    boolean isExpectedFieldAnIterable = dualValue.isExpectedFieldAnIterable();
+    // THEN
+    then(isExpectedFieldAnIterable).isFalse();
+  }
+
+  @ParameterizedTest
+  @MethodSource("iterableJsonNodes")
+  void isActualFieldAnIterable_should_return_true_when_actual_is_an_array_json_node(JsonNode actual) {
+    // GIVEN
+    DualValue dualValue = new DualValue(PATH, actual.findValue("value"), "");
+    // WHEN
+    boolean isActualFieldAnIterable = dualValue.isActualFieldAnIterable();
+    // THEN
+    then(isActualFieldAnIterable).isTrue();
+  }
+
+  @ParameterizedTest
+  @MethodSource("nonIterableJsonNodes")
+  void isActualFieldAnIterable_should_return_false_when_actual_is_a_json_node_that_should_not_be_treated_as_an_iterable(JsonNode actual) {
+    // GIVEN
+    DualValue dualValue = new DualValue(PATH, actual.findValue("value"), "");
+    // WHEN
+    boolean isActualFieldAnIterable = dualValue.isActualFieldAnIterable();
+    // THEN
+    then(isActualFieldAnIterable).isFalse();
+  }
+
+  static Stream<JsonNode> iterableJsonNodes() {
+    return Stream.of("{\"value\": []}")
+                 .map(json -> toJsonNode(json));
+  }
+
+  static Stream<JsonNode> nonIterableJsonNodes() {
+    return Stream.of("{\"value\": \"foo\"}", "{\"value\": 42}", "{\"value\": true}", "{\"value\": {}}")
+                 .map(json -> toJsonNode(json));
+  }
+
+  private static JsonNode toJsonNode(String value) {
+    ObjectMapper objectMapper = new ObjectMapper();
+    try {
+      return objectMapper.readTree(value);
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
+    }
   }
 
 }

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -1364,6 +1364,7 @@ public class Assumptions {
     if (assertion instanceof AtomicReferenceFieldUpdaterAssert) return asAssumption(AtomicReferenceFieldUpdaterAssert.class, AtomicReferenceFieldUpdater.class, actual);
     if (assertion instanceof AtomicStampedReferenceAssert) return asAssumption(AtomicStampedReferenceAssert.class, AtomicStampedReference.class, actual);
     if (assertion instanceof BigDecimalAssert) return asAssumption(BigDecimalAssert.class, BigDecimal.class, actual);
+    if (assertion instanceof BigDecimalScaleAssert) return asBigDecimalScaleAssumption(assertion);
     if (assertion instanceof BigIntegerAssert) return asAssumption(BigIntegerAssert.class, BigInteger.class, actual);
     if (assertion instanceof BooleanAssert) return asAssumption(BooleanAssert.class, Boolean.class, actual);
     if (assertion instanceof Boolean2DArrayAssert) return asAssumption(Boolean2DArrayAssert.class, boolean[][].class, actual);
@@ -1460,5 +1461,11 @@ public class Assumptions {
     FileSizeAssert<?> fileSizeAssert = (FileSizeAssert<?>) assertion;
     Class<?>[] constructorTypes = array(AbstractFileAssert.class);
     return asAssumption(FileSizeAssert.class, constructorTypes, fileSizeAssert.returnToFile());
+  }
+
+  private static AbstractAssert<?, ?> asBigDecimalScaleAssumption(AbstractAssert<?, ?> assertion) {
+    BigDecimalScaleAssert<?> bigDecimalScaleAssert = (BigDecimalScaleAssert<?>) assertion;
+    Class<?>[] constructorTypes = array(AbstractBigDecimalAssert.class);
+    return asAssumption(BigDecimalScaleAssert.class, constructorTypes, bigDecimalScaleAssert.returnToBigDecimal());
   }
 }

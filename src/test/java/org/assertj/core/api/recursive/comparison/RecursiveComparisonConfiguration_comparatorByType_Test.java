@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS;
 
 import java.util.Comparator;
 import java.util.List;
@@ -54,11 +54,11 @@ class RecursiveComparisonConfiguration_comparatorByType_Test {
     AbsValueComparator<Integer> integerComparator = new AbsValueComparator<>();
     recursiveComparisonConfiguration.registerComparatorForType(integerComparator, Integer.class);
     recursiveComparisonConfiguration.registerEqualsForType((Tuple t1, Tuple t2) -> false, Tuple.class);
-    recursiveComparisonConfiguration.registerComparatorForType(ALWAY_EQUALS, Double.class);
+    recursiveComparisonConfiguration.registerComparatorForType(ALWAYS_EQUALS, Double.class);
     // THEN
     assertThat(recursiveComparisonConfiguration.getComparatorForType(Integer.class)).isSameAs(integerComparator);
     assertThat(recursiveComparisonConfiguration.getComparatorForType(Tuple.class)).isNotNull();
-    assertThat(recursiveComparisonConfiguration.getComparatorForType(Double.class)).isSameAs(ALWAY_EQUALS);
+    assertThat(recursiveComparisonConfiguration.getComparatorForType(Double.class)).isSameAs(ALWAYS_EQUALS);
   }
 
   @Test

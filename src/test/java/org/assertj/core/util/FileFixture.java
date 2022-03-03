@@ -8,15 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.util;
 
 import static java.io.File.separator;
 import static java.lang.String.format;
-import static org.assertj.core.util.Strings.*;
+import static org.assertj.core.util.Strings.concat;
+import static org.assertj.core.util.Strings.quote;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.logging.Logger;
 
 /**

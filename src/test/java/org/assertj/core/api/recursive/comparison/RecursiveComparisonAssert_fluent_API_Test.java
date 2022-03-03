@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -17,8 +17,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.test.AlwaysDifferentComparator.alwaysDifferent;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_TIMESTAMP;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
 import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.sql.Timestamp;
@@ -253,13 +253,13 @@ class RecursiveComparisonAssert_fluent_API_Test {
     Class<Tuple> type3 = Tuple.class;
     // WHEN
     RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
-                                                                       .withComparatorForType(ALWAY_EQUALS_STRING, type1)
-                                                                       .withComparatorForType(ALWAY_EQUALS_TIMESTAMP, type2)
+                                                                       .withComparatorForType(ALWAYS_EQUALS_STRING, type1)
+                                                                       .withComparatorForType(ALWAYS_EQUALS_TIMESTAMP, type2)
                                                                        .withEqualsForType((o1, o2) -> true, type3)
                                                                        .getRecursiveComparisonConfiguration();
     // THEN
-    assertThat(configuration.comparatorByTypes()).contains(entry(type1, ALWAY_EQUALS_STRING),
-                                                           entry(type2, ALWAY_EQUALS_TIMESTAMP));
+    assertThat(configuration.comparatorByTypes()).contains(entry(type1, ALWAYS_EQUALS_STRING),
+                                                           entry(type2, ALWAYS_EQUALS_TIMESTAMP));
     assertThat(configuration.comparatorByTypes()).anyMatch(entry -> entry.getKey().equals(type3) && entry.getValue() != null);
   }
 

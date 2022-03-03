@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -1674,6 +1674,50 @@ public class Assertions implements InstanceOfAssertFactories {
     return assertThatExceptionOfType(IllegalStateException.class);
   }
 
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link Exception}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<Exception> assertThatException(){
+    return assertThatExceptionOfType(Exception.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link RuntimeException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<RuntimeException> assertThatRuntimeException(){
+    return assertThatExceptionOfType(RuntimeException.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link ReflectiveOperationException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<ReflectiveOperationException> assertThatReflectiveOperationException(){
+    return assertThatExceptionOfType(ReflectiveOperationException.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IndexOutOfBoundsException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<IndexOutOfBoundsException> assertThatIndexOutOfBoundsException(){
+    return assertThatExceptionOfType(IndexOutOfBoundsException.class);
+  }
+
   // -------------------------------------------------------------------------------------------------
   // fail methods : not assertions but here to have a single entry point to all AssertJ features.
   // -------------------------------------------------------------------------------------------------
@@ -1694,7 +1738,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @param <T> dummy return value type
    * @param failureMessage error message.
-   * @return nothing, it's just to be used in {@code doSomething(optional.orElse(() -> fail("boom")));}.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("boom")));}.
    * @throws AssertionError with the given message.
    */
   @CanIgnoreReturnValue
@@ -1708,7 +1752,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param <T> dummy return value type
    * @param failureMessage error message.
    * @param args Arguments referenced by the format specifiers in the format string.
-   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("b%s", ""oom)));.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("b%s", "oom")));}.
    * @throws AssertionError with the given built message.
    */
   @CanIgnoreReturnValue
@@ -1721,7 +1765,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param <T> dummy return value type
    * @param failureMessage the description of the failed assertion. It can be {@code null}.
    * @param realCause cause of the error.
-   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("boom", cause)));.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("boom", cause)));}.
    * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
    */
   @CanIgnoreReturnValue
@@ -1737,7 +1781,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * <p>
    * @param <T> dummy return value type
    * @param throwableClass the Throwable class that was expected to be thrown.
-   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; failBecauseExceptionWasNotThrown(IOException.class)));.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> failBecauseExceptionWasNotThrown(IOException.class)));}.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    */
@@ -1751,7 +1795,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * but had not been.
    * @param <T> dummy return value type
    * @param throwableClass the Throwable class that was expected to be thrown.
-   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; shouldHaveThrown(IOException.class)));.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> shouldHaveThrown(IOException.class)));}.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    */
@@ -3457,7 +3501,7 @@ public class Assertions implements InstanceOfAssertFactories {
   /**
    * Reset the representaion being used to the one from the {@link Configuration} to revert the effect of calling {@link #useRepresentation(Representation)}.
    * <p>
-   * Unless a specific {@link Configuration} is in use, this method resets the representation to the {@link StandardRepresentation}. 
+   * Unless a specific {@link Configuration} is in use, this method resets the representation to the {@link StandardRepresentation}.
    *
    * @since 2.5.0 / 3.5.0
    */

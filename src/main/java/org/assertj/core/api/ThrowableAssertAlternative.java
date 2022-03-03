@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -36,6 +36,15 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
     delegate = new ThrowableAssert<>(actual);
   }
 
+  protected ThrowableAssert<ACTUAL> getDelegate() {
+    return delegate;
+  }
+
+  @Override
+  public ThrowableAssertAlternative<ACTUAL> as(Description description) {
+    return super.as(description);
+  }
+
   /**
    * Verifies that the message of the actual {@code Throwable} is equal to the given one.
    * <p>
@@ -59,7 +68,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @see AbstractThrowableAssert#hasMessage(String)
    */
   public ThrowableAssertAlternative<ACTUAL> withMessage(String message) {
-    delegate.hasMessage(message);
+    getDelegate().hasMessage(message);
     return myself;
   }
 
@@ -87,7 +96,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @see AbstractThrowableAssert#hasMessage(String)
    */
   public ThrowableAssertAlternative<ACTUAL> withMessage(String message, Object... parameters) {
-    delegate.hasMessage(message, parameters);
+    getDelegate().hasMessage(message, parameters);
     return myself;
   }
 
@@ -126,7 +135,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @see AbstractThrowableAssert#hasCause(Throwable)
    */
   public ThrowableAssertAlternative<ACTUAL> withCause(Throwable cause) {
-    delegate.hasCause(cause);
+    getDelegate().hasCause(cause);
     return myself;
   }
 
@@ -153,7 +162,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @see AbstractThrowableAssert#hasNoCause()
    */
   public ThrowableAssertAlternative<ACTUAL> withNoCause() {
-    delegate.hasNoCause();
+    getDelegate().hasNoCause();
     return myself;
   }
 
@@ -180,7 +189,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @see AbstractThrowableAssert#hasMessageStartingWith(String)
    */
   public ThrowableAssertAlternative<ACTUAL> withMessageStartingWith(String description) {
-    delegate.hasMessageStartingWith(description);
+    getDelegate().hasMessageStartingWith(description);
     return myself;
   }
 
@@ -210,7 +219,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @see AbstractThrowableAssert#hasMessageStartingWith(String, Object...)
    */
   public ThrowableAssertAlternative<ACTUAL> withMessageStartingWith(String description, Object... parameters) {
-    delegate.hasMessageStartingWith(description, parameters);
+    getDelegate().hasMessageStartingWith(description, parameters);
     return myself;
   }
 
@@ -237,7 +246,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @see AbstractThrowableAssert#hasMessageContaining(String)
    */
   public ThrowableAssertAlternative<ACTUAL> withMessageContaining(String description) {
-    delegate.hasMessageContaining(description);
+    getDelegate().hasMessageContaining(description);
     return myself;
   }
 
@@ -267,7 +276,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @see AbstractThrowableAssert#hasMessageContaining(String, Object...)
    */
   public ThrowableAssertAlternative<ACTUAL> withMessageContaining(String description, Object... parameters) {
-    delegate.hasMessageContaining(description, parameters);
+    getDelegate().hasMessageContaining(description, parameters);
     return myself;
   }
 
@@ -294,7 +303,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @see AbstractThrowableAssert#hasMessageContainingAll(CharSequence...)
    */
   public ThrowableAssertAlternative<ACTUAL> withMessageContainingAll(CharSequence... values) {
-    delegate.hasMessageContainingAll(values);
+    getDelegate().hasMessageContainingAll(values);
     return myself;
   }
 
@@ -323,7 +332,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @see AbstractThrowableAssert#hasMessageNotContaining(String)
    */
   public ThrowableAssertAlternative<ACTUAL> withMessageNotContaining(String content) {
-    delegate.hasMessageNotContaining(content);
+    getDelegate().hasMessageNotContaining(content);
     return myself;
   }
 
@@ -352,7 +361,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @see AbstractThrowableAssert#hasMessageNotContainingAny(CharSequence...)
    */
   public ThrowableAssertAlternative<ACTUAL> withMessageNotContainingAny(CharSequence... values) {
-    delegate.hasMessageNotContainingAny(values);
+    getDelegate().hasMessageNotContainingAny(values);
     return myself;
   }
 
@@ -379,7 +388,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @see AbstractThrowableAssert#hasStackTraceContaining(String)
    */
   public ThrowableAssertAlternative<ACTUAL> withStackTraceContaining(String description) {
-    delegate.hasStackTraceContaining(description);
+    getDelegate().hasStackTraceContaining(description);
     return myself;
   }
 
@@ -409,7 +418,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @see AbstractThrowableAssert#hasStackTraceContaining(String, Object...)
    */
   public ThrowableAssertAlternative<ACTUAL> withStackTraceContaining(String description, Object... parameters) {
-    delegate.hasStackTraceContaining(description, parameters);
+    getDelegate().hasStackTraceContaining(description, parameters);
     return myself;
   }
 
@@ -437,7 +446,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @see AbstractThrowableAssert#hasMessageMatching(String)
    */
   public ThrowableAssertAlternative<ACTUAL> withMessageMatching(String regex) {
-    delegate.hasMessageMatching(regex);
+    getDelegate().hasMessageMatching(regex);
     return myself;
   }
 
@@ -464,7 +473,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @see AbstractThrowableAssert#hasMessageEndingWith(String)
    */
   public ThrowableAssertAlternative<ACTUAL> withMessageEndingWith(String description) {
-    delegate.hasMessageEndingWith(description);
+    getDelegate().hasMessageEndingWith(description);
     return myself;
   }
 
@@ -494,7 +503,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @see AbstractThrowableAssert#hasMessageEndingWith(String, Object...)
    */
   public ThrowableAssertAlternative<ACTUAL> withMessageEndingWith(String description, Object... parameters) {
-    delegate.hasMessageEndingWith(description, parameters);
+    getDelegate().hasMessageEndingWith(description, parameters);
     return myself;
   }
 
@@ -526,7 +535,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @see AbstractThrowableAssert#hasCauseInstanceOf(Class)
    */
   public ThrowableAssertAlternative<ACTUAL> withCauseInstanceOf(Class<? extends Throwable> type) {
-    delegate.hasCauseInstanceOf(type);
+    getDelegate().hasCauseInstanceOf(type);
     return myself;
   }
 
@@ -559,7 +568,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @see AbstractThrowableAssert#hasCauseExactlyInstanceOf(Class)
    */
   public ThrowableAssertAlternative<ACTUAL> withCauseExactlyInstanceOf(Class<? extends Throwable> type) {
-    delegate.hasCauseExactlyInstanceOf(type);
+    getDelegate().hasCauseExactlyInstanceOf(type);
     return myself;
   }
 
@@ -593,7 +602,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @see AbstractThrowableAssert#hasRootCauseInstanceOf(Class)
    */
   public ThrowableAssertAlternative<ACTUAL> withRootCauseInstanceOf(Class<? extends Throwable> type) {
-    delegate.hasRootCauseInstanceOf(type);
+    getDelegate().hasRootCauseInstanceOf(type);
     return myself;
   }
 
@@ -628,7 +637,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @see AbstractThrowableAssert#hasRootCauseExactlyInstanceOf(Class)
    */
   public ThrowableAssertAlternative<ACTUAL> withRootCauseExactlyInstanceOf(Class<? extends Throwable> type) {
-    delegate.hasRootCauseExactlyInstanceOf(type);
+    getDelegate().hasRootCauseExactlyInstanceOf(type);
     return myself;
   }
 
@@ -636,7 +645,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
   @Override
   @CheckReturnValue
   public ThrowableAssertAlternative<ACTUAL> describedAs(String description, Object... args) {
-    delegate.describedAs(description, args);
+    getDelegate().describedAs(description, args);
     return super.describedAs(description, args);
   }
 
@@ -644,7 +653,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
   @Override
   @CheckReturnValue
   public ThrowableAssertAlternative<ACTUAL> describedAs(Description description) {
-    delegate.describedAs(description);
+    getDelegate().describedAs(description);
     return super.describedAs(description);
   }
 
@@ -659,7 +668,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @since 3.16.0
    */
   public ThrowableAssertAlternative<?> havingCause() {
-    AbstractThrowableAssert<?, ?> causeAssert = delegate.getCause();
+    AbstractThrowableAssert<?, ?> causeAssert = getDelegate().cause();
     return new ThrowableAssertAlternative<>(causeAssert.actual);
   }
 
@@ -674,7 +683,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @since 3.16.0
    */
   public ThrowableAssertAlternative<?> havingRootCause() {
-    AbstractThrowableAssert<?, ?> rootCauseAssert = delegate.getRootCause();
+    AbstractThrowableAssert<?, ?> rootCauseAssert = getDelegate().rootCause();
     return new ThrowableAssertAlternative<>(rootCauseAssert.actual);
   }
 

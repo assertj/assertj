@@ -1,10 +1,8 @@
-# AssertJ - Fluent assertions for java
+# AssertJ - Fluent Assertions for Java [![Maven Central](https://img.shields.io/maven-central/v/org.assertj/assertj-core.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22org.assertj%22%20AND%20a:%22assertj-core%22) [![Javadocs](http://www.javadoc.io/badge/org.assertj/assertj-core.svg)](http://www.javadoc.io/doc/org.assertj/assertj-core)
 
 [![Github CI status](https://github.com/assertj/assertj-core/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/assertj/assertj-core/actions/workflows/main.yml?query=branch%3Amain)
 [![Github Cross-Version status](https://github.com/assertj/assertj-core/actions/workflows/cross-version.yml/badge.svg?branch=main)](https://github.com/assertj/assertj-core/actions/workflows/cross-version.yml?query=branch%3Amain)
 [![Binary Compatibility](https://github.com/assertj/assertj-core/actions/workflows/binary-compatibility.yml/badge.svg?branch=main)](https://github.com/assertj/assertj-core/actions/workflows/binary-compatibility.yml?query=branch%3Amain)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.assertj/assertj-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.assertj/assertj-core)
-[![Javadocs](http://www.javadoc.io/badge/org.assertj/assertj-core.svg)](http://www.javadoc.io/doc/org.assertj/assertj-core)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=joel-costigliola_assertj-core&metric=alert_status)](https://sonarcloud.io/dashboard?id=joel-costigliola_assertj-core)
 
 AssertJ provides a rich and intuitive set of strongly-typed assertions to use for unit testing (with JUnit, TestNG or any other test framework).

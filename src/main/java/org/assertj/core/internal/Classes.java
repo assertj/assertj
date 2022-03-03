@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -18,7 +18,9 @@ import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBePackagePrivate;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeProtected;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBePublic;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldBeStatic;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeFinal;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeStatic;
 import static org.assertj.core.error.ShouldBeAbstract.shouldBeAbstract;
 import static org.assertj.core.error.ShouldBeAnnotation.shouldBeAnnotation;
 import static org.assertj.core.error.ShouldBeAnnotation.shouldNotBeAnnotation;
@@ -238,6 +240,36 @@ public class Classes {
   public void assertIsNotFinal(AssertionInfo info, Class<?> actual) {
     assertNotNull(info, actual);
     if (Modifier.isFinal(actual.getModifiers())) throw failures.failure(info, shouldNotBeFinal(actual));
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is static.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Class}.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not static.
+   */
+  public void assertIsStatic(AssertionInfo info, Class<?> actual) {
+    assertNotNull(info, actual);
+    if (!Modifier.isStatic(actual.getModifiers())) {
+      throw failures.failure(info, shouldBeStatic(actual));
+    }
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is not static.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Class}.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is static.
+   */
+  public void assertIsNotStatic(AssertionInfo info, Class<?> actual) {
+    assertNotNull(info, actual);
+    if (Modifier.isStatic(actual.getModifiers())) {
+      throw failures.failure(info, shouldNotBeStatic(actual));
+    }
   }
 
   /**

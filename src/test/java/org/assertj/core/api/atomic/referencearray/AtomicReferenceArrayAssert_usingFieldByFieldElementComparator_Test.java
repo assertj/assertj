@@ -8,14 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api.atomic.referencearray;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAY_EQUALS_STRING;
+import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -202,7 +202,7 @@ class AtomicReferenceArrayAssert_usingFieldByFieldElementComparator_Test
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
-    assertThat(atomicArrayOf(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name")
+    assertThat(atomicArrayOf(actual)).usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING, "name")
                                      .usingFieldByFieldElementComparator()
                                      .contains(other);
   }
@@ -213,7 +213,7 @@ class AtomicReferenceArrayAssert_usingFieldByFieldElementComparator_Test
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 
-    assertThat(atomicArrayOf(actual)).usingComparatorForElementFieldsWithNames(ALWAY_EQUALS_STRING, "name")
+    assertThat(atomicArrayOf(actual)).usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING, "name")
                                      .usingComparatorForElementFieldsWithType(comparator, String.class)
                                      .usingFieldByFieldElementComparator()
                                      .contains(other);
@@ -224,7 +224,7 @@ class AtomicReferenceArrayAssert_usingFieldByFieldElementComparator_Test
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "blue");
 
-    assertThat(atomicArrayOf(actual)).usingComparatorForElementFieldsWithType(ALWAY_EQUALS_STRING, String.class)
+    assertThat(atomicArrayOf(actual)).usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_STRING, String.class)
                                      .usingFieldByFieldElementComparator()
                                      .contains(other);
   }

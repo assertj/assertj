@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -35,6 +35,7 @@ import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
 import static org.assertj.core.error.ShouldBeUpperCase.shouldBeUpperCase;
 import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
+import static org.assertj.core.error.ShouldContainCharSequence.containsIgnoringNewLines;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringWhitespaces;
@@ -525,6 +526,27 @@ public class Strings {
     assertNotNull(info, actual);
     if (!actual.toString().toLowerCase().contains(sequence.toString().toLowerCase()))
       throw failures.failure(info, shouldContainIgnoringCase(actual, sequence));
+  }
+
+  // CS427 Issue link: https://github.com/assertj/assertj-core/issues/2060
+  /**
+   * Verifies the given {@code CharSequence} has the strings, ignoring newlines.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence}.
+   * @param values the values to look for.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws IllegalArgumentException if the given values is empty.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if actual {@code CharSequence} doesn't have sequence
+   */
+  public void assertContainsIgnoringNewLines(final AssertionInfo info, final CharSequence actual, final CharSequence... values) {
+    doCommonCheckForCharSequence(info, actual, values);
+    final String actualNoNewLines = removeNewLines(actual);
+    Set<CharSequence> notFound = stream(values).filter(value -> !stringContains(actualNoNewLines, removeNewLines(value)))
+                                               .collect(toCollection(LinkedHashSet::new));
+    if (notFound.isEmpty()) return;
+    throw failures.failure(info, containsIgnoringNewLines(actual, values, notFound, comparisonStrategy));
   }
 
   /**

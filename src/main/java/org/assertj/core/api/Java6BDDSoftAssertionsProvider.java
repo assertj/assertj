@@ -8,13 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -943,6 +944,114 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   default AbstractUrlAssert<?> then(URL actual) {
     return proxy(UrlAssert.class, URL.class, actual);
+  }
+
+  /**
+   * Entry point to check that an exception of type T is thrown by a given {@code throwingCallable}
+   * which allows to chain assertions on the thrown exception.
+   * <p>
+   * Example:
+   * <pre><code class='java'> softly.thenExceptionOfType(IOException.class)
+   *           .isThrownBy(() -&gt; { throw new IOException("boom!"); })
+   *           .withMessage("boom!"); </code></pre>
+   *
+   * This method is more or less the same of {@link #thenThrownBy(ThrowingCallable)} but in a more natural way.
+   *
+   * @param <T> the Throwable type.
+   * @param throwableType the Throwable type class.
+   * @return the created {@link ThrowableTypeAssert}.
+   * @since 3.23.0.
+   */
+  default <T extends Throwable> ThrowableTypeAssert<T> thenExceptionOfType(final Class<T> throwableType) {
+    return new SoftThrowableTypeAssert<>(throwableType, this);
+  }
+
+  /**
+   * Alias for {@link #thenExceptionOfType(Class)} for {@link RuntimeException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<RuntimeException> thenRuntimeException() {
+    return thenExceptionOfType(RuntimeException.class);
+  }
+
+  /**
+   * Alias for {@link #thenExceptionOfType(Class)} for {@link NullPointerException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<NullPointerException> thenNullPointerException() {
+    return thenExceptionOfType(NullPointerException.class);
+  }
+
+  /**
+   * Alias for {@link #thenExceptionOfType(Class)} for {@link IllegalArgumentException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<IllegalArgumentException> thenIllegalArgumentException() {
+    return thenExceptionOfType(IllegalArgumentException.class);
+  }
+
+  /**
+   * Alias for {@link #thenExceptionOfType(Class)} for {@link IOException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<IOException> thenIOException() {
+    return thenExceptionOfType(IOException.class);
+  }
+
+  /**
+   * Alias for {@link #thenExceptionOfType(Class)} for {@link IllegalStateException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<IllegalStateException> thenIllegalStateException() {
+    return thenExceptionOfType(IllegalStateException.class);
+  }
+
+  /**
+   * Alias for {@link #thenExceptionOfType(Class)} for {@link Exception}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<Exception> thenException() {
+    return thenExceptionOfType(Exception.class);
+  }
+
+  /**
+   * Alias for {@link #thenExceptionOfType(Class)} for {@link ReflectiveOperationException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<ReflectiveOperationException> thenReflectiveOperationException() {
+    return thenExceptionOfType(ReflectiveOperationException.class);
+  }
+
+  /**
+   * Alias for {@link #thenExceptionOfType(Class)} for {@link IndexOutOfBoundsException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<IndexOutOfBoundsException> thenIndexOutOfBoundsException() {
+    return thenExceptionOfType(IndexOutOfBoundsException.class);
   }
 
 }

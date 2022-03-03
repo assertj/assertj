@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -27,11 +27,32 @@ class FieldLocation_matches_Test {
 
   @ParameterizedTest(name = "{0} matches {1}")
   @MethodSource
-  void matches_should_match_fields(List<String> fieldPath, String matchingFieldPath) {
+  void matches_should_match_string_fields(List<String> fieldPath, String matchingFieldPath) {
     // GIVEN
     FieldLocation underTest = new FieldLocation(fieldPath);
     // WHEN
     boolean match = underTest.matches(matchingFieldPath);
+    // THEN
+    then(match).as("%s matches %s", underTest, matchingFieldPath).isTrue();
+  }
+
+  private static Stream<Arguments> matches_should_match_string_fields() {
+    return Stream.of(arguments(list("name"), "name"),
+                     arguments(list("name", "first"), "name.first"),
+                     arguments(list("name", "[2]", "first"), "name.first"),
+                     arguments(list("[0]", "first"), "first"),
+                     arguments(list("[1]", "first", "second"), "first.second"),
+                     arguments(list("person", "[1]", "first", "second"), "person.first.second"),
+                     arguments(list("father", "name", "first"), "father.name.first"));
+  }
+
+  @ParameterizedTest(name = "{0} matches {1}")
+  @MethodSource
+  void matches_should_match_fields(List<String> fieldPath, String matchingFieldPath) {
+    // GIVEN
+    FieldLocation underTest = new FieldLocation(fieldPath);
+    // WHEN
+    boolean match = underTest.matches(new FieldLocation(matchingFieldPath));
     // THEN
     then(match).as("%s matches %s", underTest, matchingFieldPath).isTrue();
   }
@@ -43,6 +64,7 @@ class FieldLocation_matches_Test {
                      arguments(list("[0]", "first"), "first"),
                      arguments(list("[1]", "first", "second"), "first.second"),
                      arguments(list("person", "[1]", "first", "second"), "person.first.second"),
+                     arguments(list("person", "[1]", "first", "second"), "person.[2].first.second"),
                      arguments(list("father", "name", "first"), "father.name.first"));
   }
 

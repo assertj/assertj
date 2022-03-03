@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -162,7 +162,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
 
     // THEN
     ComparisonDifference friendsDifference = diff("friends", actual.friends, expected.friends,
-                                                  format("The following actual elements were not matched in the expected ArrayList:%n"
+                                                  format("The following expected elements were not matched in the actual ArrayList:%n"
                                                          + "  [Person [dateOfBirth=null, name=Dr. John Watson, phone=null, home=Home [address=Address [number=1]]]]"));
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, friendsDifference);
   }
@@ -234,7 +234,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
 
     // THEN
     ComparisonDifference friendsDifference = diff("friends", actual.friends, expected.friends,
-                                                  format("The following actual elements were not matched in the expected ArrayList:%n"
+                                                  format("The following expected elements were not matched in the actual ArrayList:%n"
                                                          + "  [Person [dateOfBirth=null, name=Dr. John Watson, phone=null, home=Home [address=Address [number=1]]]]"));
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, friendsDifference);
   }
