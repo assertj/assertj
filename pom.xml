@@ -32,7 +32,7 @@
     <byte-buddy.version>1.12.8</byte-buddy.version>
     <hamcrest.version>2.2</hamcrest.version>
     <opentest4j.version>1.2.0</opentest4j.version>
-    <bnd.version>6.1.0</bnd.version>
+    <bnd.version>6.2.0</bnd.version>
     <cdg.pitest.version>0.1.0</cdg.pitest.version>
     <!-- Dependency versions overriding -->
     <junit.version>4.13.2</junit.version>
@@ -360,11 +360,12 @@
         <groupId>biz.aQute.bnd</groupId>
         <artifactId>bnd-maven-plugin</artifactId>
         <version>${bnd.version}</version>
+        <extensions>true</extensions>
         <executions>
           <execution>
-            <id>bnd-process</id>
+            <id>jar</id>
             <goals>
-              <goal>bnd-process</goal>
+              <goal>jar</goal>
             </goals>
             <configuration>
               <bnd><![CDATA[
@@ -387,9 +388,9 @@
           </execution>
           <!-- Integration Test Configuration -->
           <execution>
-            <id>bnd-process-tests</id>
+            <id>test-jar</id>
             <goals>
-              <goal>bnd-process-tests</goal>
+              <goal>test-jar</goal>
             </goals>
             <configuration>
               <includeClassesDir>false</includeClassesDir>
@@ -399,31 +400,6 @@
                 -snapshot: SNAPSHOT
                 -removeheaders: Private-Package
               ]]></bnd>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-          </archive>
-        </configuration>
-        <executions>
-          <execution>
-            <id>test-jar</id>
-            <goals>
-              <goal>test-jar</goal>
-            </goals>
-            <configuration>
-              <archive>
-                <manifestFile>${project.build.testOutputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-              </archive>
-              <includes>
-                <include>org/assertj/core/osgi/**</include>
-              </includes>
             </configuration>
           </execution>
         </executions>
