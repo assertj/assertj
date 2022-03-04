@@ -213,24 +213,25 @@ public class Byte2DArrayAssert extends Abstract2DArrayAssert<Byte2DArrayAssert, 
   }
 
   /**
-   * Verifies that the first dimension of actual {@code byte[][]} has the given row size.
+   * Verifies that the actual two-dimensional array has the given number of rows.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new byte[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(2);
+   * assertThat(new byte[][] {{1, 2, 3}, {4, 5, 6}}).hasNumberOfRows(2);
+   * assertThat(new byte[][] {{1}, {1, 2}, {1, 2, 3}}).hasNumberOfRows(3);
    *
    * // assertions will fail
-   * assertThat(new byte[][] { }).hasRowSize(1);
-   * assertThat(new byte[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(3);
-   * assertThat(new byte[][] {{1, 2, 3}, {4, 5, 6, 7}}).hasRowSize(1); </code></pre>
+   * assertThat(new byte[][] { }).hasNumberOfRows(1);
+   * assertThat(new byte[][] {{1, 2, 3}, {4, 5, 6}}).hasNumberOfRows(3);
+   * assertThat(new byte[][] {{1, 2, 3}, {4, 5, 6, 7}}).hasNumberOfRows(1); </code></pre>
    *
-   * @param expectedNumberOfRows the expected number of values in first dimension of the actual {@code byte[][]}.
+   * @param expected the expected number of rows of the two-dimensional array.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual number of rows are not equal to the given one.
    */
   @Override
-  public Byte2DArrayAssert hasNumberOfRows(int expectedNumberOfRows) {
-    byte2dArrays.assertNumberOfRows(info, actual, expectedNumberOfRows);
+  public Byte2DArrayAssert hasNumberOfRows(int expected) {
+    byte2dArrays.assertNumberOfRows(info, actual, expected);
     return myself;
   }
 

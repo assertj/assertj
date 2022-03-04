@@ -215,24 +215,25 @@ public class Object2DArrayAssert<ELEMENT> extends
   }
 
   /**
-   * Verifies that the first dimension of actual {@code ELEMENT[][]} has the given row size.
+   * Verifies that the actual two-dimensional array has the given number of rows.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new String[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(2);
+   * assertThat(new String[][] {{"1", "2", "3"}, {"4", "5", "6"}}).hasNumberOfRows(2);
+   * assertThat(new String[][] {{"1"}, {"1", "2"}, {"1", "2", "3"}}).hasNumberOfRows(3);
    *
    * // assertions will fail
-   * assertThat(new String[][] { }).hasRowSize(1, 1);
-   * assertThat(new String[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(3);
-   * assertThat(new String[][] {{1, 2, 3}, {4, 5, 6, 7}}).hasRowSize(1); </code></pre>
+   * assertThat(new String[][] { }).hasNumberOfRows(1);
+   * assertThat(new String[][] {{"1", "2", "3"}, {"4", "5", "6"}}).hasNumberOfRows(3);
+   * assertThat(new String[][] {{"1", "2", "3"}, {"4", "5", "6", "7"}}).hasNumberOfRows(1); </code></pre>
    *
-   * @param expectedNumberOfRows the expected number of values in first dimension of the actual {@code ELEMENT[][]}.
+   * @param expected the expected number of rows of the two-dimensional array.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual number of rows are not equal to the given one.
    */
   @Override
-  public Object2DArrayAssert<ELEMENT> hasNumberOfRows(int expectedNumberOfRows) {
-    object2dArrays.assertNumberOfRows(info, actual, expectedNumberOfRows);
+  public Object2DArrayAssert<ELEMENT> hasNumberOfRows(int expected) {
+    object2dArrays.assertNumberOfRows(info, actual, expected);
     return myself;
   }
 

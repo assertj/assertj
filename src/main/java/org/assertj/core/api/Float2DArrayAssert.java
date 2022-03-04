@@ -208,24 +208,25 @@ public class Float2DArrayAssert extends Abstract2DArrayAssert<Float2DArrayAssert
   }
 
   /**
-   * Verifies that the first dimension of actual {@code float[][]} has the given row size.
+   * Verifies that the actual two-dimensional array has the given number of rows.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new float[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(2);
+   * assertThat(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}}).hasNumberOfRows(2);
+   * assertThat(new float[][] {{1.0f}, {1.0f, 2.0f}, {1.0f, 2.0f, 3.0f}}).hasNumberOfRows(3);
    *
    * // assertions will fail
-   * assertThat(new float[][] { }).hasRowSize(1, 1);
-   * assertThat(new float[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(3);
-   * assertThat(new float[][] {{1, 2, 3}, {4, 5, 6, 7}}).hasRowSize(2); </code></pre>
+   * assertThat(new float[][] { }).hasNumberOfRows(1);
+   * assertThat(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}}).hasNumberOfRows(3);
+   * assertThat(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f, 7.0f}}).hasNumberOfRows(1); </code></pre>
    *
-   * @param expectedNumberOfRows the expected number of values in first dimension of the actual {@code float[][]}.
+   * @param expected the expected number of rows of the two-dimensional array.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual number of rows are not equal to the given one.
    */
   @Override
-  public Float2DArrayAssert hasNumberOfRows(int expectedNumberOfRows) {
-    float2dArrays.assertNumberOfRows(info, actual, expectedNumberOfRows);
+  public Float2DArrayAssert hasNumberOfRows(int expected) {
+    float2dArrays.assertNumberOfRows(info, actual, expected);
     return myself;
   }
 

@@ -212,24 +212,25 @@ public class Boolean2DArrayAssert extends Abstract2DArrayAssert<Boolean2DArrayAs
   }
 
   /**
-   * Verifies that the first dimension of actual {@code boolean[][]} has the given row size.
+   * Verifies that the actual two-dimensional array has the given number of rows.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(new boolean[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(2);
+   * assertThat(new boolean[][] {{true, true, true}, {false, false, false}}).hasNumberOfRows(2);
+   * assertThat(new boolean[][] {{true}, {true, false}, {true, false, false}}).hasNumberOfRows(3);
    *
    * // assertions will fail
-   * assertThat(new boolean[][] { }).hasRowSize(1, 1);
-   * assertThat(new boolean[][] {{1, 2, 3}, {4, 5, 6}}).hasRowSize(3);
-   * assertThat(new boolean[][] {{1, 2, 3}, {4, 5, 6, 7}}).hasRowSize(1); </code></pre>
+   * assertThat(new boolean[][] { }).hasNumberOfRows(1);
+   * assertThat(new boolean[][] {{true, true, true}, {false, false, false}}).hasNumberOfRows(3);
+   * assertThat(new boolean[][] {{true, true, true}, {false, false, false, false}}).hasNumberOfRows(1); </code></pre>
    *
-   * @param expectedNumberOfRows the expected number of values in first dimension of the actual array.
+   * @param expected the expected number of rows of the two-dimensional array.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual number of rows are not equal to the given one.
    */
   @Override
-  public Boolean2DArrayAssert hasNumberOfRows(int expectedNumberOfRows) {
-    boolean2dArrays.assertNumberOfRows(info, actual, expectedNumberOfRows);
+  public Boolean2DArrayAssert hasNumberOfRows(int expected) {
+    boolean2dArrays.assertNumberOfRows(info, actual, expected);
     return myself;
   }
 
