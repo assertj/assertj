@@ -418,9 +418,11 @@ public class Maps {
   }
 
   @SuppressWarnings("unchecked")
-  private static <K, V> Map<K, V> clone(Map<K, V> map) throws NoSuchMethodException {
+  private static <K, V> Map<K, V> clone(Map<K, V> map) throws NoSuchMethodException, UnsupportedOperationException {
     try {
       if (map instanceof Cloneable) {
+        Map<K, V> clone = (Map<K, V>) map.getClass().getMethod("clone").invoke(map);
+        clone.clear();
         return (Map<K, V>) map.getClass().getMethod("clone").invoke(map);
       }
 
@@ -443,7 +445,7 @@ public class Maps {
       Map<K, V> cloned = clone(map);
       cloned.clear();
       return cloned;
-    } catch (NoSuchMethodException e) {
+    } catch (NoSuchMethodException | UnsupportedOperationException e) {
       return new LinkedHashMap<>();
     }
   }
@@ -579,7 +581,7 @@ public class Maps {
     Map<K, V> actualEntries = null;
     try {
       actualEntries = clone(actual);
-    } catch (NoSuchMethodException e) {
+    } catch (NoSuchMethodException | UnsupportedOperationException e) {
       actualEntries = new LinkedHashMap<>(actual);
     }
     for (Entry<K, V> entry : expectedEntries.entrySet()) {
