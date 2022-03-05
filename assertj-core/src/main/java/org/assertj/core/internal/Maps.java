@@ -440,6 +440,10 @@ public class Maps {
     }
   }
 
+  private static boolean isSingletonMap(Map<?, ?> map) {
+    return map.size() == 1;
+  }
+
   private static boolean isMultiValueMapAdapterInstance(Map<?, ?> map) {
     return isInstanceOf(map, "org.springframework.util.MultiValueMapAdapter");
   }
@@ -450,6 +454,16 @@ public class Maps {
       return type.isInstance(object);
     } catch (ClassNotFoundException e) {
       return false;
+    }
+  }
+
+  private static <K, V> Map<K, V> createEmptyMap(Map<K, V> map) {
+    try {
+      Map<K, V> cloned = clone(map);
+      cloned.clear();
+      return cloned;
+    } catch (NoSuchMethodException | RuntimeException e) {
+      return new LinkedHashMap<>();
     }
   }
 
@@ -551,6 +565,16 @@ public class Maps {
     failIfEntriesIsEmptySinceActualIsNotEmpty(info, actual, entries);
     assertHasSameSizeAs(info, actual, entries);
 
+    if (isSingletonMap(actual)) {
+      // shortcut for any singleton map but specifically for org.apache.commons.collections4.map.SingletonMap that is immutable
+      // and fail when we try to remove elements from them in compareActualMapAndExpectedEntries
+      // we only have to compare the map unique element
+      if (!actual.containsKey(entries[0].getKey()) || !actual.containsValue(entries[0].getValue())) {
+        throw failures.failure(info, elementsDifferAtIndex(actual.entrySet().iterator().next(), entries[0], 0));
+      }
+      return;
+    }
+
     Set<Entry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
     Set<Entry<? extends K, ? extends V>> notExpected = new LinkedHashSet<>();
 
@@ -559,11 +583,15 @@ public class Maps {
     if (notExpected.isEmpty() && notFound.isEmpty()) {
       // check entries order
       int index = 0;
+      // Create a map with the same type as actual to use the Map built-in comparison, ex: maps string case insensitive keys.
+      Map<K, V> emptyMap = createEmptyMap(actual);
       for (K keyFromActual : actual.keySet()) {
-        if (!deepEquals(keyFromActual, entries[index].getKey())) {
+        emptyMap.put(keyFromActual, null);
+        if (!emptyMap.containsKey(entries[index].getKey())) {
           Entry<K, V> actualEntry = entry(keyFromActual, actual.get(keyFromActual));
           throw failures.failure(info, elementsDifferAtIndex(actualEntry, entries[index], index));
         }
+        emptyMap.remove(keyFromActual);
         index++;
       }
       // all entries are in the same order.
@@ -577,7 +605,12 @@ public class Maps {
                                                          Set<Entry<? extends K, ? extends V>> notExpected,
                                                          Set<Entry<? extends K, ? extends V>> notFound) {
     Map<K, V> expectedEntries = entriesToMap(entries);
-    Map<K, V> actualEntries = new LinkedHashMap<>(actual);
+    Map<K, V> actualEntries = null;
+    try {
+      actualEntries = clone(actual);
+    } catch (NoSuchMethodException | RuntimeException e) {
+      actualEntries = new LinkedHashMap<>(actual);
+    }
     for (Entry<K, V> entry : expectedEntries.entrySet()) {
       if (containsEntry(actualEntries, entry(entry.getKey(), entry.getValue()))) {
         // this is an expected entry
