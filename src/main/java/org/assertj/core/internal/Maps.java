@@ -445,7 +445,7 @@ public class Maps {
       Map<K, V> cloned = clone(map);
       cloned.clear();
       return cloned;
-    } catch (NoSuchMethodException | UnsupportedOperationException e) {
+    } catch (NoSuchMethodException | RuntimeException e) {
       return new LinkedHashMap<>();
     }
   }
@@ -581,7 +581,7 @@ public class Maps {
     Map<K, V> actualEntries = null;
     try {
       actualEntries = clone(actual);
-    } catch (NoSuchMethodException | UnsupportedOperationException e) {
+    } catch (NoSuchMethodException | RuntimeException e) {
       actualEntries = new LinkedHashMap<>(actual);
     }
     for (Entry<K, V> entry : expectedEntries.entrySet()) {
