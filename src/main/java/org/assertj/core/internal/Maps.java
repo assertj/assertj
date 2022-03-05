@@ -422,6 +422,7 @@ public class Maps {
     try {
       if (map instanceof Cloneable) {
         Map<K, V> clone = (Map<K, V>) map.getClass().getMethod("clone").invoke(map);
+        // Check if we can modify the copy, throws UnsupportedOperationException otherwise
         clone.clear();
         return (Map<K, V>) map.getClass().getMethod("clone").invoke(map);
       }
