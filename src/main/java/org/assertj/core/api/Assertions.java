@@ -46,6 +46,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.Spliterator;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
@@ -1256,6 +1257,36 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
     return AssertionsForClassTypes.assertThatCode(shouldRaiseOrNotThrowable);
+  }
+
+  /**
+   * Allows to capture and then assert on the value returned by the given {@link Callable}.
+   * <p>
+   * Example :
+   * <pre><code class='java'> Callable&lt;Integer&gt; ultimateAnswer = () -&gt; 42;
+   *
+   * // assertions succeed:
+   * // - object assertions are available  
+   * assertThatValueReturnedBy(ultimateAnswer).isEqualTo(42);
+   * // - use asInstanceOf to get specific typed assertion  
+   * assertThatValueReturnedBy(ultimateAnswer).asInstanceOf(InstanceOfAssertFactories.INTEGER)
+   *                                          .isLessThan(50);
+   * // assertion fails:
+   * assertThatValueReturnedBy(ultimateAnswer).isEqualTo(77);</code></pre>
+   *
+   * 
+   * @param <VALUE> the result type of method {@code Callable#call()}.
+   * @param callable the {@link Callable} to call.
+   * @return Object assertions on the result of {@code Callable#call()}.
+   */
+  public static <VALUE> AbstractObjectAssert<?, VALUE> assertThatValueReturnedBy(Callable<VALUE> callable) {
+    VALUE value = null;
+    try {
+      value = callable.call();
+    } catch (Exception e) {
+      fail("Unexpected exception when resolving callable", e);
+    }
+    return assertThat(value);
   }
 
   /**
