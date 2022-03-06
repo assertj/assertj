@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -33,14 +33,15 @@ public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<S
   /**
    * Verifies that the Matcher matches.
    * <p>
-   * Assertion will pass :
-   * <pre><code class='java'> Pattern p = Pattern.compile("a*");
+   * Example:
+   * <pre><code class='java'>
+   * // Assertion will pass
+   * Pattern p = Pattern.compile("a*");
    * String str = "aaa";
    * Matcher matcher = p.matcher(str);
-   * assertThat(matcher).matches();</code></pre>
-   * <p>
-   * Assertion will fail :
-   * <pre> <code class='java'> Pattern p = Pattern.compile("a*");
+   * assertThat(matcher).matches();
+   * // Assertion will fail :
+   * Pattern p = Pattern.compile("a*");
    * String str = "abc";
    * Matcher matcher = p.matcher(str);
    * assertThat(matcher).matches();</code></pre>
@@ -48,7 +49,7 @@ public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<S
    * @return this assertion object.
    * @throws AssertionError if actual does not match.
    * @throws AssertionError if actual is null.
-   * @since 3.19.1
+   * @since 3.23.0
    */
   public SELF matches() {
     isNotNull();

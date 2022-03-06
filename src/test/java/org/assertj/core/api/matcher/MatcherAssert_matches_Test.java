@@ -8,23 +8,20 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2021 the original author or authors.
+ * Copyright 2012-2022 the original author or authors.
  */
 package org.assertj.core.api.matcher;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.MatcherShouldMatch.shouldMatch;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-@DisplayName("MatcherAssert matches")
 public class MatcherAssert_matches_Test {
 
   @Test
@@ -44,9 +41,9 @@ public class MatcherAssert_matches_Test {
     String expectedValue = "abc";
     Matcher actual = pattern.matcher(expectedValue);
     // WHEN
-    AssertionError error = catchThrowableOfType(() -> assertThat(actual).matches(), AssertionError.class);
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).matches());
     // THEN
-    assertThat(error).hasMessage(shouldMatch(actual).create());
+    then(assertionError).hasMessage(shouldMatch(actual).create());
   }
 
   @Test
