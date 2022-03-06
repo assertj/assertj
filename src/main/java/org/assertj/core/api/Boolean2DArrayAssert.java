@@ -212,6 +212,29 @@ public class Boolean2DArrayAssert extends Abstract2DArrayAssert<Boolean2DArrayAs
   }
 
   /**
+   * Verifies that the actual two-dimensional array has the given number of rows.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new boolean[][] {{true, true, true}, {false, false, false}}).hasNumberOfRows(2);
+   * assertThat(new boolean[][] {{true}, {true, false}, {true, false, false}}).hasNumberOfRows(3);
+   *
+   * // assertions will fail
+   * assertThat(new boolean[][] { }).hasNumberOfRows(1);
+   * assertThat(new boolean[][] {{true, true, true}, {false, false, false}}).hasNumberOfRows(3);
+   * assertThat(new boolean[][] {{true, true, true}, {false, false, false, false}}).hasNumberOfRows(1); </code></pre>
+   *
+   * @param expected the expected number of rows of the two-dimensional array.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual number of rows are not equal to the given one.
+   */
+  @Override
+  public Boolean2DArrayAssert hasNumberOfRows(int expected) {
+    boolean2dArrays.assertNumberOfRows(info, actual, expected);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code boolean[][]} has the same dimensions as the given array.
    * <p>
    * Parameter is declared as Object to accept both Object and primitive arrays.

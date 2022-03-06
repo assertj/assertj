@@ -208,6 +208,29 @@ public class Float2DArrayAssert extends Abstract2DArrayAssert<Float2DArrayAssert
   }
 
   /**
+   * Verifies that the actual two-dimensional array has the given number of rows.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}}).hasNumberOfRows(2);
+   * assertThat(new float[][] {{1.0f}, {1.0f, 2.0f}, {1.0f, 2.0f, 3.0f}}).hasNumberOfRows(3);
+   *
+   * // assertions will fail
+   * assertThat(new float[][] { }).hasNumberOfRows(1);
+   * assertThat(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}}).hasNumberOfRows(3);
+   * assertThat(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f, 7.0f}}).hasNumberOfRows(1); </code></pre>
+   *
+   * @param expected the expected number of rows of the two-dimensional array.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual number of rows are not equal to the given one.
+   */
+  @Override
+  public Float2DArrayAssert hasNumberOfRows(int expected) {
+    float2dArrays.assertNumberOfRows(info, actual, expected);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code float[][]} has the same dimensions as the given array.
    * <p>
    * Parameter is declared as Object to accept both Object and primitive arrays.
