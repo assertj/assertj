@@ -16,14 +16,10 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Object2DArrayAssert;
 import org.assertj.core.api.Object2DArrayAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 
 /**
- * Tests for <code>{@link Object2DArrayAssert#hasNumberOfRows(int)}</code>.
- * 
  * @author Sekar Mylsamy
  */
-@DisplayName("Object2DArrayAssert hasRowSize")
 class Object2DArrayAssert_hasNumberOfRows_Test extends Object2DArrayAssertBaseTest {
 
   @Override
@@ -35,4 +31,5 @@ class Object2DArrayAssert_hasNumberOfRows_Test extends Object2DArrayAssertBaseTe
   protected void verify_internal_effects() {
     verify(arrays).assertNumberOfRows(getInfo(assertions), getActual(assertions), 1);
   }
+
 }

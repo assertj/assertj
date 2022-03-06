@@ -18,8 +18,6 @@ import org.assertj.core.api.Short2DArrayAssert;
 import org.assertj.core.api.Short2DArrayAssertBaseTest;
 
 /**
- * Tests for <code>{@link Short2DArrayAssert#hasNumberOfRows(int)}</code>.
- * 
  * @author Sekar Mylsamy
  */
 class Short2DArrayAssert_hasNumberOfRows_Test extends Short2DArrayAssertBaseTest {
@@ -33,4 +31,5 @@ class Short2DArrayAssert_hasNumberOfRows_Test extends Short2DArrayAssertBaseTest
   protected void verify_internal_effects() {
     verify(arrays).assertNumberOfRows(getInfo(assertions), getActual(assertions), 1);
   }
+
 }

@@ -16,14 +16,10 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Byte2DArrayAssert;
 import org.assertj.core.api.Byte2DArrayAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 
 /**
- * Tests for <code>{@link Byte2DArrayAssert#hasNumberOfRows(int)}</code>.
- * 
  * @author Sekar Mylsamy
  */
-@DisplayName("Byte2DArrayAssert hasRowSize")
 class Byte2DArrayAssert_hasNumberOfRows_Test extends Byte2DArrayAssertBaseTest {
 
   @Override
@@ -35,4 +31,5 @@ class Byte2DArrayAssert_hasNumberOfRows_Test extends Byte2DArrayAssertBaseTest {
   protected void verify_internal_effects() {
     verify(arrays).assertNumberOfRows(getInfo(assertions), getActual(assertions), 1);
   }
+
 }

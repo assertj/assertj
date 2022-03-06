@@ -18,8 +18,6 @@ import org.assertj.core.api.Float2DArrayAssert;
 import org.assertj.core.api.Float2DArrayAssertBaseTest;
 
 /**
- * Tests for <code>{@link Float2DArrayAssert#hasNumberOfRows(int)}</code>.
- * 
  * @author Sekar Mylsamy
  */
 class Float2DArrayAssert_hasNumberOfRows_Test extends Float2DArrayAssertBaseTest {
@@ -33,4 +31,5 @@ class Float2DArrayAssert_hasNumberOfRows_Test extends Float2DArrayAssertBaseTest
   protected void verify_internal_effects() {
     verify(arrays).assertNumberOfRows(getInfo(assertions), getActual(assertions), 1);
   }
+
 }

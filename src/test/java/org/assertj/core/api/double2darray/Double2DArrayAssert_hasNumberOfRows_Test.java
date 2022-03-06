@@ -18,8 +18,6 @@ import org.assertj.core.api.Double2DArrayAssert;
 import org.assertj.core.api.Double2DArrayAssertBaseTest;
 
 /**
- * Tests for <code>{@link Double2DArrayAssert#hasNumberOfRows(int)}</code>.
- * 
  * @author Sekar Mylsamy
  */
 class Double2DArrayAssert_hasNumberOfRows_Test extends Double2DArrayAssertBaseTest {
@@ -33,4 +31,5 @@ class Double2DArrayAssert_hasNumberOfRows_Test extends Double2DArrayAssertBaseTe
   protected void verify_internal_effects() {
     verify(arrays).assertNumberOfRows(getInfo(assertions), getActual(assertions), 1);
   }
+
 }

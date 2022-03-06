@@ -18,8 +18,6 @@ import org.assertj.core.api.Char2DArrayAssert;
 import org.assertj.core.api.Char2DArrayAssertBaseTest;
 
 /**
- * Tests for <code>{@link Char2DArrayAssert#hasNumberOfRows(int)}</code>.
- * 
  * @author Sekar Mylsamy
  */
 class Char2DArrayAssert_hasNumberOfRows_Test extends Char2DArrayAssertBaseTest {
@@ -33,4 +31,5 @@ class Char2DArrayAssert_hasNumberOfRows_Test extends Char2DArrayAssertBaseTest {
   protected void verify_internal_effects() {
     verify(arrays).assertNumberOfRows(getInfo(assertions), getActual(assertions), 1);
   }
+
 }
