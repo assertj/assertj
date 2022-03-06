@@ -17,6 +17,13 @@ import org.assertj.core.api.IntegerAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
+/**
+ * Tests for <code>{@link IntegerAssert#isEqualTo(long)}</code>.
+ *
+ * Exercises the case when the long cannot be cast to an int.
+ *
+ * @author Sára Juhošová
+ */
 class IntegerAssert_isEqualTo_large_long_Test extends IntegerAssertBaseTest {
 
   private final long expected = ((long) Integer.MAX_VALUE) + 2L;

@@ -20,9 +20,9 @@ import static org.assertj.core.data.Offset.offset;
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for <code>{@link IntegerAssert#isNotCloseTo(Integer, Offset)}</code>.
+ * Tests for <code>{@link IntegerAssert#isNotCloseTo(int, Offset)}</code>.
  *
- * @author Chris Arnott
+ * @author Sára Juhošová
  */
 class IntegerAssert_isNotCloseTo_int_Test extends IntegerAssertBaseTest {
 

@@ -19,6 +19,11 @@ import org.assertj.core.data.Offset;
 import static org.assertj.core.data.Offset.offset;
 import static org.mockito.Mockito.verify;
 
+/**
+ * Tests for <code>{@link IntegerAssert#isCloseTo(int, Offset)}</code>.
+ *
+ * @author Sára Juhošová
+ */
 class IntegerAssert_isCloseTo_int_Test extends IntegerAssertBaseTest {
 
   private final Offset<Integer> offset = offset(13);

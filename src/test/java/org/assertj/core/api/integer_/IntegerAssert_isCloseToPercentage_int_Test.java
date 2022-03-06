@@ -19,6 +19,11 @@ import org.assertj.core.data.Percentage;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.mockito.Mockito.verify;
 
+/**
+ * Tests for <code>{@link IntegerAssert#isCloseTo(int, Percentage)}</code>.
+ *
+ * @author Sára Juhošová
+ */
 class IntegerAssert_isCloseToPercentage_int_Test extends IntegerAssertBaseTest {
 
     private final Percentage percentage = withPercentage(3);
