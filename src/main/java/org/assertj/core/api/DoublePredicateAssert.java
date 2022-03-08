@@ -25,6 +25,10 @@ import java.util.stream.DoubleStream;
  */
 public class DoublePredicateAssert extends AbstractPredicateLikeAssert<DoublePredicateAssert, DoublePredicate, Double> {
 
+  public static DoublePredicateAssert assertThatDoublePredicate(DoublePredicate actual) {
+    return new DoublePredicateAssert(actual);
+  }
+
   public DoublePredicateAssert(DoublePredicate actual) {
     super(actual, toPredicate(actual), DoublePredicateAssert.class);
   }

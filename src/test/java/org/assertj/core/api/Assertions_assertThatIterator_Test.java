@@ -13,9 +13,9 @@
 package org.assertj.core.api;
 
 import static java.util.Arrays.asList;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThatIterator;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -24,12 +24,7 @@ import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Julien Meddah
- * @author Joel Costigliola
- * @author Mikhail Mazursky
- */
-class Assertions_assertThat_with_Iterator_Test {
+class Assertions_assertThatIterator_Test {
 
   private final StringIterator stringIterator = new StringIterator();
 
@@ -50,109 +45,127 @@ class Assertions_assertThat_with_Iterator_Test {
 
   @Test
   void should_create_Assert() {
+    // GIVEN
     Iterable<Object> actual = newLinkedHashSet();
-    IteratorAssert<Object> iteratorAssert = assertThat(actual.iterator());
-    assertThat(iteratorAssert).isNotNull();
+    // WHEN
+    IteratorAssert<Object> iteratorAssert = assertThatIterator(actual.iterator());
+    // THEN
+    then(iteratorAssert).isNotNull();
   }
 
   @SuppressWarnings("unchecked")
   @Test
   void should_initialise_actual() {
+    // GIVEN
     Iterator<String> names = asList("Luke", "Leia").iterator();
-    Iterator<String> actual = (Iterator<String>) assertThat(names).actual;
-    assertThat(actual).hasNext();
+    // WHEN
+    Iterator<String> actual = (Iterator<String>) assertThatIterator(names).actual;
+    // THEN
+    then(actual).hasNext();
   }
 
   @Test
   void should_allow_null() {
-    assertThat(assertThat((Iterator<String>) null).actual).isNull();
+    then(assertThatIterator((Iterator<String>) null).actual).isNull();
   }
 
   @Test
   void isEqualTo_should_honor_comparing_the_same_mocked_iterator() {
+    // GIVEN
     Iterator<?> iterator = mock(Iterator.class);
-    assertThat(iterator).isEqualTo(iterator);
+    // WHEN/THEN
+    assertThatIterator(iterator).isEqualTo(iterator);
   }
-  
+
   @Test
   void should_not_consume_iterator_when_asserting_non_null() {
+    // GIVEN
     Iterator<?> iterator = mock(Iterator.class);
-    assertThat(iterator).isNotNull();
+    // WHEN
+    assertThatIterator(iterator).isNotNull();
+    // THEN
     verifyNoInteractions(iterator);
   }
 
   @Test
   void isInstanceOf_should_check_the_original_iterator_without_consuming_it() {
+    // GIVEN
     Iterator<?> iterator = mock(Iterator.class);
-    assertThat(iterator).isInstanceOf(Iterator.class);
+    // WHEN
+    assertThatIterator(iterator).isInstanceOf(Iterator.class);
+    // THEN
     verifyNoInteractions(iterator);
   }
 
   @Test
   void isInstanceOfAny_should_check_the_original_iterator_without_consuming_it() {
+    // GIVEN
     Iterator<?> iterator = mock(Iterator.class);
-    assertThat(iterator).isInstanceOfAny(Iterator.class, String.class);
+    // WHEN
+    then(iterator).isInstanceOfAny(Iterator.class, String.class);
+    // THEN
     verifyNoInteractions(iterator);
   }
 
   @Test
   void isOfAnyClassIn_should_check_the_original_iterator_without_consuming_it() {
-    assertThat(stringIterator).isOfAnyClassIn(Iterator.class, StringIterator.class);
+    assertThatIterator(stringIterator).isOfAnyClassIn(Iterator.class, StringIterator.class);
   }
 
   @Test
   void isExactlyInstanceOf_should_check_the_original_iterator() {
-    assertThat(new StringIterator()).isExactlyInstanceOf(StringIterator.class);
+    assertThatIterator(new StringIterator()).isExactlyInstanceOf(StringIterator.class);
   }
 
   @Test
   void isNotExactlyInstanceOf_should_check_the_original_iterator() {
-    assertThat(stringIterator).isNotExactlyInstanceOf(Iterator.class);
-
-    Throwable error = catchThrowable(() -> assertThat(stringIterator).isNotExactlyInstanceOf(StringIterator.class));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
+    // WHEN
+    assertThatIterator(stringIterator).isNotExactlyInstanceOf(Iterator.class);
+    // THEN
+    expectAssertionError(() -> then(stringIterator).isNotExactlyInstanceOf(StringIterator.class));
   }
 
   @Test
   void isNotInstanceOf_should_check_the_original_iterator() {
-    assertThat(stringIterator).isNotInstanceOf(Long.class);
+    assertThatIterator(stringIterator).isNotInstanceOf(Long.class);
   }
 
   @Test
   void isNotInstanceOfAny_should_check_the_original_iterator() {
-    assertThat(stringIterator).isNotInstanceOfAny(Long.class, String.class);
+    assertThatIterator(stringIterator).isNotInstanceOfAny(Long.class, String.class);
   }
 
   @Test
   void isNotOfAnyClassIn_should_check_the_original_iterator() {
-    assertThat(stringIterator).isNotOfAnyClassIn(Long.class, String.class);
+    assertThatIterator(stringIterator).isNotOfAnyClassIn(Long.class, String.class);
   }
 
   @Test
   void isSameAs_should_check_the_original_iterator_without_consuming_it() {
+    // GIVEN
     Iterator<?> iterator = mock(Iterator.class);
-    assertThat(iterator).isSameAs(iterator);
+    // WHEN
+    assertThatIterator(iterator).isSameAs(iterator);
+    // THEN
     verifyNoInteractions(iterator);
   }
 
   @Test
   void isNotSameAs_should_check_the_original_iterator_without_consuming_it() {
+    // GIVEN
     Iterator<?> iterator = mock(Iterator.class);
-    try{
-      assertThat(iterator).isNotSameAs(iterator);
-    } catch(AssertionError e){
-      verifyNoInteractions(iterator);
-      return;
-    }
-    fail("Expected assertionError, because assert notSame on same iterator.");
+    // WHEN
+    expectAssertionError(() -> assertThatIterator(iterator).isNotSameAs(iterator));
+    // THEN
+    verifyNoInteractions(iterator);
   }
-
 
   @Test
   void iterator_can_be_asserted_twice() {
+    // GIVEN
     Iterator<String> names = asList("Luke", "Leia").iterator();
-    assertThat(names).hasNext().hasNext();
+    // WHEN/THEN
+    assertThatIterator(names).hasNext().hasNext();
   }
 
 }

@@ -17,9 +17,9 @@ package org.assertj.core.api;
  * @param <ACTUAL> the type of the "actual" value.
  */
 public class GenericComparableAssert<ACTUAL extends Comparable<? super ACTUAL>>
-        extends AbstractComparableAssert<GenericComparableAssert<ACTUAL>, ACTUAL> {
+    extends AbstractComparableAssert<GenericComparableAssert<ACTUAL>, ACTUAL> {
 
-    public GenericComparableAssert(ACTUAL actual) {
-        super(actual, GenericComparableAssert.class);
-    }
+  public GenericComparableAssert(ACTUAL actual) {
+    super(actual, GenericComparableAssert.class);
+  }
 }

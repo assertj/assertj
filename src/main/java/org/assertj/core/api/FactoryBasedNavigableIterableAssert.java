@@ -24,9 +24,17 @@ public class FactoryBasedNavigableIterableAssert<SELF extends FactoryBasedNaviga
                                                  ELEMENT, 
                                                  ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
        extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
-// @format:on
 
   private AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory;
+
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
+         FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(Iterable<? extends ELEMENT> actual,
+                                                                                 AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
+    return new FactoryBasedNavigableIterableAssert(actual, FactoryBasedNavigableIterableAssert.class, assertFactory);
+  }
+         
+// @format:on
 
   public FactoryBasedNavigableIterableAssert(ACTUAL actual, Class<?> selfType,
                                              AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {

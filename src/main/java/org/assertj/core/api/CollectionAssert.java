@@ -29,6 +29,10 @@ import java.util.Collection;
 public class CollectionAssert<ELEMENT> extends
     AbstractCollectionAssert<CollectionAssert<ELEMENT>, Collection<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
+  public static <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> assertThatCollection(Collection<? extends E> actual) {
+    return new CollectionAssert<>(actual);
+  }
+
   public CollectionAssert(Collection<? extends ELEMENT> actual) {
     super(actual, CollectionAssert.class);
   }

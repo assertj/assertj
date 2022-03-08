@@ -169,6 +169,22 @@ public class Assertions implements InstanceOfAssertFactories {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
 
+  
+  /**
+   * Create assertion for {@link Predicate}.
+   * <p>
+   * Use this over {@link #assertThat(Predicate)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param actual the actual value.
+   * @param <T> the type of the value contained in the {@link Predicate}.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  public static <T> PredicateAssert<T> assertThatPredicate(Predicate<T> actual) {
+    return assertThat(actual);
+  }
+
   /**
    * Create assertion for {@link IntPredicate}.
    *
@@ -3148,6 +3164,21 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link IterableAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(Iterable)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  public static <ELEMENT> IterableAssert<ELEMENT> assertThatIterable(Iterable<? extends ELEMENT> actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link IteratorAssert}</code>.
    * <p>
    * <b>Breaking change in version 3.12.0:</b> this method does not return anymore an {@link IterableAssert} but an {@link IteratorAssert}.<br>
@@ -3171,6 +3202,21 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link IteratorAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(Iterator)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  public static <ELEMENT> IteratorAssert<ELEMENT> assertThatIterator(Iterator<? extends ELEMENT> actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link CollectionAssert}</code>.
    *
    * @param <E> the type of elements.
@@ -3183,6 +3229,21 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link CollectionAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(Collection)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param <E> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  public static <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> assertThatCollection(Collection<? extends E> actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ListAssert}</code>.
    *
    * @param <ELEMENT> the type of elements.
@@ -3191,6 +3252,21 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static <ELEMENT> ListAssert<ELEMENT> assertThat(List<? extends ELEMENT> actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ListAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(List)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  public static <ELEMENT> ListAssert<ELEMENT> assertThatList(List<? extends ELEMENT> actual) {
+    return assertThat(actual);
   }
 
   /**
@@ -3222,6 +3298,41 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static <ELEMENT> ListAssert<ELEMENT> assertThat(Stream<? extends ELEMENT> actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link Stream}.
+   * <p>
+   * Use this over {@link #assertThat(Stream)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   * <p>
+   * <b>Be aware that the {@code Stream} under test will be converted to a {@code List} when an assertions require to inspect its content.
+   * Once this is done the {@code Stream} can't reused as it would have been consumed.</b>
+   * <p>
+   * Calling multiple methods on the returned {@link ListAssert} is safe as it only interacts with the {@link List} built from the {@link Stream}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // you can chain multiple assertions on the Stream as it is converted to a List
+   * assertThat(Stream.of(1, 2, 3)).contains(1)
+   *                               .doesNotContain(42);</code></pre>
+   * <p>
+   * The following assertion fails as the Stream under test is converted to a List before being compared to the expected Stream:
+   * <pre><code class='java'> // FAIL: the Stream under test is converted to a List and compared to a Stream but a List is not a Stream.
+   * assertThat(Stream.of(1, 2, 3)).isEqualTo(Stream.of(1, 2, 3));</code></pre>
+   * <p>
+   * These assertions succeed as {@code isEqualTo} and {@code isSameAs} checks references which does not require to convert the Stream to a List.
+   * <pre><code class='java'> // The following assertions succeed as it only performs reference checking which does not require to convert the Stream to a List
+   * Stream&lt;Integer&gt; stream = Stream.of(1, 2, 3);
+   * assertThat(stream).isEqualTo(stream)
+   *                   .isSameAs(stream);</code></pre>
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  public static <ELEMENT> ListAssert<ELEMENT> assertThatStream(Stream<? extends ELEMENT> actual) {
+    return assertThat(actual);
   }
 
   /**
@@ -3341,6 +3452,20 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of {@link PathAssert}
+   * <p>
+   * Use this over {@link #assertThat(Path)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param actual the path to test
+   * @return the created assertion object
+   * @since 3.23.0
+   */
+  public static AbstractPathAssert<?> assertThatPath(Path actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link MapAssert}</code>.
    * <p>
    * Returned type is {@link MapAssert} as it overrides method to annotate them with {@link SafeVarargs} avoiding
@@ -3365,6 +3490,23 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThat(T actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link GenericComparableAssert}</code> with
+   * standard comparison semantics.
+   * <p>
+   * Use this over {@link #assertThat(Comparable)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param <T> the type of actual.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThatComparable(T actual) {
+    return new GenericComparableAssert(actual);
   }
 
   /**

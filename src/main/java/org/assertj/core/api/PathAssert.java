@@ -18,13 +18,17 @@ import java.nio.file.Path;
  * Assertion class for {@link Path}s
  */
 public class PathAssert extends AbstractPathAssert<PathAssert> {
-    /**
-     * Constructor
-     *
-     * @param actual the path to test
-     */
-    public PathAssert(Path actual)
-    {
-        super(actual, PathAssert.class);
-    }
+
+  public static AbstractPathAssert<?> assertThatPath(Path actual) {
+    return new PathAssert(actual);
+  }
+
+  /**
+   * Constructor
+   *
+   * @param actual the path to test
+   */
+  public PathAssert(Path actual) {
+    super(actual, PathAssert.class);
+  }
 }

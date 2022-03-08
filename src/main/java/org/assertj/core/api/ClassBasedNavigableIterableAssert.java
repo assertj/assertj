@@ -25,9 +25,18 @@ public class ClassBasedNavigableIterableAssert<SELF extends ClassBasedNavigableI
                                                ELEMENT, 
                                                ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
        extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
+   private Class<ELEMENT_ASSERT> assertClass;
+
+   
+   @SuppressWarnings({ "rawtypes", "unchecked" })
+   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
+          ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(ACTUAL actual,
+                                                                                           Class<ELEMENT_ASSERT> assertClass) {
+     return new ClassBasedNavigableIterableAssert(actual, ClassBasedNavigableIterableAssert.class, assertClass);
+   }
+   
 // @format:on
 
-  private Class<ELEMENT_ASSERT> assertClass;
 
   public ClassBasedNavigableIterableAssert(ACTUAL actual, Class<?> selfType, Class<ELEMENT_ASSERT> assertClass) {
     super(actual, selfType);

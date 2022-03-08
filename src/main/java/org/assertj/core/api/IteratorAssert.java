@@ -26,6 +26,10 @@ import java.util.Iterator;
  */
 public class IteratorAssert<ELEMENT> extends AbstractIteratorAssert<IteratorAssert<ELEMENT>, ELEMENT> {
 
+  public static <ELEMENT> IteratorAssert<ELEMENT> assertThatIterator(Iterator<? extends ELEMENT> actual) {
+    return new IteratorAssert<>(actual);
+  }
+
   public IteratorAssert(Iterator<? extends ELEMENT> actual) {
     super(actual, IteratorAssert.class);
   }
