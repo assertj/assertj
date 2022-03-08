@@ -46,6 +46,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.Spliterator;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
@@ -1284,6 +1285,10 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
     return AssertionsForClassTypes.assertThatCode(shouldRaiseOrNotThrowable);
+  }
+
+  public static <V> AbstractCallableAssert<?, V> assertThatCode(Callable<V> callable) {
+    return new CallableAssert<>(callable);
   }
 
   /**
