@@ -27,36 +27,23 @@
   </issueManagement>
 
   <properties>
-    <javadocAdditionalOptions>-html5 --allow-script-in-comments --no-module-directories</javadocAdditionalOptions>
-    <guava.version>31.1-jre</guava.version>
-    <assertj-core.version>3.22.0</assertj-core.version>
     <bnd.version>6.2.0</bnd.version>
+    <javadocAdditionalOptions>-html5 --allow-script-in-comments --no-module-directories</javadocAdditionalOptions>
+    <maven.compiler.release>8</maven.compiler.release>
   </properties>
-
-  <dependencyManagement>
-    <dependencies>
-      <!-- Resolve Test -->
-      <dependency>
-        <groupId>org.eclipse.platform</groupId>
-        <artifactId>org.eclipse.osgi</artifactId>
-        <version>3.17.100</version>
-        <scope>test</scope>
-      </dependency>
-    </dependencies>
-   </dependencyManagement>
 
   <dependencies>
     <!-- Compile -->
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>${assertj-core.version}</version>
+      <version>3.22.0</version>
     </dependency>
     <!-- Provided -->
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>${guava.version}</version>
+      <version>31.1-jre</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -82,18 +69,6 @@
           <artifactId>japicmp-maven-plugin</artifactId>
           <version>0.15.7</version>
           <configuration>
-            <dependencies>
-              <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-              </dependency>
-              <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-api</artifactId>
-                <version>${junit-jupiter.version}</version>
-              </dependency>
-            </dependencies>
             <parameter>
               <excludes>
                 <exclude>org.assertj.guava.internal</exclude>
@@ -110,12 +85,32 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-          <encoding>${project.build.sourceEncoding}</encoding>
-        </configuration>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-java-and-dependencies</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <bannedDependencies>
+                  <includes>
+                    <exclude>org.assertj:assertj-core</exclude>
+                  </includes>
+                  <excludes>
+                    <exclude>org.assertj:assertj-guava</exclude>
+                    <exclude>*:*:*:jar:compile</exclude>
+                  </excludes>
+                </bannedDependencies>
+                <dependencyConvergence />
+                <requireJavaVersion>
+                  <version>[11,)</version>
+                </requireJavaVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>biz.aQute.bnd</groupId>
