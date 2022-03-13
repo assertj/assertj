@@ -12,12 +12,11 @@
  */
 package org.assertj.core.api;
 
-import java.util.concurrent.Callable;
+public interface ThrowingExecutableAssert<SELF extends ThrowingExecutableAssert<SELF, ACTUAL>, ACTUAL>
+    extends Descriptable<SELF> {
 
-public class CallableAssert<V> extends AbstractCallableAssert<CallableAssert<V>, V> {
+  SELF doesNotThrowAnyException();
 
-  public CallableAssert(Callable<V> actual) {
-    super(actual, CallableAssert.class);
-  }
+  ThrowableAssertAlternative<Throwable> hasThrownException();
 
 }
