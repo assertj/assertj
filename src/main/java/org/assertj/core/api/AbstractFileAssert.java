@@ -619,7 +619,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @since 3.21.0
    */
   public SELF isWritable() {
-	  return canWrite();
+    return canWrite();
   }
 
   /**
@@ -1426,7 +1426,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   private AbstractStringAssert<?> internalContent(Charset charset) {
     files.assertCanRead(info, actual);
     String fileContent = readFile(charset);
-    return new StringAssert(fileContent);
+    return new StringAssert(fileContent).withAssertionState(myself);
   }
 
   private String readFile(Charset charset) {
