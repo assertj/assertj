@@ -34,7 +34,7 @@
     <hamcrest.version>2.2</hamcrest.version>
     <opentest4j.version>1.2.0</opentest4j.version>
     <bnd.version>6.2.0</bnd.version>
-    <cdg.pitest.version>0.1.0</cdg.pitest.version>
+    <cdg.pitest.version>0.1.1</cdg.pitest.version>
     <!-- Dependency versions overriding -->
     <junit.version>4.13.2</junit.version>
     <junit-jupiter.version>5.8.2</junit-jupiter.version>
