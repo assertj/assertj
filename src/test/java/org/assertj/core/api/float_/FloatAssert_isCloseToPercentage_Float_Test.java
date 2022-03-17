@@ -19,23 +19,18 @@ import org.assertj.core.api.FloatAssert;
 import org.assertj.core.api.FloatAssertBaseTest;
 import org.assertj.core.data.Percentage;
 
-/**
- * Tests for <code>{@link FloatAssert#isNotCloseTo(float, Percentage)}</code>.
- *
- * @author Chris Arnott
- */
-class FloatAssert_isNotCloseToPercentage_Test extends FloatAssertBaseTest {
+class FloatAssert_isCloseToPercentage_Float_Test extends FloatAssertBaseTest {
 
     private final Percentage percentage = withPercentage(5.0f);
     private final Float value = 10.0f;
 
     @Override
     protected FloatAssert invoke_api_method() {
-        return assertions.isNotCloseTo(value, percentage);
+        return assertions.isCloseTo(value, percentage);
     }
 
     @Override
     protected void verify_internal_effects() {
-        verify(floats).assertIsNotCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
+        verify(floats).assertIsCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
     }
 }

@@ -12,25 +12,30 @@
  */
 package org.assertj.core.api.float_;
 
-import static org.assertj.core.data.Percentage.withPercentage;
-import static org.mockito.Mockito.verify;
-
 import org.assertj.core.api.FloatAssert;
 import org.assertj.core.api.FloatAssertBaseTest;
 import org.assertj.core.data.Percentage;
 
-class FloatAssert_isCloseToPercentage_Test extends FloatAssertBaseTest {
+import static org.assertj.core.data.Percentage.withPercentage;
+import static org.mockito.Mockito.verify;
 
-    private final Percentage percentage = withPercentage(5.0f);
-    private final Float value = 10.0f;
+/**
+ * Tests for <code>{@link FloatAssert#isNotCloseTo(float, Percentage)}</code>.
+ *
+ * @author Sára Juhošová
+ */
+class FloatAssert_isNotCloseToPercentage_float_Test extends FloatAssertBaseTest {
+
+    private final Percentage percentage = withPercentage(2.4f);
+    private final float value = 16.3f;
 
     @Override
     protected FloatAssert invoke_api_method() {
-        return assertions.isCloseTo(value, percentage);
+        return assertions.isNotCloseTo(value, percentage);
     }
 
     @Override
     protected void verify_internal_effects() {
-        verify(floats).assertIsCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
+        verify(floats).assertIsNotCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
     }
 }
