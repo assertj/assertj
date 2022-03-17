@@ -15,28 +15,26 @@ package org.assertj.core.api.double_;
 import org.assertj.core.api.DoubleAssert;
 import org.assertj.core.api.DoubleAssertBaseTest;
 import org.assertj.core.data.Offset;
-import org.assertj.core.data.Percentage;
 
 import static org.assertj.core.data.Offset.offset;
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for <code>{@link DoubleAssert#isNotCloseTo(double, Offset)}</code>.
+ * Tests for <code>{@link DoubleAssert#isNotEqualTo(Double)}</code>.
  *
  * @author Sára Juhošová
  */
-class DoubleAssert_isNotCloseTo_double_Test extends DoubleAssertBaseTest {
+class DoubleAssert_isNotEqualTo_Double_Test extends DoubleAssertBaseTest {
 
-  private final Offset<Double> offset = offset(13.2);
-  private final double value = 55.1;
+  private final Double value = 66.3;
 
   @Override
   protected DoubleAssert invoke_api_method() {
-    return assertions.isNotCloseTo(value, offset);
+    return assertions.isNotEqualTo(value);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(doubles).assertIsNotCloseTo(getInfo(assertions), getActual(assertions), value, offset);
+    verify(objects).assertNotEqual(getInfo(assertions), getActual(assertions), value);
   }
 }

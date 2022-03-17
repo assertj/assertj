@@ -24,7 +24,7 @@ import org.assertj.core.data.Percentage;
  *
  * @author Chris Arnott
  */
-class DoubleAssert_isNotCloseToPercentage_Test extends DoubleAssertBaseTest {
+class DoubleAssert_isNotCloseToPercentage_Double_Test extends DoubleAssertBaseTest {
 
     private final Percentage percentage = withPercentage(5.0);
     private final Double value = 10.0;

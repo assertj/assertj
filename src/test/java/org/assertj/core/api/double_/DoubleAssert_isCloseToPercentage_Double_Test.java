@@ -12,31 +12,25 @@
  */
 package org.assertj.core.api.double_;
 
-import org.assertj.core.api.DoubleAssert;
-import org.assertj.core.api.DoubleAssertBaseTest;
-import org.assertj.core.data.Offset;
-import org.assertj.core.data.Percentage;
-
-import static org.assertj.core.data.Offset.offset;
+import static org.assertj.core.data.Percentage.withPercentage;
 import static org.mockito.Mockito.verify;
 
-/**
- * Tests for <code>{@link DoubleAssert#isNotCloseTo(double, Offset)}</code>.
- *
- * @author Sára Juhošová
- */
-class DoubleAssert_isNotCloseTo_double_Test extends DoubleAssertBaseTest {
+import org.assertj.core.api.DoubleAssert;
+import org.assertj.core.api.DoubleAssertBaseTest;
+import org.assertj.core.data.Percentage;
 
-  private final Offset<Double> offset = offset(13.2);
-  private final double value = 55.1;
+class DoubleAssert_isCloseToPercentage_Double_Test extends DoubleAssertBaseTest {
 
-  @Override
-  protected DoubleAssert invoke_api_method() {
-    return assertions.isNotCloseTo(value, offset);
-  }
+    private final Percentage percentage = withPercentage(5.0);
+    private final Double value = 10.0;
 
-  @Override
-  protected void verify_internal_effects() {
-    verify(doubles).assertIsNotCloseTo(getInfo(assertions), getActual(assertions), value, offset);
-  }
+    @Override
+    protected DoubleAssert invoke_api_method() {
+        return assertions.isCloseTo(value, percentage);
+    }
+
+    @Override
+    protected void verify_internal_effects() {
+        verify(doubles).assertIsCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
+    }
 }
