@@ -12,31 +12,30 @@
  */
 package org.assertj.core.api.short_;
 
-import static org.assertj.core.data.Offset.offset;
+import static org.assertj.core.data.Percentage.withPercentage;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.IntegerAssert;
 import org.assertj.core.api.ShortAssert;
 import org.assertj.core.api.ShortAssertBaseTest;
-import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
 
 /**
- * Tests for <code>{@link ShortAssert#isCloseTo(short, Offset)}</code>.
+ * Tests for <code>{@link ShortAssert#isNotCloseTo(Short, Percentage)}</code>.
  *
- * @author Sára Juhošová
+ * @author Chris Arnott
  */
-class ShortAssert_isCloseTo_short_Test extends ShortAssertBaseTest {
+class ShortAssert_isNotCloseToPercentage_Short_Test extends ShortAssertBaseTest {
 
-  private final Offset<Short> offset = offset((short) 1);
-  private final short value = 16;
+    private final Percentage percentage = withPercentage((short) 5);
+    private final Short value = (short)10;
 
-  @Override
-  protected ShortAssert invoke_api_method() {
-    return assertions.isCloseTo(value, offset);
-  }
+    @Override
+    protected ShortAssert invoke_api_method() {
+        return assertions.isNotCloseTo(value, percentage);
+    }
 
-  @Override
-  protected void verify_internal_effects() {
-    verify(shorts).assertIsCloseTo(getInfo(assertions), getActual(assertions), value, offset);
-  }
+    @Override
+    protected void verify_internal_effects() {
+        verify(shorts).assertIsNotCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
+    }
 }

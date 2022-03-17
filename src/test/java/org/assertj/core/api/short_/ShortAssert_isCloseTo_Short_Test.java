@@ -12,23 +12,17 @@
  */
 package org.assertj.core.api.short_;
 
-import static org.assertj.core.data.Offset.offset;
-import static org.mockito.Mockito.verify;
-
-import org.assertj.core.api.IntegerAssert;
 import org.assertj.core.api.ShortAssert;
 import org.assertj.core.api.ShortAssertBaseTest;
 import org.assertj.core.data.Offset;
 
-/**
- * Tests for <code>{@link ShortAssert#isCloseTo(short, Offset)}</code>.
- *
- * @author Sára Juhošová
- */
-class ShortAssert_isCloseTo_short_Test extends ShortAssertBaseTest {
+import static org.assertj.core.data.Offset.offset;
+import static org.mockito.Mockito.verify;
 
-  private final Offset<Short> offset = offset((short) 1);
-  private final short value = 16;
+class ShortAssert_isCloseTo_Short_Test extends ShortAssertBaseTest {
+
+  private final Offset<Short> offset = offset((short)5);
+  private final Short value = 8;
 
   @Override
   protected ShortAssert invoke_api_method() {

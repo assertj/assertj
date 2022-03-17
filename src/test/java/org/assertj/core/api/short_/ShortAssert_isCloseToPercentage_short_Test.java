@@ -12,17 +12,22 @@
  */
 package org.assertj.core.api.short_;
 
-import static org.assertj.core.data.Percentage.withPercentage;
-import static org.mockito.Mockito.verify;
-
 import org.assertj.core.api.ShortAssert;
 import org.assertj.core.api.ShortAssertBaseTest;
 import org.assertj.core.data.Percentage;
 
+import static org.assertj.core.data.Percentage.withPercentage;
+import static org.mockito.Mockito.verify;
+
+/**
+ * Tests for <code>{@link ShortAssert#isCloseTo(short, Percentage)}</code>.
+ *
+ * @author Sára Juhošová
+ */
 class ShortAssert_isCloseToPercentage_short_Test extends ShortAssertBaseTest {
 
-    private final Percentage percentage = withPercentage((short) 5);
-    private final Short value = (short)10;
+    private final Percentage percentage = withPercentage((short) 13);
+    private final short value = (short) 42;
 
     @Override
     protected ShortAssert invoke_api_method() {
