@@ -13,6 +13,7 @@
 package org.assertj.core.api.inputstream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenCode;
@@ -21,13 +22,19 @@ import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.error.AssertJMultipleFailuresError;
+import org.assertj.core.internal.InputStreamsException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
@@ -45,6 +52,23 @@ class InputStreamAssert_asString_with_charset_Test {
     // WHEN/THEN
     then(inputStream).asString(TURKISH_CHARSET)
                      .isEqualTo(real);
+  }
+
+  @Test
+  void should_throw_exception() throws IOException {
+    // GIVEN
+    String real = "Gerçek";
+    InputStream inputStream = mock(InputStream.class);
+
+    // MOCK BEHAVIOUR
+    when(inputStream.read(any(), anyInt(), anyInt())).thenThrow(new IOException());
+
+    // ASSERT THROWS
+    assertThatThrownBy(() -> {
+      // WHEN/THEN
+      then(inputStream).asString(TURKISH_CHARSET)
+        .isEqualTo(real);
+    }).isInstanceOf(InputStreamsException.class);
   }
 
   @Test

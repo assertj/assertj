@@ -37,7 +37,12 @@ class ShortArrayAssert_containsExactlyInAnyOrder_Test extends ShortArrayAssertBa
 
   @Test
   void invoke_api_like_user() {
-     assertThat(new short[] { 1, 2, 2 }).containsExactlyInAnyOrder((short) 2, (short) 2, (short) 1);
+     assertThat(new short[]{ 1, 2, 2 }).containsExactlyInAnyOrder((short) 2, (short) 2, (short) 1);
+  }
+
+  @Test
+  void invoke_api_like_user_Short() {
+    assertThat(new Short[]{ 1, 2, 2 }).containsExactlyInAnyOrder((short) 2, (short) 2, (short) 1);
   }
 }
 

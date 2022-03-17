@@ -1043,6 +1043,16 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  void should_return_failure_after_failBecauseExceptionWasNotThrown() {
+    // WHEN
+    softly.failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected();
+    assertThat(errorsCollected).hasSize(1);
+    assertThat(errorsCollected.get(0)).hasMessageStartingWith("IllegalArgumentException should have been thrown");
+  }
+
+  @Test
   void should_assert_using_assertSoftly() {
     assertThatThrownBy(() -> assertSoftly(assertions -> {
       assertions.assertThat(true).isFalse();

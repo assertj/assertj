@@ -39,11 +39,20 @@ class FloatArrayAssert_containsSubsequence_Test extends FloatArrayAssertBaseTest
   }
 
   @Test
-  void should_pass_with_precision_specified_as_last_argument() {
+  void should_pass_with_precision_specified_as_last_argument_using_float() {
     // GIVEN
     float[] actual = arrayOf(1.0f, 2.0f, 3.0f);
     // THEN
     assertThat(actual).containsSubsequence(arrayOf(0.91f, 3.09f), withPrecision(0.1f));
+  }
+
+  @Test
+  void should_pass_with_precision_specified_as_last_argument_using_Float() {
+    // GIVEN
+    float[] actual = arrayOf(1.0f, 2.0f, 3.0f);
+    Float[] expected = {0.91f, 3.09f};
+    // THEN
+    assertThat(actual).containsSubsequence(expected, withPrecision(0.1f));
   }
 
   @Test
