@@ -19,7 +19,7 @@ import java.util.concurrent.Callable;
 
 import org.junit.jupiter.api.Test;
 
-class CallableAssert_Demo_Test {
+class CallableAssert_Demo_Test { // FIXME to be deleted
 
   @Test
   void demo() {

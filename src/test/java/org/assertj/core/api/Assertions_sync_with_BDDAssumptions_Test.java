@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.lang.reflect.Method;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
 
 class Assertions_sync_with_BDDAssumptions_Test extends BaseAssertionsTest {
@@ -40,7 +41,8 @@ class Assertions_sync_with_BDDAssumptions_Test extends BaseAssertionsTest {
 
   @Test
   void code_assertions_and_bdd_assumptions_should_have_the_same_assertions_methods() {
-    Method[] assertThatMethods = findMethodsWithName(Assertions.class, "assertThatCode", SPECIAL_IGNORED_RETURN_TYPES);
+    Class<?>[] ignoredReturnTypes = ArrayUtils.addAll(SPECIAL_IGNORED_RETURN_TYPES, AbstractCallableAssert.class); // FIXME gh-xxxx
+    Method[] assertThatMethods = findMethodsWithName(Assertions.class, "assertThatCode", ignoredReturnTypes);
     Method[] givenMethods = findMethodsWithName(BDDAssumptions.class, "givenCode");
 
     assertThat(givenMethods).usingElementComparator(IGNORING_DECLARING_CLASS_RETURN_TYPE_AND_METHOD_NAME)
