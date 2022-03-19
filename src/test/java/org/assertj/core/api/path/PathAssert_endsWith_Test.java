@@ -21,7 +21,7 @@ import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
 
 class PathAssert_endsWith_Test extends PathAssertBaseTest {
-  
+
   private final Path other = mock(Path.class);
 
   @Override

@@ -19,10 +19,15 @@ import org.assertj.core.api.ShortAssert;
 import org.assertj.core.api.ShortAssertBaseTest;
 import org.assertj.core.data.Offset;
 
+/**
+ * Tests for <code>{@link ShortAssert#isCloseTo(short, Offset)}</code>.
+ *
+ * @author Sára Juhošová
+ */
 class ShortAssert_isCloseTo_short_Test extends ShortAssertBaseTest {
 
-  private final Offset<Short> offset = offset((short)5);
-  private final Short value = 8;
+  private final Offset<Short> offset = offset((short) 1);
+  private final short value = 16;
 
   @Override
   protected ShortAssert invoke_api_method() {

@@ -38,7 +38,7 @@ class PathAssert_content_with_charset_Test extends PathAssertBaseTest implements
   protected void verify_internal_effects() {
     verify(paths).assertIsReadable(getInfo(assertions), getActual(assertions));
   }
-  
+
   @Override
   protected PathAssert create_assertions() {
     return new PathAssert(new File("src/test/resources/utf8.txt").toPath());
@@ -49,7 +49,7 @@ class PathAssert_content_with_charset_Test extends PathAssertBaseTest implements
     // GIVEN
     Path path = new File("src/test/resources/utf8.txt").toPath();
     // WHEN
-    AbstractStringAssert<?> stringAssert = assertThat(path).content(UTF_8); 
+    AbstractStringAssert<?> stringAssert = assertThat(path).content(UTF_8);
     // THEN
     stringAssert.contains("é à");
   }

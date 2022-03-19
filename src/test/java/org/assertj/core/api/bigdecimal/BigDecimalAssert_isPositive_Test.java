@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.BigDecimalAssert;
 import org.assertj.core.api.BigDecimalAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link BigDecimalAssert#isPositive()}</code>.
  * 

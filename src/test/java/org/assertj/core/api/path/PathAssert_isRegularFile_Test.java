@@ -18,7 +18,7 @@ import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
 
 class PathAssert_isRegularFile_Test extends PathAssertBaseTest {
-  
+
   @Override
   protected PathAssert invoke_api_method() {
     return assertions.isRegularFile();

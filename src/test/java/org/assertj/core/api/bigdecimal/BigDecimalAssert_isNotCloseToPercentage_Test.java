@@ -29,15 +29,15 @@ import org.assertj.core.data.Percentage;
 class BigDecimalAssert_isNotCloseToPercentage_Test extends BigDecimalAssertBaseTest {
 
   private final Percentage percentage = withPercentage(5);
-    private final BigDecimal value = BigDecimal.TEN;
+  private final BigDecimal value = BigDecimal.TEN;
 
-    @Override
-    protected BigDecimalAssert invoke_api_method() {
-        return assertions.isNotCloseTo(value, percentage);
-    }
+  @Override
+  protected BigDecimalAssert invoke_api_method() {
+    return assertions.isNotCloseTo(value, percentage);
+  }
 
-    @Override
-    protected void verify_internal_effects() {
-        verify(bigDecimals).assertIsNotCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
-    }
+  @Override
+  protected void verify_internal_effects() {
+    verify(bigDecimals).assertIsNotCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
+  }
 }

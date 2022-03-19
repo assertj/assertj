@@ -12,12 +12,12 @@
  */
 package org.assertj.core.api.integer_;
 
+import static org.assertj.core.data.Percentage.withPercentage;
+import static org.mockito.Mockito.verify;
+
 import org.assertj.core.api.IntegerAssert;
 import org.assertj.core.api.IntegerAssertBaseTest;
 import org.assertj.core.data.Percentage;
-
-import static org.assertj.core.data.Percentage.withPercentage;
-import static org.mockito.Mockito.verify;
 
 /**
  * Tests for <code>{@link IntegerAssert#isNotCloseTo(int, Percentage)}</code>.
@@ -26,16 +26,16 @@ import static org.mockito.Mockito.verify;
  */
 class IntegerAssert_isNotCloseToPercentage_int_Test extends IntegerAssertBaseTest {
 
-    private final Percentage percentage = withPercentage(3);
-    private final int value = 42;
+  private final Percentage percentage = withPercentage(3);
+  private final int value = 42;
 
-    @Override
-    protected IntegerAssert invoke_api_method() {
-        return assertions.isNotCloseTo(value, percentage);
-    }
+  @Override
+  protected IntegerAssert invoke_api_method() {
+    return assertions.isNotCloseTo(value, percentage);
+  }
 
-    @Override
-    protected void verify_internal_effects() {
-        verify(integers).assertIsNotCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
-    }
+  @Override
+  protected void verify_internal_effects() {
+    verify(integers).assertIsNotCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
+  }
 }

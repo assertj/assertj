@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.DoubleAssert;
 import org.assertj.core.api.DoubleAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link DoubleAssert#isStrictlyBetween(Double, Double)}</code>.
  * 

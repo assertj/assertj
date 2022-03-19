@@ -19,7 +19,6 @@ import org.assertj.core.api.DoubleAssert;
 import org.assertj.core.api.DoubleAssertBaseTest;
 import org.assertj.core.data.Offset;
 
-
 /**
  * Tests for <code>{@link DoubleAssert#isEqualTo(double, Offset)}</code>.
  * 

@@ -12,10 +12,10 @@
  */
 package org.assertj.core.api.integer_;
 
+import static org.mockito.Mockito.verify;
+
 import org.assertj.core.api.IntegerAssert;
 import org.assertj.core.api.IntegerAssertBaseTest;
-
-import static org.mockito.Mockito.verify;
 
 /**
  * Tests for <code>{@link IntegerAssert#isEqualTo(long)}</code>.
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Sára Juhošová
  */
-class IntegerAssert_isEqualTo_large_long_Test extends IntegerAssertBaseTest {
+class IntegerAssert_isEqualTo_noncastable_long_Test extends IntegerAssertBaseTest {
 
   private final long expected = ((long) Integer.MAX_VALUE) + 2L;
 

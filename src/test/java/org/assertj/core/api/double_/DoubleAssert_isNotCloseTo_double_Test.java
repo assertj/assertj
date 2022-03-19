@@ -20,14 +20,14 @@ import org.assertj.core.api.DoubleAssertBaseTest;
 import org.assertj.core.data.Offset;
 
 /**
- * Tests for <code>{@link DoubleAssert#isNotCloseTo(Double, Offset)}</code>.
+ * Tests for <code>{@link DoubleAssert#isNotCloseTo(double, Offset)}</code>.
  *
- * @author Chris Arnott
+ * @author Sára Juhošová
  */
 class DoubleAssert_isNotCloseTo_double_Test extends DoubleAssertBaseTest {
 
-  private final Offset<Double> offset = offset(5.0);
-  private final Double value = 8.0;
+  private final Offset<Double> offset = offset(13.2);
+  private final double value = 55.1;
 
   @Override
   protected DoubleAssert invoke_api_method() {

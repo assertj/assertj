@@ -19,7 +19,6 @@ import org.assertj.core.api.FloatAssert;
 import org.assertj.core.api.FloatAssertBaseTest;
 import org.assertj.core.data.Offset;
 
-
 /**
  * Tests for <code>{@link FloatAssert#isEqualTo(float, Offset)}</code>.
  * 

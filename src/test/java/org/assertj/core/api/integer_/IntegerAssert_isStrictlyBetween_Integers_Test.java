@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.IntegerAssert;
 import org.assertj.core.api.IntegerAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link IntegerAssert#isStrictlyBetween(Integer, Integer)}</code>.
  * 

@@ -28,7 +28,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-
 /**
  * Tests for <code>{@link FloatAssert#isGreaterThanOrEqualTo(float)}</code>.
  *

@@ -12,12 +12,12 @@
  */
 package org.assertj.core.api.integer_;
 
+import static org.assertj.core.data.Offset.offset;
+import static org.mockito.Mockito.verify;
+
 import org.assertj.core.api.IntegerAssert;
 import org.assertj.core.api.IntegerAssertBaseTest;
 import org.assertj.core.data.Offset;
-
-import static org.assertj.core.data.Offset.offset;
-import static org.mockito.Mockito.verify;
 
 /**
  * Tests for <code>{@link IntegerAssert#isNotCloseTo(int, Offset)}</code>.

@@ -38,7 +38,7 @@ class PathAssert_content_Test extends PathAssertBaseTest implements NavigationMe
   protected void verify_internal_effects() {
     verify(paths).assertIsReadable(getInfo(assertions), getActual(assertions));
   }
-  
+
   @Override
   protected PathAssert create_assertions() {
     return new PathAssert(new File("src/test/resources/actual_file.txt").toPath());

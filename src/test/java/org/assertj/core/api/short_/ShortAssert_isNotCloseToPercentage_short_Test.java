@@ -20,22 +20,22 @@ import org.assertj.core.api.ShortAssertBaseTest;
 import org.assertj.core.data.Percentage;
 
 /**
- * Tests for <code>{@link ShortAssert#isNotCloseTo(Short, Percentage)}</code>.
+ * Tests for <code>{@link ShortAssert#isNotCloseTo(short, Percentage)}</code>.
  *
- * @author Chris Arnott
+ * @author Sára Juhošová
  */
 class ShortAssert_isNotCloseToPercentage_short_Test extends ShortAssertBaseTest {
 
-    private final Percentage percentage = withPercentage((short) 5);
-    private final Short value = (short)10;
+  private final Percentage percentage = withPercentage((short) 13);
+  private final short value = (short) 42;
 
-    @Override
-    protected ShortAssert invoke_api_method() {
-        return assertions.isNotCloseTo(value, percentage);
-    }
+  @Override
+  protected ShortAssert invoke_api_method() {
+    return assertions.isNotCloseTo(value, percentage);
+  }
 
-    @Override
-    protected void verify_internal_effects() {
-        verify(shorts).assertIsNotCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
-    }
+  @Override
+  protected void verify_internal_effects() {
+    verify(shorts).assertIsNotCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
+  }
 }

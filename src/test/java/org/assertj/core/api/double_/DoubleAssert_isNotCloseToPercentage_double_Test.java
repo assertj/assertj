@@ -20,22 +20,22 @@ import org.assertj.core.api.DoubleAssertBaseTest;
 import org.assertj.core.data.Percentage;
 
 /**
- * Tests for <code>{@link DoubleAssert#isNotCloseTo(Double, Percentage)}</code>.
+ * Tests for <code>{@link DoubleAssert#isNotCloseTo(double, Percentage)}</code>.
  *
- * @author Chris Arnott
+ * @author Sára Juhošová
  */
-class DoubleAssert_isNotCloseToPercentage_Test extends DoubleAssertBaseTest {
+class DoubleAssert_isNotCloseToPercentage_double_Test extends DoubleAssertBaseTest {
 
-    private final Percentage percentage = withPercentage(5.0);
-    private final Double value = 10.0;
+  private final Percentage percentage = withPercentage(5.4);
+  private final double value = 62.7;
 
-    @Override
-    protected DoubleAssert invoke_api_method() {
-        return assertions.isNotCloseTo(value, percentage);
-    }
+  @Override
+  protected DoubleAssert invoke_api_method() {
+    return assertions.isNotCloseTo(value, percentage);
+  }
 
-    @Override
-    protected void verify_internal_effects() {
-        verify(doubles).assertIsNotCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
-    }
+  @Override
+  protected void verify_internal_effects() {
+    verify(doubles).assertIsNotCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
+  }
 }
