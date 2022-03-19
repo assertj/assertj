@@ -18,8 +18,9 @@ import org.junit.jupiter.api.Test;
 import java.util.Comparator;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.error.OptionalShouldContain.shouldContain;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 /**
  * Tests for <code>{@link OptionalAssert#usingDefaultComparator()}</code>.
@@ -32,27 +33,39 @@ class OptionalAssert_contains_usingDefaultComparator_Test {
 
   @Test
   void should_succeed_if_default_equal_content() {
+    // GIVEN
     OptionalAssert<String> optionalAssert = assertThat(Optional.of("hello"));
     String expected = "hello";
 
+    // WHEN/THEN
     // set to different strategy
     optionalAssert.usingValueComparator(STRING_COMPARATOR).contains(expected);
 
+    // WHEN/THEN
     // go back to default strategy
     optionalAssert.usingDefaultValueComparator().contains(expected);
   }
 
   @Test
   void should_fail_if_different_capitalisation() {
-    OptionalAssert<String> optionalAssert = assertThat(Optional.of("hello"));
+    // GIVEN
+    Optional<String> actual = Optional.of("hello");
     String expected = "HellO";
 
+    // WHEN
+    OptionalAssert<String> optionalAssert = assertThat(actual);
+
+    // WHEN/THEN
     // set to different strategy
     optionalAssert.usingValueComparator(STRING_COMPARATOR).contains(expected);
 
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->
-        // go back to default strategy
-        optionalAssert.usingDefaultValueComparator().contains(expected)
-      );
+    // WHEN
+    // go back to default strategy
+    AssertionError assertionError = expectAssertionError(() ->
+      optionalAssert.usingDefaultValueComparator().contains(expected)
+    );
+
+    // THEN
+    then(assertionError).hasMessageContainingAll(actual.toString(), expected);
   }
 }

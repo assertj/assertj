@@ -15,9 +15,7 @@ package org.assertj.core.api.inputstream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assumptions.assumeThat;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.BDDAssertions.thenCode;
-import static org.assertj.core.api.BDDAssertions.thenNullPointerException;
+import static org.assertj.core.api.BDDAssertions.*;
 import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
@@ -60,15 +58,13 @@ class InputStreamAssert_asString_with_charset_Test {
     String real = "Gerçek";
     InputStream inputStream = mock(InputStream.class);
 
-    // MOCK BEHAVIOUR
+    // WHEN (MOCK BEHAVIOUR)
     when(inputStream.read(any(), anyInt(), anyInt())).thenThrow(new IOException());
 
-    // ASSERT THROWS
-    assertThatThrownBy(() -> {
-      // WHEN/THEN
-      then(inputStream).asString(TURKISH_CHARSET)
-        .isEqualTo(real);
-    }).isInstanceOf(InputStreamsException.class);
+    // WHEN/THEN
+    thenThrownBy(() ->
+      assertThat(inputStream).asString(TURKISH_CHARSET).isEqualTo(real)
+    ).isInstanceOf(InputStreamsException.class);
   }
 
   @Test
