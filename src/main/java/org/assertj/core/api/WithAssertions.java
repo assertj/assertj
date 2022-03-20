@@ -731,8 +731,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created assertion object.
    * @since 3.23.0
    */
-  default <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThatComparable(T actual) {
-    return assertThat(actual);
+  default <T extends Comparable<T>> GenericComparableAssertV2<T> assertThatComparable(Comparable<T> actual) {
+    return assertThatComparable(actual);
   }
 
   /**

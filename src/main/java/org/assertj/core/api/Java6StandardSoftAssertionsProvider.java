@@ -262,8 +262,9 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    * @return the created assertion object.
    * @since 3.23.0
    */
-  default <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThatComparable(T actual) {
-    return assertThat(actual);
+  @SuppressWarnings("unchecked")
+  default <T extends Comparable<T>> GenericComparableAssertV2<T> assertThatComparable(Comparable<T> actual) {
+    return proxy(GenericComparableAssertV2.class, Comparable.class, actual);
   }
 
   /**

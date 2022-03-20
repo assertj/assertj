@@ -3505,8 +3505,8 @@ public class Assertions implements InstanceOfAssertFactories {
    * @since 3.23.0
    */
   @SuppressWarnings({ "unchecked", "rawtypes" })
-  public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThatComparable(T actual) {
-    return new GenericComparableAssert(actual);
+  public static <T extends Comparable<T>> GenericComparableAssertV2<T> assertThatComparable(Comparable<T> actual) {
+    return new GenericComparableAssertV2(actual);
   }
 
   /**

@@ -914,6 +914,19 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link GenericComparableAssertV2}</code> assumption.
+   *
+   * @param <T> the type of actual.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.23.0
+   */
+  @SuppressWarnings("unchecked")
+  public static <T> AbstractGenericComparableAssert<?, T> assumeThatComparable(Comparable<T> actual) {
+    return asAssumption(GenericComparableAssertV2.class, Comparable.class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ThrowableAssert}</code> assumption.
    *
    * @param <T> the type of the actual throwable.

@@ -13,32 +13,52 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 
+import org.assertj.core.test.Name;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Assertions#assertThat(Comparable)}</code>.
- */
 class Assertions_assertThat_with_Comparable_Test {
 
   @Test
   void should_create_Assert() {
-    SomeComparable comparable = new SomeComparable();
-    AbstractComparableAssert<?, SomeComparable> assertions = Assertions.assertThat(comparable);
-    assertThat(assertions).isNotNull();
+    // GIVEN
+    Name comparable = new Name();
+    // WHEN
+    AbstractComparableAssert<?, Name> assertions = Assertions.assertThat(comparable);
+    // THEN
+    then(assertions).isNotNull();
   }
 
   @Test
   void should_pass_actual() {
-    SomeComparable comparable = new SomeComparable();
-    AbstractComparableAssert<?, SomeComparable> assertions = Assertions.assertThat(comparable);
-    assertThat(assertions.actual).isSameAs(comparable);
+    // GIVEN
+    Name comparable = new Name();
+    // WHEN
+    AbstractComparableAssert<?, Name> assertions = Assertions.assertThat(comparable);
+    // THEN
+    then(assertions.actual).isSameAs(comparable);
   }
 
-  private static class SomeComparable implements Comparable<SomeComparable> {
-      @Override
-      public int compareTo(SomeComparable o) {
-          return 0;
-      }
+  @Test
+  void all_comparable_assertions_should_work_with_non_generic_comparable() {
+    // GIVEN
+    Name name1 = new Name("abc");
+    Name name2 = new Name("abc");
+    Name name3 = new Name("bcd");
+    Name name4 = new Name("cde");
+    // WHEN/THEN
+    assertThat(name3).isBetween(name1, name4);
+    assertThat(name3).isStrictlyBetween(name1, name4);
+    assertThat(name1).isEqualByComparingTo(name2);
+    assertThat(name1).isNotEqualByComparingTo(name3);
+    assertThat(name1).isEqualByComparingTo(name2);
+    assertThat(name1).isLessThan(name3);
+    assertThat(name1).isLessThanOrEqualTo(name3);
+    assertThat(name3).isGreaterThan(name1);
+    assertThat(name3).isGreaterThanOrEqualTo(name1);
+    // does not compile but assertThatComparable(name).isGreaterThanOrEqualTo(name); does
+    // Comparable<Name> name = new Name("abc");
+    // assertThat(name).isGreaterThanOrEqualTo(name);
   }
 }
