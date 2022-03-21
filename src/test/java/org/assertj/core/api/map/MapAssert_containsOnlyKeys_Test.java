@@ -24,7 +24,7 @@ import org.assertj.core.api.MapAssertBaseTest;
  * @author Christopher Arnott
  */
 class MapAssert_containsOnlyKeys_Test extends MapAssertBaseTest {
-    
+
   final Object[] keys = array("key1", "key2");
 
   @Override

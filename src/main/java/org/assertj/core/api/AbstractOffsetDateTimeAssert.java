@@ -446,7 +446,6 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
     return isEqualTo(parse(dateTimeAsString));
   }
 
-
   /**
    * Verifies that the actual {@code OffsetDateTime} is not equal to the given value according to the comparator in use.
    * <p>

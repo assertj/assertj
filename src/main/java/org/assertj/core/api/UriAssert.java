@@ -23,8 +23,7 @@ public class UriAssert extends AbstractUriAssert<UriAssert> {
    *
    * @param actual the url to test
    */
-  public UriAssert(URI actual)
-  {
+  public UriAssert(URI actual) {
     super(actual, UriAssert.class);
   }
 }

@@ -55,7 +55,8 @@ class IntPredicateAssert_rejects_Test extends IntPredicateAssertBaseTest {
     Predicate<Integer> wrapPredicate = predicate::test;
     int expectedValue = 2;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).rejects(expectedValue))
-                                                   .withMessage(shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
+                                                   .withMessage(shouldNotAccept(wrapPredicate, expectedValue,
+                                                                                PredicateDescription.GIVEN).create());
   }
 
   @Test
@@ -64,7 +65,8 @@ class IntPredicateAssert_rejects_Test extends IntPredicateAssertBaseTest {
     Predicate<Integer> wrapPredicate = predicate::test;
     int expectedValue = 2;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).as("test").rejects(expectedValue))
-                                                   .withMessage("[test] " + shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
+                                                   .withMessage("[test] " + shouldNotAccept(wrapPredicate, expectedValue,
+                                                                                            PredicateDescription.GIVEN).create());
   }
 
   @Test
@@ -73,7 +75,8 @@ class IntPredicateAssert_rejects_Test extends IntPredicateAssertBaseTest {
     int[] matchValues = new int[] { 1, 2, 3 };
     List<Integer> matchValuesList = IntStream.of(matchValues).boxed().collect(Collectors.toList());
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).rejects(matchValues))
-                                                   .withMessage(noElementsShouldMatch(matchValuesList, 1, PredicateDescription.GIVEN).create());
+                                                   .withMessage(noElementsShouldMatch(matchValuesList, 1,
+                                                                                      PredicateDescription.GIVEN).create());
   }
 
   @Test

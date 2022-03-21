@@ -43,7 +43,7 @@ public class ShouldBeLessOrEqual extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static <T extends Comparable<? super T>> ErrorMessageFactory shouldBeLessOrEqual(T actual, T other,
-      ComparisonStrategy comparisonStrategy) {
+                                                                                          ComparisonStrategy comparisonStrategy) {
     return new ShouldBeLessOrEqual(actual, other, comparisonStrategy);
   }
 

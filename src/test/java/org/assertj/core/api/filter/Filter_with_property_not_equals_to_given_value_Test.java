@@ -22,7 +22,6 @@ import org.assertj.core.test.WithPlayerData;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.Test;
 
-
 class Filter_with_property_not_equals_to_given_value_Test extends WithPlayerData {
 
   @Test

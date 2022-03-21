@@ -12,7 +12,6 @@
  */
 package org.assertj.core.util;
 
-
 @FunctionalInterface
 public interface TriFunction<A, B, C, R> {
 

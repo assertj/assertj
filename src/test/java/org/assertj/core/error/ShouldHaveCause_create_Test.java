@@ -43,14 +43,14 @@ class ShouldHaveCause_create_Test {
     String message = shouldHaveCause(actual, expected).create();
     // THEN
     then(message).isEqualTo(format("%n" +
-      "Expecting a cause with type:%n" +
-      "  \"java.lang.IllegalStateException\"%n" +
-      "and message:%n" +
-      "  \"illegal state\"%n" +
-      "but type was:%n" +
-      "  \"java.lang.RuntimeException\"%n" +
-      "and message was:%n" +
-      "  \"Boom\"."));
+                                   "Expecting a cause with type:%n" +
+                                   "  \"java.lang.IllegalStateException\"%n" +
+                                   "and message:%n" +
+                                   "  \"illegal state\"%n" +
+                                   "but type was:%n" +
+                                   "  \"java.lang.RuntimeException\"%n" +
+                                   "and message was:%n" +
+                                   "  \"Boom\"."));
   }
 
   @Test
@@ -62,10 +62,10 @@ class ShouldHaveCause_create_Test {
     String message = shouldHaveCause(actual, expected).create();
     // THEN
     then(message).isEqualTo(format("%n" +
-      "Expecting a cause with message:%n" +
-      "  \"something went wrong\"%n" +
-      "but message was:%n" +
-      "  \"Boom\"."));
+                                   "Expecting a cause with message:%n" +
+                                   "  \"something went wrong\"%n" +
+                                   "but message was:%n" +
+                                   "  \"Boom\"."));
   }
 
   @Test
@@ -77,10 +77,10 @@ class ShouldHaveCause_create_Test {
     String message = shouldHaveCause(actual, expected).create();
     // THEN
     then(message).isEqualTo(format("%n" +
-      "Expecting a cause with type:%n" +
-      "  \"java.lang.IllegalStateException\"%n" +
-      "but type was:%n" +
-      "  \"java.lang.RuntimeException\"."));
+                                   "Expecting a cause with type:%n" +
+                                   "  \"java.lang.IllegalStateException\"%n" +
+                                   "but type was:%n" +
+                                   "  \"java.lang.RuntimeException\"."));
   }
 
   @Test
@@ -92,10 +92,10 @@ class ShouldHaveCause_create_Test {
     String message = shouldHaveCause(actual, expected).create();
     // THEN
     then(message).isEqualTo(format("%n" +
-      "Expecting a cause with type:%n" +
-      "  \"java.lang.IllegalStateException\"%n" +
-      "and message:%n" +
-      "  \"Boom\"%n" +
-      "but actualCause had no cause."));
+                                   "Expecting a cause with type:%n" +
+                                   "  \"java.lang.IllegalStateException\"%n" +
+                                   "and message:%n" +
+                                   "  \"Boom\"%n" +
+                                   "but actualCause had no cause."));
   }
 }

@@ -28,20 +28,20 @@ import org.junit.jupiter.api.Test;
  */
 class Assertions_assertThat_with_OptionalLong_Test {
 
-    private OptionalLong actual;
+  private OptionalLong actual;
 
-    @BeforeEach
-    void before(){
-        actual = OptionalLong.of(10L);
-    }
+  @BeforeEach
+  void before() {
+    actual = OptionalLong.of(10L);
+  }
 
-    @Test
-    void should_create_Assert() {
-        assertThat(Assertions.assertThat(actual)).isNotNull();
-    }
+  @Test
+  void should_create_Assert() {
+    assertThat(Assertions.assertThat(actual)).isNotNull();
+  }
 
-    @Test
-    void should_pass_actual() {
-        assertThat(actual).isSameAs(Assertions.assertThat(actual).actual);
-    }
+  @Test
+  void should_pass_actual() {
+    assertThat(actual).isSameAs(Assertions.assertThat(actual).actual);
+  }
 }

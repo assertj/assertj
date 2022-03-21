@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.StringAssert;
 import org.assertj.core.api.StringAssertBaseTest;
 
-
 class StringAssert_isGreaterThanOrEqualTo_Test extends StringAssertBaseTest {
 
   @Override

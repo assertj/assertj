@@ -884,8 +884,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected)
-      .singleElement(as(THROWABLE))
-      .hasMessageContaining("123");
+                               .singleElement(as(THROWABLE))
+                               .hasMessageContaining("123");
   }
 
   @Test
@@ -1028,9 +1028,9 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected)
-      .singleElement(as(THROWABLE))
-      .hasMessageStartingWith(failureMessage)
-      .cause().isEqualTo(realCause);
+                               .singleElement(as(THROWABLE))
+                               .hasMessageStartingWith(failureMessage)
+                               .cause().isEqualTo(realCause);
   }
 
   @Test
@@ -1040,8 +1040,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected)
-      .singleElement(as(THROWABLE))
-      .hasMessageStartingWith("IllegalArgumentException should have been thrown");
+                               .singleElement(as(THROWABLE))
+                               .hasMessageStartingWith("IllegalArgumentException should have been thrown");
   }
 
   @Test
@@ -1051,8 +1051,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected)
-      .singleElement(as(THROWABLE))
-      .hasMessageStartingWith("IllegalArgumentException should have been thrown");
+                               .singleElement(as(THROWABLE))
+                               .hasMessageStartingWith("IllegalArgumentException should have been thrown");
   }
 
   @Test
@@ -1943,9 +1943,9 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected)
-      .singleElement(as(THROWABLE))
-      .hasMessageContaining("SafeVarargs")
-                                      .hasMessageContaining("VisibleForTesting");
+                               .singleElement(as(THROWABLE))
+                               .hasMessageContaining("SafeVarargs")
+                               .hasMessageContaining("VisibleForTesting");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
@@ -2226,8 +2226,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected)
-      .singleElement(as(THROWABLE))
-      .hasMessage("[zipSatisfy] error message");
+                               .singleElement(as(THROWABLE))
+                               .hasMessage("[zipSatisfy] error message");
   }
 
   @Test
@@ -2240,10 +2240,10 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected)
-      .singleElement(as(THROWABLE))
-      .hasMessageContaining("%%E")
-                                      .hasMessageContaining("to match pattern")
-                                      .hasMessageContaining("fffff");
+                               .singleElement(as(THROWABLE))
+                               .hasMessageContaining("%%E")
+                               .hasMessageContaining("to match pattern")
+                               .hasMessageContaining("fffff");
   }
 
   @Test
@@ -2259,9 +2259,9 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected)
-      .singleElement(as(THROWABLE))
-      .hasMessageContaining("unicode")
-                                      .hasMessageContaining("\\u00f3");
+                               .singleElement(as(THROWABLE))
+                               .hasMessageContaining("unicode")
+                               .hasMessageContaining("\\u00f3");
   }
 
   @Test
@@ -2388,11 +2388,11 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected)
-      .singleElement(as(THROWABLE))
-      .hasMessageContaining("[satisfiesAnyOf] ")
-                                      .hasMessageContaining("HOBBIT")
-                                      .hasMessageContaining("ELF")
-                                      .hasMessageContaining("MAN");
+                               .singleElement(as(THROWABLE))
+                               .hasMessageContaining("[satisfiesAnyOf] ")
+                               .hasMessageContaining("HOBBIT")
+                               .hasMessageContaining("ELF")
+                               .hasMessageContaining("MAN");
   }
 
   @Test
@@ -2407,10 +2407,10 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected)
-      .singleElement(as(THROWABLE))
-      .hasMessageContaining("[satisfies] ")
-                                      .hasMessageContaining("HOBBIT")
-                                      .hasMessageContaining("MAN");
+                               .singleElement(as(THROWABLE))
+                               .hasMessageContaining("[satisfies] ")
+                               .hasMessageContaining("HOBBIT")
+                               .hasMessageContaining("MAN");
   }
 
   @Test
@@ -2429,11 +2429,11 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected)
-      .singleElement(as(THROWABLE))
-      .hasMessageContaining("[assertThatObject#satisfiesAnyOf] ")
-                                      .hasMessageContaining("HOBBIT")
-                                      .hasMessageContaining("ELF")
-                                      .hasMessageContaining("MAN");
+                               .singleElement(as(THROWABLE))
+                               .hasMessageContaining("[assertThatObject#satisfiesAnyOf] ")
+                               .hasMessageContaining("HOBBIT")
+                               .hasMessageContaining("ELF")
+                               .hasMessageContaining("MAN");
   }
 
   @Nested

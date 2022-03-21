@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.ByteArrayAssert;
 import org.assertj.core.api.ByteArrayAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link ByteArrayAssert#isSorted()}</code>.
  * 

@@ -51,7 +51,7 @@ class ObjectArrayAssert_extractingResultOf_Test {
   @BeforeAll
   static void setUpOnce() {
     yoda = new FluentJedi(new Name("Yoda"), 800, false);
-    vader = new FluentJedi(new Name("Darth Vader"), 50 ,true);
+    vader = new FluentJedi(new Name("Darth Vader"), 50, true);
     jedis = array(yoda, vader);
   }
 
@@ -141,4 +141,3 @@ class ObjectArrayAssert_extractingResultOf_Test {
     assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
   }
 }
-

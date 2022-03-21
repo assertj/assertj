@@ -18,7 +18,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.assertj.core.internal.Integers;
 
-
 public abstract class AtomicIntegerAssertBaseTest extends BaseTestTemplate<AtomicIntegerAssert, AtomicInteger> {
   protected Integers integers;
 

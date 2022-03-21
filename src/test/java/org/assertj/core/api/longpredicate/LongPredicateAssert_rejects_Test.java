@@ -56,7 +56,8 @@ class LongPredicateAssert_rejects_Test extends LongPredicateAssertBaseTest {
     Predicate<Long> wrapPredicate = predicate::test;
     long expectedValue = 2;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).rejects(expectedValue))
-                                                   .withMessage(shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
+                                                   .withMessage(shouldNotAccept(wrapPredicate, expectedValue,
+                                                                                PredicateDescription.GIVEN).create());
   }
 
   @Test
@@ -64,8 +65,10 @@ class LongPredicateAssert_rejects_Test extends LongPredicateAssertBaseTest {
     LongPredicate predicate = val -> val <= 2;
     Predicate<Long> wrapPredicate = predicate::test;
     long expectedValue = 2;
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).as(new TextDescription("test")).rejects(expectedValue))
-                                                   .withMessage("[test] " + shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).as(new TextDescription("test"))
+                                                                                          .rejects(expectedValue))
+                                                   .withMessage("[test] " + shouldNotAccept(wrapPredicate, expectedValue,
+                                                                                            PredicateDescription.GIVEN).create());
   }
 
   @Test
@@ -74,7 +77,8 @@ class LongPredicateAssert_rejects_Test extends LongPredicateAssertBaseTest {
     long[] matchValues = new long[] { 1L, 2L, 3L };
     List<Long> matchValuesList = LongStream.of(matchValues).boxed().collect(Collectors.toList());
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).rejects(matchValues))
-                                                   .withMessage(noElementsShouldMatch(matchValuesList, 1L, PredicateDescription.GIVEN).create());
+                                                   .withMessage(noElementsShouldMatch(matchValuesList, 1L,
+                                                                                      PredicateDescription.GIVEN).create());
   }
 
   @Test

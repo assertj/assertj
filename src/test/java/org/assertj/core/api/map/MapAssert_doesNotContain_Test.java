@@ -22,7 +22,6 @@ import org.assertj.core.api.MapAssertBaseTest;
 import org.assertj.core.data.MapEntry;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link MapAssert#doesNotContain(MapEntry...)}</code>.
  * 
@@ -41,9 +40,9 @@ class MapAssert_doesNotContain_Test extends MapAssertBaseTest {
     MapEntry<String, String>[] entries = array(entry("key1", "value1"), entry("key2", "value2"));
     verify(maps).assertDoesNotContain(getInfo(assertions), getActual(assertions), entries);
   }
-  
+
   @Test
   void invoke_api_like_user() {
-     assertThat(map("key1", "value1")).doesNotContain(entry("key2", "value2"), entry("key3", "value3"));
+    assertThat(map("key1", "value1")).doesNotContain(entry("key2", "value2"), entry("key3", "value3"));
   }
 }

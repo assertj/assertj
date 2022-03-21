@@ -18,7 +18,6 @@ import static org.mockito.Mockito.mock;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.ObjectArrays;
 
-
 /**
  * Base class for {@link ObjectArrayAssert} tests.
  * 
@@ -42,7 +41,7 @@ public abstract class ObjectArrayAssertBaseTest extends BaseTestTemplate<ObjectA
     assertions.arrays = arrays;
     assertions.iterables = iterables;
   }
-  
+
   protected ObjectArrays getArrays(ObjectArrayAssert<Object> someAssertions) {
     return someAssertions.arrays;
   }

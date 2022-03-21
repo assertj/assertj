@@ -36,5 +36,5 @@ class AtomicBooleanAssert_customRepresentation_Test {
       return "@" + s + "@";
     }
   }
-  
+
 }

@@ -37,7 +37,8 @@ class AtomicMarkableReferenceAssert_hasValue_Test {
   void should_fail_if_expected_value_is_null_and_does_not_contain_expected_value() {
     AtomicMarkableReference<String> actual = new AtomicMarkableReference<>("actual", true);
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasReference(null))
-                                                   .withMessage(shouldHaveReference(actual, actual.getReference(), null).create());
+                                                   .withMessage(shouldHaveReference(actual, actual.getReference(),
+                                                                                    null).create());
   }
 
   @Test
@@ -45,7 +46,8 @@ class AtomicMarkableReferenceAssert_hasValue_Test {
     AtomicMarkableReference<String> actual = new AtomicMarkableReference<>("actual", true);
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasReference(expectedValue))
-                                                   .withMessage(shouldHaveReference(actual, actual.getReference(), expectedValue).create());
+                                                   .withMessage(shouldHaveReference(actual, actual.getReference(),
+                                                                                    expectedValue).create());
   }
 
   @Test
@@ -74,7 +76,8 @@ class AtomicMarkableReferenceAssert_hasValue_Test {
   @Test
   void should_fail_if_atomicMarkableReference_contains_expected_value_and_is_marked() {
     AtomicMarkableReference<String> actual = new AtomicMarkableReference<>(expectedValue, true);
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasReference(expectedValue).isNotMarked().isMarked())
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasReference(expectedValue).isNotMarked()
+                                                                                       .isMarked())
                                                    .withMessage(shouldNotBeMarked(actual).create());
   }
 }

@@ -21,8 +21,7 @@ import org.assertj.core.internal.OffsetDateTimeByInstantComparator;
 class OffsetDateTimeAssert_defaultComparator_Test extends AbstractOffsetDateTimeAssertBaseTest {
 
   @Override
-  protected void inject_internal_objects() {
-  }
+  protected void inject_internal_objects() {}
 
   @Override
   protected OffsetDateTimeAssert invoke_api_method() {

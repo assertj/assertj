@@ -84,7 +84,7 @@ class AbstractAssert_satisfiesAnyOf_ThrowingConsumers_Test extends AbstractAsser
     // THEN
     then(new FileReader("src/test/resources/ascii.txt")).satisfiesAnyOf(hasNotReachedEOF, notNullObject);
   }
-  
+
   @Test
   void should_fail_if_all_of_the_given_assertions_groups_fail() {
     // GIVEN

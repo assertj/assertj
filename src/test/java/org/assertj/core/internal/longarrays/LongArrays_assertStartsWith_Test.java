@@ -29,7 +29,6 @@ import org.assertj.core.internal.LongArrays;
 import org.assertj.core.internal.LongArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link LongArrays#assertStartsWith(AssertionInfo, long[], long[])}</code>.
  * 
@@ -118,12 +117,16 @@ class LongArrays_assertStartsWith_Test extends LongArraysBaseTest {
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(),
+                                                                                                                         actual,
+                                                                                                                         emptyArray()));
   }
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), null, arrayOf(-8L)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(),
+                                                                                                                         null,
+                                                                                                                         arrayOf(-8L)))
                                                    .withMessage(actualIsNull());
   }
 

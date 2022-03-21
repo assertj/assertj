@@ -29,7 +29,6 @@ import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.BigDecimalsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link BigDecimals#assertGreaterThanOrEqualTo(AssertionInfo, BigDecimal, bigdecimal)}</code>.
  * 
@@ -57,7 +56,7 @@ class BigDecimals_assertGreaterThanOrEqualTo_Test extends BigDecimalsBaseTest {
   void should_pass_if_actual_is_equal_to_other_by_comparison() {
     numbers.assertGreaterThanOrEqualTo(someInfo(), ONE, new BigDecimal("1.00"));
   }
-  
+
   @Test
   void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
@@ -86,7 +85,8 @@ class BigDecimals_assertGreaterThanOrEqualTo_Test extends BigDecimalsBaseTest {
   void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(info, ONE, TEN.negate()));
+    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(info, ONE,
+                                                                                                            TEN.negate()));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeGreaterOrEqual(ONE, TEN.negate(), absValueComparisonStrategy));

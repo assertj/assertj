@@ -79,7 +79,7 @@ class Iterables_assertAllSatisfy_Test extends IterablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       actual = null;
       assertThat(actual).allSatisfy(null);
     }).withMessage(actualIsNull());

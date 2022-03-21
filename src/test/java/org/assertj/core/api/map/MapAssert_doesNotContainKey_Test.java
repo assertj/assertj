@@ -18,7 +18,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link MapAssert#doesNotContainKey(Object)}</code>.
  *

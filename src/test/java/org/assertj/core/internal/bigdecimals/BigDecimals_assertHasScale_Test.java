@@ -28,7 +28,7 @@ class BigDecimals_assertHasScale_Test extends BigDecimalsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    //GIVEN
+    // GIVEN
     BigDecimal nullBigDecimal = null;
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> numbers.assertHasScale(info, nullBigDecimal, 0));

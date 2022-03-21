@@ -16,7 +16,6 @@ import java.time.LocalDate;
 
 import org.assertj.core.api.AbstractLocalDateAssert;
 
-
 /**
  * 
  * Base test class for {@link AbstractLocalDateAssert} tests.

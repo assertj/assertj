@@ -49,8 +49,8 @@ public class IterableAssert_map_with_throwing_extractor_Test {
   @Test
   void should_allow_assertions_on_tuple_values_extracted_by_given_throwing_extractors() {
     then(hobbits).map(nameThrowingExtractor, raceThrowingExtractor)
-                 .containsExactly(tuple("Frodo", HOBBIT), 
-                                  tuple("Sam", HOBBIT), 
+                 .containsExactly(tuple("Frodo", HOBBIT),
+                                  tuple("Sam", HOBBIT),
                                   tuple("Pippin", HOBBIT));
   }
 

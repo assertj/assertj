@@ -27,7 +27,6 @@ import org.assertj.core.internal.DoubleArraysBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link DoubleArrays#assertIsSortedAccordingToComparator(AssertionInfo, double[], Comparator)}</code>
  * 
@@ -61,7 +60,8 @@ class DoubleArrays_assertIsSortedAccordingToComparator_Test extends DoubleArrays
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), null, doubleDescendingOrderComparator))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), null,
+                                                                                                                doubleDescendingOrderComparator))
                                                    .withMessage(actualIsNull());
   }
 
@@ -73,8 +73,11 @@ class DoubleArrays_assertIsSortedAccordingToComparator_Test extends DoubleArrays
   @Test
   void should_fail_if_actual_is_not_sorted_according_to_given_comparator() {
     actual = new double[] { 3.0, 2.0, 1.0, 9.0 };
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), actual, doubleDescendingOrderComparator))
-                                                   .withMessage(shouldBeSortedAccordingToGivenComparator(2, actual, doubleDescendingOrderComparator).create());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(),
+                                                                                                                actual,
+                                                                                                                doubleDescendingOrderComparator))
+                                                   .withMessage(shouldBeSortedAccordingToGivenComparator(2, actual,
+                                                                                                         doubleDescendingOrderComparator).create());
   }
 
 }

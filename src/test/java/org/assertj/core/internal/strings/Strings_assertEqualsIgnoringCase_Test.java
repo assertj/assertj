@@ -22,7 +22,6 @@ import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Strings#assertEqualsIgnoringCase(AssertionInfo, CharSequence, CharSequence)}</code>.
  * 
@@ -72,13 +71,17 @@ class Strings_assertEqualsIgnoringCase_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_and_expected_is_not_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertEqualsIgnoringCase(someInfo(), null, "Luke"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertEqualsIgnoringCase(someInfo(),
+                                                                                                                                           null,
+                                                                                                                                           "Luke"))
                                                    .withMessage(shouldBeEqual(null, "Luke").create());
   }
 
   @Test
   void should_fail_if_both_Strings_are_not_equal_regardless_of_case_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertEqualsIgnoringCase(someInfo(), "Yoda", "Luke"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertEqualsIgnoringCase(someInfo(),
+                                                                                                                                           "Yoda",
+                                                                                                                                           "Luke"))
                                                    .withMessage(shouldBeEqual("Yoda", "Luke").create());
   }
 
@@ -96,7 +99,8 @@ class Strings_assertEqualsIgnoringCase_Test extends StringsBaseTest {
   @Test
   void should_pass_if_both_Strings_are_equal_but_not_same_whatever_custom_comparison_strategy_is() {
     stringsWithCaseInsensitiveComparisonStrategy.assertEqualsIgnoringCase(someInfo(), "Yoda", new String(
-        arrayOf('Y', 'o', 'd', 'a')));
+                                                                                                         arrayOf('Y', 'o', 'd',
+                                                                                                                 'a')));
   }
 
   @Test

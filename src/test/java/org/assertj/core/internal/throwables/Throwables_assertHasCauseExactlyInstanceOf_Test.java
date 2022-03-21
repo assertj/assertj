@@ -43,7 +43,8 @@ class Throwables_assertHasCauseExactlyInstanceOf_Test extends ThrowablesBaseTest
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasCauseExactlyInstanceOf(someInfo(), null, IllegalArgumentException.class))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasCauseExactlyInstanceOf(someInfo(), null,
+                                                                                                                IllegalArgumentException.class))
                                                    .withMessage(actualIsNull());
   }
 
@@ -71,7 +72,8 @@ class Throwables_assertHasCauseExactlyInstanceOf_Test extends ThrowablesBaseTest
     AssertionInfo info = someInfo();
     Class<NullPointerException> expectedCauseType = NullPointerException.class;
 
-    Throwable error = catchThrowable(() -> throwables.assertHasCauseExactlyInstanceOf(info, throwableWithCause, expectedCauseType));
+    Throwable error = catchThrowable(() -> throwables.assertHasCauseExactlyInstanceOf(info, throwableWithCause,
+                                                                                      expectedCauseType));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldHaveCauseExactlyInstance(throwableWithCause, expectedCauseType));
@@ -82,7 +84,8 @@ class Throwables_assertHasCauseExactlyInstanceOf_Test extends ThrowablesBaseTest
     AssertionInfo info = someInfo();
     Class<RuntimeException> expectedCauseType = RuntimeException.class;
 
-    Throwable error = catchThrowable(() -> throwables.assertHasCauseExactlyInstanceOf(info, throwableWithCause, expectedCauseType));
+    Throwable error = catchThrowable(() -> throwables.assertHasCauseExactlyInstanceOf(info, throwableWithCause,
+                                                                                      expectedCauseType));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldHaveCauseExactlyInstance(throwableWithCause, expectedCauseType));

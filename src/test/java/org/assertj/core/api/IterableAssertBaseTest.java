@@ -17,13 +17,12 @@ import static org.mockito.Mockito.mock;
 
 import org.assertj.core.internal.Iterables;
 
-
 /**
  * Tests for <code>{@link AbstractIterableAssert#contains(Object...)}</code>.
  * 
  * @author Joel Costigliola
  */
-public abstract class IterableAssertBaseTest extends BaseTestTemplate<ConcreteIterableAssert<Object>, Iterable<Object>>{
+public abstract class IterableAssertBaseTest extends BaseTestTemplate<ConcreteIterableAssert<Object>, Iterable<Object>> {
 
   protected Iterables iterables;
 

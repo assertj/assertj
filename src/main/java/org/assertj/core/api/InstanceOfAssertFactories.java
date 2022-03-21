@@ -200,7 +200,7 @@ public interface InstanceOfAssertFactories {
    * {@link InstanceOfAssertFactory} for an {@link Matcher}.
    */
   InstanceOfAssertFactory<Matcher, MatcherAssert> MATCHER = new InstanceOfAssertFactory<>(Matcher.class,
-    Assertions::assertThat);
+                                                                                          Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link BigDecimal}.

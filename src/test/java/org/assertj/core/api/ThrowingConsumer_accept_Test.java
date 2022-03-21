@@ -60,5 +60,5 @@ class ThrowingConsumer_accept_Test {
       throw throwable;
     };
   }
-  
+
 }

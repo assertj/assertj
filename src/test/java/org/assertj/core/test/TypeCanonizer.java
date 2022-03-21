@@ -111,7 +111,8 @@ public class TypeCanonizer {
      * Classes used as replacement types. The classes picked here are random classes, any class can be used.
      */
     static List<Class<?>> REPLACEMENT_TYPES = Arrays.asList(
-      String.class, Integer.class, Exception.class, InputStream.class, System.class);
+                                                            String.class, Integer.class, Exception.class, InputStream.class,
+                                                            System.class);
 
     private final Queue<Class<?>> classPool;
 

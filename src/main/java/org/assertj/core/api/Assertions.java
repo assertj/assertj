@@ -169,7 +169,6 @@ public class Assertions implements InstanceOfAssertFactories {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
 
-  
   /**
    * Create assertion for {@link Predicate}.
    * <p>
@@ -1567,7 +1566,8 @@ public class Assertions implements InstanceOfAssertFactories {
    * @since 3.22.0
    */
   public static ReflectiveOperationException catchReflectiveOperationException(ThrowingCallable shouldRaiseReflectiveOperationException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseReflectiveOperationException, ReflectiveOperationException.class);
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseReflectiveOperationException,
+                                                        ReflectiveOperationException.class);
   }
 
   /**
@@ -1709,7 +1709,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @since 3.23.0
    */
-  public static ThrowableTypeAssert<Exception> assertThatException(){
+  public static ThrowableTypeAssert<Exception> assertThatException() {
     return assertThatExceptionOfType(Exception.class);
   }
 
@@ -1720,7 +1720,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @since 3.23.0
    */
-  public static ThrowableTypeAssert<RuntimeException> assertThatRuntimeException(){
+  public static ThrowableTypeAssert<RuntimeException> assertThatRuntimeException() {
     return assertThatExceptionOfType(RuntimeException.class);
   }
 
@@ -1731,7 +1731,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @since 3.23.0
    */
-  public static ThrowableTypeAssert<ReflectiveOperationException> assertThatReflectiveOperationException(){
+  public static ThrowableTypeAssert<ReflectiveOperationException> assertThatReflectiveOperationException() {
     return assertThatExceptionOfType(ReflectiveOperationException.class);
   }
 
@@ -1742,7 +1742,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @since 3.23.0
    */
-  public static ThrowableTypeAssert<IndexOutOfBoundsException> assertThatIndexOutOfBoundsException(){
+  public static ThrowableTypeAssert<IndexOutOfBoundsException> assertThatIndexOutOfBoundsException() {
     return assertThatExceptionOfType(IndexOutOfBoundsException.class);
   }
 

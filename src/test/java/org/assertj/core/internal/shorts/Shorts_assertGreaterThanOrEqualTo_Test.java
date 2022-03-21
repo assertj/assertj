@@ -25,7 +25,6 @@ import org.assertj.core.internal.Shorts;
 import org.assertj.core.internal.ShortsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Shorts#assertGreaterThanOrEqualTo(AssertionInfo, Short, short)}</code>.
  * 
@@ -36,7 +35,8 @@ class Shorts_assertGreaterThanOrEqualTo_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertGreaterThanOrEqualTo(someInfo(), null, (short) 8))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertGreaterThanOrEqualTo(someInfo(), null,
+                                                                                                       (short) 8))
                                                    .withMessage(actualIsNull());
   }
 
@@ -62,7 +62,9 @@ class Shorts_assertGreaterThanOrEqualTo_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), null, (short) 8))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(),
+                                                                                                                                     null,
+                                                                                                                                     (short) 8))
                                                    .withMessage(actualIsNull());
   }
 
@@ -80,7 +82,8 @@ class Shorts_assertGreaterThanOrEqualTo_Test extends ShortsBaseTest {
   void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> shortsWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(info, (short) 6, (short) -8));
+    Throwable error = catchThrowable(() -> shortsWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(info, (short) 6,
+                                                                                                           (short) -8));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeGreaterOrEqual((short) 6, (short) -8, absValueComparisonStrategy));

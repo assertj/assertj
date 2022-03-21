@@ -31,7 +31,6 @@ import org.assertj.core.internal.Lists;
 import org.assertj.core.internal.ListsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Lists#assertIsSortedAccordingToComparator(AssertionInfo, List, Comparator)}</code>.
  * 
@@ -45,13 +44,15 @@ class Lists_assertIsSortedAccordingToComparator_Test extends ListsBaseTest {
   @Test
   void should_pass_if_actual_is_sorted_according_to_given_comparator() {
     lists.assertIsSortedAccordingToComparator(someInfo(), newArrayList("Yoda", "Vador", "Luke", "Leia", "Leia"),
-        stringDescendingOrderComparator);
+                                              stringDescendingOrderComparator);
   }
 
   @Test
   void should_pass_if_actual_is_sorted_according_to_given_comparator_whatever_custom_comparison_strategy_is() {
     listsWithCaseInsensitiveComparisonStrategy.assertIsSortedAccordingToComparator(someInfo(),
-        newArrayList("Yoda", "Vador", "Luke", "Leia", "Leia"), stringDescendingOrderComparator);
+                                                                                   newArrayList("Yoda", "Vador", "Luke", "Leia",
+                                                                                                "Leia"),
+                                                                                   stringDescendingOrderComparator);
   }
 
   @Test
@@ -67,13 +68,15 @@ class Lists_assertIsSortedAccordingToComparator_Test extends ListsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.assertIsSortedAccordingToComparator(someInfo(), null, comparator))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.assertIsSortedAccordingToComparator(someInfo(), null,
+                                                                                                               comparator))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_comparator_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> lists.assertIsSortedAccordingToComparator(someInfo(), newArrayList(), null));
+    assertThatNullPointerException().isThrownBy(() -> lists.assertIsSortedAccordingToComparator(someInfo(), newArrayList(),
+                                                                                                null));
   }
 
   @Test
@@ -81,7 +84,8 @@ class Lists_assertIsSortedAccordingToComparator_Test extends ListsBaseTest {
     AssertionInfo info = someInfo();
     List<String> actual = newArrayList("Yoda", "Vador", "Leia", "Leia", "Luke");
 
-    Throwable error = catchThrowable(() -> lists.assertIsSortedAccordingToComparator(info, actual, stringDescendingOrderComparator));
+    Throwable error = catchThrowable(() -> lists.assertIsSortedAccordingToComparator(info, actual,
+                                                                                     stringDescendingOrderComparator));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(3, actual, stringDescendingOrderComparator));
@@ -95,11 +99,12 @@ class Lists_assertIsSortedAccordingToComparator_Test extends ListsBaseTest {
     actual.add(new Integer(5));
     actual.add("foo");
 
-    Throwable error = catchThrowable(() -> lists.assertIsSortedAccordingToComparator(info, actual, stringDescendingOrderComparator));
+    Throwable error = catchThrowable(() -> lists.assertIsSortedAccordingToComparator(info, actual,
+                                                                                     stringDescendingOrderComparator));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-        shouldHaveComparableElementsAccordingToGivenComparator(actual, stringDescendingOrderComparator));
+                             shouldHaveComparableElementsAccordingToGivenComparator(actual, stringDescendingOrderComparator));
   }
 
   @Test
@@ -107,11 +112,12 @@ class Lists_assertIsSortedAccordingToComparator_Test extends ListsBaseTest {
     AssertionInfo info = someInfo();
     List<Object> actual = newArrayList(new Object());
 
-    Throwable error = catchThrowable(() -> lists.assertIsSortedAccordingToComparator(info, actual, stringDescendingOrderComparator));
+    Throwable error = catchThrowable(() -> lists.assertIsSortedAccordingToComparator(info, actual,
+                                                                                     stringDescendingOrderComparator));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-        shouldHaveComparableElementsAccordingToGivenComparator(actual, stringDescendingOrderComparator));
+                             shouldHaveComparableElementsAccordingToGivenComparator(actual, stringDescendingOrderComparator));
   }
 
 }

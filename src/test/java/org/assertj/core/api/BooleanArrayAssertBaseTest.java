@@ -17,7 +17,6 @@ import static org.mockito.Mockito.mock;
 
 import org.assertj.core.internal.BooleanArrays;
 
-
 /**
  * Base class for {@link BooleanArrayAssert} tests.
  * 
@@ -37,7 +36,7 @@ public abstract class BooleanArrayAssertBaseTest extends BaseTestTemplate<Boolea
     arrays = mock(BooleanArrays.class);
     assertions.arrays = arrays;
   }
-  
+
   protected BooleanArrays getArrays(BooleanArrayAssert someAssertions) {
     return someAssertions.arrays;
   }

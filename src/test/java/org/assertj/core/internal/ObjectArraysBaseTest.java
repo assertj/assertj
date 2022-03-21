@@ -22,7 +22,6 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.BeforeEach;
 
-
 /**
  * Base class for testing <code>{@link ObjectArrays}</code>, set up an instance with {@link StandardComparisonStrategy} and
  * another with {@link ComparatorBasedComparisonStrategy}.

@@ -362,12 +362,15 @@ class IterableAssert_extracting_with_SortedSet_Test {
 
   @Test
   void should_use_property_field_names_as_description_when_extracting_simple_value_list() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extracting("name.first").isEmpty()).withMessageContaining("[Extracted: name.first]");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extracting("name.first").isEmpty())
+                                                   .withMessageContaining("[Extracted: name.first]");
   }
 
   @Test
   void should_use_property_field_names_as_description_when_extracting_typed_simple_value_list() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extracting("name.first", String.class).isEmpty()).withMessageContaining("[Extracted: name.first]");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extracting("name.first", String.class)
+                                                                                      .isEmpty())
+                                                   .withMessageContaining("[Extracted: name.first]");
   }
 
   @Test

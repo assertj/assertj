@@ -27,8 +27,10 @@ class Preconditions_checkNotNull_GenericObject_Test {
 
   @Test
   void should_throw_nullpointerexception_if_object_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> {Object object = null;
-    Preconditions.checkNotNull(object);});
+    assertThatNullPointerException().isThrownBy(() -> {
+      Object object = null;
+      Preconditions.checkNotNull(object);
+    });
   }
 
   @Test

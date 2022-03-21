@@ -18,7 +18,6 @@ import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link AbstractIterableAssert#containsExactlyInAnyOrder(Object...)}</code>.
  * 
@@ -33,7 +32,7 @@ class IterableAssert_containsExactlyInAnyOrder_Test extends IterableAssertBaseTe
 
   @Override
   protected void verify_internal_effects() {
-    Object[] values = {"Yoda", "Luke", "Yoda"};
+    Object[] values = { "Yoda", "Luke", "Yoda" };
     verify(iterables).assertContainsExactlyInAnyOrder(getInfo(assertions), getActual(assertions), values);
   }
 }

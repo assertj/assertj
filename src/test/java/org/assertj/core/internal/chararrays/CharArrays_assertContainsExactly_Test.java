@@ -59,12 +59,14 @@ class CharArrays_assertContainsExactly_Test extends CharArraysBaseTest {
 
   @Test
   void should_fail_if_arrays_have_different_sizes() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, arrayOf('a', 'b')));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual,
+                                                                                                  arrayOf('a', 'b')));
   }
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual,
+                                                                                                  emptyArray()));
   }
 
   @Test
@@ -117,7 +119,8 @@ class CharArrays_assertContainsExactly_Test extends CharArraysBaseTest {
     AssertionInfo info = someInfo();
     char[] expected = { 'A', 'c', 'b' };
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, expected));
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual,
+                                                                                                    expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, elementsDifferAtIndex('b', 'c', 1, caseInsensitiveComparisonStrategy));
@@ -133,14 +136,16 @@ class CharArrays_assertContainsExactly_Test extends CharArraysBaseTest {
   @Test
   void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(),
-                                                                                                                                    actual,
-                                                                                                                                    null))
-                                                         .withMessage(valuesToLookForIsNull());
+                                                                                                               actual,
+                                                                                                               null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), null, arrayOf('b')))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(),
+                                                                                                                              null,
+                                                                                                                              arrayOf('b')))
                                                    .withMessage(actualIsNull());
   }
 
@@ -154,7 +159,7 @@ class CharArrays_assertContainsExactly_Test extends CharArraysBaseTest {
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
                              shouldContainExactly(actual, asList(expected), newArrayList('e'), newArrayList('c'),
-                                                        caseInsensitiveComparisonStrategy));
+                                                  caseInsensitiveComparisonStrategy));
   }
 
   @Test

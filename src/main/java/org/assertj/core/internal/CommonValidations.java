@@ -113,7 +113,7 @@ public final class CommonValidations {
   }
 
   static void checkOtherIsNotNull(Object other, String otherType) {
-    requireNonNull(other, "The "+ otherType +" to compare actual size with should not be null");
+    requireNonNull(other, "The " + otherType + " to compare actual size with should not be null");
   }
 
   static void checkSameSizes(AssertionInfo info, Object actual, Object other, int sizeOfActual, int sizeOfOther) {

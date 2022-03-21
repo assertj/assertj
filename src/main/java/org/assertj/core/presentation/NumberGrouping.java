@@ -51,7 +51,6 @@ final class NumberGrouping {
     return sb.length() != 0;
   }
 
-  private NumberGrouping() {
-  }
+  private NumberGrouping() {}
 
 }

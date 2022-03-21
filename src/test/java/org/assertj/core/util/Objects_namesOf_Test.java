@@ -41,7 +41,7 @@ class Objects_namesOf_Test {
     String[] e = { String.class.getName(), Integer.class.getName() };
     String[] a = Objects.namesOf(String.class, Integer.class);
     assertThat(Arrays.equals(e, a))
-        .as("expected:<%s> but got:<%s>", Arrays.toString(e), Arrays.toString(a))
-        .isTrue();
+                                   .as("expected:<%s> but got:<%s>", Arrays.toString(e), Arrays.toString(a))
+                                   .isTrue();
   }
 }

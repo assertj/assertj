@@ -32,7 +32,8 @@ public class AtomicReferenceArrayElementComparisonStrategy<T> extends StandardCo
     if (actual == null && other == null) return true;
     if (actual == null || other == null) return false;
     // expecting actual and other to be T[]
-    return actual instanceof AtomicReferenceArray && isArray(other) && compareElementsOf((AtomicReferenceArray<T>) actual, (T[]) other);
+    return actual instanceof AtomicReferenceArray && isArray(other)
+           && compareElementsOf((AtomicReferenceArray<T>) actual, (T[]) other);
   }
 
   private boolean compareElementsOf(AtomicReferenceArray<T> actual, T[] other) {
@@ -48,7 +49,7 @@ public class AtomicReferenceArrayElementComparisonStrategy<T> extends StandardCo
   public String toString() {
     return "AtomicReferenceArrayElementComparisonStrategy using " + CONFIGURATION_PROVIDER.representation()
                                                                                           .toStringOf(
-                                                                                            elementComparator);
+                                                                                                      elementComparator);
   }
 
   @Override

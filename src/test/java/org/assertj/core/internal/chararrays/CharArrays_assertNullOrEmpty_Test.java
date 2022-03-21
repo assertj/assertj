@@ -24,7 +24,6 @@ import org.assertj.core.internal.CharArrays;
 import org.assertj.core.internal.CharArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link CharArrays#assertNullOrEmpty(AssertionInfo, char[])}</code>.
  * 

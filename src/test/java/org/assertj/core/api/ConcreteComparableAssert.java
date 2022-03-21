@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-
 /**
  * @author Alex Ruiz
  */

@@ -21,7 +21,7 @@ import org.assertj.core.api.UriAssertBaseTest;
  * Test for <code>{@link org.assertj.core.api.UriAssert#hasUserInfo(String)}  </code>.
  */
 class UriAssert_hasUserInfo_Test extends UriAssertBaseTest {
-  private  String expected = "user-info";
+  private String expected = "user-info";
 
   @Override
   protected UriAssert invoke_api_method() {

@@ -70,7 +70,8 @@ class DoubleArrays_assertContainsOnlyOnce_Test extends DoubleArraysBaseTest {
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), actual,
+                                                                                                   emptyArray()));
   }
 
   @Test
@@ -89,7 +90,9 @@ class DoubleArrays_assertContainsOnlyOnce_Test extends DoubleArraysBaseTest {
   void should_fail_if_actual_does_not_contain_given_values_only() {
     double[] expected = { 6, 8, 20 };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), actual, expected))
-                                                   .withMessage( shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((double) 20), newLinkedHashSet()).create());
+                                                   .withMessage(shouldContainsOnlyOnce(actual, expected,
+                                                                                       newLinkedHashSet((double) 20),
+                                                                                       newLinkedHashSet()).create());
   }
 
   @Test
@@ -123,7 +126,9 @@ class DoubleArrays_assertContainsOnlyOnce_Test extends DoubleArraysBaseTest {
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(),
+                                                                                                                               actual,
+                                                                                                                               emptyArray()));
   }
 
   @Test
@@ -136,15 +141,18 @@ class DoubleArrays_assertContainsOnlyOnce_Test extends DoubleArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), null, arrayOf(-8)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(),
+                                                                                                                               null,
+                                                                                                                               arrayOf(-8)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
     double[] expected = { 6, -8, 20 };
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> 
-    arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, expected))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(),
+                                                                                                                               actual,
+                                                                                                                               expected))
                                                    .withMessage(format(shouldContainsOnlyOnce(actual, expected,
                                                                                               newLinkedHashSet((double) 20),
                                                                                               newLinkedHashSet(),

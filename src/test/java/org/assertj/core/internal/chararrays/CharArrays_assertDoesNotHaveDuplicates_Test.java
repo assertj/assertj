@@ -28,7 +28,6 @@ import org.assertj.core.internal.CharArrays;
 import org.assertj.core.internal.CharArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link CharArrays#assertDoesNotHaveDuplicates(AssertionInfo, char[])}</code>.
  * 
@@ -81,7 +80,8 @@ class CharArrays_assertDoesNotHaveDuplicates_Test extends CharArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(), null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(),
+                                                                                                                                    null))
                                                    .withMessage(actualIsNull());
   }
 
@@ -93,6 +93,7 @@ class CharArrays_assertDoesNotHaveDuplicates_Test extends CharArraysBaseTest {
     Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(info, actual));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotHaveDuplicates(actual, newLinkedHashSet('A', 'b'), caseInsensitiveComparisonStrategy));
+    verify(failures).failure(info,
+                             shouldNotHaveDuplicates(actual, newLinkedHashSet('A', 'b'), caseInsensitiveComparisonStrategy));
   }
 }

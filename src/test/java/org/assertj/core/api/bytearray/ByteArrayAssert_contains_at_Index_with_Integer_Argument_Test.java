@@ -22,7 +22,6 @@ import org.assertj.core.api.ByteArrayAssertBaseTest;
 import org.assertj.core.data.Index;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link ByteArrayAssert#contains(int, Index)}</code>.
  */

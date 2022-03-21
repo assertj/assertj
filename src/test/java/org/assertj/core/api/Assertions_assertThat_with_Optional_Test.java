@@ -28,22 +28,22 @@ import org.junit.jupiter.api.Test;
  */
 class Assertions_assertThat_with_Optional_Test {
 
-    private Optional<String> actual;
+  private Optional<String> actual;
 
-    @BeforeEach
-    void before(){
-        actual = Optional.of("String");
-    }
+  @BeforeEach
+  void before() {
+    actual = Optional.of("String");
+  }
 
-    @Test
-    void should_create_Assert() {
-        OptionalAssert<String> assertions = Assertions.assertThat(actual);
-        assertThat(assertions).isNotNull();
-    }
+  @Test
+  void should_create_Assert() {
+    OptionalAssert<String> assertions = Assertions.assertThat(actual);
+    assertThat(assertions).isNotNull();
+  }
 
-    @Test
-    void should_pass_actual() {
-        OptionalAssert<String> assertions = Assertions.assertThat(actual);
-        assertThat(actual).isSameAs(assertions.actual);
-    }
+  @Test
+  void should_pass_actual() {
+    OptionalAssert<String> assertions = Assertions.assertThat(actual);
+    assertThat(actual).isSameAs(assertions.actual);
+  }
 }

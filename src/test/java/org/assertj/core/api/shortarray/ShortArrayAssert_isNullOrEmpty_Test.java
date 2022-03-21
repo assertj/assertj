@@ -25,7 +25,6 @@ import org.junit.jupiter.api.Test;
  */
 class ShortArrayAssert_isNullOrEmpty_Test extends ShortArrayAssertBaseTest {
 
-
   @Override
   protected ShortArrayAssert invoke_api_method() {
     assertions.isNullOrEmpty();
@@ -36,8 +35,7 @@ class ShortArrayAssert_isNullOrEmpty_Test extends ShortArrayAssertBaseTest {
   protected void verify_internal_effects() {
     verify(arrays).assertNullOrEmpty(getInfo(assertions), getActual(assertions));
   }
-  
-  
+
   @Override
   @Test
   public void should_return_this() {

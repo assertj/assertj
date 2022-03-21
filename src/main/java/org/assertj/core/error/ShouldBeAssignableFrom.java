@@ -30,12 +30,12 @@ public class ShouldBeAssignableFrom extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeAssignableFrom(Class<?> actual, Set<Class<?>> expectedAssignableFrom,
-      Set<Class<?>> missingAssignableFrom) {
+                                                           Set<Class<?>> missingAssignableFrom) {
     return new ShouldBeAssignableFrom(actual, expectedAssignableFrom, missingAssignableFrom);
   }
 
   private ShouldBeAssignableFrom(Class<?> actual, Set<Class<?>> expectedAssignableFrom,
-      Set<Class<?>> missingAssignableFrom) {
+                                 Set<Class<?>> missingAssignableFrom) {
     super("%nExpecting%n  %s%nto be assignable from:%n  %s%nbut was not assignable from:%n  %s", actual,
           expectedAssignableFrom, missingAssignableFrom);
   }

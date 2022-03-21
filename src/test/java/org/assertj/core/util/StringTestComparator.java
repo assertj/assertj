@@ -21,4 +21,3 @@ public final class StringTestComparator implements Comparator<String> {
     return s1.length() - s2.length();
   }
 }
-

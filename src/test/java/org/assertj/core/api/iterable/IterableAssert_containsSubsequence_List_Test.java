@@ -41,7 +41,7 @@ class IterableAssert_containsSubsequence_List_Test extends IterableAssertBaseTes
 
   @Override
   protected void verify_internal_effects() {
-	  verify(iterables).assertContainsSubsequence(getInfo(assertions), getActual(assertions), array("Luke", "Leia"));
+    verify(iterables).assertContainsSubsequence(getInfo(assertions), getActual(assertions), array("Luke", "Leia"));
   }
 
   @Test

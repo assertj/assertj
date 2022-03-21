@@ -19,7 +19,6 @@ import java.math.BigInteger;
 import org.assertj.core.api.BigIntegerAssert;
 import org.assertj.core.api.BigIntegerAssertBaseTest;
 
-
 class BigIntegerAssert_isEqualToWithLongParameter_Test extends BigIntegerAssertBaseTest {
 
   private static final long LONG = 1L;

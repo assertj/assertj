@@ -61,7 +61,9 @@ class Strings_assertDoesNotEndWith_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_ends_with_suffix_according_to_custom_comparison_strategy() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotEndWith(someInfo(), "Yoda", "A"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotEndWith(someInfo(),
+                                                                                                                                       "Yoda",
+                                                                                                                                       "A"))
                                                    .withMessage(shouldNotEndWith("Yoda", "A", comparisonStrategy).create());
   }
 

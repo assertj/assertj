@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.LongAssert;
 import org.assertj.core.api.LongAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link LongAssert#isGreaterThan(long)}</code>.
  * 

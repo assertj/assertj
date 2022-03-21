@@ -22,7 +22,6 @@ import org.assertj.core.internal.DoubleArrays;
 import org.assertj.core.internal.DoubleArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link DoubleArrays#assertHasSize(AssertionInfo, double[], int)}</code>.
  * 

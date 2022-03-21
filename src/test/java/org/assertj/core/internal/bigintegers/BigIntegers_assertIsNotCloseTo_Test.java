@@ -66,7 +66,8 @@ class BigIntegers_assertIsNotCloseTo_Test extends BigIntegersBaseTest {
   void should_fail_if_difference_is_less_than_given_offset() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, ONE, FIVE, within(TEN)));
+    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, ONE, FIVE,
+                                                                                                    within(TEN)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotBeEqual(ONE, FIVE, within(TEN), FIVE.subtract(ONE)));
@@ -76,7 +77,8 @@ class BigIntegers_assertIsNotCloseTo_Test extends BigIntegersBaseTest {
   void should_fail_if_difference_is_less_than_given_strict_offset() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, ONE, FIVE, byLessThan(TEN)));
+    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, ONE, FIVE,
+                                                                                                    byLessThan(TEN)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotBeEqual(ONE, FIVE, byLessThan(TEN), FIVE.subtract(ONE)));
@@ -106,7 +108,8 @@ class BigIntegers_assertIsNotCloseTo_Test extends BigIntegersBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsNotCloseTo(someInfo(), null, ONE,
+                                                                                                byLessThan(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
@@ -131,7 +134,8 @@ class BigIntegers_assertIsNotCloseTo_Test extends BigIntegersBaseTest {
   void should_fail_if_difference_is_less_than_given_offset_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, FIVE, FIVE, byLessThan(ONE)));
+    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, FIVE, FIVE,
+                                                                                                    byLessThan(ONE)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotBeEqual(FIVE, FIVE, byLessThan(ONE), FIVE.subtract(FIVE)));
@@ -139,7 +143,10 @@ class BigIntegers_assertIsNotCloseTo_Test extends BigIntegersBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(someInfo(),
+                                                                                                                              null,
+                                                                                                                              ONE,
+                                                                                                                              byLessThan(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
@@ -147,7 +154,8 @@ class BigIntegers_assertIsNotCloseTo_Test extends BigIntegersBaseTest {
   void should_fail_if_big_integers_are_equal_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, FIVE, FIVE, byLessThan(ONE)));
+    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, FIVE, FIVE,
+                                                                                                    byLessThan(ONE)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotBeEqual(FIVE, FIVE, byLessThan(ONE), FIVE.subtract(FIVE)));

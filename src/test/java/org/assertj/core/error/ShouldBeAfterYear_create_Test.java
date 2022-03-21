@@ -34,10 +34,10 @@ class ShouldBeAfterYear_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-      "Expecting year of:%n" +
-      "  2011-01-01T00:00:00.000 (java.util.Date)%n" +
-      "to be strictly after year:%n" +
-      "  2011%n"));
+                                   "Expecting year of:%n" +
+                                   "  2011-01-01T00:00:00.000 (java.util.Date)%n" +
+                                   "to be strictly after year:%n" +
+                                   "  2011%n"));
   }
 
   @Test
@@ -49,11 +49,11 @@ class ShouldBeAfterYear_create_Test {
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo("[Test] %n" +
-        "Expecting year of:%n" +
-        "  2011-01-01T00:00:00.000 (java.util.Date)%n" +
-        "to be strictly after year:%n" +
-        "  2012%n" +
-        "when comparing values using '%s'",
-      NEVER_EQUALS.description());
+                            "Expecting year of:%n" +
+                            "  2011-01-01T00:00:00.000 (java.util.Date)%n" +
+                            "to be strictly after year:%n" +
+                            "  2012%n" +
+                            "when comparing values using '%s'",
+                            NEVER_EQUALS.description());
   }
 }

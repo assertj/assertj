@@ -30,7 +30,6 @@ import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.DatesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Dates#assertIsNotBetween(AssertionInfo, Date, Date, Date, boolean, boolean)}</code>.
  * 
@@ -146,11 +145,13 @@ class Dates_assertIsNotBetween_Test extends DatesBaseTest {
     boolean inclusiveStart = true;
     boolean inclusiveEnd = true;
 
-    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsNotBetween(info, actual, start, end, inclusiveStart, inclusiveEnd));
+    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsNotBetween(info, actual, start, end,
+                                                                                                inclusiveStart, inclusiveEnd));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-        shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, yearAndMonthComparisonStrategy));
+                             shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd,
+                                                yearAndMonthComparisonStrategy));
   }
 
   @Test
@@ -162,11 +163,13 @@ class Dates_assertIsNotBetween_Test extends DatesBaseTest {
     boolean inclusiveStart = true;
     boolean inclusiveEnd = false;
 
-    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsNotBetween(info, actual, start, end, inclusiveStart, inclusiveEnd));
+    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsNotBetween(info, actual, start, end,
+                                                                                                inclusiveStart, inclusiveEnd));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-        shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, yearAndMonthComparisonStrategy));
+                             shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd,
+                                                yearAndMonthComparisonStrategy));
   }
 
   @Test
@@ -178,11 +181,13 @@ class Dates_assertIsNotBetween_Test extends DatesBaseTest {
     boolean inclusiveStart = false;
     boolean inclusiveEnd = true;
 
-    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsNotBetween(info, actual, start, end, inclusiveStart, inclusiveEnd));
+    Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsNotBetween(info, actual, start, end,
+                                                                                                inclusiveStart, inclusiveEnd));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-        shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, yearAndMonthComparisonStrategy));
+                             shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd,
+                                                yearAndMonthComparisonStrategy));
   }
 
   @Test

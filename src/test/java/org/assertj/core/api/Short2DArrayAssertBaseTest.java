@@ -16,7 +16,6 @@ import static org.mockito.Mockito.mock;
 
 import org.assertj.core.internal.Short2DArrays;
 
-
 /**
  * Base class for {@link Short2DArrayAssert} tests.
  * 
@@ -36,7 +35,7 @@ public abstract class Short2DArrayAssertBaseTest extends BaseTestTemplate<Short2
     arrays = mock(Short2DArrays.class);
     assertions.short2dArrays = arrays;
   }
-  
+
   protected Short2DArrays getArrays(Short2DArrayAssert someAssertions) {
     return someAssertions.short2dArrays;
   }

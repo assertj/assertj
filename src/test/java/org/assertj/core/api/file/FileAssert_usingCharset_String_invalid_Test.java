@@ -37,7 +37,7 @@ class FileAssert_usingCharset_String_invalid_Test extends FileAssertBaseTest {
   public void should_return_this() {
     // Disable this test since the call fails
   }
-  
+
   @Override
   protected FileAssert invoke_api_method() {
     // not used here

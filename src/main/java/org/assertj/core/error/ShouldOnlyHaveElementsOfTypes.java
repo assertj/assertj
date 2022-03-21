@@ -31,7 +31,7 @@ public class ShouldOnlyHaveElementsOfTypes extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ShouldOnlyHaveElementsOfTypes shouldOnlyHaveElementsOfTypes(Object actual, Class<?>[] types,
-                                                                              Iterable<?> mismatches) {
+                                                                            Iterable<?> mismatches) {
     return new ShouldOnlyHaveElementsOfTypes(actual, types, mismatches);
   }
 

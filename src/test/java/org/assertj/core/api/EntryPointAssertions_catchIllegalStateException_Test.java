@@ -39,7 +39,8 @@ class EntryPointAssertions_catchIllegalStateException_Test extends EntryPointAss
   }
 
   private static Stream<Function<ThrowingCallable, IllegalStateException>> catchIllegalStateExceptions() {
-    return Stream.of(Assertions::catchIllegalStateException, BDDAssertions::catchIllegalStateException, withAssertions::catchIllegalStateException);
+    return Stream.of(Assertions::catchIllegalStateException, BDDAssertions::catchIllegalStateException,
+                     withAssertions::catchIllegalStateException);
   }
 
 }

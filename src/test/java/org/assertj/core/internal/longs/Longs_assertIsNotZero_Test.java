@@ -21,7 +21,6 @@ import org.assertj.core.internal.Longs;
 import org.assertj.core.internal.LongsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Longs#assertIsNotZero(AssertionInfo, Long)}</code>.
  * 
@@ -48,7 +47,8 @@ class Longs_assertIsNotZero_Test extends LongsBaseTest {
 
   @Test
   void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0L))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(),
+                                                                                                                         0L))
                                                    .withMessage(format("%nExpecting actual:%n  0L%nnot to be equal to:%n  0L%n"));
   }
 

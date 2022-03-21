@@ -60,7 +60,7 @@ class Bytes_assertIsOdd_Test extends BytesBaseTest {
   void should_fail_since_actual_is_not_odd_whatever_custom_comparison_strategy_is(byte actual) {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertIsOdd(someInfo(),
-            actual));
+                                                                                                               actual));
     // THEN
     then(assertionError).hasMessage(shouldBeOdd(actual).create());
   }

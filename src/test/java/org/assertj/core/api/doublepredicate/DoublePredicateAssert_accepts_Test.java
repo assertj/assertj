@@ -42,7 +42,8 @@ class DoublePredicateAssert_accepts_Test extends DoublePredicateAssertBaseTest {
     DoublePredicate predicate = val -> val <= 2;
     double[] matchValues = new double[] { 1.0, 2.0, 3.0 };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).accepts(matchValues))
-                                                   .withMessage(elementsShouldMatch(matchValues, 3D, PredicateDescription.GIVEN).create());
+                                                   .withMessage(elementsShouldMatch(matchValues, 3D,
+                                                                                    PredicateDescription.GIVEN).create());
   }
 
   @Test

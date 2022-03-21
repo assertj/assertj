@@ -29,7 +29,6 @@ import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.DatesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Dates#assertIsInSameHourWindowAs(AssertionInfo, Date, Date)}</code>.
  *
@@ -72,7 +71,8 @@ class Dates_assertIsInSameHourWindowAs_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsInSameHourWindowAs(someInfo(), null, new Date()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsInSameHourWindowAs(someInfo(), null,
+                                                                                                      new Date()))
                                                    .withMessage(actualIsNull());
   }
 
@@ -95,7 +95,9 @@ class Dates_assertIsInSameHourWindowAs_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInSameHourWindowAs(someInfo(), null, new Date()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInSameHourWindowAs(someInfo(),
+                                                                                                                                  null,
+                                                                                                                                  new Date()))
                                                    .withMessage(actualIsNull());
   }
 

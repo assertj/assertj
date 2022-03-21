@@ -57,7 +57,7 @@ class LongArrays_assertContainsOnlyOnce_Test extends LongArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-        shouldContainsOnlyOnce(actual, expected, newLinkedHashSet(20L), newLinkedHashSet(6L, -8L)));
+                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet(20L), newLinkedHashSet(6L, -8L)));
   }
 
   @Test
@@ -73,7 +73,8 @@ class LongArrays_assertContainsOnlyOnce_Test extends LongArraysBaseTest {
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), actual,
+                                                                                                   emptyArray()));
   }
 
   @Test
@@ -97,7 +98,7 @@ class LongArrays_assertContainsOnlyOnce_Test extends LongArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-        shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((long) 20), newLinkedHashSet()));
+                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((long) 20), newLinkedHashSet()));
   }
 
   @Test
@@ -120,9 +121,10 @@ class LongArrays_assertContainsOnlyOnce_Test extends LongArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(
-        info,
-        shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((long) 20), newLinkedHashSet((long) 6, (long) -8),
-            absValueComparisonStrategy));
+                             info,
+                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((long) 20),
+                                                    newLinkedHashSet((long) 6, (long) -8),
+                                                    absValueComparisonStrategy));
   }
 
   @Test
@@ -132,7 +134,9 @@ class LongArrays_assertContainsOnlyOnce_Test extends LongArraysBaseTest {
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(),
+                                                                                                                               actual,
+                                                                                                                               emptyArray()));
   }
 
   @Test
@@ -145,7 +149,9 @@ class LongArrays_assertContainsOnlyOnce_Test extends LongArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), null, arrayOf(-8)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(),
+                                                                                                                               null,
+                                                                                                                               arrayOf(-8)))
                                                    .withMessage(actualIsNull());
   }
 
@@ -158,8 +164,8 @@ class LongArrays_assertContainsOnlyOnce_Test extends LongArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(
-        info,
-        shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((long) 20), newLinkedHashSet(),
-            absValueComparisonStrategy));
+                             info,
+                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((long) 20), newLinkedHashSet(),
+                                                    absValueComparisonStrategy));
   }
 }

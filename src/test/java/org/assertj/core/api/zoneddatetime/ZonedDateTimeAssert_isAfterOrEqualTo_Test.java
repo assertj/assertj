@@ -65,6 +65,7 @@ class ZonedDateTimeAssert_isAfterOrEqualTo_Test extends AbstractZonedDateTimeAss
     thenIllegalArgumentException().isThrownBy(code)
                                   .withMessage("The String representing the ZonedDateTime to compare actual with should not be null");
   }
+
   @Test
   void should_fail_if_given_string_parameter_cant_be_parsed() {
     assertThatThrownBy(() -> assertions.isAfterOrEqualTo("not a ZonedDateTime")).isInstanceOf(DateTimeParseException.class);

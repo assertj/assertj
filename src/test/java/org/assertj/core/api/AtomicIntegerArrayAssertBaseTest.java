@@ -34,7 +34,7 @@ public abstract class AtomicIntegerArrayAssertBaseTest extends BaseTestTemplate<
     arrays = mock(IntArrays.class);
     assertions.arrays = arrays;
   }
-  
+
   protected IntArrays getArrays(AtomicIntegerArrayAssert someAssertions) {
     return someAssertions.arrays;
   }

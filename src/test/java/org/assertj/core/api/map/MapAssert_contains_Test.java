@@ -22,7 +22,6 @@ import org.assertj.core.api.MapAssertBaseTest;
 import org.assertj.core.data.MapEntry;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link MapAssert#contains(MapEntry...)}</code>.
  * 
@@ -42,9 +41,9 @@ class MapAssert_contains_Test extends MapAssertBaseTest {
   protected void verify_internal_effects() {
     verify(maps).assertContains(getInfo(assertions), getActual(assertions), entries);
   }
-  
+
   @Test
   void invoke_api_like_user() {
-     assertThat(map("key1", "value1", "key2", "value2")).contains(entry("key2", "value2"));
+    assertThat(map("key1", "value1", "key2", "value2")).contains(entry("key2", "value2"));
   }
 }

@@ -19,7 +19,6 @@ import java.util.Iterator;
 
 import org.assertj.core.internal.Iterators;
 
-
 /**
  * Tests for <code>{@link AbstractIteratorAssert#hasNext()}</code>.
  * 

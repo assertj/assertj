@@ -18,4 +18,5 @@ package org.assertj.core.util;
  * 
  * @author Alex Ruiz
  */
-public @interface VisibleForTesting {}
+public @interface VisibleForTesting {
+}

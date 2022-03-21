@@ -40,10 +40,10 @@ class AtomicReferenceAssert_hasValue_Test {
 
   @Test
   void should_fail_when_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       AtomicReference<String> actual = null;
       assertThat(actual).hasValue("foo");
     }).withMessage(actualIsNull());
   }
-  
+
 }

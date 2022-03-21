@@ -29,6 +29,7 @@ import org.junit.jupiter.api.Test;
  * Tests for {@link URLs#linesOf(File, Charset)} and {@link URLs#linesOf(File, String)}.
  *
  * @author Turbo87
+ * 
  * @author dorzey
  */
 class URLs_linesOf_Test {
@@ -42,7 +43,8 @@ class URLs_linesOf_Test {
     File missingFile = new File("missing.txt");
     assertThat(missingFile).doesNotExist();
 
-    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> URLs.linesOf(missingFile.toURI().toURL(), Charset.defaultCharset()));
+    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> URLs.linesOf(missingFile.toURI().toURL(),
+                                                                                        Charset.defaultCharset()));
   }
 
   @Test

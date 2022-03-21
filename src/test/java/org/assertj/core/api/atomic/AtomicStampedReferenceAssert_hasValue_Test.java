@@ -22,7 +22,6 @@ import java.util.concurrent.atomic.AtomicStampedReference;
 
 import org.junit.jupiter.api.Test;
 
-
 class AtomicStampedReferenceAssert_hasValue_Test {
 
   private String expectedValue = "expectedValue";
@@ -37,7 +36,8 @@ class AtomicStampedReferenceAssert_hasValue_Test {
   void should_fail_if_expected_value_is_null_and_does_not_contains_expected_value() {
     AtomicStampedReference<String> actual = new AtomicStampedReference<>("actual", 1234);
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasReference(null))
-                                                   .withMessage(shouldHaveReference(actual, actual.getReference(), null).create());
+                                                   .withMessage(shouldHaveReference(actual, actual.getReference(),
+                                                                                    null).create());
   }
 
   @Test
@@ -45,7 +45,8 @@ class AtomicStampedReferenceAssert_hasValue_Test {
     AtomicStampedReference<String> actual = new AtomicStampedReference<>("actual", 1234);
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasReference(expectedValue))
-                                                   .withMessage(shouldHaveReference(actual, actual.getReference(), expectedValue).create());
+                                                   .withMessage(shouldHaveReference(actual, actual.getReference(),
+                                                                                    expectedValue).create());
   }
 
   @Test
@@ -64,7 +65,8 @@ class AtomicStampedReferenceAssert_hasValue_Test {
     int actualStamp = 1234;
     int expectedStamp = 5678;
     AtomicStampedReference<String> actual = new AtomicStampedReference<>(expectedValue, actualStamp);
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasReference(expectedValue).hasStamp(expectedStamp))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasReference(expectedValue)
+                                                                                       .hasStamp(expectedStamp))
                                                    .withMessage(shouldHaveStamp(actual, expectedStamp).create());
   }
 }

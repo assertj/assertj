@@ -25,7 +25,6 @@ import org.assertj.core.internal.Floats;
 import org.assertj.core.internal.FloatsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Floats#assertLessThanOrEqualTo(AssertionInfo, Float, float)}</code>.
  * 
@@ -62,7 +61,9 @@ class Floats_assertLessThanOrEqualTo_Test extends FloatsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(someInfo(), null, 8f))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(someInfo(),
+                                                                                                                                  null,
+                                                                                                                                  8f))
                                                    .withMessage(actualIsNull());
   }
 

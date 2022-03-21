@@ -18,7 +18,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AtomicIntegerArrayAssert;
 import org.assertj.core.api.AtomicIntegerArrayAssertBaseTest;
 
-
 class AtomicIntegerArrayAssert_containsSequence_Test extends AtomicIntegerArrayAssertBaseTest {
 
   @Override

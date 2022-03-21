@@ -24,10 +24,10 @@ public class ShouldBeSymbolicLink extends BasicErrorMessageFactory {
   public static final String SHOULD_BE_SYMBOLIC_LINK = "%nExpecting path:%n  %s%nto be a symbolic link.";
 
   public static ErrorMessageFactory shouldBeSymbolicLink(final Path actual) {
-	return new ShouldBeSymbolicLink(actual);
+    return new ShouldBeSymbolicLink(actual);
   }
 
   private ShouldBeSymbolicLink(final Path actual) {
-	super(SHOULD_BE_SYMBOLIC_LINK, actual);
+    super(SHOULD_BE_SYMBOLIC_LINK, actual);
   }
 }

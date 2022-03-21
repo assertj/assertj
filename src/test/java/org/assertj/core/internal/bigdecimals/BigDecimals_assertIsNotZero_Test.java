@@ -23,7 +23,6 @@ import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.BigDecimalsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link BigDecimals#assertIsNotZero(AssertionInfo, BigDecimal)}</code>.
  * 
@@ -50,7 +49,8 @@ class BigDecimals_assertIsNotZero_Test extends BigDecimalsBaseTest {
 
   @Test
   void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertIsNotZero(someInfo(), BigDecimal.ZERO))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertIsNotZero(someInfo(),
+                                                                                                                             BigDecimal.ZERO))
                                                    .withMessage(format("%nExpecting actual:%n  0%nnot to be equal to:%n  0%n"));
   }
 

@@ -25,41 +25,41 @@ import java.lang.reflect.Modifier;
  */
 abstract class MemberUtils {
 
-    private static final int ACCESS_TEST = Modifier.PUBLIC | Modifier.PROTECTED | Modifier.PRIVATE;
+  private static final int ACCESS_TEST = Modifier.PUBLIC | Modifier.PROTECTED | Modifier.PRIVATE;
 
-    /**
-     * XXX Default access superclass workaround
-     *
-     * When a public class has a default access superclass with public members,
-     * these members are accessible. Calling them from compiled code works fine.
-     * Unfortunately, on some JVMs, using reflection to invoke these members
-     * seems to (wrongly) prevent access even when the modifier is public.
-     * Calling setAccessible(true) solves the problem but will only work from
-     * sufficiently privileged code. Better workarounds would be gratefully
-     * accepted.
-     * @param o the AccessibleObject to set as accessible
-     */
-    static void setAccessibleWorkaround(AccessibleObject o) {
-        if (o == null || o.isAccessible()) {
-            return;
-        }
-        Member m = (Member) o;
-        if (Modifier.isPublic(m.getModifiers())
-                && isPackageAccess(m.getDeclaringClass().getModifiers())) {
-            try {
-                o.setAccessible(true);
-            } catch (SecurityException e) { // NOPMD
-                // ignore in favor of subsequent IllegalAccessException
-            }
-        }
+  /**
+   * XXX Default access superclass workaround
+   *
+   * When a public class has a default access superclass with public members,
+   * these members are accessible. Calling them from compiled code works fine.
+   * Unfortunately, on some JVMs, using reflection to invoke these members
+   * seems to (wrongly) prevent access even when the modifier is public.
+   * Calling setAccessible(true) solves the problem but will only work from
+   * sufficiently privileged code. Better workarounds would be gratefully
+   * accepted.
+   * @param o the AccessibleObject to set as accessible
+   */
+  static void setAccessibleWorkaround(AccessibleObject o) {
+    if (o == null || o.isAccessible()) {
+      return;
     }
+    Member m = (Member) o;
+    if (Modifier.isPublic(m.getModifiers())
+        && isPackageAccess(m.getDeclaringClass().getModifiers())) {
+      try {
+        o.setAccessible(true);
+      } catch (SecurityException e) { // NOPMD
+        // ignore in favor of subsequent IllegalAccessException
+      }
+    }
+  }
 
-    /**
-     * Returns whether a given set of modifiers implies package access.
-     * @param modifiers to test
-     * @return true unless package/protected/private modifier detected
-     */
-    static boolean isPackageAccess(int modifiers) {
-        return (modifiers & ACCESS_TEST) == 0;
-    }
- }
+  /**
+   * Returns whether a given set of modifiers implies package access.
+   * @param modifiers to test
+   * @return true unless package/protected/private modifier detected
+   */
+  static boolean isPackageAccess(int modifiers) {
+    return (modifiers & ACCESS_TEST) == 0;
+  }
+}

@@ -39,7 +39,7 @@ class ObjectArrayAssert_hasOnlyOneElementSatisfying_Test {
 
   @Test
   void fails_if_arry_has_only_one_element_and_that_element_does_not_satisfy_the_given_assertion() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       Jedi[] jedis = { new Jedi("Yoda", "red") };
       assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("L"));
     }).withMessage(format("%nExpecting actual:%n  \"Yoda\"%nto start with:%n  \"L\"%n"));

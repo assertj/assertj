@@ -31,7 +31,8 @@ public class ShouldNotContainSequence extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotContainSequence(Object actual, Object sequence, int index, ComparisonStrategy comparisonStrategy) {
+  public static ErrorMessageFactory shouldNotContainSequence(Object actual, Object sequence, int index,
+                                                             ComparisonStrategy comparisonStrategy) {
     return new ShouldNotContainSequence(actual, sequence, index, comparisonStrategy);
   }
 
@@ -47,7 +48,8 @@ public class ShouldNotContainSequence extends BasicErrorMessageFactory {
   }
 
   private ShouldNotContainSequence(Object actual, Object sequence, int index, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting actual:%n  %s%nto not contain sequence:%n  %s%nbut was found at index %s%n%s", actual, sequence, index, comparisonStrategy);
+    super("%nExpecting actual:%n  %s%nto not contain sequence:%n  %s%nbut was found at index %s%n%s", actual, sequence, index,
+          comparisonStrategy);
   }
 
 }

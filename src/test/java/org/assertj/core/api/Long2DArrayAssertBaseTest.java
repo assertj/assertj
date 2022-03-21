@@ -16,7 +16,6 @@ import static org.mockito.Mockito.mock;
 
 import org.assertj.core.internal.Long2DArrays;
 
-
 /**
  * Base class for {@link Long2DArrayAssert} tests.
  * 
@@ -36,7 +35,7 @@ public abstract class Long2DArrayAssertBaseTest extends BaseTestTemplate<Long2DA
     arrays = mock(Long2DArrays.class);
     assertions.long2dArrays = arrays;
   }
-  
+
   protected Long2DArrays getArrays(Long2DArrayAssert someAssertions) {
     return someAssertions.long2dArrays;
   }

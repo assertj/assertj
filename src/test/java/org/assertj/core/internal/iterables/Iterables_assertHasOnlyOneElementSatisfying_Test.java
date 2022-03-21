@@ -54,16 +54,15 @@ class Iterables_assertHasOnlyOneElementSatisfying_Test extends IterablesBaseTest
 
   @Test
   void should_throw_error_if_condition_is_null() {
-    assertThatNullPointerException().isThrownBy(() ->
-      iterables.assertHasOnlyOneElementSatisfying(info, actual, null)
-    );
+    assertThatNullPointerException().isThrownBy(() -> iterables.assertHasOnlyOneElementSatisfying(info, actual, null));
   }
 
   @Test
   void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(
-      () -> iterables.assertHasOnlyOneElementSatisfying(info, null, consumer)
-    ).withMessage(actualIsNull());
+                                                               () -> iterables.assertHasOnlyOneElementSatisfying(info, null,
+                                                                                                                 consumer))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -71,7 +70,8 @@ class Iterables_assertHasOnlyOneElementSatisfying_Test extends IterablesBaseTest
     actual.add(new Jedi("Luke", "Blue"));
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(
-      () -> iterables.assertHasOnlyOneElementSatisfying(info, actual, null)
-    ).withMessage(shouldHaveSize(actual, actual.size(), 1).create());
+                                                               () -> iterables.assertHasOnlyOneElementSatisfying(info, actual,
+                                                                                                                 null))
+                                                   .withMessage(shouldHaveSize(actual, actual.size(), 1).create());
   }
 }

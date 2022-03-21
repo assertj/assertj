@@ -19,7 +19,6 @@ import org.assertj.core.api.ByteArrayAssert;
 import org.assertj.core.api.ByteArrayAssertBaseTest;
 import org.assertj.core.data.Index;
 
-
 /**
  * Tests for <code>{@link ByteArrayAssert#contains(byte, Index)}</code>.
  * 

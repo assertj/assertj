@@ -15,7 +15,6 @@ package org.assertj.core.api.zoneddatetime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
-
 /**
  * Base test class for {@link org.assertj.core.api.ZonedDateTimeAssert} tests.
  * 

@@ -116,7 +116,8 @@ class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
 
   @Test
   void should_throw_error_if_expected_value_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> numbers.assertIsCloseTo(someInfo(), SIX, null, offset(ONE))).withMessage("The given number should not be null");
+    assertThatNullPointerException().isThrownBy(() -> numbers.assertIsCloseTo(someInfo(), SIX, null, offset(ONE)))
+                                    .withMessage("The given number should not be null");
   }
 
   @Test
@@ -172,7 +173,9 @@ class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
 
   @Test
   void should_throw_error_if_offset_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatNullPointerException().isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), ONE, TWO, null)).withMessage(offsetIsNull());
+    assertThatNullPointerException().isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), ONE, TWO,
+                                                                                                            null))
+                                    .withMessage(offsetIsNull());
   }
 
   @Test
@@ -189,7 +192,8 @@ class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
   void should_fail_if_actual_is_not_strictly_close_enough_to_expected_value_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertIsCloseTo(info, ONE, TEN, byLessThan(ONE)));
+    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertIsCloseTo(info, ONE, TEN,
+                                                                                                 byLessThan(ONE)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeEqual(ONE, TEN, byLessThan(ONE), NINE));
@@ -197,7 +201,9 @@ class BigIntegers_assertIsCloseTo_Test extends BigIntegersBaseTest {
 
   @Test
   void should_throw_error_if_expected_value_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatNullPointerException().isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), TWO, null, offset(ONE))).withMessage("The given number should not be null");
+    assertThatNullPointerException().isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(), TWO, null,
+                                                                                                            offset(ONE)))
+                                    .withMessage("The given number should not be null");
   }
 
 }

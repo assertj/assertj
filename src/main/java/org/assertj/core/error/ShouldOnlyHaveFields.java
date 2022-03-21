@@ -35,8 +35,8 @@ public class ShouldOnlyHaveFields extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldOnlyHaveFields(Class<?> actual, Collection<String> expected,
-                                                            Collection<String> notFound,
-                                                            Collection<String> notExpected) {
+                                                         Collection<String> notFound,
+                                                         Collection<String> notExpected) {
     return create(actual, expected, notFound, notExpected, false);
   }
 
@@ -50,8 +50,8 @@ public class ShouldOnlyHaveFields extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldOnlyHaveDeclaredFields(Class<?> actual, Collection<String> expected,
-                                                                    Collection<String> notFound,
-                                                                    Collection<String> notExpected) {
+                                                                 Collection<String> notFound,
+                                                                 Collection<String> notExpected) {
     return create(actual, expected, notFound, notExpected, true);
   }
 
@@ -69,8 +69,8 @@ public class ShouldOnlyHaveFields extends BasicErrorMessageFactory {
   }
 
   private ShouldOnlyHaveFields(Class<?> actual, Collection<String> expected, Collection<String> notFound,
-                                  Collection<String> notExpected,
-                                  boolean declared) {
+                               Collection<String> notExpected,
+                               boolean declared) {
     super("%n" +
           "Expecting%n" +
           "  %s%n" +
@@ -83,8 +83,8 @@ public class ShouldOnlyHaveFields extends BasicErrorMessageFactory {
   }
 
   private ShouldOnlyHaveFields(Class<?> actual, Collection<String> expected,
-                                  Collection<String> notFoundOrNotExpected,
-                                  ErrorType errorType, boolean declared) {
+                               Collection<String> notFoundOrNotExpected,
+                               ErrorType errorType, boolean declared) {
     super("%n" +
           "Expecting%n" +
           "  %s%n" +

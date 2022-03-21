@@ -33,7 +33,6 @@ import org.assertj.core.internal.BooleanArraysBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link BooleanArrays#assertDoesNotContain(AssertionInfo, boolean[], boolean[])}</code>.
  * 

@@ -30,7 +30,6 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ObjectArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 class ObjectArrays_assertIsSubsetOf_Test extends ObjectArraysBaseTest {
 
   @Test

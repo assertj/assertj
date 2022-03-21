@@ -15,7 +15,6 @@ package org.assertj.core.api;
 import java.text.DateFormat;
 import java.util.Date;
 
-
 /**
  * Assertions for {@link Date}s.
  * <p>

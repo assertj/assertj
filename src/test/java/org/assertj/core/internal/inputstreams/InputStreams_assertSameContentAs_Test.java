@@ -36,7 +36,6 @@ import org.assertj.core.internal.InputStreamsException;
 import org.assertj.core.util.diff.Delta;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link InputStreams#assertSameContentAs(AssertionInfo, InputStream, InputStream)}</code>.
  *

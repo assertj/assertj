@@ -42,7 +42,7 @@ class Arrays_asList_Test {
   @ParameterizedTest
   @MethodSource("notArrays")
   void should_throw_IllegalArgumentException_if_given_object_is_not_an_array(final Object notArray,
-                                                                                    final String error) {
+                                                                             final String error) {
     // WHEN
     Throwable throwable = asListCall(notArray);
     // THEN

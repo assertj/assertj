@@ -35,7 +35,6 @@ import org.assertj.core.internal.Lists;
 import org.assertj.core.internal.ListsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Lists#assertContains(AssertionInfo, List, Object, Index)}</code>.
  * 
@@ -54,7 +53,8 @@ class Lists_assertContains_Test extends ListsBaseTest {
 
   @Test
   void should_fail_if_actual_is_empty() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.assertContains(someInfo(), emptyList(), "Yoda", someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.assertContains(someInfo(), emptyList(), "Yoda",
+                                                                                          someIndex()))
                                                    .withMessage(actualIsEmpty());
   }
 

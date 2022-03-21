@@ -21,7 +21,6 @@ import org.assertj.core.api.IterableAssertBaseTest;
 import org.assertj.core.api.TestCondition;
 import org.junit.jupiter.api.BeforeAll;
 
-
 /**
  * Tests for <code>{@link AbstractIterableAssert#areAtMost(int, Condition)}</code>.
  * 

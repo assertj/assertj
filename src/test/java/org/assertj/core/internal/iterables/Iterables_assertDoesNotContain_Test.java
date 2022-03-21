@@ -72,7 +72,8 @@ class Iterables_assertDoesNotContain_Test extends IterablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertDoesNotContain(someInfo(), null, array("Yoda")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertDoesNotContain(someInfo(), null,
+                                                                                                    array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
@@ -107,7 +108,8 @@ class Iterables_assertDoesNotContain_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] expected = { "LuKe", "YODA", "Han" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(info, actual, expected));
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(info, actual,
+                                                                                                               expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet("LuKe", "YODA"),

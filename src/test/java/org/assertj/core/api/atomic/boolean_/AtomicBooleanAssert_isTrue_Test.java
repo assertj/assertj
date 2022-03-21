@@ -38,10 +38,10 @@ class AtomicBooleanAssert_isTrue_Test {
 
   @Test
   void should_fail_when_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       AtomicBoolean actual = null;
       assertThat(actual).isTrue();
     }).withMessage(actualIsNull());
   }
-  
+
 }

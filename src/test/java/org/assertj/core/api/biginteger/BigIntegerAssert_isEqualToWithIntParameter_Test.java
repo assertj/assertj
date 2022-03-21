@@ -19,7 +19,6 @@ import java.math.BigInteger;
 import org.assertj.core.api.BigIntegerAssert;
 import org.assertj.core.api.BigIntegerAssertBaseTest;
 
-
 class BigIntegerAssert_isEqualToWithIntParameter_Test extends BigIntegerAssertBaseTest {
 
   private static final int INT = 1;

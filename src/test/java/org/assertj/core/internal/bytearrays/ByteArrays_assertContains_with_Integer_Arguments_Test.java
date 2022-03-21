@@ -68,7 +68,8 @@ class ByteArrays_assertContains_with_Integer_Arguments_Test extends ByteArraysBa
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), actual, IntArrays.emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), actual,
+                                                                                           IntArrays.emptyArray()));
   }
 
   @Test
@@ -79,7 +80,8 @@ class ByteArrays_assertContains_with_Integer_Arguments_Test extends ByteArraysBa
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), null, IntArrays.arrayOf(8)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), null,
+                                                                                           IntArrays.arrayOf(8)))
                                                    .withMessage(actualIsNull());
   }
 
@@ -122,20 +124,24 @@ class ByteArrays_assertContains_with_Integer_Arguments_Test extends ByteArraysBa
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, IntArrays.emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
+                                                                                                                       actual,
+                                                                                                                       IntArrays.emptyArray()));
   }
 
   @Test
   void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
-                                                                                                                             actual,
-                                                                                                                             (int[]) null))
-                                                         .withMessage(valuesToLookForIsNull());
+                                                                                                        actual,
+                                                                                                        (int[]) null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), null, IntArrays.arrayOf(-8)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
+                                                                                                                       null,
+                                                                                                                       IntArrays.arrayOf(-8)))
                                                    .withMessage(actualIsNull());
   }
 
@@ -143,7 +149,8 @@ class ByteArrays_assertContains_with_Integer_Arguments_Test extends ByteArraysBa
   void should_fail_if_actual_does_not_contain_values_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContains(info, actual, IntArrays.arrayOf(6, -8, 9)));
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContains(info, actual,
+                                                                                             IntArrays.arrayOf(6, -8, 9)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContain(actual, ByteArrays.arrayOf(6, -8, 9), newLinkedHashSet((byte) 9),

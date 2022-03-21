@@ -72,7 +72,7 @@ public abstract class AbstractOptionalIntAssert<SELF extends AbstractOptionalInt
   public SELF isNotPresent() {
     return isEmpty();
   }
-  
+
   /**
    * Verifies that the actual {@link java.util.OptionalInt} is empty.
    * <p>

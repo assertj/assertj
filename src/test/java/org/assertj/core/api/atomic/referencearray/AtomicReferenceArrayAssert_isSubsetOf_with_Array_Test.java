@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 
 class AtomicReferenceArrayAssert_isSubsetOf_with_Array_Test extends AtomicReferenceArrayAssertBaseTest {
 
-  private final Object [] values = array("Yoda", "Luke");
+  private final Object[] values = array("Yoda", "Luke");
 
   @Override
   protected AtomicReferenceArrayAssert<Object> invoke_api_method() {
@@ -36,7 +36,7 @@ class AtomicReferenceArrayAssert_isSubsetOf_with_Array_Test extends AtomicRefere
   protected void verify_internal_effects() {
     verify(arrays).assertIsSubsetOf(info(), internalArray(), asList(values));
   }
-  
+
   @Test
   void invoke_api_like_user() {
     assertThat(new AtomicReferenceArray<>(array("Luke", "Yoda"))).isSubsetOf("Yoda", "Luke", "Chewbacca");

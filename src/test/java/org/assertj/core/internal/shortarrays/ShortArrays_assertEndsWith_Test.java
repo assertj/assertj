@@ -29,7 +29,6 @@ import org.assertj.core.internal.ShortArrays;
 import org.assertj.core.internal.ShortArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link ShortArrays#assertEndsWith(AssertionInfo, short[], short[])}</code>.
  * 
@@ -123,7 +122,9 @@ class ShortArrays_assertEndsWith_Test extends ShortArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), null, arrayOf(-8)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(),
+                                                                                                                       null,
+                                                                                                                       arrayOf(-8)))
                                                    .withMessage(actualIsNull());
   }
 

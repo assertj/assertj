@@ -25,22 +25,22 @@ import org.junit.jupiter.api.Test;
 class FactoryBasedNavigableList_withString_Test {
 
   private AssertFactory<String, StringAssert> stringAssertFactory = StringAssert::new;
-  
+
   @Test
   void should_navigate_to_list_elements_and_perform_specific_string_assertions() {
     List<String> list = newArrayList("one", "two", "three");
-  
+
     assertThat(list, stringAssertFactory).first().startsWith("o");
     assertThat(list, stringAssertFactory).last().endsWith("ee");
     assertThat(list, stringAssertFactory).element(1).contains("w");
   }
-  
+
   @Test
   void should_honor_list_assertions() {
     List<String> list = newArrayList("one", "two", "three");
 
     assertThat(list, stringAssertFactory).contains("one", atIndex(0))
-                                        .first().startsWith("o");
+                                         .first().startsWith("o");
   }
 
 }

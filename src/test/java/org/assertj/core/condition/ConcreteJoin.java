@@ -16,7 +16,6 @@ import java.util.Collection;
 
 import org.assertj.core.api.Condition;
 
-
 /**
  * @author Yvonne Wang
  */

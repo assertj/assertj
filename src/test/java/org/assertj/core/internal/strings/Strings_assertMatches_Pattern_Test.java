@@ -30,7 +30,6 @@ import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Strings#assertMatches(AssertionInfo, CharSequence, Pattern)}</code>.
  * 
@@ -57,7 +56,8 @@ class Strings_assertMatches_Pattern_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_does_not_match_Pattern() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMatches(someInfo(), actual, Pattern.compile("Luke")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMatches(someInfo(), actual,
+                                                                                           Pattern.compile("Luke")))
                                                    .withMessage(shouldMatch(actual, "Luke").create());
   }
 
@@ -76,7 +76,9 @@ class Strings_assertMatches_Pattern_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertMatches(someInfo(), null, matchAnything()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertMatches(someInfo(),
+                                                                                                                                null,
+                                                                                                                                matchAnything()))
                                                    .withMessage(actualIsNull());
   }
 
@@ -84,7 +86,8 @@ class Strings_assertMatches_Pattern_Test extends StringsBaseTest {
   void should_fail_if_actual_does_not_match_Pattern_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> stringsWithCaseInsensitiveComparisonStrategy.assertMatches(info, actual, Pattern.compile("Luke")));
+    Throwable error = catchThrowable(() -> stringsWithCaseInsensitiveComparisonStrategy.assertMatches(info, actual,
+                                                                                                      Pattern.compile("Luke")));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldMatch(actual, "Luke"));

@@ -55,10 +55,9 @@ class Throwables_appendCurrentThreadStackTraceToThrowable_Test {
     Throwables.appendStackTraceInCurrentThreadToThrowable(thrown, "should_add_stack_trace_of_current_thread");
     StackTraceElement[] stackTrace = thrown.getStackTrace();
     assertThat(asString(stackTrace[0])).isEqualTo(
-        "org.assertj.core.util.Throwables_appendCurrentThreadStackTraceToThrowable_Test$1.run");
+                                                  "org.assertj.core.util.Throwables_appendCurrentThreadStackTraceToThrowable_Test$1.run");
     assertThat(asString(stackTrace[1])).isEqualTo(
-        "org.assertj.core.util.Throwables_appendCurrentThreadStackTraceToThrowable_Test.should_add_stack_trace_of_current_thread"
-    );
+                                                  "org.assertj.core.util.Throwables_appendCurrentThreadStackTraceToThrowable_Test.should_add_stack_trace_of_current_thread");
   }
 
   private String asString(StackTraceElement e) {

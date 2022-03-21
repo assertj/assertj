@@ -31,8 +31,8 @@ class IterableAssert_hasAtLeastOneElementOfType_Test {
     list.add("string");
     list.add(1);
     assertThat(list).hasAtLeastOneElementOfType(Integer.class)
-                  .hasAtLeastOneElementOfType(String.class)
-                  .hasAtLeastOneElementOfType(Object.class);
+                    .hasAtLeastOneElementOfType(String.class)
+                    .hasAtLeastOneElementOfType(Object.class);
   }
 
 }

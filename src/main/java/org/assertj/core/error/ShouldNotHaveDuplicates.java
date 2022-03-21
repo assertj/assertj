@@ -32,7 +32,7 @@ public class ShouldNotHaveDuplicates extends BasicErrorMessageFactory {
    * @return an instance of {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotHaveDuplicates(Object actual, Object duplicates,
-      ComparisonStrategy comparisonStrategy) {
+                                                            ComparisonStrategy comparisonStrategy) {
     return new ShouldNotHaveDuplicates(actual, duplicates, comparisonStrategy);
   }
 

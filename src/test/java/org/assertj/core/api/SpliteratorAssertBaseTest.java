@@ -19,7 +19,6 @@ import java.util.Spliterator;
 import org.assertj.core.internal.Spliterators;
 import org.assertj.core.test.StringSpliterator;
 
-
 public abstract class SpliteratorAssertBaseTest extends BaseTestTemplate<SpliteratorAssert<String>, Spliterator<String>> {
 
   protected Spliterators spliterators;

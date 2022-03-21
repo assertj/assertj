@@ -405,6 +405,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
   protected ObjectAssert<RESULT> newObjectAssert(RESULT objectUnderTest) {
     return new ObjectAssert<>(objectUnderTest);
   }
+
   /**
    * Waits if necessary for at most the given time for this future to complete, and then returns its result for further assertions.
    * <p>

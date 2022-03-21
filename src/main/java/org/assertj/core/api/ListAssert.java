@@ -63,6 +63,7 @@ public class ListAssert<ELEMENT> extends
   public static ListAssert<Integer> assertThatIntStream(IntStream actual) {
     return new ListAssert<>(actual);
   }
+
   public ListAssert(List<? extends ELEMENT> actual) {
     super(actual, ListAssert.class, new ObjectAssertFactory<>());
   }

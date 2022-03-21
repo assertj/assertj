@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.atomic.referencearray;
 
-
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import org.assertj.core.test.Employee;

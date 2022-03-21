@@ -25,7 +25,6 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.internal.CharArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 class CharArrays_assertHasSameSizeAs_with_Iterable_Test extends CharArraysBaseTest {
 
   private final List<String> other = list("Solo", "Leia", "Luke");

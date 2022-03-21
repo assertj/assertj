@@ -32,7 +32,6 @@ import org.assertj.core.internal.CharArrays;
 import org.assertj.core.internal.CharArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link CharArrays#assertContains(AssertionInfo, char[], char, Index)}</code>.
  * 
@@ -49,7 +48,8 @@ class CharArrays_assertContains_at_Index_Test extends CharArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_empty() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), emptyArray(), 'a', someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), emptyArray(), 'a',
+                                                                                           someIndex()))
                                                    .withMessage(actualIsEmpty());
   }
 
@@ -85,13 +85,18 @@ class CharArrays_assertContains_at_Index_Test extends CharArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), null, 'A', someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
+                                                                                                                       null, 'A',
+                                                                                                                       someIndex()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), emptyArray(), 'A', someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
+                                                                                                                       emptyArray(),
+                                                                                                                       'A',
+                                                                                                                       someIndex()))
                                                    .withMessage(actualIsEmpty());
   }
 

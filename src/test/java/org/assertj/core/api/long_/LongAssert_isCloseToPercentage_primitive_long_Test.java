@@ -21,16 +21,16 @@ import org.assertj.core.data.Percentage;
 
 class LongAssert_isCloseToPercentage_primitive_long_Test extends LongAssertBaseTest {
 
-    private final Percentage percentage = withPercentage(5L);
-    private final long value = 10L;
+  private final Percentage percentage = withPercentage(5L);
+  private final long value = 10L;
 
-    @Override
-    protected LongAssert invoke_api_method() {
-        return assertions.isCloseTo(value, percentage);
-    }
+  @Override
+  protected LongAssert invoke_api_method() {
+    return assertions.isCloseTo(value, percentage);
+  }
 
-    @Override
-    protected void verify_internal_effects() {
-        verify(longs).assertIsCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
-    }
+  @Override
+  protected void verify_internal_effects() {
+    verify(longs).assertIsCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
+  }
 }

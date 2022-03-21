@@ -17,7 +17,6 @@ import java.util.List;
 import org.assertj.core.api.Condition;
 import org.assertj.core.data.Index;
 
-
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains a value at a given index that
  * satisfies a <code>{@link Condition}</code> failed.
@@ -34,7 +33,8 @@ public class ShouldBeAtIndex extends BasicErrorMessageFactory {
    * @param found the value in {@code actual} stored under {@code index}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <T> ErrorMessageFactory shouldBeAtIndex(List<? extends T> actual, Condition<? super T> condition, Index index, T found) {
+  public static <T> ErrorMessageFactory shouldBeAtIndex(List<? extends T> actual, Condition<? super T> condition, Index index,
+                                                        T found) {
     return new ShouldBeAtIndex(actual, condition, index, found);
   }
 

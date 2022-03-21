@@ -32,7 +32,6 @@ import org.assertj.core.internal.ByteArrays;
 import org.assertj.core.internal.ByteArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link ByteArrays#assertContains(AssertionInfo, byte[], int, Index)}</code>.
  */
@@ -46,7 +45,8 @@ class ByteArrays_assertContains_at_Index_with_Integer_Argument_Test extends Byte
 
   @Test
   void should_fail_if_actual_is_empty() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), emptyArray(), 8, someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), emptyArray(), 8,
+                                                                                           someIndex()))
                                                    .withMessage(actualIsEmpty());
   }
 
@@ -83,13 +83,18 @@ class ByteArrays_assertContains_at_Index_with_Integer_Argument_Test extends Byte
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), null, -8, someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
+                                                                                                                       null, -8,
+                                                                                                                       someIndex()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), emptyArray(), -8, someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
+                                                                                                                       emptyArray(),
+                                                                                                                       -8,
+                                                                                                                       someIndex()))
                                                    .withMessage(actualIsEmpty());
   }
 
@@ -119,7 +124,7 @@ class ByteArrays_assertContains_at_Index_with_Integer_Argument_Test extends Byte
 
     assertThat(error).isInstanceOf(AssertionError.class);
     byte found = 8;
-    verify(failures).failure(info, shouldContainAtIndex(actual, (byte) 6 , index, found, absValueComparisonStrategy));
+    verify(failures).failure(info, shouldContainAtIndex(actual, (byte) 6, index, found, absValueComparisonStrategy));
   }
 
   @Test

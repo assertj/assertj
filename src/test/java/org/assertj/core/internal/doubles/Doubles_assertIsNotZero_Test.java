@@ -21,7 +21,6 @@ import org.assertj.core.internal.Doubles;
 import org.assertj.core.internal.DoublesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Doubles#assertIsNegative(AssertionInfo, Double)}</code>.
  * 
@@ -48,7 +47,8 @@ class Doubles_assertIsNotZero_Test extends DoublesBaseTest {
 
   @Test
   void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0.0d))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(),
+                                                                                                                           0.0d))
                                                    .withMessage(format("%nExpecting actual:%n  0.0%nnot to be equal to:%n  0.0%n"));
   }
 

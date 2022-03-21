@@ -17,14 +17,13 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link ObjectArrayAssert#containsExactly(Object...)}</code>.
  * 
  * @author Nicolas François
  */
 class ObjectArrayAssert_containsExactly_Test extends ObjectArrayAssertBaseTest {
-  
+
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {
     return assertions.containsExactly("Yoda", "Luke");
@@ -32,6 +31,6 @@ class ObjectArrayAssert_containsExactly_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertContainsExactly(getInfo(assertions), getActual(assertions), new String[] {"Yoda", "Luke"});
+    verify(arrays).assertContainsExactly(getInfo(assertions), getActual(assertions), new String[] { "Yoda", "Luke" });
   }
 }

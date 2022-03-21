@@ -14,7 +14,6 @@ package org.assertj.core.api;
 
 import java.math.BigDecimal;
 
-
 /**
  * Assertion methods for {@link BigDecimal}s.
  * <p>

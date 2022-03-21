@@ -33,7 +33,6 @@ import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.ObjectArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link ObjectArrays#assertContains(AssertionInfo, Object[], Object, Index)}</code>.
  * 
@@ -55,7 +54,8 @@ class ObjectArrays_assertContains_at_Index_Test extends ObjectArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_empty() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), emptyArray(), "Yoda", someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), emptyArray(), "Yoda",
+                                                                                           someIndex()))
                                                    .withMessage(actualIsEmpty());
   }
 

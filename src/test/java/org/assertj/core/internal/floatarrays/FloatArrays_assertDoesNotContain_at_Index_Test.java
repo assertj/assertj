@@ -40,7 +40,8 @@ class FloatArrays_assertDoesNotContain_at_Index_Test extends FloatArraysBaseTest
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), null, 8f, someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), null, 8f,
+                                                                                                 someIndex()))
                                                    .withMessage(actualIsNull());
   }
 
@@ -78,7 +79,10 @@ class FloatArrays_assertDoesNotContain_at_Index_Test extends FloatArraysBaseTest
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, -8f, someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(),
+                                                                                                                             null,
+                                                                                                                             -8f,
+                                                                                                                             someIndex()))
                                                    .withMessage(actualIsNull());
   }
 

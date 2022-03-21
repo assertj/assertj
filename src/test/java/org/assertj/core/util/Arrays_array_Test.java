@@ -48,7 +48,7 @@ class Arrays_array_Test {
     // THEN
     assertThat(actual).isNull();
   }
-  
+
   @Test
   void should_return_an_long_array_from_AtomicLongArray() {
     // GIVEN
@@ -59,7 +59,7 @@ class Arrays_array_Test {
     // THEN
     assertThat(actual).isEqualTo(expected);
   }
-  
+
   @Test
   void should_return_null_if_given_a_null_AtomicLongArray() {
     // GIVEN

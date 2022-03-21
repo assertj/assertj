@@ -18,7 +18,6 @@ import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 
-
 /**
  * Reusable assertions for <code>{@link Boolean}</code>s.
  * 

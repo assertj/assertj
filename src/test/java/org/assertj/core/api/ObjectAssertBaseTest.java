@@ -14,7 +14,6 @@ package org.assertj.core.api;
 
 import org.assertj.core.test.Jedi;
 
-
 /**
  * Base class for {@link ObjectAssert} tests.
  * 

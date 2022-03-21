@@ -19,7 +19,6 @@ import org.assertj.core.api.ShortArrayAssert;
 import org.assertj.core.api.ShortArrayAssertBaseTest;
 import org.assertj.core.data.Index;
 
-
 /**
  * Tests for <code>{@link ShortArrayAssert#doesNotContain(short, Index)}</code>.
  * 

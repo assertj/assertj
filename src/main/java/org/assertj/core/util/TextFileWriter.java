@@ -42,6 +42,5 @@ public class TextFileWriter {
     }
   }
 
-  private TextFileWriter() {
-  }
+  private TextFileWriter() {}
 }

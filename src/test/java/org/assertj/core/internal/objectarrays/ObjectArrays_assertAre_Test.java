@@ -26,7 +26,6 @@ import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.ObjectArraysWithConditionBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for
  * <code>{@link ObjectArrays#assertAre(org.assertj.core.api.AssertionInfo, Object[], org.assertj.core.api.Condition)}</code>
@@ -48,7 +47,7 @@ class ObjectArrays_assertAre_Test extends ObjectArraysWithConditionBaseTest {
   @Test
   void should_throw_error_if_condition_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertAre(someInfo(), actual, null))
-                                                   .withMessage("The condition to evaluate should not be null");
+                                    .withMessage("The condition to evaluate should not be null");
     verify(conditions).assertIsNotNull(null);
   }
 

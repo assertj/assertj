@@ -18,7 +18,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.ShortArrayAssert;
 import org.assertj.core.api.ShortArrayAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link ShortArrayAssert#startsWith(short...)}</code>.
  * 

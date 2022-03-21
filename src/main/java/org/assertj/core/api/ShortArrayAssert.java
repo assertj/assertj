@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-
 /**
  * Assertion methods for arrays of {@code short}s.
  * <p>

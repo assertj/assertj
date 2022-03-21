@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.Comparables;
 
-
 /**
  * Base class for {@link BigDecimalAssert} tests.
  * 

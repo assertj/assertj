@@ -19,7 +19,6 @@ import java.io.InputStream;
 
 import org.assertj.core.internal.InputStreams;
 
-
 /**
  * Base class for {@link InputStreamAssert} tests.
  * 

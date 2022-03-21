@@ -22,25 +22,25 @@ public class TestClassWithRandomId {
   public final int n;
 
   public TestClassWithRandomId(String s, final int n) {
-	this.s = s;
-	this.n = n;
-	this.id = System.currentTimeMillis();
-	// sleep to avoid creating two objects with same id
-	try {
-	  Thread.sleep(5);
-	} catch (InterruptedException e) {
-	  // nothing to do
-	}
+    this.s = s;
+    this.n = n;
+    this.id = System.currentTimeMillis();
+    // sleep to avoid creating two objects with same id
+    try {
+      Thread.sleep(5);
+    } catch (InterruptedException e) {
+      // nothing to do
+    }
   }
 
   @Override
   public String toString() {
-	return "id=" + id;
+    return "id=" + id;
   }
 
   @SuppressWarnings("unused")
   private long getId() {
-	return id;
+    return id;
   }
 
 }

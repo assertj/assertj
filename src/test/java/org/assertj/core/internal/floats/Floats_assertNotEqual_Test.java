@@ -25,7 +25,6 @@ import org.assertj.core.internal.Floats;
 import org.assertj.core.internal.FloatsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Floats#assertNotEqual(AssertionInfo, Float, float)}</code>.
  * 
@@ -57,7 +56,9 @@ class Floats_assertNotEqual_Test extends FloatsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertNotEqual(someInfo(), null, 8f))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertNotEqual(someInfo(),
+                                                                                                                         null,
+                                                                                                                         8f))
                                                    .withMessage(actualIsNull());
   }
 

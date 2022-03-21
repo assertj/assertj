@@ -18,7 +18,7 @@ import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 
 class AtomicReferenceArrayAssert_containsExactlyInAnyOrder_Test extends AtomicReferenceArrayAssertBaseTest {
-  
+
   @Override
   protected AtomicReferenceArrayAssert<Object> invoke_api_method() {
     return assertions.containsExactlyInAnyOrder("Yoda", "Luke");
@@ -26,6 +26,6 @@ class AtomicReferenceArrayAssert_containsExactlyInAnyOrder_Test extends AtomicRe
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertContainsExactlyInAnyOrder(info(), internalArray(), new String[] {"Yoda", "Luke"});
+    verify(arrays).assertContainsExactlyInAnyOrder(info(), internalArray(), new String[] { "Yoda", "Luke" });
   }
 }

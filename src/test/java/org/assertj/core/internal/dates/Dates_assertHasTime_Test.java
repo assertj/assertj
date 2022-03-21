@@ -27,7 +27,6 @@ import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.DatesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Dates#assertHasTime(AssertionInfo, Date, long)}</code>.
  * 

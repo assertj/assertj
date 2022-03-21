@@ -29,7 +29,7 @@ class MapAssert_doesNotContainKeys_Test extends MapAssertBaseTest {
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {
-	return assertions.doesNotContainKeys("key1", "key2");
+    return assertions.doesNotContainKeys("key1", "key2");
   }
 
   @Override

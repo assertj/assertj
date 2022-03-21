@@ -25,7 +25,6 @@ import org.assertj.core.internal.Doubles;
 import org.assertj.core.internal.DoublesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Doubles#assertGreaterThan(AssertionInfo, Double, double)}</code>.
  * 

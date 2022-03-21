@@ -52,7 +52,7 @@ class ShouldHavePackage_create_Test {
   void should_create_error_message_with_String_if_actual_has_no_package() {
     // WHEN
     String message = shouldHavePackage(Object[].class, "java.util").create(new TestDescription("TEST"),
-                                                                            STANDARD_REPRESENTATION);
+                                                                           STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[TEST] %n" +
                                    "Expecting%n" +

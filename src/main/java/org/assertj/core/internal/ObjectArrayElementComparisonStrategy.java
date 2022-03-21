@@ -22,25 +22,25 @@ public class ObjectArrayElementComparisonStrategy<T> extends StandardComparisonS
   private final Comparator<? super T> elementComparator;
 
   public ObjectArrayElementComparisonStrategy(Comparator<? super T> elementComparator) {
-	this.elementComparator = elementComparator;
+    this.elementComparator = elementComparator;
   }
 
   @SuppressWarnings("unchecked")
   @Override
   public boolean areEqual(Object actual, Object other) {
-	if (actual == null && other == null) return true;
-	if (actual == null || other == null) return false;
+    if (actual == null && other == null) return true;
+    if (actual == null || other == null) return false;
     // expecting actual and other to be T[]
     return isArray(actual) && isArray(other) && compareElementsOf((T[]) actual, (T[]) other);
   }
 
   private boolean compareElementsOf(T[] actual, T[] other) {
     if (actual.length != other.length) return false;
-	// compare their elements with elementComparator
+    // compare their elements with elementComparator
     for (int i = 0; i < actual.length; i++) {
       if (elementComparator.compare(actual[i], other[i]) != 0) return false;
-	}
-	return true;
+    }
+    return true;
   }
 
   @Override
@@ -48,12 +48,12 @@ public class ObjectArrayElementComparisonStrategy<T> extends StandardComparisonS
     return "ObjectArrayElementComparisonStrategy using " + CONFIGURATION_PROVIDER.representation()
                                                                                  .toStringOf(elementComparator);
   }
-  
+
   @Override
   public String asText() {
     return "when comparing elements using " + CONFIGURATION_PROVIDER.representation().toStringOf(elementComparator);
   }
-  
+
   @Override
   public boolean isStandard() {
     return false;

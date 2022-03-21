@@ -18,10 +18,10 @@ import org.assertj.core.util.CheckReturnValue;
 public class IterableSizeAssert<T> extends AbstractIterableSizeAssert<IterableAssert<T>, Iterable<? extends T>, T, ObjectAssert<T>> {
 //@format:on
 
-
   private AbstractIterableAssert<IterableAssert<T>, Iterable<? extends T>, T, ObjectAssert<T>> source;
 
-  public IterableSizeAssert(AbstractIterableAssert<IterableAssert<T>, Iterable<? extends T>, T, ObjectAssert<T>> source, Integer i) {
+  public IterableSizeAssert(AbstractIterableAssert<IterableAssert<T>, Iterable<? extends T>, T, ObjectAssert<T>> source,
+                            Integer i) {
     super(i, IterableSizeAssert.class);
     this.source = source;
   }

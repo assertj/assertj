@@ -39,7 +39,8 @@ class EntryPointAssertions_catchNullPointerException_Test extends EntryPointAsse
   }
 
   private static Stream<Function<ThrowingCallable, NullPointerException>> catchNullPointerExceptions() {
-    return Stream.of(Assertions::catchNullPointerException, BDDAssertions::catchNullPointerException, withAssertions::catchNullPointerException);
+    return Stream.of(Assertions::catchNullPointerException, BDDAssertions::catchNullPointerException,
+                     withAssertions::catchNullPointerException);
   }
 
 }

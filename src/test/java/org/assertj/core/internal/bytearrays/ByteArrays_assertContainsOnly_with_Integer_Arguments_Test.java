@@ -31,7 +31,6 @@ import org.assertj.core.internal.ByteArraysBaseTest;
 import org.assertj.core.test.IntArrays;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link ByteArrays#assertContainsOnly(AssertionInfo, byte[], int[])}</code>.
  */
@@ -63,10 +62,11 @@ class ByteArrays_assertContainsOnly_with_Integer_Arguments_Test extends ByteArra
     actual = emptyArray();
     arrays.assertContainsOnly(someInfo(), actual, IntArrays.emptyArray());
   }
-  
+
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnly(someInfo(), actual, IntArrays.emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnly(someInfo(), actual,
+                                                                                               IntArrays.emptyArray()));
   }
 
   @Test
@@ -77,7 +77,8 @@ class ByteArrays_assertContainsOnly_with_Integer_Arguments_Test extends ByteArra
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnly(someInfo(), null, IntArrays.arrayOf(8)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnly(someInfo(), null,
+                                                                                               IntArrays.arrayOf(8)))
                                                    .withMessage(actualIsNull());
   }
 
@@ -130,7 +131,9 @@ class ByteArrays_assertContainsOnly_with_Integer_Arguments_Test extends ByteArra
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), null, IntArrays.arrayOf(-8)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(),
+                                                                                                                           null,
+                                                                                                                           IntArrays.arrayOf(-8)))
                                                    .withMessage(actualIsNull());
   }
 
@@ -138,7 +141,8 @@ class ByteArrays_assertContainsOnly_with_Integer_Arguments_Test extends ByteArra
   void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(info, actual, IntArrays.arrayOf(6, -8, 20)));
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(info, actual,
+                                                                                                 IntArrays.arrayOf(6, -8, 20)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,

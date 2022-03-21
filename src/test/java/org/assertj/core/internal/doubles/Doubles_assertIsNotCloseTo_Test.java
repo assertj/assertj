@@ -81,7 +81,8 @@ class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseTo(someInfo(), null, ONE,
+                                                                                                byLessThan(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
@@ -109,7 +110,7 @@ class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotBeEqual(actual, other, within(offset), abs(actual - other)));
   }
-  
+
   @Test
   void should_fail_if_actual_is_too_close_to_expected_value() {
     AssertionInfo info = someInfo();
@@ -132,17 +133,20 @@ class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
 
   @Test
   void should_fail_if_actual_and_expected_are_NaN() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseTo(someInfo(), NaN, NaN, within(ONE)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseTo(someInfo(), NaN, NaN,
+                                                                                                within(ONE)));
   }
 
   @Test
   void should_fail_if_actual_and_expected_are_POSITIVE_INFINITY() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY, POSITIVE_INFINITY, within(ONE)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseTo(someInfo(), POSITIVE_INFINITY,
+                                                                                                POSITIVE_INFINITY, within(ONE)));
   }
 
   @Test
   void should_fail_if_actual_and_expected_are_NEGATIVE_INFINITY() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY, NEGATIVE_INFINITY, within(ONE)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseTo(someInfo(), NEGATIVE_INFINITY,
+                                                                                                NEGATIVE_INFINITY, within(ONE)));
   }
 
 }

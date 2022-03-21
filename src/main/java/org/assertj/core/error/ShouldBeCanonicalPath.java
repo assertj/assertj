@@ -21,14 +21,14 @@ import org.assertj.core.util.VisibleForTesting;
  * {@link Path} is canonical has failed.
  */
 public class ShouldBeCanonicalPath extends BasicErrorMessageFactory {
-    @VisibleForTesting
-    public static final String SHOULD_BE_CANONICAL = "%nExpecting actual:%n  %s%nto be a canonical path";
+  @VisibleForTesting
+  public static final String SHOULD_BE_CANONICAL = "%nExpecting actual:%n  %s%nto be a canonical path";
 
-    public static ErrorMessageFactory shouldBeCanonicalPath(final Path actual) {
-        return new ShouldBeCanonicalPath(actual);
-    }
+  public static ErrorMessageFactory shouldBeCanonicalPath(final Path actual) {
+    return new ShouldBeCanonicalPath(actual);
+  }
 
-    private ShouldBeCanonicalPath(final Path actual) {
-        super(SHOULD_BE_CANONICAL, actual);
-    }
+  private ShouldBeCanonicalPath(final Path actual) {
+    super(SHOULD_BE_CANONICAL, actual);
+  }
 }

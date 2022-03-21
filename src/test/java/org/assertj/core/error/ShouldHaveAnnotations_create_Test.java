@@ -33,7 +33,7 @@ class ShouldHaveAnnotations_create_Test {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveAnnotations(ShouldHaveAnnotations_create_Test.class,
                                                         Lists.list(Override.class,
-                                                                                                 Deprecated.class),
+                                                                   Deprecated.class),
                                                         Lists.list(SuppressWarnings.class));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());

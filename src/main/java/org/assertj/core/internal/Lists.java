@@ -33,7 +33,6 @@ import org.assertj.core.api.Condition;
 import org.assertj.core.data.Index;
 import org.assertj.core.util.VisibleForTesting;
 
-
 /**
  * Reusable assertions for <code>{@link List}</code>s.
  *
@@ -71,8 +70,10 @@ public class Lists {
 
   @VisibleForTesting
   public Comparator<?> getComparator() {
-    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) { return ((ComparatorBasedComparisonStrategy) comparisonStrategy)
-        .getComparator(); }
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
+      return ((ComparatorBasedComparisonStrategy) comparisonStrategy)
+                                                                     .getComparator();
+    }
     return null;
   }
 
@@ -272,7 +273,7 @@ public class Lists {
     return comparisonStrategy.areEqual(actual, other);
   }
 
-    @VisibleForTesting
+  @VisibleForTesting
   public ComparisonStrategy getComparisonStrategy() {
     return comparisonStrategy;
   }

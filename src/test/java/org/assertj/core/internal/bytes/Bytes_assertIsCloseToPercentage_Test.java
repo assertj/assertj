@@ -38,13 +38,15 @@ class Bytes_assertIsCloseToPercentage_Test extends BytesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsCloseToPercentage(someInfo(), null, ONE, withPercentage(ONE)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsCloseToPercentage(someInfo(), null, ONE,
+                                                                                                     withPercentage(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_expected_value_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> bytes.assertIsCloseToPercentage(someInfo(), ONE, null, withPercentage(ONE)));
+    assertThatNullPointerException().isThrownBy(() -> bytes.assertIsCloseToPercentage(someInfo(), ONE, null,
+                                                                                      withPercentage(ONE)));
   }
 
   @Test
@@ -54,16 +56,17 @@ class Bytes_assertIsCloseToPercentage_Test extends BytesBaseTest {
 
   @Test
   void should_fail_if_percentage_is_negative() {
-    assertThatIllegalArgumentException().isThrownBy(() -> bytes.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1)));
+    assertThatIllegalArgumentException().isThrownBy(() -> bytes.assertIsCloseToPercentage(someInfo(), ONE, ZERO,
+                                                                                          withPercentage(-1)));
   }
 
   @ParameterizedTest
   @CsvSource({
-    "1, 1, 1",
-    "1, 2, 100",
-    "-1, -1, 1",
-    "-1, -2, 100",
-    "0, -1, 110"
+      "1, 1, 1",
+      "1, 2, 100",
+      "-1, -1, 1",
+      "-1, -2, 100",
+      "0, -1, 110"
   })
   void should_pass_if_difference_is_less_than_given_percentage(Byte actual, Byte other, Byte percentage) {
     bytes.assertIsCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
@@ -71,12 +74,12 @@ class Bytes_assertIsCloseToPercentage_Test extends BytesBaseTest {
 
   @ParameterizedTest
   @CsvSource({
-    "1, 1, 0",
-    "2, 1, 100",
-    "1, 2, 50",
-    "-1, -1, 0",
-    "-2, -1, 100",
-    "-1, -2, 50"
+      "1, 1, 0",
+      "2, 1, 100",
+      "1, 2, 50",
+      "-1, -1, 0",
+      "-2, -1, 100",
+      "-1, -2, 50"
   })
   void should_pass_if_difference_is_equal_to_given_percentage(Byte actual, Byte other, Byte percentage) {
     bytes.assertIsCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));

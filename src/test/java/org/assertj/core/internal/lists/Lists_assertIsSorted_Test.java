@@ -30,7 +30,6 @@ import org.assertj.core.internal.Lists;
 import org.assertj.core.internal.ListsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Lists#assertIsSorted(AssertionInfo, List)}</code>.
  * 

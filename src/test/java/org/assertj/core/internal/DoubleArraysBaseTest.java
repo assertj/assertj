@@ -20,7 +20,6 @@ import java.util.Comparator;
 import org.assertj.core.util.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 
-
 /**
  * Base class for testing <code>{@link DoubleArrays}</code>, set up an instance with {@link StandardComparisonStrategy} and
  * another with {@link ComparatorBasedComparisonStrategy}.

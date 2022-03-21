@@ -30,20 +30,20 @@ public class ShouldHaveRootCauseExactlyInstance extends BasicErrorMessageFactory
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldHaveRootCauseExactlyInstance(Throwable actual,
-      Class<? extends Throwable> expectedCauseType) {
+                                                                       Class<? extends Throwable> expectedCauseType) {
     return Throwables.getRootCause(actual) == null ? new ShouldHaveRootCauseExactlyInstance(expectedCauseType)
         : new ShouldHaveRootCauseExactlyInstance(actual, expectedCauseType);
   }
 
   private ShouldHaveRootCauseExactlyInstance(Throwable actual, Class<? extends Throwable> expectedCauseType) {
     super(
-        "%nExpecting a throwable with root cause being exactly an instance of:%n  %s%nbut was an instance of:%n  %s",
-        expectedCauseType, Throwables.getRootCause(actual));
+          "%nExpecting a throwable with root cause being exactly an instance of:%n  %s%nbut was an instance of:%n  %s",
+          expectedCauseType, Throwables.getRootCause(actual));
   }
 
   private ShouldHaveRootCauseExactlyInstance(Class<? extends Throwable> expectedCauseType) {
     super(
-        "%nExpecting a throwable with root cause being exactly an instance of:%n  %s%nbut current throwable has no cause.",
-        expectedCauseType);
+          "%nExpecting a throwable with root cause being exactly an instance of:%n  %s%nbut current throwable has no cause.",
+          expectedCauseType);
   }
 }

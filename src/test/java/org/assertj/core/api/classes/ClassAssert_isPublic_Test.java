@@ -33,4 +33,3 @@ class ClassAssert_isPublic_Test extends ClassAssertBaseTest {
   }
 
 }
-

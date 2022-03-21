@@ -43,13 +43,15 @@ class Doubles_assertIsNotCloseToPercentage_Test extends DoublesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseToPercentage(someInfo(), null, ONE, withPercentage(ONE)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseToPercentage(someInfo(), null, ONE,
+                                                                                                          withPercentage(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_expected_value_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> doubles.assertIsNotCloseToPercentage(someInfo(), ONE, null, withPercentage(ONE)));
+    assertThatNullPointerException().isThrownBy(() -> doubles.assertIsNotCloseToPercentage(someInfo(), ONE, null,
+                                                                                           withPercentage(ONE)));
   }
 
   @Test
@@ -59,16 +61,17 @@ class Doubles_assertIsNotCloseToPercentage_Test extends DoublesBaseTest {
 
   @Test
   void should_fail_if_percentage_is_negative() {
-    assertThatIllegalArgumentException().isThrownBy(() -> doubles.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1.0)));
+    assertThatIllegalArgumentException().isThrownBy(() -> doubles.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO,
+                                                                                               withPercentage(-1.0)));
   }
 
   @ParameterizedTest
   @CsvSource({
-    "1, 2, 1",
-    "1, 11, 90",
-    "-1, -2, 1",
-    "-1, -11, 90",
-    "0, -1, 99"
+      "1, 2, 1",
+      "1, 11, 90",
+      "-1, -2, 1",
+      "-1, -11, 90",
+      "0, -1, 99"
   })
   void should_pass_if_difference_is_greater_than_given_percentage(Double actual, Double other, Double percentage) {
     doubles.assertIsNotCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
@@ -86,7 +89,8 @@ class Doubles_assertIsNotCloseToPercentage_Test extends DoublesBaseTest {
   void should_fail_if_difference_is_equal_to_given_percentage(Double actual, Double other, Double percentage) {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> doubles.assertIsNotCloseToPercentage(someInfo(), actual, other, withPercentage(percentage)));
+    Throwable error = catchThrowable(() -> doubles.assertIsNotCloseToPercentage(someInfo(), actual, other,
+                                                                                withPercentage(percentage)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotBeEqualWithinPercentage(actual, other, withPercentage(percentage),
@@ -97,26 +101,34 @@ class Doubles_assertIsNotCloseToPercentage_Test extends DoublesBaseTest {
   void should_fail_if_actual_is_too_close_to_expected_value() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> doubles.assertIsNotCloseToPercentage(someInfo(), ONE, TEN, withPercentage(ONE_HUNDRED)));
+    Throwable error = catchThrowable(() -> doubles.assertIsNotCloseToPercentage(someInfo(), ONE, TEN,
+                                                                                withPercentage(ONE_HUNDRED)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotBeEqualWithinPercentage(ONE, TEN, withinPercentage(100),
-      TEN - ONE));
+                                                                    TEN - ONE));
   }
 
   @Test
   void should_fail_if_actual_and_expected_are_NaN() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseToPercentage(someInfo(), NaN, NaN, withPercentage(ONE)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseToPercentage(someInfo(), NaN, NaN,
+                                                                                                          withPercentage(ONE)));
   }
 
   @Test
   void should_fail_if_actual_and_expected_are_POSITIVE_INFINITY() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseToPercentage(someInfo(), POSITIVE_INFINITY, POSITIVE_INFINITY, withPercentage(ONE)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseToPercentage(someInfo(),
+                                                                                                          POSITIVE_INFINITY,
+                                                                                                          POSITIVE_INFINITY,
+                                                                                                          withPercentage(ONE)));
   }
 
   @Test
   void should_fail_if_actual_and_expected_are_NEGATIVE_INFINITY() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseToPercentage(someInfo(), NEGATIVE_INFINITY, NEGATIVE_INFINITY, withPercentage(ONE)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotCloseToPercentage(someInfo(),
+                                                                                                          NEGATIVE_INFINITY,
+                                                                                                          NEGATIVE_INFINITY,
+                                                                                                          withPercentage(ONE)));
   }
 
   @Test

@@ -35,7 +35,7 @@ class ObjectArrayAssert_doesNotContainsSubsequence_List_Test extends ObjectArray
   protected ObjectArrayAssert<Object> invoke_api_method() {
     // ObjectArrayAssertBaseTest is testing Object[], so the List type needs to be Object
     // or the {@link ObjectArrayAssert#doesNotContainSubsequence(Object...)} method is called.
-    return assertions.doesNotContainSubsequence(Lists.newArrayList((Object)"Luke", "Yoda"));
+    return assertions.doesNotContainSubsequence(Lists.newArrayList((Object) "Luke", "Yoda"));
   }
 
   @Override

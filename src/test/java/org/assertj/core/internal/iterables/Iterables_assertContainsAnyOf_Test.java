@@ -88,7 +88,8 @@ class Iterables_assertContainsAnyOf_Test extends IterablesBaseTest {
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsAnyOf(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsAnyOf(someInfo(), actual,
+                                                                                                   emptyArray()));
   }
 
   @Test
@@ -99,7 +100,8 @@ class Iterables_assertContainsAnyOf_Test extends IterablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsAnyOf(someInfo(), null, array("Yoda")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsAnyOf(someInfo(), null,
+                                                                                                   array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
@@ -156,7 +158,8 @@ class Iterables_assertContainsAnyOf_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] expected = { "Han", "John" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAnyOf(info, actual, expected));
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAnyOf(info, actual,
+                                                                                                              expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainAnyOf(actual, expected, comparisonStrategy));

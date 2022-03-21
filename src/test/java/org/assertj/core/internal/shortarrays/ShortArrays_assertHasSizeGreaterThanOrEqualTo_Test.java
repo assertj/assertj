@@ -24,14 +24,17 @@ class ShortArrays_assertHasSizeGreaterThanOrEqualTo_Test extends ShortArraysBase
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSizeGreaterThanOrEqualTo(someInfo(), null, 6))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSizeGreaterThanOrEqualTo(someInfo(), null,
+                                                                                                              6))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_size_of_actual_is_not_greater_than_or_equal_to_boundary() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSizeGreaterThanOrEqualTo(someInfo(), actual, 6))
-                                                   .withMessage(shouldHaveSizeGreaterThanOrEqualTo(actual, actual.length, 6).create());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSizeGreaterThanOrEqualTo(someInfo(), actual,
+                                                                                                              6))
+                                                   .withMessage(shouldHaveSizeGreaterThanOrEqualTo(actual, actual.length,
+                                                                                                   6).create());
   }
 
   @Test

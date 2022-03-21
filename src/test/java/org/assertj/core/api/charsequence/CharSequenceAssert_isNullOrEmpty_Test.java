@@ -35,7 +35,7 @@ class CharSequenceAssert_isNullOrEmpty_Test extends CharSequenceAssertBaseTest {
   protected void verify_internal_effects() {
     verify(strings).assertNullOrEmpty(getInfo(assertions), getActual(assertions));
   }
-  
+
   @Override
   @Test
   public void should_return_this() {

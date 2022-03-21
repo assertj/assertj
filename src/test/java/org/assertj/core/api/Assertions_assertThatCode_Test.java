@@ -38,7 +38,7 @@ class Assertions_assertThatCode_Test {
     ThrowingCallable boom = raisingException(exception);
 
     // Expect
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       // When;
       assertThatCode(boom).doesNotThrowAnyException();
     }).withMessage(shouldNotHaveThrown(exception).create());
@@ -70,8 +70,7 @@ class Assertions_assertThatCode_Test {
   @Test
   void should_succeed_when_asserting_no_exception_raised_and_no_exception_occurs() {
     // Given
-    ThrowingCallable silent = () -> {
-    };
+    ThrowingCallable silent = () -> {};
 
     // Then
     assertThatCode(silent).doesNotThrowAnyException();

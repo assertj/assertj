@@ -23,7 +23,6 @@ import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Strings#assertEndsWith(AssertionInfo, CharSequence, CharSequence)}</code>.
  * 
@@ -41,7 +40,7 @@ class Strings_assertEndsWith_Test extends StringsBaseTest {
   @Test
   void should_throw_error_if_suffix_is_null() {
     assertThatNullPointerException().isThrownBy(() -> strings.assertEndsWith(someInfo(), "Yoda", null))
-                                       .withMessage("The given suffix should not be null");
+                                    .withMessage("The given suffix should not be null");
   }
 
   @Test
@@ -66,7 +65,9 @@ class Strings_assertEndsWith_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_does_not_end_with_suffix_according_to_custom_comparison_strategy() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertEndsWith(someInfo(), "Yoda", "Luke"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertEndsWith(someInfo(),
+                                                                                                                                 "Yoda",
+                                                                                                                                 "Luke"))
                                                    .withMessage(shouldEndWith("Yoda", "Luke", comparisonStrategy).create());
   }
 

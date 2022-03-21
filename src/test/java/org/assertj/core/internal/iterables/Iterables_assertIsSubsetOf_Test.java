@@ -31,7 +31,6 @@ import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Iterables#assertIsSubsetOf(AssertionInfo, Collection, Object[])}</code>.
  * 
@@ -91,7 +90,8 @@ class Iterables_assertIsSubsetOf_Test extends IterablesBaseTest {
   @Test
   void should_throw_error_if_actual_is_null() {
     actual = null;
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertIsSubsetOf(someInfo(), actual, newArrayList()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertIsSubsetOf(someInfo(), actual,
+                                                                                                newArrayList()))
                                                    .withMessage(actualIsNull());
   }
 

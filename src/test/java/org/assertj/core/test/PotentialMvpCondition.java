@@ -14,7 +14,6 @@ package org.assertj.core.test;
 
 import org.assertj.core.api.Condition;
 
-
 /**
  * 
  * A {@code Condition} checking if a {@link Player} is a potential MVP.

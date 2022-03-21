@@ -37,7 +37,7 @@ class FloatArrayAssert_containsExactlyInAnyOrder_Test extends FloatArrayAssertBa
 
   @Test
   void invoke_api_like_user() {
-     assertThat(new float[] { 1.0F, 2.0F, 2.0F }).containsExactlyInAnyOrder(2.0F, 2.0F, 1.0F);
+    assertThat(new float[] { 1.0F, 2.0F, 2.0F }).containsExactlyInAnyOrder(2.0F, 2.0F, 1.0F);
   }
 
 }

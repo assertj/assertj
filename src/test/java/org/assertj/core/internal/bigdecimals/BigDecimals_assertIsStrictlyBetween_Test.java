@@ -32,7 +32,6 @@ import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.BigDecimalsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link BigDecimals#assertIsStrictlyBetween(AssertionInfo, BigDecimal, BigDecimal, BigDecimal)}</code>.
  * 
@@ -73,14 +72,14 @@ class BigDecimals_assertIsStrictlyBetween_Test extends BigDecimalsBaseTest {
 
   @Test
   void should_fail_if_actual_is_equal_to_range_start_by_comparison() {
-  	AssertionInfo info = someInfo();
+    AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbers.assertIsStrictlyBetween(info, ONE, new BigDecimal("1.00"), TEN));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-	  verify(failures).failure(info, shouldBeBetween(ONE, new BigDecimal("1.00"), TEN, false, false));
+    verify(failures).failure(info, shouldBeBetween(ONE, new BigDecimal("1.00"), TEN, false, false));
   }
-  
+
   @Test
   void should_fail_if_actual_is_equal_to_range_end() {
     AssertionInfo info = someInfo();
@@ -93,14 +92,14 @@ class BigDecimals_assertIsStrictlyBetween_Test extends BigDecimalsBaseTest {
 
   @Test
   void should_fail_if_actual_is_equal_to_range_end_by_comparison() {
-  	AssertionInfo info = someInfo();
+    AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbers.assertIsStrictlyBetween(info, ONE, ZERO, new BigDecimal("1.00")));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-	  verify(failures).failure(info, shouldBeBetween(ONE, ZERO, new BigDecimal("1.00"), false, false));
+    verify(failures).failure(info, shouldBeBetween(ONE, ZERO, new BigDecimal("1.00"), false, false));
   }
-  
+
   @Test
   void should_fail_if_actual_is_not_in_range_start() {
     AssertionInfo info = someInfo();

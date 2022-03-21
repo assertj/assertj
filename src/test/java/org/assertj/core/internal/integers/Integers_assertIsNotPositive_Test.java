@@ -20,7 +20,6 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import org.assertj.core.internal.IntegersBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link org.assertj.core.internal.Integers#assertIsNotPositive(org.assertj.core.api.AssertionInfo,
  * Comparable)}</code>.
@@ -50,7 +49,8 @@ class Integers_assertIsNotPositive_Test extends IntegersBaseTest {
   @Test
   void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> integersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), -1));
+    AssertionError assertionError = expectAssertionError(() -> integersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                                          -1));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual(-1, 0, absValueComparisonStrategy).create());
   }
@@ -58,7 +58,8 @@ class Integers_assertIsNotPositive_Test extends IntegersBaseTest {
   @Test
   void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> integersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), 1));
+    AssertionError assertionError = expectAssertionError(() -> integersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                                          1));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual(1, 0, absValueComparisonStrategy).create());
   }

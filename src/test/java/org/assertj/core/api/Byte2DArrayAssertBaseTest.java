@@ -16,7 +16,6 @@ import static org.mockito.Mockito.mock;
 
 import org.assertj.core.internal.Byte2DArrays;
 
-
 /**
  * Base class for {@link Byte2DArrayAssert} tests.
  * 
@@ -36,7 +35,7 @@ public abstract class Byte2DArrayAssertBaseTest extends BaseTestTemplate<Byte2DA
     arrays = mock(Byte2DArrays.class);
     assertions.byte2dArrays = arrays;
   }
-  
+
   protected Byte2DArrays getArrays(Byte2DArrayAssert someAssertions) {
     return someAssertions.byte2dArrays;
   }

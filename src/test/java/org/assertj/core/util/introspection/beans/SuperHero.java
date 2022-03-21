@@ -28,9 +28,9 @@ public class SuperHero extends Person {
   public Person archenemy() {
     return archenemy;
   }
-  
+
   public Person getArchenemy() {
-	return archenemy;
+    return archenemy;
   }
 
   public void saveTheDay() {
@@ -41,8 +41,8 @@ public class SuperHero extends Person {
   private Person trueIdentity() {
     return trueIdentity;
   }
-  
+
   Person getTrueIdentity() {
-	return trueIdentity;
+    return trueIdentity;
   }
 }

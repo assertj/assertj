@@ -17,7 +17,8 @@ import org.assertj.core.internal.Comparables;
 /**
  * Base class to test {@link org.assertj.core.api.GenericComparableAssert}.
  */
-public abstract class GenericComparableAssertBaseTest extends ComparableAssertBaseTest<GenericComparableAssert<Integer>, Integer> {
+public abstract class GenericComparableAssertBaseTest
+    extends ComparableAssertBaseTest<GenericComparableAssert<Integer>, Integer> {
 
   @Override
   protected GenericComparableAssert<Integer> create_assertions() {

@@ -37,6 +37,6 @@ class LongArrayAssert_containsExactlyInAnyOrder_Test extends LongArrayAssertBase
 
   @Test
   void invoke_api_like_user() {
-     assertThat(new long[] { 1L, 2L, 2L }).containsExactlyInAnyOrder(2L, 2L, 1L);
+    assertThat(new long[] { 1L, 2L, 2L }).containsExactlyInAnyOrder(2L, 2L, 1L);
   }
 }

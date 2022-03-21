@@ -129,22 +129,26 @@ class Doubles_assertIsCloseTo_Test extends DoublesBaseTest {
 
   @Test
   void should_fail_if_actual_is_POSITIVE_INFINITY_and_expected_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseTo(someInfo(), POSITIVE_INFINITY, ONE, within(ONE)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseTo(someInfo(), POSITIVE_INFINITY, ONE,
+                                                                                             within(ONE)));
   }
 
   @Test
   void should_fail_if_actual_is_NEGATIVE_INFINITY_and_expected_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseTo(someInfo(), NEGATIVE_INFINITY, ONE, within(ONE)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseTo(someInfo(), NEGATIVE_INFINITY, ONE,
+                                                                                             within(ONE)));
   }
 
   @Test
   void should_fail_if_actual_is_POSITIVE_INFINITY_and_expected_is_NEGATIVE_INFINITY() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseTo(someInfo(), POSITIVE_INFINITY, NEGATIVE_INFINITY, within(ONE)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseTo(someInfo(), POSITIVE_INFINITY,
+                                                                                             NEGATIVE_INFINITY, within(ONE)));
   }
 
   @Test
   void should_fail_if_actual_is_NEGATIVE_INFINITY_and_expected_is_POSITIVE_INFINITY() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseTo(someInfo(), NEGATIVE_INFINITY, POSITIVE_INFINITY, within(ONE)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseTo(someInfo(), NEGATIVE_INFINITY,
+                                                                                             POSITIVE_INFINITY, within(ONE)));
   }
 
   // with comparison strategy
@@ -176,7 +180,8 @@ class Doubles_assertIsCloseTo_Test extends DoublesBaseTest {
   void should_fail_if_actual_is_not_close_enough_to_expected_value_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> doublesWithAbsValueComparisonStrategy.assertIsCloseTo(info, new Double(6d), new Double(8d), offset(1d)));
+    Throwable error = catchThrowable(() -> doublesWithAbsValueComparisonStrategy.assertIsCloseTo(info, new Double(6d),
+                                                                                                 new Double(8d), offset(1d)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeEqual(6d, 8d, offset(1d), 2d));
@@ -186,7 +191,8 @@ class Doubles_assertIsCloseTo_Test extends DoublesBaseTest {
   void should_fail_if_actual_is_not_strictly_close_enough_to_expected_value_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> doublesWithAbsValueComparisonStrategy.assertIsCloseTo(info, new Double(6d), new Double(8d), byLessThan(1d)));
+    Throwable error = catchThrowable(() -> doublesWithAbsValueComparisonStrategy.assertIsCloseTo(info, new Double(6d),
+                                                                                                 new Double(8d), byLessThan(1d)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeEqual(6d, 8d, byLessThan(1d), 2d));

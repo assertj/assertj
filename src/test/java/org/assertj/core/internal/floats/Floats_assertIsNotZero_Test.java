@@ -47,7 +47,8 @@ class Floats_assertIsNotZero_Test extends FloatsBaseTest {
 
   @Test
   void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0.0f))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(),
+                                                                                                                          0.0f))
                                                    .withMessage(format("%nExpecting actual:%n  0.0f%nnot to be equal to:%n  0.0f%n"));
   }
 

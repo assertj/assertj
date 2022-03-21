@@ -20,7 +20,6 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import org.assertj.core.internal.LongsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Longs#assertIsNotPositive(AssertionInfo, Long))}</code>.
  * 
@@ -49,7 +48,8 @@ class Longs_assertIsNotPositive_Test extends LongsBaseTest {
   @Test
   void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> longsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), -1L));
+    AssertionError assertionError = expectAssertionError(() -> longsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                                       -1L));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual(-1L, 0L, absValueComparisonStrategy).create());
   }
@@ -57,7 +57,8 @@ class Longs_assertIsNotPositive_Test extends LongsBaseTest {
   @Test
   void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> longsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), 1L));
+    AssertionError assertionError = expectAssertionError(() -> longsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                                       1L));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual(1L, 0L, absValueComparisonStrategy).create());
   }

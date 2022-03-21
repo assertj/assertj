@@ -19,7 +19,6 @@ import java.math.BigInteger;
 import org.assertj.core.api.BigIntegerAssert;
 import org.assertj.core.api.BigIntegerAssertBaseTest;
 
-
 class BigIntegerAssert_isStrictlyBetween_Test extends BigIntegerAssertBaseTest {
 
   @Override
@@ -29,6 +28,7 @@ class BigIntegerAssert_isStrictlyBetween_Test extends BigIntegerAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(bigIntegers).assertIsStrictlyBetween(getInfo(assertions), getActual(assertions), new BigInteger("6"), new BigInteger("8"));
+    verify(bigIntegers).assertIsStrictlyBetween(getInfo(assertions), getActual(assertions), new BigInteger("6"),
+                                                new BigInteger("8"));
   }
 }

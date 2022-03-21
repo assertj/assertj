@@ -57,7 +57,8 @@ class ByteArrays_assertContainsOnlyOnce_Test extends ByteArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-        shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((byte) 20), newLinkedHashSet((byte) 6, (byte) -8)));
+                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((byte) 20),
+                                                    newLinkedHashSet((byte) 6, (byte) -8)));
   }
 
   @Test
@@ -98,7 +99,7 @@ class ByteArrays_assertContainsOnlyOnce_Test extends ByteArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-        shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((byte) 20), newLinkedHashSet()));
+                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((byte) 20), newLinkedHashSet()));
   }
 
   @Test
@@ -121,9 +122,10 @@ class ByteArrays_assertContainsOnlyOnce_Test extends ByteArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(
-        info,
-        shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((byte) 20), newLinkedHashSet((byte) 6, (byte) -8),
-            absValueComparisonStrategy));
+                             info,
+                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((byte) 20),
+                                                    newLinkedHashSet((byte) 6, (byte) -8),
+                                                    absValueComparisonStrategy));
   }
 
   @Test
@@ -133,17 +135,24 @@ class ByteArrays_assertContainsOnlyOnce_Test extends ByteArraysBaseTest {
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(),
+                                                                                                                               actual,
+                                                                                                                               emptyArray()));
   }
 
   @Test
   void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, (byte[]) null)).withMessage(valuesToLookForIsNull());
+    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(),
+                                                                                                                actual,
+                                                                                                                (byte[]) null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), null, arrayOf(-8)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(),
+                                                                                                                               null,
+                                                                                                                               arrayOf(-8)))
                                                    .withMessage(actualIsNull());
   }
 
@@ -156,8 +165,8 @@ class ByteArrays_assertContainsOnlyOnce_Test extends ByteArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(
-        info,
-        shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((byte) 20), newLinkedHashSet(),
-            absValueComparisonStrategy));
+                             info,
+                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((byte) 20), newLinkedHashSet(),
+                                                    absValueComparisonStrategy));
   }
 }

@@ -1095,7 +1095,6 @@ public class AtomicReferenceArrayAssert<T>
     return myself;
   }
 
-
   /**
    * Verifies that the actual AtomicReferenceArray does not contain the given object at the given index.
    * <p>

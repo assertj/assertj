@@ -23,18 +23,18 @@ import java.time.temporal.Temporal;
  */
 public class ShouldHaveSameHourAs extends BasicErrorMessageFactory {
 
-    /**
-     * Creates a new <code>{@link ShouldHaveSameHourAs}</code>.
-     *
-     * @param actual the actual value in the failed assertion.
-     * @param other  the value used in the failed assertion to compare the actual value to.
-     * @return the created {@code ErrorMessageFactory}.
-     */
-    public static ErrorMessageFactory shouldHaveSameHourAs(Temporal actual, Temporal other) {
-        return new ShouldHaveSameHourAs(actual, other);
-    }
+  /**
+   * Creates a new <code>{@link ShouldHaveSameHourAs}</code>.
+   *
+   * @param actual the actual value in the failed assertion.
+   * @param other  the value used in the failed assertion to compare the actual value to.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldHaveSameHourAs(Temporal actual, Temporal other) {
+    return new ShouldHaveSameHourAs(actual, other);
+  }
 
-    private ShouldHaveSameHourAs(Temporal actual, Temporal other) {
-        super("%nExpecting actual:%n  %s%nto have same hour as:%n  %s%nbut had not.", actual, other);
-    }
+  private ShouldHaveSameHourAs(Temporal actual, Temporal other) {
+    super("%nExpecting actual:%n  %s%nto have same hour as:%n  %s%nbut had not.", actual, other);
+  }
 }

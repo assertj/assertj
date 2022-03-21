@@ -40,6 +40,6 @@ class ByteArrayAssert_containsExactlyInAnyOrder_with_integers_Test extends ByteA
 
   @Test
   void invoke_api_like_user() {
-     assertThat(new byte[] { 1, 2, 2 }).containsExactlyInAnyOrder(2, 2, 1);
+    assertThat(new byte[] { 1, 2, 2 }).containsExactlyInAnyOrder(2, 2, 1);
   }
 }

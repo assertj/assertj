@@ -20,7 +20,6 @@ import org.assertj.core.api.ByteArrayAssert;
 import org.assertj.core.api.ByteArrayAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link ByteArrayAssert#containsOnly(int...)}</code>.
  */
@@ -31,11 +30,13 @@ class ByteArrayAssert_containsOnly_with_Integer_Arguments_Test extends ByteArray
     assertThat(new byte[] { 1, 2, 3 }).containsOnly(3, 2, 1);
   }
 
-  @Override protected ByteArrayAssert invoke_api_method() {
+  @Override
+  protected ByteArrayAssert invoke_api_method() {
     return assertions.containsOnly(6, 8);
   }
 
-  @Override protected void verify_internal_effects() {
+  @Override
+  protected void verify_internal_effects() {
     verify(arrays).assertContainsOnly(getInfo(assertions), getActual(assertions), arrayOf(6, 8));
   }
 }

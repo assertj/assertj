@@ -24,7 +24,6 @@ import org.assertj.core.api.FloatArrayAssertBaseTest;
 import org.assertj.core.data.Index;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link FloatArrayAssert#contains(float, Index)}</code>.
  * 

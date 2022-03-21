@@ -23,7 +23,6 @@ import org.assertj.core.internal.ObjectsBaseTest;
 import org.assertj.core.test.Person;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Objects#assertThat(Object).isNotSameAs(AssertionInfo, Object)}</code>.
  * 

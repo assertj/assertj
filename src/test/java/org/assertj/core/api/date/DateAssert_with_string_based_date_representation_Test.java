@@ -169,14 +169,14 @@ class DateAssert_with_string_based_date_representation_Test extends DateAssertBa
 
     // THEN
     assertThat(error).isInstanceOf(AssertionError.class)
-      .hasMessage(format("Failed to parse 2003/04/26 with any of these date formats:%n" +
-                          "   [yyyy/MM/dd'T'HH:mm:ss,%n" +
-                          "    yyyy-MM-dd'T'HH:mm:ss.SSSX,%n" +
-                          "    yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
-                          "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
-                          "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
-                          "    yyyy-MM-dd'T'HH:mm:ss,%n" +
-                          "    yyyy-MM-dd]"));
+                     .hasMessage(format("Failed to parse 2003/04/26 with any of these date formats:%n" +
+                                        "   [yyyy/MM/dd'T'HH:mm:ss,%n" +
+                                        "    yyyy-MM-dd'T'HH:mm:ss.SSSX,%n" +
+                                        "    yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
+                                        "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
+                                        "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
+                                        "    yyyy-MM-dd'T'HH:mm:ss,%n" +
+                                        "    yyyy-MM-dd]"));
 
     // register the expected custom formats, they are used in the order they have been registered.
     registerCustomDateFormat("yyyy/MM/dd");
@@ -205,13 +205,13 @@ class DateAssert_with_string_based_date_representation_Test extends DateAssertBa
 
     // THEN
     assertThat(error).isInstanceOf(AssertionError.class)
-      .hasMessage(format("Failed to parse 2003/04/26 with any of these date formats:%n" +
-                          "   [yyyy-MM-dd'T'HH:mm:ss.SSSX,%n" +
-                          "    yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
-                          "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
-                          "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
-                          "    yyyy-MM-dd'T'HH:mm:ss,%n" +
-                          "    yyyy-MM-dd]"));
+                     .hasMessage(format("Failed to parse 2003/04/26 with any of these date formats:%n" +
+                                        "   [yyyy-MM-dd'T'HH:mm:ss.SSSX,%n" +
+                                        "    yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
+                                        "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
+                                        "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
+                                        "    yyyy-MM-dd'T'HH:mm:ss,%n" +
+                                        "    yyyy-MM-dd]"));
 
     // registering a custom date format to make the assertion pass
     registerCustomDateFormat("yyyy/MM/dd");
@@ -226,14 +226,14 @@ class DateAssert_with_string_based_date_representation_Test extends DateAssertBa
 
     // THEN
     assertThat(error).isInstanceOf(AssertionError.class)
-      .hasMessage(format("Failed to parse 2003 04 26 with any of these date formats:%n" +
-                          "   [yyyy/MM/dd,%n" +
-                          "    yyyy-MM-dd'T'HH:mm:ss.SSSX,%n" +
-                          "    yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
-                          "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
-                          "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
-                          "    yyyy-MM-dd'T'HH:mm:ss,%n" +
-                          "    yyyy-MM-dd]"));
+                     .hasMessage(format("Failed to parse 2003 04 26 with any of these date formats:%n" +
+                                        "   [yyyy/MM/dd,%n" +
+                                        "    yyyy-MM-dd'T'HH:mm:ss.SSSX,%n" +
+                                        "    yyyy-MM-dd'T'HH:mm:ss.SSS,%n" +
+                                        "    yyyy-MM-dd HH:mm:ss.SSS,%n" +
+                                        "    yyyy-MM-dd'T'HH:mm:ssX,%n" +
+                                        "    yyyy-MM-dd'T'HH:mm:ss,%n" +
+                                        "    yyyy-MM-dd]"));
 
     // register a new custom format should work
     registerCustomDateFormat("yyyy MM dd");

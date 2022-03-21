@@ -16,7 +16,6 @@ import static org.mockito.Mockito.mock;
 
 import org.assertj.core.internal.Bytes;
 
-
 /**
  * Base class for {@link ByteAssert} tests.
  * 

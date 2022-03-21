@@ -26,7 +26,6 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.internal.DoubleArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 class DoubleArrays_assertHasSameSizeAs_with_Iterable_Test extends DoubleArraysBaseTest {
 
   private final List<String> other = list("Solo", "Leia", "Luke");

@@ -29,7 +29,6 @@ import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.DatesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Dates#assertIsInSameDayAs(AssertionInfo, Date, Date)}</code>.
  * 
@@ -78,16 +77,18 @@ class Dates_assertIsInSameDayAs_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInSameDayAs(someInfo(), null, new Date()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInSameDayAs(someInfo(),
+                                                                                                                           null,
+                                                                                                                           new Date()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInSameDayAs(someInfo(),
-                                                                                                                                 actual,
-                                                                                                                                 null))
-                                                         .withMessage(dateToCompareActualWithIsNull());
+                                                                                                            actual,
+                                                                                                            null))
+                                    .withMessage(dateToCompareActualWithIsNull());
   }
 
   @Test

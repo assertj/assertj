@@ -88,32 +88,45 @@ class AtomicReferenceArrayAssert_extracting_Test {
 
   @Test
   void should_use_property_field_names_as_description_when_extracting_simple_value_list() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(employees).extracting("name.first").isEmpty()).withMessageContaining("[Extracted: name.first]");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(employees).extracting("name.first").isEmpty())
+                                                   .withMessageContaining("[Extracted: name.first]");
   }
 
   @Test
   void should_use_property_field_names_as_description_when_extracting_typed_simple_value_list() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(employees).extracting("name.first", String.class).isEmpty()).withMessageContaining("[Extracted: name.first]");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(employees).extracting("name.first", String.class)
+                                                                                          .isEmpty())
+                                                   .withMessageContaining("[Extracted: name.first]");
   }
 
   @Test
   void should_use_property_field_names_as_description_when_extracting_tuples_list() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(employees).extracting("name.first", "name.last").isEmpty()).withMessageContaining("[Extracted: name.first, name.last]");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(employees).extracting("name.first", "name.last")
+                                                                                          .isEmpty())
+                                                   .withMessageContaining("[Extracted: name.first, name.last]");
   }
 
   @Test
   void should_keep_existing_description_if_set_when_extracting_typed_simple_value_list() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(employees).as("check employees first name").extracting("name.first", String.class).isEmpty()).withMessageContaining("[check employees first name]");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(employees).as("check employees first name")
+                                                                                          .extracting("name.first", String.class)
+                                                                                          .isEmpty())
+                                                   .withMessageContaining("[check employees first name]");
   }
 
   @Test
   void should_keep_existing_description_if_set_when_extracting_tuples_list() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(employees).as("check employees name").extracting("name.first", "name.last").isEmpty()).withMessageContaining("[check employees name]");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(employees).as("check employees name")
+                                                                                          .extracting("name.first", "name.last")
+                                                                                          .isEmpty())
+                                                   .withMessageContaining("[check employees name]");
   }
 
   @Test
   void should_keep_existing_description_if_set_when_extracting_simple_value_list() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(employees).as("check employees first name").extracting("name.first").isEmpty()).withMessageContaining("[check employees first name]");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(employees).as("check employees first name")
+                                                                                          .extracting("name.first").isEmpty())
+                                                   .withMessageContaining("[check employees first name]");
   }
 
   @Test

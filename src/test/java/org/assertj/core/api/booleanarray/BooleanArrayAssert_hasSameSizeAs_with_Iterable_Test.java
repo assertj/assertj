@@ -20,7 +20,6 @@ import java.util.List;
 import org.assertj.core.api.BooleanArrayAssert;
 import org.assertj.core.api.BooleanArrayAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link BooleanArrayAssert#hasSameSizeAs(Iterable)}</code>.
  * 

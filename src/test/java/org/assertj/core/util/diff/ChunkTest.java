@@ -22,7 +22,6 @@ import static org.assertj.core.test.EqualsHashCodeContractAssert.assertMaintains
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 class ChunkTest {
 
   private Chunk<String> chunk;

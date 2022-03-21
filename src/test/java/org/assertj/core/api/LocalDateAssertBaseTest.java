@@ -18,7 +18,6 @@ import java.time.LocalDate;
 
 import org.assertj.core.internal.Comparables;
 
-
 public abstract class LocalDateAssertBaseTest extends BaseTestTemplate<LocalDateAssert, LocalDate> {
 
   protected Comparables comparables;

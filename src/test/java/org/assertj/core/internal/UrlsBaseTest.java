@@ -24,12 +24,11 @@ public abstract class UrlsBaseTest {
   protected Urls urls;
   protected AssertionInfo info;
 
-
   @BeforeEach
   public void setUp() {
-	failures = spy(new Failures());
+    failures = spy(new Failures());
     urls = new Urls();
     urls.failures = failures;
-	info = someInfo();
+    info = someInfo();
   }
 }

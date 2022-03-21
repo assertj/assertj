@@ -25,7 +25,6 @@ import org.assertj.core.internal.Longs;
 import org.assertj.core.internal.LongsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Longs#assertGreaterThan(AssertionInfo, Long, long)}</code>.
  * 

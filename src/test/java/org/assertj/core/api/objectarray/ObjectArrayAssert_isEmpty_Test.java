@@ -36,7 +36,7 @@ class ObjectArrayAssert_isEmpty_Test extends ObjectArrayAssertBaseTest {
   protected void verify_internal_effects() {
     verify(arrays).assertEmpty(getInfo(assertions), getActual(assertions));
   }
-  
+
   @Override
   @Test
   public void should_return_this() {

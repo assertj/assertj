@@ -63,7 +63,8 @@ class Iterables_assertStartsWith_Test extends IterablesBaseTest {
 
   @Test
   void should_fail_if_sequence_to_look_for_is_empty_and_actual_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertStartsWith(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertStartsWith(someInfo(), actual,
+                                                                                                emptyArray()));
   }
 
   @Test
@@ -145,13 +146,12 @@ class Iterables_assertStartsWith_Test extends IterablesBaseTest {
           }
 
           @Override
-          public void remove() {
-          }
+          public void remove() {}
         };
       }
     };
   }
-  
+
   // ------------------------------------------------------------------------------------------------------------------
   // tests using a custom comparison strategy
   // ------------------------------------------------------------------------------------------------------------------
@@ -161,7 +161,8 @@ class Iterables_assertStartsWith_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Han", "C-3PO" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertStartsWith(info, actual, sequence));
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertStartsWith(info, actual,
+                                                                                                           sequence));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldStartWith(actual, sequence, comparisonStrategy));
@@ -172,7 +173,8 @@ class Iterables_assertStartsWith_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] sequence = { "YODA", "luke", "Leia", "Obi-Wan", "Han" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertStartsWith(info, actual, sequence));
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertStartsWith(info, actual,
+                                                                                                           sequence));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldStartWith(actual, sequence, comparisonStrategy));

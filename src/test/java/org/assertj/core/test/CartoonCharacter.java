@@ -52,6 +52,5 @@ public class CartoonCharacter {
   public String toString() {
     return "CartoonCharacter [name=" + name + "]";
   }
-  
-  
+
 }

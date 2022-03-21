@@ -21,7 +21,6 @@ import org.assertj.core.api.InputStreamAssert;
 import org.assertj.core.api.InputStreamAssertBaseTest;
 import org.junit.jupiter.api.BeforeAll;
 
-
 /**
  * Tests for <code>{@link InputStreamAssert#hasSameContentAs(java.io.InputStream)}</code>.
  * 

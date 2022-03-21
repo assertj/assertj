@@ -24,11 +24,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class AbstractAssert_isNull_Test extends AbstractAssertBaseTest{
+public class AbstractAssert_isNull_Test extends AbstractAssertBaseTest {
 
   @Test
-  public void should_verify_that_actual_value_is_null() {
-  }
+  public void should_verify_that_actual_value_is_null() {}
 
   @Override
   protected ConcreteAssert invoke_api_method() {
@@ -40,7 +39,7 @@ public class AbstractAssert_isNull_Test extends AbstractAssertBaseTest{
   protected void verify_internal_effects() {
     verify(objects).assertNull(getInfo(assertions), getActual(assertions));
   }
-  
+
   @Override
   @Test
   public void should_return_this() {

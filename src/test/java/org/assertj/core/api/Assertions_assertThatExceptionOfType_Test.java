@@ -61,7 +61,7 @@ class Assertions_assertThatExceptionOfType_Test {
   @ParameterizedTest
   @MethodSource("data")
   void should_pass_ExceptionType(Supplier<ThrowableTypeAssert<? extends Exception>> assertionGenerator,
-                                        Class<? extends Exception> exceptionType) {
+                                 Class<? extends Exception> exceptionType) {
     ThrowableTypeAssert<? extends Exception> assertions = assertionGenerator.get();
     assertThat(assertions.expectedThrowableType).isSameAs(exceptionType);
   }
@@ -69,8 +69,8 @@ class Assertions_assertThatExceptionOfType_Test {
   @ParameterizedTest
   @MethodSource("data")
   void should_create_ChainedThrowableAssert(Supplier<ThrowableTypeAssert<? extends Exception>> assertionGenerator,
-                                                   @SuppressWarnings("unused") Class<? extends Exception> exceptionType,
-                                                   Supplier<? extends Exception> exceptionBuilder) {
+                                            @SuppressWarnings("unused") Class<? extends Exception> exceptionType,
+                                            Supplier<? extends Exception> exceptionBuilder) {
     ThrowableAssertAlternative<? extends Exception> assertions = assertionGenerator.get().isThrownBy(() -> {
       throw exceptionBuilder.get();
     });
@@ -80,8 +80,8 @@ class Assertions_assertThatExceptionOfType_Test {
   @ParameterizedTest
   @MethodSource("data")
   void should_pass_thrown_exception_to_ChainedThrowableAssert(Supplier<ThrowableTypeAssert<? extends Exception>> assertionGenerator,
-                                                                     @SuppressWarnings("unused") Class<? extends Exception> exceptionType,
-                                                                     Supplier<? extends Exception> exceptionBuilder) {
+                                                              @SuppressWarnings("unused") Class<? extends Exception> exceptionType,
+                                                              Supplier<? extends Exception> exceptionBuilder) {
     Exception exception = exceptionBuilder.get();
     ThrowableAssertAlternative<? extends Exception> assertions = assertionGenerator.get().isThrownBy(() -> {
       throw exception;

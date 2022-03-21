@@ -81,7 +81,9 @@ class Classes_assertHasPublicFields_Test extends ClassesBaseTest {
   @Test
   void should_fail_if_no_public_fields_are_expected_and_class_has_some() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasPublicFields(someInfo(), actual))
-                                                   .withMessage(shouldHaveNoPublicFields(actual, newLinkedHashSet("publicField", "publicField2")).create());
+                                                   .withMessage(shouldHaveNoPublicFields(actual,
+                                                                                         newLinkedHashSet("publicField",
+                                                                                                          "publicField2")).create());
   }
 
 }

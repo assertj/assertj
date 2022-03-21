@@ -43,7 +43,9 @@ class Throwables_assertHasRootCauseExactlyInstanceOf_Test extends ThrowablesBase
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasRootCauseExactlyInstanceOf(someInfo(), null, IllegalArgumentException.class))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasRootCauseExactlyInstanceOf(someInfo(),
+                                                                                                                    null,
+                                                                                                                    IllegalArgumentException.class))
                                                    .withMessage(actualIsNull());
   }
 
@@ -71,7 +73,8 @@ class Throwables_assertHasRootCauseExactlyInstanceOf_Test extends ThrowablesBase
     AssertionInfo info = someInfo();
     Class<NullPointerException> expectedCauseType = NullPointerException.class;
 
-    Throwable error = catchThrowable(() -> throwables.assertHasRootCauseExactlyInstanceOf(info, throwableWithCause, expectedCauseType));
+    Throwable error = catchThrowable(() -> throwables.assertHasRootCauseExactlyInstanceOf(info, throwableWithCause,
+                                                                                          expectedCauseType));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldHaveRootCauseExactlyInstance(throwableWithCause, expectedCauseType));
@@ -82,7 +85,8 @@ class Throwables_assertHasRootCauseExactlyInstanceOf_Test extends ThrowablesBase
     AssertionInfo info = someInfo();
     Class<RuntimeException> expectedCauseType = RuntimeException.class;
 
-    Throwable error = catchThrowable(() -> throwables.assertHasRootCauseExactlyInstanceOf(info, throwableWithCause, expectedCauseType));
+    Throwable error = catchThrowable(() -> throwables.assertHasRootCauseExactlyInstanceOf(info, throwableWithCause,
+                                                                                          expectedCauseType));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldHaveRootCauseExactlyInstance(throwableWithCause, expectedCauseType));

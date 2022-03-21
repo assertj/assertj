@@ -42,7 +42,7 @@ class Dates_assertIsAfterYear_Test extends DatesBaseTest {
     Throwable error = catchThrowable(() -> dates.assertIsAfterYear(info, actual, year));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-	  verify(failures).failure(info, shouldBeAfterYear(actual, year));
+    verify(failures).failure(info, shouldBeAfterYear(actual, year));
   }
 
   @Test
@@ -54,7 +54,7 @@ class Dates_assertIsAfterYear_Test extends DatesBaseTest {
     Throwable error = catchThrowable(() -> dates.assertIsAfterYear(info, actual, year));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-	  verify(failures).failure(info, shouldBeAfterYear(actual, year));
+    verify(failures).failure(info, shouldBeAfterYear(actual, year));
   }
 
   @Test
@@ -76,7 +76,7 @@ class Dates_assertIsAfterYear_Test extends DatesBaseTest {
     Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsAfterYear(info, actual, year));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-	  verify(failures).failure(info, shouldBeAfterYear(actual, year));
+    verify(failures).failure(info, shouldBeAfterYear(actual, year));
   }
 
   @Test
@@ -88,12 +88,14 @@ class Dates_assertIsAfterYear_Test extends DatesBaseTest {
     Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsAfterYear(info, actual, year));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-	  verify(failures).failure(info, shouldBeAfterYear(actual, year));
+    verify(failures).failure(info, shouldBeAfterYear(actual, year));
   }
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsAfterYear(someInfo(), null, 2010))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsAfterYear(someInfo(),
+                                                                                                                         null,
+                                                                                                                         2010))
                                                    .withMessage(actualIsNull());
   }
 

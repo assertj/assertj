@@ -22,7 +22,6 @@ public class AddressDto {
     return Objects.hash(number);
   }
 
-
   @Override
   public String toString() {
     return "AddressDto [number=" + number + "]";

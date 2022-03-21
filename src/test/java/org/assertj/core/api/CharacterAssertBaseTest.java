@@ -16,7 +16,6 @@ import static org.mockito.Mockito.mock;
 
 import org.assertj.core.internal.Characters;
 
-
 /**
  * Base class for {@link CharacterAssert} tests.
  * 

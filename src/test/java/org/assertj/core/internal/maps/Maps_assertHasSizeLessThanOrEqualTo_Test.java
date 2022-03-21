@@ -31,7 +31,8 @@ class Maps_assertHasSizeLessThanOrEqualTo_Test extends MapsBaseTest {
   @Test
   void should_fail_if_size_of_actual_is_not_less_than_or_equal_to_boundary() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSizeLessThanOrEqualTo(someInfo(), actual, 1))
-                                                   .withMessage(shouldHaveSizeLessThanOrEqualTo(actual, actual.size(), 1).create());
+                                                   .withMessage(shouldHaveSizeLessThanOrEqualTo(actual, actual.size(),
+                                                                                                1).create());
   }
 
   @Test

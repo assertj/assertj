@@ -128,13 +128,15 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
 
   @Test
   void should_return_toString_of_local_Class_with_its_simple_name() {
-    class LocalClass {}
+    class LocalClass {
+    }
     assertThat(STANDARD_REPRESENTATION.toStringOf(LocalClass.class)).isEqualTo("local class LocalClass");
   }
 
   @Test
   void should_return_toString_of_local_Class_array_with_its_simple_name() {
-    class LocalClass {}
+    class LocalClass {
+    }
     assertThat(STANDARD_REPRESENTATION.toStringOf(LocalClass[].class)).isEqualTo("local class LocalClass[]");
   }
 

@@ -50,7 +50,8 @@ class Strings_assertDoesNotContainAnyWhitespaces_Test extends StringsBaseTest {
   @ParameterizedTest
   @MethodSource("containsWithspaces")
   void should_fail_if_string_contains_whitespaces(String actual) {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotContainAnyWhitespaces(someInfo(), actual))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotContainAnyWhitespaces(someInfo(),
+                                                                                                                actual))
                                                    .withMessage(shouldNotContainAnyWhitespaces(actual).create());
   }
 }

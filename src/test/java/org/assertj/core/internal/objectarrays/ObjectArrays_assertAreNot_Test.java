@@ -26,7 +26,6 @@ import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.ObjectArraysWithConditionBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for
  * <code>{@link ObjectArrays#assertAreNot(org.assertj.core.api.AssertionInfo, Object[], org.assertj.core.api.Condition)}</code>

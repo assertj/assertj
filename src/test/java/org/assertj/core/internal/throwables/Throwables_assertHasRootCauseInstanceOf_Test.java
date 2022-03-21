@@ -48,7 +48,8 @@ class Throwables_assertHasRootCauseInstanceOf_Test extends ThrowablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasRootCauseInstanceOf(someInfo(), null, IllegalArgumentException.class))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasRootCauseInstanceOf(someInfo(), null,
+                                                                                                             IllegalArgumentException.class))
                                                    .withMessage(actualIsNull());
   }
 

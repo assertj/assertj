@@ -22,7 +22,6 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BytesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Bytes#assertIsNotPositive(AssertionInfo, Bytes))}</code>.
  * 
@@ -55,13 +54,15 @@ class Bytes_assertIsNotPositive_Test extends BytesBaseTest {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> bytes.assertIsNotPositive(hexInfo, (byte) 0x06));
     // THEN
-    then(assertionError).hasMessage(shouldBeLessOrEqual((byte) 0x06, (byte) 0x00).create(hexInfo.description(), hexInfo.representation()));
+    then(assertionError).hasMessage(shouldBeLessOrEqual((byte) 0x06, (byte) 0x00).create(hexInfo.description(),
+                                                                                         hexInfo.representation()));
   }
 
   @Test
   void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), (byte) -1));
+    AssertionError assertionError = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                                       (byte) -1));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual((byte) -1, (byte) 0, absValueComparisonStrategy).create());
   }
@@ -69,15 +70,19 @@ class Bytes_assertIsNotPositive_Test extends BytesBaseTest {
   @Test
   void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy_in_hex_representation() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertIsNotPositive(hexInfo, (byte) 0xFF));
+    AssertionError assertionError = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertIsNotPositive(hexInfo,
+                                                                                                                       (byte) 0xFF));
     // THEN
-    then(assertionError).hasMessage(shouldBeLessOrEqual((byte) 0xFF,(byte) 0x00, absValueComparisonStrategy).create(hexInfo.description(), hexInfo.representation()));
+    then(assertionError).hasMessage(shouldBeLessOrEqual((byte) 0xFF, (byte) 0x00,
+                                                        absValueComparisonStrategy).create(hexInfo.description(),
+                                                                                           hexInfo.representation()));
   }
 
   @Test
   void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), (byte) 1));
+    AssertionError assertionError = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                                       (byte) 1));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual((byte) 1, (byte) 0, absValueComparisonStrategy).create());
   }
@@ -85,9 +90,12 @@ class Bytes_assertIsNotPositive_Test extends BytesBaseTest {
   @Test
   void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy_in_hex_representation() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertIsNotPositive(hexInfo, (byte) 0x01));
+    AssertionError assertionError = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertIsNotPositive(hexInfo,
+                                                                                                                       (byte) 0x01));
     // THEN
-    then(assertionError).hasMessage(shouldBeLessOrEqual((byte) 0x01, (byte) 0x00, absValueComparisonStrategy).create(hexInfo.description(), hexInfo.representation()));
+    then(assertionError).hasMessage(shouldBeLessOrEqual((byte) 0x01, (byte) 0x00,
+                                                        absValueComparisonStrategy).create(hexInfo.description(),
+                                                                                           hexInfo.representation()));
   }
 
 }

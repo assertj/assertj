@@ -26,7 +26,6 @@ import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesWithConditionsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Iterables#assertAreAtLeast(AssertionInfo, Iterable, int, Condition)}</code> .
  * 

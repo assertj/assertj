@@ -28,8 +28,7 @@ public final class Digests {
 
   private static final int BUFFER_SIZE = 1024 * 8;
 
-  private Digests() {
-  }
+  private Digests() {}
 
   public static String toHex(byte[] digest) {
     requireNonNull(digest, "The digest should not be null");

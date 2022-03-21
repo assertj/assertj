@@ -30,7 +30,7 @@ class AtomicReferenceArrayAssert_isEmpty_Test extends AtomicReferenceArrayAssert
   protected void verify_internal_effects() {
     verify(arrays).assertEmpty(info(), internalArray());
   }
-  
+
   @Override
   @Test
   public void should_return_this() {

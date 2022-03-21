@@ -21,7 +21,6 @@ import org.assertj.core.util.DateUtil;
 import org.assertj.core.util.YearAndMonthComparator;
 import org.junit.jupiter.api.BeforeEach;
 
-
 /**
  * Base class for {@link Dates} unit tests
  * <p>

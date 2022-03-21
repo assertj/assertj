@@ -29,7 +29,6 @@ import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.ObjectArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link ObjectArrays#assertIsSorted(AssertionInfo, Object[])}</code>.
  * 
@@ -138,7 +137,8 @@ class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(),
+                                                                                                                       null))
                                                    .withMessage(actualIsNull());
   }
 
@@ -151,7 +151,7 @@ class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures)
-        .failure(info, shouldBeSortedAccordingToGivenComparator(1, actual, comparatorForCustomComparisonStrategy()));
+                    .failure(info, shouldBeSortedAccordingToGivenComparator(1, actual, comparatorForCustomComparisonStrategy()));
   }
 
   @Test
@@ -163,7 +163,8 @@ class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-        shouldHaveComparableElementsAccordingToGivenComparator(actual, comparatorForCustomComparisonStrategy()));
+                             shouldHaveComparableElementsAccordingToGivenComparator(actual,
+                                                                                    comparatorForCustomComparisonStrategy()));
   }
 
   @Test
@@ -175,7 +176,8 @@ class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-        shouldHaveComparableElementsAccordingToGivenComparator(actual, comparatorForCustomComparisonStrategy()));
+                             shouldHaveComparableElementsAccordingToGivenComparator(actual,
+                                                                                    comparatorForCustomComparisonStrategy()));
   }
 
   @Test
@@ -187,7 +189,8 @@ class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-        shouldHaveComparableElementsAccordingToGivenComparator(actual, comparatorForCustomComparisonStrategy()));
+                             shouldHaveComparableElementsAccordingToGivenComparator(actual,
+                                                                                    comparatorForCustomComparisonStrategy()));
   }
 
 }

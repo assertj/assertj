@@ -37,6 +37,6 @@ class CharArrayAssert_containsExactlyInAnyOrder_Test extends CharArrayAssertBase
 
   @Test
   void invoke_api_like_user() {
-     assertThat(new char[] { 'a', 'b', 'b' }).containsExactlyInAnyOrder('b', 'b', 'a');
+    assertThat(new char[] { 'a', 'b', 'b' }).containsExactlyInAnyOrder('b', 'b', 'a');
   }
 }

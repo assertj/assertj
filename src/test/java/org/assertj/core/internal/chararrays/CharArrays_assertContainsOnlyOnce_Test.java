@@ -57,7 +57,7 @@ class CharArrays_assertContainsOnlyOnce_Test extends CharArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-        shouldContainsOnlyOnce(actual, expected, newLinkedHashSet('e'), newLinkedHashSet('a', 'b')));
+                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet('e'), newLinkedHashSet('a', 'b')));
   }
 
   @Test
@@ -85,7 +85,8 @@ class CharArrays_assertContainsOnlyOnce_Test extends CharArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), null, arrayOf('a')))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), null,
+                                                                                                   arrayOf('a')))
                                                    .withMessage(actualIsNull());
   }
 
@@ -98,7 +99,7 @@ class CharArrays_assertContainsOnlyOnce_Test extends CharArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-        shouldContainsOnlyOnce(actual, expected, newLinkedHashSet('d'), newLinkedHashSet()));
+                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet('d'), newLinkedHashSet()));
   }
 
   @Test
@@ -121,30 +122,36 @@ class CharArrays_assertContainsOnlyOnce_Test extends CharArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(
-        info,
-        shouldContainsOnlyOnce(actual, expected, newLinkedHashSet('e'), newLinkedHashSet('a', 'B'),
-            caseInsensitiveComparisonStrategy));
+                             info,
+                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet('e'), newLinkedHashSet('a', 'B'),
+                                                    caseInsensitiveComparisonStrategy));
   }
 
   @Test
   void should_pass_if_actual_contains_given_values_only_even_if_duplicated_according_to_custom_comparison_strategy() {
     arraysWithCustomComparisonStrategy
-        .assertContainsOnlyOnce(someInfo(), actual, arrayOf('a', 'b', 'c', 'A', 'b', 'C'));
+                                      .assertContainsOnlyOnce(someInfo(), actual, arrayOf('a', 'b', 'c', 'A', 'b', 'C'));
   }
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(),
+                                                                                                                               actual,
+                                                                                                                               emptyArray()));
   }
 
   @Test
   void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, null)).withMessage(valuesToLookForIsNull());
+    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(),
+                                                                                                                actual, null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), null, arrayOf((char) -8)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(),
+                                                                                                                               null,
+                                                                                                                               arrayOf((char) -8)))
                                                    .withMessage(actualIsNull());
   }
 
@@ -157,8 +164,8 @@ class CharArrays_assertContainsOnlyOnce_Test extends CharArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(
-        info,
-        shouldContainsOnlyOnce(actual, expected, newLinkedHashSet('D'), newLinkedHashSet(),
-            caseInsensitiveComparisonStrategy));
+                             info,
+                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet('D'), newLinkedHashSet(),
+                                                    caseInsensitiveComparisonStrategy));
   }
 }

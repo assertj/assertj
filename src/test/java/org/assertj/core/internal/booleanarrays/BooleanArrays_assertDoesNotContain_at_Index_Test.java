@@ -30,7 +30,6 @@ import org.assertj.core.internal.BooleanArrays;
 import org.assertj.core.internal.BooleanArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link BooleanArrays#assertDoesNotContain(AssertionInfo, boolean[], boolean, Index)}</code>.
  * 
@@ -41,7 +40,8 @@ class BooleanArrays_assertDoesNotContain_at_Index_Test extends BooleanArraysBase
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), null, true, someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), null, true,
+                                                                                                 someIndex()))
                                                    .withMessage(actualIsNull());
   }
 
@@ -57,7 +57,7 @@ class BooleanArrays_assertDoesNotContain_at_Index_Test extends BooleanArraysBase
 
   @Test
   void should_throw_error_if_Index_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> arrays.assertDoesNotContain(someInfo(),                                                                                actual, true,
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), actual, true,
                                                                                   null))
                                     .withMessage("Index should not be null");
   }

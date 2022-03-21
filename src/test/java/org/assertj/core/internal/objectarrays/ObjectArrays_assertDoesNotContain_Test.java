@@ -32,7 +32,6 @@ import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.ObjectArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link ObjectArrays#assertDoesNotContain(AssertionInfo, Object[], Object[])}</code>.
  * 
@@ -107,6 +106,7 @@ class ObjectArrays_assertDoesNotContain_Test extends ObjectArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-        shouldNotContain(actual, expected, newLinkedHashSet("LUKE", "Yoda"), caseInsensitiveStringComparisonStrategy));
+                             shouldNotContain(actual, expected, newLinkedHashSet("LUKE", "Yoda"),
+                                              caseInsensitiveStringComparisonStrategy));
   }
 }

@@ -29,7 +29,6 @@ import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.DatesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Dates#assertHasDayOfWeek(AssertionInfo, Date, int)}</code>.
  * 
@@ -72,7 +71,9 @@ class Dates_assertHasDayOfWeek_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertHasDayOfWeek(someInfo(), null, 1))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertHasDayOfWeek(someInfo(),
+                                                                                                                          null,
+                                                                                                                          1))
                                                    .withMessage(actualIsNull());
   }
 

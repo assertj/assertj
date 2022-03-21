@@ -22,7 +22,6 @@ import java.math.BigDecimal;
 import org.assertj.core.internal.BigDecimalsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link BigDecimals#assertIsNotPositive(AssertionInfo, BigDecimal))}</code>.
  * 
@@ -51,15 +50,18 @@ class BigDecimals_assertIsNotPositive_Test extends BigDecimalsBaseTest {
   @Test
   void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), new BigDecimal(-1)));
+    AssertionError assertionError = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                                         new BigDecimal(-1)));
     // THEN
-    then(assertionError).hasMessage(shouldBeLessOrEqual(new BigDecimal(-1), BigDecimal.ZERO, absValueComparisonStrategy).create());
+    then(assertionError).hasMessage(shouldBeLessOrEqual(new BigDecimal(-1), BigDecimal.ZERO,
+                                                        absValueComparisonStrategy).create());
   }
 
   @Test
   void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), BigDecimal.ONE));
+    AssertionError assertionError = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                                         BigDecimal.ONE));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual(BigDecimal.ONE, BigDecimal.ZERO, absValueComparisonStrategy).create());
   }

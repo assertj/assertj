@@ -24,7 +24,6 @@ import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Strings#assertContainsIgnoringCase(AssertionInfo, CharSequence, CharSequence)}</code>.
  * 
@@ -35,7 +34,8 @@ class Strings_assertContainsIgnoringCase_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_does_not_contain_sequence() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsIgnoringCase(someInfo(), "Yoda", "Luke"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsIgnoringCase(someInfo(), "Yoda",
+                                                                                                        "Luke"))
                                                    .withMessage(shouldContainIgnoringCase("Yoda", "Luke").create());
   }
 
@@ -63,7 +63,9 @@ class Strings_assertContainsIgnoringCase_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_does_not_contain_sequence_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringCase(someInfo(), "Yoda", "Luke"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringCase(someInfo(),
+                                                                                                                                             "Yoda",
+                                                                                                                                             "Luke"))
                                                    .withMessage(shouldContainIgnoringCase("Yoda", "Luke").create());
   }
 
@@ -77,7 +79,9 @@ class Strings_assertContainsIgnoringCase_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringCase(someInfo(), null, "Yoda"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringCase(someInfo(),
+                                                                                                                                             null,
+                                                                                                                                             "Yoda"))
                                                    .withMessage(actualIsNull());
   }
 

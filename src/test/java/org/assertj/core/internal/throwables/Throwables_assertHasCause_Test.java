@@ -65,8 +65,8 @@ class Throwables_assertHasCause_Test extends ThrowablesBaseTest {
   @ParameterizedTest(name = "{2}: cause = {0} / expected = {1}")
   @MethodSource("failingData")
   void should_fail_if_cause_is_unexpected(final Throwable cause,
-                                                 final Throwable expected,
-                                                 String testDescription) {
+                                          final Throwable expected,
+                                          String testDescription) {
     // GIVEN
     final Throwable throwable = withCause(cause);
 

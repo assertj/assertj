@@ -30,7 +30,6 @@ import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.DatesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Dates#assertIsToday(AssertionInfo, Date)}</code>.
  * 
@@ -73,7 +72,8 @@ class Dates_assertIsToday_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsToday(someInfo(), null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsToday(someInfo(),
+                                                                                                                     null))
                                                    .withMessage(actualIsNull());
   }
 

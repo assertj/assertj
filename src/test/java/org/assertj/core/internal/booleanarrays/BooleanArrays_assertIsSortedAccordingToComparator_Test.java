@@ -30,7 +30,6 @@ import org.assertj.core.internal.BooleanArraysBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link BooleanArrays#assertIsSortedAccordingToComparator(AssertionInfo, boolean[], Comparator)}</code>
  * 
@@ -63,7 +62,8 @@ class BooleanArrays_assertIsSortedAccordingToComparator_Test extends BooleanArra
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), null, booleanDescendingOrderComparator))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), null,
+                                                                                                                booleanDescendingOrderComparator))
                                                    .withMessage(actualIsNull());
   }
 
@@ -77,7 +77,8 @@ class BooleanArrays_assertIsSortedAccordingToComparator_Test extends BooleanArra
     AssertionInfo info = someInfo();
     actual = new boolean[] { true, true, false, true };
 
-    Throwable error = catchThrowable(() -> arrays.assertIsSortedAccordingToComparator(info, actual, booleanDescendingOrderComparator));
+    Throwable error = catchThrowable(() -> arrays.assertIsSortedAccordingToComparator(info, actual,
+                                                                                      booleanDescendingOrderComparator));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(2, actual, booleanDescendingOrderComparator));

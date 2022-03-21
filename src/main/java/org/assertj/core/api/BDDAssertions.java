@@ -2058,7 +2058,8 @@ public class BDDAssertions extends Assertions {
    * @since 3.22.0
    */
   public static ReflectiveOperationException catchReflectiveOperationException(ThrowingCallable shouldRaiseReflectiveOperationException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseReflectiveOperationException, ReflectiveOperationException.class);
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseReflectiveOperationException,
+                                                        ReflectiveOperationException.class);
   }
 
   /**

@@ -14,7 +14,6 @@ package org.assertj.core.internal;
 
 import java.time.OffsetDateTime;
 
-
 public class OffsetDateTimeByInstantComparator extends DescribableComparator<OffsetDateTime> {
 
   private static final OffsetDateTimeByInstantComparator INSTANCE = new OffsetDateTimeByInstantComparator();
@@ -23,8 +22,7 @@ public class OffsetDateTimeByInstantComparator extends DescribableComparator<Off
     return INSTANCE;
   }
 
-  private OffsetDateTimeByInstantComparator() {
-  }
+  private OffsetDateTimeByInstantComparator() {}
 
   @Override
   public String description() {

@@ -18,7 +18,6 @@ import java.time.Instant;
 
 import org.assertj.core.internal.Comparables;
 
-
 public abstract class InstantAssertBaseTest extends BaseTestTemplate<InstantAssert, Instant> {
 
   protected Comparables comparables;

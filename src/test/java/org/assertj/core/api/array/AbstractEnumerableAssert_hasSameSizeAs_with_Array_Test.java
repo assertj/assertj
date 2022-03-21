@@ -20,8 +20,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.junit.jupiter.api.Test;
 
-
-
 /**
  * Tests for <code>{@link org.assertj.core.api.AbstractEnumerableAssert#hasSameSizeAs(Object)}</code>.
  *
@@ -31,48 +29,49 @@ class AbstractEnumerableAssert_hasSameSizeAs_with_Array_Test {
 
   @Test
   void should_pass_if_actual_primitive_array_has_same_size_as_other_object_array() {
-    assertThat(new byte[]{1, 2}).hasSameSizeAs(new Byte[]{2, 3});
-    assertThat(new int[]{1, 2}).hasSameSizeAs(new String[]{"1", "2"});
+    assertThat(new byte[] { 1, 2 }).hasSameSizeAs(new Byte[] { 2, 3 });
+    assertThat(new int[] { 1, 2 }).hasSameSizeAs(new String[] { "1", "2" });
   }
 
   @Test
   void should_pass_if_actual_primitive_array_has_same_size_as_other_primitive_array() {
-    assertThat(new byte[]{1, 2}).hasSameSizeAs(new byte[]{2, 3});
-    assertThat(new byte[]{1, 2}).hasSameSizeAs(new int[]{2, 3});
+    assertThat(new byte[] { 1, 2 }).hasSameSizeAs(new byte[] { 2, 3 });
+    assertThat(new byte[] { 1, 2 }).hasSameSizeAs(new int[] { 2, 3 });
   }
 
   @Test
   void should_pass_if_actual_object_array_has_same_size_as_other_object_array() {
-    assertThat(new String[]{"1", "2"}).hasSameSizeAs(new Byte[]{2, 3});
-    assertThat(new String[]{"1", "2"}).hasSameSizeAs(new String[]{"1", "2"});
+    assertThat(new String[] { "1", "2" }).hasSameSizeAs(new Byte[] { 2, 3 });
+    assertThat(new String[] { "1", "2" }).hasSameSizeAs(new String[] { "1", "2" });
   }
 
   @Test
   void should_pass_if_actual_object_array_has_same_size_as_other_primitive_array() {
-    assertThat(new String[]{"1", "2"}).hasSameSizeAs(new byte[]{2, 3});
-    assertThat(new String[]{"1", "2"}).hasSameSizeAs(new int[]{2, 3});
+    assertThat(new String[] { "1", "2" }).hasSameSizeAs(new byte[] { 2, 3 });
+    assertThat(new String[] { "1", "2" }).hasSameSizeAs(new int[] { 2, 3 });
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       final byte[] actual = null;
-      assertThat(actual).hasSameSizeAs(new byte[]{2, 3});
+      assertThat(actual).hasSameSizeAs(new byte[] { 2, 3 });
     }).withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_other_is_not_an_array() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new byte[]{1, 2}).hasSameSizeAs("a string"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new byte[] { 1, 2 }).hasSameSizeAs("a string"))
                                                    .withMessage(format("%nExpecting an array but was: \"a string\""));
   }
 
   @Test
   void should_fail_if_size_of_actual_has_same_as_other_array() {
-    final byte[] actual = new byte[]{1, 2};
-    final byte[] other = new byte[]{1, 2, 3};
+    final byte[] actual = new byte[] { 1, 2 };
+    final byte[] other = new byte[] { 1, 2, 3 };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasSameSizeAs(other))
-                                                   .withMessage(shouldHaveSameSizeAs(actual, other, actual.length, other.length).create());
+                                                   .withMessage(shouldHaveSameSizeAs(actual, other, actual.length,
+                                                                                     other.length).create());
   }
 
 }

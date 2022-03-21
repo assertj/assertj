@@ -22,7 +22,7 @@ import static org.assertj.core.util.Strings.concat;
 public class BinaryRepresentation extends StandardRepresentation {
 
   public static final BinaryRepresentation BINARY_REPRESENTATION = new BinaryRepresentation();
-  
+
   public static final String BYTE_PREFIX = "0b";
 
   /**

@@ -937,7 +937,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @since 3.5.0
    */
   SELF hasOnlyOneElementSatisfying(Consumer<? super ELEMENT> elementAssertions);
-  
+
   /**
    * Verifies that all elements of the actual group are instances of the given types.
    * <p>
@@ -1335,7 +1335,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @since 3.21.0
    */
   SELF allSatisfy(ThrowingConsumer<? super ELEMENT> requirements);
-  
+
   /**
    * Verifies that each element satisfies the requirements corresponding to its index, so the first element must satisfy the
    * first requirements, the second element the second requirements etc...
@@ -1377,7 +1377,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @since 3.19.0
    */
   SELF satisfiesExactly(Consumer<? super ELEMENT>... allRequirements);
-  
+
   /**
    * Verifies that each element satisfies the requirements corresponding to its index, so the first element must satisfy the
    * first requirements, the second element the second requirements etc...
@@ -1478,7 +1478,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @since 3.19.0
    */
   SELF satisfiesExactlyInAnyOrder(Consumer<? super ELEMENT>... allRequirements);
-  
+
   /**
    * Verifies that at least one combination of iterable elements exists that satisfies the {@link ThrowingConsumer}s in order (there must be as
    * many consumers as iterable elements and once a consumer is matched it cannot be reused to match other elements).
@@ -1614,7 +1614,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @since 3.21.0
    */
   SELF anySatisfy(ThrowingConsumer<? super ELEMENT> requirements);
-  
+
   /**
    * Verifies that no elements satisfy the given restrictions expressed as a {@link Consumer}.
    * <p>
@@ -1668,7 +1668,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @since 3.21.0
    */
   SELF noneSatisfy(ThrowingConsumer<? super ELEMENT> restrictions);
-  
+
   /**
    * Verifies that the actual {@link Iterable} contains at least one of the given values.
    * <p>

@@ -21,7 +21,6 @@ import org.assertj.core.test.PotentialMvpCondition;
 import org.assertj.core.test.WithPlayerData;
 import org.junit.jupiter.api.Test;
 
-
 class Filter_being_condition_Test extends WithPlayerData {
 
   private PotentialMvpCondition potentialMvp = new PotentialMvpCondition();

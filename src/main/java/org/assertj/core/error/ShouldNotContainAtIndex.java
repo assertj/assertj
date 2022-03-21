@@ -35,7 +35,7 @@ public class ShouldNotContainAtIndex extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotContainAtIndex(Object actual, Object expected, Index index,
-      ComparisonStrategy comparisonStrategy) {
+                                                            ComparisonStrategy comparisonStrategy) {
     return new ShouldNotContainAtIndex(actual, expected, index, comparisonStrategy);
   }
 

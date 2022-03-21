@@ -17,7 +17,6 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import org.assertj.core.api.Fail;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Fail#fail(String, Throwable)}</code>.
  * 

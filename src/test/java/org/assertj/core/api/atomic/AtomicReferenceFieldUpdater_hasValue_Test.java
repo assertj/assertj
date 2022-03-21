@@ -21,7 +21,6 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
 import org.junit.jupiter.api.Test;
 
-
 class AtomicReferenceFieldUpdater_hasValue_Test {
 
   @SuppressWarnings("unused")
@@ -34,29 +33,35 @@ class AtomicReferenceFieldUpdater_hasValue_Test {
 
   @Test
   void should_fail_when_atomicReference_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((AtomicReferenceFieldUpdater<Person, String>) null).hasValue("Frodo", person))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((AtomicReferenceFieldUpdater<Person, String>) null).hasValue("Frodo",
+                                                                                                                                             person))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_expected_value_is_null_and_does_not_contain_expected_value() {
-    AtomicReferenceFieldUpdater<Person,String> fieldUpdater = AtomicReferenceFieldUpdater.newUpdater(Person.class, String.class, "name");
+    AtomicReferenceFieldUpdater<Person, String> fieldUpdater = AtomicReferenceFieldUpdater.newUpdater(Person.class, String.class,
+                                                                                                      "name");
     fieldUpdater.set(person, "Frodo");
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(fieldUpdater).hasValue(null, person))
-                                                   .withMessage(shouldHaveValue(fieldUpdater, person.name, null, person).create());
+                                                   .withMessage(shouldHaveValue(fieldUpdater, person.name, null,
+                                                                                person).create());
   }
 
   @Test
   void should_fail_if_atomicReferenceFieldUpdater_does_not_contain_expected_value() {
-    AtomicReferenceFieldUpdater<Person,String> fieldUpdater = AtomicReferenceFieldUpdater.newUpdater(Person.class, String.class, "name");
+    AtomicReferenceFieldUpdater<Person, String> fieldUpdater = AtomicReferenceFieldUpdater.newUpdater(Person.class, String.class,
+                                                                                                      "name");
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(fieldUpdater).hasValue("Frodo", person))
-                                                   .withMessage(shouldHaveValue(fieldUpdater, person.name, "Frodo", person).create());
+                                                   .withMessage(shouldHaveValue(fieldUpdater, person.name, "Frodo",
+                                                                                person).create());
   }
 
   @Test
   void should_pass_if_atomicReferenceFieldUpdater_contains_expected_value() {
-    AtomicReferenceFieldUpdater<Person,String> fieldUpdater = AtomicReferenceFieldUpdater.newUpdater(Person.class, String.class, "name");
+    AtomicReferenceFieldUpdater<Person, String> fieldUpdater = AtomicReferenceFieldUpdater.newUpdater(Person.class, String.class,
+                                                                                                      "name");
     fieldUpdater.set(person, "Frodo");
     assertThat(fieldUpdater).hasValue("Frodo", person);
   }

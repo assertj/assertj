@@ -22,7 +22,6 @@ import org.assertj.core.api.FloatArrayAssert;
 import org.assertj.core.api.FloatArrayAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link FloatArrayAssert#containsOnly(float...)}</code>.
  * 
@@ -39,12 +38,12 @@ class FloatArrayAssert_containsOnly_Test extends FloatArrayAssertBaseTest {
   protected void verify_internal_effects() {
     verify(arrays).assertContainsOnly(getInfo(assertions), getActual(assertions), arrayOf(6f, 8f));
   }
-  
+
   @Test
   void should_pass_with_precision_specified_as_last_argument() {
     // GIVEN
     float[] actual = arrayOf(1.0f, 2.0f, 3.0f);
-    // THEN 
+    // THEN
     assertThat(actual).containsOnly(arrayOf(0.91f, 2.0f, 3.09f), withPrecision(0.1f));
   }
 
@@ -55,7 +54,7 @@ class FloatArrayAssert_containsOnly_Test extends FloatArrayAssertBaseTest {
     // THEN
     assertThat(actual).containsOnly(arrayOf(-1.7f, -1.6f), within(0.1f));
   }
-  
+
   @Test
   void should_pass_with_precision_specified_in_comparator() {
     // GIVEN

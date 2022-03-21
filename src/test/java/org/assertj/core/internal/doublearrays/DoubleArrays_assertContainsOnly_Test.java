@@ -28,7 +28,6 @@ import org.assertj.core.internal.DoubleArrays;
 import org.assertj.core.internal.DoubleArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link DoubleArrays#assertContainsOnly(AssertionInfo, double[], double[])}</code>.
  * 
@@ -63,7 +62,7 @@ class DoubleArrays_assertContainsOnly_Test extends DoubleArraysBaseTest {
     actual = emptyArray();
     arrays.assertContainsOnly(someInfo(), actual, emptyArray());
   }
-  
+
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnly(someInfo(), actual, emptyArray()));
@@ -85,7 +84,8 @@ class DoubleArrays_assertContainsOnly_Test extends DoubleArraysBaseTest {
   void should_fail_if_actual_does_not_contain_given_values_only() {
     double[] expected = { 6d, 8d, 20d };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnly(someInfo(), actual, expected))
-                                                   .withMessage(shouldContainOnly(actual, expected, newArrayList(20d), newArrayList(10d)).create());
+                                                   .withMessage(shouldContainOnly(actual, expected, newArrayList(20d),
+                                                                                  newArrayList(10d)).create());
   }
 
   @Test
@@ -111,7 +111,9 @@ class DoubleArrays_assertContainsOnly_Test extends DoubleArraysBaseTest {
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(),
+                                                                                                                           actual,
+                                                                                                                           emptyArray()));
   }
 
   @Test
@@ -124,15 +126,18 @@ class DoubleArrays_assertContainsOnly_Test extends DoubleArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), null, arrayOf(-8d)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(),
+                                                                                                                           null,
+                                                                                                                           arrayOf(-8d)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
     double[] expected = { 6d, -8d, 20d };
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> 
-    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, expected))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(),
+                                                                                                                           actual,
+                                                                                                                           expected))
                                                    .withMessage(format(shouldContainOnly(actual, expected,
                                                                                          newArrayList(20d),
                                                                                          newArrayList(10d),

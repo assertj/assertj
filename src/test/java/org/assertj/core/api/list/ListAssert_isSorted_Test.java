@@ -18,7 +18,6 @@ import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.ListAssert;
 import org.assertj.core.api.ListAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link AbstractIterableAssert#isSorted()}</code>.
  * 

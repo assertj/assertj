@@ -24,7 +24,6 @@ import org.assertj.core.internal.IntArrays;
 import org.assertj.core.internal.IntArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link IntArrays#assertNullOrEmpty(AssertionInfo, int[])}</code>.
  * 

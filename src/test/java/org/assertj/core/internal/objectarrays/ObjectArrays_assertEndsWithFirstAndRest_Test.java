@@ -45,7 +45,8 @@ class ObjectArrays_assertEndsWithFirstAndRest_Test extends ObjectArraysBaseTest 
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertEndsWith(someInfo(), null, "Luke", array("Yoda")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertEndsWith(someInfo(), null, "Luke",
+                                                                                           array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 

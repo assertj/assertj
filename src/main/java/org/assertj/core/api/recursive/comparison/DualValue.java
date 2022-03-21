@@ -303,7 +303,6 @@ public final class DualValue {
     return isContainer(expected);
   }
 
-
   public boolean hasNoNullValues() {
     return actual != null && expected != null;
   }

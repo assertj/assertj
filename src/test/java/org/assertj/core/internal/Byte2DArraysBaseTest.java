@@ -19,7 +19,6 @@ import static org.mockito.Mockito.spy;
 import org.assertj.core.api.AssertionInfo;
 import org.junit.jupiter.api.BeforeEach;
 
-
 /**
  * Base class for testing <code>{@link Byte2DArrays}</code>.
  * <p>
@@ -49,7 +48,7 @@ public class Byte2DArraysBaseTest {
   }
 
   protected void initActualArray() {
-    actual = new byte[][] {{0, 2, 4}, {6, 8, 10}};
+    actual = new byte[][] { { 0, 2, 4 }, { 6, 8, 10 } };
   }
 
 }

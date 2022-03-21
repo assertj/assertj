@@ -39,7 +39,7 @@ class AtomicReferenceArrayAssert_isNullOrEmpty_Test extends AtomicReferenceArray
   public void should_return_this() {
     // Disable this test because isNullOrEmpty is void
   }
-  
+
   @Test
   void should_pass_if_AtomicReferenceArray_is_null() {
     AtomicReferenceArray<Object> array = null;

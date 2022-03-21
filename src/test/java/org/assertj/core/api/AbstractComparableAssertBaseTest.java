@@ -14,7 +14,6 @@ package org.assertj.core.api;
 
 import org.assertj.core.internal.Comparables;
 
-
 /**
  * Base class to test the concrete methods of {@link AbstractComparableAssert} (using a dummy implementation).
  * 

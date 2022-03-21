@@ -24,7 +24,6 @@ import org.assertj.core.internal.LongArrays;
 import org.assertj.core.internal.LongArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link LongArrays#assertNullOrEmpty(AssertionInfo, long[])}</code>.
  * 

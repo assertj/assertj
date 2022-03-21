@@ -25,5 +25,5 @@ class AtomicIntegerAssert_customComparator_Test {
   void should_honor_custom_comparator() {
     assertThat(new AtomicInteger(1)).usingComparator(new AbsValueComparator<AtomicInteger>()).hasValueLessThanOrEqualTo(-1);
   }
-  
+
 }

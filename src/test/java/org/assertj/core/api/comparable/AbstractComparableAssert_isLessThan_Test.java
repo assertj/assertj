@@ -18,7 +18,6 @@ import org.assertj.core.api.AbstractComparableAssert;
 import org.assertj.core.api.AbstractComparableAssertBaseTest;
 import org.assertj.core.api.ConcreteComparableAssert;
 
-
 /**
  * Tests for <code>{@link AbstractComparableAssert#isLessThan(Comparable)}</code>.
  * 

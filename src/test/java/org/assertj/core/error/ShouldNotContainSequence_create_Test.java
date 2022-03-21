@@ -33,27 +33,27 @@ class ShouldNotContainSequence_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-      "Expecting actual:%n" +
-      "  [\"Yoda\", \"Luke\"]%n" +
-      "to not contain sequence:%n" +
-      "  [\"Yoda\", \"Luke\"]%n" +
-      "but was found at index 1%n"));
+                                   "Expecting actual:%n" +
+                                   "  [\"Yoda\", \"Luke\"]%n" +
+                                   "to not contain sequence:%n" +
+                                   "  [\"Yoda\", \"Luke\"]%n" +
+                                   "but was found at index 1%n"));
   }
 
   @Test
   void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotContainSequence(list("yoDA", "LUke"), list("Yoda", "Luke"), 1,
-      new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+                                                           new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-      "Expecting actual:%n" +
-      "  [\"yoDA\", \"LUke\"]%n" +
-      "to not contain sequence:%n" +
-      "  [\"Yoda\", \"Luke\"]%n" +
-      "but was found at index 1%n" +
-      "when comparing values using CaseInsensitiveStringComparator"));
+                                   "Expecting actual:%n" +
+                                   "  [\"yoDA\", \"LUke\"]%n" +
+                                   "to not contain sequence:%n" +
+                                   "  [\"Yoda\", \"Luke\"]%n" +
+                                   "but was found at index 1%n" +
+                                   "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

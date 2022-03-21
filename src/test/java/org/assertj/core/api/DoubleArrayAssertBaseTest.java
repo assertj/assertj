@@ -17,7 +17,6 @@ import static org.mockito.Mockito.mock;
 
 import org.assertj.core.internal.DoubleArrays;
 
-
 /**
  * Base class for {@link DoubleArrayAssert} tests.
  * 
@@ -37,7 +36,7 @@ public abstract class DoubleArrayAssertBaseTest extends BaseTestTemplate<DoubleA
     arrays = mock(DoubleArrays.class);
     assertions.arrays = arrays;
   }
-  
+
   protected DoubleArrays getArrays(DoubleArrayAssert someAssertions) {
     return someAssertions.arrays;
   }

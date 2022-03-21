@@ -68,7 +68,8 @@ class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTest {
 
   @Test
   void should_fail_if_arrays_have_different_sizes() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, array("Luke", "Yoda")));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual,
+                                                                                                  array("Luke", "Yoda")));
   }
 
   @Test
@@ -79,7 +80,8 @@ class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), null, array("Yoda")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), null,
+                                                                                                  array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 

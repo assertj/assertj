@@ -20,7 +20,6 @@ import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
 import org.assertj.core.data.MapEntry;
 
-
 /**
  * Tests for <code>{@link MapAssert#containsEntry(Object, Object)}</code>.
  * 

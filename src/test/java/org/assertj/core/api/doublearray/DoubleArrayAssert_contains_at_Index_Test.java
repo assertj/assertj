@@ -24,7 +24,6 @@ import org.assertj.core.api.DoubleArrayAssertBaseTest;
 import org.assertj.core.data.Index;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link DoubleArrayAssert#contains(double, Index)}</code>.
  * 

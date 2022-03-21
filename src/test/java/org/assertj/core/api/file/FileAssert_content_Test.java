@@ -37,7 +37,7 @@ class FileAssert_content_Test extends FileAssertBaseTest implements NavigationMe
   protected void verify_internal_effects() {
     verify(files).assertCanRead(getInfo(assertions), getActual(assertions));
   }
-  
+
   @Override
   protected FileAssert create_assertions() {
     return new FileAssert(new File("src/test/resources/actual_file.txt"));

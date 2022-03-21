@@ -38,7 +38,7 @@ class OptionalAssert_hasValueSatisfying_Condition_Test {
 
   @Test
   void should_fail_when_optional_is_empty() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Optional.<String>empty()).hasValueSatisfying(passingCondition))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Optional.<String> empty()).hasValueSatisfying(passingCondition))
                                                    .withMessage(shouldBePresent(Optional.empty()).create());
   }
 

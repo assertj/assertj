@@ -54,7 +54,8 @@ class Strings_assertContainsPattern_CharSequence_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsPattern(someInfo(), null, matchAnything().pattern()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsPattern(someInfo(), null,
+                                                                                                   matchAnything().pattern()))
                                                    .withMessage(actualIsNull());
   }
 
@@ -86,13 +87,17 @@ class Strings_assertContainsPattern_CharSequence_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsPattern(someInfo(), null, matchAnything().pattern()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsPattern(someInfo(),
+                                                                                                                                        null,
+                                                                                                                                        matchAnything().pattern()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_does_not_contain_regular_expression_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsPattern(someInfo(), actual, "Luke"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsPattern(someInfo(),
+                                                                                                                                        actual,
+                                                                                                                                        "Luke"))
                                                    .withMessage(shouldContainPattern(actual, "Luke").create());
   }
 

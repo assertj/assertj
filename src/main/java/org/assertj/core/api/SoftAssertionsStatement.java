@@ -46,7 +46,7 @@ class SoftAssertionsStatement {
         // failed to throw MultipleFailuresError -> throw MultipleFailureException instead
         // This new ArrayList() is necessary due to the incompatible type signatures between
         // MultipleFailureException.assertEmpty() (takes a List<Throwable>) and errors
-        // (which is a List<AssertionError>). Ideally assertEmpty() should have been a 
+        // (which is a List<AssertionError>). Ideally assertEmpty() should have been a
         // List<? extends Throwable>.
         MultipleFailureException.assertEmpty(new ArrayList<>(errors));
       }

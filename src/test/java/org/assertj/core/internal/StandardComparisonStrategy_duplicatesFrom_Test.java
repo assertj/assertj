@@ -34,7 +34,7 @@ class StandardComparisonStrategy_duplicatesFrom_Test extends AbstractTest_Standa
   void should_return_existing_duplicates() {
     List<String> list = newArrayList("Merry", "Frodo", null, null, "Merry", "Sam", "Frodo");
     Iterable<?> duplicates = standardComparisonStrategy.duplicatesFrom(list);
-    
+
     assertThat(sizeOf(duplicates)).isEqualTo(3);
     assertThat(standardComparisonStrategy.iterableContains(duplicates, "Frodo")).isTrue();
     assertThat(standardComparisonStrategy.iterableContains(duplicates, "Merry")).isTrue();

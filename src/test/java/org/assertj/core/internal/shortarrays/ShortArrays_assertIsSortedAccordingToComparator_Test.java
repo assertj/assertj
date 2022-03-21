@@ -30,7 +30,6 @@ import org.assertj.core.internal.ShortArraysBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link ShortArrays#assertIsSortedAccordingToComparator(AssertionInfo, short[], Comparator)}</code>
  * 
@@ -46,7 +45,7 @@ class ShortArrays_assertIsSortedAccordingToComparator_Test extends ShortArraysBa
   public void setUp() {
     super.setUp();
     actual = new short[] { 4, 3, 2, 2, 1 };
-    shortDescendingOrderComparator =  (short1, short2) -> -short1.compareTo(short2);
+    shortDescendingOrderComparator = (short1, short2) -> -short1.compareTo(short2);
     shortAscendingOrderComparator = (short1, short2) -> short1.compareTo(short2);
   }
 
@@ -63,7 +62,8 @@ class ShortArrays_assertIsSortedAccordingToComparator_Test extends ShortArraysBa
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), null, shortDescendingOrderComparator))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), null,
+                                                                                                                shortDescendingOrderComparator))
                                                    .withMessage(actualIsNull());
   }
 
@@ -77,7 +77,8 @@ class ShortArrays_assertIsSortedAccordingToComparator_Test extends ShortArraysBa
     AssertionInfo info = someInfo();
     actual = new short[] { 3, 2, 1, 9 };
 
-    Throwable error = catchThrowable(() -> arrays.assertIsSortedAccordingToComparator(info, actual, shortDescendingOrderComparator));
+    Throwable error = catchThrowable(() -> arrays.assertIsSortedAccordingToComparator(info, actual,
+                                                                                      shortDescendingOrderComparator));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(2, actual, shortDescendingOrderComparator));

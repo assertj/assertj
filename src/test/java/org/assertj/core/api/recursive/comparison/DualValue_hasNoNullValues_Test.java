@@ -31,7 +31,7 @@ class DualValue_hasNoNullValues_Test {
   @ParameterizedTest(name = "actual {0} / expected {1}")
   @MethodSource("values")
   void should_return_false_when_actual_or_expected_is_null_and_true_otherwise(Object actual, Object expected,
-                                                                                          boolean expectedResult) {
+                                                                              boolean expectedResult) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, actual, expected);
     // WHEN

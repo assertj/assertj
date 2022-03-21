@@ -29,7 +29,6 @@ import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.DatesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Dates#assertIsInSameYearAs(AssertionInfo, Date, Date)}</code>.
  * 
@@ -57,7 +56,7 @@ class Dates_assertIsInSameYearAs_Test extends DatesBaseTest {
   @Test
   void should_throw_error_if_given_date_is_null() {
     assertThatNullPointerException().isThrownBy(() -> dates.assertIsInSameYearAs(someInfo(), actual, null))
-                                                         .withMessage(dateToCompareActualWithIsNull());
+                                    .withMessage(dateToCompareActualWithIsNull());
   }
 
   @Test
@@ -78,7 +77,9 @@ class Dates_assertIsInSameYearAs_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInSameYearAs(someInfo(), null, new Date()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInSameYearAs(someInfo(),
+                                                                                                                            null,
+                                                                                                                            new Date()))
                                                    .withMessage(actualIsNull());
   }
 

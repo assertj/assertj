@@ -30,7 +30,6 @@ import org.assertj.core.internal.BooleanArraysBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link BooleanArrays#assertEndsWith(AssertionInfo, boolean[], boolean[])}</code>.
  * 
@@ -58,7 +57,7 @@ class BooleanArrays_assertEndsWith_Test extends BooleanArraysBaseTest {
     actual = emptyArray();
     arrays.assertEndsWith(someInfo(), actual, emptyArray());
   }
-  
+
   @Test
   void should_pass_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     arrays.assertEndsWith(someInfo(), actual, emptyArray());

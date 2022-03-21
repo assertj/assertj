@@ -26,5 +26,5 @@ class FactoryBasedNavigableIterableAssert_Test extends BaseNavigableIterableAsse
     AssertFactory<Vehicle, VehicleAssert> assertFactory = VehicleAssert::assertThat;
     return assertThat(expectedVehicles, assertFactory);
   }
-  
+
 }

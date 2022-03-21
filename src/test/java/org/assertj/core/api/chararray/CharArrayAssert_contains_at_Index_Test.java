@@ -19,7 +19,6 @@ import org.assertj.core.api.CharArrayAssert;
 import org.assertj.core.api.CharArrayAssertBaseTest;
 import org.assertj.core.data.Index;
 
-
 /**
  * Tests for <code>{@link CharArrayAssert#contains(char, Index)}</code>.
  * 

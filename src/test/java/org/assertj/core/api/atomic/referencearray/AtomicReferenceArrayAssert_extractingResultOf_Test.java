@@ -33,7 +33,7 @@ class AtomicReferenceArrayAssert_extractingResultOf_Test {
   @BeforeAll
   static void setUpOnce() {
     yoda = new FluentJedi(new Name("Yoda"), 800, false);
-    vader = new FluentJedi(new Name("Darth Vader"), 50 ,true);
+    vader = new FluentJedi(new Name("Darth Vader"), 50, true);
     jedis = new AtomicReferenceArray<>(array(yoda, vader));
   }
 
@@ -75,4 +75,3 @@ class AtomicReferenceArrayAssert_extractingResultOf_Test {
                                                    .withMessageContaining("[Extracted: result of age()]");
   }
 }
-

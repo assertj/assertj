@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.BigIntegerAssert;
 import org.assertj.core.api.BigIntegerAssertBaseTest;
 
-
 class BigIntegerAssert_isNotZero_Test extends BigIntegerAssertBaseTest {
 
   @Override

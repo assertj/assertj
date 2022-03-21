@@ -66,7 +66,8 @@ public class Strings_assertContainsIgnoringWhitespaces_Test extends StringsBaseT
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> strings.assertContainsIgnoringWhitespaces(INFO, actual, value));
     // THEN
-    then(assertionError).hasMessage(shouldContainIgnoringWhitespaces("Yoda", "Luke", StandardComparisonStrategy.instance()).create());
+    then(assertionError).hasMessage(shouldContainIgnoringWhitespaces("Yoda", "Luke",
+                                                                     StandardComparisonStrategy.instance()).create());
   }
 
   @Test
@@ -77,7 +78,8 @@ public class Strings_assertContainsIgnoringWhitespaces_Test extends StringsBaseT
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> strings.assertContainsIgnoringWhitespaces(INFO, actual, value));
     // THEN
-    then(assertionError).hasMessage(shouldContainIgnoringWhitespaces("Yoda", "yo", StandardComparisonStrategy.instance()).create());
+    then(assertionError).hasMessage(shouldContainIgnoringWhitespaces("Yoda", "yo",
+                                                                     StandardComparisonStrategy.instance()).create());
   }
 
   @Test
@@ -88,7 +90,8 @@ public class Strings_assertContainsIgnoringWhitespaces_Test extends StringsBaseT
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> strings.assertContainsIgnoringWhitespaces(INFO, actual, value));
     // THEN
-    then(assertionError).hasMessage(shouldContainIgnoringWhitespaces("Yoda and Luke", "a n dluke", StandardComparisonStrategy.instance()).create());
+    then(assertionError).hasMessage(shouldContainIgnoringWhitespaces("Yoda and Luke", "a n dluke",
+                                                                     StandardComparisonStrategy.instance()).create());
   }
 
   @Test

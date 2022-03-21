@@ -28,5 +28,5 @@ class FactoryBasedNavigableListAssert_Test extends BaseNavigableListAssert_Test 
     AssertFactory<Vehicle, VehicleAssert> assertFactory = VehicleAssert::assertThat;
     return assertThat(expectedVehicles, assertFactory);
   }
-  
+
 }

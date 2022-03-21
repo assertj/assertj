@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
 class Iterable_generics_with_varargs_Test {
-  
+
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @Test
   void testWithoutGenerics() {
@@ -58,11 +58,10 @@ class Iterable_generics_with_varargs_Test {
       }
     };
     assertThat(strings)
-      .extracting(doubleFunction, doubleFunction)
-      .contains(
-        tuple("aa", "aa"),
-        tuple("bb", "bb")
-      );
+                       .extracting(doubleFunction, doubleFunction)
+                       .contains(
+                                 tuple("aa", "aa"),
+                                 tuple("bb", "bb"));
   }
 
 }

@@ -39,11 +39,11 @@ class AtomicLongArrayAssert_isNullOrEmpty_Test extends AtomicLongArrayAssertBase
   public void should_return_this() {
     // Disable this test because isNullOrEmpty is void
   }
-  
+
   @Test
   void should_pass_if_AtomicLongArray_is_null() {
     AtomicLongArray array = null;
     assertThat(array).isNullOrEmpty();
   }
-  
+
 }

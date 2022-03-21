@@ -37,6 +37,6 @@ public class ShouldBeInSameHourWindow extends BasicErrorMessageFactory {
 
   private ShouldBeInSameHourWindow(Date actual, Date other) {
     super("%nExpecting actual:%n  %s%nto be close to:%n  %s%nby less than one hour (strictly) but difference was: "
-            + formatTimeDifference(actual, other), actual, other);
+          + formatTimeDifference(actual, other), actual, other);
   }
 }

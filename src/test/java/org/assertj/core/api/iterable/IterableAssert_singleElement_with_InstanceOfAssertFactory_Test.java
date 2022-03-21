@@ -82,5 +82,4 @@ class IterableAssert_singleElement_with_InstanceOfAssertFactory_Test {
     then(assertionError).hasMessageContaining("Expected size: 1 but was: 5");
   }
 
-
 }

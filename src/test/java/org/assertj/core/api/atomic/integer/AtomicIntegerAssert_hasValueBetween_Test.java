@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AtomicIntegerAssert;
 import org.assertj.core.api.AtomicIntegerAssertBaseTest;
 
-
 class AtomicIntegerAssert_hasValueBetween_Test extends AtomicIntegerAssertBaseTest {
 
   @Override

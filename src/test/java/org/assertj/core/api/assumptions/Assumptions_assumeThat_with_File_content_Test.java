@@ -41,7 +41,7 @@ class Assumptions_assumeThat_with_File_content_Test {
     // THEN
     expectAssumptionNotMetException(assumptionCode);
   }
-  
+
   @Test
   void should_run_test_when_assumption_using_file_content_with_charset_succeeds() {
     // WHEN
@@ -49,7 +49,7 @@ class Assumptions_assumeThat_with_File_content_Test {
     // THEN
     thenCode(assumptionCode).doesNotThrowAnyException();
   }
-  
+
   @Test
   void should_ignore_test_when_assumption_using_file_content_with_charset_fails() {
     // WHEN

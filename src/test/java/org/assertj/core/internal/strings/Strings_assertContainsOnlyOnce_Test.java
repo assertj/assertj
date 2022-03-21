@@ -24,7 +24,6 @@ import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Strings#assertContainsOnlyOnce(AssertionInfo, CharSequence, CharSequence)}</code>.
  */
@@ -37,7 +36,8 @@ class Strings_assertContainsOnlyOnce_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_contains_given_string_more_than_once() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsOnlyOnce(someInfo(), "Yodayoda", "oda"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsOnlyOnce(someInfo(), "Yodayoda",
+                                                                                                    "oda"))
                                                    .withMessage(shouldContainOnlyOnce("Yodayoda", "oda", 2).create());
   }
 
@@ -74,14 +74,20 @@ class Strings_assertContainsOnlyOnce_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_does_not_contain_sequence_only_once_according_to_custom_comparison_strategy() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(someInfo(), "Yoda", "Luke"))
-                                                   .withMessage(shouldContainOnlyOnce("Yoda", "Luke", 0, comparisonStrategy).create());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(someInfo(),
+                                                                                                                                         "Yoda",
+                                                                                                                                         "Luke"))
+                                                   .withMessage(shouldContainOnlyOnce("Yoda", "Luke", 0,
+                                                                                      comparisonStrategy).create());
   }
 
   @Test
   void should_fail_if_actual_contains_sequence_several_times_according_to_custom_comparison_strategy() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(someInfo(), "Yoda", "Luke"))
-                                                   .withMessage(shouldContainOnlyOnce("Yoda", "Luke", 0, comparisonStrategy).create());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsOnlyOnce(someInfo(),
+                                                                                                                                         "Yoda",
+                                                                                                                                         "Luke"))
+                                                   .withMessage(shouldContainOnlyOnce("Yoda", "Luke", 0,
+                                                                                      comparisonStrategy).create());
   }
 
 }

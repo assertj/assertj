@@ -19,7 +19,6 @@ import java.nio.charset.Charset;
 import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
 
-
 /**
  * Tests the default charset for <code>{@link FileAssert}</code>.
  * 

@@ -65,12 +65,12 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
   @Test
   void should_allow_assertions_on_multiple_extracted_values_flattened_in_a_single_list() {
     assertThat(fellowshipOfTheRing).flatExtracting("age", "name")
-      .as("extract ages and names")
-      .containsSequence(33, "Frodo", 38, "Sam");
+                                   .as("extract ages and names")
+                                   .containsSequence(33, "Frodo", 38, "Sam");
 
     assertThat(fellowshipOfTheRing).flatExtracting(age, name)
-      .as("extract ages and names")
-      .contains(33, "Frodo", 38, "Sam");
+                                   .as("extract ages and names")
+                                   .contains(33, "Frodo", 38, "Sam");
   }
 
   @Test
@@ -147,9 +147,9 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
     then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     then(comparatorsByTypeOf(assertion).getComparatorForType(String.class))
-      .isSameAs(CaseInsensitiveStringComparator.instance);
+                                                                           .isSameAs(CaseInsensitiveStringComparator.instance);
     then(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class))
-      .isSameAs(ALWAYS_EQUALS_TIMESTAMP);
+                                                                                               .isSameAs(ALWAYS_EQUALS_TIMESTAMP);
     then(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
   }
 
@@ -174,9 +174,9 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
     then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     then(comparatorsByTypeOf(assertion).getComparatorForType(String.class))
-      .isSameAs(CaseInsensitiveStringComparator.instance);
+                                                                           .isSameAs(CaseInsensitiveStringComparator.instance);
     then(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class))
-      .isSameAs(ALWAYS_EQUALS_TIMESTAMP);
+                                                                                               .isSameAs(ALWAYS_EQUALS_TIMESTAMP);
     then(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
   }
 }

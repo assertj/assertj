@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
 
 import org.assertj.core.internal.Comparables;
 
-
 public abstract class AbstractLocalDateTimeAssertBaseTest extends TemporalAssertBaseTest<LocalDateTimeAssert, LocalDateTime> {
 
   protected static final LocalDateTime NOW = LocalDateTime.now();

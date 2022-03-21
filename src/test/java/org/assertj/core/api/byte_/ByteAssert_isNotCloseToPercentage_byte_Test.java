@@ -26,16 +26,16 @@ import org.assertj.core.data.Percentage;
  */
 class ByteAssert_isNotCloseToPercentage_byte_Test extends ByteAssertBaseTest {
 
-    private final Percentage percentage = withPercentage((byte) 5);
-    private final Byte value = 10;
+  private final Percentage percentage = withPercentage((byte) 5);
+  private final Byte value = 10;
 
-    @Override
-    protected ByteAssert invoke_api_method() {
-        return assertions.isNotCloseTo(value, percentage);
-    }
+  @Override
+  protected ByteAssert invoke_api_method() {
+    return assertions.isNotCloseTo(value, percentage);
+  }
 
-    @Override
-    protected void verify_internal_effects() {
-        verify(bytes).assertIsNotCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
-    }
+  @Override
+  protected void verify_internal_effects() {
+    verify(bytes).assertIsNotCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
+  }
 }

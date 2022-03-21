@@ -25,7 +25,6 @@ import org.assertj.core.internal.Shorts;
 import org.assertj.core.internal.ShortsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Shorts#assertLessThan(AssertionInfo, Short, short)}</code>.
  * 
@@ -67,7 +66,9 @@ class Shorts_assertLessThan_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertLessThan(someInfo(), null, (short) 8))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertLessThan(someInfo(),
+                                                                                                                         null,
+                                                                                                                         (short) 8))
                                                    .withMessage(actualIsNull());
   }
 

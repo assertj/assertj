@@ -29,6 +29,7 @@ import org.assertj.core.internal.ShortsBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
 class Shorts_assertIsCloseTo_Test extends ShortsBaseTest {
 
   private static final Short ZERO = 0;
@@ -49,14 +50,14 @@ class Shorts_assertIsCloseTo_Test extends ShortsBaseTest {
 
   @ParameterizedTest
   @CsvSource({
-    "1, 1, 0",
-    "1, 0, 1",
-    "-1, 0, 1",
-    "-1, -1, 0",
-    "-1, 1, 2",
-    "0, 32767, 32767",
-    "32767, 32767, 0",
-    "-32768, -32768, 0"
+      "1, 1, 0",
+      "1, 0, 1",
+      "-1, 0, 1",
+      "-1, -1, 0",
+      "-1, 1, 2",
+      "0, 32767, 32767",
+      "32767, 32767, 0",
+      "-32768, -32768, 0"
   })
   void should_pass_if_difference_is_equal_to_given_offset(short actual, short expected, short offset) {
     shorts.assertIsCloseTo(someInfo(), actual, expected, within(offset));
@@ -88,7 +89,7 @@ class Shorts_assertIsCloseTo_Test extends ShortsBaseTest {
       "0, 2, 2"
   })
   void should_fail_if_difference_is_equal_to_the_given_strict_offset(short actual, short expected,
-                                                                            short offset) {
+                                                                     short offset) {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> shorts.assertIsCloseTo(info, actual, expected, byLessThan(offset)));

@@ -17,7 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
 
-
 /**
  * Test for <code>{@link FileAssert#usingCharset(String)}</code>.
  * 

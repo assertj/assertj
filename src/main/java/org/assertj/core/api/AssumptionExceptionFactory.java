@@ -31,7 +31,7 @@ public class AssumptionExceptionFactory {
     Class<?> assumptionExceptionClass = preferredAssumptionException.getAssumptionExceptionClass();
     return buildAssumptionException(assumptionExceptionClass, assertionError);
   }
-  
+
   @VisibleForTesting
   public static PreferredAssumptionException getPreferredAssumptionException() {
     return preferredAssumptionException;

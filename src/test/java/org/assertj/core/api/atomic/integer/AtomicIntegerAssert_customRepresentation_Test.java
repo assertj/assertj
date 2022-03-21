@@ -36,5 +36,5 @@ class AtomicIntegerAssert_customRepresentation_Test {
       return "@" + s + "@";
     }
   }
-  
+
 }

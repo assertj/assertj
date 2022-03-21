@@ -31,7 +31,6 @@ import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Iterables#assertEndsWith(AssertionInfo, Iterable, Object[])}</code>.
  *
@@ -59,7 +58,7 @@ class Iterables_assertEndsWith_Test extends IterablesBaseTest {
     actual.clear();
     iterables.assertEndsWith(someInfo(), actual, emptyArray());
   }
-  
+
   @Test
   void should_pass_if_sequence_to_look_for_is_empty_and_actual_is_not() {
     iterables.assertEndsWith(someInfo(), actual, emptyArray());

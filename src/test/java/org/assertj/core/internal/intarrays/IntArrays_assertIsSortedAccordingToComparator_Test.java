@@ -30,7 +30,6 @@ import org.assertj.core.internal.IntArraysBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link IntArrays#assertIsSortedAccordingToComparator(AssertionInfo, int[], Comparator)}</code>
  * 
@@ -63,7 +62,8 @@ class IntArrays_assertIsSortedAccordingToComparator_Test extends IntArraysBaseTe
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), null, intDescendingOrderComparator))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), null,
+                                                                                                                intDescendingOrderComparator))
                                                    .withMessage(actualIsNull());
   }
 
@@ -77,7 +77,8 @@ class IntArrays_assertIsSortedAccordingToComparator_Test extends IntArraysBaseTe
     AssertionInfo info = someInfo();
     actual = new int[] { 3, 2, 1, 9 };
 
-    Throwable error = catchThrowable(() -> arrays.assertIsSortedAccordingToComparator(info, actual, intDescendingOrderComparator));
+    Throwable error = catchThrowable(() -> arrays.assertIsSortedAccordingToComparator(info, actual,
+                                                                                      intDescendingOrderComparator));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(2, actual, intDescendingOrderComparator));

@@ -69,7 +69,7 @@ class Urls_assertHasUserInfo_Test extends UrlsBaseTest {
 
   @Test
   void should_fail_if_actual_URL_has_no_user_info_and_expected_user_info_is_not_null()
-                                                                                              throws MalformedURLException {
+                                                                                       throws MalformedURLException {
     // GIVEN
     URL url = new URL("http://assertj.org/news");
     String expectedUserInfo = "test:pass";

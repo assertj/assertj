@@ -25,5 +25,5 @@ class AtomicLongAssert_customComparator_Test {
   void should_honor_custom_comparator() {
     assertThat(new AtomicLong(1)).usingComparator(new AbsValueComparator<AtomicLong>()).hasValueLessThanOrEqualTo(-1);
   }
-  
+
 }

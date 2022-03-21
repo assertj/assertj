@@ -32,7 +32,6 @@ import org.assertj.core.internal.BooleanArrays;
 import org.assertj.core.internal.BooleanArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link BooleanArrays#assertContains(AssertionInfo, boolean[], boolean, Index)}</code>.
  * 
@@ -49,7 +48,8 @@ class BooleanArrays_assertContains_at_Index_Test extends BooleanArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_empty() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), emptyArray(), true, someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), emptyArray(), true,
+                                                                                           someIndex()))
                                                    .withMessage(actualIsEmpty());
   }
 

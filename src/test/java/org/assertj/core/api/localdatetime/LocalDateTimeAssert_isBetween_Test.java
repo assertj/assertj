@@ -26,7 +26,8 @@ class LocalDateTimeAssert_isBetween_Test extends AbstractLocalDateTimeAssertBase
 
   @Override
   protected void verify_internal_effects() {
-    verify(getComparables(assertions)).assertIsBetween(getInfo(assertions), getActual(assertions), YESTERDAY, TOMORROW, true, true);
+    verify(getComparables(assertions)).assertIsBetween(getInfo(assertions), getActual(assertions), YESTERDAY, TOMORROW, true,
+                                                       true);
   }
 
 }

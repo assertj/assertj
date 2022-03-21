@@ -30,7 +30,6 @@ import org.assertj.core.internal.LongArraysBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link LongArrays#assertIsSortedAccordingToComparator(AssertionInfo, long[], Comparator)}</code>
  * 
@@ -63,7 +62,8 @@ class LongArrays_assertIsSortedAccordingToComparator_Test extends LongArraysBase
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), null, longDescendingOrderComparator))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), null,
+                                                                                                                longDescendingOrderComparator))
                                                    .withMessage(actualIsNull());
   }
 
@@ -77,7 +77,8 @@ class LongArrays_assertIsSortedAccordingToComparator_Test extends LongArraysBase
     AssertionInfo info = someInfo();
     actual = new long[] { 3L, 2L, 1L, 9L };
 
-    Throwable error = catchThrowable(() -> arrays.assertIsSortedAccordingToComparator(info, actual, longDescendingOrderComparator));
+    Throwable error = catchThrowable(() -> arrays.assertIsSortedAccordingToComparator(info, actual,
+                                                                                      longDescendingOrderComparator));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(2, actual, longDescendingOrderComparator));

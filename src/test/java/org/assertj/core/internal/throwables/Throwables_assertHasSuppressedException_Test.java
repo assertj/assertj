@@ -50,7 +50,8 @@ class Throwables_assertHasSuppressedException_Test extends ThrowablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasSuppressedException(someInfo(), null, new Throwable()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasSuppressedException(someInfo(), null,
+                                                                                                             new Throwable()))
                                                    .withMessage(actualIsNull());
   }
 
@@ -77,7 +78,8 @@ class Throwables_assertHasSuppressedException_Test extends ThrowablesBaseTest {
     AssertionInfo info = someInfo();
     Throwable expectedSuppressedException = new NullPointerException(IAE_EXCEPTION_MESSAGE);
 
-    Throwable error = catchThrowable(() -> throwables.assertHasSuppressedException(info, throwableSuppressedException, expectedSuppressedException));
+    Throwable error = catchThrowable(() -> throwables.assertHasSuppressedException(info, throwableSuppressedException,
+                                                                                   expectedSuppressedException));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
@@ -89,7 +91,8 @@ class Throwables_assertHasSuppressedException_Test extends ThrowablesBaseTest {
     AssertionInfo info = someInfo();
     Throwable expectedSuppressedException = new IllegalArgumentException(IAE_EXCEPTION_MESSAGE + "foo");
 
-    Throwable error = catchThrowable(() -> throwables.assertHasSuppressedException(info, throwableSuppressedException, expectedSuppressedException));
+    Throwable error = catchThrowable(() -> throwables.assertHasSuppressedException(info, throwableSuppressedException,
+                                                                                   expectedSuppressedException));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
@@ -102,7 +105,8 @@ class Throwables_assertHasSuppressedException_Test extends ThrowablesBaseTest {
     Throwable expectedSuppressedException = new IllegalArgumentException("error cause");
     throwableSuppressedException = new Throwable(new IllegalArgumentException());
 
-    Throwable error = catchThrowable(() -> throwables.assertHasSuppressedException(info, throwableSuppressedException, expectedSuppressedException));
+    Throwable error = catchThrowable(() -> throwables.assertHasSuppressedException(info, throwableSuppressedException,
+                                                                                   expectedSuppressedException));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
@@ -114,7 +118,8 @@ class Throwables_assertHasSuppressedException_Test extends ThrowablesBaseTest {
     AssertionInfo info = someInfo();
     Throwable expectedSuppressedException = new NullPointerException("error cause");
 
-    Throwable error = catchThrowable(() -> throwables.assertHasSuppressedException(info, throwableSuppressedException, expectedSuppressedException));
+    Throwable error = catchThrowable(() -> throwables.assertHasSuppressedException(info, throwableSuppressedException,
+                                                                                   expectedSuppressedException));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,

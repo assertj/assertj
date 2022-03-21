@@ -29,7 +29,6 @@ import org.assertj.core.internal.CharArrays;
 import org.assertj.core.internal.CharArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link CharArrays#assertEndsWith(AssertionInfo, char[], char[])}</code>.
  * 
@@ -55,7 +54,7 @@ class CharArrays_assertEndsWith_Test extends CharArraysBaseTest {
     actual = emptyArray();
     arrays.assertEndsWith(someInfo(), actual, emptyArray());
   }
-  
+
   @Test
   void should_pass_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     arrays.assertEndsWith(someInfo(), actual, emptyArray());
@@ -113,9 +112,9 @@ class CharArrays_assertEndsWith_Test extends CharArraysBaseTest {
   @Test
   void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(),
-                                                                                                                             actual,
-                                                                                                                             null))
-                                                         .withMessage(valuesToLookForIsNull());
+                                                                                                        actual,
+                                                                                                        null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
@@ -125,7 +124,9 @@ class CharArrays_assertEndsWith_Test extends CharArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), null, arrayOf('A')))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(),
+                                                                                                                       null,
+                                                                                                                       arrayOf('A')))
                                                    .withMessage(actualIsNull());
   }
 

@@ -35,9 +35,10 @@ class MapAssert_containsOnly_with_Java_Util_MapEntry_Test extends MapAssertBaseT
   protected void verify_internal_effects() {
     verify(maps).assertContainsOnly(getInfo(assertions), getActual(assertions), entries);
   }
-  
+
   @Test
   void invoke_api_like_user() {
-     assertThat(map("key1", "value1", "key2", "value2")).containsOnly(javaMapEntry("key1", "value1"), javaMapEntry("key2", "value2"));
+    assertThat(map("key1", "value1", "key2", "value2")).containsOnly(javaMapEntry("key1", "value1"),
+                                                                     javaMapEntry("key2", "value2"));
   }
 }

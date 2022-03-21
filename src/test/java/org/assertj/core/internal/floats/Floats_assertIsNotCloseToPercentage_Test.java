@@ -33,6 +33,7 @@ import org.assertj.core.internal.FloatsBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
 class Floats_assertIsNotCloseToPercentage_Test extends FloatsBaseTest {
 
   private static final Float ZERO = 0f;
@@ -42,13 +43,15 @@ class Floats_assertIsNotCloseToPercentage_Test extends FloatsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotCloseToPercentage(someInfo(), null, ONE, withPercentage(ONE)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotCloseToPercentage(someInfo(), null, ONE,
+                                                                                                         withPercentage(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_expected_value_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> floats.assertIsNotCloseToPercentage(someInfo(), ONE, null, withPercentage(ONE)));
+    assertThatNullPointerException().isThrownBy(() -> floats.assertIsNotCloseToPercentage(someInfo(), ONE, null,
+                                                                                          withPercentage(ONE)));
   }
 
   @Test
@@ -58,7 +61,8 @@ class Floats_assertIsNotCloseToPercentage_Test extends FloatsBaseTest {
 
   @Test
   void should_fail_if_percentage_is_negative() {
-    assertThatIllegalArgumentException().isThrownBy(() -> floats.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1.0f)));
+    assertThatIllegalArgumentException().isThrownBy(() -> floats.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO,
+                                                                                              withPercentage(-1.0f)));
   }
 
   @ParameterizedTest
@@ -85,7 +89,8 @@ class Floats_assertIsNotCloseToPercentage_Test extends FloatsBaseTest {
   void should_fail_if_difference_is_equal_to_given_percentage(Float actual, Float other, Float percentage) {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> floats.assertIsNotCloseToPercentage(someInfo(), actual, other, withPercentage(percentage)));
+    Throwable error = catchThrowable(() -> floats.assertIsNotCloseToPercentage(someInfo(), actual, other,
+                                                                               withPercentage(percentage)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotBeEqualWithinPercentage(actual, other, withPercentage(percentage),
@@ -96,7 +101,8 @@ class Floats_assertIsNotCloseToPercentage_Test extends FloatsBaseTest {
   void should_fail_if_actual_is_too_close_to_expected_value() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> floats.assertIsNotCloseToPercentage(someInfo(), ONE, TEN, withPercentage(ONE_HUNDRED)));
+    Throwable error = catchThrowable(() -> floats.assertIsNotCloseToPercentage(someInfo(), ONE, TEN,
+                                                                               withPercentage(ONE_HUNDRED)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotBeEqualWithinPercentage(ONE, TEN, withinPercentage(100),
@@ -105,17 +111,24 @@ class Floats_assertIsNotCloseToPercentage_Test extends FloatsBaseTest {
 
   @Test
   void should_fail_if_actual_and_expected_are_NaN() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotCloseToPercentage(someInfo(), NaN, NaN, withPercentage(ONE)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotCloseToPercentage(someInfo(), NaN, NaN,
+                                                                                                         withPercentage(ONE)));
   }
 
   @Test
   void should_fail_if_actual_and_expected_are_POSITIVE_INFINITY() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotCloseToPercentage(someInfo(), POSITIVE_INFINITY, POSITIVE_INFINITY, withPercentage(ONE)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotCloseToPercentage(someInfo(),
+                                                                                                         POSITIVE_INFINITY,
+                                                                                                         POSITIVE_INFINITY,
+                                                                                                         withPercentage(ONE)));
   }
 
   @Test
   void should_fail_if_actual_and_expected_are_NEGATIVE_INFINITY() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotCloseToPercentage(someInfo(), NEGATIVE_INFINITY, NEGATIVE_INFINITY, withPercentage(ONE)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotCloseToPercentage(someInfo(),
+                                                                                                         NEGATIVE_INFINITY,
+                                                                                                         NEGATIVE_INFINITY,
+                                                                                                         withPercentage(ONE)));
   }
 
   @Test

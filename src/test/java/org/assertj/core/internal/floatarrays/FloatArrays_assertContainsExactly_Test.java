@@ -59,12 +59,14 @@ class FloatArrays_assertContainsExactly_Test extends FloatArraysBaseTest {
 
   @Test
   void should_fail_if_arrays_have_different_sizes() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, arrayOf(6f, 8f)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual,
+                                                                                                  arrayOf(6f, 8f)));
   }
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual,
+                                                                                                  emptyArray()));
   }
 
   @Test
@@ -117,7 +119,8 @@ class FloatArrays_assertContainsExactly_Test extends FloatArraysBaseTest {
     AssertionInfo info = someInfo();
     float[] expected = { -6f, 10f, 8f };
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, expected));
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual,
+                                                                                                    expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, elementsDifferAtIndex(8f, 10f, 1, absValueComparisonStrategy));
@@ -125,7 +128,9 @@ class FloatArrays_assertContainsExactly_Test extends FloatArraysBaseTest {
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(),
+                                                                                                                              actual,
+                                                                                                                              emptyArray()));
   }
 
   @Test
@@ -138,7 +143,9 @@ class FloatArrays_assertContainsExactly_Test extends FloatArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), null, arrayOf(-8f)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(),
+                                                                                                                              null,
+                                                                                                                              arrayOf(-8f)))
                                                    .withMessage(actualIsNull());
   }
 

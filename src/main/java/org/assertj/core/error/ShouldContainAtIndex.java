@@ -36,7 +36,7 @@ public class ShouldContainAtIndex extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainAtIndex(Object actual, Object expected, Index index, Object found,
-      ComparisonStrategy comparisonStrategy) {
+                                                         ComparisonStrategy comparisonStrategy) {
     return new ShouldContainAtIndex(actual, expected, index, found, comparisonStrategy);
   }
 
@@ -53,6 +53,7 @@ public class ShouldContainAtIndex extends BasicErrorMessageFactory {
   }
 
   private ShouldContainAtIndex(Object actual, Object expected, Index index, Object found, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting actual:%n  %s%nat index %s but found:%n  %s%nin:%n  %s%n%s", expected, index.value, found, actual, comparisonStrategy);
+    super("%nExpecting actual:%n  %s%nat index %s but found:%n  %s%nin:%n  %s%n%s", expected, index.value, found, actual,
+          comparisonStrategy);
   }
 }

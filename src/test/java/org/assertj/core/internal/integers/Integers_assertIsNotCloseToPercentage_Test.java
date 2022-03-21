@@ -40,13 +40,15 @@ class Integers_assertIsNotCloseToPercentage_Test extends IntegersBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertIsNotCloseToPercentage(someInfo(), null, ONE, withPercentage(ONE)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertIsNotCloseToPercentage(someInfo(), null, ONE,
+                                                                                                           withPercentage(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_expected_value_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> integers.assertIsNotCloseToPercentage(someInfo(), ONE, null, withPercentage(ONE)));
+    assertThatNullPointerException().isThrownBy(() -> integers.assertIsNotCloseToPercentage(someInfo(), ONE, null,
+                                                                                            withPercentage(ONE)));
   }
 
   @Test
@@ -56,16 +58,17 @@ class Integers_assertIsNotCloseToPercentage_Test extends IntegersBaseTest {
 
   @Test
   void should_fail_if_percentage_is_negative() {
-    assertThatIllegalArgumentException().isThrownBy(() -> integers.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1)));
+    assertThatIllegalArgumentException().isThrownBy(() -> integers.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO,
+                                                                                                withPercentage(-1)));
   }
 
   @ParameterizedTest
   @CsvSource({
-    "1, 2, 1",
-    "1, 11, 90",
-    "-1, -2, 1",
-    "-1, -11, 90",
-    "0, -1, 99"
+      "1, 2, 1",
+      "1, 11, 90",
+      "-1, -2, 1",
+      "-1, -11, 90",
+      "0, -1, 99"
   })
   void should_pass_if_difference_is_greater_than_given_percentage(Integer actual, Integer other, Integer percentage) {
     integers.assertIsNotCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
@@ -73,18 +76,19 @@ class Integers_assertIsNotCloseToPercentage_Test extends IntegersBaseTest {
 
   @ParameterizedTest
   @CsvSource({
-    "1, 1, 0",
-    "2, 1, 100",
-    "1, 2, 50",
-    "-1, -1, 0",
-    "-2, -1, 100",
-    "-1, -2, 50"
+      "1, 1, 0",
+      "2, 1, 100",
+      "1, 2, 50",
+      "-1, -1, 0",
+      "-2, -1, 100",
+      "-1, -2, 50"
   })
   void should_fail_if_difference_is_equal_to_given_percentage(Integer actual, Integer other,
-                                                                     Integer percentage) {
+                                                              Integer percentage) {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> integers.assertIsNotCloseToPercentage(someInfo(), actual, other, withPercentage(percentage)));
+    Throwable error = catchThrowable(() -> integers.assertIsNotCloseToPercentage(someInfo(), actual, other,
+                                                                                 withPercentage(percentage)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotBeEqualWithinPercentage(actual, other, withPercentage(percentage),
@@ -95,10 +99,11 @@ class Integers_assertIsNotCloseToPercentage_Test extends IntegersBaseTest {
   void should_fail_if_actual_is_too_close_to_expected_value() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> integers.assertIsNotCloseToPercentage(someInfo(), ONE, TEN, withPercentage(ONE_HUNDRED)));
+    Throwable error = catchThrowable(() -> integers.assertIsNotCloseToPercentage(someInfo(), ONE, TEN,
+                                                                                 withPercentage(ONE_HUNDRED)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotBeEqualWithinPercentage(ONE, TEN, withinPercentage(100),
-      TEN - ONE));
+                                                                    TEN - ONE));
   }
 }

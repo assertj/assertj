@@ -20,7 +20,6 @@ import static org.assertj.core.error.ShouldBeUpperCase.shouldBeUpperCase;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 
-
 /**
  * Reusable assertions for <code>{@link Character}</code>s.
  * 

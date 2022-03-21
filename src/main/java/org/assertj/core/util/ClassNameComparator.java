@@ -16,10 +16,10 @@ import java.util.Comparator;
 
 public class ClassNameComparator implements Comparator<Class<?>> {
 
-    public static final ClassNameComparator INSTANCE = new ClassNameComparator();
+  public static final ClassNameComparator INSTANCE = new ClassNameComparator();
 
-    @Override
-    public int compare(Class<?> class1, Class<?> class2) {
-        return class1.getName().compareTo(class2.getName());
-    }
+  @Override
+  public int compare(Class<?> class1, Class<?> class2) {
+    return class1.getName().compareTo(class2.getName());
+  }
 }

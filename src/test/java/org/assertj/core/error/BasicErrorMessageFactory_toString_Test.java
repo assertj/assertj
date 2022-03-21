@@ -23,7 +23,6 @@ import org.junit.jupiter.api.Test;
  */
 class BasicErrorMessageFactory_toString_Test {
 
-
   @Test
   void should_implement_toString() {
     // WHEN

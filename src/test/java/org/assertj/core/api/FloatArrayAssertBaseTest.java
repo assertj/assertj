@@ -17,7 +17,6 @@ import static org.mockito.Mockito.mock;
 
 import org.assertj.core.internal.FloatArrays;
 
-
 /**
  * Base class for {@link FloatArrayAssert} tests.
  * 
@@ -37,7 +36,7 @@ public abstract class FloatArrayAssertBaseTest extends BaseTestTemplate<FloatArr
     arrays = mock(FloatArrays.class);
     assertions.arrays = arrays;
   }
-  
+
   protected FloatArrays getArrays(FloatArrayAssert someAssertions) {
     return someAssertions.arrays;
   }

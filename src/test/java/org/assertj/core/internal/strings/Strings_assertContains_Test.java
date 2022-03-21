@@ -45,7 +45,7 @@ class Strings_assertContains_Test extends StringsBaseTest {
   @Test
   void should_throw_error_if_sequence_is_null() {
     assertThatNullPointerException().isThrownBy(() -> strings.assertContains(someInfo(), "Yoda", (String) null))
-                                                 .withMessage(charSequenceToLookForIsNull());
+                                    .withMessage(charSequenceToLookForIsNull());
   }
 
   @Test
@@ -61,8 +61,10 @@ class Strings_assertContains_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_does_not_contain_all_given_strings() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContains(someInfo(), "Yoda", "Yo", "da", "Han"))
-                                                   .withMessage(shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han")).create());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContains(someInfo(), "Yoda", "Yo", "da",
+                                                                                            "Han"))
+                                                   .withMessage(shouldContain("Yoda", array("Yo", "da", "Han"),
+                                                                              newLinkedHashSet("Han")).create());
   }
 
   @Test
@@ -84,14 +86,23 @@ class Strings_assertContains_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_does_not_contain_sequence_according_to_custom_comparison_strategy() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), "Yoda", "Luke"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(),
+                                                                                                                                 "Yoda",
+                                                                                                                                 "Luke"))
                                                    .withMessage(shouldContain("Yoda", "Luke", comparisonStrategy).create());
   }
 
   @Test
   void should_fail_if_actual_does_not_contain_all_given_strings_according_to_custom_comparison_strategy() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), "Yoda", "Yo", "da", "Han"))
-                                                   .withMessage(shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han"), comparisonStrategy).create());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(),
+                                                                                                                                 "Yoda",
+                                                                                                                                 "Yo",
+                                                                                                                                 "da",
+                                                                                                                                 "Han"))
+                                                   .withMessage(shouldContain("Yoda", array("Yo", "da",
+                                                                                            "Han"),
+                                                                              newLinkedHashSet("Han"), comparisonStrategy)
+                                                                                                                          .create());
   }
 
 }

@@ -19,7 +19,6 @@ import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link AbstractIterableAssert#startsWith(Object...)}</code>.
  * 

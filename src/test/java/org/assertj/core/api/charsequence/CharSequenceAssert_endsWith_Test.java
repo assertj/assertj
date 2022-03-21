@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link CharSequenceAssert#endsWith(CharSequence)}</code>.
  * 

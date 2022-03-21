@@ -26,6 +26,7 @@ class LocalDateTimeAssert_isStrictlyBetween_Test extends AbstractLocalDateTimeAs
 
   @Override
   protected void verify_internal_effects() {
-    verify(getComparables(assertions)).assertIsBetween(getInfo(assertions), getActual(assertions), YESTERDAY, TOMORROW, false, false);
+    verify(getComparables(assertions)).assertIsBetween(getInfo(assertions), getActual(assertions), YESTERDAY, TOMORROW, false,
+                                                       false);
   }
 }

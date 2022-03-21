@@ -33,7 +33,7 @@ public class IntArrayAssert extends AbstractIntArrayAssert<IntArrayAssert> {
   public IntArrayAssert(int[] actual) {
     super(actual, IntArrayAssert.class);
   }
-  
+
   public IntArrayAssert(AtomicIntegerArray actual) {
     this(array(actual));
   }

@@ -38,10 +38,10 @@ class MapEntry_Test {
 
   @ParameterizedTest
   @CsvSource({
-    "name, Yoda",
-    " , Yoda",
-    "name, ",
-    " , ",
+      "name, Yoda",
+      " , Yoda",
+      "name, ",
+      " , ",
   })
   void should_honor_Entry_hashCode_contract(String key, String value) {
     // GIVEN

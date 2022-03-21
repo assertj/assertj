@@ -62,7 +62,8 @@ class FloatArrays_assertIsSortedAccordingToComparator_Test extends FloatArraysBa
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), null, floatDescendingOrderComparator))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), null,
+                                                                                                                floatDescendingOrderComparator))
                                                    .withMessage(actualIsNull());
   }
 
@@ -76,7 +77,8 @@ class FloatArrays_assertIsSortedAccordingToComparator_Test extends FloatArraysBa
     AssertionInfo info = someInfo();
     actual = new float[] { 3.0f, 2.0f, 1.0f, 9.0f };
 
-    Throwable error = catchThrowable(() -> arrays.assertIsSortedAccordingToComparator(info, actual, floatDescendingOrderComparator));
+    Throwable error = catchThrowable(() -> arrays.assertIsSortedAccordingToComparator(info, actual,
+                                                                                      floatDescendingOrderComparator));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,

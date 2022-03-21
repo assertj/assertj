@@ -17,14 +17,13 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link ObjectArrayAssert#containsExactlyInAnyOrder(Object[])}</code>.
  * 
  * @author Lovro Pandzic
  */
 class ObjectArrayAssert_containsExactlyInAnyOrder_Test extends ObjectArrayAssertBaseTest {
-  
+
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {
     return assertions.containsExactlyInAnyOrder("Yoda", "Luke");
@@ -32,6 +31,6 @@ class ObjectArrayAssert_containsExactlyInAnyOrder_Test extends ObjectArrayAssert
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertContainsExactlyInAnyOrder(getInfo(assertions), getActual(assertions), new String[] {"Yoda", "Luke"});
+    verify(arrays).assertContainsExactlyInAnyOrder(getInfo(assertions), getActual(assertions), new String[] { "Yoda", "Luke" });
   }
 }

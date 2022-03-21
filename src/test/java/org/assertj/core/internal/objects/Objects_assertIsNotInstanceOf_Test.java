@@ -27,7 +27,6 @@ import org.assertj.core.test.Person;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Objects#assertIsNotInstanceOf(AssertionInfo, Object, Class)}</code>.
  * 
@@ -56,7 +55,8 @@ class Objects_assertIsNotInstanceOf_Test extends ObjectsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> objects.assertIsNotInstanceOf(someInfo(), null, Object.class))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> objects.assertIsNotInstanceOf(someInfo(), null,
+                                                                                                   Object.class))
                                                    .withMessage(actualIsNull());
   }
 

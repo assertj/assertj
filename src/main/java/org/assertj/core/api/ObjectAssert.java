@@ -31,8 +31,8 @@ public class ObjectAssert<ACTUAL> extends AbstractObjectAssert<ObjectAssert<ACTU
   public ObjectAssert(ACTUAL actual) {
     super(actual, ObjectAssert.class);
   }
-  
+
   public ObjectAssert(AtomicReference<ACTUAL> actual) {
-    this(actual == null ? null: actual.get());
+    this(actual == null ? null : actual.get());
   }
 }

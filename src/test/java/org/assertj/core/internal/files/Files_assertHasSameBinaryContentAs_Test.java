@@ -33,6 +33,7 @@ import org.assertj.core.internal.BinaryDiffResult;
 import org.assertj.core.internal.FilesBaseTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
 class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
 
   private static File actual;

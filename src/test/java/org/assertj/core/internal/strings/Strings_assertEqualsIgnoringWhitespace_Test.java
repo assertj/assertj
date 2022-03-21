@@ -90,7 +90,7 @@ class Strings_assertEqualsIgnoringWhitespace_Test extends StringsBaseTest {
   }
 
   void verifyFailureThrownWhenStringsAreNotEqualIgnoringWhitespace(AssertionInfo info, String actual,
-                                                                           String expected) {
+                                                                   String expected) {
     verify(failures).failure(info, shouldBeEqualIgnoringWhitespace(actual, expected), actual, expected);
   }
 }

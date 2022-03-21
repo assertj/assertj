@@ -29,13 +29,13 @@ class Doubles_assertIsNotInfinite_Test extends DoublesBaseTest {
 
   @ParameterizedTest
   @ValueSource(doubles = {
-    Double.MAX_VALUE,
-    Double.MIN_NORMAL,
-    Double.MIN_VALUE,
-    Double.NaN,
-    0.0,
-    1.0,
-    -1.0,
+      Double.MAX_VALUE,
+      Double.MIN_NORMAL,
+      Double.MIN_VALUE,
+      Double.NaN,
+      0.0,
+      1.0,
+      -1.0,
   })
   void should_succeed_when_actual_is_not_infinite(double actual) {
     // WHEN/THEN
@@ -44,8 +44,8 @@ class Doubles_assertIsNotInfinite_Test extends DoublesBaseTest {
 
   @ParameterizedTest
   @ValueSource(doubles = {
-    Double.POSITIVE_INFINITY,
-    Double.NEGATIVE_INFINITY
+      Double.POSITIVE_INFINITY,
+      Double.NEGATIVE_INFINITY
   })
   void should_fail_when_actual_is_infinite(double actual) {
     // WHEN

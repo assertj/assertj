@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link FileAssert#isWritable()}</code>.
  * 
@@ -26,14 +25,14 @@ import org.assertj.core.api.FileAssertBaseTest;
  */
 class FileAssert_isWritable_Test extends FileAssertBaseTest {
 
-	@Override
-	protected FileAssert invoke_api_method() {
-		return assertions.isWritable();
-	}
+  @Override
+  protected FileAssert invoke_api_method() {
+    return assertions.isWritable();
+  }
 
-	@Override
-	protected void verify_internal_effects() {
-		verify(files).assertCanWrite(getInfo(assertions), getActual(assertions));
-	}
+  @Override
+  protected void verify_internal_effects() {
+    verify(files).assertCanWrite(getInfo(assertions), getActual(assertions));
+  }
 
 }

@@ -25,7 +25,6 @@ import org.assertj.core.internal.Bytes;
 import org.assertj.core.internal.BytesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Bytes#assertLessThan(AssertionInfo, Byte, byte)}</code>.
  * 
@@ -67,7 +66,9 @@ class Bytes_assertLessThan_Test extends BytesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertLessThan(someInfo(), null, (byte) 8))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertLessThan(someInfo(),
+                                                                                                                        null,
+                                                                                                                        (byte) 8))
                                                    .withMessage(actualIsNull());
   }
 

@@ -14,8 +14,8 @@ package org.assertj.core.test;
 
 @SuppressWarnings("serial")
 public final class AssertionErrorExpectedException extends RuntimeException {
-  
+
   public AssertionErrorExpectedException() {
-	super("was expecting an AssertionError");
+    super("was expecting an AssertionError");
   }
 }

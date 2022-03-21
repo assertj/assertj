@@ -73,5 +73,5 @@ class Properties_extractProperty_Test {
     }
 
   }
-  
+
 }

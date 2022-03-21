@@ -36,9 +36,9 @@ class Assertions_assertThat_with_Comparable_Test {
   }
 
   private static class SomeComparable implements Comparable<SomeComparable> {
-      @Override
-      public int compareTo(SomeComparable o) {
-          return 0;
-      }
+    @Override
+    public int compareTo(SomeComparable o) {
+      return 0;
+    }
   }
 }

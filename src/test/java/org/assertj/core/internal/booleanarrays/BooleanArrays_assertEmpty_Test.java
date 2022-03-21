@@ -26,7 +26,6 @@ import org.assertj.core.internal.BooleanArrays;
 import org.assertj.core.internal.BooleanArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link BooleanArrays#assertEmpty(AssertionInfo, boolean[])}</code>.
  * 

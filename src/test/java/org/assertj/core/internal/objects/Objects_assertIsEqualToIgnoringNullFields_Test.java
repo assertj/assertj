@@ -84,7 +84,7 @@ class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       Jedi other = new Jedi("Yoda", "Green");
       objects.assertIsEqualToIgnoringNullFields(someInfo(), null, other, noFieldComparators(), defaultTypeComparators());
     }).withMessage(actualIsNull());
@@ -96,7 +96,8 @@ class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseTest {
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Yoda", "Green");
 
-    Throwable error = catchThrowable(() -> objects.assertIsEqualToIgnoringNullFields(info, actual, other, noFieldComparators(), defaultTypeComparators()));
+    Throwable error = catchThrowable(() -> objects.assertIsEqualToIgnoringNullFields(info, actual, other, noFieldComparators(),
+                                                                                     defaultTypeComparators()));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,
@@ -112,7 +113,8 @@ class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseTest {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Soda", "Green");
 
-    Throwable error = catchThrowable(() -> objects.assertIsEqualToIgnoringNullFields(info, actual, other, noFieldComparators(), defaultTypeComparators()));
+    Throwable error = catchThrowable(() -> objects.assertIsEqualToIgnoringNullFields(info, actual, other, noFieldComparators(),
+                                                                                     defaultTypeComparators()));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeEqualToIgnoringGivenFields(actual,

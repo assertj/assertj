@@ -57,7 +57,7 @@ class BooleanArrays_assertContainsOnlyOnce_Test extends BooleanArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-        shouldContainsOnlyOnce(actual, expected, newLinkedHashSet(), newLinkedHashSet(true, false)));
+                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet(), newLinkedHashSet(true, false)));
   }
 
   @Test
@@ -73,7 +73,8 @@ class BooleanArrays_assertContainsOnlyOnce_Test extends BooleanArraysBaseTest {
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), actual,
+                                                                                                   emptyArray()));
   }
 
   @Test
@@ -85,7 +86,8 @@ class BooleanArrays_assertContainsOnlyOnce_Test extends BooleanArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), null, arrayOf(true)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), null,
+                                                                                                   arrayOf(true)))
                                                    .withMessage(actualIsNull());
   }
 
@@ -99,7 +101,7 @@ class BooleanArrays_assertContainsOnlyOnce_Test extends BooleanArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-          shouldContainsOnlyOnce(actual, expected, newLinkedHashSet(false), newLinkedHashSet()));
+                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet(false), newLinkedHashSet()));
   }
 
 }

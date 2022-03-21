@@ -20,7 +20,6 @@ import java.util.List;
 import org.assertj.core.api.LongArrayAssert;
 import org.assertj.core.api.LongArrayAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link LongArrayAssert#hasSameSizeAs(Iterable)}</code>.
  * 

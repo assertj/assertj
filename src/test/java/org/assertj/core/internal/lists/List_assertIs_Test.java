@@ -37,7 +37,6 @@ import org.assertj.core.internal.ListsBaseTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Lists#assertIs(AssertionInfo, List, org.assertj.core.api.Condition, Index)}</code> .
  * 
@@ -60,7 +59,7 @@ class List_assertIs_Test extends ListsBaseTest {
 
   @Test
   void should_fail_if_actual_is_empty() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       List<String> empty = emptyList();
       lists.assertIs(someInfo(), empty, condition, someIndex());
     }).withMessage(actualIsEmpty());

@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-
 import java.time.Instant;
 
 /**

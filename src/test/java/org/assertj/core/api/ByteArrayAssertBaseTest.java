@@ -17,7 +17,6 @@ import static org.mockito.Mockito.mock;
 
 import org.assertj.core.internal.ByteArrays;
 
-
 /**
  * Base class for {@link ByteArrayAssert} tests.
  * 
@@ -37,7 +36,7 @@ public abstract class ByteArrayAssertBaseTest extends BaseTestTemplate<ByteArray
     arrays = mock(ByteArrays.class);
     assertions.arrays = arrays;
   }
-  
+
   protected ByteArrays getArrays(ByteArrayAssert someAssertions) {
     return someAssertions.arrays;
   }

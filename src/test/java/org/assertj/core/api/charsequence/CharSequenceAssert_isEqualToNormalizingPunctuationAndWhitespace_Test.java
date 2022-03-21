@@ -29,6 +29,7 @@ class CharSequenceAssert_isEqualToNormalizingPunctuationAndWhitespace_Test exten
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertEqualsNormalizingPunctuationAndWhitespace(getInfo(assertions), getActual(assertions), "Game of Thrones");
+    verify(strings).assertEqualsNormalizingPunctuationAndWhitespace(getInfo(assertions), getActual(assertions),
+                                                                    "Game of Thrones");
   }
 }

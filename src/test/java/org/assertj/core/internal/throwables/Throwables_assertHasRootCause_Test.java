@@ -37,8 +37,8 @@ class Throwables_assertHasRootCause_Test extends ThrowablesBaseTest {
   @ParameterizedTest(name = "{2}: throwable = {0} / expected root cause = {1}")
   @MethodSource("passingData")
   void should_pass_if_root_cause_is_expected(Throwable throwable,
-                                                    Throwable expectedRootCause,
-                                                    String testDescription) {
+                                             Throwable expectedRootCause,
+                                             String testDescription) {
     // WHEN
     throwables.assertHasRootCause(INFO, throwable, expectedRootCause);
     // THEN
@@ -57,8 +57,8 @@ class Throwables_assertHasRootCause_Test extends ThrowablesBaseTest {
   @ParameterizedTest(name = "{2}: throwable = {0} / expected = {1}")
   @MethodSource("failingData")
   void should_fail_if_root_cause_is_unexpected(final Throwable actualRootCause,
-                                                      final Throwable unexpectedRootCause,
-                                                      String testDescription) {
+                                               final Throwable unexpectedRootCause,
+                                               String testDescription) {
     // GIVEN
     final Throwable throwable = withRootCause(actualRootCause);
     // WHEN

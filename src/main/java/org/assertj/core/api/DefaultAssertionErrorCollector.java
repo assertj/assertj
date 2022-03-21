@@ -199,9 +199,9 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
                                                                                                           Object.class,
                                                                                                           Throwable.class);
         return constructor.newInstance(buildErrorMessageWithLineNumber(error.getMessage(), testStackTraceElement),
-                                                        expected,
-                                                        actual,
-                                                        error.getCause());
+                                       expected,
+                                       actual,
+                                       error.getCause());
       } catch (IntrospectionError e) {
         // fallback to AssertionFailedError(String message, Throwable cause) constructor
       }

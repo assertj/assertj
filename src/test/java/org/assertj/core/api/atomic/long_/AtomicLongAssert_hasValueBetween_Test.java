@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AtomicLongAssert;
 import org.assertj.core.api.AtomicLongAssertBaseTest;
 
-
 class AtomicLongAssert_hasValueBetween_Test extends AtomicLongAssertBaseTest {
 
   @Override

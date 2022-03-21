@@ -30,7 +30,6 @@ import org.assertj.core.test.Person;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Objects#assertIsNotOfAnyClassIn(AssertionInfo, Object, Class[])}</code>.
  * 

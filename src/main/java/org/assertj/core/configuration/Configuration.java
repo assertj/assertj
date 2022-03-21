@@ -47,7 +47,7 @@ public class Configuration {
   public static final boolean PRINT_ASSERTIONS_DESCRIPTION_ENABLED = false;
   public static final int MAX_STACKTRACE_ELEMENTS_DISPLAYED = 3;
   public static final PreferredAssumptionException PREFERRED_ASSUMPTION_EXCEPTION = PreferredAssumptionException.AUTO_DETECT;
-  
+
   // load default configuration after default values are initialized otherwise PREFERRED_ASSUMPTION_EXCEPTION is null
   public static final Configuration DEFAULT_CONFIGURATION = new Configuration();
 
@@ -63,7 +63,7 @@ public class Configuration {
   private Consumer<Description> descriptionConsumer;
   private int maxStackTraceElementsDisplayed;
   private PreferredAssumptionException preferredAssumptionException;
-  
+
   public Configuration() {
     comparingPrivateFields = ALLOW_COMPARING_PRIVATE_FIELDS;
     extractingPrivateFields = ALLOW_EXTRACTING_PRIVATE_FIELDS;
@@ -341,7 +341,7 @@ public class Configuration {
   public void setMaxStackTraceElementsDisplayed(int maxStackTraceElementsDisplayed) {
     this.maxStackTraceElementsDisplayed = maxStackTraceElementsDisplayed;
   }
-  
+
   /**
    * Returns which exception is thrown if an assumption is not met. 
    * <p>
@@ -352,7 +352,7 @@ public class Configuration {
   public PreferredAssumptionException preferredAssumptionException() {
     return preferredAssumptionException;
   }
-  
+
   /**
    * Sets which exception is thrown if an assumption is not met. 
    * <p>

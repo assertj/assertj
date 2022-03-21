@@ -33,7 +33,6 @@ import org.assertj.core.internal.Lists;
 import org.assertj.core.internal.ListsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Lists#assertDoesNotContain(AssertionInfo, List, Object, Index)}</code>.
  * 
@@ -46,7 +45,8 @@ class Lists_assertDoesNotContain_Test extends ListsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.assertDoesNotContain(someInfo(), null, "Yoda", someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> lists.assertDoesNotContain(someInfo(), null, "Yoda",
+                                                                                                someIndex()))
                                                    .withMessage(actualIsNull());
   }
 
@@ -92,7 +92,8 @@ class Lists_assertDoesNotContain_Test extends ListsBaseTest {
     AssertionInfo info = someInfo();
     Index index = atIndex(0);
 
-    Throwable error = catchThrowable(() -> listsWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(info, actual, "YODA", index));
+    Throwable error = catchThrowable(() -> listsWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(info, actual, "YODA",
+                                                                                                           index));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotContainAtIndex(actual, "YODA", index, comparisonStrategy));

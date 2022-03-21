@@ -25,7 +25,7 @@ class OptionalAssert_isNotPresent_Test {
 
   @Test
   void should_pass_if_optional_is_empty() {
-	assertThat(Optional.empty()).isNotPresent();
+    assertThat(Optional.empty()).isNotPresent();
   }
 
   @Test

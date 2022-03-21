@@ -18,7 +18,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AtomicIntegerAssert;
 import org.assertj.core.api.AtomicIntegerAssertBaseTest;
 
-
 class AtomicIntegerAssert_hasValueCloseTo_withinPercentage_Test extends AtomicIntegerAssertBaseTest {
 
   @Override

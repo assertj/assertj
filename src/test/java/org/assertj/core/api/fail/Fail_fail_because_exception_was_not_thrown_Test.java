@@ -18,7 +18,6 @@ import static org.assertj.core.api.Fail.failBecauseExceptionWasNotThrown;
 import org.assertj.core.api.Fail;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Fail#shouldHaveThrown(Class)} (Class)}</code>.
  * 

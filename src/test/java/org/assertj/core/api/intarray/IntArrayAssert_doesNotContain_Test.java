@@ -18,7 +18,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.IntArrayAssert;
 import org.assertj.core.api.IntArrayAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link IntArrayAssert#doesNotContain(int...)}</code>.
  * 

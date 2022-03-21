@@ -40,13 +40,15 @@ class Bytes_assertIsNotCloseToPercentage_Test extends BytesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsNotCloseToPercentage(someInfo(), null, ONE, withPercentage(ONE)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsNotCloseToPercentage(someInfo(), null, ONE,
+                                                                                                        withPercentage(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_expected_value_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> bytes.assertIsNotCloseToPercentage(someInfo(), ONE, null, withPercentage(ONE)));
+    assertThatNullPointerException().isThrownBy(() -> bytes.assertIsNotCloseToPercentage(someInfo(), ONE, null,
+                                                                                         withPercentage(ONE)));
   }
 
   @Test
@@ -56,7 +58,8 @@ class Bytes_assertIsNotCloseToPercentage_Test extends BytesBaseTest {
 
   @Test
   void should_fail_if_percentage_is_negative() {
-    assertThatIllegalArgumentException().isThrownBy(() -> bytes.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1)));
+    assertThatIllegalArgumentException().isThrownBy(() -> bytes.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO,
+                                                                                             withPercentage(-1)));
   }
 
   @ParameterizedTest
@@ -83,11 +86,12 @@ class Bytes_assertIsNotCloseToPercentage_Test extends BytesBaseTest {
   void should_fail_if_difference_is_equal_to_given_percentage(Byte actual, Byte other, Byte percentage) {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> bytes.assertIsNotCloseToPercentage(someInfo(), actual, other, withPercentage(percentage)));
+    Throwable error = catchThrowable(() -> bytes.assertIsNotCloseToPercentage(someInfo(), actual, other,
+                                                                              withPercentage(percentage)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotBeEqualWithinPercentage(actual, other, withPercentage(percentage),
-                                                                      abs(actual - other)));
+                                                                    abs(actual - other)));
   }
 
   @Test

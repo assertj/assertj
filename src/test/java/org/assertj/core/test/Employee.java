@@ -54,7 +54,7 @@ public class Employee {
   public void setName(Name name) {
     this.name = name;
   }
-  
+
   public int getAge() {
     return age;
   }
@@ -70,15 +70,16 @@ public class Employee {
   public void setRelation(String relation, Employee other) {
     this.relations.put(relation, other);
   }
-  
+
   // pure property not backed by a field
   public boolean isAdult() {
     return age > 18;
   }
-  
+
   // testing nested combinations of field/property
   public Employee field;
-  public Employee getMe(){
+
+  public Employee getMe() {
     return this;
   }
 

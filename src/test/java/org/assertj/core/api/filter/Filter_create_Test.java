@@ -22,7 +22,6 @@ import org.assertj.core.test.Player;
 import org.assertj.core.test.WithPlayerData;
 import org.junit.jupiter.api.Test;
 
-
 class Filter_create_Test extends WithPlayerData {
 
   @Test

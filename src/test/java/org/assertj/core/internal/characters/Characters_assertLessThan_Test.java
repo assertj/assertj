@@ -25,7 +25,6 @@ import org.assertj.core.internal.Characters;
 import org.assertj.core.internal.CharactersBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Characters#assertLessThan(AssertionInfo, Character, char)}</code>.
  * 
@@ -67,7 +66,9 @@ class Characters_assertLessThan_Test extends CharactersBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_according_to_custom_comparison_strategy() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> charactersWithCaseInsensitiveComparisonStrategy.assertLessThan(someInfo(), null, 'a'))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> charactersWithCaseInsensitiveComparisonStrategy.assertLessThan(someInfo(),
+                                                                                                                                    null,
+                                                                                                                                    'a'))
                                                    .withMessage(actualIsNull());
   }
 

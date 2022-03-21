@@ -27,7 +27,6 @@ import org.assertj.core.internal.ObjectArraysBaseTest;
 import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link ObjectArrays#assertDoesNotContainNull(AssertionInfo, Object[])}</code>.
  * 
@@ -82,7 +81,8 @@ class ObjectArrays_assertDoesNotContainNull_Test extends ObjectArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainNull(someInfo(), null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainNull(someInfo(),
+                                                                                                                                 null))
                                                    .withMessage(actualIsNull());
   }
 

@@ -29,8 +29,8 @@ public class ShouldNotBeExactlyInstanceOf extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotBeExactlyInstance(Object actual, Class<?> type) {
-    return actual instanceof Throwable ?
-      new ShouldNotBeExactlyInstanceOf((Throwable) actual, type) : new ShouldNotBeExactlyInstanceOf(actual, type);
+    return actual instanceof Throwable ? new ShouldNotBeExactlyInstanceOf((Throwable) actual, type)
+        : new ShouldNotBeExactlyInstanceOf(actual, type);
   }
 
   private ShouldNotBeExactlyInstanceOf(Object actual, Class<?> type) {

@@ -29,7 +29,6 @@ import org.assertj.core.internal.LongArrays;
 import org.assertj.core.internal.LongArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link LongArrays#assertEndsWith(AssertionInfo, long[], long[])}</code>.
  * 
@@ -124,7 +123,9 @@ class LongArrays_assertEndsWith_Test extends LongArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), null, arrayOf(-8L)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(),
+                                                                                                                       null,
+                                                                                                                       arrayOf(-8L)))
                                                    .withMessage(actualIsNull());
   }
 

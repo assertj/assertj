@@ -60,12 +60,14 @@ class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteA
 
   @Test
   void should_fail_if_arrays_have_different_sizes() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, IntArrays.arrayOf(6, 8)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual,
+                                                                                                  IntArrays.arrayOf(6, 8)));
   }
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, IntArrays.emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual,
+                                                                                                  IntArrays.emptyArray()));
   }
 
   @Test
@@ -117,7 +119,9 @@ class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteA
   void should_pass_if_actual_contains_given_values_exactly_in_different_order_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, IntArrays.arrayOf(-6, 10, 8)));
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual,
+                                                                                                    IntArrays.arrayOf(-6, 10,
+                                                                                                                      8)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, elementsDifferAtIndex((byte) 8, (byte) 10, 1, absValueComparisonStrategy));
@@ -125,7 +129,9 @@ class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteA
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, IntArrays.emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(),
+                                                                                                                              actual,
+                                                                                                                              IntArrays.emptyArray()));
   }
 
   @Test
@@ -138,7 +144,9 @@ class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteA
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), null, IntArrays.arrayOf(-8)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(),
+                                                                                                                              null,
+                                                                                                                              IntArrays.arrayOf(-8)))
                                                    .withMessage(actualIsNull());
   }
 
