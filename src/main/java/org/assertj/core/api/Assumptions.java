@@ -69,6 +69,7 @@ import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -1090,6 +1091,16 @@ public class Assumptions {
    */
   public static OptionalDoubleAssert assumeThat(OptionalDouble actual) {
     return asAssumption(OptionalDoubleAssert.class, OptionalDouble.class, actual);
+  }
+
+  /**
+   * Creates a new instance of {@link MatcherAssert} assumption.
+   *
+   * @param actual the Matcher to test
+   * @return the created assumption for assertion object.
+   */
+  public static MatcherAssert assumeThat(Matcher actual) {
+    return asAssumption(MatcherAssert.class, Matcher.class, actual);
   }
 
   /**

@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.ShortAssert;
 import org.assertj.core.api.ShortAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link ShortAssert#isEqualTo(short)}</code>.
  * 

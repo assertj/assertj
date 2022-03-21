@@ -1893,7 +1893,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   private AbstractStringAssert<?> internalContent(Charset charset) {
     paths.assertIsReadable(info, actual);
     String pathContent = readPath(charset);
-    return new StringAssert(pathContent);
+    return new StringAssert(pathContent).withAssertionState(myself);
   }
 
   private String readPath(Charset charset) {

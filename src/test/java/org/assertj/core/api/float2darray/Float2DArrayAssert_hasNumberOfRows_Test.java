@@ -10,32 +10,26 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.api.short_;
+package org.assertj.core.api.float2darray;
 
-import static org.assertj.core.data.Offset.offset;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.ShortAssert;
-import org.assertj.core.api.ShortAssertBaseTest;
-import org.assertj.core.data.Offset;
+import org.assertj.core.api.Float2DArrayAssert;
+import org.assertj.core.api.Float2DArrayAssertBaseTest;
 
 /**
- * Tests for <code>{@link ShortAssert#isNotCloseTo(Short, Offset)}</code>.
- *
- * @author Chris Arnott
+ * @author Sekar Mylsamy
  */
-class ShortAssert_isNotCloseTo_short_Test extends ShortAssertBaseTest {
-
-  private final Offset<Short> offset = offset((short)5);
-  private final Short value = 8;
+class Float2DArrayAssert_hasNumberOfRows_Test extends Float2DArrayAssertBaseTest {
 
   @Override
-  protected ShortAssert invoke_api_method() {
-    return assertions.isNotCloseTo(value, offset);
+  protected Float2DArrayAssert invoke_api_method() {
+    return assertions.hasNumberOfRows(1);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(shorts).assertIsNotCloseTo(getInfo(assertions), getActual(assertions), value, offset);
+    verify(arrays).assertNumberOfRows(getInfo(assertions), getActual(assertions), 1);
   }
+
 }

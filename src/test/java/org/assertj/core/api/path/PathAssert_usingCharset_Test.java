@@ -19,7 +19,6 @@ import java.nio.charset.Charset;
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
 
-
 /**
  * Test for <code>{@link PathAssert#usingCharset(Charset)}</code>.
  */
@@ -32,6 +31,6 @@ class PathAssert_usingCharset_Test extends PathAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-	assertThat(getCharset(assertions)).isEqualTo(otherCharset);
+    assertThat(getCharset(assertions)).isEqualTo(otherCharset);
   }
 }

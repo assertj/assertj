@@ -10,27 +10,32 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.api.short_;
+package org.assertj.core.api.path;
 
-import static org.assertj.core.data.Offset.offset;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.ShortAssert;
-import org.assertj.core.api.ShortAssertBaseTest;
-import org.assertj.core.data.Offset;
+import java.nio.file.Path;
 
-class ShortAssert_isCloseTo_short_Test extends ShortAssertBaseTest {
+import org.assertj.core.api.PathAssert;
+import org.assertj.core.api.PathAssertBaseTest;
 
-  private final Offset<Short> offset = offset((short)5);
-  private final Short value = 8;
+/**
+ * Tests for <code>{@link PathAssert#hasSameBinaryContentAs(Path)}</code>.
+ *
+ * @author Sára Juhošová
+ */
+class PathAssert_hasSameBinaryContent_Test extends PathAssertBaseTest {
+
+  private final Path expected = mock(Path.class);
 
   @Override
-  protected ShortAssert invoke_api_method() {
-    return assertions.isCloseTo(value, offset);
+  protected PathAssert invoke_api_method() {
+    return assertions.hasSameBinaryContentAs(expected);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(shorts).assertIsCloseTo(getInfo(assertions), getActual(assertions), value, offset);
+    verify(paths).assertHasSameBinaryContentAs(getInfo(assertions), getActual(assertions), expected);
   }
 }

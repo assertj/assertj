@@ -25,6 +25,10 @@ import java.util.stream.LongStream;
  */
 public class LongPredicateAssert extends AbstractPredicateLikeAssert<LongPredicateAssert, LongPredicate, Long> {
 
+  public static LongPredicateAssert assertThatLongPredicate(LongPredicate actual) {
+    return new LongPredicateAssert(actual);
+  }
+
   public LongPredicateAssert(LongPredicate actual) {
     super(actual, toPredicate(actual), LongPredicateAssert.class);
   }

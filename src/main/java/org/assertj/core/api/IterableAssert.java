@@ -42,8 +42,13 @@ public class IterableAssert<ELEMENT> extends
 
   @Override
   protected IterableAssert<ELEMENT> newAbstractIterableAssert(Iterable<? extends ELEMENT> iterable) {
-    return new IterableAssert<>(iterable);
+    return assertThatIterable(iterable);
   }
+
+  public static <ELEMENT> IterableAssert<ELEMENT> assertThatIterable(Iterable<? extends ELEMENT> actual) {
+    return new IterableAssert<>(actual);
+  }
+
 
   static <T> Iterable<T> toIterable(Iterator<T> iterator) {
     return Streams.stream(iterator).collect(toList());

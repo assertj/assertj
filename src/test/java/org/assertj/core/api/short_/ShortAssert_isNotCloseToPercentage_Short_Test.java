@@ -10,32 +10,32 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.api.double_;
+package org.assertj.core.api.short_;
 
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.DoubleAssert;
-import org.assertj.core.api.DoubleAssertBaseTest;
+import org.assertj.core.api.ShortAssert;
+import org.assertj.core.api.ShortAssertBaseTest;
 import org.assertj.core.data.Percentage;
 
 /**
- * Tests for <code>{@link DoubleAssert#isNotCloseTo(Double, Percentage)}</code>.
+ * Tests for <code>{@link ShortAssert#isNotCloseTo(Short, Percentage)}</code>.
  *
  * @author Chris Arnott
  */
-class DoubleAssert_isNotCloseToPercentage_Test extends DoubleAssertBaseTest {
+class ShortAssert_isNotCloseToPercentage_Short_Test extends ShortAssertBaseTest {
 
-    private final Percentage percentage = withPercentage(5.0);
-    private final Double value = 10.0;
+  private final Percentage percentage = withPercentage((short) 5);
+  private final Short value = (short) 10;
 
-    @Override
-    protected DoubleAssert invoke_api_method() {
-        return assertions.isNotCloseTo(value, percentage);
-    }
+  @Override
+  protected ShortAssert invoke_api_method() {
+    return assertions.isNotCloseTo(value, percentage);
+  }
 
-    @Override
-    protected void verify_internal_effects() {
-        verify(doubles).assertIsNotCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
-    }
+  @Override
+  protected void verify_internal_effects() {
+    verify(shorts).assertIsNotCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
+  }
 }

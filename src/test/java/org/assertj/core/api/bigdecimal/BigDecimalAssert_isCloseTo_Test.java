@@ -21,7 +21,6 @@ import org.assertj.core.api.BigDecimalAssert;
 import org.assertj.core.api.BigDecimalAssertBaseTest;
 import org.assertj.core.data.Offset;
 
-
 /**
  * Tests for <code>{@link org.assertj.core.api.BigDecimalAssert#isCloseTo(java.math.BigDecimal, org.assertj.core.data.Offset)}</code>.
  *

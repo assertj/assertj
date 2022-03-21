@@ -225,6 +225,21 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
   }
 
   /**
+   * Creates a new instance of <code>{@link CollectionAssert}</code>.
+   * <p>
+   * Use this over {@link #then(Collection)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>then</code> for. 
+   *
+   * @param <E> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  default <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> thenCollection(Collection<? extends E> actual) {
+    return then(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link org.assertj.core.api.GenericComparableAssert}</code> with
    * standard comparison semantics.
    *
@@ -235,6 +250,22 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
   @SuppressWarnings("unchecked")
   default <T extends Comparable<? super T>> AbstractComparableAssert<?, T> then(T actual) {
     return proxy(GenericComparableAssert.class, Comparable.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link GenericComparableAssert}</code> with
+   * standard comparison semantics.
+   * <p>
+   * Use this over {@link #then(Comparable)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>then</code> for. 
+   *
+   * @param <T> the type of actual.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  default <T extends Comparable<? super T>> AbstractComparableAssert<?, T> thenComparable(T actual) {
+    return then(actual);
   }
 
   /**
@@ -250,6 +281,21 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
   }
 
   /**
+   * Creates a new instance of <code>{@link IterableAssert}</code>.
+   * <p>
+   * Use this over {@link #then(Iterable)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>then</code> for. 
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  default <ELEMENT> IterableAssert<ELEMENT> thenIterable(Iterable<? extends ELEMENT> actual) {
+    return then(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link IteratorAssert}</code>.
    * <p>
    * <b>This is a breaking change in version 3.12.0:</b> this method used to return an {@link IterableAssert}.
@@ -261,6 +307,21 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
   @SuppressWarnings("unchecked")
   default <T> IteratorAssert<T> then(Iterator<? extends T> actual) {
     return proxy(IteratorAssert.class, Iterator.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link IteratorAssert}</code>.
+   * <p>
+   * Use this over {@link #then(Iterator)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>then</code> for. 
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  default <ELEMENT> IteratorAssert<ELEMENT> thenIterator(Iterator<? extends ELEMENT> actual) {
+    return then(actual);
   }
 
   /**
@@ -429,6 +490,21 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
   @SuppressWarnings("unchecked")
   default <T> ListAssert<T> then(List<? extends T> actual) {
     return proxy(ListAssert.class, List.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ListAssert}</code>.
+   * <p>
+   * Use this over {@link #then(List)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>then</code> for. 
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  default <ELEMENT> ListAssert<ELEMENT> thenList(List<? extends ELEMENT> actual) {
+    return then(actual);
   }
 
   /**

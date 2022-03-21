@@ -35,6 +35,7 @@ import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -53,6 +54,20 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
    */
   default PathAssert assertThat(Path actual) {
     return proxy(PathAssert.class, Path.class, actual);
+  }
+
+  /**
+   * Creates a new, proxied instance of a {@link PathAssert}
+   * <p>
+   * Use this over {@link #assertThat(Path)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param actual the path to test
+   * @return the created assertion object
+   * @since 3.23.0
+   */
+  default AbstractPathAssert<?> assertThatPath(Path actual) {
+    return assertThat(actual);
   }
 
   /**
@@ -88,6 +103,17 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
    */
   default OptionalLongAssert assertThat(OptionalLong actual) {
     return proxy(OptionalLongAssert.class, OptionalLong.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.regex.Matcher}
+   *
+   * @param actual the actual matcher
+   *
+   * @return the created assertion object.
+   */
+  default MatcherAssert assertThat(Matcher actual) {
+    return proxy(MatcherAssert.class, Matcher.class, actual);
   }
 
   /**
@@ -238,6 +264,21 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
   }
 
   /**
+   * Create assertion for {@link Predicate}.
+   * <p>
+   * Use this over {@link #assertThat(Iterable)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param actual the actual value.
+   * @param <T> the type of the value contained in the {@link Predicate}.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  default <T> PredicateAssert<T> assertThatPredicate(Predicate<T> actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Create assertion for {@link IntPredicate}.
    *
    * @param actual the actual value.
@@ -284,6 +325,25 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
   @SuppressWarnings("unchecked")
   default <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(Stream<? extends ELEMENT> actual) {
     return proxy(ListAssert.class, Stream.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link Stream}.
+   * <p>
+   * Use this over {@link #assertThat(Stream)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   * <p>
+   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link Stream} is consumed so it won't be
+   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
+   * interacts with the {@link List} built from the {@link Stream}.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  default <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThatStream(Stream<? extends ELEMENT> actual) {
+    return assertThat(actual);
   }
 
   /**

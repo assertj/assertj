@@ -10,32 +10,31 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.api.double_;
+package org.assertj.core.api.integer_;
 
-import static org.assertj.core.data.Offset.offset;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.DoubleAssert;
-import org.assertj.core.api.DoubleAssertBaseTest;
-import org.assertj.core.data.Offset;
+import org.assertj.core.api.IntegerAssert;
+import org.assertj.core.api.IntegerAssertBaseTest;
 
 /**
- * Tests for <code>{@link DoubleAssert#isNotCloseTo(Double, Offset)}</code>.
+ * Tests for <code>{@link IntegerAssert#isEqualTo(long)}</code>.
  *
- * @author Chris Arnott
+ * Exercises the case when the long cannot be cast to an int.
+ *
+ * @author Sára Juhošová
  */
-class DoubleAssert_isNotCloseTo_double_Test extends DoubleAssertBaseTest {
+class IntegerAssert_isEqualTo_noncastable_long_Test extends IntegerAssertBaseTest {
 
-  private final Offset<Double> offset = offset(5.0);
-  private final Double value = 8.0;
+  private final long expected = ((long) Integer.MAX_VALUE) + 2L;
 
   @Override
-  protected DoubleAssert invoke_api_method() {
-    return assertions.isNotCloseTo(value, offset);
+  protected IntegerAssert invoke_api_method() {
+    return assertions.isEqualTo(expected);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(doubles).assertIsNotCloseTo(getInfo(assertions), getActual(assertions), value, offset);
+    verify(integers).assertEqual(getInfo(assertions), getActual(assertions), expected);
   }
 }

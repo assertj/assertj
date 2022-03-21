@@ -115,6 +115,14 @@ class Assertions_sync_with_BDDAssertions_WithAssertions_and_soft_assertions_vari
 
   private static Stream<String> assertion_methods() {
     return Stream.of("assertThat",
+                     "assertThatCollection",
+                     "assertThatComparable",
+                     "assertThatIterable",
+                     "assertThatIterator",
+                     "assertThatList",
+                     "assertThatPath",
+                     "assertThatPredicate",
+                     "assertThatStream",
                      "assertThatException",
                      "assertThatRuntimeException",
                      "assertThatNullPointerException",

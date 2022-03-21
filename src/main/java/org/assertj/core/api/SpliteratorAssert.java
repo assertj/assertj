@@ -25,6 +25,10 @@ import java.util.Spliterator;
  */
 public class SpliteratorAssert<ELEMENT> extends AbstractSpliteratorAssert<SpliteratorAssert<ELEMENT>, ELEMENT> {
 
+  public static <ELEMENT> SpliteratorAssert<ELEMENT> assertThatSpliterator(Spliterator<ELEMENT> actual) {
+    return new SpliteratorAssert<>(actual);
+  }
+
   /**
    * Creates a new <code>{@link SpliteratorAssert}</code>.
    *

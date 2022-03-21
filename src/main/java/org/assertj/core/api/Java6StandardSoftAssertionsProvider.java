@@ -223,6 +223,21 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   }
 
   /**
+   * Creates a new instance of <code>{@link CollectionAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(Collection)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param <T> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  default <T> CollectionAssert<T> assertThatCollection(Collection<? extends T> actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link GenericComparableAssert}</code> with
    * standard comparison semantics.
    *
@@ -233,6 +248,22 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   @SuppressWarnings("unchecked")
   default <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThat(T actual) {
     return proxy(GenericComparableAssert.class, Comparable.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link GenericComparableAssert}</code> with
+   * standard comparison semantics.
+   * <p>
+   * Use this over {@link #assertThat(Comparable)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param <T> the type of actual.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  default <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThatComparable(T actual) {
+    return assertThat(actual);
   }
 
   /**
@@ -248,6 +279,21 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   }
 
   /**
+   * Creates a new instance of <code>{@link IterableAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(Iterable)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  default <ELEMENT> IterableAssert<ELEMENT> assertThatIterable(Iterable<? extends ELEMENT> actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link IteratorAssert}</code>.
    * <p>
    * <b>This is a breaking change in version 3.12.0:</b> this method used to return an {@link IterableAssert}.
@@ -259,6 +305,21 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   @SuppressWarnings("unchecked")
   default <T> IteratorAssert<T> assertThat(Iterator<? extends T> actual) {
     return proxy(IteratorAssert.class, Iterator.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link IteratorAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(Iterator)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  default <ELEMENT> IteratorAssert<ELEMENT> assertThatIterator(Iterator<? extends ELEMENT> actual) {
+    return assertThat(actual);
   }
 
   /**
@@ -426,6 +487,21 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   @SuppressWarnings("unchecked")
   default <T> ListAssert<T> assertThat(List<? extends T> actual) {
     return proxy(ListAssert.class, List.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ListAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(List)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  default <ELEMENT> ListAssert<ELEMENT> assertThatList(List<? extends ELEMENT> actual) {
+    return assertThat(actual);
   }
 
   /**

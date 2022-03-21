@@ -18,12 +18,14 @@ import static org.mockito.Mockito.verify;
 
 import java.io.File;
 
+import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractStringAssert;
 import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
+import org.assertj.core.api.NavigationMethodBaseTest;
 import org.junit.jupiter.api.Test;
 
-class FileAssert_content_Test extends FileAssertBaseTest {
+class FileAssert_content_Test extends FileAssertBaseTest implements NavigationMethodBaseTest<FileAssert> {
 
   @Override
   protected FileAssert invoke_api_method() {
@@ -50,5 +52,15 @@ class FileAssert_content_Test extends FileAssertBaseTest {
     // THEN
     stringAssert.isEqualTo(format("actual%n"));
   }
-  
+
+  @Override
+  public FileAssert getAssertion() {
+    return assertions;
+  }
+
+  @Override
+  public AbstractAssert<?, ?> invoke_navigation_method(FileAssert assertion) {
+    return assertion.content();
+  }
+
 }

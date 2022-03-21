@@ -213,6 +213,29 @@ public class Double2DArrayAssert extends Abstract2DArrayAssert<Double2DArrayAsse
   }
 
   /**
+   * Verifies that the actual two-dimensional array has the given number of rows.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}}).hasNumberOfRows(2);
+   * assertThat(new double[][] {{1.0}, {1.0, 2.0}, {1.0, 2.0, 3.0}}).hasNumberOfRows(3);
+   *
+   * // assertions will fail
+   * assertThat(new double[][] { }).hasNumberOfRows(1);
+   * assertThat(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}}).hasNumberOfRows(3);
+   * assertThat(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0, 7.0}}).hasNumberOfRows(1); </code></pre>
+   *
+   * @param expected the expected number of rows of the two-dimensional array.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual number of rows are not equal to the given one.
+   */
+  @Override
+  public Double2DArrayAssert hasNumberOfRows(int expected) {
+    double2dArrays.assertNumberOfRows(info, actual, expected);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code double[][]} has the same dimensions as the given array.
    * <p>
    * Parameter is declared as Object to accept both Object and primitive arrays.

@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.FloatAssert;
 import org.assertj.core.api.FloatAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link FloatAssert#isBetween(Float, Float)}</code>.
  * 

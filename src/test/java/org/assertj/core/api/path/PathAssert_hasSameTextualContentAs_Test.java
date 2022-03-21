@@ -41,7 +41,8 @@ class PathAssert_hasSameTextualContentAs_Test extends PathAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(paths).assertHasSameTextualContentAs(getInfo(assertions), getActual(assertions), defaultCharset, expected, defaultCharset);
+    verify(paths).assertHasSameTextualContentAs(getInfo(assertions), getActual(assertions), defaultCharset, expected,
+                                                defaultCharset);
   }
 
   @Test

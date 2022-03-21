@@ -24,6 +24,10 @@ import java.util.function.Predicate;
  */
 public class PredicateAssert<T> extends AbstractPredicateAssert<PredicateAssert<T>, T> {
 
+  public static <T> PredicateAssert<T> assertThatPredicate(Predicate<T> actual) {
+    return new PredicateAssert<>(actual);
+  }
+
   protected PredicateAssert(Predicate<T> actual) {
     super(actual, PredicateAssert.class);
   }

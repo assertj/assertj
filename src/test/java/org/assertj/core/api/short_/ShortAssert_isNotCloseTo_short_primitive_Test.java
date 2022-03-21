@@ -10,32 +10,32 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.api.float_;
+package org.assertj.core.api.short_;
 
 import static org.assertj.core.data.Offset.offset;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.FloatAssert;
-import org.assertj.core.api.FloatAssertBaseTest;
+import org.assertj.core.api.ShortAssert;
+import org.assertj.core.api.ShortAssertBaseTest;
 import org.assertj.core.data.Offset;
 
-
 /**
- * Tests for <code>{@link FloatAssert#isNotCloseTo(float, Offset)}</code>.
+ * Tests for <code>{@link ShortAssert#isNotCloseTo(short, Offset)}</code>.
  *
- * @author Chris Arnott
+ * @author Sára Juhošová
  */
-class FloatAssert_isNotCloseTo_float_Test extends FloatAssertBaseTest {
+class ShortAssert_isNotCloseTo_short_primitive_Test extends ShortAssertBaseTest {
 
-  private final Offset<Float> offset = offset(5f);
+  private final Offset<Short> offset = offset((short) 1);
+  private final short value = 16;
 
   @Override
-  protected FloatAssert invoke_api_method() {
-    return assertions.isNotCloseTo(8f, offset);
+  protected ShortAssert invoke_api_method() {
+    return assertions.isNotCloseTo(value, offset);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(floats).assertIsNotCloseTo(getInfo(assertions), getActual(assertions), 8f, offset);
+    verify(shorts).assertIsNotCloseTo(getInfo(assertions), getActual(assertions), value, offset);
   }
 }

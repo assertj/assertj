@@ -22,6 +22,10 @@ import java.util.concurrent.CompletionStage;
  */
 public class CompletableFutureAssert<RESULT> extends AbstractCompletableFutureAssert<CompletableFutureAssert<RESULT>, RESULT> {
 
+  public static <RESULT> CompletableFutureAssert<RESULT> assertThatCompletionStage(CompletionStage<RESULT> actual) {
+    return new CompletableFutureAssert<>(actual);
+  }
+
   protected CompletableFutureAssert(CompletableFuture<RESULT> actual) {
     super(actual, CompletableFutureAssert.class);
   }

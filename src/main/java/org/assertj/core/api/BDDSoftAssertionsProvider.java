@@ -35,6 +35,7 @@ import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -42,6 +43,7 @@ import java.util.stream.Stream;
 
 import org.assertj.core.util.CheckReturnValue;
 
+@CheckReturnValue
 public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvider {
 
   /**
@@ -50,9 +52,22 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    * @param actual the path
    * @return the created assertion object
    */
-  @CheckReturnValue
   default PathAssert then(Path actual) {
     return proxy(PathAssert.class, Path.class, actual);
+  }
+
+  /**
+   * Creates a new instance of {@link PathAssert}
+   * <p>
+   * Use this over {@link #then(Path)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>then</code> for. 
+   *
+   * @param actual the path to test
+   * @return the created assertion object
+   * @since 3.23.0
+   */
+  default AbstractPathAssert<?> thenPath(Path actual) {
+    return then(actual);
   }
 
   /**
@@ -64,7 +79,6 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  @CheckReturnValue
   default <VALUE> OptionalAssert<VALUE> then(Optional<VALUE> actual) {
     return proxy(OptionalAssert.class, Optional.class, actual);
   }
@@ -76,7 +90,6 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    *
    * @return the created assertion object.
    */
-  @CheckReturnValue
   default OptionalDoubleAssert then(OptionalDouble actual) {
     return proxy(OptionalDoubleAssert.class, OptionalDouble.class, actual);
   }
@@ -88,7 +101,6 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    *
    * @return the created assertion object.
    */
-  @CheckReturnValue
   default OptionalIntAssert then(OptionalInt actual) {
     return proxy(OptionalIntAssert.class, OptionalInt.class, actual);
   }
@@ -100,10 +112,22 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    *
    * @return the created assertion object.
    */
-  @CheckReturnValue
   default OptionalLongAssert then(OptionalLong actual) {
     return proxy(OptionalLongAssert.class, OptionalLong.class, actual);
   }
+
+  /**
+   * Create assertion for {@link java.util.regex.Matcher}.
+   *
+   * @param actual the actual matcher
+   *
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  default MatcherAssert then(Matcher actual) {
+    return proxy(MatcherAssert.class, Matcher.class, actual);
+  }
+
 
   /**
   * Creates a new instance of <code>{@link LocalDateAssert}</code>.
@@ -111,7 +135,6 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
   * @param actual the actual value.
   * @return the created assertion object.
   */
-  @CheckReturnValue
   default LocalDateAssert then(LocalDate actual) {
     return proxy(LocalDateAssert.class, LocalDate.class, actual);
   }
@@ -122,7 +145,6 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   default LocalDateTimeAssert then(LocalDateTime actual) {
     return proxy(LocalDateTimeAssert.class, LocalDateTime.class, actual);
   }
@@ -133,7 +155,6 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   default ZonedDateTimeAssert then(ZonedDateTime actual) {
     return proxy(ZonedDateTimeAssert.class, ZonedDateTime.class, actual);
   }
@@ -144,7 +165,6 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   default LocalTimeAssert then(LocalTime actual) {
     return proxy(LocalTimeAssert.class, LocalTime.class, actual);
   }
@@ -155,7 +175,6 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   default OffsetTimeAssert then(OffsetTime actual) {
     return proxy(OffsetTimeAssert.class, OffsetTime.class, actual);
   }
@@ -166,7 +185,6 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @CheckReturnValue
   default OffsetDateTimeAssert then(OffsetDateTime actual) {
     return proxy(OffsetDateTimeAssert.class, OffsetDateTime.class, actual);
   }
@@ -178,7 +196,6 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    * @return the created assertion object.
    * @since 3.7.0
    */
-  @CheckReturnValue
   default InstantAssert then(Instant actual) {
     return proxy(InstantAssert.class, Instant.class, actual);
   }
@@ -190,7 +207,6 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    * @return the created assertion object.
    * @since 3.15.0
    */
-  @CheckReturnValue
   default DurationAssert then(Duration actual) {
     return proxy(DurationAssert.class, Duration.class, actual);
   }
@@ -202,7 +218,6 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    * @return the created assertion object.
    * @since 3.17.0
    */
-  @CheckReturnValue
   default PeriodAssert then(Period actual) {
     return proxy(PeriodAssert.class, Period.class, actual);
   }
@@ -216,7 +231,6 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  @CheckReturnValue
   default <RESULT> CompletableFutureAssert<RESULT> then(CompletableFuture<RESULT> actual) {
     return proxy(CompletableFutureAssert.class, CompletableFuture.class, actual);
   }
@@ -232,7 +246,6 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  @CheckReturnValue
   default <RESULT> CompletableFutureAssert<RESULT> then(CompletionStage<RESULT> actual) {
     return proxy(CompletableFutureAssert.class, CompletionStage.class, actual);
   }
@@ -248,9 +261,23 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    * @since 3.5.0
    */
   @SuppressWarnings("unchecked")
-  @CheckReturnValue
   default <T> PredicateAssert<T> then(Predicate<T> actual) {
     return proxy(PredicateAssert.class, Predicate.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link Predicate}.
+   * <p>
+   * Use this over {@link #then(Predicate)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>then</code> for. 
+   *
+   * @param actual the actual value.
+   * @param <T> the type of the value contained in the {@link Predicate}.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  default <T> PredicateAssert<T> thenPredicate(Predicate<T> actual) {
+    return then(actual);
   }
 
   /**
@@ -260,7 +287,6 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    * @return the created assertion object.
    * @since 3.5.0
    */
-  @CheckReturnValue
   default IntPredicateAssert then(IntPredicate actual) {
     return proxy(IntPredicateAssert.class, IntPredicate.class, actual);
   }
@@ -272,7 +298,6 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    * @return the created assertion object.
    * @since 3.5.0
    */
-  @CheckReturnValue
   default DoublePredicateAssert then(DoublePredicate actual) {
     return proxy(DoublePredicateAssert.class, DoublePredicate.class, actual);
   }
@@ -284,7 +309,6 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    * @return the created assertion object.
    * @since 3.5.0
    */
-  @CheckReturnValue
   default LongPredicateAssert then(LongPredicate actual) {
     return proxy(LongPredicateAssert.class, LongPredicate.class, actual);
   }
@@ -301,8 +325,27 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  @CheckReturnValue
   default <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> then(Stream<? extends ELEMENT> actual) {
+    return proxy(ListAssert.class, Stream.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link Stream}.
+   * <p>
+   * Use this over {@link #then(Stream)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>then</code> for. 
+   * <p>
+   * <b>Be aware that to create the returned {@link ListAssert} the given the {@link Stream} is consumed so it won't be
+   * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
+   * interacts with the {@link List} built from the {@link Stream}.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  @SuppressWarnings("unchecked")
+  default <ELEMENT> ListAssert<ELEMENT> thenStream(Stream<? extends ELEMENT> actual) {
     return proxy(ListAssert.class, Stream.class, actual);
   }
 
@@ -317,7 +360,6 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  @CheckReturnValue
   default AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> then(DoubleStream actual) {
     return proxy(ListAssert.class, DoubleStream.class, actual);
   }
@@ -333,7 +375,6 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  @CheckReturnValue
   default AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> then(LongStream actual) {
     return proxy(ListAssert.class, LongStream.class, actual);
   }
@@ -349,7 +390,6 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  @CheckReturnValue
   default AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> then(IntStream actual) {
     return proxy(ListAssert.class, IntStream.class, actual);
   }
@@ -363,7 +403,6 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    * @since 3.14.0
    */
   @SuppressWarnings("unchecked")
-  @CheckReturnValue
   default <ELEMENT> SpliteratorAssert<ELEMENT> then(Spliterator<ELEMENT> actual) {
     return proxy(SpliteratorAssert.class, Spliterator.class, actual);
   }
@@ -375,7 +414,6 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    * @return the created assertion object.
    * @since 3.16.0
    */
-  @CheckReturnValue
   default LongAdderAssert then(LongAdder actual) {
     return proxy(LongAdderAssert.class, LongAdder.class, actual);
   }

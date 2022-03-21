@@ -19,12 +19,14 @@ import static org.mockito.Mockito.verify;
 import java.io.File;
 import java.nio.file.Path;
 
+import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractStringAssert;
+import org.assertj.core.api.NavigationMethodBaseTest;
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-class PathAssert_content_Test extends PathAssertBaseTest {
+class PathAssert_content_Test extends PathAssertBaseTest implements NavigationMethodBaseTest<PathAssert> {
 
   @Override
   protected PathAssert invoke_api_method() {
@@ -36,7 +38,7 @@ class PathAssert_content_Test extends PathAssertBaseTest {
   protected void verify_internal_effects() {
     verify(paths).assertIsReadable(getInfo(assertions), getActual(assertions));
   }
-  
+
   @Override
   protected PathAssert create_assertions() {
     return new PathAssert(new File("src/test/resources/actual_file.txt").toPath());
@@ -51,5 +53,15 @@ class PathAssert_content_Test extends PathAssertBaseTest {
     // THEN
     stringAssert.isEqualTo(format("actual%n"));
   }
-  
+
+  @Override
+  public PathAssert getAssertion() {
+    return assertions;
+  }
+
+  @Override
+  public AbstractAssert<?, ?> invoke_navigation_method(PathAssert assertion) {
+    return assertion.content();
+  }
+
 }

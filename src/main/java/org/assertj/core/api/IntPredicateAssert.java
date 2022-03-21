@@ -25,6 +25,10 @@ import java.util.stream.IntStream;
  */
 public class IntPredicateAssert extends AbstractPredicateLikeAssert<IntPredicateAssert, IntPredicate, Integer> {
 
+  public static IntPredicateAssert assertThatIntPredicate(IntPredicate actual) {
+    return new IntPredicateAssert(actual);
+  }
+
   public IntPredicateAssert(IntPredicate actual) {
     super(actual, toPredicate(actual), IntPredicateAssert.class);
   }

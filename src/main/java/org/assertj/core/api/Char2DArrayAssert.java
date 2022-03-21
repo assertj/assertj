@@ -213,6 +213,29 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
   }
 
   /**
+   * Verifies that the actual two-dimensional array has the given number of rows.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new char[][] {{'1', '2', '3'}, {'4', '5', '6'}}).hasNumberOfRows(2);
+   * assertThat(new char[][] {{'1'}, {'1', '2'}, {'1', '2', '3'}}).hasNumberOfRows(3);
+   *
+   * // assertions will fail
+   * assertThat(new char[][] { }).hasNumberOfRows(1);
+   * assertThat(new char[][] {{'1', '2', '3'}, {'4', '5', '6'}}).hasNumberOfRows(3);
+   * assertThat(new char[][] {{'1', '2', '3'}, {'4', '5', '6', '7'}}).hasNumberOfRows(1); </code></pre>
+   *
+   * @param expected the expected number of rows of the two-dimensional array.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual number of rows are not equal to the given one.
+   */
+  @Override
+  public Char2DArrayAssert hasNumberOfRows(int expected) {
+    char2dArrays.assertNumberOfRows(info, actual, expected);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code char[][]} has the same dimensions as the given array.
    * <p>
    * Parameter is declared as Object to accept both Object[] and primitive arrays (e.g. int[]).
