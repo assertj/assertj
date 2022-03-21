@@ -10,32 +10,32 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.api.short_;
+package org.assertj.core.api.double_;
 
-import static org.assertj.core.data.Offset.offset;
+import static org.assertj.core.data.Percentage.withPercentage;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.ShortAssert;
-import org.assertj.core.api.ShortAssertBaseTest;
-import org.assertj.core.data.Offset;
+import org.assertj.core.api.DoubleAssert;
+import org.assertj.core.api.DoubleAssertBaseTest;
+import org.assertj.core.data.Percentage;
 
 /**
- * Tests for <code>{@link ShortAssert#isCloseTo(short, Offset)}</code>.
+ * Tests for <code>{@link DoubleAssert#isCloseTo(double, Percentage)}</code>.
  *
  * @author Sára Juhošová
  */
-class ShortAssert_isCloseTo_short_Test extends ShortAssertBaseTest {
+class DoubleAssert_isCloseToPercentage_double_primitive_Test extends DoubleAssertBaseTest {
 
-  private final Offset<Short> offset = offset((short) 1);
-  private final short value = 16;
+  private final Percentage percentage = withPercentage(6.0);
+  private final double value = 22.6;
 
   @Override
-  protected ShortAssert invoke_api_method() {
-    return assertions.isCloseTo(value, offset);
+  protected DoubleAssert invoke_api_method() {
+    return assertions.isCloseTo(value, percentage);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(shorts).assertIsCloseTo(getInfo(assertions), getActual(assertions), value, offset);
+    verify(doubles).assertIsCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
   }
 }
