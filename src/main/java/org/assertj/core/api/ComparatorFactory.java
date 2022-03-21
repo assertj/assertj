@@ -25,7 +25,7 @@ public class ComparatorFactory {
     return new Comparator<Double>() {
       @Override
       public int compare(Double o1, Double o2) {
-        if (abs(o1 - o2) < precision) return 0;
+        if (abs(o1 - o2) <= precision) return 0;
         return o1 - o2 > 0 ? 1 : -1;
       }
 
@@ -41,7 +41,7 @@ public class ComparatorFactory {
     return new Comparator<Float>() {
       @Override
       public int compare(Float o1, Float o2) {
-        if (abs(o1 - o2) < precision) return 0;
+        if (abs(o1 - o2) <= precision) return 0;
         return o1 - o2 > 0 ? 1 : -1;
       }
 
