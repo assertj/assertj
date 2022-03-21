@@ -24,7 +24,7 @@ import org.assertj.core.data.Offset;
  *
  * @author Sára Juhošová
  */
-class DoubleAssert_isNotCloseTo_double_Test extends DoubleAssertBaseTest {
+class DoubleAssert_isNotCloseTo_double_primitive_Test extends DoubleAssertBaseTest {
 
   private final Offset<Double> offset = offset(13.2);
   private final double value = 55.1;

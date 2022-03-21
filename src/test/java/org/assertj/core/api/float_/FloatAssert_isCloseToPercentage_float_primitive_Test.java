@@ -24,7 +24,7 @@ import org.assertj.core.data.Percentage;
  *
  * @author Sára Juhošová
  */
-class FloatAssert_isCloseToPercentage_float_Test extends FloatAssertBaseTest {
+class FloatAssert_isCloseToPercentage_float_primitive_Test extends FloatAssertBaseTest {
 
   private final Percentage percentage = withPercentage(2.4f);
   private final float value = 16.3f;
