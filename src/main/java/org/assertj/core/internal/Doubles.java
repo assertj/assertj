@@ -16,6 +16,8 @@ import static java.lang.Math.abs;
 
 import org.assertj.core.util.VisibleForTesting;
 
+import java.math.BigDecimal;
+
 /**
  * Reusable assertions for <code>{@link Double}</code>s.
  *
@@ -62,7 +64,7 @@ public class Doubles extends RealNumbers<Double> {
 
   @Override
   protected Double absDiff(Double actual, Double other) {
-    return abs(other - actual);
+    return abs(new BigDecimal(String.valueOf(actual)).subtract(new BigDecimal(String.valueOf(other))).doubleValue());
   }
 
   @Override

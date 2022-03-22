@@ -12,8 +12,7 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.Math.abs;
-
+import java.math.BigDecimal;
 import java.util.Comparator;
 
 public class ComparatorFactory {
@@ -25,7 +24,13 @@ public class ComparatorFactory {
     return new Comparator<Double>() {
       @Override
       public int compare(Double o1, Double o2) {
-        if (abs(o1 - o2) <= precision) return 0;
+        BigDecimal bd1 = new BigDecimal(String.valueOf(o1));
+        BigDecimal bd2 = new BigDecimal(String.valueOf(o2));
+        BigDecimal abs = bd1.subtract(bd2).abs();
+        if (abs.compareTo(new BigDecimal(String.valueOf(precision))) <= 0) {
+          return 0;
+        }
+        //if (abs(o1 - o2) <= precision) return 0;
         return o1 - o2 > 0 ? 1 : -1;
       }
 
@@ -41,7 +46,15 @@ public class ComparatorFactory {
     return new Comparator<Float>() {
       @Override
       public int compare(Float o1, Float o2) {
-        if (abs(o1 - o2) <= precision) return 0;
+        BigDecimal bd1 = new BigDecimal(String.valueOf(o1));
+        BigDecimal bd2 = new BigDecimal(String.valueOf(o2));
+        BigDecimal abs = bd1.subtract(bd2).abs();
+
+        if (abs.compareTo(new BigDecimal(String.valueOf(precision))) <= 0) {
+          return 0;
+        }
+
+        //if (abs(o1 - o2) <= precision) return 0;
         return o1 - o2 > 0 ? 1 : -1;
       }
 

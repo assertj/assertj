@@ -16,6 +16,8 @@ import static java.lang.Math.abs;
 
 import org.assertj.core.util.VisibleForTesting;
 
+import java.math.BigDecimal;
+
 /**
  * Reusable assertions for <code>{@link Float}</code>s.
  *
@@ -63,7 +65,7 @@ public class Floats extends RealNumbers<Float> {
 
   @Override
   protected Float absDiff(Float actual, Float other) {
-    return abs(other - actual);
+    return abs(new BigDecimal(String.valueOf(actual)).subtract(new BigDecimal(String.valueOf(other))).floatValue());
   }
 
   @Override
