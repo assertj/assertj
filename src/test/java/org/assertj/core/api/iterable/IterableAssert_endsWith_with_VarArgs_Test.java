@@ -12,24 +12,30 @@
  */
 package org.assertj.core.api.iterable;
 
+import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AbstractIterableAssert;
-import org.assertj.core.api.ObjectArrayAssert;
-import org.assertj.core.api.ObjectArrayAssertBaseTest;
+import org.assertj.core.api.ConcreteIterableAssert;
+import org.assertj.core.api.IterableAssertBaseTest;
+
 
 /**
- * Tests for <code>{@link AbstractIterableAssert#hasExactlyElementsOfTypes(Class...)}</code>.
+ * Tests for <code>{@link AbstractIterableAssert#endsWith(Object...)}</code>.
+ * 
+ * @author Alex Ruiz
+ * @author Joel Costigliola
+ * @author Florent Biville
  */
-class IterableAssert_hasExactlyElementsOfTypes_Test extends ObjectArrayAssertBaseTest {
+class IterableAssert_endsWith_with_VarArgs_Test extends IterableAssertBaseTest {
 
   @Override
-  protected ObjectArrayAssert<Object> invoke_api_method() {
-    return assertions.hasExactlyElementsOfTypes(Integer.class, Double.class);
+  protected ConcreteIterableAssert<Object> invoke_api_method() {
+    return assertions.endsWith("Luke", "Yoda");
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertHasExactlyElementsOfTypes(getInfo(assertions), getActual(assertions), Integer.class, Double.class);
+    verify(iterables).assertEndsWith(getInfo(assertions), getActual(assertions), "Luke", array("Yoda"));
   }
 }

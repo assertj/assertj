@@ -12,18 +12,18 @@
  */
 package org.assertj.core.api.date;
 
-import static org.mockito.Mockito.verify;
+import org.assertj.core.api.DateAssert;
 
 import java.util.Date;
 
-import org.assertj.core.api.DateAssert;
+import static org.mockito.Mockito.verify;
 
 /**
  * Tests for <code>{@link DateAssert#isBeforeOrEqualTo(Date)}</code>.
  *
  * @author Joel Costigliola
  */
-class DateAssert_isBeforeOrEqualTo_Test extends AbstractDateAssertWithDateArg_Test {
+class DateAssert_isBeforeOrEqualTo_with_Instant_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {
