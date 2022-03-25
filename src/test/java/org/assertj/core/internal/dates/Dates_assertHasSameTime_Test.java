@@ -25,7 +25,6 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
-
 /**
  * Tests for <code>{@link Dates#assertHasSameTime(AssertionInfo, Date, Date)}</code>.
  *
@@ -50,7 +49,7 @@ public class Dates_assertHasSameTime_Test extends DatesBaseTest {
 
     // THEN/WHEN
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertHasSameTime(someInfo(), null, new Date()))
-      .withMessage(actualIsNull());
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -60,7 +59,7 @@ public class Dates_assertHasSameTime_Test extends DatesBaseTest {
 
     // THEN/WHEN
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertHasSameTime(someInfo(), actual, expected))
-      .withMessage(actualIsNull());
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
