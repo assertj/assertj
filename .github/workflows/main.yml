@@ -18,7 +18,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 11
-          cache: 'maven'
+#          cache: 'maven'
       - name: Test
         run: ./mvnw -V --no-transfer-progress -e verify javadoc:javadoc
 
@@ -35,7 +35,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 11
-          cache: 'maven'
+#          cache: 'maven'
       - name: Test with Sonar
         run: >
           ./mvnw -V --no-transfer-progress -e -Pcoverage verify javadoc:javadoc sonar:sonar

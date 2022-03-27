@@ -16,7 +16,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 11
-          cache: 'maven'
+#          cache: 'maven'
 
       - name: (`main` only) Compare with the latest release
         if: github.base_ref == null

@@ -33,7 +33,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 11
-          cache: 'maven'
+#          cache: 'maven'
       - name: run pitest
         # pitest has been bound to a profile called pitest for normal running
         # we add config to analyse only changes made within a PR and treat surviving mutants as check errors
