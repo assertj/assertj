@@ -28,7 +28,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 @DisplayName("EntryPoint assertions linesOf method")
-class EntryPointAssertionsOf_linesOf_Test extends EntryPointAssertionsBaseTest {
+class EntryPointAssertions_linesOf_Test extends EntryPointAssertionsBaseTest {
 
   @ParameterizedTest
   @MethodSource("fileLinesOfWithCharsetFunctions")
