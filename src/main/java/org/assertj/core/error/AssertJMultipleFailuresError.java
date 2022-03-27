@@ -13,6 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
+import static org.assertj.core.util.Throwables.addLineNumberToErrorMessages;
 
 import java.util.List;
 
@@ -46,9 +47,10 @@ public class AssertJMultipleFailuresError extends MultipleFailuresError {
                                                   .append(failureCount).append(" ")
                                                   .append(pluralize(failureCount, "failure", "failures"))
                                                   .append(")");
+    List<Throwable> failuresWithLineNumbers = addLineNumberToErrorMessages(failures);
     for (int i = 0; i < failureCount; i++) {
       builder.append(errorSeparator(i + 1));
-      String message = nullSafeMessage(failures.get(i));
+      String message = nullSafeMessage(failuresWithLineNumbers.get(i));
       // when we have a description, we add a line before for readability
       if (hasDescription(message)) builder.append(EOL);
       builder.append(message);
