@@ -19,18 +19,28 @@ public class ComparatorFactory {
 
   public static final ComparatorFactory INSTANCE = new ComparatorFactory();
 
+  private static <T extends Number & Comparable<T>> BigDecimal preciseBigDecimal(T number) {
+    return new BigDecimal(String.valueOf(number));
+  }
+
+  private static <T extends Number & Comparable<T>> boolean compareAsBigDecimalWithPrecision(T expected, T actual, T precision) {
+    // use java.math.BigDecimal to fix the problem of float/double precision.
+    BigDecimal expectedBigDecimal = preciseBigDecimal(expected);
+    BigDecimal actualBigDecimal = preciseBigDecimal(actual);
+    BigDecimal absDifference = expectedBigDecimal.subtract(actualBigDecimal).abs();
+    BigDecimal precisionBigDecimal = preciseBigDecimal(precision);
+
+    return absDifference.compareTo(precisionBigDecimal) <= 0;
+  }
+
   public Comparator<Double> doubleComparatorWithPrecision(double precision) {
     // can't use <> with anonymous class in java 8
     return new Comparator<Double>() {
       @Override
       public int compare(Double o1, Double o2) {
-        BigDecimal bd1 = new BigDecimal(String.valueOf(o1));
-        BigDecimal bd2 = new BigDecimal(String.valueOf(o2));
-        BigDecimal abs = bd1.subtract(bd2).abs();
-        if (abs.compareTo(new BigDecimal(String.valueOf(precision))) <= 0) {
+        if (compareAsBigDecimalWithPrecision(o1, o2, precision)) {
           return 0;
         }
-        //if (abs(o1 - o2) <= precision) return 0;
         return o1 - o2 > 0 ? 1 : -1;
       }
 
@@ -46,15 +56,9 @@ public class ComparatorFactory {
     return new Comparator<Float>() {
       @Override
       public int compare(Float o1, Float o2) {
-        BigDecimal bd1 = new BigDecimal(String.valueOf(o1));
-        BigDecimal bd2 = new BigDecimal(String.valueOf(o2));
-        BigDecimal abs = bd1.subtract(bd2).abs();
-
-        if (abs.compareTo(new BigDecimal(String.valueOf(precision))) <= 0) {
+        if (compareAsBigDecimalWithPrecision(o1, o2, precision)) {
           return 0;
         }
-
-        //if (abs(o1 - o2) <= precision) return 0;
         return o1 - o2 > 0 ? 1 : -1;
       }
 

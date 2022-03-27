@@ -64,7 +64,7 @@ public class Doubles extends RealNumbers<Double> {
 
   @Override
   protected Double absDiff(Double actual, Double other) {
-    return abs(new BigDecimal(String.valueOf(actual)).subtract(new BigDecimal(String.valueOf(other))).doubleValue());
+    return abs(preciseAbsDifferenceInBigDecimal(actual, other).doubleValue());
   }
 
   @Override

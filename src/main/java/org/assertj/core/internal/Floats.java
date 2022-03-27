@@ -65,7 +65,7 @@ public class Floats extends RealNumbers<Float> {
 
   @Override
   protected Float absDiff(Float actual, Float other) {
-    return abs(new BigDecimal(String.valueOf(actual)).subtract(new BigDecimal(String.valueOf(other))).floatValue());
+    return abs(preciseAbsDifferenceInBigDecimal(actual, other).floatValue());
   }
 
   @Override
