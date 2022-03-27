@@ -42,7 +42,7 @@ jobs:
       - name: aggregate files
         run: mvn -e -B -Ppitest pitest-git:aggregate
       - name: upload results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: pitest
           path: target/pit-reports-ci/
