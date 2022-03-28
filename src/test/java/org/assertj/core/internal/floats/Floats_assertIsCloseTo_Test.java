@@ -73,7 +73,36 @@ class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
     floats.assertIsCloseTo(someInfo(), NaN, NaN, byLessThan(ONE));
   }
 
+  @Test
+  void should_pass_if_actual_and_expected_are_equal_within_range1(){
+    floats.assertIsCloseTo(someInfo(), 1.1f, 1.0f, within(0.1f));
+    floats.assertIsCloseTo(someInfo(), 1.0f, 1.1f, byLessThan(0.1000001f));
+  }
+
+  @Test
+  void should_pass_if_actual_and_expected_are_equal_within_range2(){
+    floats.assertIsCloseTo(someInfo(), 0.375f, 0.125f, within(0.25f));
+    floats.assertIsCloseTo(someInfo(), 0.125f, 0.375f, byLessThan(0.2500001f));
+  }
+
   // error or failure
+
+  @Test
+  void should_fail_if_actual_is_bigger_than_expected_byLessThan_range1(){
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsCloseTo(someInfo(), 1.0f, 1.1f,
+      byLessThan(0.1f)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsCloseTo(someInfo(), 1.0f, 1.1f,
+      within(0.0999999f)));
+  }
+
+  @Test
+  void should_fail_if_actual_is_bigger_than_expected_byLessThan_range2(){
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsCloseTo(someInfo(), 0.375f, 0.125f,
+      byLessThan(0.25f)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsCloseTo(someInfo(), 0.375f, 0.125f,
+      within(0.2499999f)));
+  }
+
 
   @Test
   void should_throw_error_if_actual_is_null() {
@@ -166,8 +195,8 @@ class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
   @Test
   void should_throw_error_if_offset_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(),
-                                                                                                           new Float(8f),
-                                                                                                           new Float(8f),
+        8f,
+        8f,
                                                                                                            null))
                                     .withMessage(offsetIsNull());
   }
@@ -176,7 +205,7 @@ class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
   void should_fail_if_actual_is_not_close_enough_to_expected_value_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> floatsWithAbsValueComparisonStrategy.assertIsCloseTo(info, new Float(6f), new Float(8f), offset(1f)));
+    Throwable error = catchThrowable(() -> floatsWithAbsValueComparisonStrategy.assertIsCloseTo(info, 6f, 8f, offset(1f)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeEqual(6f, 8f, offset(1f), 2f));
@@ -186,7 +215,7 @@ class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
   void should_fail_if_actual_is_not_strictly_close_enough_to_expected_value_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> floatsWithAbsValueComparisonStrategy.assertIsCloseTo(info, new Float(6f), new Float(8f), byLessThan(1f)));
+    Throwable error = catchThrowable(() -> floatsWithAbsValueComparisonStrategy.assertIsCloseTo(info, 6f, 8f, byLessThan(1f)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeEqual(6f, 8f, byLessThan(1f), 2f));

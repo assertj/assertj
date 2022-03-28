@@ -14,17 +14,35 @@ package org.assertj.core.api;
 
 import java.math.BigDecimal;
 import java.util.Comparator;
+import java.util.Objects;
 
 public class ComparatorFactory {
 
   public static final ComparatorFactory INSTANCE = new ComparatorFactory();
 
-  private static <T extends Number & Comparable<T>> BigDecimal preciseBigDecimal(T number) {
+  public static <T extends Number & Comparable<T>> boolean isNanOrInfinity(T number){
+    // avoid null argument
+    if(Objects.requireNonNull(number) instanceof Float){
+      return ((Float) number).isNaN() || ((Float) number).isInfinite();
+    }else if(Objects.requireNonNull(number) instanceof Double){
+      return ((Double)number).isNaN() || ((Double)number).isInfinite();
+    }else {
+      return false;
+    }
+  }
+
+  public static <T extends Number & Comparable<T>> BigDecimal preciseBigDecimal(T number) {
     return new BigDecimal(String.valueOf(number));
   }
 
-  private static <T extends Number & Comparable<T>> boolean compareAsBigDecimalWithPrecision(T expected, T actual, T precision) {
+  public static <T extends Number & Comparable<T>> boolean compareAsBigDecimalWithPrecision(T expected, T actual, T precision) {
     // use java.math.BigDecimal to fix the problem of float/double precision.
+
+    // java.math.BigDecimal cannot handle NAN or Infinity cases.
+    if(isNanOrInfinity(expected) || isNanOrInfinity(actual)){
+      return false;
+    }
+
     BigDecimal expectedBigDecimal = preciseBigDecimal(expected);
     BigDecimal actualBigDecimal = preciseBigDecimal(actual);
     BigDecimal absDifference = expectedBigDecimal.subtract(actualBigDecimal).abs();
@@ -38,10 +56,14 @@ public class ComparatorFactory {
     return new Comparator<Double>() {
       @Override
       public int compare(Double o1, Double o2) {
+        if(isNanOrInfinity(precision)){
+          return 0;
+        }
+
         if (compareAsBigDecimalWithPrecision(o1, o2, precision)) {
           return 0;
         }
-        return o1 - o2 > 0 ? 1 : -1;
+        return Double.compare(o1, o2);
       }
 
       @Override
@@ -56,10 +78,13 @@ public class ComparatorFactory {
     return new Comparator<Float>() {
       @Override
       public int compare(Float o1, Float o2) {
+        if(isNanOrInfinity(precision)){
+          return 0;
+        }
         if (compareAsBigDecimalWithPrecision(o1, o2, precision)) {
           return 0;
         }
-        return o1 - o2 > 0 ? 1 : -1;
+        return Float.compare(o1, o2);
       }
 
       @Override

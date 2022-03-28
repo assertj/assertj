@@ -73,7 +73,35 @@ class Doubles_assertIsCloseTo_Test extends DoublesBaseTest {
     doubles.assertIsCloseTo(someInfo(), NaN, NaN, byLessThan(ONE));
   }
 
+  @Test
+  void should_pass_if_actual_and_expected_are_equal_within_range1(){
+    doubles.assertIsCloseTo(someInfo(), 1.1d, 1.0d, within(0.1d));
+    doubles.assertIsCloseTo(someInfo(), 1.0d, 1.1d, byLessThan(0.1000001d));
+  }
+
+  @Test
+  void should_pass_if_actual_and_expected_are_equal_within_range2(){
+    doubles.assertIsCloseTo(someInfo(), 0.375d, 0.125, within(0.25));
+    doubles.assertIsCloseTo(someInfo(), 0.125d, 0.375, byLessThan(0.2500001));
+  }
+
   // error or failure
+
+  @Test
+  void should_fail_if_actual_is_bigger_than_expected_byLessThan_range1(){
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseTo(someInfo(), 1.0d, 1.1d,
+      byLessThan(0.1d)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseTo(someInfo(), 1.0d, 1.1d,
+      within(0.0999999d)));
+  }
+
+  @Test
+  void should_fail_if_actual_is_bigger_than_expected_byLessThan_range2(){
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseTo(someInfo(), 0.375d, 0.125d,
+      byLessThan(0.25d)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseTo(someInfo(), 0.375d, 0.125d,
+      within(0.2499999d)));
+  }
 
   @Test
   void should_throw_error_if_actual_is_null() {

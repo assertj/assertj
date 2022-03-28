@@ -12,15 +12,14 @@
  */
 package org.assertj.core.internal;
 
+import org.assertj.core.api.AssertionInfo;
+
+import java.math.BigDecimal;
+
 import static org.assertj.core.error.ShouldBeFinite.shouldBeFinite;
 import static org.assertj.core.error.ShouldBeInfinite.shouldBeInfinite;
 import static org.assertj.core.error.ShouldNotBeFinite.shouldNotBeFinite;
 import static org.assertj.core.error.ShouldNotBeInfinite.shouldNotBeInfinite;
-
-import org.assertj.core.api.AssertionInfo;
-import sun.font.BidiUtils;
-
-import java.math.BigDecimal;
 
 /**
  * Base class of reusable assertions for real numbers (float and double).
@@ -50,7 +49,7 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
   }
 
   protected BigDecimal preciseAbsDifferenceInBigDecimal(NUMBER value1, NUMBER value2){
-    return new BigDecimal(String.valueOf(value1)).subtract(new BigDecimal(String.valueOf(value1))).abs();
+    return new BigDecimal(String.valueOf(value1)).subtract(new BigDecimal(String.valueOf(value2))).abs();
   }
 
   protected abstract NUMBER NaN();
