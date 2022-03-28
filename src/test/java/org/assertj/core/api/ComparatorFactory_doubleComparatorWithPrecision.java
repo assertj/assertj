@@ -59,7 +59,7 @@ public class ComparatorFactory_doubleComparatorWithPrecision {
   void should_pass_for_infinity_precision() {
     Comparator<Double> comparatorPositiveInfinity = INSTANCE.doubleComparatorWithPrecision(Double.POSITIVE_INFINITY);
     assertThat(0).isEqualTo(comparatorPositiveInfinity.compare(1d, 2d));
-    Comparator<Double> comparatorNegativeInfinity = INSTANCE.doubleComparatorWithPrecision(Double.POSITIVE_INFINITY);
+    Comparator<Double> comparatorNegativeInfinity = INSTANCE.doubleComparatorWithPrecision(Double.NEGATIVE_INFINITY);
     assertThat(0).isEqualTo(comparatorNegativeInfinity.compare(1d, 2d));
   }
 
