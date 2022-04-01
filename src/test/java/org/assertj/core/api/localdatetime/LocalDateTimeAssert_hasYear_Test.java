@@ -49,6 +49,7 @@ public class LocalDateTimeAssert_hasYear_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEqualToIgnoringHours(LocalDateTime.now()));
     // THEN
+    //test
     then(assertionError).hasMessage(actualIsNull());
   }
 
