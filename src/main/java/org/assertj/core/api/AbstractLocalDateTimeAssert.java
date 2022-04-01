@@ -18,6 +18,7 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringHours.shouldBeEqualIgn
 import static org.assertj.core.error.ShouldBeEqualIgnoringMinutes.shouldBeEqualIgnoringMinutes;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNanos.shouldBeEqualIgnoringNanos;
 import static org.assertj.core.error.ShouldBeEqualIgnoringSeconds.shouldBeEqualIgnoringSeconds;
+import static org.assertj.core.error.ShouldEqualYear.shouldEqualYear;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.LocalDateTime;
@@ -741,6 +742,14 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   public SELF isStrictlyBetween(String startExclusive, String endExclusive) {
     return isStrictlyBetween(parse(startExclusive), parse(endExclusive));
   }
+  public SELF hasYear(int year) {
+    Objects.instance().assertNotNull(info, actual);
+    if (!equalYear(actual, year)) {
+      throw Failures.instance().failure(info, shouldEqualYear(actual, year));
+    }
+    return myself;
+  }
+
 
   /**
    * {@inheritDoc}
@@ -816,5 +825,15 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    */
   private static boolean haveSameYear(LocalDateTime actual, LocalDateTime other) {
     return actual.getYear() == other.getYear();
+  }
+  /**
+   * Returns true if actual datetime is in a given year, false otherwise.
+   *
+   * @param actual the actual datetime. expected not be null
+   * @param year the given year. expected not be null
+   * @return true if the datetime year is equal to the given year, false otherwise
+   */
+  private static boolean equalYear(LocalDateTime actual, int year) {
+    return actual.getYear() == year;
   }
 }
