@@ -742,6 +742,27 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   public SELF isStrictlyBetween(String startExclusive, String endExclusive) {
     return isStrictlyBetween(parse(startExclusive), parse(endExclusive));
   }
+
+  /**
+   * Verifies that actual {@code LocalDateTime} is in the given year.
+   * <p>
+   * Code example :
+   * <pre><code class='java'> // successful assertions
+   * LocalDateTime localDateTime = LocalDateTime.of(2000, 12, 31, 23, 59, 59, 999);
+   * int year = 2000;
+   * assertThat(localDateTime).hasYear(year);
+   *
+   * // failing assertions
+   * LocalDateTime localDateTime = LocalDateTime.of(2000, 12, 31, 23, 59, 59, 999);
+   * int year = 2001;
+   * assertThat(localDateTime).hasYear(year);</code></pre>
+   *
+   * @param year the given year.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
+   * @throws IllegalArgumentException if other {@code LocalDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDateTime} is not in given year.
+   */
   public SELF hasYear(int year) {
     Objects.instance().assertNotNull(info, actual);
     if (!equalYear(actual, year)) {
