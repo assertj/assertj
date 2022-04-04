@@ -382,6 +382,61 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   }
 
   /**
+   * Verifies that the file system for the given path is the same as the provided path file system.
+   *
+   * Examples:
+   * <pre><code class="java">
+   * Path jarFile = Paths.get("assertj-core.jar");
+   * FileSystem mainFileSystem = jarFile.getFileSystem();
+   *
+   * try (FileSystem fs = FileSystems.newFileSystem(jarFile, (ClassLoader) null)) {
+   *     Path manifestFile = fs.getPath("META-INF", "MANIFEST.MF");
+   *
+   *     // Succeeds
+   *     assertThat(manifestFile).hasSameFileSystem(fs);
+   *
+   *     // Fails
+   *     assertThat(manifestFile).hasSameFileSystem(mainFileSystem);
+   * }</code></pre>
+   *
+   * @param expected the given {@code FileSystem} to compare the actual {@code Path} file system to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given {@code Path} is {@code null}.
+   * @throws AssertionError if the actual {@code FileSystem} is {@code null}.
+   */
+  public SELF hasSameFileSystem(FileSystem expected) {
+    paths.assertHasSameFileSystem(info, actual, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the file system for the given path is the same as the provided path file system.
+   *
+   * Examples:
+   * <pre><code class="java">
+   * Path jarFile = Paths.get("assertj-core.jar");
+   * try (FileSystem fs = FileSystems.newFileSystem(jarFile, (ClassLoader) null)) {
+   *     Path manifestFile = fs.getPath("META-INF", "MANIFEST.MF");
+   *     Path abstractPathAssertFile = fs.getPath("org", "assertj", "core", "api", "AbstractPathAssert.class");
+   *
+   *     // Succeeds
+   *     assertThat(manifestFile).hasSameFileSystemAs(abstractPathAssertFile);
+   *
+   *     // Fails
+   *     assertThat(manifestFile).hasSameFileSystemAs(jarFile);
+   * }</code></pre>
+   *
+   * @param expected the given {@code Path} to compare the actual {@code Path} file system to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given {@code Path} is {@code null}.
+   * @throws AssertionError if the actual {@code Path} is {@code null}.
+   */
+  public SELF hasSameFileSystemAs(Path expected) {
+    paths.assertHasSameFileSystemAsPath(info, actual, expected);
+    return myself;
+  }
+
+  /**
    * Assert that the tested {@link Path} is a readable file, it checks that the file exists (according to
    * {@link Files#exists(Path, LinkOption...)}) and that it is readable(according to {@link Files#isReadable(Path)}).
    *
