@@ -1329,6 +1329,27 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   }
 
   /**
+   * Returns ByteArray assertions on the content of the actual {@code File} read.
+   * <p>
+   * Example:
+   * <pre><code class='java'> File xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes()).toFile();
+   *
+   * // assertion succeeds
+   * assertThat(xFile).binaryContent().isEqualTo("The Truth Is Out There".getBytes());
+   *
+   * // assertion fails:
+   * assertThat(xFile).binaryContent().isEqualTo("Elsewhere".getBytes());</code></pre>
+   *
+   * @return a ByteArrayAssert object with the binary content of the file.
+   * @throws AssertionError if the actual {@code File} is not readable as per {@link java.nio.file.Files#isReadable(java.nio.file.Path)}.
+   * @throws UncheckedIOException when failing to read the actual {@code File}.
+   */
+  public AbstractByteArrayAssert<?> binaryContent() {
+    files.assertCanRead(info, actual);
+    return new ByteArrayAssert(readFile()).withAssertionState(myself);
+  }
+
+  /**
    * Returns String assertions on the content of the actual {@code File} read with the {@link Charset#defaultCharset() default charset}.
    * <p>
    * Example:
@@ -1427,6 +1448,14 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
     files.assertCanRead(info, actual);
     String fileContent = readFile(charset);
     return new StringAssert(fileContent).withAssertionState(myself);
+  }
+
+  private byte[] readFile() {
+    try {
+      return readAllBytes(actual.toPath());
+    } catch (IOException e) {
+      throw new UncheckedIOException(format("Failed to read %s content", actual), e);
+    }
   }
 
   private String readFile(Charset charset) {

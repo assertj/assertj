@@ -1846,6 +1846,27 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   }
 
   /**
+   * Returns ByteArray assertions on the content of the actual {@code Path} read.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Path xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes());
+   *
+   * // assertion succeeds
+   * assertThat(xFile).binaryContent().isEqualTo("The Truth Is Out There".getBytes());
+   *
+   * // assertion fails:
+   * assertThat(xFile).binaryContent().isEqualTo("Elsewhere".getBytes());</code></pre>
+   *
+   * @return a ByteArrayAssert object with the binary content of the file.
+   * @throws AssertionError if the actual {@code Path} is not readable as per {@link Files#isReadable(Path)}.
+   * @throws UncheckedIOException when failing to read the actual {@code Path}.
+   */
+  public AbstractByteArrayAssert<?> binaryContent() {
+    paths.assertIsReadable(info, actual);
+    return new ByteArrayAssert(readPath()).withAssertionState(myself);
+  }
+
+  /**
    * Returns String assertions on the content of the actual {@code Path} read with the {@link Charset#defaultCharset() default charset}.
    * <p>
    * Example:
@@ -1894,6 +1915,14 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
     paths.assertIsReadable(info, actual);
     String pathContent = readPath(charset);
     return new StringAssert(pathContent).withAssertionState(myself);
+  }
+
+  private byte[] readPath() {
+    try {
+      return readAllBytes(actual);
+    } catch (IOException e) {
+      throw new UncheckedIOException(format("Failed to read %s binary content", actual), e);
+    }
   }
 
   private String readPath(Charset charset) {
