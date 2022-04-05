@@ -2609,6 +2609,59 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  void file_soft_assertions_should_work_with_binaryContent() {
+    // GIVEN
+    File file = new File("src/test/resources/actual_file.txt");
+    // WHEN
+    softly.assertThat(file)
+      .overridingErrorMessage("error message")
+      .as("size()")
+      .size()
+      .isGreaterThan(0)
+      .isLessThan(1)
+      .returnToFile()
+      .as("binaryContent()")
+      .binaryContent()
+      .startsWith("actual".getBytes(UTF_8))
+      .startsWith("123".getBytes(UTF_8));
+    // THEN
+    then(softly.errorsCollected()).extracting(Throwable::getMessage)
+      .containsExactly("[size()] error message", "[binaryContent()] error message");
+  }
+
+  @Test
+  void path_soft_assertions_should_work_with_content() {
+    // GIVEN
+    Path file = new File("src/test/resources/actual_file.txt").toPath();
+    // WHEN
+    softly.assertThat(file)
+      .overridingErrorMessage("error message")
+      .as("content()")
+      .content()
+      .startsWith("actual")
+      .startsWith("123");
+    // THEN
+    then(softly.errorsCollected()).extracting(Throwable::getMessage)
+      .containsExactly("[content()] error message");
+  }
+
+  @Test
+  void path_soft_assertions_should_work_with_binaryContent() {
+    // GIVEN
+    Path file = new File("src/test/resources/actual_file.txt").toPath();
+    // WHEN
+    softly.assertThat(file)
+      .overridingErrorMessage("error message")
+      .as("binaryContent()")
+      .binaryContent()
+      .startsWith("actual".getBytes(UTF_8))
+      .startsWith("123".getBytes(UTF_8));
+    // THEN
+    then(softly.errorsCollected()).extracting(Throwable::getMessage)
+      .containsExactly("[binaryContent()] error message");
+  }
+
+  @Test
   void throwable_soft_assertions_should_work_with_message_navigation_method() {
     // GIVEN
     Throwable throwable = new Throwable("Boom!");

@@ -14,23 +14,22 @@ package org.assertj.core.error;
 
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Creates an error message indicating that an assertion that verifies the {@link FileSystem} for
- * a given path does not match a given file system.
+ * a given path does not match a given path's file system.
  *
  * @author Ashley Scopes
  */
-public class ShouldHaveSameFileSystem extends BasicErrorMessageFactory {
-  private static final String PATH_SHOULD_HAVE_SAME_FILE_SYSTEM =
-    "%nExpecting path:%n  %s%nto have file system:%n  %s";
+public class ShouldHaveSameFileSystemAs extends BasicErrorMessageFactory {
+  private static final String PATH_SHOULD_HAVE_SAME_FILE_SYSTEM_AS_PATH =
+    "%nExpecting path:%n  %s%nto have file system as path:%n  %s";
 
-  public static ErrorMessageFactory shouldHaveSameFileSystem(final Path actual, final FileSystem fileSystem) {
-    return new ShouldHaveSameFileSystem(actual, fileSystem);
+  public static ErrorMessageFactory shouldHaveSameFileSystemAs(final Path actual, final Path expected) {
+    return new ShouldHaveSameFileSystemAs(actual, expected);
   }
 
-  private ShouldHaveSameFileSystem(final Path actual, final FileSystem expected) {
-    super(PATH_SHOULD_HAVE_SAME_FILE_SYSTEM, actual, expected);
+  private ShouldHaveSameFileSystemAs(final Path actual, final Path expected) {
+    super(PATH_SHOULD_HAVE_SAME_FILE_SYSTEM_AS_PATH, actual, expected);
   }
 }

@@ -45,7 +45,7 @@ class PathAssert_binaryContent_Test extends PathAssertBaseTest implements Naviga
   }
 
   @Test
-  public void should_return_StringAssert_on_path_content() {
+  public void should_return_ByteArrayAssert_on_path_content() {
     // GIVEN
     Path path = new File("src/test/resources/actual_file.txt").toPath();
     // WHEN

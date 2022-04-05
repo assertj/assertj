@@ -14,58 +14,50 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldHaveSameFileSystem.shouldHaveSameFileSystem;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.assertj.core.error.ShouldHaveSameFileSystemAs.shouldHaveSameFileSystemAs;
 
-import java.nio.file.FileSystem;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for {@link ShouldHaveSameFileSystem}.
+ * Tests for {@link ShouldHaveSameFileSystemAs}.
  *
  * @author Ashley Scopes
  */
-class ShouldHaveSameFileSystem_create_Test {
+class ShouldHaveSameFileSystemAs_create_Test {
 
   @Test
-  void should_create_error_message_for_expected_file_system() {
+  void should_create_error_message_for_expected_path() {
     // GIVEN
     Path actual = Paths.get("/foo/bar");
-    FileSystem fileSystem = mock(FileSystem.class);
+    Path expected = Paths.get("/baz/bork");
 
-    when(fileSystem.toString()).thenReturn("MySpecialFileSystem");
-
-    ErrorMessageFactory factory = shouldHaveSameFileSystem(actual, fileSystem);
+    ErrorMessageFactory factory = shouldHaveSameFileSystemAs(actual, expected);
     // WHEN
     String message = factory.create();
     // THEN
     then(message).isEqualTo(format("%nExpecting path:%n" +
                                    "  /foo/bar%n" +
-                                   "to have file system:%n" +
-                                   "  MySpecialFileSystem"));
+                                   "to have file system as path:%n" +
+                                   "  /baz/bork"));
   }
 
   @Test
-  void should_create_error_message_for_expected_file_system_with_test_description() {
+  void should_create_error_message_for_expected_path_with_test_description() {
     // GIVEN
     Path actual = Paths.get("/foo/bar");
-    FileSystem fileSystem = mock(FileSystem.class);
+    Path expected = Paths.get("/baz/bork");
 
-    when(fileSystem.toString())
-      .thenReturn("MySpecialFileSystem");
-
-    ErrorMessageFactory factory = shouldHaveSameFileSystem(actual, fileSystem);
+    ErrorMessageFactory factory = shouldHaveSameFileSystemAs(actual, expected);
     // WHEN
     String message = factory.create(new TextDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting path:%n" +
                                    "  /foo/bar%n" +
-                                   "to have file system:%n" +
-                                   "  MySpecialFileSystem"));
+                                   "to have file system as path:%n" +
+                                   "  /baz/bork"));
   }
 }

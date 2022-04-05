@@ -24,10 +24,16 @@ import static org.mockito.Mockito.withSettings;
 
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
+import org.assertj.core.error.ShouldHaveSameFileSystem;
 import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
+/**
+ * Tests for {@link ShouldHaveSameFileSystem}.
+ *
+ * @author Ashley Scopes
+ */
 class Paths_assertHasSameFileSystem_Test extends PathsBaseTest {
 
   @Test

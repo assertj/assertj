@@ -19,7 +19,7 @@ import java.nio.file.Path;
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
 
-class PathAssert_hasSameFileSystemAsPath_Test extends PathAssertBaseTest {
+class PathAssert_hasSameFileSystemAs_Test extends PathAssertBaseTest {
 
   private final Path expectedPath = mock(Path.class);
 
@@ -30,6 +30,6 @@ class PathAssert_hasSameFileSystemAsPath_Test extends PathAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(paths).assertHasSameFileSystemAsPath(getInfo(assertions), getActual(assertions), expectedPath);
+    verify(paths).assertHasSameFileSystemAs(getInfo(assertions), getActual(assertions), expectedPath);
   }
 }
