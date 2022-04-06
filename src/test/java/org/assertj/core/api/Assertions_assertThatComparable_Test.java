@@ -25,7 +25,7 @@ class Assertions_assertThatComparable_Test {
     // GIVEN
     Name comparable = new Name("abc");
     // WHEN
-    GenericComparableAssertV2<Name> assertions = assertThatComparable(comparable);
+    RawComparableAssert assertions = assertThatComparable(comparable);
     // THEN
     then(assertions).isNotNull();
   }
@@ -35,7 +35,7 @@ class Assertions_assertThatComparable_Test {
     // GIVEN
     Name comparable = new Name("abc");
     // WHEN
-    GenericComparableAssertV2<Name> assertions = assertThatComparable(comparable);
+    RawComparableAssert assertions = assertThatComparable(comparable);
     // THEN
     then(assertions.actual).isSameAs(comparable);
   }
@@ -49,6 +49,8 @@ class Assertions_assertThatComparable_Test {
     Name name4 = new Name("cde");
     // WHEN/THEN
     assertThatComparable(name3).isBetween(name1, name4);
+    // fail with a class cast exception not great as we can pass any comparable value here
+    // assertThatComparable(name3).isBetween(name1, "");
     assertThatComparable(name3).isStrictlyBetween(name1, name4);
     assertThatComparable(name1).isEqualByComparingTo(name2);
     assertThatComparable(name1).isNotEqualByComparingTo(name3);
@@ -76,6 +78,80 @@ class Assertions_assertThatComparable_Test {
     assertThatComparable(name1).isLessThanOrEqualTo(name3);
     assertThatComparable(name3).isGreaterThan(name1);
     assertThatComparable(name3).isGreaterThanOrEqualTo(name1);
+  }
+
+  @Test
+  void all_comparable_assertions_should_work_with_generic_jdk_comparable() {
+    // GIVEN
+    Comparable<String> name1 = "abc";
+    Comparable<String> name2 = "abc";
+    Comparable<String> name3 = "bcd";
+    Comparable<String> name4 = "cde";
+    // WHEN/THEN
+    assertThatComparable(name1).isLessThan(name3);
+    assertThatComparable(name1).isEqualByComparingTo(name2);
+    assertThatComparable(name3).isBetween(name1, name4);
+    assertThatComparable(name3).isStrictlyBetween(name1, name4);
+    assertThatComparable(name1).isNotEqualByComparingTo(name3);
+    assertThatComparable(name1).isEqualByComparingTo(name2);
+    assertThatComparable(name1).isLessThanOrEqualTo(name3);
+    assertThatComparable(name3).isGreaterThan(name1);
+    assertThatComparable(name3).isGreaterThanOrEqualTo(name1);
+  }
+
+  @Test
+  void all_comparable_assertions_should_work_with_non_generic_comparable_subclass() {
+    // GIVEN
+    CoolName name1 = new CoolName("abc");
+    CoolName name2 = new CoolName("abc");
+    CoolName name3 = new CoolName("bcd");
+    CoolName name4 = new CoolName("cde");
+    // WHEN/THEN
+    assertThatComparable(name3).isBetween(name1, name4);
+    assertThatComparable(name3).isStrictlyBetween(name1, name4);
+    assertThatComparable(name1).isEqualByComparingTo(name2);
+    assertThatComparable(name1).isNotEqualByComparingTo(name3);
+    assertThatComparable(name1).isEqualByComparingTo(name2);
+    assertThatComparable(name1).isLessThan(name3);
+    assertThatComparable(name1).isLessThanOrEqualTo(name3);
+    assertThatComparable(name3).isGreaterThan(name1);
+    assertThatComparable(name3).isGreaterThanOrEqualTo(name1);
+  }
+
+  static class CoolName extends Name {
+    String nickName;
+
+    public CoolName(String first) {
+      super(first);
+    }
+
+  }
+
+  @Test
+  void all_comparable_assertions_should_work_with_object_comparable() {
+    // GIVEN
+    Comparable<Object> name1 = new ComparingWithObject();
+    Comparable<Object> name3 = new ComparingWithObject();
+    Comparable<Object> name4 = new ComparingWithObject();
+    // WHEN/THEN
+    assertThatComparable(name3).isBetween(name1, name4);
+  }
+
+  @Test
+  void all_comparable_assertions_should_work_with_object_comparable_subclass() {
+    // GIVEN
+    ComparingWithObject o1 = new ComparingWithObject();
+    ComparingWithObject o2 = new ComparingWithObject();
+    ComparingWithObject o3 = new ComparingWithObject();
+    // WHEN/THEN
+    assertThatComparable(o1).isBetween(o2, o3);
+  }
+
+  class ComparingWithObject implements Comparable<Object> {
+    @Override
+    public int compareTo(Object other) {
+      return 0;
+    }
   }
 
 }

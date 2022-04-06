@@ -16,7 +16,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AbstractComparableAssert;
 import org.assertj.core.api.AbstractGenericComparableAssertBaseTest;
-import org.assertj.core.api.GenericComparableAssertV2;
+import org.assertj.core.api.RawComparableAssert;
 import org.assertj.core.api.ObjectAssert;
 
 /**
@@ -24,7 +24,7 @@ import org.assertj.core.api.ObjectAssert;
  */
 class AbstractGenericComparableAssert_canCallObjectAssertMethod_Test extends AbstractGenericComparableAssertBaseTest {
   @Override
-  protected GenericComparableAssertV2<String> invoke_api_method() {
+  protected RawComparableAssert invoke_api_method() {
     return assertions.hasNoNullFieldsOrProperties();
   }
 

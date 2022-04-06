@@ -13,14 +13,13 @@
 package org.assertj.core.api;
 
 /**
- * Concrete generic <code>{@link ComparableAssert}</code> to be used through {@link Assertions#assertThatComparable(Comparable)}.
- * @param <ACTUAL> the type of the "actual" value.
+ * Concrete raw comparable assertions to be used through {@link Assertions#assertThatComparable(Comparable)}.
  */
-public class GenericComparableAssertV2<ACTUAL extends Comparable<ACTUAL>>
-    extends AbstractGenericComparableAssert<GenericComparableAssertV2<ACTUAL>, ACTUAL> {
+public class RawComparableAssert
+    extends AbstractRawComparableAssert<RawComparableAssert> {
 
-  public GenericComparableAssertV2(ACTUAL actual) {
-    super(actual, GenericComparableAssertV2.class);
+  public RawComparableAssert(Comparable<?> actual) {
+    super(actual, RawComparableAssert.class);
   }
 
 }

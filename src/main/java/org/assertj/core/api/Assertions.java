@@ -3499,14 +3499,12 @@ public class Assertions implements InstanceOfAssertFactories {
    * Use this over {@link #assertThat(Comparable)} in case of ambiguous method resolution when the object under test 
    * implements several interfaces Assertj provides <code>assertThat</code> for. 
    *
-   * @param <T> the type of actual.
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.23.0
    */
-  @SuppressWarnings({ "unchecked", "rawtypes" })
-  public static <T extends Comparable<T>> GenericComparableAssertV2<T> assertThatComparable(Comparable<T> actual) {
-    return new GenericComparableAssertV2(actual);
+  public static RawComparableAssert assertThatComparable(Comparable<?> actual) {
+    return new RawComparableAssert(actual);
   }
 
   /**

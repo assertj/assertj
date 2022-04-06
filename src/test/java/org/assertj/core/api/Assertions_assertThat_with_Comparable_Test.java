@@ -57,8 +57,54 @@ class Assertions_assertThat_with_Comparable_Test {
     assertThat(name1).isLessThanOrEqualTo(name3);
     assertThat(name3).isGreaterThan(name1);
     assertThat(name3).isGreaterThanOrEqualTo(name1);
-    // does not compile but assertThatComparable(name).isGreaterThanOrEqualTo(name); does
+    // does not compile but assertThat(name).isGreaterThanOrEqualTo(name); does
     // Comparable<Name> name = new Name("abc");
     // assertThat(name).isGreaterThanOrEqualTo(name);
+  }
+
+
+  @Test
+  void all_comparable_assertions_should_work_with_object_comparable() {
+    // GIVEN
+    Comparable<Object> name1 = new ComparingWithObject();
+    Comparable<Object> name2 = new ComparingWithObject();
+    Comparable<Object> name3 = new ComparingWithObject();
+    Comparable<Object> name4 = new ComparingWithObject();
+    // WHEN/THEN
+    assertThat(name3).isBetween(name1, name4);
+    // assertThat(name3).isStrictlyBetween(name1, name4);
+    assertThat(name1).isEqualByComparingTo(name2);
+    // assertThat(name1).isNotEqualByComparingTo(name3);
+    assertThat(name1).isEqualByComparingTo(name2);
+    // assertThat(name1).isLessThan(name3);
+    assertThat(name1).isLessThanOrEqualTo(name3);
+    // assertThat(name3).isGreaterThan(name1);
+    assertThat(name3).isGreaterThanOrEqualTo(name1);
+  }
+
+  @Test
+  void all_comparable_assertions_should_work_with_object_comparable_subclass() {
+    // GIVEN
+    ComparingWithObject name1 = new ComparingWithObject();
+    ComparingWithObject name2 = new ComparingWithObject();
+    ComparingWithObject name3 = new ComparingWithObject();
+    ComparingWithObject name4 = new ComparingWithObject();
+    // WHEN/THEN
+    assertThat(name3).isBetween(name1, name4);
+    // assertThat(name3).isStrictlyBetween(name1, name4);
+    assertThat(name1).isEqualByComparingTo(name2);
+    // assertThat(name1).isNotEqualByComparingTo(name3);
+    assertThat(name1).isEqualByComparingTo(name2);
+    // assertThat(name1).isLessThan(name3);
+    assertThat(name1).isLessThanOrEqualTo(name3);
+    // assertThat(name3).isGreaterThan(name1);
+    assertThat(name3).isGreaterThanOrEqualTo(name1);
+  }
+
+  class ComparingWithObject implements Comparable<Object> {
+    @Override
+    public int compareTo(Object other) {
+      return 0;
+    }
   }
 }

@@ -18,14 +18,16 @@ import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 import java.util.Comparator;
 
 import org.assertj.core.api.AbstractGenericComparableAssertBaseTest;
-import org.assertj.core.api.GenericComparableAssertV2;
+import org.assertj.core.api.RawComparableAssert;
 
 class AbstractGenericComparableAssert_usingComparator_Test extends AbstractGenericComparableAssertBaseTest {
 
-  private Comparator<? super Comparable<String>> comparator = alwaysEqual();
+  @SuppressWarnings({ "rawtypes" })
+  private Comparator comparator = alwaysEqual();
 
+  @SuppressWarnings("unchecked")
   @Override
-  protected GenericComparableAssertV2<String> invoke_api_method() {
+  protected RawComparableAssert invoke_api_method() {
     // in that, we don't care of the comparator, the point to check is that we switch correctly of comparator
     return assertions.usingComparator(comparator);
   }

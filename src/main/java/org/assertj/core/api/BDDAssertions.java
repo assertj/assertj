@@ -481,7 +481,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    * @since 3.23.0
    */
-  public static <T extends Comparable<T>> GenericComparableAssertV2<T> thenComparable(Comparable<T> actual) {
+  public static RawComparableAssert thenComparable(Comparable<?> actual) {
     return assertThatComparable(actual);
   }
 

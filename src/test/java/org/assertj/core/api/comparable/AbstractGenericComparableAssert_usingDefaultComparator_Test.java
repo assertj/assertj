@@ -17,7 +17,7 @@ import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import org.assertj.core.api.AbstractComparableAssert;
 import org.assertj.core.api.AbstractGenericComparableAssertBaseTest;
-import org.assertj.core.api.GenericComparableAssertV2;
+import org.assertj.core.api.RawComparableAssert;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Objects;
 
@@ -29,7 +29,7 @@ import org.assertj.core.internal.Objects;
 class AbstractGenericComparableAssert_usingDefaultComparator_Test extends AbstractGenericComparableAssertBaseTest {
 
   @Override
-  protected GenericComparableAssertV2<String> invoke_api_method() {
+  protected RawComparableAssert invoke_api_method() {
     return assertions.usingComparator(alwaysEqual())
                      .usingDefaultComparator();
   }

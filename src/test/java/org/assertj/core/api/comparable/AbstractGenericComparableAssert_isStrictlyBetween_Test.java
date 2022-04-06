@@ -15,18 +15,20 @@ package org.assertj.core.api.comparable;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AbstractGenericComparableAssertBaseTest;
-import org.assertj.core.api.GenericComparableAssertV2;
+import org.assertj.core.api.RawComparableAssert;
 
 class AbstractGenericComparableAssert_isStrictlyBetween_Test extends AbstractGenericComparableAssertBaseTest {
 
   @Override
-  protected GenericComparableAssertV2<String> invoke_api_method() {
+  protected RawComparableAssert invoke_api_method() {
     return assertions.isStrictlyBetween("foo", "bar");
   }
 
   @Override
+  @SuppressWarnings({ "rawtypes", "unchecked" })
   protected void verify_internal_effects() {
-    verify(comparables).assertIsBetween(getInfo(assertions), getActual(assertions), "foo", "bar", false, false);
+    verify(comparables).assertIsBetween(getInfo(assertions), getActual(assertions), (Comparable) "foo", (Comparable) "bar", false,
+                                        false);
   }
 
 }
