@@ -2542,7 +2542,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  void path_soft_assertions_should_report_errors_on_methods_that_switch_the_object_under_test() {
+  void path_soft_assertions_should_work_with_content() {
     // GIVEN
     Path path = new File("src/test/resources/actual_file.txt").toPath();
     // WHEN
@@ -2630,27 +2630,11 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
-  void path_soft_assertions_should_work_with_content() {
-    // GIVEN
-    Path file = new File("src/test/resources/actual_file.txt").toPath();
-    // WHEN
-    softly.assertThat(file)
-      .overridingErrorMessage("error message")
-      .as("content()")
-      .content()
-      .startsWith("actual")
-      .startsWith("123");
-    // THEN
-    then(softly.errorsCollected()).extracting(Throwable::getMessage)
-      .containsExactly("[content()] error message");
-  }
-
-  @Test
   void path_soft_assertions_should_work_with_binaryContent() {
     // GIVEN
-    Path file = new File("src/test/resources/actual_file.txt").toPath();
+    Path path = new File("src/test/resources/actual_file.txt").toPath();
     // WHEN
-    softly.assertThat(file)
+    softly.assertThat(path)
       .overridingErrorMessage("error message")
       .as("binaryContent()")
       .binaryContent()

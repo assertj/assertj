@@ -19,6 +19,11 @@ import java.nio.file.Path;
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
 
+/**
+ * Tests for {@link PathAssert#hasSameFileSystemAs(Path)}.
+ *
+ * @author Ashley Scopes
+ */
 class PathAssert_hasSameFileSystemAs_Test extends PathAssertBaseTest {
 
   private final Path expectedPath = mock(Path.class);

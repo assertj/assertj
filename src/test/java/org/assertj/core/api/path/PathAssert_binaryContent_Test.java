@@ -26,7 +26,13 @@ import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-class PathAssert_binaryContent_Test extends PathAssertBaseTest implements NavigationMethodBaseTest<PathAssert> {
+/**
+ * Tests for {@link PathAssert#binaryContent()}.
+ *
+ * @author Ashley Scopes
+ */
+class PathAssert_binaryContent_Test extends PathAssertBaseTest implements
+  NavigationMethodBaseTest<PathAssert> {
 
   @Override
   protected PathAssert invoke_api_method() {

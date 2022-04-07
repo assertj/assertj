@@ -23,7 +23,7 @@ import java.nio.file.Path;
  */
 public class ShouldHaveSameFileSystemAs extends BasicErrorMessageFactory {
   private static final String PATH_SHOULD_HAVE_SAME_FILE_SYSTEM_AS_PATH =
-    "%nExpecting path:%n  %s%nto have file system as path:%n  %s";
+    "%nExpecting path:%n  %s%nto have the same file system as path:%n  %s";
 
   public static ErrorMessageFactory shouldHaveSameFileSystemAs(final Path actual, final Path expected) {
     return new ShouldHaveSameFileSystemAs(actual, expected);

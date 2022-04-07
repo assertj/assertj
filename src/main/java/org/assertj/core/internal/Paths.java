@@ -44,7 +44,7 @@ import static org.assertj.core.error.ShouldHaveNoExtension.shouldHaveNoExtension
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
-import static org.assertj.core.error.ShouldHaveSameFileSystem.shouldHaveSameFileSystem;
+import static org.assertj.core.error.ShouldHaveFileSystem.shouldHaveFileSystem;
 import static org.assertj.core.error.ShouldHaveSameFileSystemAs.shouldHaveSameFileSystemAs;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
@@ -380,7 +380,7 @@ public class Paths {
     }
   }
 
-  public void assertHasSameFileSystem(AssertionInfo info, Path actualPath, FileSystem expected) {
+  public void assertHasFileSystem(AssertionInfo info, Path actualPath, FileSystem expected) {
     assertNotNull(info, actualPath);
     requireNonNull(expected, "The expected file system should not be null");
 
@@ -388,7 +388,7 @@ public class Paths {
     requireNonNull(actual, "The actual file system should not be null");
 
     if (!expected.equals(actual)) {
-      throw failures.failure(info, shouldHaveSameFileSystem(actualPath, expected), actual, expected);
+      throw failures.failure(info, shouldHaveFileSystem(actualPath, expected), actual, expected);
     }
   }
 

@@ -392,10 +392,10 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    *     Path manifestFile = fs.getPath("META-INF", "MANIFEST.MF");
    *
    *     // Succeeds
-   *     assertThat(manifestFile).hasSameFileSystem(fs);
+   *     assertThat(manifestFile).hasFileSystem(fs);
    *
    *     // Fails
-   *     assertThat(manifestFile).hasSameFileSystem(mainFileSystem);
+   *     assertThat(manifestFile).hasFileSystem(mainFileSystem);
    * }</code></pre>
    *
    * @param expected the given {@code FileSystem} to compare the actual {@code Path} file system to.
@@ -403,8 +403,8 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @throws NullPointerException if the given {@code Path} is {@code null}.
    * @throws AssertionError if the actual {@code FileSystem} is {@code null}.
    */
-  public SELF hasSameFileSystem(FileSystem expected) {
-    paths.assertHasSameFileSystem(info, actual, expected);
+  public SELF hasFileSystem(FileSystem expected) {
+    paths.assertHasFileSystem(info, actual, expected);
     return myself;
   }
 

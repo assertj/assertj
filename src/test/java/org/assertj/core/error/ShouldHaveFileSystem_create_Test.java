@@ -14,7 +14,7 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldHaveSameFileSystem.shouldHaveSameFileSystem;
+import static org.assertj.core.error.ShouldHaveFileSystem.shouldHaveFileSystem;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -25,11 +25,11 @@ import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for {@link ShouldHaveSameFileSystem}.
+ * Tests for {@link ShouldHaveFileSystem}.
  *
  * @author Ashley Scopes
  */
-class ShouldHaveSameFileSystem_create_Test {
+class ShouldHaveFileSystem_create_Test {
 
   @Test
   void should_create_error_message_for_expected_file_system() {
@@ -39,7 +39,7 @@ class ShouldHaveSameFileSystem_create_Test {
 
     when(fileSystem.toString()).thenReturn("MySpecialFileSystem");
 
-    ErrorMessageFactory factory = shouldHaveSameFileSystem(actual, fileSystem);
+    ErrorMessageFactory factory = shouldHaveFileSystem(actual, fileSystem);
     // WHEN
     String message = factory.create();
     // THEN
@@ -58,7 +58,7 @@ class ShouldHaveSameFileSystem_create_Test {
     when(fileSystem.toString())
       .thenReturn("MySpecialFileSystem");
 
-    ErrorMessageFactory factory = shouldHaveSameFileSystem(actual, fileSystem);
+    ErrorMessageFactory factory = shouldHaveFileSystem(actual, fileSystem);
     // WHEN
     String message = factory.create(new TextDescription("Test"));
     // THEN

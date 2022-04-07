@@ -19,17 +19,22 @@ import java.nio.file.FileSystem;
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
 
-class PathAssert_hasSameFileSystem_Test extends PathAssertBaseTest {
+/**
+ * Tests for {@link PathAssert#hasFileSystem(FileSystem)}.
+ *
+ * @author Ashley Scopes
+ */
+class PathAssert_hasFileSystem_Test extends PathAssertBaseTest {
 
   private final FileSystem expectedFileSystem = mock(FileSystem.class);
 
   @Override
   protected PathAssert invoke_api_method() {
-    return assertions.hasSameFileSystem(expectedFileSystem);
+    return assertions.hasFileSystem(expectedFileSystem);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(paths).assertHasSameFileSystem(getInfo(assertions), getActual(assertions), expectedFileSystem);
+    verify(paths).assertHasFileSystem(getInfo(assertions), getActual(assertions), expectedFileSystem);
   }
 }

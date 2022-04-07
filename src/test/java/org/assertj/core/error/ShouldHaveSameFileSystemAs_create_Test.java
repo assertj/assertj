@@ -40,7 +40,7 @@ class ShouldHaveSameFileSystemAs_create_Test {
     // THEN
     then(message).isEqualTo(format("%nExpecting path:%n" +
                                    "  /foo/bar%n" +
-                                   "to have file system as path:%n" +
+                                   "to have the same file system as path:%n" +
                                    "  /baz/bork"));
   }
 
@@ -57,7 +57,7 @@ class ShouldHaveSameFileSystemAs_create_Test {
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting path:%n" +
                                    "  /foo/bar%n" +
-                                   "to have file system as path:%n" +
+                                   "to have the same file system as path:%n" +
                                    "  /baz/bork"));
   }
 }
