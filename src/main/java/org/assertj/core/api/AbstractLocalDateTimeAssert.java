@@ -18,6 +18,7 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringHours.shouldBeEqualIgn
 import static org.assertj.core.error.ShouldBeEqualIgnoringMinutes.shouldBeEqualIgnoringMinutes;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNanos.shouldBeEqualIgnoringNanos;
 import static org.assertj.core.error.ShouldBeEqualIgnoringSeconds.shouldBeEqualIgnoringSeconds;
+import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.LocalDateTime;
@@ -743,35 +744,6 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
-   * Verifies that actual {@code LocalDateTime} is in the given year.
-   * <p>
-   * Code example :
-   * <pre><code class='java'> // successful assertions
-   * LocalDateTime localDateTime = LocalDateTime.of(2000, 12, 31, 23, 59, 59, 999);
-   * int year = 2000;
-   * assertThat(localDateTime).hasYear(year);
-   *
-   * // failing assertions
-   * LocalDateTime localDateTime = LocalDateTime.of(2000, 12, 31, 23, 59, 59, 999);
-   * int year = 2001;
-   * assertThat(localDateTime).hasYear(year);</code></pre>
-   *
-   * @param year the given year.
-   * @return this assertion object.
-   * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
-   * @throws IllegalArgumentException if other {@code LocalDateTime} is {@code null}.
-   * @throws AssertionError if the actual {@code LocalDateTime} is not in given year.
-   */
-  public SELF hasYear(int year) {
-    Objects.instance().assertNotNull(info, actual);
-    //if (!equalYear(actual, year)) {
-     // throw Failures.instance().failure(info, shouldEqualYear(actual, year));
-    //}
-    return myself;
-  }
-
-
-  /**
    * {@inheritDoc}
    */
   @Override
@@ -853,7 +825,4 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @param year the given year. expected not be null
    * @return true if the datetime year is equal to the given year, false otherwise
    */
-  private static boolean equalYear(LocalDateTime actual, int year) {
-    return actual.getYear() == year;
-  }
 }

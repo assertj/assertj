@@ -17,9 +17,13 @@ import static org.assertj.core.error.ShouldBeAfterOrEqualTo.shouldBeAfterOrEqual
 import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
 import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
 import static org.assertj.core.error.ShouldBeToday.shouldBeToday;
+import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
+import static org.assertj.core.util.DateUtil.yearOf;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 
@@ -457,6 +461,35 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
   /**
    * {@inheritDoc}
    */
+
+  /**
+   * Verifies that actual {@code LocalDateTime} is in the given year.
+   * <p>
+   * Code example :
+   * <pre><code class='java'> // successful assertions
+   * LocalDateTime localDateTime = LocalDateTime.of(2000, 12, 31, 23, 59, 59, 999);
+   * int year = 2000;
+   * assertThat(localDateTime).hasYear(year);
+   *
+   * // failing assertions
+   * LocalDateTime localDateTime = LocalDateTime.of(2000, 12, 31, 23, 59, 59, 999);
+   * int year = 2001;
+   * assertThat(localDateTime).hasYear(year);</code></pre>
+   *
+   * @param year the given year.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
+   * @throws IllegalArgumentException if other {@code LocalDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDateTime} is not in given year.
+   */
+  public SELF hasYear(int year) {
+    Objects.instance().assertNotNull(info, actual);
+    if (yearOf(actual) != year) {
+      throw Failures.instance().failure(info, shouldHaveDateField(actual, "year", year));
+    }
+    return myself;
+  }
+
   @Override
   protected LocalDate parse(String localDateAsString) {
     return LocalDate.parse(localDateAsString);

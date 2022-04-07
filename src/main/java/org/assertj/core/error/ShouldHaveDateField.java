@@ -12,6 +12,9 @@
  */
 package org.assertj.core.error;
 
+import net.bytebuddy.asm.Advice;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -33,7 +36,13 @@ public class ShouldHaveDateField extends BasicErrorMessageFactory {
     return new ShouldHaveDateField(actual, fieldDescription, fieldValue);
   }
 
+  public static ErrorMessageFactory shouldHaveDateField(LocalDate actual, String fieldDescription, int fieldValue) {
+    return new ShouldHaveDateField(actual, fieldDescription, fieldValue);
+  }
   private ShouldHaveDateField(Date actual, String fieldDescription, int fieldValue) {
+    super("%nExpecting actual:%n  %s%nto be on %s %s", actual, fieldDescription, fieldValue);
+  }
+  private ShouldHaveDateField(LocalDate actual, String fieldDescription, int fieldValue) {
     super("%nExpecting actual:%n  %s%nto be on %s %s", actual, fieldDescription, fieldValue);
   }
 }
