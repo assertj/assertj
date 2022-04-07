@@ -48,6 +48,7 @@ class SoftProxies {
                                                                                                                                    "asList",
                                                                                                                                    "asString",
                                                                                                                                    "asHexString",
+                                                                                                                                   "binaryContent",
                                                                                                                                    "cause",
                                                                                                                                    "content",
                                                                                                                                    "extracting",
