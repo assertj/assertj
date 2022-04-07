@@ -18,7 +18,6 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringHours.shouldBeEqualIgn
 import static org.assertj.core.error.ShouldBeEqualIgnoringMinutes.shouldBeEqualIgnoringMinutes;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNanos.shouldBeEqualIgnoringNanos;
 import static org.assertj.core.error.ShouldBeEqualIgnoringSeconds.shouldBeEqualIgnoringSeconds;
-import static org.assertj.core.error.ShouldEqualYear.shouldEqualYear;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.LocalDateTime;
@@ -765,9 +764,9 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    */
   public SELF hasYear(int year) {
     Objects.instance().assertNotNull(info, actual);
-    if (!equalYear(actual, year)) {
-      throw Failures.instance().failure(info, shouldEqualYear(actual, year));
-    }
+    //if (!equalYear(actual, year)) {
+     // throw Failures.instance().failure(info, shouldEqualYear(actual, year));
+    //}
     return myself;
   }
 
