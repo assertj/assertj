@@ -482,7 +482,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    */
   public SELF hasYear(int year) {
     Objects.instance().assertNotNull(info, actual);
-    if (yearOf(actual) != year) {
+    if (actual.getYear() != year) {
       throw Failures.instance().failure(info, shouldHaveDateField(actual, "year", year));
     }
     return myself;

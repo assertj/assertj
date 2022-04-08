@@ -224,18 +224,6 @@ public class DateUtil {
   public static int yearOf(Date date) {
     return toCalendar(date).get(Calendar.YEAR);
   }
-
-  /**
-   * Extracts the year of the given LocalDate.
-   *
-   * @param date the LocalDate to extract the year from - must not be null.
-   * @return the year of the given LocalDate
-   * @throws NullPointerException if given LocalDate is null
-   */
-  public static int yearOf(LocalDate date) {
-    return date.getYear();
-  }
-
   /**
    * Dates Extracts the month of the given Date <b>starting at 1</b> (January=1, February=2, ...).
    *
