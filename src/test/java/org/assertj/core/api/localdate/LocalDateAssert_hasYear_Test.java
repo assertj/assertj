@@ -23,7 +23,7 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
 
-public class LocalDateAssert_hasYear_Test {
+class LocalDateAssert_hasYear_Test {
   private final LocalDate actual = LocalDate.of(2022, 1, 1);
 
   @Test
