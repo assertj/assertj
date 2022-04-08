@@ -22,8 +22,6 @@ import static org.assertj.core.util.DateUtil.yearOf;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 
