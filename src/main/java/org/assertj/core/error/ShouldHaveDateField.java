@@ -45,5 +45,5 @@ public class ShouldHaveDateField extends BasicErrorMessageFactory {
   private ShouldHaveDateField(LocalDate actual, String fieldDescription, int fieldValue) {
     super("%nExpecting actual:%n  %s%nto be on %s %s", actual, fieldDescription, fieldValue);
   }
-  
+
 }
