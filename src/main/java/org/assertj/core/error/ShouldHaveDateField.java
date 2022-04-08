@@ -12,8 +12,6 @@
  */
 package org.assertj.core.error;
 
-import net.bytebuddy.asm.Advice;
-
 import java.time.LocalDate;
 import java.util.Date;
 

@@ -457,24 +457,22 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
   }
 
   /**
-   * Verifies that actual {@code LocalDateTime} is in the given year.
+   * Verifies that actual {@code LocalDate} is in the given year.
    * <p>
    * Code example :
    * <pre><code class='java'> // successful assertions
-   * LocalDateTime localDateTime = LocalDateTime.of(2000, 12, 31, 23, 59, 59, 999);
-   * int year = 2000;
-   * assertThat(localDateTime).hasYear(year);
+   * LocalDate localDate = LocalDate.of(2000, 12, 31, 23, 59, 59, 999);
+   * assertThat(localDate).hasYear(2000);
    *
    * // failing assertions
-   * LocalDateTime localDateTime = LocalDateTime.of(2000, 12, 31, 23, 59, 59, 999);
-   * int year = 2001;
-   * assertThat(localDateTime).hasYear(year);</code></pre>
+   * LocalDate localDate = LocalDate.of(2000, 12, 31, 23, 59, 59, 999);
+   * assertThat(localDate).hasYear(2001);</code></pre>
    *
    * @param year the given year.
    * @return this assertion object.
-   * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
-   * @throws IllegalArgumentException if other {@code LocalDateTime} is {@code null}.
-   * @throws AssertionError if the actual {@code LocalDateTime} is not in given year.
+   * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
+   * @throws IllegalArgumentException if other {@code LocalDate} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDate} is not in given year.
    */
   public SELF hasYear(int year) {
     Objects.instance().assertNotNull(info, actual);
@@ -483,7 +481,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
     }
     return myself;
   }
-  
+
   /**
    * {@inheritDoc}
    */
