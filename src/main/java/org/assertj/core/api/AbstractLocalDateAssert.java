@@ -17,6 +17,7 @@ import static org.assertj.core.error.ShouldBeAfterOrEqualTo.shouldBeAfterOrEqual
 import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
 import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
 import static org.assertj.core.error.ShouldBeToday.shouldBeToday;
+import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.LocalDate;
@@ -452,6 +453,31 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    */
   public SELF isStrictlyBetween(String startExclusive, String endExclusive) {
     return isStrictlyBetween(parse(startExclusive), parse(endExclusive));
+  }
+
+  /**
+   * Verifies that actual {@code LocalDate} is in the given year.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Assertion succeeds:
+   * assertThat(LocalDate.of(2000, 12, 31)).hasYear(2000);
+   *
+   * // Assertion fails:
+   * assertThat(LocalDate.of(2000, 12, 31)).hasYear(2001);</code></pre>
+   *
+   * @param year the given year.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDate} is not in the given year.
+   * 
+   * @since 3.23.0
+   */
+  public SELF hasYear(int year) {
+    Objects.instance().assertNotNull(info, actual);
+    if (actual.getYear() != year) {
+      throw Failures.instance().failure(info, shouldHaveDateField(actual, "year", year));
+    }
+    return myself;
   }
 
   /**
