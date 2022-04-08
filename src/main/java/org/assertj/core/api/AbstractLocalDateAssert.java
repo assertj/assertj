@@ -457,10 +457,6 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
   }
 
   /**
-   * {@inheritDoc}
-   */
-
-  /**
    * Verifies that actual {@code LocalDateTime} is in the given year.
    * <p>
    * Code example :
@@ -487,7 +483,10 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
     }
     return myself;
   }
-
+  
+  /**
+   * {@inheritDoc}
+   */
   @Override
   protected LocalDate parse(String localDateAsString) {
     return LocalDate.parse(localDateAsString);

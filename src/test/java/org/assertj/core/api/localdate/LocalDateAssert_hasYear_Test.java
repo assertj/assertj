@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 
 
 public class LocalDateAssert_hasYear_Test {
-  private final LocalDate actual = LocalDate.of(2022,1,1);
+  private final LocalDate actual = LocalDate.of(2022, 1, 1);
 
   @Test
   void should_pass_if_actual_is_in_year_2022() {
@@ -49,11 +49,4 @@ public class LocalDateAssert_hasYear_Test {
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
-
-//  @Test
-//  void should_throw_error_if_given_localdate_is_null() {
-//    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(refLocalDate).isEqualToIgnoringHours(null))
-//      .withMessage(NULL_LOCAL_DATE_TIME_PARAMETER_MESSAGE);
-//  }
-
 }
