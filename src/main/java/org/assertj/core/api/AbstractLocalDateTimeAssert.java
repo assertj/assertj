@@ -818,11 +818,4 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   private static boolean haveSameYear(LocalDateTime actual, LocalDateTime other) {
     return actual.getYear() == other.getYear();
   }
-  /**
-   * Returns true if actual datetime is in a given year, false otherwise.
-   *
-   * @param actual the actual datetime. expected not be null
-   * @param year the given year. expected not be null
-   * @return true if the datetime year is equal to the given year, false otherwise
-   */
 }
