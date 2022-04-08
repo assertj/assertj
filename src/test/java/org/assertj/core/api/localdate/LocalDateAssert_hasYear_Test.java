@@ -14,6 +14,7 @@ package org.assertj.core.api.localdate;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -32,11 +33,11 @@ public class LocalDateAssert_hasYear_Test {
 
   @Test
   void should_fail_if_actual_is_not_in_year_2021() {
+    int expectedYear = 2021;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasYear(2021));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasYear(expectedYear));
     // THEN
-    then(assertionError).hasMessage(format("%nExpecting year of:%n  " + actual +
-      " (java.time.LocalDateTime)%nto be year:%n  2021%n"));
+    then(assertionError).hasMessage(shouldHaveDateField(actual, "year", expectedYear).create());
   }
 
   @Test
