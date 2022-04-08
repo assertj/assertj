@@ -23,19 +23,19 @@ import org.junit.jupiter.api.Test;
 
 
 public class LocalDateAssert_hasYear_Test {
-  private final LocalDate refLocalDate = LocalDate.now();
+  private final LocalDate actual = LocalDate.of(2022,1,1);
 
   @Test
   void should_pass_if_actual_is_in_year_2022() {
-    assertThat(refLocalDate).hasYear(2022);
+    assertThat(actual).hasYear(2022);
   }
 
   @Test
   void should_fail_if_actual_is_not_in_year_2021() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(refLocalDate).hasYear(2021));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasYear(2021));
     // THEN
-    then(assertionError).hasMessage(format("%nExpecting year of:%n  " + refLocalDate +
+    then(assertionError).hasMessage(format("%nExpecting year of:%n  " + actual +
       " (java.time.LocalDateTime)%nto be year:%n  2021%n"));
   }
 
