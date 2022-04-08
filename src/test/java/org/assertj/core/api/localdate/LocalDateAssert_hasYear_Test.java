@@ -1,3 +1,4 @@
+package org.assertj.core.api.localdate;
 /*
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -10,8 +11,6 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.api.localdatetime;
-
 import static java.lang.String.format;
 import static org.assertj.core.api.AbstractLocalDateTimeAssert.NULL_LOCAL_DATE_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,42 +19,42 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 
 
-public class LocalDateTimeAssert_hasYear_Test {
-  private final LocalDateTime refLocalDateTime = LocalDateTime.now();
+public class LocalDateAssert_hasYear_Test {
+  private final LocalDate refLocalDate = LocalDate.now();
 
   @Test
   void should_pass_if_actual_is_in_year_2022() {
-    assertThat(refLocalDateTime).hasYear(2022);
+    assertThat(refLocalDate).hasYear(2022);
   }
 
   @Test
   void should_fail_if_actual_is_not_in_year_2021() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(refLocalDateTime).hasYear(2021));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(refLocalDate).hasYear(2021));
     // THEN
-    then(assertionError).hasMessage(format("%nExpecting year of:%n  " + refLocalDateTime +
+    then(assertionError).hasMessage(format("%nExpecting year of:%n  " + refLocalDate +
       " (java.time.LocalDateTime)%nto be year:%n  2021%n"));
   }
 
   @Test
   void should_fail_if_actual_is_null() {
     // GIVEN
-    LocalDateTime actual = null;
+    LocalDate actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEqualToIgnoringHours(LocalDateTime.now()));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasYear(LocalDate.now().getYear()));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
 
-  @Test
-  void should_throw_error_if_given_localdatetime_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(refLocalDateTime).isEqualToIgnoringHours(null))
-      .withMessage(NULL_LOCAL_DATE_TIME_PARAMETER_MESSAGE);
-  }
+//  @Test
+//  void should_throw_error_if_given_localdate_is_null() {
+//    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(refLocalDate).isEqualToIgnoringHours(null))
+//      .withMessage(NULL_LOCAL_DATE_TIME_PARAMETER_MESSAGE);
+//  }
 
 }

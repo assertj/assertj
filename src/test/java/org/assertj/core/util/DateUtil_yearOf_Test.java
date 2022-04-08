@@ -38,7 +38,7 @@ class DateUtil_yearOf_Test {
 
   @Test
   void should_throws_NullPointerException_if_date_parameter_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> yearOf(null));
+    assertThatNullPointerException().isThrownBy(() -> yearOf((Date) null));
   }
 
 }

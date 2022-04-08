@@ -22,6 +22,7 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -222,6 +223,17 @@ public class DateUtil {
    */
   public static int yearOf(Date date) {
     return toCalendar(date).get(Calendar.YEAR);
+  }
+
+  /**
+   * Extracts the year of the given LocalDate.
+   *
+   * @param date the LocalDate to extract the year from - must not be null.
+   * @return the year of the given LocalDate
+   * @throws NullPointerException if given LocalDate is null
+   */
+  public static int yearOf(LocalDate date) {
+    return date.getYear();
   }
 
   /**
