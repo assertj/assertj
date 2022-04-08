@@ -18,7 +18,6 @@ import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
 import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
 import static org.assertj.core.error.ShouldBeToday.shouldBeToday;
 import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
-import static org.assertj.core.util.DateUtil.yearOf;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.LocalDate;
