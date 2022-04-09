@@ -12,11 +12,43 @@
  */
 package org.assertj.core.api;
 
+import java.util.concurrent.Callable;
+
+/**
+ * Base contract for all assertion types of executable instances, like {@link Runnable} or {@link Callable}.
+ *
+ * @param <SELF>   the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ *                 target="_blank">Emulating
+ *                 'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
+ * @param <ACTUAL> the type of the "actual" executable.
+ *
+ * @since 3.23.0
+ */
 public interface ThrowingExecutableAssert<SELF extends ThrowingExecutableAssert<SELF, ACTUAL>, ACTUAL>
     extends Descriptable<SELF> {
 
+  /**
+   * Verifies that the executable did not raise a throwable.
+   * <p>
+   * Example:
+   * <pre><code class='java'> assertThatCode(() -&gt; foo.bar()).doesNotThrowAnyException();</code></pre>
+   *
+   * @throws AssertionError if the actual executable raised a {@code Throwable}.
+   * @return {@code this} assertion object.
+   */
   SELF doesNotThrowAnyException();
 
+  /**
+   * Verifies that the executable raised a throwable and returns a {@link ThrowableAssertAlternative} instance for
+   * chaining further assertions on the raised throwable.
+   * <p>
+   * Example:
+   * <pre><code class='java'> assertThatCode(() -&gt; foo.bar()).hasThrownException()
+   *                            .withNoCause();</code></pre>
+   *
+   * @throws AssertionError if the actual executable did not raise a {@code Throwable}.
+   * @return a new {@code ThrowableAssertAlternative} for chaining further assertions on the raised {@code Throwable}.
+   */
   ThrowableAssertAlternative<Throwable> hasThrownException();
 
 }

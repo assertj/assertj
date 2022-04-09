@@ -32,11 +32,19 @@ public abstract class AbstractCallableAssert<SELF extends AbstractCallableAssert
     result = actual.call();
   }
 
+  /**
+   * @return
+   */
   @CheckReturnValue
   public AbstractObjectAssert<?, V> result() {
     return internalResult();
   }
 
+  /**
+   * @param assertFactory
+   * @param <ASSERT>
+   * @return
+   */
   @CheckReturnValue
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT result(InstanceOfAssertFactory<?, ASSERT> assertFactory) {
     return internalResult().asInstanceOf(assertFactory);

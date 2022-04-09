@@ -17,10 +17,22 @@ import static org.assertj.core.api.AbstractAssert.descriptionConsumer;
 import static org.assertj.core.api.AbstractAssert.printAssertionsDescription;
 import static org.assertj.core.error.ShouldNotHaveThrown.shouldNotHaveThrown;
 
+import java.util.concurrent.Callable;
+
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.util.CheckReturnValue;
 
+/**
+ * Base class for all assertion types of executable instances, like {@link Runnable} or {@link Callable}.
+ *
+ * @param <SELF>   the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ *                 target="_blank">Emulating
+ *                 'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
+ * @param <ACTUAL> the type of the "actual" executable.
+ *
+ * @since 3.23.0
+ */
 public abstract class AbstractThrowingExecutableAssert<SELF extends AbstractThrowingExecutableAssert<SELF, ACTUAL>, ACTUAL>
     implements ThrowingExecutableAssert<SELF, ACTUAL> {
 
@@ -57,11 +69,15 @@ public abstract class AbstractThrowingExecutableAssert<SELF extends AbstractThro
     if (!descriptionText.isEmpty()) System.out.println(descriptionText);
   }
 
+  /** {@inheritDoc} */
+  @Override
   public SELF doesNotThrowAnyException() {
     if (thrown != null) throw Failures.instance().failure(info, shouldNotHaveThrown(thrown));
     return myself;
   }
 
+  /** {@inheritDoc} */
+  @Override
   public ThrowableAssertAlternative<Throwable> hasThrownException() {
     if (thrown == null) throw Failures.instance().expectedThrowableNotThrown(Throwable.class);
     ThrowableAssertAlternative<Throwable> newAssert = new ThrowableAssertAlternative<>(thrown);
