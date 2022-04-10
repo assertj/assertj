@@ -13,6 +13,8 @@
 package org.assertj.core.api;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Comparator;
 
@@ -23,62 +25,63 @@ public class ComparatorFactory_floatComparatorWithPrecision {
 
   private final ComparatorFactory INSTANCE = ComparatorFactory.INSTANCE;
 
-  @Test
-  void should_pass_for_expected_equal_to_actual_in_certain_range1() {
-    Comparator<Float> comparator0_01f = INSTANCE.floatComparatorWithPrecision(0.01f);
+  @ParameterizedTest
+  @CsvSource({"0.111f, 0.01f, 100"})
+  void should_pass_for_expected_equal_to_actual_in_certain_range1(Float expected, Float precision, Float deltaParameter) {
+    Float actual = expected + precision;
+    Comparator<Float> comparator0_01f = INSTANCE.floatComparatorWithPrecision(precision);
 
-    assertThat(0).isEqualTo(comparator0_01f.compare(0.111f, 0.121f));
-    assertThat(0).isEqualTo(comparator0_01f.compare(0.121f, 0.111f));
-    assertThat(1).isEqualTo(comparator0_01f.compare(0.1211f, 0.111f));
-    assertThat(-1).isEqualTo(comparator0_01f.compare(0.111f, 0.1211f));
+    assertThat(comparator0_01f.compare(expected, actual)).isEqualTo(0);
+    assertThat(comparator0_01f.compare(actual, expected)).isEqualTo(0);
+    assertThat(comparator0_01f.compare(actual + precision / deltaParameter, expected)).isEqualTo(1);
+    assertThat(comparator0_01f.compare(expected, actual + precision / deltaParameter)).isEqualTo(-1);
   }
 
-  @Test
-  void should_pass_for_expected_equal_to_actual_in_certain_range2() {
-    Comparator<Float> comparator0_1_6f = INSTANCE.floatComparatorWithPrecision(0.00001f);
+  @ParameterizedTest
+  @CsvSource({"1f, 0.00001f, 100"})
+  void should_pass_for_expected_equal_to_actual_in_certain_range2(Float expected, Float precision, Float deltaParameter) {
+    Comparator<Float> comparator0_1_6f = INSTANCE.floatComparatorWithPrecision(precision);
 
-    assertThat(0).isEqualTo(comparator0_1_6f.compare(1.00001f, 1f));
-    assertThat(0).isEqualTo(comparator0_1_6f.compare(0.99999f, 1f));
-    assertThat(1).isEqualTo(comparator0_1_6f.compare(1.0000101f, 1f));
-    assertThat(-1).isEqualTo(comparator0_1_6f.compare(0.9999899f, 1f));
-    //assertThat(1).isEqualTo(comparator0_1_6f.compare(0.1111111111211, 0.111111111111));
-    //assertThat(-1).isEqualTo(comparator0_1_6f.compare(0.111111111111, 0.1111111111211));
+    assertThat(comparator0_1_6f.compare(expected + precision, expected)).isEqualTo(0);
+    assertThat(comparator0_1_6f.compare(expected - precision, expected)).isEqualTo(0);
+    assertThat(comparator0_1_6f.compare(expected + precision + precision / deltaParameter, expected)).isEqualTo(1);
+    assertThat(comparator0_1_6f.compare(expected - precision - precision / deltaParameter, expected)).isEqualTo(-1);
   }
 
   @Test
   void should_pass_for_infinity_comparing() {
     Comparator<Float> comparator1f = INSTANCE.floatComparatorWithPrecision(1f);
-    assertThat(0).isEqualTo(comparator1f.compare(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY));
-    assertThat(0).isEqualTo(comparator1f.compare(Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY));
-    assertThat(1).isEqualTo(comparator1f.compare(Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY));
-    assertThat(-1).isEqualTo(comparator1f.compare(Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY));
+    assertThat(comparator1f.compare(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)).isEqualTo(0);
+    assertThat(comparator1f.compare(Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY)).isEqualTo(0);
+    assertThat(comparator1f.compare(Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY)).isEqualTo(1);
+    assertThat(comparator1f.compare(Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY)).isEqualTo(-1);
   }
 
   @Test
-  void should_pass_for_nan_comparing(){
+  void should_pass_for_nan_comparing() {
     Comparator<Float> comparator1f = INSTANCE.floatComparatorWithPrecision(1f);
-    assertThat(0).isEqualTo(comparator1f.compare(Float.NaN, Float.NaN));
+    assertThat(comparator1f.compare(Float.NaN, Float.NaN)).isEqualTo(0);
   }
 
   @Test
   void should_pass_for_nan_precision() {
     Comparator<Float> comparatorNan = INSTANCE.floatComparatorWithPrecision(Float.NaN);
-    assertThat(0).isEqualTo(comparatorNan.compare(1f, 2f));
+    assertThat(comparatorNan.compare(1f, 2f)).isEqualTo(0);
   }
 
   @Test
   void should_pass_for_infinity_precision() {
     Comparator<Float> comparatorPositiveInfinity = INSTANCE.floatComparatorWithPrecision(Float.POSITIVE_INFINITY);
-    assertThat(0).isEqualTo(comparatorPositiveInfinity.compare(1f, 2f));
+    assertThat(comparatorPositiveInfinity.compare(1f, 2f)).isEqualTo(0);
     Comparator<Float> comparatorNegativeInfinity = INSTANCE.floatComparatorWithPrecision(Float.NEGATIVE_INFINITY);
-    assertThat(0).isEqualTo(comparatorNegativeInfinity.compare(1f, 2f));
+    assertThat(comparatorNegativeInfinity.compare(1f, 2f)).isEqualTo(0);
   }
 
 
   @Test
   void should_fail_for_null_argument() {
     Comparator<Float> comparator1f = INSTANCE.floatComparatorWithPrecision(1f);
-    assertThatExceptionOfType(NullPointerException.class).isThrownBy(() -> assertThat(0).isEqualTo(comparator1f.compare(null, 1f)));
-    assertThatExceptionOfType(NullPointerException.class).isThrownBy(() -> assertThat(0).isEqualTo(comparator1f.compare(1f, null)));
+    assertThatExceptionOfType(NullPointerException.class).isThrownBy(() -> assertThat(comparator1f.compare(null, 1f)).isEqualTo(0));
+    assertThatExceptionOfType(NullPointerException.class).isThrownBy(() -> assertThat(comparator1f.compare(1f, null)).isEqualTo(0));
   }
 }

@@ -46,6 +46,10 @@ class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
     floats.assertIsCloseTo(someInfo(), ONE, ONE, within(ONE));
     floats.assertIsCloseTo(someInfo(), ONE, TWO, within(TEN));
     floats.assertIsCloseTo(someInfo(), ONE, TWO, byLessThan(TEN));
+    floats.assertIsCloseTo(someInfo(), 1.1f, 1.0f, within(0.1f));
+    floats.assertIsCloseTo(someInfo(), 1.0f, 1.1f, byLessThan(0.1000001f));
+    floats.assertIsCloseTo(someInfo(), 0.375f, 0.125f, within(0.25f));
+    floats.assertIsCloseTo(someInfo(), 0.125f, 0.375f, byLessThan(0.2500001f));
   }
 
   @Test
@@ -71,18 +75,6 @@ class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
   void should_pass_if_actual_and_expected_are_NaN() {
     floats.assertIsCloseTo(someInfo(), NaN, NaN, within(ONE));
     floats.assertIsCloseTo(someInfo(), NaN, NaN, byLessThan(ONE));
-  }
-
-  @Test
-  void should_pass_if_actual_and_expected_are_equal_within_range1(){
-    floats.assertIsCloseTo(someInfo(), 1.1f, 1.0f, within(0.1f));
-    floats.assertIsCloseTo(someInfo(), 1.0f, 1.1f, byLessThan(0.1000001f));
-  }
-
-  @Test
-  void should_pass_if_actual_and_expected_are_equal_within_range2(){
-    floats.assertIsCloseTo(someInfo(), 0.375f, 0.125f, within(0.25f));
-    floats.assertIsCloseTo(someInfo(), 0.125f, 0.375f, byLessThan(0.2500001f));
   }
 
   // error or failure

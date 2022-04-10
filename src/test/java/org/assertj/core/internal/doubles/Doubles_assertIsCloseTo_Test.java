@@ -46,6 +46,10 @@ class Doubles_assertIsCloseTo_Test extends DoublesBaseTest {
     doubles.assertIsCloseTo(someInfo(), ONE, ONE, within(ONE));
     doubles.assertIsCloseTo(someInfo(), ONE, TWO, within(TEN));
     doubles.assertIsCloseTo(someInfo(), ONE, TWO, byLessThan(TEN));
+    doubles.assertIsCloseTo(someInfo(), 0.375d, 0.125, within(0.25));
+    doubles.assertIsCloseTo(someInfo(), 0.125d, 0.375, byLessThan(0.2500001));
+    doubles.assertIsCloseTo(someInfo(), 1.1d, 1.0d, within(0.1d));
+    doubles.assertIsCloseTo(someInfo(), 1.0d, 1.1d, byLessThan(0.1000001d));
   }
 
   @Test
@@ -71,18 +75,6 @@ class Doubles_assertIsCloseTo_Test extends DoublesBaseTest {
   void should_pass_if_actual_and_expected_are_NaN() {
     doubles.assertIsCloseTo(someInfo(), NaN, NaN, within(ONE));
     doubles.assertIsCloseTo(someInfo(), NaN, NaN, byLessThan(ONE));
-  }
-
-  @Test
-  void should_pass_if_actual_and_expected_are_equal_within_range1(){
-    doubles.assertIsCloseTo(someInfo(), 1.1d, 1.0d, within(0.1d));
-    doubles.assertIsCloseTo(someInfo(), 1.0d, 1.1d, byLessThan(0.1000001d));
-  }
-
-  @Test
-  void should_pass_if_actual_and_expected_are_equal_within_range2(){
-    doubles.assertIsCloseTo(someInfo(), 0.375d, 0.125, within(0.25));
-    doubles.assertIsCloseTo(someInfo(), 0.125d, 0.375, byLessThan(0.2500001));
   }
 
   // error or failure

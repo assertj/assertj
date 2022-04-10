@@ -13,6 +13,7 @@
 package org.assertj.core.internal;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.ComparatorFactory;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 
@@ -260,12 +261,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
   protected abstract NUMBER absDiff(final NUMBER actual, final NUMBER other);
 
   protected boolean isNanOrInfinity(final NUMBER value) {
-    if (value instanceof Float)
-      return ((Float) value).isInfinite() || ((Float) value).isNaN();
-    else if (value instanceof Double)
-      return ((Double) value).isInfinite() || ((Double) value).isNaN();
-    else
-      return false;
+    return ComparatorFactory.isNanOrInfinity(value);
   }
 
   protected abstract boolean isGreaterThan(final NUMBER value, final NUMBER other);
