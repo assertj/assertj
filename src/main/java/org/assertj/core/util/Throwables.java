@@ -15,14 +15,20 @@ package org.assertj.core.util;
 import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.groups.FieldsOrPropertiesExtractor.extract;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Stream;
+
+import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
  * Utility methods related to <code>{@link Throwable}</code>s.
@@ -34,6 +40,8 @@ public final class Throwables {
   private static final String ORG_ASSERTJ_CORE_ERROR_CONSTRUCTOR_INVOKER = "org.assertj.core.error.ConstructorInvoker";
   private static final String JAVA_LANG_REFLECT_CONSTRUCTOR = "java.lang.reflect.Constructor";
   private static final String ORG_ASSERTJ = "org.assert";
+
+  private Throwables() {}
 
   private static final Function<Throwable, String> ERROR_DESCRIPTION_EXTRACTOR = throwable -> {
     Throwable cause = throwable.getCause();
@@ -173,6 +181,112 @@ public final class Throwables {
     }
   }
 
-  private Throwables() {}
+  public static <T extends Throwable> List<T> addLineNumberToErrorMessages(List<? extends T> errors) {
+    return errors.stream()
+                 .map(Throwables::addLineNumberToErrorMessage)
+                 .collect(toList());
+  }
+
+  public static StackTraceElement getFirstStackTraceElementFromTest(StackTraceElement[] stacktrace) {
+    for (StackTraceElement element : stacktrace) {
+      String className = element.getClassName();
+      if (isProxiedAssertionClass(className)
+          || className.startsWith("sun.reflect")
+          || className.startsWith("jdk.internal.reflect")
+          || className.startsWith("java.")
+          || className.startsWith("javax.")
+          || className.startsWith("org.junit.")
+          || className.startsWith("org.eclipse.jdt.internal.junit.")
+          || className.startsWith("org.eclipse.jdt.internal.junit4.")
+          || className.startsWith("org.eclipse.jdt.internal.junit5.")
+          || className.startsWith("com.intellij.junit5.")
+          || className.startsWith("com.intellij.rt.execution.junit.")
+          || className.startsWith("com.intellij.rt.junit.") // since IntelliJ IDEA build 193.2956.37
+          || className.startsWith("org.apache.maven.surefire")
+          || className.startsWith("org.pitest.")
+          || className.startsWith("org.assertj")) {
+        continue;
+      }
+      return element;
+    }
+    return null;
+  }
+
+  private static boolean isProxiedAssertionClass(String className) {
+    return className.contains("$ByteBuddy$");
+  }
+
+  private static <T extends Throwable> T addLineNumberToErrorMessage(T error) {
+    StackTraceElement testStackTraceElement = Throwables.getFirstStackTraceElementFromTest(error.getStackTrace());
+    if (testStackTraceElement != null) {
+      try {
+        return createNewInstanceWithLineNumberInErrorMessage(error, testStackTraceElement);
+      } catch (@SuppressWarnings("unused") SecurityException | ReflectiveOperationException ignored) {}
+    }
+    return error;
+  }
+
+  private static <T extends Throwable> T createNewInstanceWithLineNumberInErrorMessage(T error,
+                                                                                       StackTraceElement testStackTraceElement) throws ReflectiveOperationException {
+    T errorWithLineNumber = isOpentest4jAssertionFailedError(error)
+        ? buildOpentest4jAssertionFailedErrorWithLineNumbers(error, testStackTraceElement)
+        : buildAssertionErrorWithLineNumbersButNoActualOrExpectedValues(error, testStackTraceElement);
+    errorWithLineNumber.setStackTrace(error.getStackTrace());
+    Stream.of(error.getSuppressed()).forEach(suppressed -> errorWithLineNumber.addSuppressed(suppressed));
+    return errorWithLineNumber;
+  }
+
+  private static <T extends Throwable> boolean isOpentest4jAssertionFailedError(T error) {
+    return "org.opentest4j.AssertionFailedError".equals(error.getClass().getName());
+  }
+
+  private static <T extends Throwable> T buildAssertionErrorWithLineNumbersButNoActualOrExpectedValues(T error,
+                                                                                                       StackTraceElement testStackTraceElement) throws ReflectiveOperationException {
+    @SuppressWarnings("unchecked")
+    Constructor<? extends T> constructor = (Constructor<? extends T>) error.getClass().getConstructor(String.class,
+                                                                                                      Throwable.class);
+    return constructor.newInstance(buildErrorMessageWithLineNumber(error.getMessage(), testStackTraceElement), error.getCause());
+  }
+
+  private static <T extends Throwable> T buildOpentest4jAssertionFailedErrorWithLineNumbers(T error,
+                                                                                            StackTraceElement testStackTraceElement) throws ReflectiveOperationException {
+    // AssertionFailedError has actual and expected fields of type ValueWrapper
+    Object actualWrapper = byName("actual").apply(error);
+    Object expectedWrapper = byName("expected").apply(error);
+    if (actualWrapper != null && expectedWrapper != null) {
+      // try to call AssertionFailedError(String message, Object expected, Object actual, Throwable cause)
+      try {
+        Object actual = byName("value").apply(actualWrapper);
+        Object expected = byName("value").apply(expectedWrapper);
+        Constructor<? extends T> constructor = (Constructor<? extends T>) error.getClass().getConstructor(String.class,
+                                                                                                          Object.class,
+                                                                                                          Object.class,
+                                                                                                          Throwable.class);
+        return constructor.newInstance(buildErrorMessageWithLineNumber(error.getMessage(), testStackTraceElement),
+                                       expected,
+                                       actual,
+                                       error.getCause());
+      } catch (IntrospectionError e) {
+        // fallback to AssertionFailedError(String message, Throwable cause) constructor
+      }
+    }
+    return buildAssertionErrorWithLineNumbersButNoActualOrExpectedValues(error, testStackTraceElement);
+  }
+
+  private static String buildErrorMessageWithLineNumber(String originalErrorMessage, StackTraceElement testStackTraceElement) {
+    String testClassName = simpleClassNameOf(testStackTraceElement);
+    String testName = testStackTraceElement.getMethodName();
+    int lineNumber = testStackTraceElement.getLineNumber();
+    String atLineNumber = format("at %s.%s(%s.java:%s)", testClassName, testName, testClassName, lineNumber);
+    if (originalErrorMessage.contains(atLineNumber)) {
+      return originalErrorMessage;
+    }
+    return format(originalErrorMessage.endsWith(format("%n")) ? "%s%s" : "%s%n%s", originalErrorMessage, atLineNumber);
+  }
+
+  private static String simpleClassNameOf(StackTraceElement testStackTraceElement) {
+    String className = testStackTraceElement.getClassName();
+    return className.substring(className.lastIndexOf('.') + 1);
+  }
 
 }

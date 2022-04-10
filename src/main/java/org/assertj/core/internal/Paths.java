@@ -39,11 +39,13 @@ import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryCon
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
 import static org.assertj.core.error.ShouldHaveDigest.shouldHaveDigest;
 import static org.assertj.core.error.ShouldHaveExtension.shouldHaveExtension;
+import static org.assertj.core.error.ShouldHaveFileSystem.shouldHaveFileSystem;
 import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
 import static org.assertj.core.error.ShouldHaveNoExtension.shouldHaveNoExtension;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
+import static org.assertj.core.error.ShouldHaveSameFileSystemAs.shouldHaveSameFileSystemAs;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotContain.directoryShouldNotContain;
@@ -58,6 +60,7 @@ import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.DirectoryStream;
 import java.nio.file.DirectoryStream.Filter;
+import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
@@ -374,6 +377,32 @@ public class Paths {
       if (nioFilesWrapper.size(actual) == 0) throw failures.failure(info, shouldNotBeEmpty(actual));
     } catch (IOException e) {
       throw new UncheckedIOException(e);
+    }
+  }
+
+  public void assertHasFileSystem(AssertionInfo info, Path actual, FileSystem expectedFileSystem) {
+    assertNotNull(info, actual);
+    requireNonNull(expectedFileSystem, "The expected file system should not be null");
+
+    FileSystem actualFileSystem = actual.getFileSystem();
+    requireNonNull(actualFileSystem, "The actual file system should not be null");
+
+    if (!expectedFileSystem.equals(actualFileSystem)) {
+      throw failures.failure(info, shouldHaveFileSystem(actual, expectedFileSystem), actualFileSystem, expectedFileSystem);
+    }
+  }
+
+  public void assertHasSameFileSystemAs(AssertionInfo info, Path actualPath, Path expectedPath) {
+    assertNotNull(info, actualPath);
+    requireNonNull(expectedPath, "The expected path should not be null");
+
+    FileSystem actualFileSystem = actualPath.getFileSystem();
+    requireNonNull(actualFileSystem, "The actual file system should not be null");
+    FileSystem expectedFileSystem = expectedPath.getFileSystem();
+    requireNonNull(expectedFileSystem, "The expected file system should not be null");
+
+    if (!expectedFileSystem.equals(actualFileSystem)) {
+      throw failures.failure(info, shouldHaveSameFileSystemAs(actualPath, expectedPath), actualFileSystem, expectedFileSystem);
     }
   }
 

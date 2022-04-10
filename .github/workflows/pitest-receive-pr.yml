@@ -29,11 +29,11 @@ jobs:
           fetch-depth: 2
 
       - name: Setup Java
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: 11
-          cache: 'maven'
+#          cache: 'maven'
       - name: run pitest
         # pitest has been bound to a profile called pitest for normal running
         # we add config to analyse only changes made within a PR and treat surviving mutants as check errors
@@ -42,7 +42,7 @@ jobs:
       - name: aggregate files
         run: mvn -e -B -Ppitest pitest-git:aggregate
       - name: upload results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: pitest
           path: target/pit-reports-ci/

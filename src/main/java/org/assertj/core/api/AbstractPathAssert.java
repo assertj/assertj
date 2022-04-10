@@ -382,6 +382,59 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   }
 
   /**
+   * Verifies that the path file system is the same as the given file system.
+   *
+   * Examples:
+   * <pre><code class="java"> Path jarFile = Paths.get("assertj-core.jar");
+   * FileSystem mainFileSystem = jarFile.getFileSystem();
+   *
+   * try (FileSystem fs = FileSystems.newFileSystem(jarFile, (ClassLoader) null)) {
+   *     Path manifestFile = fs.getPath("META-INF", "MANIFEST.MF");
+   *
+   *     // Succeeds
+   *     assertThat(manifestFile).hasFileSystem(fs);
+   *
+   *     // Fails
+   *     assertThat(manifestFile).hasFileSystem(mainFileSystem);
+   * }</code></pre>
+   *
+   * @param expected the given {@code FileSystem} to compare the actual {@code Path} file system to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given {@code FileSystem} is {@code null}.
+   * @throws AssertionError if the actual {@code FileSystem} is {@code null}.
+   */
+  public SELF hasFileSystem(FileSystem expected) {
+    paths.assertHasFileSystem(info, actual, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the path file system is the same as the given path file system.
+   *
+   * Examples:
+   * <pre><code class="java"> Path jarFile = Paths.get("assertj-core.jar");
+   * try (FileSystem fs = FileSystems.newFileSystem(jarFile, (ClassLoader) null)) {
+   *     Path manifestFile = fs.getPath("META-INF", "MANIFEST.MF");
+   *     Path abstractPathAssertFile = fs.getPath("org", "assertj", "core", "api", "AbstractPathAssert.class");
+   *
+   *     // Succeeds
+   *     assertThat(manifestFile).hasSameFileSystemAs(abstractPathAssertFile);
+   *
+   *     // Fails
+   *     assertThat(manifestFile).hasSameFileSystemAs(jarFile);
+   * }</code></pre>
+   *
+   * @param expected the given {@code Path} to compare the actual {@code Path} file system to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given {@code Path} is {@code null}.
+   * @throws AssertionError if the actual {@code Path} is {@code null}.
+   */
+  public SELF hasSameFileSystemAs(Path expected) {
+    paths.assertHasSameFileSystemAs(info, actual, expected);
+    return myself;
+  }
+
+  /**
    * Assert that the tested {@link Path} is a readable file, it checks that the file exists (according to
    * {@link Files#exists(Path, LinkOption...)}) and that it is readable(according to {@link Files#isReadable(Path)}).
    *
@@ -1846,6 +1899,27 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   }
 
   /**
+   * Returns {@code ByteArray} assertions on the content of the actual {@code Path} read.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Path xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes());
+   *
+   * // assertion succeeds
+   * assertThat(xFile).binaryContent().isEqualTo("The Truth Is Out There".getBytes());
+   *
+   * // assertion fails:
+   * assertThat(xFile).binaryContent().isEqualTo("Elsewhere".getBytes());</code></pre>
+   *
+   * @return a {@link AbstractByteArrayAssert} object with the binary content of the path.
+   * @throws AssertionError if the actual {@code Path} is not readable as per {@link Files#isReadable(Path)}.
+   * @throws UncheckedIOException when failing to read the actual {@code Path}.
+   */
+  public AbstractByteArrayAssert<?> binaryContent() {
+    paths.assertIsReadable(info, actual);
+    return new ByteArrayAssert(readPath()).withAssertionState(myself);
+  }
+
+  /**
    * Returns String assertions on the content of the actual {@code Path} read with the {@link Charset#defaultCharset() default charset}.
    * <p>
    * Example:
@@ -1894,6 +1968,14 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
     paths.assertIsReadable(info, actual);
     String pathContent = readPath(charset);
     return new StringAssert(pathContent).withAssertionState(myself);
+  }
+
+  private byte[] readPath() {
+    try {
+      return readAllBytes(actual);
+    } catch (IOException e) {
+      throw new UncheckedIOException(format("Failed to read %s binary content", actual), e);
+    }
   }
 
   private String readPath(Charset charset) {
