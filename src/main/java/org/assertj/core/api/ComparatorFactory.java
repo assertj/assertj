@@ -56,7 +56,7 @@ public class ComparatorFactory {
    * @param actual the actual value
    * @param precision the acceptable precision
    * @param <T> type of expected and precision, which should be the subclass of java.lang.Number and java.lang.Comparable
-   * @return whether the abs(expected - precisioon) <= precision
+   * @return whether the abs(expected - precisioon) is less or equal to precision
    */
 
   private static <T extends Number & Comparable<T>> boolean compareAsBigDecimalWithPrecision(T expected, T actual, T precision) {

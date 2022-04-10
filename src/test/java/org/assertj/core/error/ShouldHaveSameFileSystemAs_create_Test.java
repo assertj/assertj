@@ -38,9 +38,9 @@ class ShouldHaveSameFileSystemAs_create_Test {
     String message = shouldHaveSameFileSystemAs(actual, expected).create();
     // THEN
     then(message).isEqualTo(format("%nExpecting path:%n" +
-                                   "  /foo/bar%n" +
+                                   "  \\foo\\bar%n" +
                                    "to have the same file system as path:%n" +
-                                   "  /baz/bork"));
+                                   "  \\baz\\bork"));
   }
 
   @Test
@@ -53,8 +53,8 @@ class ShouldHaveSameFileSystemAs_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting path:%n" +
-                                   "  /foo/bar%n" +
+                                   "  \\foo\\bar%n" +
                                    "to have the same file system as path:%n" +
-                                   "  /baz/bork"));
+                                   "  \\baz\\bork"));
   }
 }

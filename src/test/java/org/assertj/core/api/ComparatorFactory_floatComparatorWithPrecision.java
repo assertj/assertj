@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class ComparatorFactory_floatComparatorWithPrecision {
 
-  private final ComparatorFactory INSTANCE = ComparatorFactory.INSTANCE; 
+  private final ComparatorFactory INSTANCE = ComparatorFactory.INSTANCE;
 
   @ParameterizedTest
   @CsvSource({"0.111f, 0.01f, 100"})
