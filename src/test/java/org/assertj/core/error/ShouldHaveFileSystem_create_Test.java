@@ -12,18 +12,19 @@
  */
 package org.assertj.core.error;
 
+import org.assertj.core.description.TextDescription;
+import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.nio.file.FileSystem;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveFileSystem.shouldHaveFileSystem;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-
-import java.nio.file.FileSystem;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import org.assertj.core.description.TextDescription;
-import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link ShouldHaveFileSystem}.
@@ -42,9 +43,9 @@ class ShouldHaveFileSystem_create_Test {
     String message = shouldHaveFileSystem(actual, fileSystem).create();
     // THEN
     then(message).isEqualTo(format("%nExpecting path:%n" +
-                                   "  \\foo\\bar%n" +
-                                   "to have file system:%n" +
-                                   "  MySpecialFileSystem"));
+      "  " + File.separator + "foo" + File.separator + "bar%n" +
+      "to have file system:%n" +
+      "  MySpecialFileSystem"));
   }
 
   @Test
@@ -57,9 +58,9 @@ class ShouldHaveFileSystem_create_Test {
     String message = shouldHaveFileSystem(actual, fileSystem).create(new TextDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting path:%n" +
-                                   "  \\foo\\bar%n" +
-                                   "to have file system:%n" +
-                                   "  MySpecialFileSystem"));
+      "Expecting path:%n" +
+      "  " + File.separator + "foo" + File.separator + "bar%n" +
+      "to have file system:%n" +
+      "  MySpecialFileSystem"));
   }
 }

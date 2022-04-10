@@ -12,15 +12,16 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldHaveSameFileSystemAs.shouldHaveSameFileSystemAs;
+import org.assertj.core.description.TextDescription;
+import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.assertj.core.description.TextDescription;
-import org.junit.jupiter.api.Test;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldHaveSameFileSystemAs.shouldHaveSameFileSystemAs;
 
 /**
  * Tests for {@link ShouldHaveSameFileSystemAs}.
@@ -38,9 +39,9 @@ class ShouldHaveSameFileSystemAs_create_Test {
     String message = shouldHaveSameFileSystemAs(actual, expected).create();
     // THEN
     then(message).isEqualTo(format("%nExpecting path:%n" +
-                                   "  \\foo\\bar%n" +
-                                   "to have the same file system as path:%n" +
-                                   "  \\baz\\bork"));
+      "  " + File.separator + "foo" + File.separator + "bar%n" +
+      "to have the same file system as path:%n" +
+      "  " + File.separator + "baz" + File.separator + "bork"));
   }
 
   @Test
@@ -52,9 +53,9 @@ class ShouldHaveSameFileSystemAs_create_Test {
     String message = shouldHaveSameFileSystemAs(actual, expected).create(new TextDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting path:%n" +
-                                   "  \\foo\\bar%n" +
-                                   "to have the same file system as path:%n" +
-                                   "  \\baz\\bork"));
+      "Expecting path:%n" +
+      "  " + File.separator + "foo" + File.separator + "bar%n" +
+      "to have the same file system as path:%n" +
+      "  " + File.separator + "baz" + File.separator + "bork"));
   }
 }
