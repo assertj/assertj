@@ -29,10 +29,12 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.set;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -41,11 +43,13 @@ import java.util.stream.Stream;
 import org.apache.commons.collections4.map.CaseInsensitiveMap;
 import org.apache.commons.collections4.map.SingletonMap;
 import org.apache.commons.lang3.ArrayUtils;
+import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.MapsBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.util.MultiValueMapAdapter;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -84,6 +88,15 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
     then(error).hasMessage(shouldBeEmpty(actual).create());
   }
 
+  @Test
+  void should_pass_if_value_type_is_array() {
+    // GIVEN
+    Map<String, byte[]> actual = mapOf(entry("key1", new byte[] { 1, 2 }), entry("key2", new byte[] { 3, 4, 5 }));
+    Entry<String, byte[]>[] expected = array(entry("key2", new byte[] { 3, 4, 5 }), entry("key1", new byte[] { 1, 2 }));
+    // WHEN/THEN
+    assertThatNoException().isThrownBy(() -> maps.assertContainsOnly(info, actual, expected));
+  }
+
   @ParameterizedTest
   @MethodSource({
       "unmodifiableMapsSuccessfulTestCases",
@@ -91,9 +104,13 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
       "caseInsensitiveMapsSuccessfulTestCases",
   })
   void should_pass(Map<String, String> actual, Entry<String, String>[] expected) {
+    // GIVEN
+    int initialSize = actual.size();
     // WHEN/THEN
     assertThatNoException().as(actual.getClass().getName())
                            .isThrownBy(() -> maps.assertContainsOnly(info, actual, expected));
+
+    then(actual).hasSize(initialSize);
   }
 
   private static Stream<Arguments> unmodifiableMapsSuccessfulTestCases() {
@@ -132,6 +149,18 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
                                                           array(entry("Job", "Jedi"), entry("Name", "Yoda")))));
   }
 
+  @Test
+  void should_pass_with_MultiValueMapAdapter() {
+    // GIVEN
+    MultiValueMapAdapter<String, String> actual = new MultiValueMapAdapter<>(mapOf(entry("name", list("Yoda"))));
+    Entry<String, List<String>>[] expected = array(entry("name", list("Yoda")));
+    int initialSize = actual.size();
+    // WHEN
+    maps.assertContainsOnly(info, actual, expected);
+    // THEN
+    then(actual).hasSize(initialSize);
+  }
+
   @ParameterizedTest
   @MethodSource({
       "unmodifiableMapsFailureTestCases",
@@ -142,12 +171,16 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
   })
   void should_fail(Map<String, String> actual, Entry<String, String>[] expected,
                    Set<Entry<String, String>> notFound, Set<Entry<String, String>> notExpected) {
+    // GIVEN
+    int initialSize = actual.size();
     // WHEN
     assertThatExceptionOfType(AssertionError.class).as(actual.getClass().getName())
                                                    .isThrownBy(() -> maps.assertContainsOnly(info, actual, expected))
                                                    // THEN
                                                    .withMessage(shouldContainOnly(actual, expected,
                                                                                   notFound, notExpected).create());
+
+    then(actual).hasSize(initialSize);
   }
 
   private static Stream<Arguments> unmodifiableMapsFailureTestCases() {
@@ -219,14 +252,20 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
                                set(entry("name", "Yoda"), entry("job", "Jedi"))));
   }
 
-  @SuppressWarnings("unchecked")
   @Test
-  void should_pass_if_value_type_is_array() {
+  void should_fail_with_MultiValueMapAdapter() {
     // GIVEN
-    Map<String, byte[]> actual = mapOf(entry("key1", new byte[] { 1, 2 }), entry("key2", new byte[] { 3, 4, 5 }));
-    Entry<String, byte[]>[] expected = new Entry[] { entry("key2", new byte[] { 3, 4, 5 }), entry("key1", new byte[] { 1, 2 }) };
-    // WHEN/THEN
-    assertThatNoException().isThrownBy(() -> maps.assertContainsOnly(info, actual, expected));
+    MultiValueMapAdapter<String, String> actual = new MultiValueMapAdapter<>(mapOf(entry("name", list("Yoda")),
+                                                                                   entry("job", list("Jedi"))));
+    MapEntry<String, List<String>>[] expected = array(entry("name", list("Yoda")), entry("color", list("Green")));
+    Set<MapEntry<String, List<String>>> notFound = set(entry("color", list("Green")));
+    Set<MapEntry<String, List<String>>> notExpected = set(entry("job", list("Jedi")));
+    int initialSize = actual.size();
+    // WHEN
+    AssertionError error = expectAssertionError(() -> maps.assertContainsOnly(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainOnly(actual, expected, notFound, notExpected).create());
+    then(actual).hasSize(initialSize);
   }
 
 }

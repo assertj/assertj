@@ -29,6 +29,7 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.set;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -45,6 +46,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.util.MultiValueMapAdapter;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -90,9 +92,13 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
       "caseInsensitiveMapsSuccessfulTestCases",
   })
   void should_pass(Map<String, String> actual, String[] expected) {
+    // GIVEN
+    int initialSize = actual.size();
     // WHEN/THEN
     assertThatNoException().as(actual.getClass().getName())
                            .isThrownBy(() -> maps.assertContainsOnlyKeys(info, actual, expected));
+
+    then(actual).hasSize(initialSize);
   }
 
   private static Stream<Arguments> unmodifiableMapsSuccessfulTestCases() {
@@ -127,6 +133,18 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
                                                           array("Job", "Name"))));
   }
 
+  @Test
+  void should_pass_with_MultiValueMapAdapter() {
+    // GIVEN
+    MultiValueMapAdapter<String, String> actual = new MultiValueMapAdapter<>(mapOf(entry("name", list("Yoda"))));
+    String[] expected = array("name");
+    int initialSize = actual.size();
+    // WHEN
+    maps.assertContainsOnlyKeys(info, actual, expected);
+    // THEN
+    then(actual).hasSize(initialSize);
+  }
+
   @ParameterizedTest
   @MethodSource({
       "unmodifiableMapsFailureTestCases",
@@ -135,12 +153,16 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
       "commonsCollectionsCaseInsensitiveMapFailureTestCases",
   })
   void should_fail(Map<String, String> actual, String[] expected, Set<String> notFound, Set<String> notExpected) {
+    // GIVEN
+    int initialSize = actual.size();
     // WHEN
     assertThatExceptionOfType(AssertionError.class).as(actual.getClass().getName())
                                                    .isThrownBy(() -> maps.assertContainsOnlyKeys(info, actual, expected))
                                                    // THEN
                                                    .withMessage(shouldContainOnlyKeys(actual, expected,
                                                                                       notFound, notExpected).create());
+
+    then(actual).hasSize(initialSize);
   }
 
   private static Stream<Arguments> unmodifiableMapsFailureTestCases() {
@@ -211,6 +233,22 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
                                array("Name", "Color"),
                                set("Color"),
                                set("job"))); // internal keys are always lowercase
+  }
+
+  @Test
+  void should_fail_with_MultiValueMapAdapter() {
+    // GIVEN
+    MultiValueMapAdapter<String, String> actual = new MultiValueMapAdapter<>(mapOf(entry("name", list("Yoda")),
+                                                                                   entry("job", list("Jedi"))));
+    String[] expected = array("name", "color");
+    Set<String> notFound = set("color");
+    Set<String> notExpected = set("job");
+    int initialSize = actual.size();
+    // WHEN
+    AssertionError error = expectAssertionError(() -> maps.assertContainsOnlyKeys(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainOnlyKeys(actual, expected, notFound, notExpected).create());
+    then(actual).hasSize(initialSize);
   }
 
 }

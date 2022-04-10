@@ -12,11 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-java@v2
+      - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: 11
-          cache: 'maven'
+#          cache: 'maven'
 
       - name: (`main` only) Compare with the latest release
         if: github.base_ref == null
@@ -70,7 +70,7 @@ jobs:
         run: cat target/japicmp/default-cli.diff
       - name: Upload reports
         if: success() || failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: japicmp
           path: target/japicmp

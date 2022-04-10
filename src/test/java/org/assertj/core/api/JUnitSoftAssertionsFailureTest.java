@@ -25,14 +25,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.runners.model.Statement;
 import org.opentest4j.MultipleFailuresError;
 
-public class JUnitSoftAssertionsFailureTest {
+class JUnitSoftAssertionsFailureTest {
 
-  // we cannot make it a rule here, because we need to test the failure without this test failing!
-  // @Rule
-  public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
+  private final JUnitSoftAssertions softly = new JUnitSoftAssertions();
 
   @Test
-  public void should_report_all_errors() {
+  void should_report_all_errors() {
     // GIVEN
     softly.assertThat(1).isEqualTo(1);
     softly.assertThat(1).isEqualTo(2);
@@ -54,4 +52,5 @@ public class JUnitSoftAssertionsFailureTest {
                                                               "and element(s) not expected:%n" +
                                                               "  [2]%n"));
   }
+
 }
