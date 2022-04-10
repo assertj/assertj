@@ -21,6 +21,7 @@ import static org.assertj.core.api.SoftProxies.METHODS_NOT_TO_PROXY;
 import static org.assertj.core.util.Arrays.array;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -784,6 +785,20 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link PathAssert}</code> assumption.
+   * <p>
+   * Use this over {@link #assumeThat(Path)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assumeThat</code> for.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.23.0
+   */
+  public static AbstractPathAssert<?> assumeThatPath(Path actual) {
+    return assumeThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link InputStreamAssert}</code> assumption.
    *
    * @param actual the actual value.
@@ -822,6 +837,21 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link IterableAssert}</code> assumption.
+   * <p>
+   * Use this over {@link #assumeThat(Iterable)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assumeThat</code> for.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.23.0
+   */
+  public static <ELEMENT> IterableAssert<ELEMENT> assumeThatIterable(Iterable<? extends ELEMENT> actual) {
+    return assumeThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link IteratorAssert}</code> assumption.
    *
    * @param <ELEMENT> the type of elements.
@@ -832,6 +862,21 @@ public class Assumptions {
   @SuppressWarnings("unchecked")
   public static <ELEMENT> IteratorAssert<ELEMENT> assumeThat(Iterator<? extends ELEMENT> actual) {
     return asAssumption(IteratorAssert.class, Iterator.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link IteratorAssert}</code> assumption.
+   * <p>
+   * Use this over {@link #assumeThat(Iterator)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assumeThat</code> for.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.23.0
+   */
+  public static <ELEMENT> IteratorAssert<ELEMENT> assumeThatIterator(Iterator<? extends ELEMENT> actual) {
+    return assumeThat(actual);
   }
 
   /**
@@ -848,6 +893,21 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link CollectionAssert}</code> assumption.
+   * <p>
+   * Use this over {@link #assumeThat(Collection)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assumeThat</code> for.
+   *
+   * @param <E> the type of elements.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.23.0
+   */
+  public static <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> assumeThatCollection(Collection<? extends E> actual) {
+    return assumeThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ListAssert}</code> assumption.
    *
    * @param <ELEMENT> the type of elements.
@@ -860,6 +920,20 @@ public class Assumptions {
     return asAssumption(ListAssert.class, List.class, actual);
   }
 
+  /**
+   * Creates a new instance of <code>{@link ListAssert}</code> assumption.
+   * <p>
+   * Use this over {@link #assumeThat(List)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assumeThat</code> for.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.23.0
+   */
+  public static <ELEMENT> FactoryBasedNavigableListAssert<ListAssert<ELEMENT>, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assumeThatList(List<? extends ELEMENT> actual) {
+    return assumeThat(actual);
+  }
   /**
    * Creates a new instance of <code>{@link ObjectArrayAssert}</code> assumption.
    *
@@ -924,6 +998,87 @@ public class Assumptions {
   @SuppressWarnings("unchecked")
   public static <T extends Throwable> AbstractThrowableAssert<?, T> assumeThat(T actual) {
     return asAssumption(ThrowableAssert.class, Throwable.class, actual);
+  }
+
+  public static <T extends Throwable> ThrowableTypeAssert<T> assumeThatExceptionOfType(final Class<? extends T> exceptionType) {
+    return new ThrowableTypeAssert<>(exceptionType);
+  }
+
+  /**
+   * Alias for {@link #assumeThatExceptionOfType(Class)} for {@link Exception}.
+   *
+   * @return the created assumption for assertion object.
+   *
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<Exception> assumeThatException(){
+    return assumeThatExceptionOfType(Exception.class);
+  }
+
+  /**
+   * Alias for {@link #assumeThatExceptionOfType(Class)} for {@link RuntimeException}.
+   *
+   * @return the created assumption for assertion object.
+   *
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<RuntimeException> assumeThatRuntimeException(){
+    return assumeThatExceptionOfType(RuntimeException.class);
+  }
+
+  /**
+   * Alias for {@link #assumeThatExceptionOfType(Class)} for {@link NullPointerException}.
+   *
+   * @return the created assumption for assertion object.
+   *
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<NullPointerException> assumeThatNullPointerException(){
+    return assumeThatExceptionOfType(NullPointerException.class);
+  }
+
+  /**
+   * Alias for {@link #assumeThatExceptionOfType(Class)} for {@link IllegalArgumentException}.
+   *
+   * @return the created assumption for assertion object.
+   *
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<IllegalArgumentException> assumeThatIllegalArgumentException(){
+    return assumeThatExceptionOfType(IllegalArgumentException.class);
+  }
+
+  /**
+   * Alias for {@link #assumeThatExceptionOfType(Class)} for {@link IOException}.
+   *
+   * @return the created assumption for assertion object.
+   *
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<IOException> assumeThatIOException(){
+    return assumeThatExceptionOfType(IOException.class);
+  }
+
+  /**
+   * Alias for {@link #assumeThatExceptionOfType(Class)} for {@link IndexOutOfBoundsException}.
+   *
+   * @return the created assumption for assertion object.
+   *
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<IndexOutOfBoundsException> assumeThatIndexOutOfBoundsException(){
+    return assumeThatExceptionOfType(IndexOutOfBoundsException.class);
+  }
+
+  /**
+   * Alias for {@link #assumeThatExceptionOfType(Class)} for {@link ReflectiveOperationException}.
+   *
+   * @return the created assumption for assertion object.
+   *
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<ReflectiveOperationException> assumeThatReflectiveOperationException(){
+    return assumeThatExceptionOfType(ReflectiveOperationException.class);
   }
 
   /**
@@ -1005,6 +1160,21 @@ public class Assumptions {
   @SuppressWarnings("unchecked")
   public static <T> PredicateAssert<T> assumeThat(Predicate<T> actual) {
     return asAssumption(PredicateAssert.class, Predicate.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link PredicateAssert}</code> assumption.
+   * <p>
+   * Use this over {@link #assumeThat(Predicate)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assumeThat</code> for.
+   *
+   * @param <T> the type of elements.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.23.0
+   */
+  public static <T> PredicateAssert<T> assumeThatPredicate(Predicate<T> actual) {
+    return assumeThat(actual);
   }
 
   /**
@@ -1238,6 +1408,21 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link ListAssert}</code> assumption from the given {@link Stream}.
+   * <p>
+   * Use this over {@link #assumeThat(Stream)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assumeThat</code> for.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.23.0
+   */
+  public static <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assumeThatStream(Stream<? extends ELEMENT> actual) {
+    return assumeThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ListAssert}</code> assumption from the given {@link DoubleStream}.
    *
    * @param actual the DoubleStream to test
@@ -1358,7 +1543,7 @@ public class Assumptions {
   }
 
   // for method that change the object under test (e.g. extracting)
-  private static AbstractAssert<?, ?> asAssumption(AbstractAssert<?, ?> assertion) {
+  private static AbstractAssert<?, ?>  asAssumption(AbstractAssert<?, ?> assertion) {
     // @format:off
     Object actual = assertion.actual;
     if (assertion instanceof AbstractObjectArrayAssert) return asAssumption(ObjectArrayAssert.class, Object[].class, actual);

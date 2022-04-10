@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.api.Assumptions.assumeThatCode;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -101,7 +102,7 @@ import org.assertj.core.util.CheckReturnValue;
  * @author Gonzalo Müller
  */
 @CheckReturnValue
-public final class BDDAssumptions {
+public final class BDDAssumptions extends Assumptions{
 
   private BDDAssumptions() {}
 
@@ -1421,6 +1422,80 @@ public final class BDDAssumptions {
   }
 
   /**
+   * Creates a new assumption's instance for a {@link Throwable} value.
+   *
+   * @param <T> the exception type.
+   * @param exceptionType the exception type class.
+   * @return the created {@link ThrowableTypeAssert}.
+   */
+  public static <T extends Throwable> ThrowableTypeAssert<T> givenExceptionOfType(final Class<? extends T> exceptionType) {
+    return assumeThatExceptionOfType(exceptionType);
+  }
+
+  /**
+   * Alias for {@link #givenExceptionOfType(Class)} for {@link Exception}.
+   *
+   * @return the {@link ThrowableAssert} assertion object to be used for validation.
+   */
+  public static ThrowableTypeAssert<Exception> givenException() {
+    return assumeThatException();
+  }
+
+  /**
+   * Alias for {@link #givenExceptionOfType(Class)} for {@link RuntimeException}.
+   *
+   * @return the {@link ThrowableAssert} assertion object to be used for validation.
+   */
+  public static ThrowableTypeAssert<RuntimeException> givenRuntimeException() {
+    return assumeThatRuntimeException();
+  }
+
+  /**
+   * Alias for {@link #givenExceptionOfType(Class)} for {@link NullPointerException}.
+   *
+   * @return the {@link ThrowableAssert} assertion object to be used for validation.
+   */
+  public static ThrowableTypeAssert<NullPointerException> givenNullPointerException() {
+    return assumeThatNullPointerException();
+  }
+
+  /**
+   * Alias for {@link #givenExceptionOfType(Class)} for {@link IllegalArgumentException}.
+   *
+   * @return the {@link ThrowableAssert} assertion object to be used for validation.
+   */
+  public static ThrowableTypeAssert<IllegalArgumentException> givenIllegalArgumentException() {
+    return assumeThatIllegalArgumentException();
+  }
+
+  /**
+   * Alias for {@link #givenExceptionOfType(Class)} for {@link IOException}.
+   *
+   * @return the {@link ThrowableAssert} assertion object to be used for validation.
+   */
+  public static ThrowableTypeAssert<IOException> givenIOException() {
+    return assumeThatIOException();
+  }
+
+  /**
+   * Alias for {@link #givenExceptionOfType(Class)} for {@link IndexOutOfBoundsException}.
+   *
+   * @return the {@link ThrowableAssert} assertion object to be used for validation.
+   */
+  public static ThrowableTypeAssert<IndexOutOfBoundsException> givenIndexOutOfBoundsException() {
+    return assumeThatIndexOutOfBoundsException();
+  }
+
+  /**
+   * Alias for {@link #givenExceptionOfType(Class)} for {@link ReflectiveOperationException}.
+   *
+   * @return the {@link ThrowableAssert} assertion object to be used for validation.
+   */
+  public static ThrowableTypeAssert<ReflectiveOperationException> givenReflectiveOperationException() {
+    return assumeThatReflectiveOperationException();
+  }
+
+  /**
    * Creates a new assumption's instance from a no parameters lambda expression, <code>{@literal () ->} { /* some code {@literal *}/ }</code>.
    * <p>
    * Examples:
@@ -1500,6 +1575,21 @@ public final class BDDAssumptions {
   }
 
   /**
+   * Creates a new assumption's instance of an <code>{@link Iterable}</code> value.
+   * <p>
+   * Use this over {@link #given(Iterable)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>given</code> for.
+   *
+   * @param <ELEMENT> the type of elements of actual iterable value.
+   * @param actual the actual {@link Iterable} value to be validated.
+   * @return the {@link AbstractIterableAssert} assertion object to be used for validation.
+   * @since 3.23.0
+   */
+  public static <ELEMENT> IterableAssert<ELEMENT> givenIterable(Iterable<? extends ELEMENT> actual) {
+    return given(actual);
+  }
+
+  /**
    * Creates a new assumption's instance for an {@link Iterator} value.
    * <p>
    * Examples:
@@ -1530,6 +1620,21 @@ public final class BDDAssumptions {
   }
 
   /**
+   * Creates a new assumption's instance of an <code>{@link Iterator}</code> value.
+   * <p>
+   * Use this over {@link #given(Iterator)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>given</code> for.
+   *
+   * @param <ELEMENT> the type of elements of actual iterable value.
+   * @param actual the actual {@link Iterator} value to be validated.
+   * @return the {@link AbstractIteratorAssert} assertion object to be used for validation.
+   * @since 3.23.0
+   */
+  public static <ELEMENT> IteratorAssert<ELEMENT> givenIterator(Iterator<? extends ELEMENT> actual) {
+    return given(actual);
+  }
+
+  /**
    * Creates a new assumption's instance for a {@link Collection} value.
    *
    * @param <E> the type of elements.
@@ -1540,6 +1645,21 @@ public final class BDDAssumptions {
    */
   public static <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> given(Collection<? extends E> actual) {
     return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance of a <code>{@link Collection}</code> value.
+   * <p>
+   * Use this over {@link #given(Collection)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>given</code> for.
+   *
+   * @param <E> the type of elements.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.23.0
+   */
+  public static <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> givenCollection(Collection<? extends E> actual) {
+    return given(actual);
   }
 
   /**
@@ -1570,6 +1690,21 @@ public final class BDDAssumptions {
    */
   public static <ELEMENT> FactoryBasedNavigableListAssert<ListAssert<ELEMENT>, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> given(List<? extends ELEMENT> actual) {
     return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance of a <code>{@link List}</code> value.
+   * <p>
+   * Use this over {@link #given(List)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>given</code> for.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the {@link AbstractListAssert} assertion object to be used for validation.
+   * @since 3.23.0
+   */
+  public static <ELEMENT> FactoryBasedNavigableListAssert<ListAssert<ELEMENT>, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> givenList(List<? extends ELEMENT> actual) {
+    return given(actual);
   }
 
   /**
@@ -1631,6 +1766,21 @@ public final class BDDAssumptions {
    */
   public static <T> PredicateAssert<T> given(Predicate<T> actual) {
     return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance of a <code>{@link Predicate}</code> value.
+   * <p>
+   * Use this over {@link #given(Predicate)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>given</code> for.
+   *
+   * @param <T> the type of elements.
+   * @param actual the actual value.
+   * @return the {@link AbstractPredicateAssert} assertion object to be used for validation.
+   * @since 3.23.0
+   */
+  public static <T> PredicateAssert<T> givenPredicate(Predicate<T> actual) {
+    return given(actual);
   }
 
   /**
@@ -1876,6 +2026,21 @@ public final class BDDAssumptions {
    */
   public static <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> given(Stream<? extends ELEMENT> actual) {
     return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance of a <code>{@link Stream}</code> value.
+   * <p>
+   * Use this over {@link #given(Stream)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>given</code> for.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual {@link Stream} value to be validated.
+   * @return the {@link AbstractListAssert} assertion object to be used for validation.
+   * @since 3.23.0
+   */
+  public static <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> givenStream(Stream<? extends ELEMENT> actual) {
+    return given(actual);
   }
 
   /**
@@ -2841,6 +3006,20 @@ public final class BDDAssumptions {
    */
   public static AbstractPathAssert<?> given(Path actual) {
     return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance of a <code>{@link Path}</code> value.
+   * <p>
+   * Use this over {@link #given(Path)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>given</code> for.
+   *
+   * @param actual the actual {@link Path} value to be validated.
+   * @return the {@link AbstractPathAssert} assertion object to be used for validation.
+   * @since 3.23.0
+   */
+  public static AbstractPathAssert<?> givenPath(Path actual) {
+    return given(actual);
   }
 
   /**
