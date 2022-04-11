@@ -16,6 +16,7 @@ import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveSameFileSystemAs.shouldHaveSameFileSystemAs;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -38,9 +39,10 @@ class ShouldHaveSameFileSystemAs_create_Test {
     String message = shouldHaveSameFileSystemAs(actual, expected).create();
     // THEN
     then(message).isEqualTo(format("%nExpecting path:%n" +
-                                   "  /foo/bar%n" +
+                                   "  %sfoo%sbar%n" +
                                    "to have the same file system as path:%n" +
-                                   "  /baz/bork"));
+                                   "  %sbaz%sbork",
+                                   File.separator, File.separator, File.separator, File.separator));
   }
 
   @Test
@@ -53,8 +55,9 @@ class ShouldHaveSameFileSystemAs_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting path:%n" +
-                                   "  /foo/bar%n" +
+                                   "  %sfoo%sbar%n" +
                                    "to have the same file system as path:%n" +
-                                   "  /baz/bork"));
+                                   "  %sbaz%sbork",
+                                   File.separator, File.separator, File.separator, File.separator));
   }
 }
