@@ -12,14 +12,15 @@
  */
 package org.assertj.core.internal.doubles;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.DoublesBaseTest;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-
-import static java.lang.Double.*;
-import static org.assertj.core.api.Assertions.*;
+import static java.lang.Double.NEGATIVE_INFINITY;
+import static java.lang.Double.NaN;
+import static java.lang.Double.POSITIVE_INFINITY;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.byLessThan;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.ComparatorFactory.asBigDecimal;
 import static org.assertj.core.api.ComparatorFactory.isNanOrInfinity;
@@ -30,6 +31,12 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.DoublesBaseTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class Doubles_assertIsCloseTo_Test extends DoublesBaseTest {
 
