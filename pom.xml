@@ -121,7 +121,7 @@
     <mockito.version>4.4.0</mockito.version>
     <!-- Plugin versions -->
     <findbugs-maven-plugin.version>3.0.5</findbugs-maven-plugin.version>
-    <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
     <javancss-maven-plugin.version>2.1</javancss-maven-plugin.version>
     <jdepend-maven-plugin.version>2.0</jdepend-maven-plugin.version>
     <license-maven-plugin.version>4.1</license-maven-plugin.version>
