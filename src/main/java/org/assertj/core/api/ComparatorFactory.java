@@ -22,17 +22,18 @@ public class ComparatorFactory {
 
   /**
    * Judge whether the input number is Nan or Infinity
+   *
    * @param number Object of Float or Double class
-   * @param <T> type of expected and precision, which should be the subclass of java.lang.Number and java.lang.Comparable
+   * @param <T>    type of expected and precision, which should be the subclass of java.lang.Number and java.lang.Comparable
    * @return whether the object is Nan or Infinity
    * @throws java.lang.NullPointerException if number is null
    */
-  public static <T extends Number & Comparable<T>> boolean isNanOrInfinity(T number){
+  public static <T extends Number & Comparable<T>> boolean isNanOrInfinity(T number) {
     // avoid null argument
-    if(number instanceof Float){
+    if (number instanceof Float) {
       return ((Float) number).isNaN() || ((Float) number).isInfinite();
-    }else if(Objects.requireNonNull(number) instanceof Double){
-      return ((Double)number).isNaN() || ((Double)number).isInfinite();
+    } else if (Objects.requireNonNull(number) instanceof Double) {
+      return ((Double) number).isNaN() || ((Double) number).isInfinite();
     }
 
     return false;
@@ -41,8 +42,9 @@ public class ComparatorFactory {
 
   /**
    * Use the Combination of java.math.BigDecimal and String.valueOf to create precise BigDecimal object.
+   *
    * @param number Object of Float or Double class
-   * @param <T> type of expected and precision, which should be the subclass of java.lang.Number and java.lang.Comparable
+   * @param <T>    type of expected and precision, which should be the subclass of java.lang.Number and java.lang.Comparable
    * @return the BigDecimalObject
    */
 
@@ -52,17 +54,21 @@ public class ComparatorFactory {
 
   /**
    * Use java.math.BigDecimal to fix the problem of float/double precision.
-   * @param expected the expected value
-   * @param actual the actual value
+   *
+   * @param expected  the expected value
+   * @param actual    the actual value
    * @param precision the acceptable precision
-   * @param <T> type of expected and precision, which should be the subclass of java.lang.Number and java.lang.Comparable
+   * @param <T>       type of expected and precision, which should be the subclass of java.lang.Number and java.lang.Comparable
    * @return whether the abs(expected - precisioon) is less or equal to precision
    */
 
   private static <T extends Number & Comparable<T>> boolean compareAsBigDecimalWithPrecision(T expected, T actual, T precision) {
     // java.math.BigDecimal cannot handle NAN or Infinity cases.
-    if(isNanOrInfinity(expected) || isNanOrInfinity(actual)){
-      return false;
+    if (isNanOrInfinity(precision)) {
+      throw new IllegalArgumentException("Precision should not be NaN or Infinity!");
+    }
+    if (isNanOrInfinity(expected) || isNanOrInfinity(actual)) {
+      return expected.doubleValue() - actual.doubleValue() <= precision.doubleValue();
     }
 
     BigDecimal expectedBigDecimal = asBigDecimal(expected);
@@ -78,10 +84,6 @@ public class ComparatorFactory {
     return new Comparator<Double>() {
       @Override
       public int compare(Double o1, Double o2) {
-        if(isNanOrInfinity(precision)){
-          return 0;
-        }
-
         if (compareAsBigDecimalWithPrecision(o1, o2, precision)) {
           return 0;
         }
@@ -100,9 +102,6 @@ public class ComparatorFactory {
     return new Comparator<Float>() {
       @Override
       public int compare(Float o1, Float o2) {
-        if(isNanOrInfinity(precision)){
-          return 0;
-        }
         if (compareAsBigDecimalWithPrecision(o1, o2, precision)) {
           return 0;
         }

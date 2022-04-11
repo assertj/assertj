@@ -12,19 +12,21 @@
  */
 package org.assertj.core.internal;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.ComparatorFactory;
-import org.assertj.core.data.Offset;
-import org.assertj.core.data.Percentage;
-
-import java.util.Objects;
-
 import static java.lang.Math.abs;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualWithinPercentage.shouldBeEqualWithinPercentage;
 import static org.assertj.core.error.ShouldNotBeEqualWithinOffset.shouldNotBeEqual;
 import static org.assertj.core.error.ShouldNotBeEqualWithinPercentage.shouldNotBeEqualWithinPercentage;
-import static org.assertj.core.internal.CommonValidations.*;
+import static org.assertj.core.internal.CommonValidations.checkNumberIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkOffsetIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkPercentageIsNotNull;
+
+import java.util.Objects;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.ComparatorFactory;
+import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
 
 /**
  * Base class of reusable assertions for numbers.
@@ -51,7 +53,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    * Asserts that the actual value is equal to zero.<br>
    * It does not rely on the custom comparisonStrategy (if one is set).
    *
-   * @param info   contains information about the assertion.
+   * @param info contains information about the assertion.
    * @param actual the actual value.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to zero.
@@ -64,7 +66,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    * Asserts that the actual value is not equal to zero.<br>
    * It does not rely on the custom comparisonStrategy (if one is set).
    *
-   * @param info   contains information about the assertion.
+   * @param info contains information about the assertion.
    * @param actual the actual value.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to zero.
@@ -77,7 +79,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    * Asserts that the actual value is equal to one.<br>
    * It does not rely on the custom comparisonStrategy (if one is set).
    *
-   * @param info   contains information about the assertion.
+   * @param info contains information about the assertion.
    * @param actual the actual value.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to one.
@@ -89,7 +91,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
   /**
    * Asserts that the actual value is negative.
    *
-   * @param info   contains information about the assertion.
+   * @param info contains information about the assertion.
    * @param actual the actual value.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not negative: it is either equal to or greater than zero.
@@ -101,7 +103,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
   /**
    * Asserts that the actual value is positive.
    *
-   * @param info   contains information about the assertion.
+   * @param info contains information about the assertion.
    * @param actual the actual value.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not positive: it is either equal to or less than zero.
@@ -113,7 +115,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
   /**
    * Asserts that the actual value is not negative.
    *
-   * @param info   contains information about the assertion.
+   * @param info contains information about the assertion.
    * @param actual the actual value.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is negative.
@@ -125,7 +127,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
   /**
    * Asserts that the actual value is not positive.
    *
-   * @param info   contains information about the assertion.
+   * @param info contains information about the assertion.
    * @param actual the actual value.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is positive.
@@ -137,15 +139,15 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
   /**
    * Asserts that the actual value is in [start, end] range (start included, end included).
    *
-   * @param info   contains information about the assertion.
+   * @param info contains information about the assertion.
    * @param actual the actual value.
-   * @param start  range start value
-   * @param end    range end value
-   * @throws AssertionError       if the actual value is {@code null}.
-   * @throws AssertionError       if the actual value is positive.
+   * @param start range start value
+   * @param end range end value
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is positive.
    * @throws NullPointerException if start value is {@code null}.
    * @throws NullPointerException if end value is {@code null}.
-   * @throws AssertionError       if the actual value is not in [start, end] range.
+   * @throws AssertionError if the actual value is not in [start, end] range.
    */
   public void assertIsBetween(AssertionInfo info, NUMBER actual, NUMBER start, NUMBER end) {
     assertIsBetween(info, actual, start, end, true, true);
@@ -154,14 +156,14 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
   /**
    * Asserts that the actual value is in ]start, end[ range (start excluded, end excluded).
    *
-   * @param info   contains information about the assertion.
+   * @param info contains information about the assertion.
    * @param actual the actual value.
-   * @param start  the start value (exclusive), expected not to be null.
-   * @param end    the end value (exclusive), expected not to be null.
-   * @throws AssertionError       if the actual value is {@code null}.
+   * @param start the start value (exclusive), expected not to be null.
+   * @param end the end value (exclusive), expected not to be null.
+   * @throws AssertionError if the actual value is {@code null}.
    * @throws NullPointerException if start value is {@code null}.
    * @throws NullPointerException if end value is {@code null}.
-   * @throws AssertionError       if the actual value is not in ]start, end[ range.
+   * @throws AssertionError if the actual value is not in ]start, end[ range.
    */
   public void assertIsStrictlyBetween(AssertionInfo info, NUMBER actual, NUMBER start, NUMBER end) {
     assertIsBetween(info, actual, start, end, false, false);
@@ -173,10 +175,10 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    * It does not rely on the custom comparisonStrategy (if one is set) because using an offset is already a specific
    * comparison strategy.
    *
-   * @param info     contains information about the assertion.
-   * @param actual   the actual value.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
    * @param expected the value to compare actual too.
-   * @param offset   the given positive offset.
+   * @param offset the given positive offset.
    */
   public void assertIsCloseTo(final AssertionInfo info, final NUMBER actual, final NUMBER expected,
                               final Offset<NUMBER> offset) {
@@ -194,10 +196,10 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
   /**
    * Asserts that the actual value is not close to the expected one by less than the given offset.
    *
-   * @param info     contains information about the assertion.
-   * @param actual   the actual value.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
    * @param expected the value to compare actual too.
-   * @param offset   the given positive offset.
+   * @param offset the given positive offset.
    */
   public void assertIsNotCloseTo(final AssertionInfo info, final NUMBER actual, final NUMBER expected,
                                  final Offset<NUMBER> offset) {
@@ -219,9 +221,9 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
   /**
    * Asserts that the actual value is close to the an offset expressed as an percentage value.
    *
-   * @param info       contains information about the assertion.
-   * @param actual     the actual value.
-   * @param other      the expected value.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param other the expected value.
    * @param percentage the given positive percentage.
    */
   public void assertIsCloseToPercentage(final AssertionInfo info, final NUMBER actual, final NUMBER other,
@@ -240,9 +242,9 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
   /**
    * Asserts that the actual value is not close to the an offset expressed as an percentage value.
    *
-   * @param info       contains information about the assertion.
-   * @param actual     the actual value.
-   * @param other      the expected value.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param other the expected value.
    * @param percentage the given positive percentage.
    */
   public void assertIsNotCloseToPercentage(final AssertionInfo info, final NUMBER actual, final NUMBER other,
