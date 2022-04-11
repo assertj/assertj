@@ -16,6 +16,8 @@ import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.Objects;
 
+import static java.lang.Math.abs;
+
 public class ComparatorFactory {
 
   public static final ComparatorFactory INSTANCE = new ComparatorFactory();
@@ -67,9 +69,6 @@ public class ComparatorFactory {
     if (isNanOrInfinity(precision)) {
       throw new IllegalArgumentException("Precision should not be NaN or Infinity!");
     }
-    if (isNanOrInfinity(expected) || isNanOrInfinity(actual)) {
-      return expected.doubleValue() - actual.doubleValue() <= precision.doubleValue();
-    }
 
     BigDecimal expectedBigDecimal = asBigDecimal(expected);
     BigDecimal actualBigDecimal = asBigDecimal(actual);
@@ -84,6 +83,9 @@ public class ComparatorFactory {
     return new Comparator<Double>() {
       @Override
       public int compare(Double o1, Double o2) {
+        if(isNanOrInfinity(o1) || isNanOrInfinity(o2)){
+          return Double.compare(o1, o2);
+        }
         if (compareAsBigDecimalWithPrecision(o1, o2, precision)) {
           return 0;
         }
@@ -102,6 +104,9 @@ public class ComparatorFactory {
     return new Comparator<Float>() {
       @Override
       public int compare(Float o1, Float o2) {
+        if(isNanOrInfinity(o1) || isNanOrInfinity(o2)){
+          return Float.compare(o1, o2);
+        }
         if (compareAsBigDecimalWithPrecision(o1, o2, precision)) {
           return 0;
         }

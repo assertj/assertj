@@ -74,17 +74,17 @@ public class ComparatorFactory_doubleComparatorWithPrecision {
   }
 
   @Test
-  void should_pass_for_nan_precision() {
+  void should_fail_for_nan_precision() {
     Comparator<Double> comparatorNan = INSTANCE.doubleComparatorWithPrecision(Double.NaN);
-    assertThat(comparatorNan.compare(1d, 2d)).isEqualTo(0);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(comparatorNan.compare(1d, 2d)).isEqualTo(0));
   }
 
   @Test
-  void should_pass_for_infinity_precision() {
+  void should_fail_for_infinity_precision() {
     Comparator<Double> comparatorPositiveInfinity = INSTANCE.doubleComparatorWithPrecision(Double.POSITIVE_INFINITY);
-    assertThat(comparatorPositiveInfinity.compare(1d, 2d)).isEqualTo(0);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(comparatorPositiveInfinity.compare(1d, 2d)).isEqualTo(0));
     Comparator<Double> comparatorNegativeInfinity = INSTANCE.doubleComparatorWithPrecision(Double.NEGATIVE_INFINITY);
-    assertThat(comparatorNegativeInfinity.compare(1d, 2d)).isEqualTo(0);
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(comparatorNegativeInfinity.compare(1d, 2d)).isEqualTo(0));
   }
 
 

@@ -30,7 +30,6 @@ import org.junit.jupiter.api.Test;
  */
 class ShouldHaveSameFileSystemAs_create_Test {
 
-
   @Test
   void should_create_error_message_for_expected_path() {
     // GIVEN
