@@ -66,10 +66,6 @@ public class ComparatorFactory {
 
   private static <T extends Number & Comparable<T>> boolean compareAsBigDecimalWithPrecision(T expected, T actual, T precision) {
     // java.math.BigDecimal cannot handle NAN or Infinity cases.
-    if (isNanOrInfinity(precision)) {
-      throw new IllegalArgumentException("Precision should not be NaN or Infinity!");
-    }
-
     BigDecimal expectedBigDecimal = asBigDecimal(expected);
     BigDecimal actualBigDecimal = asBigDecimal(actual);
     BigDecimal absDifference = expectedBigDecimal.subtract(actualBigDecimal).abs();
@@ -83,6 +79,10 @@ public class ComparatorFactory {
     return new Comparator<Double>() {
       @Override
       public int compare(Double o1, Double o2) {
+        if(isNanOrInfinity(precision)){
+          throw new IllegalArgumentException("Precision should not be Nan or Infinity!");
+        }
+
         if(isNanOrInfinity(o1) || isNanOrInfinity(o2)){
           return Double.compare(o1, o2);
         }
@@ -104,6 +104,9 @@ public class ComparatorFactory {
     return new Comparator<Float>() {
       @Override
       public int compare(Float o1, Float o2) {
+        if(isNanOrInfinity(precision)){
+          throw new IllegalArgumentException("Precision should not be Nan or Infinity!");
+        }
         if(isNanOrInfinity(o1) || isNanOrInfinity(o2)){
           return Float.compare(o1, o2);
         }
