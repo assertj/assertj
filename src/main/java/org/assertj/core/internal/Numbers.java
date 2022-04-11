@@ -78,7 +78,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
   /**
    * Asserts that the actual value is equal to one.<br>
    * It does not rely on the custom comparisonStrategy (if one is set).
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the actual value.
    * @throws AssertionError if the actual value is {@code null}.
