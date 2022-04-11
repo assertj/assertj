@@ -174,7 +174,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
    * <p>
    * It does not rely on the custom comparisonStrategy (if one is set) because using an offset is already a specific
    * comparison strategy.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the actual value.
    * @param expected the value to compare actual too.
@@ -195,7 +195,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
 
   /**
    * Asserts that the actual value is not close to the expected one by less than the given offset.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the actual value.
    * @param expected the value to compare actual too.
@@ -220,7 +220,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
 
   /**
    * Asserts that the actual value is close to the an offset expressed as an percentage value.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the actual value.
    * @param other the expected value.
@@ -241,7 +241,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
 
   /**
    * Asserts that the actual value is not close to the an offset expressed as an percentage value.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the actual value.
    * @param other the expected value.
