@@ -18,6 +18,7 @@ import static org.assertj.core.error.ShouldHaveFileSystem.shouldHaveFileSystem;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
+import java.io.File;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -42,9 +43,10 @@ class ShouldHaveFileSystem_create_Test {
     String message = shouldHaveFileSystem(actual, fileSystem).create();
     // THEN
     then(message).isEqualTo(format("%nExpecting path:%n" +
-                                   "  /foo/bar%n" +
+                                   "  %sfoo%sbar%n" +
                                    "to have file system:%n" +
-                                   "  MySpecialFileSystem"));
+                                   "  MySpecialFileSystem",
+                                   File.separator, File.separator));
   }
 
   @Test
@@ -58,8 +60,9 @@ class ShouldHaveFileSystem_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting path:%n" +
-                                   "  /foo/bar%n" +
+                                   "  %sfoo%sbar%n" +
                                    "to have file system:%n" +
-                                   "  MySpecialFileSystem"));
+                                   "  MySpecialFileSystem",
+                                   File.separator, File.separator));
   }
 }
