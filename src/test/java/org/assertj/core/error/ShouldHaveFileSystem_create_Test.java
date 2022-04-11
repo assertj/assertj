@@ -43,10 +43,10 @@ class ShouldHaveFileSystem_create_Test {
     String message = shouldHaveFileSystem(actual, fileSystem).create();
     // THEN
     then(message).isEqualTo(format("%nExpecting path:%n" +
-        "  %sfoo%sbar%n" +
-        "to have file system:%n" +
-        "  MySpecialFileSystem",
-      File.separator, File.separator));
+                                   "  %sfoo%sbar%n" +
+                                   "to have file system:%n" +
+                                   "  MySpecialFileSystem",
+                                   File.separator, File.separator));
   }
 
   @Test
@@ -59,10 +59,10 @@ class ShouldHaveFileSystem_create_Test {
     String message = shouldHaveFileSystem(actual, fileSystem).create(new TextDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-        "Expecting path:%n" +
-        "  %sfoo%sbar%n" +
-        "to have file system:%n" +
-        "  MySpecialFileSystem",
-      File.separator, File.separator));
+                                   "Expecting path:%n" +
+                                   "  %sfoo%sbar%n" +
+                                   "to have file system:%n" +
+                                   "  MySpecialFileSystem",
+                                   File.separator, File.separator));
   }
 }
