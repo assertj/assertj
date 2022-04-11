@@ -20,32 +20,40 @@ import java.util.Comparator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 public class ComparatorFactory_floatComparatorWithPrecision {
 
   private final ComparatorFactory INSTANCE = ComparatorFactory.INSTANCE;
 
   @ParameterizedTest
-  @CsvSource({"0.111f, 0.01f, 100"})
-  void should_pass_for_expected_equal_to_actual_in_certain_range1(Float expected, Float precision, Float deltaParameter) {
-    Float actual = expected + precision;
-    Comparator<Float> comparator0_01f = INSTANCE.floatComparatorWithPrecision(precision);
+  @CsvSource({"0.111f, 0.110f, 0.001f, 0.000001f",
+              "0.12345f, 0.12346f, 0.00001f, 1e-6",
+              "0.54321, 0.54320, 0.0001, 1e-4",
+              "1.2463, 1.2464, 0.0001, 1e-6"})
+  void should_pass_for_expected_equal_to_actual_in_certain_range1(Float expected, Float actual, Float precision, Float smallDifference) {
+    Comparator<Float> comparator = INSTANCE.floatComparatorWithPrecision(precision);
+    Float max = Math.max(expected, actual), min = Math.min(expected, actual);
 
-    assertThat(comparator0_01f.compare(expected, actual)).isEqualTo(0);
-    assertThat(comparator0_01f.compare(actual, expected)).isEqualTo(0);
-    assertThat(comparator0_01f.compare(actual + precision / deltaParameter, expected)).isEqualTo(1);
-    assertThat(comparator0_01f.compare(expected, actual + precision / deltaParameter)).isEqualTo(-1);
+    assertThat(comparator.compare(max, min)).isEqualTo(0);
+    assertThat(comparator.compare(min, max)).isEqualTo(0);
+    assertThat(comparator.compare(max + smallDifference, min)).isEqualTo(1);
+    assertThat(comparator.compare(min - smallDifference, max)).isEqualTo(-1);
   }
 
   @ParameterizedTest
-  @CsvSource({"1f, 0.00001f, 100"})
-  void should_pass_for_expected_equal_to_actual_in_certain_range2(Float expected, Float precision, Float deltaParameter) {
-    Comparator<Float> comparator0_1_6f = INSTANCE.floatComparatorWithPrecision(precision);
+  @CsvSource({"0.111f, 0.110f, 0.000999f, 0.000001f",
+              "0.12345f, 0.12346f, 0.000009f, 0.00001f",
+              "0.7654321f, 0.7654320f, 9e-8, 1e-7",
+              "1.2463, 1.2464, 9e-5, 1e-4"})
+  void should_pass_for_expected_equal_to_actual_in_certain_range2(Float expected, Float actual, Float precision, Float smallDifference) {
+    Comparator<Float> comparator = INSTANCE.floatComparatorWithPrecision(precision);
+    Float max = Math.max(expected, actual), min = Math.min(expected, actual);
 
-    assertThat(comparator0_1_6f.compare(expected + precision, expected)).isEqualTo(0);
-    assertThat(comparator0_1_6f.compare(expected - precision, expected)).isEqualTo(0);
-    assertThat(comparator0_1_6f.compare(expected + precision + precision / deltaParameter, expected)).isEqualTo(1);
-    assertThat(comparator0_1_6f.compare(expected - precision - precision / deltaParameter, expected)).isEqualTo(-1);
+    expectAssertionError(() -> assertThat(comparator.compare(max, min)).isEqualTo(0));
+    expectAssertionError(() -> assertThat(comparator.compare(min, max)).isEqualTo(0));
+    expectAssertionError(() -> assertThat(comparator.compare(max - smallDifference, min)).isEqualTo(1));
+    expectAssertionError(() -> assertThat(comparator.compare(min + smallDifference, max)).isEqualTo(-1));
   }
 
   @Test

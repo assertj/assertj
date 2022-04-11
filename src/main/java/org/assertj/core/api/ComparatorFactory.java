@@ -46,7 +46,7 @@ public class ComparatorFactory {
    * @return the BigDecimalObject
    */
 
-  private static <T extends Number & Comparable<T>> BigDecimal asBigDecimal(T number) {
+  public static <T extends Number & Comparable<T>> BigDecimal asBigDecimal(T number) {
     return new BigDecimal(String.valueOf(number));
   }
 

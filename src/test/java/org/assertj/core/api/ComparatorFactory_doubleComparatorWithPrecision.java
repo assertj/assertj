@@ -18,34 +18,44 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Comparator;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 public class ComparatorFactory_doubleComparatorWithPrecision {
 
   private final ComparatorFactory INSTANCE = ComparatorFactory.INSTANCE;
 
   @ParameterizedTest
-  @CsvSource({"0.111, 0.01, 100"})
-  void should_pass_for_expected_equal_to_actual_in_certain_range1(Double expected, Double precision, Double deltaParameter) {
-    Double actual = expected + precision;
+  @CsvSource({"0.111, 0.110, 0.001, 0.000001",
+              "0.12345, 0.12346, 0.00001, 1e-10",
+              "0.7654321, 0.7654320, 0.0000001, 1e-9",
+              "1.2463, 1.2464, 0.0001, 1e-8"})
+  void should_pass_for_expected_equal_to_actual_in_certain_range(Double expected, Double actual, Double precision, Double smallDifference) {
     Comparator<Double> comparator0_1d = INSTANCE.doubleComparatorWithPrecision(precision);
+    Double max = Math.max(expected, actual), min = Math.min(expected, actual);
 
-    assertThat(comparator0_1d.compare(expected, actual)).isEqualTo(0);
-    assertThat(comparator0_1d.compare(actual, expected)).isEqualTo(0);
-    assertThat(comparator0_1d.compare(actual + precision / deltaParameter, expected)).isEqualTo(1);
-    assertThat(comparator0_1d.compare(expected, actual + precision / deltaParameter)).isEqualTo(-1);
+    assertThat(comparator0_1d.compare(max, min)).isEqualTo(0);
+    assertThat(comparator0_1d.compare(min, max)).isEqualTo(0);
+    assertThat(comparator0_1d.compare(max + smallDifference, min)).isEqualTo(1);
+    assertThat(comparator0_1d.compare(min - smallDifference, max)).isEqualTo(-1);
   }
 
   @ParameterizedTest
-  @CsvSource({"1d, 1e-9, 10"})
-  void should_pass_for_expected_equal_to_actual_in_certain_range2(Double expected, Double precision, Double deltaParameter) {
+  @CsvSource({"0.111, 0.110, 0.000999, 0.000001",
+              "0.12345, 0.12346, 0.000009, 0.00001",
+              "0.7654321, 0.7654320, 9e-8, 1e-7",
+              "1.2463, 1.2464, 9e-5, 1e-4"})
+  void should_fail_for_expected_equal_to_actual_not_in_certain_range(Double expected, Double actual, Double precision, Double smallDifference) {
     Comparator<Double> comparator0_1d = INSTANCE.doubleComparatorWithPrecision(precision);
+    Double max = Math.max(expected, actual), min = Math.min(expected, actual);
 
-    assertThat(comparator0_1d.compare(expected + precision, expected)).isEqualTo(0);
-    assertThat(comparator0_1d.compare(expected - precision, 1d)).isEqualTo(0);
-    assertThat(comparator0_1d.compare(expected + precision + precision / deltaParameter, 1d)).isEqualTo(1);
-    assertThat(comparator0_1d.compare(expected - precision - precision / deltaParameter, 1d)).isEqualTo(-1);
+    expectAssertionError(()-> assertThat(comparator0_1d.compare(max, min)).isEqualTo(0));
+    expectAssertionError(() -> assertThat(comparator0_1d.compare(min, max)).isEqualTo(0));
+    expectAssertionError(() -> assertThat(comparator0_1d.compare(max - smallDifference, min)).isEqualTo(1));
+    expectAssertionError(() -> assertThat(comparator0_1d.compare(min + smallDifference, max)).isEqualTo(-1));
+
   }
 
   @Test
@@ -81,7 +91,7 @@ public class ComparatorFactory_doubleComparatorWithPrecision {
   @Test
   void should_fail_for_null_argument() {
     Comparator<Double> comparator1d = INSTANCE.doubleComparatorWithPrecision(1d);
-    assertThatExceptionOfType(NullPointerException.class).isThrownBy(() -> assertThat(comparator1d.compare(null, 1d)).isEqualTo(0));
-    assertThatExceptionOfType(NullPointerException.class).isThrownBy(() -> assertThat(comparator1d.compare(1d, null)).isEqualTo(0));
+    assertThatNullPointerException().isThrownBy(() -> assertThat(comparator1d.compare(null, 1d)).isEqualTo(0));
+    assertThatNullPointerException().isThrownBy(() -> assertThat(comparator1d.compare(1d, null)).isEqualTo(0));
   }
 }

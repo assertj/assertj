@@ -30,6 +30,7 @@ import static org.assertj.core.error.ShouldHaveSameFileSystemAs.shouldHaveSameFi
  */
 class ShouldHaveSameFileSystemAs_create_Test {
 
+
   @Test
   void should_create_error_message_for_expected_path() {
     // GIVEN
@@ -39,9 +40,10 @@ class ShouldHaveSameFileSystemAs_create_Test {
     String message = shouldHaveSameFileSystemAs(actual, expected).create();
     // THEN
     then(message).isEqualTo(format("%nExpecting path:%n" +
-      "  " + File.separator + "foo" + File.separator + "bar%n" +
-      "to have the same file system as path:%n" +
-      "  " + File.separator + "baz" + File.separator + "bork"));
+        "  %sfoo%sbar%n" +
+        "to have the same file system as path:%n" +
+        "  %sbaz%sbork",
+      File.separator, File.separator, File.separator, File.separator));
   }
 
   @Test
@@ -53,9 +55,10 @@ class ShouldHaveSameFileSystemAs_create_Test {
     String message = shouldHaveSameFileSystemAs(actual, expected).create(new TextDescription("Test"));
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-      "Expecting path:%n" +
-      "  " + File.separator + "foo" + File.separator + "bar%n" +
-      "to have the same file system as path:%n" +
-      "  " + File.separator + "baz" + File.separator + "bork"));
+        "Expecting path:%n" +
+        "  %sfoo%sbar%n" +
+        "to have the same file system as path:%n" +
+        "  %sbaz%sbork",
+      File.separator, File.separator, File.separator, File.separator));
   }
 }

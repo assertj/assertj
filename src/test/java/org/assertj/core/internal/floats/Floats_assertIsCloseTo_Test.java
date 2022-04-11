@@ -12,25 +12,24 @@
  */
 package org.assertj.core.internal.floats;
 
-import static java.lang.Float.NEGATIVE_INFINITY;
-import static java.lang.Float.NaN;
-import static java.lang.Float.POSITIVE_INFINITY;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.byLessThan;
-import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.api.Assertions.within;
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.FloatsBaseTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
+import static java.lang.Float.*;
+import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.ComparatorFactory.asBigDecimal;
+import static org.assertj.core.api.ComparatorFactory.isNanOrInfinity;
 import static org.assertj.core.data.Offset.offset;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.assertj.core.internal.ErrorMessages.offsetIsNull;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
-
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.FloatsBaseTest;
-import org.junit.jupiter.api.Test;
 
 class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
 
@@ -40,6 +39,13 @@ class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
   private static final Float TEN = 10f;
 
   // success
+
+  private float absDifference(Float f1, Float f2) {
+    if (isNanOrInfinity(f1) || isNanOrInfinity(f2)) {
+      return Math.abs(f1 - f2);
+    }
+    return asBigDecimal(f1).subtract(asBigDecimal(f2)).abs().floatValue();
+  }
 
   @Test
   void should_pass_if_difference_is_less_than_given_offset() {
@@ -79,33 +85,32 @@ class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
 
   // error or failure
 
-  @Test
-  void should_fail_if_actual_is_bigger_than_expected_byLessThan_range1(){
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsCloseTo(someInfo(), 1.0f, 1.1f,
-      byLessThan(0.1f)));
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsCloseTo(someInfo(), 1.0f, 1.1f,
-      within(0.0999999f)));
+  @ParameterizedTest
+  @CsvSource({"1.1f, 1.0f, 0.1f", "0.375f, 0.125f, 0.25f"})
+  void should_fail_if_actual_is_bigger_than_expected_byLessThan_range(Float expected, Float actual, Float precision) {
+    AssertionError assertionError = expectAssertionError(() -> floats.assertIsCloseTo(someInfo(), actual, expected,
+      byLessThan(precision)));
+    then(assertionError).hasMessage(shouldBeEqual(actual, expected, byLessThan(precision), absDifference(expected, actual)).create());
   }
 
-  @Test
-  void should_fail_if_actual_is_bigger_than_expected_byLessThan_range2(){
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsCloseTo(someInfo(), 0.375f, 0.125f,
-      byLessThan(0.25f)));
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsCloseTo(someInfo(), 0.375f, 0.125f,
-      within(0.2499999f)));
+  @ParameterizedTest
+  @CsvSource({"1.1f, 1.0f, 0.0999999f", "0.375f, 0.125f, 0.2499999f"})
+  void should_fail_if_actual_is_bigger_than_expected_within_range(Float expected, Float actual, Float precision) {
+    AssertionError assertionError = expectAssertionError(() -> floats.assertIsCloseTo(someInfo(), actual, expected, within(precision)));
+    then(assertionError).hasMessage(shouldBeEqual(actual, expected, byLessThan(precision), absDifference(expected, actual)).create());
   }
 
 
   @Test
   void should_throw_error_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsCloseTo(someInfo(), null, ONE, within(ONE)))
-                                                   .withMessage(actualIsNull());
+    AssertionError assertionError = expectAssertionError(() -> floats.assertIsCloseTo(someInfo(), null, ONE, within(ONE)));
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
   void should_throw_error_if_expected_value_is_null() {
     assertThatNullPointerException().isThrownBy(() -> floats.assertIsCloseTo(someInfo(), 6f, null, offset(1f)))
-                                    .withMessage("The given number should not be null");
+      .withMessage("The given number should not be null");
   }
 
   @Test
@@ -145,27 +150,32 @@ class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
 
   @Test
   void should_fail_if_actual_is_NaN_and_expected_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsCloseTo(someInfo(), NaN, ONE, within(ONE)));
+    AssertionError assertionError = expectAssertionError(() -> floats.assertIsCloseTo(someInfo(), NaN, ONE, within(ONE)));
+    then(assertionError).hasMessage(shouldBeEqual(NaN, ONE, within(ONE), NaN - ONE).create());
   }
 
   @Test
   void should_fail_if_actual_is_POSITIVE_INFINITY_and_expected_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsCloseTo(someInfo(), POSITIVE_INFINITY, ONE, within(ONE)));
+    AssertionError assertionError = expectAssertionError(() -> floats.assertIsCloseTo(someInfo(), POSITIVE_INFINITY, ONE, within(ONE)));
+    then(assertionError).hasMessage(shouldBeEqual(POSITIVE_INFINITY, ONE, within(ONE), absDifference(POSITIVE_INFINITY, ONE)).create());
   }
 
   @Test
   void should_fail_if_actual_is_NEGATIVE_INFINITY_and_expected_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsCloseTo(someInfo(), NEGATIVE_INFINITY, ONE, within(ONE)));
+    AssertionError assertionError = expectAssertionError(() -> floats.assertIsCloseTo(someInfo(), NEGATIVE_INFINITY, ONE, within(ONE)));
+    then(assertionError).hasMessage(shouldBeEqual(NEGATIVE_INFINITY, ONE, within(ONE), absDifference(NEGATIVE_INFINITY, ONE)).create());
   }
 
   @Test
   void should_fail_if_actual_is_POSITIVE_INFINITY_and_expected_is_NEGATIVE_INFINITY() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsCloseTo(someInfo(), POSITIVE_INFINITY, NEGATIVE_INFINITY, within(ONE)));
+    AssertionError assertionError = expectAssertionError(() -> floats.assertIsCloseTo(someInfo(), POSITIVE_INFINITY, NEGATIVE_INFINITY, within(ONE)));
+    then(assertionError).hasMessage(shouldBeEqual(POSITIVE_INFINITY, NEGATIVE_INFINITY, within(ONE), absDifference(POSITIVE_INFINITY, NEGATIVE_INFINITY)).create());
   }
 
   @Test
   void should_fail_if_actual_is_NEGATIVE_INFINITY_and_expected_is_POSITIVE_INFINITY() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsCloseTo(someInfo(), NEGATIVE_INFINITY, POSITIVE_INFINITY, within(ONE)));
+    AssertionError assertionError = expectAssertionError(() -> floats.assertIsCloseTo(someInfo(), NEGATIVE_INFINITY, POSITIVE_INFINITY, within(ONE)));
+    then(assertionError).hasMessage(shouldBeEqual(NEGATIVE_INFINITY, POSITIVE_INFINITY, within(ONE), absDifference(POSITIVE_INFINITY, NEGATIVE_INFINITY)).create());
   }
 
   // with comparison strategy
@@ -189,8 +199,8 @@ class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
     assertThatNullPointerException().isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(),
         8f,
         8f,
-                                                                                                           null))
-                                    .withMessage(offsetIsNull());
+        null))
+      .withMessage(offsetIsNull());
   }
 
   @Test
@@ -216,9 +226,9 @@ class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
   @Test
   void should_throw_error_if_expected_value_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsCloseTo(someInfo(),
-                                                                                                           6f, null,
-                                                                                                           offset(1f)))
-                                    .withMessage("The given number should not be null");
+        6f, null,
+        offset(1f)))
+      .withMessage("The given number should not be null");
   }
 
 }
