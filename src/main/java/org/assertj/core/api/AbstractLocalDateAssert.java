@@ -481,6 +481,87 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
   }
 
   /**
+   * Verifies that actual {@code LocalDate} is in the given month.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Assertion succeeds:
+   * assertThat(LocalDate.of(2000, 12, 31)).hasMonth(LocalDate.of(2002, 12, 1).getMonth());
+   *
+   * // Assertion fails:
+   * assertThat(LocalDate.of(2000, 12, 31)).hasYear(LocalDate.of(2001, 5, 29).getMonth());</code></pre>
+   *
+   * @param month the given month.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDate} is not in the given month.
+   *
+   * @since 3.23.0
+   */
+  // REQUIRES TESTING TO BE WRITTEN
+  public SELF hasMonth(Month month) {
+    Objects.instance().assertNotNull(info, actual);
+    if (actual.getMonth().equals(month)) {
+      // weird situation. Do we need another shouldHaveDateField that takes Month enums?
+      // or is passing the int value enough?
+      throw Failures.instance().failure(info, shouldHaveDateField(actual, "month", month.getValue()));
+    }
+    return myself;
+  }
+
+  /**
+   * Verifies that actual {@code LocalDate} is in the given month.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Assertion succeeds:
+   * assertThat(LocalDate.of(2000, 12, 31)).hasMonth(12);
+   *
+   * // Assertion fails:
+   * assertThat(LocalDate.of(2000, 12, 31)).hasYear(11);</code></pre>
+   *
+   * @param month the given month's value between 1 and 12 inclusive.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDate} is not in the given month.
+   *
+   * @since 3.23.0
+   */
+  // REQUIRES TESTING TO BE WRITTEN
+  public SELF hasMonth(int month) {
+    Objects.instance().assertNotNull(info, actual);
+    if (actual.getMonthValue() == month) {
+      throw Failures.instance().failure(info, shouldHaveDateField(actual, "month", month));
+    }
+    return myself;
+  }
+
+  /**
+   * Verifies that actual {@code LocalDate} is in the given day.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Assertion succeeds:
+   * assertThat(LocalDate.of(2000, 12, 31)).hasDayOfMonth(31);
+   *
+   * // Assertion fails:
+   * assertThat(LocalDate.of(2000, 12, 31)).hasDayOfMonth(11);</code></pre>
+   *
+   * @param month the given month's value between 1 and 31 inclusive.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDate} is not in the given day.
+   *
+   * @since 3.23.0
+   */
+  // REQUIRES TESTING TO BE WRITTEN
+  public SELF hasDayOfMonth(int dayOfMonth) {
+    Objects.instance().assertNotNull(info, actual);
+    if (actual.getDayOfMonth() == dayOfMonth) {
+      throw Failures.instance().failure(info, shouldHaveDateField(actual, "day of month", dayOfMonth));
+    }
+    return myself;
+  }
+
+
+  /**
    * {@inheritDoc}
    */
   @Override
