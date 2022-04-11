@@ -12,16 +12,16 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.description.TextDescription;
-import org.junit.jupiter.api.Test;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldHaveSameFileSystemAs.shouldHaveSameFileSystemAs;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldHaveSameFileSystemAs.shouldHaveSameFileSystemAs;
+import org.assertj.core.description.TextDescription;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link ShouldHaveSameFileSystemAs}.

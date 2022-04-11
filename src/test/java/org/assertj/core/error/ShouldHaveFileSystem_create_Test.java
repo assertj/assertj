@@ -12,19 +12,19 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.description.TextDescription;
-import org.junit.jupiter.api.Test;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldHaveFileSystem.shouldHaveFileSystem;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 
 import java.io.File;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldHaveFileSystem.shouldHaveFileSystem;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
+import org.assertj.core.description.TextDescription;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link ShouldHaveFileSystem}.
