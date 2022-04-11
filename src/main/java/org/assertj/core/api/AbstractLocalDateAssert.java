@@ -21,6 +21,7 @@ import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 
@@ -488,7 +489,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * assertThat(LocalDate.of(2000, 12, 31)).hasMonth(LocalDate.of(2002, 12, 1).getMonth());
    *
    * // Assertion fails:
-   * assertThat(LocalDate.of(2000, 12, 31)).hasYear(LocalDate.of(2001, 5, 29).getMonth());</code></pre>
+   * assertThat(LocalDate.of(2000, 12, 31)).hasMonth(LocalDate.of(2001, 5, 29).getMonth());</code></pre>
    *
    * @param month the given month.
    * @return this assertion object.
@@ -516,7 +517,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * assertThat(LocalDate.of(2000, 12, 31)).hasMonth(12);
    *
    * // Assertion fails:
-   * assertThat(LocalDate.of(2000, 12, 31)).hasYear(11);</code></pre>
+   * assertThat(LocalDate.of(2000, 12, 31)).hasMonth(11);</code></pre>
    *
    * @param month the given month's value between 1 and 12 inclusive.
    * @return this assertion object.
