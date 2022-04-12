@@ -51,6 +51,7 @@ public class LocalDateAssert_hasMonthEnum_Test {
     // THEN
     then(assertionError).hasMessage(shouldHaveDateField(actual, "month", other.getMonth().getValue()).create());
   }
+
   @Test
   void should_fail_if_actual_is_null() {
     // GIVEN
