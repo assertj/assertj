@@ -34,7 +34,7 @@ public class ComparatorFactory {
     // avoid null argument
     if (number instanceof Float) {
       return ((Float) number).isNaN() || ((Float) number).isInfinite();
-    } else if (Objects.requireNonNull(number) instanceof Double) {
+    } else if (number instanceof Double) {
       return ((Double) number).isNaN() || ((Double) number).isInfinite();
     }
 

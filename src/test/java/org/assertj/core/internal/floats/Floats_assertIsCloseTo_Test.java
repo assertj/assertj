@@ -97,7 +97,7 @@ class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
   @CsvSource({"1.1f, 1.0f, 0.0999999f", "0.375f, 0.125f, 0.2499999f"})
   void should_fail_if_actual_is_bigger_than_expected_within_range(Float expected, Float actual, Float precision) {
     AssertionError assertionError = expectAssertionError(() -> floats.assertIsCloseTo(someInfo(), actual, expected, within(precision)));
-    then(assertionError).hasMessage(shouldBeEqual(actual, expected, byLessThan(precision), absDifference(expected, actual)).create());
+    then(assertionError).hasMessage(shouldBeEqual(actual, expected, within(precision), absDifference(expected, actual)).create());
   }
 
 
