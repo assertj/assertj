@@ -501,7 +501,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
   // REQUIRES TESTING TO BE WRITTEN
   public SELF hasMonth(Month month) {
     Objects.instance().assertNotNull(info, actual);
-    if (actual.getMonth().equals(month)) {
+    if (!actual.getMonth().equals(month)) {
       // weird situation. Do we need another shouldHaveDateField that takes Month enums?
       // or is passing the int value enough?
       throw Failures.instance().failure(info, shouldHaveDateField(actual, "month", month.getValue()));
@@ -529,7 +529,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
   // REQUIRES TESTING TO BE WRITTEN
   public SELF hasMonth(int month) {
     Objects.instance().assertNotNull(info, actual);
-    if (actual.getMonthValue() == month) {
+    if (actual.getMonthValue() != month) {
       throw Failures.instance().failure(info, shouldHaveDateField(actual, "month", month));
     }
     return myself;
