@@ -3,12 +3,13 @@ package org.assertj.core.api.localdate;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.time.Month
+import java.time.Month;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 public class LocalDateAssert_hasMonthEnum_Test {
 
@@ -21,7 +22,7 @@ public class LocalDateAssert_hasMonthEnum_Test {
   }
 
   @Test
-  void should_pass_if_actual_is_in_given_month_from_localdate() {
+  void should_pass_if_actual_is_in_given_month2() {
     // GIVEN
     LocalDate actual = LocalDate.of(2021, 2, 22);
     LocalDate other = LocalDate.of(2022, 2, 21);
@@ -41,7 +42,7 @@ public class LocalDateAssert_hasMonthEnum_Test {
   }
 
   @Test
-  void should_fail_if_actual_is_not_in_given_month() {
+  void should_fail_if_actual_is_not_in_given_month2() {
     // GIVEN
     LocalDate actual = LocalDate.of(2022, 1, 1);
     LocalDate other = LocalDate.of(2022, 2, 1);
@@ -49,6 +50,15 @@ public class LocalDateAssert_hasMonthEnum_Test {
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasMonth(other.getMonth()));
     // THEN
     then(assertionError).hasMessage(shouldHaveDateField(actual, "month", other.getMonth().getValue()).create());
+  }
+  @Test
+  void should_fail_if_actual_is_null() {
+    // GIVEN
+    LocalDate actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasMonth(LocalDate.now().getMonthValue()));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
 }
