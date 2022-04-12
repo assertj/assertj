@@ -48,7 +48,7 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
     assertEqualByComparison(info, actual, NaN());
   }
 
-  protected BigDecimal preciseAbsDifferenceInBigDecimal(NUMBER value1, NUMBER value2){
+  protected BigDecimal absBigDecimalDiff(NUMBER value1, NUMBER value2){
     return new BigDecimal(String.valueOf(value1)).subtract(new BigDecimal(String.valueOf(value2))).abs();
   }
 
