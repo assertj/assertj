@@ -523,7 +523,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    *
    * @since 3.23.0
    */
-  public SELF hasMonth(int month) {
+  public SELF hasMonthValue(int month) {
     Objects.instance().assertNotNull(info, actual);
     if (actual.getMonthValue() != month) {
       throw Failures.instance().failure(info, shouldHaveDateField(actual, "month", month));

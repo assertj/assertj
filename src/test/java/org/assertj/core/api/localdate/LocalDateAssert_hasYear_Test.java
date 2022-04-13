@@ -53,5 +53,4 @@ class LocalDateAssert_hasYear_Test {
     then(assertionError).hasMessage(actualIsNull());
   }
 
-
 }
