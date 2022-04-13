@@ -493,7 +493,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * @param day the given numeric day.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
-   * @throws AssertionError if the actual {@code LocalDate} is not in the given year.
+   * @throws AssertionError if the actual {@code LocalDate} is not on the given day.
    *
    * @since 3.23.0
    */
