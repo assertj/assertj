@@ -13,6 +13,8 @@
 package org.assertj.core.error;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.temporal.Temporal;
 import java.util.Date;
 
 /**
@@ -38,11 +40,19 @@ public class ShouldHaveDateField extends BasicErrorMessageFactory {
     return new ShouldHaveDateField(actual, fieldDescription, fieldValue);
   }
 
+  public static ErrorMessageFactory shouldHaveDateField(Temporal actual, String fieldDescription, int fieldValue) {
+    return new ShouldHaveDateField(actual, fieldDescription, fieldValue);
+  }
+
   private ShouldHaveDateField(Date actual, String fieldDescription, int fieldValue) {
     super("%nExpecting actual:%n  %s%nto be on %s %s", actual, fieldDescription, fieldValue);
   }
 
   private ShouldHaveDateField(LocalDate actual, String fieldDescription, int fieldValue) {
+    super("%nExpecting actual:%n  %s%nto be on %s %s", actual, fieldDescription, fieldValue);
+  }
+
+  private ShouldHaveDateField(Temporal actual, String fieldDescription, int fieldValue) {
     super("%nExpecting actual:%n  %s%nto be on %s %s", actual, fieldDescription, fieldValue);
   }
 

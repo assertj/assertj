@@ -19,6 +19,9 @@ import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqu
 import static org.assertj.core.error.ShouldBeEqualIgnoringNanos.shouldBeEqualIgnoringNanos;
 import static org.assertj.core.error.ShouldBeEqualIgnoringSeconds.shouldBeEqualIgnoringSeconds;
 import static org.assertj.core.error.ShouldHaveSameHourAs.shouldHaveSameHourAs;
+import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
+
+
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.LocalTime;
@@ -579,6 +582,31 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
   }
 
   /**
+   * Verifies that actual {@code LocalTime} is in the given hour.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Assertion succeeds:
+   * assertThat(LocalTime.of(23, 59, 59)).hasHour(23);
+   *
+   * // Assertion fails:
+   * assertThat(LocalTime.of(23, 59, 59)).hasHour(22);</code></pre>
+   *
+   * @param hour the given hour.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalTime} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalTime} is not in the given hour.
+   *
+   * @since 3.23.0
+   */
+  public SELF hasHour(int hour) {
+    Objects.instance().assertNotNull(info, actual);
+    if (actual.getHour() != hour) {
+      throw Failures.instance().failure(info, shouldHaveDateField(actual,"hour", hour));
+    }
+    return myself;
+  }
+
+  /**
    * {@inheritDoc}
    */
   @Override
@@ -613,5 +641,7 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
   private static boolean haveSameHourField(LocalTime actual, LocalTime other) {
     return actual.getHour() == other.getHour();
   }
+
+
 
 }
