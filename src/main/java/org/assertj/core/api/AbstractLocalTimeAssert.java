@@ -18,6 +18,7 @@ import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
 import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNanos.shouldBeEqualIgnoringNanos;
 import static org.assertj.core.error.ShouldBeEqualIgnoringSeconds.shouldBeEqualIgnoringSeconds;
+import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.error.ShouldHaveSameHourAs.shouldHaveSameHourAs;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
@@ -576,6 +577,31 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
    */
   public SELF isStrictlyBetween(String startExclusive, String endExclusive) {
     return isStrictlyBetween(parse(startExclusive), parse(endExclusive));
+  }
+
+  /**
+   * Verifies that actual {@code LocalTime} is in the given hour.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Assertion succeeds:
+   * assertThat(LocalTime.of(23, 59, 59)).hasHour(23);
+   *
+   * // Assertion fails:
+   * assertThat(LocalTime.of(23, 59, 59)).hasHour(22);</code></pre>
+   *
+   * @param hour the given hour.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalTime} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalTime} is not in the given hour.
+   *
+   * @since 3.23.0
+   */
+  public SELF hasHour(int hour) {
+    Objects.instance().assertNotNull(info, actual);
+    if (actual.getHour() != hour) {
+      throw Failures.instance().failure(info, shouldHaveDateField(actual,"hour", hour));
+    }
+    return myself;
   }
 
   /**
