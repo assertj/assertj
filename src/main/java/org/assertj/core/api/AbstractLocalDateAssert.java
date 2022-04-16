@@ -481,6 +481,31 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
   }
 
   /**
+   * Verifies that actual {@code LocalDate} is on the given day.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Assertion succeeds:
+   * assertThat(LocalDate.of(2000, 12, 31)).hasDayOfMonth(31);
+   *
+   * // Assertion fails:
+   * assertThat(LocalDate.of(2000, 12, 31)).hasDayOfMonth(1);</code></pre>
+   *
+   * @param day the given numeric day.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDate} is not on the given day.
+   *
+   * @since 3.23.0
+   */
+  public SELF hasDayOfMonth(int day) {
+    Objects.instance().assertNotNull(info, actual);
+    if (actual.getDayOfMonth() != day) {
+      throw Failures.instance().failure(info, shouldHaveDateField(actual, "day", day));
+    }
+    return myself;
+  }
+
+  /**
    * {@inheritDoc}
    */
   @Override
