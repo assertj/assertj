@@ -32,7 +32,7 @@ class LocalTimeAssert_hasSecond_Test {
   }
 
   @Test
-  void should_fail_if_actual_is_not_in_given_hour() {
+  void should_fail_if_actual_is_not_in_given_second() {
     // GIVEN
     LocalTime actual = LocalTime.of(23, 59, 59);
     int expectedSecond = 58;
