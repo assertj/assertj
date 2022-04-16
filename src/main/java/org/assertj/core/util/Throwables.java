@@ -232,7 +232,7 @@ public final class Throwables {
         ? buildOpentest4jAssertionFailedErrorWithLineNumbers(error, testStackTraceElement)
         : buildAssertionErrorWithLineNumbersButNoActualOrExpectedValues(error, testStackTraceElement);
     errorWithLineNumber.setStackTrace(error.getStackTrace());
-    Stream.of(error.getSuppressed()).forEach(suppressed -> errorWithLineNumber.addSuppressed(suppressed));
+    Stream.of(error.getSuppressed()).forEach(errorWithLineNumber::addSuppressed);
     return errorWithLineNumber;
   }
 
@@ -258,6 +258,8 @@ public final class Throwables {
       try {
         Object actual = byName("value").apply(actualWrapper);
         Object expected = byName("value").apply(expectedWrapper);
+
+        @SuppressWarnings("unchecked")
         Constructor<? extends T> constructor = (Constructor<? extends T>) error.getClass().getConstructor(String.class,
                                                                                                           Object.class,
                                                                                                           Object.class,
