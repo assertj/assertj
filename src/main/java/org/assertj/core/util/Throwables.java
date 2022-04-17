@@ -237,7 +237,16 @@ public final class Throwables {
   }
 
   private static <T extends Throwable> boolean isOpentest4jAssertionFailedError(T error) {
-    return "org.opentest4j.AssertionFailedError".equals(error.getClass().getName());
+    return isInstanceOf(error, "org.opentest4j.AssertionFailedError");
+  }
+
+  private static boolean isInstanceOf(Object object, String className) {
+    try {
+      Class<?> type = Class.forName(className);
+      return type.isInstance(object);
+    } catch (ClassNotFoundException e) {
+      return false;
+    }
   }
 
   private static <T extends Throwable> T buildAssertionErrorWithLineNumbersButNoActualOrExpectedValues(T error,
