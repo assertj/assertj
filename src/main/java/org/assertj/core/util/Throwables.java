@@ -232,12 +232,21 @@ public final class Throwables {
         ? buildOpentest4jAssertionFailedErrorWithLineNumbers(error, testStackTraceElement)
         : buildAssertionErrorWithLineNumbersButNoActualOrExpectedValues(error, testStackTraceElement);
     errorWithLineNumber.setStackTrace(error.getStackTrace());
-    Stream.of(error.getSuppressed()).forEach(suppressed -> errorWithLineNumber.addSuppressed(suppressed));
+    Stream.of(error.getSuppressed()).forEach(errorWithLineNumber::addSuppressed);
     return errorWithLineNumber;
   }
 
   private static <T extends Throwable> boolean isOpentest4jAssertionFailedError(T error) {
-    return "org.opentest4j.AssertionFailedError".equals(error.getClass().getName());
+    return isInstanceOf(error, "org.opentest4j.AssertionFailedError");
+  }
+
+  private static boolean isInstanceOf(Object object, String className) {
+    try {
+      Class<?> type = Class.forName(className);
+      return type.isInstance(object);
+    } catch (ClassNotFoundException e) {
+      return false;
+    }
   }
 
   private static <T extends Throwable> T buildAssertionErrorWithLineNumbersButNoActualOrExpectedValues(T error,
@@ -258,6 +267,8 @@ public final class Throwables {
       try {
         Object actual = byName("value").apply(actualWrapper);
         Object expected = byName("value").apply(expectedWrapper);
+
+        @SuppressWarnings("unchecked")
         Constructor<? extends T> constructor = (Constructor<? extends T>) error.getClass().getConstructor(String.class,
                                                                                                           Object.class,
                                                                                                           Object.class,

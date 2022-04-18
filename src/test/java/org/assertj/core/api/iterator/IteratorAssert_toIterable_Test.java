@@ -20,8 +20,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link IteratorAssert#toIterable()}</code>.
- *
  * @author Sára Juhošová
  */
 class IteratorAssert_toIterable_Test {
@@ -34,8 +32,9 @@ class IteratorAssert_toIterable_Test {
   }
 
   @Test
-  public void should_return_equivalent_iterable() {
+  void should_return_equivalent_iterable() {
     IterableAssert<Integer> returned = assertions.toIterable();
     returned.containsExactly(5, 13, 42, 100);
   }
+
 }
