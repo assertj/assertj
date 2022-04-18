@@ -52,10 +52,18 @@ class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
     floats.assertIsCloseTo(someInfo(), ONE, ONE, within(ONE));
     floats.assertIsCloseTo(someInfo(), ONE, TWO, within(TEN));
     floats.assertIsCloseTo(someInfo(), ONE, TWO, byLessThan(TEN));
-    floats.assertIsCloseTo(someInfo(), 1.1f, 1.0f, within(0.1f));
-    floats.assertIsCloseTo(someInfo(), 1.0f, 1.1f, byLessThan(0.1000001f));
-    floats.assertIsCloseTo(someInfo(), 0.375f, 0.125f, within(0.25f));
-    floats.assertIsCloseTo(someInfo(), 0.125f, 0.375f, byLessThan(0.2500001f));
+  }
+
+  @ParameterizedTest
+  @CsvSource({"0.375f, 0.125f, 0.25f", "1.1f, 1.0f, 0.1f"})
+  void should_pass_if_difference_is_within_range(Float actual, Float expected, Float precision){
+    floats.assertIsCloseTo(someInfo(), actual, expected, within(precision));
+  }
+
+  @ParameterizedTest
+  @CsvSource({"0.375f, 0.125f, 0.2500001f", "1.1f, 1.0f, 0.1000001f"})
+  void should_pass_if_difference_is_byLessThan_range(Float actual, Float expected, Float precision){
+    floats.assertIsCloseTo(someInfo(), actual, expected, within(precision));
   }
 
   @Test

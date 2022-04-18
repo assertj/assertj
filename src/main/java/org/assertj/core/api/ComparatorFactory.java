@@ -31,7 +31,6 @@ public class ComparatorFactory {
    * @throws java.lang.NullPointerException if number is null
    */
   public static <T extends Number & Comparable<T>> boolean isNanOrInfinity(T number) {
-    // avoid null argument
     if (number instanceof Float) {
       return ((Float) number).isNaN() || ((Float) number).isInfinite();
     } else if (number instanceof Double) {

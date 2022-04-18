@@ -59,10 +59,18 @@ class Doubles_assertIsCloseTo_Test extends DoublesBaseTest {
     doubles.assertIsCloseTo(someInfo(), ONE, ONE, within(ONE));
     doubles.assertIsCloseTo(someInfo(), ONE, TWO, within(TEN));
     doubles.assertIsCloseTo(someInfo(), ONE, TWO, byLessThan(TEN));
-    doubles.assertIsCloseTo(someInfo(), 0.375d, 0.125, within(0.25));
-    doubles.assertIsCloseTo(someInfo(), 0.125d, 0.375, byLessThan(0.2500001));
-    doubles.assertIsCloseTo(someInfo(), 1.1d, 1.0d, within(0.1d));
-    doubles.assertIsCloseTo(someInfo(), 1.0d, 1.1d, byLessThan(0.1000001d));
+  }
+
+  @ParameterizedTest
+  @CsvSource({"0.375d, 0.125d, 0.25d", "1.1d, 1.0d, 0.1d"})
+  void should_pass_if_difference_is_within_range(Double actual, Double expected, Double precision){
+    doubles.assertIsCloseTo(someInfo(), actual, expected, within(precision));
+  }
+
+  @ParameterizedTest
+  @CsvSource({"0.375d, 0.125d, 0.2500001d", "1.1d, 1.0d, 0.1000001d"})
+  void should_pass_if_difference_is_byLessThan_range(Double actual, Double expected, Double precision){
+    doubles.assertIsCloseTo(someInfo(), actual, expected, within(precision));
   }
 
   @Test
