@@ -34,7 +34,7 @@ class ComparatorFactory_floatComparatorWithPrecision_Test {
   void should_pass_for_expected_equal_to_actual_in_certain_range_max_min(Float expected, Float actual, Float precision, Float smallDifference) {
     Comparator<Float> comparator = INSTANCE.floatComparatorWithPrecision(precision);
     Float max = Math.max(expected, actual), min = Math.min(expected, actual);
-    assertThat(comparator.compare(max, min)).isEqualTo(0);
+    assertThat(comparator.compare(max, min)).isZero();
   }
 
   @ParameterizedTest
@@ -45,7 +45,7 @@ class ComparatorFactory_floatComparatorWithPrecision_Test {
   void should_pass_for_expected_equal_to_actual_in_certain_range_min_max(Float expected, Float actual, Float precision, Float smallDifference) {
     Comparator<Float> comparator = INSTANCE.floatComparatorWithPrecision(precision);
     Float max = Math.max(expected, actual), min = Math.min(expected, actual);
-    assertThat(comparator.compare(min, max)).isEqualTo(0);
+    assertThat(comparator.compare(min, max)).isZero();
   }
 
   @ParameterizedTest
@@ -56,7 +56,7 @@ class ComparatorFactory_floatComparatorWithPrecision_Test {
   void should_pass_for_expected_equal_to_actual_in_certain_range_max_plus_difference(Float expected, Float actual, Float precision, Float smallDifference) {
     Comparator<Float> comparator = INSTANCE.floatComparatorWithPrecision(precision);
     Float max = Math.max(expected, actual), min = Math.min(expected, actual);
-    assertThat(comparator.compare(max + smallDifference, min)).isEqualTo(1);
+    assertThat(comparator.compare(max + smallDifference, min)).isOne();
   }
 
   @ParameterizedTest
@@ -78,7 +78,7 @@ class ComparatorFactory_floatComparatorWithPrecision_Test {
   void should_fail_for_expected_equal_to_actual_not_in_certain_range_max_min(Float expected, Float actual, Float precision, Float smallDifference) {
     Comparator<Float> comparator = INSTANCE.floatComparatorWithPrecision(precision);
     Float max = Math.max(expected, actual), min = Math.min(expected, actual);
-    expectAssertionError(() -> assertThat(comparator.compare(max, min)).isEqualTo(0));
+    expectAssertionError(() -> assertThat(comparator.compare(max, min)).isZero());
   }
 
   @ParameterizedTest
@@ -89,7 +89,7 @@ class ComparatorFactory_floatComparatorWithPrecision_Test {
   void should_fail_for_expected_equal_to_actual_not_in_certain_range_min_max(Float expected, Float actual, Float precision, Float smallDifference) {
     Comparator<Float> comparator = INSTANCE.floatComparatorWithPrecision(precision);
     Float max = Math.max(expected, actual), min = Math.min(expected, actual);
-    expectAssertionError(() -> assertThat(comparator.compare(min, max)).isEqualTo(0));
+    expectAssertionError(() -> assertThat(comparator.compare(min, max)).isZero());
   }
 
   @ParameterizedTest
@@ -100,7 +100,7 @@ class ComparatorFactory_floatComparatorWithPrecision_Test {
   void should_fail_for_expected_equal_to_actual_not_in_certain_range_max_minus_difference(Float expected, Float actual, Float precision, Float smallDifference) {
     Comparator<Float> comparator = INSTANCE.floatComparatorWithPrecision(precision);
     Float max = Math.max(expected, actual), min = Math.min(expected, actual);
-    expectAssertionError(() -> assertThat(comparator.compare(max - smallDifference, min)).isEqualTo(1));
+    expectAssertionError(() -> assertThat(comparator.compare(max - smallDifference, min)).isOne());
   }
 
   @ParameterizedTest
@@ -117,19 +117,19 @@ class ComparatorFactory_floatComparatorWithPrecision_Test {
   @Test
   void should_pass_for_infinity_comparing_1() {
     Comparator<Float> comparator1f = INSTANCE.floatComparatorWithPrecision(1f);
-    assertThat(comparator1f.compare(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)).isEqualTo(0);
+    assertThat(comparator1f.compare(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)).isZero();
   }
 
   @Test
   void should_pass_for_infinity_comparing_2() {
     Comparator<Float> comparator1f = INSTANCE.floatComparatorWithPrecision(1f);
-    assertThat(comparator1f.compare(Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY)).isEqualTo(0);
+    assertThat(comparator1f.compare(Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY)).isZero();
   }
 
   @Test
   void should_pass_for_infinity_comparing_3() {
     Comparator<Float> comparator1f = INSTANCE.floatComparatorWithPrecision(1f);
-    assertThat(comparator1f.compare(Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY)).isEqualTo(1);
+    assertThat(comparator1f.compare(Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY)).isOne();
   }
 
   @Test
@@ -141,24 +141,24 @@ class ComparatorFactory_floatComparatorWithPrecision_Test {
   @Test
   void should_pass_for_nan_comparing() {
     Comparator<Float> comparator1f = INSTANCE.floatComparatorWithPrecision(1f);
-    assertThat(comparator1f.compare(Float.NaN, Float.NaN)).isEqualTo(0);
+    assertThat(comparator1f.compare(Float.NaN, Float.NaN)).isZero();
   }
 
   @Test
   void should_pass_for_nan_precision() {
     Comparator<Float> comparatorNan = INSTANCE.floatComparatorWithPrecision(Float.NaN);
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(comparatorNan.compare(1f, 2f)).isEqualTo(0));
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(comparatorNan.compare(1f, 2f)).isZero());
   }
 
   @Test
   void should_fail_for_positive_infinity_precision() {
     Comparator<Float> comparatorPositiveInfinity = INSTANCE.floatComparatorWithPrecision(Float.POSITIVE_INFINITY);
-    assertThatIllegalArgumentException().isThrownBy(()-> assertThat(comparatorPositiveInfinity.compare(1f, 2f)).isEqualTo(0));
+    assertThatIllegalArgumentException().isThrownBy(()-> assertThat(comparatorPositiveInfinity.compare(1f, 2f)).isZero());
   }
 
   @Test
   void should_fail_for_negative_infinity_precision() {
     Comparator<Float> comparatorNegativeInfinity = INSTANCE.floatComparatorWithPrecision(Float.NEGATIVE_INFINITY);
-    assertThatIllegalArgumentException().isThrownBy(()-> assertThat(comparatorNegativeInfinity.compare(1f, 2f)).isEqualTo(0));
+    assertThatIllegalArgumentException().isThrownBy(()-> assertThat(comparatorNegativeInfinity.compare(1f, 2f)).isZero());
   }
 }

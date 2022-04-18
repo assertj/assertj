@@ -22,8 +22,6 @@ import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.ComparatorFactory.asBigDecimal;
-import static org.assertj.core.api.ComparatorFactory.isNanOrInfinity;
 import static org.assertj.core.data.Offset.offset;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.assertj.core.internal.ErrorMessages.offsetIsNull;
@@ -38,6 +36,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.math.BigDecimal;
+
 class Doubles_assertIsCloseTo_Test extends DoublesBaseTest {
 
   private static final Double ZERO = 0d;
@@ -45,8 +45,12 @@ class Doubles_assertIsCloseTo_Test extends DoublesBaseTest {
   private static final Double TWO = 2d;
   private static final Double TEN = 10d;
 
+  private static <T extends Number & Comparable<T>> BigDecimal asBigDecimal(T number) {
+    return new BigDecimal(String.valueOf(number));
+  }
+
   private double absDifference(Double d1, Double d2) {
-    if (isNanOrInfinity(d1) || isNanOrInfinity(d2)) {
+    if (doubles.isNanOrInfinite(d1) || doubles.isNanOrInfinite(d2)) {
       return Math.abs(d1 - d2);
     }
     return asBigDecimal(d1).subtract(asBigDecimal(d2)).abs().doubleValue();

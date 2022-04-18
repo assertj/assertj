@@ -12,6 +12,10 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.internal.Doubles;
+import org.assertj.core.internal.Floats;
+import org.assertj.core.internal.RealNumbers;
+
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.Objects;
@@ -30,11 +34,11 @@ public class ComparatorFactory {
    * @return whether the object is Nan or Infinity
    * @throws java.lang.NullPointerException if number is null
    */
-  public static <T extends Number & Comparable<T>> boolean isNanOrInfinity(T number) {
+  private static <T extends Number & Comparable<T>> boolean isNanOrInfinity(T number) {
     if (number instanceof Float) {
-      return ((Float) number).isNaN() || ((Float) number).isInfinite();
+      return Floats.instance().isNanOrInfinite((Float) number);
     } else if (number instanceof Double) {
-      return ((Double) number).isNaN() || ((Double) number).isInfinite();
+      return Doubles.instance().isNanOrInfinite((Double) number);
     }
 
     return false;
@@ -49,7 +53,7 @@ public class ComparatorFactory {
    * @return the BigDecimalObject
    */
 
-  public static <T extends Number & Comparable<T>> BigDecimal asBigDecimal(T number) {
+  private static <T extends Number & Comparable<T>> BigDecimal asBigDecimal(T number) {
     return new BigDecimal(String.valueOf(number));
   }
 

@@ -34,7 +34,7 @@ class ComparatorFactory_doubleComparatorWithPrecision_Test {
   void should_pass_for_expected_equal_to_actual_in_certain_range_max_min(Double expected, Double actual, Double precision, Double smallDifference) {
     Comparator<Double> comparator = INSTANCE.doubleComparatorWithPrecision(precision);
     Double max = Math.max(expected, actual), min = Math.min(expected, actual);
-    assertThat(comparator.compare(max, min)).isEqualTo(0);
+    assertThat(comparator.compare(max, min)).isZero();
   }
 
   @ParameterizedTest
@@ -45,7 +45,7 @@ class ComparatorFactory_doubleComparatorWithPrecision_Test {
   void should_pass_for_expected_equal_to_actual_in_certain_range_min_max(Double expected, Double actual, Double precision, Double smallDifference) {
     Comparator<Double> comparator = INSTANCE.doubleComparatorWithPrecision(precision);
     Double max = Math.max(expected, actual), min = Math.min(expected, actual);
-    assertThat(comparator.compare(min, max)).isEqualTo(0);
+    assertThat(comparator.compare(min, max)).isZero();
   }
 
   @ParameterizedTest
@@ -56,7 +56,7 @@ class ComparatorFactory_doubleComparatorWithPrecision_Test {
   void should_pass_for_expected_equal_to_actual_in_certain_range_max_difference(Double expected, Double actual, Double precision, Double smallDifference) {
     Comparator<Double> comparator = INSTANCE.doubleComparatorWithPrecision(precision);
     Double max = Math.max(expected, actual), min = Math.min(expected, actual);
-    assertThat(comparator.compare(max + smallDifference, min)).isEqualTo(1);
+    assertThat(comparator.compare(max + smallDifference, min)).isOne();
   }
 
   @ParameterizedTest
@@ -79,7 +79,7 @@ class ComparatorFactory_doubleComparatorWithPrecision_Test {
   void should_fail_for_expected_equal_to_actual_not_in_certain_range_max_min(Double expected, Double actual, Double precision, Double smallDifference) {
     Comparator<Double> comparator = INSTANCE.doubleComparatorWithPrecision(precision);
     Double max = Math.max(expected, actual), min = Math.min(expected, actual);
-    expectAssertionError(()-> assertThat(comparator.compare(max, min)).isEqualTo(0));
+    expectAssertionError(()-> assertThat(comparator.compare(max, min)).isZero());
   }
 
   @ParameterizedTest
@@ -90,7 +90,7 @@ class ComparatorFactory_doubleComparatorWithPrecision_Test {
   void should_fail_for_expected_equal_to_actual_not_in_certain_range_min_max(Double expected, Double actual, Double precision, Double smallDifference) {
     Comparator<Double> comparator  = INSTANCE.doubleComparatorWithPrecision(precision);
     Double max = Math.max(expected, actual), min = Math.min(expected, actual);
-    expectAssertionError(() -> assertThat(comparator.compare(min, max)).isEqualTo(0));
+    expectAssertionError(() -> assertThat(comparator.compare(min, max)).isZero());
   }
 
   @ParameterizedTest
@@ -101,7 +101,7 @@ class ComparatorFactory_doubleComparatorWithPrecision_Test {
   void should_fail_for_expected_equal_to_actual_not_in_certain_range_max_difference(Double expected, Double actual, Double precision, Double smallDifference) {
     Comparator<Double> comparator = INSTANCE.doubleComparatorWithPrecision(precision);
     Double max = Math.max(expected, actual), min = Math.min(expected, actual);
-    expectAssertionError(() -> assertThat(comparator.compare(max - smallDifference, min)).isEqualTo(1));
+    expectAssertionError(() -> assertThat(comparator.compare(max - smallDifference, min)).isOne());
   }
 
   @ParameterizedTest
@@ -119,19 +119,19 @@ class ComparatorFactory_doubleComparatorWithPrecision_Test {
   @Test
   void should_pass_for_infinity_comparing_1() {
     Comparator<Double> comparator1d = INSTANCE.doubleComparatorWithPrecision(1d);
-    assertThat(comparator1d.compare(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY)).isEqualTo(0);
+    assertThat(comparator1d.compare(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY)).isZero();
   }
 
   @Test
   void should_pass_for_infinity_comparing_2() {
     Comparator<Double> comparator1d = INSTANCE.doubleComparatorWithPrecision(1d);
-    assertThat(comparator1d.compare(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY)).isEqualTo(0);
+    assertThat(comparator1d.compare(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY)).isZero();
   }
 
   @Test
   void should_pass_for_infinity_comparing_3() {
     Comparator<Double> comparator1d = INSTANCE.doubleComparatorWithPrecision(1d);
-    assertThat(comparator1d.compare(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY)).isEqualTo(1);
+    assertThat(comparator1d.compare(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY)).isOne();
   }
 
   @Test
@@ -143,24 +143,24 @@ class ComparatorFactory_doubleComparatorWithPrecision_Test {
   @Test
   void should_pass_for_nan_comparing(){
     Comparator<Double> comparator1d = INSTANCE.doubleComparatorWithPrecision(1d);
-    assertThat(comparator1d.compare(Double.NaN, Double.NaN)).isEqualTo(0);
+    assertThat(comparator1d.compare(Double.NaN, Double.NaN)).isZero();
   }
 
   @Test
   void should_fail_for_nan_precision() {
     Comparator<Double> comparatorNan = INSTANCE.doubleComparatorWithPrecision(Double.NaN);
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(comparatorNan.compare(1d, 2d)).isEqualTo(0));
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(comparatorNan.compare(1d, 2d)).isZero());
   }
 
   @Test
   void should_fail_for_positive_infinity_precision() {
     Comparator<Double> comparatorPositiveInfinity = INSTANCE.doubleComparatorWithPrecision(Double.POSITIVE_INFINITY);
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(comparatorPositiveInfinity.compare(1d, 2d)).isEqualTo(0));
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(comparatorPositiveInfinity.compare(1d, 2d)).isZero());
   }
 
   @Test
   void should_fail_for_negative_infinity_precision() {
     Comparator<Double> comparatorNegativeInfinity = INSTANCE.doubleComparatorWithPrecision(Double.NEGATIVE_INFINITY);
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(comparatorNegativeInfinity.compare(1d, 2d)).isEqualTo(0));
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(comparatorNegativeInfinity.compare(1d, 2d)).isZero());
   }
 }

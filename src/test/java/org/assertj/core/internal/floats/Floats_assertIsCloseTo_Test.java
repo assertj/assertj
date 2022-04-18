@@ -18,11 +18,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.math.BigDecimal;
+
 import static java.lang.Float.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.ComparatorFactory.asBigDecimal;
-import static org.assertj.core.api.ComparatorFactory.isNanOrInfinity;
 import static org.assertj.core.data.Offset.offset;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.assertj.core.internal.ErrorMessages.offsetIsNull;
@@ -38,10 +38,14 @@ class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
   private static final Float TWO = 2f;
   private static final Float TEN = 10f;
 
+  private static <T extends Number & Comparable<T>> BigDecimal asBigDecimal(T number) {
+    return new BigDecimal(String.valueOf(number));
+  }
+
   // success
 
   private float absDifference(Float f1, Float f2) {
-    if (isNanOrInfinity(f1) || isNanOrInfinity(f2)) {
+    if (floats.isNanOrInfinite(f1)|| floats.isNanOrInfinite(f2)) {
       return Math.abs(f1 - f2);
     }
     return asBigDecimal(f1).subtract(asBigDecimal(f2)).abs().floatValue();
