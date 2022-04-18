@@ -260,7 +260,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
   }
 
   protected abstract NUMBER absDiff(final NUMBER actual, final NUMBER other);
-  
+
   protected abstract boolean isGreaterThan(final NUMBER value, final NUMBER other);
 
   protected boolean isGreaterThanOrEqualTo(final NUMBER value, final NUMBER other) {
