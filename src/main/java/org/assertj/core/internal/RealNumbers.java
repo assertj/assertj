@@ -13,6 +13,7 @@
 package org.assertj.core.internal;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.ComparatorFactory;
 
 import java.math.BigDecimal;
 
@@ -97,6 +98,10 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
     assertNotNull(info, actual);
     if (isNotInfinite(actual)) return;
     throw failures.failure(info, shouldNotBeInfinite(actual));
+  }
+
+  protected boolean isNanOrInfinity(final NUMBER value) {
+    return ComparatorFactory.isNanOrInfinity(value);
   }
 
   protected abstract boolean isNotInfinite(NUMBER value);

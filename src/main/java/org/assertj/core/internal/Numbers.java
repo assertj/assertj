@@ -24,7 +24,6 @@ import static org.assertj.core.internal.CommonValidations.checkPercentageIsNotNu
 import java.util.Objects;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.ComparatorFactory;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 
@@ -262,9 +261,7 @@ public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extend
 
   protected abstract NUMBER absDiff(final NUMBER actual, final NUMBER other);
 
-  protected boolean isNanOrInfinity(final NUMBER value) {
-    return ComparatorFactory.isNanOrInfinity(value);
-  }
+
 
   protected abstract boolean isGreaterThan(final NUMBER value, final NUMBER other);
 

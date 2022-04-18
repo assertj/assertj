@@ -20,7 +20,6 @@ import java.util.Comparator;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 class ComparatorFactory_doubleComparatorWithPrecision_Test {
@@ -33,9 +32,9 @@ class ComparatorFactory_doubleComparatorWithPrecision_Test {
               "0.7654321, 0.7654320, 0.0000001, 1e-9",
               "1.2463, 1.2464, 0.0001, 1e-8"})
   void should_pass_for_expected_equal_to_actual_in_certain_range_max_min(Double expected, Double actual, Double precision, Double smallDifference) {
-    Comparator<Double> comparator0_1d = INSTANCE.doubleComparatorWithPrecision(precision);
+    Comparator<Double> comparator = INSTANCE.doubleComparatorWithPrecision(precision);
     Double max = Math.max(expected, actual), min = Math.min(expected, actual);
-    assertThat(comparator0_1d.compare(max, min)).isEqualTo(0);
+    assertThat(comparator.compare(max, min)).isEqualTo(0);
   }
 
   @ParameterizedTest
@@ -44,9 +43,9 @@ class ComparatorFactory_doubleComparatorWithPrecision_Test {
     "0.7654321, 0.7654320, 0.0000001, 1e-9",
     "1.2463, 1.2464, 0.0001, 1e-8"})
   void should_pass_for_expected_equal_to_actual_in_certain_range_min_max(Double expected, Double actual, Double precision, Double smallDifference) {
-    Comparator<Double> comparator0_1d = INSTANCE.doubleComparatorWithPrecision(precision);
+    Comparator<Double> comparator = INSTANCE.doubleComparatorWithPrecision(precision);
     Double max = Math.max(expected, actual), min = Math.min(expected, actual);
-    assertThat(comparator0_1d.compare(min, max)).isEqualTo(0);
+    assertThat(comparator.compare(min, max)).isEqualTo(0);
   }
 
   @ParameterizedTest
@@ -55,9 +54,9 @@ class ComparatorFactory_doubleComparatorWithPrecision_Test {
     "0.7654321, 0.7654320, 0.0000001, 1e-9",
     "1.2463, 1.2464, 0.0001, 1e-8"})
   void should_pass_for_expected_equal_to_actual_in_certain_range_max_difference(Double expected, Double actual, Double precision, Double smallDifference) {
-    Comparator<Double> comparator0_1d = INSTANCE.doubleComparatorWithPrecision(precision);
+    Comparator<Double> comparator = INSTANCE.doubleComparatorWithPrecision(precision);
     Double max = Math.max(expected, actual), min = Math.min(expected, actual);
-    assertThat(comparator0_1d.compare(max + smallDifference, min)).isEqualTo(1);
+    assertThat(comparator.compare(max + smallDifference, min)).isEqualTo(1);
   }
 
   @ParameterizedTest
@@ -66,9 +65,9 @@ class ComparatorFactory_doubleComparatorWithPrecision_Test {
     "0.7654321, 0.7654320, 0.0000001, 1e-9",
     "1.2463, 1.2464, 0.0001, 1e-8"})
   void should_pass_for_expected_equal_to_actual_in_certain_range_min_difference(Double expected, Double actual, Double precision, Double smallDifference) {
-    Comparator<Double> comparator0_1d = INSTANCE.doubleComparatorWithPrecision(precision);
+    Comparator<Double> comparator = INSTANCE.doubleComparatorWithPrecision(precision);
     Double max = Math.max(expected, actual), min = Math.min(expected, actual);
-    assertThat(comparator0_1d.compare(min - smallDifference, max)).isEqualTo(-1);
+    assertThat(comparator.compare(min - smallDifference, max)).isEqualTo(-1);
   }
 
 
@@ -78,9 +77,9 @@ class ComparatorFactory_doubleComparatorWithPrecision_Test {
               "0.7654321, 0.7654320, 9e-8, 1e-7",
               "1.2463, 1.2464, 9e-5, 1e-4"})
   void should_fail_for_expected_equal_to_actual_not_in_certain_range_max_min(Double expected, Double actual, Double precision, Double smallDifference) {
-    Comparator<Double> comparator0_1d = INSTANCE.doubleComparatorWithPrecision(precision);
+    Comparator<Double> comparator = INSTANCE.doubleComparatorWithPrecision(precision);
     Double max = Math.max(expected, actual), min = Math.min(expected, actual);
-    expectAssertionError(()-> assertThat(comparator0_1d.compare(max, min)).isEqualTo(0));
+    expectAssertionError(()-> assertThat(comparator.compare(max, min)).isEqualTo(0));
   }
 
   @ParameterizedTest
@@ -89,9 +88,9 @@ class ComparatorFactory_doubleComparatorWithPrecision_Test {
     "0.7654321, 0.7654320, 9e-8, 1e-7",
     "1.2463, 1.2464, 9e-5, 1e-4"})
   void should_fail_for_expected_equal_to_actual_not_in_certain_range_min_max(Double expected, Double actual, Double precision, Double smallDifference) {
-    Comparator<Double> comparator0_1d = INSTANCE.doubleComparatorWithPrecision(precision);
+    Comparator<Double> comparator  = INSTANCE.doubleComparatorWithPrecision(precision);
     Double max = Math.max(expected, actual), min = Math.min(expected, actual);
-    expectAssertionError(() -> assertThat(comparator0_1d.compare(min, max)).isEqualTo(0));
+    expectAssertionError(() -> assertThat(comparator.compare(min, max)).isEqualTo(0));
   }
 
   @ParameterizedTest
@@ -100,9 +99,9 @@ class ComparatorFactory_doubleComparatorWithPrecision_Test {
     "0.7654321, 0.7654320, 9e-8, 1e-7",
     "1.2463, 1.2464, 9e-5, 1e-4"})
   void should_fail_for_expected_equal_to_actual_not_in_certain_range_max_difference(Double expected, Double actual, Double precision, Double smallDifference) {
-    Comparator<Double> comparator0_1d = INSTANCE.doubleComparatorWithPrecision(precision);
+    Comparator<Double> comparator = INSTANCE.doubleComparatorWithPrecision(precision);
     Double max = Math.max(expected, actual), min = Math.min(expected, actual);
-    expectAssertionError(() -> assertThat(comparator0_1d.compare(max - smallDifference, min)).isEqualTo(1));
+    expectAssertionError(() -> assertThat(comparator.compare(max - smallDifference, min)).isEqualTo(1));
   }
 
   @ParameterizedTest
@@ -111,9 +110,9 @@ class ComparatorFactory_doubleComparatorWithPrecision_Test {
     "0.7654321, 0.7654320, 9e-8, 1e-7",
     "1.2463, 1.2464, 9e-5, 1e-4"})
   void should_fail_for_expected_equal_to_actual_not_in_certain_range_min_difference(Double expected, Double actual, Double precision, Double smallDifference) {
-    Comparator<Double> comparator0_1d = INSTANCE.doubleComparatorWithPrecision(precision);
+    Comparator<Double> comparator = INSTANCE.doubleComparatorWithPrecision(precision);
     Double max = Math.max(expected, actual), min = Math.min(expected, actual);
-    expectAssertionError(() -> assertThat(comparator0_1d.compare(min + smallDifference, max)).isEqualTo(-1));
+    expectAssertionError(() -> assertThat(comparator.compare(min + smallDifference, max)).isEqualTo(-1));
   }
 
 
