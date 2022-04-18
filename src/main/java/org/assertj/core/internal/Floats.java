@@ -64,7 +64,7 @@ public class Floats extends RealNumbers<Float> {
   @Override
   protected Float absDiff(Float actual, Float other) {
     if(isNanOrInfinity(actual) || isNanOrInfinity(other)){
-      return Math.abs(actual - other);
+      return abs(actual - other);
     }
     return abs(absBigDecimalDiff(actual, other).floatValue());
   }

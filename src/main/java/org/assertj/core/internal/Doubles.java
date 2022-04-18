@@ -63,7 +63,7 @@ public class Doubles extends RealNumbers<Double> {
   @Override
   protected Double absDiff(Double actual, Double other) {
     if(isNanOrInfinity(actual) || isNanOrInfinity(other)){
-      return Math.abs(actual - other);
+      return abs(actual - other);
     }
     return abs(absBigDecimalDiff(actual, other).doubleValue());
   }
