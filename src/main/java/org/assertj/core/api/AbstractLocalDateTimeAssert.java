@@ -744,6 +744,56 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
+   * Verifies that actual {@code LocalDateTime} is in the given year.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Assertion succeeds:
+   * assertThat(LocalDateTime.of(2002, 1, 1, 0, 0, 0)).hasYear(2002);
+   *
+   * // Assertion fails:
+   * assertThat(LocalDate.of(2002, 1, 1, 0, 0, 0)).hasYear(2001);</code></pre>
+   *
+   * @param year the given year.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDateTime} is not in the given year.
+   *
+   * @since 3.23.0
+   */
+  public SELF hasYear(int year) {
+    Objects.instance().assertNotNull(info, actual);
+    if (actual.getYear() != year) {
+      throw Failures.instance().failure(info, shouldHaveDateField(actual, "year", year));
+    }
+    return myself;
+  }
+
+  /**
+   * Verifies that actual {@code LocalDateTime} is in the given day of month.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Assertion succeeds:
+   * assertThat(LocalDateTime.of(2002, 1, 1, 0, 0, 0)).hasDayOfMonth(1);
+   *
+   * // Assertion fails:
+   * assertThat(LocalDate.of(2002, 1, 1, 0, 0, 0)).hasDayOfMonth(2);</code></pre>
+   *
+   * @param dayOfMonth the given numeric day.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDateTime} is not in the given day of month.
+   *
+   * @since 3.23.0
+   */
+  public SELF hasDayOfMonth(int dayOfMonth) {
+    Objects.instance().assertNotNull(info, actual);
+    if (actual.getDayOfMonth() != dayOfMonth) {
+      throw Failures.instance().failure(info, shouldHaveDateField(actual, "day of month", dayOfMonth));
+    }
+    return myself;
+  }
+
+  /**
    * Verifies that actual {@code LocalDateTime} is in the given hour.
    * <p>
    * Example:
@@ -767,7 +817,6 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
     }
     return myself;
   }
-
 
   /**
    * {@inheritDoc}
