@@ -745,7 +745,7 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
-   * Verifies that actual {@link LocalDateTime} is in the given {@link Year}.
+   * Verifies that actual {@code LocalDateTime} is in the given year.
    * <p>
    * Example:
    * <pre><code class='java'> // Assertion succeeds:
@@ -756,8 +756,8 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    *
    * @param year the given year.
    * @return this assertion object.
-   * @throws AssertionError if the actual {@link LocalDateTime} is {@link null}.
-   * @throws AssertionError if the actual {@link LocalDateTime} is not in the given year.
+   * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDateTime} is not in the given year.
    *
    * @since 3.23.0
    */
@@ -770,7 +770,7 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
-   * Verifies that actual {@link LocalDateTime} is in the given day.
+   * Verifies that actual {@code LocalDateTime} is in the given day.
    * <p>
    * Example:
    * <pre><code class='java'> // Assertion succeeds:
@@ -781,8 +781,8 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    *
    * @param day the given numeric day.
    * @return this assertion object.
-   * @throws AssertionError if the actual {@link LocalDateTime} is {@link null}.
-   * @throws AssertionError if the actual {@link LocalDateTime} is not in the given day.
+   * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDateTime} is not in the given day.
    *
    * @since 3.23.0
    */
