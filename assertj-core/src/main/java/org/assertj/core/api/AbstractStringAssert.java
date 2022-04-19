@@ -14,16 +14,22 @@ package org.assertj.core.api;
 
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
+import static org.assertj.core.error.ShouldBeNumeric.shouldBeNumeric;
 
 import java.util.Base64;
 import java.util.Comparator;
 
+import org.assertj.core.error.ShouldBeNumeric;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.Failures;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> extends AbstractCharSequenceAssert<SELF, String> {
+
+  @VisibleForTesting
+  Failures failures = Failures.instance();
 
   protected AbstractStringAssert(String actual, Class<?> selfType) {
     super(actual, selfType);
@@ -401,5 +407,197 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    */
   public SELF isEqualTo(String expected) {
     return super.isEqualTo(expected);
+  }
+
+  /**
+   * Parses the actual value as boolean, the parsed boolean becoming the new value under test.
+   * <p>
+   * Note that only when the string is equal to the string "true", ignoring case, and can have leading and trailing space, the parsed value will be {@code true}.
+   * Otherwise, the value will be {@code false}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>
+   * assertThat(&quot;truE&quot;).asBoolean().isTrue();
+   * assertThat(&quot;false&quot;).asBoolean().isFalse();
+   * assertThat(&quot;foo bar&quot;).asBoolean().isFalse();
+   * assertThat((String) null).asBoolean().isFalse();
+   * </code></pre>
+   *
+   * @return a new {@link BooleanAssert} instance whose value under test is the result of the parse.
+   *
+   * @since 3.25.0
+   */
+  public AbstractBooleanAssert<?> asBoolean() {
+    return InstanceOfAssertFactories.BOOLEAN
+      .createAssert(Boolean.parseBoolean(actual))
+      .withAssertionState(myself);
+  }
+
+  /**
+   * Parses the actual value as byte, using radix 10, the parsed byte becoming the new value under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>
+   * // assertion succeeds
+   * assertThat(&quot;127&quot;).asByte().isEqualTo((byte) 127);
+   *
+   * // assertion fails as the actual value is null or not a valid byte
+   * assertThat((String) null).asByte();
+   * assertThat(&quot;1L&quot;).asByte();
+   * </code></pre>
+   *
+   * @return a new {@link ByteAssert} instance whose value under test is the result of the parse.
+   * @throws AssertionError if the actual value is null or not a valid byte.
+   *
+   * @since 3.25.0
+   */
+  public AbstractByteAssert<?> asByte() {
+    try {
+      return InstanceOfAssertFactories.BYTE
+        .createAssert(Byte.parseByte(actual))
+        .withAssertionState(myself);
+    } catch (NumberFormatException e) {
+      throw failures.failure(info, shouldBeNumeric(actual, ShouldBeNumeric.NumericType.BYTE));
+    }
+  }
+
+  /**
+   * Parses the actual value as short, using radix 10, the parsed short becoming the new value under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>
+   * // assertion succeeds
+   * assertThat(&quot;32767&quot;).asShort().isEqualTo((short) 32767);
+   *
+   * // assertion fails as the actual value is null or not a valid short
+   * assertThat((String) null).asShort();
+   * assertThat(&quot;-32769&quot;).asShort();
+   * </code></pre>
+   *
+   * @return a new {@link ShortAssert} instance whose value under test is the result of the parse.
+   * @throws AssertionError if the actual value is null or not a valid short.
+   *
+   * @since 3.25.0
+   */
+  public AbstractShortAssert<?> asShort() {
+    try {
+      return InstanceOfAssertFactories.SHORT
+        .createAssert(Short.parseShort(actual))
+        .withAssertionState(myself);
+    } catch (NumberFormatException e) {
+      throw failures.failure(info, shouldBeNumeric(actual, ShouldBeNumeric.NumericType.SHORT));
+    }
+  }
+
+  /**
+   * Parses the actual value as integer, using radix 10, the parsed integer becoming the new value under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>
+   * // assertion succeeds
+   * assertThat(&quot;2147483647&quot;).asInt().isEqualTo(2147483647);
+   *
+   * // assertion fails as the actual value is null or not a valid int
+   * assertThat((String) null).asInt();
+   * assertThat(&quot;1e100&quot;).asInt();
+   * </code></pre>
+   *
+   * @return a new {@link IntegerAssert} instance whose value under test is the result of the parse.
+   * @throws AssertionError if the actual value is null or not a valid int.
+   *
+   * @since 3.25.0
+   */
+  public AbstractIntegerAssert<?> asInt() {
+    try {
+      return InstanceOfAssertFactories.INTEGER
+        .createAssert(Integer.parseInt(actual))
+        .withAssertionState(myself);
+    } catch (NumberFormatException e) {
+      throw failures.failure(info, shouldBeNumeric(actual, ShouldBeNumeric.NumericType.INTEGER));
+    }
+  }
+
+  /**
+   * Parses the actual value as long, using radix 10, the parsed long becoming the new value under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>
+   * // assertion succeeds
+   * assertThat(&quot;1&quot;).asLong().isEqualTo(1L);
+   *
+   * // assertion fails as the actual value is null or not a long
+   * assertThat((String) null).asLong();
+   * assertThat(&quot;1e100&quot;).asLong();
+   * </code></pre>
+   *
+   * @return a new {@link LongAssert} instance whose value under test is the result of the parse.
+   * @throws AssertionError if the actual value is null or not a valid long.
+   *
+   * @since 3.25.0
+   */
+  public AbstractLongAssert<?> asLong() {
+    try {
+      return InstanceOfAssertFactories.LONG
+        .createAssert(Long.parseLong(actual))
+        .withAssertionState(myself);
+    } catch (NumberFormatException e) {
+      throw failures.failure(info, shouldBeNumeric(actual, ShouldBeNumeric.NumericType.LONG));
+    }
+  }
+
+  /**
+   * Parses the actual value as float, the parsed float becoming the new value under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>
+   * // assertion succeeds
+   * assertThat(&quot;1.2f&quot;).asFloat().isCloseTo(1.2f, Percentage.withPercentage(0.01));
+   *
+   * // assertion fails as the actual value is null or not a float
+   * assertThat((String) null).asFloat();
+   * assertThat(&quot;foo&quot;).asFloat();
+   * </code></pre>
+   *
+   * @return a new {@link FloatAssert} instance whose value under test is the result of the parse.
+   * @throws AssertionError if the actual value is null or not a parseable float.
+   *
+   * @since 3.25.0
+   */
+  public AbstractFloatAssert<?> asFloat() {
+    try {
+      return InstanceOfAssertFactories.FLOAT
+        .createAssert(Float.parseFloat(actual))
+        .withAssertionState(myself);
+    } catch (NumberFormatException | NullPointerException e) {
+      throw failures.failure(info, shouldBeNumeric(actual, ShouldBeNumeric.NumericType.FLOAT));
+    }
+  }
+
+  /**
+   * Parses the actual value as double, the parsed double becoming the new value under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>
+   * // assertion succeeds
+   * assertThat(&quot;1.2e308&quot;).asDouble().isCloseTo(1.2e308, Percentage.withPercentage(0.001));
+   *
+   * // assertion fails as the actual value is null or not a double
+   * assertThat((String) null).asDouble();
+   * assertThat(&quot;foo&quot;).asDouble();
+   * </code></pre>
+   *
+   * @return a new {@link DoubleAssert} instance whose value under test is the result of the parse.
+   * @throws AssertionError if the actual value is null or not a parseable double.
+   *
+   * @since 3.25.0
+   */
+  public AbstractDoubleAssert<?> asDouble() {
+    try {
+      return InstanceOfAssertFactories.DOUBLE
+        .createAssert(Double.parseDouble(actual))
+        .withAssertionState(myself);
+    } catch (NumberFormatException | NullPointerException e) {
+      throw failures.failure(info, shouldBeNumeric(actual, ShouldBeNumeric.NumericType.DOUBLE));
+    }
   }
 }
