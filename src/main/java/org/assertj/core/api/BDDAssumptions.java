@@ -1392,6 +1392,21 @@ public final class BDDAssumptions extends Assumptions{
   }
 
   /**
+   * Creates a new assumption's instance of a <code>{@link Comparable}</code> value.
+   * <p>
+   * Use this over {@link #given(Comparable)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>given</code> for.
+   *
+   * @param <T> the type of elements.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.23.0
+   */
+  public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> givenComparable(T actual) {
+    return given(actual);
+  }
+
+  /**
    * Creates a new assumption's instance for a {@link Throwable} value.
    * <p>
    * Examples:

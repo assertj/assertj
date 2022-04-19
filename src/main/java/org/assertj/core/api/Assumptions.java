@@ -988,6 +988,21 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link GenericComparableAssert}</code> assumption.
+   * <p>
+   * Use this over {@link #assumeThat(Comparable)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assumeThat</code> for.
+   *
+   * @param <T> the type of elements.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.23.0
+   */
+  public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assumeThatComparable(T actual) {
+    return assumeThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ThrowableAssert}</code> assumption.
    *
    * @param <T> the type of the actual throwable.
@@ -1000,6 +1015,14 @@ public class Assumptions {
     return asAssumption(ThrowableAssert.class, Throwable.class, actual);
   }
 
+  /**
+   * Entry point to check that an exception of type T is thrown by a given {@code throwingCallable}
+   * which allows to chain assertions on the thrown exception.
+   *
+   * @param <T> the exception type.
+   * @param exceptionType the exception type class.
+   * @return the created {@link ThrowableTypeAssert}.
+   */
   public static <T extends Throwable> ThrowableTypeAssert<T> assumeThatExceptionOfType(final Class<? extends T> exceptionType) {
     return new ThrowableTypeAssert<>(exceptionType);
   }
