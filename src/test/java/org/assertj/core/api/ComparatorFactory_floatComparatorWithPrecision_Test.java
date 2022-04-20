@@ -28,90 +28,88 @@ class ComparatorFactory_floatComparatorWithPrecision_Test {
 
   @ParameterizedTest
   @CsvSource({"0.111f, 0.110f, 0.001f, 0.000001f",
+    "0.110f, 0.111f, 0.001f, 0.000001f",
     "0.12345f, 0.12346f, 0.00001f, 1e-6",
-    "0.54321, 0.54320, 0.0001, 1e-4",
-    "1.2463, 1.2464, 0.0001, 1e-6"})
-  void should_pass_for_expected_equal_to_actual_in_certain_range_max_min(Float expected, Float actual, Float precision, Float smallDifference) {
+    "0.12346f, 0.12345f, 0.00001f, 1e-6",
+    "0.54321f, 0.54320f, 0.0001f, 1e-4",
+    "0.54320f, 0.54321f, 0.0001f, 1e-4",
+    "1.2463f, 1.2464f, 0.0001f, 1e-6",
+    "1.2464f, 1.2463f, 0.0001f, 1e-6"})
+  void should_pass_for_expected_equal_to_actual_in_certain_range_max_min(Float expected, Float actual, Float precision) {
     Comparator<Float> comparator = INSTANCE.floatComparatorWithPrecision(precision);
-    Float max = Math.max(expected, actual), min = Math.min(expected, actual);
-    then(comparator.compare(max, min)).isZero();
+    then(comparator.compare(expected, actual)).isZero();
   }
 
   @ParameterizedTest
-  @CsvSource({"0.111f, 0.110f, 0.001f, 0.000001f",
-    "0.12345f, 0.12346f, 0.00001f, 1e-6",
-    "0.54321, 0.54320, 0.0001, 1e-4",
-    "1.2463, 1.2464, 0.0001, 1e-6"})
-  void should_pass_for_expected_equal_to_actual_in_certain_range_min_max(Float expected, Float actual, Float precision, Float smallDifference) {
+  @CsvSource({"0.111f, 0.110f, 0.00099f",
+    "0.12346f, 0.12345f, 0.0000099f",
+    "0.54321f, 0.54320f, 0.0000099f",
+    "1.2464f, 1.2463f, 0.000099f"})
+  void should_pass_for_expected_equal_to_actual_in_certain_range_max_plus_difference(Float expected, Float actual, Float precision) {
     Comparator<Float> comparator = INSTANCE.floatComparatorWithPrecision(precision);
-    Float max = Math.max(expected, actual), min = Math.min(expected, actual);
-    then(comparator.compare(min, max)).isZero();
+    then(comparator.compare(expected, actual)).isOne();
   }
 
   @ParameterizedTest
-  @CsvSource({"0.111f, 0.110f, 0.001f, 0.000001f",
-    "0.12345f, 0.12346f, 0.00001f, 1e-6",
-    "0.54321, 0.54320, 0.0001, 1e-4",
-    "1.2463, 1.2464, 0.0001, 1e-6"})
-  void should_pass_for_expected_equal_to_actual_in_certain_range_max_plus_difference(Float expected, Float actual, Float precision, Float smallDifference) {
+  @CsvSource({"0.111f, 0.110f, 0.0000099f",
+    "0.112f, 0.111f, 0.0000099f",
+    "0.12346f, 0.12345f, 0.0000099f",
+    "0.12347f, 0.12346f, 0.0000099f",
+    "0.54321f, 0.54320f, 0.0000099f",
+    "0.54322f, 0.54321f, 0.0000099f",
+    "1.2464f, 1.2463f, 0.000099f",
+    "1.2465f, 1.2464f, 0.000099f"})
+  void should_pass_for_expected_equal_to_actual_in_certain_range_min_minus_difference(Float expected, Float actual, Float precision) {
     Comparator<Float> comparator = INSTANCE.floatComparatorWithPrecision(precision);
-    Float max = Math.max(expected, actual), min = Math.min(expected, actual);
-    then(comparator.compare(max + smallDifference, min)).isOne();
-  }
-
-  @ParameterizedTest
-  @CsvSource({"0.111f, 0.110f, 0.001f, 0.000001f",
-    "0.12345f, 0.12346f, 0.00001f, 1e-6",
-    "0.54321, 0.54320, 0.0001, 1e-4",
-    "1.2463, 1.2464, 0.0001, 1e-6"})
-  void should_pass_for_expected_equal_to_actual_in_certain_range_min_minus_difference(Float expected, Float actual, Float precision, Float smallDifference) {
-    Comparator<Float> comparator = INSTANCE.floatComparatorWithPrecision(precision);
-    Float max = Math.max(expected, actual), min = Math.min(expected, actual);
-    then(comparator.compare(min - smallDifference, max)).isEqualTo(-1);
+    then(comparator.compare(expected, actual)).isOne();
   }
 
   @ParameterizedTest
   @CsvSource({"0.111f, 0.110f, 0.000999f, 0.000001f",
+    "0.110f, 0.111f, 0.000999f, 0.000001f",
     "0.12345f, 0.12346f, 0.000009f, 0.00001f",
+    "0.12346f, 0.12345f, 0.000009f, 0.00001f",
     "0.7654321f, 0.7654320f, 9e-8, 1e-7",
-    "1.2463, 1.2464, 9e-5, 1e-4"})
-  void should_fail_for_expected_equal_to_actual_not_in_certain_range_max_min(Float expected, Float actual, Float precision, Float smallDifference) {
+    "0.7654320f, 0.7654321f, 9e-8, 1e-7",
+    "1.2463f, 1.2464f, 9e-5, 1e-4",
+    "1.2464f, 1.2463f, 9e-5, 1e-4"})
+  void should_fail_for_expected_equal_to_actual_not_in_certain_range_max_min(Float expected, Float actual, Float precision) {
     Comparator<Float> comparator = INSTANCE.floatComparatorWithPrecision(precision);
-    Float max = Math.max(expected, actual), min = Math.min(expected, actual);
-    expectAssertionError(() -> then(comparator.compare(max, min)).isZero());
+    expectAssertionError(() -> then(comparator.compare(expected, actual)).isZero());
   }
 
   @ParameterizedTest
-  @CsvSource({"0.111f, 0.110f, 0.000999f, 0.000001f",
-    "0.12345f, 0.12346f, 0.000009f, 0.00001f",
-    "0.7654321f, 0.7654320f, 9e-8, 1e-7",
-    "1.2463, 1.2464, 9e-5, 1e-4"})
-  void should_fail_for_expected_equal_to_actual_not_in_certain_range_min_max(Float expected, Float actual, Float precision, Float smallDifference) {
+  @CsvSource({"0.111f, 0.110f, 0.000999f",
+    "0.110f, 0.111f, 0.000999f",
+    "0.12345f, 0.12346f, 0.000009f",
+    "0.12346f, 0.12345f, 0.000009f",
+    "0.7654321f, 0.7654320f, 9e-8",
+    "0.7654320f, 0.7654321f, 9e-8",
+    "1.2463f, 1.2464f, 9e-5",
+    "1.2464f, 1.2463f, 9e-5"})
+  void should_fail_for_expected_equal_to_actual_not_in_certain_range_min_max(Float expected, Float actual, Float precision) {
     Comparator<Float> comparator = INSTANCE.floatComparatorWithPrecision(precision);
-    Float max = Math.max(expected, actual), min = Math.min(expected, actual);
-    expectAssertionError(() -> then(comparator.compare(min, max)).isZero());
+    expectAssertionError(() -> then(comparator.compare(expected, actual)).isZero());
   }
 
   @ParameterizedTest
-  @CsvSource({"0.111f, 0.110f, 0.000999f, 0.000001f",
-    "0.12345f, 0.12346f, 0.000009f, 0.00001f",
-    "0.7654321f, 0.7654320f, 9e-8, 1e-7",
-    "1.2463, 1.2464, 9e-5, 1e-4"})
-  void should_fail_for_expected_equal_to_actual_not_in_certain_range_max_minus_difference(Float expected, Float actual, Float precision, Float smallDifference) {
+  @CsvSource({"0.11099f, 0.110f, 0.000999f",
+    "0.123459f, 0.12345f, 0.000009f",
+    "0.76543210f, 0.76543211f, 9e-8",
+    "1.2463, 1.2464, 9e-5"})
+  void should_fail_for_expected_equal_to_actual_not_in_certain_range_max_minus_difference(Float expected, Float actual, Float precision) {
     Comparator<Float> comparator = INSTANCE.floatComparatorWithPrecision(precision);
-    Float max = Math.max(expected, actual), min = Math.min(expected, actual);
-    expectAssertionError(() -> then(comparator.compare(max - smallDifference, min)).isOne());
+    expectAssertionError(() -> then(comparator.compare(expected, actual)).isOne());
   }
 
   @ParameterizedTest
-  @CsvSource({"0.111f, 0.110f, 0.000999f, 0.000001f",
-    "0.12345f, 0.12346f, 0.000009f, 0.00001f",
-    "0.7654321f, 0.7654320f, 9e-8, 1e-7",
-    "1.2463, 1.2464, 9e-5, 1e-4"})
-  void should_fail_for_expected_equal_to_actual_not_in_certain_range_min_plus_difference(Float expected, Float actual, Float precision, Float smallDifference) {
+  @CsvSource({"0.111f, 0.110f, 0.000999f",
+    "0.1234590f, 0.1234591f, 0.000009f",
+    "0.76543210f, 0.76543211f, 9e-8",
+    "1.24639f, 1.246479f, 9e-5"})
+  void should_fail_for_expected_equal_to_actual_not_in_certain_range_min_plus_difference(Float expected, Float actual, Float precision) {
     Comparator<Float> comparator = INSTANCE.floatComparatorWithPrecision(precision);
-    Float max = Math.max(expected, actual), min = Math.min(expected, actual);
-    expectAssertionError(() -> then(comparator.compare(min + smallDifference, max)).isEqualTo(-1));
+    expectAssertionError(() -> then(comparator.compare(expected, actual)).isEqualTo(-1));
   }
 
   @Test

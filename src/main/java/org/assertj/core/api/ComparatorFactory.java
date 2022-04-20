@@ -27,25 +27,6 @@ public class ComparatorFactory {
   public static final ComparatorFactory INSTANCE = new ComparatorFactory();
 
   /**
-   * Judge whether the input number is Nan or Infinity
-   *
-   * @param number Object of Float or Double class
-   * @param <T>    type of expected and precision, which should be the subclass of java.lang.Number and java.lang.Comparable
-   * @return whether the object is Nan or Infinity
-   * @throws java.lang.NullPointerException if number is null
-   */
-  private static <T extends Number & Comparable<T>> boolean isNanOrInfinity(T number) {
-    if (number instanceof Float) {
-      return Floats.instance().isNanOrInfinite((Float) number);
-    } else if (number instanceof Double) {
-      return Doubles.instance().isNanOrInfinite((Double) number);
-    }
-
-    return false;
-
-  }
-
-  /**
    * Use the Combination of java.math.BigDecimal and String.valueOf to create precise BigDecimal object.
    *
    * @param number Object of Float or Double class
@@ -82,11 +63,12 @@ public class ComparatorFactory {
     return new Comparator<Double>() {
       @Override
       public int compare(Double o1, Double o2) {
-        if(isNanOrInfinity(precision)){
+        if(Doubles.instance().isNanOrInfinite(precision)){
           throw new IllegalArgumentException("Precision should not be Nan or Infinity!");
         }
 
-        if(isNanOrInfinity(o1) || isNanOrInfinity(o2)){
+        if(Doubles.instance().isNanOrInfinite(o1)
+          || Doubles.instance().isNanOrInfinite(o2)){
           return Double.compare(o1, o2);
         }
         if (compareAsBigDecimalWithPrecision(o1, o2, precision)) {
@@ -107,10 +89,10 @@ public class ComparatorFactory {
     return new Comparator<Float>() {
       @Override
       public int compare(Float o1, Float o2) {
-        if(isNanOrInfinity(precision)){
+        if(Floats.instance().isNanOrInfinite(precision)){
           throw new IllegalArgumentException("Precision should not be Nan or Infinity!");
         }
-        if(isNanOrInfinity(o1) || isNanOrInfinity(o2)){
+        if(Floats.instance().isNanOrInfinite(o1) || Floats.instance().isNanOrInfinite(o2)){
           return Float.compare(o1, o2);
         }
         if (compareAsBigDecimalWithPrecision(o1, o2, precision)) {
