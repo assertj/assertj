@@ -32,33 +32,33 @@ class ShouldHaveCauseReference_create_Test {
   @Test
   void should_create_error_message_for_expected_without_actual() {
     // GIVEN
-    Throwable actualCause = null;
-    Throwable expectedCause = new RuntimeException("hello");
+    Throwable actualCause = new RuntimeException().getCause();
+    Throwable expectedCause = new IllegalStateException();
     // WHEN
-    String actual = shouldHaveCauseReference(actualCause, expectedCause).create(DESCRIPTION);
+    String message = shouldHaveCauseReference(actualCause, expectedCause).create();
     // THEN
-    then(actual).isEqualTo(format("[TEST] %n" +
-                                  "Expecting actual cause reference to be:%n" +
-                                  "  %s%n" +
-                                  "but was:%n" +
-                                  "  null",
-                                  STANDARD_REPRESENTATION.toStringOf(expectedCause)));
+    then(message).isEqualTo(format("Expecting actual cause reference to be:%n" +
+        "  %s%n" +
+        "but was:%n" +
+        "  null",
+      expectedCause));
   }
 
   @Test
   void should_create_error_message_for_expected_with_actual() {
     // GIVEN
-    Throwable actualCause = new NullPointerException();
-    Throwable expectedCause = new RuntimeException("hello");
+    Throwable expectedCause = new IllegalStateException();
+    Throwable actualCause = new IllegalAccessError("oops...% %s %n");
+    Throwable actual = new RuntimeException(actualCause);
     // WHEN
-    String actual = shouldHaveCauseReference(actualCause, expectedCause).create(DESCRIPTION);
+    String message = shouldHaveCauseReference(actualCause, expectedCause).create();
     // THEN
-    then(actual).isEqualTo(format("[TEST] %n" +
-                                  "Expecting actual cause reference to be:%n" +
-                                  "  %s%n" +
-                                  "but was:%n" +
-                                  "  %s",
-                                  STANDARD_REPRESENTATION.toStringOf(expectedCause),
-                                  STANDARD_REPRESENTATION.toStringOf(actualCause)));
+    then(message).isEqualTo(format("Expecting actual cause reference to be:%n" +
+      "  %s%n" +
+      "but was:%n" +
+      "  %s%n" +
+      "Throwable that failed the check:%n" +
+      "%n" +
+      "%s",expectedCause,actualCause,getStackTrace(actualCause)));
   }
 }

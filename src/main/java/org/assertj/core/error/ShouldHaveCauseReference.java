@@ -15,10 +15,26 @@ package org.assertj.core.error;
 public class ShouldHaveCauseReference extends BasicErrorMessageFactory {
 
   public static ErrorMessageFactory shouldHaveCauseReference(Throwable actualCause, Throwable expectedCause) {
-    return new ShouldHaveCauseReference(actualCause, expectedCause);
+    return actualCause == null
+      ? new ShouldHaveCauseReference(expectedCause)
+      : new ShouldHaveCauseReference(actualCause, expectedCause);
+  }
+
+  private ShouldHaveCauseReference(Throwable expectedCause){
+    super("Expecting actual cause reference to be:%n" +
+        "  %s%n" +
+        "but was:%n" +
+        "  null",
+      expectedCause);
   }
 
   private ShouldHaveCauseReference(Throwable actualCause, Throwable expectedCause) {
-    super("%nExpecting actual cause reference to be:%n  %s%nbut was:%n  %s", expectedCause, actualCause);
+    super("Expecting actual cause reference to be:%n" +
+        "  %s%n" +
+        "but was:%n" +
+        "  %s%n" +
+        "Throwable that failed the check:%n" +
+        "%n" + escapePercent(getStackTrace(actualCause)),
+      expectedCause, actualCause);
   }
 }
