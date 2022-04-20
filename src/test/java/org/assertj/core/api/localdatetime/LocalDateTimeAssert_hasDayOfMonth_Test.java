@@ -50,7 +50,7 @@ class LocalDateTimeAssert_hasDayOfMonth_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasDayOfMonth(expectedDay));
     // THEN
-    then(assertionError).hasMessage(shouldHaveDateField(actual, "day", expectedDay).create());
+    then(assertionError).hasMessage(shouldHaveDateField(actual, "day of month", expectedDay).create());
   }
 
 }
