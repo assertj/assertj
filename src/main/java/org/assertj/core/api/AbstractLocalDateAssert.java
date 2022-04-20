@@ -513,10 +513,10 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * <p>
    * Example:
    * <pre><code class='java'> // Assertion succeeds:
-   * assertThat(LocalDate.of(2000, 12, 31)).hasMonth(12);
+   * assertThat(LocalDate.of(2000, 12, 31)).hasMonthValue(12);
    *
    * // Assertion fails:
-   * assertThat(LocalDate.of(2000, 12, 31)).hasMonth(11);</code></pre>
+   * assertThat(LocalDate.of(2000, 12, 31)).hasMonthValue(11);</code></pre>
    *
    * @param month the given month's value between 1 and 12 inclusive.
    * @return this assertion object.
