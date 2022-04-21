@@ -93,9 +93,4 @@ public class Floats extends RealNumbers<Float> {
   protected boolean isNaN(Float value) {
     return Float.isNaN(value);
   }
-
-  @Override
-  protected boolean isNotNaN(Float value) {
-    return !Float.isNaN(value);
-  }
 }

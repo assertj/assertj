@@ -92,9 +92,4 @@ public class Doubles extends RealNumbers<Double> {
   protected boolean isNaN(Double value) {
     return Double.isNaN(value);
   }
-
-  @Override
-  protected boolean isNotNaN(Double value) {
-    return !Double.isNaN(value);
-  }
 }

@@ -100,13 +100,17 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
     throw failures.failure(info, shouldNotBeInfinite(actual));
   }
 
+  /**
+   * Verifies whether the value is Nan or Infinite
+   * @param value the input value
+   * @return is value Nan or Infinite
+   */
+
   public boolean isNanOrInfinite(NUMBER value){
     return isNaN(value) || isInfinite(value);
   }
 
   protected abstract boolean isNaN(NUMBER value);
-
-  protected abstract boolean isNotNaN(NUMBER value);
 
   protected abstract boolean isNotInfinite(NUMBER value);
 }
