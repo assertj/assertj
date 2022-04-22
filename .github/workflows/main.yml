@@ -25,4 +25,4 @@ jobs:
           cache: 'maven'
 
       - name: Build
-        run: ./mvnw -V --no-transfer-progress -e clean verify
+        run: ./mvnw -V --no-transfer-progress -e verify
