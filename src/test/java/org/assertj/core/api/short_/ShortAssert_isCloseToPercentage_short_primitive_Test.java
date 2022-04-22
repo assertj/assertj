@@ -10,32 +10,32 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.api.float_;
+package org.assertj.core.api.short_;
 
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.FloatAssert;
-import org.assertj.core.api.FloatAssertBaseTest;
+import org.assertj.core.api.ShortAssert;
+import org.assertj.core.api.ShortAssertBaseTest;
 import org.assertj.core.data.Percentage;
 
 /**
- * Tests for <code>{@link FloatAssert#isNotCloseTo(float, Percentage)}</code>.
+ * Tests for <code>{@link ShortAssert#isCloseTo(short, Percentage)}</code>.
  *
  * @author Sára Juhošová
  */
-class FloatAssert_isNotCloseToPercentage_float_Test extends FloatAssertBaseTest {
+class ShortAssert_isCloseToPercentage_short_primitive_Test extends ShortAssertBaseTest {
 
-  private final Percentage percentage = withPercentage(2.4f);
-  private final float value = 16.3f;
+  private final Percentage percentage = withPercentage((short) 13);
+  private final short value = (short) 42;
 
   @Override
-  protected FloatAssert invoke_api_method() {
-    return assertions.isNotCloseTo(value, percentage);
+  protected ShortAssert invoke_api_method() {
+    return assertions.isCloseTo(value, percentage);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(floats).assertIsNotCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
+    verify(shorts).assertIsCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
   }
 }

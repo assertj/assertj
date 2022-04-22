@@ -24,7 +24,7 @@ import org.assertj.core.data.Percentage;
  *
  * @author Sára Juhošová
  */
-class ShortAssert_isNotCloseToPercentage_short_Test extends ShortAssertBaseTest {
+class ShortAssert_isNotCloseToPercentage_short_primitive_Test extends ShortAssertBaseTest {
 
   private final Percentage percentage = withPercentage((short) 13);
   private final short value = (short) 42;

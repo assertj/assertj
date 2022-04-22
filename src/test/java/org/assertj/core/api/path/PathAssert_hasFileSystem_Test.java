@@ -10,31 +10,32 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.api.float_;
+package org.assertj.core.api.path;
 
-import static org.assertj.core.data.Offset.offset;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.FloatAssert;
-import org.assertj.core.api.FloatAssertBaseTest;
-import org.assertj.core.data.Offset;
+import java.nio.file.FileSystem;
+
+import org.assertj.core.api.PathAssert;
+import org.assertj.core.api.PathAssertBaseTest;
 
 /**
- * Tests for <code>{@link FloatAssert#isNotCloseTo(float, Offset)}</code>.
+ * Tests for {@link PathAssert#hasFileSystem(FileSystem)}.
  *
- * @author Chris Arnott
+ * @author Ashley Scopes
  */
-class FloatAssert_isNotCloseTo_float_Test extends FloatAssertBaseTest {
+class PathAssert_hasFileSystem_Test extends PathAssertBaseTest {
 
-  private final Offset<Float> offset = offset(5f);
+  private final FileSystem expectedFileSystem = mock(FileSystem.class);
 
   @Override
-  protected FloatAssert invoke_api_method() {
-    return assertions.isNotCloseTo(8f, offset);
+  protected PathAssert invoke_api_method() {
+    return assertions.hasFileSystem(expectedFileSystem);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(floats).assertIsNotCloseTo(getInfo(assertions), getActual(assertions), 8f, offset);
+    verify(paths).assertHasFileSystem(getInfo(assertions), getActual(assertions), expectedFileSystem);
   }
 }

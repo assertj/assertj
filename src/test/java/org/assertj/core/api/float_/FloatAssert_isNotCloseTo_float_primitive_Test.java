@@ -10,32 +10,31 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.api.double_;
+package org.assertj.core.api.float_;
 
 import static org.assertj.core.data.Offset.offset;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.DoubleAssert;
-import org.assertj.core.api.DoubleAssertBaseTest;
+import org.assertj.core.api.FloatAssert;
+import org.assertj.core.api.FloatAssertBaseTest;
 import org.assertj.core.data.Offset;
 
 /**
- * Tests for <code>{@link DoubleAssert#isNotCloseTo(double, Offset)}</code>.
+ * Tests for <code>{@link FloatAssert#isNotCloseTo(float, Offset)}</code>.
  *
- * @author Sára Juhošová
+ * @author Chris Arnott
  */
-class DoubleAssert_isNotCloseTo_double_Test extends DoubleAssertBaseTest {
+class FloatAssert_isNotCloseTo_float_primitive_Test extends FloatAssertBaseTest {
 
-  private final Offset<Double> offset = offset(13.2);
-  private final double value = 55.1;
+  private final Offset<Float> offset = offset(5f);
 
   @Override
-  protected DoubleAssert invoke_api_method() {
-    return assertions.isNotCloseTo(value, offset);
+  protected FloatAssert invoke_api_method() {
+    return assertions.isNotCloseTo(8f, offset);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(doubles).assertIsNotCloseTo(getInfo(assertions), getActual(assertions), value, offset);
+    verify(floats).assertIsNotCloseTo(getInfo(assertions), getActual(assertions), 8f, offset);
   }
 }

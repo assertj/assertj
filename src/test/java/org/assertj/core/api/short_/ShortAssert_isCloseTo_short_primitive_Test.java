@@ -20,22 +20,22 @@ import org.assertj.core.api.ShortAssertBaseTest;
 import org.assertj.core.data.Offset;
 
 /**
- * Tests for <code>{@link ShortAssert#isNotCloseTo(short, Offset)}</code>.
+ * Tests for <code>{@link ShortAssert#isCloseTo(short, Offset)}</code>.
  *
  * @author Sára Juhošová
  */
-class ShortAssert_isNotCloseTo_short_Test extends ShortAssertBaseTest {
+class ShortAssert_isCloseTo_short_primitive_Test extends ShortAssertBaseTest {
 
   private final Offset<Short> offset = offset((short) 1);
   private final short value = 16;
 
   @Override
   protected ShortAssert invoke_api_method() {
-    return assertions.isNotCloseTo(value, offset);
+    return assertions.isCloseTo(value, offset);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(shorts).assertIsNotCloseTo(getInfo(assertions), getActual(assertions), value, offset);
+    verify(shorts).assertIsCloseTo(getInfo(assertions), getActual(assertions), value, offset);
   }
 }

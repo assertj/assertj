@@ -10,32 +10,32 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.api.short_;
+package org.assertj.core.api.path;
 
-import static org.assertj.core.data.Offset.offset;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.ShortAssert;
-import org.assertj.core.api.ShortAssertBaseTest;
-import org.assertj.core.data.Offset;
+import java.nio.file.Path;
+
+import org.assertj.core.api.PathAssert;
+import org.assertj.core.api.PathAssertBaseTest;
 
 /**
- * Tests for <code>{@link ShortAssert#isCloseTo(short, Offset)}</code>.
+ * Tests for {@link PathAssert#hasSameFileSystemAs(Path)}.
  *
- * @author Sára Juhošová
+ * @author Ashley Scopes
  */
-class ShortAssert_isCloseTo_short_Test extends ShortAssertBaseTest {
+class PathAssert_hasSameFileSystemAs_Test extends PathAssertBaseTest {
 
-  private final Offset<Short> offset = offset((short) 1);
-  private final short value = 16;
+  private final Path expectedPath = mock(Path.class);
 
   @Override
-  protected ShortAssert invoke_api_method() {
-    return assertions.isCloseTo(value, offset);
+  protected PathAssert invoke_api_method() {
+    return assertions.hasSameFileSystemAs(expectedPath);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(shorts).assertIsCloseTo(getInfo(assertions), getActual(assertions), value, offset);
+    verify(paths).assertHasSameFileSystemAs(getInfo(assertions), getActual(assertions), expectedPath);
   }
 }

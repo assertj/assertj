@@ -22,10 +22,10 @@ import java.util.Collection;
 
 import org.junit.jupiter.api.Test;
 
-public class HamcrestConditionTest {
+class HamcrestConditionTest {
 
   @Test
-  public void should_be_able_to_use_a_hamcrest_matcher_as_a_condition() {
+  void should_be_able_to_use_a_hamcrest_matcher_as_a_condition() {
     // GIVEN
     Condition<String> aStringContainingA = new HamcrestCondition<>(containsString("a"));
     // THEN
@@ -36,7 +36,7 @@ public class HamcrestConditionTest {
   }
 
   @Test
-  public void should_be_able_to_use_a_hamcrest_matcher_with_generic() {
+  void should_be_able_to_use_a_hamcrest_matcher_with_generic() {
     // GIVEN
     Collection<? extends CharSequence> emptyIterable = list();
     Collection<? extends CharSequence> oneElementIterable = list("item");
@@ -48,7 +48,8 @@ public class HamcrestConditionTest {
   }
 
   @Test
-  public void should_be_able_to_use_a_hamcrest_matcher_with_the_matching_static_method() {
+  void should_be_able_to_use_a_hamcrest_matcher_with_the_matching_static_method() {
     assertThat("abc").is(matching(containsString("a")));
   }
+
 }
