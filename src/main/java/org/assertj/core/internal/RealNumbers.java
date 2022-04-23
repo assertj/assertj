@@ -17,6 +17,8 @@ import static org.assertj.core.error.ShouldBeInfinite.shouldBeInfinite;
 import static org.assertj.core.error.ShouldNotBeFinite.shouldNotBeFinite;
 import static org.assertj.core.error.ShouldNotBeInfinite.shouldNotBeInfinite;
 
+import java.math.BigDecimal;
+
 import org.assertj.core.api.AssertionInfo;
 
 /**
@@ -44,6 +46,12 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
    */
   public void assertIsNaN(AssertionInfo info, NUMBER actual) {
     assertEqualByComparison(info, actual, NaN());
+  }
+
+  protected BigDecimal absBigDecimalDiff(NUMBER number1, NUMBER number2) {
+    BigDecimal number1AsbigDecimal = new BigDecimal(String.valueOf(number1));
+    BigDecimal number2AsbigDecimal = new BigDecimal(String.valueOf(number2));
+    return number1AsbigDecimal.subtract(number2AsbigDecimal).abs();
   }
 
   protected abstract NUMBER NaN();
@@ -92,6 +100,18 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
     if (isNotInfinite(actual)) return;
     throw failures.failure(info, shouldNotBeInfinite(actual));
   }
+
+  /**
+   * Returns true is if the given value is Nan or Infinite, false otherwise.
+   * 
+   * @param value the value to check
+   * @return true is if the given value is Nan or Infinite, false otherwise.
+   */
+  public boolean isNanOrInfinite(NUMBER value) {
+    return isNaN(value) || isInfinite(value);
+  }
+
+  protected abstract boolean isNaN(NUMBER value);
 
   protected abstract boolean isNotInfinite(NUMBER value);
 }

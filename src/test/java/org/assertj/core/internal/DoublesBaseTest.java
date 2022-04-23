@@ -12,8 +12,10 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
+import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.util.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -25,6 +27,8 @@ import org.junit.jupiter.api.BeforeEach;
  * @author Joel Costigliola
  */
 public class DoublesBaseTest {
+
+  protected static final WritableAssertionInfo INFO = someInfo();
 
   protected Failures failures;
   protected Doubles doubles;
@@ -46,4 +50,7 @@ public class DoublesBaseTest {
     return doubles.NaN();
   }
 
+  protected Double absDiff(Double actual, Double other) {
+    return Doubles.instance().absDiff(actual, other);
+  }
 }
