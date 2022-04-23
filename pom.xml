@@ -40,7 +40,7 @@
     <junit-jupiter.version>5.8.2</junit-jupiter.version>
     <mockito.version>4.5.1</mockito.version>
     <!-- Plugin versions overriding -->
-    <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
   </properties>
 
   <dependencyManagement>
