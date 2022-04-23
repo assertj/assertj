@@ -39,8 +39,6 @@ class Assertions_sync_with_Assumptions_and_BDDAssumptions_Test extends BaseAsser
     // THEN
     assumeThat(assumeThat_Assumptions_methods).usingElementComparator(IGNORING_DECLARING_CLASS_RETURN_TYPE_AND_METHOD_NAME)
                                               .containsExactlyInAnyOrder(assertThat_Assertions_methods);
-    // assertThat(assertThat_Assertions_methods).usingElementComparator(IGNORING_DECLARING_CLASS_RETURN_TYPE_AND_METHOD_NAME)
-    // .containsExactlyInAnyOrder(assumeThat_Assumptions_methods);
   }
 
   @ParameterizedTest
@@ -51,7 +49,6 @@ class Assertions_sync_with_Assumptions_and_BDDAssumptions_Test extends BaseAsser
     Method[] assumeThat_Assumptions_methods = findMethodsWithName(Assumptions.class, assumptionMethod);
     Method[] given_Assumptions_methods = findMethodsWithName(BDDAssumptions.class, bddAssumptionMethod);
     // THEN
-    // ignore the return type of soft assertions until they have the same as the Assertions
     given(given_Assumptions_methods).usingElementComparator(IGNORING_DECLARING_CLASS_AND_METHOD_NAME)
                                     .containsExactlyInAnyOrder(assumeThat_Assumptions_methods);
   }
@@ -69,8 +66,7 @@ class Assertions_sync_with_Assumptions_and_BDDAssumptions_Test extends BaseAsser
   }
 
   private static Stream<String> assertion_methods() {
-    return Stream.of(// "assertThat",
-                     "assertThatCode",
+    return Stream.of("assertThatCode",
                      "assertThatCollection",
                      "assertThatComparable",
                      "assertThatIterable",
