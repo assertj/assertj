@@ -262,7 +262,7 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    * @return the created assertion object.
    * @since 3.23.0
    */
-  default RawComparableAssert assertThatComparable(Comparable<?> actual) {
+  default AbstractRawComparableAssert<?> assertThatComparable(Comparable<?> actual) {
     return proxy(RawComparableAssert.class, Comparable.class, actual);
   }
 

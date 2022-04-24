@@ -466,7 +466,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> then(T actual) {
-    return AssertionsForInterfaceTypes.assertThat(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -481,7 +481,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    * @since 3.23.0
    */
-  public static RawComparableAssert thenComparable(Comparable<?> actual) {
+  public static AbstractRawComparableAssert<?> thenComparable(Comparable<?> actual) {
     return assertThatComparable(actual);
   }
 

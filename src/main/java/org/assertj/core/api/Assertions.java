@@ -3503,8 +3503,8 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    * @since 3.23.0
    */
-  public static RawComparableAssert assertThatComparable(Comparable<?> actual) {
-    return new RawComparableAssert(actual);
+  public static AbstractRawComparableAssert<?> assertThatComparable(Comparable<?> actual) {
+    return AssertionsForInterfaceTypes.assertThatComparable(actual);
   }
 
   /**
