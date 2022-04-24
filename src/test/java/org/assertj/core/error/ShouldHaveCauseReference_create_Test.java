@@ -23,14 +23,16 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for <code>{@link ShouldHaveCauseReference#shouldHaveCauseReference(Throwable, Throwable)}</code>.
  *
- * @author Mike Gilchrist
+ * @author weiyilei
  */
 class ShouldHaveCauseReference_create_Test {
 
   private static final TestDescription DESCRIPTION = new TestDescription("TEST");
-
+  /**
+   * Test1 for null actual cause reference
+   */
   @Test
-  void should_create_error_message_for_expected_without_actual() {
+  void should_create_error_message_for_expected_without_actual1() {
     // GIVEN
     Throwable actualCause = new RuntimeException().getCause();
     Throwable expectedCause = new IllegalStateException();
@@ -38,27 +40,59 @@ class ShouldHaveCauseReference_create_Test {
     String message = shouldHaveCauseReference(actualCause, expectedCause).create();
     // THEN
     then(message).isEqualTo(format("Expecting actual cause reference to be:%n" +
-        "  %s%n" +
+        "  java.lang.IllegalStateException%n" +
         "but was:%n" +
-        "  null",
-      expectedCause));
+        "  null"));
   }
-
+  /**
+   * Test2 for null actual cause reference
+   */
   @Test
-  void should_create_error_message_for_expected_with_actual() {
+  void should_create_error_message_for_expected_without_actual2(){
+    // GIVEN
+    Throwable actualCause = new RuntimeException().getCause();
+    Throwable expectedCause = new OutOfMemoryError();
+    // WHEN
+    String message = shouldHaveCauseReference(actualCause, expectedCause).create();
+    then(message).isEqualTo(format("Expecting actual cause reference to be:%n" +
+      "  java.lang.OutOfMemoryError%n" +
+      "but was:%n" +
+      "  null"));
+  }
+  /**
+   * Test1 for not null actual cause reference
+   */
+  @Test
+  void should_create_error_message_for_expected_with_actual1() {
     // GIVEN
     Throwable expectedCause = new IllegalStateException();
-    Throwable actualCause = new IllegalAccessError("oops...% %s %n");
+    Throwable actualCause = new IllegalAccessError("oops...");
     Throwable actual = new RuntimeException(actualCause);
     // WHEN
     String message = shouldHaveCauseReference(actualCause, expectedCause).create();
     // THEN
     then(message).isEqualTo(format("Expecting actual cause reference to be:%n" +
-      "  %s%n" +
+      "  java.lang.IllegalStateException%n" +
       "but was:%n" +
-      "  %s%n" +
+      "  java.lang.IllegalAccessError: oops...%n" +
       "Throwable that failed the check:%n" +
-      "%n" +
-      "%s",expectedCause,actualCause,getStackTrace(actualCause)));
+      "%s",getStackTrace(actualCause)));
+  }
+  /**
+   * Test2 for not null actual cause reference
+   */
+  @Test
+  void should_create_error_message_for_expected_with_actual2(){
+    // GIVEN
+    Throwable expectedCause = new OutOfMemoryError();
+    Throwable actualCause = new IllegalAccessError("Test");
+    Throwable actual = new RuntimeException(actualCause);
+    // WHEN
+    then(message).isEqualTo(format("Expecting actual cause reference to be:%n" +
+      "  java.lang.OutOfMemoryError%n" +
+      "but was:%n" +
+      "  java.lang.IllegalAccessError: Test%n" +
+      "Throwable that failed the check:%n" +
+      "%s",getStackTrace(actualCause));
   }
 }
