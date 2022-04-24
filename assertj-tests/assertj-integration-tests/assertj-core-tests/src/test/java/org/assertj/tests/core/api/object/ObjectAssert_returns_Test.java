@@ -16,8 +16,9 @@
 package org.assertj.tests.core.api.object;
 
 import static java.lang.String.CASE_INSENSITIVE_ORDER;
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.catchNullPointerException;
 import static org.assertj.core.api.Assertions.from;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -46,10 +47,9 @@ class ObjectAssert_returns_Test {
     // GIVEN
     Jedi actual = new Jedi("Yoda", "Green");
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertThat(actual).returns("Yoda", null));
+    var nullPointerException = catchNullPointerException(() -> assertThat(actual).returns("Yoda", null));
     // THEN
-    then(thrown).isInstanceOf(NullPointerException.class)
-                .hasMessage("The given getter method/Function must not be null");
+    then(nullPointerException).hasMessage("The given getter method/Function must not be null");
   }
 
   @Test
@@ -59,6 +59,29 @@ class ObjectAssert_returns_Test {
     // WHEN/THEN
     then(yoda).returns("Yoda", from(Jedi::getName))
               .returns("Yoda", Jedi::getName);
+  }
+
+  @Test
+  void should_fail_if_returned_value_is_not_the_expected_value() {
+    // GIVEN
+    Jedi yoda = new Jedi("Yoda", "Green");
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(yoda).returns("Yoyo", from(Jedi::getName)));
+    // THEN
+    then(assertionError).hasMessage(format("%nexpected: \"Yoyo\"%n" +
+                                           " but was: \"Yoda\""));
+  }
+
+  @Test
+  void should_fail_with_description() {
+    // GIVEN
+    Jedi yoda = new Jedi("Yoda", "Green");
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(yoda).returns("Yoyo", from(Jedi::getName), "test"));
+    // THEN
+    then(assertionError).hasMessage(format("[test] %n" +
+                                           "expected: \"Yoyo\"%n" +
+                                           " but was: \"Yoda\""));
   }
 
   @Test
