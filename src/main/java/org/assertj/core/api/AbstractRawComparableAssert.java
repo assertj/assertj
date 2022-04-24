@@ -46,13 +46,13 @@ import org.assertj.core.util.VisibleForTesting;
  * // it works without generic Comparable too 
  * assertThat(name).isEqualByComparingTo(name);</code></pre>
  */
-public abstract class AbstractRawComparableAssert<SELF extends AbstractRawComparableAssert<SELF>>
+public abstract class AbstractRawComparableAssert<SELF extends AbstractRawComparableAssert<SELF, ACTUAL>, ACTUAL>
     extends AbstractObjectAssert<SELF, Comparable<?>> {
 
   @VisibleForTesting
   Comparables comparables = new Comparables();
 
-  protected AbstractRawComparableAssert(Comparable<?> actual, Class<?> selfType) {
+  protected AbstractRawComparableAssert(Comparable<ACTUAL> actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -73,60 +73,54 @@ public abstract class AbstractRawComparableAssert<SELF extends AbstractRawCompar
   * @throws AssertionError if the actual value is {@code null}.
   * @throws AssertionError if the actual value is equal to or greater than the given one.
   */
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  public SELF isLessThan(Comparable other) {
-    comparables.assertLessThan(info, actual, other);
+  public <T extends Comparable<? super ACTUAL>> SELF isLessThan(T other) {
+    comparables.assertLessThan(info, actual, other); // FIXME unchecked
     return myself;
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  public SELF isEqualByComparingTo(Comparable other) {
-    comparables.assertEqualByComparison(info, actual, other);
+  public <T extends Comparable<? super ACTUAL>> SELF isEqualByComparingTo(T other) {
+    comparables.assertEqualByComparison(info, actual, other); // FIXME unchecked
     return myself;
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  public SELF isNotEqualByComparingTo(Comparable other) {
-    comparables.assertNotEqualByComparison(info, (Comparable) actual, other);
+  public <T extends Comparable<? super ACTUAL>> SELF isNotEqualByComparingTo(T other) {
+    comparables.assertNotEqualByComparison(info, (Comparable) actual, other); // FIXME unchecked
     return myself;
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  public SELF isLessThanOrEqualTo(Comparable other) {
-    comparables.assertLessThanOrEqualTo(info, actual, other);
+  public <T extends Comparable<? super ACTUAL>> SELF isLessThanOrEqualTo(T other) {
+    comparables.assertLessThanOrEqualTo(info, actual, other); // FIXME unchecked
     return myself;
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  public SELF isGreaterThan(Comparable other) {
-    comparables.assertGreaterThan(info, actual, other);
+  public <T extends Comparable<? super ACTUAL>> SELF isGreaterThan(T other) {
+    comparables.assertGreaterThan(info, actual, other); // FIXME unchecked
     return myself;
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  public SELF isGreaterThanOrEqualTo(Comparable other) {
-    comparables.assertGreaterThanOrEqualTo(info, actual, other);
+  public <T extends Comparable<? super ACTUAL>> SELF isGreaterThanOrEqualTo(T other) {
+    comparables.assertGreaterThanOrEqualTo(info, actual, other); // FIXME unchecked
     return myself;
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  public SELF isBetween(Comparable startInclusive, Comparable endInclusive) {
+  public <X extends Comparable<? super ACTUAL>, Y extends Comparable<? super ACTUAL>> SELF isBetween(X startInclusive, Y endInclusive) {
     comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true);
     return myself;
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  public SELF isStrictlyBetween(Comparable startExclusive, Comparable endExclusive) {
+  public <X extends Comparable<? super ACTUAL>, Y extends Comparable<? super ACTUAL>> SELF isStrictlyBetween(X startExclusive, Y endExclusive) {
     comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false);
     return myself;
   }
 
+  /** {@inheritDoc} */
   @Override
   @CheckReturnValue
   public SELF usingComparator(Comparator<? super Comparable<?>> customComparator) {
     return usingComparator(customComparator, null);
   }
 
+  /** {@inheritDoc} */
   @Override
   @CheckReturnValue
   public SELF usingComparator(Comparator<? super Comparable<?>> customComparator, String customComparatorDescription) {
@@ -134,6 +128,7 @@ public abstract class AbstractRawComparableAssert<SELF extends AbstractRawCompar
     return super.usingComparator(customComparator, customComparatorDescription);
   }
 
+  /** {@inheritDoc} */
   @Override
   @CheckReturnValue
   public SELF usingDefaultComparator() {
@@ -141,12 +136,14 @@ public abstract class AbstractRawComparableAssert<SELF extends AbstractRawCompar
     return super.usingDefaultComparator();
   }
 
+  /** {@inheritDoc} */
   @Override
   @CheckReturnValue
   public SELF inHexadecimal() {
     return super.inHexadecimal();
   }
 
+  /** {@inheritDoc} */
   @Override
   @CheckReturnValue
   public SELF inBinary() {

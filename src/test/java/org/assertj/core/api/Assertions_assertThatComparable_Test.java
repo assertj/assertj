@@ -26,7 +26,7 @@ class Assertions_assertThatComparable_Test {
     // GIVEN
     Name comparable = new Name("abc");
     // WHEN
-    AbstractRawComparableAssert<?> assertions = assertThatComparable(comparable);
+    AbstractRawComparableAssert<?, Name> assertions = assertThatComparable(comparable);
     // THEN
     then(assertions).isNotNull();
   }
@@ -36,7 +36,7 @@ class Assertions_assertThatComparable_Test {
     // GIVEN
     Name comparable = new Name("abc");
     // WHEN
-    AbstractRawComparableAssert<?> assertions = assertThatComparable(comparable);
+    AbstractRawComparableAssert<?, Name> assertions = assertThatComparable(comparable);
     // THEN
     then(assertions.actual).isSameAs(comparable);
   }
@@ -167,7 +167,7 @@ class Assertions_assertThatComparable_Test {
     assertThatComparable(o1).isBetween(o2, o3);
   }
 
-  class ComparingWithObject implements Comparable<Object> {
+  static class ComparingWithObject implements Comparable<Object> {
     @Override
     public int compareTo(Object other) {
       return 0;
