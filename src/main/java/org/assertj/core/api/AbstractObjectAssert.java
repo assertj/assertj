@@ -95,6 +95,12 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * To directly show result of function from.
    * Base on return().
    * Based on returns().
+   * @param expected the value the object under test method's call should return.
+   * @param from {@link Function} used to acquire the value to test from the object under test. Must not be {@code null}
+   * @param <T> the expected value type the given {@code method} returns.
+   * @param description the description that you hope to show in return.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if given {@code from} function is null
    */
   public <T> SELF returnsValue(T expected, Function<ACTUAL, T> from, String description){
     requireNonNull(from,"The given getter method/Function must not be null");
@@ -111,6 +117,11 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * To directly show that function from is empty instead of throws common error message.
    * return actual = -1, expected = 0 as replacement of function check.
    * Based on returns().
+   * @param expected the value the object under test method's call should return.
+   * @param from {@link Function} used to acquire the value to test from the object under test. Must not be {@code null}
+   * @param <T> the expected value type the given {@code method} returns.
+   * @param description the description that you hope to show in return.
+   * @return {@code this} assertion object.
    */
   public <T> SELF returnsEmpty(T expected, Function<ACTUAL, T> from, String description){
     if(from == null){
