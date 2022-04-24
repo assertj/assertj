@@ -32,7 +32,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: 11
+          java-version: 17
 #          cache: 'maven'
       - name: run pitest
         # pitest has been bound to a profile called pitest for normal running

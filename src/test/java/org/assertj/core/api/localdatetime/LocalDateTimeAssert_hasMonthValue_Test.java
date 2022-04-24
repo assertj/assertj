@@ -22,35 +22,34 @@ import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
-class LocalDateTimeAssert_hasDayOfMonth_Test {
+class LocalDateTimeAssert_hasMonthValue_Test {
 
   @Test
   void should_fail_if_actual_is_null() {
     // GIVEN
     LocalDateTime actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasDayOfMonth(1));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasMonthValue(1));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_pass_if_actual_is_on_given_day() {
+  void should_fail_if_actual_has_not_same_month_value() {
     // GIVEN
-    LocalDateTime actual = LocalDateTime.of(2022, 1, 1, 0, 0, 0);
-    // WHEN/THEN
-    then(actual).hasDayOfMonth(1);
+    LocalDateTime actual = LocalDateTime.of(2030, 8, 5, 0, 59, 59);
+    int monthValue = 10;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasMonthValue(monthValue));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveDateField(actual, "month", monthValue).create());
   }
 
   @Test
-  void should_fail_if_actual_is_not_on_given_day() {
+  void should_pass_if_actual_has_same_month_value() {
     // GIVEN
-    LocalDateTime actual = LocalDateTime.of(2022, 1, 1, 0, 0, 0);
-    int expectedDay = 2;
-    // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasDayOfMonth(expectedDay));
-    // THEN
-    then(assertionError).hasMessage(shouldHaveDateField(actual, "day of month", expectedDay).create());
+    LocalDateTime actual = LocalDateTime.of(2000, 3, 21, 15, 30, 0);
+    // WHEN/THEN
+    then(actual).hasMonthValue(3);
   }
-
 }
