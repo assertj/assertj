@@ -17,7 +17,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: 17
+          java-version: 11
 #          cache: 'maven'
       - name: Test
         run: ./mvnw -V --no-transfer-progress -e verify javadoc:javadoc
@@ -34,7 +34,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: 17
+          java-version: 11
 #          cache: 'maven'
       - name: Test with Sonar
         run: >

@@ -30,7 +30,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: 17
+          java-version: 11
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
         with:
@@ -42,4 +42,4 @@ jobs:
         # The updatePR maven goal is used here with an explicit version. This allows us to upload without checking out
         # the code, but does mean the version here must be maintained. An alternative would be to checkout the code and use 
         # the github goal. This will work as long as the artifact is extracted to the maven target directory
-        run: mvn -DrepoToken=${{ secrets.GITHUB_TOKEN }} com.groupcdg:pitest-github-maven-plugin:0.1.3:updatePR
+        run: mvn -DrepoToken=${{ secrets.GITHUB_TOKEN }} com.groupcdg:pitest-github-maven-plugin:0.1.0:updatePR
