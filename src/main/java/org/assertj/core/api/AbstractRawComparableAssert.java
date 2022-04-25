@@ -74,32 +74,32 @@ public abstract class AbstractRawComparableAssert<SELF extends AbstractRawCompar
   * @throws AssertionError if the actual value is equal to or greater than the given one.
   */
   public <T extends Comparable<? super ACTUAL>> SELF isLessThan(T other) {
-    comparables.assertLessThan(info, actual, other); // FIXME unchecked
+    comparables.assertLessThan(info, actual, other);
     return myself;
   }
 
   public <T extends Comparable<? super ACTUAL>> SELF isEqualByComparingTo(T other) {
-    comparables.assertEqualByComparison(info, actual, other); // FIXME unchecked
+    comparables.assertEqualByComparison(info, actual, other);
     return myself;
   }
 
   public <T extends Comparable<? super ACTUAL>> SELF isNotEqualByComparingTo(T other) {
-    comparables.assertNotEqualByComparison(info, (Comparable) actual, other); // FIXME unchecked
+    comparables.assertNotEqualByComparison(info, actual, other);
     return myself;
   }
 
   public <T extends Comparable<? super ACTUAL>> SELF isLessThanOrEqualTo(T other) {
-    comparables.assertLessThanOrEqualTo(info, actual, other); // FIXME unchecked
+    comparables.assertLessThanOrEqualTo(info, actual, other);
     return myself;
   }
 
   public <T extends Comparable<? super ACTUAL>> SELF isGreaterThan(T other) {
-    comparables.assertGreaterThan(info, actual, other); // FIXME unchecked
+    comparables.assertGreaterThan(info, actual, other);
     return myself;
   }
 
   public <T extends Comparable<? super ACTUAL>> SELF isGreaterThanOrEqualTo(T other) {
-    comparables.assertGreaterThanOrEqualTo(info, actual, other); // FIXME unchecked
+    comparables.assertGreaterThanOrEqualTo(info, actual, other);
     return myself;
   }
 
