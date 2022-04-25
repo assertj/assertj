@@ -15,9 +15,9 @@ package org.assertj.core.api;
 /**
  * Concrete raw comparable assertions to be used through {@link Assertions#assertThatComparable(Comparable)}.
  */
-public class RawComparableAssert<ACTUAL> extends AbstractRawComparableAssert<RawComparableAssert<ACTUAL>, ACTUAL> {
+public class RawComparableAssert<T> extends AbstractRawComparableAssert<RawComparableAssert<T>, T> {
 
-  protected RawComparableAssert(Comparable<ACTUAL> actual) {
+  protected RawComparableAssert(Comparable<T> actual) {
     super(actual, RawComparableAssert.class);
   }
 

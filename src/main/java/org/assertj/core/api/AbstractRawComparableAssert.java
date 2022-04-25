@@ -40,19 +40,19 @@ import org.assertj.core.util.VisibleForTesting;
  * assertThat(name).isEqualByComparingTo(name);</code></pre>
  * <p>
  * This class aims to allow writing 
- * <pre><code class='java'> // assertThatComparable reslves to AbstractGenericComparableAssert
+ * <pre><code class='java'> // assertThatComparable resolves to AbstractGenericComparableAssert
  * assertThatComparable(name1).isLessThanOrEqualTo(name1);
  * 
  * // it works without generic Comparable too 
  * assertThat(name).isEqualByComparingTo(name);</code></pre>
  */
-public abstract class AbstractRawComparableAssert<SELF extends AbstractRawComparableAssert<SELF, ACTUAL>, ACTUAL>
-    extends AbstractObjectAssert<SELF, Comparable<ACTUAL>> {
+public abstract class AbstractRawComparableAssert<SELF extends AbstractRawComparableAssert<SELF, T>, T>
+    extends AbstractObjectAssert<SELF, Comparable<T>> {
 
   @VisibleForTesting
   Comparables comparables = new Comparables();
 
-  protected AbstractRawComparableAssert(Comparable<ACTUAL> actual, Class<?> selfType) {
+  protected AbstractRawComparableAssert(Comparable<T> actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -73,42 +73,42 @@ public abstract class AbstractRawComparableAssert<SELF extends AbstractRawCompar
   * @throws AssertionError if the actual value is {@code null}.
   * @throws AssertionError if the actual value is equal to or greater than the given one.
   */
-  public SELF isLessThan(Comparable<? super ACTUAL> other) {
+  public <C extends Comparable<? super T>> SELF isLessThan(C other) {
     comparables.assertLessThan(info, actual, other);
     return myself;
   }
 
-  public SELF isEqualByComparingTo(Comparable<? super ACTUAL> other) {
+  public <C extends Comparable<? super T>> SELF isEqualByComparingTo(C other) {
     comparables.assertEqualByComparison(info, actual, other);
     return myself;
   }
 
-  public SELF isNotEqualByComparingTo(Comparable<? super ACTUAL> other) {
+  public <C extends Comparable<? super T>> SELF isNotEqualByComparingTo(C other) {
     comparables.assertNotEqualByComparison(info, actual, other);
     return myself;
   }
 
-  public SELF isLessThanOrEqualTo(Comparable<? super ACTUAL> other) {
+  public <C extends Comparable<? super T>> SELF isLessThanOrEqualTo(C other) {
     comparables.assertLessThanOrEqualTo(info, actual, other);
     return myself;
   }
 
-  public SELF isGreaterThan(Comparable<? super ACTUAL> other) {
+  public <C extends Comparable<? super T>> SELF isGreaterThan(C other) {
     comparables.assertGreaterThan(info, actual, other);
     return myself;
   }
 
-  public SELF isGreaterThanOrEqualTo(Comparable<? super ACTUAL> other) {
+  public <C extends Comparable<? super T>> SELF isGreaterThanOrEqualTo(C other) {
     comparables.assertGreaterThanOrEqualTo(info, actual, other);
     return myself;
   }
 
-  public SELF isBetween(Comparable<? super ACTUAL> startInclusive, Comparable<? super ACTUAL> endInclusive) {
+  public <C extends Comparable<? super T>> SELF isBetween(C startInclusive, C endInclusive) {
     comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true);
     return myself;
   }
 
-  public SELF isStrictlyBetween(Comparable<? super ACTUAL> startExclusive, Comparable<? super ACTUAL> endExclusive) {
+  public <C extends Comparable<? super T>> SELF isStrictlyBetween(C startExclusive, C endExclusive) {
     comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false);
     return myself;
   }
@@ -116,14 +116,14 @@ public abstract class AbstractRawComparableAssert<SELF extends AbstractRawCompar
   /** {@inheritDoc} */
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super Comparable<ACTUAL>> customComparator) {
+  public SELF usingComparator(Comparator<? super Comparable<T>> customComparator) {
     return super.usingComparator(customComparator);
   }
 
   /** {@inheritDoc} */
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super Comparable<ACTUAL>> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super Comparable<T>> customComparator, String customComparatorDescription) {
     this.comparables = new Comparables(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }
