@@ -47,7 +47,7 @@ import org.assertj.core.util.VisibleForTesting;
  * assertThat(name).isEqualByComparingTo(name);</code></pre>
  */
 public abstract class AbstractRawComparableAssert<SELF extends AbstractRawComparableAssert<SELF, ACTUAL>, ACTUAL>
-    extends AbstractObjectAssert<SELF, Comparable<?>> {
+    extends AbstractObjectAssert<SELF, Comparable<ACTUAL>> {
 
   @VisibleForTesting
   Comparables comparables = new Comparables();
@@ -73,44 +73,42 @@ public abstract class AbstractRawComparableAssert<SELF extends AbstractRawCompar
   * @throws AssertionError if the actual value is {@code null}.
   * @throws AssertionError if the actual value is equal to or greater than the given one.
   */
-  public <T extends Comparable<? super ACTUAL>> SELF isLessThan(T other) {
+  public SELF isLessThan(Comparable<? super ACTUAL> other) {
     comparables.assertLessThan(info, actual, other);
     return myself;
   }
 
-  public <T extends Comparable<? super ACTUAL>> SELF isEqualByComparingTo(T other) {
+  public SELF isEqualByComparingTo(Comparable<? super ACTUAL> other) {
     comparables.assertEqualByComparison(info, actual, other);
     return myself;
   }
 
-  public <T extends Comparable<? super ACTUAL>> SELF isNotEqualByComparingTo(T other) {
+  public SELF isNotEqualByComparingTo(Comparable<? super ACTUAL> other) {
     comparables.assertNotEqualByComparison(info, actual, other);
     return myself;
   }
 
-  public <T extends Comparable<? super ACTUAL>> SELF isLessThanOrEqualTo(T other) {
+  public SELF isLessThanOrEqualTo(Comparable<? super ACTUAL> other) {
     comparables.assertLessThanOrEqualTo(info, actual, other);
     return myself;
   }
 
-  public <T extends Comparable<? super ACTUAL>> SELF isGreaterThan(T other) {
+  public SELF isGreaterThan(Comparable<? super ACTUAL> other) {
     comparables.assertGreaterThan(info, actual, other);
     return myself;
   }
 
-  public <T extends Comparable<? super ACTUAL>> SELF isGreaterThanOrEqualTo(T other) {
+  public SELF isGreaterThanOrEqualTo(Comparable<? super ACTUAL> other) {
     comparables.assertGreaterThanOrEqualTo(info, actual, other);
     return myself;
   }
 
-  public <X extends Comparable<? super ACTUAL>, Y extends Comparable<? super ACTUAL>> SELF isBetween(X startInclusive,
-                                                                                                     Y endInclusive) {
+  public SELF isBetween(Comparable<? super ACTUAL> startInclusive, Comparable<? super ACTUAL> endInclusive) {
     comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true);
     return myself;
   }
 
-  public <X extends Comparable<? super ACTUAL>, Y extends Comparable<? super ACTUAL>> SELF isStrictlyBetween(X startExclusive,
-                                                                                                             Y endExclusive) {
+  public SELF isStrictlyBetween(Comparable<? super ACTUAL> startExclusive, Comparable<? super ACTUAL> endExclusive) {
     comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false);
     return myself;
   }
@@ -118,14 +116,14 @@ public abstract class AbstractRawComparableAssert<SELF extends AbstractRawCompar
   /** {@inheritDoc} */
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super Comparable<?>> customComparator) {
-    return usingComparator(customComparator, null);
+  public SELF usingComparator(Comparator<? super Comparable<ACTUAL>> customComparator) {
+    return super.usingComparator(customComparator);
   }
 
   /** {@inheritDoc} */
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super Comparable<?>> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super Comparable<ACTUAL>> customComparator, String customComparatorDescription) {
     this.comparables = new Comparables(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }
