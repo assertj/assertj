@@ -18,7 +18,7 @@ package org.assertj.core.api;
 public class RawComparableAssert<ACTUAL>
     extends AbstractRawComparableAssert<RawComparableAssert<ACTUAL>, ACTUAL> {
 
-  public RawComparableAssert(Comparable<ACTUAL> actual) {
+  protected RawComparableAssert(Comparable<ACTUAL> actual) {
     super(actual, RawComparableAssert.class);
   }
 
