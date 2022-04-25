@@ -1126,23 +1126,35 @@ public class Iterables {
     assertNotNull(info, actual);
 
     List<Object> actualAsList = newArrayList(actual);
-    IterableDiff<Object> diff = diff(actualAsList, asList(values), comparisonStrategy);
-    if (!diff.differencesFound()) {
-      // actual and values have the same elements but are they in the same order ?
-      int i = 0;
-      // use actualAsList instead of actual in case actual is a singly-passable iterable
-      for (Object elementFromActual : actualAsList) {
-        if (!areEqual(elementFromActual, values[i])) {
+
+    // length check
+    if (actualAsList.size() != values.length) {
+      IterableDiff<Object> diff = diff(actualAsList, asList(values), comparisonStrategy);
+      throw failures.failure(info,
+        shouldContainExactly(actual, asList(values), diff.missing, diff.unexpected,
+          comparisonStrategy));
+    }
+
+    // actual and values have the same number elements but are they equivalent and in the same order?
+    int i = 0;
+    // use actualAsList instead of actual in case actual is a singly-passable iterable
+    for (Object elementFromActual : actualAsList) {
+      // if the objects are not equal, begin the error handling process
+      if (!areEqual(elementFromActual, values[i])) {
+        IterableDiff<Object> diff = diff(actualAsList, asList(values), comparisonStrategy);
+        if (diff.differencesFound()) {
+          throw failures.failure(info,
+            shouldContainExactly(actual, asList(values), diff.missing, diff.unexpected,
+              comparisonStrategy));
+        } else {
           throw failures.failure(info, elementsDifferAtIndex(elementFromActual, values[i], i, comparisonStrategy));
         }
-        i++;
       }
-      return;
+      i++;
     }
-    throw failures.failure(info,
-                           shouldContainExactly(actual, asList(values), diff.missing, diff.unexpected,
-                                                comparisonStrategy));
+    // If here, then done!
   }
+
 
   public <E> void assertAllSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {
     assertNotNull(info, actual);
