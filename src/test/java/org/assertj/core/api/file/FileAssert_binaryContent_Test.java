@@ -45,7 +45,7 @@ class FileAssert_binaryContent_Test extends FileAssertBaseTest implements Naviga
   }
 
   @Test
-  public void should_return_ByteArrayAssert_on_path_content() {
+  void should_return_ByteArrayAssert_on_path_content() {
     // GIVEN
     File file = new File("src/test/resources/actual_file.txt");
     // WHEN
