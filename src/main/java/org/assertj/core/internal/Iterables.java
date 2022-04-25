@@ -1124,7 +1124,7 @@ public class Iterables {
   public void assertContainsExactly(AssertionInfo info, Iterable<?> actual, Object[] values) {
     checkIsNotNull(values);
     assertNotNull(info, actual);
-
+    // use actualAsList instead of actual in case actual is a singly-passable iterable
     List<Object> actualAsList = newArrayList(actual);
 
     // length check
@@ -1137,7 +1137,6 @@ public class Iterables {
 
     // actual and values have the same number elements but are they equivalent and in the same order?
     int i = 0;
-    // use actualAsList instead of actual in case actual is a singly-passable iterable
     for (Object elementFromActual : actualAsList) {
       // if the objects are not equal, begin the error handling process
       if (!areEqual(elementFromActual, values[i])) {
@@ -1152,9 +1151,7 @@ public class Iterables {
       }
       i++;
     }
-    // If here, then done!
   }
-
 
   public <E> void assertAllSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {
     assertNotNull(info, actual);
