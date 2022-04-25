@@ -21,7 +21,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import static java.lang.Float.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class Floats_isNanOrInfinite_Test extends FloatsBaseTest {
+class Floats_isNanOrInfinite_Test extends FloatsBaseTest {
 
   @Test
   void check_double_isNanOrInfinite_method_Nan(){
