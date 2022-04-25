@@ -20,13 +20,13 @@ import org.assertj.core.api.RawComparableAssert;
 class AbstractGenericComparableAssert_isNotEqualByComparingTo_Test extends AbstractGenericComparableAssertBaseTest {
 
   @Override
-  protected RawComparableAssert invoke_api_method() {
+  protected RawComparableAssert<String> invoke_api_method() {
     return assertions.isNotEqualByComparingTo("foo");
   }
 
   @Override
-  @SuppressWarnings({ "rawtypes", "unchecked" })
   protected void verify_internal_effects() {
-    verify(comparables).assertNotEqualByComparison(getInfo(assertions), getActual(assertions), (Comparable) "foo");
+    verify(comparables).assertNotEqualByComparison(getInfo(assertions), getActual(assertions), "foo");
   }
+
 }

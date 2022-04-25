@@ -22,12 +22,10 @@ import org.assertj.core.api.RawComparableAssert;
 
 class AbstractGenericComparableAssert_usingComparator_Test extends AbstractGenericComparableAssertBaseTest {
 
-  @SuppressWarnings({ "rawtypes" })
-  private Comparator comparator = alwaysEqual();
+  private final Comparator<Comparable<String>> comparator = alwaysEqual();
 
-  @SuppressWarnings("unchecked")
   @Override
-  protected RawComparableAssert invoke_api_method() {
+  protected RawComparableAssert<String> invoke_api_method() {
     // in that, we don't care of the comparator, the point to check is that we switch correctly of comparator
     return assertions.usingComparator(comparator);
   }
@@ -37,4 +35,5 @@ class AbstractGenericComparableAssert_usingComparator_Test extends AbstractGener
     then(getObjects(assertions).getComparator()).isSameAs(comparator);
     then(getComparables(assertions).getComparator()).isSameAs(comparator);
   }
+
 }

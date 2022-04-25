@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 
 public abstract class AbstractGenericComparableAssertBaseTest {
 
-  protected RawComparableAssert assertions;
+  protected RawComparableAssert<String> assertions;
   protected Objects objects;
   protected Conditions conditions;
   protected AssertionErrorCreator assertionErrorCreator;
@@ -52,11 +52,11 @@ public abstract class AbstractGenericComparableAssertBaseTest {
     assertions.comparables = comparables;
   }
 
-  protected RawComparableAssert create_assertions() {
-    return new RawComparableAssert("abc");
+  protected RawComparableAssert<String> create_assertions() {
+    return new RawComparableAssert<>("abc");
   }
 
-  protected Comparables getComparables(RawComparableAssert someAssertions) {
+  protected Comparables getComparables(RawComparableAssert<String> someAssertions) {
     return someAssertions.comparables;
   }
 
@@ -72,11 +72,11 @@ public abstract class AbstractGenericComparableAssertBaseTest {
    */
   @Test
   public void should_return_this() {
-    RawComparableAssert returned = invoke_api_method();
+    RawComparableAssert<String> returned = invoke_api_method();
     assertThat(returned).isSameAs(assertions);
   }
 
-  protected AssertionInfo getInfo(RawComparableAssert someAssertions) {
+  protected AssertionInfo getInfo(RawComparableAssert<String> someAssertions) {
     return someAssertions.info;
   }
 
@@ -84,11 +84,11 @@ public abstract class AbstractGenericComparableAssertBaseTest {
     return getInfo(assertions);
   }
 
-  protected Comparable<?> getActual(RawComparableAssert someAssertions) {
+  protected Comparable<String> getActual(RawComparableAssert<String> someAssertions) {
     return someAssertions.actual;
   }
 
-  protected Objects getObjects(RawComparableAssert someAssertions) {
+  protected Objects getObjects(RawComparableAssert<String> someAssertions) {
     return someAssertions.objects;
   }
 
@@ -98,7 +98,7 @@ public abstract class AbstractGenericComparableAssertBaseTest {
    * @return the assertion object that is returned by the method. If the method is {@code void}, return {@code null} and override
    *         {@link #should_return_this()}.
    */
-  protected abstract RawComparableAssert invoke_api_method();
+  protected abstract RawComparableAssert<String> invoke_api_method();
 
   /**
    * Verifies that invoking the API method had the expected effects (usually, setting some internal state or invoking an internal
