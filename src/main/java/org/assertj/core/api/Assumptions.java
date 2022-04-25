@@ -996,7 +996,8 @@ public class Assumptions {
    * @return the created assumption for assertion object.
    * @since 3.23.0
    */
-  public static AbstractRawComparableAssert<?> assumeThatComparable(Comparable<?> actual) {
+  @SuppressWarnings("unchecked")
+  public static <T> AbstractRawComparableAssert<?, T> assumeThatComparable(Comparable<T> actual) {
     return asAssumption(RawComparableAssert.class, Comparable.class, actual);
   }
 

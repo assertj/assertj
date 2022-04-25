@@ -103,12 +103,14 @@ public abstract class AbstractRawComparableAssert<SELF extends AbstractRawCompar
     return myself;
   }
 
-  public <X extends Comparable<? super ACTUAL>, Y extends Comparable<? super ACTUAL>> SELF isBetween(X startInclusive, Y endInclusive) {
+  public <X extends Comparable<? super ACTUAL>, Y extends Comparable<? super ACTUAL>> SELF isBetween(X startInclusive,
+                                                                                                     Y endInclusive) {
     comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true);
     return myself;
   }
 
-  public <X extends Comparable<? super ACTUAL>, Y extends Comparable<? super ACTUAL>> SELF isStrictlyBetween(X startExclusive, Y endExclusive) {
+  public <X extends Comparable<? super ACTUAL>, Y extends Comparable<? super ACTUAL>> SELF isStrictlyBetween(X startExclusive,
+                                                                                                             Y endExclusive) {
     comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false);
     return myself;
   }

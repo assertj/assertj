@@ -3499,6 +3499,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * Use this over {@link #assertThat(Comparable)} in case of ambiguous method resolution when the object under test 
    * implements several interfaces Assertj provides <code>assertThat</code> for. 
    *
+   * @param <T> the type of actual.
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.23.0
