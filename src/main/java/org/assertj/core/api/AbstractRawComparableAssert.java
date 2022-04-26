@@ -75,13 +75,13 @@ public abstract class AbstractRawComparableAssert<SELF extends AbstractRawCompar
   */
   @SuppressWarnings({ "rawtypes", "unchecked" })
   public SELF isLessThan(Comparable other) {
-    comparables.assertLessThan(info, (Comparable) actual, other);
+    comparables.assertLessThan(info, actual, other);
     return myself;
   }
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
   public SELF isEqualByComparingTo(Comparable other) {
-    comparables.assertEqualByComparison(info, (Comparable) actual, other);
+    comparables.assertEqualByComparison(info, actual, other);
     return myself;
   }
 
@@ -93,19 +93,19 @@ public abstract class AbstractRawComparableAssert<SELF extends AbstractRawCompar
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
   public SELF isLessThanOrEqualTo(Comparable other) {
-    comparables.assertLessThanOrEqualTo(info, (Comparable) actual, other);
+    comparables.assertLessThanOrEqualTo(info, actual, other);
     return myself;
   }
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
   public SELF isGreaterThan(Comparable other) {
-    comparables.assertGreaterThan(info, (Comparable) actual, other);
+    comparables.assertGreaterThan(info, actual, other);
     return myself;
   }
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
   public SELF isGreaterThanOrEqualTo(Comparable other) {
-    comparables.assertGreaterThanOrEqualTo(info, (Comparable) actual, other);
+    comparables.assertGreaterThanOrEqualTo(info, actual, other);
     return myself;
   }
 
