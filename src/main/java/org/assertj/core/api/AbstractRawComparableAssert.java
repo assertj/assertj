@@ -57,22 +57,22 @@ public abstract class AbstractRawComparableAssert<SELF extends AbstractRawCompar
   }
 
   /**
-  * Verifies that the actual value is less than the given one.
-  * <p>
-  * Example:
-  * <pre><code class='java'> // assertions will pass
-  * assertThat('a').isLessThan('b');
-  * assertThat(BigInteger.ZERO).isLessThan(BigInteger.ONE);
-  * 
-  * // assertions will fail
-  * assertThat('a').isLessThan('a');
-  * assertThat(BigInteger.ONE).isLessThan(BigInteger.ZERO);</code></pre>
-  * 
-  * @param other the given value to compare the actual value to.
-  * @return {@code this} assertion object.
-  * @throws AssertionError if the actual value is {@code null}.
-  * @throws AssertionError if the actual value is equal to or greater than the given one.
-  */
+   * Verifies that the actual value is less than the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat('a').isLessThan('b');
+   * assertThat(BigInteger.ZERO).isLessThan(BigInteger.ONE);
+   *
+   * // assertions will fail
+   * assertThat('a').isLessThan('a');
+   * assertThat(BigInteger.ONE).isLessThan(BigInteger.ZERO);</code></pre>
+   *
+   * @param other the given value to compare the actual value to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is equal to or greater than the given one.
+   */
   public <C extends Comparable<? super T>> SELF isLessThan(C other) {
     comparables.assertLessThan(info, actual, other);
     return myself;

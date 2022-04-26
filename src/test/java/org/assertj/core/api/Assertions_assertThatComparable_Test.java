@@ -14,7 +14,6 @@ package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThatComparable;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.BDDAssertions.thenExceptionOfType;
 
 import org.assertj.core.test.Name;
 import org.junit.jupiter.api.Test;
@@ -138,24 +137,24 @@ class Assertions_assertThatComparable_Test {
     assertThatComparable(name3).isBetween(name1, name4);
   }
 
-  @Test
-  void comparable_assertions_should_work_with_wildcard_comparable() {
-    // GIVEN
-    Comparable<?> name1 = new ComparingWithObject();
-    Comparable<?> name3 = new ComparingWithObject();
-    Comparable<?> name4 = new ComparingWithObject();
-    // WHEN/THEN
-    assertThatComparable(name3).isBetween(name1, name4);
-  }
-
-  @Test
-  void comparable_assertions_should_fail_when_comparing_uncompatible_types() {
-    // GIVEN
-    Comparable<?> name1 = new Name("abc");
-    Comparable<?> name2 = "bcd";
-    // WHEN/THEN
-    thenExceptionOfType(ClassCastException.class).isThrownBy(() -> assertThatComparable(name1).isLessThan(name2));
-  }
+//  @Test
+//  void comparable_assertions_should_work_with_wildcard_comparable() {
+//    // GIVEN
+//    Comparable<?> name1 = new ComparingWithObject();
+//    Comparable<?> name3 = new ComparingWithObject();
+//    Comparable<?> name4 = new ComparingWithObject();
+//    // WHEN/THEN
+//    assertThatComparable(name3).isBetween(name1, name4); // does not compile
+//  }
+//
+//  @Test
+//  void comparable_assertions_should_fail_when_comparing_uncompatible_types() {
+//    // GIVEN
+//    Comparable<?> name1 = new Name("abc");
+//    Comparable<?> name2 = "bcd";
+//    // WHEN/THEN
+//    thenExceptionOfType(ClassCastException.class).isThrownBy(() -> assertThatComparable(name1).isLessThan(name2));  // does not compile
+//  }
 
   @Test
   void comparable_assertions_should_work_with_object_comparable_subclass() {
