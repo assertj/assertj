@@ -89,7 +89,7 @@ public class ComparatorFactory {
    * @param precision the acceptable precision
    *
    * @param <T> type of number to compare including the precision
-   * @return whether true if the abs(expected - precision) is <= precision, false otherwise.
+   * @return whether true if the abs(expected - precision) is &lt;= precision, false otherwise.
    */
   private static <T extends Number> boolean isWithinPrecision(T actual, T expected, T precision) {
     BigDecimal expectedBigDecimal = asBigDecimal(expected);
