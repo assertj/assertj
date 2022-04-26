@@ -263,8 +263,8 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    * @since 3.23.0
    */
   @SuppressWarnings("unchecked")
-  default <T> AbstractRawComparableAssert<?, T> assertThatComparable(Comparable<T> actual) {
-    return proxy(RawComparableAssert.class, Comparable.class, actual);
+  default <T> AbstractUniversalComparableAssert<?, T> assertThatComparable(Comparable<T> actual) {
+    return proxy(UniversalComparableAssert.class, Comparable.class, actual);
   }
 
   /**

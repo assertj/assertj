@@ -25,9 +25,9 @@ import org.assertj.core.internal.Objects;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public abstract class AbstractGenericComparableAssertBaseTest {
+public abstract class AbstractUniversalComparableAssertBaseTest {
 
-  protected RawComparableAssert<String> assertions;
+  protected UniversalComparableAssert<String> assertions;
   protected Objects objects;
   protected Conditions conditions;
   protected AssertionErrorCreator assertionErrorCreator;
@@ -52,11 +52,11 @@ public abstract class AbstractGenericComparableAssertBaseTest {
     assertions.comparables = comparables;
   }
 
-  protected RawComparableAssert<String> create_assertions() {
-    return new RawComparableAssert<>("abc");
+  protected UniversalComparableAssert<String> create_assertions() {
+    return new UniversalComparableAssert<>("abc");
   }
 
-  protected Comparables getComparables(RawComparableAssert<String> someAssertions) {
+  protected Comparables getComparables(UniversalComparableAssert<String> someAssertions) {
     return someAssertions.comparables;
   }
 
@@ -72,11 +72,11 @@ public abstract class AbstractGenericComparableAssertBaseTest {
    */
   @Test
   public void should_return_this() {
-    RawComparableAssert<String> returned = invoke_api_method();
+    UniversalComparableAssert<String> returned = invoke_api_method();
     assertThat(returned).isSameAs(assertions);
   }
 
-  protected AssertionInfo getInfo(RawComparableAssert<String> someAssertions) {
+  protected AssertionInfo getInfo(UniversalComparableAssert<String> someAssertions) {
     return someAssertions.info;
   }
 
@@ -84,11 +84,11 @@ public abstract class AbstractGenericComparableAssertBaseTest {
     return getInfo(assertions);
   }
 
-  protected Comparable<String> getActual(RawComparableAssert<String> someAssertions) {
+  protected Comparable<String> getActual(UniversalComparableAssert<String> someAssertions) {
     return someAssertions.actual;
   }
 
-  protected Objects getObjects(RawComparableAssert<String> someAssertions) {
+  protected Objects getObjects(UniversalComparableAssert<String> someAssertions) {
     return someAssertions.objects;
   }
 
@@ -98,7 +98,7 @@ public abstract class AbstractGenericComparableAssertBaseTest {
    * @return the assertion object that is returned by the method. If the method is {@code void}, return {@code null} and override
    *         {@link #should_return_this()}.
    */
-  protected abstract RawComparableAssert<String> invoke_api_method();
+  protected abstract UniversalComparableAssert<String> invoke_api_method();
 
   /**
    * Verifies that invoking the API method had the expected effects (usually, setting some internal state or invoking an internal

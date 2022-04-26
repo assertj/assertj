@@ -10,15 +10,23 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.api;
+package org.assertj.core.api.comparable;
 
-/**
- * Concrete raw comparable assertions to be used through {@link Assertions#assertThatComparable(Comparable)}.
- */
-public class RawComparableAssert<T> extends AbstractRawComparableAssert<RawComparableAssert<T>, T> {
+import static org.mockito.Mockito.verify;
 
-  protected RawComparableAssert(Comparable<T> actual) {
-    super(actual, RawComparableAssert.class);
+import org.assertj.core.api.AbstractUniversalComparableAssertBaseTest;
+import org.assertj.core.api.UniversalComparableAssert;
+
+class AbstractUniversalComparableAssert_isGreaterThan_Test extends AbstractUniversalComparableAssertBaseTest {
+
+  @Override
+  protected UniversalComparableAssert<String> invoke_api_method() {
+    return assertions.isGreaterThan("bcd");
+  }
+
+  @Override
+  protected void verify_internal_effects() {
+    verify(comparables).assertGreaterThan(getInfo(assertions), getActual(assertions), "bcd");
   }
 
 }

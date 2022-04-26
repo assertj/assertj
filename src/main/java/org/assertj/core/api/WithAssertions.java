@@ -731,7 +731,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created assertion object.
    * @since 3.23.0
    */
-  default <T> AbstractRawComparableAssert<?, T> assertThatComparable(Comparable<T> actual) {
+  default <T> AbstractUniversalComparableAssert<?, T> assertThatComparable(Comparable<T> actual) {
     return Assertions.assertThatComparable(actual);
   }
 

@@ -46,13 +46,13 @@ import org.assertj.core.util.VisibleForTesting;
  * // it works without generic Comparable too 
  * assertThat(name).isEqualByComparingTo(name);</code></pre>
  */
-public abstract class AbstractRawComparableAssert<SELF extends AbstractRawComparableAssert<SELF, T>, T>
+public abstract class AbstractUniversalComparableAssert<SELF extends AbstractUniversalComparableAssert<SELF, T>, T>
     extends AbstractObjectAssert<SELF, Comparable<T>> {
 
   @VisibleForTesting
   Comparables comparables = new Comparables();
 
-  protected AbstractRawComparableAssert(Comparable<T> actual, Class<?> selfType) {
+  protected AbstractUniversalComparableAssert(Comparable<T> actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

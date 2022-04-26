@@ -25,7 +25,7 @@ class Assertions_assertThatComparable_Test {
     // GIVEN
     Name comparable = new Name("abc");
     // WHEN
-    AbstractRawComparableAssert<?, Name> assertions = assertThatComparable(comparable);
+    AbstractUniversalComparableAssert<?, Name> assertions = assertThatComparable(comparable);
     // THEN
     then(assertions).isNotNull();
   }
@@ -35,7 +35,7 @@ class Assertions_assertThatComparable_Test {
     // GIVEN
     Name comparable = new Name("abc");
     // WHEN
-    AbstractRawComparableAssert<?, Name> assertions = assertThatComparable(comparable);
+    AbstractUniversalComparableAssert<?, Name> assertions = assertThatComparable(comparable);
     // THEN
     then(assertions.actual).isSameAs(comparable);
   }

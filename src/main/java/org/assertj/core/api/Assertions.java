@@ -3504,7 +3504,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    * @since 3.23.0
    */
-  public static <T> AbstractRawComparableAssert<?, T> assertThatComparable(Comparable<T> actual) {
+  public static <T> AbstractUniversalComparableAssert<?, T> assertThatComparable(Comparable<T> actual) {
     return AssertionsForInterfaceTypes.assertThatComparable(actual);
   }
 

@@ -252,7 +252,7 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
   }
 
   /**
-   * Creates a new instance of <code>{@link RawComparableAssert}</code> with standard comparison semantics.
+   * Creates a new instance of <code>{@link UniversalComparableAssert}</code> with standard comparison semantics.
    * <p>
    * Use this over {@link #then(Comparable)} in case of ambiguous method resolution when the object under test 
    * implements several interfaces Assertj provides <code>then</code> for. 
@@ -263,8 +263,8 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.23.0
    */
   @SuppressWarnings("unchecked")
-  default <T> AbstractRawComparableAssert<?, T> thenComparable(Comparable<T> actual) {
-    return proxy(RawComparableAssert.class, Comparable.class, actual);
+  default <T> AbstractUniversalComparableAssert<?, T> thenComparable(Comparable<T> actual) {
+    return proxy(UniversalComparableAssert.class, Comparable.class, actual);
   }
 
   /**

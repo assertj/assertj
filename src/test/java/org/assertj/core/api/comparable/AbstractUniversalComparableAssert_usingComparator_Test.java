@@ -17,15 +17,15 @@ import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.util.Comparator;
 
-import org.assertj.core.api.AbstractGenericComparableAssertBaseTest;
-import org.assertj.core.api.RawComparableAssert;
+import org.assertj.core.api.AbstractUniversalComparableAssertBaseTest;
+import org.assertj.core.api.UniversalComparableAssert;
 
-class AbstractGenericComparableAssert_usingComparator_Test extends AbstractGenericComparableAssertBaseTest {
+class AbstractUniversalComparableAssert_usingComparator_Test extends AbstractUniversalComparableAssertBaseTest {
 
   private final Comparator<Comparable<String>> comparator = alwaysEqual();
 
   @Override
-  protected RawComparableAssert<String> invoke_api_method() {
+  protected UniversalComparableAssert<String> invoke_api_method() {
     // in that, we don't care of the comparator, the point to check is that we switch correctly of comparator
     return assertions.usingComparator(comparator);
   }

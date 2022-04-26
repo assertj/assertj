@@ -15,15 +15,15 @@ package org.assertj.core.api.comparable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
-import org.assertj.core.api.AbstractGenericComparableAssertBaseTest;
-import org.assertj.core.api.RawComparableAssert;
+import org.assertj.core.api.AbstractUniversalComparableAssertBaseTest;
+import org.assertj.core.api.UniversalComparableAssert;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Objects;
 
-class AbstractGenericComparableAssert_usingDefaultComparator_Test extends AbstractGenericComparableAssertBaseTest {
+class AbstractUniversalComparableAssert_usingDefaultComparator_Test extends AbstractUniversalComparableAssertBaseTest {
 
   @Override
-  protected RawComparableAssert<String> invoke_api_method() {
+  protected UniversalComparableAssert<String> invoke_api_method() {
     return assertions.usingComparator(alwaysEqual())
                      .usingDefaultComparator();
   }

@@ -457,8 +457,8 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * @return the created assertion object.
    * @since 3.23.0
    */
-  public static <T> AbstractRawComparableAssert<?, T> assertThatComparable(Comparable<T> actual) {
-    return new RawComparableAssert<>(actual);
+  public static <T> AbstractUniversalComparableAssert<?, T> assertThatComparable(Comparable<T> actual) {
+    return new UniversalComparableAssert<>(actual);
   }
 
   /**
