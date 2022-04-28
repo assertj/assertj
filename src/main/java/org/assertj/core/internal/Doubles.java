@@ -62,7 +62,9 @@ public class Doubles extends RealNumbers<Double> {
 
   @Override
   protected Double absDiff(Double actual, Double other) {
-    return abs(other - actual);
+    return isNanOrInfinite(actual) || isNanOrInfinite(other)
+        ? abs(actual - other)
+        : abs(absBigDecimalDiff(actual, other).doubleValue());
   }
 
   @Override
@@ -83,5 +85,10 @@ public class Doubles extends RealNumbers<Double> {
   @Override
   protected boolean isNotInfinite(Double value) {
     return !Double.isInfinite(value);
+  }
+
+  @Override
+  protected boolean isNaN(Double value) {
+    return Double.isNaN(value);
   }
 }
