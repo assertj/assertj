@@ -18,13 +18,14 @@ import org.assertj.core.internal.BooleanArraysBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.BooleanArrays.arrayOf;
 import static org.assertj.core.test.BooleanArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 /**
  * Tests for <code>{@link BooleanArrays#assertContainsSubsequence(AssertionInfo, boolean[], boolean[])}</code>.
@@ -42,16 +43,19 @@ public class BooleanArrays_assertContainsSubsequence_Test extends BooleanArraysB
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsSubsequence(someInfo(), null,
-                                                                                                      arrayOf(true)))
-                                                   .withMessage(actualIsNull());
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> arrays.assertContainsSubsequence(someInfo(), null, arrayOf(true)));
+
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
   void should_throw_error_if_subsequence_is_null() {
+    // WHEN/THEN
     assertThatNullPointerException().isThrownBy(() -> arrays.assertContainsSubsequence(someInfo(),
-                                                                                       actual, null))
-                                    .withMessage(valuesToLookForIsNull());
+      actual, null))
+    .withMessage(valuesToLookForIsNull());
   }
 
   @Test

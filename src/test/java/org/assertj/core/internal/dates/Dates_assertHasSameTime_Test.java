@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.dates;
 
+import org.assertj.core.api.Assert;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.DatesBaseTest;
@@ -20,8 +21,11 @@ import org.junit.jupiter.api.Test;
 import java.util.Date;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveSameTime.shouldHaveSameTime;
+import static org.assertj.core.test.BooleanArrays.arrayOf;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -47,9 +51,11 @@ public class Dates_assertHasSameTime_Test extends DatesBaseTest {
     // GIVEN
     actual = null;
 
-    // THEN/WHEN
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertHasSameTime(someInfo(), null, new Date()))
-                                                   .withMessage(actualIsNull());
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> dates.assertHasSameTime(someInfo(), null, new Date()));
+
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
@@ -57,9 +63,11 @@ public class Dates_assertHasSameTime_Test extends DatesBaseTest {
     // GIVEN
     Date expected = null;
 
-    // THEN/WHEN
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertHasSameTime(someInfo(), actual, expected))
-                                                   .withMessage(actualIsNull());
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> dates.assertHasSameTime(someInfo(), actual, expected));
+
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
@@ -69,11 +77,10 @@ public class Dates_assertHasSameTime_Test extends DatesBaseTest {
     expected.setTime(actual.getTime() + 1);
 
     // WHEN
-    Throwable error = catchThrowable(() -> dates.assertHasSameTime(someInfo(), actual, expected));
+    AssertionError assertionError = expectAssertionError(()-> dates.assertHasSameTime(someInfo(), actual, expected));
 
     // THEN
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(someInfo(), shouldHaveSameTime(actual, expected));
+    then(assertionError).hasMessage(shouldHaveSameTime(actual, expected).create());
   }
 
 }

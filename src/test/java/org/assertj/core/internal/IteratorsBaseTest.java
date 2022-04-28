@@ -12,14 +12,14 @@
  */
 package org.assertj.core.internal;
 
-import org.assertj.core.api.AssertionInfo;
-import org.junit.jupiter.api.BeforeEach;
-
-import java.util.List;
-
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.spy;
+
+import java.util.Iterator;
+
+import org.assertj.core.api.AssertionInfo;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Base class for testing <code>{@link Iterators}</code>.
@@ -33,14 +33,15 @@ public class IteratorsBaseTest {
 
   protected static final AssertionInfo INFO = someInfo();
 
-  protected List<String> actual;
+  protected Iterator<String> actual;
   protected Failures failures;
   protected Iterators iterators;
+
   protected AssertionInfo info;
 
   @BeforeEach
   public void setUp() {
-    actual = newArrayList("Luke", "Yoda", "Leia");
+    actual = newArrayList("Luke", "Yoda", "Leia").iterator();
     failures = spy(new Failures());
     iterators = new Iterators();
     iterators.failures = failures;
