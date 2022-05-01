@@ -629,7 +629,7 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
     }
     return myself;
   }
-  
+
   /**
    * Verifies that actual {@code LocalTime} is in the given second.
    * <p>

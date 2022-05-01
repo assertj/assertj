@@ -35,7 +35,7 @@ class LocalTimeAssert_hasMinute_Test {
   void should_fail_if_actual_is_not_in_given_minute() {
     // GIVEN
     LocalTime actual = LocalTime.of(23, 59, 59);
-    int expectedMinute = 59;
+    int expectedMinute = 58;
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasMinute(expectedMinute));
     // THEN
