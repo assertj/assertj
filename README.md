@@ -5,6 +5,8 @@
 [![Binary Compatibility](https://github.com/assertj/assertj-core/actions/workflows/binary-compatibility.yml/badge.svg?branch=main)](https://github.com/assertj/assertj-core/actions/workflows/binary-compatibility.yml?query=branch%3Amain)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=joel-costigliola_assertj-core&metric=alert_status)](https://sonarcloud.io/dashboard?id=joel-costigliola_assertj-core)
 
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/assertj/assertj-core)
+
 AssertJ provides a rich and intuitive set of strongly-typed assertions to use for unit testing (with JUnit, TestNG or any other test framework).
 
 * [AssertJ's goals](#goals)
