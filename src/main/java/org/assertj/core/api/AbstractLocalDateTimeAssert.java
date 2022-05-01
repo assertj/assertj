@@ -873,6 +873,32 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
   }
 
   /**
+   * Verifies that actual {@code LocalDateTime} is in the given second.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   *    // Assertion succeeds:
+   * assertThat(LocalDateTime.of(2021, 12, 31, 23, 59, 59)).hasSecond(59);
+   *
+   *    // Assertion fails:
+   * assertThat(LocalDateTime.of(2021, 12, 31, 23, 59, 59)).hasSecond(58);</code></pre>
+   *
+   * @param second the given second.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDateTime} is not in the given second.
+   *
+   * @since 3.23.0
+   */
+  public SELF hasSecond(int second){
+    Objects.instance().assertNotNull(info, actual);
+    if(actual.getSecond() != second){
+      throw Failures.instance().failure(info, shouldHaveDateField(actual, "second", second));
+    }
+    return myself;
+  }
+
+  /**
    * {@inheritDoc}
    */
   @Override
