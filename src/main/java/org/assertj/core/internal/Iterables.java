@@ -1130,28 +1130,29 @@ public class Iterables {
     // length check
     if (actualAsList.size() != values.length) {
       IterableDiff<Object> diff = diff(actualAsList, asList(values), comparisonStrategy);
-      throw failures.failure(info,
-        shouldContainExactly(actual, asList(values), diff.missing, diff.unexpected,
-          comparisonStrategy));
+      throw buildShouldContainExactlyWithDiffAssertionError(diff, actual, values, info);
     }
 
     // actual and values have the same number elements but are they equivalent and in the same order?
-    int i = 0;
-    for (Object elementFromActual : actualAsList) {
+    for (int i = 0; i < actualAsList.size(); i++) {
       // if the objects are not equal, begin the error handling process
-      if (!areEqual(elementFromActual, values[i])) {
+      if (!areEqual(actualAsList.get(i), values[i])) {
         IterableDiff<Object> diff = diff(actualAsList, asList(values), comparisonStrategy);
         if (diff.differencesFound()) {
-          throw failures.failure(info,
-            shouldContainExactly(actual, asList(values), diff.missing, diff.unexpected,
-              comparisonStrategy));
+          throw buildShouldContainExactlyWithDiffAssertionError(diff, actual, values, info);
         } else {
-          throw failures.failure(info, elementsDifferAtIndex(elementFromActual, values[i], i, comparisonStrategy));
+          throw failures.failure(info, elementsDifferAtIndex(actualAsList.get(i), values[i], i, comparisonStrategy));
         }
       }
-      i++;
     }
   }
+
+  private AssertionError buildShouldContainExactlyWithDiffAssertionError(IterableDiff<Object> diff, Iterable<?> actual,
+                                                                         Object[] values, AssertionInfo info) {
+    return failures.failure(info,
+      shouldContainExactly(actual, asList(values), diff.missing, diff.unexpected, comparisonStrategy));
+  }
+
 
   public <E> void assertAllSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {
     assertNotNull(info, actual);
