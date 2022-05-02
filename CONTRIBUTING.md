@@ -137,6 +137,12 @@ Try to keep [binary compatibility](https://docs.oracle.com/javase/specs/jls/se8/
 Other changes could compromise binary compatibility.
 These are not automatically rejected, but we will carefully evaluate each of them to weigh all the pros and cons.
 
+## Using Gitpod
+
+To avoid setting up your local development environment, you can use [Gitpod](https://www.gitpod.io/) and develop directly in browser-based Visual Studio Code, or [JetBrains Client via JetBrains Gateway](https://www.gitpod.io/docs/ides-and-editors/jetbrains-gateway).
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/assertj/assertj-core)
+
 ## Legal stuff:
 
 Project license(s): Apache License Version 2.0

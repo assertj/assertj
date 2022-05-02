@@ -63,7 +63,7 @@
       <dependency> <!-- Included by hibernate-core -->
         <groupId>org.jboss.logging</groupId>
         <artifactId>jboss-logging</artifactId>
-        <version>3.4.3.Final</version>
+        <version>3.5.0.Final</version>
       </dependency>
       <dependency>
         <groupId>org.opentest4j</groupId>
@@ -531,7 +531,7 @@
       <plugin>
         <groupId>org.pitest</groupId>
         <artifactId>pitest-maven</artifactId>
-        <version>1.7.5</version>
+        <version>1.7.6</version>
         <dependencies>
           <dependency>
             <groupId>org.pitest</groupId>
