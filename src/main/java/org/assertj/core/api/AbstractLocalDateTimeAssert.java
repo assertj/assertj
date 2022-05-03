@@ -896,6 +896,30 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
     }
     return myself;
   }
+  /**
+   * Verifies that actual {@code LocalDateTime} is in the given nanosecond.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Assertion succeeds:
+   * assertThat(LocalDateTime.of(2021, 12, 31, 23, 59, 15)).hasNano(15);
+   *
+   * // Assertion fails:
+   * assertThat(LocalDateTime.of(2021, 12, 31, 23, 59, 00)).hasNano(15);</code></pre>
+   *
+   * @param nano the given second.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDateTime} is not in the given nanosecond.
+   *
+   * @since 3.23.0
+   */
+  public SELF hasNano(int nano) {
+    Objects.instance().assertNotNull(info, actual);
+    if (actual.getNano() != nano) {
+      throw Failures.instance().failure(info, shouldHaveDateField(actual, "nanosecond", nano));
+    }
+    return myself;
+  }
 
   /**
    * {@inheritDoc}
