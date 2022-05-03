@@ -143,7 +143,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
   /**
    * Verifies that the content of the actual {@code InputStream} is not empty.
    * <p>
-   * <b>Warning: this will consume the first byte of the {@code InputStream}.</b>
+   * <b>Warning: this will consume the first byte of the {@code InputStream} if it is not mark-supported.</b>
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -159,7 +159,17 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @since 3.17.0
    */
   public SELF isNotEmpty() {
-    inputStreams.assertIsNotEmpty(info, actual);
+    try {
+      if (actual.markSupported()){
+        actual.mark(1);
+        inputStreams.assertIsNotEmpty(info, actual);
+        actual.reset();
+      } else {
+        inputStreams.assertIsNotEmpty(info, actual);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     return myself;
   }
 
