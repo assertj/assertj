@@ -75,6 +75,17 @@ public abstract class AbstractCollectionAssert<SELF extends AbstractCollectionAs
 
   @SuppressWarnings("unchecked")
   private void assertIsUnmodifiable() {
+    switch (actual.getClass().getName()) {
+      case "java.util.Collections$EmptyList":
+      case "java.util.Collections$EmptyNavigableSet":
+      case "java.util.Collections$EmptySet":
+      case "java.util.Collections$EmptySortedSet":
+      case "java.util.Collections$SingletonList":
+      case "java.util.Collections$SingletonSet":
+        // immutable by contract, although not all methods throw UnsupportedOperationException
+        return;
+    }
+
     expectUnsupportedOperationException(() -> actual.add(null), "Collection.add(null)");
     expectUnsupportedOperationException(() -> actual.addAll(emptyCollection()), "Collection.addAll(emptyCollection())");
     expectUnsupportedOperationException(() -> actual.clear(), "Collection.clear()");
