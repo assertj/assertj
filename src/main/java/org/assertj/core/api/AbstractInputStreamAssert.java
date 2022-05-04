@@ -143,7 +143,8 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
   /**
    * Verifies that the content of the actual {@code InputStream} is not empty.
    * <p>
-   * <b>Warning: this will consume the first byte of the {@code InputStream} if it is not mark-supported.</b>
+   * <b>Warning: this will consume the first byte of the {@code InputStream} if the underlying implementation does
+   * not support {@link InputStream#markSupported() marking}.</b>
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -159,17 +160,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @since 3.17.0
    */
   public SELF isNotEmpty() {
-    try {
-      if (actual.markSupported()){
-        actual.mark(1);
-        inputStreams.assertIsNotEmpty(info, actual);
-        actual.reset();
-      } else {
-        inputStreams.assertIsNotEmpty(info, actual);
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    tryStreamReset(() -> inputStreams.assertIsNotEmpty(info, actual));
     return myself;
   }
 
@@ -345,6 +336,21 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
   public SELF hasDigest(String algorithm, String expected) {
     inputStreams.assertHasDigest(info, actual, algorithm, expected);
     return myself;
+  }
+
+  // Needs comments
+  private void tryStreamReset(Runnable runnable) {
+    try {
+      if (actual.markSupported()){
+        actual.mark(1);
+        runnable.run();
+        actual.reset();
+      } else {
+        runnable.run();
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   private String readString(Charset charset) {
