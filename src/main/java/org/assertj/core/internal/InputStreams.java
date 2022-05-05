@@ -198,4 +198,18 @@ public class InputStreams {
     requireNonNull(expected, "The string representation of digest to compare to should not be null");
     assertHasDigest(info, actual, algorithm, Digests.fromHex(expected));
   }
+  private void tryStreamReset(InputStream actual, Runnable runnable) {
+    try {
+      if (actual.markSupported()){
+        actual.mark(1);
+        runnable.run();
+        actual.reset();
+      } else {
+        runnable.run();
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 }
+
