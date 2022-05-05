@@ -120,8 +120,8 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
   /**
    * Verifies that the content of the actual {@code InputStream} is empty.
    * <p>
-   * <b>Warning: this will consume the first byte of the {@code InputStream}.</b>
-   * <p>
+   * <b>Warning: this will consume the first byte of the {@code InputStream} if the underlying implementation does
+   * not support {@link InputStream#markSupported() marking}.</b>
    * Example:
    * <pre><code class='java'> // assertion will pass
    * assertThat(new ByteArrayInputStream(new byte[] {})).isEmpty());
@@ -136,7 +136,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @since 3.17.0
    */
   public SELF isEmpty() {
-    inputStreams.assertIsEmpty(info, actual);
+    tryStreamReset(() -> inputStreams.assertIsEmpty(info, actual);
     return myself;
   }
 
