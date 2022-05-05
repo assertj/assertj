@@ -113,7 +113,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @throws InputStreamsException if an I/O error occurs.
    */
   public SELF hasSameContentAs(InputStream expected) {
-    tryStreamReset(() -> inputStreams.assertSameContentAs(info, actual, expected));
+    inputStreams.assertSameContentAs(info, actual, expected);
     return myself;
   }
 
@@ -136,7 +136,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @since 3.17.0
    */
   public SELF isEmpty() {
-    tryStreamReset(() -> inputStreams.assertIsEmpty(info, actual));
+    inputStreams.assertIsEmpty(info, actual);
     return myself;
   }
 
@@ -160,7 +160,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @since 3.17.0
    */
   public SELF isNotEmpty() {
-    tryStreamReset(() -> inputStreams.assertIsNotEmpty(info, actual));
+    inputStreams.assertIsNotEmpty(info, actual);
     return myself;
   }
 
@@ -210,7 +210,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @since 3.16.0
    */
   public SELF hasBinaryContent(byte[] expected) {
-    tryStreamReset(() -> inputStreams.assertHasBinaryContent(info, actual, expected));
+    inputStreams.assertHasBinaryContent(info, actual, expected);
     return myself;
   }
 
@@ -241,7 +241,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @since 3.11.0
    */
   public SELF hasDigest(MessageDigest digest, byte[] expected) {
-    tryStreamReset(() -> inputStreams.assertHasDigest(info, actual, digest, expected));
+    inputStreams.assertHasDigest(info, actual, digest, expected);
     return myself;
   }
 
@@ -272,7 +272,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @since 3.11.0
    */
   public SELF hasDigest(MessageDigest digest, String expected) {
-    tryStreamReset(() -> inputStreams.assertHasDigest(info, actual, digest, expected));
+    inputStreams.assertHasDigest(info, actual, digest, expected);
     return myself;
   }
 
@@ -303,7 +303,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @since 3.11.0
    */
   public SELF hasDigest(String algorithm, byte[] expected) {
-    tryStreamReset(() -> inputStreams.assertHasDigest(info, actual, algorithm, expected));
+    inputStreams.assertHasDigest(info, actual, algorithm, expected);
     return myself;
   }
 
@@ -334,23 +334,8 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @since 3.11.0
    */
   public SELF hasDigest(String algorithm, String expected) {
-    tryStreamReset(() -> inputStreams.assertHasDigest(info, actual, algorithm, expected));
+    inputStreams.assertHasDigest(info, actual, algorithm, expected);
     return myself;
-  }
-
-  // Needs comments
-  private void tryStreamReset(Runnable runnable) {
-    try {
-      if (actual.markSupported()){
-        actual.mark(1);
-        runnable.run();
-        actual.reset();
-      } else {
-        runnable.run();
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
   }
 
   private String readString(Charset charset) {
