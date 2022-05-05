@@ -184,7 +184,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @since 3.11.0
    */
   public SELF hasContent(String expected) {
-    tryStreamReset(() -> inputStreams.assertHasContent(info, actual, expected));
+    inputStreams.assertHasContent(info, actual, expected);
     return myself;
   }
 
