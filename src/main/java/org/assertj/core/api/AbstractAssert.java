@@ -92,7 +92,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @VisibleForTesting
   static boolean printAssertionsDescription;
 
-  private static Consumer<Description> descriptionConsumer;
+  static Consumer<Description> descriptionConsumer;
 
   // we prefer not to use Class<? extends S> selfType because it would force inherited
   // constructor to cast with a compiler warning
@@ -1036,14 +1036,14 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   SELF withAssertionState(@SuppressWarnings("rawtypes") AbstractAssert assertInstance) {
     this.objects = assertInstance.objects;
-    propagateAssertionInfoFrom(assertInstance);
+    propagateAssertionInfoFrom(assertInstance.info);
     return myself;
   }
 
-  private void propagateAssertionInfoFrom(AbstractAssert<?, ?> assertInstance) {
-    this.info.useRepresentation(assertInstance.info.representation());
-    this.info.description(assertInstance.info.description());
-    this.info.overridingErrorMessage(assertInstance.info.overridingErrorMessage());
+  void propagateAssertionInfoFrom(WritableAssertionInfo source) {
+    this.info.useRepresentation(source.representation());
+    this.info.description(source.description());
+    this.info.overridingErrorMessage(source.overridingErrorMessage());
   }
 
   // this method is meant to be overridden and made public in subclasses that want to expose it
