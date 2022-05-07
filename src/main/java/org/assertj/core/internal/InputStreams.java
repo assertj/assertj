@@ -197,6 +197,8 @@ public class InputStreams {
   public void assertHasDigest(AssertionInfo info, InputStream actual, String algorithm, String expected) {
     try {
       requireNonNull(expected, "The string representation of digest to compare to should not be null");
+      // actual needed to not be null in this function, should it also be written in other hasDigest functions?
+      assertNotNull(info, actual);
       tryStreamReset(() -> assertHasDigest(info, actual, algorithm, Digests.fromHex(expected)), actual);
     } catch (IOException e) {
       // uh oh...our fault?
