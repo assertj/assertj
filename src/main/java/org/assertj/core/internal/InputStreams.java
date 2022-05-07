@@ -194,23 +194,23 @@ public class InputStreams {
     }
   }
 
-  public void assertHasDigest(AssertionInfo info, InputStream actual, String algorithm, String expected) throws IOException {
-    requireNonNull(expected, "The string representation of digest to compare to should not be null");
-    tryStreamReset(() -> assertHasDigest(info, actual, algorithm, Digests.fromHex(expected)), actual);
+  public void assertHasDigest(AssertionInfo info, InputStream actual, String algorithm, String expected) {
+    try {
+      requireNonNull(expected, "The string representation of digest to compare to should not be null");
+      tryStreamReset(() -> assertHasDigest(info, actual, algorithm, Digests.fromHex(expected)), actual);
+    } catch (IOException e) {
+      // uh oh...our fault?
+    }
   }
 
   // Needs comments
-  private void tryStreamReset(Runnable runnable, InputStream actual) {
-    try {
-      if (actual.markSupported()){
-        actual.mark(actual.available());
-        runnable.run();
-        actual.reset();
-      } else {
-        runnable.run();
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
+  private void tryStreamReset(Runnable runnable, InputStream actual) throws IOException {
+    if (actual.markSupported()){
+      actual.mark(actual.available());
+      runnable.run();
+      actual.reset();
+    } else {
+      runnable.run();
     }
   }
 }
