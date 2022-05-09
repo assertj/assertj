@@ -35,6 +35,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import org.assertj.core.internal.Failures;
@@ -295,6 +296,89 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
   }
 
   /**
+   * Verifies that the {@link CompletableFuture} is completed normally with a result which satisfies the given assertions expressed as a {@link Consumer},
+   * if it does not, only the first error is reported, use {@link SoftAssertions} to get all the errors.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // second constructor parameter is the light saber color
+   * Jedi yoda = new Jedi("Yoda", "Green");
+   * Jedi vader = new Jedi("Darth Vader", "Red");
+   * 
+   * CompletableFuture<Jedi> completedYoda = CompletableFuture.completedFuture(yoda);
+   * CompletableFuture<Jedi> completedVader = CompletableFuture.completedFuture(vader);
+   *
+   * // assertions will pass
+   * assertThat(completedYoda).isCompletedWithValueSatisfying(jedi -&gt; assertThat(jedi.getName()).isEqualTo("Yoda"));
+   *
+   * assertThat(completedYoda).isCompletedWithValueSatisfying(jedi -&gt; {
+   *   assertThat(jedi.getName()).isEqualTo("Yoda");
+   *   assertThat(jedi.getLightSaberColor()).isEqualTo("Green");
+   * });
+   * 
+   * // assertions will fail
+   * 
+   * assertThat(completedVader).isCompletedWithValueSatisfying(jedi -&gt; assertThat(jedi.getName()).isEqualTo("Yoda"));
+   * 
+   * // fail as one of the assertions is not satisfied
+   * assertThat(completedVader).isCompletedWithValueSatisfying(jedi -&gt; {
+   *   assertThat(jedi.getName()).isEqualTo("Darth Vader");
+   *   assertThat(jedi.getLightSaberColor()).isEqualTo("Green");
+   * });
+   *
+   * // fail but only report the first error
+   * assertThat(completedVader).isCompletedWithValueSatisfying(jedi -&gt; {
+   *   assertThat(jedi.getName()).isEqualTo("Yoda");
+   *   assertThat(jedi.getLightSaberColor()).isEqualTo("Green");
+   * });
+   *
+   * // fail and report all the errors thanks to Soft assertions
+   * assertThat(completedVader).isCompletedWithValueSatisfying(jedi -&gt; {
+   *   SoftAssertions softly = new SoftAssertions();
+   *   softly.assertThat(jedi.getName()).isEqualTo("Yoda");
+   *   softly.assertThat(jedi.getLightSaberColor()).isEqualTo("Green");
+   *   softly.assertAll();
+   * }); </code></pre>
+   *
+   * @param requirements the assertions to perform on the completed value.
+   * @return this assertion object.
+   */
+  public SELF isCompletedWithValueSatisfying(Consumer<? super RESULT> requirements) {
+    isCompleted();
+
+    RESULT actualResult = actual.join();
+    requirements.accept(actualResult);
+
+    return myself;
+  }
+
+  /**
+   * Verifies that the {@link CompletableFuture} is completed normally with a result which satisfies the given {@link Condition}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Condition&lt;Jedi&gt; isYoda = new Condition&lt;&gt;(jedi -&gt; jedi.getName().equals("Yoda"), "yoda");
+   *
+   * Jedi yoda = new Jedi("Yoda", "Green");
+   * Jedi luke = new Jedi("Luke Skywalker", "Green");
+   *
+   * // assertion succeeds
+   * assertThat(CompletableFuture.completedFuture(yoda)).isCompletedWithValueSatisfying(isYoda);
+   *
+   * // assertion fails
+   * assertThat(CompletableFuture.completedFuture(luke)).isCompletedWithValueSatisfying(isYoda); </code></pre>
+   *
+   * @param condition the given condition.
+   * @return this assertion object.
+   */
+  public SELF isCompletedWithValueSatisfying(Condition<? super RESULT> condition) {
+    isCompleted();
+
+    RESULT actualResult = actual.join();
+    conditions.assertIs(info, actualResult, condition);
+
+    return myself;
+  }
+
+  /**
    * @deprecated
    * <p>
    * Combine isCompletedExceptionally with isNotCancelled instead:
@@ -405,6 +489,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
   protected ObjectAssert<RESULT> newObjectAssert(RESULT objectUnderTest) {
     return new ObjectAssert<>(objectUnderTest);
   }
+
   /**
    * Waits if necessary for at most the given time for this future to complete, and then returns its result for further assertions.
    * <p>
