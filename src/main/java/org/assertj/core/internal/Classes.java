@@ -120,7 +120,7 @@ public class Classes {
    */
   public void assertIsAssignableTo(AssertionInfo info, Class<?> actual, Class<?> other) {
     assertNotNull(info, actual);
-    assertNotNull(info, other);
+    checkArgument(!Arrays.isNullOrEmpty(new Object[]{other}), "other cannot be null");
     classParameterIsNotNull(other);
     if (!other.isAssignableFrom(actual))
       throw failures.failure(info, shouldBeAssignableTo(actual, other));

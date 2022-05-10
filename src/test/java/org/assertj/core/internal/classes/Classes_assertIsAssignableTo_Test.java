@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
  * <code>{@link org.assertj.core.internal.Classes#assertIsAssignableFrom(org.assertj.core.api.AssertionInfo, Class, Class[])}</code>
  * .
  *
- * @author Jessica Hamilton
+ * @author Vikram Nithyanandam and Jessica Hamilton
  */
 
 public class Classes_assertIsAssignableTo_Test extends ClassesBaseTest {
@@ -40,8 +40,7 @@ public class Classes_assertIsAssignableTo_Test extends ClassesBaseTest {
   @Test
   void should_fail_if_other_is_null() {
     actual = ClassesBaseTest.Jedi.class;
-    assertThatIllegalArgumentException().isThrownBy(() -> classes.assertIsAssignableTo(someInfo(), actual, null))
-      .withMessage("Other is null");
+    assertThatIllegalArgumentException().isThrownBy(() -> classes.assertIsAssignableTo(someInfo(), actual, null));
   }
 
   @Test
@@ -59,8 +58,8 @@ public class Classes_assertIsAssignableTo_Test extends ClassesBaseTest {
 
   @Test
   void should_fail_if_actual_is_not_assignable_to() {
-    actual = ClassesBaseTest.HumanJedi.class;
-    Class<?> other = ClassesBaseTest.Jedi.class;
+    actual = ClassesBaseTest.Jedi.class;
+    Class<?> other = ClassesBaseTest.HumanJedi.class;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsAssignableTo(someInfo(), actual, other));
   }
 }
