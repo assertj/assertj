@@ -106,7 +106,6 @@ public class Classes {
     if (!missing.isEmpty()) throw failures.failure(info, shouldBeAssignableFrom(actual, expected, missing));
   }
 
-
   /**
    * Verifies that the actual {@code Class} is assignable to all the {@code others} classes.
    *
@@ -126,9 +125,6 @@ public class Classes {
     if (!other.isAssignableFrom(actual))
       throw failures.failure(info, shouldBeAssignableTo(actual, other));
   }
-
-
-
 
   /**
    * Verifies that the actual {@code Class} is not an interface.
