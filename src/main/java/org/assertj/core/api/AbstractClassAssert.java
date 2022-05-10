@@ -63,6 +63,31 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
+   * Verifies that the actual {@code Class} is assignable to other {@code Class}
+   * <p>
+   * Example:
+   * <pre><code class='java'> class Jedi {}
+   * class HumanJedi extends Jedi {}
+   *
+   * // this assertion succeeds:
+   * assertThat(HumanJedi.class).isAssignableTo(Jedi.class);
+   *
+   * // this assertion fails
+   * assertThat(Jedi.class).isAssignableTo(HumanJedi.class);</code></pre>
+   *
+   * @see Class#isAssignableFrom(Class)
+   * @param other {@code Class} who can be assignable to.
+   * @return {@code this} assertions object
+   * @throws AssertionError if the actual {@code Class} is {@code null}.
+   * @throws IllegalArgumentException if no {@code others} classes have been specified.
+   * @throws AssertionError if the actual {@code Class} is not assignable to the {@code others} class.
+   */
+  public SELF isAssignableTo(Class<?> other) {
+    classes.assertIsAssignableTo(info, actual, other);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code Class} is not an interface.
    * <p>
    * Example:
