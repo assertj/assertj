@@ -303,22 +303,23 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * <pre><code class='java'> // second constructor parameter is the light saber color
    * Jedi yoda = new Jedi("Yoda", "Green");
    * Jedi vader = new Jedi("Darth Vader", "Red");
-   * 
+   *
    * CompletableFuture<Jedi> completedYoda = CompletableFuture.completedFuture(yoda);
    * CompletableFuture<Jedi> completedVader = CompletableFuture.completedFuture(vader);
    *
    * // assertions will pass
+   *
    * assertThat(completedYoda).isCompletedWithValueSatisfying(jedi -&gt; assertThat(jedi.getName()).isEqualTo("Yoda"));
    *
    * assertThat(completedYoda).isCompletedWithValueSatisfying(jedi -&gt; {
    *   assertThat(jedi.getName()).isEqualTo("Yoda");
    *   assertThat(jedi.getLightSaberColor()).isEqualTo("Green");
    * });
-   * 
+   *
    * // assertions will fail
-   * 
+   *
    * assertThat(completedVader).isCompletedWithValueSatisfying(jedi -&gt; assertThat(jedi.getName()).isEqualTo("Yoda"));
-   * 
+   *
    * // fail as one of the assertions is not satisfied
    * assertThat(completedVader).isCompletedWithValueSatisfying(jedi -&gt; {
    *   assertThat(jedi.getName()).isEqualTo("Darth Vader");
@@ -366,7 +367,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * // assertion fails
    * assertThat(CompletableFuture.completedFuture(luke)).isCompletedWithValueSatisfying(isYoda); </code></pre>
    *
-   * @param condition the given condition.
+   * @param condition the {@link Condition} to be met by the completed value.
    * @return this assertion object.
    */
   public SELF isCompletedWithValueSatisfying(Condition<? super RESULT> condition) {
