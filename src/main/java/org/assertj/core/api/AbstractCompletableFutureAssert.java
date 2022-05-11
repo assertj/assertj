@@ -304,8 +304,8 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * Jedi yoda = new Jedi("Yoda", "Green");
    * Jedi vader = new Jedi("Darth Vader", "Red");
    *
-   * CompletableFuture<Jedi> completedYoda = CompletableFuture.completedFuture(yoda);
-   * CompletableFuture<Jedi> completedVader = CompletableFuture.completedFuture(vader);
+   * CompletableFuture&lt;Jedi&gt; completedYoda = CompletableFuture.completedFuture(yoda);
+   * CompletableFuture&lt;Jedi&gt; completedVader = CompletableFuture.completedFuture(vader);
    *
    * // assertions will pass
    *
