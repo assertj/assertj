@@ -15,7 +15,6 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static java.lang.System.lineSeparator;
 import static java.util.Objects.deepEquals;
-import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
 import static org.assertj.core.util.Objects.hashCodeFor;
 
@@ -41,47 +40,43 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class ShouldBeEqual implements AssertionErrorFactory {
+public class ShouldBeEqual {
 
   private static final String EXPECTED_BUT_WAS_MESSAGE = "%nexpected: %s%n but was: %s";
   private static final String EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR = EXPECTED_BUT_WAS_MESSAGE + "%n%s";
-  private static final Class<?>[] MSG_ARG_TYPES = array(String.class, String.class, String.class);
-  private static final Class<?>[] MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR = array(String.class, Object.class,
-                                                                                   Object.class);
   protected final Object actual;
   protected final Object expected;
   protected final MessageFormatter messageFormatter = MessageFormatter.instance();
   protected final ComparisonStrategy comparisonStrategy;
   private Representation representation;
-  @VisibleForTesting
-  ConstructorInvoker constructorInvoker = new ConstructorInvoker();
+  protected AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
   @VisibleForTesting
   DescriptionFormatter descriptionFormatter = DescriptionFormatter.instance();
 
   /**
    * Creates a new <code>{@link ShouldBeEqual}</code>.
    *
-   * @param actual the actual value in the failed assertion.
-   * @param expected the expected value in the failed assertion.
+   * @param actual         the actual value in the failed assertion.
+   * @param expected       the expected value in the failed assertion.
    * @param representation the {@link Representation} used to format values.
    * @return the created {@code AssertionErrorFactory}.
    */
-  public static AssertionErrorFactory shouldBeEqual(Object actual, Object expected, Representation representation) {
+  public static ShouldBeEqual shouldBeEqual(Object actual, Object expected, Representation representation) {
     return new ShouldBeEqual(actual, expected, StandardComparisonStrategy.instance(), representation);
   }
 
   /**
    * Creates a new <code>{@link ShouldBeEqual}</code>.
    *
-   * @param actual the actual value in the failed assertion.
-   * @param expected the expected value in the failed assertion.
+   * @param actual             the actual value in the failed assertion.
+   * @param expected           the expected value in the failed assertion.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to compare actual with expected.
-   * @param representation the {@link Representation} used to format values.
+   * @param representation     the {@link Representation} used to format values.
    * @return the created {@code AssertionErrorFactory}.
    */
-  public static AssertionErrorFactory shouldBeEqual(Object actual, Object expected,
-                                                    ComparisonStrategy comparisonStrategy,
-                                                    Representation representation) {
+  public static ShouldBeEqual shouldBeEqual(Object actual, Object expected,
+                                            ComparisonStrategy comparisonStrategy,
+                                            Representation representation) {
     return new ShouldBeEqual(actual, expected, comparisonStrategy, representation);
   }
 
@@ -108,30 +103,13 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    * {@link AssertionError} stack trace won't show AssertJ related elements if {@link Failures} is configured to filter
    * them (see {@link Failures#setRemoveAssertJRelatedElementsFromStackTrace(boolean)}).
    *
-   * @param description the description of the failed assertion.
+   * @param description    the description of the failed assertion.
    * @param representation the {@link Representation} used to format values.
    * @return the created {@code AssertionError}.
    */
-  @Override
   public AssertionError newAssertionError(Description description, Representation representation) {
     String message = smartErrorMessage(description, representation);
-    // only use JUnit error message if the comparison strategy used was standard, otherwise we need to mention
-    // comparison strategy in the assertion error message to make it clear to the user it was used.
-    if (comparisonStrategy.isStandard() && !actualAndExpectedHaveSameStringRepresentation()) {
-      // comparison strategy is standard -> try to build an AssertionFailedError used in JUnit 5 that is nicely displayed in IDEs
-      AssertionError assertionFailedError = assertionFailedError(message, representation);
-      // assertionFailedError != null means that JUnit 5 and opentest4j are in the classpath
-      if (assertionFailedError != null) return assertionFailedError;
-      // Junit5 was not used, try to build a JUnit 4 ComparisonFailure that is nicely displayed in IDEs
-      AssertionError error = comparisonFailure(description);
-      // error != null means that JUnit 4 was in the classpath and we build a ComparisonFailure.
-      if (error != null) return error;
-    }
-    AssertionError assertionFailedError = assertionFailedError(message, representation);
-    // assertionFailedError != null means that JUnit 5 and opentest4j was in the classpath
-    if (assertionFailedError != null) return assertionFailedError;
-    // No JUnit in the classpath => fall back to default error message
-    return Failures.instance().failure(message);
+    return assertionFailedError(message, representation);
   }
 
   protected boolean actualAndExpectedHaveSameStringRepresentation() {
@@ -143,9 +121,9 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    * representation if their description differ otherwise use
    * {@link #defaultDetailedErrorMessage(Description, Representation)} to represent them differently.
    *
-   * @param description the {@link Description} used to build the returned error message
+   * @param description    the {@link Description} used to build the returned error message
    * @param representation the {@link org.assertj.core.presentation.Representation} used to build String representation
-   *          of object
+   *                       of object
    * @return the error message from description using {@link #expected} and {@link #actual} "smart" representation.
    */
   protected String smartErrorMessage(Description description, Representation representation) {
@@ -162,7 +140,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
     String actualRepresentation = representation.toStringOf(actual);
     String expectedRepresentation = representation.toStringOf(expected);
     if (hasMultilineValue(actualRepresentation, expectedRepresentation)) {
-      return errorMessageForMultilineValues(description, representation, actualRepresentation, expectedRepresentation);
+      return errorMessageForMultilineValues(description, actualRepresentation, expectedRepresentation);
     }
 
     return comparisonStrategy.isStandard()
@@ -171,10 +149,10 @@ public class ShouldBeEqual implements AssertionErrorFactory {
                                   expected, actual, comparisonStrategy);
   }
 
-  private String errorMessageForMultilineValues(Description description, Representation representation,
+  private String errorMessageForMultilineValues(Description description,
                                                 String actualRepresentation, String expectedRepresentation) {
     String desc = DescriptionFormatter.instance().format(description);
-    return desc + messageForMultilineValues(actualRepresentation, expectedRepresentation, representation);
+    return desc + messageForMultilineValues(actualRepresentation, expectedRepresentation);
   }
 
   private boolean hasMultilineValue(String actualRepresentation, String expectedRepresentation) {
@@ -182,8 +160,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
            (expectedRepresentation != null && expectedRepresentation.contains(lineSeparator()));
   }
 
-  private String messageForMultilineValues(String actualRepresentation, String expectedRepresentation,
-                                           Representation representation) {
+  private String messageForMultilineValues(String actualRepresentation, String expectedRepresentation) {
     return comparisonStrategy.isStandard()
         ? format(EXPECTED_BUT_WAS_MESSAGE, indent(expectedRepresentation), indent(actualRepresentation))
         : format(EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR, indent(expectedRepresentation), indent(actualRepresentation),
@@ -198,17 +175,17 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    * Builds and returns an error message from description using {@link #detailedExpected()} and
    * {@link #detailedActual()} detailed representation.
    *
-   * @param description the {@link Description} used to build the returned error message
+   * @param description    the {@link Description} used to build the returned error message
    * @param representation the {@link org.assertj.core.presentation.Representation} used to build String representation
-   *          of object
+   *                       of object
    * @return the error message from description using {@link #detailedExpected()} and {@link #detailedActual()}
-   *         <b>detailed</b> representation.
+   * <b>detailed</b> representation.
    */
   protected String defaultDetailedErrorMessage(Description description, Representation representation) {
     String actualRepresentation = detailedActual();
     String expectedRepresentation = detailedExpected();
     if (hasMultilineValue(actualRepresentation, expectedRepresentation)) {
-      return errorMessageForMultilineValues(description, representation, actualRepresentation, expectedRepresentation);
+      return errorMessageForMultilineValues(description, actualRepresentation, expectedRepresentation);
     }
 
     return comparisonStrategy instanceof ComparatorBasedComparisonStrategy
@@ -220,39 +197,11 @@ public class ShouldBeEqual implements AssertionErrorFactory {
 
   private AssertionError assertionFailedError(String message, Representation representation) {
     try {
-      Object o = constructorInvoker.newInstance("org.opentest4j.AssertionFailedError",
-                                                MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR,
-                                                message,
-                                                representation.toStringOf(expected),
-                                                representation.toStringOf(actual));
-      if (o instanceof AssertionError) {
-        AssertionError assertionError = (AssertionError) o;
-        Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
-        return assertionError;
-      }
-      return null;
+      return assertionErrorCreator.assertionError(message, representation.toStringOf(actual),
+                                                  representation.toStringOf(expected), representation);
     } catch (Throwable e) {
       return null;
     }
-  }
-
-  private AssertionError comparisonFailure(Description description) {
-    try {
-      AssertionError comparisonFailure = newComparisonFailure(descriptionFormatter.format(description).trim());
-      Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(comparisonFailure);
-      return comparisonFailure;
-    } catch (Throwable e) {
-      return null;
-    }
-  }
-
-  private AssertionError newComparisonFailure(String description) throws Exception {
-    Object o = constructorInvoker.newInstance("org.junit.ComparisonFailure",
-                                              MSG_ARG_TYPES,
-                                              description,
-                                              representation.toStringOf(expected),
-                                              representation.toStringOf(actual));
-    return o instanceof AssertionError ? (AssertionError) o : null;
   }
 
   protected String detailedActual() {
@@ -265,11 +214,19 @@ public class ShouldBeEqual implements AssertionErrorFactory {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null) return false;
-    if (getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null) {
+      return false;
+    }
+    if (getClass() != o.getClass()) {
+      return false;
+    }
     ShouldBeEqual other = (ShouldBeEqual) o;
-    if (!deepEquals(actual, other.actual)) return false;
+    if (!deepEquals(actual, other.actual)) {
+      return false;
+    }
     return deepEquals(expected, other.expected);
   }
 

@@ -19,45 +19,45 @@ import static org.mockito.Mockito.when;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.description.Description;
-import org.assertj.core.error.AssertionErrorFactory;
+import org.assertj.core.error.ShouldBeEqual;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Failures#failure(AssertionInfo, AssertionErrorFactory)}</code>.
- * 
+ * Tests for <code>{@link Failures#failure(AssertionInfo, ShouldBeEqual)}</code>.
+ *
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-class Failures_failure_with_AssertionErrorFactory_Test {
+class Failures_failure_with_ShouldBeEqual_Test {
 
   private WritableAssertionInfo info;
-  private AssertionErrorFactory errorFactory;
+  private ShouldBeEqual shouldBeEqual;
   private Failures failures;
 
   @BeforeEach
   void setUp() {
     info = new WritableAssertionInfo();
-    errorFactory = mock(AssertionErrorFactory.class);
+    shouldBeEqual = mock(ShouldBeEqual.class);
     failures = Failures.instance();
   }
 
   @Test
   void should_create_own_AssertionError_when_overriding_error_message_is_specified() {
     info.overridingErrorMessage("my message");
-    AssertionError failure = failures.failure(info, errorFactory);
+    AssertionError failure = failures.failure(info, shouldBeEqual);
     assertThat(failure).hasMessage("my message");
   }
 
   @Test
-  void should_use_AssertionErrorFactory_when_overriding_error_message_is_not_specified() {
+  void should_use_ShouldBeEqual_when_overriding_error_message_is_not_specified() {
     MyOwnAssertionError expectedError = new MyOwnAssertionError("[description] my message");
     Description description = new TestDescription("description");
     info.description(description);
-    when(errorFactory.newAssertionError(description, info.representation())).thenReturn(expectedError);
-    AssertionError failure = failures.failure(info, errorFactory);
+    when(shouldBeEqual.newAssertionError(description, info.representation())).thenReturn(expectedError);
+    AssertionError failure = failures.failure(info, shouldBeEqual);
     assertThat(failure).isSameAs(expectedError);
   }
 
