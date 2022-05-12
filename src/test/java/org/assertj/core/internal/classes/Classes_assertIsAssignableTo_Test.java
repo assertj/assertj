@@ -14,12 +14,11 @@ package org.assertj.core.internal.classes;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.error.ShouldBeAssignableFrom.shouldBeAssignableFrom;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.FailureMessages.otherIsNull;
 
 import org.assertj.core.internal.ClassesBaseTest;
-import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -41,7 +40,7 @@ public class Classes_assertIsAssignableTo_Test extends ClassesBaseTest {
   void should_fail_if_other_is_null() {
     actual = Jedi.class;
     assertThatIllegalArgumentException().isThrownBy(() -> classes.assertIsAssignableTo(someInfo(), actual, null))
-      .withMessage(actualIsNull());
+      .withMessage(otherIsNull());
   }
 
   @Test

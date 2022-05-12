@@ -25,5 +25,9 @@ public final class FailureMessages {
     return String.format("%nExpecting actual not to be null");
   }
 
+  public static String otherIsNull() {
+    return String.format("%nExpecting other not to be null");
+  }
+
   private FailureMessages() {}
 }

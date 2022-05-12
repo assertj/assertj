@@ -121,7 +121,7 @@ public class Classes {
    */
   public void assertIsAssignableTo(AssertionInfo info, Class<?> actual, Class<?> other) {
     assertNotNull(info, actual);
-    checkArgument(!isNull(other), "%nExpecting actual not to be null", other);
+    checkArgument(!isNull(other), "%nExpecting other not to be null", other);
     assertNotNull(info, other);
     if (!other.isAssignableFrom(actual))
       throw failures.failure(info, shouldBeAssignableTo(actual, other));
