@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
@@ -120,6 +121,7 @@ public class Classes {
    */
   public void assertIsAssignableTo(AssertionInfo info, Class<?> actual, Class<?> other) {
     assertNotNull(info, actual);
+    checkArgument(!isNull(other), "%nExpecting actual not to be null", other);
     assertNotNull(info, other);
     if (!other.isAssignableFrom(actual))
       throw failures.failure(info, shouldBeAssignableTo(actual, other));

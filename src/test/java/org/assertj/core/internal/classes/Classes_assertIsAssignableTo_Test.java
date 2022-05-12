@@ -40,7 +40,7 @@ public class Classes_assertIsAssignableTo_Test extends ClassesBaseTest {
   @Test
   void should_fail_if_other_is_null() {
     actual = Jedi.class;
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsAssignableTo(someInfo(), actual, null))
+    assertThatIllegalArgumentException().isThrownBy(() -> classes.assertIsAssignableTo(someInfo(), actual, null))
       .withMessage(actualIsNull());
   }
 
