@@ -31,7 +31,7 @@ public class ShouldBeAssignableTo extends BasicErrorMessageFactory {
   }
 
   private ShouldBeAssignableTo(Class<?> actual, Class<?> expectedAssignableTo) {
-    super("%nExpecting%n  %s%nto be assignable to:%n  %s%nbut was not assignable to:%n  %s", actual,
+    super("%nExpecting%n  %s%nto be assignable to:%n  %s%nbut was not.", actual,
       expectedAssignableTo);
   }
 }
