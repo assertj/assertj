@@ -33,14 +33,15 @@ import org.junit.jupiter.api.Test;
 public class Classes_assertIsAssignableTo_Test extends ClassesBaseTest {
   @Test
   void should_pass_if_actual_is_assignable_to() {
-    actual = ClassesBaseTest.HumanJedi.class;
+    actual = HumanJedi.class;
     classes.assertIsAssignableTo(someInfo(), actual, ClassesBaseTest.Jedi.class);
   }
 
   @Test
   void should_fail_if_other_is_null() {
-    actual = ClassesBaseTest.Jedi.class;
-    assertThatIllegalArgumentException().isThrownBy(() -> classes.assertIsAssignableTo(someInfo(), actual, null));
+    actual = Jedi.class;
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsAssignableTo(someInfo(), actual, null))
+      .withMessage(actualIsNull());
   }
 
   @Test
@@ -58,8 +59,8 @@ public class Classes_assertIsAssignableTo_Test extends ClassesBaseTest {
 
   @Test
   void should_fail_if_actual_is_not_assignable_to() {
-    actual = ClassesBaseTest.Jedi.class;
-    Class<?> other = ClassesBaseTest.HumanJedi.class;
+    actual = Jedi.class;
+    Class<?> other = HumanJedi.class;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertIsAssignableTo(someInfo(), actual, other));
   }
 }
