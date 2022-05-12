@@ -141,7 +141,7 @@ These are not automatically rejected, but we will carefully evaluate each of the
 
 To avoid setting up your local development environment, you can use [Gitpod](https://www.gitpod.io/) and develop directly in browser-based Visual Studio Code, or [JetBrains Client via JetBrains Gateway](https://www.gitpod.io/docs/ides-and-editors/jetbrains-gateway).
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/assertj/assertj-core)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/from-referrer/)
 
 ## Legal stuff:
 
