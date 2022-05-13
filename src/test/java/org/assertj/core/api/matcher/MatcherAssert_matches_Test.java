@@ -12,15 +12,16 @@
  */
 package org.assertj.core.api.matcher;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import org.junit.jupiter.api.Test;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.MatcherShouldMatch.shouldMatch;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.junit.jupiter.api.Test;
 
 public class MatcherAssert_matches_Test {
 
@@ -37,9 +38,7 @@ public class MatcherAssert_matches_Test {
   @Test
   void should_fail_if_Matcher_does_not_match() {
     // GIVEN
-    Pattern pattern = Pattern.compile("a*");
-    String expectedValue = "abc";
-    Matcher actual = pattern.matcher(expectedValue);
+    Matcher actual = Pattern.compile("a*").matcher("abc");
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).matches());
     // THEN
@@ -49,10 +48,8 @@ public class MatcherAssert_matches_Test {
   @Test
   void should_pass_if_Matcher_matches() {
     // GIVEN
-    Pattern pattern = Pattern.compile("a*");
-    String expectedValue = "aaa";
-    Matcher actual = pattern.matcher(expectedValue);
+    Matcher actual = Pattern.compile("a*").matcher("aaa");
     // WHEN/THEN
-    assertThat(actual).matches();
+    then(actual).matches();
   }
 }
