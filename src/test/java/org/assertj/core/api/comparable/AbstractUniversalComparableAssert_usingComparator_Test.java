@@ -15,29 +15,25 @@ package org.assertj.core.api.comparable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
-import org.assertj.core.api.AbstractComparableAssert;
-import org.assertj.core.api.AbstractGenericComparableAssertBaseTest;
-import org.assertj.core.api.RawComparableAssert;
-import org.assertj.core.internal.Comparables;
-import org.assertj.core.internal.Objects;
+import java.util.Comparator;
 
-/**
- * Tests for <code>{@link AbstractComparableAssert#usingDefaultComparator()}</code>.
- *
- * @author Filip Hrisafov
- */
-class AbstractGenericComparableAssert_usingDefaultComparator_Test extends AbstractGenericComparableAssertBaseTest {
+import org.assertj.core.api.AbstractUniversalComparableAssertBaseTest;
+import org.assertj.core.api.UniversalComparableAssert;
+
+class AbstractUniversalComparableAssert_usingComparator_Test extends AbstractUniversalComparableAssertBaseTest {
+
+  private final Comparator<Comparable<String>> comparator = alwaysEqual();
 
   @Override
-  protected RawComparableAssert invoke_api_method() {
-    return assertions.usingComparator(alwaysEqual())
-                     .usingDefaultComparator();
+  protected UniversalComparableAssert<String> invoke_api_method() {
+    // in that, we don't care of the comparator, the point to check is that we switch correctly of comparator
+    return assertions.usingComparator(comparator);
   }
 
   @Override
   protected void verify_internal_effects() {
-    then(getComparables(assertions)).isEqualTo(new Comparables());
-    then(getComparables(assertions).getComparator()).isNull();
-    then(getObjects(assertions)).isSameAs(Objects.instance());
+    then(getObjects(assertions).getComparator()).isSameAs(comparator);
+    then(getComparables(assertions).getComparator()).isSameAs(comparator);
   }
+
 }

@@ -40,100 +40,95 @@ import org.assertj.core.util.VisibleForTesting;
  * assertThat(name).isEqualByComparingTo(name);</code></pre>
  * <p>
  * This class aims to allow writing 
- * <pre><code class='java'> // assertThatComparable reslves to AbstractGenericComparableAssert
+ * <pre><code class='java'> // assertThatComparable resolves to AbstractGenericComparableAssert
  * assertThatComparable(name1).isLessThanOrEqualTo(name1);
  * 
  * // it works without generic Comparable too 
  * assertThat(name).isEqualByComparingTo(name);</code></pre>
  */
-public abstract class AbstractRawComparableAssert<SELF extends AbstractRawComparableAssert<SELF>>
-    extends AbstractObjectAssert<SELF, Comparable<?>> {
+public abstract class AbstractUniversalComparableAssert<SELF extends AbstractUniversalComparableAssert<SELF, T>, T>
+    extends AbstractObjectAssert<SELF, Comparable<T>> {
 
   @VisibleForTesting
   Comparables comparables = new Comparables();
 
-  protected AbstractRawComparableAssert(Comparable<?> actual, Class<?> selfType) {
+  protected AbstractUniversalComparableAssert(Comparable<T> actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
   /**
-  * Verifies that the actual value is less than the given one.
-  * <p>
-  * Example:
-  * <pre><code class='java'> // assertions will pass
-  * assertThat('a').isLessThan('b');
-  * assertThat(BigInteger.ZERO).isLessThan(BigInteger.ONE);
-  * 
-  * // assertions will fail
-  * assertThat('a').isLessThan('a');
-  * assertThat(BigInteger.ONE).isLessThan(BigInteger.ZERO);</code></pre>
-  * 
-  * @param other the given value to compare the actual value to.
-  * @return {@code this} assertion object.
-  * @throws AssertionError if the actual value is {@code null}.
-  * @throws AssertionError if the actual value is equal to or greater than the given one.
-  */
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  public SELF isLessThan(Comparable other) {
+   * Verifies that the actual value is less than the given one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat('a').isLessThan('b');
+   * assertThat(BigInteger.ZERO).isLessThan(BigInteger.ONE);
+   *
+   * // assertions will fail
+   * assertThat('a').isLessThan('a');
+   * assertThat(BigInteger.ONE).isLessThan(BigInteger.ZERO);</code></pre>
+   *
+   * @param other the given value to compare the actual value to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is equal to or greater than the given one.
+   */
+  public <C extends Comparable<? super T>> SELF isLessThan(C other) {
     comparables.assertLessThan(info, actual, other);
     return myself;
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  public SELF isEqualByComparingTo(Comparable other) {
+  public <C extends Comparable<? super T>> SELF isEqualByComparingTo(C other) {
     comparables.assertEqualByComparison(info, actual, other);
     return myself;
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  public SELF isNotEqualByComparingTo(Comparable other) {
-    comparables.assertNotEqualByComparison(info, (Comparable) actual, other);
+  public <C extends Comparable<? super T>> SELF isNotEqualByComparingTo(C other) {
+    comparables.assertNotEqualByComparison(info, actual, other);
     return myself;
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  public SELF isLessThanOrEqualTo(Comparable other) {
+  public <C extends Comparable<? super T>> SELF isLessThanOrEqualTo(C other) {
     comparables.assertLessThanOrEqualTo(info, actual, other);
     return myself;
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  public SELF isGreaterThan(Comparable other) {
+  public <C extends Comparable<? super T>> SELF isGreaterThan(C other) {
     comparables.assertGreaterThan(info, actual, other);
     return myself;
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  public SELF isGreaterThanOrEqualTo(Comparable other) {
+  public <C extends Comparable<? super T>> SELF isGreaterThanOrEqualTo(C other) {
     comparables.assertGreaterThanOrEqualTo(info, actual, other);
     return myself;
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  public SELF isBetween(Comparable startInclusive, Comparable endInclusive) {
+  public <C extends Comparable<? super T>> SELF isBetween(C startInclusive, C endInclusive) {
     comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true);
     return myself;
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  public SELF isStrictlyBetween(Comparable startExclusive, Comparable endExclusive) {
+  public <C extends Comparable<? super T>> SELF isStrictlyBetween(C startExclusive, C endExclusive) {
     comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false);
     return myself;
   }
 
+  /** {@inheritDoc} */
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super Comparable<?>> customComparator) {
-    return usingComparator(customComparator, null);
+  public SELF usingComparator(Comparator<? super Comparable<T>> customComparator) {
+    return super.usingComparator(customComparator);
   }
 
+  /** {@inheritDoc} */
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super Comparable<?>> customComparator, String customComparatorDescription) {
+  public SELF usingComparator(Comparator<? super Comparable<T>> customComparator, String customComparatorDescription) {
     this.comparables = new Comparables(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
     return super.usingComparator(customComparator, customComparatorDescription);
   }
 
+  /** {@inheritDoc} */
   @Override
   @CheckReturnValue
   public SELF usingDefaultComparator() {
@@ -141,12 +136,14 @@ public abstract class AbstractRawComparableAssert<SELF extends AbstractRawCompar
     return super.usingDefaultComparator();
   }
 
+  /** {@inheritDoc} */
   @Override
   @CheckReturnValue
   public SELF inHexadecimal() {
     return super.inHexadecimal();
   }
 
+  /** {@inheritDoc} */
   @Override
   @CheckReturnValue
   public SELF inBinary() {

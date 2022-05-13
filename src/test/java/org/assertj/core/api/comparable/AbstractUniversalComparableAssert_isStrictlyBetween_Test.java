@@ -14,19 +14,19 @@ package org.assertj.core.api.comparable;
 
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.AbstractGenericComparableAssertBaseTest;
-import org.assertj.core.api.RawComparableAssert;
+import org.assertj.core.api.AbstractUniversalComparableAssertBaseTest;
+import org.assertj.core.api.UniversalComparableAssert;
 
-class AbstractGenericComparableAssert_isNotEqualByComparingTo_Test extends AbstractGenericComparableAssertBaseTest {
+class AbstractUniversalComparableAssert_isStrictlyBetween_Test extends AbstractUniversalComparableAssertBaseTest {
 
   @Override
-  protected RawComparableAssert invoke_api_method() {
-    return assertions.isNotEqualByComparingTo("foo");
+  protected UniversalComparableAssert<String> invoke_api_method() {
+    return assertions.isStrictlyBetween("foo", "bar");
   }
 
   @Override
-  @SuppressWarnings({ "rawtypes", "unchecked" })
   protected void verify_internal_effects() {
-    verify(comparables).assertNotEqualByComparison(getInfo(assertions), getActual(assertions), (Comparable) "foo");
+    verify(comparables).assertIsBetween(getInfo(assertions), getActual(assertions), "foo", "bar", false, false);
   }
+
 }

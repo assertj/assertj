@@ -14,26 +14,19 @@ package org.assertj.core.api.comparable;
 
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.AbstractComparableAssert;
-import org.assertj.core.api.AbstractGenericComparableAssertBaseTest;
-import org.assertj.core.api.RawComparableAssert;
+import org.assertj.core.api.AbstractUniversalComparableAssertBaseTest;
+import org.assertj.core.api.UniversalComparableAssert;
 
-
-/**
- * Tests for <code>{@link AbstractComparableAssert#isLessThanOrEqualTo(Comparable)}</code>.
- * 
- * @author Alex Ruiz
- */
-class AbstractGenericComparableAssert_isLessThanOrEqualTo_Test extends AbstractGenericComparableAssertBaseTest {
+class AbstractUniversalComparableAssert_isGreaterThanOrEqualTo_Test extends AbstractUniversalComparableAssertBaseTest {
 
   @Override
-  protected RawComparableAssert invoke_api_method() {
-    return assertions.isLessThanOrEqualTo("foo");
+  protected UniversalComparableAssert<String> invoke_api_method() {
+    return assertions.isGreaterThanOrEqualTo("foo");
   }
 
   @Override
-  @SuppressWarnings({ "rawtypes", "unchecked" })
   protected void verify_internal_effects() {
-    verify(comparables).assertLessThanOrEqualTo(getInfo(assertions), getActual(assertions), (Comparable) "foo");
+    verify(comparables).assertGreaterThanOrEqualTo(getInfo(assertions), getActual(assertions), "foo");
   }
+
 }

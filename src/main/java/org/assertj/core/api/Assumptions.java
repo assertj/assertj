@@ -989,15 +989,16 @@ public class Assumptions {
   }
 
   /**
-   * Creates a new instance of <code>{@link RawComparableAssert}</code> assumption.
+   * Creates a new instance of <code>{@link UniversalComparableAssert}</code> assumption.
    *
    * @param <T> the type of actual.
    * @param actual the actual value.
    * @return the created assumption for assertion object.
    * @since 3.23.0
    */
-  public static AbstractRawComparableAssert<?> assumeThatComparable(Comparable<?> actual) {
-    return asAssumption(RawComparableAssert.class, Comparable.class, actual);
+  @SuppressWarnings("unchecked")
+  public static <T> AbstractUniversalComparableAssert<?, T> assumeThatComparable(Comparable<T> actual) {
+    return asAssumption(UniversalComparableAssert.class, Comparable.class, actual);
   }
 
   /**

@@ -15,25 +15,21 @@ package org.assertj.core.api.comparable;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AbstractComparableAssert;
-import org.assertj.core.api.AbstractGenericComparableAssertBaseTest;
-import org.assertj.core.api.RawComparableAssert;
-
+import org.assertj.core.api.AbstractUniversalComparableAssertBaseTest;
+import org.assertj.core.api.ObjectAssert;
+import org.assertj.core.api.UniversalComparableAssert;
 
 /**
- * Tests for <code>{@link AbstractComparableAssert#isLessThan(Comparable)}</code>.
- * 
- * @author Alex Ruiz
+ * Test that {@link ObjectAssert} methods are available from {@link AbstractComparableAssert}
  */
-class AbstractGenericComparableAssert_isLessThan_Test extends AbstractGenericComparableAssertBaseTest {
-
+class AbstractUniversalComparableAssert_canCallObjectAssertMethod_Test extends AbstractUniversalComparableAssertBaseTest {
   @Override
-  protected RawComparableAssert invoke_api_method() {
-    return assertions.isLessThan("foo");
+  protected UniversalComparableAssert<String> invoke_api_method() {
+    return assertions.hasNoNullFieldsOrProperties();
   }
 
   @Override
-  @SuppressWarnings({ "rawtypes", "unchecked" })
   protected void verify_internal_effects() {
-    verify(comparables).assertLessThan(getInfo(assertions), getActual(assertions), (Comparable) "foo");
+    verify(objects).assertHasNoNullFieldsOrPropertiesExcept(getInfo(assertions), getActual(assertions));
   }
 }
