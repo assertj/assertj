@@ -674,7 +674,7 @@ public class RecursiveComparisonConfiguration {
                             .filter(fieldName -> !shouldIgnoreFieldBasedOnFieldLocation(dualValue.fieldLocation.field(fieldName)))
                             .map(fieldName -> dualValueForField(dualValue, fieldName))
                             // evaluate field value ignoring criteria
-                            .filter(fieldDualValue -> !shouldIgnoreFieldBasedOnFieldValue(fieldDualValue))
+                            .filter(fieldDualValue -> !shouldIgnore(fieldDualValue))
                             // back to field name
                             .map(DualValue::getFieldName)
                             .filter(fieldName -> !fieldName.isEmpty())

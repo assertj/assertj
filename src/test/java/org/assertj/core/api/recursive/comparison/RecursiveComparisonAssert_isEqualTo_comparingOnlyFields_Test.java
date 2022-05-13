@@ -117,6 +117,19 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
   }
 
   @Test
+  public void should_fail_when_actual_differs_from_expected_on_compared_fields_independent_of_object_order() {
+    Staff staff = new Staff();
+    StaffWithLessFields staffWithLessFields = new StaffWithLessFields();
+    staff.setDeleted(Boolean.TRUE);
+    staffWithLessFields.setDeleted(Boolean.FALSE);
+
+    recursiveComparisonConfiguration.compareOnlyFields("deleted");
+
+    compareRecursivelyFailsAsExpected(staffWithLessFields, staff);
+    compareRecursivelyFailsAsExpected(staff, staffWithLessFields);
+  }
+
+  @Test
   void can_be_combined_with_ignoringFields() {
     // GIVEN
     Person actual = new Person("John");
@@ -152,6 +165,13 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
     return list.toArray(new String[0]);
   }
 
+  static class StaffWithLessFields {
+    private Boolean deleted;
+
+    public void setDeleted(Boolean deleted) {
+      this.deleted = deleted;
+    }
+  }
   @SuppressWarnings("unused")
   static class Staff {
 

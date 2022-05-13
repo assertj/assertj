@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.Set;
 
 import org.assertj.core.internal.objects.data.Person;
+import org.assertj.core.internal.objects.data.PersonDtoWithPersonNeighbour;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -54,6 +55,19 @@ class RecursiveComparisonConfiguration_getActualNonIgnoreFields_Test {
     Set<String> fields = recursiveComparisonConfiguration.getNonIgnoredActualFieldNames(dualValue);
     // THEN
     assertThat(fields).doesNotContain("number", "dateOfBirth", "name");
+  }
+
+  @Test
+  void should_only_return_fields_from_compareOnlyFields_list() {
+    // GIVEN
+    recursiveComparisonConfiguration.compareOnlyFields("people.name");
+    Person person1 = new Person("John");
+    PersonDtoWithPersonNeighbour person2 = new PersonDtoWithPersonNeighbour("John");
+    DualValue dualValue = new DualValue(list("people"), person2, person1);
+    // WHEN
+    Set<String> fields = recursiveComparisonConfiguration.getNonIgnoredActualFieldNames(dualValue);
+    // THEN
+    assertThat(fields).containsExactly("name");
   }
 
 }
