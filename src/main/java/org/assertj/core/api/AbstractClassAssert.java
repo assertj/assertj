@@ -33,7 +33,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   Classes classes = Classes.instance();
 
-  AbstractClassAssert(Class<?> actual, Class<?> selfType) {
+  protected AbstractClassAssert(Class<?> actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
