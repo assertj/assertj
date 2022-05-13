@@ -30,7 +30,7 @@
   <properties>
     <argLine>-Dfile.encoding=${project.build.sourceEncoding}</argLine>
     <javadocAdditionalOptions>-html5 --allow-script-in-comments --no-module-directories</javadocAdditionalOptions>
-    <byte-buddy.version>1.12.9</byte-buddy.version>
+    <byte-buddy.version>1.12.10</byte-buddy.version>
     <hamcrest.version>2.2</hamcrest.version>
     <opentest4j.version>1.2.0</opentest4j.version>
     <bnd.version>6.2.0</bnd.version>
@@ -63,7 +63,7 @@
       <dependency> <!-- Included by hibernate-core -->
         <groupId>org.jboss.logging</groupId>
         <artifactId>jboss-logging</artifactId>
-        <version>3.4.3.Final</version>
+        <version>3.5.0.Final</version>
       </dependency>
       <dependency>
         <groupId>org.opentest4j</groupId>
@@ -162,7 +162,7 @@
     <dependency>
       <groupId>org.hibernate.orm</groupId>
       <artifactId>hibernate-core</artifactId>
-      <version>6.0.0.Final</version>
+      <version>6.0.1.Final</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -206,7 +206,7 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
-      <version>5.3.19</version>
+      <version>5.3.20</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -531,7 +531,7 @@
       <plugin>
         <groupId>org.pitest</groupId>
         <artifactId>pitest-maven</artifactId>
-        <version>1.7.5</version>
+        <version>1.7.6</version>
         <dependencies>
           <dependency>
             <groupId>org.pitest</groupId>

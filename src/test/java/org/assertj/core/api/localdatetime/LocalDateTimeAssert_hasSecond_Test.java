@@ -10,46 +10,47 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.api.matcher;
+
+package org.assertj.core.api.localdatetime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.MatcherShouldMatch.shouldMatch;
+import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
-public class MatcherAssert_matches_Test {
+class LocalDateTimeAssert_hasSecond_Test {
 
   @Test
-  void should_fail_if_Matcher_is_null() {
+  void should_pass_if_actual_is_in_given_second() {
     // GIVEN
-    Matcher nullActual = null;
+    LocalDateTime actual = LocalDateTime.of(2021, 12, 31, 23, 59, 55);
+    // WHEN/THEN
+    then(actual).hasSecond(55);
+  }
+
+  @Test
+  void should_fail_if_actual_is_not_in_given_second() {
+    // GIVEN
+    LocalDateTime actual = LocalDateTime.of(2021, 12, 31, 23, 59, 55);
+    int expectedSecond = 58;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(nullActual).matches());
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasSecond(expectedSecond));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveDateField(actual, "second", expectedSecond).create());
+  }
+
+  @Test
+  void should_fail_if_actual_is_null() {
+    // GIVEN
+    LocalDateTime actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasSecond(1));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
-  }
-
-  @Test
-  void should_fail_if_Matcher_does_not_match() {
-    // GIVEN
-    Matcher actual = Pattern.compile("a*").matcher("abc");
-    // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).matches());
-    // THEN
-    then(assertionError).hasMessage(shouldMatch(actual).create());
-  }
-
-  @Test
-  void should_pass_if_Matcher_matches() {
-    // GIVEN
-    Matcher actual = Pattern.compile("a*").matcher("aaa");
-    // WHEN/THEN
-    then(actual).matches();
   }
 }

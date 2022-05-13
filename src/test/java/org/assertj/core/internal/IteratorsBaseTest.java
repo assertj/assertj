@@ -12,40 +12,32 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.test.BooleanArrays.arrayOf;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
-import org.assertj.core.api.WritableAssertionInfo;
+import org.assertj.core.api.AssertionInfo;
 import org.junit.jupiter.api.BeforeEach;
 
-
 /**
- * Base class for testing <code>{@link BooleanArrays}</code>, set up an instance with {@link StandardComparisonStrategy} and
- * another with {@link ComparatorBasedComparisonStrategy}.
+ * Base class for testing <code>{@link Iterators}</code>.
  * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link BooleanArrays#failures} appropriately.
- * 
- * @author Joel Costigliola
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Iterators#failures} appropriately.
+ *
+ * @author Natália Struharová
+ *
  */
-public class BooleanArraysBaseTest {
+public class IteratorsBaseTest {
 
-  protected static final WritableAssertionInfo INFO = someInfo();
+  protected static final AssertionInfo INFO = someInfo();
 
-  protected boolean[] actual;
   protected Failures failures;
-  protected BooleanArrays arrays;
+  protected Iterators iterators;
 
   @BeforeEach
   public void setUp() {
-    actual = arrayOf(true, false);
     failures = spy(new Failures());
-    arrays = new BooleanArrays();
-    arrays.failures = failures;
-  }
-
-  protected void setArrays(Arrays internalArrays) {
-    arrays.setArrays(internalArrays);
+    iterators = new Iterators();
+    iterators.failures = failures;
   }
 
 }

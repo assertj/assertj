@@ -12,11 +12,13 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
 import java.util.Comparator;
 import java.util.Date;
 
+import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.util.DateUtil;
 import org.assertj.core.util.YearAndMonthComparator;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +32,8 @@ import org.junit.jupiter.api.BeforeEach;
  * @author Joel Costigliola
  */
 public abstract class DatesBaseTest {
+
+  protected static final WritableAssertionInfo INFO = someInfo();
 
   protected Failures failures;
   protected Dates dates;

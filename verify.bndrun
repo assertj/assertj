@@ -37,5 +37,5 @@
 	junit-platform-commons;version='[1.8.2,1.8.3)',\
 	junit-platform-engine;version='[1.8.2,1.8.3)',\
 	junit-platform-launcher;version='[1.8.2,1.8.3)',\
-	net.bytebuddy.byte-buddy;version='[1.12.9,1.12.10)',\
+	net.bytebuddy.byte-buddy;version='[1.12.10,1.12.11)',\
 	org.opentest4j;version='[1.2.0,1.2.1)'

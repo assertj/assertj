@@ -12,12 +12,14 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,6 +37,8 @@ public class ObjectsBaseTest {
   {
     Assertions.setRemoveAssertJRelatedElementsFromStackTrace(false);
   }
+
+  protected static final AssertionInfo INFO = someInfo();
 
   protected Failures failures;
   protected Objects objects;

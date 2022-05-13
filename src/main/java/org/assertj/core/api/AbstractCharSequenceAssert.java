@@ -875,11 +875,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * <pre><code class='java'> // assertions succeed:
    * assertThat(&quot;Gandalf\nthe\ngrey&quot;).containsIgnoringNewLines(&quot;alf&quot;)
-   *                                           .containsIgnoringNewLines(&quot;alf&quot;, &quot;grey&quot;)
-   *                                           .containsIgnoringNewLines(&quot;thegrey&quot;)
-   *                                           .containsIgnoringNewLines(&quot;thegr\ney&quot;)
-   *                                           .containsIgnoringNewLines(&quot;t\nh\ne\ng\nr\ney&quot;);
-   * // assertion fails:
+   *                                 .containsIgnoringNewLines(&quot;alf&quot;, &quot;grey&quot;)
+   *                                 .containsIgnoringNewLines(&quot;thegrey&quot;)
+   *                                 .containsIgnoringNewLines(&quot;thegr\ney&quot;)
+   *                                 .containsIgnoringNewLines(&quot;t\nh\ne\ng\nr\ney&quot;);
+   * // assertions fail:
    * assertThat(&quot;Gandalf\nthe\ngrey&quot;).containsIgnoringNewLines(&quot;alF&quot;)
    * assertThat(&quot;Gandalf\nthe\ngrey&quot;).containsIgnoringNewLines(&quot;t\nh\ne\ng\nr\t\r\ney&quot;)</code></pre>
    * 

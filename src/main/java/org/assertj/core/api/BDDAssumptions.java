@@ -12,10 +12,8 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.Assumptions.assumeThat;
-import static org.assertj.core.api.Assumptions.assumeThatCode;
-
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -101,7 +99,7 @@ import org.assertj.core.util.CheckReturnValue;
  * @author Gonzalo Müller
  */
 @CheckReturnValue
-public final class BDDAssumptions {
+public final class BDDAssumptions extends Assumptions {
 
   private BDDAssumptions() {}
 
@@ -127,7 +125,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual <code>boolean</code> value to be validated.
-   * @return the {@link AbstractBooleanAssert} assertion object to be used for validation.
+   * @return the {@link AbstractBooleanAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractBooleanAssert<?> given(boolean actual) {
@@ -156,7 +154,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link Boolean} value to be validated.
-   * @return the {@link AbstractBooleanAssert} assertion object to be used for validation.
+   * @return the {@link AbstractBooleanAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractBooleanAssert<?> given(Boolean actual) {
@@ -185,7 +183,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual <code>boolean</code>s' array to be validated.
-   * @return the {@link AbstractBooleanArrayAssert} assertion object to be used for validation.
+   * @return the {@link AbstractBooleanArrayAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractBooleanArrayAssert<?> given(boolean[] actual) {
@@ -214,7 +212,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual <code>boolean</code>s' two-dimensional array to be validated.
-   * @return the {@link Boolean2DArrayAssert} assertion object to be used for validation.
+   * @return the {@link Boolean2DArrayAssert} assertion object to be used for assumptions.
    * @since 3.17.0
    */
   public static Boolean2DArrayAssert given(boolean[][] actual) {
@@ -243,7 +241,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual <code>byte</code> value to be validated.
-   * @return the {@link AbstractByteAssert} assertion object to be used for validation.
+   * @return the {@link AbstractByteAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractByteAssert<?> given(byte actual) {
@@ -272,7 +270,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link Byte} value to be validated.
-   * @return the {@link AbstractByteAssert} assertion object to be used for validation.
+   * @return the {@link AbstractByteAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractByteAssert<?> given(Byte actual) {
@@ -301,7 +299,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual bytes' array to be validated.
-   * @return the {@link AbstractByteArrayAssert} assertion object to be used for validation.
+   * @return the {@link AbstractByteArrayAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractByteArrayAssert<?> given(byte[] actual) {
@@ -330,7 +328,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual bytes' two-dimensional array to be validated.
-   * @return the {@link Byte2DArrayAssert} assertion object to be used for validation.
+   * @return the {@link Byte2DArrayAssert} assertion object to be used for assumptions.
    * @since 3.17.0
    */
   public static Byte2DArrayAssert given(byte[][] actual) {
@@ -359,7 +357,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual <code>short</code> value to be validated.
-   * @return the {@link AbstractShortAssert} assertion object to be used for validation.
+   * @return the {@link AbstractShortAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractShortAssert<?> given(short actual) {
@@ -388,7 +386,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link Short} value to be validated.
-   * @return the {@link AbstractShortAssert} assertion object to be used for validation.
+   * @return the {@link AbstractShortAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractShortAssert<?> given(Short actual) {
@@ -417,7 +415,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual <code>short</code>s' array to be validated.
-   * @return the {@link AbstractShortArrayAssert} assertion object to be used for validation.
+   * @return the {@link AbstractShortArrayAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractShortArrayAssert<?> given(short[] actual) {
@@ -446,7 +444,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual <code>short</code>s' two-dimensional array to be validated.
-   * @return the {@link Short2DArrayAssert} assertion object to be used for validation.
+   * @return the {@link Short2DArrayAssert} assertion object to be used for assumptions.
    * @since 3.17.0
    */
   public static Short2DArrayAssert given(short[][] actual) {
@@ -475,7 +473,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual <code>int</code> value to be validated.
-   * @return the {@link AbstractIntegerAssert} assertion object to be used for validation.
+   * @return the {@link AbstractIntegerAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractIntegerAssert<?> given(int actual) {
@@ -504,7 +502,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link Integer} value to be validated.
-   * @return the {@link AbstractIntegerAssert} assertion object to be used for validation.
+   * @return the {@link AbstractIntegerAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractIntegerAssert<?> given(Integer actual) {
@@ -533,7 +531,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual <code>int</code>s' array to be validated.
-   * @return the {@link AbstractIntArrayAssert} assertion object to be used for validation.
+   * @return the {@link AbstractIntArrayAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractIntArrayAssert<?> given(int[] actual) {
@@ -562,7 +560,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual <code>int</code>s' two-dimensional array to be validated.
-   * @return the {@link Int2DArrayAssert} assertion object to be used for validation.
+   * @return the {@link Int2DArrayAssert} assertion object to be used for assumptions.
    * @since 3.17.0
    */
   public static Int2DArrayAssert given(int[][] actual) {
@@ -591,7 +589,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link BigInteger} value to be validated.
-   * @return the {@link AbstractBigIntegerAssert} assertion object to be used for validation.
+   * @return the {@link AbstractBigIntegerAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractBigIntegerAssert<?> given(BigInteger actual) {
@@ -620,7 +618,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual <code>long</code> value to be validated.
-   * @return the {@link AbstractLongAssert} assertion object to be used for validation.
+   * @return the {@link AbstractLongAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractLongAssert<?> given(long actual) {
@@ -649,7 +647,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link Long} value to be validated.
-   * @return the {@link AbstractLongAssert} assertion object to be used for validation.
+   * @return the {@link AbstractLongAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractLongAssert<?> given(Long actual) {
@@ -678,7 +676,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual <code>long</code>s' array to be validated.
-   * @return the {@link AbstractLongArrayAssert} assertion object to be used for validation.
+   * @return the {@link AbstractLongArrayAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractLongArrayAssert<?> given(long[] actual) {
@@ -707,7 +705,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual <code>long</code>s' two-dimensional array to be validated.
-   * @return the {@link Long2DArrayAssert} assertion object to be used for validation.
+   * @return the {@link Long2DArrayAssert} assertion object to be used for assumptions.
    * @since 3.17.0
    */
   public static Long2DArrayAssert given(long[][] actual) {
@@ -736,7 +734,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual <code>float</code> value to be validated.
-   * @return the {@link AbstractFloatAssert} assertion object to be used for validation.
+   * @return the {@link AbstractFloatAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractFloatAssert<?> given(float actual) {
@@ -765,7 +763,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link Float} value to be validated.
-   * @return the {@link AbstractFloatAssert} assertion object to be used for validation.
+   * @return the {@link AbstractFloatAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractFloatAssert<?> given(Float actual) {
@@ -794,7 +792,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual <code>float</code>s' array to be validated.
-   * @return the {@link AbstractFloatArrayAssert} assertion object to be used for validation.
+   * @return the {@link AbstractFloatArrayAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractFloatArrayAssert<?> given(float[] actual) {
@@ -823,7 +821,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual <code>float</code>s' two-dimensional array to be validated.
-   * @return the {@link Float2DArrayAssert} assertion object to be used for validation.
+   * @return the {@link Float2DArrayAssert} assertion object to be used for assumptions.
    * @since 3.17.0
    */
   public static Float2DArrayAssert given(float[][] actual) {
@@ -852,7 +850,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual <code>double</code> value to be validated.
-   * @return the {@link AbstractDoubleAssert} assertion object to be used for validation.
+   * @return the {@link AbstractDoubleAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractDoubleAssert<?> given(double actual) {
@@ -881,7 +879,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link Double} value to be validated.
-   * @return the {@link AbstractDoubleAssert} assertion object to be used for validation.
+   * @return the {@link AbstractDoubleAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractDoubleAssert<?> given(Double actual) {
@@ -910,7 +908,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual <code>double</code>s' array to be validated.
-   * @return the {@link AbstractDoubleArrayAssert} assertion object to be used for validation.
+   * @return the {@link AbstractDoubleArrayAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractDoubleArrayAssert<?> given(double[] actual) {
@@ -939,7 +937,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual <code>double</code>s' two-dimensional array to be validated.
-   * @return the {@link Double2DArrayAssert} assertion object to be used for validation.
+   * @return the {@link Double2DArrayAssert} assertion object to be used for assumptions.
    * @since 3.17.0
    */
   public static Double2DArrayAssert given(double[][] actual) {
@@ -968,7 +966,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link BigDecimal} value to be validated.
-   * @return the {@link AbstractBigDecimalAssert} assertion object to be used for validation.
+   * @return the {@link AbstractBigDecimalAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractBigDecimalAssert<?> given(BigDecimal actual) {
@@ -997,7 +995,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual <code>char</code> value to be validated.
-   * @return the {@link AbstractCharacterAssert} assertion object to be used for validation.
+   * @return the {@link AbstractCharacterAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractCharacterAssert<?> given(char actual) {
@@ -1026,7 +1024,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link Character} value to be validated.
-   * @return the {@link AbstractCharacterAssert} assertion object to be used for validation.
+   * @return the {@link AbstractCharacterAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractCharacterAssert<?> given(Character actual) {
@@ -1055,7 +1053,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual <code>char</code>s' array to be validated.
-   * @return the {@link AbstractCharacterAssert} assertion object to be used for validation.
+   * @return the {@link AbstractCharacterAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractCharArrayAssert<?> given(char[] actual) {
@@ -1084,7 +1082,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual <code>char</code>s' two-dimensional array to be validated.
-   * @return the {@link Char2DArrayAssert} assertion object to be used for validation.
+   * @return the {@link Char2DArrayAssert} assertion object to be used for assumptions.
    * @since 3.17.0
    */
   public static Char2DArrayAssert given(char[][] actual) {
@@ -1113,7 +1111,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link CharSequence} value to be validated.
-   * @return the {@link AbstractCharSequenceAssert} assertion object to be used for validation.
+   * @return the {@link AbstractCharSequenceAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> given(CharSequence actual) {
@@ -1142,7 +1140,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link String} value to be validated.
-   * @return the {@link AbstractStringAssert} assertion object to be used for validation.
+   * @return the {@link AbstractStringAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractStringAssert<?> given(String actual) {
@@ -1171,7 +1169,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link StringBuilder} value to be validated.
-   * @return the {@link AbstractCharSequenceAssert} assertion object to be used for validation.
+   * @return the {@link AbstractCharSequenceAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> given(StringBuilder actual) {
@@ -1200,7 +1198,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link StringBuffer} value to be validated.
-   * @return the {@link AbstractCharSequenceAssert} assertion object to be used for validation.
+   * @return the {@link AbstractCharSequenceAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> given(StringBuffer actual) {
@@ -1229,7 +1227,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link Class} value to be validated.
-   * @return the {@link AbstractClassAssert} assertion object to be used for validation.
+   * @return the {@link AbstractClassAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static ClassAssert given(Class<?> actual) {
@@ -1263,7 +1261,7 @@ public final class BDDAssumptions {
    *
    * @param <T> the type of the actual object.
    * @param actual the actual object to be validated.
-   * @return the {@link AbstractObjectAssert} assertion object to be used for validation.
+   * @return the {@link AbstractObjectAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static <T> ObjectAssert<T> given(T actual) {
@@ -1293,7 +1291,7 @@ public final class BDDAssumptions {
    *
    * @param <T> the type of elements of the actual objects' array.
    * @param actual the actual objects' array to be validated..
-   * @return the {@link AbstractObjectArrayAssert} assertion object to be used for validation.
+   * @return the {@link AbstractObjectArrayAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static <T> ObjectArrayAssert<T> given(T[] actual) {
@@ -1323,7 +1321,7 @@ public final class BDDAssumptions {
    *
    * @param <T> the type of elements of the actual objects' two-dimensional array.
    * @param actual the actual objects' two-dimensional array to be validated..
-   * @return the {@link Object2DArrayAssert} assertion object to be used for validation.
+   * @return the {@link Object2DArrayAssert} assertion object to be used for assumptions.
    * @since 3.17.0
    */
   public static <T> Object2DArrayAssert<T> given(T[][] actual) {
@@ -1346,7 +1344,7 @@ public final class BDDAssumptions {
    *
    * @param <T> the type of the actual object.
    * @param actual the actual object to be validated.
-   * @return the {@link AbstractObjectAssert} assertion object to be used for validation.
+   * @return the {@link AbstractObjectAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static <T> ObjectAssert<T> givenObject(T actual) {
@@ -1383,11 +1381,26 @@ public final class BDDAssumptions {
    *
    * @param <T> the type of the actual comparable value.
    * @param actual the actual {@link Comparable} value to be validated.
-   * @return the {@link AbstractComparableAssert} assertion object to be used for validation.
+   * @return the {@link AbstractComparableAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> given(T actual) {
     return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance of a <code>{@link Comparable}</code> value.
+   * <p>
+   * Use this over {@link #given(Comparable)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>given</code> for.
+   *
+   * @param <T> the type of elements.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.23.0
+   */
+  public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> givenComparable(T actual) {
+    return given(actual);
   }
 
   /**
@@ -1413,11 +1426,94 @@ public final class BDDAssumptions {
    *
    * @param <T> the type of the actual throwable.
    * @param actual the actual {@link Throwable} value to be validated.
-   * @return the {@link AbstractThrowableAssert} assertion object to be used for validation.
+   * @return the {@link AbstractThrowableAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static <T extends Throwable> AbstractThrowableAssert<?, T> given(T actual) {
     return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance for a {@link Throwable} value.
+   *
+   * @param <T> the exception type.
+   * @param exceptionType the exception type class.
+   * @return the created {@link ThrowableTypeAssert}.
+   * @since 3.23.0
+   */
+  public static <T extends Throwable> ThrowableTypeAssert<T> givenExceptionOfType(final Class<? extends T> exceptionType) {
+    return assumeThatExceptionOfType(exceptionType);
+  }
+
+  /**
+   * Alias for {@link #givenExceptionOfType(Class)} for {@link Exception}.
+   *
+   * @return the {@link ThrowableAssert} assertion object to be used for assumptions.
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<Exception> givenException() {
+    return assumeThatException();
+  }
+
+  /**
+   * Alias for {@link #givenExceptionOfType(Class)} for {@link RuntimeException}.
+   *
+   * @return the {@link ThrowableAssert} assertion object to be used for assumptions.
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<RuntimeException> givenRuntimeException() {
+    return assumeThatRuntimeException();
+  }
+
+  /**
+   * Alias for {@link #givenExceptionOfType(Class)} for {@link NullPointerException}.
+   *
+   * @return the {@link ThrowableAssert} assertion object to be used for assumptions.
+   *
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<NullPointerException> givenNullPointerException() {
+    return assumeThatNullPointerException();
+  }
+
+  /**
+   * Alias for {@link #givenExceptionOfType(Class)} for {@link IllegalArgumentException}.
+   *
+   * @return the {@link ThrowableAssert} assertion object to be used for assumptions.
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<IllegalArgumentException> givenIllegalArgumentException() {
+    return assumeThatIllegalArgumentException();
+  }
+
+  /**
+   * Alias for {@link #givenExceptionOfType(Class)} for {@link IOException}.
+   *
+   * @return the {@link ThrowableAssert} assertion object to be used for assumptions.
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<IOException> givenIOException() {
+    return assumeThatIOException();
+  }
+
+  /**
+   * Alias for {@link #givenExceptionOfType(Class)} for {@link IndexOutOfBoundsException}.
+   *
+   * @return the {@link ThrowableAssert} assertion object to be used for assumptions.
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<IndexOutOfBoundsException> givenIndexOutOfBoundsException() {
+    return assumeThatIndexOutOfBoundsException();
+  }
+
+  /**
+   * Alias for {@link #givenExceptionOfType(Class)} for {@link ReflectiveOperationException}.
+   *
+   * @return the {@link ThrowableAssert} assertion object to be used for assumptions.
+   * @since 3.23.0
+   */
+  public static ThrowableTypeAssert<ReflectiveOperationException> givenReflectiveOperationException() {
+    return assumeThatReflectiveOperationException();
   }
 
   /**
@@ -1462,7 +1558,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param lambda the {@link ThrowingCallable} or lambda with the code that may raise a throwable to be validated.
-   * @return the {@link AbstractThrowableAssert} assertion object to be used for validation.
+   * @return the {@link AbstractThrowableAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractThrowableAssert<?, ? extends Throwable> givenCode(ThrowingCallable lambda) {
@@ -1492,11 +1588,26 @@ public final class BDDAssumptions {
    *
    * @param <ELEMENT> the type of elements of actual iterable value.
    * @param actual the actual {@link Iterable} value to be validated.
-   * @return the {@link AbstractIterableAssert} assertion object to be used for validation.
+   * @return the {@link AbstractIterableAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static <ELEMENT> IterableAssert<ELEMENT> given(Iterable<? extends ELEMENT> actual) {
     return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance of an <code>{@link Iterable}</code> value.
+   * <p>
+   * Use this over {@link #given(Iterable)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>given</code> for.
+   *
+   * @param <ELEMENT> the type of elements of actual iterable value.
+   * @param actual the actual {@link Iterable} value to be validated.
+   * @return the {@link AbstractIterableAssert} assertion object to be used for assumptions.
+   * @since 3.23.0
+   */
+  public static <ELEMENT> IterableAssert<ELEMENT> givenIterable(Iterable<? extends ELEMENT> actual) {
+    return given(actual);
   }
 
   /**
@@ -1522,11 +1633,26 @@ public final class BDDAssumptions {
    *
    * @param <ELEMENT> the type of elements of actual iterator value.
    * @param actual the actual {@link Iterator} value to be validated.
-   * @return the {@link AbstractIteratorAssert} assertion object to be used for validation.
+   * @return the {@link AbstractIteratorAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static <ELEMENT> IteratorAssert<ELEMENT> given(Iterator<? extends ELEMENT> actual) {
     return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance of an <code>{@link Iterator}</code> value.
+   * <p>
+   * Use this over {@link #given(Iterator)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>given</code> for.
+   *
+   * @param <ELEMENT> the type of elements of actual iterable value.
+   * @param actual the actual {@link Iterator} value to be validated.
+   * @return the {@link AbstractIteratorAssert} assertion object to be used for assumptions.
+   * @since 3.23.0
+   */
+  public static <ELEMENT> IteratorAssert<ELEMENT> givenIterator(Iterator<? extends ELEMENT> actual) {
+    return given(actual);
   }
 
   /**
@@ -1540,6 +1666,21 @@ public final class BDDAssumptions {
    */
   public static <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> given(Collection<? extends E> actual) {
     return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance of a <code>{@link Collection}</code> value.
+   * <p>
+   * Use this over {@link #given(Collection)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>given</code> for.
+   *
+   * @param <E> the type of elements.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.23.0
+   */
+  public static <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> givenCollection(Collection<? extends E> actual) {
+    return given(actual);
   }
 
   /**
@@ -1565,11 +1706,26 @@ public final class BDDAssumptions {
    *
    * @param <ELEMENT> the type of elements of actual list value.
    * @param actual the actual {@link List} value to be validated.
-   * @return the {@link AbstractListAssert} assertion object to be used for validation.
+   * @return the {@link AbstractListAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static <ELEMENT> FactoryBasedNavigableListAssert<ListAssert<ELEMENT>, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> given(List<? extends ELEMENT> actual) {
     return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance of a <code>{@link List}</code> value.
+   * <p>
+   * Use this over {@link #given(List)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>given</code> for.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the {@link AbstractListAssert} assertion object to be used for assumptions.
+   * @since 3.23.0
+   */
+  public static <ELEMENT> FactoryBasedNavigableListAssert<ListAssert<ELEMENT>, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> givenList(List<? extends ELEMENT> actual) {
+    return given(actual);
   }
 
   /**
@@ -1596,7 +1752,7 @@ public final class BDDAssumptions {
    * @param <K> the type of keys in the actual map value.
    * @param <V> the type of values in the actual map value.
    * @param actual the actual {@link Map} value to be validated.
-   * @return the {@link AbstractMapAssert} assertion object to be used for validation.
+   * @return the {@link AbstractMapAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static <K, V> MapAssert<K, V> given(Map<K, V> actual) {
@@ -1626,11 +1782,26 @@ public final class BDDAssumptions {
    *
    * @param <T> the type of the value contained in the actual predicate value.
    * @param actual the actual {@link Predicate} value to be validated.
-   * @return the {@link AbstractPredicateAssert} assertion object to be used for validation.
+   * @return the {@link AbstractPredicateAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static <T> PredicateAssert<T> given(Predicate<T> actual) {
     return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance of a <code>{@link Predicate}</code> value.
+   * <p>
+   * Use this over {@link #given(Predicate)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>given</code> for.
+   *
+   * @param <T> the type of elements.
+   * @param actual the actual value.
+   * @return the {@link AbstractPredicateAssert} assertion object to be used for assumptions.
+   * @since 3.23.0
+   */
+  public static <T> PredicateAssert<T> givenPredicate(Predicate<T> actual) {
+    return given(actual);
   }
 
   /**
@@ -1655,7 +1826,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link IntPredicate} value to be validated.
-   * @return the {@link IntPredicateAssert} assertion object to be used for validation.
+   * @return the {@link IntPredicateAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static IntPredicateAssert given(IntPredicate actual) {
@@ -1684,7 +1855,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link LongPredicate} value to be validated.
-   * @return the {@link LongPredicateAssert} assertion object to be used for validation.
+   * @return the {@link LongPredicateAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static LongPredicateAssert given(LongPredicate actual) {
@@ -1713,7 +1884,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link DoublePredicate} value to be validated.
-   * @return the {@link DoublePredicateAssert} assertion object to be used for validation.
+   * @return the {@link DoublePredicateAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static DoublePredicateAssert given(DoublePredicate actual) {
@@ -1743,7 +1914,7 @@ public final class BDDAssumptions {
    *
    * @param <VALUE> the type of the value contained in the actual optional value.
    * @param actual the actual {@link Optional} value to be validated.
-   * @return the {@link OptionalAssert} assertion object to be used for validation.
+   * @return the {@link OptionalAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static <VALUE> OptionalAssert<VALUE> given(Optional<VALUE> actual) {
@@ -1772,7 +1943,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link OptionalInt} value to be validated.
-   * @return the {@link OptionalIntAssert} assertion object to be used for validation.
+   * @return the {@link OptionalIntAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static OptionalIntAssert given(OptionalInt actual) {
@@ -1784,7 +1955,7 @@ public final class BDDAssumptions {
    * <p>
    *
    * @param actual the actual {@link Matcher} value to be validated.
-   * @return the {@link Matcher} assertion object to be used for validation.
+   * @return the {@link Matcher} assertion object to be used for assumptions.
    */
   public static MatcherAssert given(Matcher actual) {
     return assumeThat(actual);
@@ -1812,7 +1983,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link OptionalLong} value to be validated.
-   * @return the {@link OptionalLongAssert} assertion object to be used for validation.
+   * @return the {@link OptionalLongAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static OptionalLongAssert given(OptionalLong actual) {
@@ -1841,7 +2012,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link OptionalDouble} value to be validated.
-   * @return the {@link OptionalDoubleAssert} assertion object to be used for validation.
+   * @return the {@link OptionalDoubleAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static OptionalDoubleAssert given(OptionalDouble actual) {
@@ -1871,11 +2042,26 @@ public final class BDDAssumptions {
    *
    * @param <ELEMENT> the type of the value contained in the actual stream value.
    * @param actual the actual {@link Stream} value to be validated.
-   * @return the {@link AbstractListAssert} assertion object to be used for validation.
+   * @return the {@link AbstractListAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> given(Stream<? extends ELEMENT> actual) {
     return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance of a <code>{@link Stream}</code> value.
+   * <p>
+   * Use this over {@link #given(Stream)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>given</code> for.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual {@link Stream} value to be validated.
+   * @return the {@link AbstractListAssert} assertion object to be used for assumptions.
+   * @since 3.23.0
+   */
+  public static <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> givenStream(Stream<? extends ELEMENT> actual) {
+    return given(actual);
   }
 
   /**
@@ -1900,7 +2086,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link IntStream} value to be validated.
-   * @return the {@link AbstractListAssert} assertion object to be used for validation.
+   * @return the {@link AbstractListAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> given(IntStream actual) {
@@ -1929,7 +2115,7 @@ public final class BDDAssumptions {
    *
    * @param <ELEMENT> the type of the elements
    * @param actual the actual {@link Spliterator} value to be validated.
-   * @return the {@link AbstractSpliteratorAssert} assertion object to be used for validation.
+   * @return the {@link AbstractSpliteratorAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static <ELEMENT> AbstractSpliteratorAssert<?, ELEMENT> given(Spliterator<ELEMENT> actual) {
@@ -1958,7 +2144,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link LongStream} value to be validated.
-   * @return the {@link AbstractListAssert} assertion object to be used for validation.
+   * @return the {@link AbstractListAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> given(LongStream actual) {
@@ -1987,7 +2173,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link DoubleStream} value to be validated.
-   * @return the {@link AbstractListAssert} assertion object to be used for validation.
+   * @return the {@link AbstractListAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> given(DoubleStream actual) {
@@ -2017,7 +2203,7 @@ public final class BDDAssumptions {
    *
    * @param <RESULT> the type of the value contained in the actual future value.
    * @param future the {@link Future} value to be validated.
-   * @return the {@link AbstractFutureAssert} assertion object to be used for validation.
+   * @return the {@link AbstractFutureAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static <RESULT> AbstractFutureAssert<?, ? extends Future<? extends RESULT>, RESULT> given(Future<RESULT> future) {
@@ -2047,7 +2233,7 @@ public final class BDDAssumptions {
    *
    * @param <RESULT> the type of the value contained in the actual future value.
    * @param future the {@link CompletableFuture} value to be validated.
-   * @return the {@link AbstractCompletableFutureAssert} assertion object to be used for validation.
+   * @return the {@link AbstractCompletableFutureAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static <RESULT> CompletableFutureAssert<RESULT> given(CompletableFuture<RESULT> future) {
@@ -2080,7 +2266,7 @@ public final class BDDAssumptions {
    *
    * @param <RESULT> the type of the value contained in the actual future value.
    * @param stage the {@link CompletionStage} value to be validated.
-   * @return the {@link AbstractCompletableFutureAssert} assertion object to be used for validation.
+   * @return the {@link AbstractCompletableFutureAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static <RESULT> CompletableFutureAssert<RESULT> given(CompletionStage<RESULT> stage) {
@@ -2109,7 +2295,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link AtomicBoolean} value to be validated.
-   * @return the {@link AtomicBooleanAssert} assertion object to be used for validation.
+   * @return the {@link AtomicBooleanAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AtomicBooleanAssert given(AtomicBoolean actual) {
@@ -2138,7 +2324,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link AtomicInteger} value to be validated.
-   * @return the {@link AtomicIntegerAssert} assertion object to be used for validation.
+   * @return the {@link AtomicIntegerAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AtomicIntegerAssert given(AtomicInteger actual) {
@@ -2167,7 +2353,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link AtomicIntegerArray} value to be validated.
-   * @return the {@link AtomicIntegerArrayAssert} assertion object to be used for validation.
+   * @return the {@link AtomicIntegerArrayAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AtomicIntegerArrayAssert given(AtomicIntegerArray actual) {
@@ -2207,7 +2393,7 @@ public final class BDDAssumptions {
    *
    * @param <OBJECT> the type of the object holding the updatable field which gets updated by the the actual value.
    * @param actual the actual {@link AtomicIntegerFieldUpdater} value to be validated.
-   * @return the {@link AtomicIntegerFieldUpdaterAssert} assertion object to be used for validation.
+   * @return the {@link AtomicIntegerFieldUpdaterAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> given(AtomicIntegerFieldUpdater<OBJECT> actual) {
@@ -2236,7 +2422,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link LongAdder} value to be validated.
-   * @return the {@link LongAdderAssert} assertion object to be used for validation.
+   * @return the {@link LongAdderAssert} assertion object to be used for assumptions.
    * @since 3.16.0
    */
   public static LongAdderAssert given(LongAdder actual) {
@@ -2265,7 +2451,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link AtomicLong} value to be validated.
-   * @return the {@link AtomicLongAssert} assertion object to be used for validation.
+   * @return the {@link AtomicLongAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AtomicLongAssert given(AtomicLong actual) {
@@ -2294,7 +2480,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link AtomicLongArray} value to be validated.
-   * @return the {@link AtomicLongArrayAssert} assertion object to be used for validation.
+   * @return the {@link AtomicLongArrayAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AtomicLongArrayAssert given(AtomicLongArray actual) {
@@ -2334,7 +2520,7 @@ public final class BDDAssumptions {
    *
    * @param <OBJECT> the type of the object holding the updatable field which gets updated by the the actual value.
    * @param actual the actual {@link AtomicLongFieldUpdater} value to be validated.
-   * @return the {@link AtomicLongFieldUpdaterAssert} assertion object to be used for validation.
+   * @return the {@link AtomicLongFieldUpdaterAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> given(AtomicLongFieldUpdater<OBJECT> actual) {
@@ -2364,7 +2550,7 @@ public final class BDDAssumptions {
    *
    * @param <VALUE> the type of the value contained by the actual reference.
    * @param actual the actual {@link AtomicReference} to be validated.
-   * @return the {@link AtomicReferenceAssert} assertion object to be used for validation.
+   * @return the {@link AtomicReferenceAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static <VALUE> AtomicReferenceAssert<VALUE> given(AtomicReference<VALUE> actual) {
@@ -2394,7 +2580,7 @@ public final class BDDAssumptions {
    *
    * @param <ELEMENT> the type of the value contained in the actual references' array.
    * @param actual the actual {@link AtomicReferenceArray} to be validated.
-   * @return the {@link AtomicReferenceArrayAssert} assertion object to be used for validation.
+   * @return the {@link AtomicReferenceArrayAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> given(AtomicReferenceArray<ELEMENT> actual) {
@@ -2435,7 +2621,7 @@ public final class BDDAssumptions {
    * @param <FIELD> the type of the field which gets updated by the the actual updater.
    * @param <OBJECT> the type of the object holding the updatable field which gets updated by the the actual updater.
    * @param actual the actual {@link AtomicReferenceFieldUpdater} value to be validated.
-   * @return the {@link AtomicReferenceFieldUpdaterAssert} assertion object to be used for validation.
+   * @return the {@link AtomicReferenceFieldUpdaterAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> given(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
@@ -2465,7 +2651,7 @@ public final class BDDAssumptions {
    *
    * @param <VALUE> the type of the value contained by the actual reference.
    * @param actual the actual {@link AtomicMarkableReference} to be validated.
-   * @return the {@link AtomicMarkableReferenceAssert} assertion object to be used for validation.
+   * @return the {@link AtomicMarkableReferenceAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static <VALUE> AtomicMarkableReferenceAssert<VALUE> given(AtomicMarkableReference<VALUE> actual) {
@@ -2495,7 +2681,7 @@ public final class BDDAssumptions {
    *
    * @param <VALUE> the type of the value contained by the actual reference.
    * @param actual the actual {@link AtomicStampedReference} to be validated.
-   * @return the {@link AtomicStampedReferenceAssert} assertion object to be used for validation.
+   * @return the {@link AtomicStampedReferenceAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static <VALUE> AtomicStampedReferenceAssert<VALUE> given(AtomicStampedReference<VALUE> actual) {
@@ -2524,7 +2710,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link Date} value to be validated.
-   * @return the {@link AbstractDateAssert} assertion object to be used for validation.
+   * @return the {@link AbstractDateAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractDateAssert<?> given(Date actual) {
@@ -2553,7 +2739,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link LocalDate} value to be validated.
-   * @return the {@link AbstractLocalDateAssert} assertion object to be used for validation.
+   * @return the {@link AbstractLocalDateAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractLocalDateAssert<?> given(LocalDate actual) {
@@ -2582,7 +2768,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link LocalTime} value to be validated.
-   * @return the {@link AbstractLocalTimeAssert} assertion object to be used for validation.
+   * @return the {@link AbstractLocalTimeAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractLocalTimeAssert<?> given(LocalTime actual) {
@@ -2611,7 +2797,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link OffsetTime} value to be validated.
-   * @return the {@link AbstractOffsetTimeAssert} assertion object to be used for validation.
+   * @return the {@link AbstractOffsetTimeAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractOffsetTimeAssert<?> given(OffsetTime actual) {
@@ -2640,7 +2826,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link LocalDateTime} value to be validated.
-   * @return the {@link AbstractLocalDateTimeAssert} assertion object to be used for validation.
+   * @return the {@link AbstractLocalDateTimeAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractLocalDateTimeAssert<?> given(LocalDateTime actual) {
@@ -2669,7 +2855,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link Instant} value to be validated.
-   * @return the {@link AbstractInstantAssert} assertion object to be used for validation.
+   * @return the {@link AbstractInstantAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractInstantAssert<?> given(Instant actual) {
@@ -2720,7 +2906,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link OffsetDateTime} value to be validated.
-   * @return the {@link AbstractOffsetDateTimeAssert} assertion object to be used for validation.
+   * @return the {@link AbstractOffsetDateTimeAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractOffsetDateTimeAssert<?> given(OffsetDateTime actual) {
@@ -2749,7 +2935,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link ZonedDateTime} value to be validated.
-   * @return the {@link AbstractZonedDateTimeAssert} assertion object to be used for validation.
+   * @return the {@link AbstractZonedDateTimeAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractZonedDateTimeAssert<?> given(ZonedDateTime actual) {
@@ -2778,7 +2964,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link InputStream} value to be validated.
-   * @return the {@link AbstractInputStreamAssert} assertion object to be used for validation.
+   * @return the {@link AbstractInputStreamAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractInputStreamAssert<?, ? extends InputStream> given(InputStream actual) {
@@ -2807,7 +2993,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link File} value to be validated.
-   * @return the {@link AbstractFileAssert} assertion object to be used for validation.
+   * @return the {@link AbstractFileAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractFileAssert<?> given(File actual) {
@@ -2836,11 +3022,25 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link Path} value to be validated.
-   * @return the {@link AbstractPathAssert} assertion object to be used for validation.
+   * @return the {@link AbstractPathAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractPathAssert<?> given(Path actual) {
     return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance of a <code>{@link Path}</code> value.
+   * <p>
+   * Use this over {@link #given(Path)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>given</code> for.
+   *
+   * @param actual the actual {@link Path} value to be validated.
+   * @return the {@link AbstractPathAssert} assertion object to be used for assumptions.
+   * @since 3.23.0
+   */
+  public static AbstractPathAssert<?> givenPath(Path actual) {
+    return given(actual);
   }
 
   /**
@@ -2865,7 +3065,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link URI} value to be validated.
-   * @return the {@link AbstractUriAssert} assertion object to be used for validation.
+   * @return the {@link AbstractUriAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractUriAssert<?> given(URI actual) {
@@ -2894,7 +3094,7 @@ public final class BDDAssumptions {
    *}</code></pre>
    *
    * @param actual the actual {@link URL} value to be validated.
-   * @return the {@link AbstractUrlAssert} assertion object to be used for validation.
+   * @return the {@link AbstractUrlAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
   public static AbstractUrlAssert<?> given(URL actual) {
