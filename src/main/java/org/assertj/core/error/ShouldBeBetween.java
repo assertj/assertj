@@ -18,8 +18,8 @@ import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
 
 /**
- * Creates an error message indicating that an assertion that verifies that a {@link Date} is between start - end dates (inclusive
- * or not) failed.
+ * Creates an error message indicating that an assertion that verifies that a value is between a start and an end
+ * (inclusive or not) failed.
  *
  * @author Joel Costigliola
  */
@@ -65,7 +65,9 @@ public class ShouldBeBetween extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <T> ErrorMessageFactory shouldBeBetween(T actual, T start, T end, boolean inclusiveStart, boolean inclusiveEnd,
+  public static <T> ErrorMessageFactory shouldBeBetween(Comparable<? super T> actual,
+                                                        Comparable<? super T> start, Comparable<? super T> end,
+                                                        boolean inclusiveStart, boolean inclusiveEnd,
                                                         ComparisonStrategy comparisonStrategy) {
     return new ShouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, comparisonStrategy);
   }
@@ -80,7 +82,9 @@ public class ShouldBeBetween extends BasicErrorMessageFactory {
    * @param inclusiveEnd whether to include end value in range.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <T> ErrorMessageFactory shouldBeBetween(T actual, T start, T end, boolean inclusiveStart, boolean inclusiveEnd) {
+  public static <T> ErrorMessageFactory shouldBeBetween(Comparable<? super T> actual,
+                                                        Comparable<? super T> start, Comparable<? super T> end,
+                                                        boolean inclusiveStart, boolean inclusiveEnd) {
     return new ShouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, StandardComparisonStrategy.instance());
   }
 
@@ -95,4 +99,5 @@ public class ShouldBeBetween extends BasicErrorMessageFactory {
     super("%nExpecting actual:%n  %s%nto be between:%n  " + (inclusiveStart ? '[' : ']')
           + "%s, %s" + (inclusiveEnd ? ']' : '[') + "%n%s", actual, start, end, comparisonStrategy);
   }
+
 }

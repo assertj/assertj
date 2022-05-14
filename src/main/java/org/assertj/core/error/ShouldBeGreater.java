@@ -49,7 +49,7 @@ public class ShouldBeGreater extends BasicErrorMessageFactory {
     return new ShouldBeGreater(actual, other, comparisonStrategy);
   }
 
-  private <T> ShouldBeGreater(Comparable<? super T> actual, Comparable<? super T> other, ComparisonStrategy comparisonStrategy) {
+  private <T> ShouldBeGreater(T actual, T other, ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nto be greater than:%n  %s%n%s", actual, other, comparisonStrategy);
   }
 
