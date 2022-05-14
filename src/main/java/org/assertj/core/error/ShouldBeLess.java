@@ -30,7 +30,7 @@ public class ShouldBeLess extends BasicErrorMessageFactory {
    * @param other the value used in the failed assertion to compare the actual value to.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <T> ErrorMessageFactory shouldBeLess(T actual, T other) {
+  public static <T> ErrorMessageFactory shouldBeLess(Comparable<? super T> actual, Comparable<? super T> other) {
     return new ShouldBeLess(actual, other, StandardComparisonStrategy.instance());
   }
 
@@ -42,11 +42,13 @@ public class ShouldBeLess extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <T> ErrorMessageFactory shouldBeLess(T actual, T other, ComparisonStrategy comparisonStrategy) {
+  public static <T> ErrorMessageFactory shouldBeLess(Comparable<? super T> actual, Comparable<? super T> other,
+                                                     ComparisonStrategy comparisonStrategy) {
     return new ShouldBeLess(actual, other, comparisonStrategy);
   }
 
   private <T> ShouldBeLess(T actual, T other, ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nto be less than:%n  %s %s", actual, other, comparisonStrategy);
   }
+
 }
