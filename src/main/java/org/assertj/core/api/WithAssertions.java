@@ -721,7 +721,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
-   * Creates a new instance of <code>{@link GenericComparableAssert}</code> with standard comparison semantics.
+   * Creates a new instance of <code>{@link UniversalComparableAssert}</code> with standard comparison semantics.
    * <p>
    * Use this over {@link #assertThat(Comparable)} in case of ambiguous method resolution when the object under test 
    * implements several interfaces Assertj provides <code>assertThat</code> for. 

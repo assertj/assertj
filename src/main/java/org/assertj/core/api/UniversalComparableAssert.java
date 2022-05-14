@@ -13,7 +13,13 @@
 package org.assertj.core.api;
 
 /**
- * Concrete universal comparable assertions to be used through {@link Assertions#assertThatComparable(Comparable)}.
+ * {@link Comparable} assertions.
+ * <p>
+ * This class offers better compatibility than {@link ComparableAssert} and related implementations, currently limited
+ * due to the upper bound of {@link ComparableAssert}'s type parameters.
+ *
+ * @see Assertions#assertThatComparable(Comparable)
+ * @since 3.23.0
  */
 public class UniversalComparableAssert<T> extends AbstractUniversalComparableAssert<UniversalComparableAssert<T>, T> {
 

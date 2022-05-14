@@ -990,6 +990,9 @@ public class Assumptions {
 
   /**
    * Creates a new instance of <code>{@link UniversalComparableAssert}</code> assumption.
+   * <p>
+   * Use this over {@link #assumeThat(Comparable)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assumeThat</code> for.
    *
    * @param <T> the type of actual.
    * @param actual the actual value.
