@@ -382,8 +382,8 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   }
 
   /**
-   * Verifies that the path file system is the same as the given file system.
-   *
+   * Verifies that the path has the given file system.
+   * <p>
    * Examples:
    * <pre><code class="java"> Path jarFile = Paths.get("assertj-core.jar");
    * FileSystem mainFileSystem = jarFile.getFileSystem();
@@ -402,6 +402,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given {@code FileSystem} is {@code null}.
    * @throws AssertionError if the actual {@code FileSystem} is {@code null}.
+   * @since 3.23.0
    */
   public SELF hasFileSystem(FileSystem expected) {
     paths.assertHasFileSystem(info, actual, expected);
@@ -428,6 +429,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given {@code Path} is {@code null}.
    * @throws AssertionError if the actual {@code Path} is {@code null}.
+   * @since 3.23.0
    */
   public SELF hasSameFileSystemAs(Path expected) {
     paths.assertHasSameFileSystemAs(info, actual, expected);

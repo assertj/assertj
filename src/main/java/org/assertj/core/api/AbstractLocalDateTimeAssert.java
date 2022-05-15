@@ -902,10 +902,10 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * <p>
    * Example:
    * <pre><code class='java'> // Assertion succeeds:
-   * assertThat(LocalDateTime.of(2021, 12, 31, 23, 59, 00)).hasSecond(59);
+   * assertThat(LocalDateTime.of(2021, 12, 31, 23, 59, 00)).hasSecond(00);
    *
    * // Assertion fails:
-   * assertThat(LocalDateTime.of(2021, 12, 31, 23, 59, 00)).hasSecond(58);</code></pre>
+   * assertThat(LocalDateTime.of(2021, 12, 31, 23, 59, 00)).hasSecond(17);</code></pre>
    *
    * @param second the given second.
    * @return this assertion object.
