@@ -641,11 +641,7 @@ public class RecursiveComparisonConfiguration {
   }
 
   boolean shouldIgnore(DualValue dualValue) {
-    FieldLocation fieldLocation = dualValue.fieldLocation;
-    return !shouldBeCompared(fieldLocation)
-           || matchesAnIgnoredField(fieldLocation)
-           || matchesAnIgnoredFieldRegex(fieldLocation)
-           || shouldIgnoreFieldBasedOnFieldValue(dualValue);
+    return shouldIgnoreFieldBasedOnFieldLocation(dualValue.fieldLocation) || shouldIgnoreFieldBasedOnFieldValue(dualValue);
   }
 
   private boolean shouldBeCompared(FieldLocation fieldLocation) {
@@ -663,7 +659,7 @@ public class RecursiveComparisonConfiguration {
                             || field.hasChild(comparedField); // ex: field "name" and "name.first" compared field
   }
 
-  Set<String> getNonIgnoredActualFieldNames(DualValue dualValue) {
+  Set<String> getActualFieldNamesToCompare(DualValue dualValue) {
     Set<String> actualFieldsNames = Objects.getFieldsNames(dualValue.actual.getClass());
     // we are doing the same as shouldIgnore(DualValue dualValue) but in two steps for performance reasons:
     // - we filter first ignored field by names that don't need building DualValues
@@ -690,7 +686,7 @@ public class RecursiveComparisonConfiguration {
   }
 
   private boolean shouldIgnoreFieldBasedOnFieldLocation(FieldLocation fieldLocation) {
-    return matchesAnIgnoredField(fieldLocation) || matchesAnIgnoredFieldRegex(fieldLocation);
+    return !shouldBeCompared(fieldLocation) || matchesAnIgnoredField(fieldLocation) || matchesAnIgnoredFieldRegex(fieldLocation);
   }
 
   private static DualValue dualValueForField(DualValue parentDualValue, String fieldName) {

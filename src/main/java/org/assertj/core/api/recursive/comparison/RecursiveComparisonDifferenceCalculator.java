@@ -124,14 +124,14 @@ public class RecursiveComparisonDifferenceCalculator {
         // disregard the equals method and start comparing fields
         // TODO should fail if actual and expected don't have the same fields to compare (taking into account ignored/compared
         // fields)
-        Set<String> nonIgnoredActualFieldsNames = recursiveComparisonConfiguration.getNonIgnoredActualFieldNames(dualValue);
-        if (!nonIgnoredActualFieldsNames.isEmpty()) {
+        Set<String> actualFieldNamesToCompare = recursiveComparisonConfiguration.getActualFieldNamesToCompare(dualValue);
+        if (!actualFieldNamesToCompare.isEmpty()) {
           // fields to ignore are evaluated when adding their corresponding dualValues to dualValuesToCompare which filters
           // ignored fields according to recursiveComparisonConfiguration
           Set<String> expectedFieldsNames = getFieldsNames(expected.getClass());
-          if (expectedFieldsNames.containsAll(nonIgnoredActualFieldsNames)) {
+          if (expectedFieldsNames.containsAll(actualFieldNamesToCompare)) {
             // we compare actual fields vs expected, ignoring expected additional fields
-            for (String nonIgnoredActualFieldName : nonIgnoredActualFieldsNames) {
+            for (String nonIgnoredActualFieldName : actualFieldNamesToCompare) {
               DualValue fieldDualValue = new DualValue(fieldLocation.field(nonIgnoredActualFieldName),
                                                        COMPARISON.getSimpleValue(nonIgnoredActualFieldName, actual),
                                                        COMPARISON.getSimpleValue(nonIgnoredActualFieldName, expected));
@@ -322,7 +322,7 @@ public class RecursiveComparisonDifferenceCalculator {
         continue;
       }
 
-      Set<String> actualNonIgnoredFieldsNames = recursiveComparisonConfiguration.getNonIgnoredActualFieldNames(dualValue);
+      Set<String> actualNonIgnoredFieldsNames = recursiveComparisonConfiguration.getActualFieldNamesToCompare(dualValue);
       Set<String> expectedFieldsNames = getFieldsNames(expectedFieldClass);
       // Check if expected has more fields than actual, in that case the additional fields are reported as difference
       if (!expectedFieldsNames.containsAll(actualNonIgnoredFieldsNames)) {
