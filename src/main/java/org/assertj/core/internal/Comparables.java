@@ -154,12 +154,10 @@ public class Comparables {
    *           {@code org.junit.ComparisonFailure} instead if JUnit is in the classpath and the expected and actual
    *           values are not equal.
    */
-  @SuppressWarnings("unchecked")
-  public <T> void assertEqualByComparison(AssertionInfo info, Comparable<? super T> actual, Comparable<? super T> expected) {
+  public <T> void assertEqualByComparison(AssertionInfo info, Comparable<? super T> actual, T expected) {
     assertNotNull(info, actual);
     // we don't delegate to comparisonStrategy, as this assertion makes it clear it relies on Comparable
-    // TODO are we sure that any instance of Comparable<? super T> is always a T?
-    if (actual.compareTo((T) expected) != 0) throw failures.failure(info, shouldBeEqual(actual, expected, info.representation()));
+    if (actual.compareTo(expected) != 0) throw failures.failure(info, shouldBeEqual(actual, expected, info.representation()));
   }
 
   /**
@@ -174,12 +172,10 @@ public class Comparables {
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to the other one.
    */
-  @SuppressWarnings("unchecked")
-  public <T> void assertNotEqualByComparison(AssertionInfo info, Comparable<? super T> actual, Comparable<? super T> other) {
+  public <T> void assertNotEqualByComparison(AssertionInfo info, Comparable<? super T> actual, T other) {
     assertNotNull(info, actual);
     // we don't delegate to comparisonStrategy, as this assertion makes it clear it relies on Comparable
-    // TODO are we sure that any instance of Comparable<? super T> is always a T?
-    if (actual.compareTo((T) other) == 0) throw failures.failure(info, shouldNotBeEqual(actual, other));
+    if (actual.compareTo(other) == 0) throw failures.failure(info, shouldNotBeEqual(actual, other));
   }
 
   /**

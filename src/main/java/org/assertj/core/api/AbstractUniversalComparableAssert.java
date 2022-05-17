@@ -81,7 +81,7 @@ public abstract class AbstractUniversalComparableAssert<SELF extends AbstractUni
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal when comparing to the given one.
    */
-  public <C extends Comparable<? super T>> SELF isEqualByComparingTo(C other) {
+  public SELF isEqualByComparingTo(T other) {
     comparables.assertEqualByComparison(info, actual, other);
     return myself;
   }
@@ -104,7 +104,7 @@ public abstract class AbstractUniversalComparableAssert<SELF extends AbstractUni
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal when comparing to the given one.
    */
-  public <C extends Comparable<? super T>> SELF isNotEqualByComparingTo(C other) {
+  public SELF isNotEqualByComparingTo(T other) {
     comparables.assertNotEqualByComparison(info, actual, other);
     return myself;
   }

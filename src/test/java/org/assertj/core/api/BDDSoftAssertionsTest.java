@@ -1973,15 +1973,14 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     Name name3 = new Name("bcd");
     Name name4 = new Name("cde");
     // WHEN/THEN
-    softly.thenComparable(name1).isLessThan(name3);
-    softly.thenComparable(name1).isEqualByComparingTo(name2);
-    softly.thenComparable(name3).isBetween(name1, name4);
-    softly.thenComparable(name3).isStrictlyBetween(name1, name4);
+    softly.thenComparable(name1).isEqualByComparingTo(new Name("abc"));
     softly.thenComparable(name1).isNotEqualByComparingTo(name3);
-    softly.thenComparable(name1).isEqualByComparingTo(name2);
+    softly.thenComparable(name1).isLessThan(name3);
     softly.thenComparable(name1).isLessThanOrEqualTo(name3);
+    softly.thenComparable(name3).isBetween(name1, name4);
     softly.thenComparable(name3).isGreaterThan(name1);
     softly.thenComparable(name3).isGreaterThanOrEqualTo(name1);
+    softly.thenComparable(name3).isStrictlyBetween(name1, name4);
   }
 
 }

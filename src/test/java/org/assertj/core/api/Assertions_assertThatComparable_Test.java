@@ -66,8 +66,8 @@ class Assertions_assertThatComparable_Test {
     Comparable<Name> name3 = new Name("bcd");
     Comparable<Name> name4 = new Name("cde");
     // WHEN/THEN
-    assertThatComparable(name1).isEqualByComparingTo(name2);
-    assertThatComparable(name1).isNotEqualByComparingTo(name3);
+    assertThatComparable(name1).isEqualByComparingTo(new Name("abc"));
+    assertThatComparable(name1).isNotEqualByComparingTo(new Name("bcd"));
     assertThatComparable(name1).isLessThan(name3);
     assertThatComparable(name1).isLessThanOrEqualTo(name3);
     assertThatComparable(name3).isGreaterThan(name1);
@@ -84,8 +84,8 @@ class Assertions_assertThatComparable_Test {
     Comparable<String> name3 = "bcd";
     Comparable<String> name4 = "cde";
     // WHEN/THEN
-    assertThatComparable(name1).isEqualByComparingTo(name2);
-    assertThatComparable(name1).isNotEqualByComparingTo(name3);
+    assertThatComparable(name1).isEqualByComparingTo("abc");
+    assertThatComparable(name1).isNotEqualByComparingTo("bcd");
     assertThatComparable(name1).isLessThan(name3);
     assertThatComparable(name1).isLessThanOrEqualTo(name3);
     assertThatComparable(name3).isGreaterThan(name1);

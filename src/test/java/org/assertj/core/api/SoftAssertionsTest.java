@@ -2677,14 +2677,14 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     Name name3 = new Name("bcd");
     Name name4 = new Name("cde");
     // WHEN/THEN
-    softly.assertThatComparable(name1).isLessThan(name3);
-    softly.assertThatComparable(name1).isEqualByComparingTo(name2);
-    softly.assertThatComparable(name3).isBetween(name1, name4);
-    softly.assertThatComparable(name3).isStrictlyBetween(name1, name4);
+    softly.assertThatComparable(name1).isEqualByComparingTo(new Name("abc"));
     softly.assertThatComparable(name1).isNotEqualByComparingTo(name3);
-    softly.assertThatComparable(name1).isEqualByComparingTo(name2);
+    softly.assertThatComparable(name1).isLessThan(name3);
     softly.assertThatComparable(name1).isLessThanOrEqualTo(name3);
     softly.assertThatComparable(name3).isGreaterThan(name1);
     softly.assertThatComparable(name3).isGreaterThanOrEqualTo(name1);
+    softly.assertThatComparable(name3).isBetween(name1, name4);
+    softly.assertThatComparable(name3).isStrictlyBetween(name1, name4);
   }
+
 }
