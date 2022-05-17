@@ -64,7 +64,9 @@ public class ShouldBeBetween extends BasicErrorMessageFactory {
    * @param inclusiveEnd whether to include end value in range.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
+   * @deprecated Use {@link #shouldBeBetween(Object, Object, Object, boolean, boolean, ComparisonStrategy)} instead.
    */
+  @Deprecated
   public static <T> ErrorMessageFactory shouldBeBetween(Comparable<? super T> actual,
                                                         Comparable<? super T> start, Comparable<? super T> end,
                                                         boolean inclusiveStart, boolean inclusiveEnd,

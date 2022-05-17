@@ -42,7 +42,9 @@ public class ShouldBeGreaterOrEqual extends BasicErrorMessageFactory {
    * @param other the value used in the failed assertion to compare the actual value to.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
+   * @deprecated Use {@link #shouldBeGreaterOrEqual(Object, Object, ComparisonStrategy)} instead.
    */
+  @Deprecated
   public static <T> ErrorMessageFactory shouldBeGreaterOrEqual(Comparable<? super T> actual, Comparable<? super T> other,
                                                                ComparisonStrategy comparisonStrategy) {
     return new ShouldBeGreaterOrEqual(actual, other, comparisonStrategy);
