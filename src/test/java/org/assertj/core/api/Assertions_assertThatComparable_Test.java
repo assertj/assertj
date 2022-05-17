@@ -41,24 +41,21 @@ class Assertions_assertThatComparable_Test {
   }
 
   @Test
-  void all_comparable_assertions_should_work_with_non_generic_comparable() {
+  void all_comparable_assertions_should_work_with_strongly_typed_comparable() {
     // GIVEN
     Name name1 = new Name("abc");
     Name name2 = new Name("abc");
     Name name3 = new Name("bcd");
     Name name4 = new Name("cde");
     // WHEN/THEN
-    assertThatComparable(name3).isBetween(name1, name4);
-    // fail with a class cast exception not great as we can pass any comparable value here
-    // assertThatComparable(name3).isBetween(name1, "");
-    assertThatComparable(name3).isStrictlyBetween(name1, name4);
     assertThatComparable(name1).isEqualByComparingTo(name2);
     assertThatComparable(name1).isNotEqualByComparingTo(name3);
-    assertThatComparable(name1).isEqualByComparingTo(name2);
     assertThatComparable(name1).isLessThan(name3);
     assertThatComparable(name1).isLessThanOrEqualTo(name3);
     assertThatComparable(name3).isGreaterThan(name1);
     assertThatComparable(name3).isGreaterThanOrEqualTo(name1);
+    assertThatComparable(name3).isBetween(name1, name4);
+    assertThatComparable(name3).isStrictlyBetween(name1, name4);
   }
 
   @Test
@@ -69,15 +66,14 @@ class Assertions_assertThatComparable_Test {
     Comparable<Name> name3 = new Name("bcd");
     Comparable<Name> name4 = new Name("cde");
     // WHEN/THEN
-    assertThatComparable(name1).isLessThan(name3);
     assertThatComparable(name1).isEqualByComparingTo(name2);
-    assertThatComparable(name3).isBetween(name1, name4);
-    assertThatComparable(name3).isStrictlyBetween(name1, name4);
     assertThatComparable(name1).isNotEqualByComparingTo(name3);
-    assertThatComparable(name1).isEqualByComparingTo(name2);
+    assertThatComparable(name1).isLessThan(name3);
     assertThatComparable(name1).isLessThanOrEqualTo(name3);
     assertThatComparable(name3).isGreaterThan(name1);
     assertThatComparable(name3).isGreaterThanOrEqualTo(name1);
+    assertThatComparable(name3).isBetween(name1, name4);
+    assertThatComparable(name3).isStrictlyBetween(name1, name4);
   }
 
   @Test
@@ -88,15 +84,14 @@ class Assertions_assertThatComparable_Test {
     Comparable<String> name3 = "bcd";
     Comparable<String> name4 = "cde";
     // WHEN/THEN
-    assertThatComparable(name1).isLessThan(name3);
     assertThatComparable(name1).isEqualByComparingTo(name2);
-    assertThatComparable(name3).isBetween(name1, name4);
-    assertThatComparable(name3).isStrictlyBetween(name1, name4);
     assertThatComparable(name1).isNotEqualByComparingTo(name3);
-    assertThatComparable(name1).isEqualByComparingTo(name2);
+    assertThatComparable(name1).isLessThan(name3);
     assertThatComparable(name1).isLessThanOrEqualTo(name3);
     assertThatComparable(name3).isGreaterThan(name1);
     assertThatComparable(name3).isGreaterThanOrEqualTo(name1);
+    assertThatComparable(name3).isBetween(name1, name4);
+    assertThatComparable(name3).isStrictlyBetween(name1, name4);
   }
 
   @Test
@@ -107,15 +102,14 @@ class Assertions_assertThatComparable_Test {
     CoolName name3 = new CoolName("bcd");
     CoolName name4 = new CoolName("cde");
     // WHEN/THEN
-    assertThatComparable(name3).isBetween(name1, name4);
-    assertThatComparable(name3).isStrictlyBetween(name1, name4);
     assertThatComparable(name1).isEqualByComparingTo(name2);
     assertThatComparable(name1).isNotEqualByComparingTo(name3);
-    assertThatComparable(name1).isEqualByComparingTo(name2);
     assertThatComparable(name1).isLessThan(name3);
     assertThatComparable(name1).isLessThanOrEqualTo(name3);
     assertThatComparable(name3).isGreaterThan(name1);
     assertThatComparable(name3).isGreaterThanOrEqualTo(name1);
+    assertThatComparable(name3).isBetween(name1, name4);
+    assertThatComparable(name3).isStrictlyBetween(name1, name4);
   }
 
   static class CoolName extends Name {
@@ -136,25 +130,6 @@ class Assertions_assertThatComparable_Test {
     // WHEN/THEN
     assertThatComparable(name3).isBetween(name1, name4);
   }
-
-//  @Test
-//  void comparable_assertions_should_work_with_wildcard_comparable() {
-//    // GIVEN
-//    Comparable<?> name1 = new ComparingWithObject();
-//    Comparable<?> name3 = new ComparingWithObject();
-//    Comparable<?> name4 = new ComparingWithObject();
-//    // WHEN/THEN
-//    assertThatComparable(name3).isBetween(name1, name4); // does not compile
-//  }
-//
-//  @Test
-//  void comparable_assertions_should_fail_when_comparing_uncompatible_types() {
-//    // GIVEN
-//    Comparable<?> name1 = new Name("abc");
-//    Comparable<?> name2 = "bcd";
-//    // WHEN/THEN
-//    thenExceptionOfType(ClassCastException.class).isThrownBy(() -> assertThatComparable(name1).isLessThan(name2));  // does not compile
-//  }
 
   @Test
   void comparable_assertions_should_work_with_object_comparable_subclass() {
