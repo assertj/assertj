@@ -126,7 +126,7 @@ public abstract class AbstractUniversalComparableAssert<SELF extends AbstractUni
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to or greater than the given one.
    */
-  public <C extends Comparable<? super T>> SELF isLessThan(C other) {
+  public SELF isLessThan(T other) {
     comparables.assertLessThan(info, actual, other);
     return myself;
   }
@@ -149,7 +149,7 @@ public abstract class AbstractUniversalComparableAssert<SELF extends AbstractUni
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is greater than the given one.
    */
-  public <C extends Comparable<? super T>> SELF isLessThanOrEqualTo(C other) {
+  public SELF isLessThanOrEqualTo(T other) {
     comparables.assertLessThanOrEqualTo(info, actual, other);
     return myself;
   }
@@ -171,7 +171,7 @@ public abstract class AbstractUniversalComparableAssert<SELF extends AbstractUni
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to or less than the given one.
    */
-  public <C extends Comparable<? super T>> SELF isGreaterThan(C other) {
+  public SELF isGreaterThan(T other) {
     comparables.assertGreaterThan(info, actual, other);
     return myself;
   }
@@ -193,7 +193,7 @@ public abstract class AbstractUniversalComparableAssert<SELF extends AbstractUni
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is less than the given one.
    */
-  public <C extends Comparable<? super T>> SELF isGreaterThanOrEqualTo(C other) {
+  public SELF isGreaterThanOrEqualTo(T other) {
     comparables.assertGreaterThanOrEqualTo(info, actual, other);
     return myself;
   }
@@ -219,7 +219,7 @@ public abstract class AbstractUniversalComparableAssert<SELF extends AbstractUni
    * @throws NullPointerException if end value is {@code null}.
    * @throws AssertionError if the actual value is not in [start, end] range.
    */
-  public <C extends Comparable<? super T>> SELF isBetween(C startInclusive, C endInclusive) {
+  public SELF isBetween(T startInclusive, T endInclusive) {
     comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true);
     return myself;
   }
@@ -245,7 +245,7 @@ public abstract class AbstractUniversalComparableAssert<SELF extends AbstractUni
    * @throws NullPointerException if end value is {@code null}.
    * @throws AssertionError if the actual value is not in ]start, end[ range.
    */
-  public <C extends Comparable<? super T>> SELF isStrictlyBetween(C startExclusive, C endExclusive) {
+  public SELF isStrictlyBetween(T startExclusive, T endExclusive) {
     comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false);
     return myself;
   }

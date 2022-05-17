@@ -49,6 +49,18 @@ public class ShouldBeGreater extends BasicErrorMessageFactory {
     return new ShouldBeGreater(actual, other, comparisonStrategy);
   }
 
+  /**
+   * Creates a new <code>{@link ShouldBeGreater}</code>.
+   *
+   * @param actual the actual value in the failed assertion.
+   * @param other the value used in the failed assertion to compare the actual value to.
+   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldBeGreater(Object actual, Object other, ComparisonStrategy comparisonStrategy) {
+    return new ShouldBeGreater(actual, other, comparisonStrategy);
+  }
+
   private <T> ShouldBeGreater(T actual, T other, ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nto be greater than:%n  %s%n%s", actual, other, comparisonStrategy);
   }

@@ -68,12 +68,12 @@ class Assertions_assertThatComparable_Test {
     // WHEN/THEN
     assertThatComparable(name1).isEqualByComparingTo(new Name("abc"));
     assertThatComparable(name1).isNotEqualByComparingTo(new Name("bcd"));
-    assertThatComparable(name1).isLessThan(name3);
-    assertThatComparable(name1).isLessThanOrEqualTo(name3);
-    assertThatComparable(name3).isGreaterThan(name1);
-    assertThatComparable(name3).isGreaterThanOrEqualTo(name1);
-    assertThatComparable(name3).isBetween(name1, name4);
-    assertThatComparable(name3).isStrictlyBetween(name1, name4);
+    assertThatComparable(name1).isLessThan(new Name("bcd"));
+    assertThatComparable(name1).isLessThanOrEqualTo(new Name("bcd"));
+    assertThatComparable(name3).isGreaterThan(new Name("abc"));
+    assertThatComparable(name3).isGreaterThanOrEqualTo(new Name("abc"));
+    assertThatComparable(name3).isBetween(new Name("abc"), new Name("cde"));
+    assertThatComparable(name3).isStrictlyBetween(new Name("abc"), new Name("cde"));
   }
 
   @Test
@@ -86,12 +86,12 @@ class Assertions_assertThatComparable_Test {
     // WHEN/THEN
     assertThatComparable(name1).isEqualByComparingTo("abc");
     assertThatComparable(name1).isNotEqualByComparingTo("bcd");
-    assertThatComparable(name1).isLessThan(name3);
-    assertThatComparable(name1).isLessThanOrEqualTo(name3);
-    assertThatComparable(name3).isGreaterThan(name1);
-    assertThatComparable(name3).isGreaterThanOrEqualTo(name1);
-    assertThatComparable(name3).isBetween(name1, name4);
-    assertThatComparable(name3).isStrictlyBetween(name1, name4);
+    assertThatComparable(name1).isLessThan("bcd");
+    assertThatComparable(name1).isLessThanOrEqualTo("bcd");
+    assertThatComparable(name3).isGreaterThan("abc");
+    assertThatComparable(name3).isGreaterThanOrEqualTo("abc");
+    assertThatComparable(name3).isBetween("abc", "cde");
+    assertThatComparable(name3).isStrictlyBetween("abc", "cde");
   }
 
   @Test
