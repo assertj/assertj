@@ -3493,7 +3493,7 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
-   * Creates a new instance of <code>{@link GenericComparableAssert}</code> with
+   * Creates a new instance of <code>{@link UniversalComparableAssert}</code> with
    * standard comparison semantics.
    * <p>
    * Use this over {@link #assertThat(Comparable)} in case of ambiguous method resolution when the object under test 
@@ -3504,9 +3504,8 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    * @since 3.23.0
    */
-  @SuppressWarnings({ "unchecked", "rawtypes" })
-  public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThatComparable(T actual) {
-    return new GenericComparableAssert(actual);
+  public static <T> AbstractUniversalComparableAssert<?, T> assertThatComparable(Comparable<T> actual) {
+    return AssertionsForInterfaceTypes.assertThatComparable(actual);
   }
 
   /**

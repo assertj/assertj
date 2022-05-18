@@ -470,7 +470,7 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
-   * Creates a new instance of <code>{@link GenericComparableAssert}</code> with
+   * Creates a new instance of <code>{@link UniversalComparableAssert}</code> with
    * standard comparison semantics.
    * <p>
    * Use this over {@link #then(Comparable)} in case of ambiguous method resolution when the object under test 
@@ -481,8 +481,8 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    * @since 3.23.0
    */
-  public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> thenComparable(T actual) {
-    return then(actual);
+  public static <T> AbstractUniversalComparableAssert<?, T> thenComparable(Comparable<T> actual) {
+    return assertThatComparable(actual);
   }
 
   /**

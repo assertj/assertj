@@ -251,7 +251,7 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   }
 
   /**
-   * Creates a new instance of <code>{@link GenericComparableAssert}</code> with
+   * Creates a new instance of <code>{@link UniversalComparableAssert}</code> with
    * standard comparison semantics.
    * <p>
    * Use this over {@link #assertThat(Comparable)} in case of ambiguous method resolution when the object under test 
@@ -262,8 +262,9 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    * @return the created assertion object.
    * @since 3.23.0
    */
-  default <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThatComparable(T actual) {
-    return assertThat(actual);
+  @SuppressWarnings("unchecked")
+  default <T> AbstractUniversalComparableAssert<?, T> assertThatComparable(Comparable<T> actual) {
+    return proxy(UniversalComparableAssert.class, Comparable.class, actual);
   }
 
   /**

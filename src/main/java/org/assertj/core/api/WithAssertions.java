@@ -721,7 +721,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
-   * Creates a new instance of <code>{@link GenericComparableAssert}</code> with standard comparison semantics.
+   * Creates a new instance of <code>{@link UniversalComparableAssert}</code> with standard comparison semantics.
    * <p>
    * Use this over {@link #assertThat(Comparable)} in case of ambiguous method resolution when the object under test 
    * implements several interfaces Assertj provides <code>assertThat</code> for. 
@@ -731,8 +731,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created assertion object.
    * @since 3.23.0
    */
-  default <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThatComparable(T actual) {
-    return assertThat(actual);
+  default <T> AbstractUniversalComparableAssert<?, T> assertThatComparable(Comparable<T> actual) {
+    return Assertions.assertThatComparable(actual);
   }
 
   /**

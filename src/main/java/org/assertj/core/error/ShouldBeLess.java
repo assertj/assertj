@@ -30,7 +30,7 @@ public class ShouldBeLess extends BasicErrorMessageFactory {
    * @param other the value used in the failed assertion to compare the actual value to.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <T extends Comparable<? super T>> ErrorMessageFactory shouldBeLess(T actual, T other) {
+  public static <T> ErrorMessageFactory shouldBeLess(Comparable<? super T> actual, Comparable<? super T> other) {
     return new ShouldBeLess(actual, other, StandardComparisonStrategy.instance());
   }
 
@@ -41,13 +41,27 @@ public class ShouldBeLess extends BasicErrorMessageFactory {
    * @param other the value used in the failed assertion to compare the actual value to.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
+   * @deprecated Use {@link #shouldBeLess(Object, Object, ComparisonStrategy)} instead.
    */
+  @Deprecated
   public static <T extends Comparable<? super T>> ErrorMessageFactory shouldBeLess(T actual, T other,
                                                                                    ComparisonStrategy comparisonStrategy) {
     return new ShouldBeLess(actual, other, comparisonStrategy);
   }
 
-  private ShouldBeLess(Comparable<?> actual, Comparable<?> other, ComparisonStrategy comparisonStrategy) {
+  /**
+   * Creates a new <code>{@link ShouldBeLess}</code>.
+   * @param actual the actual value in the failed assertion.
+   * @param other the value used in the failed assertion to compare the actual value to.
+   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldBeLess(Object actual, Object other, ComparisonStrategy comparisonStrategy) {
+    return new ShouldBeLess(actual, other, comparisonStrategy);
+  }
+
+  private <T> ShouldBeLess(T actual, T other, ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nto be less than:%n  %s %s", actual, other, comparisonStrategy);
   }
+
 }
