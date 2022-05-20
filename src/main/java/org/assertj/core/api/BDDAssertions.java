@@ -3348,6 +3348,7 @@ public class BDDAssertions extends Assertions {
 	 * @throws NullPointerException if the given charset is {@code null}.
 	 * @throws UncheckedIOException if an I/O exception occurs.
 	 *
+	 * @since 3.23.0
 	 */
 	public static List<String> linesOf(Path path) {
 		return Assertions.linesOf(path, Charset.defaultCharset());
@@ -3363,6 +3364,7 @@ public class BDDAssertions extends Assertions {
 	 * @throws NullPointerException if the given charset is {@code null}.
 	 * @throws UncheckedIOException if an I/O exception occurs.
 	 *
+	 * @since 3.23.0
 	 */
 	public static List<String> linesOf(Path path, Charset charset) {
 		return Assertions.linesOf(path, charset);
@@ -3378,6 +3380,7 @@ public class BDDAssertions extends Assertions {
 	 * @throws NullPointerException if the given charset is {@code null}.
 	 * @throws UncheckedIOException if an I/O exception occurs.
 	 *
+	 * @since 3.23.0
 	 */
 	public static List<String> linesOf(Path path, String charsetName) {
 		return Assertions.linesOf(path, charsetName);
