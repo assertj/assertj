@@ -12,6 +12,7 @@ A clear and concise description of what the bug is.
 
 * assertj core version:
 * java version:
+* test framework version:
 * os (if relevant): 
 
 **Test case reproducing the bug**
