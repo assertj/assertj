@@ -2068,6 +2068,48 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Loads the text content of a path into a list of strings with the default charset, each string corresponding to a
+   * line.
+   * The line endings are either \n, \r or \r\n.
+   *
+   * @param path the path.
+   * @return the content of the file.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws UncheckedIOException if an I/O exception occurs.
+   */
+  default List<String> linesOf(final Path path) {
+    return Assertions.linesOf(path);
+  }
+
+  /**
+   * Loads the text content of a path into a list of strings, each string corresponding to a line. The line endings are
+   * either \n, \r or \r\n.
+   *
+   * @param path the file.
+   * @param charsetName the name of the character set to use.
+   * @return the content of the file.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws UncheckedIOException if an I/O exception occurs.
+   */
+  default List<String> linesOf(final Path path, final String charsetName) {
+    return Assertions.linesOf(path, charsetName);
+  }
+
+  /**
+   * Loads the text content of a path into a list of strings, each string corresponding to a line.
+   * The line endings are either \n, \r or \r\n.
+   *
+   * @param path the path.
+   * @param charset the character set to use.
+   * @return the content of the file.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws UncheckedIOException if an I/O exception occurs.
+   */
+  default List<String> linesOf(final Path path, final Charset charset) {
+    return Assertions.linesOf(path, charset);
+  }
+
+  /**
    * Sets whether we remove elements related to AssertJ from assertion error stack trace.
    *
    * @param removeAssertJRelatedElementsFromStackTrace flag.
