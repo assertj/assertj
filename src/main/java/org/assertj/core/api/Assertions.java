@@ -2844,12 +2844,12 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
-   * Loads the text content of a path into a list of strings with the default charset, each string corresponding to a
+   * Loads the text content of a file at a given path into a list of strings with the default charset, each string corresponding to a
    * line.
    * The line endings are either \n, \r or \r\n.
    *
    * @param path the path.
-   * @return the content of the file.
+   * @return the content of the file at the given path.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
    */
@@ -2858,12 +2858,12 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
-   * Loads the text content of a path into a list of strings, each string corresponding to a line.
+   * Loads the text content of a file at a given path into a list of strings, each string corresponding to a line.
    * The line endings are either \n, \r or \r\n.
    *
    * @param path the path.
    * @param charset the character set to use.
-   * @return the content of the file.
+   * @return the content of the file at the given path.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
    */
@@ -2872,12 +2872,12 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
-   * Loads the text content of a path into a list of strings, each string corresponding to a line. The line endings are
+   * Loads the text content of a file at a given path into a list of strings, each string corresponding to a line. The line endings are
    * either \n, \r or \r\n.
    *
    * @param path the path.
    * @param charsetName the name of the character set to use.
-   * @return the content of the file.
+   * @return the content of the file at the given path.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
    */
