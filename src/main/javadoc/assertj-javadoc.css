@@ -210,7 +210,7 @@ ul.sub-nav-list li {
 }
 .top-nav a:hover {
     text-decoration:none;
-    color:#bb7a2a;
+    color:#470C03;
     text-transform:uppercase;
 }
 .nav-bar-cell1-rev {
@@ -375,11 +375,11 @@ ul.see-list-long li:not(:last-child):after {
     white-space:pre;
 }
 .caption a:link, .caption a:visited {
-    color:#1f389c;
+    color:#861203;
 }
 .caption a:hover,
 .caption a:active {
-    color:#FFFFFF;
+    color:#470C03;
 }
 .caption span {
     white-space:nowrap;
@@ -726,7 +726,7 @@ main a[href*="://"]:focus::after {
     background-image:url('data:image/svg+xml; utf8, \
       <svg xmlns="http://www.w3.org/2000/svg" width="768" height="768">\
         <path d="M584 664H104V184h216V80H0v688h688V448H584zM384 0l132 \
-        132-240 240 120 120 240-240 132 132V0z" fill="%23bb7a2a"/>\
+        132-240 240 120 120 240-240 132 132V0z" fill="%23470c03"/>\
       </svg>');
 }
 
