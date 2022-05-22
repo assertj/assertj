@@ -56,9 +56,11 @@ jobs:
               name: 'binary incompatible with: base'
             })
 
-      - name: Print result
+      - name: Add result to job summary
         if: success() || failure()
-        run: cat target/japicmp/default-cli.diff
+        run: |
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat target/japicmp/default-cli.diff >> $GITHUB_STEP_SUMMARY
       - name: Upload reports
         if: success() || failure()
         uses: actions/upload-artifact@v3
@@ -110,9 +112,11 @@ jobs:
               name: 'binary incompatible with: release'
             })
 
-      - name: Print result
+      - name: Add result to job summary
         if: success() || failure()
-        run: cat target/japicmp/default-cli.diff
+        run: |
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat target/japicmp/default-cli.diff >> $GITHUB_STEP_SUMMARY
       - name: Upload reports
         if: success() || failure()
         uses: actions/upload-artifact@v3
