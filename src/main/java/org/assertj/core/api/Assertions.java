@@ -2852,6 +2852,8 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the content of the file at the given path.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
+   *
+   * @since 3.23.0
    */
   public static List<String> linesOf(Path path) {
     return Paths.linesOf(path, Charset.defaultCharset());
@@ -2866,6 +2868,8 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the content of the file at the given path.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
+   *
+   * @since 3.23.0
    */
   public static List<String> linesOf(Path path, Charset charset) {
     return Paths.linesOf(path, charset);
@@ -2880,6 +2884,8 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the content of the file at the given path.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
+   *
+   * @since 3.23.0
    */
   public static List<String> linesOf(Path path, String charsetName) {
     return Paths.linesOf(path, charsetName);

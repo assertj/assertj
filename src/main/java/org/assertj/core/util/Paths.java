@@ -26,6 +26,8 @@ import java.util.List;
  * Utility methods related to {@link Path}s.
  *
  * @author Stefan Bratanov
+ *
+ * @since 3.23.0
  */
 public class Paths {
 

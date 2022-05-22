@@ -2076,6 +2076,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the content of the file at the given path.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
+   *
+   * @since 3.23.0
    */
   default List<String> linesOf(final Path path) {
     return Assertions.linesOf(path);
@@ -2090,6 +2092,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the content of the file at the given path.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
+   *
+   * @since 3.23.0
    */
   default List<String> linesOf(final Path path, final String charsetName) {
     return Assertions.linesOf(path, charsetName);
@@ -2104,6 +2108,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the content of the file at the given path.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
+   *
+   * @since 3.23.0
    */
   default List<String> linesOf(final Path path, final Charset charset) {
     return Assertions.linesOf(path, charset);

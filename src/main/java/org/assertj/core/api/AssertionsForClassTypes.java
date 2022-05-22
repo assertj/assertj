@@ -39,8 +39,8 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
-
 import java.util.regex.Matcher;
+
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
@@ -1654,47 +1654,53 @@ public class AssertionsForClassTypes {
     return Files.linesOf(file, charsetName);
   }
 
-	/**
-	 * Loads the text content of a path into a list of strings with the default charset, each string corresponding to a
-	 * line.
-	 * The line endings are either \n, \r or \r\n.
-	 *
-	 * @param path the path.
-	 * @return the content of the file.
-	 * @throws NullPointerException if the given charset is {@code null}.
-	 * @throws UncheckedIOException if an I/O exception occurs.
-	 */
-	public static List<String> linesOf(Path path) {
-		return Paths.linesOf(path, Charset.defaultCharset());
-	}
+  /**
+   * Loads the text content of a path into a list of strings with the default charset, each string corresponding to a
+   * line.
+   * The line endings are either \n, \r or \r\n.
+   *
+   * @param path the path.
+   * @return the content of the file.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws UncheckedIOException if an I/O exception occurs.
+   *
+   * @since 3.23.0
+   */
+  public static List<String> linesOf(Path path) {
+    return Paths.linesOf(path, Charset.defaultCharset());
+  }
 
-	/**
-	 * Loads the text content of a path into a list of strings, each string corresponding to a line.
-	 * The line endings are either \n, \r or \r\n.
-	 *
-	 * @param path the path.
-	 * @param charset the character set to use.
-	 * @return the content of the file.
-	 * @throws NullPointerException if the given charset is {@code null}.
-	 * @throws UncheckedIOException if an I/O exception occurs.
-	 */
-	public static List<String> linesOf(Path path, Charset charset) {
-		return Paths.linesOf(path, charset);
-	}
+  /**
+   * Loads the text content of a path into a list of strings, each string corresponding to a line.
+   * The line endings are either \n, \r or \r\n.
+   *
+   * @param path the path.
+   * @param charset the character set to use.
+   * @return the content of the file.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws UncheckedIOException if an I/O exception occurs.
+   *
+   * @since 3.23.0
+   */
+  public static List<String> linesOf(Path path, Charset charset) {
+    return Paths.linesOf(path, charset);
+  }
 
-	/**
-	 * Loads the text content of a path into a list of strings, each string corresponding to a line. The line endings are
-	 * either \n, \r or \r\n.
-	 *
-	 * @param path the path.
-	 * @param charsetName the name of the character set to use.
-	 * @return the content of the file.
-	 * @throws NullPointerException if the given charset is {@code null}.
-	 * @throws UncheckedIOException if an I/O exception occurs.
-	 */
-	public static List<String> linesOf(Path path, String charsetName) {
-		return Paths.linesOf(path, charsetName);
-	}
+  /**
+   * Loads the text content of a path into a list of strings, each string corresponding to a line. The line endings are
+   * either \n, \r or \r\n.
+   *
+   * @param path the path.
+   * @param charsetName the name of the character set to use.
+   * @return the content of the file.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws UncheckedIOException if an I/O exception occurs.
+   *
+   * @since 3.23.0
+   */
+  public static List<String> linesOf(Path path, String charsetName) {
+    return Paths.linesOf(path, charsetName);
+  }
 
   // --------------------------------------------------------------------------------------------------
   // URL/Resource methods : not assertions but here to have a single entry point to all AssertJ features.
