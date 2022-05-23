@@ -1397,7 +1397,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *                                         character -&gt; assertThat(character.isMortal()).isTrue(),
    *                                         character -&gt; assertThat(character.getName()).isEqualTo("Legolas"));
    *
-   * // you can specify more tha one assertion per requirement
+   * // you can specify more than one assertion per requirement
    * assertThat(characters).satisfiesExactly(character -&gt; {
    *                                            assertThat(character.getRace()).isEqualTo("Hobbit");
    *                                            assertThat(character.getName()).isEqualTo("Frodo");
