@@ -585,10 +585,6 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
                 <goals>
                   <goal>jar</goal>
                 </goals>
-                <configuration>
-                  <source>${maven.compiler.source}</source>
-                  <additionalparam>${additionalparam}</additionalparam>
-                </configuration>
               </execution>
             </executions>
           </plugin>
