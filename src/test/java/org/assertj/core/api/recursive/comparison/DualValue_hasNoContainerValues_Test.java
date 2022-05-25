@@ -19,6 +19,13 @@ import static org.assertj.core.util.Maps.newHashMap;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicLongArray;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.DisplayName;
@@ -56,6 +63,18 @@ class DualValue_hasNoContainerValues_Test {
                      Arguments.of(Optional.of("foo"), Optional.of("bar"), false),
                      Arguments.of(Optional.of("foo"), "abc", false),
                      Arguments.of("abc", Optional.of("foo"), false),
+                     Arguments.of(new AtomicReference<>("abc"), new AtomicReference<>("foo"), false),
+                     Arguments.of(new AtomicReference<>("abc"), Optional.of("foo"), false),
+                     Arguments.of(new AtomicInteger(123), new AtomicInteger(456), false),
+                     Arguments.of(new AtomicLong(123), new AtomicLong(456), false),
+                     Arguments.of(new AtomicInteger(123), new AtomicLong(456), false),
+                     Arguments.of(new AtomicLong(123), new AtomicInteger(456), false),
+                     Arguments.of(new AtomicBoolean(true), new AtomicBoolean(false), false),
+                     Arguments.of(new AtomicBoolean(Boolean.TRUE), new AtomicBoolean(Boolean.FALSE), false),
+                     Arguments.of(new AtomicIntegerArray(new int[] { 1, 2, 3 }), new AtomicIntegerArray(new int[] { 1, 2 }),
+                                  false),
+                     Arguments.of(new AtomicLongArray(new long[] { 1, 2, 3 }), new AtomicLongArray(new long[] { 1, 2 }), false),
+                     Arguments.of(new AtomicReferenceArray<>(array("test")), new AtomicReferenceArray<>(array("foo")), false),
                      Arguments.of("abc", null, true),
                      Arguments.of(null, "abc", true),
                      Arguments.of("abc", "abc", true));

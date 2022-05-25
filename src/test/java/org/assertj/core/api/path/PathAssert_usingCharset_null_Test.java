@@ -29,7 +29,7 @@ class PathAssert_usingCharset_null_Test extends PathAssertBaseTest {
   @Test
   public void should_have_internal_effects() {
     assertThatNullPointerException().isThrownBy(() -> assertions.usingCharset((Charset) null))
-                                        .withMessage("The charset should not be null");
+                                    .withMessage("The charset should not be null");
   }
 
   @Override
@@ -37,7 +37,7 @@ class PathAssert_usingCharset_null_Test extends PathAssertBaseTest {
   public void should_return_this() {
     // Disable this test since the call fails
   }
-  
+
   @Override
   protected PathAssert invoke_api_method() {
     // not used here

@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -222,6 +223,21 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   }
 
   /**
+   * Creates a new instance of <code>{@link CollectionAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(Collection)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param <T> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  default <T> CollectionAssert<T> assertThatCollection(Collection<? extends T> actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link GenericComparableAssert}</code> with
    * standard comparison semantics.
    *
@@ -232,6 +248,23 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   @SuppressWarnings("unchecked")
   default <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThat(T actual) {
     return proxy(GenericComparableAssert.class, Comparable.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link UniversalComparableAssert}</code> with
+   * standard comparison semantics.
+   * <p>
+   * Use this over {@link #assertThat(Comparable)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param <T> the type of actual.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  @SuppressWarnings("unchecked")
+  default <T> AbstractUniversalComparableAssert<?, T> assertThatComparable(Comparable<T> actual) {
+    return proxy(UniversalComparableAssert.class, Comparable.class, actual);
   }
 
   /**
@@ -247,6 +280,21 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   }
 
   /**
+   * Creates a new instance of <code>{@link IterableAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(Iterable)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  default <ELEMENT> IterableAssert<ELEMENT> assertThatIterable(Iterable<? extends ELEMENT> actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link IteratorAssert}</code>.
    * <p>
    * <b>This is a breaking change in version 3.12.0:</b> this method used to return an {@link IterableAssert}.
@@ -258,6 +306,21 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   @SuppressWarnings("unchecked")
   default <T> IteratorAssert<T> assertThat(Iterator<? extends T> actual) {
     return proxy(IteratorAssert.class, Iterator.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link IteratorAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(Iterator)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  default <ELEMENT> IteratorAssert<ELEMENT> assertThatIterator(Iterator<? extends ELEMENT> actual) {
+    return assertThat(actual);
   }
 
   /**
@@ -425,6 +488,21 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   @SuppressWarnings("unchecked")
   default <T> ListAssert<T> assertThat(List<? extends T> actual) {
     return proxy(ListAssert.class, List.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ListAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(List)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  default <ELEMENT> ListAssert<ELEMENT> assertThatList(List<? extends ELEMENT> actual) {
+    return assertThat(actual);
   }
 
   /**
@@ -928,4 +1006,113 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   default AbstractUrlAssert<?> assertThat(URL actual) {
     return proxy(UrlAssert.class, URL.class, actual);
   }
+
+  /**
+   * Entry point to check that an exception of type T is thrown by a given {@code throwingCallable}
+   * which allows to chain assertions on the thrown exception.
+   * <p>
+   * Example:
+   * <pre><code class='java'> softly.assertThatExceptionOfType(IOException.class)
+   *           .isThrownBy(() -&gt; { throw new IOException("boom!"); })
+   *           .withMessage("boom!"); </code></pre>
+   *
+   * This method is more or less the same of {@link #assertThatThrownBy(ThrowingCallable)} but in a more natural way.
+   *
+   * @param <T> the Throwable type.
+   * @param throwableType the Throwable type class.
+   * @return the created {@link ThrowableTypeAssert}.
+   * @since 3.23.0.
+   */
+  default <T extends Throwable> ThrowableTypeAssert<T> assertThatExceptionOfType(final Class<T> throwableType) {
+    return new SoftThrowableTypeAssert<>(throwableType, this);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link RuntimeException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<RuntimeException> assertThatRuntimeException() {
+    return assertThatExceptionOfType(RuntimeException.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link NullPointerException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<NullPointerException> assertThatNullPointerException() {
+    return assertThatExceptionOfType(NullPointerException.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IllegalArgumentException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<IllegalArgumentException> assertThatIllegalArgumentException() {
+    return assertThatExceptionOfType(IllegalArgumentException.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IOException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<IOException> assertThatIOException() {
+    return assertThatExceptionOfType(IOException.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IllegalStateException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<IllegalStateException> assertThatIllegalStateException() {
+    return assertThatExceptionOfType(IllegalStateException.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link Exception}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<Exception> assertThatException() {
+    return assertThatExceptionOfType(Exception.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link ReflectiveOperationException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<ReflectiveOperationException> assertThatReflectiveOperationException() {
+    return assertThatExceptionOfType(ReflectiveOperationException.class);
+  }
+
+  /**
+   * Alias for {@link #assertThatExceptionOfType(Class)} for {@link IndexOutOfBoundsException}.
+   *
+   * @return the created {@link ThrowableTypeAssert}.
+   *
+   * @since 3.23.0
+   */
+  default ThrowableTypeAssert<IndexOutOfBoundsException> assertThatIndexOutOfBoundsException() {
+    return assertThatExceptionOfType(IndexOutOfBoundsException.class);
+  }
+
 }

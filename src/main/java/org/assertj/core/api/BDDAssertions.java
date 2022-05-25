@@ -65,6 +65,7 @@ import java.util.function.Function;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -196,6 +197,21 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Create assertion for {@link Predicate}.
+   * <p>
+   * Use this over {@link #then(Predicate)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>then</code> for. 
+   *
+   * @param actual the actual value.
+   * @param <T> the type of the value contained in the {@link Predicate}.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  public static <T> PredicateAssert<T> thenPredicate(Predicate<T> actual) {
+    return then(actual);
+  }
+
+  /**
    * Create assertion for {@link IntPredicate}.
    *
    * @param actual the actual value.
@@ -263,6 +279,17 @@ public class BDDAssertions extends Assertions {
    */
   public static OptionalLongAssert then(OptionalLong optional) {
     return assertThat(optional);
+  }
+
+  /**
+   * Create assertion for {@link java.util.regex.Matcher}
+   *
+   * @param actual the actual matcher
+   *
+   * @return the created assertion object.
+   */
+  public static MatcherAssert then(Matcher actual) {
+    return assertThat(actual);
   }
 
   /**
@@ -443,6 +470,22 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link UniversalComparableAssert}</code> with
+   * standard comparison semantics.
+   * <p>
+   * Use this over {@link #then(Comparable)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>then</code> for. 
+   *
+   * @param <T> the type of actual.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  public static <T> AbstractUniversalComparableAssert<?, T> thenComparable(Comparable<T> actual) {
+    return assertThatComparable(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link org.assertj.core.api.IterableAssert}</code>.
    *
    * @param <T> the actual elements type
@@ -451,6 +494,21 @@ public class BDDAssertions extends Assertions {
    */
   public static <T> IterableAssert<T> then(Iterable<? extends T> actual) {
     return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link IterableAssert}</code>.
+   * <p>
+   * Use this over {@link #then(Iterable)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>then</code> for. 
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  public static <ELEMENT> IterableAssert<ELEMENT> thenIterable(Iterable<? extends ELEMENT> actual) {
+    return then(actual);
   }
 
   /**
@@ -475,6 +533,21 @@ public class BDDAssertions extends Assertions {
    */
   public static <T> IteratorAssert<T> then(Iterator<? extends T> actual) {
     return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link IteratorAssert}</code>.
+   * <p>
+   * Use this over {@link #then(Iterator)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>then</code> for. 
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  public static <ELEMENT> IteratorAssert<ELEMENT> thenIterator(Iterator<? extends ELEMENT> actual) {
+    return then(actual);
   }
 
   /**
@@ -698,6 +771,20 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Creates a new instance of {@link PathAssert}
+   * <p>
+   * Use this over {@link #then(Path)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>then</code> for. 
+   *
+   * @param actual the path to test
+   * @return the created assertion object
+   * @since 3.23.0
+   */
+  public static AbstractPathAssert<?> thenPath(Path actual) {
+    return then(actual);
+  }
+
+  /**
    * Creates a new instance of {@link FutureAssert}
    *
    * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.Future}.
@@ -814,6 +901,21 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link CollectionAssert}</code>.
+   * <p>
+   * Use this over {@link #then(Collection)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>then</code> for. 
+   *
+   * @param <E> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  public static <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> thenCollection(Collection<? extends E> actual) {
+    return then(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link org.assertj.core.api.ListAssert}</code>.
    *
    * @param <T> the type of elements.
@@ -822,6 +924,21 @@ public class BDDAssertions extends Assertions {
    */
   public static <T> ListAssert<T> then(List<? extends T> actual) {
     return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ListAssert}</code>.
+   * <p>
+   * Use this over {@link #then(List)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>then</code> for. 
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  public static <ELEMENT> ListAssert<ELEMENT> thenList(List<? extends ELEMENT> actual) {
+    return then(actual);
   }
 
   /**
@@ -1570,6 +1687,41 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link Stream}.
+   * <p>
+   * Use this over {@link #then(Stream)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>then</code> for. 
+   * <p>
+   * <b>Be aware that the {@code Stream} under test will be converted to a {@code List} when an assertions require to inspect its content.
+   * Once this is done the {@code Stream} can't reused as it would have been consumed.</b>
+   * <p>
+   * Calling multiple methods on the returned {@link ListAssert} is safe as it only interacts with the {@link List} built from the {@link Stream}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // you can chain multiple assertions on the Stream as it is converted to a List
+   * then(Stream.of(1, 2, 3)).contains(1)
+   *                         .doesNotContain(42);</code></pre>
+   * <p>
+   * The following assertion fails as the Stream under test is converted to a List before being compared to the expected Stream:
+   * <pre><code class='java'> // FAIL: the Stream under test is converted to a List and compared to a Stream but a List is not a Stream.
+   * then(Stream.of(1, 2, 3)).isEqualTo(Stream.of(1, 2, 3));</code></pre>
+   * <p>
+   * These assertions succeed as {@code isEqualTo} and {@code isSameAs} checks references which does not require to convert the Stream to a List.
+   * <pre><code class='java'> // The following assertions succeed as it only performs reference checking which does not require to convert the Stream to a List
+   * Stream&lt;Integer&gt; stream = Stream.of(1, 2, 3);
+   * then(stream).isEqualTo(stream)
+   *             .isSameAs(stream);</code></pre>
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  public static <ELEMENT> ListAssert<ELEMENT> thenStream(Stream<? extends ELEMENT> actual) {
+    return then(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link DoubleStream}.
    * <p>
    * <b>Be aware that the {@code DoubleStream} under test will be converted to a {@code List} when an assertions require to inspect its content.
@@ -2095,7 +2247,7 @@ public class BDDAssertions extends Assertions {
    *
    * @param <T> dummy return value type
    * @param failureMessage error message.
-   * @return nothing, it's just to be used in {@code doSomething(optional.orElse(() -> fail("boom")));}.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("boom")));}.
    * @throws AssertionError with the given message.
    *
    * @since 3.20.0
@@ -2111,7 +2263,7 @@ public class BDDAssertions extends Assertions {
    * @param <T> dummy return value type
    * @param failureMessage error message.
    * @param args Arguments referenced by the format specifiers in the format string.
-   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("b%s", ""oom)));.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("b%s", ""oom)));}.
    * @throws AssertionError with the given built message.
    *
    * @since 3.20.0
@@ -2126,7 +2278,7 @@ public class BDDAssertions extends Assertions {
    * @param <T> dummy return value type
    * @param failureMessage the description of the failed assertion. It can be {@code null}.
    * @param realCause cause of the error.
-   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("boom", cause)));.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("boom", cause)));}.
    * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
    *
    * @since 3.20.0
@@ -2141,7 +2293,7 @@ public class BDDAssertions extends Assertions {
    * but had not been.
    * @param <T> dummy return value type
    * @param throwableClass the Throwable class that was expected to be thrown.
-   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; shouldHaveThrown(IOException.class)));.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> shouldHaveThrown(IOException.class)));}.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    *
@@ -3185,6 +3337,54 @@ public class BDDAssertions extends Assertions {
   public static List<String> linesOf(File file, String charsetName) {
     return Assertions.linesOf(file, charsetName);
   }
+
+	/**
+	 * Loads the text content of a file at a given path into a list of strings with the default charset, each string corresponding to a
+	 * line.
+	 * The line endings are either \n, \r or \r\n.
+	 *
+	 * @param path the path.
+	 * @return the content of the file at the given path.
+	 * @throws NullPointerException if the given charset is {@code null}.
+	 * @throws UncheckedIOException if an I/O exception occurs.
+	 *
+	 * @since 3.23.0
+	 */
+	public static List<String> linesOf(Path path) {
+		return Assertions.linesOf(path, Charset.defaultCharset());
+	}
+
+	/**
+	 * Loads the text content of a file at a given path into a list of strings, each string corresponding to a line.
+	 * The line endings are either \n, \r or \r\n.
+	 *
+	 * @param path the path.
+	 * @param charset the character set to use.
+	 * @return the content of the file at the given path.
+	 * @throws NullPointerException if the given charset is {@code null}.
+	 * @throws UncheckedIOException if an I/O exception occurs.
+	 *
+	 * @since 3.23.0
+	 */
+	public static List<String> linesOf(Path path, Charset charset) {
+		return Assertions.linesOf(path, charset);
+	}
+
+	/**
+	 * Loads the text content of a file at a given path into a list of strings, each string corresponding to a line. The line endings are
+	 * either \n, \r or \r\n.
+	 *
+	 * @param path the path.
+	 * @param charsetName the name of the character set to use.
+	 * @return the content of the file at the given path.
+	 * @throws NullPointerException if the given charset is {@code null}.
+	 * @throws UncheckedIOException if an I/O exception occurs.
+	 *
+	 * @since 3.23.0
+	 */
+	public static List<String> linesOf(Path path, String charsetName) {
+		return Assertions.linesOf(path, charsetName);
+	}
 
   // --------------------------------------------------------------------------------------------------
   // URL/Resource methods : not assertions but here to have a single entry point to all AssertJ features.

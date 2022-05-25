@@ -44,6 +44,25 @@ import org.assertj.core.util.VisibleForTesting;
 public class ListAssert<ELEMENT> extends
     FactoryBasedNavigableListAssert<ListAssert<ELEMENT>, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
+  public static <ELEMENT> ListAssert<ELEMENT> assertThatList(List<? extends ELEMENT> actual) {
+    return new ListAssert<>(actual);
+  }
+
+  public static <ELEMENT> ListAssert<ELEMENT> assertThatStream(Stream<? extends ELEMENT> actual) {
+    return new ListAssert<>(actual);
+  }
+
+  public static ListAssert<Double> assertThatDoubleStream(DoubleStream actual) {
+    return new ListAssert<>(actual);
+  }
+
+  public static ListAssert<Long> assertThatLongStream(LongStream actual) {
+    return new ListAssert<>(actual);
+  }
+
+  public static ListAssert<Integer> assertThatIntStream(IntStream actual) {
+    return new ListAssert<>(actual);
+  }
   public ListAssert(List<? extends ELEMENT> actual) {
     super(actual, ListAssert.class, new ObjectAssertFactory<>());
   }

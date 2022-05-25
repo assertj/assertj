@@ -16,13 +16,15 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 
+import java.util.Objects;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 
 /**
- * Tests for {@link MapEntry}.
- *
  * @author Alex Ruiz
  */
 class MapEntry_Test {
@@ -32,6 +34,23 @@ class MapEntry_Test {
     // WHEN/THEN
     EqualsVerifier.forClass(MapEntry.class)
                   .verify();
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "name, Yoda",
+    " , Yoda",
+    "name, ",
+    " , ",
+  })
+  void should_honor_Entry_hashCode_contract(String key, String value) {
+    // GIVEN
+    MapEntry<String, String> underTest = entry(key, value);
+    int expected = Objects.hashCode(key) ^ Objects.hashCode(value);
+    // WHEN
+    int result = underTest.hashCode();
+    // THEN
+    then(result).isEqualTo(expected);
   }
 
   @Test

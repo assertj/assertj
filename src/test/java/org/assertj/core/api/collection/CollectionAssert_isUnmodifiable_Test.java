@@ -102,7 +102,13 @@ class CollectionAssert_isUnmodifiable_Test {
   }
 
   private static Stream<Collection<?>> unmodifiableCollections() {
-    return Stream.of(Collections.unmodifiableCollection(list(new Object())),
+    return Stream.of(Collections.emptyList(),
+                     Collections.emptyNavigableSet(),
+                     Collections.emptySet(),
+                     Collections.emptySortedSet(),
+                     Collections.singleton("element"),
+                     Collections.singletonList("element"),
+                     Collections.unmodifiableCollection(list(new Object())),
                      Collections.unmodifiableList(list(new Object())),
                      Collections.unmodifiableNavigableSet(newTreeSet("element")),
                      Collections.unmodifiableSet(set(new Object())),

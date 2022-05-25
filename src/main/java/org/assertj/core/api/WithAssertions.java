@@ -65,6 +65,7 @@ import java.util.function.Function;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -162,7 +163,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *
    * @param <T> dummy return value type
    * @param failureMessage error message.
-   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("boom")));.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("boom")));}.
    * @throws AssertionError with the given message.
    */
   @CanIgnoreReturnValue
@@ -176,7 +177,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param <T> dummy return value type
    * @param failureMessage error message.
    * @param args Arguments referenced by the format specifiers in the format string.
-   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("b%s", ""oom)));.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("b%s", "oom")));}.
    * @throws AssertionError with the given built message.
    * @since 3.9.0
    */
@@ -191,7 +192,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param <T> dummy return value type
    * @param failureMessage the description of the failed assertion. It can be {@code null}.
    * @param realCause cause of the error.
-   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; fail("boom", cause)));.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("boom", cause)));}.
    * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
    */
   @CanIgnoreReturnValue
@@ -709,8 +710,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
-   * Creates a new instance of <code>{@link GenericComparableAssert}</code> with
-   * standard comparison semantics.
+   * Creates a new instance of <code>{@link GenericComparableAssert}</code> with standard comparison semantics.
    *
    * @param <T> the type of actual.
    * @param actual the actual value.
@@ -718,6 +718,21 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    */
   default <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThat(final T actual) {
     return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link UniversalComparableAssert}</code> with standard comparison semantics.
+   * <p>
+   * Use this over {@link #assertThat(Comparable)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param <T> the type of actual.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  default <T> AbstractUniversalComparableAssert<?, T> assertThatComparable(Comparable<T> actual) {
+    return Assertions.assertThatComparable(actual);
   }
 
   /**
@@ -729,6 +744,21 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    */
   default <T> IterableAssert<T> assertThat(final Iterable<? extends T> actual) {
     return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link IterableAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(Iterable)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  default <ELEMENT> IterableAssert<ELEMENT> assertThatIterable(Iterable<? extends ELEMENT> actual) {
+    return assertThat(actual);
   }
 
   /**
@@ -794,6 +824,21 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    */
   default <T> IteratorAssert<T> assertThat(final Iterator<? extends T> actual) {
     return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link IteratorAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(Iterator)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  default <ELEMENT> IteratorAssert<ELEMENT> assertThatIterator(Iterator<? extends ELEMENT> actual) {
+    return assertThat(actual);
   }
 
   /**
@@ -966,6 +1011,20 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of {@link PathAssert}
+   * <p>
+   * Use this over {@link #assertThat(Path)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param actual the path to test
+   * @return the created assertion object
+   * @since 3.23.0
+   */
+  default AbstractPathAssert<?> assertThatPath(Path actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link IntArrayAssert}</code>.
    *
    * @param actual the actual value.
@@ -1070,6 +1129,21 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link CollectionAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(Collection)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param <E> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  default <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> assertThatCollection(final Collection<? extends E> actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ListAssert}</code>.
    *
    * @param <T> the type of elements.
@@ -1078,6 +1152,21 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    */
   default <T> ListAssert<T> assertThat(final List<? extends T> actual) {
     return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ListAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(List)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  default <ELEMENT> ListAssert<ELEMENT> assertThatList(List<? extends ELEMENT> actual) {
+    return assertThat(actual);
   }
 
   /**
@@ -1185,6 +1274,41 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    */
   default <ELEMENT> ListAssert<ELEMENT> assertThat(Stream<? extends ELEMENT> actual) {
     return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link Stream}.
+   * <p>
+   * Use this over {@link #assertThat(Stream)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   * <p>
+   * <b>Be aware that the {@code Stream} under test will be converted to a {@code List} when an assertions require to inspect its content.
+   * Once this is done the {@code Stream} can't reused as it would have been consumed.</b>
+   * <p>
+   * Calling multiple methods on the returned {@link ListAssert} is safe as it only interacts with the {@link List} built from the {@link Stream}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // you can chain multiple assertions on the Stream as it is converted to a List
+   * assertThat(Stream.of(1, 2, 3)).contains(1)
+   *                               .doesNotContain(42);</code></pre>
+   * <p>
+   * The following assertion fails as the Stream under test is converted to a List before being compared to the expected Stream:
+   * <pre><code class='java'> // FAIL: the Stream under test is converted to a List and compared to a Stream but a List is not a Stream.
+   * assertThat(Stream.of(1, 2, 3)).isEqualTo(Stream.of(1, 2, 3));</code></pre>
+   * <p>
+   * These assertions succeed as {@code isEqualTo} and {@code isSameAs} checks references which does not require to convert the Stream to a List.
+   * <pre><code class='java'> // The following assertions succeed as it only performs reference checking which does not require to convert the Stream to a List
+   * Stream&lt;Integer&gt; stream = Stream.of(1, 2, 3);
+   * assertThat(stream).isEqualTo(stream)
+   *                   .isSameAs(stream);</code></pre>
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  default <ELEMENT> ListAssert<ELEMENT> assertThatStream(Stream<? extends ELEMENT> actual) {
+    return assertThat(actual);
   }
 
   /**
@@ -1944,6 +2068,54 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Loads the text content of a file at a given path into a list of strings with the default charset, each string corresponding to a
+   * line.
+   * The line endings are either \n, \r or \r\n.
+   *
+   * @param path the path.
+   * @return the content of the file at the given path.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws UncheckedIOException if an I/O exception occurs.
+   *
+   * @since 3.23.0
+   */
+  default List<String> linesOf(final Path path) {
+    return Assertions.linesOf(path);
+  }
+
+  /**
+   * Loads the text content of a file at a given path into a list of strings, each string corresponding to a line. The line endings are
+   * either \n, \r or \r\n.
+   *
+   * @param path the file.
+   * @param charsetName the name of the character set to use.
+   * @return the content of the file at the given path.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws UncheckedIOException if an I/O exception occurs.
+   *
+   * @since 3.23.0
+   */
+  default List<String> linesOf(final Path path, final String charsetName) {
+    return Assertions.linesOf(path, charsetName);
+  }
+
+  /**
+   * Loads the text content of a file at a given path into a list of strings, each string corresponding to a line.
+   * The line endings are either \n, \r or \r\n.
+   *
+   * @param path the path.
+   * @param charset the character set to use.
+   * @return the content of the file at the given path.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws UncheckedIOException if an I/O exception occurs.
+   *
+   * @since 3.23.0
+   */
+  default List<String> linesOf(final Path path, final Charset charset) {
+    return Assertions.linesOf(path, charset);
+  }
+
+  /**
    * Sets whether we remove elements related to AssertJ from assertion error stack trace.
    *
    * @param removeAssertJRelatedElementsFromStackTrace flag.
@@ -1960,7 +2132,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * <p>
    * @param <T> dummy return value type
    * @param throwableClass the Throwable class that was expected to be thrown.
-   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; failBecauseExceptionWasNotThrown(IOException.class)));.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> failBecauseExceptionWasNotThrown(IOException.class)));}.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    */
@@ -1974,7 +2146,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * but had not been.
    * @param <T> dummy return value type
    * @param throwableClass the Throwable class that was expected to be thrown.
-   * @return nothing, it's just to be used in doSomething(optional.orElse(() -&gt; shouldHaveThrown(IOException.class)));.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> shouldHaveThrown(IOException.class)));}.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    * @since 3.9.0
@@ -2340,6 +2512,17 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    */
   default OptionalDoubleAssert assertThat(final OptionalDouble optional) {
     return Assertions.assertThat(optional);
+  }
+
+  /**
+   * Create assertion for {@link java.util.regex.Matcher}
+   *
+   *
+   * @param matcher the actual matcher.
+   * @return the created assertion object.
+   */
+  default MatcherAssert assertThat(final Matcher matcher) {
+    return Assertions.assertThat(matcher);
   }
 
   /**
@@ -3025,6 +3208,21 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    */
   default <T> PredicateAssert<T> assertThat(final Predicate<T> actual) {
     return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link Predicate}.
+   * <p>
+   * Use this over {@link #assertThat(Iterable)} in case of ambiguous method resolution when the object under test 
+   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   *
+   * @param actual the actual value.
+   * @param <T> the type of the value contained in the {@link Predicate}.
+   * @return the created assertion object.
+   * @since 3.23.0
+   */
+  default <T> PredicateAssert<T> assertThatPredicate(Predicate<T> actual) {
+    return assertThat(actual);
   }
 
   /**

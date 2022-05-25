@@ -18,6 +18,7 @@ import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
 import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNanos.shouldBeEqualIgnoringNanos;
 import static org.assertj.core.error.ShouldBeEqualIgnoringSeconds.shouldBeEqualIgnoringSeconds;
+import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.error.ShouldHaveSameHourAs.shouldHaveSameHourAs;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
@@ -576,6 +577,107 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
    */
   public SELF isStrictlyBetween(String startExclusive, String endExclusive) {
     return isStrictlyBetween(parse(startExclusive), parse(endExclusive));
+  }
+
+  /**
+   * Verifies that actual {@code LocalTime} is in the given hour.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Assertion succeeds:
+   * assertThat(LocalTime.of(23, 59, 59)).hasHour(23);
+   *
+   * // Assertion fails:
+   * assertThat(LocalTime.of(23, 59, 59)).hasHour(22);</code></pre>
+   *
+   * @param hour the given hour.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalTime} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalTime} is not in the given hour.
+   *
+   * @since 3.23.0
+   */
+  public SELF hasHour(int hour) {
+    Objects.instance().assertNotNull(info, actual);
+    if (actual.getHour() != hour) {
+      throw Failures.instance().failure(info, shouldHaveDateField(actual,"hour", hour));
+    }
+    return myself;
+  }
+
+
+  /**
+   * Verifies that actual {@code LocalTime} is in the given minute.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Assertion succeeds:
+   * assertThat(LocalTime.of(23, 59, 0)).hasMinute(59);
+   *
+   * // Assertion fails:
+   * assertThat(LocalTime.of(23, 59, 0)).hasMinute(58);</code></pre>
+   *
+   * @param minute the given minute.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalTime} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalTime} is not in the given minute.
+   *
+   * @since 3.23.0
+   */
+  public SELF hasMinute(int minute) {
+    Objects.instance().assertNotNull(info, actual);
+    if (actual.getMinute() != minute) {
+      throw Failures.instance().failure(info, shouldHaveDateField(actual,"minute", minute));
+    }
+    return myself;
+  }
+
+  /**
+   * Verifies that actual {@code LocalTime} is in the given second.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Assertion succeeds:
+   * assertThat(LocalTime.of(23, 00, 59)).hasSecond(59);
+   *
+   * // Assertion fails:
+   * assertThat(LocalTime.of(23, 00, 59)).hasSecond(58);</code></pre>
+   *
+   * @param second the given second.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalTime} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalTime} is not in the given second.
+   *
+   * @since 3.23.0
+   */
+  public SELF hasSecond(int second) {
+    Objects.instance().assertNotNull(info, actual);
+    if (actual.getSecond() != second) {
+      throw Failures.instance().failure(info, shouldHaveDateField(actual,"second", second));
+    }
+    return myself;
+  }
+
+  /**
+   * Verifies that actual {@code LocalTime} is in the given nano.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Assertion succeeds:
+   * assertThat(LocalTime.of(23, 59, 59, 59)).hasNano(59);
+   *
+   * // Assertion fails:
+   * assertThat(LocalTime.of(23, 59, 59, 59)).hasNano(58);</code></pre>
+   *
+   * @param nano the given nano.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalTime} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalTime} is not in the given second.
+   *
+   * @since 3.23.0
+   */
+  public SELF hasNano(int nano) {
+    Objects.instance().assertNotNull(info, actual);
+    if (actual.getNano() != nano) {
+      throw Failures.instance().failure(info, shouldHaveDateField(actual, "nano", nano));
+    }
+    return myself;
   }
 
   /**

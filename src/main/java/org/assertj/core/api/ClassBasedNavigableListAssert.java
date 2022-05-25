@@ -28,8 +28,17 @@ public class ClassBasedNavigableListAssert<SELF extends ClassBasedNavigableListA
                                            ELEMENT, 
                                            ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
        extends AbstractListAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
+         
+   private Class<ELEMENT_ASSERT> assertClass;
+
+   @SuppressWarnings({ "unchecked", "rawtypes" })
+   public static <ELEMENT, ACTUAL extends List<? extends ELEMENT>, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
+          ClassBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual,
+                                                                                       Class<ELEMENT_ASSERT> assertClass) {
+     return new ClassBasedNavigableListAssert(actual, assertClass);
+   }
+   
 //@format:on
-  private Class<ELEMENT_ASSERT> assertClass;
 
   public ClassBasedNavigableListAssert(ACTUAL actual, Class<ELEMENT_ASSERT> assertClass) {
     super(actual, ClassBasedNavigableListAssert.class);

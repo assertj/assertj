@@ -28,6 +28,10 @@ import java.util.Map;
  */
 public class MapAssert<KEY, VALUE> extends AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> {
 
+  public static <K, V> MapAssert<K, V> assertThatMap(Map<K, V> actual) {
+    return new MapAssert<>(actual);
+  }
+
   public MapAssert(Map<KEY, VALUE> actual) {
     super(actual, MapAssert.class);
   }

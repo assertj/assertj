@@ -51,7 +51,7 @@ class Assertions_assertThat_with_Iterator_Test {
   @Test
   void should_create_Assert() {
     Iterable<Object> actual = newLinkedHashSet();
-    AbstractIterableAssert<?, Iterable<?>, Object, ObjectAssert<Object>> iteratorAssert = assertThat(actual);
+    IteratorAssert<Object> iteratorAssert = assertThat(actual.iterator());
     assertThat(iteratorAssert).isNotNull();
   }
 

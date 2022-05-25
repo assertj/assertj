@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
 import java.text.DateFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -38,6 +39,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
+import java.util.regex.Matcher;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.filter.FilterOperator;
@@ -59,6 +61,7 @@ import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CanIgnoreReturnValue;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.Files;
+import org.assertj.core.util.Paths;
 import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
 
@@ -118,6 +121,17 @@ public class AssertionsForClassTypes {
    */
   public static OptionalIntAssert assertThat(OptionalInt actual) {
     return new OptionalIntAssert(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.regex.Matcher}
+   *
+   * @param actual the actual value
+   *
+   * @return the created assertion object
+   */
+  public static MatcherAssert assertThat(Matcher actual) {
+    return new MatcherAssert(actual);
   }
 
   /**
@@ -1638,6 +1652,54 @@ public class AssertionsForClassTypes {
    */
   public static List<String> linesOf(File file, String charsetName) {
     return Files.linesOf(file, charsetName);
+  }
+
+  /**
+   * Loads the text content of a path into a list of strings with the default charset, each string corresponding to a
+   * line.
+   * The line endings are either \n, \r or \r\n.
+   *
+   * @param path the path.
+   * @return the content of the file.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws UncheckedIOException if an I/O exception occurs.
+   *
+   * @since 3.23.0
+   */
+  public static List<String> linesOf(Path path) {
+    return Paths.linesOf(path, Charset.defaultCharset());
+  }
+
+  /**
+   * Loads the text content of a path into a list of strings, each string corresponding to a line.
+   * The line endings are either \n, \r or \r\n.
+   *
+   * @param path the path.
+   * @param charset the character set to use.
+   * @return the content of the file.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws UncheckedIOException if an I/O exception occurs.
+   *
+   * @since 3.23.0
+   */
+  public static List<String> linesOf(Path path, Charset charset) {
+    return Paths.linesOf(path, charset);
+  }
+
+  /**
+   * Loads the text content of a path into a list of strings, each string corresponding to a line. The line endings are
+   * either \n, \r or \r\n.
+   *
+   * @param path the path.
+   * @param charsetName the name of the character set to use.
+   * @return the content of the file.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws UncheckedIOException if an I/O exception occurs.
+   *
+   * @since 3.23.0
+   */
+  public static List<String> linesOf(Path path, String charsetName) {
+    return Paths.linesOf(path, charsetName);
   }
 
   // --------------------------------------------------------------------------------------------------

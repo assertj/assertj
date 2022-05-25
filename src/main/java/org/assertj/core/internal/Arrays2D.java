@@ -80,7 +80,8 @@ public class Arrays2D {
     }
   }
 
-  private void assertNumberOfRows(AssertionInfo info, Failures failures, Object array, int expectedSize) {
+  @VisibleForTesting
+  public void assertNumberOfRows(AssertionInfo info, Failures failures, Object array, int expectedSize) {
     assertNotNull(info, array);
     int sizeOfActual = sizeOf(array);
     if (sizeOfActual != expectedSize)

@@ -28,9 +28,17 @@ public class FactoryBasedNavigableListAssert<SELF extends FactoryBasedNavigableL
                                              ELEMENT, 
                                              ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
        extends AbstractListAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
-// @format:on
-
+         
   private AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory;
+
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  public static <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
+         FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual,
+                                                                                        AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
+    return new FactoryBasedNavigableListAssert(actual, FactoryBasedNavigableListAssert.class, assertFactory);
+  }
+  
+// @format:on
 
   public FactoryBasedNavigableListAssert(ACTUAL actual, Class<?> selfType,
                                          AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {

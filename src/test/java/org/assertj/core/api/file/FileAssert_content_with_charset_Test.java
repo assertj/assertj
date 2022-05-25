@@ -18,12 +18,14 @@ import static org.mockito.Mockito.verify;
 
 import java.io.File;
 
+import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractStringAssert;
 import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
+import org.assertj.core.api.NavigationMethodBaseTest;
 import org.junit.jupiter.api.Test;
 
-class FileAssert_content_with_charset_Test extends FileAssertBaseTest {
+class FileAssert_content_with_charset_Test extends FileAssertBaseTest implements NavigationMethodBaseTest<FileAssert> {
 
   @Override
   protected FileAssert invoke_api_method() {
@@ -35,7 +37,7 @@ class FileAssert_content_with_charset_Test extends FileAssertBaseTest {
   protected void verify_internal_effects() {
     verify(files).assertCanRead(getInfo(assertions), getActual(assertions));
   }
-  
+
   @Override
   protected FileAssert create_assertions() {
     return new FileAssert(new File("src/test/resources/utf8.txt"));
@@ -50,5 +52,15 @@ class FileAssert_content_with_charset_Test extends FileAssertBaseTest {
     // THEN
     stringAssert.contains("é à");
   }
-  
+
+  @Override
+  public FileAssert getAssertion() {
+    return assertions;
+  }
+
+  @Override
+  public AbstractAssert<?, ?> invoke_navigation_method(FileAssert assertion) {
+    return assertion.content(UTF_8);
+  }
+
 }

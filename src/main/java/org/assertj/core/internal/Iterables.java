@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
@@ -77,9 +76,11 @@ import static org.assertj.core.internal.ErrorMessages.emptySubsequence;
 import static org.assertj.core.internal.ErrorMessages.nullSequence;
 import static org.assertj.core.internal.ErrorMessages.nullSubsequence;
 import static org.assertj.core.internal.IterableDiff.diff;
+import static org.assertj.core.util.Arrays.asList;
 import static org.assertj.core.util.Arrays.prepend;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.IterableUtil.sizeOf;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Streams.stream;
 
@@ -1124,24 +1125,29 @@ public class Iterables {
   public void assertContainsExactly(AssertionInfo info, Iterable<?> actual, Object[] values) {
     checkIsNotNull(values);
     assertNotNull(info, actual);
-
+    // use actualAsList instead of actual in case actual is a singly-passable iterable
     List<Object> actualAsList = newArrayList(actual);
-    IterableDiff<Object> diff = diff(actualAsList, asList(values), comparisonStrategy);
-    if (!diff.differencesFound()) {
-      // actual and values have the same elements but are they in the same order ?
-      int i = 0;
-      // use actualAsList instead of actual in case actual is a singly-passable iterable
-      for (Object elementFromActual : actualAsList) {
-        if (!areEqual(elementFromActual, values[i])) {
-          throw failures.failure(info, elementsDifferAtIndex(elementFromActual, values[i], i, comparisonStrategy));
-        }
-        i++;
-      }
-      return;
+    // length check
+    if (actualAsList.size() != values.length) {
+      IterableDiff<Object> diff = diff(actualAsList, asList(values), comparisonStrategy);
+      throw shouldContainExactlyWithDiffAssertionError(diff, actual, values, info);
     }
-    throw failures.failure(info,
-                           shouldContainExactly(actual, asList(values), diff.missing, diff.unexpected,
-                                                comparisonStrategy));
+    // actual and values have the same number elements but are they equivalent and in the same order?
+    for (int i = 0; i < actualAsList.size(); i++) {
+      // if the objects are not equal, begin the error handling process
+      if (!areEqual(actualAsList.get(i), values[i])) {
+        IterableDiff<Object> diff = diff(actualAsList, asList(values), comparisonStrategy);
+        if (diff.differencesFound()) {
+          throw shouldContainExactlyWithDiffAssertionError(diff, actual, values, info);
+        }
+        throw failures.failure(info, elementsDifferAtIndex(actualAsList.get(i), values[i], i, comparisonStrategy));
+      }
+    }
+  }
+
+  private AssertionError shouldContainExactlyWithDiffAssertionError(IterableDiff<Object> diff, Iterable<?> actual,
+                                                                    Object[] values, AssertionInfo info) {
+    return failures.failure(info, shouldContainExactly(actual, list(values), diff.missing, diff.unexpected, comparisonStrategy));
   }
 
   public <E> void assertAllSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {

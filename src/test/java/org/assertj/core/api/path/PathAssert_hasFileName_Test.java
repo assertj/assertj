@@ -18,7 +18,7 @@ import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
 
 class PathAssert_hasFileName_Test extends PathAssertBaseTest {
-  
+
   private final String other = "file.txt";
 
   @Override

@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.List;
@@ -27,11 +27,11 @@ class DualValue_isActualJavaType_Test {
   @Test
   void isActualJavaType_should_return_true_when_actual_is_a_java_type() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, "", "");
+    DualValue dualValue = new DualValue(PATH, "", Pair.of(1, "a"));
     // WHEN
-    boolean expectedFieldIsArray = dualValue.isActualJavaType();
+    boolean isActualJavaType = dualValue.isActualJavaType();
     // THEN
-    assertThat(expectedFieldIsArray).isTrue();
+    then(isActualJavaType).isTrue();
   }
 
   @Test
@@ -39,9 +39,9 @@ class DualValue_isActualJavaType_Test {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, Pair.of(1, "a"), "");
     // WHEN
-    boolean expectedFieldIsArray = dualValue.isActualJavaType();
+    boolean isActualJavaType = dualValue.isActualJavaType();
     // THEN
-    assertThat(expectedFieldIsArray).isFalse();
+    then(isActualJavaType).isFalse();
   }
 
   @Test
@@ -49,9 +49,9 @@ class DualValue_isActualJavaType_Test {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, null, "");
     // WHEN
-    boolean expectedFieldIsArray = dualValue.isActualJavaType();
+    boolean isActualJavaType = dualValue.isActualJavaType();
     // THEN
-    assertThat(expectedFieldIsArray).isFalse();
+    then(isActualJavaType).isFalse();
   }
 
 }

@@ -26,16 +26,16 @@ import org.assertj.core.data.Percentage;
  */
 class IntegerAssert_isNotCloseToPercentage_integer_Test extends IntegerAssertBaseTest {
 
-    private final Percentage percentage = withPercentage(5);
-    private final Integer value = 10;
+  private final Percentage percentage = withPercentage(5);
+  private final Integer value = 10;
 
-    @Override
-    protected IntegerAssert invoke_api_method() {
-        return assertions.isNotCloseTo(value, percentage);
-    }
+  @Override
+  protected IntegerAssert invoke_api_method() {
+    return assertions.isNotCloseTo(value, percentage);
+  }
 
-    @Override
-    protected void verify_internal_effects() {
-        verify(integers).assertIsNotCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
-    }
+  @Override
+  protected void verify_internal_effects() {
+    verify(integers).assertIsNotCloseToPercentage(getInfo(assertions), getActual(assertions), value, percentage);
+  }
 }

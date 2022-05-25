@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.ShortAssert;
 import org.assertj.core.api.ShortAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link ShortAssert#isBetween(Short, Short)}</code>.
  * 
@@ -27,7 +26,7 @@ class ShortAssert_isBetween_Shorts_Test extends ShortAssertBaseTest {
 
   @Override
   protected ShortAssert invoke_api_method() {
-    return assertions.isBetween((short)6, (short) 8);
+    return assertions.isBetween((short) 6, (short) 8);
   }
 
   @Override

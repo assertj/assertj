@@ -5,7 +5,7 @@ Thank you for your interest in contributing to AssertJ!
 
 We appreciate your effort and to make sure that your pull request is easy to review, we ask you to note the following guidelines including legal contributor agreement:
 
-* Use JDK 11 or newer to build the project
+* Use JDK 17 or newer to build the project
 * Use **[AssertJ code Eclipse formatting preferences](src/ide-support/assertj-eclipse-formatter.xml)** (for IntelliJ IDEA users, you can import it with the 'Eclipse Code Formatter' Plugin)
 * Write complete Javadocs for each assertion method and include a code example (succeeding and failing assertion(s)).
 * As we use JUnit 5, favor `package-private` visibility for both test classes and test methods.
@@ -136,6 +136,12 @@ Try to keep [binary compatibility](https://docs.oracle.com/javase/specs/jls/se8/
 
 Other changes could compromise binary compatibility.
 These are not automatically rejected, but we will carefully evaluate each of them to weigh all the pros and cons.
+
+## Using Gitpod
+
+To avoid setting up your local development environment, you can use [Gitpod](https://www.gitpod.io/) and develop directly in browser-based Visual Studio Code, or [JetBrains Client via JetBrains Gateway](https://www.gitpod.io/docs/ides-and-editors/jetbrains-gateway).
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/from-referrer/)
 
 ## Legal stuff:
 

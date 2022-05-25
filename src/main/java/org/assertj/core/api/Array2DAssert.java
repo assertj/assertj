@@ -13,7 +13,7 @@
 package org.assertj.core.api;
 
 /**
- * Assertions applicable to two-dimensional arrays,
+ * Assertions applicable to two-dimensional arrays.
  *
  * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating
@@ -103,6 +103,25 @@ public interface Array2DAssert<SELF extends Array2DAssert<SELF, ELEMENT>, ELEMEN
    * @throws AssertionError if the actual array's dimensions are not equal to the given ones.
    */
   SELF hasDimensions(int expectedFirstDimension, int expectedSecondDimension);
+
+  /**
+   * Verifies that the actual two-dimensional array has the given number of rows.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new int[][] {{1, 2, 3}, {4, 5, 6}}).hasNumberOfRows(2);
+   * assertThat(new int[][] {{1}, {1, 2}, {1, 2, 3}}).hasNumberOfRows(3);
+   *
+   * // assertions will fail
+   * assertThat(new int[][] { }).hasNumberOfRows(1);
+   * assertThat(new int[][] {{1, 2, 3}, {4, 5, 6}}).hasNumberOfRows(3);
+   * assertThat(new int[][] {{1, 2, 3}, {4, 5, 6, 7}}).hasNumberOfRows(1); </code></pre>
+   *
+   * @param expected the expected number of rows of the two-dimensional array.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual number of rows are not equal to the given one.
+   */
+  SELF hasNumberOfRows(int expected);
 
   /**
    * Verifies that the actual array has the same dimensions as the given array.

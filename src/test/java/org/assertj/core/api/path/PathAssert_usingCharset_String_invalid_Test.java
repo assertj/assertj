@@ -35,7 +35,7 @@ class PathAssert_usingCharset_String_invalid_Test extends PathAssertBaseTest {
   public void should_return_this() {
     // Disable this test since the call fails
   }
-  
+
   @Override
   protected PathAssert invoke_api_method() {
     // not used here

@@ -698,7 +698,7 @@ public class Dates {
    */
   public void assertHasSameTime(AssertionInfo info, Date actual, Date expected) {
     assertNotNull(info, actual);
-    assertNotNull(info, expected);
+    dateParameterIsNotNull(expected);
     if (actual.getTime() != expected.getTime()) throw failures.failure(info, shouldHaveSameTime(actual, expected));
   }
 

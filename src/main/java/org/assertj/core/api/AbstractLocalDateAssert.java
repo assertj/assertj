@@ -17,9 +17,12 @@ import static org.assertj.core.error.ShouldBeAfterOrEqualTo.shouldBeAfterOrEqual
 import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
 import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
 import static org.assertj.core.error.ShouldBeToday.shouldBeToday;
+import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
+import static org.assertj.core.error.ShouldHaveDateField.shouldHaveMonth;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 
@@ -452,6 +455,107 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    */
   public SELF isStrictlyBetween(String startExclusive, String endExclusive) {
     return isStrictlyBetween(parse(startExclusive), parse(endExclusive));
+  }
+
+  /**
+   * Verifies that actual {@code LocalDate} is in the given year.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Assertion succeeds:
+   * assertThat(LocalDate.of(2000, 12, 31)).hasYear(2000);
+   *
+   * // Assertion fails:
+   * assertThat(LocalDate.of(2000, 12, 31)).hasYear(2001);</code></pre>
+   *
+   * @param year the given year.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDate} is not in the given year.
+   * 
+   * @since 3.23.0
+   */
+  public SELF hasYear(int year) {
+    Objects.instance().assertNotNull(info, actual);
+    if (actual.getYear() != year) {
+      throw Failures.instance().failure(info, shouldHaveDateField(actual, "year", year));
+    }
+    return myself;
+  }
+
+
+  /**
+   * Verifies that actual {@code LocalDate} is in the given month.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Assertion succeeds:
+   * assertThat(LocalDate.of(2000, 12, 31)).hasMonth(Month.DECEMBER);
+   *
+   * // Assertion fails:
+   * assertThat(LocalDate.of(2000, 12, 31)).hasMonth(Month.JANUARY);</code></pre>
+   *
+   * @param month the given {@link Month}.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDate} is not in the given month.
+   *
+   * @since 3.23.0
+   */
+  public SELF hasMonth(Month month) {
+    Objects.instance().assertNotNull(info, actual);
+    if (!actual.getMonth().equals(month)) {
+      throw Failures.instance().failure(info, shouldHaveMonth(actual, month));
+    }
+    return myself;
+  }
+
+  /**
+   * Verifies that actual {@code LocalDate} is in the given month.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Assertion succeeds:
+   * assertThat(LocalDate.of(2000, 12, 31)).hasMonthValue(12);
+   *
+   * // Assertion fails:
+   * assertThat(LocalDate.of(2000, 12, 31)).hasMonthValue(11);</code></pre>
+   *
+   * @param month the given month's value between 1 and 12 inclusive.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDate} is not in the given month.
+   *
+   * @since 3.23.0
+   */
+  public SELF hasMonthValue(int month) {
+    Objects.instance().assertNotNull(info, actual);
+    if (actual.getMonthValue() != month) {
+      throw Failures.instance().failure(info, shouldHaveDateField(actual, "month", month));
+    }
+    return myself;
+  }
+
+  /**
+   * Verifies that actual {@code LocalDate} is on the given day.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Assertion succeeds:
+   * assertThat(LocalDate.of(2000, 12, 31)).hasDayOfMonth(31);
+   *
+   * // Assertion fails:
+   * assertThat(LocalDate.of(2000, 12, 31)).hasDayOfMonth(1);</code></pre>
+   *
+   * @param day the given numeric day.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDate} is not on the given day.
+   *
+   * @since 3.23.0
+   */
+  public SELF hasDayOfMonth(int day) {
+    Objects.instance().assertNotNull(info, actual);
+    if (actual.getDayOfMonth() != day) {
+      throw Failures.instance().failure(info, shouldHaveDateField(actual, "day", day));
+    }
+    return myself;
   }
 
   /**

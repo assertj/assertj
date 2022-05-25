@@ -21,7 +21,7 @@ import java.util.Objects;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class Name {
+public class Name implements Comparable<Name> {
 
   public static final Comparator<Name> lastNameComparator = comparing(Name::getLast);
 
@@ -84,6 +84,11 @@ public class Name {
     if (getClass() != obj.getClass()) return false;
     Name other = (Name) obj;
     return Objects.equals(first, other.first) && Objects.equals(last, other.last);
+  }
+
+  @Override
+  public int compareTo(Name other) {
+    return this.getName().compareToIgnoreCase(other.getName());
   }
 
 }

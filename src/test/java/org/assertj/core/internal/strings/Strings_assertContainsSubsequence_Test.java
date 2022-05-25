@@ -140,12 +140,5 @@ class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
     verify(failures).failure(INFO, shouldContainSubsequence(actual, subsequence, 1, comparisonStrategy));
   }
 
-  @Test
-  void should_pass_if_empty_string_contains_multiple_empty_subsequence_bug_2158() {
-    strings.assertContainsSubsequence(INFO, "", array(""));
-    strings.assertContainsSubsequence(INFO, "", array("", ""));
-    strings.assertContainsSubsequence(INFO, "", array("", "", ""));
-    strings.assertContainsSubsequence(INFO, "", array("", "", "", ""));
-  }
 
 }

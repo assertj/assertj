@@ -53,7 +53,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    *
    * @param <T> dummy return value type
    * @param failureMessage error message.
-   * @return nothing, it's just to be used in {@code doSomething(optional.orElse(() -> fail("boom")));}.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("boom")));}.
    * @since 2.6.0 / 3.6.0
    */
   @CanIgnoreReturnValue
@@ -69,7 +69,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    * @param <T> dummy return value type
    * @param failureMessage error message.
    * @param args Arguments referenced by the format specifiers in the format string.
-   * @return nothing, it's just to be used in {@code doSomething(optional.orElse(() -> fail("boom")));}.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("boom")));}.
    * @since 2.6.0 / 3.6.0
    */
   @CanIgnoreReturnValue
@@ -83,7 +83,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    * @param <T> dummy return value type
    * @param failureMessage error message.
    * @param realCause cause of the error.
-   * @return nothing, it's just to be used in {@code doSomething(optional.orElse(() -> fail("boom")));}.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("boom")));}.
    * @since 2.6.0 / 3.6.0
    */
   @CanIgnoreReturnValue

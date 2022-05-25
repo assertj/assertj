@@ -418,7 +418,9 @@ public class Maps {
   }
 
   @SuppressWarnings("unchecked")
-  private static <K, V> Map<K, V> clone(Map<K, V> map) throws NoSuchMethodException, UnsupportedOperationException {
+  private static <K, V> Map<K, V> clone(Map<K, V> map) throws NoSuchMethodException {
+    if (isMultiValueMapAdapterInstance(map)) throw new IllegalArgumentException("Cannot clone MultiValueMapAdapter");
+
     try {
       if (map instanceof Cloneable) {
         Map<K, V> clone = (Map<K, V>) map.getClass().getMethod("clone").invoke(map);
@@ -438,6 +440,19 @@ public class Maps {
       }
     } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
       throw new IllegalStateException(e);
+    }
+  }
+
+  private static boolean isMultiValueMapAdapterInstance(Map<?, ?> map) {
+    return isInstanceOf(map, "org.springframework.util.MultiValueMapAdapter");
+  }
+
+  private static boolean isInstanceOf(Object object, String className) {
+    try {
+      Class<?> type = Class.forName(className);
+      return type.isInstance(object);
+    } catch (ClassNotFoundException e) {
+      return false;
     }
   }
 

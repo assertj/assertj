@@ -54,7 +54,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class AbstractTemporalAssert_isCloseTo_Test {
+class AbstractTemporalAssert_isCloseTo_Test {
 
   private static final ZoneId NEW_YORK_ZONE = ZoneId.of("America/New_York");
 

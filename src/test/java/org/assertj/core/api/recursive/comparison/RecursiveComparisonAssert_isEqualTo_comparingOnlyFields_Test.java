@@ -199,4 +199,55 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
                 .isEqualTo(expected);
   }
 
+  static class StaffWithLessFields {
+    Boolean deleted;
+  }
+
+  @Test
+  public void should_fail_when_actual_differs_from_expected_on_compared_fields_independent_of_object_order() {
+    // GIVEN
+    Staff staff = new Staff();
+    StaffWithLessFields staffWithLessFields = new StaffWithLessFields();
+    staff.setDeleted(Boolean.TRUE);
+    staffWithLessFields.deleted = Boolean.FALSE;
+    // WHEN
+    recursiveComparisonConfiguration.compareOnlyFields("deleted");
+    // THEN
+    compareRecursivelyFailsAsExpected(staffWithLessFields, staff);
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(staffWithLessFields, staff,
+                                                              diff("deleted", staffWithLessFields.deleted, staff.deleted));
+    compareRecursivelyFailsAsExpected(staff, staffWithLessFields);
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(staff, staffWithLessFields,
+                                                              diff("deleted", staff.deleted, staffWithLessFields.deleted));
+  }
+
+  // https://github.com/assertj/assertj-core/issues/2610
+  static class A1 {
+    final int a, b;
+
+    A1(int a, int b) {
+      this.a = a;
+      this.b = b;
+    }
+  }
+  static class A2 {
+    final int a;
+
+    A2(int a) {
+      this.a = a;
+    }
+  }
+
+  @Test
+  public void should_fix_2610() {
+    // GIVEN
+    A1 actual = new A1(1, 2);
+    A2 expected = new A2(2);
+    recursiveComparisonConfiguration.compareOnlyFields("a");
+    // WHEN
+    compareRecursivelyFailsAsExpected(actual, expected);
+    // THEN
+    ComparisonDifference difference = diff("a", actual.a, expected.a);
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference);
+  }
 }

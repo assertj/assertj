@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import org.assertj.core.api.BigDecimalAssert;
 import org.assertj.core.api.BigDecimalAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link BigDecimalAssert#isEqualByComparingTo(String)}</code>.
  * 
