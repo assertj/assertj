@@ -465,4 +465,44 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
     urls.assertIsEqualToWithSortedQueryParameters(info, actual, expected);
     return myself;
   }
+
+
+  //CS304 Issue link: https://github.com/assertj/assertj-core/issues/2196
+  /** .
+   * Verifies that the actual {@code URL} is reachable.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // These assertions succeed:
+   * assertThat(new URL("http://www.baidu.com")).isReachable();
+   * assertThat(new URL("http://www.bing.com")).isReachable();
+   *
+   * // this assertion fails:
+   * assertThat(new URL("http://www.hltv")).isReachable();
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual URL is unreachable.
+   */
+  public SELF isReachable() {
+    urls.assertIsReachable(info, actual);
+    return myself;
+  }
+
+  /** .
+   * Verifies that the actual {@code URL} is unreachable.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // These assertions succeed:
+   * assertThat(new URL("http://www.baidu")).isUnreachable();
+   * assertThat(new URL("http://www.hltv")).isUnreachable();
+   *
+   * // this assertion fails:
+   * assertThat(new URL("http://www.hltv.org")).isUnreachable();
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual URL is reachable.
+   */
+  public SELF isUnreachable() {
+    urls.assertIsUnreachable(info, actual);
+    return myself;
+  }
 }

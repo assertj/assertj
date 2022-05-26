@@ -32,6 +32,7 @@ import static org.assertj.core.internal.Uris.getParameters;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.net.URL;
+import java.net.HttpURLConnection;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -166,5 +167,63 @@ public class Urls {
     boolean differentSortedQueryParams = !deepEquals(extractSortedQueryParams(expected), extractSortedQueryParams(actual));
     if (differentNonQueryParams || differentSortedQueryParams)
       throw failures.failure(info, shouldBeEqualToWithSortedQueryParameters(actual, expected));
+  }
+
+  //CS304 Issue link: https://github.com/assertj/assertj-core/issues/2196
+  /** .
+   * Verifies that the actual {@code URL} is reachable.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // These assertions succeed:
+   * assertThat(new URL("http://www.baidu.com")).isReachable();
+   * assertThat(new URL("http://www.bing.com")).isReachable();
+   *
+   * // this assertion fails:
+   * assertThat(new URL("http://www.hltv")).isReachable();
+   *
+   * @param info corresponding information about assertion
+   * @param actual the URL we want to test its reachability
+   * @throws AssertionError if the actual URL is unreachable.
+   */
+  public void assertIsReachable(AssertionInfo info, URL actual) {
+    assertNotNull(info, actual);
+    //if (!Objects.equals(actual.getPath(), path)) throw failures.failure(info, shouldHavePath(actual, path));
+    try{
+      HttpURLConnection con = (HttpURLConnection) actual.openConnection();
+      int state = con.getResponseCode();
+      if (state != 200 && state != 403){
+        throw failures.failure(info, shouldBeReachable(actual));
+      }
+    }catch (Exception ex){
+      throw failures.failure(info, shouldBeReachable(actual));
+    }
+  }
+
+
+  /** .
+   * Verifies that the actual {@code URL} is unreachable.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // These assertions succeed:
+   * assertThat(new URL("http://www.baidu")).isUnreachable();
+   * assertThat(new URL("http://www.hltv")).isUnreachable();
+   *
+   * // this assertion fails:
+   * assertThat(new URL("http://www.hltv.org")).isUnreachable();
+   *
+   * @param info corresponding information about assertion
+   * @param actual the URL we want to test its unreachability
+   * @throws AssertionError if the actual URL is reachable.
+   */
+  public void assertIsUnreachable(AssertionInfo info, URL actual){
+    assertNotNull(info, actual);
+    try{
+      HttpURLConnection con = (HttpURLConnection) actual.openConnection();
+      int state = con.getResponseCode();
+      if (state == 200 || state == 403){
+        throw failures.failure(info, shouldBeUnreachable(actual));
+      }
+    }catch (Exception ex){
+    }
   }
 }
