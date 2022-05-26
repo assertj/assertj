@@ -18,6 +18,8 @@ import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION
 import static org.assertj.core.error.ShouldHaveSuppressedException.shouldHaveSuppressedException;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Strings.escapePercent;
+import static org.assertj.core.util.Throwables.getStackTrace;
 
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
@@ -42,7 +44,10 @@ class ShouldHaveSuppressedException_create_Test {
                                    "to have a suppressed exception with the following type and message:%n" +
                                    "  \"java.lang.IllegalArgumentException\" / \"foo\"%n" +
                                    "but could not find any in actual's suppressed exceptions:%n" +
-                                   "  %s",
+                                   "  %s" +
+                                   "%n" +
+                                   "%nThrowable that failed the check:" +
+                                   "%n" + escapePercent(getStackTrace(actual)),
                                    STANDARD_REPRESENTATION.toStringOf(actual),
                                    STANDARD_REPRESENTATION.toStringOf(array(suppressedException1, suppressedException2))));
   }

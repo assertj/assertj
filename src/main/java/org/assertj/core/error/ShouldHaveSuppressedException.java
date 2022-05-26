@@ -12,6 +12,9 @@
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.util.Strings.escapePercent;
+import static org.assertj.core.util.Throwables.getStackTrace;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Throwable} has a given suppressed exception failed.
  */
@@ -35,7 +38,10 @@ public class ShouldHaveSuppressedException extends BasicErrorMessageFactory {
           "to have a suppressed exception with the following type and message:%n" +
           "  %s / %s%n" +
           "but could not find any in actual's suppressed exceptions:%n" +
-          "  %s",
+          "  %s" +
+          "%n" +
+          "%nThrowable that failed the check:" +
+          "%n" + escapePercent(getStackTrace(actual)),
           actual, expectedSuppressedException.getClass().getName(), expectedSuppressedException.getMessage(),
           actual.getSuppressed());
   }

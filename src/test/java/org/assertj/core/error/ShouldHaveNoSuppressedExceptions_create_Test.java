@@ -16,6 +16,8 @@ import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveNoSuppressedExceptions.shouldHaveNoSuppressedExceptions;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.util.Strings.escapePercent;
+import static org.assertj.core.util.Throwables.getStackTrace;
 
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +34,10 @@ class ShouldHaveNoSuppressedExceptions_create_Test {
     then(message).isEqualTo(format("%nExpecting actual throwable not to have any suppressed exceptions but had:%n" +
                                    "  %s%n%n" +
                                    "actual throwable was:%n" +
-                                   "  %s",
+                                   "  %s" +
+                                   "%n" +
+                                   "%nThrowable that failed the check:" +
+                                   "%n" + escapePercent(getStackTrace(actual)),
                                    STANDARD_REPRESENTATION.toStringOf(actual.getSuppressed()),
                                    STANDARD_REPRESENTATION.toStringOf(actual)));
   }

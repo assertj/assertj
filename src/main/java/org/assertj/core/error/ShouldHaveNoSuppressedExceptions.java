@@ -12,6 +12,9 @@
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.util.Strings.escapePercent;
+import static org.assertj.core.util.Throwables.getStackTrace;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Throwable} has no suppressed exceptions failed.
  */
@@ -19,6 +22,7 @@ public class ShouldHaveNoSuppressedExceptions extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link ShouldHaveNoSuppressedExceptions}</code>.
+   *
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
@@ -30,6 +34,10 @@ public class ShouldHaveNoSuppressedExceptions extends BasicErrorMessageFactory {
     super("%nExpecting actual throwable not to have any suppressed exceptions but had:%n" +
           "  %s%n%n" +
           "actual throwable was:%n" +
-          "  %s", actual.getSuppressed(), actual);
+          "  %s" +
+          "%n" +
+          "%nThrowable that failed the check:" +
+          "%n" + escapePercent(getStackTrace(actual)),
+          actual.getSuppressed(), actual);
   }
 }
