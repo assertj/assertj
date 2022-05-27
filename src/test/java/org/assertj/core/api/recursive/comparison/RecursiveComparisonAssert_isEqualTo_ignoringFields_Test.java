@@ -26,10 +26,7 @@ import java.util.OptionalLong;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
-import org.assertj.core.internal.objects.data.Address;
-import org.assertj.core.internal.objects.data.Giant;
-import org.assertj.core.internal.objects.data.Human;
-import org.assertj.core.internal.objects.data.Person;
+import org.assertj.core.internal.objects.data.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -486,6 +483,52 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
                                                                expected.neighbour.neighbour.dateOfBirth);
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected,
                                                               addressDifference, neighbourDateOfBirthDifference);
+  }
+
+  @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
+  @MethodSource("recursivelyEqualObjectsIgnoringGivenAnnotations")
+  void should_pass_when_fields_with_given_annotation_are_ignored(Object actual,
+                                                                 Object expected,
+                                                                 @SuppressWarnings("unused") String testDescription,
+                                                                 List<Class<?>> ignoredAnnotations) {
+
+    assertThat(actual).usingRecursiveComparison()
+                      .ignoringFieldsWithAnnotations(ignoredAnnotations.toArray(new Class<?>[0]))
+                      .isEqualTo(expected);
+  }
+
+  private static Stream<Arguments> recursivelyEqualObjectsIgnoringGivenAnnotations() {
+    PersonWithAnnotation p1 = new PersonWithAnnotation("John");
+    p1.home.address.number = 1;
+
+    PersonWithAnnotation p2 = new PersonWithAnnotation("Jack");
+    p2.home.address.number = 1;
+
+    PersonWithAnnotation p3 = new PersonWithAnnotation("John");
+    p3.dateOfBirth = new Date(123);
+
+    PersonWithAnnotation p4 = new PersonWithAnnotation("Jack");
+    p4.dateOfBirth = new Date(456);
+
+    PersonWithAnnotation p5 = new PersonWithAnnotation();
+    p5.home.address.number = 1;
+
+    PersonWithAnnotation p6 = new PersonWithAnnotation();
+    p6.home.address.number = 2;
+
+    PersonWithAnnotation p7 = new PersonWithAnnotation("John");
+    p7.neighbour = new PersonWithAnnotation("Jack");
+    p7.neighbour.home.address.number = 123;
+
+    PersonWithAnnotation p8 = new PersonWithAnnotation("John");
+    p8.neighbour = new PersonWithAnnotation("Jim");
+    p8.neighbour.home.address.number = 456;
+
+    return Stream.of(arguments(p1, p2, "same data and type, except for one ignored annotation", list(NameAnnotation.class)),
+                     arguments(p3, p4, "same data, different type, except for several ignored annotations", list(NameAnnotation.class, DateAnnotation.class)),
+                     arguments(p5, p6, "same data except for one subfield of an ignored annotation", list(AddressAnnotation.class)),
+                     arguments(p7, p8,
+                               "same data except for several subfields of ignored annotations", list(NameAnnotation.class, AddressAnnotation.class)));
   }
 
   @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
