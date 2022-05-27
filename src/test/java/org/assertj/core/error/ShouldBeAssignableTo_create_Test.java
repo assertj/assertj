@@ -19,7 +19,6 @@ import static org.assertj.core.error.ShouldBeAssignableTo.shouldBeAssignableTo;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.Test;
 
 /**
