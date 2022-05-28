@@ -23,13 +23,16 @@ import org.assertj.core.api.ClassAssertBaseTest;
  * @author Jessica Hamilton
  */
 public class ClassAssert_isAssignableTo_Test extends ClassAssertBaseTest {
+
   @Override
   protected ClassAssert invoke_api_method() {
     return assertions.isAssignableTo(ClassAssert_isAssignableTo_Test.class);
   }
+
   @Override
   protected void verify_internal_effects() {
     verify(classes).assertIsAssignableTo(getInfo(assertions), getActual(assertions),
       ClassAssert_isAssignableTo_Test.class);
   }
+
 }
