@@ -115,14 +115,13 @@ public class Classes {
    * @param info contains information about the assertion.
    * @param actual the "actual" {@code Class}.
    * @param other the "other" {@code Class} who the actual class must be assignable to.
-   * @throws NullPointerException if one of the {@code other} is {@code null}.
+   * @throws IllegalArgumentException if other is {@code null}
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not assignable from to the {@code other} class.
    */
   public void assertIsAssignableTo(AssertionInfo info, Class<?> actual, Class<?> other) {
     assertNotNull(info, actual);
     checkArgument(!isNull(other), "%nExpecting other not to be null", other);
-    classParameterIsNotNull(other);
 
     if (!other.isAssignableFrom(actual)) throw failures.failure(info, shouldBeAssignableTo(actual, other));
   }

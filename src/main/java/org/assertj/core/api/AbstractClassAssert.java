@@ -79,7 +79,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @param other {@code Class} who can be assignable to.
    * @return {@code this} assertions object
    * @throws AssertionError if the actual {@code Class} is {@code null}.
-   * @throws IllegalArgumentException if no {@code others} classes have been specified.
+   * @throws IllegalArgumentException if {@code other} is null.
    * @throws AssertionError if the actual {@code Class} is not assignable to the {@code others} class.
    */
   public SELF isAssignableTo(Class<?> other) {
