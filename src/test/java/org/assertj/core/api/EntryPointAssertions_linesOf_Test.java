@@ -18,6 +18,8 @@ import static org.assertj.core.api.BDDAssertions.then;
 import java.io.File;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -72,6 +74,51 @@ class EntryPointAssertions_linesOf_Test extends EntryPointAssertionsBaseTest {
   }
 
   private static Stream<Function<File, List<String>>> fileLinesOfWithDefaultCharsetFunctions() {
+    return Stream.of(Assertions::linesOf, BDDAssertions::linesOf, withAssertions::linesOf);
+  }
+
+  @ParameterizedTest
+  @MethodSource("pathLinesOfWithCharsetFunctions")
+  void should_read_path_lines_with_charset(BiFunction<Path, Charset, List<String>> linesOfWithCharsetFunction) {
+    // GIVEN
+    Path sampleFile = Paths.get("src", "test", "resources", "utf8.txt");
+    // WHEN
+    List<String> lines = linesOfWithCharsetFunction.apply(sampleFile, UTF_8);
+    // THEN
+    then(lines).containsExactly("A text file encoded in UTF-8, with diacritics:", "é à");
+  }
+
+  private static Stream<BiFunction<Path, Charset, List<String>>> pathLinesOfWithCharsetFunctions() {
+    return Stream.of(Assertions::linesOf, BDDAssertions::linesOf, withAssertions::linesOf);
+  }
+
+  @ParameterizedTest
+  @MethodSource("pathLinesOfWithCharsetAsStringFunctions")
+  void should_read_path_lines_with_charset_as_string(BiFunction<Path, String, List<String>> linesOfWithCharsetFunction) {
+    // GIVEN
+    Path sampleFile = Paths.get("src", "test", "resources", "utf8.txt");
+    // WHEN
+    List<String> lines = linesOfWithCharsetFunction.apply(sampleFile, "UTF8");
+    // THEN
+    then(lines).containsExactly("A text file encoded in UTF-8, with diacritics:", "é à");
+  }
+
+  private static Stream<BiFunction<Path, String, List<String>>> pathLinesOfWithCharsetAsStringFunctions() {
+    return Stream.of(Assertions::linesOf, BDDAssertions::linesOf, withAssertions::linesOf);
+  }
+
+  @ParameterizedTest
+  @MethodSource("pathLinesOfWithDefaultCharsetFunctions")
+  void should_read_path_lines_with_default_charset(Function<Path, List<String>> linesOfWithDefaultCharsetFunction) {
+    // GIVEN
+    Path sampleFile = Paths.get("src", "test", "resources", "ascii.txt");
+    // WHEN
+    List<String> lines = linesOfWithDefaultCharsetFunction.apply(sampleFile);
+    // THEN
+    then(lines).containsExactly("abc");
+  }
+
+  private static Stream<Function<Path, List<String>>> pathLinesOfWithDefaultCharsetFunctions() {
     return Stream.of(Assertions::linesOf, BDDAssertions::linesOf, withAssertions::linesOf);
   }
 

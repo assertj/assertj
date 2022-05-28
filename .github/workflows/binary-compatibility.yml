@@ -1,15 +1,15 @@
 name: Binary Compatibility
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
+on: [push, pull_request]
 
 jobs:
-  japicmp:
-    name: Verify
+
+  verify-with-base:
+
+    name: Verify with `${{ github.base_ref }}`
     runs-on: ubuntu-latest
+    if: github.base_ref != null
+
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
@@ -18,31 +18,22 @@ jobs:
           java-version: 17
 #          cache: 'maven'
 
-      - name: (`main` only) Compare with the latest release
-        if: github.base_ref == null
-        run: >
-          ./mvnw -V --no-transfer-progress -e package japicmp:cmp
-          -DskipTests
-          -Djapicmp.breakBuildOnBinaryIncompatibleModifications=true
-
-      - name: (PR only) Checkout `${{ github.base_ref }}` into subfolder
-        if: github.base_ref != null
+      - name: Checkout `${{ github.base_ref }}` into subfolder
         uses: actions/checkout@v3
         with:
           ref: ${{ github.base_ref }}
           path: ${{ github.run_id }}.${{ github.base_ref }}
-      - name: (PR only) Build `${{ github.base_ref }}`
-        if: github.base_ref != null
+      - name: Build `${{ github.base_ref }}`
         run: ./mvnw -V --no-transfer-progress -e -f ${{ github.run_id }}.${{ github.base_ref }}/pom.xml package -DskipTests
-      - name: (PR only) Compare `${{ github.head_ref }}` with `${{ github.base_ref }}`
-        if: github.base_ref != null
+      - name: Compare `${{ github.head_ref }}` with `${{ github.base_ref }}`
         run: >
           ./mvnw -V --no-transfer-progress -e -Pjapicmp-branch package japicmp:cmp
           -DskipTests
           -Djapicmp.breakBuildOnBinaryIncompatibleModifications=true
           -Djapicmp.oldVersion.basedir=${{ github.run_id }}.${{ github.base_ref }}
-      - name: (PR only) Add label
-        if: github.base_ref != null && failure()
+
+      - name: Add label
+        if: failure()
         uses: actions/github-script@v6
         with:
           script: |
@@ -50,9 +41,65 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              labels: ['binary incompatible']
+              labels: ['binary incompatible with: base']
             })
-      - name: (PR only) Remove label
+      - name: Remove label
+        if: success()
+        uses: actions/github-script@v6
+        continue-on-error: true
+        with:
+          script: |
+            github.rest.issues.removeLabel({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              name: 'binary incompatible with: base'
+            })
+
+      - name: Add result to job summary
+        if: success() || failure()
+        run: |
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat target/japicmp/default-cli.diff >> $GITHUB_STEP_SUMMARY
+      - name: Upload reports
+        if: success() || failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: japicmp
+          path: target/japicmp
+          if-no-files-found: error
+
+  verify-with-release:
+
+    name: Verify with latest release
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: 17
+#          cache: 'maven'
+
+      - name: Compare with the latest release
+        run: >
+          ./mvnw -V --no-transfer-progress -e package japicmp:cmp
+          -DskipTests
+          -Djapicmp.breakBuildOnBinaryIncompatibleModifications=true
+
+      - name: Add label
+        if: failure()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['binary incompatible with: release']
+            })
+      - name: Remove label
         if: github.base_ref != null && success()
         uses: actions/github-script@v6
         continue-on-error: true
@@ -62,12 +109,14 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              name: 'binary incompatible'
+              name: 'binary incompatible with: release'
             })
 
-      - name: Print result
+      - name: Add result to job summary
         if: success() || failure()
-        run: cat target/japicmp/default-cli.diff
+        run: |
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat target/japicmp/default-cli.diff >> $GITHUB_STEP_SUMMARY
       - name: Upload reports
         if: success() || failure()
         uses: actions/upload-artifact@v3

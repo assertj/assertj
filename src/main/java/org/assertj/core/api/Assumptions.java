@@ -989,18 +989,19 @@ public class Assumptions {
   }
 
   /**
-   * Creates a new instance of <code>{@link GenericComparableAssert}</code> assumption.
+   * Creates a new instance of <code>{@link UniversalComparableAssert}</code> assumption.
    * <p>
    * Use this over {@link #assumeThat(Comparable)} in case of ambiguous method resolution when the object under test
    * implements several interfaces Assertj provides <code>assumeThat</code> for.
    *
-   * @param <T> the type of elements.
+   * @param <T> the type of actual.
    * @param actual the actual value.
    * @return the created assumption for assertion object.
    * @since 3.23.0
    */
-  public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assumeThatComparable(T actual) {
-    return assumeThat(actual);
+  @SuppressWarnings("unchecked")
+  public static <T> AbstractUniversalComparableAssert<?, T> assumeThatComparable(Comparable<T> actual) {
+    return asAssumption(UniversalComparableAssert.class, Comparable.class, actual);
   }
 
   /**

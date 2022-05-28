@@ -32,23 +32,24 @@ class ShouldBeLessOrEqual_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-      "Expecting actual:%n" +
-      "  8%n" +
-      "to be less than or equal to:%n" +
-      "  6 "));
+                                   "Expecting actual:%n" +
+                                   "  8%n" +
+                                   "to be less than or equal to:%n" +
+                                   "  6 "));
   }
 
   @Test
   void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
-    ErrorMessageFactory factory = shouldBeLessOrEqual(8, 6, new ComparatorBasedComparisonStrategy(new AbsValueComparator<Integer>()));
+    ErrorMessageFactory factory = shouldBeLessOrEqual(8, 6,
+                                                      new ComparatorBasedComparisonStrategy(new AbsValueComparator<Integer>()));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-      "Expecting actual:%n" +
-      "  8%n" +
-      "to be less than or equal to:%n" +
-      "  6 when comparing values using AbsValueComparator"));
+                                   "Expecting actual:%n" +
+                                   "  8%n" +
+                                   "to be less than or equal to:%n" +
+                                   "  6 when comparing values using AbsValueComparator"));
   }
 }

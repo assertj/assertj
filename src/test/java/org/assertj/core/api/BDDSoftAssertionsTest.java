@@ -1965,4 +1965,22 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
                                         .containsExactly("isGreaterThan", "isLessThan");
   }
 
+  @Test
+  void soft_assertions_should_work_with_comparable() {
+    // GIVEN
+    Comparable<Name> name1 = new Name("abc");
+    Comparable<Name> name2 = new Name("abc");
+    Name name3 = new Name("bcd");
+    Name name4 = new Name("cde");
+    // WHEN/THEN
+    softly.thenComparable(name1).isEqualByComparingTo(new Name("abc"));
+    softly.thenComparable(name1).isNotEqualByComparingTo(name3);
+    softly.thenComparable(name1).isLessThan(name3);
+    softly.thenComparable(name1).isLessThanOrEqualTo(name3);
+    softly.thenComparable(name3).isBetween(new Name("abc"), name4);
+    softly.thenComparable(name3).isGreaterThan(new Name("abc"));
+    softly.thenComparable(name3).isGreaterThanOrEqualTo(new Name("abc"));
+    softly.thenComparable(name3).isStrictlyBetween(new Name("abc"), name4);
+  }
+
 }

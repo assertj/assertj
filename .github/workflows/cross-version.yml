@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: [11, 18, 19-ea]
+        java: [18, 19-ea]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

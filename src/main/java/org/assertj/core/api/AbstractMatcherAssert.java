@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static org.assertj.core.error.MatcherShouldMatch.shouldMatch;
 
 import java.util.regex.Matcher;
+
 import org.assertj.core.internal.Failures;
 
 
@@ -34,16 +35,14 @@ public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<S
    * Verifies that the Matcher matches.
    * <p>
    * Example:
-   * <pre><code class='java'>
-   * // Assertion will pass
-   * Pattern p = Pattern.compile("a*");
-   * String str = "aaa";
-   * Matcher matcher = p.matcher(str);
+   * <pre><code class='java'> // Assertion succeeds:
+   * Pattern pattern = Pattern.compile("a*");
+   * Matcher matcher = pattern.matcher("aaa");
    * assertThat(matcher).matches();
-   * // Assertion will fail :
-   * Pattern p = Pattern.compile("a*");
-   * String str = "abc";
-   * Matcher matcher = p.matcher(str);
+   * 
+   * // Assertion fails:
+   * Pattern pattern = Pattern.compile("a*");
+   * Matcher matcher = pattern.matcher("abc");
    * assertThat(matcher).matches();</code></pre>
    *
    * @return this assertion object.

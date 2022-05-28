@@ -47,6 +47,7 @@ import static org.assertj.core.error.ShouldContainPattern.shouldContainPattern;
 import static org.assertj.core.error.ShouldContainSequenceOfCharSequence.shouldContainSequence;
 import static org.assertj.core.error.ShouldContainSubsequenceOfCharSequence.shouldContainSubsequence;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
+import static org.assertj.core.error.ShouldEndWithIgnoringCase.shouldEndWithIgnoringCase;
 import static org.assertj.core.error.ShouldHaveSizeGreaterThan.shouldHaveSizeGreaterThan;
 import static org.assertj.core.error.ShouldHaveSizeGreaterThanOrEqualTo.shouldHaveSizeGreaterThanOrEqualTo;
 import static org.assertj.core.error.ShouldHaveSizeLessThan.shouldHaveSizeLessThan;
@@ -63,9 +64,12 @@ import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotConta
 import static org.assertj.core.error.ShouldNotContainOnlyWhitespaces.shouldNotContainOnlyWhitespaces;
 import static org.assertj.core.error.ShouldNotContainPattern.shouldNotContainPattern;
 import static org.assertj.core.error.ShouldNotEndWith.shouldNotEndWith;
+import static org.assertj.core.error.ShouldNotEndWithIgnoringCase.shouldNotEndWithIgnoringCase;
 import static org.assertj.core.error.ShouldNotMatchPattern.shouldNotMatch;
 import static org.assertj.core.error.ShouldNotStartWith.shouldNotStartWith;
+import static org.assertj.core.error.ShouldNotStartWithIgnoringCase.shouldNotStartWithIgnoringCase;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
+import static org.assertj.core.error.ShouldStartWithIgnoringCase.shouldStartWithIgnoringCase;
 import static org.assertj.core.internal.Arrays.assertIsArray;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
@@ -883,6 +887,24 @@ public class Strings {
   }
 
   /**
+   * Verifies that the given {@code CharSequence} starts with the given prefix, ignoring case considerations.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence}.
+   * @param prefix the given prefix.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} does not start with the given prefix, ignoring case.
+   * @since 3.23.0
+   */
+  public void assertStartsWithIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence prefix) {
+    failIfPrefixIsNull(prefix);
+    assertNotNull(info, actual);
+    if (!comparisonStrategy.stringStartsWith(actual.toString().toLowerCase(), prefix.toString().toLowerCase()))
+      throw failures.failure(info, shouldStartWithIgnoringCase(actual, prefix, comparisonStrategy));
+  }
+
+  /**
    * Verifies that the given {@code CharSequence} does not start with the given prefix.
    *
    * @param info contains information about the assertion.
@@ -897,6 +919,24 @@ public class Strings {
     assertNotNull(info, actual);
     if (comparisonStrategy.stringStartsWith(actual.toString(), prefix.toString()))
       throw failures.failure(info, shouldNotStartWith(actual, prefix, comparisonStrategy));
+  }
+
+  /**
+   * Verifies that the given {@code CharSequence} does not start with the given prefix, ignoring case considerations.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence}.
+   * @param prefix the given prefix.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} starts with the given prefix, ignoring case.
+   * @since 3.23.0
+   */
+  public void assertDoesNotStartWithIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence prefix) {
+    failIfPrefixIsNull(prefix);
+    assertNotNull(info, actual);
+    if (comparisonStrategy.stringStartsWith(actual.toString().toLowerCase(), prefix.toString().toLowerCase()))
+      throw failures.failure(info, shouldNotStartWithIgnoringCase(actual, prefix, comparisonStrategy));
   }
 
   private static void failIfPrefixIsNull(CharSequence prefix) {
@@ -921,6 +961,24 @@ public class Strings {
   }
 
   /**
+   * Verifies that the given {@code CharSequence} ends with the given suffix, ignoring case considerations.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence}.
+   * @param suffix the given suffix.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} does not end with the given suffix, ignoring case.
+   * @since 3.23.0
+   */
+  public void assertEndsWithIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence suffix) {
+    failIfSuffixIsNull(suffix);
+    assertNotNull(info, actual);
+    if (!comparisonStrategy.stringEndsWith(actual.toString().toLowerCase(), suffix.toString().toLowerCase()))
+      throw failures.failure(info, shouldEndWithIgnoringCase(actual, suffix, comparisonStrategy));
+  }
+
+  /**
    * Verifies that the given {@code CharSequence} does not end with the given suffix.
    *
    * @param info contains information about the assertion.
@@ -935,6 +993,24 @@ public class Strings {
     assertNotNull(info, actual);
     if (comparisonStrategy.stringEndsWith(actual.toString(), suffix.toString()))
       throw failures.failure(info, shouldNotEndWith(actual, suffix, comparisonStrategy));
+  }
+
+  /**
+   * Verifies that the given {@code CharSequence} does not end with the given suffix, ignoring case considerations.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence}.
+   * @param suffix the given suffix.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} ends with the given suffix, ignoring case.
+   * @since 3.23.0
+   */
+  public void assertDoesNotEndWithIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence suffix) {
+    failIfSuffixIsNull(suffix);
+    assertNotNull(info, actual);
+    if (comparisonStrategy.stringEndsWith(actual.toString().toLowerCase(), suffix.toString().toLowerCase()))
+      throw failures.failure(info, shouldNotEndWithIgnoringCase(actual, suffix, comparisonStrategy));
   }
 
   private static void failIfSuffixIsNull(CharSequence suffix) {

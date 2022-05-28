@@ -635,10 +635,10 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
    * <p>
    * Example:
    * <pre><code class='java'> // Assertion succeeds:
-   * assertThat(LocalTime.of(23, 59, 59)).hasSecond(59);
+   * assertThat(LocalTime.of(23, 00, 59)).hasSecond(59);
    *
    * // Assertion fails:
-   * assertThat(LocalTime.of(23, 59, 59)).hasSecond(58);</code></pre>
+   * assertThat(LocalTime.of(23, 00, 59)).hasSecond(58);</code></pre>
    *
    * @param second the given second.
    * @return this assertion object.

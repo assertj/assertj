@@ -288,12 +288,7 @@ public class Files {
    * @throws UncheckedIOException if an I/O exception occurs.
    */
   public static List<String> linesOf(File file, Charset charset) {
-    requireNonNull(charset, "The charset should not be null");
-    try {
-      return java.nio.file.Files.readAllLines(file.toPath(), charset);
-    } catch (IOException e) {
-      throw new UncheckedIOException("Unable to read " + file.getAbsolutePath(), e);
-    }
+    return Paths.linesOf(file.toPath(), charset);
   }
 
   /**
@@ -307,8 +302,7 @@ public class Files {
    * @throws UncheckedIOException if an I/O exception occurs.
    */
   public static List<String> linesOf(File file, String charsetName) {
-    checkArgumentCharsetIsSupported(charsetName);
-    return linesOf(file, Charset.forName(charsetName));
+    return Paths.linesOf(file.toPath(), charsetName);
   }
 
   private static void checkArgumentCharsetIsSupported(String charsetName) {

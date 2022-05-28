@@ -104,6 +104,7 @@ import org.assertj.core.presentation.UnicodeRepresentation;
 import org.assertj.core.util.CanIgnoreReturnValue;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.Files;
+import org.assertj.core.util.Paths;
 import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.Introspection;
@@ -169,7 +170,7 @@ public class Assertions implements InstanceOfAssertFactories {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
 
-  
+
   /**
    * Create assertion for {@link Predicate}.
    * <p>
@@ -2842,6 +2843,54 @@ public class Assertions implements InstanceOfAssertFactories {
     return Files.linesOf(file, charsetName);
   }
 
+  /**
+   * Loads the text content of a file at a given path into a list of strings with the default charset, each string corresponding to a
+   * line.
+   * The line endings are either \n, \r or \r\n.
+   *
+   * @param path the path.
+   * @return the content of the file at the given path.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws UncheckedIOException if an I/O exception occurs.
+   *
+   * @since 3.23.0
+   */
+  public static List<String> linesOf(Path path) {
+    return Paths.linesOf(path, Charset.defaultCharset());
+  }
+
+  /**
+   * Loads the text content of a file at a given path into a list of strings, each string corresponding to a line.
+   * The line endings are either \n, \r or \r\n.
+   *
+   * @param path the path.
+   * @param charset the character set to use.
+   * @return the content of the file at the given path.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws UncheckedIOException if an I/O exception occurs.
+   *
+   * @since 3.23.0
+   */
+  public static List<String> linesOf(Path path, Charset charset) {
+    return Paths.linesOf(path, charset);
+  }
+
+  /**
+   * Loads the text content of a file at a given path into a list of strings, each string corresponding to a line. The line endings are
+   * either \n, \r or \r\n.
+   *
+   * @param path the path.
+   * @param charsetName the name of the character set to use.
+   * @return the content of the file at the given path.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws UncheckedIOException if an I/O exception occurs.
+   *
+   * @since 3.23.0
+   */
+  public static List<String> linesOf(Path path, String charsetName) {
+    return Paths.linesOf(path, charsetName);
+  }
+
   // --------------------------------------------------------------------------------------------------
   // URL/Resource methods : not assertions but here to have a single entry point to all AssertJ features.
   // --------------------------------------------------------------------------------------------------
@@ -3493,7 +3542,7 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
-   * Creates a new instance of <code>{@link GenericComparableAssert}</code> with
+   * Creates a new instance of <code>{@link UniversalComparableAssert}</code> with
    * standard comparison semantics.
    * <p>
    * Use this over {@link #assertThat(Comparable)} in case of ambiguous method resolution when the object under test 
@@ -3504,9 +3553,8 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    * @since 3.23.0
    */
-  @SuppressWarnings({ "unchecked", "rawtypes" })
-  public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThatComparable(T actual) {
-    return new GenericComparableAssert(actual);
+  public static <T> AbstractUniversalComparableAssert<?, T> assertThatComparable(Comparable<T> actual) {
+    return AssertionsForInterfaceTypes.assertThatComparable(actual);
   }
 
   /**

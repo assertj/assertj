@@ -18,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatObject;
 import static org.assertj.core.api.Assumptions.assumeThat;
+import static org.assertj.core.api.Assumptions.assumeThatComparable;
 import static org.assertj.core.api.Assumptions.assumeThatObject;
 import static org.assertj.core.api.Assumptions.assumeThatThrownBy;
 import static org.assertj.core.util.Arrays.array;
@@ -331,6 +332,28 @@ class Assumptions_assumeThat_with_various_types_Test {
           @Override
           public void runPassingAssumption() {
             assumeThat(actual).isGreaterThan(new ComparableExample(2));
+          }
+        },
+        new AssumptionRunner<Comparable<ComparableExample>>(new ComparableExample(4)) {
+          @Override
+          public void runFailingAssumption() {
+            assumeThatComparable(actual).isLessThan(new ComparableExample(2));
+          }
+          
+          @Override
+          public void runPassingAssumption() {
+            assumeThatComparable(actual).isGreaterThan(new ComparableExample(2));
+          }
+        },
+        new AssumptionRunner<ComparableExample>(new ComparableExample(4)) {
+          @Override
+          public void runFailingAssumption() {
+            assumeThatComparable(actual).isLessThan(new ComparableExample(2));
+          }
+          
+          @Override
+          public void runPassingAssumption() {
+            assumeThatComparable(actual).isGreaterThan(new ComparableExample(2));
           }
         },
         new AssumptionRunner<List<String>>(asList("a", "b", "c")) {

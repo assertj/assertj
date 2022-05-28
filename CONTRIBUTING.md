@@ -5,7 +5,7 @@ Thank you for your interest in contributing to AssertJ!
 
 We appreciate your effort and to make sure that your pull request is easy to review, we ask you to note the following guidelines including legal contributor agreement:
 
-* Use JDK 11 or newer to build the project
+* Use JDK 17 or newer to build the project
 * Use **[AssertJ code Eclipse formatting preferences](src/ide-support/assertj-eclipse-formatter.xml)** (for IntelliJ IDEA users, you can import it with the 'Eclipse Code Formatter' Plugin)
 * Write complete Javadocs for each assertion method and include a code example (succeeding and failing assertion(s)).
 * As we use JUnit 5, favor `package-private` visibility for both test classes and test methods.
