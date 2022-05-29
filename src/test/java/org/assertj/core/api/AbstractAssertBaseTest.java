@@ -12,6 +12,11 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verifyNoInteractions;
+
+import org.junit.jupiter.api.Test;
+
 /**
  * Base class to test the concrete methods of {@link AbstractAssert} (using a dummy implementation).
  * 
@@ -21,5 +26,42 @@ public abstract class AbstractAssertBaseTest extends BaseTestTemplate<ConcreteAs
   @Override
   protected ConcreteAssert create_assertions() {
     return new ConcreteAssert(6L);
+  }
+
+  protected ConcreteAssert applyIgnoreWithoutEffects() {
+    return assertions.ignoreWhen(v -> (Long) v < 8);
+  }
+
+  protected ConcreteAssert applyIgnoreWithEffects() {
+    return assertions.ignoreWhen(v -> (Long) v > 8);
+  }
+
+  @Test
+  public void should_have_no_internal_effects_when_assertions_should_be_ignored() {
+    this.assertions = applyIgnoreWithoutEffects();
+    invoke_api_method();
+    verify_no_internal_effects();
+  }
+
+  @Test
+  public void should_have_internal_effects_when_assertions_should_not_be_ignored() {
+    this.assertions = applyIgnoreWithEffects();
+    invoke_api_method();
+    verify_internal_effects();
+  }
+
+  @Test
+  public void should_return_this_when_assertions_should_be_ignored() {
+    this.assertions = applyIgnoreWithoutEffects();
+    ConcreteAssert returned = invoke_api_method();
+    assertThat(returned).isSameAs(assertions);
+  }
+
+  /**
+   * Verifies that invoking the API method had the expected effects (usually, setting some internal state or invoking an internal
+   * object).
+   */
+  protected void verify_no_internal_effects() {
+    verifyNoInteractions(objects, conditions, assertionErrorCreator);
   }
 }

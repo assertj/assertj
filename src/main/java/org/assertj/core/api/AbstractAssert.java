@@ -72,6 +72,8 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   protected Objects objects = Objects.instance();
 
+  protected Predicate<ACTUAL> ignoreWhen = actual -> false;
+
   @VisibleForTesting
   Conditions conditions = Conditions.instance();
 
@@ -358,105 +360,112 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /** {@inheritDoc} */
   @Override
   public SELF isEqualTo(Object expected) {
-    objects.assertEqual(info, actual, expected);
+    //return doAssert(innerExpected -> objects.assertEqual(info, actual, innerExpected), expected);
+    return doAssert(() -> objects.assertEqual(info, actual, expected));
+  }
+
+  // Using this method means that we have to create a new object always, in order to use the input parameter
+  protected SELF doAssert(Runnable assertRunnable) {
+    if (ignoreWhen.test(actual)) {
+      return myself;
+    }
+
+    assertRunnable.run();
+
+    return myself;
+  }
+
+  // Using this method we can avoid not needed creation of objects, but passing everything we need to the consumer
+  protected <T> SELF doAssert(Consumer<T> consumer, T expected) {
+    if (ignoreWhen.test(actual)) {
+      return myself;
+    }
+    consumer.accept(expected);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNotEqualTo(Object other) {
-    objects.assertNotEqual(info, actual, other);
-    return myself;
+    return doAssert(inner -> objects.assertNotEqual(info, actual, inner), other);
   }
 
   /** {@inheritDoc} */
   @Override
   public void isNull() {
-    objects.assertNull(info, actual);
+    doAssert(() -> objects.assertNull(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNotNull() {
-    objects.assertNotNull(info, actual);
-    return myself;
+    return doAssert(() -> objects.assertNotNull(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isSameAs(Object expected) {
-    objects.assertSame(info, actual, expected);
-    return myself;
+    return doAssert(inner -> objects.assertSame(info, actual, inner), expected);
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNotSameAs(Object other) {
-    objects.assertNotSame(info, actual, other);
-    return myself;
+    return doAssert(inner -> objects.assertNotSame(info, actual, inner), other);
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isIn(Object... values) {
-    objects.assertIsIn(info, actual, values);
-    return myself;
+    return doAssert(inner -> objects.assertIsIn(info, actual, inner), values);
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNotIn(Object... values) {
-    objects.assertIsNotIn(info, actual, values);
-    return myself;
+    return doAssert(inner -> objects.assertIsNotIn(info, actual, inner), values);
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isIn(Iterable<?> values) {
-    objects.assertIsIn(info, actual, values);
-    return myself;
+    return doAssert(inner -> objects.assertIsIn(info, actual, inner), values);
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNotIn(Iterable<?> values) {
-    objects.assertIsNotIn(info, actual, values);
-    return myself;
+    return doAssert(inner -> objects.assertIsNotIn(info, actual, inner), values);
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF is(Condition<? super ACTUAL> condition) {
-    conditions.assertIs(info, actual, condition);
-    return myself;
+    return doAssert(inner -> conditions.assertIs(info, actual, inner), condition);
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNot(Condition<? super ACTUAL> condition) {
-    conditions.assertIsNot(info, actual, condition);
-    return myself;
+    return doAssert(inner -> conditions.assertIsNot(info, actual, inner), condition);
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF has(Condition<? super ACTUAL> condition) {
-    conditions.assertHas(info, actual, condition);
-    return myself;
+    return doAssert(inner -> conditions.assertHas(info, actual, inner), condition);
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF doesNotHave(Condition<? super ACTUAL> condition) {
-    conditions.assertDoesNotHave(info, actual, condition);
-    return myself;
+    return doAssert(inner -> conditions.assertDoesNotHave(info, actual, inner), condition);
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF satisfies(Condition<? super ACTUAL> condition) {
-    conditions.assertSatisfies(info, actual, condition);
-    return myself;
+    return doAssert(inner -> conditions.assertSatisfies(info, actual, inner), condition);
   }
 
   /** {@inheritDoc} */
@@ -472,95 +481,84 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /** {@inheritDoc} */
   @Override
   public SELF isInstanceOf(Class<?> type) {
-    objects.assertIsInstanceOf(info, actual, type);
-    return myself;
+    return doAssert(inner -> objects.assertIsInstanceOf(info, actual, inner), type);
   }
 
   /** {@inheritDoc} */
   @SuppressWarnings("unchecked")
   @Override
   public <T> SELF isInstanceOfSatisfying(Class<T> type, Consumer<T> requirements) {
-    objects.assertIsInstanceOf(info, actual, type);
     requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
-    requirements.accept((T) actual);
-    return myself;
+    return doAssert(() -> {
+      objects.assertIsInstanceOf(info, actual, type);
+      requirements.accept((T) actual);
+    });
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isInstanceOfAny(Class<?>... types) {
-    objects.assertIsInstanceOfAny(info, actual, types);
-    return myself;
+    return doAssert(inner -> objects.assertIsInstanceOfAny(info, actual, inner), types);
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNotInstanceOf(Class<?> type) {
-    objects.assertIsNotInstanceOf(info, actual, type);
-    return myself;
+    return doAssert(inner -> objects.assertIsNotInstanceOf(info, actual, inner), type);
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNotInstanceOfAny(Class<?>... types) {
-    objects.assertIsNotInstanceOfAny(info, actual, types);
-    return myself;
+    return doAssert(inner -> objects.assertIsNotInstanceOfAny(info, actual, inner), types);
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF hasSameClassAs(Object other) {
-    objects.assertHasSameClassAs(info, actual, other);
-    return myself;
+    return doAssert(inner -> objects.assertHasSameClassAs(info, actual, inner), other);
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF hasToString(String expectedToString) {
-    objects.assertHasToString(info, actual, expectedToString);
-    return myself;
+    return doAssert(inner -> objects.assertHasToString(info, actual, inner), expectedToString);
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF doesNotHaveToString(String otherToString) {
-    objects.assertDoesNotHaveToString(info, actual, otherToString);
-    return myself;
+    return doAssert(inner -> objects.assertDoesNotHaveToString(info, actual, inner), otherToString);
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF doesNotHaveSameClassAs(Object other) {
-    objects.assertDoesNotHaveSameClassAs(info, actual, other);
-    return myself;
+    return doAssert(innerOther -> objects.assertDoesNotHaveSameClassAs(info, actual, innerOther), other);
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isExactlyInstanceOf(Class<?> type) {
-    objects.assertIsExactlyInstanceOf(info, actual, type);
-    return myself;
+    return doAssert(inner -> objects.assertIsExactlyInstanceOf(info, actual, inner), type);
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNotExactlyInstanceOf(Class<?> type) {
-    objects.assertIsNotExactlyInstanceOf(info, actual, type);
-    return myself;
+    return doAssert(inner -> objects.assertIsNotExactlyInstanceOf(info, actual, inner), type);
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isOfAnyClassIn(Class<?>... types) {
-    objects.assertIsOfAnyClassIn(info, actual, types);
-    return myself;
+    return doAssert(inner -> objects.assertIsOfAnyClassIn(info, actual, inner), types);
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNotOfAnyClassIn(Class<?>... types) {
-    objects.assertIsNotOfAnyClassIn(info, actual, types);
-    return myself;
+    return doAssert(inner -> objects.assertIsNotOfAnyClassIn(info, actual, inner), types);
   }
 
   /** {@inheritDoc} */
@@ -1017,8 +1015,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /** {@inheritDoc} */
   @Override
   public SELF doesNotHaveSameHashCodeAs(Object other) {
-    objects.assertDoesNotHaveSameHashCodeAs(info, actual, other);
-    return myself;
+    return doAssert(innerOther -> objects.assertDoesNotHaveSameHashCodeAs(info, actual, innerOther), other);
   }
 
   /**
@@ -1116,6 +1113,13 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     isNotNull();
     T extractedValue = extractor.apply(actual);
     return (ASSERT) assertFactory.createAssert(extractedValue).withAssertionState(myself);
+  }
+
+  @CheckReturnValue
+  public SELF ignoreWhen(Predicate<ACTUAL> predicate) {
+    requireNonNull(predicate, shouldNotBeNull("predicate")::create);
+    this.ignoreWhen = predicate;
+    return myself;
   }
 
 }
