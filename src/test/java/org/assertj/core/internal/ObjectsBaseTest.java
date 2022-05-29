@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.BeforeEach;
 

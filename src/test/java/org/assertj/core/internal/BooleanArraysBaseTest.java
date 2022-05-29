@@ -16,6 +16,7 @@ import static org.assertj.core.test.BooleanArrays.arrayOf;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.assertj.core.api.WritableAssertionInfo;
 import org.junit.jupiter.api.BeforeEach;
 

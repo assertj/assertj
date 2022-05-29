@@ -27,9 +27,9 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.assertj.core.internal.ShortArrays;
 import org.assertj.core.internal.ShortArraysBaseTest;
-import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
 /**

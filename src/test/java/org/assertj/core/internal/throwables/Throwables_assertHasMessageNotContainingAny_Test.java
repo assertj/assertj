@@ -21,8 +21,8 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.internal.Throwables;
 import org.assertj.core.internal.ThrowablesBaseTest;
 import org.junit.jupiter.api.Test;

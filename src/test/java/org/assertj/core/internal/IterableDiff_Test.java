@@ -19,6 +19,8 @@ import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
 
+import org.assertj.core.api.ComparisonStrategy;
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -23,9 +23,9 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Sets.set;
 import static org.mockito.internal.util.collections.Sets.newSet;
 
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 

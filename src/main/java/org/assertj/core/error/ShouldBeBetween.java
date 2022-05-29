@@ -14,8 +14,8 @@ package org.assertj.core.error;
 
 import java.util.Date;
 
-import org.assertj.core.internal.ComparisonStrategy;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.ComparisonStrategy;
+import org.assertj.core.api.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value is between a start and an end

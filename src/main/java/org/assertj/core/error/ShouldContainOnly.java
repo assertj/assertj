@@ -17,8 +17,8 @@ import static org.assertj.core.error.ShouldContainOnly.ErrorType.NOT_EXPECTED_ON
 import static org.assertj.core.error.ShouldContainOnly.ErrorType.NOT_FOUND_ONLY;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 
-import org.assertj.core.internal.ComparisonStrategy;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.ComparisonStrategy;
+import org.assertj.core.api.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains only a given set of

@@ -94,6 +94,8 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.ComparisonStrategy;
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.assertj.core.util.VisibleForTesting;
 
 /**

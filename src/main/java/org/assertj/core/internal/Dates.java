@@ -55,6 +55,8 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.ComparisonStrategy;
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.assertj.core.error.ShouldBeEqualWithTimePrecision;
 import org.assertj.core.util.VisibleForTesting;
 

@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal;
 
+import org.assertj.core.api.ComparisonStrategy;
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.assertj.core.util.VisibleForTesting;
 
 /**

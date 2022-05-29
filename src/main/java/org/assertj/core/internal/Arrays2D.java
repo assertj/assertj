@@ -30,6 +30,7 @@ import static org.assertj.core.util.Arrays.sizeOf;
 import java.lang.reflect.Array;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.assertj.core.data.Index;
 import org.assertj.core.error.ShouldHaveDimensions;
 import org.assertj.core.util.VisibleForTesting;

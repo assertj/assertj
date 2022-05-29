@@ -17,6 +17,8 @@ import static java.math.BigInteger.ZERO;
 
 import java.math.BigInteger;
 
+import org.assertj.core.api.ComparisonStrategy;
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.assertj.core.util.VisibleForTesting;
 
 /**

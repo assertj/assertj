@@ -52,7 +52,6 @@ import org.assertj.core.data.Index;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
-import org.assertj.core.internal.AtomicReferenceArrayElementComparisonStrategy;
 import org.assertj.core.internal.CommonErrors;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ConfigurableRecursiveFieldByFieldComparator;

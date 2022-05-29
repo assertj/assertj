@@ -17,8 +17,8 @@ import static org.assertj.core.util.Arrays.sizeOf;
 
 import java.lang.reflect.Array;
 
-import org.assertj.core.internal.ComparisonStrategy;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.ComparisonStrategy;
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.assertj.core.util.Arrays;
 import org.assertj.core.util.IterableUtil;
 

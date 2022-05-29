@@ -18,6 +18,9 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.assertj.core.api.ComparisonStrategy;
+import org.assertj.core.api.StandardComparisonStrategy;
+
 // immutable
 /**
  * @param <T> the type of element to compare.

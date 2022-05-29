@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 
 import java.awt.*;
 
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.assertj.core.util.Employee;
 import org.junit.jupiter.api.Test;
 

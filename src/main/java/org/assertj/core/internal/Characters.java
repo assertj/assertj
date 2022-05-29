@@ -18,6 +18,7 @@ import static org.assertj.core.error.ShouldBeLowerCase.shouldBeLowerCase;
 import static org.assertj.core.error.ShouldBeUpperCase.shouldBeUpperCase;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.ComparisonStrategy;
 import org.assertj.core.util.VisibleForTesting;
 
 

@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.api.ComparisonStrategy;
 
 public class ShouldContainAnyOf extends BasicErrorMessageFactory {
 

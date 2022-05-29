@@ -12,9 +12,9 @@
  */
 package org.assertj.core.error;
 
+import org.assertj.core.api.ComparisonStrategy;
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.assertj.core.data.Index;
-import org.assertj.core.internal.ComparisonStrategy;
-import org.assertj.core.internal.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains a value at a given index

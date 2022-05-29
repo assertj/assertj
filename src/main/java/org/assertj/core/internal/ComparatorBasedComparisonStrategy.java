@@ -21,6 +21,9 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.assertj.core.api.AbstractComparisonStrategy;
+import org.assertj.core.api.ComparisonStrategy;
+
 /**
  * Implements {@link ComparisonStrategy} contract with a comparison strategy based on a {@link Comparator}.
  *

@@ -10,10 +10,11 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.internal;
+package org.assertj.core.api;
 
 import static org.assertj.core.util.Preconditions.checkArgument;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
@@ -84,25 +85,25 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
       if (otherClass.isArray()) {
         if (actualClass.getComponentType().isPrimitive() && otherClass.getComponentType().isPrimitive()) {
           if (actual instanceof byte[] && other instanceof byte[])
-            return java.util.Arrays.equals((byte[]) actual, (byte[]) other);
+            return Arrays.equals((byte[]) actual, (byte[]) other);
           if (actual instanceof short[] && other instanceof short[])
-            return java.util.Arrays.equals((short[]) actual, (short[]) other);
+            return Arrays.equals((short[]) actual, (short[]) other);
           if (actual instanceof int[] && other instanceof int[])
-            return java.util.Arrays.equals((int[]) actual, (int[]) other);
+            return Arrays.equals((int[]) actual, (int[]) other);
           if (actual instanceof long[] && other instanceof long[])
-            return java.util.Arrays.equals((long[]) actual, (long[]) other);
+            return Arrays.equals((long[]) actual, (long[]) other);
           if (actual instanceof char[] && other instanceof char[])
-            return java.util.Arrays.equals((char[]) actual, (char[]) other);
+            return Arrays.equals((char[]) actual, (char[]) other);
           if (actual instanceof float[] && other instanceof float[])
-            return java.util.Arrays.equals((float[]) actual, (float[]) other);
+            return Arrays.equals((float[]) actual, (float[]) other);
           if (actual instanceof double[] && other instanceof double[])
-            return java.util.Arrays.equals((double[]) actual, (double[]) other);
+            return Arrays.equals((double[]) actual, (double[]) other);
           if (actual instanceof boolean[] && other instanceof boolean[])
-            return java.util.Arrays.equals((boolean[]) actual, (boolean[]) other);
+            return Arrays.equals((boolean[]) actual, (boolean[]) other);
         }
 
         if (actual instanceof Object[] && other instanceof Object[])
-          return java.util.Arrays.deepEquals((Object[]) actual, (Object[]) other);
+          return Arrays.deepEquals((Object[]) actual, (Object[]) other);
       }
     }
     return actual.equals(other);

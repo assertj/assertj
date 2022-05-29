@@ -43,6 +43,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.assertj.core.util.VisibleForTesting;
 
 /**

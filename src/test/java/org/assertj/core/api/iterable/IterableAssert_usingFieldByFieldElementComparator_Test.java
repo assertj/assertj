@@ -27,8 +27,8 @@ import java.util.Objects;
 
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
+import org.assertj.core.api.IterableElementComparisonStrategy;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.IterableElementComparisonStrategy;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.BeforeEach;

@@ -10,19 +10,20 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.internal;
+package org.assertj.core.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
-import static org.assertj.core.util.Arrays.isArray;
+import static org.assertj.core.util.IterableUtil.sizeOf;
 
 import java.util.Comparator;
-import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.Iterator;
 
-public class AtomicReferenceArrayElementComparisonStrategy<T> extends StandardComparisonStrategy {
+public class IterableElementComparisonStrategy<T> extends StandardComparisonStrategy {
 
   private final Comparator<? super T> elementComparator;
 
-  public AtomicReferenceArrayElementComparisonStrategy(Comparator<? super T> elementComparator) {
+  public IterableElementComparisonStrategy(Comparator<? super T> elementComparator) {
     this.elementComparator = elementComparator;
   }
 
@@ -31,29 +32,32 @@ public class AtomicReferenceArrayElementComparisonStrategy<T> extends StandardCo
   public boolean areEqual(Object actual, Object other) {
     if (actual == null && other == null) return true;
     if (actual == null || other == null) return false;
-    // expecting actual and other to be T[]
-    return actual instanceof AtomicReferenceArray && isArray(other) && compareElementsOf((AtomicReferenceArray<T>) actual, (T[]) other);
+    // expecting actual and other to be iterable<T>
+    return actual instanceof Iterable && other instanceof Iterable
+           && compareElementsOf((Iterable<T>) actual, (Iterable<T>) other);
   }
 
-  private boolean compareElementsOf(AtomicReferenceArray<T> actual, T[] other) {
-    if (actual.length() != other.length) return false;
+  private boolean compareElementsOf(Iterable<T> actual, Iterable<T> other) {
+    if (sizeOf(actual) != sizeOf(other)) return false;
     // compare their elements with elementComparator
-    for (int i = 0; i < actual.length(); i++) {
-      if (elementComparator.compare(actual.get(i), other[i]) != 0) return false;
+    Iterator<T> iterator = other.iterator();
+    for (T actualElement : actual) {
+      T otherElement = iterator.next();
+      if (elementComparator.compare(actualElement, otherElement) != 0) return false;
     }
     return true;
   }
 
   @Override
   public String toString() {
-    return "AtomicReferenceArrayElementComparisonStrategy using " + CONFIGURATION_PROVIDER.representation()
-                                                                                          .toStringOf(
-                                                                                            elementComparator);
+    return "IterableElementComparisonStrategy using " +
+           CONFIGURATION_PROVIDER.representation().toStringOf(elementComparator);
   }
 
   @Override
   public String asText() {
-    return "when comparing elements using " + CONFIGURATION_PROVIDER.representation().toStringOf(elementComparator);
+    return format("when comparing elements using %s",
+                  CONFIGURATION_PROVIDER.representation().toStringOf(elementComparator));
   }
 
   @Override

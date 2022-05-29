@@ -19,6 +19,7 @@ import static org.mockito.Mockito.verify;
 
 import java.awt.*;
 
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.assertj.core.util.Employee;
 import org.junit.jupiter.api.Test;
 

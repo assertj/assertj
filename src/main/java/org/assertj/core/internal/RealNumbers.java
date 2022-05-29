@@ -20,6 +20,7 @@ import static org.assertj.core.error.ShouldNotBeInfinite.shouldNotBeInfinite;
 import java.math.BigDecimal;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.ComparisonStrategy;
 
 /**
  * Base class of reusable assertions for real numbers (float and double).

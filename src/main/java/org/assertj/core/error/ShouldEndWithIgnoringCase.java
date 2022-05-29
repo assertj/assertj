@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.api.ComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that {@link CharSequence} ends with a given value

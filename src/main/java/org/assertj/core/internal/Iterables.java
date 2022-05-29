@@ -102,7 +102,9 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.ComparisonStrategy;
 import org.assertj.core.api.Condition;
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.assertj.core.error.UnsatisfiedRequirement;
 import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
 import org.assertj.core.presentation.PredicateDescription;

@@ -19,9 +19,9 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.ComparisonStrategy;
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.ComparisonStrategy;
-import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.assertj.core.util.StringHashCodeTestComparator;

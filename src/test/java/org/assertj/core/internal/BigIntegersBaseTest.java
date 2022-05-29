@@ -17,6 +17,8 @@ import static org.assertj.core.util.BigIntegerComparator.BIG_INTEGER_COMPARATOR;
 import java.math.BigInteger;
 import java.util.Comparator;
 
+import org.assertj.core.api.ComparisonStrategy;
+
 
 public class BigIntegersBaseTest extends NumbersBaseTest<BigIntegers, BigInteger> {
 

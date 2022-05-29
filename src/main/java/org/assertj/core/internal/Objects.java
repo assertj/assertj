@@ -68,6 +68,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.ComparisonStrategy;
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.assertj.core.error.GroupTypeDescription;
 import org.assertj.core.internal.DeepDifference.Difference;
 import org.assertj.core.util.VisibleForTesting;

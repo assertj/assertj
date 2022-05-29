@@ -23,9 +23,9 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.assertj.core.internal.BooleanArrays;
 import org.assertj.core.internal.BooleanArraysBaseTest;
-import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

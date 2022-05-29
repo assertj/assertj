@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.internal;
+package org.assertj.core.api;
 
 import static java.lang.reflect.Array.getLength;
 import static java.util.Collections.EMPTY_SET;

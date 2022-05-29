@@ -16,7 +16,7 @@ import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.ErrorType.NO
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.ErrorType.NOT_FOUND_ONLY;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 
-import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.api.ComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains exactly a given set

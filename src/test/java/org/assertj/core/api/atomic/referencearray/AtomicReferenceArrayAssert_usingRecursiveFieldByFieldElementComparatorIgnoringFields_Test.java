@@ -17,8 +17,8 @@ import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
+import org.assertj.core.api.AtomicReferenceArrayElementComparisonStrategy;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
-import org.assertj.core.internal.AtomicReferenceArrayElementComparisonStrategy;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ConfigurableRecursiveFieldByFieldComparator;
 import org.assertj.core.internal.ObjectArrays;

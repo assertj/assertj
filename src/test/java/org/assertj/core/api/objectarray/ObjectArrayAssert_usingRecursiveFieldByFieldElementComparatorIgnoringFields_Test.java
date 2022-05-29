@@ -17,10 +17,10 @@ import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
+import org.assertj.core.api.ObjectArrayElementComparisonStrategy;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ConfigurableRecursiveFieldByFieldComparator;
-import org.assertj.core.internal.ObjectArrayElementComparisonStrategy;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.test.Name;
 import org.assertj.core.test.Player;

@@ -62,7 +62,6 @@ import org.assertj.core.internal.ExtendedByTypesComparator;
 import org.assertj.core.internal.FieldByFieldComparator;
 import org.assertj.core.internal.IgnoringFieldsComparator;
 import org.assertj.core.internal.Iterables;
-import org.assertj.core.internal.ObjectArrayElementComparisonStrategy;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.OnFieldsComparator;

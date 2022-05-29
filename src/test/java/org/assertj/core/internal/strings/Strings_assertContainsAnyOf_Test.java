@@ -20,7 +20,7 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 

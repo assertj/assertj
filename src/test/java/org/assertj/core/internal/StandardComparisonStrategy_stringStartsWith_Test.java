@@ -14,6 +14,7 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
 /**

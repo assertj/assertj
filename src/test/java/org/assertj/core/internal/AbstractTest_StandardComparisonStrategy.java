@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal;
 
+import org.assertj.core.api.StandardComparisonStrategy;
+
 public class AbstractTest_StandardComparisonStrategy {
 
   protected static StandardComparisonStrategy standardComparisonStrategy = StandardComparisonStrategy.instance();

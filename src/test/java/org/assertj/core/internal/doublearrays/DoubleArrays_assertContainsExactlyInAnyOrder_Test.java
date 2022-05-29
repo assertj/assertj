@@ -25,9 +25,9 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.assertj.core.internal.DoubleArrays;
 import org.assertj.core.internal.DoubleArraysBaseTest;
-import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
 /**

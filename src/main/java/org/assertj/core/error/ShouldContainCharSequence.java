@@ -17,8 +17,8 @@ import static org.assertj.core.util.Throwables.getStackTrace;
 
 import java.util.Set;
 
-import org.assertj.core.internal.ComparisonStrategy;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.ComparisonStrategy;
+import org.assertj.core.api.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a {@code CharSequence} contains another

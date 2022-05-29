@@ -22,7 +22,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.internal.util.collections.Sets.newSet;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;

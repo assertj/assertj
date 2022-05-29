@@ -16,8 +16,8 @@ import static org.assertj.core.util.DateUtil.parse;
 
 import java.util.Date;
 
-import org.assertj.core.internal.ComparisonStrategy;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.ComparisonStrategy;
+import org.assertj.core.api.StandardComparisonStrategy;
 
 
 /**

@@ -14,8 +14,8 @@ package org.assertj.core.error;
 
 import java.util.Date;
 
-import org.assertj.core.internal.ComparisonStrategy;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.ComparisonStrategy;
+import org.assertj.core.api.StandardComparisonStrategy;
 
 
 /**

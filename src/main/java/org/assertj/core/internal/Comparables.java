@@ -23,6 +23,8 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 import java.util.Comparator;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.ComparisonStrategy;
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.ShouldBeAfter;
 import org.assertj.core.error.ShouldBeAfterOrEqualTo;

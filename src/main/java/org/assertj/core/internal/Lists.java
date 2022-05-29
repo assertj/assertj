@@ -29,7 +29,9 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.ComparisonStrategy;
 import org.assertj.core.api.Condition;
+import org.assertj.core.api.StandardComparisonStrategy;
 import org.assertj.core.data.Index;
 import org.assertj.core.util.VisibleForTesting;
 

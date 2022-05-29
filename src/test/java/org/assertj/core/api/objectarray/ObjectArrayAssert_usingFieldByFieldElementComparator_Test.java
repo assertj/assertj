@@ -25,8 +25,8 @@ import java.util.Objects;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
+import org.assertj.core.api.ObjectArrayElementComparisonStrategy;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.ObjectArrayElementComparisonStrategy;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.BeforeEach;
