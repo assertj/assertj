@@ -43,7 +43,7 @@
     <opentest4j.version>1.2.0</opentest4j.version>
     <!-- Dependency versions overriding -->
     <junit.version>4.13.2</junit.version>
-    <junit-jupiter.version>5.8.2</junit-jupiter.version>
+    <junit-jupiter.version>5.9.0-M1</junit-jupiter.version>
     <mockito.version>4.5.1</mockito.version>
     <!-- Plugin versions -->
     <bnd.version>6.2.0</bnd.version>

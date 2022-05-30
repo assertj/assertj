@@ -14,21 +14,23 @@ package org.assertj.core.internal.classes;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
 import static org.assertj.core.error.ShouldHaveMethods.shouldNotHaveMethods;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newTreeSet;
+import static org.junit.jupiter.api.condition.JRE.JAVA_18;
 
-import java.math.BigDecimal;
 import java.util.SortedSet;
 
 import org.assertj.core.internal.ClassesBaseTest;
 import org.assertj.core.util.Strings;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.JRE;
 
 class Classes_assertHasMethods_Test extends ClassesBaseTest {
 
@@ -50,25 +52,29 @@ class Classes_assertHasMethods_Test extends ClassesBaseTest {
 
   @Test
   void should_fail_if_no_methods_are_expected_and_methods_are_available() {
-    SortedSet<String> expectedMethods = newTreeSet("publicMethod",
-                                                   "protectedMethod",
-                                                   "privateMethod",
-                                                   "finalize",
-                                                   "wait",
-                                                   "equals",
-                                                   "toString",
-                                                   "hashCode",
-                                                   "getClass",
-                                                   "clone",
-                                                   "notify",
-                                                   "notifyAll");
-    if (isJavaVersionBefore14()) {
-      expectedMethods.add("registerNatives");
-    }
-    assertThatAssertionErrorIsThrownBy(() -> classes.assertHasMethods(someInfo(), actual))
-                                                                                          .withMessage(format(shouldNotHaveMethods(actual,
-                                                                                                                                   false,
-                                                                                                                                   expectedMethods).create()));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> classes.assertHasMethods(someInfo(), actual));
+    // THEN
+    then(assertionError).hasMessage(shouldNotHaveMethods(actual, false, actualMethods()).create());
+  }
+
+  private static SortedSet<String> actualMethods() {
+    SortedSet<String> actualMethods = newTreeSet("publicMethod",
+                                                 "protectedMethod",
+                                                 "privateMethod",
+                                                 "finalize",
+                                                 "wait",
+                                                 "equals",
+                                                 "toString",
+                                                 "hashCode",
+                                                 "getClass",
+                                                 "clone",
+                                                 "notify",
+                                                 "notifyAll");
+
+    if (JRE.currentVersion().compareTo(JAVA_18) > 0) actualMethods.add("wait0");
+
+    return actualMethods;
   }
 
   @Test
@@ -92,11 +98,6 @@ class Classes_assertHasMethods_Test extends ClassesBaseTest {
                                                    .withMessage(format(shouldHaveMethods(actual, false,
                                                                                          newTreeSet(expected),
                                                                                          newTreeSet("missingMethod")).create()));
-  }
-
-  private static boolean isJavaVersionBefore14() {
-    BigDecimal javaVersion = new BigDecimal(System.getProperty("java.specification.version"));
-    return javaVersion.compareTo(new BigDecimal("14")) < 0;
   }
 
   @Test
