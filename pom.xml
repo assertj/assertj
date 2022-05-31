@@ -37,7 +37,7 @@
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>3.22.0</version>
+      <version>3.23.1</version>
     </dependency>
     <!-- Provided -->
     <dependency>
@@ -96,7 +96,8 @@
               <rules>
                 <bannedDependencies>
                   <includes>
-                    <exclude>org.assertj:assertj-core</exclude>
+                    <include>net.bytebuddy:byte-buddy</include>
+                    <include>org.assertj:assertj-core</include>
                   </includes>
                   <excludes>
                     <exclude>org.assertj:assertj-guava</exclude>
