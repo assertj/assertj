@@ -40,6 +40,9 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
   public static ErrorMessageFactory shouldContainExactly(Object actual, Iterable<?> expected,
                                                          Iterable<?> notFound, Iterable<?> notExpected,
                                                          ComparisonStrategy comparisonStrategy) {
+    if (isNullOrEmpty(notExpected) && isNullOrEmpty(notFound)) {
+      return new ShouldContainExactly(actual, expected, comparisonStrategy);
+    }
     if (isNullOrEmpty(notExpected)) {
       return new ShouldContainExactly(actual, expected, notFound, comparisonStrategy);
     }
@@ -61,6 +64,15 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
   public static ErrorMessageFactory shouldContainExactly(Object actual, Iterable<?> expected,
                                                          Iterable<?> notFound, Iterable<?> notExpected) {
     return shouldContainExactly(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance());
+  }
+
+  private ShouldContainExactly(Object actual, Object expected, ComparisonStrategy comparisonStrategy) {
+    super("%n" +
+          "Expecting actual:%n" +
+          "  %s%n" +
+          "to contain exactly (and in same order):%n" +
+          "  %s%n",
+          actual, expected, comparisonStrategy);
   }
 
   private ShouldContainExactly(Object actual, Object expected, Object notFound, Object notExpected,

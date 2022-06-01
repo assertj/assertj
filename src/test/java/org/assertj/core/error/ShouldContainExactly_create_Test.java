@@ -31,6 +31,44 @@ class ShouldContainExactly_create_Test {
   private static final ComparatorBasedComparisonStrategy CASE_INSENSITIVE_COMPARISON_STRATEGY = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
 
   @Test
+  void should_display_full_expected_and_actual_sets_when_order_does_not_match() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldContainExactly(list("Yoda", "Han", "Luke", "Anakin"), list("Yoda", "Luke", "Han", "Anakin"),
+                                                       Collections.emptyList(), Collections.emptyList());
+
+    // WHEN
+    final String message = factory.create(new TextDescription("Test"));
+
+    // THEN
+    then(message).isEqualTo(format("[Test] %n"
+                                   + "Expecting actual:%n"
+                                   + "  [\"Yoda\", \"Han\", \"Luke\", \"Anakin\"]%n"
+                                   + "to contain exactly (and in same order):%n"
+                                   + "  [\"Yoda\", \"Luke\", \"Han\", \"Anakin\"]%n"));
+  }
+
+  @Test
+  void should_display_full_expected_and_actual_sets_with_missing_and_unexpected_elements() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldContainExactly(list("Yoda", "Han", "Luke", "Anakin"), list("Yoda", "Han", "Anakin", "Anakin"),
+                                                       list("Anakin"), list("Luke"));
+
+    // WHEN
+    final String message = factory.create(new TextDescription("Test"));
+
+    // THEN
+    then(message).isEqualTo(format("[Test] %n"
+                                   + "Expecting actual:%n"
+                                   + "  [\"Yoda\", \"Han\", \"Luke\", \"Anakin\"]%n"
+                                   + "to contain exactly (and in same order):%n"
+                                   + "  [\"Yoda\", \"Han\", \"Anakin\", \"Anakin\"]%n"
+                                   + "but some elements were not found:%n"
+                                   + "  [\"Anakin\"]%n"
+                                   + "and others were not expected:%n"
+                                   + "  [\"Luke\"]%n"));
+  }
+
+  @Test
   void should_display_missing_and_unexpected_elements() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainExactly(list("Yoda", "Han"), list("Luke", "Yoda"),

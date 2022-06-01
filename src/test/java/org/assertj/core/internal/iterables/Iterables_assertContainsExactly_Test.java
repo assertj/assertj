@@ -17,7 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.internal.iterables.SinglyIterableFactory.createSinglyIterable;
@@ -106,7 +105,7 @@ class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
     Throwable error = catchThrowable(() -> iterables.assertContainsExactly(info, actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, elementsDifferAtIndex("Yoda", "Leia", 1));
+    verify(failures).failure(info, shouldContainExactly(actual, newArrayList(expected), emptyList(), emptyList()));
   }
 
   @Test
@@ -155,7 +154,8 @@ class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
                                                                                                                 expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, elementsDifferAtIndex("Yoda", "Leia", 1, comparisonStrategy));
+    verify(failures).failure(info, shouldContainExactly(actual, newArrayList(expected), emptyList(), emptyList(),
+                                                        comparisonStrategy));
   }
 
   @Test

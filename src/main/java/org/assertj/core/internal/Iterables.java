@@ -1138,10 +1138,7 @@ public class Iterables {
       // if the objects are not equal, begin the error handling process
       if (!areEqual(actualAsList.get(i), values[i])) {
         IterableDiff<Object> diff = diff(actualAsList, asList(values), comparisonStrategy);
-        if (diff.differencesFound()) {
-          throw shouldContainExactlyWithDiffAssertionError(diff, actual, values, info);
-        }
-        throw failures.failure(info, elementsDifferAtIndex(actualAsList.get(i), values[i], i, comparisonStrategy));
+        throw shouldContainExactlyWithDiffAssertionError(diff, actual, values, info);
       }
     }
   }
