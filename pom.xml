@@ -27,7 +27,7 @@
   </issueManagement>
 
   <properties>
-    <bnd.version>6.2.0</bnd.version>
+    <bnd.version>6.3.0</bnd.version>
     <javadocAdditionalOptions>-html5 --allow-script-in-comments --no-module-directories</javadocAdditionalOptions>
     <maven.compiler.release>8</maven.compiler.release>
   </properties>
