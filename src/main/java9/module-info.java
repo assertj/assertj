@@ -43,7 +43,7 @@ module org.assertj.core {
   requires static net.bytebuddy;
   requires static org.hamcrest;
   requires static org.junit.jupiter.api;
-  requires static org.opentest4j; // to throw AssertionFailedError which is IDE friendly
+  requires org.opentest4j; // to throw AssertionFailedError which is IDE friendly
 
   // Services loaded by org.assertj.core.configuration.ConfigurationProvider
   uses org.assertj.core.configuration.Configuration;
