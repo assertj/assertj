@@ -306,6 +306,13 @@ public interface InstanceOfAssertFactories {
                                                                                     Assertions::assertThat);
 
   /**
+   * {@link InstanceOfAssertFactory} for a {@link ClassLoader}.
+   */
+  InstanceOfAssertFactory<ClassLoader, AbstractClassLoaderAssert<?>> CLASS_LOADER = new InstanceOfAssertFactory<>(
+    ClassLoader.class,
+    Assertions::assertThat);
+
+  /**
    * {@link InstanceOfAssertFactory} for a {@code double} or its corresponding boxed type {@link Double}.
    */
   InstanceOfAssertFactory<Double, AbstractDoubleAssert<?>> DOUBLE = new InstanceOfAssertFactory<>(Double.class,

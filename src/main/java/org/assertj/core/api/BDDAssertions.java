@@ -448,12 +448,22 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
-   * Creates a new instance of <code>{@link org.assertj.core.api.ClassAssert}</code>
+   * Creates a new instance of <code>{@link org.assertj.core.api.ClassAssert}</code>.
    *
    * @param actual the actual value.
    * @return the created assertion object.
    */
   public static ClassAssert then(Class<?> actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.ClassLoaderAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static AbstractClassLoaderAssert<?> then(ClassLoader actual) {
     return assertThat(actual);
   }
 

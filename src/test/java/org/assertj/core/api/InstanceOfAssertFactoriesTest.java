@@ -42,6 +42,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_SEQUENCE;
 import static org.assertj.core.api.InstanceOfAssertFactories.CLASS;
+import static org.assertj.core.api.InstanceOfAssertFactories.CLASS_LOADER;
 import static org.assertj.core.api.InstanceOfAssertFactories.COLLECTION;
 import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETABLE_FUTURE;
 import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETION_STAGE;
@@ -459,6 +460,24 @@ class InstanceOfAssertFactoriesTest {
     ClassAssert result = assertThat(value).asInstanceOf(CLASS);
     // THEN
     result.hasAnnotations(FunctionalInterface.class);
+  }
+
+  @Test
+  void class_loader_factory_should_allow_class_loader_assertions() {
+    // We create a dummy class here as the bootstrap classloader if used will give a null value
+    // for some JVM implementations. This rules out JRE classes in this specific test.
+    class SomeRandomClass {
+    }
+
+    class AnotherRandomClass {
+    }
+
+    // GIVEN
+    Object value = SomeRandomClass.class.getClassLoader();
+    // WHEN
+    AbstractClassLoaderAssert<?> result = assertThat(value).asInstanceOf(CLASS_LOADER);
+    // THEN
+    result.isSameAs(AnotherRandomClass.class.getClassLoader());
   }
 
   @Test

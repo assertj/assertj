@@ -752,6 +752,16 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link ClassLoaderAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   */
+  public static AbstractClassLoaderAssert<?> assumeThat(ClassLoader actual) {
+    return asAssumption(ClassLoaderAssert.class, ClassLoader.class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link DateAssert}</code> assumption.
    *
    * @param actual the actual value.

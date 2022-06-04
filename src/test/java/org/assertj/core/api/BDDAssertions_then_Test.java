@@ -28,6 +28,7 @@ import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 import static org.assertj.core.api.BDDAssertions.thenWith;
 import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 
 import java.io.IOException;
@@ -88,6 +89,19 @@ class BDDAssertions_then_Test {
   @Test
   void then_Class() {
     then("Foo".getClass()).isEqualTo(String.class);
+  }
+
+  @Test
+  void then_ClassLoader_succeeds() {
+    then("Foo".getClass().getClassLoader())
+      .isEqualTo(String.class.getClassLoader());
+  }
+
+  @SuppressWarnings("ThrowableNotThrown")
+  @Test
+  void then_ClassLoader_fails() {
+    expectAssertionError(() -> then("Foo".getClass().getClassLoader())
+      .isNotEqualTo(String.class.getClassLoader()));
   }
 
   @Test
