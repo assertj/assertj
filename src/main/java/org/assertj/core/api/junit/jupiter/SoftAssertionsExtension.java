@@ -370,6 +370,7 @@ public class SoftAssertionsExtension
                                                   AssertionErrorCollector.class);
   }
 
+  @SuppressWarnings("unchecked")
   private static Collection<SoftAssertionsProvider> getSoftAssertionsProviders(ExtensionContext context) {
     return getStore(context).getOrComputeIfAbsent(Collection.class, unused -> new ConcurrentLinkedQueue<>(), Collection.class);
   }

@@ -90,7 +90,8 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * @author Lovro Pandzic
  */
 // suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports
-@SuppressWarnings("deprecation")
+// IntelliJ thinks this is redundant when it is not.
+@SuppressWarnings({"deprecation", "RedundantSuppression"})
 public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArrayAssert<SELF, ELEMENT>, ELEMENT> extends
     AbstractAssert<SELF, ELEMENT[]>
     implements IndexedObjectEnumerableAssert<AbstractObjectArrayAssert<SELF, ELEMENT>, ELEMENT>,

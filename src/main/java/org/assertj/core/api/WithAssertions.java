@@ -233,7 +233,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @throws NullPointerException if the given array is {@code null}.
    * @throws NullPointerException if any of the elements in the given array is {@code null}.
    */
-  default <T> Condition<T> allOf(@SuppressWarnings("unchecked") final Condition<? super T>... conditions) {
+  @SuppressWarnings("unchecked") // Heap pollution risk. We accept that as we cannot use @SafeVarargs here.
+  default <T> Condition<T> allOf(final Condition<? super T>... conditions) {
     return Assertions.allOf(conditions);
   }
 
@@ -1960,7 +1961,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param conditions the conditions to evaluate.
    * @return the created {@code AnyOf}.
    */
-  default <T> Condition<T> anyOf(@SuppressWarnings("unchecked") final Condition<? super T>... conditions) {
+  @SuppressWarnings("unchecked")  // Heap pollution risk. We accept that as we cannot use @SafeVarargs here.
+  default <T> Condition<T> anyOf(final Condition<? super T>... conditions) {
     return Assertions.anyOf(conditions);
   }
 
@@ -2793,7 +2795,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @since 3.20.0
    */
   @CanIgnoreReturnValue
-  default <T> ObjectAssert<T> assertWith(T actual, @SuppressWarnings("unchecked") Consumer<T>... requirements) {
+  @SuppressWarnings("unchecked")  // Heap pollution risk. We accept that as we cannot use @SafeVarargs here.
+  default <T> ObjectAssert<T> assertWith(T actual, Consumer<T>... requirements) {
     return assertThat(actual).satisfies(requirements);
   }
 

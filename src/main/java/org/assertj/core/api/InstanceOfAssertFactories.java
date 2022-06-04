@@ -89,7 +89,9 @@ public interface InstanceOfAssertFactories {
    *
    * @see #PREDICATE
    */
-  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
+  @SuppressWarnings({"rawtypes", "unused", "unchecked", "RedundantSuppression"})
+  // rawtypes+unchecked: using Class instance, unused: parameter needed for type inference.
+  // IntelliJ can warn that this is redundant when it is not.
   static <T> InstanceOfAssertFactory<Predicate, PredicateAssert<T>> predicate(Class<T> type) {
     return new InstanceOfAssertFactory<>(Predicate.class, Assertions::<T> assertThat);
   }
@@ -129,7 +131,9 @@ public interface InstanceOfAssertFactories {
    *
    * @see #COMPLETABLE_FUTURE
    */
-  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
+  @SuppressWarnings({"rawtypes", "unused", "unchecked", "RedundantSuppression"})
+  // rawtypes+unchecked: using Class instance, unused: parameter needed for type inference.
+  // IntelliJ can warn that this is redundant when it is not.
   static <RESULT> InstanceOfAssertFactory<CompletableFuture, CompletableFutureAssert<RESULT>> completableFuture(Class<RESULT> resultType) {
     return new InstanceOfAssertFactory<>(CompletableFuture.class, Assertions::<RESULT> assertThat);
   }
@@ -151,7 +155,9 @@ public interface InstanceOfAssertFactories {
    *
    * @see #COMPLETION_STAGE
    */
-  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
+  @SuppressWarnings({"rawtypes", "unused", "unchecked", "RedundantSuppression"})
+  // rawtypes+unchecked: using Class instance, unused: parameter needed for type inference.
+  // IntelliJ can warn that this is redundant when it is not.
   static <RESULT> InstanceOfAssertFactory<CompletionStage, CompletableFutureAssert<RESULT>> completionStage(Class<RESULT> resultType) {
     return new InstanceOfAssertFactory<>(CompletionStage.class, Assertions::<RESULT> assertThat);
   }
@@ -173,7 +179,9 @@ public interface InstanceOfAssertFactories {
    *
    * @see #OPTIONAL
    */
-  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
+  @SuppressWarnings({"rawtypes", "unused", "unchecked", "RedundantSuppression"})
+  // rawtypes+unchecked: using Class instance, unused: parameter needed for type inference.
+  // IntelliJ can warn that this is redundant when it is not.
   static <VALUE> InstanceOfAssertFactory<Optional, OptionalAssert<VALUE>> optional(Class<VALUE> resultType) {
     return new InstanceOfAssertFactory<>(Optional.class, Assertions::<VALUE> assertThat);
   }
@@ -338,7 +346,9 @@ public interface InstanceOfAssertFactories {
    *
    * @see #FUTURE
    */
-  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
+  @SuppressWarnings({"rawtypes", "unused", "unchecked", "RedundantSuppression"})
+  // rawtypes+unchecked: using Class instance, unused: parameter needed for type inference.
+  // IntelliJ can warn that this is redundant when it is not.
   static <RESULT> InstanceOfAssertFactory<Future, FutureAssert<RESULT>> future(Class<RESULT> resultType) {
     return new InstanceOfAssertFactory<>(Future.class, Assertions::<RESULT> assertThat);
   }
@@ -574,7 +584,9 @@ public interface InstanceOfAssertFactories {
    *
    * @see #ATOMIC_INTEGER_FIELD_UPDATER
    */
-  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
+  @SuppressWarnings({"rawtypes", "unused", "unchecked", "RedundantSuppression"})
+  // rawtypes+unchecked: using Class instance, unused: parameter needed for type inference.
+  // IntelliJ can warn that this is redundant when it is not.
   static <OBJECT> InstanceOfAssertFactory<AtomicIntegerFieldUpdater, AtomicIntegerFieldUpdaterAssert<OBJECT>> atomicIntegerFieldUpdater(Class<OBJECT> objectType) {
     return new InstanceOfAssertFactory<>(AtomicIntegerFieldUpdater.class, Assertions::<OBJECT> assertThat);
   }
@@ -614,7 +626,9 @@ public interface InstanceOfAssertFactories {
    *
    * @see #ATOMIC_LONG_FIELD_UPDATER
    */
-  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
+  @SuppressWarnings({"rawtypes", "unused", "unchecked", "RedundantSuppression"})
+  // rawtypes+unchecked: using Class instance, unused: parameter needed for type inference.
+  // IntelliJ can warn that this is redundant when it is not.
   static <OBJECT> InstanceOfAssertFactory<AtomicLongFieldUpdater, AtomicLongFieldUpdaterAssert<OBJECT>> atomicLongFieldUpdater(Class<OBJECT> objectType) {
     return new InstanceOfAssertFactory<>(AtomicLongFieldUpdater.class, Assertions::<OBJECT> assertThat);
   }
@@ -636,7 +650,9 @@ public interface InstanceOfAssertFactories {
    *
    * @see #ATOMIC_REFERENCE
    */
-  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
+  @SuppressWarnings({"rawtypes", "unused", "unchecked", "RedundantSuppression"})
+  // rawtypes+unchecked: using Class instance, unused: parameter needed for type inference.
+  // IntelliJ can warn that this is redundant when it is not.
   static <VALUE> InstanceOfAssertFactory<AtomicReference, AtomicReferenceAssert<VALUE>> atomicReference(Class<VALUE> valueType) {
     return new InstanceOfAssertFactory<>(AtomicReference.class, Assertions::<VALUE> assertThat);
   }
@@ -658,7 +674,9 @@ public interface InstanceOfAssertFactories {
    *
    * @see #ATOMIC_REFERENCE_ARRAY
    */
-  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
+  @SuppressWarnings({"rawtypes", "unused", "unchecked", "RedundantSuppression"})
+  // rawtypes+unchecked: using Class instance, unused: parameter needed for type inference.
+  // IntelliJ can warn that this is redundant when it is not.
   static <ELEMENT> InstanceOfAssertFactory<AtomicReferenceArray, AtomicReferenceArrayAssert<ELEMENT>> atomicReferenceArray(Class<ELEMENT> elementType) {
     return new InstanceOfAssertFactory<>(AtomicReferenceArray.class, Assertions::<ELEMENT> assertThat);
   }
@@ -683,7 +701,9 @@ public interface InstanceOfAssertFactories {
    *
    * @see #ATOMIC_REFERENCE_FIELD_UPDATER
    */
-  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
+  @SuppressWarnings({"rawtypes", "unused", "unchecked", "RedundantSuppression"})
+  // rawtypes+unchecked: using Class instance, unused: parameter needed for type inference.
+  // IntelliJ can warn that this is redundant when it is not.
   static <FIELD, OBJECT> InstanceOfAssertFactory<AtomicReferenceFieldUpdater, AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT>> atomicReferenceFieldUpdater(Class<FIELD> fieldType,
                                                                                                                                                             Class<OBJECT> objectType) {
     return new InstanceOfAssertFactory<>(AtomicReferenceFieldUpdater.class, Assertions::<FIELD, OBJECT> assertThat);
@@ -706,7 +726,9 @@ public interface InstanceOfAssertFactories {
    *
    * @see #ATOMIC_MARKABLE_REFERENCE
    */
-  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
+  @SuppressWarnings({"rawtypes", "unused", "unchecked", "RedundantSuppression"})
+  // rawtypes+unchecked: using Class instance, unused: parameter needed for type inference.
+  // IntelliJ can warn that this is redundant when it is not.
   static <VALUE> InstanceOfAssertFactory<AtomicMarkableReference, AtomicMarkableReferenceAssert<VALUE>> atomicMarkableReference(Class<VALUE> valueType) {
     return new InstanceOfAssertFactory<>(AtomicMarkableReference.class, Assertions::<VALUE> assertThat);
   }
@@ -728,7 +750,9 @@ public interface InstanceOfAssertFactories {
    *
    * @see #ATOMIC_STAMPED_REFERENCE
    */
-  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
+  @SuppressWarnings({"rawtypes", "unused", "unchecked", "RedundantSuppression"})
+  // rawtypes+unchecked: using Class instance, unused: parameter needed for type inference.
+  // IntelliJ can warn that this is redundant when it is not.
   static <VALUE> InstanceOfAssertFactory<AtomicStampedReference, AtomicStampedReferenceAssert<VALUE>> atomicStampedReference(Class<VALUE> valueType) {
     return new InstanceOfAssertFactory<>(AtomicStampedReference.class, Assertions::<VALUE> assertThat);
   }
@@ -794,7 +818,9 @@ public interface InstanceOfAssertFactories {
    *
    * @see #ITERABLE
    */
-  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
+  @SuppressWarnings({"rawtypes", "unused", "unchecked", "RedundantSuppression"})
+  // rawtypes+unchecked: using Class instance, unused: parameter needed for type inference.
+  // IntelliJ can warn that this is redundant when it is not.
   static <ELEMENT> InstanceOfAssertFactory<Iterable, IterableAssert<ELEMENT>> iterable(Class<ELEMENT> elementType) {
     return new InstanceOfAssertFactory<>(Iterable.class, Assertions::<ELEMENT> assertThat);
   }
@@ -816,7 +842,9 @@ public interface InstanceOfAssertFactories {
    *
    * @see #ITERATOR
    */
-  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
+  @SuppressWarnings({"rawtypes", "unused", "unchecked", "RedundantSuppression"})
+  // rawtypes+unchecked: using Class instance, unused: parameter needed for type inference.
+  // IntelliJ can warn that this is redundant when it is not.
   static <ELEMENT> InstanceOfAssertFactory<Iterator, IteratorAssert<ELEMENT>> iterator(Class<ELEMENT> elementType) {
     return new InstanceOfAssertFactory<>(Iterator.class, Assertions::<ELEMENT> assertThat);
   }
@@ -840,7 +868,9 @@ public interface InstanceOfAssertFactories {
    * @see #COLLECTION
    * @since 3.21.0
    */
-  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
+  @SuppressWarnings({"rawtypes", "unused", "unchecked", "RedundantSuppression"})
+  // rawtypes+unchecked: using Class instance, unused: parameter needed for type inference.
+  // IntelliJ can warn that this is redundant when it is not.
   static <E> InstanceOfAssertFactory<Collection, AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>>> collection(Class<E> elementType) {
     return new InstanceOfAssertFactory<>(Collection.class, Assertions::<E> assertThat);
   }
@@ -862,7 +892,9 @@ public interface InstanceOfAssertFactories {
    *
    * @see #LIST
    */
-  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
+  @SuppressWarnings({"rawtypes", "unused", "unchecked", "RedundantSuppression"})
+  // rawtypes+unchecked: using Class instance, unused: parameter needed for type inference.
+  // IntelliJ can warn that this is redundant when it is not.
   static <ELEMENT> InstanceOfAssertFactory<List, ListAssert<ELEMENT>> list(Class<ELEMENT> elementType) {
     return new InstanceOfAssertFactory<>(List.class, Assertions::<ELEMENT> assertThat);
   }
@@ -884,7 +916,9 @@ public interface InstanceOfAssertFactories {
    *
    * @see #STREAM
    */
-  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
+  @SuppressWarnings({"rawtypes", "unused", "unchecked", "RedundantSuppression"})
+  // rawtypes+unchecked: using Class instance, unused: parameter needed for type inference.
+  // IntelliJ can warn that this is redundant when it is not.
   static <ELEMENT> InstanceOfAssertFactory<Stream, ListAssert<ELEMENT>> stream(Class<ELEMENT> elementType) {
     return new InstanceOfAssertFactory<>(Stream.class, Assertions::<ELEMENT> assertThat);
   }
@@ -930,7 +964,9 @@ public interface InstanceOfAssertFactories {
    *
    * @see #SPLITERATOR
    */
-  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
+  @SuppressWarnings({"rawtypes", "unused", "unchecked", "RedundantSuppression"})
+  // rawtypes+unchecked: using Class instance, unused: parameter needed for type inference.
+  // IntelliJ can warn that this is redundant when it is not.
   static <ELEMENT> InstanceOfAssertFactory<Spliterator, SpliteratorAssert<ELEMENT>> spliterator(Class<ELEMENT> elementType) {
     return new InstanceOfAssertFactory<>(Spliterator.class, Assertions::<ELEMENT> assertThat);
   }
@@ -954,7 +990,9 @@ public interface InstanceOfAssertFactories {
    *
    * @see #MAP
    */
-  @SuppressWarnings({ "rawtypes", "unused" }) // rawtypes: using Class instance, unused: parameter needed for type inference
+  @SuppressWarnings({"rawtypes", "unused", "unchecked", "RedundantSuppression"})
+  // rawtypes+unchecked: using Class instance, unused: parameter needed for type inference.
+  // IntelliJ can warn that this is redundant when it is not.
   static <K, V> InstanceOfAssertFactory<Map, MapAssert<K, V>> map(Class<K> keyType, Class<V> valueType) {
     return new InstanceOfAssertFactory<>(Map.class, Assertions::<K, V> assertThat);
   }
