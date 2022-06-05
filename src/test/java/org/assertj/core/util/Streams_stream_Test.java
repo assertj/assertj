@@ -16,10 +16,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Streams.stream;
 
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Vector;
 import java.util.stream.Stream;
-
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests for {@link Streams}.
+ *
+ * @author Stefano Cordio
+ * @author Ashley Scopes
+ */
 class Streams_stream_Test {
 
   @Test
@@ -32,4 +40,23 @@ class Streams_stream_Test {
     assertThat(stream).containsExactly("a", "b", "c");
   }
 
+  @Test
+  void should_build_stream_from_iterator() {
+    // GIVEN
+    Iterator<String> iterator = list("a", "b", "c").iterator();
+    // WHEN
+    Stream<String> stream = stream(iterator);
+    // THEN
+    assertThat(stream).containsExactly("a", "b", "c");
+  }
+
+  @Test
+  void should_build_stream_from_enumeration() {
+    // GIVEN
+    Enumeration<String> enumeration = new Vector<>(list("a", "b", "c")).elements();
+    // WHEN
+    Stream<String> stream = stream(enumeration);
+    // THEN
+    assertThat(stream).containsExactly("a", "b", "c");
+  }
 }

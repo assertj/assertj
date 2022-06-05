@@ -13,18 +13,29 @@
 package org.assertj.core.util;
 
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Spliterators;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-public class Streams {
+
+/**
+ * Operations to perform on streams.
+ *
+ * @author Stefano Cordio
+ * @author Ashley Scopes
+ */
+public final class Streams {
+
+  private Streams() {
+  }
 
   /**
    * Returns a sequential {@link Stream} of the contents of {@code iterable}, delegating to {@link
    * Collection#stream} if possible.
    * @param <T> the stream type
-   * @param iterable the iterable to built the stream from
+   * @param iterable the iterable to build the stream from
    * @return the stream built from the given {@link Iterable}
    */
   public static <T> Stream<T> stream(Iterable<T> iterable) {
@@ -33,7 +44,40 @@ public class Streams {
         : StreamSupport.stream(iterable.spliterator(), false);
   }
 
+  /**
+   * Returns a sequential {@link Stream} of the contents of {@code iterator}.
+   *
+   * <p>The process of using the returned stream will exhaust the iterator lazily.
+   *
+   * @param <T> the stream type
+   * @param iterator the iterator to build the stream from
+   * @return the stream built from the given {@link Iterator}
+   */
   public static <T> Stream<T> stream(Iterator<T> iterator) {
     return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator, 0), false);
+  }
+
+  /**
+   * Returns a sequential {@link Stream} of the contents of {@code enumeration}.
+   *
+   * <p>The process of using the returned stream will exhaust the enumeration lazily.
+   *
+   * @param <T> the stream type
+   * @param enumeration the enumeration to build the stream from.
+   * @return the stream built from the given {@link Enumeration}.
+   */
+  public static <T> Stream<T> stream(Enumeration<T> enumeration) {
+    // TODO(ascopes): replace with Enumeration#asIterator when we drop Java 8 support.
+    return stream(new Iterator<T>() {
+      @Override
+      public boolean hasNext() {
+        return enumeration.hasMoreElements();
+      }
+
+      @Override
+      public T next() {
+        return enumeration.nextElement();
+      }
+    });
   }
 }

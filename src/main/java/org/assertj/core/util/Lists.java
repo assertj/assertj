@@ -16,6 +16,7 @@ import static java.util.stream.Collectors.toCollection;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 
@@ -25,6 +26,7 @@ import java.util.List;
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Ashley Scopes
  */
 public final class Lists {
 
@@ -58,6 +60,20 @@ public final class Lists {
    * @return the created {@code ArrayList}, or {@code null} if the given {@code Iterable} is {@code null}.
    */
   public static <T> ArrayList<T> newArrayList(Iterable<? extends T> elements) {
+    if (elements == null) {
+      return null;
+    }
+    return Streams.stream(elements).collect(toCollection(ArrayList::new));
+  }
+
+  /**
+   * Creates a <em>mutable</em> {@link ArrayList} containing the given elements.
+   *
+   * @param <T> the generic type of the {@code ArrayList} to create.
+   * @param elements the elements to store in the {@code ArrayList}.
+   * @return the created {@code ArrayList}, or {@code null} if the given {@code Enumeration} is {@code null}.
+   */
+  public static <T> ArrayList<T> newArrayList(Enumeration<? extends T> elements) {
     if (elements == null) {
       return null;
     }
