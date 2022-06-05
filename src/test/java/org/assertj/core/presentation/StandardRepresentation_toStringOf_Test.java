@@ -27,6 +27,8 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 import java.io.File;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -57,11 +59,11 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.stream.Stream;
-
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.util.OtherStringTestComparator;
 import org.assertj.core.util.OtherStringTestComparatorWithAt;
 import org.assertj.core.util.StringTestComparator;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -421,6 +423,34 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
     then(durationRepresentation).isEqualTo(expectedDurationRepresentation);
   }
 
+  @RepeatedTest(2) // repeat to test with differing hashcodes as a sanity check.
+  void should_return_toString_of_anonymous_classloaders() {
+    // GIVEN
+    ClassLoader classLoader = new ClassLoader() {};
+    // WHEN
+    String actualRepresentation = STANDARD_REPRESENTATION.toStringOf(classLoader);
+    // THEN
+    then(actualRepresentation).isEqualTo(
+      "%s[id=%x]", 
+      classLoader.getClass().getName(),
+      System.identityHashCode(classLoader)
+    );
+  }
+
+  @RepeatedTest(2) // repeat to test with differing hashcodes as a sanity check.
+  void should_return_toString_of_named_classloaders() {
+    // GIVEN
+    ClassLoader classLoader = new URLClassLoader(new URL[0]);
+    // WHEN
+    String actualRepresentation = STANDARD_REPRESENTATION.toStringOf(classLoader);
+    // THEN
+    then(actualRepresentation).isEqualTo(
+      "%s[id=%x]",
+      classLoader.getClass().getSimpleName(),
+      System.identityHashCode(classLoader)
+    );
+  }
+
   @Test
   void should_fix_1483() {
     // GIVEN
@@ -583,5 +613,4 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
       return input2;
     }
   }
-
 }

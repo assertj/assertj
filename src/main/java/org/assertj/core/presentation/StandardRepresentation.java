@@ -64,7 +64,6 @@ import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.function.Function;
 import java.util.stream.Stream;
-
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.data.MapEntry;
@@ -249,6 +248,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof AtomicLong) return toStringOf((AtomicLong) object);
     if (object instanceof Number) return toStringOf((Number) object);
     if (object instanceof Throwable) return toStringOf((Throwable) object);
+    if (object instanceof ClassLoader) return toStringOf((ClassLoader) object);
     return fallbackToStringOf(object);
   }
 
@@ -536,6 +536,13 @@ public class StandardRepresentation implements Representation {
                          toStringOf(atomicStampedReference.getReference()));
   }
 
+  protected String toStringOf(ClassLoader classLoader) {
+    String typeName = classNameOf(classLoader);
+    // For JDK-9 support, we get access to a name field for the classloader which would be more
+    // meaningful here. For now we just want any way to uniquely identify the object.
+    return String.format("%s[id=%x]", typeName, System.identityHashCode(classLoader));
+  }
+
   protected String multiLineFormat(Iterable<?> iterable) {
     return format(iterable, DEFAULT_START, DEFAULT_END, ELEMENT_SEPARATOR_WITH_NEWLINE, INDENTATION_AFTER_NEWLINE, iterable);
   }
@@ -704,7 +711,7 @@ public class StandardRepresentation implements Representation {
     return toHexString(System.identityHashCode(obj));
   }
 
-  private static Object classNameOf(Object obj) {
+  private static String classNameOf(Object obj) {
     return obj.getClass().isAnonymousClass() ? obj.getClass().getName() : obj.getClass().getSimpleName();
   }
 
