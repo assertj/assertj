@@ -70,20 +70,21 @@ import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 // suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports
-@SuppressWarnings("deprecation")
+// Deprecation is raised by JDK-17. IntelliJ thinks this is redundant when it is not.
+@SuppressWarnings({"deprecation", "RedundantSuppression"})
 public class AtomicReferenceArrayAssert<T>
     extends AbstractAssert<AtomicReferenceArrayAssert<T>, AtomicReferenceArray<T>>
     implements IndexedObjectEnumerableAssert<AtomicReferenceArrayAssert<T>, T>,
     ArraySortedAssert<AtomicReferenceArrayAssert<T>, T> {
 
-  private T[] array;
+  private final T[] array;
   @VisibleForTesting
   ObjectArrays arrays = ObjectArrays.instance();
   @VisibleForTesting
   Iterables iterables = Iterables.instance();
 
   private TypeComparators comparatorsByType;
-  private Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new TreeMap<>();
+  private final Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new TreeMap<>();
   private TypeComparators comparatorsForElementPropertyOrFieldTypes;
 
   public AtomicReferenceArrayAssert(AtomicReferenceArray<T> actual) {

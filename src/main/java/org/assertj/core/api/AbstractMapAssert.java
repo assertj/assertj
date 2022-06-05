@@ -685,6 +685,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     return containsOnly(toEntries(map));
   }
 
+  @SuppressWarnings("unchecked")
   private Map.Entry<? extends K, ? extends V>[] toEntries(Map<? extends K, ? extends V> map) {
     return map.entrySet().toArray(new Map.Entry[0]);
   }

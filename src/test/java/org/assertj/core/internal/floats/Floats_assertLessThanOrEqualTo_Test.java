@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 
 
 /**
- * Tests for <code>{@link Floats#assertLessThanOrEqualTo(AssertionInfo, Float, float)}</code>.
+ * Tests for <code>{@link Floats#assertLessThanOrEqualTo(AssertionInfo, Comparable, Object)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola

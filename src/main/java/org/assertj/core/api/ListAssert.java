@@ -220,9 +220,9 @@ public class ListAssert<ELEMENT> extends
                    .failure(info, shouldStartWith("Stream under test", sequence, iterables.getComparisonStrategy()));
   }
 
-  @SuppressWarnings("rawtypes")
-  private ListFromStream asListFromStream() {
-    return (ListFromStream) actual;
+  @SuppressWarnings("unchecked")
+  private ListFromStream<ELEMENT, Stream<ELEMENT>> asListFromStream() {
+    return (ListFromStream<ELEMENT, Stream<ELEMENT>>) actual;
   }
 
   @VisibleForTesting
