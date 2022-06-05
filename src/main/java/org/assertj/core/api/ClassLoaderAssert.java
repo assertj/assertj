@@ -12,6 +12,11 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.util.Types.castClass;
+
+import java.net.URL;
+import org.assertj.core.util.Lists;
+
 /**
  * Assertion methods for {@link ClassLoader class loaders}.
  * <p>
@@ -32,4 +37,50 @@ public class ClassLoaderAssert extends AbstractClassLoaderAssert<ClassLoaderAsse
     super(actual, ClassLoaderAssert.class);
   }
 
+  @Override
+  protected ClassLoaderAssert toAssert(ClassLoader classLoader) {
+    return new ClassLoaderAssert(classLoader);
+  }
+
+  @Override
+  protected ClassAssert toAssert(Class<?> aClass) {
+    return new ClassAssert(aClass);
+  }
+
+  @Override
+  protected UrlAssert toAssert(URL url) {
+    return new UrlAssert(url);
+  }
+
+  @Override
+  protected ByteArrayAssert toAssert(byte[] array) {
+    return new ByteArrayAssert(array);
+  }
+
+  @Override
+  protected ThrowableAssert<? extends ClassNotFoundException> toAssert(ClassNotFoundException ex) {
+    return new ThrowableAssert<>(ex);
+  }
+
+  @Override
+  protected AbstractIterableAssert<?, ? extends Iterable<URL>, URL, ? extends UrlAssert> toUrlIterableAssert(
+    Iterable<URL> arrays
+  ) {
+    return new FactoryBasedNavigableIterableAssert<>(
+      Lists.newArrayList(arrays),
+      castClass(FactoryBasedNavigableIterableAssert.class),
+      this::toAssert
+    );
+  }
+
+  @Override
+  protected AbstractIterableAssert<?, ? extends Iterable<byte[]>, byte[], ? extends ByteArrayAssert> toByteArrayIterableAssert(
+    Iterable<byte[]> byteArrays
+  ) {
+    return new FactoryBasedNavigableIterableAssert<>(
+      byteArrays,
+      castClass(FactoryBasedNavigableIterableAssert.class),
+      this::toAssert
+    );
+  }
 }

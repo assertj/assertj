@@ -35,6 +35,8 @@
       --add-opens=java.base/java.math=ALL-UNNAMED
       --add-opens=java.base/java.util=ALL-UNNAMED
       --add-opens=java.base/sun.nio.fs=ALL-UNNAMED
+      <!-- Disable class sharing to prevent bootstrap classpath appending warning from JDK 17 -->
+      -Xshare:off
     </argLine>
     <javadocAdditionalOptions>-html5 --allow-script-in-comments</javadocAdditionalOptions>
     <!-- Dependency versions -->
@@ -209,8 +211,9 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <!-- Use mockito-inline instead of mockito-core to ensure final classes and methods can be mocked. -->
       <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
+      <artifactId>mockito-inline</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
