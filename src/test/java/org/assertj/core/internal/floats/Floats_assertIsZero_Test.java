@@ -42,7 +42,7 @@ class Floats_assertIsZero_Test extends FloatsBaseTest {
 
   @Test
   void should_fail_since_actual_is_negative_zero_and_not_primitive() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsZero(someInfo(), new Float(-0.0)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsZero(someInfo(), -0.0f))
                                                    .withMessage(shouldBeEqualMessage("-0.0f", "0.0f"));
   }
 

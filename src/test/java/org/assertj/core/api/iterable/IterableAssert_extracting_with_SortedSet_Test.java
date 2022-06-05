@@ -52,7 +52,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class IterableAssert_extracting_with_SortedSet_Test {
+class qIterableAssert_extracting_with_SortedSet_Test {
 
   private Employee yoda;
   private Employee luke;
