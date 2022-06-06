@@ -29,7 +29,8 @@ import org.assertj.core.api.IterableAssertBaseTest;
  */
 class IterableAssert_satisfiesExactlyInAnyOrder_Test extends IterableAssertBaseTest {
 
-  private Consumer<Object> consumer = mock(Consumer.class);
+  @SuppressWarnings("unchecked")
+  private final Consumer<Object> consumer = mock(Consumer.class);
 
   @Override
   protected ConcreteIterableAssert<Object> create_assertions() {

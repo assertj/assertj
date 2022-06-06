@@ -35,7 +35,7 @@ class Doubles_assertIsZero_Test extends DoublesBaseTest {
 
   @Test
   void should_fail_since_actual_is_negative_zero_and_not_primitive() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsZero(someInfo(), new Double(-0.0d)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsZero(someInfo(), -0.0d))
                                                    .withMessage(shouldBeEqualMessage("-0.0", "0.0"));
   }
 

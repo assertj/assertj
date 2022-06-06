@@ -47,7 +47,7 @@ class IntArrays_assertIsSortedAccordingToComparator_Test extends IntArraysBaseTe
     super.setUp();
     actual = new int[] { 4, 3, 2, 2, 1 };
     intDescendingOrderComparator = (int1, int2) -> -int1.compareTo(int2);
-    intSquareComparator = (int1, int2) -> new Integer(int1 * int1).compareTo(new Integer(int2 * int2));
+    intSquareComparator = Comparator.comparingInt(anInt -> anInt * anInt);
   }
 
   @Test
