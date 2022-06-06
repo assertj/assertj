@@ -46,12 +46,14 @@ class FutureAssert_succeedsWithin_duration_Test extends AbstractFutureTest {
   void should_allow_assertion_on_future_result_when_completed_normally_within_timeout() {
     // GIVEN
     String value = "done";
-    int sleepDuration = 10;
+    int sleepDuration = 100;
     Future<String> future = futureAfter(value, sleepDuration, executorService);
+
     // WHEN/THEN
     // using the same duration would fail depending on when the thread executing the future is started
-    assertThat(future).succeedsWithin(Duration.ofMillis(sleepDuration + 100))
-                      .isEqualTo(value);
+    assertThat(future)
+      .succeedsWithin(Duration.ofMillis(sleepDuration + 1_000))
+      .isEqualTo(value);
   }
 
   @Test
