@@ -39,7 +39,7 @@ import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubsetOf.shouldBeSubsetOf;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
-import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
+import static org.assertj.core.error.ShouldContainExactly.shouldContainExactlyWithIndexes;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
@@ -104,6 +104,7 @@ import java.util.function.Predicate;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
+import org.assertj.core.configuration.Configuration;
 import org.assertj.core.error.UnsatisfiedRequirement;
 import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
 import org.assertj.core.presentation.PredicateDescription;
@@ -1128,19 +1129,40 @@ public class Iterables {
     assertNotNull(info, actual);
     // use actualAsList instead of actual in case actual is a singly-passable iterable
     List<Object> actualAsList = newArrayList(actual);
-    // length check
-    if (actualAsList.size() != values.length) {
-      IterableDiff<Object> diff = diff(actualAsList, asList(values), comparisonStrategy);
+    assertEquivalency(info, actual, values, actualAsList);
+    assertElementOrder(info, actual, values, actualAsList);
+  }
+
+  private void assertEquivalency(AssertionInfo info, Iterable<?> actual, Object[] values, List<Object> actualAsList) {
+    IterableDiff<Object> diff = diff(actualAsList, asList(values), comparisonStrategy);
+    if (actualAsList.size() != values.length || diff.differencesFound()) {
       throw shouldContainExactlyWithDiffAssertionError(diff, actual, values, info);
     }
-    // actual and values have the same number elements but are they equivalent and in the same order?
+  }
+
+  private void assertElementOrder(AssertionInfo info, Iterable<?> actual, Object[] values, List<Object> actualAsList) {
+    List<IndexedDiff> indexDifferences = compareOrder(values, actualAsList);
+    if (!indexDifferences.isEmpty()) {
+      throw shouldContainExactlyWithIndexAssertionError(actual, values, indexDifferences, info);
+    }
+  }
+
+  private List<IndexedDiff> compareOrder(Object[] values, List<Object> actualAsList) {
+    List<IndexedDiff> indexDifferences = new ArrayList<>(Configuration.MAX_INDICES_FOR_PRINTING);
     for (int i = 0; i < actualAsList.size(); i++) {
-      // if the objects are not equal, begin the error handling process
       if (!areEqual(actualAsList.get(i), values[i])) {
-        IterableDiff<Object> diff = diff(actualAsList, asList(values), comparisonStrategy);
-        throw shouldContainExactlyWithDiffAssertionError(diff, actual, values, info);
+        indexDifferences.add(new IndexedDiff(actualAsList.get(i), values[i], i));
+        if (indexDifferences.size() >= Configuration.MAX_INDICES_FOR_PRINTING) {
+          break;
+        }
       }
     }
+    return indexDifferences;
+  }
+
+  private AssertionError shouldContainExactlyWithIndexAssertionError(Iterable<?> actual, Object[] values,
+                                                                     List<IndexedDiff> indexedDiffs, AssertionInfo info) {
+    return failures.failure(info, shouldContainExactlyWithIndexes(actual, list(values), indexedDiffs, comparisonStrategy));
   }
 
   private AssertionError shouldContainExactlyWithDiffAssertionError(IterableDiff<Object> diff, Iterable<?> actual,

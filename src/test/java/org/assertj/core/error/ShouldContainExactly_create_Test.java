@@ -14,16 +14,23 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
-import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
+import static org.assertj.core.error.ShouldContainExactly.*;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
+import org.assertj.core.configuration.Configuration;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.test.CaseInsensitiveStringComparator;
+import org.assertj.core.internal.IndexedDiff;
+import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
 class ShouldContainExactly_create_Test {
@@ -31,10 +38,13 @@ class ShouldContainExactly_create_Test {
   private static final ComparatorBasedComparisonStrategy CASE_INSENSITIVE_COMPARISON_STRATEGY = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
 
   @Test
-  void should_display_full_expected_and_actual_sets_when_order_does_not_match() {
+  void should_display_full_expected_and_actual_sets_with_index_when_order_does_not_match() {
     // GIVEN
-    ErrorMessageFactory factory = shouldContainExactly(list("Yoda", "Han", "Luke", "Anakin"), list("Yoda", "Luke", "Han", "Anakin"),
-                                                       Collections.emptyList(), Collections.emptyList());
+    List<String> actual = list("Yoda", "Han", "Luke", "Anakin");
+    List<String> expected = list("Yoda", "Luke", "Han", "Anakin");
+    List<IndexedDiff> indexDifferences = list(new IndexedDiff(actual.get(1), expected.get(1), 1),
+                                                  new IndexedDiff(actual.get(2), expected.get(2), 2));
+    ErrorMessageFactory factory = shouldContainExactlyWithIndexes(actual, expected, indexDifferences, StandardComparisonStrategy.instance());
 
     // WHEN
     final String message = factory.create(new TextDescription("Test"));
@@ -44,7 +54,34 @@ class ShouldContainExactly_create_Test {
                                    + "Expecting actual:%n"
                                    + "  [\"Yoda\", \"Han\", \"Luke\", \"Anakin\"]%n"
                                    + "to contain exactly (and in same order):%n"
-                                   + "  [\"Yoda\", \"Luke\", \"Han\", \"Anakin\"]%n"));
+                                   + "  [\"Yoda\", \"Luke\", \"Han\", \"Anakin\"]%n"
+                                   + "but there were differences at these indexes:%n"
+                                   + "  element at index 1: expected \"Luke\" but was \"Han\"%n"
+                                   + "  element at index 2: expected \"Han\" but was \"Luke\"%n"));
+  }
+
+  @Test
+  void should_display_only_configured_max_amount_of_indices() {
+    // GIVEN
+    List<Integer> expected = IntStream.rangeClosed(0, Configuration.MAX_INDICES_FOR_PRINTING)
+                                      .boxed()
+                                      .collect(Collectors.toList());
+    List<Integer> actual = IntStream.rangeClosed(0, Configuration.MAX_INDICES_FOR_PRINTING)
+                                    .boxed()
+                                    .sorted(Comparator.reverseOrder())
+                                    .collect(Collectors.toList());
+    List<IndexedDiff> indexDifferences = new ArrayList<>();
+    for (int i = 0; i < actual.size(); i++) {
+      indexDifferences.add(new IndexedDiff(actual.get(i), expected.get(i), i));
+    }
+
+    ErrorMessageFactory factory = shouldContainExactlyWithIndexes(actual, expected, indexDifferences, StandardComparisonStrategy.instance());
+
+    // WHEN
+    final String message = factory.create(new TextDescription("Test"));
+
+    // THEN
+    then(message).contains(format("only showing the first %d mismatches", Configuration.MAX_INDICES_FOR_PRINTING));
   }
 
   @Test

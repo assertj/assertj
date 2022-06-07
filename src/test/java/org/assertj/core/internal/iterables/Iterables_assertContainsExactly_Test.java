@@ -13,11 +13,13 @@
 package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
+import static org.assertj.core.error.ShouldContainExactly.shouldContainExactlyWithIndexes;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.internal.iterables.SinglyIterableFactory.createSinglyIterable;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
@@ -26,11 +28,16 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.asList;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.configuration.Configuration;
+import org.assertj.core.internal.IndexedDiff;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.Test;
@@ -101,11 +108,12 @@ class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
   void should_fail_if_actual_contains_all_given_values_in_different_order() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Leia", "Yoda" };
-
+    ArrayList<IndexedDiff> indexDiffs = newArrayList(new IndexedDiff("Yoda", "Leia", 1),
+                                                       new IndexedDiff("Leia", "Yoda", 2));
     Throwable error = catchThrowable(() -> iterables.assertContainsExactly(info, actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainExactly(actual, newArrayList(expected), emptyList(), emptyList()));
+    verify(failures).failure(info, shouldContainExactlyWithIndexes(actual, newArrayList(expected), indexDiffs));
   }
 
   @Test
@@ -149,13 +157,15 @@ class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
   void should_fail_if_actual_contains_all_given_values_in_different_order_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Leia", "Yoda" };
+    ArrayList<IndexedDiff> indexDiffs = newArrayList(new IndexedDiff("Yoda", "Leia", 1),
+                                                     new IndexedDiff("Leia", "Yoda", 2));
 
     Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactly(info, actual,
                                                                                                                 expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainExactly(actual, newArrayList(expected), emptyList(), emptyList(),
-                                                        comparisonStrategy));
+    verify(failures).failure(info, shouldContainExactlyWithIndexes(actual, newArrayList(expected), indexDiffs,
+                                                                   comparisonStrategy));
   }
 
   @Test
@@ -173,4 +183,19 @@ class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
                                                         comparisonStrategy));
   }
 
+  @Test
+  void should_fail_if_order_does_not_match_and_total_printed_indexes_should_be_equal_to_max_elements_for_printing() {
+    AssertionInfo info = someInfo();
+    int maxIndex = Configuration.MAX_INDICES_FOR_PRINTING - 1;
+    List<Integer> actual = IntStream.rangeClosed(0, Configuration.MAX_INDICES_FOR_PRINTING)
+                                        .boxed().collect(toList());
+    Collections.shuffle(actual);
+    Object[] expected = IntStream.rangeClosed(0, Configuration.MAX_INDICES_FOR_PRINTING).boxed().toArray();
+
+    Throwable error = catchThrowable(() -> iterables.assertContainsExactly(info, actual, expected));
+
+    assertThat(error).isInstanceOf(AssertionError.class)
+                     .hasMessageContaining("index " + maxIndex)
+                     .hasMessageNotContaining("index " + maxIndex + 1);
+  }
 }
