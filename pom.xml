@@ -23,7 +23,7 @@
     <tag>HEAD</tag>
   </scm>
   <issueManagement>
-    <system>github</system>
+    <system>GitHub</system>
     <url>https://github.com/assertj/assertj-core/issues</url>
   </issueManagement>
 
