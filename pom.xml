@@ -27,8 +27,10 @@
   </issueManagement>
 
   <properties>
+    <assertj-core.version>3.23.1</assertj-core.version>
     <bnd.version>6.3.1</bnd.version>
-    <javadocAdditionalOptions>-html5 --allow-script-in-comments --no-module-directories</javadocAdditionalOptions>
+    <guava.version>31.1-jre</guava.version>
+    <javadocAdditionalOptions>-html5 --allow-script-in-comments</javadocAdditionalOptions>
     <maven.compiler.release>8</maven.compiler.release>
   </properties>
 
@@ -37,13 +39,13 @@
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>3.23.1</version>
+      <version>${assertj-core.version}</version>
     </dependency>
     <!-- Provided -->
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>31.1-jre</version>
+      <version>${guava.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -106,7 +108,7 @@
                 </bannedDependencies>
                 <dependencyConvergence />
                 <requireJavaVersion>
-                  <version>[11,)</version>
+                  <version>[17,)</version>
                 </requireJavaVersion>
               </rules>
             </configuration>
@@ -202,34 +204,28 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <!-- needed to fix javadoc on java 11+ https://github.com/joel-costigliola/assertj-core/issues/1403 -->
-          <source>8</source>
+          <!-- Explicitly set Javadoc locale to English -->
+          <locale>en_US</locale>
           <!-- (1) CSS file location -->
           <stylesheetfile>${project.build.directory}/javadoc-stylesheet/assertj-javadoc-min.css</stylesheetfile>
           <!-- init Highlight -->
           <additionalOptions>${javadocAdditionalOptions}</additionalOptions>
+          <links>
+            <link>https://javadoc.io/doc/com.google.guava/guava/${guava.version}</link>
+            <link>https://javadoc.io/doc/org.assertj/assertj-core/${assertj-core.version}</link>
+          </links>
           <nohelp>true</nohelp>
-          <show>private</show>
-          <footer><![CDATA[
+          <bottom><![CDATA[
             <link rel="stylesheet" href="./assertj-javadoc.css"">
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js"></script>
-            <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
-        ]]></footer>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+            <script>hljs.highlightAll();</script>
+        ]]></bottom>
         </configuration>
       </plugin>
     </plugins>
   </build>
 
   <profiles>
-    <profile>
-      <id>java13+</id>
-      <activation>
-        <jdk>[13,)</jdk>
-      </activation>
-      <properties>
-        <javadocAdditionalOptions>-html5 --allow-script-in-comments</javadocAdditionalOptions>
-      </properties>
-    </profile>
     <profile>
       <id>japicmp-branch</id>
       <build>
