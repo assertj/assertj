@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>assertj-guava</artifactId>
-  <version>3.5.0-SNAPSHOT</version>
+  <version>3.5.0</version>
 
   <name>AssertJ fluent assertions for Guava</name>
   <description>Rich and fluent assertions for testing for Guava</description>
@@ -19,7 +19,7 @@
     <developerConnection>scm:git:https://github.com/assertj/assertj-guava.git</developerConnection>
     <connection>scm:git:https://github.com/assertj/assertj-guava.git</connection>
     <url>https://github.com/assertj/assertj-guava</url>
-    <tag>HEAD</tag>
+    <tag>assertj-guava-3.5.0</tag>
   </scm>
   <issueManagement>
     <system>GitHub</system>
