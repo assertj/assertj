@@ -16,7 +16,7 @@
   <url>${project.parent.url}#${project.artifactId}</url>
 
   <scm>
-    <developerConnection>scm:git:git@github.com:assertj/assertj-guava.git</developerConnection>
+    <developerConnection>scm:git:https://github.com/assertj/assertj-guava.git</developerConnection>
     <connection>scm:git:https://github.com/assertj/assertj-guava.git</connection>
     <url>https://github.com/assertj/assertj-guava</url>
     <tag>HEAD</tag>
