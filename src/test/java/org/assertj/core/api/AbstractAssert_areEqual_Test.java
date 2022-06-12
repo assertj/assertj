@@ -49,7 +49,7 @@ class AbstractAssert_areEqual_Test {
   @Test
   void should_be_protected() throws NoSuchMethodException {
     // GIVEN
-    Method areEqual = underTest.getClass().getDeclaredMethod("areEqual", Object.class, Object.class);
+    Method areEqual = AbstractAssert.class.getDeclaredMethod("areEqual", Object.class, Object.class);
     // WHEN
     boolean isProtected = Modifier.isProtected(areEqual.getModifiers());
     // THEN
