@@ -20,7 +20,10 @@ import org.assertj.core.presentation.Representation;
  *
  * @author Alex Ruiz
  * @author Yvonne Wang
+ *
+ * @deprecated Use {@link AssertionErrorCreator} instead
  */
+@Deprecated
 public interface AssertionErrorFactory {
 
   /**
