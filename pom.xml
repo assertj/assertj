@@ -10,7 +10,7 @@
   </parent>
 
   <artifactId>assertj-core</artifactId>
-  <version>3.23.2-SNAPSHOT</version>
+  <version>3.24.0-SNAPSHOT</version>
   <url>${project.parent.url}#${project.artifactId}</url>
 
   <name>AssertJ fluent assertions</name>
