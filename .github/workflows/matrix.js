@@ -6,11 +6,6 @@ const matrix = new MatrixBuilder();
 
 // Some of the filter conditions might become unsatisfiable, and by default
 // the matrix would ignore that.
-// For instance, SCRAM requires PostgreSQL 10+, so if you ask
-// matrix.generateRow({pg_version: '9.0'}), then it won't generate a row
-// That behaviour is useful for PR testing. For instance, if you want to test only SCRAM=yes
-// cases, then just comment out "value: no" in SCRAM axis, and the matrix would yield the matching
-// parameters.
 // However, if you add new testing parameters, you might want un-comment the following line
 // to notice if you accidentally introduce unsatisfiable conditions.
 // matrix.failOnUnsatisfiableFilters(true);
@@ -79,7 +74,9 @@ matrix.addAxis({
   name: 'hash',
   values: [
     {value: 'regular', title: '', weight: 42},
-    {value: 'same', title: 'same hashcode', weight: 1}
+// TODO: javac fails to compile assertj code with hash==same, so skip this parameter
+//       This should be re-enabled once we have different Java for build and Java for tests.
+//    {value: 'same', title: 'same hashcode', weight: 1}
   ]
 });
 matrix.addAxis({
@@ -102,14 +99,11 @@ matrix.setNamePattern([
     'tz', 'locale',
 ]);
 
-// TODO: it is known that javac 17 fails to compile AssertJ code with -XX:hashCode=2, so ignore that combo for now
-//       It would be great to re-introduce "same hashcode" verification when there are two different Java versions for
-//       build and for test purposes.
-matrix.exclude({hash: {value: 'same'}, java_version: ['17', '18', '19']})
-
 // The most rare features should be generated the first
 // Ensure at least one job with "same" hashcode exists
-matrix.generateRow({hash: {value: 'same'}});
+// TODO: javac fails to compile assertj code with hash==same, so skip this parameter
+//       This should be re-enabled once we have different Java for build and Java for tests.
+// matrix.generateRow({hash: {value: 'same'}});
 //Ensure at least one job with "simple" query_mode exists
 matrix.generateRow({query_mode: {value: 'simple'}});
 // Ensure there will be at least one job with minimal supported Java
