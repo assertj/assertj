@@ -32,8 +32,8 @@ import java.util.Map;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.assertj.core.test.Jedi;
-import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 /**

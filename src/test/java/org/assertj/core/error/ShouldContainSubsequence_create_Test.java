@@ -23,7 +23,7 @@ import static org.assertj.core.util.Lists.list;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
-import org.assertj.core.util.CaseInsensitiveStringComparator;
+import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 /**

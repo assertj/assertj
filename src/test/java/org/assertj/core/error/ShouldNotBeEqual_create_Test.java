@@ -19,7 +19,7 @@ import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.util.CaseInsensitiveStringComparator;
+import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 /**

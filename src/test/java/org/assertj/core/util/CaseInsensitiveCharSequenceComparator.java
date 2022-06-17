@@ -14,6 +14,8 @@ package org.assertj.core.util;
 
 import java.util.Comparator;
 
+import org.assertj.core.test.CaseInsensitiveStringComparator;
+
 /**
  * @author Mikhail Mazursky
  */

@@ -27,9 +27,9 @@ import java.sql.Timestamp;
 
 import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.api.ObjectArrayAssert;
+import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.assertj.core.test.FluentJedi;
 import org.assertj.core.test.Name;
-import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

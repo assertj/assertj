@@ -24,7 +24,7 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.assertj.core.util.CaseInsensitiveStringComparator;
+import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

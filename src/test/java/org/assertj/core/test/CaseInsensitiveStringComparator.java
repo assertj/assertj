@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.util;
+package org.assertj.core.test;
 
 import java.util.Comparator;
 
@@ -23,6 +23,7 @@ public class CaseInsensitiveStringComparator implements Comparator<String> {
     if (s1 == null && s2 == null) return 0;
     if (s1 == null) return -1;
     if (s2 == null) return 1;
-    return s1.toLowerCase().compareTo(s2.toLowerCase());
+    return s1.compareToIgnoreCase(s2);
   }
+
 }

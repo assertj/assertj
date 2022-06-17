@@ -24,8 +24,8 @@ import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.data.TolkienCharacterAssert;
 import org.assertj.core.data.TolkienCharacterAssertFactory;
 import org.assertj.core.presentation.Representation;
+import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.assertj.core.test.Employee;
-import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

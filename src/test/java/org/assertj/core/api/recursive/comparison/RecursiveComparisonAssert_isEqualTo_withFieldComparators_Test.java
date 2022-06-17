@@ -33,10 +33,10 @@ import java.util.stream.Stream;
 
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
 import org.assertj.core.internal.AtPrecisionComparator;
-import org.assertj.core.internal.CaseInsensitiveStringComparator;
 import org.assertj.core.internal.objects.data.AlwaysEqualPerson;
 import org.assertj.core.internal.objects.data.Giant;
 import org.assertj.core.internal.objects.data.Person;
+import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.assertj.core.test.Patient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

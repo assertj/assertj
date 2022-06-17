@@ -19,6 +19,7 @@ import static org.mockito.Mockito.verify;
 
 import java.awt.*;
 
+import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 /**

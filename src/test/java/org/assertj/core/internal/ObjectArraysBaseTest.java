@@ -19,7 +19,7 @@ import static org.mockito.Mockito.spy;
 import java.util.Comparator;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.CaseInsensitiveStringComparator;
+import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.BeforeEach;
 
 
