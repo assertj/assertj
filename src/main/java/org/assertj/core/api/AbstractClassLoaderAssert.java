@@ -918,9 +918,7 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
   @CheckReturnValue
   private byte[] readResourceFromUrl(URL url) {
     try {
-      // Buffered to prevent contention reading classpath resources, especially on slow block
-      // device such as those used in CI systems.
-      try (InputStream inputStream = new BufferedInputStream(url.openStream())) {
+      try (InputStream inputStream = url.openStream()) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         transfer(inputStream, outputStream);
         return outputStream.toByteArray();
