@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
+import java.lang.management.ClassLoadingMXBean;
 import java.net.URL;
 import java.util.stream.Stream;
 import javax.management.loading.PrivateClassLoader;
@@ -68,13 +69,36 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
 
   /**
    * Assert that the class loader is "private" to the
-   * {@link java.lang.management.ClassLoadingMXBean class-loading management bean}, by ensuring that
-   * it implements {@link PrivateClassLoader}.
+   * {@link ClassLoadingMXBean class-loading management bean}, by ensuring that it implements
+   * {@link PrivateClassLoader}.
+   *
+   * <p>This assertion would pass:
+   *
+   * <pre><code>  // Given
+   * class PrivateClassLoader extends ClassLoader
+   *        implements javax.management.loading.PrivateClassLoader { }
+   * PrivateClassLoader privateClassLoader = new PrivateClassLoader();
+   *
+   * // Then
+   * assertThat(privateClassLoader).isPrivate();
+   * </code></pre>
+   *
+   * <p>This assertion would fail:
+   *
+   * <pre><code>  // Given
+   * class PublicClassLoader extends ClassLoader { }
+   * PublicClassLoader publicClassLoader = new PublicClassLoader();
+   *
+   * // Then
+   * assertThat(privateClassLoader).isPrivate();
+   * </code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if {@code actual} is null.
    * @throws AssertionError if the {@code actual} class loader does not implement the
    *                        {@link PrivateClassLoader required marker interface}.
+   * @see #isNotPrivate()
+   * @see PrivateClassLoader
    */
   public SELF isPrivate() {
     objects.assertNotNull(info, actual);
@@ -88,13 +112,36 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
 
   /**
    * Assert that the class loader is not "private" to the
-   * {@link java.lang.management.ClassLoadingMXBean class-loading management bean}, by ensuring that
-   * it implements {@link PrivateClassLoader}.
+   * {@link ClassLoadingMXBean class-loading management bean}, by ensuring that it implements
+   * {@link PrivateClassLoader}.
+   *
+   * <p>This assertion would pass:
+   *
+   * <pre><code>  // Given
+   * class PublicClassLoader extends ClassLoader { }
+   * PublicClassLoader publicClassLoader = new PublicClassLoader();
+   *
+   * // Then
+   * assertThat(privateClassLoader).isNotPrivate();
+   * </code></pre>
+   *
+   * <p>This assertion would fail:
+   *
+   * <pre><code>  // Given
+   * class PrivateClassLoader extends ClassLoader
+   *        implements javax.management.loading.PrivateClassLoader { }
+   * PrivateClassLoader privateClassLoader = new PrivateClassLoader();
+   *
+   * // Then
+   * assertThat(privateClassLoader).isNotPrivate();
+   * </code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if {@code actual} is null.
    * @throws AssertionError if the {@code actual} class loader implements the
    *                        {@link PrivateClassLoader required marker interface}.
+   * @see #isNotPrivate()
+   * @see PrivateClassLoader
    */
   public SELF isNotPrivate() {
     objects.assertNotNull(info, actual);
@@ -110,10 +157,35 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
    * Assert that the class loader is the same object as the
    * {@link ClassLoader#getSystemClassLoader() system class loader}.
    *
+   * <p>This assertion would pass:
+   *
+   * <pre><code>  // Given
+   * ClassLoader systemClassLoader = java.lang.Object.class.getClassLoader();
+   *
+   * // Then
+   * assertThat(systemClassLoader).isSystemClassLoader();
+   * </code></pre>
+   *
+   * <p>This assertion would fail:
+   *
+   * <pre><code>  // Given
+   * URL url = new URL("file:///home/user/code/classes");
+   * ClassLoader customClassLoader = new URLClassLoader(new URL[]{ url });
+   *
+   * // Then
+   * assertThat(systemClassLoader).isSystemClassLoader();
+   * </code></pre>
+   *
+   * <p><strong>Note:</strong> this is NOT the same as checking for the
+   * <em>Platform Class Loader</em> (which is also known as the <em>Bootstrap Class Loader</em>)
+   * on JDK 9 and above.
+   *
    * @return {@code this} assertion object.
    * @throws AssertionError if {@code actual} is null.
    * @throws AssertionError if the {@code actual} class loader is not the same object as the system
    *                        class loader.
+   * @see #isNotSystemClassLoader()
+   * @see ClassLoader#getSystemClassLoader()
    */
   public SELF isSystemClassLoader() {
     objects.assertNotNull(info, actual);
@@ -134,10 +206,35 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
    * Assert that the class loader is not the same object as the
    * {@link ClassLoader#getSystemClassLoader() system class loader}.
    *
+   * <p>This assertion would pass:
+   *
+   * <pre><code>  // Given
+   * URL url = new URL("file:///home/user/code/classes");
+   * ClassLoader customClassLoader = new URLClassLoader(new URL[]{ url });
+   *
+   * // Then
+   * assertThat(systemClassLoader).isNotSystemClassLoader();
+   * </code></pre>
+   *
+   * <p>This assertion would fail:
+   *
+   * <pre><code>  // Given
+   * ClassLoader systemClassLoader = java.lang.Object.class.getClassLoader();
+   *
+   * // Then
+   * assertThat(systemClassLoader).isNotSystemClassLoader();
+   * </code></pre>
+   *
+   * <p><strong>Note:</strong> this is NOT the same as checking for the
+   * <em>Platform Class Loader</em> (which is also known as the <em>Bootstrap Class Loader</em>)
+   * on JDK 9 and above.
+   *
    * @return {@code this} assertion object.
    * @throws AssertionError if {@code actual} is null.
    * @throws AssertionError if the {@code actual} class loader is the same object as the system
    *                        class loader.
+   * @see #isSystemClassLoader()
+   * @see ClassLoader#getSystemClassLoader()
    */
   public SELF isNotSystemClassLoader() {
     objects.assertNotNull(info, actual);
@@ -157,24 +254,31 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
   /**
    * Assert that the class loader has a non-{@code null} {@link ClassLoader#getParent() parent}.
    *
-   * <p>The parent class loader may be {@code null} if no parent class loader exists. The parent
-   * may also be null for some JVM implementations that return {@code null} for the bootstrap class
-   * loader (also known as the <em>platform</em> class loader in some places).
+   * <p>This assertion would pass:
    *
-   * <p>Example:
+   * <pre><code>  // Given
+   * ClassLoader parent = new ClassLoader();
+   * ClassLoader child = new ClassLoader(parent);
    *
-   * <pre><code class='java'>// Success scenario - a parent is present.
-   * ClassLoader parent = new ClassLoader() {};
-   * ClassLoader child = new ClassLoader() {};
+   * // Then
    * assertThat(child).hasParent();
+   * </code></pre>
    *
-   * // Failure scenario - a parent is not present.
-   * ClassLoader child = new ClassLoader("child", null) {};
-   * assertThat(child).hasParent();</code></pre>
+   * <p>This assertion would fail:
    *
-   * @return {@code this} assertions object.
+   * <pre><code>  // Given
+   * ClassLoader classLoader = new ClassLoader();
+   *
+   * // Then
+   * assertThat(classLoader).hasParent();
+   * </code></pre>
+   *
+   * @return {@code this} assertion object.
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code ClassLoader} has no parent.
+   * @see #hasNoParent()
+   * @see #parent()
+   * @see ClassLoader#getParent()
    */
   public SELF hasParent() {
     objects.assertNotNull(info, actual);
@@ -189,24 +293,31 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
   /**
    * Assert that the class loader has a null {@link ClassLoader#getParent() parent}.
    *
-   * <p>The parent class loader may be {@code null} if no parent class loader exists. The parent
-   * may also be null for some JVM implementations that return {@code null} for the bootstrap class
-   * loader (also known as the <em>platform</em> class loader in some places).
+   * <p>This assertion would pass:
    *
-   * <p>Example:
+   * <pre><code>  // Given
+   * ClassLoader classLoader = new ClassLoader();
    *
-   * <pre><code class='java'>// Success scenario - a parent is present.
-   * ClassLoader child = new ClassLoader(null) {};
+   * // Then
+   * assertThat(classLoader).hasParent();
+   * </code></pre>
+   *
+   * <p>This assertion would fail:
+   *
+   * <pre><code>  // Given
+   * ClassLoader parent = new ClassLoader();
+   * ClassLoader child = new ClassLoader(parent);
+   *
+   * // Then
    * assertThat(child).hasNoParent();
+   * </code></pre>
    *
-   * // Failure scenario - a parent is present.
-   * ClassLoader parent = new ClassLoader() {};
-   * ClassLoader child = new ClassLoader() {};
-   * assertThat(child).hasNoParent();</code></pre>
-   *
-   * @return {@code this} assertions object.
+   * @return {@code this} assertion object.
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code ClassLoader} has a non-{@code null} parent.
+   * @see #hasParent()
+   * @see #parent()
+   * @see ClassLoader#getParent()
    */
   public SELF hasNoParent() {
     objects.assertNotNull(info, actual);
@@ -223,14 +334,43 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
    * Returns an assertion object to perform on the {@link ClassLoader#getParent() parent} class
    * loader.
    *
-   * <p>The parent class loader may be {@code null} if no parent class loader exists. The parent
-   * may also be null for some JVM implementations that return {@code null} for the bootstrap class
-   * loader (also known as the <em>platform</em> class loader in some places).
+   * <p>The parent class loader will be considered to be {@code null} if no parent class
+   * loader is provided.
    *
-   * <pre><code class='java'>assertThat(classLoader).parent().isNotNull();</code></pre>
+   * <p>This assertion would pass:
+   *
+   * <pre><code>  // Given
+   * ClassLoader classLoader = new ClassLoader();
+   *
+   * // Then
+   * assertThat(classLoader).parent().isNull();
+   * </code></pre>
+   *
+   * <p>This assertion would also pass:
+   *
+   * <pre><code>  // Given
+   * ClassLoader parent = new ClassLoader();
+   * ClassLoader child = new ClassLoader(parent);
+   *
+   * // Then
+   * assertThat(child).parent().isSameAs(parent);
+   * </code></pre>
+   *
+   * <p>This assertion would fail:
+   *
+   * <pre><code>  // Given
+   * ClassLoader parent = new ClassLoader();
+   * ClassLoader child = new ClassLoader(parent);
+   *
+   * // Then
+   * assertThat(child).parent().isNull();
+   * </code></pre>
    *
    * @return the assertions to perform on the parent class loader.
    * @throws AssertionError if the actual {@code ClassLoader} is {@code null}.
+   * @see #hasParent()
+   * @see #hasNoParent()
+   * @see ClassLoader#getParent()
    */
   @CheckReturnValue
   public AbstractClassLoaderAssert<?> parent() {
@@ -241,19 +381,44 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
   /**
    * Assert that at least one resource with the given path exists in the class loader.
    *
+   * <p>This assertion would pass:
+   *
+   * <pre><code>  // Given
+   * ClassLoader classLoader = Assertions.class.getClassLoader();
+   *
+   * // Then
+   * assertThat(classLoader).hasResource("org/assertj/core/api/Assertions.class");
+   * </code></pre>
+   *
+   * <p>This assertion would fail:
+   *
+   * <pre><code>  // Given
+   * ClassLoader classLoader = Assertions.class.getClassLoader();
+   *
+   * // Then
+   * assertThat(classLoader).hasResource("org/assertj/core/api/SomeRandomClassThatDoesNotExist.class");
+   * </code></pre>
+   *
    * <p><strong>Note: </strong>this calls {@link ClassLoader#getResources(String)} and checks the
    * first result. This means that an exception will be thrown if a resource cannot be read from the
    * classloader due to an {@link IOException}. This contrasts with the behaviour of
    * {@link ClassLoader#getResource(String)}, which cannot throw an {@link IOException} and must
-   * instead return {@code null}.
+   * instead return {@code null}. This is an intentional design decision to provide assertion errors
+   * with more meaningful error messages.
    *
    * @param path the path of the resource to look up.
-   * @return {@code this} assertions object.
+   * @return {@code this} assertion object.
    * @throws NullPointerException if the {@code path} is null.
    * @throws AssertionError       if {@code actual} is null.
    * @throws AssertionError       if no resource is found matching the given {@code path}.
    * @throws UncheckedIOException if the call to {@link ClassLoader#getResources(String)} throws an
    *                              {@link IOException}.
+   * @see #hasNoResource(String)
+   * @see #resourceContent(String)
+   * @see #resourceContents(String)
+   * @see #resourceUrl(String)
+   * @see #resourceUrls(String)
+   * @see ClassLoader#getResources(String)
    */
   public SELF hasResource(String path) {
     findResourcesForPath(path)
@@ -266,20 +431,44 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
   /**
    * Assert that no resource with the given path exists in the class loader.
    *
+   * <p>This assertion would pass:
+   *
+   * <pre><code>  // Given
+   * ClassLoader classLoader = Assertions.class.getClassLoader();
+   *
+   * // Then
+   * assertThat(classLoader).hasNoResource("org/assertj/core/api/SomeRandomClassThatDoesNotExist.class");
+   * </code></pre>
+   *
+   * <p>This assertion would fail:
+   *
+   * <pre><code>  // Given
+   * ClassLoader classLoader = Assertions.class.getClassLoader();
+   *
+   * // Then
+   * assertThat(classLoader).hasNoResource("org/assertj/core/api/Assertions.class");
+   * </code></pre>
+   *
    * <p><strong>Note: </strong>this calls {@link ClassLoader#getResources(String)} and checks the
    * first result. This means that an exception will be thrown if a resource cannot be read from the
    * classloader due to an {@link IOException}. This contrasts with the behaviour of
    * {@link ClassLoader#getResource(String)}, which cannot throw an {@link IOException} and must
-   * instead return {@code null}. This call may change the state of the classloader depending on the
-   * implementation.
+   * instead return {@code null}. This is an intentional design decision to provide assertion errors
+   * with more meaningful error messages.
    *
    * @param path the path of the resource to look up.
-   * @return {@code this} assertions object.
+   * @return {@code this} assertion object.
    * @throws NullPointerException if the {@code path} is null.
    * @throws AssertionError       if {@code actual} is null.
    * @throws AssertionError       if a resource is found matching the given {@code path}.
    * @throws UncheckedIOException if the call to {@link ClassLoader#getResources(String)} throws an
    *                              {@link IOException}.
+   * @see #hasResource(String)
+   * @see #resourceContent(String)
+   * @see #resourceContents(String)
+   * @see #resourceUrl(String)
+   * @see #resourceUrls(String)
+   * @see ClassLoader#getResources(String)
    */
   public SELF hasNoResource(String path) {
     findResourcesForPath(path)
@@ -292,46 +481,42 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
   }
 
   /**
-   * Perform assertions on a resource URL that exists in the class loader, if present.
-   *
-   * <p>If the resource is not present, then a {@code null} resource will be used for the returned
-   * assertion object.
-   *
-   * <p><strong>Note: </strong>this calls {@link ClassLoader#getResources(String)} and checks the
-   * first result. This means that an exception will be thrown if a resource cannot be read from the
-   * classloader due to an {@link IOException}. This contrasts with the behaviour of
-   * {@link ClassLoader#getResource(String)}, which cannot throw an {@link IOException} and must
-   * instead return {@code null}. This call may change the state of the classloader depending on the
-   * implementation.
-   *
-   * @param path the path of the resource to look up.
-   * @return the assertion to perform on the resource. If not found, the resource may be null.
-   * @throws NullPointerException if the {@code path} is null.
-   * @throws AssertionError       if {@code actual} is null.
-   * @throws UncheckedIOException if the call to {@link ClassLoader#getResources(String)} throws an
-   *                              {@link IOException}.
-   */
-  @CheckReturnValue
-  public AbstractUrlAssert<?> resourceUrl(String path) {
-    return toAssert(
-      findResourcesForPath(path)
-        .findFirst()
-        .orElse(null)
-    );
-  }
-
-  /**
    * Perform assertions on the byte content of a resource in the given class loader, if present.
    *
    * <p>If the resource is not present, then a {@code null} resource will be used for the returned
    * assertion object.
    *
+   * <p>For example, suppose you were to add a file to your class path at
+   * {@code /foo/bar/Greeting.txt} with the following content (without any trailing space or
+   * newlines):
+   *
+   * <pre><code>Hello, World!</code></pre>
+   *
+   * <p>In this case, you can expect the following assertion to pass:
+   *
+   * <pre><code>  // Then
+   * assertThat(classLoader)
+   *     .resourceContent("foo/bar/Greeting.txt")
+   *     .asString()
+   *     .hasContent("Hello, World!");
+   * </code></pre>
+   *
+   * <p>...assuming {@code classLoader} refers to the class loader of your package.
+   *
+   * <p>If no file exists with the given path, you can expect the following assertion to pass:
+   *
+   * <pre><code>  // Then
+   * assertThat(classLoader)
+   *     .resourceContent("some-file-that-does-not-exist.json")
+   *     .isNull();
+   * </code></pre>
+   *
    * <p><strong>Note: </strong>this calls {@link ClassLoader#getResources(String)} and checks the
    * first result. This means that an exception will be thrown if a resource cannot be read from the
    * classloader due to an {@link IOException}. This contrasts with the behaviour of
    * {@link ClassLoader#getResource(String)}, which cannot throw an {@link IOException} and must
-   * instead return {@code null}. This call may change the state of the classloader depending on the
-   * implementation.
+   * instead return {@code null}. This is an intentional design decision to provide assertion errors
+   * with more meaningful error messages.
    *
    * @param path the path of the resource to look up.
    * @return the assertion to perform on the resource content. If not found, the resource may be
@@ -340,7 +525,14 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
    * @throws AssertionError       if {@code actual} is null.
    * @throws UncheckedIOException if the call to {@link ClassLoader#getResources(String)} throws an
    *                              {@link IOException}.
+   * @see #hasResource(String)
+   * @see #hasNoResource(String)
+   * @see #resourceContents(String)
+   * @see #resourceUrl(String)
+   * @see #resourceUrls(String)
+   * @see ClassLoader#getResources(String)
    */
+  @CheckReturnValue
   public AbstractByteArrayAssert<?> resourceContent(String path) {
     return toAssert(
       findResourcesForPath(path)
@@ -352,34 +544,16 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
 
   /**
    * Discover all resources with the given path using the class loader, and perform assertions on
-   * the iterable of URL results.
-   *
-   * <p><strong>Note:</strong> This will call {@link ClassLoader#getResources(String)} internally,
-   * which may change the class loader state depending on the implementation.
-   *
-   * @param path the path of the resource to look up.
-   * @return the assertion to perform on the resources.
-   * @throws NullPointerException if the {@code path} is null.
-   * @throws AssertionError       if {@code actual} is null.
-   * @throws UncheckedIOException if the call to {@link ClassLoader#getResources(String)} throws an
-   *                              {@link IOException}.
-   */
-  @CheckReturnValue
-  public AbstractIterableAssert<?, ? extends Iterable<URL>, URL, ? extends AbstractUrlAssert<?>> resourceUrls(
-    String path
-  ) {
-    return findResourcesForPath(path)
-      // No point using parallel for this, as we do not load anything else once we get this far.
-      .sequential()
-      .collect(collectingAndThen(toList(), this::toUrlIterableAssert));
-  }
-
-  /**
-   * Discover all resources with the given path using the class loader, and perform assertions on
    * the iterable of byte array contents of those resources.
    *
-   * <p><strong>Note:</strong> This will call {@link ClassLoader#getResources(String)} internally,
-   * which may change the class loader state depending on the implementation.
+   * <p>This is functionally the same as {@link #resourceContent(String)}, but will check for
+   * all matches for the given path. This scenario can occur when multiple root paths are handled by
+   * the same class loader. A common occurrence of this is with {@link java.net.URLClassLoader},
+   * which can handle multiple packages, modules, JAR, and WAR files.
+   *
+   * <p>For example, suppose you have two JAR files on your class path, and both contain a file
+   * called {@code foo/bar/baz.txt}. This method would return an iterable containing assertions for
+   * both of those files, in which ever order the {@code actual} class loader returns them in.
    *
    * @param path the path of the resource to look up.
    * @return the assertion to perform on the iterable of resource contents.
@@ -387,6 +561,12 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
    * @throws AssertionError       if {@code actual} is null.
    * @throws UncheckedIOException if the call to {@link ClassLoader#getResources(String)} throws an
    *                              {@link IOException}.
+   * @see #hasResource(String)
+   * @see #hasNoResource(String)
+   * @see #resourceContent(String)
+   * @see #resourceUrl(String)
+   * @see #resourceUrls(String)
+   * @see ClassLoader#getResources(String)
    */
   @CheckReturnValue
   public AbstractIterableAssert<?, ? extends Iterable<byte[]>, byte[], ? extends AbstractByteArrayAssert<?>> resourceContents(
@@ -400,7 +580,119 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
   }
 
   /**
+   * Perform assertions on a resource URL that exists in the class loader, if present.
+   *
+   * <p>If the resource is not present, then a {@code null} resource will be used for the returned
+   * assertion object.
+   *
+   * <p>For example, suppose you were to add a file to your class path at
+   * {@code /foo/bar/Greeting.txt}, then you can expect the following assertion to pass:
+   *
+   * <pre><code>  // Then
+   * assertThat(classLoader)
+   *     .resourceUrl("foo/bar/Greeting.txt")
+   *     .hasPath("/foo/bar/Greeting.txt");
+   * </code></pre>
+   *
+   * <p>...assuming {@code classLoader} refers to the class loader of your package.
+   *
+   * <p>If no file exists with the given path, you can expect the following assertion to pass:
+   *
+   * <pre><code>  // Then
+   * assertThat(classLoader)
+   *     .resourceUrl("some-file-that-does-not-exist.json")
+   *     .isNull();
+   * </code></pre>
+   *
+   * <p><strong>Note: </strong>this calls {@link ClassLoader#getResources(String)} and checks the
+   * first result. This means that an exception will be thrown if a resource cannot be read from the
+   * classloader due to an {@link IOException}. This contrasts with the behaviour of
+   * {@link ClassLoader#getResource(String)}, which cannot throw an {@link IOException} and must
+   * instead return {@code null}. This is an intentional design decision to provide assertion errors
+   * with more meaningful error messages.
+   *
+   * @param path the path of the resource to look up.
+   * @return the assertion to perform on the resource. If not found, the resource may be null.
+   * @throws NullPointerException if the {@code path} is null.
+   * @throws AssertionError       if {@code actual} is null.
+   * @throws UncheckedIOException if the call to {@link ClassLoader#getResources(String)} throws an
+   *                              {@link IOException}.
+   * @see #hasResource(String)
+   * @see #hasNoResource(String)
+   * @see #resourceContent(String)
+   * @see #resourceContents(String)
+   * @see #resourceUrls(String)
+   * @see ClassLoader#getResources(String)
+   */
+  @CheckReturnValue
+  public AbstractUrlAssert<?> resourceUrl(String path) {
+    return toAssert(
+      findResourcesForPath(path)
+        .findFirst()
+        .orElse(null)
+    );
+  }
+
+  /**
+   * Discover all resources with the given path using the class loader, and perform assertions on
+   * the iterable of URL results.
+   *
+   * <p>This is functionally the same as {@link #resourceUrl(String)}, but will check for
+   * all matches for the given path. This scenario can occur when multiple root paths are handled by
+   * the same class loader. A common occurrence of this is with {@link java.net.URLClassLoader},
+   * which can handle multiple packages, modules, JAR, and WAR files.
+   *
+   * <p>For example, suppose you have two JAR files on your class path, and both contain a file
+   * called {@code foo/bar/baz.txt}. This method would return an iterable containing assertions for
+   * both of those files, in which ever order the {@code actual} class loader returns them in.
+   *
+   * @param path the path of the resource to look up.
+   * @return the assertion to perform on the resources.
+   * @throws NullPointerException if the {@code path} is null.
+   * @throws AssertionError       if {@code actual} is null.
+   * @throws UncheckedIOException if the call to {@link ClassLoader#getResources(String)} throws an
+   *                              {@link IOException}.
+   * @see #hasResource(String)
+   * @see #hasNoResource(String)
+   * @see #resourceContent(String)
+   * @see #resourceContents(String)
+   * @see #resourceUrl(String)
+   * @see ClassLoader#getResources(String)
+   */
+  @CheckReturnValue
+  public AbstractIterableAssert<?, ? extends Iterable<URL>, URL, ? extends AbstractUrlAssert<?>> resourceUrls(
+    String path
+  ) {
+    return findResourcesForPath(path)
+      // No point using parallel for this, as we do not load anything else once we get this far.
+      .sequential()
+      .collect(collectingAndThen(toList(), this::toUrlIterableAssert));
+  }
+
+  /**
    * Assert that the class loader can load a class for the given binary name successfully.
+   *
+   * <p>This assertion would pass:
+   *
+   * <pre><code>  // Given
+   * ClassLoader classLoader = Assertions.class.getClassLoader();
+   *
+   * // Then
+   * assertThat(classLoader)
+   *    .canLoadClass("org.assertj.core.api.BDDAssertions")
+   *    .isPublic();
+   * </code></pre>
+   *
+   * <p>This assertion would fail (since the class being loaded does not exist):
+   *
+   * <pre><code>  // Given
+   * ClassLoader classLoader = Assertions.class.getClassLoader();
+   *
+   * // Then
+   * assertThat(classLoader)
+   *    .canLoadClass("org.assertj.core.api.GherkinAssertions")
+   *    .isPublic();
+   * </code></pre>
    *
    * <p><strong>Note:</strong> This will call {@link ClassLoader#getResources(String)} internally,
    * which may change the class loader state depending on the implementation.
@@ -415,6 +707,8 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
    *                              the given {@code binaryName}.
    * @throws AssertionError       if a {@link RuntimeException} is thrown while loading the class
    *                              with the given {@code binaryName}.
+   * @see #canNotLoadClass(String)
+   * @see ClassLoader#loadClass(String)
    */
   public AbstractClassAssert<?> canLoadClass(String binaryName) {
     requireNonNullBinaryName(binaryName);
@@ -459,6 +753,39 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
   /**
    * Assert that the class loader can load a class for the given binary name successfully.
    *
+   * <p>This assertion would pass (since the class being loaded does not exist):
+   *
+   * <pre><code>  // Given
+   * ClassLoader classLoader = Assertions.class.getClassLoader();
+   *
+   * // Then
+   * assertThat(classLoader)
+   *    .canNotLoadClass("org.assertj.core.api.GherkinAssumptions");
+   * </code></pre>
+   *
+   * <p>This assertion would fail (since the class would be able to be loaded):
+   *
+   * <pre><code>  // Given
+   * ClassLoader classLoader = Assertions.class.getClassLoader();
+   *
+   * // Then
+   * assertThat(classLoader)
+   *    .canNotLoadClass("org.assertj.core.api.BDDAssumptions")
+   *    .isInstanceOf(ClassNotFoundException.class);
+   * </code></pre>
+   *
+   * <p>This assertion would also fail (since the exception being thrown would be expected to be an
+   * instance of {@link ClassNotFoundException} instead):
+   *
+   * <pre><code>  // Given
+   * ClassLoader classLoader = Assertions.class.getClassLoader();
+   *
+   * // Then
+   * assertThat(classLoader)
+   *    .canNotLoadClass("org.assertj.core.api.GherkinAssumptions")
+   *    .isInstanceOf(NullPointerException.class);
+   * </code></pre>
+   *
    * <p>You should always consider checking the result of this call to
    * ensure the expected exception was thrown. Failing to do this may result in missing bugs in code
    * that is being tested.
@@ -473,6 +800,8 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
    * @throws AssertionError       if no {@link ClassNotFoundException}, {@link RuntimeException}, or
    *                              {@link LinkageError} is thrown while loading the class with the
    *                              given {@code binaryName}.
+   * @see #canLoadClass(String)
+   * @see ClassLoader#loadClass(String)
    */
   @CheckReturnValue
   public AbstractThrowableAssert<?, ? extends Throwable> canNotLoadClass(
