@@ -460,8 +460,8 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
    * Assert that the class loader can load a class for the given binary name successfully.
    *
    * <p>You should always consider checking the result of this call to
-   * ensure the expected exception was thrown. Failing to do this may result in missing bugs in
-   * code that is being tested.
+   * ensure the expected exception was thrown. Failing to do this may result in missing bugs in code
+   * that is being tested.
    *
    * <p><strong>Note:</strong> This will call {@link ClassLoader#getResources(String)} internally,
    * which may change the class loader state depending on the implementation.
