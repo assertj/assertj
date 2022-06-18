@@ -14,7 +14,17 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Vector;
+import javax.management.loading.PrivateClassLoader;
+import net.bytebuddy.dynamic.DynamicType;
+import net.bytebuddy.dynamic.DynamicType.Unloaded;
+import net.bytebuddy.dynamic.TypeResolutionStrategy;
+import net.bytebuddy.dynamic.TypeResolutionStrategy.Active;
+import net.bytebuddy.pool.TypePool;
+import net.bytebuddy.pool.TypePool.Empty;
 import org.mockito.stubbing.Answer;
 
 /**
@@ -48,11 +58,10 @@ final class ClassLoaderTestUtils {
    *
    * @author Ashley Scopes
    */
-  static final class PrivateClassLoader extends ClassLoader
-    implements javax.management.loading.PrivateClassLoader {
+  static final class PrivateJmxClassLoader extends ClassLoader implements PrivateClassLoader {
 
-    PrivateClassLoader() {
-      if (!javax.management.loading.PrivateClassLoader.class.isAssignableFrom(getClass())) {
+    PrivateJmxClassLoader() {
+      if (!PrivateClassLoader.class.isAssignableFrom(getClass())) {
         throw new IllegalStateException("Expected this class loader to be private");
       }
     }
@@ -63,14 +72,80 @@ final class ClassLoaderTestUtils {
    *
    * @author Ashley Scopes
    */
-  static final class NonPrivateClassLoader extends ClassLoader {
+  static final class NonPrivateJmxClassLoader extends ClassLoader {
 
-    NonPrivateClassLoader() {
-      if (javax.management.loading.PrivateClassLoader.class.isAssignableFrom(getClass())) {
+    NonPrivateJmxClassLoader() {
+      if (PrivateClassLoader.class.isAssignableFrom(getClass())) {
         throw new IllegalStateException("Expected this class loader to not be private");
       }
     }
 
+  }
+
+  /**
+   * A simple class loader that holds a map of byte arrays that represent valid classes. These can
+   * be loaded into memory as needed. These are registered via ByteBuddy {@link DynamicType.Builder}
+   * instances or by {@code byte[]} arrays.
+   *
+   * @author Ashley Scopes
+   */
+  static final class ByteClassLoader extends ClassLoader {
+
+    private static final TypeResolutionStrategy RESOLUTION_STRATEGY = new Active();
+    private static final TypePool TYPE_POOL = Empty.INSTANCE;
+    private final Map<String, byte[]> rawClasses;
+
+    ByteClassLoader() {
+      rawClasses = new LinkedHashMap<>();
+    }
+
+    ByteClassLoader with(DynamicType.Builder<?> type) {
+      requireNonNull(type);
+      Unloaded<?> unloaded = type.make(RESOLUTION_STRATEGY, TYPE_POOL);
+      String name = unloaded.getTypeDescription().getName();
+      return with(name, unloaded.getBytes());
+    }
+
+    ByteClassLoader with(String name, byte[] data) {
+      requireNonNull(name);
+      requireNonNull(data);
+
+      if (rawClasses.containsKey(name)) {
+        // Sanity check. We don't want to allow tests to change this as it could give confusing
+        // behaviour if classes are already loaded.
+        throw new IllegalStateException("class " + name + " already defined");
+      }
+
+      rawClasses.put(name, data);
+      return this;
+    }
+
+    @Override
+    protected Class<?> findClass(String name) throws ClassNotFoundException {
+      byte[] classData = Optional
+        .ofNullable(name)
+        .map(rawClasses::get)
+        .orElseThrow(() -> new ClassNotFoundException(name));
+      // (String name, byte[] data, int offset, int length)
+      return defineClass(null, classData, 0, classData.length);
+    }
+  }
+
+  /**
+   * Get the system class loader and perform some last-minute sanity checks.
+   *
+   * @return the system class loader.
+   */
+  static ClassLoader systemClassLoader() {
+    ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+
+    // There is one edge case where this may be null, and that is during initialization. This is
+    // just a sanity check.
+    assumeThat(classLoader)
+      .withFailMessage("expected a valid system class loader to already be initialized")
+      .isNotNull();
+
+    return classLoader;
   }
 
   /**
@@ -126,23 +201,6 @@ final class ClassLoaderTestUtils {
   static <T> Answer<Enumeration<T>> withEnumerationOf(T... items) {
     Vector<T> vec = new Vector<>(Arrays.asList(items));
     return unused -> vec.elements();
-  }
-
-  /**
-   * Get the system class loader and perform some last-minute sanity checks.
-   *
-   * @return the system class loader.
-   */
-  static ClassLoader systemClassLoader() {
-    ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-
-    // There is one edge case where this may be null, and that is during initialization. This is
-    // just a sanity check.
-    assumeThat(classLoader)
-      .withFailMessage("expected a valid system class loader to already be initialized")
-      .isNotNull();
-
-    return classLoader;
   }
 
   private static <T> T mockType(Class<T> type) {

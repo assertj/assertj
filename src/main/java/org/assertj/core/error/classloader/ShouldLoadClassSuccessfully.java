@@ -22,6 +22,12 @@ import org.assertj.core.error.ErrorMessageFactory;
  * Creates an error message indicating that an assertion that ensures a class loader can load a
  * class successfully.
  *
+ * <p>This can apply to {@link ClassNotFoundException} instances, or it can apply to
+ * {@link LinkageError} instances that may be thrown depending on the implementation. It may also
+ * apply to {@link RuntimeException} types that do not enforce checked exceptions. All other
+ * {@link Error} types are not allowed, as this may be indicative of a bug in a test instead of
+ * desired behaviour.
+ *
  * @author Ashley Scopes
  */
 public class ShouldLoadClassSuccessfully extends BasicErrorMessageFactory {
@@ -42,13 +48,13 @@ public class ShouldLoadClassSuccessfully extends BasicErrorMessageFactory {
    *
    * @param classLoader the class loader that should load a class successfully.
    * @param binaryName  the binary name of the class that attempted to be loaded.
-   * @param ex          the exception that was thrown.
+   * @param ex          the {@link ClassNotFoundException} that was thrown.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldLoadClassSuccessfully(
     ClassLoader classLoader,
     String binaryName,
-    ClassNotFoundException ex
+    Throwable ex
   ) {
     return new ShouldLoadClassSuccessfully(classLoader, binaryName, ex);
   }
@@ -56,7 +62,7 @@ public class ShouldLoadClassSuccessfully extends BasicErrorMessageFactory {
   private ShouldLoadClassSuccessfully(
     ClassLoader classLoader,
     String binaryName,
-    ClassNotFoundException ex
+    Throwable ex
   ) {
     super(
       CLASS_LOADER_SHOULD_LOAD_CLASS_SUCCESSFULLY,

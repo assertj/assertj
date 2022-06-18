@@ -16,9 +16,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.error.classloader.ShouldLoadClassSuccessfully.shouldLoadClassSuccessfully;
 
+import java.lang.reflect.GenericSignatureFormatError;
+import java.util.stream.Stream;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Tests for {@link ShouldLoadClassSuccessfully#shouldLoadClassSuccessfully}.
@@ -67,12 +71,12 @@ class ShouldLoadClassSuccessfully_Test {
       .hasMessage("ex should not be null");
   }
 
-  @Test
-  void should_create_error_message_for_class_loader() {
+  @MethodSource("expectedExceptions")
+  @ParameterizedTest
+  void should_create_error_message_for_class_loader(Throwable ex) {
     // Given
     StubClassLoader classLoader = new StubClassLoader();
     String binaryName = "bork.qux.Quxx";
-    ClassNotFoundException ex = new ClassNotFoundException("bork.qux.Quxx");
 
     // When
     ErrorMessageFactory factory = shouldLoadClassSuccessfully(classLoader, binaryName, ex);
@@ -96,5 +100,26 @@ class ShouldLoadClassSuccessfully_Test {
         binaryName,
         StandardRepresentation.STANDARD_REPRESENTATION.toStringOf(ex)
       );
+  }
+
+  static Stream<Throwable> expectedExceptions() {
+    return Stream.of(
+      new ClassNotFoundException("foo.bar.baz"),
+      new ClassNotFoundException("lorem.ipsum.dolor.sit.amet"),
+      new ClassNotFoundException(),
+      new LinkageError("Linkage error!!"),
+      new LinkageError(),
+      new NoClassDefFoundError(),
+      new NoClassDefFoundError("That class ain't gonna load!"),
+      new ClassCircularityError(),
+      new ClassCircularityError("Circular dependency"),
+      new UnsupportedClassVersionError(),
+      new UnsupportedClassVersionError("Java v99213213589238 does not exist yet"),
+      new GenericSignatureFormatError(),
+      new GenericSignatureFormatError("I can't read your signature"),
+      new RuntimeException("That is bad"),
+      new NullPointerException("That is also bad"),
+      new ClassCastException("You cast something badly")
+    );
   }
 }

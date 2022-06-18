@@ -8,8 +8,8 @@ import static org.assertj.core.error.classloader.ShouldNotBePrivate.shouldNotBeP
 
 import org.assertj.core.api.AbstractClassLoaderAssert;
 import org.assertj.core.api.ClassLoaderAssert;
-import org.assertj.core.api.classloader.ClassLoaderTestUtils.NonPrivateClassLoader;
-import org.assertj.core.api.classloader.ClassLoaderTestUtils.PrivateClassLoader;
+import org.assertj.core.api.classloader.ClassLoaderTestUtils.NonPrivateJmxClassLoader;
+import org.assertj.core.api.classloader.ClassLoaderTestUtils.PrivateJmxClassLoader;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +32,7 @@ class ClassLoader_isNotPrivate_Test {
   @Test
   void should_fail_if_actual_is_private() {
     // Given
-    ClassLoader classLoader = new PrivateClassLoader();
+    ClassLoader classLoader = new PrivateJmxClassLoader();
 
     // Then
     assertThatCode(() -> assertThat(classLoader).isNotPrivate())
@@ -43,7 +43,7 @@ class ClassLoader_isNotPrivate_Test {
   @Test
   void should_succeed_if_actual_is_private() {
     // Given
-    ClassLoader classLoader = new NonPrivateClassLoader();
+    ClassLoader classLoader = new NonPrivateJmxClassLoader();
 
     // Then
     assertThatNoException()
@@ -53,7 +53,7 @@ class ClassLoader_isNotPrivate_Test {
   @Test
   void should_return_class_loader_assert_when_successful() {
     // Given
-    ClassLoader classLoader = new NonPrivateClassLoader();
+    ClassLoader classLoader = new NonPrivateJmxClassLoader();
     AbstractClassLoaderAssert<?> expectedAssertions = assertThat(classLoader);
 
     // When

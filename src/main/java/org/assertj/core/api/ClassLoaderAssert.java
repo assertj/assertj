@@ -58,7 +58,7 @@ public class ClassLoaderAssert extends AbstractClassLoaderAssert<ClassLoaderAsse
   }
 
   @Override
-  protected ThrowableAssert<? extends ClassNotFoundException> toAssert(ClassNotFoundException ex) {
+  protected ThrowableAssert<? extends Throwable> toAssert(Throwable ex) {
     return new ThrowableAssert<>(ex);
   }
 

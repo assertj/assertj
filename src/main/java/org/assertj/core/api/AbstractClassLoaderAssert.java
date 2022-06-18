@@ -411,11 +411,42 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
    * @throws AssertionError       if {@code actual} is null.
    * @throws AssertionError       if a {@link ClassNotFoundException} is thrown while loading the
    *                              class with the given {@code binaryName}.
+   * @throws AssertionError       if a {@link LinkageError} is thrown while loading the class with
+   *                              the given {@code binaryName}.
+   * @throws AssertionError       if a {@link RuntimeException} is thrown while loading the class
+   *                              with the given {@code binaryName}.
    */
   public AbstractClassAssert<?> canLoadClass(String binaryName) {
+    requireNonNullBinaryName(binaryName);
+    objects.assertNotNull(info, actual);
+
     try {
-      return toAssert(tryLoadClass(binaryName));
-    } catch (ClassNotFoundException ex) {
+      Class<?> clazz = actual.loadClass(binaryName);
+      return toAssert(clazz);
+
+    } catch (ClassNotFoundException | LinkageError | RuntimeException ex) {
+      // We only handle specific types of exception. These are:
+      //
+      // - ClassNotFoundException - checked Exception that can be thrown per the method signature.
+      // - LinkageError - specific type of Error that the JVM may throw if class linkage is invalid.
+      // - RuntimeException - any exceptions that are unchecked that we can throw without altering
+      //     the signature of ClassLoader#loadClass.
+      //
+      // We do not handle other Error types because this may hide other bugs in the code or unit
+      // test runners (such as ThreadDeath, other nested AssertionErrors, OutOfMemoryError, etc).
+      //
+      // We also do not handle other checked exceptions.
+      //
+      // Some may argue that this should not actually be able to occur with the contract of how the
+      // Java compiler works handling checked exceptions. The reality is that this is only enforced
+      // at compile time, and other languages like Kotlin, Scala, Groovy, Clojure, and Concurnas
+      // discard this concept entirely. Furthermore, if the user is using Lombok, they can hide
+      // checked exceptions using @SneakyThrows. We choose to not handle these exceptions because
+      // it would violate the API contract for the class loader according to the specification for
+      // the Java Standard Library -- we don't want to encourage accepting behaviour that cannot be
+      // handled in Java code directly (it can be a compile error to try and catch a checked
+      // exception that is not explicitly thrown in some cases).
+
       AssertionError error = failures.failure(
         info,
         shouldLoadClassSuccessfully(actual, binaryName, ex)
@@ -428,6 +459,10 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
   /**
    * Assert that the class loader can load a class for the given binary name successfully.
    *
+   * <p>You should always consider checking the result of this call to
+   * ensure the expected exception was thrown. Failing to do this may result in missing bugs in
+   * code that is being tested.
+   *
    * <p><strong>Note:</strong> This will call {@link ClassLoader#getResources(String)} internally,
    * which may change the class loader state depending on the implementation.
    *
@@ -435,16 +470,21 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
    * @return assertions to perform on the loaded class that is returned.
    * @throws NullPointerException if {@code binaryName} is null.
    * @throws AssertionError       if {@code actual} is null.
-   * @throws AssertionError       if no {@link ClassNotFoundException} is thrown while loading the
-   *                              class with the given {@code binaryName}.
+   * @throws AssertionError       if no {@link ClassNotFoundException}, {@link RuntimeException}, or
+   *                              {@link LinkageError} is thrown while loading the class with the
+   *                              given {@code binaryName}.
    */
-  public AbstractThrowableAssert<?, ? extends ClassNotFoundException> canNotLoadClass(
+  @CheckReturnValue
+  public AbstractThrowableAssert<?, ? extends Throwable> canNotLoadClass(
     String binaryName
   ) {
+    requireNonNullBinaryName(binaryName);
+    objects.assertNotNull(info, actual);
+
     try {
-      tryLoadClass(binaryName);
+      actual.loadClass(binaryName);
       throw failures.failure(info, shouldNotLoadClassSuccessfully(actual, binaryName));
-    } catch (ClassNotFoundException ex) {
+    } catch (ClassNotFoundException | LinkageError | RuntimeException ex) {
       return toAssert(ex);
     }
   }
@@ -486,14 +526,15 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
   protected abstract AbstractByteArrayAssert<?> toAssert(byte[] array);
 
   /**
-   * Create a new assertion object for the given {@link ClassNotFoundException}.
+   * Create a new assertion object for the given {@link ClassNotFoundException} or
+   * {@link LinkageError}.
    *
-   * @param ex the exception that was thrown while loading a class.
+   * @param ex the exception or error that was thrown while loading a class.
    * @return the assertion.
    */
   @CheckReturnValue
-  protected abstract AbstractThrowableAssert<?, ? extends ClassNotFoundException> toAssert(
-    ClassNotFoundException ex
+  protected abstract AbstractThrowableAssert<?, ? extends Throwable> toAssert(
+    Throwable ex
   );
 
   /**
@@ -502,6 +543,7 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
    * @param urls the enumeration of URLs.
    * @return the assertion.
    */
+  @CheckReturnValue
   protected abstract AbstractIterableAssert<?, ? extends Iterable<URL>, URL, ? extends AbstractUrlAssert<?>> toUrlIterableAssert(
     Iterable<URL> urls
   );
@@ -512,6 +554,7 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
    * @param byteArrays the iterable of byte arrays.
    * @return the assertion.
    */
+  @CheckReturnValue
   protected abstract AbstractIterableAssert<?, ? extends Iterable<byte[]>, byte[], ? extends AbstractByteArrayAssert<?>> toByteArrayIterableAssert(
     Iterable<byte[]> byteArrays
   );
@@ -530,13 +573,6 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
         ex
       );
     }
-  }
-
-  // invariant as Class is a final class.
-  private Class<?> tryLoadClass(String binaryName) throws ClassNotFoundException {
-    requireNonNullBinaryName(binaryName);
-    objects.assertNotNull(info, actual);
-    return actual.loadClass(binaryName);
   }
 
   @CheckReturnValue
