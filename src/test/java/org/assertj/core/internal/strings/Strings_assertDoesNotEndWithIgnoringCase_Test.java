@@ -18,7 +18,6 @@ import static org.assertj.core.error.ShouldNotEndWithIgnoringCase.shouldNotEndWi
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
@@ -26,11 +25,9 @@ import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.assertj.core.util.StringHashCodeTestComparator;
 import org.junit.jupiter.api.Test;
+import org.junitpioneer.jupiter.DefaultLocale;
 
-/**
- * Tests for <code>{@link Strings#assertDoesNotEndWithIgnoringCase(AssertionInfo, CharSequence, CharSequence)}</code>.
- */
-class Strings_assertDoesNotEndWithIgnoringCaseIgnoringCase_Test extends StringsBaseTest {
+class Strings_assertDoesNotEndWithIgnoringCase_Test extends StringsBaseTest {
 
   @Test
   void should_pass_if_actual_does_not_end_with_suffix() {
@@ -78,4 +75,14 @@ class Strings_assertDoesNotEndWithIgnoringCaseIgnoringCase_Test extends StringsB
     // THEN
     then(assertionError).hasMessage(shouldNotEndWithIgnoringCase("Yoda", "A", hashCodeComparisonStrategy).create());
   }
+
+  @Test
+  @DefaultLocale("tr-TR")
+  void should_fail_with_Turkish_default_locale() {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> strings.assertDoesNotEndWithIgnoringCase(INFO, "Leia", "IA"));
+    // THEN
+    then(assertionError).hasMessage(shouldNotEndWithIgnoringCase("Leia", "IA", StandardComparisonStrategy.instance()).create());
+  }
+
 }
