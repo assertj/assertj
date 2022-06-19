@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.extention;
+package org.assertj.core.extension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
