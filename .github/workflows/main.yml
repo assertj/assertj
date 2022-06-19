@@ -6,10 +6,20 @@ jobs:
 
   test_os:
     name: OS ${{ matrix.os }}
+    permissions:
+      # Needed for test reporting
+      checks: write
+      pull-requests: write
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macOS-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            comment-test-results: true
+          - os: macOS-latest
+            comment-test-results: false
+          - os: windows-latest
+            comment-test-results: false
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
@@ -22,10 +32,20 @@ jobs:
       - name: Test
         run: ./mvnw -B -V --no-transfer-progress -e verify javadoc:javadoc '-P!coverage'
 
+      # Add test results to the PR.
+      - name: Publish unit test results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: ${{ matrix.comment-test-results }}
+        continue-on-error: true
+        with:
+          check_name: "JUnit test results"
+          files: "target/surefire-reports/TEST-*.xml"
+
   sonar:
     name: Sonar code analysis
     runs-on: ubuntu-latest
     if: github.repository == 'assertj/assertj-core' && github.event_name == 'push'
+
     steps:
       - uses: actions/checkout@v3
         with:
