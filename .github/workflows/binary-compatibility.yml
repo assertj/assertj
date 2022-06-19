@@ -27,7 +27,7 @@ jobs:
         run: ./mvnw -V --no-transfer-progress -e -f ${{ github.run_id }}.${{ github.base_ref }}/pom.xml package -DskipTests
       - name: Compare `${{ github.head_ref }}` with `${{ github.base_ref }}`
         run: >
-          ./mvnw -V --no-transfer-progress -e -Pjapicmp-branch package japicmp:cmp
+          ./mvnw -B -V --no-transfer-progress -e -Pjapicmp-branch package japicmp:cmp
           -DskipTests
           -Djapicmp.breakBuildOnBinaryIncompatibleModifications=true
           -Djapicmp.oldVersion.basedir=${{ github.run_id }}.${{ github.base_ref }}
@@ -88,7 +88,7 @@ jobs:
 
       - name: Compare with the latest release
         run: >
-          ./mvnw -V --no-transfer-progress -e package japicmp:cmp
+          ./mvnw -B -V --no-transfer-progress -e package japicmp:cmp
           -DskipTests
           -Djapicmp.breakBuildOnBinaryIncompatibleModifications=true
 
