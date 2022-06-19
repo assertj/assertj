@@ -27,7 +27,6 @@ import static org.assertj.core.error.classloader.ShouldNotHaveResource.shouldNot
 import static org.assertj.core.error.classloader.ShouldNotLoadClassSuccessfully.shouldNotLoadClassSuccessfully;
 import static org.assertj.core.util.Strings.quote;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -573,8 +572,6 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
     String path
   ) {
     return findResourcesForPath(path)
-      // Parallel will give a slight performance benefit for slow filesystem-based assertions.
-      .parallel()
       .map(this::readResourceFromUrl)
       .collect(collectingAndThen(toList(), this::toByteArrayIterableAssert));
   }
@@ -917,12 +914,10 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
 
   @CheckReturnValue
   private byte[] readResourceFromUrl(URL url) {
-    try {
-      try (InputStream inputStream = url.openStream()) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        transfer(inputStream, outputStream);
-        return outputStream.toByteArray();
-      }
+    try (InputStream inputStream = url.openStream()) {
+      ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+      transfer(inputStream, outputStream);
+      return outputStream.toByteArray();
     } catch (IOException ex) {
       throw new UncheckedIOException(
         "Failed to read content of resource for URL " + quote(url),
@@ -948,7 +943,7 @@ public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoader
   // In Java 9, replace this with `inputStream.transferTo(outputStream)`
   private void transfer(InputStream inputStream, OutputStream outputStream) throws IOException {
     int count;
-    byte[] buff = new byte[8192];
+    byte[] buff = new byte[1024];
     while ((count = inputStream.read(buff)) != -1) {
       outputStream.write(buff, 0, count);
     }

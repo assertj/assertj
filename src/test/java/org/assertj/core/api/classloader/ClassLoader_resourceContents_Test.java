@@ -40,6 +40,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import org.assertj.core.api.ClassLoaderAssert;
 import org.assertj.core.api.classloader.ClassLoaderTestUtils.SimpleClassLoader;
+import org.assertj.core.api.classloader.ClassLoaderTestUtils.ThrowOnReadInputStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -167,13 +168,11 @@ class ClassLoader_resourceContents_Test {
     ClassLoader classLoader = mockClassLoader();
     IOException expectedException = new IOException("Server caught fire, everyone panic");
     InputStream firstInputStream = spy(new ByteArrayInputStream(new byte[]{1, 2, 3}));
-    InputStream secondInputStream = mock(InputStream.class);
+    InputStream secondInputStream = spy(new ThrowOnReadInputStream(expectedException));
     InputStream thirdInputStream = spy(new ByteArrayInputStream(new byte[]{7, 8, 9}));
     URL firstResource = mockUrlWithInputStream(firstInputStream);
     URL secondResource = mockUrlWithInputStream(secondInputStream);
     URL thirdResource = mockUrlWithInputStream(thirdInputStream);
-    when(secondInputStream.read(any(), anyInt(), anyInt()))
-      .thenThrow(expectedException);
     when(classLoader.getResources(any()))
       .thenAnswer(withEnumerationOf(firstResource, secondResource, thirdResource));
 

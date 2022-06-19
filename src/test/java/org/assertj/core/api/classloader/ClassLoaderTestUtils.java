@@ -24,6 +24,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
@@ -92,6 +93,27 @@ final class ClassLoaderTestUtils {
       }
     }
 
+  }
+
+  /**
+   * Input stream that throws the given exception during read operations.
+   *
+   * <p>Ideally, I would have liked to just use a mock here, but for some reason JRE-20 is
+   * encountering a strange out-of-memory issue when I do so. For now, this is a band-aid solution.
+   *
+   * @author Ashley Scopes
+   */
+  static class ThrowOnReadInputStream extends InputStream {
+    private final IOException ioException;
+
+    ThrowOnReadInputStream(IOException ioException) {
+      this.ioException = requireNonNull(ioException);
+    }
+
+    @Override
+    public int read() throws IOException {
+      throw ioException;
+    }
   }
 
   /**
