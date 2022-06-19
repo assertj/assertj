@@ -30,7 +30,12 @@ jobs:
           java-version: 17
 #          cache: 'maven'
       - name: Test
-        run: ./mvnw -B -V --no-transfer-progress -e verify javadoc:javadoc '-P!coverage'
+        # Note: arguments with a period or bang in them have to be single quoted to prevent
+        # confusing the PowerShell instance on Windows runners.
+        run: >
+          ./mvnw -B -V --no-transfer-progress -e verify javadoc:javadoc '-P!coverage'
+          '-Djansi.passthrough=true'
+          '-Dstyle.color=always'
 
       # Add test results to the PR.
       - name: Publish unit test results
@@ -62,6 +67,8 @@ jobs:
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.organization=assertj
           -Dsonar.projectKey=joel-costigliola_assertj-core
+          -Djansi.passthrough=true
+          -Dstyle.color=always
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
