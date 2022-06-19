@@ -44,7 +44,7 @@ class ShouldNotBeEqual_create_Test {
   void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotBeEqual("Yoda", "Luke",
-                                                   new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+                                                   new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE));
     // WHEN
     String message = factory.create(new TestDescription("Jedi"), new StandardRepresentation());
     // THEN

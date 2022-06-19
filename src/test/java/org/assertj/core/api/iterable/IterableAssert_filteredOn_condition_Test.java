@@ -127,7 +127,7 @@ class IterableAssert_filteredOn_condition_Test extends IterableAssert_filtered_b
     IterableAssert<String> assertion = assertThat(names).as("test description")
                                                         .withFailMessage("error message")
                                                         .withRepresentation(UNICODE_REPRESENTATION)
-                                                        .usingElementComparator(CaseInsensitiveStringComparator.instance)
+                                                        .usingElementComparator(CaseInsensitiveStringComparator.INSTANCE)
                                                         .filteredOn(new Condition<>(string -> string.length() == 4, "4 letters"))
                                                         .containsExactly("JOHN", "JANE");
     // THEN

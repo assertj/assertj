@@ -44,7 +44,7 @@ class ShouldNotContainSequence_create_Test {
   void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotContainSequence(list("yoDA", "LUke"), list("Yoda", "Luke"), 1,
-      new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+      new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN

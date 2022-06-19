@@ -138,7 +138,7 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
       .withRepresentation(UNICODE_REPRESENTATION)
       .usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING, "foo")
       .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP, Timestamp.class)
-      .usingComparatorForType(CaseInsensitiveStringComparator.instance, String.class)
+      .usingComparatorForType(CaseInsensitiveStringComparator.INSTANCE, String.class)
       .flatExtracting(age, name)
       .contains(33, "frodo", 38, "SAM");
     // @format:on
@@ -147,7 +147,7 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
     then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     then(comparatorsByTypeOf(assertion).getComparatorForType(String.class))
-      .isSameAs(CaseInsensitiveStringComparator.instance);
+      .isSameAs(CaseInsensitiveStringComparator.INSTANCE);
     then(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class))
       .isSameAs(ALWAYS_EQUALS_TIMESTAMP);
     then(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
@@ -165,7 +165,7 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
       .withRepresentation(UNICODE_REPRESENTATION)
       .usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING, "foo")
       .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP, Timestamp.class)
-      .usingComparatorForType(CaseInsensitiveStringComparator.instance, String.class)
+      .usingComparatorForType(CaseInsensitiveStringComparator.INSTANCE, String.class)
       .flatExtracting(ageThrowingExtractor, nameThrowingExtractor)
       .contains(33, "frodo", 38, "SAM");
     // @format:on
@@ -174,7 +174,7 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
     then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     then(comparatorsByTypeOf(assertion).getComparatorForType(String.class))
-      .isSameAs(CaseInsensitiveStringComparator.instance);
+      .isSameAs(CaseInsensitiveStringComparator.INSTANCE);
     then(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class))
       .isSameAs(ALWAYS_EQUALS_TIMESTAMP);
     then(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);

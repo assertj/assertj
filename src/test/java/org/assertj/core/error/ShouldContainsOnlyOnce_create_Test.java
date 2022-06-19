@@ -60,7 +60,7 @@ class ShouldContainsOnlyOnce_create_Test {
     // GIVEN
     factory = shouldContainsOnlyOnce(list("Yoda", "Han"), list("Luke", "Yoda"),
                                      newLinkedHashSet("Luke"), newLinkedHashSet("Han"),
-                                     new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+                                     new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE));
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN

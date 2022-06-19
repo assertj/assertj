@@ -50,7 +50,7 @@ public class IterablesBaseTest {
     failures = spy(new Failures());
     iterables = new Iterables();
     iterables.failures = failures;
-    comparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance);
+    comparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
     iterablesWithCaseInsensitiveComparisonStrategy = new Iterables(comparisonStrategy);
     iterablesWithCaseInsensitiveComparisonStrategy.failures = failures;
     info = someInfo();

@@ -45,7 +45,7 @@ import org.junit.jupiter.api.Test;
  */
 class ShouldContainOnly_create_Test {
 
-  private static final ComparatorBasedComparisonStrategy CASE_INSENSITIVE_COMPARISON_STRATEGY = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance);
+  private static final ComparatorBasedComparisonStrategy CASE_INSENSITIVE_COMPARISON_STRATEGY = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
 
   @Test
   void should_create_error_message() {

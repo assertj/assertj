@@ -95,7 +95,7 @@ class IterableAssert_filteredOn_predicate_Test extends IterableAssert_filtered_b
     IterableAssert<String> assertion = assertThat(names).as("test description")
                                                         .withFailMessage("error message")
                                                         .withRepresentation(UNICODE_REPRESENTATION)
-                                                        .usingElementComparator(CaseInsensitiveStringComparator.instance)
+                                                        .usingElementComparator(CaseInsensitiveStringComparator.INSTANCE)
                                                         .filteredOn(string -> string.length() == 4)
                                                         .containsExactly("JOHN", "JANE");
     // THEN

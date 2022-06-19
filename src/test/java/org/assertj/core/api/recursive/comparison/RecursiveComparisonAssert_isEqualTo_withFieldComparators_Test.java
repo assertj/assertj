@@ -96,7 +96,7 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test extends Recu
     person6.neighbour = new Person("Jim");
     person6.neighbour.home.address.number = 456;
 
-    return Stream.of(arguments(person1, person2, CaseInsensitiveStringComparator.instance, array("name"),
+    return Stream.of(arguments(person1, person2, CaseInsensitiveStringComparator.INSTANCE, array("name"),
                                "same data except int fields and case for strings"),
                      arguments(person3, person4, alwaysEqual(), array("name", "home.address.number"),
                                "same data except for int fields"),

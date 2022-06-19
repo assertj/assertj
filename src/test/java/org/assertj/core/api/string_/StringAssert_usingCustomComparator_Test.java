@@ -16,11 +16,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.StringAssert;
 import org.assertj.core.api.StringAssertBaseTest;
-import org.assertj.core.util.CaseInsensitiveCharSequenceComparator;
+import org.assertj.core.test.CaseInsensitiveCharSequenceComparator;
 
 class StringAssert_usingCustomComparator_Test extends StringAssertBaseTest {
 
-  private CaseInsensitiveCharSequenceComparator comparator = CaseInsensitiveCharSequenceComparator.instance;
+  private CaseInsensitiveCharSequenceComparator comparator = CaseInsensitiveCharSequenceComparator.INSTANCE;
 
   @Override
   protected StringAssert invoke_api_method() {

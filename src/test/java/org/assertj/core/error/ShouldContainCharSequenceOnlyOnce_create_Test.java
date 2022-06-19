@@ -55,7 +55,7 @@ class ShouldContainCharSequenceOnlyOnce_create_Test {
   void should_create_error_message_when_string_to_search_does_not_appear_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnlyOnce("aaamoDifmoifaabbbmotfaaa", "MOtif", 0,
-                                                        new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+                                                        new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
@@ -66,7 +66,7 @@ class ShouldContainCharSequenceOnlyOnce_create_Test {
   void should_create_error_message_when_string_to_search_appears_several_times_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainOnlyOnce("aaamotIFmoTifaabbbmotifaaa", "MOtif", 3,
-                                                        new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+                                                        new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN

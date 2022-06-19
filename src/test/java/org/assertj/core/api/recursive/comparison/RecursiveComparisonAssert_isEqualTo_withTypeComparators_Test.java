@@ -105,7 +105,7 @@ class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
     person6.neighbour = new Person("Jim");
     person6.neighbour.home.address.number = 456;
 
-    MapEntry<Class<?>, Comparator<?>> stringComparator = entry(String.class, CaseInsensitiveStringComparator.instance);
+    MapEntry<Class<?>, Comparator<?>> stringComparator = entry(String.class, CaseInsensitiveStringComparator.INSTANCE);
     MapEntry<Class<?>, Comparator<?>> intComparator = entry(Integer.class, new AlwaysEqualComparator<Integer>());
     MapEntry<Class<?>, Comparator<?>> personComparator = entry(Person.class, new AlwaysEqualComparator<Person>());
     return Stream.of(arguments(person1, person2, mapOf(stringComparator, intComparator),

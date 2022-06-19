@@ -39,7 +39,7 @@ class ShouldNotContainSubsequence_create_Test {
   void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotContainSubsequence(list("Yoda", "LUke", "LeiA"), list("Luke", "Leia"),
-      new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance), 1);
+      new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE), 1);
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN

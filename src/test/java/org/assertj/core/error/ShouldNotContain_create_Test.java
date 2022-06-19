@@ -66,7 +66,7 @@ class ShouldNotContain_create_Test {
     ErrorMessageFactory factory = shouldNotContain(list("Yoda"),
                                                    list("Luke", "Yoda"),
                                                    newLinkedHashSet("Yoda"),
-                                                   new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+                                                   new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN

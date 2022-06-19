@@ -49,7 +49,7 @@ class ShouldContainSequenceOfCharSequence_create_Test {
     String[] sequenceValues = { "{", "author", "title", "}" };
     String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
     ErrorMessageFactory factory = shouldContainSequence(actual, sequenceValues,
-                                                        new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+                                                        new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE));
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN

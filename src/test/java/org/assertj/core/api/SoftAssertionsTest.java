@@ -2265,17 +2265,17 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // WHEN
     softly.assertThat(names)
           .extracting(firstNameFunction)
-          .usingElementComparator(CaseInsensitiveStringComparator.instance)
+          .usingElementComparator(CaseInsensitiveStringComparator.INSTANCE)
           .filteredOn(string -> string.startsWith("Ma"))
           .containsExactly("MANU", "MAGIC");
     softly.assertThat(names)
           .extracting(firstNameFunction)
-          .usingElementComparator(CaseInsensitiveStringComparator.instance)
+          .usingElementComparator(CaseInsensitiveStringComparator.INSTANCE)
           .filteredOn(new Condition<>(string -> string.startsWith("Ma"), "starts with Ma"))
           .containsExactly("MANU", "MAGIC");
     softly.assertThat(names)
           .extracting(firstNameFunction)
-          .usingElementComparator(CaseInsensitiveStringComparator.instance)
+          .usingElementComparator(CaseInsensitiveStringComparator.INSTANCE)
           .filteredOnAssertions(string -> assertThat(string).startsWith("Ma"))
           .containsExactly("MANU", "MAGIC");
     softly.assertThat(names)
@@ -2302,17 +2302,17 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // WHEN
     softly.assertThat(names)
           .extracting(firstNameFunction)
-          .usingElementComparator(CaseInsensitiveStringComparator.instance)
+          .usingElementComparator(CaseInsensitiveStringComparator.INSTANCE)
           .filteredOn(string -> string.startsWith("Ma"))
           .containsExactly("MANU", "MAGIC");
     softly.assertThat(names)
           .extracting(firstNameFunction)
-          .usingElementComparator(CaseInsensitiveStringComparator.instance)
+          .usingElementComparator(CaseInsensitiveStringComparator.INSTANCE)
           .filteredOn(new Condition<>(string -> string.startsWith("Ma"), "starts with Ma"))
           .containsExactly("MANU", "MAGIC");
     softly.assertThat(names)
           .extracting(firstNameFunction)
-          .usingElementComparator(CaseInsensitiveStringComparator.instance)
+          .usingElementComparator(CaseInsensitiveStringComparator.INSTANCE)
           .filteredOnAssertions(string -> assertThat(string).startsWith("Ma"))
           .containsExactly("MANU", "MAGIC");
     softly.assertThat(names)
@@ -2339,17 +2339,17 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // WHEN
     softly.assertThat(names)
           .extracting(firstNameFunction)
-          .usingElementComparator(CaseInsensitiveStringComparator.instance)
+          .usingElementComparator(CaseInsensitiveStringComparator.INSTANCE)
           .filteredOn(string -> string.startsWith("Ma"))
           .containsExactly("MANU", "MAGIC");
     softly.assertThat(names)
           .extracting(firstNameFunction)
-          .usingElementComparator(CaseInsensitiveStringComparator.instance)
+          .usingElementComparator(CaseInsensitiveStringComparator.INSTANCE)
           .filteredOn(new Condition<>(string -> string.startsWith("Ma"), "starts with Ma"))
           .containsExactly("MANU", "MAGIC");
     softly.assertThat(names)
           .extracting(firstNameFunction)
-          .usingElementComparator(CaseInsensitiveStringComparator.instance)
+          .usingElementComparator(CaseInsensitiveStringComparator.INSTANCE)
           .filteredOnAssertions(string -> assertThat(string).startsWith("Ma"))
           .containsExactly("MANU", "MAGIC");
     softly.assertThat(names)

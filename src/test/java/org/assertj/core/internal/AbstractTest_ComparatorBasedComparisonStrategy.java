@@ -18,7 +18,7 @@ import org.assertj.core.test.CaseInsensitiveStringComparator;
 
 public class AbstractTest_ComparatorBasedComparisonStrategy {
 
-  protected Comparator<String> caseInsensitiveStringComparator = CaseInsensitiveStringComparator.instance;
+  protected Comparator<String> caseInsensitiveStringComparator = CaseInsensitiveStringComparator.INSTANCE;
   protected ComparatorBasedComparisonStrategy caseInsensitiveComparisonStrategy = new ComparatorBasedComparisonStrategy(
                                                                                                                         caseInsensitiveStringComparator);
   protected ComparatorBasedComparisonStrategy describedComparisonStrategy = new ComparatorBasedComparisonStrategy(

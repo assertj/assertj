@@ -97,7 +97,7 @@ class ObjectArrayAssert_filteredOnAssertions_Test extends ObjectArrayAssert_filt
     IterableAssert<String> assertion = assertThat(names).as("test description")
                                                         .withFailMessage("error message")
                                                         .withRepresentation(UNICODE_REPRESENTATION)
-                                                        .usingElementComparator(CaseInsensitiveStringComparator.instance)
+                                                        .usingElementComparator(CaseInsensitiveStringComparator.INSTANCE)
                                                         .filteredOnAssertions(string -> assertThat(string.length()).isEqualTo(4))
                                                         .containsExactly("JOHN", "JANE");
     // THEN

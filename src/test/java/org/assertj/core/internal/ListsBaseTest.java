@@ -39,7 +39,7 @@ public class ListsBaseTest {
     failures = spy(new Failures());
     lists = new Lists();
     lists.failures = failures;
-    comparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance);
+    comparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
     listsWithCaseInsensitiveComparisonStrategy = new Lists(comparisonStrategy);
     listsWithCaseInsensitiveComparisonStrategy.failures = failures;
   }

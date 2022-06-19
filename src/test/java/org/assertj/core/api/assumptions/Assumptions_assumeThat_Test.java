@@ -40,7 +40,7 @@ class Assumptions_assumeThat_Test {
       assumeThat(asList("John", "Doe", "Jane", "Doe")).as("test description")
                                                       .withFailMessage("error message")
                                                       .withRepresentation(UNICODE_REPRESENTATION)
-                                                      .usingElementComparator(CaseInsensitiveStringComparator.instance)
+                                                      .usingElementComparator(CaseInsensitiveStringComparator.INSTANCE)
                                                       .filteredOn(string -> string.length() == 4)
                                                       .containsExactly("JOHN", "JANE");
     }).doesNotThrowAnyException();

@@ -76,7 +76,7 @@ class ObjectArrayAssert_filteredOnAssertions_ThrowingConsumer_Test extends Objec
     ObjectArrayAssert<String> assertion = assertThat(names).as("test description")
                                                            .withFailMessage("error message")
                                                            .withRepresentation(UNICODE_REPRESENTATION)
-                                                           .usingElementComparator(CaseInsensitiveStringComparator.instance)
+                                                           .usingElementComparator(CaseInsensitiveStringComparator.INSTANCE)
                                                            .filteredOnAssertions(fourCharsWord)
                                                            .containsExactly("JOHN", "JANE");
     // THEN

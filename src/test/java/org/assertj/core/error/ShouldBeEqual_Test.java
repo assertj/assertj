@@ -37,7 +37,7 @@ class ShouldBeEqual_Test {
     String actual = "Luke";
     String expected = "Yoda";
     ThrowingCallable code = () -> then(actual).as("Jedi")
-                                              .usingComparator(CaseInsensitiveStringComparator.instance)
+                                              .usingComparator(CaseInsensitiveStringComparator.INSTANCE)
                                               .isEqualTo(expected);
     // WHEN
     AssertionFailedError error = catchThrowableOfType(code, AssertionFailedError.class);

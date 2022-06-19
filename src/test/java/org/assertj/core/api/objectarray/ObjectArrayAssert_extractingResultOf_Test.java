@@ -104,7 +104,7 @@ class ObjectArrayAssert_extractingResultOf_Test {
                                                                                                           "foo")
                                                                 .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP,
                                                                                                          Timestamp.class)
-                                                                .usingComparatorForType(CaseInsensitiveStringComparator.instance,
+                                                                .usingComparatorForType(CaseInsensitiveStringComparator.INSTANCE,
                                                                                         String.class)
                                                                 .extractingResultOf("toString")
                                                                 .containsOnly("YODA", "darth vader");
@@ -112,7 +112,7 @@ class ObjectArrayAssert_extractingResultOf_Test {
     assertThat(assertion.descriptionText()).isEqualTo("test description");
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    assertThat(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(CaseInsensitiveStringComparator.instance);
+    assertThat(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(CaseInsensitiveStringComparator.INSTANCE);
     assertThat(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class)).isSameAs(ALWAYS_EQUALS_TIMESTAMP);
     assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
   }
@@ -128,7 +128,7 @@ class ObjectArrayAssert_extractingResultOf_Test {
                                                                                                           "foo")
                                                                 .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP,
                                                                                                          Timestamp.class)
-                                                                .usingComparatorForType(CaseInsensitiveStringComparator.instance,
+                                                                .usingComparatorForType(CaseInsensitiveStringComparator.INSTANCE,
                                                                                         String.class)
                                                                 .extractingResultOf("toString", String.class)
                                                                 .containsOnly("YODA", "darth vader");
@@ -136,7 +136,7 @@ class ObjectArrayAssert_extractingResultOf_Test {
     assertThat(assertion.descriptionText()).isEqualTo("test description");
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    assertThat(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(CaseInsensitiveStringComparator.instance);
+    assertThat(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(CaseInsensitiveStringComparator.INSTANCE);
     assertThat(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class)).isSameAs(ALWAYS_EQUALS_TIMESTAMP);
     assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
   }

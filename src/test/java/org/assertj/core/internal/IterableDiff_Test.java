@@ -101,7 +101,7 @@ class IterableDiff_Test {
   @Test
   void should_not_report_any_differences_between_two_case_sensitive_iterables_according_to_custom_comparison_strategy() {
     // GIVEN
-    comparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance);
+    comparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
     actual = newArrayList("a", "b", "C", "D");
     expected = newArrayList("A", "B", "C", "D");
     // WHEN

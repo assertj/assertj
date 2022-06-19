@@ -43,7 +43,7 @@ public class StringsBaseTest {
     failures = spy(new Failures());
     strings = new Strings();
     strings.failures = failures;
-    comparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance);
+    comparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
     stringsWithCaseInsensitiveComparisonStrategy = new Strings(comparisonStrategy);
     stringsWithCaseInsensitiveComparisonStrategy.failures = failures;
   }
