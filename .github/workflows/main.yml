@@ -20,7 +20,7 @@ jobs:
           java-version: 17
 #          cache: 'maven'
       - name: Test
-        run: ./mvnw -B -V --no-transfer-progress -e verify javadoc:javadoc
+        run: ./mvnw -B -V --no-transfer-progress -e verify javadoc:javadoc '-P!coverage'
 
   sonar:
     name: Sonar code analysis

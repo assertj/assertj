@@ -622,6 +622,9 @@
     </profile>
     <profile>
       <id>coverage</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
       <build>
         <plugins>
           <plugin>
@@ -637,6 +640,12 @@
             <!-- jacoco is executed in the prepare-package phase instead of the verify phase, it can not determine code coverage
               of the unpacked shaded classes -->
             <executions>
+              <execution>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+              </execution>
+
               <execution>
                 <id>jacoco-report</id>
                 <phase>prepare-package</phase>
