@@ -20,7 +20,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.assertj.core.configuration.Configuration;
-import org.junit.jupiter.api.AfterEach;
+import org.assertj.core.test.MutatesGlobalConfiguration;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -28,6 +28,7 @@ import org.junit.jupiter.api.Test;
  *
  *  @author XiaoMingZHM Eveneko
  */
+@MutatesGlobalConfiguration
 class StandardRepresentation_throwable_format_Test {
 
   private static final Representation REPRESENTATION = new StandardRepresentation();
@@ -44,12 +45,6 @@ class StandardRepresentation_throwable_format_Test {
     static void boom() {
       Test2.boom2();
     }
-  }
-
-  @AfterEach
-  void afterEach() {
-    // Restore default configuration after each test
-    DEFAULT_CONFIGURATION.apply();
   }
 
   @Test
