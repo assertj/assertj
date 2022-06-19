@@ -4,7 +4,24 @@ on: [push, pull_request]
 
 jobs:
 
-  test_java:
+  test_java_old:
+    name: Java ${{ matrix.java }}
+    strategy:
+      fail-fast: false
+      matrix:
+        java: [8, 11]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: ${{ matrix.java }}
+      - name: Test
+        run: ./mvnw -V --no-transfer-progress -e verify javadoc:javadoc -Denforcer.skip
+
+  test_java_new:
     name: Java ${{ matrix.java }}
     strategy:
       fail-fast: false
@@ -20,4 +37,4 @@ jobs:
           release: ${{ matrix.java }}
           version: latest
       - name: Test
-        run: ./mvnw -V --no-transfer-progress -e verify javadoc:javadoc
+        run: ./mvnw -V --no-transfer-progress -e verify javadoc:javadoc -Denforcer.skip
