@@ -372,6 +372,7 @@
             <exclude>org/assertj/core/osgi/**</exclude>
             <exclude>org/assertj/core/internal/objects/Objects_assertHasOnlyFields_Test*</exclude>
           </excludes>
+          <runOrder>random</runOrder>
         </configuration>
       </plugin>
       <plugin>
