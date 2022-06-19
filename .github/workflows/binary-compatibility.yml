@@ -3,10 +3,8 @@ name: Binary Compatibility
 on: [push, pull_request]
 
 jobs:
-
   verify-with-base:
-
-    name: Verify with `${{ github.base_ref }}`
+    name: Verify with base ref
     runs-on: ubuntu-latest
     if: github.base_ref != null
 
