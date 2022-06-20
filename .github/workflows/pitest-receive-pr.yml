@@ -15,6 +15,9 @@ name: Receive
 on:
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   store-pitest-feedback:
     # Only run on forked repos.
