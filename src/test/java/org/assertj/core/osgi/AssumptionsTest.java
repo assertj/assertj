@@ -20,11 +20,11 @@ import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRES
 
 import org.assertj.core.api.Assumptions;
 import org.assertj.core.configuration.PreferredAssumptionException;
+import org.assertj.core.test.MutatesGlobalConfiguration;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.parallel.Isolated;
 import org.opentest4j.TestAbortedException;
 
-@Isolated  // Isolated as the preferred assumption class is mutated globally here.
+@MutatesGlobalConfiguration
 class AssumptionsTest {
 
   @Test

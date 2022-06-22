@@ -28,12 +28,14 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import org.assertj.core.configuration.PreferredAssumptionException;
+import org.assertj.core.test.MutatesGlobalConfiguration;
 import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.opentest4j.TestAbortedException;
 
+@MutatesGlobalConfiguration
 class EntryPoint_Assumptions_setPreferredAssumptionException_Test {
 
   protected static final WithAssumptions withAssumptions = mock(WithAssumptions.class, CALLS_REAL_METHODS);
