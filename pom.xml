@@ -554,7 +554,7 @@
           <dependency>
             <groupId>org.pitest</groupId>
             <artifactId>pitest-junit5-plugin</artifactId>
-            <version>0.16</version>
+            <version>1.0.0</version>
           </dependency>
           <dependency>
             <groupId>com.groupcdg</groupId>
