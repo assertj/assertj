@@ -957,7 +957,23 @@ class WithAssertions_delegation_Test implements WithAssertions {
   @Test
   void withAssertions_assertThat_class_loader_Test() {
     // FIXME replace with class loader specific assertion
-    assertThat(WithAssertions.class.getClassLoader()).isSameAs(WithAssertions.class.getClassLoader());
+    assertThat(WithAssertions.class.getClassLoader()).isSameAs(
+      WithAssertions.class.getClassLoader());
+  }
+
+  void withAssertions_assertThat_stackTraceElement_Test() {
+    assertThat(new StackTraceElement("foo", "bar", "baz", 123))
+      .isNotEqualTo(new StackTraceElement("baz", "bork", "quxx", 456));
+  }
+
+  @Test
+  void withAssertions_assertThat_stackTrace_Test() {
+    StackTraceElement[] stackTrace = {
+      new StackTraceElement("foo", "bar", "baz", 123),
+      new StackTraceElement("baz", "bork", "qux", 1234)
+    };
+
+    assertThat(stackTrace).isSameAs(stackTrace);
   }
 
   @Test

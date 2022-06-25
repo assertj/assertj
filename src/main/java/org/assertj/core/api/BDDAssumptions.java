@@ -3113,6 +3113,30 @@ public final class BDDAssumptions extends Assumptions {
   }
 
   /**
+   * Creates a new instance of {@link AbstractStackTraceElementAssert} assumption for the given
+   * {@link StackTraceElement stack trace element} value.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @see #given(StackTraceElement[])
+   */
+  public static AbstractStackTraceElementAssert<?> given(StackTraceElement actual) {
+    return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new instance of {@link AbstractStackTraceAssert} assumption for the given
+   * {@link StackTraceElement[] stack trace element array}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @see #given(StackTraceElement)
+   */
+  public static AbstractStackTraceAssert<?, ?> given(StackTraceElement[] actual) {
+    return assumeThat(actual);
+  }
+
+  /**
    * Sets which exception is thrown if an assumption is not met.
    * <p>
    * This method is useful if you are using a testing framework that supports assumptions and expect a specific exception to be thrown when an assumption is not met.

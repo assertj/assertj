@@ -1503,6 +1503,30 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of {@link AbstractStackTraceElementAssert} assumption for the given
+   * {@link StackTraceElement stack trace element} value.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @see #assumeThat(StackTraceElement[])
+   */
+  public static AbstractStackTraceElementAssert<?> assumeThat(StackTraceElement actual) {
+    return asAssumption(StackTraceElementAssert.class, StackTraceElement.class, actual);
+  }
+
+  /**
+   * Creates a new instance of {@link AbstractStackTraceAssert} assumption for the given
+   * {@link StackTraceElement[] stack trace element array}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @see #assumeThat(StackTraceElement)
+   */
+  public static AbstractStackTraceAssert<?, ?> assumeThat(StackTraceElement[] actual) {
+    return asAssumption(StackTraceAssert.class, StackTraceElement[].class, actual);
+  }
+
+  /**
    * Sets which exception is thrown if an assumption is not met. 
    * <p>
    * This method is useful if you are using a testing framework that supports assumptions and expect a specific exception to be thrown when an assumption is not met. 

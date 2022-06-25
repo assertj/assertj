@@ -4193,7 +4193,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     return text.endsWith(ASSERT) ? text.substring(0, text.length() - ASSERT.length()) : text;
   }
 
-  private ObjectAssert<ELEMENT> toAssert(ELEMENT value, String description) {
+  protected ObjectAssert<ELEMENT> toAssert(ELEMENT value, String description) {
     return new ObjectAssert<>(value).as(description);
   }
 
