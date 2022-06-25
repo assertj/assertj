@@ -1539,9 +1539,9 @@ public class Assumptions {
   // private methods
 
   private static <ASSERTION, ACTUAL> ASSERTION asAssumption(Class<ASSERTION> assertionType,
-                                                            Class<ACTUAL> actualType,
-                                                            Object actual) {
-    return asAssumption(assertionType, array(actualType), array(actual));
+                                                            Class<? extends ACTUAL> actualType,
+                                                            ACTUAL actual) {
+    return asAssumption(assertionType, array(actualType), array((Object) actual));
   }
 
   private static <ASSERTION> ASSERTION asAssumption(Class<ASSERTION> assertionType,
