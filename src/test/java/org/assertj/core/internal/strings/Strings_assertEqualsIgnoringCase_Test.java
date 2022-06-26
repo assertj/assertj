@@ -17,15 +17,11 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 import static org.assertj.core.test.CharArrays.arrayOf;
 import static org.assertj.core.test.TestData.someInfo;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
-
+import org.junitpioneer.jupiter.DefaultLocale;
 
 /**
- * Tests for <code>{@link Strings#assertEqualsIgnoringCase(AssertionInfo, CharSequence, CharSequence)}</code>.
- * 
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -103,4 +99,12 @@ class Strings_assertEqualsIgnoringCase_Test extends StringsBaseTest {
   void should_pass_if_both_Strings_are_equal_ignoring_case_whatever_custom_comparison_strategy_is() {
     stringsWithCaseInsensitiveComparisonStrategy.assertEqualsIgnoringCase(someInfo(), "Yoda", "YODA");
   }
+
+  @Test
+  @DefaultLocale("tr-TR")
+  void should_pass_with_Turkish_default_locale() {
+    // WHEN/THEN
+    strings.assertEqualsIgnoringCase(someInfo(), "Leia", "LEIA");
+  }
+
 }
