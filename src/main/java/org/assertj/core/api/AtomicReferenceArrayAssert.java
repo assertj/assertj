@@ -3822,7 +3822,28 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that there is exactly one element of the iterable elements that satisfies the {@link Consumer}.
+   *
+   * Examples:
+   * <pre><code class='java'> AtomicReferenceArray&lt;String&gt; starWarsCharacterNames = new AtomicReferenceArray&lt;&gt;(new String[] {"Luke", "Leia", "Yoda"});
+   *
+   * // these assertions succeed:
+   *
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Y")) // matches only "Yoda"
+   *								   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Lu")) // matches only "Luke"
+   *                                   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Le")); // matches only "Leia"
+   *
+   * // this assertion fails because the requirements are satisfied two times
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("a")); // matches "Leia" and "Yoda"
+   *
+   * // this assertion fails because no element contains "Han"
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Han"));</code></pre>
+   *
+   * @param requirements the {@link Consumer} that is expected to be satisfied only once by the elements of the given {@code Iterable}.
+   * @return this assertion object.
+   * @throws NullPointerException if the given requirements are {@code null}.
+   * @throws AssertionError if the requirements are not satisfied only once
+   * @since 3.x.x
    */
   @Override
   public AtomicReferenceArrayAssert<T> satisfiesOnlyOnce(Consumer<? super T> requirements) {
@@ -3830,7 +3851,29 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that there is exactly one element of the iterable elements that satisfies the {@link ThrowingConsumer}.
+   *
+   * Examples:
+   * <pre><code class='java'> AtomicReferenceArray&lt;String&gt; starWarsCharacterNames = new AtomicReferenceArray&lt;&gt;(new String[] {"Luke", "Leia", "Yoda"});
+   *
+   * // these assertions succeed:
+   *
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Y")) // matches only "Yoda"
+   *								   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Lu")) // matches only "Luke"
+   *                                   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Le")); // matches only "Leia"
+   *
+   * // this assertion fails because the requirements are satisfied two times
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("a")); // matches "Leia" and "Yoda"
+   *
+   * // this assertion fails because no element contains "Han"
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Han"));</code></pre>
+   *
+   * @param requirements the {@link ThrowingConsumer} that is expected to be satisfied only once by the elements of the given {@code Iterable}.
+   * @return this assertion object.
+   * @throws NullPointerException if the given requirements are {@code null}.
+   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
+   * @throws AssertionError if the requirements are not satisfied only once
+   * @since 3.x.x
    */
   @Override
   public AtomicReferenceArrayAssert<T> satisfiesOnlyOnce(ThrowingConsumer<? super T> requirements) {
