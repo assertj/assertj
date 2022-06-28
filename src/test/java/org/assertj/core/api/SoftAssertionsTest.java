@@ -1484,9 +1484,12 @@ class SoftAssertionsTest extends BaseAssertionsTest {
           .as("satisfiesExactlyInAnyOrder")
           .satisfiesExactlyInAnyOrder(name -> assertThat(name).isNull(),
                                       name -> assertThat(name).isNotNull());
+    softly.assertThat(names)
+          .as("satisfiesOnlyOnce")
+          .satisfiesOnlyOnce(name -> assertThat(name).isNull());
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(42);
+    assertThat(errorsCollected).hasSize(43);
     assertThat(errorsCollected.get(0)).hasMessage("[extracting(throwingFirstNameFunction)] error message");
     assertThat(errorsCollected.get(1)).hasMessage("[extracting(throwingFirstNameFunction)] error message");
     assertThat(errorsCollected.get(2)).hasMessage("[extracting(\"last\")] error message");
@@ -1529,6 +1532,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(39)).hasMessageContaining("map with multiple functions");
     assertThat(errorsCollected.get(40)).hasMessageContaining("satisfiesExactly");
     assertThat(errorsCollected.get(41)).hasMessageContaining("satisfiesExactlyInAnyOrder");
+    assertThat(errorsCollected.get(42)).hasMessageContaining("satisfiesOnlyOnce");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
@@ -1720,9 +1724,12 @@ class SoftAssertionsTest extends BaseAssertionsTest {
           .as("satisfiesExactlyInAnyOrder")
           .satisfiesExactlyInAnyOrder(name -> assertThat(name).isNull(),
                                       name -> assertThat(name).isNotNull());
+    softly.assertThat(names)
+          .as("satisfiesOnlyOnce")
+          .satisfiesOnlyOnce(name -> assertThat(name).isNull());
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(42);
+    assertThat(errorsCollected).hasSize(43);
     assertThat(errorsCollected.get(0)).hasMessage("[extracting(throwingFirstNameFunction)] error message");
     assertThat(errorsCollected.get(1)).hasMessage("[extracting(throwingFirstNameFunction)] error message");
     assertThat(errorsCollected.get(2)).hasMessage("[extracting(\"last\")] error message");
@@ -1765,6 +1772,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errorsCollected.get(39)).hasMessageContaining("map with multiple functions");
     assertThat(errorsCollected.get(40)).hasMessageContaining("satisfiesExactly");
     assertThat(errorsCollected.get(41)).hasMessageContaining("satisfiesExactlyInAnyOrder");
+    assertThat(errorsCollected.get(42)).hasMessageContaining("satisfiesOnlyOnce");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught

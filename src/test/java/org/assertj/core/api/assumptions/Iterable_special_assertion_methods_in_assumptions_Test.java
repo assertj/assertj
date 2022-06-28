@@ -243,7 +243,10 @@ class Iterable_special_assertion_methods_in_assumptions_Test extends BaseAssumpt
                                       value -> assumeThat(value).satisfiesExactlyInAnyOrder(i -> assertThat(i).isEven(),
                                                                                             i -> assertThat(i).isOdd()),
                                       value -> assumeThat(value).satisfiesExactlyInAnyOrder(i -> assertThat(i).isOdd(),
-                                                                                            i -> assertThat(i).isOdd())));
+                                                                                            i -> assertThat(i).isOdd())),
+                     assumptionRunner(iterable(1, 2),
+                                      value -> assumeThat(value).satisfiesOnlyOnce(i -> assertThat(i).isEven()),
+                                      value -> assumeThat(value).satisfiesOnlyOnce(i -> assertThat(i).isGreaterThan(0))));
   }
 
 }

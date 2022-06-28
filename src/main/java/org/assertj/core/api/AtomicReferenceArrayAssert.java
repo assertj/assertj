@@ -71,7 +71,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
 
 // suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports
 // Deprecation is raised by JDK-17. IntelliJ thinks this is redundant when it is not.
-@SuppressWarnings({"deprecation", "RedundantSuppression"})
+@SuppressWarnings({ "deprecation", "RedundantSuppression" })
 public class AtomicReferenceArrayAssert<T>
     extends AbstractAssert<AtomicReferenceArrayAssert<T>, AtomicReferenceArray<T>>
     implements IndexedObjectEnumerableAssert<AtomicReferenceArrayAssert<T>, T>,
@@ -1095,7 +1095,6 @@ public class AtomicReferenceArrayAssert<T>
     arrays.assertHasExactlyElementsOfTypes(info, array, expectedTypes);
     return myself;
   }
-
 
   /**
    * Verifies that the actual AtomicReferenceArray does not contain the given object at the given index.
@@ -3819,6 +3818,30 @@ public class AtomicReferenceArrayAssert<T>
   // in order to avoid compiler warning in user code
   protected AtomicReferenceArrayAssert<T> satisfiesExactlyInAnyOrderForProxy(Consumer<? super T>[] requirements) {
     iterables.assertSatisfiesExactlyInAnyOrder(info, newArrayList(array), requirements);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> satisfiesOnlyOnce(Consumer<? super T> requirements) {
+    return satisfiesOnlyOnceForProxy(requirements);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> satisfiesOnlyOnce(ThrowingConsumer<? super T> requirements) {
+    return satisfiesOnlyOnceForProxy(requirements);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected AtomicReferenceArrayAssert<T> satisfiesOnlyOnceForProxy(Consumer<? super T> requirements) {
+    iterables.assertSatisfiesOnlyOnce(info, newArrayList(array), requirements);
     return myself;
   }
 
