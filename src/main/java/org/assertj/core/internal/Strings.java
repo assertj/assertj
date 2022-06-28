@@ -528,7 +528,8 @@ public class Strings {
   public void assertContainsIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence sequence) {
     checkCharSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
-    if (!containsIgnoreCase(actual, sequence)) throw failures.failure(info, shouldContainIgnoringCase(actual, sequence));
+    if (!actual.toString().toLowerCase().contains(sequence.toString().toLowerCase()))
+      throw failures.failure(info, shouldContainIgnoringCase(actual, sequence));
   }
 
   // CS427 Issue link: https://github.com/assertj/assertj-core/issues/2060
@@ -592,7 +593,8 @@ public class Strings {
   public void assertDoesNotContainIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence... values) {
     doCommonCheckForCharSequence(info, actual, values);
 
-    Set<CharSequence> foundValues = stream(values).filter(value -> containsIgnoreCase(actual, value))
+    String actualLowerCase = actual.toString().toLowerCase();
+    Set<CharSequence> foundValues = stream(values).filter(value -> actualLowerCase.contains(value.toString().toLowerCase()))
                                                   .collect(toCollection(LinkedHashSet::new));
     if (foundValues.isEmpty()) return;
     if (foundValues.size() == 1 && values.length == 1) {
@@ -898,7 +900,7 @@ public class Strings {
   public void assertStartsWithIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence prefix) {
     failIfPrefixIsNull(prefix);
     assertNotNull(info, actual);
-    if (!startsWith(actual, prefix, true))
+    if (!comparisonStrategy.stringStartsWith(actual.toString().toLowerCase(), prefix.toString().toLowerCase()))
       throw failures.failure(info, shouldStartWithIgnoringCase(actual, prefix, comparisonStrategy));
   }
 
@@ -933,7 +935,7 @@ public class Strings {
   public void assertDoesNotStartWithIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence prefix) {
     failIfPrefixIsNull(prefix);
     assertNotNull(info, actual);
-    if (startsWith(actual, prefix, true))
+    if (comparisonStrategy.stringStartsWith(actual.toString().toLowerCase(), prefix.toString().toLowerCase()))
       throw failures.failure(info, shouldNotStartWithIgnoringCase(actual, prefix, comparisonStrategy));
   }
 
@@ -972,7 +974,7 @@ public class Strings {
   public void assertEndsWithIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence suffix) {
     failIfSuffixIsNull(suffix);
     assertNotNull(info, actual);
-    if (!endsWith(actual, suffix, true))
+    if (!comparisonStrategy.stringEndsWith(actual.toString().toLowerCase(), suffix.toString().toLowerCase()))
       throw failures.failure(info, shouldEndWithIgnoringCase(actual, suffix, comparisonStrategy));
   }
 
@@ -1007,7 +1009,7 @@ public class Strings {
   public void assertDoesNotEndWithIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence suffix) {
     failIfSuffixIsNull(suffix);
     assertNotNull(info, actual);
-    if (endsWith(actual, suffix, true))
+    if (comparisonStrategy.stringEndsWith(actual.toString().toLowerCase(), suffix.toString().toLowerCase()))
       throw failures.failure(info, shouldNotEndWithIgnoringCase(actual, suffix, comparisonStrategy));
   }
 
@@ -1356,92 +1358,4 @@ public class Strings {
     checkIsNotEmpty(sequence);
     checkCharSequenceArrayDoesNotHaveNullElements(sequence);
   }
-
-  // Source: org.apache.commons.lang3.StringUtils
-  private static boolean containsIgnoreCase(CharSequence str, CharSequence searchStr) {
-    if (str == null || searchStr == null) {
-      return false;
-    }
-    final int len = searchStr.length();
-    final int max = str.length() - len;
-    for (int i = 0; i <= max; i++) {
-      if (regionMatches(str, true, i, searchStr, 0, len)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  // Source: org.apache.commons.lang3.StringUtils
-  private static boolean endsWith(CharSequence str, CharSequence suffix, boolean ignoreCase) {
-    if (str == null || suffix == null) {
-      return str == suffix;
-    }
-    if (suffix.length() > str.length()) {
-      return false;
-    }
-    final int strOffset = str.length() - suffix.length();
-    return regionMatches(str, ignoreCase, strOffset, suffix, 0, suffix.length());
-  }
-
-  // Source: org.apache.commons.lang3.StringUtils
-  private static boolean startsWith(CharSequence str, CharSequence prefix, boolean ignoreCase) {
-    if (str == null || prefix == null) {
-      return str == prefix;
-    }
-    // Get length once instead of twice in the unlikely case that it changes.
-    final int preLen = prefix.length();
-    if (prefix.length() > str.length()) {
-      return false;
-    }
-    return regionMatches(str, ignoreCase, 0, prefix, 0, preLen);
-  }
-
-  // Source: org.apache.commons.lang3.CharSequenceUtils
-  private static boolean regionMatches(CharSequence cs, boolean ignoreCase, int thisStart,
-                                       CharSequence substring, int start, int length) {
-    if (cs instanceof String && substring instanceof String) {
-      return ((String) cs).regionMatches(ignoreCase, thisStart, (String) substring, start, length);
-    }
-    int index1 = thisStart;
-    int index2 = start;
-    int tmpLen = length;
-
-    // Extract these first so we detect NPEs the same as the java.lang.String version
-    final int srcLen = cs.length() - thisStart;
-    final int otherLen = substring.length() - start;
-
-    // Check for invalid parameters
-    if (thisStart < 0 || start < 0 || length < 0) {
-      return false;
-    }
-
-    // Check that the regions are long enough
-    if (srcLen < length || otherLen < length) {
-      return false;
-    }
-
-    while (tmpLen-- > 0) {
-      final char c1 = cs.charAt(index1++);
-      final char c2 = substring.charAt(index2++);
-
-      if (c1 == c2) {
-        continue;
-      }
-
-      if (!ignoreCase) {
-        return false;
-      }
-
-      // The real same check as in String.regionMatches():
-      final char u1 = Character.toUpperCase(c1);
-      final char u2 = Character.toUpperCase(c2);
-      if (u1 != u2 && Character.toLowerCase(u1) != Character.toLowerCase(u2)) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
 }
