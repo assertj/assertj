@@ -13,9 +13,13 @@
 package org.assertj.core.internal.iterables;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldSatisfyOnlyOnce.shouldSatisfyOnlyOnce;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import java.util.function.Consumer;
@@ -68,6 +72,27 @@ class Iterables_assertSatisfiesOnlyOnce_Test extends IterablesBaseTest {
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
                              shouldSatisfyOnlyOnce(List.of(), 0));
+  }
+
+  @Test
+  void should_fail_if_actual_is_null() {
+    // GIVEN
+    actual = null;
+    Consumer<String> consumer = s -> assertThat(s).hasSize(4);
+
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).satisfiesOnlyOnce(consumer));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
+  }
+
+  @Test
+  void should_throw_error_if_consumer_is_null() {
+    // GIVEN
+    Consumer<String> consumer = null;
+    // WHEN/THEN
+    assertThatNullPointerException().isThrownBy(() -> assertThat(actual).satisfiesOnlyOnce(consumer))
+                                    .withMessage("The Consumer<? super E> expressing the requirements must not be null");
   }
 
 }

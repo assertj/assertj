@@ -1550,20 +1550,55 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   SELF satisfiesExactlyInAnyOrder(ThrowingConsumer<? super ELEMENT>... allRequirements);
 
   /**
+   * Verifies that there is exactly one element of the iterable elements that satisfies the {@link Consumer}.
    *
-   * @param requirements
-   * @return {@code this} object.
-   * 
+   * Examples:
+   * <pre><code class='java'> List&lt;String&gt; starWarsCharacterNames = list("Luke", "Leia", "Yoda");
+   *
+   * // these assertions succeed:
+   *
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Y")) // matches only "Yoda"
+   *								   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Lu")) // matches only "Luke"
+   *                                   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Le")); // matches only "Leia"
+   *
+   * // this assertion fails because the requirements are satisfied two times
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("a")); // matches "Leia" and "Yoda"
+   *
+   * // this assertion fails because no element contains "Han"
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Han"));</code></pre>
+   *
+   * @param requirements the {@link Consumer} that is expected to be satisfied only once by the elements of the given {@code Iterable}.
+   * @return this assertion object.
+   * @throws NullPointerException if the given requirements are {@code null}.
+   * @throws AssertionError if the requirements are not satisfied only once
    * @since 3.x.x
    */
   @SuppressWarnings("unchecked")
   SELF satisfiesOnlyOnce(Consumer<? super ELEMENT> requirements);
 
   /**
+   * Verifies that there is exactly one element of the iterable elements that satisfies the {@link ThrowingConsumer}.
    *
-   * @param requirements
-   * @return {@code this} object.
-   * 
+   * Examples:
+   * <pre><code class='java'> List&lt;String&gt; starWarsCharacterNames = list("Luke", "Leia", "Yoda");
+   *
+   * // these assertions succeed:
+   *
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Y")) // matches only "Yoda"
+   *								   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Lu")) // matches only "Luke"
+   *                                   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Le")); // matches only "Leia"
+   *
+   * // this assertion fails because the requirements are satisfied two times
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("a")); // matches "Leia" and "Yoda"
+   *
+   * // this assertion fails because no element contains "Han"
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Han"));</code></pre>
+   *
+   * @param requirements the {@link ThrowingConsumer} that is expected to be satisfied only once by the elements of the given {@code Iterable}.
+   * @return this assertion object.
+   * @throws NullPointerException if the given requirements are {@code null}.
+   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
+   * @throws AssertionError if the requirements are not satisfied only once
    * @since 3.x.x
    */
   @SuppressWarnings("unchecked")
