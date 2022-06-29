@@ -13,16 +13,25 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
+import static java.util.Collections.emptySet;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.configuration.Configuration.MAX_INDICES_FOR_PRINTING;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
+import static org.assertj.core.error.ShouldContainExactly.shouldContainExactlyWithIndexes;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.IndexedDiff;
+import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
@@ -31,56 +40,125 @@ class ShouldContainExactly_create_Test {
   private static final ComparatorBasedComparisonStrategy CASE_INSENSITIVE_COMPARISON_STRATEGY = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
 
   @Test
+  void should_display_full_expected_and_actual_sets_with_index_when_order_does_not_match() {
+    // GIVEN
+    List<String> actual = list("Yoda", "Han", "Luke", "Anakin");
+    List<String> expected = list("Yoda", "Luke", "Han", "Anakin");
+    List<IndexedDiff> indexDifferences = list(new IndexedDiff(actual.get(1), expected.get(1), 1),
+                                              new IndexedDiff(actual.get(2), expected.get(2), 2));
+    ErrorMessageFactory factory = shouldContainExactlyWithIndexes(actual, expected, indexDifferences,
+                                                                  StandardComparisonStrategy.instance());
+
+    // WHEN
+    final String message = factory.create(new TextDescription("Test"));
+
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  [\"Yoda\", \"Han\", \"Luke\", \"Anakin\"]%n" +
+                                   "to contain exactly (and in same order):%n" +
+                                   "  [\"Yoda\", \"Luke\", \"Han\", \"Anakin\"]%n" +
+                                   "but there were differences at these indexes:%n" +
+                                   "  - element at index 1: expected \"Luke\" but was \"Han\"%n" +
+                                   "  - element at index 2: expected \"Han\" but was \"Luke\"%n"));
+  }
+
+  @Test
+  void should_display_only_configured_max_amount_of_indices() {
+    // GIVEN
+    List<Integer> expected = IntStream.rangeClosed(0, MAX_INDICES_FOR_PRINTING)
+                                      .boxed()
+                                      .collect(Collectors.toList());
+    List<Integer> actual = IntStream.rangeClosed(0, MAX_INDICES_FOR_PRINTING)
+                                    .boxed()
+                                    .sorted(Comparator.reverseOrder())
+                                    .collect(Collectors.toList());
+    List<IndexedDiff> indexDifferences = new ArrayList<>();
+    for (int i = 0; i < actual.size(); i++) {
+      indexDifferences.add(new IndexedDiff(actual.get(i), expected.get(i), i));
+    }
+
+    ErrorMessageFactory factory = shouldContainExactlyWithIndexes(actual, expected, indexDifferences,
+                                                                  StandardComparisonStrategy.instance());
+
+    // WHEN
+    final String message = factory.create(new TextDescription("Test"));
+
+    // THEN
+    then(message).contains(format("only showing the first %d mismatches", MAX_INDICES_FOR_PRINTING));
+  }
+
+  @Test
+  void should_display_full_expected_and_actual_sets_with_missing_and_unexpected_elements() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldContainExactly(list("Yoda", "Han", "Luke", "Anakin"),
+                                                       list("Yoda", "Han", "Anakin", "Anakin"),
+                                                       list("Anakin"), list("Luke"));
+
+    // WHEN
+    final String message = factory.create(new TextDescription("Test"));
+
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  [\"Yoda\", \"Han\", \"Luke\", \"Anakin\"]%n" +
+                                   "to contain exactly (and in same order):%n" +
+                                   "  [\"Yoda\", \"Han\", \"Anakin\", \"Anakin\"]%n" +
+                                   "but some elements were not found:%n" +
+                                   "  [\"Anakin\"]%n" +
+                                   "and others were not expected:%n" +
+                                   "  [\"Luke\"]%n"));
+  }
+
+  @Test
   void should_display_missing_and_unexpected_elements() {
     // GIVEN
-    ErrorMessageFactory factory = shouldContainExactly(list("Yoda", "Han"), list("Luke", "Yoda"),
-                                                       newLinkedHashSet("Luke"), newLinkedHashSet("Han"));
+    ErrorMessageFactory factory = shouldContainExactly(list("Yoda", "Han"), list("Luke", "Yoda"), newLinkedHashSet("Luke"),
+                                                       newLinkedHashSet("Han"));
     // WHEN
     String message = factory.create(new TextDescription("Test"));
     // THEN
-    then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting actual:%n"
-                                   + "  [\"Yoda\", \"Han\"]%n"
-                                   + "to contain exactly (and in same order):%n"
-                                   + "  [\"Luke\", \"Yoda\"]%n"
-                                   + "but some elements were not found:%n"
-                                   + "  [\"Luke\"]%n"
-                                   + "and others were not expected:%n"
-                                   + "  [\"Han\"]%n"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  [\"Yoda\", \"Han\"]%n" +
+                                   "to contain exactly (and in same order):%n" +
+                                   "  [\"Luke\", \"Yoda\"]%n" +
+                                   "but some elements were not found:%n" +
+                                   "  [\"Luke\"]%n" +
+                                   "and others were not expected:%n" +
+                                   "  [\"Han\"]%n"));
   }
 
   @Test
   void should_not_display_missing_elements_when_there_are_none() {
     // GIVEN
-    ErrorMessageFactory factory = shouldContainExactly(list("Yoda", "Han"), list("Yoda"),
-                                                       list(), list("Han"));
+    ErrorMessageFactory factory = shouldContainExactly(list("Yoda", "Han"), list("Yoda"), list(), list("Han"));
     // WHEN
     String message = factory.create(new TextDescription("Test"));
     // THEN
-    then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting actual:%n"
-                                   + "  [\"Yoda\", \"Han\"]%n"
-                                   + "to contain exactly (and in same order):%n"
-                                   + "  [\"Yoda\"]%n"
-                                   + "but some elements were not expected:%n"
-                                   + "  [\"Han\"]%n"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  [\"Yoda\", \"Han\"]%n" +
+                                   "to contain exactly (and in same order):%n" +
+                                   "  [\"Yoda\"]%n" +
+                                   "but some elements were not expected:%n" +
+                                   "  [\"Han\"]%n"));
   }
 
   @Test
   void should_not_display_unexpected_elements_when_there_are_none() {
     // GIVEN
-    ErrorMessageFactory factory = shouldContainExactly(list("Yoda"), list("Luke", "Yoda"),
-                                                       newLinkedHashSet("Luke"), Collections.emptySet());
+    ErrorMessageFactory factory = shouldContainExactly(list("Yoda"), list("Luke", "Yoda"), newLinkedHashSet("Luke"), emptySet());
     // WHEN
     String message = factory.create(new TextDescription("Test"));
     // THEN
-    then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting actual:%n"
-                                   + "  [\"Yoda\"]%n"
-                                   + "to contain exactly (and in same order):%n"
-                                   + "  [\"Luke\", \"Yoda\"]%n"
-                                   + "but could not find the following elements:%n"
-                                   + "  [\"Luke\"]%n"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  [\"Yoda\"]%n" +
+                                   "to contain exactly (and in same order):%n" +
+                                   "  [\"Luke\", \"Yoda\"]%n" +
+                                   "but could not find the following elements:%n" +
+                                   "  [\"Luke\"]%n"));
   }
 
   @Test
@@ -111,16 +189,16 @@ class ShouldContainExactly_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"));
     // THEN
-    then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting actual:%n"
-                                   + "  [\"Yoda\", \"Han\"]%n"
-                                   + "to contain exactly (and in same order):%n"
-                                   + "  [\"Luke\", \"Yoda\"]%n"
-                                   + "but some elements were not found:%n"
-                                   + "  [\"Luke\"]%n"
-                                   + "and others were not expected:%n"
-                                   + "  [\"Han\"]%n"
-                                   + "when comparing values using CaseInsensitiveStringComparator"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  [\"Yoda\", \"Han\"]%n" +
+                                   "to contain exactly (and in same order):%n" +
+                                   "  [\"Luke\", \"Yoda\"]%n" +
+                                   "but some elements were not found:%n" +
+                                   "  [\"Luke\"]%n" +
+                                   "and others were not expected:%n" +
+                                   "  [\"Han\"]%n" +
+                                   "when comparing values using CaseInsensitiveStringComparator"));
   }
 
   @Test
@@ -143,19 +221,19 @@ class ShouldContainExactly_create_Test {
     ErrorMessageFactory factory = shouldContainExactly(list("Yoda"),
                                                        list("Luke", "Yoda"),
                                                        newLinkedHashSet("Luke"),
-                                                       Collections.emptySet(),
+                                                       emptySet(),
                                                        CASE_INSENSITIVE_COMPARISON_STRATEGY);
     // WHEN
     String message = factory.create(new TextDescription("Test"));
     // THEN
-    then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting actual:%n"
-                                   + "  [\"Yoda\"]%n"
-                                   + "to contain exactly (and in same order):%n"
-                                   + "  [\"Luke\", \"Yoda\"]%n"
-                                   + "but could not find the following elements:%n"
-                                   + "  [\"Luke\"]%n"
-                                   + "when comparing values using CaseInsensitiveStringComparator"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  [\"Yoda\"]%n" +
+                                   "to contain exactly (and in same order):%n" +
+                                   "  [\"Luke\", \"Yoda\"]%n" +
+                                   "but could not find the following elements:%n" +
+                                   "  [\"Luke\"]%n" +
+                                   "when comparing values using CaseInsensitiveStringComparator"));
   }
 
   @Test
@@ -167,14 +245,14 @@ class ShouldContainExactly_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"));
     // THEN
-    then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting actual:%n"
-                                   + "  [\"Yoda\", \"Han\"]%n"
-                                   + "to contain exactly (and in same order):%n"
-                                   + "  [\"Yoda\"]%n"
-                                   + "but some elements were not expected:%n"
-                                   + "  [\"Han\"]%n"
-                                   + "when comparing values using CaseInsensitiveStringComparator"));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  [\"Yoda\", \"Han\"]%n" +
+                                   "to contain exactly (and in same order):%n" +
+                                   "  [\"Yoda\"]%n" +
+                                   "but some elements were not expected:%n" +
+                                   "  [\"Han\"]%n" +
+                                   "when comparing values using CaseInsensitiveStringComparator"));
   }
 
 }

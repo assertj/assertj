@@ -12,9 +12,14 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 
+import java.util.List;
+
+import org.assertj.core.configuration.Configuration;
 import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.IndexedDiff;
 import org.assertj.core.internal.StandardComparisonStrategy;
 
 /**
@@ -40,6 +45,9 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
   public static ErrorMessageFactory shouldContainExactly(Object actual, Iterable<?> expected,
                                                          Iterable<?> notFound, Iterable<?> notExpected,
                                                          ComparisonStrategy comparisonStrategy) {
+    if (isNullOrEmpty(notExpected) && isNullOrEmpty(notFound)) {
+      return new ShouldContainExactly(actual, expected, comparisonStrategy);
+    }
     if (isNullOrEmpty(notExpected)) {
       return new ShouldContainExactly(actual, expected, notFound, comparisonStrategy);
     }
@@ -61,6 +69,45 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
   public static ErrorMessageFactory shouldContainExactly(Object actual, Iterable<?> expected,
                                                          Iterable<?> notFound, Iterable<?> notExpected) {
     return shouldContainExactly(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance());
+  }
+
+  /**
+   * Creates a new {@link ShouldContainExactly}.
+   *
+   * @param actual the actual value in the failed assertion.
+   * @param expected values expected to be contained in {@code actual}.
+   * @param indexDifferences the {@link IndexedDiff} the actual and expected differ at.
+   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   *
+   */
+  public static ErrorMessageFactory shouldContainExactlyWithIndexes(Object actual, Iterable<?> expected,
+                                                                    List<IndexedDiff> indexDifferences,
+                                                                    ComparisonStrategy comparisonStrategy) {
+    return new ShouldContainExactly(actual, expected, indexDifferences, comparisonStrategy);
+  }
+
+  /**
+   * Creates a new {@link ShouldContainExactly}.
+   *
+   * @param actual the actual value in the failed assertion.
+   * @param expected values expected to be contained in {@code actual}.
+   * @param indexDifferences the {@link IndexedDiff} the actual and expected differ at.
+   * @return the created {@code ErrorMessageFactory}.
+   *
+   */
+  public static ErrorMessageFactory shouldContainExactlyWithIndexes(Object actual, Iterable<?> expected,
+                                                                    List<IndexedDiff> indexDifferences) {
+    return new ShouldContainExactly(actual, expected, indexDifferences, StandardComparisonStrategy.instance());
+  }
+
+  private ShouldContainExactly(Object actual, Object expected, ComparisonStrategy comparisonStrategy) {
+    super("%n" +
+          "Expecting actual:%n" +
+          "  %s%n" +
+          "to contain exactly (and in same order):%n" +
+          "  %s%n",
+          actual, expected, comparisonStrategy);
   }
 
   private ShouldContainExactly(Object actual, Object expected, Object notFound, Object notExpected,
@@ -98,6 +145,29 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
           "but some elements were not expected:%n" +
           "  %s%n%s",
           actual, expected, unexpected, comparisonStrategy);
+  }
+
+  private ShouldContainExactly(Object actual, Object expected, List<IndexedDiff> indexDiffs,
+                               ComparisonStrategy comparisonStrategy) {
+    super("%n" +
+          "Expecting actual:%n" +
+          "  %s%n" +
+          "to contain exactly (and in same order):%n" +
+          "  %s%n" +
+          formatIndexDifferences(indexDiffs), actual, expected, comparisonStrategy);
+  }
+
+  private static String formatIndexDifferences(List<IndexedDiff> indexedDiffs) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("but there were differences at these indexes");
+    if (indexedDiffs.size() >= Configuration.MAX_INDICES_FOR_PRINTING) {
+      sb.append(format(" (only showing the first %d mismatches)", Configuration.MAX_INDICES_FOR_PRINTING));
+    }
+    sb.append(":%n");
+    for (IndexedDiff diff : indexedDiffs) {
+      sb.append(format("  - element at index %d: expected \"%s\" but was \"%s\"%n", diff.index, diff.expected, diff.actual));
+    }
+    return sb.toString();
   }
 
   /**

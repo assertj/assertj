@@ -39,6 +39,7 @@ public class Configuration {
   // default values
   public static final int MAX_LENGTH_FOR_SINGLE_LINE_DESCRIPTION = 80;
   public static final int MAX_ELEMENTS_FOR_PRINTING = 1000;
+  public static final int MAX_INDICES_FOR_PRINTING = 50;
   public static final boolean REMOVE_ASSERTJ_RELATED_ELEMENTS_FROM_STACK_TRACE = true;
   public static final boolean ALLOW_COMPARING_PRIVATE_FIELDS = true;
   public static final boolean ALLOW_EXTRACTING_PRIVATE_FIELDS = true;
