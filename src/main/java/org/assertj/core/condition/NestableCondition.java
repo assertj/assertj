@@ -25,7 +25,7 @@ import org.assertj.core.description.Description;
 
 /**
  * Building block to define a precise soft assertion about a complex object.
- * It allows to create readable assertions and produces beautiful assertion error messages
+ * It allows to create readable assertions and produces beautiful assertion error messages.
  * <p>
  *   <pre><code class='java'>
  *   Example:
