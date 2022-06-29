@@ -3768,7 +3768,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return this assertion object.
    * @throws NullPointerException if the given requirements are {@code null}.
    * @throws AssertionError if the requirements are not satisfied only once
-   * @since 3.x.x
+   * @since 3.24.0
    */
   @Override
   public SELF satisfiesOnlyOnce(Consumer<? super ELEMENT> requirements) {
@@ -3798,7 +3798,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws NullPointerException if the given requirements are {@code null}.
    * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
    * @throws AssertionError if the requirements are not satisfied only once
-   * @since 3.x.x
+   * @since 3.24.0
    */
   @Override
   public SELF satisfiesOnlyOnce(ThrowingConsumer<? super ELEMENT> requirements) {

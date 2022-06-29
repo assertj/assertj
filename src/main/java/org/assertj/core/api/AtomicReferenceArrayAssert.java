@@ -3843,7 +3843,7 @@ public class AtomicReferenceArrayAssert<T>
    * @return this assertion object.
    * @throws NullPointerException if the given requirements are {@code null}.
    * @throws AssertionError if the requirements are not satisfied only once
-   * @since 3.x.x
+   * @since 3.24.0
    */
   @Override
   public AtomicReferenceArrayAssert<T> satisfiesOnlyOnce(Consumer<? super T> requirements) {
@@ -3873,7 +3873,7 @@ public class AtomicReferenceArrayAssert<T>
    * @throws NullPointerException if the given requirements are {@code null}.
    * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
    * @throws AssertionError if the requirements are not satisfied only once
-   * @since 3.x.x
+   * @since 3.24.0
    */
   @Override
   public AtomicReferenceArrayAssert<T> satisfiesOnlyOnce(ThrowingConsumer<? super T> requirements) {
