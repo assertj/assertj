@@ -33,6 +33,26 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
   }
 
   /**
+   * Verifies taht the actual {@code URL} is HTTP reachable.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // This assertion succeeds.
+   * URL url = new URL("http://localhost:8080/test");
+   * HttpServer server = HttpServer.create(new InetSocketAddress("localhost", 8080), 0);
+   * server.createContext("/test", new MyHTTPHanlder());
+   * server.setExecutor(null);
+   * server.start();
+   * Assertions.assertThat(url).isHTTPReachable();</code></pre>
+   * </p>
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual url is not HTTP reachable.
+   */
+  public SELF isHTTPReachable() {
+    urls.assertHTTPReachable(info, actual);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code URL} has the expected protocol.
    * <p>
    * Examples:

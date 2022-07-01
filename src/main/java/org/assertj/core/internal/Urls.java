@@ -15,6 +15,7 @@ package org.assertj.core.internal;
 import static java.util.Objects.deepEquals;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.uri.ShouldBeEqualToWithSortedQueryParameters.shouldBeEqualToWithSortedQueryParameters;
+import static org.assertj.core.error.uri.ShouldBeReachableHTTP.shouldBeReachableHTTP;
 import static org.assertj.core.error.uri.ShouldHaveAnchor.shouldHaveAnchor;
 import static org.assertj.core.error.uri.ShouldHaveAuthority.shouldHaveAuthority;
 import static org.assertj.core.error.uri.ShouldHaveHost.shouldHaveHost;
@@ -31,6 +32,8 @@ import static org.assertj.core.internal.Comparables.assertNotNull;
 import static org.assertj.core.internal.Uris.getParameters;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -62,6 +65,19 @@ public class Urls {
     String[] queryParams = (url.getQuery() == null ? "" : url.getQuery()).split("&");
     Arrays.sort(queryParams);
     return queryParams;
+  }
+
+  public void assertHTTPReachable(final AssertionInfo info, final URL actual) {
+    assertNotNull(info, actual);
+    try {
+      HttpURLConnection con = (HttpURLConnection) actual.openConnection();
+      if (con.getResponseCode() != 200) {
+        throw failures.failure(info, shouldBeReachableHTTP(actual));
+      }
+    }
+    catch (IOException ignored) {
+      throw failures.failure(info, shouldBeReachableHTTP(actual));
+    }
   }
 
   public void assertHasProtocol(final AssertionInfo info, final URL actual, final String protocol) {
