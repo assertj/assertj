@@ -2,25 +2,56 @@ name: CI
 
 on: [push, pull_request]
 
+concurrency:
+  # On master/release, we don't want any jobs cancelled so the sha is used to name the group
+  # On PR branches, we cancel the job if new commits are pushed
+  # More info: https://stackoverflow.com/a/68422069/253468
+  group: ${{ github.ref == 'refs/heads/main' && format('ci-main-{0}', github.sha) || format('ci-main-{0}', github.ref) }}
+  cancel-in-progress: true
+
 jobs:
+  matrix_prep:
+    name: Matrix Preparation
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    env:
+      MATRIX_JOBS: 7
+    steps:
+    - uses: actions/checkout@v3
+    - id: set-matrix
+      run: |
+        node .github/workflows/matrix.js
 
   test_os:
-    name: OS ${{ matrix.os }}
+    name: '${{ matrix.name }}'
+    needs: matrix_prep
     strategy:
       fail-fast: false
-      matrix:
-        os: [ubuntu-latest, macOS-latest, windows-latest]
+      matrix: ${{fromJson(needs.matrix_prep.outputs.matrix)}}
     runs-on: ${{ matrix.os }}
+    env:
+      TZ: ${{ matrix.tz }}
     steps:
       - uses: actions/checkout@v3
-      - name: Setup Java
+      - name: Setup Java ${{ matrix.java_version }} ${{ matrix.java_distribution }} (actions/setup-java)
+        if: ${{ matrix.java_distribution != 'oracle' }}
         uses: actions/setup-java@v3
         with:
-          distribution: 'zulu'
-          java-version: 17
+          java-version: ${{ matrix.java_version }}
+          distribution: ${{ matrix.java_distribution }}
 #          cache: 'maven'
+      - name: Setup Java ${{ matrix.java_version }} ${{ matrix.java_distribution }} (oracle-actions/setup-java)
+        if: ${{ matrix.java_distribution == 'oracle' }}
+        uses: oracle-actions/setup-java@v1
+        with:
+          website: jdk.java.net
+          release: ${{ matrix.java_version }}
+          version: latest
       - name: Test
         run: ./mvnw -V --no-transfer-progress -e verify javadoc:javadoc
+        env:
+          _JAVA_OPTIONS: ${{ matrix.testExtraJvmArgs }}
 
   sonar:
     name: Sonar code analysis
