@@ -25,6 +25,8 @@ import static org.assertj.core.util.Maps.newHashMap;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
@@ -419,6 +421,65 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
     String durationRepresentation = STANDARD_REPRESENTATION.toStringOf(duration);
     // THEN
     then(durationRepresentation).isEqualTo(expectedDurationRepresentation);
+  }
+
+  @Test
+  void should_return_toString_of_StackTraceElement() {
+    // GIVEN
+    StackTraceElement frame = new StackTraceElement(
+      "org.example.SomeSuperCoolClass",
+      "doAReallyCoolThing",
+      "SomeSuperCoolClass.java",
+      123
+    );
+    // WHEN
+    String representation = STANDARD_REPRESENTATION.toStringOf(frame);
+    // THEN
+    assertThat(representation)
+      .isEqualTo("org.example.SomeSuperCoolClass.doAReallyCoolThing(SomeSuperCoolClass.java:123)");
+  }
+
+  @Test
+  void should_return_toString_of_StackTraceElement_array() {
+    // GIVEN
+    StackTraceElement[] stackTrace = {
+      new StackTraceElement("org.example.SomeSuperCoolClass", "doAReallyCoolThing", "SomeSuperCoolClass.java", 123),
+      new StackTraceElement("org.example.SomeLessCoolClass", "doBoringStuff", "SomeLessCoolClass.java", 456),
+      new StackTraceElement("org.example.Yawn", "doSomething", "Yawn.java", 789)
+    };
+    // WHEN
+    String representation = STANDARD_REPRESENTATION.toStringOf(stackTrace);
+    // THEN
+    String expected = String.join(
+      "\n",
+      "Stack Trace",
+      "\tat org.example.SomeSuperCoolClass.doAReallyCoolThing(SomeSuperCoolClass.java:123)",
+      "\tat org.example.SomeLessCoolClass.doBoringStuff(SomeLessCoolClass.java:456)",
+      "\tat org.example.Yawn.doSomething(Yawn.java:789)"
+    );
+    assertThat(representation).isEqualTo(expected);
+  }
+
+  @Test
+  void should_use_expected_representation_for_StackTraceElement_array() {
+    // GIVEN
+    StackTraceElement[] stackTrace = {
+      new StackTraceElement("org.example.SomeSuperCoolClass", "doAReallyCoolThing", "SomeSuperCoolClass.java", 123),
+      new StackTraceElement("org.example.SomeLessCoolClass", "doBoringStuff", "SomeLessCoolClass.java", 456),
+      new StackTraceElement("org.example.Yawn", "doSomething", "Yawn.java", 789)
+    };
+    Throwable ex = new Throwable();
+    ex.setStackTrace(stackTrace);
+    // WHEN
+    String representation = STANDARD_REPRESENTATION.toStringOf(stackTrace);
+    // THEN
+    StringWriter expectedWriter = new StringWriter();
+    ex.printStackTrace(new PrintWriter(expectedWriter));
+    String expected = expectedWriter
+      .toString()
+      .replaceFirst("^java\\.lang\\.Throwable", "Stack Trace")
+      .trim();
+    assertThat(representation).isEqualTo(expected);
   }
 
   @Test

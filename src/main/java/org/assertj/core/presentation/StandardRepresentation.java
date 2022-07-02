@@ -231,6 +231,8 @@ public class StandardRepresentation implements Representation {
     if (object instanceof SimpleDateFormat) return toStringOf((SimpleDateFormat) object);
     if (object instanceof PredicateDescription) return toStringOf((PredicateDescription) object);
     if (object instanceof Future) return toStringOf((Future<?>) object);
+    if (object instanceof StackTraceElement) return toStringOf((StackTraceElement) object);
+    if (object instanceof StackTraceElement[]) return toStringOf((StackTraceElement[]) object);
     if (isArray(object)) return formatArray(object);
     if (object instanceof Collection<?>) return smartFormat((Collection<?>) object);
     if (object instanceof Map<?, ?>) return toStringOf((Map<?, ?>) object);
@@ -494,6 +496,28 @@ public class StandardRepresentation implements Representation {
     }
   }
 
+  protected String toStringOf(StackTraceElement frame) {
+    // Manually format this to keep a consistent representation despite the implementation
+    // in use. Also prevents stuff like ByteCode introspection on the frame from altering the stack
+    // trace format we provide.
+    return frame.getClassName()
+      + "."
+      + frame.getMethodName()
+      + "("
+      + frame.getFileName()
+      + ":"
+      + frame.getLineNumber()
+      + ")";
+  }
+
+  protected String toStringOf(StackTraceElement[] stackTrace) {
+    StringBuilder sb = new StringBuilder("Stack Trace");
+    for (StackTraceElement frame : stackTrace) {
+      sb.append("\n\tat ").append(toStringOf(frame));
+    }
+    return sb.toString();
+  }
+
   protected String toStringOf(Throwable throwable) {
     StackTraceElement[] elements = throwable.getStackTrace();
     // if the line limit is 0, we assume the user don't want to print stack trace
@@ -510,7 +534,7 @@ public class StandardRepresentation implements Representation {
       pw = new PrintWriter(sw, true);
       pw.println(throwable);
       for (int i = 0; i < maxStackTraceElementsDisplayed; i++) {
-        pw.println("\tat " + elements[i]);
+        pw.println("\tat " + toStringOf(elements[i]));
       }
       pw.print("\t...(" + (elements.length - maxStackTraceElementsDisplayed)
                + " remaining lines not displayed - this can be changed with Assertions.setMaxStackTraceElementsDisplayed)");
