@@ -30,7 +30,12 @@ public class StackTraceAssert extends AbstractStackTraceAssert<StackTraceAssert,
   }
 
   @Override
-  protected StackTraceElementAssert newStackTraceElementAssert(StackTraceElement actual) {
-    return new StackTraceElementAssert(actual);
+  protected StackTraceAssert newObjectArrayAssert(StackTraceElement[] array) {
+    return new StackTraceAssert(array);
+  }
+
+  @Override
+  protected StackTraceElementAssert toAssert(StackTraceElement value, String description) {
+    return new StackTraceElementAssert(value).describedAs(description);
   }
 }

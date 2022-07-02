@@ -4130,7 +4130,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @see #singleElement(InstanceOfAssertFactory)
    */
   @CheckReturnValue
-  public ObjectAssert<ELEMENT> singleElement() {
+  public AbstractObjectAssert<?, ELEMENT> singleElement() {
     return internalSingleElement();
   }
 
@@ -4176,7 +4176,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     return internalSingleElement().asInstanceOf(assertFactory);
   }
 
-  private ObjectAssert<ELEMENT> internalSingleElement() {
+  private AbstractObjectAssert<?, ELEMENT> internalSingleElement() {
     arrays.assertHasSize(info, actual, 1);
     return toAssert(actual[0], navigationDescription("check single element"));
   }
@@ -4193,7 +4193,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     return text.endsWith(ASSERT) ? text.substring(0, text.length() - ASSERT.length()) : text;
   }
 
-  protected ObjectAssert<ELEMENT> toAssert(ELEMENT value, String description) {
+  protected AbstractObjectAssert<?, ELEMENT> toAssert(ELEMENT value, String description) {
     return new ObjectAssert<>(value).as(description);
   }
 

@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
-import org.assertj.core.api.ObjectAssert;
+import org.assertj.core.api.AbstractObjectAssert;
 import org.junit.jupiter.api.Test;
 
 class ObjectArrayAssert_singleElement_Test {
@@ -37,7 +37,7 @@ class ObjectArrayAssert_singleElement_Test {
   @Test
   void should_pass_allowing_object_assertions_if_iterable_contains_exactly_one_element() {
     // WHEN
-    ObjectAssert<String> result = assertThat(babySimpsons).singleElement();
+    AbstractObjectAssert<?, String> result = assertThat(babySimpsons).singleElement();
     // THEN
     result.isEqualTo("Maggie");
   }

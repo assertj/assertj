@@ -22,7 +22,7 @@ package org.assertj.core.api;
  * @author Ashley Scopes
  */
 public abstract class AbstractStackTraceElementAssert<SELF extends AbstractStackTraceElementAssert<SELF>>
-  extends AbstractAssert<SELF, StackTraceElement> {
+  extends AbstractObjectAssert<SELF, StackTraceElement> {
 
   /**
    * Initialize this assertion.

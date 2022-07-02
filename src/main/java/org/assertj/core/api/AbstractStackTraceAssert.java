@@ -24,7 +24,7 @@ package org.assertj.core.api;
  */
 public abstract class AbstractStackTraceAssert<SELF extends AbstractStackTraceAssert<SELF, ELEMENT_ASSERT>,
                                                ELEMENT_ASSERT extends AbstractStackTraceElementAssert<ELEMENT_ASSERT>>
-  extends AbstractAssert<SELF, StackTraceElement[]> {
+  extends AbstractObjectArrayAssert<SELF, StackTraceElement> {
 
   /**
    * Initialize this assertion.
@@ -36,11 +36,9 @@ public abstract class AbstractStackTraceAssert<SELF extends AbstractStackTraceAs
     super(actual, selfType);
   }
 
-  /**
-   * Create an assertion for a {@link StackTraceElement} and return it.
-   *
-   * @param stackTraceElement the stack trace element to create an assertion for.
-   * @return the created assertion.
-   */
-  protected abstract ELEMENT_ASSERT newStackTraceElementAssert(StackTraceElement stackTraceElement);
+  @Override
+  protected abstract SELF newObjectArrayAssert(StackTraceElement[] array);
+
+  @Override
+  protected abstract ELEMENT_ASSERT toAssert(StackTraceElement value, String description);
 }
