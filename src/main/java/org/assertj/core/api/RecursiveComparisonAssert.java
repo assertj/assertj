@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursively;
 import static org.assertj.core.error.ShouldNotBeEqualComparingFieldByFieldRecursively.shouldNotBeEqualComparingFieldByFieldRecursively;
 
+import java.lang.annotation.Annotation;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -558,6 +559,19 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    */
   public RecursiveComparisonAssert<?> ignoringFieldsOfTypes(Class<?>... typesToIgnore) {
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(typesToIgnore);
+    return myself;
+  }
+
+  /**
+   * Makes the recursive comparison to ignore the object under test fields whose annotation match the given ones.
+   * <p>
+   * For custom annotations, @Retention(RetentionPolicy.RUNTIME) is required.
+   * <p>
+   * @param annotationsToIgnore fields with these annotations are ignored in the comparison.
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   */
+  public RecursiveComparisonAssert<?> ignoringFieldsWithAnnotations(Class<?>... annotationsToIgnore) {
+    recursiveComparisonConfiguration.ignoreFieldsWithAnnotations(annotationsToIgnore);
     return myself;
   }
 

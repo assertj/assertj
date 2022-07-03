@@ -21,6 +21,8 @@ import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
 import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.sql.Timestamp;
 import java.util.Comparator;
 import java.util.Date;
@@ -32,6 +34,7 @@ import java.util.regex.Pattern;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.test.AlwaysDifferentComparator;
 import org.assertj.core.test.AlwaysEqualComparator;
+import org.checkerframework.checker.lock.qual.ReleasesNoLocks;
 import org.junit.jupiter.api.Test;
 
 class RecursiveComparisonAssert_fluent_API_Test {
@@ -51,6 +54,7 @@ class RecursiveComparisonAssert_fluent_API_Test {
     assertThat(recursiveComparisonConfiguration.getIgnoreAllActualNullFields()).isFalse();
     assertThat(recursiveComparisonConfiguration.getIgnoredFields()).isEmpty();
     assertThat(recursiveComparisonConfiguration.getIgnoredTypes()).isEmpty();
+    assertThat(recursiveComparisonConfiguration.getIgnoredAnnotations()).isEmpty();
     assertThat(recursiveComparisonConfiguration.getIgnoredFieldsRegexes()).isEmpty();
     assertThat(recursiveComparisonConfiguration.getIgnoredOverriddenEqualsForFields()).isEmpty();
     assertThat(recursiveComparisonConfiguration.getIgnoredOverriddenEqualsForTypes()).isEmpty();
@@ -139,6 +143,21 @@ class RecursiveComparisonAssert_fluent_API_Test {
                                                                        .getRecursiveComparisonConfiguration();
     // THEN
     assertThat(configuration.getIgnoredTypes()).containsExactly(type1, type2);
+  }
+
+  @Retention(RetentionPolicy.RUNTIME)
+  @interface MyAnnotation {}
+  @Test
+  void should_allow_to_ignore_fields_of_the_given_annotations() {
+    // GIVEN
+    Class<?> annotation1 = Retention.class;
+    Class<?> annotation2 = MyAnnotation.class;
+    // WHEN
+    RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
+                                                                       .ignoringFieldsWithAnnotations(annotation1, annotation2)
+                                                                       .getRecursiveComparisonConfiguration();
+    // THEN
+    assertThat(configuration.getIgnoredAnnotations()).containsExactly(annotation1, annotation2);
   }
 
   @Test

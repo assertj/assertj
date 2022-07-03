@@ -104,6 +104,16 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
+  void should_show_the_annotations_used_to_ignore_fields() {
+    // GIVEN
+    recursiveComparisonConfiguration.ignoreFieldsWithAnnotations(Test.class, BeforeEach.class);
+    // WHEN
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    then(multiLineDescription).contains(format("- the fields annotated with the following annotations were ignored in the comparison: org.junit.jupiter.api.Test, org.junit.jupiter.api.BeforeEach%n"));
+  }
+
+  @Test
   void should_show_the_ignored_all_overridden_equals_methods_flag() {
     // GIVEN
     recursiveComparisonConfiguration.ignoreAllOverriddenEquals();
@@ -299,6 +309,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     recursiveComparisonConfiguration.ignoreFields("foo", "bar", "foo.bar");
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes("f.*", ".ba.", "..b%sr..");
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(UUID.class, ZonedDateTime.class);
+    recursiveComparisonConfiguration.ignoreFieldsWithAnnotations(Test.class, BeforeEach.class);
     recursiveComparisonConfiguration.useOverriddenEquals();
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes(".*oo", ".ar", "oo.ba");
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(String.class, Multimap.class);
@@ -322,6 +333,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
                "- the following fields were ignored in the comparison: foo, bar, foo.bar%n" +
                "- the fields matching the following regexes were ignored in the comparison: f.*, .ba., ..b%%sr..%n"+
                "- the following types were ignored in the comparison: java.util.UUID, java.time.ZonedDateTime%n" +
+               "- the fields annotated with the following annotations were ignored in the comparison: org.junit.jupiter.api.Test, org.junit.jupiter.api.BeforeEach%n" +
                "- overridden equals methods were used in the comparison except for:%n" +
                "  - the following fields: foo, baz, foo.baz%n" +
                "  - the following types: java.lang.String, com.google.common.collect.Multimap%n" +

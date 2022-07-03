@@ -19,6 +19,8 @@ import static org.assertj.core.api.recursive.comparison.DualValueUtil.randomPath
 import static org.assertj.core.util.Lists.list;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
@@ -173,6 +175,7 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes(".*name");
     recursiveComparisonConfiguration.ignoreFields("number");
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(String.class);
+    recursiveComparisonConfiguration.ignoreFieldsWithAnnotations(Test.class);
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualValue);
     // THEN
@@ -223,6 +226,34 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
     boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualValue);
     // THEN
     then(ignored).isFalse();
+  }
+
+  @Test
+  void ignoring_fields_with_annotations_does_not_replace_previous_annotations() {
+    // WHEN
+    recursiveComparisonConfiguration.ignoreFieldsWithAnnotations(ParameterizedTest.class);
+    recursiveComparisonConfiguration.ignoreFieldsWithAnnotations(Test.class, BeforeEach.class);
+    // THEN
+    then(recursiveComparisonConfiguration.getIgnoredAnnotations()).containsExactlyInAnyOrder(ParameterizedTest.class,
+                                                                                             Test.class,
+                                                                                             BeforeEach.class);
+  }
+
+  @Retention(RetentionPolicy.RUNTIME)
+  @interface MyAnnotation {}
+
+  @MyAnnotation
+  class MyClass {}
+
+  @Test
+  void should_ignore_fields_with_given_annotations() {
+    // GIVEN
+    DualValue dualValue = new DualValue(randomPath(), new MyClass(), new MyClass());
+    recursiveComparisonConfiguration.ignoreFieldsWithAnnotations(MyAnnotation.class);
+    // WHEN
+    boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualValue);
+    // THEN
+    then(ignored).isTrue();
   }
 
   @Test

@@ -24,6 +24,7 @@ import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -58,6 +59,7 @@ public class RecursiveComparisonConfiguration {
   private Set<String> ignoredFields = new LinkedHashSet<>();
   private List<Pattern> ignoredFieldsRegexes = new ArrayList<>();
   private Set<Class<?>> ignoredTypes = new LinkedHashSet<>();
+  private Set<Class<?>> ignoredAnnotations = new LinkedHashSet<>();
 
   // fields to compare (no other field will be)
   private Set<FieldLocation> comparedFields = new LinkedHashSet<>();
@@ -264,6 +266,20 @@ public class RecursiveComparisonConfiguration {
     stream(types).map(RecursiveComparisonConfiguration::asWrapperIfPrimitiveType).forEach(ignoredTypes::add);
   }
 
+  /**
+   * Adds the given annotations to the list of fields annotations from the object under test to ignore in the recursive comparison.
+   * The fields are ignored if any annotation of the field is in the ignored annotations list.
+   * <p>
+   * Note that if some object under test fields are null, they are not ignored by this method as their annotations can't be evaluated.
+   * <p>
+   * See {@link RecursiveComparisonAssert#ignoringFieldsWithAnnotations(Class...)} )} RecursiveComparisonAssert#ignoringFieldsWithAnnotations(Class<?>...)} for examples.
+   *
+   * @param annotations the fields annotations of the object under test to ignore in the comparison.
+   */
+  public void ignoreFieldsWithAnnotations(Class<?>... annotations) {
+    ignoredAnnotations.addAll(list(annotations));
+  }
+
   private static Class<?> asWrapperIfPrimitiveType(Class<?> type) {
     if (!type.isPrimitive()) return type;
     if (type.equals(boolean.class)) return Boolean.class;
@@ -302,6 +318,15 @@ public class RecursiveComparisonConfiguration {
    */
   public Set<Class<?>> getIgnoredTypes() {
     return ignoredTypes;
+  }
+
+  /**
+   * Returns the set of fields annotations from the object under test to ignore in the recursive comparison.
+   *
+   * @return the set of fields annotations from the object under test to ignore in the recursive comparison.
+   */
+  public Set<Class<?>> getIgnoredAnnotations() {
+    return ignoredAnnotations;
   }
 
   /**
@@ -586,8 +611,8 @@ public class RecursiveComparisonConfiguration {
                                   ignoredFields,
                                   ignoredFieldsRegexes, ignoredOverriddenEqualsForFields,
                                   ignoredOverriddenEqualsForTypes,
-                                  ignoredOverriddenEqualsForFieldsMatchingRegexes, ignoredTypes, strictTypeChecking,
-                                  typeComparators, comparedFields, fieldMessages, typeMessages);
+                                  ignoredOverriddenEqualsForFieldsMatchingRegexes, ignoredTypes, ignoredAnnotations,
+                                  strictTypeChecking, typeComparators, comparedFields, fieldMessages, typeMessages);
   }
 
   @Override
@@ -611,6 +636,7 @@ public class RecursiveComparisonConfiguration {
            && java.util.Objects.equals(ignoredOverriddenEqualsForFieldsMatchingRegexes,
                                        other.ignoredOverriddenEqualsForFieldsMatchingRegexes)
            && java.util.Objects.equals(ignoredTypes, other.ignoredTypes)
+           && java.util.Objects.equals(ignoredAnnotations, other.ignoredAnnotations)
            && strictTypeChecking == other.strictTypeChecking
            && java.util.Objects.equals(typeComparators, other.typeComparators)
            && java.util.Objects.equals(ignoredCollectionOrderInFieldsMatchingRegexes,
@@ -628,6 +654,7 @@ public class RecursiveComparisonConfiguration {
     describeIgnoredFields(description);
     describeIgnoredFieldsRegexes(description);
     describeIgnoredFieldsForTypes(description);
+    describeIgnoredFieldsAnnotations(description);
     describeOverriddenEqualsMethodsUsage(description, representation);
     describeIgnoreCollectionOrder(description);
     describeIgnoredCollectionOrderInFields(description);
@@ -682,6 +709,7 @@ public class RecursiveComparisonConfiguration {
   private boolean shouldIgnoreFieldBasedOnFieldValue(DualValue dualValue) {
     return matchesAnIgnoredNullField(dualValue)
            || matchesAnIgnoredFieldType(dualValue)
+           || matchesAnIgnoredFieldAnnotation(dualValue)
            || matchesAnIgnoredEmptyOptionalField(dualValue);
   }
 
@@ -753,6 +781,13 @@ public class RecursiveComparisonConfiguration {
   private void describeIgnoredFieldsForTypes(StringBuilder description) {
     if (!ignoredTypes.isEmpty())
       description.append(format("- the following types were ignored in the comparison: %s%n", describeIgnoredTypes()));
+  }
+
+  private void describeIgnoredFieldsAnnotations(StringBuilder description) {
+    if (!ignoredAnnotations.isEmpty()) {
+      description.append(format("- the fields annotated with the following annotations were ignored in the comparison: %s%n",
+                                describeIgnoredAnnotations()));
+    }
   }
 
   private void describeIgnoreAllActualNullFields(StringBuilder description) {
@@ -860,6 +895,25 @@ public class RecursiveComparisonConfiguration {
     return false;
   }
 
+  private boolean matchesAnIgnoredFieldAnnotation(DualValue dualValue) {
+    if (ignoredAnnotations.isEmpty()) {
+      return false;
+    }
+    Object actual = dualValue.actual;
+    if (actual != null) {
+      return stream(actual.getClass().getAnnotations())
+                                                       .map(Annotation::annotationType)
+                                                       .anyMatch(ignoredAnnotations::contains);
+    }
+    Object expected = dualValue.expected;
+    if (expected != null) {
+      return stream(expected.getClass().getAnnotations())
+                                                         .map(Annotation::annotationType)
+                                                         .anyMatch(ignoredAnnotations::contains);
+    }
+    return false;
+  }
+
   private boolean matchesAnIgnoredField(FieldLocation fieldLocation) {
     return ignoredFields.stream().anyMatch(fieldLocation::matches);
   }
@@ -886,6 +940,13 @@ public class RecursiveComparisonConfiguration {
                                                 .map(Class::getName)
                                                 .collect(toList());
     return join(typesDescription);
+  }
+
+  private String describeIgnoredAnnotations() {
+    List<String> annotationsDescription = ignoredAnnotations.stream()
+                                                            .map(Class::getName)
+                                                            .collect(toList());
+    return join(annotationsDescription);
   }
 
   private static String join(Collection<String> typesDescription) {
