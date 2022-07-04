@@ -33,7 +33,7 @@ public final class Tuple {
   public List<Object> toList() {
     return values;
   }
-
+  
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;

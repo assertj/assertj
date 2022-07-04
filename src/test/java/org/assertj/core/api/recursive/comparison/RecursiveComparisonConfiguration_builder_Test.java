@@ -21,6 +21,7 @@ import java.util.function.BiPredicate;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.RandomUtils;
+import org.assertj.core.api.recursive.FieldLocation;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration.Builder;
 import org.assertj.core.test.AlwaysEqualComparator;
 import org.junit.jupiter.api.Test;

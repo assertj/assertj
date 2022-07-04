@@ -15,7 +15,7 @@ package org.assertj.core.api.recursive.comparison;
 import static java.lang.String.format;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.requireNonNull;
-import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
+import static org.assertj.core.api.recursive.FieldLocation.rootFieldLocation;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.isArray;
 
@@ -38,6 +38,8 @@ import java.util.concurrent.atomic.AtomicLongArray;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.stream.Stream;
+
+import org.assertj.core.api.recursive.FieldLocation;
 
 // logically immutable
 public final class DualValue {

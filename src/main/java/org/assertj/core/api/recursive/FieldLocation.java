@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.api.recursive.comparison;
+package org.assertj.core.api.recursive;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
@@ -41,11 +41,11 @@ public final class FieldLocation implements Comparable<FieldLocation> {
     this(list(s.split("\\.")));
   }
 
-  boolean matches(FieldLocation field) {
+  public boolean matches(FieldLocation field) {
     return pathToUseInRules.equals(field.pathToUseInRules);
   }
 
-  boolean matches(String fieldPath) {
+  public boolean matches(String fieldPath) {
     return pathToUseInRules.equals(fieldPath);
   }
 
@@ -57,7 +57,7 @@ public final class FieldLocation implements Comparable<FieldLocation> {
     return pathToUseInRules;
   }
 
-  FieldLocation field(String field) {
+  public FieldLocation field(String field) {
     List<String> decomposedPathWithField = new ArrayList<>(decomposedPath);
     decomposedPathWithField.add(field);
     return new FieldLocation(decomposedPathWithField);
@@ -99,12 +99,16 @@ public final class FieldLocation implements Comparable<FieldLocation> {
                .collect(joining("."));
   }
 
+  public String getPathToUseInErrorReport() {
+    return String.join(".", decomposedPath);
+  }
+
   public String getFieldName() {
     if (decomposedPath.isEmpty()) return "";
     return decomposedPath.get(decomposedPath.size() - 1);
   }
 
-  static FieldLocation rootFieldLocation() {
+  public static FieldLocation rootFieldLocation() {
     return new FieldLocation(emptyList());
   }
 

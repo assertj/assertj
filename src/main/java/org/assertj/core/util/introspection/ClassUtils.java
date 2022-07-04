@@ -12,12 +12,27 @@
  */
 package org.assertj.core.util.introspection;
 
+import static org.assertj.core.util.Lists.list;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 
 public class ClassUtils {
+
+  /**
+   * Lists primitive wrapper {@link Class}es.
+   */
+  private static final List<Class<?>> PRIMITIVE_WRAPPER_TYPES = list(Boolean.class, Byte.class, Character.class, Short.class,
+                                                                     Integer.class, Long.class, Double.class, Float.class,
+                                                                     Void.class);
+  private static final List<Class<?>> OPTIONAL_TYPES = list(Optional.class, OptionalLong.class, OptionalDouble.class,
+                                                            OptionalInt.class);
 
   /**
    * <p>Gets a {@code List} of superclasses for the given class.</p>
@@ -80,5 +95,43 @@ public class ClassUtils {
 
       cls = cls.getSuperclass();
     }
+  }
+
+  /**
+   * Returns whether the given {@code type} is a primitive or primitive wrapper ({@link Boolean}, {@link Byte},
+   * {@link Character}, {@link Short}, {@link Integer}, {@link Long}, {@link Double}, {@link Float}, {@link Void}).
+   * <p>
+   * Returns false if passed null since the method can't evaluate the class.
+   * <p>
+   * Inspired from apache commons-lang ClassUtils
+   *
+   * @param type The class to query or null.
+   * @return true if the given {@code type} is a primitive or primitive wrapper ({@link Boolean}, {@link Byte},
+   *         {@link Character}, {@link Short}, {@link Integer}, {@link Long}, {@link Double}, {@link Float}, {@link Void}).
+   * @since 3.24.0
+   */
+  public static boolean isPrimitiveOrWrapper(final Class<?> type) {
+    if (type == null) {
+      return false;
+    }
+    return type.isPrimitive() || PRIMITIVE_WRAPPER_TYPES.contains(type);
+  }
+
+  /**
+   * Returns whether the given {@code type} is a primitive or primitive wrapper ({@link Optional}, {@link OptionalInt},
+   * {@link OptionalLong}, {@link OptionalDouble}).
+   * <p>
+   * Returns false if passed null since the method can't evaluate the class.
+   *
+   * @param type The class to query or null.
+   * @return true if the given {@code type} is a primitive or primitive wrapper ({@link Optional}, {@link OptionalInt},
+   *              {@link OptionalLong}, {@link OptionalDouble}).
+   * @since 3.24.0
+   */
+  public static boolean isOptionalOrPrimitiveOptional(final Class<?> type) {
+    if (type == null) {
+      return false;
+    }
+    return OPTIONAL_TYPES.contains(type);
   }
 }
