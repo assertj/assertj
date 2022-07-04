@@ -1211,12 +1211,12 @@ public class Iterables {
     assertNotNull(info, actual);
     requireNonNull(requirements, "The Consumer<? super E> expressing the requirements must not be null");
 
-    long countOfSatisfactions = stream(actual)
-                                              .filter(byPassingAssertions(requirements))
-                                              .count();
+    List<? extends E> satisfiedElements = stream(actual)
+                                                        .filter(byPassingAssertions(requirements))
+                                                        .collect(toList());
 
-    if (countOfSatisfactions != 1) {
-      throw failures.failure(info, shouldSatisfyOnlyOnce(actual, Math.toIntExact(countOfSatisfactions)));
+    if (satisfiedElements.size() != 1) {
+      throw failures.failure(info, shouldSatisfyOnlyOnce(actual, satisfiedElements));
     }
 
   }

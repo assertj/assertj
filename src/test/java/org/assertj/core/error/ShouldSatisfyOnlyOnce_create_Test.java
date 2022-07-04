@@ -30,16 +30,30 @@ import org.junit.jupiter.api.Test;
 class ShouldSatisfyOnlyOnce_create_Test {
 
   @Test
-  void should_create_error_message_with_the_actual_count_of_satisfactions() {
+  void should_create_error_message_when_no_elements_were_satisfied() {
     // GIVEN
-    ErrorMessageFactory factory = shouldSatisfyOnlyOnce(List.of("Yoda", "Luke"), 2);
+    ErrorMessageFactory factory = shouldSatisfyOnlyOnce(List.of("Luke", "Leia", "Yoda"), List.of());
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-                                   + "Expecting actual:%n"
-                                   + "  [\"Yoda\", \"Luke\"]%n"
-                                   + "to satisfy the requirements only once but it did 2 times"));
+                                   + "Expecting exactly one element of actual:%n"
+                                   + " [\"Luke\", \"Leia\", \"Yoda\"]%n"
+                                   + "to satisfy the requirements but none did"));
+  }
+
+  @Test
+  void should_create_error_message_when_more_than_one_element_was_satisfied() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldSatisfyOnlyOnce(List.of("Luke", "Leia", "Yoda"), List.of("Luke", "Leia"));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n"
+                                   + "Expecting exactly one element of actual:%n"
+                                   + " [\"Luke\", \"Leia\", \"Yoda\"]%n"
+                                   + "to satisfy the requirements but these 2 elements did:%n"
+                                   + " [\"Luke\", \"Leia\"]"));
   }
 
 }

@@ -12,6 +12,8 @@
  */
 package org.assertj.core.error;
 
+import java.util.List;
+
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -20,21 +22,32 @@ import org.assertj.core.util.VisibleForTesting;
 public class ShouldSatisfyOnlyOnce extends BasicErrorMessageFactory {
 
   @VisibleForTesting
-  public static final String REQUIREMENTS_SHOULD_BE_SATISFIED_ONLY_ONCE = "%nExpecting actual:%n  %s%nto satisfy the requirements only once but it did %s times";
+  public static final String NO_ELEMENT_SATISFIED_REQUIREMENTS = "%nExpecting exactly one element of actual:%n %s%nto satisfy the requirements but none did";
+
+  @VisibleForTesting
+  public static final String MORE_THAN_ONE_ELEMENT_SATISFIED_REQUIREMENTS = "%nExpecting exactly one element of actual:%n %s%nto satisfy the requirements but these %s elements did:%n %s";
 
   /**
    * Creates a new <code>{@link ShouldSatisfyOnlyOnce}</code>.
    *
    * @param <E> the iterable elements type.
    * @param actual the actual iterable in the failed assertion.
-   * @param countOfSatisfactions the count of times that the requirements were satisfied
+   * @param satisfiedElements the elements which satisfied the requirement
    * @return the created {@link ErrorMessageFactory}.
    */
-  public static <E> ErrorMessageFactory shouldSatisfyOnlyOnce(Iterable<E> actual, int countOfSatisfactions) {
-    return new ShouldSatisfyOnlyOnce(actual, countOfSatisfactions);
+  public static <E> ErrorMessageFactory shouldSatisfyOnlyOnce(Iterable<? extends E> actual,
+                                                              List<? extends E> satisfiedElements) {
+    if (satisfiedElements.isEmpty()) {
+      return new ShouldSatisfyOnlyOnce(actual);
+    }
+    return new ShouldSatisfyOnlyOnce(actual, satisfiedElements);
   }
 
-  private ShouldSatisfyOnlyOnce(Iterable<?> actual, int countOfSatisfactions) {
-    super(REQUIREMENTS_SHOULD_BE_SATISFIED_ONLY_ONCE, actual, countOfSatisfactions);
+  private ShouldSatisfyOnlyOnce(Iterable<?> actual) {
+    super(NO_ELEMENT_SATISFIED_REQUIREMENTS, actual);
+  }
+
+  private ShouldSatisfyOnlyOnce(Iterable<?> actual, List<?> satisfiedElements) {
+    super(MORE_THAN_ONE_ELEMENT_SATISFIED_REQUIREMENTS, actual, satisfiedElements.size(), satisfiedElements);
   }
 }

@@ -14,13 +14,11 @@ package org.assertj.core.internal.iterables;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldSatisfyOnlyOnce.shouldSatisfyOnlyOnce;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.verify;
 
 import java.util.function.Consumer;
 
@@ -46,42 +44,43 @@ class Iterables_assertSatisfiesOnlyOnce_Test extends IterablesBaseTest {
 
   @Test
   void should_fail_if_actual_satisfies_requirements_more_than_once() {
+    // GIVEN
     actual.add("Luke");
-    Throwable error = catchThrowable(() -> iterables.assertSatisfiesOnlyOnce(someInfo(), actual, REQUIREMENTS));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldSatisfyOnlyOnce(actual, 2));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfiesOnlyOnce(someInfo(), actual,
+                                                                                                 REQUIREMENTS));
+    // THEN
+    then(assertionError).hasMessage(shouldSatisfyOnlyOnce(actual, List.of("Luke", "Luke")).create());
   }
 
   @Test
   void should_fail_if_actual_does_not_satisfy_requirements() {
-    Throwable error = catchThrowable(() -> iterables.assertSatisfiesOnlyOnce(someInfo(), actual,
-                                                                             value -> assertThat(value).isEqualTo("Vader")));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldSatisfyOnlyOnce(actual, 0));
+    // GIVEN
+    Consumer<String> requirements = value -> assertThat(value).isEqualTo("Vader");
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfiesOnlyOnce(someInfo(), actual,
+                                                                                                 requirements));
+    // THEN
+    then(assertionError).hasMessage(shouldSatisfyOnlyOnce(actual, List.of()).create());
   }
 
   @Test
   void should_fail_if_actual_is_empty() {
-    Throwable error = catchThrowable(() -> iterables.assertSatisfiesOnlyOnce(someInfo(), List.of(),
-                                                                             REQUIREMENTS));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfiesOnlyOnce(someInfo(), List.of(),
+                                                                                                 REQUIREMENTS));
 
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info,
-                             shouldSatisfyOnlyOnce(List.of(), 0));
+    // THEN
+    then(assertionError).hasMessage(shouldSatisfyOnlyOnce(List.of(), List.of()).create());
   }
 
   @Test
   void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
-    Consumer<String> consumer = s -> assertThat(s).hasSize(4);
-
+    Consumer<String> requirements = s -> assertThat(s).hasSize(4);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).satisfiesOnlyOnce(consumer));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).satisfiesOnlyOnce(requirements));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -89,9 +88,9 @@ class Iterables_assertSatisfiesOnlyOnce_Test extends IterablesBaseTest {
   @Test
   void should_throw_error_if_consumer_is_null() {
     // GIVEN
-    Consumer<String> consumer = null;
+    Consumer<String> requirements = null;
     // WHEN/THEN
-    assertThatNullPointerException().isThrownBy(() -> assertThat(actual).satisfiesOnlyOnce(consumer))
+    assertThatNullPointerException().isThrownBy(() -> assertThat(actual).satisfiesOnlyOnce(requirements))
                                     .withMessage("The Consumer<? super E> expressing the requirements must not be null");
   }
 

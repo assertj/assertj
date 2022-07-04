@@ -1551,12 +1551,11 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
 
   /**
    * Verifies that there is exactly one element of the iterable elements that satisfies the {@link Consumer}.
-   *
+   * <p>
    * Examples:
    * <pre><code class='java'> List&lt;String&gt; starWarsCharacterNames = list("Luke", "Leia", "Yoda");
    *
    * // these assertions succeed:
-   *
    * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Y")) // matches only "Yoda"
    *								   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Lu")) // matches only "Luke"
    *                                   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Le")); // matches only "Leia"
@@ -1578,12 +1577,11 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
 
   /**
    * Verifies that there is exactly one element of the iterable elements that satisfies the {@link ThrowingConsumer}.
-   *
+   * <p>
    * Examples:
    * <pre><code class='java'> List&lt;String&gt; starWarsCharacterNames = list("Luke", "Leia", "Yoda");
    *
    * // these assertions succeed:
-   *
    * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Y")) // matches only "Yoda"
    *								   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Lu")) // matches only "Luke"
    *                                   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Le")); // matches only "Leia"

@@ -3822,13 +3822,12 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
-   * Verifies that there is exactly one element of the iterable elements that satisfies the {@link Consumer}.
-   *
+   * Verifies that there is exactly one element of the {@link AtomicReferenceArray} under test that satisfies the {@link Consumer}.
+   * <p>
    * Examples:
    * <pre><code class='java'> AtomicReferenceArray&lt;String&gt; starWarsCharacterNames = new AtomicReferenceArray&lt;&gt;(new String[] {"Luke", "Leia", "Yoda"});
    *
    * // these assertions succeed:
-   *
    * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Y")) // matches only "Yoda"
    *								   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Lu")) // matches only "Luke"
    *                                   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Le")); // matches only "Leia"
@@ -3851,13 +3850,12 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
-   * Verifies that there is exactly one element of the iterable elements that satisfies the {@link ThrowingConsumer}.
-   *
+   * Verifies that there is exactly one element of the {@link AtomicReferenceArray} under test that satisfies the {@link ThrowingConsumer}.
+   * <p>
    * Examples:
    * <pre><code class='java'> AtomicReferenceArray&lt;String&gt; starWarsCharacterNames = new AtomicReferenceArray&lt;&gt;(new String[] {"Luke", "Leia", "Yoda"});
    *
    * // these assertions succeed:
-   *
    * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Y")) // matches only "Yoda"
    *								   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Lu")) // matches only "Luke"
    *                                   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Le")); // matches only "Leia"
