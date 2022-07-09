@@ -12,9 +12,12 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.error.ShouldBeAssignableTo.shouldBeAssignableTo;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.Arrays.array;
 
 import java.lang.annotation.Annotation;
+import java.util.Objects;
 
 import org.assertj.core.internal.Classes;
 
@@ -60,6 +63,40 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   public SELF isAssignableFrom(Class<?>... others) {
     classes.assertIsAssignableFrom(info, actual, others);
     return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is assignable to other {@code Class}
+   * <p>
+   * Example:
+   * <pre><code class='java'> class Jedi {}
+   * class HumanJedi extends Jedi {}
+   *
+   * // this assertion succeeds:
+   * assertThat(HumanJedi.class).isAssignableTo(Jedi.class);
+   *
+   * // this assertion fails
+   * assertThat(Jedi.class).isAssignableTo(HumanJedi.class);</code></pre>
+   *
+   * @see Class#isAssignableFrom(Class)
+   * @param other {@code Class} who can be assignable to.
+   * @return {@code this} assertions object
+   * @throws AssertionError if the actual {@code Class} is {@code null}.
+   * @throws IllegalArgumentException if {@code other} is null.
+   * @throws AssertionError if the actual {@code Class} is not assignable to the {@code others} class.
+   *
+   * @since 3.24.0
+   */
+  public SELF isAssignableTo(Class<?> other) {
+    isNotNull();
+    assertIsAssignableTo(other);
+    return myself;
+  }
+
+  private void assertIsAssignableTo(Class<?> other) {
+    Objects.requireNonNull(other, shouldNotBeNull("other")::create);
+
+    if (!other.isAssignableFrom(actual)) throw assertionError(shouldBeAssignableTo(actual, other));
   }
 
   /**
