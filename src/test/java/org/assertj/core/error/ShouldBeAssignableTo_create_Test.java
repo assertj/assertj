@@ -10,7 +10,6 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-
 package org.assertj.core.error;
 
 import static java.lang.String.format;
@@ -18,31 +17,29 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeAssignableTo.shouldBeAssignableTo;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for
- * <code>{@link org.assertj.core.error.ShouldBeAssignableTo#shouldBeAssignableTo(Class, Class)}</code>
- *
  * @author Jessica Hamilton
  */
-
 class ShouldBeAssignableTo_create_Test {
 
   @Test
   void should_create_error_message() {
     // GIVEN
-    ErrorMessageFactory factory = shouldBeAssignableTo(ShouldBeAssignableTo_create_Test.class,
-      Integer.class);
+    ErrorMessageFactory factory = shouldBeAssignableTo(List.class, ArrayList.class);
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-      + "Expecting%n"
-      + "  org.assertj.core.error.ShouldBeAssignableTo_create_Test%n"
-      + "to be assignable to:%n"
-      + "  java.lang.Integer%n"
-      + "but was not."));
+                                   + "Expecting%n"
+                                   + "  java.util.List%n"
+                                   + "to be assignable to:%n"
+                                   + "  java.util.ArrayList"));
   }
+
 }

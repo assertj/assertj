@@ -12,26 +12,35 @@
  */
 package org.assertj.core.error;
 
+import java.util.StringJoiner;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a class is assignable to.
  *
- * @author Vikram Nithyanandam and Jessica Hamilton
+ * @author Vikram Nithyanandam
+ * @author Jessica Hamilton
  */
 public class ShouldBeAssignableTo extends BasicErrorMessageFactory {
+
+  private static final String SHOULD_BE_ASSIGNABLE_TO = new StringJoiner("%n", "%n", "").add("Expecting")
+                                                                                        .add("  %s")
+                                                                                        .add("to be assignable to:")
+                                                                                        .add("  %s")
+                                                                                        .toString();
 
   /**
    * Creates a new <code>{@link ShouldBeAssignableTo}</code>.
    *
    * @param actual the actual value in the failed assertion.
-   * @param expectedAssignableTo the expected assignable.
+   * @param other the type {@code actual} should be assignable to.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeAssignableTo(Class<?> actual, Class<?> expectedAssignableTo) {
-    return new ShouldBeAssignableTo(actual, expectedAssignableTo);
+  public static ErrorMessageFactory shouldBeAssignableTo(Class<?> actual, Class<?> other) {
+    return new ShouldBeAssignableTo(actual, other);
   }
 
-  private ShouldBeAssignableTo(Class<?> actual, Class<?> expectedAssignableTo) {
-    super("%nExpecting%n  %s%nto be assignable to:%n  %s%nbut was not.", actual,
-      expectedAssignableTo);
+  private ShouldBeAssignableTo(Class<?> actual, Class<?> other) {
+    super(SHOULD_BE_ASSIGNABLE_TO, actual, other);
   }
+
 }

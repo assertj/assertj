@@ -12,27 +12,68 @@
  */
 package org.assertj.core.api.classes;
 
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeAssignableTo.shouldBeAssignableTo;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
-import org.assertj.core.api.ClassAssert;
-import org.assertj.core.api.ClassAssertBaseTest;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 /**
- * Tests for <code>{@link org.assertj.core.api.ClassAssert#isAssignableTo(Class)} </code>.
- *
+ * @author Vikram Nithyanandam
  * @author Jessica Hamilton
  */
-public class ClassAssert_isAssignableTo_Test extends ClassAssertBaseTest {
+class ClassAssert_isAssignableTo_Test {
 
-  @Override
-  protected ClassAssert invoke_api_method() {
-    return assertions.isAssignableTo(ClassAssert_isAssignableTo_Test.class);
+  @Test
+  void should_fail_if_other_is_null() {
+    // GIVEN
+    Class<?> actual = ArrayList.class;
+    Class<?> other = null;
+    // WHEN
+    NullPointerException exception = catchNullPointerException(() -> assertThat(actual).isAssignableTo(other));
+    // THEN
+    then(exception).hasMessage(shouldNotBeNull("other").create());
   }
 
-  @Override
-  protected void verify_internal_effects() {
-    verify(classes).assertIsAssignableTo(getInfo(assertions), getActual(assertions),
-      ClassAssert_isAssignableTo_Test.class);
+  @Test
+  void should_fail_if_actual_is_null() {
+    // GIVEN
+    Class<?> actual = null;
+    Class<?> other = List.class;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isAssignableTo(other));
+    // THEN
+    then(assertionError).hasMessage(shouldNotBeNull().create());
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+      "java.util.List, java.util.ArrayList",
+      "int, java.lang.Object"
+  })
+  void should_fail_if_actual_is_not_assignable_to_other(Class<?> actual, Class<?> other) {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isAssignableTo(other));
+    // THEN
+    then(assertionError).hasMessage(shouldBeAssignableTo(actual, other).create());
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+      "java.util.ArrayList, java.util.List",
+      "int, int"
+  })
+  void should_pass_if_actual_is_assignable_to_other(Class<?> actual, Class<?> other) {
+    // WHEN/THEN
+    assertThat(actual).isAssignableTo(other);
   }
 
 }
