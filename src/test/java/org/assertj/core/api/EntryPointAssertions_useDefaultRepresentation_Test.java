@@ -21,12 +21,14 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.assertj.core.presentation.Representation;
+import org.assertj.core.test.MutatesGlobalConfiguration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 @DisplayName("EntryPoint assertions useDefaultRepresentation method")
+@MutatesGlobalConfiguration
 class EntryPointAssertions_useDefaultRepresentation_Test extends EntryPointAssertionsBaseTest {
 
   private static final Representation DEFAULT_CUSTOM_REPRESENTATION = AbstractAssert.customRepresentation;

@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 
-import org.assertj.core.util.CaseInsensitiveStringComparator;
+import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 class Assumptions_assumeThat_Test {
@@ -40,7 +40,7 @@ class Assumptions_assumeThat_Test {
       assumeThat(asList("John", "Doe", "Jane", "Doe")).as("test description")
                                                       .withFailMessage("error message")
                                                       .withRepresentation(UNICODE_REPRESENTATION)
-                                                      .usingElementComparator(CaseInsensitiveStringComparator.instance)
+                                                      .usingElementComparator(CaseInsensitiveStringComparator.INSTANCE)
                                                       .filteredOn(string -> string.length() == 4)
                                                       .containsExactly("JOHN", "JANE");
     }).doesNotThrowAnyException();

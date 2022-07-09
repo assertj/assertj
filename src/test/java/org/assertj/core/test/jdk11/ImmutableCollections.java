@@ -707,7 +707,7 @@ class ImmutableCollections {
 
     @Override
     public Iterator<E> iterator() {
-      return new SetN.SetNIterator();
+      return new SetN<E>.SetNIterator();
     }
 
     @Override

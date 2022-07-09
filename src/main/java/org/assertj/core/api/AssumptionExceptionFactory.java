@@ -20,7 +20,7 @@ import org.assertj.core.configuration.PreferredAssumptionException;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
- * Responsible of building the exception to throw for failing assumptions.
+ * Responsible for building the exception to throw for failing assumptions.
  * @since 3.21.0
  */
 public class AssumptionExceptionFactory {

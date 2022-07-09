@@ -21,7 +21,7 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.util.CaseInsensitiveStringComparator;
+import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -60,7 +60,7 @@ class ShouldContainsOnlyOnce_create_Test {
     // GIVEN
     factory = shouldContainsOnlyOnce(list("Yoda", "Han"), list("Luke", "Yoda"),
                                      newLinkedHashSet("Luke"), newLinkedHashSet("Han"),
-                                     new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+                                     new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE));
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN

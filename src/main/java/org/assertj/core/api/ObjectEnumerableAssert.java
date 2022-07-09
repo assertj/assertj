@@ -57,6 +57,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not contain the given values.
    */
+  @SuppressWarnings("unchecked")
   SELF contains(ELEMENT... values);
 
   /**
@@ -96,6 +97,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
    *           or none of the given values, or the actual group contains more values than the given ones.
    */
+  @SuppressWarnings("unchecked")
   SELF containsOnly(ELEMENT... values);
 
   /**
@@ -144,6 +146,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
    *           or none of the given values, or the actual group contains more than once these values.
    */
+  @SuppressWarnings("unchecked")
   SELF containsOnlyOnce(ELEMENT... values);
 
   /**
@@ -171,6 +174,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *           contains some or none of the given values, or the actual group contains more values than the given ones
    *           or values are the same but the order is not.
    */
+  @SuppressWarnings("unchecked")
   SELF containsExactly(ELEMENT... values);
 
   /**
@@ -196,6 +200,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
    *           contains some or none of the given values, or the actual group contains more values than the given ones.
    */
+  @SuppressWarnings("unchecked")
   SELF containsExactlyInAnyOrder(ELEMENT... values);
 
   /**
@@ -250,6 +255,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual group does not contain the given sequence.
    */
+  @SuppressWarnings("unchecked")
   SELF containsSequence(ELEMENT... sequence);
 
   /**
@@ -304,6 +310,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual group contains the given sequence.
    */
+  @SuppressWarnings("unchecked")
   SELF doesNotContainSequence(ELEMENT... sequence);
 
   /**
@@ -356,6 +363,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual group does not contain the given subsequence.
    */
+  @SuppressWarnings("unchecked")
   SELF containsSubsequence(ELEMENT... sequence);
 
   /**
@@ -405,6 +413,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual group contains the given subsequence.
    */
+  @SuppressWarnings("unchecked")
   SELF doesNotContainSubsequence(ELEMENT... sequence);
 
   /**
@@ -457,6 +466,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group contains any of the given values.
    */
+  @SuppressWarnings("unchecked")
   SELF doesNotContain(ELEMENT... values);
 
   /**
@@ -502,6 +512,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not start with the given sequence of objects.
    */
+  @SuppressWarnings("unchecked")
   SELF startsWith(ELEMENT... sequence);
 
   /**
@@ -529,6 +540,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not end with the given sequence of objects.
    */
+  @SuppressWarnings("unchecked")
   SELF endsWith(ELEMENT first, ELEMENT... sequence);
 
   /**
@@ -937,7 +949,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @since 3.5.0
    */
   SELF hasOnlyOneElementSatisfying(Consumer<? super ELEMENT> elementAssertions);
-  
+
   /**
    * Verifies that all elements of the actual group are instances of the given types.
    * <p>
@@ -1223,6 +1235,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the actual {@code Iterable} is {@code null}.
    * @throws AssertionError if the actual {@code Iterable} is not subset of the given values.
    */
+  @SuppressWarnings("unchecked")
   SELF isSubsetOf(ELEMENT... values);
 
   /**
@@ -1335,7 +1348,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @since 3.21.0
    */
   SELF allSatisfy(ThrowingConsumer<? super ELEMENT> requirements);
-  
+
   /**
    * Verifies that each element satisfies the requirements corresponding to its index, so the first element must satisfy the
    * first requirements, the second element the second requirements etc...
@@ -1376,8 +1389,9 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if there are not as many requirements as there are iterable elements.
    * @since 3.19.0
    */
+  @SuppressWarnings("unchecked")
   SELF satisfiesExactly(Consumer<? super ELEMENT>... allRequirements);
-  
+
   /**
    * Verifies that each element satisfies the requirements corresponding to its index, so the first element must satisfy the
    * first requirements, the second element the second requirements etc...
@@ -1424,6 +1438,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if there are not as many requirements as there are iterable elements.
    * @since 3.21.0
    */
+  @SuppressWarnings("unchecked")
   SELF satisfiesExactly(ThrowingConsumer<? super ELEMENT>... allRequirements);
 
   /**
@@ -1477,8 +1492,9 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * @since 3.19.0
    */
+  @SuppressWarnings("unchecked")
   SELF satisfiesExactlyInAnyOrder(Consumer<? super ELEMENT>... allRequirements);
-  
+
   /**
    * Verifies that at least one combination of iterable elements exists that satisfies the {@link ThrowingConsumer}s in order (there must be as
    * many consumers as iterable elements and once a consumer is matched it cannot be reused to match other elements).
@@ -1530,7 +1546,61 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if there are not as many requirements as there are iterable elements.
    * @since 3.21.0
    */
+  @SuppressWarnings("unchecked")
   SELF satisfiesExactlyInAnyOrder(ThrowingConsumer<? super ELEMENT>... allRequirements);
+
+  /**
+   * Verifies that there is exactly one element of the iterable elements that satisfies the {@link Consumer}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> List&lt;String&gt; starWarsCharacterNames = list("Luke", "Leia", "Yoda");
+   *
+   * // these assertions succeed:
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Y")) // matches only "Yoda"
+   *                                   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Lu")) // matches only "Luke"
+   *                                   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Le")); // matches only "Leia"
+   *
+   * // this assertion fails because the requirements are satisfied two times
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("a")); // matches "Leia" and "Yoda"
+   *
+   * // this assertion fails because no element contains "Han"
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Han"));</code></pre>
+   *
+   * @param requirements the {@link Consumer} that is expected to be satisfied only once by the elements of the given {@code Iterable}.
+   * @return this assertion object.
+   * @throws NullPointerException if the given requirements are {@code null}.
+   * @throws AssertionError if the requirements are not satisfied only once
+   * @since 3.24.0
+   */
+  @SuppressWarnings("unchecked")
+  SELF satisfiesOnlyOnce(Consumer<? super ELEMENT> requirements);
+
+  /**
+   * Verifies that there is exactly one element of the iterable elements that satisfies the {@link ThrowingConsumer}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> List&lt;String&gt; starWarsCharacterNames = list("Luke", "Leia", "Yoda");
+   *
+   * // these assertions succeed:
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Y")) // matches only "Yoda"
+   *                                   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Lu")) // matches only "Luke"
+   *                                   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Le")); // matches only "Leia"
+   *
+   * // this assertion fails because the requirements are satisfied two times
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("a")); // matches "Leia" and "Yoda"
+   *
+   * // this assertion fails because no element contains "Han"
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Han"));</code></pre>
+   *
+   * @param requirements the {@link ThrowingConsumer} that is expected to be satisfied only once by the elements of the given {@code Iterable}.
+   * @return this assertion object.
+   * @throws NullPointerException if the given requirements are {@code null}.
+   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
+   * @throws AssertionError if the requirements are not satisfied only once
+   * @since 3.24.0
+   */
+  @SuppressWarnings("unchecked")
+  SELF satisfiesOnlyOnce(ThrowingConsumer<? super ELEMENT> requirements);
 
   /**
    * Verifies whether any elements match the provided {@link Predicate}.
@@ -1614,7 +1684,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @since 3.21.0
    */
   SELF anySatisfy(ThrowingConsumer<? super ELEMENT> requirements);
-  
+
   /**
    * Verifies that no elements satisfy the given restrictions expressed as a {@link Consumer}.
    * <p>
@@ -1668,7 +1738,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @since 3.21.0
    */
   SELF noneSatisfy(ThrowingConsumer<? super ELEMENT> restrictions);
-  
+
   /**
    * Verifies that the actual {@link Iterable} contains at least one of the given values.
    * <p>
@@ -1696,6 +1766,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the {@code Iterable} under test does not contain any of the given {@code values}.
    * @since 2.9.0 / 3.9.0
    */
+  @SuppressWarnings("unchecked")
   SELF containsAnyOf(ELEMENT... values);
 
   /**

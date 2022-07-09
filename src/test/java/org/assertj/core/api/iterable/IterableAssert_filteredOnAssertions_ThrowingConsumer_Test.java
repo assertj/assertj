@@ -26,8 +26,8 @@ import org.assertj.core.api.ThrowingConsumer;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.data.TolkienCharacterAssert;
 import org.assertj.core.data.TolkienCharacterAssertFactory;
+import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.assertj.core.test.Employee;
-import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 class IterableAssert_filteredOnAssertions_ThrowingConsumer_Test extends IterableAssert_filtered_baseTest {
@@ -125,7 +125,7 @@ class IterableAssert_filteredOnAssertions_ThrowingConsumer_Test extends Iterable
     IterableAssert<String> assertion = assertThat(names).as("test description")
                                                         .withFailMessage("error message")
                                                         .withRepresentation(UNICODE_REPRESENTATION)
-                                                        .usingElementComparator(CaseInsensitiveStringComparator.instance)
+                                                        .usingElementComparator(CaseInsensitiveStringComparator.INSTANCE)
                                                         .filteredOnAssertions(fourCharsWord)
                                                         .containsExactly("JOHN", "JANE");
     // THEN

@@ -70,20 +70,21 @@ import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 // suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports
-@SuppressWarnings("deprecation")
+// Deprecation is raised by JDK-17. IntelliJ thinks this is redundant when it is not.
+@SuppressWarnings({ "deprecation", "RedundantSuppression" })
 public class AtomicReferenceArrayAssert<T>
     extends AbstractAssert<AtomicReferenceArrayAssert<T>, AtomicReferenceArray<T>>
     implements IndexedObjectEnumerableAssert<AtomicReferenceArrayAssert<T>, T>,
     ArraySortedAssert<AtomicReferenceArrayAssert<T>, T> {
 
-  private T[] array;
+  private final T[] array;
   @VisibleForTesting
   ObjectArrays arrays = ObjectArrays.instance();
   @VisibleForTesting
   Iterables iterables = Iterables.instance();
 
   private TypeComparators comparatorsByType;
-  private Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new TreeMap<>();
+  private final Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new TreeMap<>();
   private TypeComparators comparatorsForElementPropertyOrFieldTypes;
 
   public AtomicReferenceArrayAssert(AtomicReferenceArray<T> actual) {
@@ -1094,7 +1095,6 @@ public class AtomicReferenceArrayAssert<T>
     arrays.assertHasExactlyElementsOfTypes(info, array, expectedTypes);
     return myself;
   }
-
 
   /**
    * Verifies that the actual AtomicReferenceArray does not contain the given object at the given index.
@@ -3818,6 +3818,71 @@ public class AtomicReferenceArrayAssert<T>
   // in order to avoid compiler warning in user code
   protected AtomicReferenceArrayAssert<T> satisfiesExactlyInAnyOrderForProxy(Consumer<? super T>[] requirements) {
     iterables.assertSatisfiesExactlyInAnyOrder(info, newArrayList(array), requirements);
+    return myself;
+  }
+
+  /**
+   * Verifies that there is exactly one element of the {@link AtomicReferenceArray} under test that satisfies the {@link Consumer}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> AtomicReferenceArray&lt;String&gt; starWarsCharacterNames = new AtomicReferenceArray&lt;&gt;(new String[] {"Luke", "Leia", "Yoda"});
+   *
+   * // these assertions succeed:
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Y")) // matches only "Yoda"
+   *                                   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Lu")) // matches only "Luke"
+   *                                   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Le")); // matches only "Leia"
+   *
+   * // this assertion fails because the requirements are satisfied two times
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("a")); // matches "Leia" and "Yoda"
+   *
+   * // this assertion fails because no element contains "Han"
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Han"));</code></pre>
+   *
+   * @param requirements the {@link Consumer} that is expected to be satisfied only once by the elements of the given {@code Iterable}.
+   * @return this assertion object.
+   * @throws NullPointerException if the given requirements are {@code null}.
+   * @throws AssertionError if the requirements are not satisfied only once
+   * @since 3.24.0
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> satisfiesOnlyOnce(Consumer<? super T> requirements) {
+    return satisfiesOnlyOnceForProxy(requirements);
+  }
+
+  /**
+   * Verifies that there is exactly one element of the {@link AtomicReferenceArray} under test that satisfies the {@link ThrowingConsumer}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> AtomicReferenceArray&lt;String&gt; starWarsCharacterNames = new AtomicReferenceArray&lt;&gt;(new String[] {"Luke", "Leia", "Yoda"});
+   *
+   * // these assertions succeed:
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Y")) // matches only "Yoda"
+   *                                   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Lu")) // matches only "Luke"
+   *                                   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Le")); // matches only "Leia"
+   *
+   * // this assertion fails because the requirements are satisfied two times
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("a")); // matches "Leia" and "Yoda"
+   *
+   * // this assertion fails because no element contains "Han"
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Han"));</code></pre>
+   *
+   * @param requirements the {@link ThrowingConsumer} that is expected to be satisfied only once by the elements of the given {@code Iterable}.
+   * @return this assertion object.
+   * @throws NullPointerException if the given requirements are {@code null}.
+   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
+   * @throws AssertionError if the requirements are not satisfied only once
+   * @since 3.24.0
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> satisfiesOnlyOnce(ThrowingConsumer<? super T> requirements) {
+    return satisfiesOnlyOnceForProxy(requirements);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected AtomicReferenceArrayAssert<T> satisfiesOnlyOnceForProxy(Consumer<? super T> requirements) {
+    iterables.assertSatisfiesOnlyOnce(info, newArrayList(array), requirements);
     return myself;
   }
 

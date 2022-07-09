@@ -21,11 +21,13 @@ import java.util.Date;
 import org.assertj.core.api.AssumptionExceptionFactory;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.core.test.MutatesGlobalConfiguration;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.Introspection;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
+@MutatesGlobalConfiguration
 class Configuration_apply_Test {
 
   @Test

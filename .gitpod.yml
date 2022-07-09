@@ -1,3 +1,5 @@
+image: gitpod/workspace-java-17
+
 tasks:
   - before: sdk install mvnd
     init: mvnd verify license:format -DskipTests=true

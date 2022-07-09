@@ -33,13 +33,13 @@ import java.util.stream.Stream;
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.AtPrecisionComparator;
-import org.assertj.core.internal.CaseInsensitiveStringComparator;
 import org.assertj.core.internal.objects.data.Address;
 import org.assertj.core.internal.objects.data.AlwaysEqualPerson;
 import org.assertj.core.internal.objects.data.Giant;
 import org.assertj.core.internal.objects.data.Person;
 import org.assertj.core.test.AlwaysDifferentComparator;
 import org.assertj.core.test.AlwaysEqualComparator;
+import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.assertj.core.test.Patient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -105,7 +105,7 @@ class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
     person6.neighbour = new Person("Jim");
     person6.neighbour.home.address.number = 456;
 
-    MapEntry<Class<?>, Comparator<?>> stringComparator = entry(String.class, CaseInsensitiveStringComparator.instance);
+    MapEntry<Class<?>, Comparator<?>> stringComparator = entry(String.class, CaseInsensitiveStringComparator.INSTANCE);
     MapEntry<Class<?>, Comparator<?>> intComparator = entry(Integer.class, new AlwaysEqualComparator<Integer>());
     MapEntry<Class<?>, Comparator<?>> personComparator = entry(Person.class, new AlwaysEqualComparator<Person>());
     return Stream.of(arguments(person1, person2, mapOf(stringComparator, intComparator),

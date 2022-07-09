@@ -19,7 +19,7 @@ import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.util.CaseInsensitiveStringComparator;
+import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -44,7 +44,7 @@ class ShouldNotBeEqual_create_Test {
   void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotBeEqual("Yoda", "Luke",
-                                                   new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+                                                   new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE));
     // WHEN
     String message = factory.create(new TestDescription("Jedi"), new StandardRepresentation());
     // THEN

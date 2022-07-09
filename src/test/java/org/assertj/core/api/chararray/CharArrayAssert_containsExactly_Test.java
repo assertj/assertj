@@ -18,12 +18,10 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.CharArrayAssert;
 import org.assertj.core.api.CharArrayAssertBaseTest;
-import org.assertj.core.util.CaseInsensitiveCharacterComparator;
+import org.assertj.core.test.CaseInsensitiveCharacterComparator;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link org.assertj.core.api.CharArrayAssert#containsExactly(char...)}</code>.
- * 
  * @author Jean-Christophe Gay
  */
 class CharArrayAssert_containsExactly_Test extends CharArrayAssertBaseTest {
@@ -41,7 +39,7 @@ class CharArrayAssert_containsExactly_Test extends CharArrayAssertBaseTest {
   @Test
   void should_honor_the_given_element_comparator() {
     char[] actual = arrayOf('a', 'b');
-    assertThat(actual).usingElementComparator(CaseInsensitiveCharacterComparator.instance)
+    assertThat(actual).usingElementComparator(CaseInsensitiveCharacterComparator.INSTANCE)
                       .containsExactly('a', 'B');
   }
 }

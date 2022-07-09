@@ -23,7 +23,7 @@ import java.util.Collections;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.util.CaseInsensitiveStringComparator;
+import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -37,7 +37,7 @@ import org.junit.jupiter.api.Test;
  */
 class ShouldContainExactlyInAnyOrder_create_Test {
 
-  private static final ComparatorBasedComparisonStrategy CASE_INSENSITIVE_COMPARISON_STRATEGY = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance);
+  private static final ComparatorBasedComparisonStrategy CASE_INSENSITIVE_COMPARISON_STRATEGY = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
 
   @Test
   void should_create_error_message_with_custom_comparison_strategy() {

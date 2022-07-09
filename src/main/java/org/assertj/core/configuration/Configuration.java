@@ -65,6 +65,13 @@ public class Configuration {
   private PreferredAssumptionException preferredAssumptionException;
   
   public Configuration() {
+    setDefaults();
+  }
+
+  /**
+   * Set all configuration settings to their default values again.
+   */
+  public void setDefaults() {
     comparingPrivateFields = ALLOW_COMPARING_PRIVATE_FIELDS;
     extractingPrivateFields = ALLOW_EXTRACTING_PRIVATE_FIELDS;
     bareNamePropertyExtraction = BARE_NAME_PROPERTY_EXTRACTION_ENABLED;

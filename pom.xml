@@ -10,7 +10,7 @@
   </parent>
 
   <artifactId>assertj-core</artifactId>
-  <version>3.23.0-SNAPSHOT</version>
+  <version>3.24.0-SNAPSHOT</version>
   <url>${project.parent.url}#${project.artifactId}</url>
 
   <name>AssertJ fluent assertions</name>
@@ -23,7 +23,7 @@
     <tag>HEAD</tag>
   </scm>
   <issueManagement>
-    <system>github</system>
+    <system>GitHub</system>
     <url>https://github.com/assertj/assertj-core/issues</url>
   </issueManagement>
 
@@ -38,15 +38,15 @@
     </argLine>
     <javadocAdditionalOptions>-html5 --allow-script-in-comments</javadocAdditionalOptions>
     <!-- Dependency versions -->
-    <byte-buddy.version>1.12.10</byte-buddy.version>
+    <byte-buddy.version>1.12.12</byte-buddy.version>
     <hamcrest.version>2.2</hamcrest.version>
     <opentest4j.version>1.2.0</opentest4j.version>
     <!-- Dependency versions overriding -->
     <junit.version>4.13.2</junit.version>
     <junit-jupiter.version>5.8.2</junit-jupiter.version>
-    <mockito.version>4.5.1</mockito.version>
+    <mockito.version>4.6.1</mockito.version>
     <!-- Plugin versions -->
-    <bnd.version>6.2.0</bnd.version>
+    <bnd.version>6.3.1</bnd.version>
     <cdg.pitest.version>0.2.0</cdg.pitest.version>
     <!-- Plugin versions overriding -->
     <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
@@ -165,13 +165,13 @@
     <dependency>
       <groupId>org.eclipse.platform</groupId>
       <artifactId>org.eclipse.osgi</artifactId>
-      <version>3.17.200</version>
+      <version>3.18.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.hibernate.orm</groupId>
       <artifactId>hibernate-core</artifactId>
-      <version>6.0.2.Final</version>
+      <version>6.1.1.Final</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -179,6 +179,12 @@
           <artifactId>jakarta.inject-api</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.junit-pioneer</groupId>
+      <artifactId>junit-pioneer</artifactId>
+      <version>1.7.1</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.junit.platform</groupId>
@@ -215,7 +221,7 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
-      <version>5.3.20</version>
+      <version>5.3.21</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -337,6 +343,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
+          <showDeprecation>true</showDeprecation>
+          <showWarnings>true</showWarnings>
           <release>8</release>
         </configuration>
         <executions>
@@ -364,6 +372,7 @@
             <exclude>org/assertj/core/osgi/**</exclude>
             <exclude>org/assertj/core/internal/objects/Objects_assertHasOnlyFields_Test*</exclude>
           </excludes>
+          <runOrder>random</runOrder>
         </configuration>
       </plugin>
       <plugin>
@@ -517,7 +526,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-invoker-plugin</artifactId>
-        <version>3.2.2</version>
+        <version>3.3.0</version>
         <configuration>
           <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
           <settingsFile>src/it/settings.xml</settingsFile>
@@ -540,12 +549,12 @@
       <plugin>
         <groupId>org.pitest</groupId>
         <artifactId>pitest-maven</artifactId>
-        <version>1.8.0</version>
+        <version>1.9.2</version>
         <dependencies>
           <dependency>
             <groupId>org.pitest</groupId>
             <artifactId>pitest-junit5-plugin</artifactId>
-            <version>0.15</version>
+            <version>1.0.0</version>
           </dependency>
           <dependency>
             <groupId>com.groupcdg</groupId>

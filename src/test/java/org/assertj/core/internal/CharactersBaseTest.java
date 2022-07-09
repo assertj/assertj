@@ -14,7 +14,7 @@ package org.assertj.core.internal;
 
 import static org.mockito.Mockito.spy;
 
-import org.assertj.core.util.CaseInsensitiveCharacterComparator;
+import org.assertj.core.test.CaseInsensitiveCharacterComparator;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
@@ -38,7 +38,7 @@ public class CharactersBaseTest {
     failures = spy(new Failures());
     characters = new Characters();
     characters.failures = failures;
-    caseInsensitiveComparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveCharacterComparator.instance);
+    caseInsensitiveComparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveCharacterComparator.INSTANCE);
     charactersWithCaseInsensitiveComparisonStrategy = new Characters(caseInsensitiveComparisonStrategy);
     charactersWithCaseInsensitiveComparisonStrategy.failures = failures;
   }

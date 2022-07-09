@@ -23,7 +23,7 @@ import static org.assertj.core.util.Lists.list;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
-import org.assertj.core.util.CaseInsensitiveStringComparator;
+import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -69,7 +69,7 @@ class ShouldContainSubsequence_create_Test {
   void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainSubsequence(list("Yoda", "Luke"), array("Yoda", "Leia"), 1,
-                                                           new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+                                                           new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE));
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN

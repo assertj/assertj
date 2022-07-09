@@ -72,7 +72,7 @@ class BDDAssertions_then_Test {
 
   @Test
   void then_Character() {
-    then(new Character('A')).isEqualTo(new Character('A'));
+    then(Character.valueOf('A')).isEqualTo(Character.valueOf('A'));
   }
 
   @Test

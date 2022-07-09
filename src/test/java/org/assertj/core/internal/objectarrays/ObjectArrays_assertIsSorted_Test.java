@@ -106,7 +106,7 @@ class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
   @Test
   void should_fail_if_actual_has_some_not_mutually_comparable_elements() {
     AssertionInfo info = someInfo();
-    Object[] actual = new Object[] { "bar", new Integer(5), "foo" };
+    Object[] actual = new Object[] { "bar", 5, "foo" };
 
     Throwable error = catchThrowable(() -> arrays.assertIsSorted(info, actual));
 
@@ -178,10 +178,11 @@ class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
         shouldHaveComparableElementsAccordingToGivenComparator(actual, comparatorForCustomComparisonStrategy()));
   }
 
+  @SuppressWarnings("UnnecessaryBoxing")
   @Test
   void should_fail_if_actual_has_some_not_mutually_comparable_elements_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    Object[] actual = new Object[] { "bar", new Integer(5), "foo" };
+    Object[] actual = new Object[] { "bar", Integer.valueOf(5), "foo" };
 
     Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertIsSorted(info, actual));
 

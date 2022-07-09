@@ -10,19 +10,24 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.util;
+package org.assertj.core.test;
 
-import java.util.Comparator;
+import static org.assertj.core.api.BDDAssertions.then;
 
-public class CaseInsensitiveStringComparator implements Comparator<String> {
+import org.junit.jupiter.api.Test;
+import org.junitpioneer.jupiter.DefaultLocale;
 
-  public final static CaseInsensitiveStringComparator instance = new CaseInsensitiveStringComparator();
+class CaseInsensitiveCharacterComparatorTest {
 
-  @Override
-  public int compare(String s1, String s2) {
-    if (s1 == null && s2 == null) return 0;
-    if (s1 == null) return -1;
-    if (s2 == null) return 1;
-    return s1.toLowerCase().compareTo(s2.toLowerCase());
+  private final CaseInsensitiveCharacterComparator underTest = new CaseInsensitiveCharacterComparator();
+
+  @Test
+  @DefaultLocale("tr-TR")
+  void should_work_with_Turkish_default_locale() {
+    // WHEN
+    int result = underTest.compare('i', 'I');
+    // THEN
+    then(result).isZero();
   }
+
 }

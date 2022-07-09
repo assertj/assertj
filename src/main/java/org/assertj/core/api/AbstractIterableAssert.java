@@ -3873,6 +3873,30 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public SELF satisfiesOnlyOnce(Consumer<? super ELEMENT> requirements) {
+    return satisfiesOnlyOnceForProxy(requirements);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public SELF satisfiesOnlyOnce(ThrowingConsumer<? super ELEMENT> requirements) {
+    return satisfiesOnlyOnceForProxy(requirements);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF satisfiesOnlyOnceForProxy(Consumer<? super ELEMENT> requirements) {
+    iterables.assertSatisfiesOnlyOnce(info, actual, requirements);
+    return myself;
+  }
+
   // override methods to avoid compilation error when chaining an AbstractAssert method with a AbstractIterableAssert
   // one on raw types.
 

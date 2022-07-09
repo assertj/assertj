@@ -662,7 +662,7 @@ public class Strings {
   }
 
   /**
-   * Verifies that two {@code CharSequence}s are not equal, normalizing newlines.
+   * Verifies that two {@code CharSequence}s are equal, normalizing newlines.
    *
    * @param info contains information about the assertion.
    * @param actual the actual {@code CharSequence} (newlines will be normalized).

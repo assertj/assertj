@@ -57,6 +57,7 @@ import static org.assertj.core.error.ShouldNotContainSequence.shouldNotContainSe
 import static org.assertj.core.error.ShouldNotContainSubsequence.shouldNotContainSubsequence;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.assertj.core.error.ShouldSatisfy.shouldSatisfyExactlyInAnyOrder;
+import static org.assertj.core.error.ShouldSatisfyOnlyOnce.shouldSatisfyOnlyOnce;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.error.ZippedElementsShouldSatisfy.zippedElementsShouldSatisfy;
 import static org.assertj.core.internal.Arrays.assertIsArray;
@@ -1205,6 +1206,16 @@ public class Iterables {
       throw failures.failure(info, shouldSatisfyExactlyInAnyOrder(actual));
   }
 
+  public <E> void assertSatisfiesOnlyOnce(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {
+    assertNotNull(info, actual);
+    requireNonNull(requirements, "The Consumer<? super E> expressing the requirements must not be null");
+    List<? extends E> satisfiedElements = stream(actual).filter(byPassingAssertions(requirements))
+                                                        .collect(toList());
+    if (satisfiedElements.size() != 1) {
+      throw failures.failure(info, shouldSatisfyOnlyOnce(actual, satisfiedElements));
+    }
+  }
+
   @SafeVarargs
   private static <E> Deque<ElementsSatisfyingConsumer<E>> satisfiedElementsPerConsumer(Iterable<? extends E> actual,
                                                                                        Consumer<? super E>... consumers) {
@@ -1387,7 +1398,7 @@ public class Iterables {
   }
 
   private <E> List<E> satisfiesCondition(Iterable<? extends E> actual, Condition<? super E> condition) {
-    return stream(actual).filter(o -> condition.matches(o)).collect(toList());
+    return stream(actual).filter(condition::matches).collect(toList());
   }
 
   public static <T> Predicate<T> byPassingAssertions(Consumer<? super T> assertions) {

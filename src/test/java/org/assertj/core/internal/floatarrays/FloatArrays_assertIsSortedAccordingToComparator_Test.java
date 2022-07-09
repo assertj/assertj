@@ -46,7 +46,7 @@ class FloatArrays_assertIsSortedAccordingToComparator_Test extends FloatArraysBa
     super.setUp();
     actual = new float[] { 4.0f, 3.0f, 2.0f, 2.0f, 1.0f };
     floatDescendingOrderComparator = (float1, float2) -> -float1.compareTo(float2);
-    floatSquareComparator = (float1, float2) -> new Float(float1 * float1).compareTo(new Float(float2 * float2));
+    floatSquareComparator = Comparator.comparing(aFloat -> aFloat * aFloat);
   }
 
   @Test

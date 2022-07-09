@@ -24,7 +24,7 @@ import static org.assertj.core.util.Lists.list;
 import java.util.Objects;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.util.CaseInsensitiveStringComparator;
+import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
@@ -37,7 +37,7 @@ class ShouldBeEqual_Test {
     String actual = "Luke";
     String expected = "Yoda";
     ThrowingCallable code = () -> then(actual).as("Jedi")
-                                              .usingComparator(CaseInsensitiveStringComparator.instance)
+                                              .usingComparator(CaseInsensitiveStringComparator.INSTANCE)
                                               .isEqualTo(expected);
     // WHEN
     AssertionFailedError error = catchThrowableOfType(code, AssertionFailedError.class);

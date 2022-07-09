@@ -24,10 +24,12 @@ import org.assertj.core.api.AbstractSoftAssertions;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ListAssert;
 import org.assertj.core.api.ObjectAssert;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class CustomSoftAssertionTest {
 
+  @Disabled("This currently fails when running within IntelliJ IDEA")
   @Test
   void verify_classloaders() {
     // GIVEN

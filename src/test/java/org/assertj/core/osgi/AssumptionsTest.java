@@ -18,13 +18,18 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 
+import org.assertj.core.api.Assumptions;
+import org.assertj.core.configuration.PreferredAssumptionException;
+import org.assertj.core.test.MutatesGlobalConfiguration;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.TestAbortedException;
 
+@MutatesGlobalConfiguration
 class AssumptionsTest {
 
   @Test
   void should_ignore_test_when_one_of_the_assumption_fails() {
+    Assumptions.setPreferredAssumptionException(PreferredAssumptionException.JUNIT5);
     assumeThat("foo").isNotEmpty();
     assertThatThrownBy(() -> assumeThat("bar").isEmpty()).isInstanceOf(TestAbortedException.class);
   }

@@ -19,7 +19,7 @@ import static org.mockito.Mockito.spy;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.CaseInsensitiveStringComparator;
+import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
@@ -50,7 +50,7 @@ public class IterablesBaseTest {
     failures = spy(new Failures());
     iterables = new Iterables();
     iterables.failures = failures;
-    comparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance);
+    comparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
     iterablesWithCaseInsensitiveComparisonStrategy = new Iterables(comparisonStrategy);
     iterablesWithCaseInsensitiveComparisonStrategy.failures = failures;
     info = someInfo();

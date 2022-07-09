@@ -18,7 +18,7 @@ import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.Strings;
-import org.assertj.core.util.CaseInsensitiveCharSequenceComparator;
+import org.assertj.core.test.CaseInsensitiveCharSequenceComparator;
 
 /**
  * Tests for <code>{@link CharSequenceAssert#usingDefaultComparator()}</code>.
@@ -29,7 +29,7 @@ class CharSequenceAssert_usingDefaultComparator_Test extends CharSequenceAssertB
 
   @Override
   protected CharSequenceAssert invoke_api_method() {
-    return assertions.usingComparator(CaseInsensitiveCharSequenceComparator.instance)
+    return assertions.usingComparator(CaseInsensitiveCharSequenceComparator.INSTANCE)
                      .usingDefaultComparator();
   }
 

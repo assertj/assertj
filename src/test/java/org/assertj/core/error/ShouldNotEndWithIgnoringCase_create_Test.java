@@ -20,7 +20,7 @@ import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.util.CaseInsensitiveStringComparator;
+import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 class ShouldNotEndWithIgnoringCase_create_Test {
@@ -44,7 +44,7 @@ class ShouldNotEndWithIgnoringCase_create_Test {
   void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotEndWithIgnoringCase("Gandalf the grey", "GREY",
-                                                               new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+                                                               new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN

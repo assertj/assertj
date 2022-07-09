@@ -1388,7 +1388,7 @@ class BDDAssumptionsTest {
   class BDDAssumptions_given_Duration_Test {
     @Test
     void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(Duration.ofHours(1)).isNotNull().isPositive());
+      thenCode(() -> given(Duration.ofHours(1)).isNotNull().isPositive()).doesNotThrowAnyException();
     }
 
     @Test

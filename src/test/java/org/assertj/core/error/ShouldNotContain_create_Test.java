@@ -29,7 +29,7 @@ import java.util.List;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.util.CaseInsensitiveStringComparator;
+import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -66,7 +66,7 @@ class ShouldNotContain_create_Test {
     ErrorMessageFactory factory = shouldNotContain(list("Yoda"),
                                                    list("Luke", "Yoda"),
                                                    newLinkedHashSet("Yoda"),
-                                                   new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+                                                   new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN

@@ -26,7 +26,7 @@ import static org.mockito.internal.util.collections.Sets.newSet;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
-import org.assertj.core.util.CaseInsensitiveStringComparator;
+import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -56,7 +56,7 @@ class ShouldContainCharSequence_create_Test {
   void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldContain("Yoda", "Luke",
-                                                new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+                                                new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE));
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
@@ -85,7 +85,7 @@ class ShouldContainCharSequence_create_Test {
   void should_create_error_message_with_custom_comparison_strategy_when_ignoring_whitespaces() {
     // GIVEN
     ErrorMessageFactory factory = shouldContainIgnoringWhitespaces("Yoda", "Luke",
-                                                                   new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+                                                                   new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE));
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
@@ -150,7 +150,7 @@ class ShouldContainCharSequence_create_Test {
   void should_create_error_message_with_custom_comparison_strategy_when_ignoring_new_lines() {
     // GIVEN
     final ErrorMessageFactory factory = containsIgnoringNewLines("Yoda", array("Yoda", "Luke"), set("Luke"),
-                                                                 new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+                                                                 new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE));
     // WHEN
     final String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN

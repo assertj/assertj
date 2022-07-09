@@ -22,8 +22,8 @@ import static org.assertj.core.util.ThrowingConsumerFactory.throwingConsumer;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ThrowingConsumer;
+import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.assertj.core.test.Employee;
-import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 class ObjectArrayAssert_filteredOnAssertions_ThrowingConsumer_Test extends ObjectArrayAssert_filtered_baseTest {
@@ -76,7 +76,7 @@ class ObjectArrayAssert_filteredOnAssertions_ThrowingConsumer_Test extends Objec
     ObjectArrayAssert<String> assertion = assertThat(names).as("test description")
                                                            .withFailMessage("error message")
                                                            .withRepresentation(UNICODE_REPRESENTATION)
-                                                           .usingElementComparator(CaseInsensitiveStringComparator.instance)
+                                                           .usingElementComparator(CaseInsensitiveStringComparator.INSTANCE)
                                                            .filteredOnAssertions(fourCharsWord)
                                                            .containsExactly("JOHN", "JANE");
     // THEN

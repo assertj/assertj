@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.util;
+package org.assertj.core.test;
 
 import java.util.Comparator;
 
@@ -19,11 +19,11 @@ import java.util.Comparator;
  */
 public class CaseInsensitiveCharSequenceComparator implements Comparator<CharSequence> {
 
-  public final static CaseInsensitiveCharSequenceComparator instance = new CaseInsensitiveCharSequenceComparator();
+  public static final CaseInsensitiveCharSequenceComparator INSTANCE = new CaseInsensitiveCharSequenceComparator();
 
   @Override
   public int compare(CharSequence s1, CharSequence s2) {
-
-    return CaseInsensitiveStringComparator.instance.compare(s1.toString(), s2.toString());
+    return CaseInsensitiveStringComparator.INSTANCE.compare(s1.toString(), s2.toString());
   }
+
 }

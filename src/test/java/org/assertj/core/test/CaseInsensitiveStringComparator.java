@@ -10,16 +10,20 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.util;
+package org.assertj.core.test;
 
 import java.util.Comparator;
 
-public class CaseInsensitiveCharacterComparator implements Comparator<Character> {
+public class CaseInsensitiveStringComparator implements Comparator<String> {
 
-  public final static CaseInsensitiveCharacterComparator instance = new CaseInsensitiveCharacterComparator();
+  public static final CaseInsensitiveStringComparator INSTANCE = new CaseInsensitiveStringComparator();
 
   @Override
-  public int compare(Character c1, Character c2) {
-    return c1.toString().toLowerCase().compareTo(c2.toString().toLowerCase());
+  public int compare(String s1, String s2) {
+    if (s1 == null && s2 == null) return 0;
+    if (s1 == null) return -1;
+    if (s2 == null) return 1;
+    return s1.compareToIgnoreCase(s2);
   }
+
 }
