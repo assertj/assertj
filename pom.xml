@@ -38,7 +38,7 @@
     </argLine>
     <javadocAdditionalOptions>-html5 --allow-script-in-comments</javadocAdditionalOptions>
     <!-- Dependency versions -->
-    <byte-buddy.version>1.12.11</byte-buddy.version>
+    <byte-buddy.version>1.12.12</byte-buddy.version>
     <hamcrest.version>2.2</hamcrest.version>
     <opentest4j.version>1.2.0</opentest4j.version>
     <!-- Dependency versions overriding -->
@@ -171,7 +171,7 @@
     <dependency>
       <groupId>org.hibernate.orm</groupId>
       <artifactId>hibernate-core</artifactId>
-      <version>6.1.0.Final</version>
+      <version>6.1.1.Final</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -549,7 +549,7 @@
       <plugin>
         <groupId>org.pitest</groupId>
         <artifactId>pitest-maven</artifactId>
-        <version>1.9.0</version>
+        <version>1.9.2</version>
         <dependencies>
           <dependency>
             <groupId>org.pitest</groupId>

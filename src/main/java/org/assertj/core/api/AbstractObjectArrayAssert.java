@@ -91,7 +91,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
  */
 // suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports
 // IntelliJ thinks this is redundant when it is not.
-@SuppressWarnings({"deprecation", "RedundantSuppression"})
+@SuppressWarnings({ "deprecation", "RedundantSuppression" })
 public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArrayAssert<SELF, ELEMENT>, ELEMENT> extends
     AbstractAssert<SELF, ELEMENT[]>
     implements IndexedObjectEnumerableAssert<AbstractObjectArrayAssert<SELF, ELEMENT>, ELEMENT>,
@@ -3743,6 +3743,71 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   // in order to avoid compiler warning in user code
   protected SELF satisfiesExactlyInAnyOrderForProxy(Consumer<? super ELEMENT>[] requirements) {
     iterables.assertSatisfiesExactlyInAnyOrder(info, newArrayList(actual), requirements);
+    return myself;
+  }
+
+  /**
+   * Verifies that there is exactly one element of the array under test that satisfies the {@link Consumer}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> String[] starWarsCharacterNames = {"Luke", "Leia", "Yoda"};
+   *
+   * // these assertions succeed:
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Y")) // matches only "Yoda"
+   *                                   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Lu")) // matches only "Luke"
+   *                                   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Le")); // matches only "Leia"
+   *
+   * // this assertion fails because the requirements are satisfied two times
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("a")); // matches "Leia" and "Yoda"
+   *
+   * // this assertion fails because no element contains "Han"
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Han"));</code></pre>
+   *
+   * @param requirements the {@link Consumer} that is expected to be satisfied only once by the elements of the given {@code Iterable}.
+   * @return this assertion object.
+   * @throws NullPointerException if the given requirements are {@code null}.
+   * @throws AssertionError if the requirements are not satisfied only once
+   * @since 3.24.0
+   */
+  @Override
+  public SELF satisfiesOnlyOnce(Consumer<? super ELEMENT> requirements) {
+    return satisfiesOnlyOnceForProxy(requirements);
+  }
+
+  /**
+   * Verifies that there is exactly one element of the array under test that satisfies the {@link ThrowingConsumer}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> String[] starWarsCharacterNames = {"Luke", "Leia", "Yoda"};
+   *
+   * // these assertions succeed:
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Y")) // matches only "Yoda"
+   *                                   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Lu")) // matches only "Luke"
+   *                                   .satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Le")); // matches only "Leia"
+   *
+   * // this assertion fails because the requirements are satisfied two times
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("a")); // matches "Leia" and "Yoda"
+   *
+   * // this assertion fails because no element contains "Han"
+   * assertThat(starWarsCharacterNames).satisfiesOnlyOnce(name -&gt; assertThat(name).contains("Han"));</code></pre>
+   *
+   * @param requirements the {@link ThrowingConsumer} that is expected to be satisfied only once by the elements of the given {@code Iterable}.
+   * @return this assertion object.
+   * @throws NullPointerException if the given requirements are {@code null}.
+   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
+   * @throws AssertionError if the requirements are not satisfied only once
+   * @since 3.24.0
+   */
+  @Override
+  public SELF satisfiesOnlyOnce(ThrowingConsumer<? super ELEMENT> requirements) {
+    return satisfiesOnlyOnceForProxy(requirements);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF satisfiesOnlyOnceForProxy(Consumer<? super ELEMENT> requirements) {
+    iterables.assertSatisfiesOnlyOnce(info, newArrayList(actual), requirements);
     return myself;
   }
 

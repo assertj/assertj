@@ -18,6 +18,7 @@ import static org.assertj.core.error.ShouldNotStartWithIgnoringCase.shouldNotSta
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
+import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
@@ -25,8 +26,10 @@ import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.assertj.core.util.StringHashCodeTestComparator;
 import org.junit.jupiter.api.Test;
-import org.junitpioneer.jupiter.DefaultLocale;
 
+/**
+ * Tests for <code>{@link Strings#assertDoesNotStartWithIgnoringCase(AssertionInfo, CharSequence, CharSequence)}</code>.
+ */
 class Strings_assertDoesNotStartWithIgnoringCase_Test extends StringsBaseTest {
 
   @Test
@@ -39,7 +42,7 @@ class Strings_assertDoesNotStartWithIgnoringCase_Test extends StringsBaseTest {
   void should_fail_if_actual_starts_with_prefix() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> strings.assertDoesNotStartWithIgnoringCase(INFO, "Yoda", "yo"));
-    // THEN
+    //THEN
     then(assertionError).hasMessage(shouldNotStartWithIgnoringCase("Yoda", "yo", StandardComparisonStrategy.instance()).create());
   }
 
@@ -73,17 +76,6 @@ class Strings_assertDoesNotStartWithIgnoringCase_Test extends StringsBaseTest {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> strings.assertDoesNotStartWithIgnoringCase(INFO, "Yoda", "yODA"));
     // THEN
-    then(assertionError).hasMessageContainingAll(shouldNotStartWithIgnoringCase("Yoda", "yODA",
-                                                                                hashCodeComparisonStrategy).create());
+    then(assertionError).hasMessageContainingAll(shouldNotStartWithIgnoringCase("Yoda", "yODA", hashCodeComparisonStrategy).create());
   }
-
-  @Test
-  @DefaultLocale("tr-TR")
-  void should_fail_with_Turkish_default_locale() {
-    // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertDoesNotStartWithIgnoringCase(INFO, "Leia", "LEI"));
-    // THEN
-    then(assertionError).hasMessage(shouldNotStartWithIgnoringCase("Leia", "LEI", StandardComparisonStrategy.instance()).create());
-  }
-
 }
