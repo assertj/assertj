@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.RecursiveComparisonAssert;
+import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.assertj.core.util.Strings;
 
 public abstract class AbstractRecursiveOperationConfiguration {

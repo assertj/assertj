@@ -13,13 +13,13 @@
 package org.assertj.core.api.recursive.assertion;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.recursive.FieldLocation.rootFieldLocation;
+import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
 import static org.mockito.Mockito.verifyNoInteractions;
 
 import java.util.List;
 import java.util.Optional;
 
-import org.assertj.core.api.recursive.FieldLocation;
+import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.junit.jupiter.api.Test;
 
 class RecursiveAssertionDriver_AssertionApplicationTest extends AbstractRecursiveAssertionDriverTestBase {

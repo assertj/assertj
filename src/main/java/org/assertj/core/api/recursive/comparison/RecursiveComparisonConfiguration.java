@@ -36,7 +36,6 @@ import java.util.stream.Stream;
 
 import org.assertj.core.api.RecursiveComparisonAssert;
 import org.assertj.core.api.recursive.AbstractRecursiveOperationConfiguration;
-import org.assertj.core.api.recursive.FieldLocation;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.internal.TypeMessages;
@@ -1186,6 +1185,21 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     public Builder withErrorMessageForType(String message, Class<?> type) {
       this.typeMessages.registerMessage(type, message);
       return this;
+    }
+
+    @Override
+    public Builder withIgnoredFields(String... fieldsToIgnore) {
+      return super.withIgnoredFields(fieldsToIgnore);
+    }
+
+    @Override
+    public Builder withIgnoredFieldsMatchingRegexes(String... regexes) {
+      return super.withIgnoredFieldsMatchingRegexes(regexes);
+    }
+
+    @Override
+    public Builder withIgnoredFieldsOfTypes(Class<?>... types) {
+      return super.withIgnoredFieldsOfTypes(types);
     }
 
     public RecursiveComparisonConfiguration build() {

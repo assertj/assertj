@@ -15,11 +15,11 @@ package org.assertj.core.api.recursive.assertion;
 import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.recursive.FieldLocation.rootFieldLocation;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.CollectionAssertionPolicy.COLLECTION_OBJECT_ONLY;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.MapAssertionPolicy.MAP_OBJECT_AND_ENTRIES;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.MapAssertionPolicy.MAP_OBJECT_ONLY;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.OptionalAssertionPolicy.OPTIONAL_OBJECT_ONLY;
+import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
 import static org.assertj.core.internal.Objects.getFieldsNames;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newHashSet;
@@ -38,7 +38,7 @@ import java.util.OptionalLong;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import org.assertj.core.api.recursive.FieldLocation;
+import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.assertj.core.util.Arrays;
 
 public class RecursiveAssertionDriver {

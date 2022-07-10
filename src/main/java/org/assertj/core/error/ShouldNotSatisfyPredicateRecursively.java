@@ -17,8 +17,8 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 
-import org.assertj.core.api.recursive.FieldLocation;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
+import org.assertj.core.api.recursive.comparison.FieldLocation;
 
 public class ShouldNotSatisfyPredicateRecursively extends BasicErrorMessageFactory {
 

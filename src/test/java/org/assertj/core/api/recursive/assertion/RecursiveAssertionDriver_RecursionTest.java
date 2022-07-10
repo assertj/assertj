@@ -14,13 +14,13 @@ package org.assertj.core.api.recursive.assertion;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenNoException;
-import static org.assertj.core.api.recursive.FieldLocation.rootFieldLocation;
+import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 
-import org.assertj.core.api.recursive.FieldLocation;
+import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.junit.jupiter.api.Test;
 
 class RecursiveAssertionDriver_RecursionTest extends AbstractRecursiveAssertionDriverTestBase {

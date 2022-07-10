@@ -15,6 +15,7 @@ package org.assertj.core.api.recursive;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.list;
 
+import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.junit.jupiter.api.Test;
 
 class FieldLocation_field_Test {

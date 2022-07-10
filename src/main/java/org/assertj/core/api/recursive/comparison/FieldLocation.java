@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.api.recursive;
+package org.assertj.core.api.recursive.comparison;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;

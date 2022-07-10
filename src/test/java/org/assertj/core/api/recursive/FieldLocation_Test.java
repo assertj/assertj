@@ -18,6 +18,7 @@ import static org.assertj.core.util.Lists.list;
 import java.util.Collections;
 import java.util.List;
 
+import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.junit.jupiter.api.Test;
 
 import nl.jqno.equalsverifier.EqualsVerifier;

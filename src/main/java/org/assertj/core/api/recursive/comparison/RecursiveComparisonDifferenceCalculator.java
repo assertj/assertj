@@ -15,9 +15,9 @@ package org.assertj.core.api.recursive.comparison;
 import static java.lang.String.format;
 import static java.util.Objects.deepEquals;
 import static java.util.stream.Collectors.joining;
-import static org.assertj.core.api.recursive.FieldLocation.rootFieldLocation;
 import static org.assertj.core.api.recursive.comparison.ComparisonDifference.rootComparisonDifference;
 import static org.assertj.core.api.recursive.comparison.DualValue.DEFAULT_ORDERED_COLLECTION_TYPES;
+import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
 import static org.assertj.core.internal.Objects.getFieldsNames;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.IterableUtil.toCollection;
@@ -47,7 +47,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.recursive.FieldLocation;
 import org.assertj.core.internal.DeepDifference;
 
 /**

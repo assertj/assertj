@@ -24,7 +24,7 @@ import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.recursive.FieldLocation;
+import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 

@@ -20,8 +20,8 @@ import static org.assertj.core.util.Lists.list;
 
 import java.util.List;
 
-import org.assertj.core.api.recursive.FieldLocation;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
+import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 

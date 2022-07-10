@@ -19,9 +19,9 @@ import java.util.Objects;
 import java.util.function.Predicate;
 
 import org.assertj.core.annotations.Beta;
-import org.assertj.core.api.recursive.FieldLocation;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionDriver;
+import org.assertj.core.api.recursive.comparison.FieldLocation;
 
 /**
  * <p>An assertion that supports asserting a {@link Predicate} over all the fields of an object graph. Cycle avoidance is used,
