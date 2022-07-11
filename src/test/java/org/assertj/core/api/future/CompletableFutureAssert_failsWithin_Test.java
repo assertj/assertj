@@ -62,7 +62,8 @@ class CompletableFutureAssert_failsWithin_Test extends AbstractFutureTest {
     CompletableFuture<Void> future = futureCompletingAfter(ONE_SECOND, executorService);
     // WHEN/THEN
     assertThat(future).failsWithin(50, MILLISECONDS)
-                      .withThrowableOfType(TimeoutException.class)
+                      .withThrowableThat()
+                      .isInstanceOf(TimeoutException.class)
                       .withMessage(null);
   }
 
@@ -107,7 +108,8 @@ class CompletableFutureAssert_failsWithin_Test extends AbstractFutureTest {
                 .withThrowableOfType(ExecutionException.class)
                 .withMessageContaining("boom!");
     then(future).failsWithin(Duration.ofMillis(1))
-                .withThrowableOfType(ExecutionException.class)
+                .withThrowableThat()
+                .isInstanceOf(ExecutionException.class)
                 .withMessageContaining("boom!");
   }
 
