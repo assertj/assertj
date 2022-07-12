@@ -955,6 +955,12 @@ class WithAssertions_delegation_Test implements WithAssertions {
   }
 
   @Test
+  void withAssertions_assertThat_class_loader_Test() {
+    // FIXME replace with class loader specific assertion
+    assertThat(WithAssertions.class.getClassLoader()).isSameAs(WithAssertions.class.getClassLoader());
+  }
+
+  @Test
   void withAssertions_from_function_Test() {
     // GIVEN
     Function<?, ?> extractor = mock(Function.class);
@@ -967,6 +973,7 @@ class WithAssertions_delegation_Test implements WithAssertions {
   @Test
   void withAssertions_as_instanceOfAssertFactory_Test() {
     // GIVEN
+    @SuppressWarnings("unchecked")
     InstanceOfAssertFactory<?, AbstractAssert<?, ?>> assertFactory = mock(InstanceOfAssertFactory.class);
     // WHEN
     InstanceOfAssertFactory<?, AbstractAssert<?, ?>> result = as(assertFactory);

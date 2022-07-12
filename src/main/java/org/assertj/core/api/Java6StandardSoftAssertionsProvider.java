@@ -199,14 +199,23 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
 
   /**
    * Creates a new instance of <code>{@link ClassAssert}</code>
-   * <p>
-   * We don't return {@link ClassAssert} as it has overridden methods to annotated with {@link SafeVarargs}.
    *
    * @param actual the actual value.
    * @return the created assertion object.
    */
   default ClassAssert assertThat(Class<?> actual) {
     return proxy(ClassAssert.class, Class.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ClassLoaderAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.24.0
+   */
+  default AbstractClassLoaderAssert<?> assertThat(ClassLoader actual) {
+    return proxy(ClassLoaderAssert.class, ClassLoader.class, actual);
   }
 
   /**
@@ -585,8 +594,6 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
 
   /**
    * Creates a new instance of <code>{@link MapAssert}</code>.
-   * <p>
-   * We don't return {@link MapAssert} as it has overridden methods to annotated with {@link SafeVarargs}.
    *
    * @param <K> the type of keys in the map.
    * @param <V> the type of values in the map.

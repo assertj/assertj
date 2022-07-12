@@ -47,4 +47,5 @@ public class AssertionsUtil {
   public static Charset getDifferentCharsetFrom(Charset charset) {
     return charset.equals(UTF_8) ? UTF_16 : UTF_8;
   }
+
 }

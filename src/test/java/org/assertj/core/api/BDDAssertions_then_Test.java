@@ -91,6 +91,11 @@ class BDDAssertions_then_Test {
   }
 
   @Test
+  void then_ClassLoader_succeeds() {
+    then("Foo".getClass().getClassLoader()).isEqualTo(String.class.getClassLoader());
+  }
+
+  @Test
   void should_delegate_to_assert_comparable() {
 
     class IntBox implements Comparable<IntBox> {

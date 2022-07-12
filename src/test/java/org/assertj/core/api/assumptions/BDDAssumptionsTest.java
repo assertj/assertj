@@ -547,6 +547,23 @@ class BDDAssumptionsTest {
   }
 
   @Nested
+  class BDDAssumptions_given_ClassLoader_Test {
+    private final ClassLoader actual = mock(ClassLoader.class);
+
+    @Test
+    void should_run_test_when_assumption_passes() {
+      // FIXME replace with class loader specific assertion
+      thenCode(() -> given(actual).isNotNull()).doesNotThrowAnyException();
+    }
+
+    @Test
+    void should_ignore_test_when_assumption_fails() {
+      // FIXME replace with class loader specific assertion
+      expectAssumptionNotMetException(() -> given(actual).isNotSameAs(actual));
+    }
+  }
+
+  @Nested
   class BDDAssumptions_given_generics_Test {
     private class Yoda {
       private int field = 1;
