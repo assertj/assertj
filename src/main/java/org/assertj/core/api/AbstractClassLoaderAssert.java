@@ -19,11 +19,13 @@ package org.assertj.core.api;
  *               href="http://bit.ly/1IZIRcY" target="_blank">Emulating 'self types' using Java
  *               Generics to simplify fluent API implementation</a>&quot; for more details.
  * @author Ashley Scopes
+ * @since 3.24.0
  */
 public abstract class AbstractClassLoaderAssert<SELF extends AbstractClassLoaderAssert<SELF>>
-  extends AbstractAssert<SELF, ClassLoader> {
+    extends AbstractAssert<SELF, ClassLoader> {
 
-  protected AbstractClassLoaderAssert(ClassLoader aClassLoader, Class<?> selfType) {
-    super(aClassLoader, selfType);
+  protected AbstractClassLoaderAssert(ClassLoader classLoader, Class<?> selfType) {
+    super(classLoader, selfType);
   }
+
 }

@@ -43,6 +43,7 @@ import java.util.Spliterator;
 import java.util.concurrent.Future;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.Assumptions;
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.test.ComparableExample;
@@ -151,6 +152,19 @@ class Assumptions_assumeThat_with_various_types_Test {
           @Override
           public void runPassingAssumption() {
             assumeThat(actual).isInterface();
+          }
+        },
+        new AssumptionRunner<ClassLoader>(Assumptions.class.getClassLoader()) {
+          @Override
+          public void runFailingAssumption() {
+            // FIXME replace with class loader specific assertion
+            assumeThat(actual).isNotSameAs(Assumptions.class.getClassLoader());
+          }
+
+          @Override
+          public void runPassingAssumption() {
+            // FIXME replace with class loader specific assertion
+            assumeThat(actual).isSameAs(Assumptions.class.getClassLoader());
           }
         },
         new AssumptionRunner<Date>(new Date()) {

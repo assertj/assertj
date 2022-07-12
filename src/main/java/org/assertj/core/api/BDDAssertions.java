@@ -462,6 +462,7 @@ public class BDDAssertions extends Assertions {
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 3.24.0
    */
   public static AbstractClassLoaderAssert<?> then(ClassLoader actual) {
     return assertThat(actual);

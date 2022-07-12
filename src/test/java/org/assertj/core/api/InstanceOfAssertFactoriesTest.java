@@ -464,20 +464,13 @@ class InstanceOfAssertFactoriesTest {
 
   @Test
   void class_loader_factory_should_allow_class_loader_assertions() {
-    // We create a dummy class here as the bootstrap classloader if used will give a null value
-    // for some JVM implementations. This rules out JRE classes in this specific test.
-    class SomeRandomClass {
-    }
-
-    class AnotherRandomClass {
-    }
-
     // GIVEN
-    Object value = SomeRandomClass.class.getClassLoader();
+    Object value = Assertions.class.getClassLoader();
     // WHEN
     AbstractClassLoaderAssert<?> result = assertThat(value).asInstanceOf(CLASS_LOADER);
     // THEN
-    result.isSameAs(AnotherRandomClass.class.getClassLoader());
+    // FIXME replace with class loader specific assertion
+    result.isSameAs(Assertions.class.getClassLoader());
   }
 
   @Test

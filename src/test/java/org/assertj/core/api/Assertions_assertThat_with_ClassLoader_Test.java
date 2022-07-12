@@ -13,43 +13,32 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.withSettings;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Assertions#assertThat(ClassLoader)}</code>.
- *
  * @author Ashley Scopes
  */
 class Assertions_assertThat_with_ClassLoader_Test {
 
-  private ClassLoader actual;
-
-  @BeforeEach
-  void before() {
-    actual = mock(ClassLoader.class, withSettings().stubOnly());
-  }
+  private final ClassLoader actual = mock(ClassLoader.class);
 
   @Test
   void should_create_Assert() {
-    AbstractClassLoaderAssert<?> assertions = Assertions.assertThat(actual);
-    assertThat(assertions).isNotNull();
+    // WHEN
+    AbstractClassLoaderAssert<?> assertions = assertThat(actual);
+    // THEN
+    then(assertions).isNotNull();
   }
 
   @Test
   void should_pass_actual() {
-    AbstractClassLoaderAssert<?> assertions = Assertions.assertThat(actual);
-    assertThat(actual).isSameAs(assertions.actual);
+    // WHEN
+    AbstractClassLoaderAssert<?> assertions = assertThat(actual);
+    // THEN
+    then(assertions).extracting("actual").isSameAs(actual);
   }
 
-  @SuppressWarnings("ThrowableNotThrown")
-  @Test
-  void should_propagate_failure() {
-    AbstractClassLoaderAssert<?> assertions = Assertions.assertThat(actual);
-    expectAssertionError(() -> assertThat(actual).isNotSameAs(assertions.actual));
-  }
 }

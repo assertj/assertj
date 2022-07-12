@@ -17,6 +17,7 @@ import static java.nio.charset.StandardCharsets.UTF_16;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 
 import java.nio.charset.Charset;
@@ -39,13 +40,12 @@ public class AssertionsUtil {
     return assertThatExceptionOfType(AssertionError.class).isThrownBy(shouldRaiseAssertionError);
   }
 
-  public static AssumptionViolatedException expectAssumptionNotMetException(ThrowingCallable shouldRaiseError) {
-    AssumptionViolatedException error = catchThrowableOfType(shouldRaiseError, AssumptionViolatedException.class);
-    assertThat(error).as("The code under test should have raised an AssumptionViolatedException").isNotNull();
-    return error;
+  public static void expectAssumptionNotMetException(ThrowingCallable shouldRaiseError) {
+    assertThatThrownBy(shouldRaiseError).isInstanceOf(AssumptionViolatedException.class);
   }
 
   public static Charset getDifferentCharsetFrom(Charset charset) {
     return charset.equals(UTF_8) ? UTF_16 : UTF_8;
   }
+
 }

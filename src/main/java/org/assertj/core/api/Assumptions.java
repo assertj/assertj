@@ -756,6 +756,7 @@ public class Assumptions {
    *
    * @param actual the actual value.
    * @return the created assumption for assertion object.
+   * @since 3.24.0
    */
   public static AbstractClassLoaderAssert<?> assumeThat(ClassLoader actual) {
     return asAssumption(ClassLoaderAssert.class, ClassLoader.class, actual);

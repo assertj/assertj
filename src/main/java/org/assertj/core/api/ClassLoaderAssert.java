@@ -19,6 +19,7 @@ package org.assertj.core.api;
  * <code>{@link Assertions#assertThat(ClassLoader)}</code></p>
  *
  * @author Ashley Scopes
+ * @since 3.24.0
  */
 public class ClassLoaderAssert extends AbstractClassLoaderAssert<ClassLoaderAssert> {
 

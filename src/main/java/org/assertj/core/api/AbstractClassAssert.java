@@ -95,7 +95,6 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   private void assertIsAssignableTo(Class<?> other) {
     Objects.requireNonNull(other, shouldNotBeNull("other")::create);
-
     if (!other.isAssignableFrom(actual)) throw assertionError(shouldBeAssignableTo(actual, other));
   }
 

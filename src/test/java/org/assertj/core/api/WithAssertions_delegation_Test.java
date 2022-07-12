@@ -956,16 +956,8 @@ class WithAssertions_delegation_Test implements WithAssertions {
 
   @Test
   void withAssertions_assertThat_class_loader_Test() {
-    // Bootstrap classloader for JDK may return null for standard library classes, so make
-    // some test classes to work with first.
-
-    class SomeClass {
-    }
-
-    class AnotherClass {
-    }
-
-    assertThat(SomeClass.class.getClassLoader()).isSameAs(AnotherClass.class.getClassLoader());
+    // FIXME replace with class loader specific assertion
+    assertThat(WithAssertions.class.getClassLoader()).isSameAs(WithAssertions.class.getClassLoader());
   }
 
   @Test
@@ -981,6 +973,7 @@ class WithAssertions_delegation_Test implements WithAssertions {
   @Test
   void withAssertions_as_instanceOfAssertFactory_Test() {
     // GIVEN
+    @SuppressWarnings("unchecked")
     InstanceOfAssertFactory<?, AbstractAssert<?, ?>> assertFactory = mock(InstanceOfAssertFactory.class);
     // WHEN
     InstanceOfAssertFactory<?, AbstractAssert<?, ?>> result = as(assertFactory);

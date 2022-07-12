@@ -19,7 +19,6 @@ import static org.assertj.core.api.BDDAssumptions.givenObject;
 import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.withSettings;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -75,7 +74,6 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.BDDAssumptions}</code>.
@@ -489,22 +487,6 @@ class BDDAssumptionsTest {
   }
 
   @Nested
-  class BDDAssumptions_given_ClassLoader_Test {
-    private final ClassLoader actual = mock(ClassLoader.class, withSettings().stubOnly());
-
-    @Test
-    void should_run_test_when_assumption_passes() {
-      thenCode(() -> given(actual).isNotNull()).doesNotThrowAnyException();
-    }
-
-    @SuppressWarnings("ThrowableNotThrown")
-    @Test
-    void should_ignore_test_when_assumption_fails() {
-      expectAssumptionNotMetException(() -> given(actual).isNotSameAs(actual));
-    }
-  }
-
-  @Nested
   class BDDAssumptions_given_String_Test {
     private final String actual = "Yoda";
 
@@ -561,6 +543,23 @@ class BDDAssumptionsTest {
     @Test
     void should_ignore_test_when_assumption_fails() {
       expectAssumptionNotMetException(() -> given(actual).isInterface());
+    }
+  }
+
+  @Nested
+  class BDDAssumptions_given_ClassLoader_Test {
+    private final ClassLoader actual = mock(ClassLoader.class);
+
+    @Test
+    void should_run_test_when_assumption_passes() {
+      // FIXME replace with class loader specific assertion
+      thenCode(() -> given(actual).isNotNull()).doesNotThrowAnyException();
+    }
+
+    @Test
+    void should_ignore_test_when_assumption_fails() {
+      // FIXME replace with class loader specific assertion
+      expectAssumptionNotMetException(() -> given(actual).isNotSameAs(actual));
     }
   }
 

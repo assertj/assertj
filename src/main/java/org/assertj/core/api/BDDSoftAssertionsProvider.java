@@ -418,13 +418,4 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
     return proxy(LongAdderAssert.class, LongAdder.class, actual);
   }
 
-  /**
-   * Creates a new instance of <code>{@link ClassLoaderAssert}</code> assumption.
-   *
-   * @param actual the actual value.
-   * @return the created assumption for assertion object.
-   */
-  default AbstractClassLoaderAssert<?> then(ClassLoader actual) {
-    return proxy(ClassLoaderAssert.class, ClassLoader.class, actual);
-  }
 }

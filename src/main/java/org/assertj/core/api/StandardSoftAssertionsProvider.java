@@ -414,14 +414,4 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
     return proxy(LongAdderAssert.class, LongAdder.class, actual);
   }
 
-  /**
-   * Creates a new instance of <code>{@link ClassLoaderAssert}</code>.
-   *
-   * @param actual the actual value.
-   * @return the created assertion object.
-   */
-  default AbstractClassLoaderAssert<?> assertThat(ClassLoader actual) {
-    return proxy(ClassLoaderAssert.class, ClassLoader.class, actual);
-  }
-
 }
