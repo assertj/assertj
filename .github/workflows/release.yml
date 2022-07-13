@@ -25,7 +25,9 @@ jobs:
         run: |
           git config user.name '${{ github.actor }}'
           git config user.email '${{ github.actor }}@users.noreply.github.com'
-          ./mvnw -B release:prepare release:perform -Dpassword=${{ secrets.GITHUB_TOKEN }}
+          ./mvnw -B release:prepare release:perform -Dpassword=${{ secrets.GITHUB_TOKEN }} \
+              -Djansi.passthrough=true \
+              -Dstyle.color=always
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}

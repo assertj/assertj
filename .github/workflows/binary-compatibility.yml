@@ -3,10 +3,8 @@ name: Binary Compatibility
 on: [push, pull_request]
 
 jobs:
-
   verify-with-base:
-
-    name: Verify with `${{ github.base_ref }}`
+    name: Verify with base ref
     runs-on: ubuntu-latest
     if: github.base_ref != null
 
@@ -24,13 +22,20 @@ jobs:
           ref: ${{ github.base_ref }}
           path: ${{ github.run_id }}.${{ github.base_ref }}
       - name: Build `${{ github.base_ref }}`
-        run: ./mvnw -V --no-transfer-progress -e -f ${{ github.run_id }}.${{ github.base_ref }}/pom.xml package -DskipTests
+        run: >
+          ./mvnw -B -V --no-transfer-progress -e 
+          -f ${{ github.run_id }}.${{ github.base_ref }}/pom.xml package 
+          -DskipTests
+          -Djansi.passthrough=true
+          -Dstyle.color=always
       - name: Compare `${{ github.head_ref }}` with `${{ github.base_ref }}`
         run: >
-          ./mvnw -V --no-transfer-progress -e -Pjapicmp-branch package japicmp:cmp
+          ./mvnw -B -V --no-transfer-progress -e -Pjapicmp-branch package japicmp:cmp
           -DskipTests
           -Djapicmp.breakBuildOnBinaryIncompatibleModifications=true
           -Djapicmp.oldVersion.basedir=${{ github.run_id }}.${{ github.base_ref }}
+          -Djansi.passthrough=true
+          -Dstyle.color=always
 
       - name: Add label
         if: failure()
@@ -88,9 +93,11 @@ jobs:
 
       - name: Compare with the latest release
         run: >
-          ./mvnw -V --no-transfer-progress -e package japicmp:cmp
+          ./mvnw -B -V --no-transfer-progress -e package japicmp:cmp
           -DskipTests
           -Djapicmp.breakBuildOnBinaryIncompatibleModifications=true
+          -Djansi.passthrough=true
+          -Dstyle.color=always
 
       - name: Add label
         if: failure()

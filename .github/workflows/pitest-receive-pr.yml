@@ -38,9 +38,15 @@ jobs:
         # pitest has been bound to a profile called pitest for normal running
         # we add config to analyse only changes made within a PR and treat surviving mutants as check errors
         # failWhenNoMutations is unset in the pom, as otherwise PRs that do not affect java code would fail
-        run: mvn -e -B -Ppitest -Dfeatures="+GIT(from[HEAD~1]), +gitci" test
+        run: >
+          mvn -e -B -Ppitest -Dfeatures="+GIT(from[HEAD~1]), +gitci" test
+          -Djansi.passthrough=true
+          -Dstyle.color=always
       - name: aggregate files
-        run: mvn -e -B -Ppitest pitest-git:aggregate
+        run: >
+          mvn -e -B -Ppitest pitest-git:aggregate
+          -Djansi.passthrough=true
+          -Dstyle.color=always
       - name: upload results
         uses: actions/upload-artifact@v3
         with:

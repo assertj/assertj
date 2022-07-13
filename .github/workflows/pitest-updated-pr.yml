@@ -42,4 +42,7 @@ jobs:
         # The updatePR maven goal is used here with an explicit version. This allows us to upload without checking out
         # the code, but does mean the version here must be maintained. An alternative would be to checkout the code and use 
         # the github goal. This will work as long as the artifact is extracted to the maven target directory
-        run: mvn -DrepoToken=${{ secrets.GITHUB_TOKEN }} com.groupcdg:pitest-github-maven-plugin:0.2.0:updatePR
+        run: >
+          mvn -B -DrepoToken=${{ secrets.GITHUB_TOKEN }} com.groupcdg:pitest-github-maven-plugin:0.2.0:updatePR
+          -Djansi.passthrough=true
+          -Dstyle.color=always

@@ -20,4 +20,7 @@ jobs:
           release: ${{ matrix.java }}
           version: latest
       - name: Test
-        run: ./mvnw -V --no-transfer-progress -e verify javadoc:javadoc
+        run: >
+          ./mvnw -B -V --no-transfer-progress -e verify javadoc:javadoc '-P!coverage'
+          -Djansi.passthrough=true
+          -Dstyle.color=always
