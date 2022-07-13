@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.util.CheckReturnValue;
+
 public class WithThrowable {
   private final Throwable throwable;
 
@@ -22,11 +24,22 @@ public class WithThrowable {
   /**
    * Checks that the underlying throwable is of the given type and returns a {@link ThrowableAssertAlternative} to chain
    * further assertions on the underlying throwable.
+   * <p>
+   * Equivalent to {@code withThrowableThat().isInstanceOf(type)}
    * @param type the expected {@link Throwable} type
    * @return a {@link ThrowableAssertAlternative} built with underlying throwable.
    */
   public ThrowableAssertAlternative<?> withThrowableOfType(Class<? extends Throwable> type) {
-    return new ThrowableAssertAlternative<>(throwable).isInstanceOf(type);
+    return withThrowableThat().isInstanceOf(type);
+  }
+
+  /**
+   * Returns a {@link ThrowableAssertAlternative} to chain assertions on the underlying throwable.
+   * @return a {@link ThrowableAssertAlternative} built with underlying throwable.
+   */
+  @CheckReturnValue
+  public ThrowableAssertAlternative<?> withThrowableThat() {
+    return new ThrowableAssertAlternative<>(throwable);
   }
 
 }
