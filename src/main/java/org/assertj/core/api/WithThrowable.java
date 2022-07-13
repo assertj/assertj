@@ -35,6 +35,7 @@ public class WithThrowable {
    * Returns a {@link ThrowableAssertAlternative} to chain assertions on the underlying throwable.
    * @return a {@link ThrowableAssertAlternative} built with underlying throwable.
    */
+  @CheckReturnValue
   public ThrowableAssertAlternative<?> withThrowableThat() {
     return new ThrowableAssertAlternative<>(throwable);
   }
