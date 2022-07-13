@@ -19,8 +19,10 @@ import java.util.Objects;
 import java.util.function.Predicate;
 
 import org.assertj.core.annotations.Beta;
+import org.assertj.core.api.recursive.assertion.DefaultRecursiveAssertionIntrospectionStrategy;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionDriver;
+import org.assertj.core.api.recursive.assertion.RecursiveAssertionIntrospectionStrategy;
 import org.assertj.core.api.recursive.comparison.FieldLocation;
 
 /**
@@ -384,4 +386,16 @@ public class RecursiveAssertionAssert extends AbstractAssert<RecursiveAssertionA
     return this;
   }
 
+  /**
+   * Defines how objects are introspected in the recursive assertion.
+   * <p>
+   * Default to {@link DefaultRecursiveAssertionIntrospectionStrategy} that introspects all fields (including inherited ones).
+   *
+   * @param introspectionStrategy the {@link RecursiveAssertionIntrospectionStrategy} to use
+   * @return this {@link RecursiveAssertionAssert} to chain other methods.
+   */
+  public RecursiveAssertionAssert withIntrospectionStrategy(RecursiveAssertionIntrospectionStrategy introspectionStrategy) {
+    recursiveAssertionConfiguration.setIntrospectionStrategy(introspectionStrategy);
+    return this;
+  }
 }

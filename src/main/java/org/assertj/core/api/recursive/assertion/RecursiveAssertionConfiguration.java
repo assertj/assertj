@@ -40,6 +40,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
   private MapAssertionPolicy mapAssertionPolicy;
   private OptionalAssertionPolicy optionalAssertionPolicy;
   private boolean ignoreAllNullFields;
+  private RecursiveAssertionIntrospectionStrategy introspectionStrategy;
 
   private RecursiveAssertionConfiguration(Builder builder) {
     super(builder);
@@ -49,6 +50,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
     this.mapAssertionPolicy = builder.mapAssertionPolicy;
     this.optionalAssertionPolicy = builder.optionalAssertionPolicy;
     this.ignoreAllNullFields = builder.ignoreAllNullFields;
+    this.introspectionStrategy = builder.introspectionStrategy;
   }
 
   /**
@@ -154,6 +156,17 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
     this.collectionAssertionPolicy = collectionAssertionPolicy;
   }
 
+  /**
+   * Defines how objects are introspected in the recursive assertion.
+   * <p>
+   * Default to {@link DefaultRecursiveAssertionIntrospectionStrategy} that introspects all fields (including inherited ones).
+   *
+   * @param introspectionStrategy the {@link RecursiveAssertionIntrospectionStrategy} to use
+   */
+  public void setIntrospectionStrategy(RecursiveAssertionIntrospectionStrategy introspectionStrategy) {
+    this.introspectionStrategy = introspectionStrategy;
+  }
+
   @Override
   public String toString() {
     CONFIGURATION_PROVIDER.representation();
@@ -167,6 +180,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
     describeCollectionAssertionPolicy(description);
     describeMapAssertionPolicy(description);
     describeOptionalAssertionPolicy(description);
+    describeIntrospectionStrategy(description);
     return description.toString();
   }
 
@@ -190,7 +204,10 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
     return optionalAssertionPolicy;
   }
 
-  // TODO test
+  RecursiveAssertionIntrospectionStrategy getIntrospectionStrategy() {
+    return introspectionStrategy;
+  }
+
   boolean shouldIgnoreMap() {
     return mapAssertionPolicy == MAP_VALUES_ONLY;
   }
@@ -199,7 +216,6 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
     return optionalAssertionPolicy == OPTIONAL_VALUE_ONLY;
   }
 
-  // TODO test
   boolean shouldIgnoreContainer() {
     return collectionAssertionPolicy == ELEMENTS_ONLY;
   }
@@ -239,6 +255,10 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
   private void describeIgnoredFieldsOfTypes(StringBuilder description) {
     if (!getIgnoredTypes().isEmpty())
       description.append(format("- the following types were ignored in the assertion: %s%n", describeIgnoredTypes()));
+  }
+
+  private void describeIntrospectionStrategy(StringBuilder description) {
+    description.append(format("- the introspection strategy used was: %s%n", introspectionStrategy.getDescription()));
   }
 
   @Override
@@ -282,6 +302,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
     private MapAssertionPolicy mapAssertionPolicy = MAP_VALUES_ONLY;
     private OptionalAssertionPolicy optionalAssertionPolicy = OPTIONAL_VALUE_ONLY;
     private boolean ignoreAllNullFields;
+    private RecursiveAssertionIntrospectionStrategy introspectionStrategy = new DefaultRecursiveAssertionIntrospectionStrategy();
 
     private Builder() {
       super(Builder.class);
@@ -528,10 +549,23 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
      * {@link RecursiveAssertionConfiguration.OptionalAssertionPolicy#OPTIONAL_VALUE_ONLY} is used.
      *
      * @param policy the {@link RecursiveAssertionConfiguration.OptionalAssertionPolicy} to use.
-     * @return this {@link RecursiveAssertionAssert} to chain other methods.
+     * @return This builder.
      */
     public Builder withOptionalAssertionPolicy(RecursiveAssertionConfiguration.OptionalAssertionPolicy policy) {
       optionalAssertionPolicy = policy;
+      return this;
+    }
+
+    /**
+     * Defines how objects are introspected in the recursive assertion.
+     * <p>
+     * Default to {@link DefaultRecursiveAssertionIntrospectionStrategy} that introspects all fields (including inherited ones).
+     * 
+     * @param introspectionStrategy the {@link RecursiveAssertionIntrospectionStrategy} to use
+     * @return This builder.
+     */
+    public Builder withIntrospectionStrategy(RecursiveAssertionIntrospectionStrategy introspectionStrategy) {
+      this.introspectionStrategy = introspectionStrategy;
       return this;
     }
 

@@ -13,12 +13,14 @@
 package org.assertj.core.api.recursive.assertion;
 
 import static java.lang.String.format;
+import static java.util.Collections.emptyList;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.CollectionAssertionPolicy.ELEMENTS_ONLY;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.MapAssertionPolicy.MAP_VALUES_ONLY;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.OptionalAssertionPolicy.OPTIONAL_VALUE_ONLY;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.Builder;
@@ -45,7 +47,8 @@ class RecursiveComparisonConfiguration_toString_Test {
                                            .withRecursionIntoJavaClassLibraryTypes(true)
                                            .withCollectionAssertionPolicy(ELEMENTS_ONLY)
                                            .withMapAssertionPolicy(MAP_VALUES_ONLY)
-                                           .withOptionalAssertionPolicy(OPTIONAL_VALUE_ONLY);
+                                           .withOptionalAssertionPolicy(OPTIONAL_VALUE_ONLY)
+                                           .withIntrospectionStrategy(new MyIntrospectionStrategy());
     // WHEN
     RecursiveAssertionConfiguration recursiveAssertionConfiguration = recursiveComparisonConfigurationBuilder.build();
     // THEN
@@ -58,7 +61,8 @@ class RecursiveComparisonConfiguration_toString_Test {
                                                              "- fields from Java Class Library types (java.* or javax.*) were included in the recursive assertion%n" +
                                                              "- the collection assertion policy was ELEMENTS_ONLY%n" +
                                                              "- the map assertion policy was MAP_VALUES_ONLY%n" +
-                                                             "- the optional assertion policy was OPTIONAL_VALUE_ONLY%n"));
+                                                             "- the optional assertion policy was OPTIONAL_VALUE_ONLY%n"+
+                                                             "- the introspection strategy used was: not introspecting anything!%n"));
     //@format:on
   }
 
@@ -71,8 +75,21 @@ class RecursiveComparisonConfiguration_toString_Test {
     then(recursiveAssertionConfiguration).hasToString(format("- fields from Java Class Library types (java.* or javax.*) were excluded in the recursive assertion%n" +
                                                              "- the collection assertion policy was ELEMENTS_ONLY%n" +
                                                              "- the map assertion policy was MAP_VALUES_ONLY%n"+
-                                                             "- the optional assertion policy was OPTIONAL_VALUE_ONLY%n"));
+                                                             "- the optional assertion policy was OPTIONAL_VALUE_ONLY%n"+
+                                                             "- the introspection strategy used was: DefaultRecursiveAssertionIntrospectionStrategy which introspects all fields (including inherited ones)%n"));
     // @format:on
   }
 
+  static class MyIntrospectionStrategy implements RecursiveAssertionIntrospectionStrategy {
+
+    @Override
+    public List<RecursiveAssertionNode> getChildNodesOf(Object node) {
+      return emptyList();
+    }
+
+    @Override
+    public String getDescription() {
+      return "not introspecting anything!";
+    }
+  }
 }

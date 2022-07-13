@@ -13,21 +13,17 @@
 package org.assertj.core.api.recursive.assertion;
 
 import static java.lang.String.format;
-import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.CollectionAssertionPolicy.COLLECTION_OBJECT_ONLY;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.MapAssertionPolicy.MAP_OBJECT_AND_ENTRIES;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.MapAssertionPolicy.MAP_OBJECT_ONLY;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.OptionalAssertionPolicy.OPTIONAL_OBJECT_ONLY;
 import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
-import static org.assertj.core.internal.Objects.getFieldsNames;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newHashSet;
 import static org.assertj.core.util.introspection.ClassUtils.isOptionalOrPrimitiveOptional;
 import static org.assertj.core.util.introspection.ClassUtils.isPrimitiveOrWrapper;
-import static org.assertj.core.util.introspection.PropertyOrFieldSupport.EXTRACTION;
 
-import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -156,7 +152,6 @@ public class RecursiveAssertionDriver {
     }
   }
 
-  // TODO extend support from collection to iterable
   private void recurseIntoCollection(Predicate<Object> predicate, Collection<?> collection, FieldLocation fieldLocation) {
     // TODO handle collection if needed by policy
     int index = 0;
@@ -177,7 +172,7 @@ public class RecursiveAssertionDriver {
   private void recurseIntoOptional(Predicate<Object> predicate, Object node, FieldLocation fieldLocation) {
     // If we are here, we know the node is an optional or a primitive optional
     if (node instanceof Optional) {
-      Optional optionalNode = (Optional) node;
+      Optional<?> optionalNode = (Optional<?>) node;
       if (optionalNode.isPresent()) {
         Class<?> nextNodeType = safeGetClass(optionalNode.get());
         assertRecursively(predicate, optionalNode.get(), nextNodeType, fieldLocation.field("value"));
@@ -239,11 +234,8 @@ public class RecursiveAssertionDriver {
   }
 
   private void evaluateFieldsOfCurrentNodeRecursively(Predicate<Object> predicate, Object node, FieldLocation fieldLocation) {
-    Set<String> namesOfFieldsInNode = getFieldsNames(node.getClass());
-    namesOfFieldsInNode.forEach(fieldName -> {
-      Object fieldValue = EXTRACTION.getSimpleValue(fieldName, node);
-      Class<?> fieldType = getFieldType(fieldValue, fieldName, node);
-      assertRecursively(predicate, fieldValue, fieldType, fieldLocation.field(fieldName));
+    configuration.getIntrospectionStrategy().getChildNodesOf(node).forEach(field -> {
+      assertRecursively(predicate, field.value, field.type, fieldLocation.field(field.name));
     });
   }
 
@@ -279,23 +271,5 @@ public class RecursiveAssertionDriver {
     return Map.class.isAssignableFrom(nodeType);
   }
 
-  private static Class<?> getFieldType(Object fieldValue, String fieldName, Object targetObject) {
-    return fieldValue != null ? fieldValue.getClass() : getFieldType(fieldName, targetObject.getClass());
-  }
-
-  private static Class<?> getFieldType(String fieldName, Class<?> objectClass) {
-    try {
-      Optional<Field> potentialField = stream(objectClass.getDeclaredFields()).filter(field -> fieldName.equals(field.getName()))
-                                                                              .findAny();
-      if (potentialField.isPresent()) return potentialField.get().getType();
-      Class<?> superclass = objectClass.getSuperclass();
-      if (superclass != null) return getFieldType(fieldName, superclass);
-      throw new NoSuchFieldException();
-    } catch (NoSuchFieldException | SecurityException e) {
-      throw new IllegalStateException(format("Could not find field %s on class %s, even though its name was retrieved from the class earlier",
-                                             fieldName, objectClass.getCanonicalName()),
-                                      e);
-    }
-  }
-
+  // try to get the runtime type if possible or the declared one if not
 }
