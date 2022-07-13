@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.util.CheckReturnValue;
+
 public class WithThrowable {
   private final Throwable throwable;
 
