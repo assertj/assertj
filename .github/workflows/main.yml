@@ -39,7 +39,7 @@ jobs:
 
       # Add test results to the PR.
       - name: Publish unit test results
-        uses: EnricoMi/publish-unit-test-result-action@v1
+        uses: EnricoMi/publish-unit-test-result-action@v2
         if: ${{ matrix.comment-test-results }}
         continue-on-error: true
         with:
