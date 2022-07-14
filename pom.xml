@@ -221,7 +221,7 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
-      <version>5.3.21</version>
+      <version>5.3.22</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
