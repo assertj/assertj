@@ -23,8 +23,7 @@ jobs:
           path: ${{ github.run_id }}.${{ github.base_ref }}
       - name: Build `${{ github.base_ref }}`
         run: >
-          ./mvnw -B -V --no-transfer-progress -e 
-          -f ${{ github.run_id }}.${{ github.base_ref }}/pom.xml package 
+          ./mvnw -B -V --no-transfer-progress -e -f ${{ github.run_id }}.${{ github.base_ref }}/pom.xml package 
           -DskipTests
           -Djansi.passthrough=true
           -Dstyle.color=always

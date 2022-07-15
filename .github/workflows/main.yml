@@ -33,7 +33,7 @@ jobs:
         # Note: arguments with a period or bang in them have to be single quoted to prevent
         # confusing the PowerShell instance on Windows runners.
         run: >
-          ./mvnw -B -V --no-transfer-progress -e verify javadoc:javadoc '-P!coverage'
+          ./mvnw -B -V --no-transfer-progress -e verify javadoc:javadoc
           '-Djansi.passthrough=true'
           '-Dstyle.color=always'
 
@@ -63,7 +63,7 @@ jobs:
 #          cache: 'maven'
       - name: Test with Sonar
         run: >
-          ./mvnw -B -V --no-transfer-progress -e -Pcoverage verify javadoc:javadoc sonar:sonar
+          ./mvnw -B -V --no-transfer-progress -e verify javadoc:javadoc sonar:sonar
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.organization=assertj
           -Dsonar.projectKey=joel-costigliola_assertj-core

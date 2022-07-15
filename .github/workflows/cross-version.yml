@@ -21,6 +21,6 @@ jobs:
           version: latest
       - name: Test
         run: >
-          ./mvnw -B -V --no-transfer-progress -e verify javadoc:javadoc '-P!coverage'
+          ./mvnw -B -V --no-transfer-progress -e verify javadoc:javadoc
           -Djansi.passthrough=true
           -Dstyle.color=always
