@@ -50,6 +50,7 @@
     <cdg.pitest.version>0.2.0</cdg.pitest.version>
     <!-- Plugin versions overriding -->
     <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
+    <error-prone.version>2.14.0</error-prone.version>
   </properties>
 
   <dependencyManagement>
@@ -711,6 +712,41 @@
                 </configuration>
               </execution>
             </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>errorprone</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration combine.children="append">
+              <showWarnings>true</showWarnings>
+              <compilerArgs>
+                <arg>-XDcompilePolicy=simple</arg>
+                <arg>
+                  -Xplugin:ErrorProne \
+                  -Xep:ClassCanBeStatic:ERROR \
+                  -Xep:FieldCanBeStatic:ERROR \
+                  -Xep:MethodCanBeStatic:ERROR
+                </arg>
+              </compilerArgs>
+              <annotationProcessorPaths>
+                <path>
+                  <groupId>com.google.errorprone</groupId>
+                  <artifactId>error_prone_core</artifactId>
+                  <version>${error-prone.version}</version>
+                </path>
+                <!-- Other annotation processors go here.
+
+                If 'annotationProcessorPaths' is set, processors will no longer be
+                discovered on the regular -classpath; see also 'Using Error Prone
+                together with other annotation processors' below. -->
+              </annotationProcessorPaths>
+            </configuration>
           </plugin>
         </plugins>
       </build>
