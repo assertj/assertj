@@ -13,29 +13,37 @@
 package org.assertj.core.error.stacktraceelement;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.stacktraceelement.ShouldBeNative.shouldBeNative;
+import static org.assertj.core.error.stacktraceelement.ShouldHaveClassName.shouldHaveClassName;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
- * Tests for {@link ShouldBeNative#shouldBeNative(StackTraceElement)}.
+ * Tests for {@link ShouldHaveClassName#shouldHaveClassName(StackTraceElement, String)}.
  *
  * @author Ashley Scopes
  */
-class ShouldBeNative_Test {
-  @Test
-  void should_create_expected_representation() {
+class ShouldHaveClassName_Test {
+
+  @EmptySource
+  @ValueSource(strings = {"org.example.EggsAndSpam", "com.bigcorp.inc.FooBarBaz"})
+  @ParameterizedTest
+  void should_create_expected_representation_for_expected(String expectedClassName) {
     // GIVEN
     StackTraceElement frame = new StackTraceElement("org.example.Foo", "bar", "Foo.java", 690);
     // WHEN
-    String message = shouldBeNative(frame).create();
+    String message = shouldHaveClassName(frame, expectedClassName).create();
     // THEN
     assertThat(message).isEqualTo(String.join(
       "\n",
       "",
       "Expecting stack trace element:",
       "  org.example.Foo.bar(Foo.java:690)",
-      "to be for a native method, but it was not"
+      "to have class name",
+      "  \"" + expectedClassName + "\"",
+      "but it was actually",
+      "  \"org.example.Foo\""
     ));
   }
 }

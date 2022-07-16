@@ -12,10 +12,11 @@
  */
 package org.example.custom;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Condition;
-import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +29,7 @@ public class CustomAsserts_filter_stacktrace_Test {
     try {
       new CustomAssert("").fail();
     } catch (AssertionError e) {
-      assertThatGh2647(e.getStackTrace()).areNot(elementOf(CustomAssert.class));
+      assertThat(e.getStackTrace()).areNot(elementOf(CustomAssert.class));
     }
   }
 
@@ -37,7 +38,7 @@ public class CustomAsserts_filter_stacktrace_Test {
     try {
       new CustomAssert("").overridingErrorMessage("overridden message").fail();
     } catch (AssertionError e) {
-      assertThatGh2647(e.getStackTrace()).areNot(elementOf(CustomAssert.class));
+      assertThat(e.getStackTrace()).areNot(elementOf(CustomAssert.class));
     }
   }
 
@@ -46,7 +47,7 @@ public class CustomAsserts_filter_stacktrace_Test {
     try {
       new CustomAssert("").throwAnAssertionError();
     } catch (AssertionError e) {
-      assertThatGh2647(e.getStackTrace()).areNot(elementOf(CustomAssert.class));
+      assertThat(e.getStackTrace()).areNot(elementOf(CustomAssert.class));
     }
   }
 
@@ -55,7 +56,7 @@ public class CustomAsserts_filter_stacktrace_Test {
     try {
       new CustomAssert("").failInAbstractAssert();
     } catch (AssertionError e) {
-      assertThatGh2647(e.getStackTrace()).areNot(elementOf(CustomAbstractAssert.class));
+      assertThat(e.getStackTrace()).areNot(elementOf(CustomAbstractAssert.class));
     }
   }
 
@@ -65,7 +66,7 @@ public class CustomAsserts_filter_stacktrace_Test {
     try {
       new CustomAssert("").fail();
     } catch (AssertionError e) {
-      assertThatGh2647(e.getStackTrace()).areAtLeastOne(elementOf(CustomAssert.class));
+      assertThat(e.getStackTrace()).areAtLeastOne(elementOf(CustomAssert.class));
     }
   }
 
@@ -113,13 +114,5 @@ public class CustomAsserts_filter_stacktrace_Test {
       failWithMessage("failing assert");
       return myself;
     }
-  }
-
-  // TODO(ascopes): refactor this test to use the StackTraceAssert API once it is implemented.
-  //   This is just done for now to prevent these tests failing due to the new signatures
-  //   that have been implemented as part of GH-2647. We cast to Object first to use the existing
-  //   assertion implementations instead of the incomplete API I am building.
-  private static ObjectArrayAssert<StackTraceElement> assertThatGh2647(StackTraceElement[] stackTrace) {
-    return new ObjectArrayAssert<>(stackTrace);
   }
 }

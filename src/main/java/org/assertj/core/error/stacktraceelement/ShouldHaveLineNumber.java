@@ -16,33 +16,35 @@ package org.assertj.core.error.stacktraceelement;
 import org.assertj.core.error.BasicErrorMessageFactory;
 
 /**
- * Error message factory for reporting that a stack trace element was unexpectedly
- * non-native.
+ * Error message factory for reporting that a stack trace element had an unexpected line number.
  *
  * @author Ashley Scopes
  */
-public class ShouldBeNative extends BasicErrorMessageFactory {
+public class ShouldHaveLineNumber extends BasicErrorMessageFactory {
 
-  private static final String SHOULD_BE_NATIVE = String.join(
+  private static final String SHOULD_HAVE_LINE_NUMBER = String.join(
     "%n",
     "",
     "Expecting stack trace element:",
     "  %s",
-    "to be for a native method, but it was not"
+    "to have line number",
+    "  %s",
+    "but it was actually",
+    "  %s"
   );
 
   /**
-   * Initialize a new error message to report that a stack trace element is unexpectedly
-   * non-native.
+   * Initialize a new error message to report that a stack trace element has an unexpected line
+   * number.
    *
    * @param element the stack trace element to assert upon.
    * @return the message factory.
    */
-  public static ShouldBeNative shouldBeNative(StackTraceElement element) {
-    return new ShouldBeNative(element);
+  public static ShouldHaveLineNumber shouldHaveLineNumber(StackTraceElement element, int expected) {
+    return new ShouldHaveLineNumber(element, expected);
   }
 
-  private ShouldBeNative(StackTraceElement element) {
-    super(SHOULD_BE_NATIVE, element);
+  private ShouldHaveLineNumber(StackTraceElement element, int expected) {
+    super(SHOULD_HAVE_LINE_NUMBER, element, expected, element.getLineNumber());
   }
 }

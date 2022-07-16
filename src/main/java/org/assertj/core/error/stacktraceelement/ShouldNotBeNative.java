@@ -10,6 +10,7 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
+
 package org.assertj.core.error.stacktraceelement;
 
 import org.assertj.core.error.BasicErrorMessageFactory;

@@ -13,29 +13,35 @@
 package org.assertj.core.error.stacktraceelement;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.stacktraceelement.ShouldBeNative.shouldBeNative;
+import static org.assertj.core.error.stacktraceelement.ShouldHaveLineNumber.shouldHaveLineNumber;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
- * Tests for {@link ShouldBeNative#shouldBeNative(StackTraceElement)}.
+ * Tests for {@link ShouldHaveLineNumber#shouldHaveLineNumber(StackTraceElement, int)}.
  *
  * @author Ashley Scopes
  */
-class ShouldBeNative_Test {
-  @Test
-  void should_create_expected_representation() {
+class ShouldHaveLineNumber_Test {
+
+  @ValueSource(ints = {-2, -1, 0, 1, 2, 3, 300, 475})
+  @ParameterizedTest
+  void should_create_expected_representation_for_expected(int expectedLineNumber) {
     // GIVEN
     StackTraceElement frame = new StackTraceElement("org.example.Foo", "bar", "Foo.java", 690);
     // WHEN
-    String message = shouldBeNative(frame).create();
+    String message = shouldHaveLineNumber(frame, expectedLineNumber).create();
     // THEN
     assertThat(message).isEqualTo(String.join(
       "\n",
       "",
       "Expecting stack trace element:",
       "  org.example.Foo.bar(Foo.java:690)",
-      "to be for a native method, but it was not"
+      "to have line number",
+      "  " + expectedLineNumber,
+      "but it was actually",
+      "  690"
     ));
   }
 }

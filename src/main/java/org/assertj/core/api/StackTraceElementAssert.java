@@ -12,12 +12,15 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.util.CheckReturnValue;
+
 /**
  * Assertion methods for {@link StackTraceElement stack trace elements}.
  *
  * @author Ashley Scopes
  */
-public class StackTraceElementAssert extends AbstractStackTraceElementAssert<StackTraceElementAssert> {
+public class StackTraceElementAssert
+  extends AbstractStackTraceElementAssert<StackTraceElementAssert> {
 
   /**
    * Initialize this assertion.
@@ -26,5 +29,17 @@ public class StackTraceElementAssert extends AbstractStackTraceElementAssert<Sta
    */
   protected StackTraceElementAssert(StackTraceElement stackTraceElement) {
     super(stackTraceElement, StackTraceElementAssert.class);
+  }
+
+  @CheckReturnValue
+  @Override
+  protected AbstractStringAssert<?> toAssert(String string) {
+    return new StringAssert(string);
+  }
+
+  @CheckReturnValue
+  @Override
+  protected AbstractIntegerAssert<?> toAssert(Integer integer) {
+    return new IntegerAssert(integer);
   }
 }

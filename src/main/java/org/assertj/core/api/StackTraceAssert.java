@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.util.CheckReturnValue;
+
 /**
  * Implementation of a set of assertions that can be performed on
  * {@link StackTraceElement[] stack trace element arrays} types.
@@ -29,11 +31,13 @@ public class StackTraceAssert extends AbstractStackTraceAssert<StackTraceAssert,
     super(actual, StackTraceAssert.class);
   }
 
+  @CheckReturnValue
   @Override
   protected StackTraceAssert newObjectArrayAssert(StackTraceElement[] array) {
     return new StackTraceAssert(array);
   }
 
+  @CheckReturnValue
   @Override
   protected StackTraceElementAssert toAssert(StackTraceElement value, String description) {
     return new StackTraceElementAssert(value).describedAs(description);

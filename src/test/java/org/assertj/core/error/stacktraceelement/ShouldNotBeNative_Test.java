@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
  */
 class ShouldNotBeNative_Test {
   @Test
-  void shouldNotBeNative_should_create_expected_representation() {
+  void should_create_expected_representation() {
     // GIVEN
     StackTraceElement frame = new StackTraceElement("org.example.Foo", "bar", "Foo.java", 690);
     // WHEN
