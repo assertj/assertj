@@ -13,3 +13,7 @@ charset = utf-8
 [*.{java,xml,yml,sh}]
 indent_style = space
 indent_size = 2
+
+# Maven POM code convention
+[pom.xml]
+max_line_length = 205
