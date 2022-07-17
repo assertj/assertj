@@ -187,6 +187,46 @@
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
           <version>${jacoco-maven-plugin.version}</version>
+          <configuration>
+            <!-- default check ratio : can be overridden in inherited projects -->
+            <rules>
+              <rule implementation="org.jacoco.maven.RuleConfiguration">
+                <element>BUNDLE</element>
+                <limits>
+                  <limit implementation="org.jacoco.report.check.Limit">
+                    <counter>CLASS</counter>
+                    <value>COVEREDRATIO</value>
+                    <minimum>1</minimum>
+                  </limit>
+                  <limit implementation="org.jacoco.report.check.Limit">
+                    <counter>INSTRUCTION</counter>
+                    <value>COVEREDRATIO</value>
+                    <minimum>0.80</minimum>
+                  </limit>
+                  <limit implementation="org.jacoco.report.check.Limit">
+                    <counter>METHOD</counter>
+                    <value>COVEREDRATIO</value>
+                    <minimum>0.80</minimum>
+                  </limit>
+                  <limit implementation="org.jacoco.report.check.Limit">
+                    <counter>BRANCH</counter>
+                    <value>COVEREDRATIO</value>
+                    <minimum>0.80</minimum>
+                  </limit>
+                  <limit implementation="org.jacoco.report.check.Limit">
+                    <counter>COMPLEXITY</counter>
+                    <value>COVEREDRATIO</value>
+                    <minimum>0.80</minimum>
+                  </limit>
+                  <limit implementation="org.jacoco.report.check.Limit">
+                    <counter>LINE</counter>
+                    <value>COVEREDRATIO</value>
+                    <minimum>0.80</minimum>
+                  </limit>
+                </limits>
+              </rule>
+            </rules>
+          </configuration>
           <executions>
             <execution>
               <id>prepare-agent</id>
@@ -205,46 +245,6 @@
               <goals>
                 <goal>check</goal>
               </goals>
-              <configuration>
-                <!-- default check ratio : can be overridden in inherited projects -->
-                <rules>
-                  <rule implementation="org.jacoco.maven.RuleConfiguration">
-                    <element>BUNDLE</element>
-                    <limits>
-                      <limit implementation="org.jacoco.report.check.Limit">
-                        <counter>CLASS</counter>
-                        <value>COVEREDRATIO</value>
-                        <minimum>1</minimum>
-                      </limit>
-                      <limit implementation="org.jacoco.report.check.Limit">
-                        <counter>INSTRUCTION</counter>
-                        <value>COVEREDRATIO</value>
-                        <minimum>0.80</minimum>
-                      </limit>
-                      <limit implementation="org.jacoco.report.check.Limit">
-                        <counter>METHOD</counter>
-                        <value>COVEREDRATIO</value>
-                        <minimum>0.80</minimum>
-                      </limit>
-                      <limit implementation="org.jacoco.report.check.Limit">
-                        <counter>BRANCH</counter>
-                        <value>COVEREDRATIO</value>
-                        <minimum>0.80</minimum>
-                      </limit>
-                      <limit implementation="org.jacoco.report.check.Limit">
-                        <counter>COMPLEXITY</counter>
-                        <value>COVEREDRATIO</value>
-                        <minimum>0.80</minimum>
-                      </limit>
-                      <limit implementation="org.jacoco.report.check.Limit">
-                        <counter>LINE</counter>
-                        <value>COVEREDRATIO</value>
-                        <minimum>0.80</minimum>
-                      </limit>
-                    </limits>
-                  </rule>
-                </rules>
-              </configuration>
             </execution>
           </executions>
         </plugin>
