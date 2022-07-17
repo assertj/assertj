@@ -821,7 +821,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
-   * A shortcut for <code>extracting(Throwable::getMessage, as(InstanceOfAssertFactories.STRING))</code> which allows 
+   * A shortcut for <code>extracting(Throwable::getMessage, as(InstanceOfAssertFactories.STRING))</code> which allows
    * to extract a throwable's message and then execute assertions on it.
    * <p>
    * Note that once you have navigated to the throwable's message you can't navigate back to the throwable.
@@ -832,7 +832,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * // assertions succeed:
    * assertThat(throwable).message().startsWith("boo")
    *                                .endsWith("!");
-   *                                
+   *
    * // assertion fails:
    * assertThat(throwable).message().isEmpty();</code></pre>
    *
@@ -842,6 +842,58 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   public AbstractStringAssert<?> message() {
     objects.assertNotNull(info, actual);
     return new StringAssert(actual.getMessage());
+  }
+
+  /**
+   * Assert that the throwable has a stack trace present.
+   *
+   * <p>Throwables that lack a stack trace are expected to return an empty array from
+   * {@link Throwable#getStackTrace()}. Returning a {@code null} stack trace is considered a bug,
+   * and will result in a {@link NullPointerException} being thrown instead.
+   *
+   * @return {@code this} throwable assert object.
+   * @throws NullPointerException if the throwable has a {@code null} stack trace.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if {@code actual} has no populated stack trace.
+   */
+  public SELF hasStackTrace() {
+    throwables.assertHasStackTrace(info, actual);
+    return myself;
+  }
+
+  /**
+   * Assert that the throwable has no stack trace present.
+   *
+   * <p>Throwables that lack a stack trace are expected to return an empty array from
+   * {@link Throwable#getStackTrace()}. Returning a {@code null} stack trace is considered a bug,
+   * and will result in a {@link NullPointerException} being thrown instead.
+   *
+   * @return {@code this} throwable assert object.
+   * @throws NullPointerException if the throwable has a {@code null} stack trace.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if {@code actual} has a populated stack trace.
+   */
+  public SELF hasNoStackTrace() {
+    throwables.assertDoesNotHaveStackTrace(info, actual);
+    return myself;
+  }
+
+  /**
+   * Extract the stack trace from the {@code actual} throwable, and return an assertions object
+   * for that stack trace.
+   *
+   * <p>If {@link Throwable#getStackTrace()} returns {@code null}, then a null value will be passed
+   * to the returned assertion object. It is important to note that returning a {@code null}
+   * stack trace from the Java Exception API is considered invalid and thus a bug in your
+   * code. If no stack trace is provided by the throwable, then the stack trace should be an
+   * empty array.
+   *
+   * @return the assertions to perform on the stack trace.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   */
+  public AbstractStackTraceAssert<?, ?> stackTrace() {
+    objects.assertNotNull(info, actual);
+    return new StackTraceAssert(actual.getStackTrace());
   }
 
 }

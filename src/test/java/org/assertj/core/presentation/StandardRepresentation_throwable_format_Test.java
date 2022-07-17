@@ -15,7 +15,6 @@ package org.assertj.core.presentation;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.configuration.Configuration.DEFAULT_CONFIGURATION;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
