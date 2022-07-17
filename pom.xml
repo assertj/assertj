@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent-pom</artifactId>
-    <version>2.2.17</version>
+    <version>2.2.18</version>
     <relativePath/>
   </parent>
 
@@ -37,6 +37,7 @@
       --add-opens=java.base/sun.nio.fs=ALL-UNNAMED
     </argLine>
     <javadocAdditionalOptions>-html5 --allow-script-in-comments</javadocAdditionalOptions>
+    <maven.compiler.release>8</maven.compiler.release>
     <!-- Dependency versions -->
     <byte-buddy.version>1.12.12</byte-buddy.version>
     <hamcrest.version>2.2</hamcrest.version>
@@ -345,7 +346,6 @@
         <configuration>
           <showDeprecation>true</showDeprecation>
           <showWarnings>true</showWarnings>
-          <release>8</release>
         </configuration>
         <executions>
           <execution>
@@ -406,28 +406,20 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>default-check</id>
-            <goals>
-              <goal>check</goal>
-            </goals>
-            <configuration>
-              <rules>
-                <rule implementation="org.jacoco.maven.RuleConfiguration">
-                  <element>BUNDLE</element>
-                  <limits>
-                    <limit implementation="org.jacoco.report.check.Limit">
-                      <counter>CLASS</counter>
-                      <value>COVEREDRATIO</value>
-                      <minimum>0.98</minimum>
-                    </limit>
-                  </limits>
-                </rule>
-              </rules>
-            </configuration>
-          </execution>
-        </executions>
+        <configuration>
+          <rules>
+            <rule implementation="org.jacoco.maven.RuleConfiguration">
+              <element>BUNDLE</element>
+              <limits>
+                <limit implementation="org.jacoco.report.check.Limit">
+                  <counter>CLASS</counter>
+                  <value>COVEREDRATIO</value>
+                  <minimum>0.98</minimum>
+                </limit>
+              </limits>
+            </rule>
+          </rules>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>biz.aQute.bnd</groupId>
