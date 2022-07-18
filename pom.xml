@@ -595,7 +595,7 @@
       <plugin>
         <groupId>org.pitest</groupId>
         <artifactId>pitest-maven</artifactId>
-        <version>1.9.2</version>
+        <version>1.9.3</version>
         <dependencies>
           <dependency>
             <groupId>org.pitest</groupId>
@@ -632,17 +632,6 @@
                 <goals>
                   <goal>mutationCoverage</goal>
                 </goals>
-                <configuration>
-                  <!-- temporary fix, once https://github.com/hcoles/pitest/issues/1052 is fixed we can remove the jvmArgs -->
-                  <jvmArgs>
-                    <value>-Dfile.encoding=${project.build.sourceEncoding}</value>
-                    <value>-Dnet.bytebuddy.experimental=true</value>
-                    <value>--add-opens=java.base/java.lang=ALL-UNNAMED</value>
-                    <value>--add-opens=java.base/java.math=ALL-UNNAMED</value>
-                    <value>--add-opens=java.base/java.util=ALL-UNNAMED</value>
-                    <value>--add-opens=java.base/sun.nio.fs=ALL-UNNAMED</value>
-                  </jvmArgs>
-                </configuration>
               </execution>
             </executions>
           </plugin>
