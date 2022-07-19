@@ -50,6 +50,8 @@ import org.springframework.util.MultiValueMapAdapter;
 
 import com.google.common.collect.ImmutableMap;
 
+import jakarta.ws.rs.core.MultivaluedHashMap;
+
 /**
  * @author Christopher Arnott
  */
@@ -137,6 +139,18 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
   void should_pass_with_MultiValueMapAdapter() {
     // GIVEN
     MultiValueMapAdapter<String, String> actual = new MultiValueMapAdapter<>(mapOf(entry("name", list("Yoda"))));
+    String[] expected = array("name");
+    int initialSize = actual.size();
+    // WHEN
+    maps.assertContainsOnlyKeys(info, actual, expected);
+    // THEN
+    then(actual).hasSize(initialSize);
+  }
+
+  @Test
+  void should_pass_with_MultivaluedHashMap() {
+    // GIVEN
+    MultivaluedHashMap<String, String> actual = new MultivaluedHashMap<>(mapOf(entry("name", "Yoda")));
     String[] expected = array("name");
     int initialSize = actual.size();
     // WHEN
@@ -240,6 +254,22 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
     // GIVEN
     MultiValueMapAdapter<String, String> actual = new MultiValueMapAdapter<>(mapOf(entry("name", list("Yoda")),
                                                                                    entry("job", list("Jedi"))));
+    String[] expected = array("name", "color");
+    Set<String> notFound = set("color");
+    Set<String> notExpected = set("job");
+    int initialSize = actual.size();
+    // WHEN
+    AssertionError error = expectAssertionError(() -> maps.assertContainsOnlyKeys(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainOnlyKeys(actual, expected, notFound, notExpected).create());
+    then(actual).hasSize(initialSize);
+  }
+
+  @Test
+  void should_fail_with_MultivaluedHashMap() {
+    // GIVEN
+    MultivaluedHashMap<String, String> actual = new MultivaluedHashMap<>(mapOf(entry("name", "Yoda"),
+                                                                               entry("job", "Jedi")));
     String[] expected = array("name", "color");
     Set<String> notFound = set("color");
     Set<String> notExpected = set("job");

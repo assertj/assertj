@@ -428,7 +428,7 @@ public class Maps {
 
       try {
         // try with copying constructor
-        return map.getClass().getConstructor(Map.class).newInstance(map);
+        return map.getClass().getConstructor(map.getClass()).newInstance(map);
       } catch (NoSuchMethodException e) {
         // try with default constructor
         Map<K, V> newMap = map.getClass().getConstructor().newInstance();
@@ -524,7 +524,6 @@ public class Maps {
   }
 
   private static <K, V> Map<K, V> mapWithoutExpectedEntries(Map<K, V> actual, Entry<? extends K, ? extends V>[] expectedEntries) {
-    // Stream API avoided for performance reasons
     try {
       Map<K, V> clonedMap = clone(actual);
       removeEntries(clonedMap, expectedEntries);
@@ -538,6 +537,7 @@ public class Maps {
   }
 
   private static <K, V> void removeEntries(Map<K, V> map, Entry<? extends K, ? extends V>[] entries) {
+    // Stream API avoided for performance reasons
     for (Entry<? extends K, ? extends V> entry : entries) {
       // must perform deep equals comparison on values as Map.remove(Object, Object) relies on
       // Objects.equals which does not handle deep equality (e.g. arrays in map entry values)

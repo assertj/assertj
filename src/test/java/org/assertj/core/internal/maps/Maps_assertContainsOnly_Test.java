@@ -53,6 +53,8 @@ import org.springframework.util.MultiValueMapAdapter;
 
 import com.google.common.collect.ImmutableMap;
 
+import jakarta.ws.rs.core.MultivaluedHashMap;
+
 /**
  * @author Jean-Christophe Gay
  */
@@ -161,6 +163,18 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
     then(actual).hasSize(initialSize);
   }
 
+  @Test
+  void should_pass_with_MultivaluedHashMap() {
+    // GIVEN
+    MultivaluedHashMap<String, String> actual = new MultivaluedHashMap<>(mapOf(entry("name", "Yoda")));
+    Entry<String, List<String>>[] expected = array(entry("name", list("Yoda")));
+    int initialSize = actual.size();
+    // WHEN
+    maps.assertContainsOnly(info, actual, expected);
+    // THEN
+    then(actual).hasSize(initialSize);
+  }
+
   @ParameterizedTest
   @MethodSource({
       "unmodifiableMapsFailureTestCases",
@@ -257,6 +271,22 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
     // GIVEN
     MultiValueMapAdapter<String, String> actual = new MultiValueMapAdapter<>(mapOf(entry("name", list("Yoda")),
                                                                                    entry("job", list("Jedi"))));
+    MapEntry<String, List<String>>[] expected = array(entry("name", list("Yoda")), entry("color", list("Green")));
+    Set<MapEntry<String, List<String>>> notFound = set(entry("color", list("Green")));
+    Set<MapEntry<String, List<String>>> notExpected = set(entry("job", list("Jedi")));
+    int initialSize = actual.size();
+    // WHEN
+    AssertionError error = expectAssertionError(() -> maps.assertContainsOnly(info, actual, expected));
+    // THEN
+    then(error).hasMessage(shouldContainOnly(actual, expected, notFound, notExpected).create());
+    then(actual).hasSize(initialSize);
+  }
+
+  @Test
+  void should_fail_with_MultivaluedHashMap() {
+    // GIVEN
+    MultivaluedHashMap<String, String> actual = new MultivaluedHashMap<>(mapOf(entry("name", "Yoda"),
+                                                                               entry("job", "Jedi")));
     MapEntry<String, List<String>>[] expected = array(entry("name", list("Yoda")), entry("color", list("Green")));
     Set<MapEntry<String, List<String>>> notFound = set(entry("color", list("Green")));
     Set<MapEntry<String, List<String>>> notExpected = set(entry("job", list("Jedi")));
