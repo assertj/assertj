@@ -13,7 +13,7 @@
 package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
-import static java.util.Collections.shuffle;
+import static java.util.Comparator.reverseOrder;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -177,8 +177,7 @@ class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
   void should_fail_if_order_does_not_match_and_total_printed_indexes_should_be_equal_to_max_elements_for_printing() {
     // GIVEN
     List<Integer> actual = IntStream.rangeClosed(0, MAX_INDICES_FOR_PRINTING).boxed().collect(toList());
-    shuffle(actual);
-    Object[] expected = IntStream.rangeClosed(0, MAX_INDICES_FOR_PRINTING).boxed().toArray();
+    Object[] expected = IntStream.rangeClosed(0, MAX_INDICES_FOR_PRINTING).boxed().sorted(reverseOrder()).toArray();
     // WHEN
     AssertionError error = expectAssertionError(() -> iterables.assertContainsExactly(INFO, actual, expected));
     // THEN
