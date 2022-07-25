@@ -1,13 +1,13 @@
 #Maven build result directory
-/target
+target
 #IntelliJ project files
-/.idea
-/*.iml
+.idea
+*.iml
 out
 #Eclipse project files
-/.settings
-/.classpath
-/.project
+.settings
+.classpath
+.project
 .externalToolBuilders/
 #Other
 /clover.license
@@ -15,7 +15,7 @@ out
 /expected.txt
 #jEnv configuration
 .java-version
-/dependency-reduced-pom.xml
+dependency-reduced-pom.xml
 /bin/
 .mvn/wrapper/maven-wrapper.jar
 # macOS specific files
