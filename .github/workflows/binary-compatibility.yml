@@ -99,7 +99,7 @@ jobs:
           -Dstyle.color=always
 
       - name: Add label
-        if: failure()
+        if: github.base_ref != null && failure()
         uses: actions/github-script@v6
         with:
           script: |
