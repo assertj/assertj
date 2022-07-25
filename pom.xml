@@ -146,7 +146,7 @@
     <maven-surefire-report-plugin.version>2.22.2</maven-surefire-report-plugin.version>
     <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
     <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
-    <spotbugs-maven-plugin.version>4.7.1.0</spotbugs-maven-plugin.version>
+    <spotbugs-maven-plugin.version>4.7.1.1</spotbugs-maven-plugin.version>
     <versions-maven-plugin.version>2.11.0</versions-maven-plugin.version>
   </properties>
 
