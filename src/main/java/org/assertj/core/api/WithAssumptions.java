@@ -1206,6 +1206,31 @@ public interface WithAssumptions {
     return Assumptions.assumeThat(spliterator);
   }
 
+
+  /**
+   * Creates a new instance of {@link AbstractStackTraceElementAssert} assumption for the given
+   * {@link StackTraceElement} value.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @see #assumeThat(StackTraceElement[])
+   */
+  default AbstractStackTraceElementAssert<?> assumeThat(StackTraceElement actual) {
+    return Assumptions.assumeThat(actual);
+  }
+
+  /**
+   * Creates a new instance of {@link AbstractStackTraceAssert} assumption for the given
+   * {@link StackTraceElement} array.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @see #assumeThat(StackTraceElement)
+   */
+  default AbstractStackTraceAssert<?, ?> assumeThat(StackTraceElement[] actual) {
+    return Assumptions.assumeThat(actual);
+  }
+
   /**
    * Sets which exception is thrown if an assumption is not met. 
    * <p>

@@ -3317,6 +3317,30 @@ public interface WithAssertions extends InstanceOfAssertFactories {
     return Assertions.assertThat(component);
   }
 
+  /**
+   * Creates a new instance of {@link AbstractStackTraceElementAssert} for the given
+   * {@link StackTraceElement} value.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @see #assertThat(StackTraceElement[])
+   */
+  default AbstractStackTraceElementAssert<?> assertThat(StackTraceElement actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of {@link AbstractStackTraceAssert} for the given
+   * {@link StackTraceElement} array.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @see #assertThat(StackTraceElement)
+   */
+  default AbstractStackTraceAssert<?, ?> assertThat(StackTraceElement[] actual) {
+    return Assertions.assertThat(actual);
+  }
+
   // --------------------------------------------------------------------------------------------------
   // Filter methods : not assertions but here to have a complete entry point to all AssertJ features.
   // --------------------------------------------------------------------------------------------------

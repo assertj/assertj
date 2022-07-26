@@ -725,6 +725,29 @@ public class AssertionsForClassTypes {
   }
 
   /**
+   * Create a new instance of {@link AbstractStackTraceElementAssert}.
+   *
+   * @param actual the actual {@link StackTraceElement}.
+   * @return the created {@link AbstractStackTraceElementAssert}.
+   * @see #assertThat(StackTraceElement[])
+   */
+  public static AbstractStackTraceElementAssert<?> assertThat(StackTraceElement actual) {
+    return new StackTraceElementAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of {@link AbstractStackTraceAssert} for the given
+   * {@link StackTraceElement} array.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @see #assertThat(StackTraceElement)
+   */
+  public static AbstractStackTraceAssert<?, ?> assertThat(StackTraceElement[] actual) {
+    return new StackTraceAssert(actual);
+  }
+
+  /**
    * Allows to capture and then assert on a {@link Throwable} (easier done with lambdas).
    * <p>
    * Java 8 example :

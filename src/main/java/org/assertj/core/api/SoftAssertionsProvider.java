@@ -41,8 +41,11 @@ public interface SoftAssertionsProvider extends AssertionErrorCollector {
    * @param actual The actual object-under-test.
    * @return A proxied assertion class for the given object-under-test.
    */
-  <SELF extends Assert<? extends SELF, ? extends ACTUAL>, ACTUAL> SELF proxy(Class<SELF> assertClass, Class<ACTUAL> actualClass,
-                                                                             ACTUAL actual);
+  <SELF extends Assert<? extends SELF, ? extends ACTUAL>, ACTUAL> SELF proxy(
+    Class<SELF> assertClass,
+    Class<? extends ACTUAL> actualClass,
+    ACTUAL actual
+  );
 
   /**
    * Verifies that no soft assertions have failed.

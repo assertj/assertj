@@ -1413,4 +1413,38 @@ class BDDAssumptionsTest {
       expectAssumptionNotMetException(() -> given(Duration.ofHours(1)).isNotNull().isNegative());
     }
   }
+
+  @Test
+  void then_StackTraceElement_succeeds() {
+    StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+    StackTraceElement frame1 = stackTrace[1];
+
+    thenCode(() -> given(frame1).isEqualTo(frame1))
+      .doesNotThrowAnyException();
+  }
+
+  @Test
+  void then_StackTraceElement_fails() {
+    StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+    StackTraceElement frame1 = stackTrace[1];
+    StackTraceElement frame2 = stackTrace[2];
+
+    expectAssumptionNotMetException(() -> given(frame1).isEqualTo(frame2));
+  }
+
+  @Test
+  void then_StackTrace_succeeds() {
+    StackTraceElement[] stackTrace = Arrays.copyOf(Thread.currentThread().getStackTrace(), 5);
+
+    thenCode(() -> given(stackTrace).isEqualTo(stackTrace))
+      .doesNotThrowAnyException();
+  }
+
+  @Test
+  void then_StackTrace_fails() {
+    StackTraceElement[] stackTrace1 = Arrays.copyOf(Thread.currentThread().getStackTrace(), 3);
+    StackTraceElement[] stackTrace2 = Arrays.copyOfRange(Thread.currentThread().getStackTrace(), 2, 5);
+
+    expectAssumptionNotMetException(() -> given(stackTrace1).isEqualTo(stackTrace2));
+  }
 }

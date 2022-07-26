@@ -91,6 +91,8 @@ import static org.assertj.core.api.InstanceOfAssertFactories.SHORT;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.SPLITERATOR;
+import static org.assertj.core.api.InstanceOfAssertFactories.STACK_TRACE_ARRAY;
+import static org.assertj.core.api.InstanceOfAssertFactories.STACK_TRACE_ELEMENT;
 import static org.assertj.core.api.InstanceOfAssertFactories.STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING_BUFFER;
@@ -1232,6 +1234,30 @@ class InstanceOfAssertFactoriesTest {
     MapAssert<String, String> result = assertThat(value).asInstanceOf(map(String.class, String.class));
     // THEN
     result.containsExactly(entry("key", "value"));
+  }
+
+  @Test
+  void stack_trace_element_factory_should_allow_stack_trace_element_assertions() {
+    // GIVEN
+    StackTraceElement stackTraceElement = new StackTraceElement("foo", "bar", "baz", 123);
+    // WHEN
+    AbstractStackTraceElementAssert<?> result = assertThat(stackTraceElement).asInstanceOf(STACK_TRACE_ELEMENT);
+    // THEN
+    result.isSameAs(stackTraceElement);
+  }
+
+  @Test
+  void stack_trace_factory_should_allow_stack_trace_assertions() {
+    // GIVEN
+    StackTraceElement[] stackTrace = new StackTraceElement[]{
+      new StackTraceElement("foo", "bar", "baz", 123),
+      new StackTraceElement("lorem", "ipsum", "dolor", 456),
+      new StackTraceElement("sit", "amet", "???", 789)
+    };
+    // WHEN
+    AbstractStackTraceAssert<?, ?> result = assertThat(stackTrace).asInstanceOf(STACK_TRACE_ARRAY);
+    // THEN
+    result.isSameAs(stackTrace);
   }
 
   @Test
