@@ -414,4 +414,27 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
     return proxy(LongAdderAssert.class, LongAdder.class, actual);
   }
 
+  /**
+   * Creates a new instance of {@link AbstractStackTraceElementAssert} for the given
+   * {@link StackTraceElement} value.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @see #assertThat(StackTraceElement[])
+   */
+  default AbstractStackTraceElementAssert<?> assertThat(StackTraceElement actual) {
+    return proxy(StackTraceElementAssert.class, StackTraceElement.class, actual);
+  }
+
+  /**
+   * Creates a new instance of {@link AbstractStackTraceAssert} for the given
+   * {@link StackTraceElement} array.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @see #assertThat(StackTraceElement)
+   */
+  default AbstractStackTraceAssert<?, ?> assertThat(StackTraceElement[] actual) {
+    return proxy(StackTraceAssert.class, StackTraceElement[].class, actual);
+  }
 }

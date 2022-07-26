@@ -114,7 +114,7 @@ class SoftProxies {
   }
 
   <SELF extends Assert<? extends SELF, ? extends ACTUAL>, ACTUAL> SELF createSoftAssertionProxy(Class<SELF> assertClass,
-                                                                                                Class<ACTUAL> actualClass,
+                                                                                                Class<? extends ACTUAL> actualClass,
                                                                                                 ACTUAL actual) {
     try {
       Class<? extends SELF> proxyClass = createSoftAssertionProxyClass(assertClass);

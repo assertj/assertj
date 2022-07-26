@@ -28,6 +28,7 @@ import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 import static org.assertj.core.api.BDDAssertions.thenWith;
 import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 
 import java.io.IOException;
@@ -377,6 +378,40 @@ class BDDAssertions_then_Test {
   @Test
   void then_Duration() {
     then(Duration.ofHours(1)).isNotNull().isPositive();
+  }
+
+  @Test
+  void then_StackTraceElement_succeeds() {
+    StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+    StackTraceElement frame1 = stackTrace[1];
+
+    then(frame1).isEqualTo(frame1);
+  }
+
+  @SuppressWarnings("ThrowableNotThrown")
+  @Test
+  void then_StackTraceElement_fails() {
+    StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+    StackTraceElement frame1 = stackTrace[1];
+    StackTraceElement frame2 = stackTrace[2];
+
+    expectAssertionError(() -> then(frame1).isEqualTo(frame2));
+  }
+
+  @Test
+  void then_StackTrace_succeeds() {
+    StackTraceElement[] stackTrace = Arrays.copyOf(Thread.currentThread().getStackTrace(), 5);
+
+    then(stackTrace).isEqualTo(stackTrace);
+  }
+
+  @SuppressWarnings("ThrowableNotThrown")
+  @Test
+  void then_StackTrace_fails() {
+    StackTraceElement[] stackTrace1 = Arrays.copyOf(Thread.currentThread().getStackTrace(), 3);
+    StackTraceElement[] stackTrace2 = Arrays.copyOfRange(Thread.currentThread().getStackTrace(), 2, 5);
+
+    expectAssertionError(() -> then(stackTrace1).isEqualTo(stackTrace2));
   }
 
   @SuppressWarnings("static-access")

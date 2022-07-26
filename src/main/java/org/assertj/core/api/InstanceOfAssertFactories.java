@@ -584,6 +584,20 @@ public interface InstanceOfAssertFactories {
   InstanceOfAssertFactory<AtomicIntegerFieldUpdater, AtomicIntegerFieldUpdaterAssert<Object>> ATOMIC_INTEGER_FIELD_UPDATER = atomicIntegerFieldUpdater(Object.class);
 
   /**
+   * {@link InstanceOfAssertFactory} for a {@link StackTraceElement}.
+   */
+  InstanceOfAssertFactory<StackTraceElement, AbstractStackTraceElementAssert<?>> STACK_TRACE_ELEMENT = new InstanceOfAssertFactory<>(
+    StackTraceElement.class,
+    Assertions::assertThat);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link StackTraceElement stack trace element array}.
+   */
+  InstanceOfAssertFactory<StackTraceElement[], AbstractStackTraceAssert<?, ?>> STACK_TRACE_ARRAY = new InstanceOfAssertFactory<>(
+    StackTraceElement[].class,
+    Assertions::assertThat);
+
+  /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicIntegerFieldUpdater}.
    *
    * @param <OBJECT>   the {@code AtomicIntegerFieldUpdater} object type.

@@ -77,6 +77,8 @@ public class CustomAsserts_filter_stacktrace_Test {
   }
 
   private static Condition<StackTraceElement> elementOf(final Class<?> clazz) {
+    // Diamond inference for anonymous types was not introduced until JDK 9.
+    //noinspection Convert2Diamond
     return new Condition<StackTraceElement>("StackTraceElement of " + clazz) {
       @Override
       public boolean matches(StackTraceElement value) {

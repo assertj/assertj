@@ -132,6 +132,7 @@ import org.assertj.core.util.CheckReturnValue;
  * @author Julien Meddah
  * @author William Delanoue
  * @author Mariusz Smykula
+ * @author Ashley Scopes
  */
 @CheckReturnValue
 public class BDDAssertions extends Assertions {
@@ -1835,6 +1836,30 @@ public class BDDAssertions extends Assertions {
    * @since 3.14.0
    */
   public static <ELEMENT> SpliteratorAssert<ELEMENT> then(Spliterator<ELEMENT> actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of {@link AbstractStackTraceElementAssert} for the given
+   * {@link StackTraceElement} value.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @see #then(StackTraceElement[])
+   */
+  public static AbstractStackTraceElementAssert<?> then(StackTraceElement actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of {@link AbstractStackTraceAssert} for the given
+   * {@link StackTraceElement} array.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @see #then(StackTraceElement)
+   */
+  public static AbstractStackTraceAssert<?, ?> then(StackTraceElement[] actual) {
     return assertThat(actual);
   }
 

@@ -418,4 +418,27 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
     return proxy(LongAdderAssert.class, LongAdder.class, actual);
   }
 
+  /**
+   * Creates a new instance of {@link AbstractStackTraceElementAssert} for the given
+   * {@link StackTraceElement} value.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @see #then(StackTraceElement[])
+   */
+  default AbstractStackTraceElementAssert<?> then(StackTraceElement actual) {
+    return proxy(StackTraceElementAssert.class, StackTraceElement.class, actual);
+  }
+
+  /**
+   * Creates a new instance of {@link AbstractStackTraceAssert} for the given
+   * {@link StackTraceElement} array.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @see #then(StackTraceElement)
+   */
+  default AbstractStackTraceAssert<?, ?> then(StackTraceElement[] actual) {
+    return proxy(StackTraceAssert.class, StackTraceElement[].class, actual);
+  }
 }

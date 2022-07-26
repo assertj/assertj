@@ -30,8 +30,10 @@ import static org.assertj.core.error.ShouldHaveRootCause.shouldHaveRootCause;
 import static org.assertj.core.error.ShouldHaveRootCause.shouldHaveRootCauseWithMessage;
 import static org.assertj.core.error.ShouldHaveRootCauseExactlyInstance.shouldHaveRootCauseExactlyInstance;
 import static org.assertj.core.error.ShouldHaveRootCauseInstance.shouldHaveRootCauseInstance;
+import static org.assertj.core.error.ShouldHaveStackTrace.shouldHaveStackTrace;
 import static org.assertj.core.error.ShouldHaveSuppressedException.shouldHaveSuppressedException;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
+import static org.assertj.core.error.ShouldNotHaveStackTrace.shouldNotHaveStackTrace;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
@@ -445,6 +447,22 @@ public class Throwables {
     throw failures.failure(info, shouldHaveSuppressedException(actual, expectedSuppressedException));
   }
 
+  public void assertHasStackTrace(AssertionInfo info, Throwable actual) {
+    assertNotNull(info, actual);
+
+    if (getNonNullStackTrace(actual).length == 0) {
+      throw failures.failure(info, shouldHaveStackTrace(actual));
+    }
+  }
+
+  public void assertDoesNotHaveStackTrace(AssertionInfo info, Throwable actual) {
+    assertNotNull(info, actual);
+
+    if (getNonNullStackTrace(actual).length != 0) {
+      throw failures.failure(info, shouldNotHaveStackTrace(actual));
+    }
+  }
+
   private static void doCommonCheckForMessages(AssertionInfo info, Throwable actual, CharSequence[] values) {
     assertNotNull(info, actual);
     checkIsNotNull(values);
@@ -481,5 +499,16 @@ public class Throwables {
   private static boolean compareThrowable(Throwable actual, Throwable expected) {
     return java.util.Objects.equals(actual.getMessage(), expected.getMessage())
            && java.util.Objects.equals(actual.getClass(), expected.getClass());
+  }
+
+  private static StackTraceElement[] getNonNullStackTrace(Throwable throwable) {
+    // Per the specification for throwables, the stack trace should never be null. If the
+    // stack trace is disabled, then we should receive an empty array. Anything not conforming to
+    // this is not conforming to the standard library spec itself, so just fail out in these cases.
+    // We don't want to encourage asserting on bad behaviour as this would arguably be hiding a bug.
+    return requireNonNull(
+      throwable.getStackTrace(),
+      "Expected the throwable object's stack trace to not be null. This is likely a bug in your code or test."
+    );
   }
 }
