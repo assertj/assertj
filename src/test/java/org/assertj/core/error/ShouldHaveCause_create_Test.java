@@ -16,6 +16,8 @@ import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveCause.shouldHaveCause;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.util.Strings.escapePercent;
+import static org.assertj.core.util.Throwables.getStackTrace;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,7 +32,10 @@ class ShouldHaveCause_create_Test {
     // WHEN
     String message = shouldHaveCause(actual).create();
     // THEN
-    then(message).isEqualTo(format("Expecting actual throwable to have a cause but it did not, actual was:%n%s",
+    then(message).isEqualTo(format("Expecting actual throwable to have a cause but it did not, actual was:%n%s"+
+                                   "%n" +
+                                   "%nThrowable that failed the check:" +
+                                   "%n" + escapePercent(getStackTrace(actual)),
                                    STANDARD_REPRESENTATION.toStringOf(actual)));
   }
 
@@ -50,7 +55,10 @@ class ShouldHaveCause_create_Test {
       "but type was:%n" +
       "  \"java.lang.RuntimeException\"%n" +
       "and message was:%n" +
-      "  \"Boom\"."));
+      "  \"Boom\"." +
+      "%n" +
+      "%nThrowable that failed the check:" +
+      "%n" + escapePercent(getStackTrace(actual))));
   }
 
   @Test
@@ -65,7 +73,10 @@ class ShouldHaveCause_create_Test {
       "Expecting a cause with message:%n" +
       "  \"something went wrong\"%n" +
       "but message was:%n" +
-      "  \"Boom\"."));
+      "  \"Boom\"." +
+      "%n" +
+      "%nThrowable that failed the check:" +
+      "%n" + escapePercent(getStackTrace(actual))));
   }
 
   @Test
@@ -80,7 +91,10 @@ class ShouldHaveCause_create_Test {
       "Expecting a cause with type:%n" +
       "  \"java.lang.IllegalStateException\"%n" +
       "but type was:%n" +
-      "  \"java.lang.RuntimeException\"."));
+      "  \"java.lang.RuntimeException\"." +
+      "%n" +
+      "%nThrowable that failed the check:" +
+      "%n" + escapePercent(getStackTrace(actual))));
   }
 
   @Test

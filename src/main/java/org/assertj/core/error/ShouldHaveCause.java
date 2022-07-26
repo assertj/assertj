@@ -13,6 +13,8 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.util.Preconditions.checkArgument;
+import static org.assertj.core.util.Strings.escapePercent;
+import static org.assertj.core.util.Throwables.getStackTrace;
 
 import java.util.Objects;
 
@@ -32,7 +34,10 @@ public class ShouldHaveCause extends BasicErrorMessageFactory {
   }
 
   public static ErrorMessageFactory shouldHaveCause(Throwable actualCause) {
-    return new BasicErrorMessageFactory("Expecting actual throwable to have a cause but it did not, actual was:%n%s",
+    return new BasicErrorMessageFactory("Expecting actual throwable to have a cause but it did not, actual was:%n%s"+
+                                        "%n" +
+                                        "%nThrowable that failed the check:" +
+                                        "%n" + escapePercent(getStackTrace(actualCause)),
                                         actualCause);
   }
 
@@ -45,7 +50,10 @@ public class ShouldHaveCause extends BasicErrorMessageFactory {
           "but type was:%n" +
           "  %s%n" +
           "and message was:%n" +
-          "  %s.",
+          "  %s." +
+          "%n" +
+          "%nThrowable that failed the check:" +
+          "%n" + escapePercent(getStackTrace(actualCause)),
           expectedCause.getClass().getName(), expectedCause.getMessage(),
           actualCause.getClass().getName(), actualCause.getMessage());
   }
@@ -65,7 +73,10 @@ public class ShouldHaveCause extends BasicErrorMessageFactory {
           "Expecting a cause with type:%n" +
           "  %s%n" +
           "but type was:%n" +
-          "  %s.",
+          "  %s." +
+          "%n" +
+          "%nThrowable that failed the check:" +
+          "%n" + escapePercent(getStackTrace(actualCause)),
           expectedCauseClass.getName(), actualCause.getClass().getName());
   }
 
@@ -74,7 +85,10 @@ public class ShouldHaveCause extends BasicErrorMessageFactory {
           "Expecting a cause with message:%n" +
           "  %s%n" +
           "but message was:%n" +
-          "  %s.",
+          "  %s." +
+          "%n" +
+          "%nThrowable that failed the check:" +
+          "%n" + escapePercent(getStackTrace(actualCause)),
           expectedCauseMessage, actualCause.getMessage());
   }
 }
