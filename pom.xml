@@ -122,7 +122,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- Dependency versions -->
     <junit.version>4.13.2</junit.version>
-    <junit-jupiter.version>5.8.2</junit-jupiter.version>
+    <junit-jupiter.version>5.9.0</junit-jupiter.version>
     <mockito.version>4.6.1</mockito.version>
     <!-- Plugin versions -->
     <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
