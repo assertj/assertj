@@ -1,6 +1,12 @@
 name: Binary Compatibility
 
-on: [push, pull_request]
+on:
+  pull_request:
+    paths:
+      - 'assertj-core/**'
+  push:
+    paths:
+      - 'assertj-core/**'
 
 jobs:
   verify-with-base:
@@ -23,16 +29,16 @@ jobs:
           path: ${{ github.run_id }}.${{ github.base_ref }}
       - name: Build `${{ github.base_ref }}`
         run: >
-          ./mvnw -B -V --no-transfer-progress -e -f ${{ github.run_id }}.${{ github.base_ref }}/pom.xml package 
+          ./mvnw -B -V --no-transfer-progress -e -f ${{ github.run_id }}.${{ github.base_ref }}/assertj-core/pom.xml package 
           -DskipTests
           -Djansi.passthrough=true
           -Dstyle.color=always
       - name: Compare `${{ github.head_ref }}` with `${{ github.base_ref }}`
         run: >
-          ./mvnw -B -V --no-transfer-progress -e -Pjapicmp-branch package japicmp:cmp
+          ./mvnw -B -V --no-transfer-progress -e -f assertj-core/pom.xml -Pjapicmp-branch package japicmp:cmp
           -DskipTests
           -Djapicmp.breakBuildOnBinaryIncompatibleModifications=true
-          -Djapicmp.oldVersion.basedir=${{ github.run_id }}.${{ github.base_ref }}
+          -Djapicmp.oldVersion.basedir=${{ github.run_id }}.${{ github.base_ref }}/assertj-core
           -Djansi.passthrough=true
           -Dstyle.color=always
 
@@ -68,13 +74,13 @@ jobs:
         if: success() || failure()
         run: |
           echo '```' >> $GITHUB_STEP_SUMMARY
-          cat target/japicmp/default-cli.diff >> $GITHUB_STEP_SUMMARY
+          cat assertj-core/target/japicmp/default-cli.diff >> $GITHUB_STEP_SUMMARY
       - name: Upload reports
         if: success() || failure()
         uses: actions/upload-artifact@v3
         with:
           name: japicmp
-          path: target/japicmp
+          path: assertj-core/target/japicmp
           if-no-files-found: error
 
   verify-with-release:
@@ -92,7 +98,7 @@ jobs:
 
       - name: Compare with the latest release
         run: >
-          ./mvnw -B -V --no-transfer-progress -e package japicmp:cmp
+          ./mvnw -B -V --no-transfer-progress -e -f assertj-core/pom.xml package japicmp:cmp
           -DskipTests
           -Djapicmp.breakBuildOnBinaryIncompatibleModifications=true
           -Djansi.passthrough=true
@@ -126,11 +132,11 @@ jobs:
         if: success() || failure()
         run: |
           echo '```' >> $GITHUB_STEP_SUMMARY
-          cat target/japicmp/default-cli.diff >> $GITHUB_STEP_SUMMARY
+          cat assertj-core/target/japicmp/default-cli.diff >> $GITHUB_STEP_SUMMARY
       - name: Upload reports
         if: success() || failure()
         uses: actions/upload-artifact@v3
         with:
           name: japicmp
-          path: target/japicmp
+          path: assertj-core/target/japicmp
           if-no-files-found: error
