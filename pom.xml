@@ -225,6 +225,12 @@
       <version>5.3.22</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.tngtech.archunit</groupId>
+      <artifactId>archunit-junit5</artifactId>
+      <version>0.13.0</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
