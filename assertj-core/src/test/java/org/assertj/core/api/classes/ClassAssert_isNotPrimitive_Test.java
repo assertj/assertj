@@ -20,6 +20,5 @@ public class ClassAssert_isNotPrimitive_Test extends ClassAssertBaseTest {
   @Override
   protected void verify_internal_effects() {
     verify(classes).assertIsNotPrimitive(getInfo(assertions), getActual(assertions));
-
   }
 }

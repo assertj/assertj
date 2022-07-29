@@ -661,12 +661,12 @@ public class Classes {
   }
 
   /**
-   * Verifies that the actual {@code Class} is a primitive type.
+   * Verifies that the actual {@code Class} is a primitive data type.
    *
    * @param info contains information about the assertion.
    * @param actual the "actual" {@code Class}.
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} is not a primitive type.
+   * @throws AssertionError if the actual {@code Class} is not a primitive data type.
    */
   public void assertIsPrimitive(AssertionInfo info, Class<?> actual){
     assertNotNull(info, actual);
@@ -674,12 +674,12 @@ public class Classes {
   }
 
   /**
-   * Verifies that the actual {@code Class} is not a primitive type.
+   * Verifies that the actual {@code Class} is not a primitive data type.
    *
    * @param info contains information about the assertion.
    * @param actual the "actual" {@code Class}.
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} is a primitive type.
+   * @throws AssertionError if the actual {@code Class} is a primitive data type.
    */
   public void assertIsNotPrimitive(AssertionInfo info, Class<?> actual){
     assertNotNull(info, actual);

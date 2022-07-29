@@ -6,7 +6,9 @@ import org.assertj.core.api.ClassAssert;
 import org.assertj.core.api.ClassAssertBaseTest;
 
 /**
- * * Tests for <code>{@link ClassAssert#isPrimitive()} ()}</code>. * * @author Manuel Gutierrez
+ * * Tests for <code>{@link ClassAssert#isPrimitive()} ()}</code>.
+ * *
+ * * @author Manuel Gutierrez
  */
 class ClassAssert_isPrimitive_Test extends ClassAssertBaseTest {
 
