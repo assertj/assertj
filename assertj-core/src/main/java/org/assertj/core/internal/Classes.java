@@ -27,6 +27,8 @@ import static org.assertj.core.error.ShouldBeAnnotation.shouldNotBeAnnotation;
 import static org.assertj.core.error.ShouldBeAssignableFrom.shouldBeAssignableFrom;
 import static org.assertj.core.error.ShouldBeInterface.shouldBeInterface;
 import static org.assertj.core.error.ShouldBeInterface.shouldNotBeInterface;
+import static org.assertj.core.error.ShouldBePrimitive.shouldBePrimitive;
+import static org.assertj.core.error.ShouldBePrimitive.shouldNotBePrimitive;
 import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations;
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveDeclaredFields;
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveFields;
@@ -658,4 +660,29 @@ public class Classes {
     }
   }
 
+  /**
+   * Verifies that the actual {@code Class} is a primitive type.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Class}.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not a primitive type.
+   */
+  public void assertIsPrimitive(AssertionInfo info, Class<?> actual){
+    assertNotNull(info, actual);
+    if(!actual.isPrimitive()) throw failures.failure(info, shouldBePrimitive(actual));
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is not a primitive type.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Class}.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is a primitive type.
+   */
+  public void assertIsNotPrimitive(AssertionInfo info, Class<?> actual){
+    assertNotNull(info, actual);
+    if(actual.isPrimitive()) throw failures.failure(info, shouldNotBePrimitive(actual));
+  }
 }

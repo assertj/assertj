@@ -800,4 +800,59 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
     return myself;
   }
 
+  /**
+   * Verifies that the actual {@code Class} is a primitive data type.
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> // these assertions succeed:
+   * assertThat(byte.class).isPrimitive();
+   * assertThat(short.class).isPrimitive();
+   * assertThat(int.class).isPrimitive();
+   * assertThat(long.class).isPrimitive();
+   * assertThat(float.class).isPrimitive();
+   * assertThat(double.class).isPrimitive();
+   * assertThat(boolean.class).isPrimitive();
+   * assertThat(chart.class).isPrimitive();
+   *
+   * // this assertion fails as objects are not primitive types:
+   * assertThat(Object.class).isPrimitive(); ;
+   * </code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not a primitive type.
+   * @see Class#isPrimitive()
+   */
+  public SELF isPrimitive() {
+    classes.assertIsPrimitive(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is not a primitive data type.
+   *
+   * <p>
+   * Example
+   * <pre><code class='java'> // this assertions succeeds as objects are not primitive types:
+   * assertThat(Object.class).isNotPrimitive(); ;
+   *
+   * // these assertions fail:
+   * assertThat(byte.class).isNotPrimitive();
+   * assertThat(short.class).isNotPrimitive();
+   * assertThat(int.class).isNotPrimitive();
+   * assertThat(long.class).isNotPrimitive();
+   * assertThat(float.class).isNotPrimitive();
+   * assertThat(double.class).isNotPrimitive();
+   * assertThat(boolean.class).isNotPrimitive();
+   * assertThat(chart.class).isNotPrimitive();
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is a primitive type.
+   * @see Class#isPrimitive()
+   */
+  public SELF isNotPrimitive() {
+    classes.assertIsNotPrimitive(info, actual);
+    return myself;
+  }
 }
