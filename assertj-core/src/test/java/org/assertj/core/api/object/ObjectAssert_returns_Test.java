@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.object;
 
+import static java.lang.String.CASE_INSENSITIVE_ORDER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.from;
@@ -54,6 +55,15 @@ class ObjectAssert_returns_Test extends ObjectAssertBaseTest {
     // WHEN/THEN
     assertThat(yoda).returns("Yoda", from(Jedi::getName))
                     .returns("Yoda", Jedi::getName);
+  }
+
+  @Test
+  void should_honor_custom_type_comparator() {
+    // GIVEN
+    Jedi yoda = new Jedi("Yoda", "Green");
+    // WHEN/THEN
+    assertThat(yoda).usingComparatorForType(CASE_INSENSITIVE_ORDER, String.class)
+                    .returns("YODA", from(Jedi::getName));
   }
 
 }

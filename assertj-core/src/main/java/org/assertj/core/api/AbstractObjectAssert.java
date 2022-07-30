@@ -31,6 +31,8 @@ import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -55,8 +57,8 @@ import org.assertj.core.util.introspection.IntrospectionError;
 public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SELF, ACTUAL>, ACTUAL>
     extends AbstractAssert<SELF, ACTUAL> {
 
-  private Map<String, Comparator<?>> comparatorByPropertyOrField = new TreeMap<>();
-  private TypeComparators comparatorByType;
+  private Map<String, Comparator<?>> comparatorsByPropertyOrField = new TreeMap<>();
+  private TypeComparators comparatorsByType;
 
   public AbstractObjectAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
@@ -143,7 +145,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @Deprecated
   public SELF isEqualToIgnoringNullFields(Object other) {
-    objects.assertIsEqualToIgnoringNullFields(info, actual, other, comparatorByPropertyOrField, getComparatorsByType());
+    objects.assertIsEqualToIgnoringNullFields(info, actual, other, comparatorsByPropertyOrField, getComparatorsByType());
     return myself;
   }
 
@@ -219,7 +221,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @Deprecated
   public SELF isEqualToComparingOnlyGivenFields(Object other, String... propertiesOrFieldsUsedInComparison) {
-    objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, comparatorByPropertyOrField, getComparatorsByType(),
+    objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, comparatorsByPropertyOrField, getComparatorsByType(),
                                                     propertiesOrFieldsUsedInComparison);
     return myself;
   }
@@ -291,7 +293,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @Deprecated
   public SELF isEqualToIgnoringGivenFields(Object other, String... propertiesOrFieldsToIgnore) {
-    objects.assertIsEqualToIgnoringGivenFields(info, actual, other, comparatorByPropertyOrField, getComparatorsByType(),
+    objects.assertIsEqualToIgnoringGivenFields(info, actual, other, comparatorsByPropertyOrField, getComparatorsByType(),
                                                propertiesOrFieldsToIgnore);
     return myself;
   }
@@ -479,14 +481,14 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @Deprecated
   public SELF isEqualToComparingFieldByField(Object other) {
-    objects.assertIsEqualToIgnoringGivenFields(info, actual, other, comparatorByPropertyOrField, getComparatorsByType());
+    objects.assertIsEqualToIgnoringGivenFields(info, actual, other, comparatorsByPropertyOrField, getComparatorsByType());
     return myself;
   }
 
   // lazy init TypeComparators
   protected TypeComparators getComparatorsByType() {
-    if (comparatorByType == null) comparatorByType = defaultTypeComparators();
-    return comparatorByType;
+    if (comparatorsByType == null) comparatorsByType = defaultTypeComparators();
+    return comparatorsByType;
   }
 
   /**
@@ -535,14 +537,14 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *                  .isEqualToComparingFieldByField(reallyTallFrodo);</code></pre>
    *
    * @param <T> the type of values to compare.
-   * @param comparator the {@link java.util.Comparator} to use
+   * @param comparator the {@link Comparator} to use
    * @param propertiesOrFields the names of the properties and/or fields the comparator should be used for
    * @return {@code this} assertions object
    */
   @CheckReturnValue
   public <T> SELF usingComparatorForFields(Comparator<T> comparator, String... propertiesOrFields) {
     for (String propertyOrField : propertiesOrFields) {
-      comparatorByPropertyOrField.put(propertyOrField, comparator);
+      comparatorsByPropertyOrField.put(propertyOrField, comparator);
     }
     return myself;
   }
@@ -553,7 +555,9 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * Comparators specified by {@link #usingComparatorForFields} have precedence over comparators specified by this method.
    * <p>
-   * The comparators specified by this method are only used for field by field comparison like {@link #isEqualToComparingFieldByField(Object)}.
+   * The comparators specified by this method are used for field by field comparison like
+   * {@link #isEqualToComparingFieldByField(Object)}, but also for {@link #returns(Object, Function)} and
+   * {@link #doesNotReturn(Object, Function)} assertions.
    * <p>
    * Example:
    * <pre><code class='java'> public class TolkienCharacter {
@@ -597,10 +601,13 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <li>The comparator of an interface implemented by the given {@code type}</li>
    * </ol>
    *
-   * @param comparator the {@link java.util.Comparator} to use
-   * @param type the {@link java.lang.Class} of the type the comparator should be used for
+   * @param comparator the {@link Comparator} to use
+   * @param type the {@link Class} of the type the comparator should be used for
    * @param <T> the type of objects that the comparator should be used for
    * @return {@code this} assertions object
+   * @see #isEqualToComparingFieldByField(Object)
+   * @see #returns(Object, Function)
+   * @see #doesNotReturn(Object, Function)
    */
   @CheckReturnValue
   public <T> SELF usingComparatorForType(Comparator<? super T> comparator, Class<T> type) {
@@ -1066,7 +1073,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @Deprecated
   public SELF isEqualToComparingFieldByFieldRecursively(Object other) {
-    objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, comparatorByPropertyOrField,
+    objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, comparatorsByPropertyOrField,
                                                             getComparatorsByType());
     return myself;
   }
@@ -1076,6 +1083,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * a typical usage is to pass a method reference to assert object's property.
    * <p>
    * Wrapping the given {@link Function} with {@link Assertions#from(Function)} makes the assertion more readable.
+   * <p>
+   * The assertion supports custom comparators, configurable with {@link #usingComparatorForType(Comparator, Class)}.
    * <p>
    * Example:
    * <pre><code class="java"> // from is not mandatory but it makes the assertions more readable
@@ -1088,9 +1097,12 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @param <T> the expected value type the given {@code method} returns.
    * @return {@code this} assertion object.
    * @throws NullPointerException if given {@code from} function is null
+   *
+   * @see #usingComparatorForType(Comparator, Class)
    */
   public <T> SELF returns(T expected, Function<ACTUAL, T> from) {
     requireNonNull(from, "The given getter method/Function must not be null");
+    Objects objects = getComparatorBasedObjectAssertions(expected.getClass());
     objects.assertEqual(info, from.apply(actual), expected);
     return myself;
   }
@@ -1100,6 +1112,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * a typical usage is to pass a method reference to assert object's property.
    * <p>
    * Wrapping the given {@link Function} with {@link Assertions#from(Function)} makes the assertion more readable.
+   * <p>
+   * The assertion supports custom comparators, configurable with {@link #usingComparatorForType(Comparator, Class)}.
    * <p>
    * Example:
    * <pre><code class="java"> // from is not mandatory but it makes the assertions more readable
@@ -1114,11 +1128,21 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws NullPointerException if given {@code from} function is null
    *
    * @since 3.22.0
+   * @see #usingComparatorForType(Comparator, Class)
    */
   public <T> SELF doesNotReturn(T expected, Function<ACTUAL, T> from) {
     requireNonNull(from, "The given getter method/Function must not be null");
+    Objects objects = getComparatorBasedObjectAssertions(expected.getClass());
     objects.assertNotEqual(info, from.apply(actual), expected);
     return myself;
+  }
+
+  private Objects getComparatorBasedObjectAssertions(Class<?> type) {
+    TypeComparators comparatorsByType = getComparatorsByType();
+    if (comparatorsByType.hasComparatorForType(type)) {
+      return new Objects(new ComparatorBasedComparisonStrategy(comparatorsByType.getComparatorForType(type)));
+    }
+    return objects;
   }
 
   /**
@@ -1199,7 +1223,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @Override
   public RecursiveComparisonAssert<?> usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
-    return super.usingRecursiveComparison(recursiveComparisonConfiguration).withTypeComparators(comparatorByType);
+    return super.usingRecursiveComparison(recursiveComparisonConfiguration).withTypeComparators(comparatorsByType);
   }
 
   /**
@@ -1305,19 +1329,19 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   SELF withAssertionState(AbstractAssert assertInstance) {
     if (assertInstance instanceof AbstractObjectAssert) {
       AbstractObjectAssert objectAssert = (AbstractObjectAssert) assertInstance;
-      return (SELF) super.withAssertionState(assertInstance).withTypeComparator(objectAssert.comparatorByType)
-                                                            .withComparatorByPropertyOrField(objectAssert.comparatorByPropertyOrField);
+      return (SELF) super.withAssertionState(assertInstance).withTypeComparator(objectAssert.comparatorsByType)
+                                                            .withComparatorByPropertyOrField(objectAssert.comparatorsByPropertyOrField);
     }
     return super.withAssertionState(assertInstance);
   }
 
   SELF withTypeComparator(TypeComparators comparatorsByType) {
-    this.comparatorByType = comparatorsByType;
+    this.comparatorsByType = comparatorsByType;
     return myself;
   }
 
   SELF withComparatorByPropertyOrField(Map<String, Comparator<?>> comparatorsToPropaget) {
-    this.comparatorByPropertyOrField = comparatorsToPropaget;
+    this.comparatorsByPropertyOrField = comparatorsToPropaget;
     return myself;
   }
 

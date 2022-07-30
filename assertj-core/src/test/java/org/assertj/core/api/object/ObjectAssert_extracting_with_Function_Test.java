@@ -115,12 +115,12 @@ class ObjectAssert_extracting_with_Function_Test implements NavigationMethodBase
   }
 
   private static TypeComparators comparatorsByTypeOf(AbstractObjectAssert<?, ?> assertion) {
-    return (TypeComparators) PropertyOrFieldSupport.EXTRACTION.getValueOf("comparatorByType", assertion);
+    return (TypeComparators) PropertyOrFieldSupport.EXTRACTION.getValueOf("comparatorsByType", assertion);
   }
 
   @SuppressWarnings("unchecked")
   private static Map<String, Comparator<?>> comparatorByPropertyOrFieldOf(AbstractObjectAssert<?, ?> assertion) {
-    return (Map<String, Comparator<?>>) PropertyOrFieldSupport.EXTRACTION.getValueOf("comparatorByPropertyOrField", assertion);
+    return (Map<String, Comparator<?>>) PropertyOrFieldSupport.EXTRACTION.getValueOf("comparatorsByPropertyOrField", assertion);
   }
 
   @Override
