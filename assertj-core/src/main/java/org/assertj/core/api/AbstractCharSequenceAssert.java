@@ -19,6 +19,8 @@ import java.io.File;
 import java.io.LineNumberReader;
 import java.text.Normalizer;
 import java.util.Comparator;
+import java.util.function.Consumer;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -1220,6 +1222,25 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} matches the given regular expression pattern, then accepts the given
+   * {@code Consumer<Matcher>} to do further verification on the matcher.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds:
+   * assertThat(&quot;Frodo&quot;).matchesSatisfying(&quot;..(o.o)&quot;, matcher -&gt; assertThat(matcher.group(1)).isEqualTo(&quot;odo&quot;)); </code></pre>
+   *
+   * @param regex the regular expression to which the actual {@code CharSequence} is to be matched.
+   * @param matchSatisfies a consumer of the found match to do further verification
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given pattern is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} does not match the given regular expression.
+   */
+  public SELF matchesSatisfying(CharSequence regex, Consumer<Matcher> matchSatisfies) {
+    return internalMatchesSatisfying(Pattern.compile(regex.toString()), matchSatisfies);
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} does not match the given regular expression.
    * <p>
    * Example:
@@ -1259,6 +1280,35 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   public SELF matches(Pattern pattern) {
     strings.assertMatches(info, actual, pattern);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} matches the given regular expression pattern, then accepts the given
+   * {@code Consumer<Matcher>} to do further verification on the matcher.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Pattern pattern = Pattern.compile("..(o.o)");
+   *
+   * // assertion succeeds:
+   * assertThat(&quot;Frodo&quot;).matchesSatisfying(pattern, matcher -&gt; assertThat(matcher.group(1)).isEqualTo(&quot;odo&quot;)); </code></pre>
+   *
+   * @param pattern the regular expression to which the actual {@code CharSequence} is to be matched.
+   * @param matchSatisfies a consumer of the found match to do further verification
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given pattern is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} does not match the given regular expression.
+   */
+  public SELF matchesSatisfying(Pattern pattern, Consumer<Matcher> matchSatisfies) {
+    return internalMatchesSatisfying(pattern, matchSatisfies);
+  }
+
+  // internal method to avoid double proxying if one assertion calls another one
+  private SELF internalMatchesSatisfying(Pattern pattern, Consumer<Matcher> matchSatisfies) {
+    Matcher matcher = pattern.matcher(actual);
+    strings.assertMatches(info, actual, matcher);
+    matchSatisfies.accept(matcher);
     return myself;
   }
 
@@ -1649,6 +1699,26 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} contains the given regular expression pattern, then accepts the given
+   * {@code Consumer<Matcher>} for further verification on the matcher.
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertion succeeds:
+   * assertThat(&quot;Frodo&quot;).containsPatternSatisfying(&quot;.o(.o)&quot;, matcher -&gt; assertThat(matcher.group(1)).isEqualTo(&quot;do&quot;)); </code></pre>
+   *
+   * @param regex the regular expression to find in the actual {@code CharSequence}.
+   * @param matchSatisfies a consumer for further verifying the Matcher.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given pattern is {@code null}.
+   * @throws PatternSyntaxException if the regular expression's syntax is invalid.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the given regular expression cannot be found in the actual {@code CharSequence}.
+   */
+  public SELF containsPatternSatisfying(CharSequence regex, Consumer<Matcher> matchSatisfies) {
+    return internalContainsPatternSatisfying(Pattern.compile(regex.toString()), matchSatisfies);
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} contains the given regular expression pattern.
    * <p>
    * Example:
@@ -1666,6 +1736,34 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   public SELF containsPattern(Pattern pattern) {
     strings.assertContainsPattern(info, actual, pattern);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} contains the given regular expression pattern, then accepts the given
+   * {@code Consumer<Matcher>} for further verification on the matcher.
+   * <p>
+   * Example :
+   * <pre><code class='java'> Pattern pattern = Pattern.compile(&quot;.o(.o)&quot;);
+   *
+   * // assertion succeeds:
+   * assertThat(&quot;Frodo&quot;).containsPatternSatisfying(pattern, matcher -&gt; assertThat(matcher.group(1)).isEqualTo(&quot;do&quot;)); </code></pre>
+   *
+   * @param pattern the regular expression to find in the actual {@code CharSequence}.
+   * @param matchSatisfies a consumer for further verifying the Matcher.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given pattern is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the given regular expression cannot be found in the actual {@code CharSequence}.
+   */
+  public SELF containsPatternSatisfying(Pattern pattern, Consumer<Matcher> matchSatisfies) {
+    return internalContainsPatternSatisfying(pattern, matchSatisfies);
+  }
+
+  private SELF internalContainsPatternSatisfying(Pattern pattern, Consumer<Matcher> matchSatisfies) {
+    Matcher matcher = pattern.matcher(actual);
+    strings.assertContainsPattern(info, actual, matcher);
+    matchSatisfies.accept(matcher);
     return myself;
   }
 
