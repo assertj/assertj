@@ -2,118 +2,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.assertj</groupId>
-  <artifactId>assertj-parent-pom</artifactId>
-  <version>2.2.19-SNAPSHOT</version>
+  <parent>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-build</artifactId>
+    <version>3.24.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>assertj-parent</artifactId>
   <packaging>pom</packaging>
 
   <name>AssertJ - Fluent assertions for java unit testing</name>
   <description>Parent POM for all AssertJ modules</description>
-  <url>https://assertj.github.io/doc/</url>
-  <organization>
-    <name>AssertJ</name>
-    <url>https://assertj.github.io/doc/</url>
-  </organization>
-  <licenses>
-    <license>
-      <name>Apache License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-
-  <developers>
-    <developer>
-      <id>joel-costigliola</id>
-      <name>Joel Costigliola</name>
-      <email>joel.costigliola at gmail.com</email>
-      <roles>
-        <role>Owner</role>
-        <role>Developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>scordio</id>
-      <name>Stefano Cordio</name>
-      <roles>
-        <role>Developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>PascalSchumacher</id>
-      <name>Pascal Schumacher</name>
-      <roles>
-        <role>Developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>epeee</id>
-      <name>Erhard Pointl</name>
-      <roles>
-        <role>Developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>croesch</id>
-      <name>Christian Rösch</name>
-      <roles>
-        <role>Developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>VanRoy</id>
-      <name>Julien Roy</name>
-      <roles>
-        <role>Developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>regis1512</id>
-      <name>Régis Pouiller</name>
-      <roles>
-        <role>Developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>fbiville</id>
-      <name>Florent Biville</name>
-      <roles>
-        <role>Developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>Patouche</id>
-      <name>Patrick Allain</name>
-      <roles>
-        <role>Developer</role>
-      </roles>
-    </developer>
-  </developers>
-
-  <scm>
-    <developerConnection>scm:git:https://github.com/assertj/assertj-parent-pom.git</developerConnection>
-    <connection>scm:git:https://github.com/assertj/assertj-parent-pom.git</connection>
-    <url>https://github.com/assertj/assertj-maven-parent-pom</url>
-    <tag>HEAD</tag>
-  </scm>
-  <issueManagement>
-    <system>github</system>
-    <url>https://github.com/assertj/assertj-maven-parent-pom/issues</url>
-  </issueManagement>
-  <distributionManagement>
-    <repository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-  </distributionManagement>
 
   <properties>
     <additionalparam>-Xdoclint:none</additionalparam>
-    <java.version>1.8</java.version>
+    <java.version>8</java.version>
     <maven.compiler.parameters>true</maven.compiler.parameters>
     <maven.compiler.release>${java.version}</maven.compiler.release>
     <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -124,10 +27,10 @@
     <junit.version>4.13.2</junit.version>
     <junit-jupiter.version>5.9.0</junit-jupiter.version>
     <mockito.version>4.6.1</mockito.version>
+    <opentest4j.version>1.2.0</opentest4j.version>
     <!-- Plugin versions -->
     <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
     <license-maven-plugin.version>4.1</license-maven-plugin.version>
-    <lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
     <maven-clean-plugin.version>3.2.0</maven-clean-plugin.version>
     <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
     <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
@@ -170,6 +73,11 @@
         <version>${mockito.version}</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.opentest4j</groupId>
+        <artifactId>opentest4j</artifactId>
+        <version>${opentest4j.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -546,70 +454,6 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
             </executions>
           </plugin>
         </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>eclipse</id>
-      <activation>
-        <property>
-          <name>m2e.version</name>
-        </property>
-      </activation>
-      <build>
-        <pluginManagement>
-          <plugins>
-            <plugin>
-              <groupId>org.eclipse.m2e</groupId>
-              <artifactId>lifecycle-mapping</artifactId>
-              <version>${lifecycle-mapping.version}</version>
-              <configuration>
-                <lifecycleMappingMetadata>
-                  <pluginExecutions>
-                    <pluginExecution>
-                      <pluginExecutionFilter>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-enforcer-plugin</artifactId>
-                        <versionRange>[1.0.0,)</versionRange>
-                        <goals>
-                          <goal>enforce</goal>
-                        </goals>
-                      </pluginExecutionFilter>
-                      <action>
-                        <ignore />
-                      </action>
-                    </pluginExecution>
-                    <pluginExecution>
-                      <pluginExecutionFilter>
-                        <groupId>org.jacoco</groupId>
-                        <artifactId>jacoco-maven-plugin</artifactId>
-                        <versionRange>[0.7.5.201505241946,)</versionRange>
-                        <goals>
-                          <goal>prepare-agent</goal>
-                        </goals>
-                      </pluginExecutionFilter>
-                      <action>
-                        <ignore />
-                      </action>
-                    </pluginExecution>
-                    <pluginExecution>
-                      <pluginExecutionFilter>
-                        <groupId>com.mycila</groupId>
-                        <artifactId>license-maven-plugin</artifactId>
-                        <versionRange>[2.11,)</versionRange>
-                        <goals>
-                          <goal>format</goal>
-                        </goals>
-                      </pluginExecutionFilter>
-                      <action>
-                        <ignore />
-                      </action>
-                    </pluginExecution>
-                  </pluginExecutions>
-                </lifecycleMappingMetadata>
-              </configuration>
-            </plugin>
-          </plugins>
-        </pluginManagement>
       </build>
     </profile>
   </profiles>

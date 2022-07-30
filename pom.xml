@@ -15,8 +15,88 @@
 
   <name>AssertJ Build</name>
   <description>AssertJ Build</description>
+  <organization>
+    <name>AssertJ</name>
+    <url>https://assertj.github.io/doc/</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>joel-costigliola</id>
+      <name>Joel Costigliola</name>
+      <email>joel.costigliola at gmail.com</email>
+      <roles>
+        <role>Owner</role>
+        <role>Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>scordio</id>
+      <name>Stefano Cordio</name>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>PascalSchumacher</id>
+      <name>Pascal Schumacher</name>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>epeee</id>
+      <name>Erhard Pointl</name>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>croesch</id>
+      <name>Christian Rösch</name>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>VanRoy</id>
+      <name>Julien Roy</name>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>regis1512</id>
+      <name>Régis Pouiller</name>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>fbiville</id>
+      <name>Florent Biville</name>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>Patouche</id>
+      <name>Patrick Allain</name>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+  </developers>
 
   <modules>
+    <module>assertj-parent</module>
     <module>assertj-core</module>
   </modules>
 
@@ -30,5 +110,15 @@
     <system>GitHub</system>
     <url>https://github.com/assertj/assertj-core/issues</url>
   </issueManagement>
+  <distributionManagement>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
 
 </project>
