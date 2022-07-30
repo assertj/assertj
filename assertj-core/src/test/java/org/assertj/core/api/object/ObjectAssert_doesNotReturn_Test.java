@@ -12,14 +12,18 @@
  */
 package org.assertj.core.api.object;
 
+import static java.lang.String.CASE_INSENSITIVE_ORDER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.from;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.ObjectAssertBaseTest;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.Test;
 
@@ -51,6 +55,19 @@ class ObjectAssert_doesNotReturn_Test extends ObjectAssertBaseTest {
     // WHEN/THEN
     assertThat(yoda).doesNotReturn("Luke", from(Jedi::getName))
                     .doesNotReturn("Luke", Jedi::getName);
+  }
+
+  @Test
+  void should_honor_custom_type_comparator() {
+    // GIVEN
+    Jedi yoda = new Jedi("Yoda", "Green");
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(yoda).usingComparatorForType(CASE_INSENSITIVE_ORDER,
+                                                                                                       String.class)
+                                                                               .doesNotReturn("YODA", from(Jedi::getName)));
+    // THEN
+    then(assertionError).hasMessage(shouldNotBeEqual("Yoda", "YODA",
+                                                     new ComparatorBasedComparisonStrategy(CASE_INSENSITIVE_ORDER)).create());
   }
 
 }
