@@ -816,8 +816,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * assertThat(chart.class).isPrimitive();
    *
    * // this assertion fails as objects are not primitive data types:
-   * assertThat(Object.class).isPrimitive(); ;
-   * </code></pre>
+   * assertThat(Object.class).isPrimitive(); </code></pre>
    *
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
@@ -835,7 +834,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * <p>
    * Example
    * <pre><code class='java'> // this assertions succeeds as objects are not primitive data types:
-   * assertThat(Object.class).isNotPrimitive(); ;
+   * assertThat(Object.class).isNotPrimitive();
    *
    * // these assertions fail:
    * assertThat(byte.class).isNotPrimitive();
@@ -845,7 +844,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * assertThat(float.class).isNotPrimitive();
    * assertThat(double.class).isNotPrimitive();
    * assertThat(boolean.class).isNotPrimitive();
-   * assertThat(chart.class).isNotPrimitive();
+   * assertThat(chart.class).isNotPrimitive(); </code></pre>
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is a primitive data type.
