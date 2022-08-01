@@ -62,8 +62,8 @@ public class Classes {
     return INSTANCE;
   }
 
-  private Failures failures = Failures.instance();
-  private ComparisonStrategy comparisonStrategy = StandardComparisonStrategy.instance();
+  private final Failures failures = Failures.instance();
+  private final ComparisonStrategy comparisonStrategy = StandardComparisonStrategy.instance();
 
   /**
    * Verifies that the actual {@code Class} is assignable from all the {@code others} classes.
@@ -400,5 +400,4 @@ public class Classes {
   private static void classParameterIsNotNull(Class<?> clazz) {
     requireNonNull(clazz, "The class to compare actual with should not be null");
   }
-
 }
