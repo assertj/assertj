@@ -33,17 +33,13 @@ import org.assertj.core.util.introspection.IntrospectionError;
 
 public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SELF>> extends AbstractAssert<SELF, Object> {
 
-  private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
-  private RecursiveComparisonDifferenceCalculator recursiveComparisonDifferenceCalculator;
+  private final RecursiveComparisonConfiguration recursiveComparisonConfiguration;
+  private final RecursiveComparisonDifferenceCalculator recursiveComparisonDifferenceCalculator;
 
   public RecursiveComparisonAssert(Object actual, RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     super(actual, RecursiveComparisonAssert.class);
     this.recursiveComparisonConfiguration = recursiveComparisonConfiguration;
     this.recursiveComparisonDifferenceCalculator = new RecursiveComparisonDifferenceCalculator();
-  }
-
-  void setRecursiveComparisonConfiguration(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
-    this.recursiveComparisonConfiguration = recursiveComparisonConfiguration;
   }
 
   /**
@@ -59,8 +55,8 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * <p>
    * <strong>Strict/lenient recursive comparison</strong>
    * <p>
-   * By default the objects to compare can be of different types but must have the same properties/fields. For example if object under test has a {@code work} field of type {@code Address},
-   * the expected object to compare the object under test to must also have one but it can of a different type like {@code AddressDto}.
+   * By default, the objects to compare can be of different types but must have the same properties/fields. For example if object under test has a {@code work} field of type {@code Address},
+   * the expected object to compare the object under test to must also have one, but it can of a different type like {@code AddressDto}.
    * <p>
    * It is possible to enforce strict type checking by calling {@link #withStrictTypeChecking()} and make the comparison fail whenever the compared objects or their fields are not compatible.<br>
    * Compatible means that the expected object/field types are the same or a subtype of actual/field types, for example if actual is an {@code Animal} and expected a {@code Dog}, they will be compared field by field in strict type checking mode.
@@ -74,7 +70,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * <p>
    * <strong>Recursive comparison use of overridden {@code equals} methods</strong>
    * <p>
-   * By default the recursive comparison is <b>not</b> applied on fields whose classes have overridden the {@code equals} method,
+   * By default, the recursive comparison is <b>not</b> applied on fields whose classes have overridden the {@code equals} method,
    * concretely it means {@code equals} is used to compare these fields instead of keeping on applying the recursive comparison.
    * The rationale is that if a class has redefined {@code equals} then it should be used to compare instances unless having a good reason.
    * <p>
@@ -465,7 +461,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
-   * Makes the recursive comparison to ignore the object under test fields whose name matche the given regexes.
+   * Makes the recursive comparison to ignore the object under test fields whose name matches the given regexes.
    * <p>
    * Nested fields can be specified by using dots like this: {@code home\.address\.street} ({@code \} is used to escape
    * dots since they have a special meaning in regexes).
@@ -621,7 +617,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
-   * By default the recursive comparison compare recursively all fields including the ones whose type have overridden equals
+   * By default, the recursive comparison compare recursively all fields including the ones whose type have overridden equals
    * <b>except fields with java types</b> (at some point we need to compare something!).
    * <p>
    * This method instructs the recursive comparison to use overridden equals.
@@ -743,7 +739,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
-   * By default the recursive comparison uses overridden {@code equals} methods to compare fields,
+   * By default, the recursive comparison uses overridden {@code equals} methods to compare fields,
    * this method allows to force a recursive comparison for all fields of the given types (it adds them to the already registered ones).
    * <p>
    * Since 3.17.0 all overridden {@code equals} so this method is only relevant if you have called {@link #usingOverriddenEquals()} before.
@@ -806,7 +802,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
-   * In case you have instructed the recursive to use overridden {@code equals} with {@link #usingOverriddenEquals()},
+   * In case you have instructed the recursive comparison to use overridden {@code equals} with {@link #usingOverriddenEquals()},
    * this method allows to force a recursive comparison for the fields matching the given regexes (it adds them to the already registered ones).
    * <p>
    * Since 3.17.0 all overridden {@code equals} so this method is only relevant if you have called {@link #usingOverriddenEquals()} before.

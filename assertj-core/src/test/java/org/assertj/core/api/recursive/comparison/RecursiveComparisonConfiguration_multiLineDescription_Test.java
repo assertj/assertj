@@ -125,9 +125,9 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // THEN
     // @format:off
     then(multiLineDescription).contains(format("- overridden equals methods were used in the comparison except for:%n" +
-                                                     "  - the following fields: foo, bar, foo.bar%n" +
-                                                     "  - the following types: java.lang.String, com.google.common.collect.Multimap%n" +
-                                                     "  - the types matching the following regexes: .*oo, .*ar%n"));
+                                               "  - the following fields: foo, bar, foo.bar%n" +
+                                               "  - the following types: java.lang.String, com.google.common.collect.Multimap%n" +
+                                               "  - the fields matching the following regexes: .*oo, .*ar%n"));
     // @format:on
   }
 
@@ -141,7 +141,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // THEN
     // @format:off
     then(multiLineDescription).contains(format("- overridden equals methods were used in the comparison except for:%n" +
-                                                     "  - the types matching the following regexes: foo, bar, foo.bar%n"));
+                                               "  - the fields matching the following regexes: foo, bar, foo.bar%n"));
     // @format:on
   }
 
@@ -325,7 +325,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
                "- overridden equals methods were used in the comparison except for:%n" +
                "  - the following fields: foo, baz, foo.baz%n" +
                "  - the following types: java.lang.String, com.google.common.collect.Multimap%n" +
-               "  - the types matching the following regexes: .*oo, .ar, oo.ba%n" +
+               "  - the fields matching the following regexes: .*oo, .ar, oo.ba%n" +
                "- collection order was ignored in all fields in the comparison%n" +
                "- collection order was ignored in the following fields in the comparison: foo, bar, foo.bar%n" +
                "- collection order was ignored in the fields matching the following regexes in the comparison: f.*, ba., foo.*%n" +

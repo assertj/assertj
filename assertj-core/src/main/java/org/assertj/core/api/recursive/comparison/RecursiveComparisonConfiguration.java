@@ -57,15 +57,15 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   private Set<FieldLocation> comparedFields = new LinkedHashSet<>();
 
   // overridden equals method to ignore section
-  private List<Class<?>> ignoredOverriddenEqualsForTypes = new ArrayList<>();
+  private final List<Class<?>> ignoredOverriddenEqualsForTypes = new ArrayList<>();
   private List<String> ignoredOverriddenEqualsForFields = new ArrayList<>();
-  private List<Pattern> ignoredOverriddenEqualsForFieldsMatchingRegexes = new ArrayList<>();
+  private final List<Pattern> ignoredOverriddenEqualsForFieldsMatchingRegexes = new ArrayList<>();
   private boolean ignoreAllOverriddenEquals = DEFAULT_IGNORE_ALL_OVERRIDDEN_EQUALS;
 
   // ignore order in collections section
   private boolean ignoreCollectionOrder = false;
   private Set<String> ignoredCollectionOrderInFields = new LinkedHashSet<>();
-  private List<Pattern> ignoredCollectionOrderInFieldsMatchingRegexes = new ArrayList<>();
+  private final List<Pattern> ignoredCollectionOrderInFieldsMatchingRegexes = new ArrayList<>();
 
   // registered comparators section
   private TypeComparators typeComparators = defaultTypeComparators();
@@ -613,7 +613,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     try {
       expectedFieldValue = COMPARISON.getSimpleValue(fieldName, parentDualValue.expected);
     } catch (@SuppressWarnings("unused") Exception e) {
-      // set the field to null to express it is absent, this not 100% accurate as the value could be null
+      // set the field to null to express it is absent, this not 100% accurate as the value could be null,
       // but it works to evaluate if dualValue should be ignored with matchesAnIgnoredFieldType
       expectedFieldValue = null;
     }
@@ -642,7 +642,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   @VisibleForTesting
   boolean shouldIgnoreOverriddenEqualsOf(Class<?> clazz) {
-    return matchesAnIgnoredOverriddenEqualsRegex(clazz) || matchesAnIgnoredOverriddenEqualsType(clazz);
+    return matchesAnIgnoredOverriddenEqualsType(clazz);
   }
 
   boolean shouldIgnoreCollectionOrder(FieldLocation fieldLocation) {
@@ -696,7 +696,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
       description.append(format("%s the following types: %s%n", INDENT_LEVEL_2,
                                 describeIgnoredOverriddenEqualsForTypes(representation)));
     if (!ignoredOverriddenEqualsForFieldsMatchingRegexes.isEmpty())
-      description.append(format("%s the types matching the following regexes: %s%n", INDENT_LEVEL_2,
+      description.append(format("%s the fields matching the following regexes: %s%n", INDENT_LEVEL_2,
                                 describeRegexes(ignoredOverriddenEqualsForFieldsMatchingRegexes)));
   }
 
@@ -728,10 +728,10 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
                describeRegexes(ignoredCollectionOrderInFieldsMatchingRegexes)));
   }
 
-  private boolean matchesAnIgnoredOverriddenEqualsRegex(Class<?> clazz) {
+  private boolean matchesAnIgnoredOverriddenEqualsRegex(FieldLocation fieldLocation) {
     if (ignoredOverriddenEqualsForFieldsMatchingRegexes.isEmpty()) return false; // shortcut
-    String canonicalName = clazz.getCanonicalName();
-    return ignoredOverriddenEqualsForFieldsMatchingRegexes.stream().anyMatch(regex -> regex.matcher(canonicalName).matches());
+    String pathToUseInRules = fieldLocation.getPathToUseInRules();
+    return ignoredOverriddenEqualsForFieldsMatchingRegexes.stream().anyMatch(regex -> regex.matcher(pathToUseInRules).matches());
   }
 
   private boolean matchesAnIgnoredOverriddenEqualsType(Class<?> clazz) {
@@ -739,7 +739,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   private boolean matchesAnIgnoredOverriddenEqualsField(FieldLocation fieldLocation) {
-    return ignoredOverriddenEqualsForFields.stream().anyMatch(fieldLocation::matches);
+    return ignoredOverriddenEqualsForFields.stream().anyMatch(fieldLocation::matches)
+           || matchesAnIgnoredOverriddenEqualsRegex(fieldLocation);
   }
 
   private boolean matchesAnIgnoredNullField(DualValue dualValue) {
@@ -886,10 +887,10 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     private boolean ignoreCollectionOrder;
     private String[] ignoredCollectionOrderInFields = {};
     private String[] ignoredCollectionOrderInFieldsMatchingRegexes = {};
-    private TypeComparators typeComparators = defaultTypeComparators();
-    private FieldComparators fieldComparators = new FieldComparators();
-    private FieldMessages fieldMessages = new FieldMessages();
-    private TypeMessages typeMessages = new TypeMessages();
+    private final TypeComparators typeComparators = defaultTypeComparators();
+    private final FieldComparators fieldComparators = new FieldComparators();
+    private final FieldMessages fieldMessages = new FieldMessages();
+    private final TypeMessages typeMessages = new TypeMessages();
 
     private Builder() {
       super(Builder.class);

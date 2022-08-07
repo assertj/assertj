@@ -29,8 +29,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import com.google.common.collect.Multimap;
-
 class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Test {
 
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
@@ -44,6 +42,7 @@ class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Test {
   void should_ignore_all_overridden_equals_for_non_java_types() {
     // GIVEN
     DualValue dualValue = new DualValue(list("foo"), new Person(), new Person());
+    recursiveComparisonConfiguration.useOverriddenEquals();
     recursiveComparisonConfiguration.ignoreAllOverriddenEquals();
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(dualValue);
@@ -57,6 +56,7 @@ class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Test {
   void should_ignore_all_overridden_equals_except_basic_types(Object value) {
     // GIVEN
     DualValue dualValue = new DualValue(list("foo"), value, value);
+    recursiveComparisonConfiguration.useOverriddenEquals();
     recursiveComparisonConfiguration.ignoreAllOverriddenEquals();
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(dualValue);
@@ -71,26 +71,31 @@ class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Test {
 
   @ParameterizedTest(name = "{0} overridden equals should be ignored with these regexes {1}")
   @MethodSource("ignoringOverriddenEqualsByRegexesSource")
-  void should_ignore_overridden_equals_by_regexes(Class<?> clazz, String[] fieldRegexes) {
+  void should_ignore_overridden_equals_for_fields_matching_regexes(DualValue dualValue, String[] fieldRegexes) {
     // GIVEN
+    recursiveComparisonConfiguration.useOverriddenEquals();
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes(fieldRegexes);
     // WHEN
-    boolean ignored = recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(clazz);
+    boolean ignored = recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(dualValue);
     // THEN
-    assertThat(ignored).as("%s overridden equals should be ignored with these regexes %s", clazz, fieldRegexes)
+    assertThat(ignored).as("%s overridden equals should be ignored for fields matching these regexes %s", dualValue, fieldRegexes)
                        .isTrue();
   }
 
   private static Stream<Arguments> ignoringOverriddenEqualsByRegexesSource() {
-    return Stream.of(arguments(Person.class, array("foo", ".*Person")),
-                     arguments(Human.class, array("org.assertj.core.internal.*.data\\.Human", "foo")),
-                     arguments(Multimap.class, array("com.google.common.collect.*")));
+    return Stream.of(arguments(dualValueWithPath("phone"), array("phon.")),
+                     arguments(dualValueWithPath("name"), array("foo", "na..", "foo")),
+                     arguments(dualValueWithPath("name", "first"), array("name\\.fi.st")),
+                     arguments(dualValueWithPath("father", "dob"), array("father.*")),
+                     arguments(dualValueWithPath("father", "nickname", "first"), array("father\\.(.*)\\.first")),
+                     arguments(dualValueWithPath("father", "name", "first"), array("father\\.(.*)\\.first")));
   }
 
   @ParameterizedTest(name = "{0} overridden equals should be ignored for these types {1}")
   @MethodSource("ignoringOverriddenEqualsForTypesSource")
   void should_ignore_overridden_equals_by_types(Class<?> clazz, List<Class<?>> types) {
     // GIVEN
+    recursiveComparisonConfiguration.useOverriddenEquals();
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(types.toArray(new Class[0]));
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(clazz);
@@ -108,6 +113,7 @@ class RecursiveComparisonConfiguration_shouldIgnoreOverriddenEqualsOf_Test {
   @MethodSource("ignoringOverriddenEqualsForFieldsSource")
   void should_ignore_overridden_equals_by_fields(DualValue dualValue, String[] fields) {
     // GIVEN
+    recursiveComparisonConfiguration.useOverriddenEquals();
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields(fields);
     // WHEN
     boolean ignored = recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(dualValue);

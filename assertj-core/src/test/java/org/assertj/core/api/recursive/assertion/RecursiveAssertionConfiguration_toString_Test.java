@@ -27,30 +27,30 @@ import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class RecursiveComparisonConfiguration_toString_Test {
+class RecursiveAssertionConfiguration_toString_Test {
 
-  private Builder recursiveComparisonConfigurationBuilder;
+  private Builder recursiveAssertionConfigurationBuilder;
 
   @BeforeEach
   void setup() {
-    recursiveComparisonConfigurationBuilder = RecursiveAssertionConfiguration.builder();
+    recursiveAssertionConfigurationBuilder = RecursiveAssertionConfiguration.builder();
   }
 
   @Test
   void should_show_a_complete_description() {
     // GIVEN
-    recursiveComparisonConfigurationBuilder.withIgnorePrimitiveFields(true)
-                                           .withIgnoreAllNullFields(true)
-                                           .withIgnoredFields("foo", "bar", "foo.bar")
-                                           .withIgnoredFieldsMatchingRegexes("f.*", ".ba.", "..b%sr..")
-                                           .withIgnoredFieldsOfTypes(UUID.class, ZonedDateTime.class)
-                                           .withRecursionIntoJavaClassLibraryTypes(true)
-                                           .withCollectionAssertionPolicy(ELEMENTS_ONLY)
-                                           .withMapAssertionPolicy(MAP_VALUES_ONLY)
-                                           .withOptionalAssertionPolicy(OPTIONAL_VALUE_ONLY)
-                                           .withIntrospectionStrategy(new MyIntrospectionStrategy());
+    recursiveAssertionConfigurationBuilder.withIgnorePrimitiveFields(true)
+                                          .withIgnoreAllNullFields(true)
+                                          .withIgnoredFields("foo", "bar", "foo.bar")
+                                          .withIgnoredFieldsMatchingRegexes("f.*", ".ba.", "..b%sr..")
+                                          .withIgnoredFieldsOfTypes(UUID.class, ZonedDateTime.class)
+                                          .withRecursionIntoJavaClassLibraryTypes(true)
+                                          .withCollectionAssertionPolicy(ELEMENTS_ONLY)
+                                          .withMapAssertionPolicy(MAP_VALUES_ONLY)
+                                          .withOptionalAssertionPolicy(OPTIONAL_VALUE_ONLY)
+                                          .withIntrospectionStrategy(new MyIntrospectionStrategy());
     // WHEN
-    RecursiveAssertionConfiguration recursiveAssertionConfiguration = recursiveComparisonConfigurationBuilder.build();
+    RecursiveAssertionConfiguration recursiveAssertionConfiguration = recursiveAssertionConfigurationBuilder.build();
     // THEN
     //@format:off
     then(recursiveAssertionConfiguration).hasToString(format("- all null fields were ignored in the assertion%n" +
@@ -69,7 +69,7 @@ class RecursiveComparisonConfiguration_toString_Test {
   @Test
   void should_show_a_complete_description_with_default_values() {
     // WHEN
-    RecursiveAssertionConfiguration recursiveAssertionConfiguration = recursiveComparisonConfigurationBuilder.build();
+    RecursiveAssertionConfiguration recursiveAssertionConfiguration = recursiveAssertionConfigurationBuilder.build();
     // THEN
     // @format:off
     then(recursiveAssertionConfiguration).hasToString(format("- fields from Java Class Library types (java.* or javax.*) were excluded in the recursive assertion%n" +

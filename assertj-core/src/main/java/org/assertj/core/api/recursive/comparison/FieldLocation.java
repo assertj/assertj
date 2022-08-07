@@ -92,7 +92,7 @@ public final class FieldLocation implements Comparable<FieldLocation> {
   }
 
   private static String pathToUseInRules(List<String> path) {
-    // remove the array subpath, so person.children.[2].name -> person.children.name
+    // remove the array sub-path, so person.children.[2].name -> person.children.name
     // rules for ignoring fields don't apply at the element level (ex: children.[2]) but at the group level (ex: children).
     return path.stream()
                .filter(subpath -> !subpath.startsWith("["))

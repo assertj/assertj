@@ -119,8 +119,8 @@ class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
     expected.neighbour.home.address = new AlwaysEqualAddress();
     expected.neighbour.home.address.number = 234;
 
-    recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes(".*AlwaysEqualPerson",
-                                                                                    ".*AlwaysEqualAddress");
+    recursiveComparisonConfiguration.useOverriddenEquals();
+    recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes("neighb..r", ".*address");
 
     // WHEN
     compareRecursivelyFailsAsExpected(actual, expected);
