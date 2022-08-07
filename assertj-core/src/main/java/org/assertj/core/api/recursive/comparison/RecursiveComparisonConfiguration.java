@@ -426,6 +426,34 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   /**
+   * Allows to register a {@link BiPredicate} to compare fields whose location matches the given regexes.
+   * A typical usage is to compare double/float fields with a given precision.
+   * <p>
+   * The fields are evaluated from the root object, for example if {@code Foo} has a {@code Bar} field and both have an {@code id} field,
+   * one can register a BiPredicate for Foo and Bar's {@code id} by calling:
+   * <pre><code class='java'> registerEqualsForFieldsMatchingRegexes(idBiPredicate, ".*id")</code></pre>
+   * or
+   * <pre><code class='java'> registerEqualsForFieldsMatchingRegexes(idBiPredicate, "foo.*id")</code></pre>
+   * <p>
+   * BiPredicates registered with this method have precedence over the ones registered with {@link #registerEqualsForType(BiPredicate, Class)}
+   * or the comparators registered with {@link #registerComparatorForType(Comparator, Class)} but don't have precedence over the
+   * ones registered with exact location match: {@link #registerEqualsForFields(BiPredicate, String...)} or {@link #registerComparatorForFields(Comparator, String...)}
+   * <p>
+   * If registered regexes for different {@link BiPredicate} match a given field, the latest registered regexes {@link BiPredicate} wins.
+   * <p>
+   * Example: see {@link RecursiveComparisonAssert#withEqualsForFieldsMatchingRegexes(BiPredicate, String...)}
+   *
+   * @param equals the {@link BiPredicate} to use to compare the fields matching the given regexes
+   * @param regexes the regexes from the root object of the fields location the BiPredicate should be used for
+   *
+   * @throws NullPointerException if the given BiPredicate is null.
+   * @since 3.24.0
+   */
+  public void registerEqualsForFieldsMatchingRegexes(BiPredicate<?, ?> equals, String... regexes) {
+    fieldComparators.registerComparatorForFieldsMatchingRegexes(regexes, toComparator(equals));
+  }
+
+  /**
    * Registers the giving message which would be shown when differences in the given fields while comparison occurred.
    * <p>
    * The fields must be specified from the root object, for example if {@code Foo} has a {@code Bar} field and both
@@ -807,8 +835,17 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   private void describeRegisteredComparatorForFields(StringBuilder description) {
     if (!fieldComparators.isEmpty()) {
-      description.append(format("- these fields were compared with the following comparators:%n"));
-      describeComparatorForFields(description);
+      if (fieldComparators.hasFieldComparators()) {
+        description.append(format("- these fields were compared with the following comparators:%n"));
+        describeComparatorForFields(description);
+      }
+      if (fieldComparators.hasRegexFieldComparators()) {
+        description.append(format("- the fields matching these regexes were compared with the following comparators:%n"));
+        describeComparatorForRegexFields(description);
+      }
+      if (fieldComparators.hasFieldComparators() && fieldComparators.hasRegexFieldComparators()) {
+        description.append(format("- field comparators take precedence over regex field matching comparators.%n"));
+      }
       if (!typeComparators.isEmpty()) {
         description.append(format("- field comparators take precedence over type comparators.%n"));
       }
@@ -821,8 +858,19 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
                     .forEach(description::append);
   }
 
+  private void describeComparatorForRegexFields(StringBuilder description) {
+    fieldComparators.comparatorByRegexFields()
+                    .map(this::formatRegisteredComparatorForRegexFields)
+                    .sorted()
+                    .forEach(description::append);
+  }
+
   private String formatRegisteredComparatorForField(Entry<String, Comparator<?>> comparatorForField) {
     return format("%s %s -> %s%n", INDENT_LEVEL_2, comparatorForField.getKey(), comparatorForField.getValue());
+  }
+
+  private String formatRegisteredComparatorForRegexFields(Entry<List<Pattern>, Comparator<?>> comparatorForRegexFields) {
+    return format("%s %s -> %s%n", INDENT_LEVEL_2, comparatorForRegexFields.getKey(), comparatorForRegexFields.getValue());
   }
 
   private void describeTypeCheckingStrictness(StringBuilder description) {
@@ -870,6 +918,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   public static Builder builder() {
     return new Builder();
   }
+
 
   /**
    * Builder to build {@link RecursiveComparisonConfiguration}.
@@ -1146,6 +1195,35 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
      */
     public Builder withEqualsForFields(BiPredicate<?, ?> equals, String... fields) {
       return withComparatorForFields(toComparator(equals), fields);
+    }
+
+    /**
+     * Allows to register a {@link BiPredicate} to compare fields whose location matches the given regexes.
+     * A typical usage is to compare double/float fields with a given precision.
+     * <p>
+     * The fields are evaluated from the root object, for example if {@code Foo} has a {@code Bar} field and both have an {@code id} field,
+     * one can register a BiPredicate for Foo and Bar's {@code id} by calling:
+     * <pre><code class='java'> withEqualsForFields(idBiPredicate, ".*id")</code></pre>
+     * or
+     * <pre><code class='java'> withEqualsForFields(idBiPredicate, "foo.*id")</code></pre>
+     * <p>
+     * BiPredicates registered with this method have precedence over the ones registered with {@link #registerEqualsForType(BiPredicate, Class)}
+     * or the comparators registered with {@link #registerComparatorForType(Comparator, Class)} but don't have precedence over the
+     * ones registered with exact location match: {@link #registerEqualsForFields(BiPredicate, String...)} or {@link #registerComparatorForFields(Comparator, String...)}
+     * <p>
+     * If registered regexes for different {@link BiPredicate} match a given field, the latest registered regexes {@link BiPredicate} wins.
+     * <p>
+     * See {@link RecursiveComparisonAssert#withEqualsForFieldsMatchingRegexes(BiPredicate, String...)}  RecursiveComparisonAssert#withEqualsForFieldsMatchingRegexes(BiPredicate equals, String...fields)} for examples.
+     *
+     * @param equals the {@link BiPredicate} to use to compare the fields matching the given regexes
+     * @param regexes the regexes to match fields against
+     * @return this builder.
+     * @since 3.24.0
+     * @throws NullPointerException if the given BiPredicate is null.
+     */
+    public Builder withEqualsForFieldsMatchingRegexes(BiPredicate<?, ?> equals, String... regexes) {
+      fieldComparators.registerComparatorForFieldsMatchingRegexes(regexes, toComparator(equals));
+      return this;
     }
 
     /**

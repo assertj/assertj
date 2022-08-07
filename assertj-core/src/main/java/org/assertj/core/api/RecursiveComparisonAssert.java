@@ -1046,12 +1046,12 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
 
   /**
    * Allows to register a {@link BiPredicate} to compare fields with the given locations.
-   * A typical usage is for comparing double/float fields with a given precision.
+   * A typical usage is to compare double/float fields with a given precision.
    * <p>
    * BiPredicates specified with this method have precedence over the ones registered with {@link #withEqualsForType(BiPredicate, Class)}
    * or the comparators registered with {@link #withComparatorForType(Comparator, Class)}.
    * <p>
-   * Note that registering a {@link BiPredicate} for a given field will override the previously registered Comparator (if any).
+   * Note that registering a {@link BiPredicate} for a given field will override the previously registered one (if any).
    * <p>
    * The field locations must be specified from the root object,
    * for example if {@code Foo} has a {@code Bar} field which has an {@code id}, one can register to a comparator for Bar's {@code id} by calling:
@@ -1092,8 +1092,59 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
+   * Allows to register a {@link BiPredicate} to compare fields whose location matches the given regexes.
+   * A typical usage is to compare double/float fields with a given precision.
+   * <p>
+   * The fields are evaluated from the root object, for example if {@code Foo} has a {@code Bar} field and both have an {@code id} field,
+   * one can register a BiPredicate for Foo and Bar's {@code id} by calling:
+   * <pre><code class='java'> withEqualsForFieldsMatchingRegexes(idBiPredicate, ".*id")</code></pre>
+   * or
+   * <pre><code class='java'> withEqualsForFieldsMatchingRegexes(idBiPredicate, "foo.*id")</code></pre>
+   * <p>
+   * BiPredicates registered with this method have precedence over the ones registered with {@link #withEqualsForType(BiPredicate, Class)}
+   * or the comparators registered with {@link #withComparatorForType(Comparator, Class)} but don't have precedence over the
+   * ones registered with exact location match: {@link #withEqualsForFields(BiPredicate, String...)} or {@link #withComparatorForFields(Comparator, String...)}
+   * <p>
+   * If registered regexes for different {@link BiPredicate} match a given field, the latest registered regexes {@link BiPredicate} wins.
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class TolkienCharacter {
+   *   String name;
+   *   double height;
+   *   double weight;
+   * }
+   *
+   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2, 40);
+   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.3, 40.5);
+   * TolkienCharacter reallyTallFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.9, 45);
+   *
+   * BiPredicate&lt;Double, Double&gt; closeEnough = (d1, d2) -&gt; Math.abs(d1 - d2) &lt;= 0.5;
+   *
+   * // assertion succeeds
+   * assertThat(frodo).usingRecursiveComparison()
+   *                  .withEqualsForFieldsMatchingRegexes(closeEnough, &quot;.eight&quot;)
+   *                  .isEqualTo(tallerFrodo);
+   *
+   * // assertion fails
+   * assertThat(frodo).usingRecursiveComparison()
+   *                  .withEqualsForFieldsMatchingRegexes(closeEnough, &quot;.eight&quot;)
+   *                  .isEqualTo(reallyTallFrodo);</code></pre>
+   *
+   * @param equals the {@link BiPredicate} to use to compare the fields matching the given regexes
+   * @param regexes the regexes from the root object of the fields location the BiPredicate should be used for
+   *
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   * @throws NullPointerException if the given BiPredicate is null.
+   * @since 3.24.0
+   */
+  public SELF withEqualsForFieldsMatchingRegexes(BiPredicate<?, ?> equals, String... regexes) {
+    recursiveComparisonConfiguration.registerEqualsForFieldsMatchingRegexes(equals, regexes);
+    return myself;
+  }
+
+  /**
    * Allows to register a comparator to compare fields with the given locations.
-   * A typical usage is for comparing double/float fields with a given precision.
+   * A typical usage is to compare double/float fields with a given precision.
    * <p>
    * Comparators registered with this method have precedence over comparators registered with {@link #withComparatorForType(Comparator, Class)}
    * or {@link BiPredicate} registered with {@link #withEqualsForType(BiPredicate, Class)}.
@@ -1139,7 +1190,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
 
   /**
    * Allows to register a comparator to compare the fields with the given type.
-   * A typical usage is for comparing double/float fields with a given precision.
+   * A typical usage is to compare double/float fields with a given precision.
    * <p>
    * Comparators registered with this method have less precedence than comparators registered with {@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)}
    * or BiPredicate registered with {@link #withEqualsForFields(BiPredicate, String...) withEqualsForFields(BiPredicate, String...)}.
@@ -1183,7 +1234,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
 
   /**
    * Allows to register a {@link BiPredicate} to compare the fields with the given type.
-   * A typical usage is for comparing double/float fields with a given precision.
+   * A typical usage is to compare double/float fields with a given precision.
    * <p>
    * BiPredicates registered with this method have less precedence than the one registered  with {@link #withEqualsForFields(BiPredicate, String...) withEqualsForFields(BiPredicate, String...)}
    * or comparators registered with {@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)}.

@@ -15,6 +15,7 @@ package org.assertj.core.api.recursive.comparison;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
+import static org.assertj.core.test.BiPredicates.STRING_EQUALS;
 
 import java.util.Comparator;
 import java.util.function.BiPredicate;
@@ -253,18 +254,45 @@ class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
+  void should_throw_NPE_if_given_BiPredicate_for_fields_matching_regexes_is_null() {
+    // GIVEN
+    BiPredicate<String, String> stringEquals = null;
+    // WHEN
+    Throwable throwable = catchThrowable(() -> configBuilder().withEqualsForFieldsMatchingRegexes(stringEquals, ".*id"));
+    // THEN
+    then(throwable).isInstanceOf(NullPointerException.class)
+                   .hasMessage("Expecting a non null BiPredicate");
+  }
+
+  @Test
   void should_set_equalsForField() {
     // GIVEN
     String nameLocation = "name";
     String titleLocation = "title";
-    BiPredicate<String, String> stringEquals = (String s1, String s2) -> s1.equalsIgnoreCase(s2);
     // WHEN
-    RecursiveComparisonConfiguration configuration = configBuilder().withEqualsForFields(stringEquals, nameLocation,
+    RecursiveComparisonConfiguration configuration = configBuilder().withEqualsForFields(STRING_EQUALS, nameLocation,
                                                                                          titleLocation)
                                                                     .build();
     // THEN
     then(configuration.hasComparatorForField(nameLocation)).isTrue();
     then(configuration.hasComparatorForField(titleLocation)).isTrue();
+  }
+
+  @Test
+  void should_set_equals_for_fields_matching_regexes() {
+    // GIVEN
+    String nameRegex = ".*name";
+    String titleRegex = ".*title";
+    // WHEN
+    RecursiveComparisonConfiguration configuration = configBuilder().withEqualsForFieldsMatchingRegexes(STRING_EQUALS, nameRegex,
+                                                                                                        titleRegex)
+                                                                    .build();
+    // THEN
+    then(configuration.hasComparatorForField("name")).isTrue();
+    then(configuration.hasComparatorForField("firstname")).isTrue();
+    then(configuration.hasComparatorForField("lastname")).isTrue();
+    then(configuration.hasComparatorForField("title")).isTrue();
+    then(configuration.hasComparatorForField("job.title")).isTrue();
   }
 
   @Test
@@ -281,11 +309,8 @@ class RecursiveComparisonConfiguration_builder_Test {
 
   @Test
   void should_set_equalsForType() {
-    // GIVEN
-    BiPredicate<String, String> stringEquals = (String s1, String s2) -> s1.equalsIgnoreCase(s2);
-
     // WHEN
-    RecursiveComparisonConfiguration configuration = configBuilder().withEqualsForType(stringEquals, String.class).build();
+    RecursiveComparisonConfiguration configuration = configBuilder().withEqualsForType(STRING_EQUALS, String.class).build();
     // THEN
     then(configuration.hasComparatorForType(String.class)).isTrue();
   }
