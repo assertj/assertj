@@ -596,6 +596,18 @@
     <profile>
       <id>pitest</id>
       <build>
+        <pluginManagement>
+          <plugins>
+            <!-- provides the pitest-git:aggregate goal to aggregate json files to be stored as artifact when accepting PRs from untrusted forks
+     refers to pitest-receive-pr.yml and pitest-updated-pr.yml for details.
+-->
+            <plugin>
+              <groupId>com.groupcdg</groupId>
+              <artifactId>pitest-git-maven-plugin</artifactId>
+              <version>${cdg.pitest.version}</version>
+            </plugin>
+          </plugins>
+        </pluginManagement>
         <plugins>
           <plugin>
             <groupId>org.pitest</groupId>
@@ -609,14 +621,6 @@
                 </goals>
               </execution>
             </executions>
-          </plugin>
-          <!-- provides the pitest-git:aggregate goal to aggregate json files to be stored as artifact when accepting PRs from untrusted forks
-               refers to pitest-receive-pr.yml and pitest-updated-pr.yml for details.
-          -->
-          <plugin>
-            <groupId>com.groupcdg</groupId>
-            <artifactId>pitest-git-maven-plugin</artifactId>
-            <version>${cdg.pitest.version}</version>
           </plugin>
         </plugins>
       </build>

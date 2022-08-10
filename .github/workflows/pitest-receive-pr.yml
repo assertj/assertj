@@ -39,16 +39,16 @@ jobs:
         # we add config to analyse only changes made within a PR and treat surviving mutants as check errors
         # failWhenNoMutations is unset in the pom, as otherwise PRs that do not affect java code would fail
         run: >
-          mvn -e -B -Ppitest -Dfeatures="+GIT(from[HEAD~1]), +gitci" test
+          mvn -B -e Ppitest -Dfeatures="+GIT(from[HEAD~1]), +gitci" test
           -Djansi.passthrough=true
           -Dstyle.color=always
       - name: aggregate files
         run: >
-          mvn -e -B -Ppitest pitest-git:aggregate
+          mvn -B -e -f assertj-core/pom.xml -Ppitest pitest-git:aggregate
           -Djansi.passthrough=true
           -Dstyle.color=always
       - name: upload results
         uses: actions/upload-artifact@v3
         with:
           name: pitest
-          path: target/pit-reports-ci/
+          path: target/assertj-core/pit-reports-ci/
