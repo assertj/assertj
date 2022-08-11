@@ -11,8 +11,8 @@
 
   <artifactId>assertj-core</artifactId>
 
-  <name>AssertJ fluent assertions</name>
-  <description>Rich and fluent assertions for testing for Java</description>
+  <name>AssertJ Fluent Assertions</name>
+  <description>Rich and fluent assertions for testing in Java</description>
   <url>${project.organization.url}#${project.artifactId}</url>
 
   <properties>

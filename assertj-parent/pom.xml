@@ -11,7 +11,7 @@
   <artifactId>assertj-parent</artifactId>
   <packaging>pom</packaging>
 
-  <name>AssertJ - Fluent assertions for java unit testing</name>
+  <name>AssertJ Parent</name>
   <description>Parent POM for all AssertJ modules</description>
 
   <properties>
