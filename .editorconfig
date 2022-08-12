@@ -10,7 +10,7 @@ insert_final_newline = true
 charset = utf-8
 
 # 2 space indentation for java, xml and yml files
-[*.{java,xml,yml,sh}]
+[*.{java,groovy,xml,yml,sh}]
 indent_style = space
 indent_size = 2
 
