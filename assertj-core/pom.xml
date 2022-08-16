@@ -345,7 +345,6 @@
         <configuration>
           <trimStackTrace>false</trimStackTrace>
           <excludes>
-            <exclude>org/assertj/core/osgi/**</exclude>
             <exclude>org/assertj/core/internal/objects/Objects_assertHasOnlyFields_Test*</exclude>
           </excludes>
           <runOrder>random</runOrder>
@@ -400,7 +399,6 @@
         <groupId>biz.aQute.bnd</groupId>
         <artifactId>bnd-maven-plugin</artifactId>
         <version>${bnd.version}</version>
-        <extensions>true</extensions>
         <executions>
           <execution>
             <id>jar</id>
@@ -423,22 +421,6 @@
                 -removeheaders: Private-Package
                 -fixupmessages: \
                   "Classes found in the wrong directory...";is:=ignore
-              ]]></bnd>
-            </configuration>
-          </execution>
-          <!-- Integration Test Configuration -->
-          <execution>
-            <id>test-jar</id>
-            <goals>
-              <goal>test-jar</goal>
-            </goals>
-            <configuration>
-              <includeClassesDir>false</includeClassesDir>
-              <bnd><![CDATA[
-                -includepackage: org.assertj.core.osgi.*
-                -noextraheaders: true
-                -snapshot: SNAPSHOT
-                -removeheaders: Private-Package
               ]]></bnd>
             </configuration>
           </execution>
@@ -480,69 +462,6 @@
             <script>hljs.highlightAll();</script>
         ]]></bottom>
         </configuration>
-      </plugin>
-      <!-- Resolve bundles for OSGi integration tests -->
-      <plugin>
-        <groupId>biz.aQute.bnd</groupId>
-        <artifactId>bnd-resolver-maven-plugin</artifactId>
-        <version>${bnd.version}</version>
-        <executions>
-          <execution>
-            <id>osgi-integration-resolving</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>resolve</goal>
-            </goals>
-            <configuration>
-              <bndruns>
-                <bndrun>verify.bndrun</bndrun>
-              </bndruns>
-              <bundles>
-                <bundle>target/${project.build.finalName}-tests.jar</bundle>
-              </bundles>
-              <failOnChanges>false</failOnChanges>
-              <reportOptional>false</reportOptional>
-              <includeDependencyManagement>true</includeDependencyManagement>
-              <scopes>
-                <scope>provided</scope>
-                <scope>compile</scope>
-                <scope>runtime</scope>
-                <scope>test</scope>
-              </scopes>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <!-- Run OSGi integration tests -->
-      <plugin>
-        <groupId>biz.aQute.bnd</groupId>
-        <artifactId>bnd-testing-maven-plugin</artifactId>
-        <version>${bnd.version}</version>
-        <executions>
-          <execution>
-            <id>osgi-integration-testing</id>
-            <goals>
-              <goal>testing</goal>
-            </goals>
-            <configuration>
-              <bndruns>
-                <bndrun>verify.bndrun</bndrun>
-              </bndruns>
-              <bundles>
-                <bundle>target/${project.build.finalName}-tests.jar</bundle>
-              </bundles>
-              <failOnChanges>false</failOnChanges>
-              <includeDependencyManagement>true</includeDependencyManagement>
-              <resolve>false</resolve>
-              <scopes>
-                <scope>provided</scope>
-                <scope>compile</scope>
-                <scope>runtime</scope>
-                <scope>test</scope>
-              </scopes>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <groupId>org.pitest</groupId>

@@ -10,26 +10,27 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.osgi;
+package org.assertj.core.tests.osgi;
 
+import static java.lang.String.CASE_INSENSITIVE_ORDER;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assumptions.assumeThat;
+import static org.assertj.core.api.Assumptions.setPreferredAssumptionException;
+import static org.assertj.core.configuration.PreferredAssumptionException.JUNIT5;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 
 import org.assertj.core.api.Assumptions;
 import org.assertj.core.configuration.PreferredAssumptionException;
-import org.assertj.core.test.MutatesGlobalConfiguration;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.TestAbortedException;
 
-@MutatesGlobalConfiguration
 class AssumptionsTest {
 
   @Test
   void should_ignore_test_when_one_of_the_assumption_fails() {
-    Assumptions.setPreferredAssumptionException(PreferredAssumptionException.JUNIT5);
+    setPreferredAssumptionException(JUNIT5);
     assumeThat("foo").isNotEmpty();
     assertThatThrownBy(() -> assumeThat("bar").isEmpty()).isInstanceOf(TestAbortedException.class);
   }
@@ -45,7 +46,7 @@ class AssumptionsTest {
       assumeThat(asList("John", "Doe", "Jane", "Doe")).as("test description")
                                                       .withFailMessage("error message")
                                                       .withRepresentation(UNICODE_REPRESENTATION)
-                                                      .usingElementComparator(String.CASE_INSENSITIVE_ORDER)
+                                                      .usingElementComparator(CASE_INSENSITIVE_ORDER)
                                                       .filteredOn(string -> string.length() == 4)
                                                       .containsExactly("JOHN", "JANE");
     });
