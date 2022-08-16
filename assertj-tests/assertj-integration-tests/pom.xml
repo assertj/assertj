@@ -15,17 +15,8 @@
 
   <modules>
     <module>assertj-core-junit4-with-opentest4j</module>
+    <module>assertj-core-osgi</module>
     <module>assertj-core-testng-with-junit4</module>
   </modules>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.testng</groupId>
-        <artifactId>testng</artifactId>
-        <version>7.6.1</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
 
 </project>

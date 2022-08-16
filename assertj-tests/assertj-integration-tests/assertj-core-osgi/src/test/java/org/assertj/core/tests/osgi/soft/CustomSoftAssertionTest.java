@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.osgi.soft;
+package org.assertj.core.tests.osgi.soft;
 
 import static org.assertj.core.api.BDDAssertions.then;
 
@@ -27,7 +27,7 @@ import org.assertj.core.api.ObjectAssert;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-public class CustomSoftAssertionTest {
+class CustomSoftAssertionTest {
 
   @Disabled("This currently fails when running within IntelliJ IDEA")
   @Test
