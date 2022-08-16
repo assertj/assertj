@@ -39,7 +39,7 @@ jobs:
         # we add config to analyse only changes made within a PR and treat surviving mutants as check errors
         # failWhenNoMutations is unset in the pom, as otherwise PRs that do not affect java code would fail
         run: >
-          mvn -B -e Ppitest -Dfeatures="+GIT(from[HEAD~1]), +gitci" test
+          mvn -B -e -Ppitest -Dfeatures="+GIT(from[HEAD~1]), +gitci" test
           -Djansi.passthrough=true
           -Dstyle.color=always
       - name: aggregate files
