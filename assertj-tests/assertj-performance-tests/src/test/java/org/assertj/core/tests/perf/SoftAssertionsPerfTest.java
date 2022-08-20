@@ -10,13 +10,14 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.perf;
+package org.assertj.core.tests.perf;
 
+import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
-import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.api.Assertions.setRemoveAssertJRelatedElementsFromStackTrace;
+import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.util.DateUtil.parseDatetime;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
@@ -27,6 +28,7 @@ import java.net.URI;
 import java.time.LocalTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -41,10 +43,8 @@ import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
 
-import org.assertj.core.api.BaseAssertionsTest;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.data.MapEntry;
-import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -61,7 +61,7 @@ import org.junit.jupiter.api.Test;
  * results in 3.10.0 with 1.8.11: ~5000ms
  */
 @Disabled
-class SoftAssertionsPerfTest extends BaseAssertionsTest {
+class SoftAssertionsPerfTest {
 
   private SoftAssertions softly;
 
@@ -76,18 +76,20 @@ class SoftAssertionsPerfTest extends BaseAssertionsTest {
   private static long start;
 
   @BeforeAll
-  public static void beforeAll() {
+  static void beforeAll() {
+    setRemoveAssertJRelatedElementsFromStackTrace(false);
+
     start = System.currentTimeMillis();
   }
 
   @AfterAll
-  public static void afterAll() {
+  static void afterAll() {
     long duration = System.currentTimeMillis() - start;
     System.out.println("SoftAssertionsTest execution time (ms): " + duration);
   }
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     softly = new SoftAssertions();
 
     bart = new CartoonCharacter("Bart Simpson");
@@ -174,9 +176,9 @@ class SoftAssertionsPerfTest extends BaseAssertionsTest {
   @Test
   void should_be_able_to_catch_exceptions_thrown_by_map_assertions() {
     // GIVEN
-    Map<String, String> map = mapOf(MapEntry.entry("54", "55"));
+    Map<String, String> map = mapOf(entry("54", "55"));
     // WHEN
-    softly.assertThat(map).contains(MapEntry.entry("1", "2")).isEmpty();
+    softly.assertThat(map).contains(entry("1", "2")).isEmpty();
     // THEN
     List<Throwable> errors = softly.errorsCollected();
     assertThat(errors).hasSize(2);
@@ -202,7 +204,7 @@ class SoftAssertionsPerfTest extends BaseAssertionsTest {
     softly.assertThat(8.0d).isEqualTo(9.0d);
     softly.assertThat(new double[] { 10.0d }).isEqualTo(new double[] { 11.0d });
     softly.assertThat(new File("a"))
-          .overridingErrorMessage(shouldBeEqualMessage("File(a)", "File(b)"))
+          .overridingErrorMessage(format("%nexpected: File(a)%n but was: File(b)"))
           .isEqualTo(new File("b"));
     softly.assertThat(new Float(12f)).isEqualTo(new Float(13f));
     softly.assertThat(14f).isEqualTo(15f);
@@ -218,7 +220,7 @@ class SoftAssertionsPerfTest extends BaseAssertionsTest {
     softly.assertThat(new Long(32L)).isEqualTo(new Long(33L));
     softly.assertThat(34L).isEqualTo(35L);
     softly.assertThat(new long[] { 36L }).isEqualTo(new long[] { 37L });
-    softly.assertThat(mapOf(MapEntry.entry("38", "39"))).isEqualTo(mapOf(MapEntry.entry("40", "41")));
+    softly.assertThat(mapOf(entry("38", "39"))).isEqualTo(mapOf(entry("40", "41")));
     softly.assertThat(new Short((short) 42)).isEqualTo(new Short((short) 43));
     softly.assertThat((short) 44).isEqualTo((short) 45);
     softly.assertThat(new short[] { (short) 46 }).isEqualTo(new short[] { (short) 47 });
@@ -251,8 +253,8 @@ class SoftAssertionsPerfTest extends BaseAssertionsTest {
     softly.assertThatThrownBy(() -> {
       throw new Exception("something was wrong");
     }).hasMessage("something was good");
-    softly.assertThat(mapOf(MapEntry.entry("54", "55"))).contains(MapEntry.entry("1", "2"));
-    softly.assertThat(LocalTime.of(12, 00)).isEqualTo(LocalTime.of(13, 00));
+    softly.assertThat(mapOf(entry("54", "55"))).contains(entry("1", "2"));
+    softly.assertThat(LocalTime.of(12, 0)).isEqualTo(LocalTime.of(13, 0));
     softly.assertThat(OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC))
           .isEqualTo(OffsetTime.of(13, 0, 0, 0, ZoneOffset.UTC));
     softly.assertThat(Optional.of("not empty")).isEqualTo("empty");
@@ -267,6 +269,54 @@ class SoftAssertionsPerfTest extends BaseAssertionsTest {
     softly.assertThat((DoublePredicate) s -> s == 1).accepts(2);
     // assert everything, but catch the error since it is a perf test
     catchThrowable(() -> softly.assertAll());
+  }
+
+  @SafeVarargs
+  private static <K, V> LinkedHashMap<K, V> mapOf(MapEntry<K, V>... entries) {
+    LinkedHashMap<K, V> map = new LinkedHashMap<>();
+    for (Map.Entry<K, V> entry : entries) {
+      map.put(entry.getKey(), entry.getValue());
+    }
+    return map;
+  }
+
+  private static class CartoonCharacter {
+
+    private final String name;
+    private final List<CartoonCharacter> children = new ArrayList<>();
+
+    private CartoonCharacter(String name) {
+      this.name = name;
+    }
+
+    private String getName() {
+      return name;
+    }
+
+    private List<CartoonCharacter> getChildren() {
+      return children;
+    }
+
+    private List<CartoonCharacter> getChildrenWithException() throws Exception {
+      if (children.isEmpty()) {
+        throw new Exception("Should have children");
+      }
+      return children;
+    }
+
+    private CartoonCharacter[] getChildrenArray() {
+      return children.toArray(new CartoonCharacter[0]);
+    }
+
+    private void addChildren(CartoonCharacter... kids) {
+      children.addAll(asList(kids));
+    }
+
+    @Override
+    public String toString() {
+      return "CartoonCharacter [name=" + name + "]";
+    }
+
   }
 
 }
