@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.perf;
+package org.assertj.core.tests.perf;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,8 +26,6 @@ class TypeComparatorsPerfTest {
   // before change: ~700ms
   // with Comparator.comparing(Class::getName) : ~240ms
   // with anonymous class replacing Comparator.comparing(Class::getName) : ~160ms
-
-  // comment @Disabled to run the test
   @Disabled
   @Test
   void run_100_000_object_assertions() {

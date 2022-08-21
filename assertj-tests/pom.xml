@@ -16,6 +16,7 @@
 
   <modules>
     <module>assertj-integration-tests</module>
+    <module>assertj-performance-tests</module>
   </modules>
 
   <build>

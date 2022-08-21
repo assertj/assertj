@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.perf;
+package org.assertj.core.tests.perf;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Timeout;
 
 /**
  * See https://github.com/assertj/assertj-core/issues/1718.
- *
+ * <p>
  * This test ensures assertThat(list_of_1m_elements).containsOnly(...) is an O(N) rather than O(N^2)
  * operation. Given that the list has 1 million elements, O(N^2) is O(1000 billion), which should
  * take from several dozens to several thousands seconds, given that the constant in the actual
@@ -59,4 +59,5 @@ class ContainsOnlyPerfTest {
     assertThat(objects).usingElementComparator(Integer::compare)
                        .containsOnly(0, 1);
   }
+
 }
