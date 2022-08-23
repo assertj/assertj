@@ -249,7 +249,7 @@ class Assumptions_assumeThat_with_extracting_and_narrowing_value_Test {
                                                           .isNull());
   }
 
-  // https://github.com/assertj/assertj-core/issues/2349
+  // https://github.com/assertj/assertj/issues/2349
   @Test
   void should_ignore_test_for_failing_assumption_extracting_and_narrowing_a_BigDecimal() {
     expectAssumptionNotMetException(() -> assumeThat(data).extracting(TestData::bigDecimal, as(BIG_DECIMAL)).isZero());

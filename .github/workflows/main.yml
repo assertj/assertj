@@ -49,7 +49,7 @@ jobs:
   sonar:
     name: Sonar code analysis
     runs-on: ubuntu-latest
-    if: github.repository == 'assertj/assertj-core' && github.event_name == 'push'
+    if: github.repository == 'assertj/assertj' && github.event_name == 'push'
 
     steps:
       - uses: actions/checkout@v3

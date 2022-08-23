@@ -221,7 +221,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
                                                               diff("deleted", staff.deleted, staffWithLessFields.deleted));
   }
 
-  // https://github.com/assertj/assertj-core/issues/2610
+  // https://github.com/assertj/assertj/issues/2610
   static class A1 {
     final int a, b;
 

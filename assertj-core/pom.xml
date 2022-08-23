@@ -448,7 +448,7 @@
         <configuration>
           <!-- Explicitly set Javadoc locale to English -->
           <locale>en_US</locale>
-          <!-- needed to fix javadoc on java 11+ https://github.com/assertj/assertj-core/issues/1403 -->
+          <!-- needed to fix javadoc on java 11+ https://github.com/assertj/assertj/issues/1403 -->
           <source>8</source>
           <!-- (1) CSS file location -->
           <stylesheetfile>${project.build.directory}/javadoc-stylesheet/assertj-javadoc-min.css</stylesheetfile>

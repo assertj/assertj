@@ -946,12 +946,12 @@ class WithAssertions_delegation_Test implements WithAssertions {
 
   @Test
   void withAssertions_assertThat_url_Test() throws MalformedURLException {
-    assertThat(new URL("https://github.com/assertj/assertj-core")).hasHost("github.com");
+    assertThat(new URL("https://github.com/assertj/assertj")).hasHost("github.com");
   }
 
   @Test
   void withAssertions_assertThat_uri_Test() {
-    assertThat(java.net.URI.create("https://github.com/assertj/assertj-core")).hasHost("github.com");
+    assertThat(java.net.URI.create("https://github.com/assertj/assertj")).hasHost("github.com");
   }
 
   @Test

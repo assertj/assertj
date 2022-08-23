@@ -96,14 +96,14 @@
   </modules>
 
   <scm>
-    <developerConnection>scm:git:https://github.com/assertj/assertj-core.git</developerConnection>
-    <connection>scm:git:https://github.com/assertj/assertj-core.git</connection>
-    <url>https://github.com/assertj/assertj-core</url>
+    <developerConnection>scm:git:https://github.com/assertj/assertj.git</developerConnection>
+    <connection>scm:git:https://github.com/assertj/assertj.git</connection>
+    <url>https://github.com/assertj/assertj</url>
     <tag>HEAD</tag>
   </scm>
   <issueManagement>
     <system>GitHub</system>
-    <url>https://github.com/assertj/assertj-core/issues</url>
+    <url>https://github.com/assertj/assertj/issues</url>
   </issueManagement>
   <distributionManagement>
     <repository>

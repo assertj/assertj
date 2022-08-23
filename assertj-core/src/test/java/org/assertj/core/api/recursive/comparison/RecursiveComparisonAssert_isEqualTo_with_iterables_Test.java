@@ -224,7 +224,7 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
     then(assertionError).hasMessageContaining(format("The following expected elements were not matched in the actual ArrayList:%n  [bbb]"));
   }
 
-  // https://github.com/assertj/assertj-core/issues/2279
+  // https://github.com/assertj/assertj/issues/2279
   @Test
   void should_not_throw_UnknownFormatConversionException_when_unmatched_elements_have_percent_in_their_description() {
     // GIVEN

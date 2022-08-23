@@ -43,9 +43,8 @@ class Strings_assertContainsOnlyDigits_Test extends StringsBaseTest {
                                                    .withMessage(shouldContainOnlyDigits("10$", '$', 2).create());
   }
 
-  /**
-   * See <a href="https://github.com/assertj/assertj-core/pull/342">discussion on failing the assertion for empty CharSequence</a>
-   */
+
+  // See https://github.com/assertj/assertj/pull/342 - discussion on failing the assertion for empty CharSequence
   @Test
   void should_fail_if_actual_is_empty() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertContainsOnlyDigits(someInfo(), ""))

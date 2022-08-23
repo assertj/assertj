@@ -71,10 +71,10 @@ class MapAssert_raw_map_assertions_chained_after_base_assertions_Test {
                     .containsOnlyKeys("Key1", "Key2");
   }
 
+  // https://github.com/assertj/assertj/issues/485
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @Test
   void test_bug_485() {
-    // https://github.com/assertj/assertj-core/issues/485
     Map map1 = new java.util.HashMap<>();
     map1.put("Key1", "Value1");
     map1.put("Key2", "Value2");
