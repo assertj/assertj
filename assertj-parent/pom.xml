@@ -232,6 +232,22 @@
           <artifactId>versions-maven-plugin</artifactId>
           <version>${versions-maven-plugin.version}</version>
         </plugin>
+        <plugin>
+          <groupId>de.thetaphi</groupId>
+          <artifactId>forbiddenapis</artifactId>
+          <version>3.3</version>
+          <configuration>
+            <failOnUnsupportedJava>true</failOnUnsupportedJava>
+            <bundledSignatures>
+              <bundledSignature>jdk-unsafe</bundledSignature>
+              <bundledSignature>jdk-deprecated</bundledSignature>
+              <!-- disallow undocumented classes like sun.misc.Unsafe: -->
+              <bundledSignature>jdk-non-portable</bundledSignature>
+              <!-- don't allow unsafe reflective access: -->
+              <bundledSignature>jdk-reflection</bundledSignature>
+            </bundledSignatures>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -270,6 +286,17 @@
             <include>**/*Test.java</include>
           </includes>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>de.thetaphi</groupId>
+        <artifactId>forbiddenapis</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
