@@ -22,6 +22,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.sql.SQLException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -885,6 +886,18 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
   @SuppressWarnings("unchecked")
   default <T extends Throwable> ThrowableAssert<T> then(T actual) {
     return proxy(ThrowableAssert.class, Throwable.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ThrowableAssert}</code> with a {@link SQLException}.
+   *
+   * @param <T>    the type of the actual SQLException.
+   * @param actual the actual value.
+   * @return the created assertion for SQLException.
+   */
+  @SuppressWarnings("unchecked")
+  default <T extends SQLException> ThrowableAssert<T> then(T actual) {
+    return proxy(ThrowableAssert.class, SQLException.class, actual);
   }
 
   /**

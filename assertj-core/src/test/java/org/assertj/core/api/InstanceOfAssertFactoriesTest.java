@@ -96,6 +96,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.SHORT;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.SPLITERATOR;
+import static org.assertj.core.api.InstanceOfAssertFactories.SQL_EXCEPTION;
 import static org.assertj.core.api.InstanceOfAssertFactories.STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING_BUFFER;
@@ -129,6 +130,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.optional;
 import static org.assertj.core.api.InstanceOfAssertFactories.predicate;
 import static org.assertj.core.api.InstanceOfAssertFactories.set;
 import static org.assertj.core.api.InstanceOfAssertFactories.spliterator;
+import static org.assertj.core.api.InstanceOfAssertFactories.sqlException;
 import static org.assertj.core.api.InstanceOfAssertFactories.stream;
 import static org.assertj.core.api.InstanceOfAssertFactories.throwable;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
@@ -151,6 +153,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.sql.SQLException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -2549,6 +2552,57 @@ class InstanceOfAssertFactoriesTest {
       // THEN
       result.hasMessage("message");
       verify(valueProvider).apply(RuntimeException.class);
+    }
+
+  }
+
+  @Nested
+  class SQLException_Factory {
+
+    private final Object actual = new SQLException("message");
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractThrowableAssert<?, SQLException> result = SQL_EXCEPTION.createAssert(actual);
+      // THEN
+      result.hasMessage("message");
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractThrowableAssert<?, SQLException> result = SQL_EXCEPTION.createAssert(valueProvider);
+      // THEN
+      result.hasMessage("message");
+      verify(valueProvider).apply(SQLException.class);
+    }
+  }
+
+  @Nested
+  class SQLException_Typed_Factory {
+
+    private final Object actual = new SQLException("message");
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractThrowableAssert<?, SQLException> result = sqlException(SQLException.class).createAssert(actual);
+      // THEN
+      result.hasMessage("message");
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractThrowableAssert<?, SQLException> result = sqlException(SQLException.class).createAssert(valueProvider);
+      // THEN
+      result.hasMessage("message");
+      verify(valueProvider).apply(SQLException.class);
     }
 
   }
