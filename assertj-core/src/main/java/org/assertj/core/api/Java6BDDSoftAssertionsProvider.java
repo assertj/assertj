@@ -875,7 +875,7 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default <T extends SQLException> ThrowableAssert<T> then(T actual) {
-    return proxy(ThrowableAssert.class, SQLException.class, actual);
+    return proxy(ThrowableAssert.class, Throwable.class, actual);
   }
 
   /**

@@ -1041,7 +1041,7 @@ public class Assumptions {
    */
   @SuppressWarnings("unchecked")
   public static <T extends SQLException> AbstractThrowableAssert<?, T> assumeThat(T actual) {
-    return asAssumption(ThrowableAssert.class, SQLException.class, actual);
+    return asAssumption(ThrowableAssert.class, Throwable.class, actual);
   }
 
   /**
