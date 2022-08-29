@@ -12,6 +12,7 @@
  */
 package org.assertj.core.condition;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.condition.NestableConditionFixtures.address;
 import static org.assertj.core.condition.NestableConditionFixtures.customer;
@@ -39,14 +40,14 @@ class NestableCondition_description_Test {
                                                      firstLine("11, Downing Street"),
                                                      postcode("SW1A 2AA")));
     // THEN
-    then(condition.description().value()).isEqualTo("customer:[\n" +
-                                            "   name:[\n" +
-                                            "      first: John\n" +
-                                            "   ],\n" +
-                                            "   address:[\n" +
-                                            "      first line: 11, Downing Street,\n" +
-                                            "      postcode: SW1A 2AA\n" +
-                                            "   ]\n" +
-                                            "]");
+    then(condition.description().value()).isEqualTo(format("customer:[%n" +
+                                            "   name:[%n" +
+                                            "      first: John%n" +
+                                            "   ],%n" +
+                                            "   address:[%n" +
+                                            "      first line: 11, Downing Street,%n" +
+                                            "      postcode: SW1A 2AA%n" +
+                                            "   ]%n" +
+                                            "]"));
   }
 }
