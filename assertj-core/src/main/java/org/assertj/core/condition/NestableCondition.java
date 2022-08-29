@@ -168,7 +168,7 @@ public class NestableCondition<ACTUAL, NESTED> extends Join<ACTUAL> {
   }
 
   private static <ACTUAL, NESTED> Condition<ACTUAL> compose(Condition<NESTED> condition, Function<ACTUAL, NESTED> extractor) {
-    return new Condition<ACTUAL>() {
+    return new Condition<ACTUAL>(condition.description()) {
       @Override
       public boolean matches(ACTUAL value) {
         return condition.matches(extractor.apply(value));
