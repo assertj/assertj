@@ -174,6 +174,11 @@ public class NestableCondition<ACTUAL, NESTED> extends Join<ACTUAL> {
       public Description conditionDescriptionWithStatus(ACTUAL actual) {
         return condition.conditionDescriptionWithStatus(extractor.apply(actual));
       }
+
+      @Override
+      public Description description() {
+        return condition.description();
+      }
     };
   }
 }

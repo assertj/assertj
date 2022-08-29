@@ -47,6 +47,6 @@ class NestableCondition_description_Test {
                                             "      first line: 11, Downing Street,\n" +
                                             "      postcode: SW1A 2AA\n" +
                                             "   ]\n" +
-                                            "  ]");
+                                            "]");
   }
 }
