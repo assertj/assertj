@@ -15,6 +15,7 @@
 
   <modules>
     <module>assertj-core-junit4-with-opentest4j</module>
+    <module>assertj-core-module-path</module>
     <module>assertj-core-osgi</module>
     <module>assertj-core-testng-with-junit4</module>
   </modules>
