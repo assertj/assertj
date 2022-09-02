@@ -19,4 +19,16 @@
     <module>assertj-core-testng-with-junit4</module>
   </modules>
 
+  <profiles>
+    <profile>
+      <id>it-groovy</id>
+      <activation>
+        <jdk>(,20)</jdk>
+      </activation>
+      <modules>
+        <module>assertj-core-groovy</module>
+      </modules>
+    </profile>
+  </profiles>
+
 </project>
