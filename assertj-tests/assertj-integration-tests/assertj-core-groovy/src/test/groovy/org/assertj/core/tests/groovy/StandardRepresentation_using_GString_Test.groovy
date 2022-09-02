@@ -10,39 +10,45 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.presentation
+package org.assertj.core.tests.groovy
 
+import org.assertj.core.presentation.StandardRepresentation
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-import static org.assertj.core.api.Assertions.assertThat
+import static org.assertj.core.api.BDDAssertions.then
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION
 
 /**
  * @author Edgar Asatryan
  */
-class StandardRepresentation_using_GString_Test extends AbstractBaseRepresentationTest {
-  private static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
+class StandardRepresentation_using_GString_Test {
+
+  @BeforeEach
+  void setUp() {
+    StandardRepresentation.resetDefaults();
+  }
 
   @AfterEach
   void afterEachTest() {
     StandardRepresentation.removeAllRegisteredFormatters()
+    StandardRepresentation.resetDefaults();
   }
 
   @Test
   void should_return_string_representation_of_GString() {
     // GIVEN
-    StandardRepresentation.registerFormatterForType(Point) { "($it.x, $it.y)" }
-    def point = new Point()
-    point.x = 1
-    point.y = 2
+    def point = new Point(x: 1, y: 2)
     // WHEN
-    def actual = STANDARD_REPRESENTATION.toStringOf(point)
+    StandardRepresentation.registerFormatterForType(Point) { "($it.x, $it.y)" }
     // THEN
-    assertThat(actual).isEqualTo("(1, 2)")
+    then(STANDARD_REPRESENTATION.toStringOf(point)).isEqualTo("(1, 2)")
   }
 
   private static class Point {
     int x
     int y
   }
+
 }

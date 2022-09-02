@@ -19,6 +19,11 @@
     <module>assertj-performance-tests</module>
   </modules>
 
+  <properties>
+    <maven.install.skip>true</maven.install.skip>
+    <maven.deploy.skip>true</maven.deploy.skip>
+  </properties>
+
   <build>
     <plugins>
       <plugin>

@@ -200,12 +200,6 @@
       <version>5.3.22</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.apache.groovy</groupId>
-      <artifactId>groovy</artifactId>
-      <version>4.0.4</version>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 
   <build>
@@ -489,29 +483,6 @@
           <threads>3</threads>
           <timestampedReports>false</timestampedReports>
           <failWhenNoMutations>false</failWhenNoMutations>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.gmavenplus</groupId>
-        <artifactId>gmavenplus-plugin</artifactId>
-        <version>1.13.1</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>compileTests</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <targetBytecode>1.8</targetBytecode>
-          <testSources>
-            <testSource>
-              <directory>${project.basedir}/src/test/groovy</directory>
-              <includes>
-                <include>**/*.groovy</include>
-              </includes>
-            </testSource>
-          </testSources>
         </configuration>
       </plugin>
     </plugins>
