@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test
 
 import static org.assertj.core.api.Assertions.assertThat
 
-class Assertions_assertThat_with_Groovy_strings {
+class Assertions_assertThat_with_Groovy_strings_Test {
 
     @Test
     void should_accept_triple_single_quoted_strings() {

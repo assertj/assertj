@@ -68,4 +68,14 @@ class StandardRepresentation_custom_formatter_Test {
     assertThat(STANDARD_REPRESENTATION.toStringOf(intNumber)).isEqualTo("8");
   }
 
+  @Test
+  void should_return_null_when_registered_formatter_returns_null() {
+    // GIVEN
+    StandardRepresentation.registerFormatterForType(String.class, value -> null);
+    Object string = "abc";
+    // WHEN
+    String actual = STANDARD_REPRESENTATION.toStringOf(string);
+    // THEN
+    assertThat(actual).isNull();
+  }
 }

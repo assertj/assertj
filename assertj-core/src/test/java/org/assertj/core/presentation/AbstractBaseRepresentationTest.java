@@ -21,12 +21,13 @@ import org.junit.jupiter.api.BeforeEach;
 abstract class AbstractBaseRepresentationTest {
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     StandardRepresentation.resetDefaults();
   }
 
   @AfterEach
-  public void afterTests() {
+  void afterTests() {
     StandardRepresentation.resetDefaults();
   }
+
 }
