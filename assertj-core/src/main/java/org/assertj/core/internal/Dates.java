@@ -232,8 +232,7 @@ public class Dates {
     endDateParameterIsNotNull(end);
     boolean checkLowerBoundaryPeriod = inclusiveStart ? isAfterOrEqualTo(actual, start) : isAfter(actual, start);
     boolean checkUpperBoundaryPeriod = inclusiveEnd ? isBeforeOrEqualTo(actual, end) : isBefore(actual, end);
-    boolean isBetweenGivenPeriod = checkLowerBoundaryPeriod && checkUpperBoundaryPeriod;
-    return isBetweenGivenPeriod;
+    return checkLowerBoundaryPeriod && checkUpperBoundaryPeriod;
   }
 
   /**
