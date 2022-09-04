@@ -8,7 +8,7 @@
     <version>3.24.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>assertj-core-jpms</artifactId>
+  <artifactId>assertj-core-module-path</artifactId>
 
   <name>AssertJ Core Integration Tests - Module Path</name>
 
