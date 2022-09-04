@@ -109,7 +109,7 @@ public class StandardRepresentation implements Representation {
   private static int maxElementsForPrinting = Configuration.MAX_ELEMENTS_FOR_PRINTING;
   private static int maxStackTraceElementsDisplayed = Configuration.MAX_STACKTRACE_ELEMENTS_DISPLAYED;
 
-  private static final Map<Class<?>, Function<?, String>> customFormatterByType = new HashMap<>();
+  private static final Map<Class<?>, Function<?, ? extends CharSequence>> customFormatterByType = new HashMap<>();
   private static final Class<?>[] TYPE_WITH_UNAMBIGUOUS_REPRESENTATION = { Date.class, LocalDateTime.class, ZonedDateTime.class,
       OffsetDateTime.class, Calendar.class };
 
@@ -308,7 +308,8 @@ public class StandardRepresentation implements Representation {
   @SuppressWarnings("unchecked")
   protected <T> String customFormat(T object) {
     if (object == null) return null;
-    return ((Function<T, String>) customFormatterByType.get(object.getClass())).apply(object);
+    CharSequence formatted = ((Function<T, ? extends CharSequence>) customFormatterByType.get(object.getClass())).apply(object);
+    return formatted != null ? formatted.toString() : null;
   }
 
   protected boolean hasCustomFormatterFor(Object object) {
