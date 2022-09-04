@@ -12,13 +12,13 @@
  */
 package org.assertj.core.tests.groovy
 
-import org.assertj.core.presentation.StandardRepresentation
+
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 import static org.assertj.core.api.BDDAssertions.then
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION
+import static org.assertj.core.presentation.StandardRepresentation.*
 
 /**
  * @author Edgar Asatryan
@@ -27,13 +27,13 @@ class StandardRepresentation_using_GString_Test {
 
   @BeforeEach
   void setUp() {
-    StandardRepresentation.resetDefaults();
+    resetDefaults();
   }
 
   @AfterEach
   void afterEachTest() {
-    StandardRepresentation.removeAllRegisteredFormatters()
-    StandardRepresentation.resetDefaults();
+    removeAllRegisteredFormatters()
+    resetDefaults();
   }
 
   @Test
@@ -41,7 +41,7 @@ class StandardRepresentation_using_GString_Test {
     // GIVEN
     def point = new Point(x: 1, y: 2)
     // WHEN
-    StandardRepresentation.registerFormatterForType(Point) { "($it.x, $it.y)" }
+    registerFormatterForType(Point) { "($it.x, $it.y)" }
     // THEN
     then(STANDARD_REPRESENTATION.toStringOf(point)).isEqualTo("(1, 2)")
   }

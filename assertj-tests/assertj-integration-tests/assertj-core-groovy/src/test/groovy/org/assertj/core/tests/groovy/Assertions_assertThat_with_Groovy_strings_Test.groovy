@@ -18,30 +18,30 @@ import static org.assertj.core.api.Assertions.assertThat
 
 class Assertions_assertThat_with_Groovy_strings_Test {
 
-    @Test
-    void should_accept_triple_single_quoted_strings() {
-        // GIVEN
-        def actual = '''
+  @Test
+  void should_accept_triple_single_quoted_strings() {
+    // GIVEN
+    def actual = '''
 .*foo.*
 '''
-        // THEN
-        assertThat(actual).isEqualTo("\n.*foo.*\n")
-    }
+    // WHEN/THEN
+    assertThat(actual).isEqualTo("\n.*foo.*\n")
+  }
 
-    @Test
-    void should_accept_slashy_strings() {
-        // GIVEN
-        def actual = /.*foo.*/
-        // THEN
-        assertThat(actual).isEqualTo(".*foo.*")
-    }
+  @Test
+  void should_accept_slashy_strings() {
+    // GIVEN
+    def actual = /.*foo.*/
+    // WHEN/THEN
+    assertThat(actual).isEqualTo(".*foo.*")
+  }
 
-    @Test
-    void should_accept_dollar_slashy_strings() {
-        // GIVEN
-        def actual = $/.*foo.*/$
-        // THEN
-        assertThat(actual).isEqualTo(".*foo.*")
-    }
+  @Test
+  void should_accept_dollar_slashy_strings() {
+    // GIVEN
+    def actual = $/.*foo.*/$
+    // WHEN/THEN
+    assertThat(actual).isEqualTo(".*foo.*")
+  }
 
 }
