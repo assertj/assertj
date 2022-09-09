@@ -15,6 +15,7 @@
   <name>AssertJ Tests</name>
 
   <modules>
+    <module>assertj-module-tests</module>
     <module>assertj-integration-tests</module>
     <module>assertj-performance-tests</module>
   </modules>
@@ -37,6 +38,7 @@
             </goals>
             <configuration>
               <rules>
+              <!--
                 <bannedDependencies>
                   <includes>
                     <include>*:*:*:jar:test</include>
@@ -44,7 +46,7 @@
                   <excludes>
                     <exclude>*</exclude>
                   </excludes>
-                </bannedDependencies>
+                </bannedDependencies>-->
                 <dependencyConvergence/>
               </rules>
             </configuration>
