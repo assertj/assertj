@@ -38,7 +38,6 @@
             </goals>
             <configuration>
               <rules>
-              <!--
                 <bannedDependencies>
                   <includes>
                     <include>*:*:*:jar:test</include>
@@ -46,7 +45,7 @@
                   <excludes>
                     <exclude>*</exclude>
                   </excludes>
-                </bannedDependencies>-->
+                </bannedDependencies>
                 <dependencyConvergence/>
               </rules>
             </configuration>
