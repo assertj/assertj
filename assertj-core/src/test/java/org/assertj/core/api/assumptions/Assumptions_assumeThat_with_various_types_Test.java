@@ -47,6 +47,7 @@ import org.assertj.core.api.Assumptions;
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.test.ComparableExample;
+import org.assertj.core.util.ResourceUtil;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -189,7 +190,7 @@ class Assumptions_assumeThat_with_various_types_Test {
             assumeThat(actual).hasName("test");
           }
         },
-        new AssumptionRunner<Path>(new File("test").toPath()) {
+        new AssumptionRunner<Path>(ResourceUtil.getResource("test")) {
           @Override
           public void runFailingAssumption() {
             assumeThat(actual).isNull();

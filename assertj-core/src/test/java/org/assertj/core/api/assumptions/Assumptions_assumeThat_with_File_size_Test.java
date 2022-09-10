@@ -19,11 +19,12 @@ import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetExcepti
 import java.io.File;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.util.ResourceUtil;
 import org.junit.jupiter.api.Test;
 
 class Assumptions_assumeThat_with_File_size_Test {
 
-  private static final File FILE = new File("src/test/resources/actual_file.txt");
+  private static final File FILE = ResourceUtil.getResource("actual_file.txt").toFile();
 
   @Test
   void should_run_test_when_assumption_using_file_size_succeeds() {

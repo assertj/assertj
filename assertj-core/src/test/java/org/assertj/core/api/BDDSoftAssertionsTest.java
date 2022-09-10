@@ -99,6 +99,7 @@ import org.assertj.core.test.Animal;
 import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.Name;
 import org.assertj.core.test.Person;
+import org.assertj.core.util.ResourceUtil;
 import org.assertj.core.util.VisibleForTesting;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -1877,7 +1878,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
   @Test
   void path_soft_assertions_should_report_errors_on_methods_that_switch_the_object_under_test() {
     // GIVEN
-    Path path = new File("src/test/resources/actual_file.txt").toPath();
+    Path path = ResourceUtil.getResource("actual_file.txt");
     // WHEN
     softly.then(path)
           .overridingErrorMessage("error message")
@@ -1900,7 +1901,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
   @Test
   void file_soft_assertions_should_report_errors_on_methods_that_switch_the_object_under_test() {
     // GIVEN
-    File file = new File("src/test/resources/actual_file.txt");
+    File file = ResourceUtil.getResource("actual_file.txt").toFile();
     // WHEN
     softly.then(file)
           .overridingErrorMessage("error message")
@@ -1923,7 +1924,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
   @Test
   void file_soft_assertions_should_work_with_navigation_methods() {
     // GIVEN
-    File file = new File("src/test/resources/actual_file.txt");
+    File file = ResourceUtil.getResource("actual_file.txt").toFile();
     // WHEN
     softly.then(file)
           .overridingErrorMessage("error message")

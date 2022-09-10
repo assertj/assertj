@@ -20,10 +20,12 @@ import static org.assertj.core.util.Files.newFile;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
+import java.nio.file.Path;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
+import org.assertj.core.util.ResourceUtil;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -57,7 +59,8 @@ class Files_assertIsRelative_Test extends FilesBaseTest {
   @Test
   void should_pass_if_actual_is_relative_path() {
     // GIVEN
-    File actual = new File("src/test/resources/actual_file.txt");
+    Path actualPath = ResourceUtil.getResource("actual_file.txt");
+    File actual = actualPath.relativize(actualPath.getParent()).toFile();
     // THEN
     files.assertIsRelative(INFO, actual);
   }

@@ -22,6 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import org.assertj.core.util.ResourceUtil;
 import org.junit.jupiter.api.Test;
 
 class Assertions_linesOf_Test {
@@ -30,14 +31,14 @@ class Assertions_linesOf_Test {
 
   @Test
   void should_read_lines_of_file_with_UTF8_charset() {
-    File file = new File("src/test/resources/utf8.txt");
+    File file = ResourceUtil.getResource("utf8.txt").toFile();
     assertThat(linesOf(file, "UTF-8")).isEqualTo(EXPECTED_CONTENT);
     assertThat(linesOf(file, StandardCharsets.UTF_8)).isEqualTo(EXPECTED_CONTENT);
   }
 
   @Test
   void should_read_lines_of_path_with_UTF8_charset() {
-    Path path = Paths.get("src", "test", "resources", "utf8.txt");
+    Path path = ResourceUtil.getResource("utf8.txt");
     assertThat(linesOf(path, "UTF-8")).isEqualTo(EXPECTED_CONTENT);
     assertThat(linesOf(path, StandardCharsets.UTF_8)).isEqualTo(EXPECTED_CONTENT);
   }

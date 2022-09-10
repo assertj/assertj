@@ -21,6 +21,7 @@ import java.io.File;
 import java.nio.file.Path;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.util.ResourceUtil;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -30,7 +31,7 @@ import org.junit.jupiter.api.Test;
  */
 class Assumptions_assumeThat_with_Path_binaryContent_Test {
 
-  private static final Path PATH = new File("src/test/resources/actual_file.txt").toPath();
+  private static final Path PATH = ResourceUtil.getResource("actual_file.txt");
 
   @Test
   void should_run_test_when_assumption_using_path_binaryContent_succeeds() {

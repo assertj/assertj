@@ -71,6 +71,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import org.assertj.core.util.ResourceUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -1362,7 +1363,7 @@ class BDDAssumptionsTest {
 
   @Nested
   class BDDAssumptions_given_Path_Test {
-    private final Path actual = new File("file.ext").toPath();
+    private final Path actual = ResourceUtil.getResource("file.ext");
 
     @Test
     void should_run_test_when_assumption_passes() {

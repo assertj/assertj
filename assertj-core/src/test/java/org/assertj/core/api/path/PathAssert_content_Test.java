@@ -24,6 +24,7 @@ import org.assertj.core.api.AbstractStringAssert;
 import org.assertj.core.api.NavigationMethodBaseTest;
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
+import org.assertj.core.util.ResourceUtil;
 import org.junit.jupiter.api.Test;
 
 class PathAssert_content_Test extends PathAssertBaseTest implements NavigationMethodBaseTest<PathAssert> {
@@ -41,13 +42,13 @@ class PathAssert_content_Test extends PathAssertBaseTest implements NavigationMe
 
   @Override
   protected PathAssert create_assertions() {
-    return new PathAssert(new File("src/test/resources/actual_file.txt").toPath());
+    return new PathAssert(ResourceUtil.getResource("actual_file.txt"));
   }
 
   @Test
   public void should_return_StringAssert_on_path_content() {
     // GIVEN
-    Path path = new File("src/test/resources/actual_file.txt").toPath();
+    Path path = ResourceUtil.getResource("actual_file.txt");
     // WHEN
     AbstractStringAssert<?> stringAssert = assertThat(path).content();
     // THEN

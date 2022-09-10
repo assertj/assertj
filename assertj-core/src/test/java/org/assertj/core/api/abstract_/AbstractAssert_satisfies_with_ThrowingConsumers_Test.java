@@ -25,6 +25,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.assertj.core.api.ThrowingConsumer;
+import org.assertj.core.util.ResourceUtil;
 import org.junit.jupiter.api.Test;
 
 class AbstractAssert_satisfies_with_ThrowingConsumers_Test {
@@ -32,7 +33,7 @@ class AbstractAssert_satisfies_with_ThrowingConsumers_Test {
   @Test
   void should_pass_satisfying_single_requirement() {
     // GIVEN
-    Path emptyFile = Paths.get("src/test/resources/empty.txt");
+    Path emptyFile = ResourceUtil.getResource("empty.txt");
     ThrowingConsumer<Path> isEmpty = path -> assertThat(readAllLines(path)).isEmpty();
     // WHEN/THEN
     then(emptyFile).satisfies(isEmpty);
@@ -41,7 +42,7 @@ class AbstractAssert_satisfies_with_ThrowingConsumers_Test {
   @Test
   void should_pass_satisfying_multiple_requirements() {
     // GIVEN
-    Path emptyFile = Paths.get("src/test/resources/empty.txt");
+    Path emptyFile = ResourceUtil.getResource("empty.txt");
     ThrowingConsumer<Path> readableConsumer = path -> assertThat(isReadable(path)).isTrue();
     ThrowingConsumer<Path> emptyConsumer = path -> assertThat(readAllLines(path)).isEmpty();
     // WHEN/THEN
@@ -59,7 +60,7 @@ class AbstractAssert_satisfies_with_ThrowingConsumers_Test {
   @Test
   void should_fail_not_satisfying_single_requirement() {
     // GIVEN
-    Path asciiFile = Paths.get("src/test/resources/ascii.txt");
+    Path asciiFile = ResourceUtil.getResource("ascii.txt");
     ThrowingConsumer<Path> emptyConsumer = path -> assertThat(readAllLines(path)).isEmpty();
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(asciiFile).satisfies(emptyConsumer));
@@ -70,7 +71,7 @@ class AbstractAssert_satisfies_with_ThrowingConsumers_Test {
   @Test
   void should_fail_not_satisfying_any_requirements() {
     // GIVEN
-    Path asciiFile = Paths.get("src/test/resources/ascii.txt");
+    Path asciiFile = ResourceUtil.getResource("ascii.txt");
     ThrowingConsumer<Path> emptyConsumer = path -> assertThat(readAllLines(path)).as("empty check").isEmpty();
     ThrowingConsumer<Path> directoryConsumer = path -> assertThat(path).as("directory check").isDirectory();
     // WHEN
@@ -82,7 +83,7 @@ class AbstractAssert_satisfies_with_ThrowingConsumers_Test {
   @Test
   void should_fail_not_satisfying_some_requirements() {
     // GIVEN
-    Path asciiFile = Paths.get("src/test/resources/ascii.txt");
+    Path asciiFile = ResourceUtil.getResource("ascii.txt");
     ThrowingConsumer<Path> notEmptyConsumer = path -> assertThat(readAllLines(path)).as("not empty check").isNotEmpty();
     ThrowingConsumer<Path> directoryConsumer = path -> assertThat(path).as("directory check").isDirectory();
     // WHEN

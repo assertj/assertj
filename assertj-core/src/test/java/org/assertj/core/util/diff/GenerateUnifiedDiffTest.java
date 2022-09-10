@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.assertj.core.util.Files;
+import org.assertj.core.util.ResourceUtil;
 import org.junit.jupiter.api.Test;
 
 class GenerateUnifiedDiffTest {
@@ -28,14 +29,11 @@ class GenerateUnifiedDiffTest {
   /** File separator. */
   private static final String FS = File.separator;
 
-  /** The base resource path. */
-  private static String BASE_FOLDER_RESOURCES = "src" + FS + "test" + FS + "resources";
-
   /** The base folder containing the test files. Ends with {@link #FS}. */
-  private static final String MOCK_FOLDER = BASE_FOLDER_RESOURCES + FS + "diffs" + FS;
+  private static final String MOCK_FOLDER =  "diffs" + FS;
 
   private List<String> fileToLines(String filename) {
-    return Files.linesOf(new File(MOCK_FOLDER, filename), Charset.defaultCharset());
+    return Files.linesOf(ResourceUtil.getResource(MOCK_FOLDER+filename).toFile(), Charset.defaultCharset());
   }
 
   @Test

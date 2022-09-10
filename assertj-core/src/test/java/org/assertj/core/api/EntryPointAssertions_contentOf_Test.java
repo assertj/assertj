@@ -22,6 +22,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import org.assertj.core.util.ResourceUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -33,7 +34,7 @@ class EntryPointAssertions_contentOf_Test extends EntryPointAssertionsBaseTest {
   @MethodSource("fileContentOfWithCharsetFunctions")
   void should_read_file_content_with_charset(BiFunction<File, Charset, String> contentOfWithCharsetFunction) {
     // GIVEN
-    File sampleFile = new File("src/test/resources/utf8.txt");
+    File sampleFile = ResourceUtil.getResource("utf8.txt").toFile();
     // WHEN
     String content = contentOfWithCharsetFunction.apply(sampleFile, UTF_8);
     // THEN
@@ -48,7 +49,7 @@ class EntryPointAssertions_contentOf_Test extends EntryPointAssertionsBaseTest {
   @MethodSource("fileContentOfWithCharsetAsStringFunctions")
   void should_read_file_content_with_charset_as_string(BiFunction<File, String, String> contentOfWithCharsetFunction) {
     // GIVEN
-    File sampleFile = new File("src/test/resources/utf8.txt");
+    File sampleFile = ResourceUtil.getResource("utf8.txt").toFile();
     // WHEN
     String content = contentOfWithCharsetFunction.apply(sampleFile, "UTF8");
     // THEN
@@ -63,7 +64,7 @@ class EntryPointAssertions_contentOf_Test extends EntryPointAssertionsBaseTest {
   @MethodSource("fileContentOfWithDefaultCharsetFunctions")
   void should_read_file_content_with_default_charset(Function<File, String> contentOfWithDefaultCharsetFunction) {
     // GIVEN
-    File sampleFile = new File("src/test/resources/ascii.txt");
+    File sampleFile = ResourceUtil.getResource("ascii.txt").toFile();
     // WHEN
     String content = contentOfWithDefaultCharsetFunction.apply(sampleFile);
     // THEN

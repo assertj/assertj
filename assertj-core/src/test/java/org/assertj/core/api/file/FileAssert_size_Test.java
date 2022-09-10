@@ -18,6 +18,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 
 import java.io.File;
 
+import org.assertj.core.util.ResourceUtil;
 import org.junit.jupiter.api.Test;
 
 class FileAssert_size_Test {
@@ -25,7 +26,7 @@ class FileAssert_size_Test {
   @Test
   void should_be_able_to_use_file_assertions_on_file_size() {
     // GIVEN
-    File file = new File("src/test/resources/actual_file.txt");
+    File file = ResourceUtil.getResource("actual_file.txt").toFile();
     // THEN
     then(file).size()
               .isGreaterThan(4L)

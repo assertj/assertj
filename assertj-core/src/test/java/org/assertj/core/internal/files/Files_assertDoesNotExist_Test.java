@@ -23,6 +23,7 @@ import java.io.File;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
+import org.assertj.core.util.ResourceUtil;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -46,7 +47,7 @@ class Files_assertDoesNotExist_Test extends FilesBaseTest {
   @Test
   void should_fail_if_actual_exists() {
     // GIVEN
-    File actual = new File("src/test/resources/actual_file.txt");
+    File actual = ResourceUtil.getResource("actual_file.txt").toFile();
     // WHEN
     expectAssertionError(() -> files.assertDoesNotExist(INFO, actual));
     // THEN

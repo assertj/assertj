@@ -18,6 +18,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.condition.DisabledIfEnvironmentVariable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -27,6 +28,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  * @author XiaoMingZHM, Eveneko
  */
 @DisplayName("Convert JUnit5 assertions to AssertJ")
+@DisabledIfEnvironmentVariable(named = "MODULAR_TEST", matches = "true")
 public class Convert_Junit5_Assertions_To_Assertj_Test {
   private ShellScriptInvoker tester;
 

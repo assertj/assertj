@@ -36,6 +36,7 @@ import java.util.List;
 import org.assertj.core.internal.Diff;
 import org.assertj.core.internal.FilesBaseTest;
 import org.assertj.core.util.Files;
+import org.assertj.core.util.ResourceUtil;
 import org.assertj.core.util.diff.Delta;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -53,8 +54,8 @@ class Files_assertSameContentAs_Test extends FilesBaseTest {
 
   @BeforeAll
   static void setUpOnce() {
-    actual = new File("src/test/resources/actual_file.txt");
-    expected = new File("src/test/resources/expected_file.txt");
+    actual = ResourceUtil.getResource("actual_file.txt").toFile();
+    expected = ResourceUtil.getResource("expected_file.txt").toFile();
   }
 
   @Test

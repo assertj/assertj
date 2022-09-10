@@ -25,6 +25,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import org.assertj.core.util.ResourceUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -36,7 +37,7 @@ class EntryPointAssertions_linesOf_Test extends EntryPointAssertionsBaseTest {
   @MethodSource("fileLinesOfWithCharsetFunctions")
   void should_read_file_lines_with_charset(BiFunction<File, Charset, List<String>> linesOfWithCharsetFunction) {
     // GIVEN
-    File sampleFile = new File("src/test/resources/utf8.txt");
+    File sampleFile = ResourceUtil.getResource("utf8.txt").toFile();
     // WHEN
     List<String> lines = linesOfWithCharsetFunction.apply(sampleFile, UTF_8);
     // THEN
@@ -51,7 +52,7 @@ class EntryPointAssertions_linesOf_Test extends EntryPointAssertionsBaseTest {
   @MethodSource("fileLinesOfWithCharsetAsStringFunctions")
   void should_read_file_lines_with_charset_as_string(BiFunction<File, String, List<String>> linesOfWithCharsetFunction) {
     // GIVEN
-    File sampleFile = new File("src/test/resources/utf8.txt");
+    File sampleFile = ResourceUtil.getResource("utf8.txt").toFile();
     // WHEN
     List<String> lines = linesOfWithCharsetFunction.apply(sampleFile, "UTF8");
     // THEN
@@ -66,7 +67,7 @@ class EntryPointAssertions_linesOf_Test extends EntryPointAssertionsBaseTest {
   @MethodSource("fileLinesOfWithDefaultCharsetFunctions")
   void should_read_file_lines_with_default_charset(Function<File, List<String>> linesOfWithDefaultCharsetFunction) {
     // GIVEN
-    File sampleFile = new File("src/test/resources/ascii.txt");
+    File sampleFile = ResourceUtil.getResource("ascii.txt").toFile();
     // WHEN
     List<String> lines = linesOfWithDefaultCharsetFunction.apply(sampleFile);
     // THEN
@@ -81,7 +82,7 @@ class EntryPointAssertions_linesOf_Test extends EntryPointAssertionsBaseTest {
   @MethodSource("pathLinesOfWithCharsetFunctions")
   void should_read_path_lines_with_charset(BiFunction<Path, Charset, List<String>> linesOfWithCharsetFunction) {
     // GIVEN
-    Path sampleFile = Paths.get("src", "test", "resources", "utf8.txt");
+    Path sampleFile = ResourceUtil.getResource("utf8.txt");
     // WHEN
     List<String> lines = linesOfWithCharsetFunction.apply(sampleFile, UTF_8);
     // THEN
@@ -96,7 +97,7 @@ class EntryPointAssertions_linesOf_Test extends EntryPointAssertionsBaseTest {
   @MethodSource("pathLinesOfWithCharsetAsStringFunctions")
   void should_read_path_lines_with_charset_as_string(BiFunction<Path, String, List<String>> linesOfWithCharsetFunction) {
     // GIVEN
-    Path sampleFile = Paths.get("src", "test", "resources", "utf8.txt");
+    Path sampleFile = ResourceUtil.getResource("utf8.txt");
     // WHEN
     List<String> lines = linesOfWithCharsetFunction.apply(sampleFile, "UTF8");
     // THEN
@@ -111,7 +112,7 @@ class EntryPointAssertions_linesOf_Test extends EntryPointAssertionsBaseTest {
   @MethodSource("pathLinesOfWithDefaultCharsetFunctions")
   void should_read_path_lines_with_default_charset(Function<Path, List<String>> linesOfWithDefaultCharsetFunction) {
     // GIVEN
-    Path sampleFile = Paths.get("src", "test", "resources", "ascii.txt");
+    Path sampleFile = ResourceUtil.getResource("ascii.txt");
     // WHEN
     List<String> lines = linesOfWithDefaultCharsetFunction.apply(sampleFile);
     // THEN

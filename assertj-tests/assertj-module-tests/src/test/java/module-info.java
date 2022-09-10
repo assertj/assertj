@@ -16,6 +16,8 @@ module org.assertj.moduletest {
     requires org.junit.jupiter.api;
     requires org.junit.platform.launcher;
 
+    requires static org.hamcrest;
+
     opens org.assertj.moduletest.api to org.junit.platform.commons;
     //provides org.assertj.core.configuration.Configuration with org.assertj.core.test.ConfigurationForTests;
 }

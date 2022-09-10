@@ -31,6 +31,7 @@ import java.io.UncheckedIOException;
 import org.assertj.core.internal.BinaryDiff;
 import org.assertj.core.internal.BinaryDiffResult;
 import org.assertj.core.internal.FilesBaseTest;
+import org.assertj.core.util.ResourceUtil;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
@@ -42,8 +43,8 @@ class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
   @BeforeAll
   static void setUpOnce() throws IOException {
     // Does not matter if the values differ, the actual comparison is mocked in this test
-    actual = new File("src/test/resources/actual_file.txt");
-    expected = new File("src/test/resources/expected_file.txt");
+    actual = ResourceUtil.getResource("actual_file.txt").toFile();
+    expected = ResourceUtil.getResource("expected_file.txt").toFile();
     expectedBytes = readAllBytes(expected.toPath());
   }
 

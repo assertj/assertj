@@ -36,6 +36,7 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.ThrowingConsumer;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.description.TextDescription;
+import org.assertj.core.util.ResourceUtil;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
@@ -105,7 +106,7 @@ class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
     ThrowingConsumer<Reader> hasNotReachedEOF = reader -> assertThat(reader.read()).isPositive();
     Consumer<Object> notNullObject = object -> assertThat(object).isNotNull();
     // THEN
-    then(new FileReader("src/test/resources/ascii.txt")).satisfiesAnyOf(hasNotReachedEOF, notNullObject);
+    then(ResourceUtil.getResourceAsReader("ascii.txt")).satisfiesAnyOf(hasNotReachedEOF, notNullObject);
   }
   
   @Test

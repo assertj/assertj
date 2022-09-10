@@ -24,6 +24,7 @@ import org.assertj.core.api.AbstractStringAssert;
 import org.assertj.core.api.NavigationMethodBaseTest;
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
+import org.assertj.core.util.ResourceUtil;
 import org.junit.jupiter.api.Test;
 
 class PathAssert_content_with_charset_Test extends PathAssertBaseTest implements NavigationMethodBaseTest<PathAssert> {
@@ -41,13 +42,13 @@ class PathAssert_content_with_charset_Test extends PathAssertBaseTest implements
 
   @Override
   protected PathAssert create_assertions() {
-    return new PathAssert(new File("src/test/resources/utf8.txt").toPath());
+    return new PathAssert(ResourceUtil.getResource("utf8.txt"));
   }
 
   @Test
   public void should_return_StringAssert_on_path_content_with_given_charset() {
     // GIVEN
-    Path path = new File("src/test/resources/utf8.txt").toPath();
+    Path path = ResourceUtil.getResource("utf8.txt");
     // WHEN
     AbstractStringAssert<?> stringAssert = assertThat(path).content(UTF_8);
     // THEN

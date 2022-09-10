@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
  * @author Olivier Michallat
  */
 class Files_contentOf_Test {
-  private final File sampleFile = new File("src/test/resources/utf8.txt");
+  private final File sampleFile = ResourceUtil.getResource("utf8.txt").toFile();
   private final String expectedContent = "A text file encoded in UTF-8, with diacritics:\né à";
 
   @Test

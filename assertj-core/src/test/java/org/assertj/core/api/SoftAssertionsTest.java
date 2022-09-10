@@ -100,6 +100,7 @@ import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.assertj.core.test.Name;
 import org.assertj.core.test.Person;
 import org.assertj.core.util.Lists;
+import org.assertj.core.util.ResourceUtil;
 import org.assertj.core.util.VisibleForTesting;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -2544,7 +2545,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   @Test
   void path_soft_assertions_should_work_with_content() {
     // GIVEN
-    Path path = new File("src/test/resources/actual_file.txt").toPath();
+    Path path = ResourceUtil.getResource("actual_file.txt");
     // WHEN
     softly.assertThat(path)
           .overridingErrorMessage("error message")
@@ -2567,7 +2568,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   @Test
   void file_soft_assertions_should_report_errors_on_methods_that_switch_the_object_under_test() {
     // GIVEN
-    File file = new File("src/test/resources/actual_file.txt");
+    File file = ResourceUtil.getResource("actual_file.txt").toFile();
     // WHEN
     softly.assertThat(file)
           .overridingErrorMessage("error message")
@@ -2590,7 +2591,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   @Test
   void file_soft_assertions_should_work_with_navigation_methods() {
     // GIVEN
-    File file = new File("src/test/resources/actual_file.txt");
+    File file = ResourceUtil.getResource("actual_file.txt").toFile();
     // WHEN
     softly.assertThat(file)
           .overridingErrorMessage("error message")
@@ -2611,7 +2612,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   @Test
   void file_soft_assertions_should_work_with_binaryContent() {
     // GIVEN
-    File file = new File("src/test/resources/actual_file.txt");
+    File file = ResourceUtil.getResource("actual_file.txt").toFile();
     // WHEN
     softly.assertThat(file)
           .overridingErrorMessage("error message")
@@ -2632,7 +2633,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   @Test
   void path_soft_assertions_should_work_with_binaryContent() {
     // GIVEN
-    Path path = new File("src/test/resources/actual_file.txt").toPath();
+    Path path = ResourceUtil.getResource("actual_file.txt");
     // WHEN
     softly.assertThat(path)
           .overridingErrorMessage("error message")

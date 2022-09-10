@@ -34,9 +34,9 @@ import org.junit.jupiter.api.Test;
  */
 class Files_linesOf_Test {
 
-  private static final File SAMPLE_UNIX_FILE = new File("src/test/resources/utf8.txt");
-  private static final File SAMPLE_WIN_FILE = new File("src/test/resources/utf8_win.txt");
-  private static final File SAMPLE_MAC_FILE = new File("src/test/resources/utf8_mac.txt");
+  private static final File SAMPLE_UNIX_FILE = ResourceUtil.getResource("utf8.txt").toFile();
+  private static final File SAMPLE_WIN_FILE = ResourceUtil.getResource("utf8_win.txt").toFile();
+  private static final File SAMPLE_MAC_FILE = ResourceUtil.getResource("utf8_mac.txt").toFile();
 
   private static final List<String> EXPECTED_CONTENT = newArrayList("A text file encoded in UTF-8, with diacritics:", "é à");
   public static final String UTF_8 = "UTF-8";

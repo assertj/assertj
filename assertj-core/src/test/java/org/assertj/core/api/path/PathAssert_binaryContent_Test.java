@@ -25,6 +25,7 @@ import org.assertj.core.api.AbstractByteArrayAssert;
 import org.assertj.core.api.NavigationMethodBaseTest;
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
+import org.assertj.core.util.ResourceUtil;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -45,13 +46,13 @@ class PathAssert_binaryContent_Test extends PathAssertBaseTest implements Naviga
 
   @Override
   protected PathAssert create_assertions() {
-    return new PathAssert(new File("src/test/resources/actual_file.txt").toPath());
+    return new PathAssert(ResourceUtil.getResource("actual_file.txt"));
   }
 
   @Test
   void should_return_ByteArrayAssert_on_path_content() {
     // GIVEN
-    Path path = new File("src/test/resources/actual_file.txt").toPath();
+    Path path = ResourceUtil.getResource("actual_file.txt");
     // WHEN
     AbstractByteArrayAssert<?> byteAssert = assertThat(path).binaryContent();
     // THEN

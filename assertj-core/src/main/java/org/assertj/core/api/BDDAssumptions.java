@@ -3019,7 +3019,7 @@ public final class BDDAssumptions extends Assumptions {
    * Executed test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_met_the_test_is_executed() {
-   *   given(new File("file.ext").toPath()).isRelative();
+   *   given(ResourceUtil.getResource("file.ext")).isRelative();
    *   // the remaining code is executed
    *   // ...
    * }</code></pre>
@@ -3027,7 +3027,7 @@ public final class BDDAssumptions extends Assumptions {
    * Skipped test:
    * <pre><code class='java'> {@literal @Test}
    * public void given_the_assumption_is_not_met_the_test_is_skipped() {
-   *   given(new File("file.ext").toPath()).isAbsolute();
+   *   given(ResourceUtil.getResource("file.ext")).isAbsolute();
    *   // the remaining code is NOT executed.
    *   // ...
    *}</code></pre>
