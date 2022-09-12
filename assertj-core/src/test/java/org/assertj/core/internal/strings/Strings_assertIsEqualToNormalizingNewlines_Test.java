@@ -58,14 +58,14 @@ class Strings_assertIsEqualToNormalizingNewlines_Test extends StringsBaseTest {
   }
 
   @Test
-  void compare_null_and_null() {
+  void should_pass_if_actual_and_expected_are_both_null() {
     String actual = null;
     String expected = null;
     assertThat(actual).isEqualToNormalizingNewlines(expected);
   }
 
   @Test
-  void compare_null_and_empty() {
+  void should_fail_if_actual_is_null_and_expected_is_not() {
     String actual = null;
     String expected = "";
 
@@ -76,7 +76,7 @@ class Strings_assertIsEqualToNormalizingNewlines_Test extends StringsBaseTest {
   }
 
   @Test
-  void compare_empty_and_null() {
+  void should_fail_if_actual_is_not_null_but_expected_is_null() {
     String actual = "";
     String expected = null;
 
