@@ -15,6 +15,7 @@ package org.assertj.core.internal.strings;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNewLineDifferences.shouldBeEqualIgnoringNewLineDifferences;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.verify;
 
@@ -56,4 +57,32 @@ class Strings_assertIsEqualToNormalizingNewlines_Test extends StringsBaseTest {
                              "Lord of the Rings\n\nis cool", expected);
   }
 
+  @Test
+  void compare_null_and_null() {
+    String actual = null;
+    String expected = null;
+    assertThat(actual).isEqualToNormalizingNewlines(expected);
+  }
+
+  @Test
+  void compare_null_and_empty() {
+    String actual = null;
+    String expected = "";
+
+    Throwable error = catchThrowable(() -> strings.assertIsEqualToNormalizingNewlines(someInfo(), actual, expected));
+    assertThat(error).isInstanceOf(AssertionError.class);
+
+    verify(failures).failure(someInfo(), shouldNotBeNull("actual"));
+  }
+
+  @Test
+  void compare_empty_and_null() {
+    String actual = "";
+    String expected = null;
+
+    Throwable error = catchThrowable(() -> strings.assertIsEqualToNormalizingNewlines(someInfo(), actual, expected));
+    assertThat(error).isInstanceOf(AssertionError.class);
+
+    verify(failures).failure(someInfo(), shouldBeEqualIgnoringNewLineDifferences(actual, "null"));
+  }
 }

@@ -59,6 +59,7 @@ import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringCase.shouldNotBeEqualIgnoringCase;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringWhitespace.shouldNotBeEqualIgnoringWhitespace;
 import static org.assertj.core.error.ShouldNotBeEqualNormalizingWhitespace.shouldNotBeEqualNormalizingWhitespace;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.error.ShouldNotContainAnyWhitespaces.shouldNotContainAnyWhitespaces;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContainIgnoringCase;
@@ -671,6 +672,12 @@ public class Strings {
    * @throws AssertionError if the given {@code CharSequence}s are equal after normalizing newlines.
    */
   public void assertIsEqualToNormalizingNewlines(AssertionInfo info, CharSequence actual, CharSequence expected) {
+    if (actual == null && expected == null)
+      return;
+    if (actual == null)
+      throw failures.failure(info, shouldNotBeNull("actual"));
+    if (expected == null)
+      throw failures.failure(info, shouldBeEqualIgnoringNewLineDifferences(actual, "null"));
     String actualNormalized = normalizeNewlines(actual);
     String expectedNormalized = normalizeNewlines(expected);
     if (!actualNormalized.equals(expectedNormalized))
