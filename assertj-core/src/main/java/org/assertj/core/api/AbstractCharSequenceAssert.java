@@ -908,7 +908,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @deprecated Use {@link #containsIgnoringNewlines(CharSequence...)} instead.
    * @since 3.24.0
    */
-  @Deprecated(since = "3.24.0")
+  @Deprecated
   public SELF containsIgnoringNewLines(final CharSequence... values) {
     return this.containsIgnoringNewlines(values);
   }
@@ -1837,7 +1837,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @deprecated Use {@link #isEqualToIgnoringNewlines(CharSequence)} instead.
    * @since 3.24.0
    */
-  @Deprecated(since = "3.24.0")
+  @Deprecated
   public SELF isEqualToIgnoringNewLines(CharSequence expected) {
     return this.isEqualToIgnoringNewlines(expected);
   }
