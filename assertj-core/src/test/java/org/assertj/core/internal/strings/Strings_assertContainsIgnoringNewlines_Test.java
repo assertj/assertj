@@ -32,9 +32,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 /**
- * Tests for <code>{@link Strings#assertContainsIgnoringNewLines(AssertionInfo, CharSequence, CharSequence...)} </code>.
+ * Tests for <code>{@link Strings#assertContainsIgnoringNewlines(AssertionInfo, CharSequence, CharSequence...)} </code>.
  */
-class Strings_assertContainsIgnoringNewLines_Test extends StringsBaseTest {
+class Strings_assertContainsIgnoringNewlines_Test extends StringsBaseTest {
 
   private static final StandardComparisonStrategy STANDARD_COMPARISON = StandardComparisonStrategy.instance();
   private static final WritableAssertionInfo INFO = someInfo();
@@ -46,7 +46,7 @@ class Strings_assertContainsIgnoringNewLines_Test extends StringsBaseTest {
     // GIVEN
     String actual = "Alice\nand\nBob";
     // WHEN / THEN
-    strings.assertContainsIgnoringNewLines(INFO, actual, value);
+    strings.assertContainsIgnoringNewlines(INFO, actual, value);
   }
 
   @Test
@@ -55,7 +55,7 @@ class Strings_assertContainsIgnoringNewLines_Test extends StringsBaseTest {
     String actual = "Alice\nand\nBob";
     String[] values = array("Ali", "ce", "\na", "nd", "\r\nBob");
     // WHEN / THEN
-    strings.assertContainsIgnoringNewLines(INFO, actual, values);
+    strings.assertContainsIgnoringNewlines(INFO, actual, values);
   }
 
   @Test
@@ -64,7 +64,7 @@ class Strings_assertContainsIgnoringNewLines_Test extends StringsBaseTest {
     String actual = "Al";
     String value = "Bob";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertContainsIgnoringNewLines(INFO, actual, value));
+    AssertionError assertionError = expectAssertionError(() -> strings.assertContainsIgnoringNewlines(INFO, actual, value));
     // THEN
     then(assertionError).hasMessage(containsIgnoringNewLines("Al", array("Bob"), set("Bob"), STANDARD_COMPARISON).create());
   }
@@ -75,7 +75,7 @@ class Strings_assertContainsIgnoringNewLines_Test extends StringsBaseTest {
     String actual = "Al";
     String value = "al";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertContainsIgnoringNewLines(INFO, actual, value));
+    AssertionError assertionError = expectAssertionError(() -> strings.assertContainsIgnoringNewlines(INFO, actual, value));
     // THEN
     then(assertionError).hasMessage(containsIgnoringNewLines("Al", array("al"), set("al"), STANDARD_COMPARISON).create());
   }
@@ -86,7 +86,7 @@ class Strings_assertContainsIgnoringNewLines_Test extends StringsBaseTest {
     String actual = "Alice\nand\nbob";
     String value = "and\nBob";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertContainsIgnoringNewLines(INFO, actual, value));
+    AssertionError assertionError = expectAssertionError(() -> strings.assertContainsIgnoringNewlines(INFO, actual, value));
     // THEN
     then(assertionError).hasMessage(containsIgnoringNewLines("Alice\nand\nbob", array("and\nBob"), set("and\nBob"),
                                                              STANDARD_COMPARISON).create());
@@ -98,7 +98,7 @@ class Strings_assertContainsIgnoringNewLines_Test extends StringsBaseTest {
     String actual = "Al";
     String value = null;
     // WHEN / THEN
-    assertThatNullPointerException().isThrownBy(() -> strings.assertContainsIgnoringNewLines(INFO, actual, value))
+    assertThatNullPointerException().isThrownBy(() -> strings.assertContainsIgnoringNewlines(INFO, actual, value))
                                     .withMessage(charSequenceToLookForIsNull());
   }
 
@@ -108,7 +108,7 @@ class Strings_assertContainsIgnoringNewLines_Test extends StringsBaseTest {
     String actual = null;
     String value = "Bob";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertContainsIgnoringNewLines(INFO, actual, value));
+    AssertionError assertionError = expectAssertionError(() -> strings.assertContainsIgnoringNewlines(INFO, actual, value));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -119,7 +119,7 @@ class Strings_assertContainsIgnoringNewLines_Test extends StringsBaseTest {
     String actual = "Alice";
     String[] values = array("Al", "ice", "Bob");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertContainsIgnoringNewLines(INFO, actual, values));
+    AssertionError assertionError = expectAssertionError(() -> strings.assertContainsIgnoringNewlines(INFO, actual, values));
     // THEN
     then(assertionError).hasMessage(containsIgnoringNewLines(actual, values, set("Bob"), STANDARD_COMPARISON).create());
   }
@@ -130,7 +130,7 @@ class Strings_assertContainsIgnoringNewLines_Test extends StringsBaseTest {
     // GIVEN
     String actual = "Alice\nand\nBob";
     // WHEN / THEN
-    stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringNewLines(INFO, actual, value);
+    stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringNewlines(INFO, actual, value);
   }
 
   @Test
@@ -139,7 +139,7 @@ class Strings_assertContainsIgnoringNewLines_Test extends StringsBaseTest {
     String actual = "Alice\nand\nBob";
     String[] values = array("Al", "iCe", "and", "Bob");
     // WHEN / THEN
-    stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringNewLines(INFO, actual, values);
+    stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringNewlines(INFO, actual, values);
   }
 
   @Test
@@ -148,7 +148,7 @@ class Strings_assertContainsIgnoringNewLines_Test extends StringsBaseTest {
     String actual = "Al";
     String value = "Bob";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringNewLines(INFO,
+    AssertionError assertionError = expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringNewlines(INFO,
                                                                                                                                            actual,
                                                                                                                                            value));
     // THEN
@@ -161,7 +161,7 @@ class Strings_assertContainsIgnoringNewLines_Test extends StringsBaseTest {
     String actual = "Alice";
     String[] values = array("Al", "ice", "\r\nBob");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringNewLines(INFO,
+    AssertionError assertionError = expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringNewlines(INFO,
                                                                                                                                            actual,
                                                                                                                                            values));
     // THEN

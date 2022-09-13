@@ -24,11 +24,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 /**
- * Tests for <code>{@link Strings#assertIsEqualToIgnoringNewLines(AssertionInfo, CharSequence, CharSequence)}</code>.
+ * Tests for <code>{@link Strings#assertIsEqualToIgnoringNewlines(AssertionInfo, CharSequence, CharSequence)}</code>.
  *
  * @author Daniel Weber
  */
-class Strings_assertIsEqualToIgnoringNewLines_Test extends StringsBaseTest {
+class Strings_assertIsEqualToIgnoringNewlines_Test extends StringsBaseTest {
 
   private static final String ACTUAL_WITHOUT_NEW_LINES = "Some textWith new lines";
   private static final String ACTUAL_ON_UNIX = "Some text\nWith new lines";
@@ -41,7 +41,7 @@ class Strings_assertIsEqualToIgnoringNewLines_Test extends StringsBaseTest {
     // GIVEN
     String actual = "Some text\nWith new lines";
     // WHEN
-    strings.assertIsEqualToIgnoringNewLines(someInfo(), actual, expected);
+    strings.assertIsEqualToIgnoringNewlines(someInfo(), actual, expected);
   }
 
   @ParameterizedTest
@@ -50,7 +50,7 @@ class Strings_assertIsEqualToIgnoringNewLines_Test extends StringsBaseTest {
     // GIVEN
     String expected = "Some text With new lines";
     // WHEN
-    expectAssertionError(() -> strings.assertIsEqualToIgnoringNewLines(someInfo(), actual, expected));
+    expectAssertionError(() -> strings.assertIsEqualToIgnoringNewlines(someInfo(), actual, expected));
     // THEN
     verify(failures).failure(someInfo(), shouldBeEqualIgnoringNewLines(actual, expected), actual, expected);
   }
