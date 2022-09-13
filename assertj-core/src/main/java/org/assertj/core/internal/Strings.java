@@ -261,10 +261,10 @@ public class Strings {
     return comparisonStrategy.stringContains(actual.toString().toLowerCase(ROOT), sequence.toString().toLowerCase(ROOT));
   }
 
-  public void assertContainsIgnoringNewLines(final AssertionInfo info, final CharSequence actual, final CharSequence... values) {
+  public void assertContainsIgnoringNewlines(final AssertionInfo info, final CharSequence actual, final CharSequence... values) {
     doCommonCheckForCharSequence(info, actual, values);
-    final String actualNoNewLines = removeNewLines(actual);
-    Set<CharSequence> notFound = stream(values).filter(value -> !stringContains(actualNoNewLines, removeNewLines(value)))
+    final String actualNoNewLines = removeNewlines(actual);
+    Set<CharSequence> notFound = stream(values).filter(value -> !stringContains(actualNoNewLines, removeNewlines(value)))
                                                .collect(toCollection(LinkedHashSet::new));
     if (notFound.isEmpty()) return;
     throw failures.failure(info, containsIgnoringNewLines(actual, values, notFound, comparisonStrategy));
@@ -796,9 +796,9 @@ public class Strings {
     }
   }
 
-  public void assertIsEqualToIgnoringNewLines(AssertionInfo info, CharSequence actual, CharSequence expected) {
-    String actualWithoutNewLines = removeNewLines(actual);
-    String expectedWithoutNewLines = removeNewLines(expected);
+  public void assertIsEqualToIgnoringNewlines(AssertionInfo info, CharSequence actual, CharSequence expected) {
+    String actualWithoutNewLines = removeNewlines(actual);
+    String expectedWithoutNewLines = removeNewlines(expected);
     if (!actualWithoutNewLines.equals(expectedWithoutNewLines))
       throw failures.failure(info, shouldBeEqualIgnoringNewLines(actual, expected), actual, expected);
   }
@@ -844,7 +844,7 @@ public class Strings {
     }
   }
 
-  private static String removeNewLines(CharSequence text) {
+  private static String removeNewlines(CharSequence text) {
     String normalizedText = normalizeNewlines(text);
     return normalizedText.replace("\n", EMPTY_STRING);
   }

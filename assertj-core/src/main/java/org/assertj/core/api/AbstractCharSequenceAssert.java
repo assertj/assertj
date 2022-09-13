@@ -875,19 +875,19 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} contains all the given values ignoring new line differences.
+   * Verifies that the actual {@code CharSequence} contains all the given values ignoring newline differences.
    * <p>
    * You can use one or several {@code CharSequence}s as in this example:
    *
    * <pre><code class='java'> // assertions succeed:
-   * assertThat(&quot;Gandalf\nthe\ngrey&quot;).containsIgnoringNewLines(&quot;alf&quot;)
-   *                                 .containsIgnoringNewLines(&quot;alf&quot;, &quot;grey&quot;)
-   *                                 .containsIgnoringNewLines(&quot;thegrey&quot;)
-   *                                 .containsIgnoringNewLines(&quot;thegr\ney&quot;)
-   *                                 .containsIgnoringNewLines(&quot;t\nh\ne\ng\nr\ney&quot;);
+   * assertThat(&quot;Gandalf\nthe\ngrey&quot;).containsIgnoringNewlines(&quot;alf&quot;)
+   *                                 .containsIgnoringNewlines(&quot;alf&quot;, &quot;grey&quot;)
+   *                                 .containsIgnoringNewlines(&quot;thegrey&quot;)
+   *                                 .containsIgnoringNewlines(&quot;thegr\ney&quot;)
+   *                                 .containsIgnoringNewlines(&quot;t\nh\ne\ng\nr\ney&quot;);
    * // assertions fail:
-   * assertThat(&quot;Gandalf\nthe\ngrey&quot;).containsIgnoringNewLines(&quot;alF&quot;)
-   * assertThat(&quot;Gandalf\nthe\ngrey&quot;).containsIgnoringNewLines(&quot;t\nh\ne\ng\nr\t\r\ney&quot;)</code></pre>
+   * assertThat(&quot;Gandalf\nthe\ngrey&quot;).containsIgnoringNewlines(&quot;alF&quot;)
+   * assertThat(&quot;Gandalf\nthe\ngrey&quot;).containsIgnoringNewlines(&quot;t\nh\ne\ng\nr\t\r\ney&quot;)</code></pre>
    * 
    * @param values the values to look for.
    * @return {@code this} assertion object.
@@ -896,8 +896,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
    * @throws AssertionError if the actual {@code CharSequence} does not contain all the given values.
    */
-  public SELF containsIgnoringNewLines(final CharSequence... values) {
-    strings.assertContainsIgnoringNewLines(info, actual, values);
+  public SELF containsIgnoringNewlines(final CharSequence... values) {
+    strings.assertContainsIgnoringNewlines(info, actual, values);
     return myself;
   }
 
@@ -1832,28 +1832,28 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} is equal to the given one after both strings new lines (\n, \r\n) have been removed.
+   * Verifies that the actual {@code CharSequence} is equal to the given one after both strings newlines (\n, \r\n) have been removed.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
-   * assertThat("Some textWith new lines").isEqualToIgnoringNewLines("Some text\nWith new lines")
-   *                                      .isEqualToIgnoringNewLines("Some text\r\nWith new lines")
-   *                                      .isEqualToIgnoringNewLines("Some text\n\nWith new lines");
+   * assertThat("Some textWith new lines").isEqualToIgnoringNewlines("Some text\nWith new lines")
+   *                                      .isEqualToIgnoringNewlines("Some text\r\nWith new lines")
+   *                                      .isEqualToIgnoringNewlines("Some text\n\nWith new lines");
    *
-   * assertThat("Some text\nWith new lines").isEqualToIgnoringNewLines("Some text\nWith new lines")
-   *                                        .isEqualToIgnoringNewLines("Some text\r\nWith new lines")
-   *                                        .isEqualToIgnoringNewLines("Some text\n\nWith new lines");
+   * assertThat("Some text\nWith new lines").isEqualToIgnoringNewlines("Some text\nWith new lines")
+   *                                        .isEqualToIgnoringNewlines("Some text\r\nWith new lines")
+   *                                        .isEqualToIgnoringNewlines("Some text\n\nWith new lines");
    *
    * // assertions will fail
-   * assertThat("Some text\nWith new lines").isEqualToIgnoringNewLines("Some text With new lines");
-   * assertThat("Some text\r\nWith new lines").isEqualToIgnoringNewLines("Some text With new lines");</code></pre>
+   * assertThat("Some text\nWith new lines").isEqualToIgnoringNewlines("Some text With new lines");
+   * assertThat("Some text\r\nWith new lines").isEqualToIgnoringNewlines("Some text With new lines");</code></pre>
    *
    * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not equal to the given one after new lines have been removed.
    */
-  public SELF isEqualToIgnoringNewLines(CharSequence expected) {
-    strings.assertIsEqualToIgnoringNewLines(info, actual, expected);
+  public SELF isEqualToIgnoringNewlines(CharSequence expected) {
+    strings.assertIsEqualToIgnoringNewlines(info, actual, expected);
     return myself;
   }
 
