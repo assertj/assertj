@@ -17,14 +17,14 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
 
-class CharSequenceAssert_containsIgnoringNewLines_CharSequence_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_containsIgnoringNewlines_CharSequence_Test extends CharSequenceAssertBaseTest {
   @Override
   protected CharSequenceAssert invoke_api_method() {
-    return assertions.containsIgnoringNewLines("Al", "Bob");
+    return assertions.containsIgnoringNewlines("Al", "Bob");
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertContainsIgnoringNewLines(getInfo(assertions), getActual(assertions), "Al", "Bob");
+    verify(strings).assertContainsIgnoringNewlines(getInfo(assertions), getActual(assertions), "Al", "Bob");
   }
 }
