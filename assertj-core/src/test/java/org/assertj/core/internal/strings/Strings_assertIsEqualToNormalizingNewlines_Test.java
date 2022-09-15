@@ -45,6 +45,11 @@ class Strings_assertIsEqualToNormalizingNewlines_Test extends StringsBaseTest {
   }
 
   @Test
+  void should_pass_if_both_strings_are_null() {
+    strings.assertIsEqualToNormalizingNewlines(someInfo(), null, null);
+  }
+
+  @Test
   void should_fail_if_newlines_are_different_in_both_strings() {
     String actual = "Lord of the Rings\r\n\r\nis cool";
     String expected = "Lord of the Rings\nis cool";
@@ -54,6 +59,26 @@ class Strings_assertIsEqualToNormalizingNewlines_Test extends StringsBaseTest {
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(someInfo(), shouldBeEqualIgnoringNewLineDifferences(actual, expected),
                              "Lord of the Rings\n\nis cool", expected);
+  }
+
+  @Test
+  void should_fail_if_actual_is_null_and_the_expected_not() {
+    String actual = null;
+    String expected = "Lord of the Rings\nis cool";
+    Throwable error = catchThrowable(() -> strings.assertIsEqualToNormalizingNewlines(someInfo(), actual, expected));
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(someInfo(), shouldBeEqualIgnoringNewLineDifferences(actual, expected),
+      actual, expected);
+  }
+
+  @Test
+  void should_fail_if_actual_is_not_null_and_the_expected_is() {
+    String actual = "Lord of the Rings\nis cool";
+    String expected = null;
+    Throwable error = catchThrowable(() -> strings.assertIsEqualToNormalizingNewlines(someInfo(), actual, expected));
+    assertThat(error).isInstanceOf(AssertionError.class);
+    verify(failures).failure(someInfo(), shouldBeEqualIgnoringNewLineDifferences(actual, expected),
+      actual, expected);
   }
 
 }

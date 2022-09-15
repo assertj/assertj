@@ -671,6 +671,9 @@ public class Strings {
    * @throws AssertionError if the given {@code CharSequence}s are equal after normalizing newlines.
    */
   public void assertIsEqualToNormalizingNewlines(AssertionInfo info, CharSequence actual, CharSequence expected) {
+    if (actual == null && expected == null) return;
+    if (actual == null || expected == null)
+      throw failures.failure(info, shouldBeEqualIgnoringNewLineDifferences(actual, expected), actual, expected);
     String actualNormalized = normalizeNewlines(actual);
     String expectedNormalized = normalizeNewlines(expected);
     if (!actualNormalized.equals(expectedNormalized))
