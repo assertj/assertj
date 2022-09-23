@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 import org.assertj.core.internal.TestDescription;
 import org.junit.Test;
 
-public class MatcherShouldMatch_create_Test {
+class MatcherShouldMatch_create_Test {
 
   @Test
   public void should_create_error_message() {

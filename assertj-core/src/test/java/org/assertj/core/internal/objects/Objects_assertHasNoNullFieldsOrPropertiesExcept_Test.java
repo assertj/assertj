@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Natália Struharová
  */
-public class Objects_assertHasNoNullFieldsOrPropertiesExcept_Test extends ObjectsBaseTest {
+class Objects_assertHasNoNullFieldsOrPropertiesExcept_Test extends ObjectsBaseTest {
 
   @Test
   void should_pass_if_actual_has_no_null_fields_except_given() {

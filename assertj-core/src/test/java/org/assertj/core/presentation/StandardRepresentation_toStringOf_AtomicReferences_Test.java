@@ -27,7 +27,7 @@ import java.util.concurrent.atomic.AtomicStampedReference;
 import org.junit.Test;
 
 @SuppressWarnings({ "serial", "unused" })
-public class StandardRepresentation_toStringOf_AtomicReferences_Test {
+class StandardRepresentation_toStringOf_AtomicReferences_Test {
 
   @Test
   public void should_use_assertj_representation_for_AtomicReference() {
