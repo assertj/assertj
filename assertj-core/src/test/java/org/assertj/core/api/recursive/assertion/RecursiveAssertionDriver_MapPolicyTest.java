@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 class RecursiveAssertionDriver_MapPolicyTest extends AbstractRecursiveAssertionDriverTestBase {
 
   @Test
-  public void should_assert_over_map_but_not_keys_or_values_when_policy_is_map_object_only() {
+  void should_assert_over_map_but_not_keys_or_values_when_policy_is_map_object_only() {
     // GIVEN
     RecursiveAssertionConfiguration configuration = RecursiveAssertionConfiguration.builder()
                                                                                    .withMapAssertionPolicy(MAP_OBJECT_ONLY)
@@ -42,7 +42,7 @@ class RecursiveAssertionDriver_MapPolicyTest extends AbstractRecursiveAssertionD
   }
 
   @Test
-  public void should_assert_over_values_but_not_keys_or_map_object_when_policy_is_values_only() {
+  void should_assert_over_values_but_not_keys_or_map_object_when_policy_is_values_only() {
     // GIVEN
     RecursiveAssertionConfiguration configuration = RecursiveAssertionConfiguration.builder()
                                                                                    .withMapAssertionPolicy(MAP_VALUES_ONLY)
@@ -57,7 +57,7 @@ class RecursiveAssertionDriver_MapPolicyTest extends AbstractRecursiveAssertionD
   }
 
   @Test
-  public void should_assert_over_map_object_and_keys_and_values_when_policy_is_map_object_and_entries() {
+  void should_assert_over_map_object_and_keys_and_values_when_policy_is_map_object_and_entries() {
     // GIVEN
     RecursiveAssertionConfiguration configuration = RecursiveAssertionConfiguration.builder()
                                                                                    .withMapAssertionPolicy(MAP_OBJECT_AND_ENTRIES)
