@@ -12,6 +12,8 @@
  */
 package org.assertj.core.presentation;
 
+import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Lists.list;
@@ -23,8 +25,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicMarkableReference;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicStampedReference;
-
-import org.junit.Test;
 
 @SuppressWarnings({ "serial", "unused" })
 class StandardRepresentation_toStringOf_AtomicReferences_Test {

@@ -20,7 +20,7 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.assertj.core.internal.TestDescription;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 class MatcherShouldMatch_create_Test {
 
