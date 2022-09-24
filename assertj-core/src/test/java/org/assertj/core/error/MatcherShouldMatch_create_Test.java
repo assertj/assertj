@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 class MatcherShouldMatch_create_Test {
 
   @Test
-  public void should_create_error_message() {
+  void should_create_error_message() {
     // GIVEN
     Pattern pattern = Pattern.compile("a*");
     String expectedValue = "abc";

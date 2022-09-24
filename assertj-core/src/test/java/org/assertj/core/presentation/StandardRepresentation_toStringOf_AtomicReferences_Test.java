@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicStampedReference;
 class StandardRepresentation_toStringOf_AtomicReferences_Test {
 
   @Test
-  public void should_use_assertj_representation_for_AtomicReference() {
+  void should_use_assertj_representation_for_AtomicReference() {
     // GIVEN
     Object myData = new AtomicReference<String>("value");
     // WHEN
@@ -40,7 +40,7 @@ class StandardRepresentation_toStringOf_AtomicReferences_Test {
   }
 
   @Test
-  public void should_use_overridden_toString_in_AtomicReference_subclass() {
+  void should_use_overridden_toString_in_AtomicReference_subclass() {
     class MyData extends AtomicReference<String> {
       private String description;
 
@@ -62,7 +62,7 @@ class StandardRepresentation_toStringOf_AtomicReferences_Test {
   }
 
   @Test
-  public void should_use_the_last_overridden_toString_in_AtomicReference_subclasses() {
+  void should_use_the_last_overridden_toString_in_AtomicReference_subclasses() {
     class MyData extends AtomicReference<String> {
       protected String description;
 
@@ -95,7 +95,7 @@ class StandardRepresentation_toStringOf_AtomicReferences_Test {
   }
 
   @Test
-  public void should_use_overridden_toString_in_AtomicReference_intermediate_subclass() {
+  void should_use_overridden_toString_in_AtomicReference_intermediate_subclass() {
     class MyData extends AtomicReference<String> {
       protected String description;
 
@@ -125,7 +125,7 @@ class StandardRepresentation_toStringOf_AtomicReferences_Test {
   }
 
   @Test
-  public void should_use_assertj_AtomicReference_representation_as_toString_was_not_overridden_in_AtomicReference_subclass() {
+  void should_use_assertj_AtomicReference_representation_as_toString_was_not_overridden_in_AtomicReference_subclass() {
     class MyData extends AtomicReference<String> {
 
       MyData(String value) {
@@ -143,7 +143,7 @@ class StandardRepresentation_toStringOf_AtomicReferences_Test {
   }
 
   @Test
-  public void should_use_assertj_representation_for_AtomicMarkableReference() {
+  void should_use_assertj_representation_for_AtomicMarkableReference() {
     // GIVEN
     Object myData = new AtomicMarkableReference<String>("value", true);
     // WHEN
@@ -153,7 +153,7 @@ class StandardRepresentation_toStringOf_AtomicReferences_Test {
   }
 
   @Test
-  public void should_use_overridden_toString_in_AtomicMarkableReference_subclass() {
+  void should_use_overridden_toString_in_AtomicMarkableReference_subclass() {
     class MyData extends AtomicMarkableReference<String> {
       private String description;
 
@@ -176,7 +176,7 @@ class StandardRepresentation_toStringOf_AtomicReferences_Test {
   }
 
   @Test
-  public void should_use_assertj_AtomicMarkableReference_representation_as_toString_was_not_overridden_in_AtomicMarkableReference_subclass() {
+  void should_use_assertj_AtomicMarkableReference_representation_as_toString_was_not_overridden_in_AtomicMarkableReference_subclass() {
     class MyData extends AtomicMarkableReference<String> {
       private String description;
 
@@ -196,7 +196,7 @@ class StandardRepresentation_toStringOf_AtomicReferences_Test {
   }
 
   @Test
-  public void should_use_assertj_representation_for_AtomicStampedReference() {
+  void should_use_assertj_representation_for_AtomicStampedReference() {
     // GIVEN
     Object myData = new AtomicStampedReference<String>("value", 1);
     // WHEN
@@ -206,7 +206,7 @@ class StandardRepresentation_toStringOf_AtomicReferences_Test {
   }
 
   @Test
-  public void should_use_overridden_toString_AtomicStampedReference() {
+  void should_use_overridden_toString_AtomicStampedReference() {
     class MyData extends AtomicStampedReference<String> {
       private String description;
 
@@ -229,7 +229,7 @@ class StandardRepresentation_toStringOf_AtomicReferences_Test {
   }
 
   @Test
-  public void should_use_predefined_toString_AtomicStampedReference() {
+  void should_use_predefined_toString_AtomicStampedReference() {
     class MyData extends AtomicStampedReference<String> {
       private String description;
 
@@ -249,7 +249,7 @@ class StandardRepresentation_toStringOf_AtomicReferences_Test {
   }
 
   @Test
-  public void should_use_smartFormat() {
+  void should_use_smartFormat() {
     class MyIterable implements Iterable<String> {
       ArrayList<String> arrayList;
 
@@ -274,7 +274,7 @@ class StandardRepresentation_toStringOf_AtomicReferences_Test {
   }
 
   @Test
-  public void should_use_overridden_toString() {
+  void should_use_overridden_toString() {
     class MyIterable implements Iterable<String> {
       List<String> arrayList;
 
