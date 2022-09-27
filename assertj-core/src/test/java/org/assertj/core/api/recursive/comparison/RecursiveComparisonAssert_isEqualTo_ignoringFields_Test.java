@@ -13,6 +13,7 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
@@ -35,6 +36,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+@SuppressWarnings("unused")
 class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
   @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
@@ -209,9 +211,9 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
   void should_pass_for_objects_with_the_same_data_when_given_fields_are_ignored(Object actual,
                                                                                 Object expected,
                                                                                 String testDescription,
-                                                                                List<String> ignoredFields) {
+                                                                                String[] ignoredFields) {
     assertThat(actual).usingRecursiveComparison()
-                      .ignoringFields(arrayOf(ignoredFields))
+                      .ignoringFields(ignoredFields)
                       .isEqualTo(expected);
   }
 
@@ -253,32 +255,32 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
     person8.neighbour.neighbour.home.address.number = 457;
 
     return Stream.of(arguments(person1, person2, "same data and type, except for one ignored field",
-                               list("name")),
+                               array("name")),
                      arguments(list(person1), list(person2), "list of same data and type, except for one ignored field",
-                               list("name")),
+                               array("name")),
                      arguments(array(person1), array(person2), "array of same data and type, except for one ignored field",
-                               list("name")),
+                               array("name")),
                      arguments(list(person1, giant1), list(person2, person1),
                                "list of same data except name and height which is not even a field from person1",
-                               list("name", "height")),
+                               array("name", "height")),
                      arguments(array(person1, giant1), array(person2, person1),
                                "list of same data except name and height which is not even a field from person1",
-                               list("name", "height")),
+                               array("name", "height")),
                      arguments(list(person3, person7), list(person4, person8),
                                "list of same data except name and height which is not even a field from person1",
-                               list("name", "home.address.number", "neighbour.neighbour.home.address.number", "neighbour.name")),
+                               array("name", "home.address.number", "neighbour.neighbour.home.address.number", "neighbour.name")),
                      arguments(array(person3, person7), array(person4, person8),
                                "array of same data except name and height which is not even a field from person1",
-                               list("name", "home.address.number", "neighbour.neighbour.home.address.number", "neighbour.name")),
+                               array("name", "home.address.number", "neighbour.neighbour.home.address.number", "neighbour.name")),
                      arguments(giant1, person1,
                                "different type, same data except name and height which is not even a field from person1",
-                               list("name", "height")),
+                               array("name", "height")),
                      arguments(person3, person4, "same data, different type, except for several ignored fields",
-                               list("name", "home.address.number")),
+                               array("name", "home.address.number")),
                      arguments(person5, person6, "same data except for one subfield of an ignored field",
-                               list("home")),
+                               array("home")),
                      arguments(person7, person8, "same data except for one subfield of an ignored field",
-                               list("neighbour.neighbour.home.address.number", "neighbour.name")));
+                               array("neighbour.neighbour.home.address.number", "neighbour.name")));
   }
 
   @Test
@@ -519,4 +521,73 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
     return list.toArray(new String[0]);
   }
 
+  @Test
+  void should_honor_ignored_fields() {
+    // GIVEN
+    Data actual = new Data(new Data.InnerData("match", "nonMatch"), null);
+    Data expected = new Data(new Data.InnerData("match", "hctaMnon"), null);
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison()
+                .ignoringFields("innerData.field2")
+                .isEqualTo(expected);
+  }
+
+  @Test
+  void should_honor_ignored_fields_regex_in_inner_list() {
+    // GIVEN
+    Data actual = new Data(null, list(new Data.InnerData("match", "nonMatch")));
+    Data expected = new Data(null, list(new Data.InnerData("match", "hctaMnon")));
+    RecursiveComparisonConfiguration conf = new RecursiveComparisonConfiguration();
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison()
+                .ignoringFieldsMatchingRegexes(".*field2")
+                .isEqualTo(expected);
+  }
+
+  @Test
+  void should_honor_ignored_fields_regex() {
+    // GIVEN
+    Data actual = new Data(new Data.InnerData("match", "nonMatch"), null);
+    Data expected = new Data(new Data.InnerData("match", "hctaMnon"), null);
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison()
+                .ignoringFieldsMatchingRegexes(".*field2")
+                .isEqualTo(expected);
+  }
+
+  static class Data {
+    private final InnerData innerData;
+    private final List<InnerData> innerDataList;
+
+    public Data(InnerData innerData, List<InnerData> innerDataList) {
+      this.innerData = innerData;
+      this.innerDataList = innerDataList;
+    }
+
+    public InnerData getInnerData() {
+      return innerData;
+    }
+
+    public List<InnerData> getInnerDataList() {
+      return innerDataList;
+    }
+
+    static class InnerData {
+      private final String field1;
+      private final String field2;
+
+      public InnerData(String field1, String field2) {
+        this.field1 = field1;
+        this.field2 = field2;
+      }
+
+      public String getField2() {
+        return field2;
+      }
+
+      public String getField1() {
+        return field1;
+      }
+    }
+  }
 }
