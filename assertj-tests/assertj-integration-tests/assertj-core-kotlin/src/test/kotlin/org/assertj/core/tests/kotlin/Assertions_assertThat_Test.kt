@@ -17,25 +17,25 @@ import org.junit.jupiter.api.Test
 
 internal class Assertions_assertThat_Test {
 
-    @Test
-    internal fun intarray () {
-        val x: IntArray = intArrayOf(1, 2, 3)
-        assertThat(x).contains(1, 2, 3)
-    }
+  @Test
+  internal fun intarray() {
+    val x: IntArray = intArrayOf(1, 2, 3)
+    assertThat(x).contains(1, 2, 3)
+  }
 
-    @Test
-    internal fun `immutable list`() {
-        val list = listOf("Viserys", "Rhaenyra", "Daemon")
-        assertThat(list).contains("Viserys", "Rhaenyra", "Daemon")
-        assertThat(list).hasSize(3).anySatisfy {
-            assertThat(it).isNotEqualTo("Corlys")
-            assertThat(it).hasSize(6)
-        }
+  @Test
+  internal fun `immutable list`() {
+    val list = listOf("Viserys", "Rhaenyra", "Daemon")
+    assertThat(list).contains("Viserys", "Rhaenyra", "Daemon")
+    assertThat(list).hasSize(3).anySatisfy {
+      assertThat(it).isNotEqualTo("Corlys")
+      assertThat(it).hasSize(6)
     }
+  }
 
-    @Test
-    internal fun `mutable list`() {
-        val list = mutableListOf("Viserys", "Rhaenyra", "Daemon")
-        assertThat(list).contains("Viserys", "Rhaenyra", "Daemon")
-    }
+  @Test
+  internal fun `mutable list`() {
+    val list = mutableListOf("Viserys", "Rhaenyra", "Daemon")
+    assertThat(list).contains("Viserys", "Rhaenyra", "Daemon")
+  }
 }
