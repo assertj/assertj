@@ -15,10 +15,10 @@ package org.assertj.core.internal.strings;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldEndWithIgnoringCase.shouldEndWithIgnoringCase;
+import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
@@ -26,10 +26,8 @@ import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.assertj.core.util.StringHashCodeTestComparator;
 import org.junit.jupiter.api.Test;
+import org.junitpioneer.jupiter.DefaultLocale;
 
-/**
- * Tests for <code>{@link Strings#assertEndsWithIgnoringCase(AssertionInfo, CharSequence, CharSequence)}</code>.
- */
 class Strings_assertEndsWithIgnoringCase_Test extends StringsBaseTest {
 
   @Test
@@ -84,4 +82,12 @@ class Strings_assertEndsWithIgnoringCase_Test extends StringsBaseTest {
     // THEN
     then(assertionError).hasMessage(shouldEndWithIgnoringCase("Yoda", "Luke", hashCodeComparisonStrategy).create());
   }
+
+  @Test
+  @DefaultLocale("tr-TR")
+  void should_pass_with_Turkish_default_locale() {
+    // WHEN/THEN
+    strings.assertEndsWithIgnoringCase(someInfo(), "Leia", "IA");
+  }
+
 }
