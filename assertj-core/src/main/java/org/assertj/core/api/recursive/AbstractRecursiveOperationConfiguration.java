@@ -124,7 +124,7 @@ public abstract class AbstractRecursiveOperationConfiguration {
     stream(types).map(AbstractRecursiveOperationConfiguration::asWrapperIfPrimitiveType).forEach(ignoredTypes::add);
   }
 
-  private static Class<?> asWrapperIfPrimitiveType(Class<?> type) {
+  protected static Class<?> asWrapperIfPrimitiveType(Class<?> type) {
     if (!type.isPrimitive()) return type;
     if (type.equals(boolean.class)) return Boolean.class;
     if (type.equals(byte.class)) return Byte.class;

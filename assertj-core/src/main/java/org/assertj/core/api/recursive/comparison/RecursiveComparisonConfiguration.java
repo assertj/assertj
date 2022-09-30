@@ -13,6 +13,7 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static java.lang.String.format;
+import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -56,6 +57,9 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   // fields to compare (no other field will be)
   private Set<FieldLocation> comparedFields = new LinkedHashSet<>();
 
+  // fields of types to compare (no other field will be)
+  private Set<Class<?>> comparedFieldsOfTypes = new LinkedHashSet<>();
+
   // overridden equals method to ignore section
   private final List<Class<?>> ignoredOverriddenEqualsForTypes = new ArrayList<>();
   private List<String> ignoredOverriddenEqualsForFields = new ArrayList<>();
@@ -75,6 +79,9 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   private TypeMessages typeMessages = new TypeMessages();
   private FieldMessages fieldMessages = new FieldMessages();
 
+  // parent paths to be used to detect compared fields of type
+  private Set<String> parentDualValuePathsComparedFieldsOfTypes = new LinkedHashSet<>();
+
   private RecursiveComparisonConfiguration(Builder builder) {
     super(builder);
     this.ignoreAllActualNullFields = builder.ignoreAllActualNullFields;
@@ -82,6 +89,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     this.strictTypeChecking = builder.strictTypeChecking;
     this.ignoreAllExpectedNullFields = builder.ignoreAllExpectedNullFields;
     this.comparedFields = newLinkedHashSet(builder.comparedFields);
+    this.comparedFieldsOfTypes = newLinkedHashSet(builder.comparedFieldsOfTypes);
     ignoreOverriddenEqualsForTypes(builder.ignoredOverriddenEqualsForTypes);
     this.ignoredOverriddenEqualsForFields = list(builder.ignoredOverriddenEqualsForFields);
     ignoreOverriddenEqualsForFieldsMatchingRegexes(builder.ignoredOverriddenEqualsForFieldsMatchingRegexes);
@@ -216,6 +224,20 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     Stream.of(fieldNamesToCompare).map(FieldLocation::new).forEach(comparedFields::add);
   }
 
+
+  /**
+   * Adds the given fields of types and their subfields to the set of fields from the object under test to compare (fields of other types will not be compared).
+   * <p>
+   * Specifying a field of type will make all its subfields to be compared, for example specifying {@code Person} will lead to compare {@code person.name}, {@code person.address} ...
+   * <p>
+   * See {@link RecursiveComparisonAssert#comparingOnlyFieldsOfTypes(Class...) RecursiveComparisonAssert#comparingOnlyFieldsOfTypes(Class...)} for examples.
+   *
+   * @param fieldOfTypesToCompare the fields of types of the object under test to compare in the comparison.
+   */
+  public void compareOnlyFieldsOfTypes(Class<?>... fieldOfTypesToCompare) {
+    stream(fieldOfTypesToCompare).map(AbstractRecursiveOperationConfiguration::asWrapperIfPrimitiveType).forEach(comparedFieldsOfTypes::add);
+  }
+
   /**
    * Returns the set of fields to compare from the object under test (no other fields will be compared).
    *
@@ -223,6 +245,15 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    */
   public Set<FieldLocation> getComparedFields() {
     return comparedFields;
+  }
+
+  /**
+   * Returns the set of type to compare from the object under test (fields of other types will not be compared).
+   *
+   * @return the set of types from the object under test to compare.
+   */
+  public Set<Class<?>> getComparedTypes() {
+    return comparedFieldsOfTypes;
   }
 
   /**
@@ -532,7 +563,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
                                   getIgnoredFieldsRegexes(), ignoredOverriddenEqualsForFields,
                                   ignoredOverriddenEqualsForTypes,
                                   ignoredOverriddenEqualsForFieldsMatchingRegexes, getIgnoredTypes(), strictTypeChecking,
-                                  typeComparators, comparedFields, fieldMessages, typeMessages);
+                                  typeComparators, comparedFields, comparedFieldsOfTypes, fieldMessages, typeMessages);
   }
 
   @Override
@@ -550,6 +581,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
            && java.util.Objects.equals(ignoredCollectionOrderInFields, other.ignoredCollectionOrderInFields)
            && java.util.Objects.equals(getIgnoredFields(), other.getIgnoredFields())
            && java.util.Objects.equals(comparedFields, other.comparedFields)
+           && java.util.Objects.equals(comparedFieldsOfTypes, other.comparedFieldsOfTypes)
            && java.util.Objects.equals(getIgnoredFieldsRegexes(), other.getIgnoredFieldsRegexes())
            && java.util.Objects.equals(ignoredOverriddenEqualsForFields, other.ignoredOverriddenEqualsForFields)
            && java.util.Objects.equals(ignoredOverriddenEqualsForTypes, other.ignoredOverriddenEqualsForTypes)
@@ -570,6 +602,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     describeIgnoreAllActualEmptyOptionalFields(description);
     describeIgnoreAllExpectedNullFields(description);
     describeComparedFields(description);
+    describeComparedFieldsOfTypes(description);
     describeIgnoredFields(description);
     describeIgnoredFieldsRegexes(description);
     describeIgnoredFieldsForTypes(description);
@@ -586,12 +619,16 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   boolean shouldIgnore(DualValue dualValue) {
-    return shouldIgnoreFieldBasedOnFieldLocation(dualValue.fieldLocation) || shouldIgnoreFieldBasedOnFieldValue(dualValue);
+    return !shouldBeCompared(dualValue) || shouldIgnoreFieldBasedOnFieldLocation(dualValue.fieldLocation) || shouldIgnoreFieldBasedOnFieldValue(dualValue);
   }
 
-  private boolean shouldBeCompared(FieldLocation fieldLocation) {
-    // empty comparedFields <=> no restriction on compared fields <=> must be compared
-    if (comparedFields.isEmpty()) return true;
+  private boolean shouldBeCompared(DualValue dualValue) {
+    // empty comparedFields and comparedFieldsOfTypes <=> no restriction on compared fields <=> must be compared
+    if (comparedFields.isEmpty() && comparedFieldsOfTypes.isEmpty()) return true;
+    return shouldBeComparedBasedOnFieldLocation(dualValue.fieldLocation) || shouldBeComparedBasedOnFieldValue(dualValue);
+  }
+
+  private boolean shouldBeComparedBasedOnFieldLocation(FieldLocation fieldLocation) {
     return comparedFields.stream().anyMatch(matchesComparedField(fieldLocation));
   }
 
@@ -611,11 +648,12 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     // - then we filter field DualValues with the remaining criteria that need to get the field value
     // DualValues are built introspecting fields which is expensive.
     return actualFieldsNames.stream()
-                            // evaluate field name ignoring criteria on dualValue field location + field name
+                            // evaluate field name ignoring criteria
                             .filter(fieldName -> !shouldIgnoreFieldBasedOnFieldLocation(dualValue.fieldLocation.field(fieldName)))
                             .map(fieldName -> dualValueForField(dualValue, fieldName))
                             // evaluate field value ignoring criteria
                             .filter(fieldDualValue -> !shouldIgnoreFieldBasedOnFieldValue(fieldDualValue))
+                            .filter(this::shouldBeCompared)
                             // back to field name
                             .map(DualValue::getFieldName)
                             .filter(fieldName -> !fieldName.isEmpty())
@@ -631,7 +669,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   private boolean shouldIgnoreFieldBasedOnFieldLocation(FieldLocation fieldLocation) {
-    return !shouldBeCompared(fieldLocation) || matchesAnIgnoredField(fieldLocation) || matchesAnIgnoredFieldRegex(fieldLocation);
+    return matchesAnIgnoredField(fieldLocation) || matchesAnIgnoredFieldRegex(fieldLocation);
   }
 
   private static DualValue dualValueForField(DualValue parentDualValue, String fieldName) {
@@ -682,6 +720,11 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   private void describeComparedFields(StringBuilder description) {
     if (!comparedFields.isEmpty())
       description.append(format("- the comparison was performed on the following fields: %s%n", describeComparedFields()));
+  }
+
+  private void describeComparedFieldsOfTypes(StringBuilder description) {
+    if (!comparedFieldsOfTypes.isEmpty())
+      description.append(format("- the comparison was performed on the following fields of types: %s%n", describeComparedFieldsOfTypes()));
   }
 
   private void describeIgnoredFieldsForTypes(StringBuilder description) {
@@ -792,6 +835,19 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return false;
   }
 
+  private boolean shouldBeComparedBasedOnFieldValue(DualValue dualValue) {
+    if (parentDualValuePathsComparedFieldsOfTypes.stream().anyMatch(path -> dualValue.fieldLocation.getPathToUseInRules().startsWith(path))) return matchFiledComparedByTypeAndStorePath(dualValue);
+    if (dualValue.actual != null && comparedFieldsOfTypes.contains(dualValue.actual.getClass())) return matchFiledComparedByTypeAndStorePath(dualValue);
+    if (dualValue.expected != null && comparedFieldsOfTypes.contains(dualValue.expected.getClass())) return matchFiledComparedByTypeAndStorePath(dualValue);
+
+    return false;
+  }
+
+  private boolean matchFiledComparedByTypeAndStorePath(DualValue dualValue) {
+    parentDualValuePathsComparedFieldsOfTypes.add(dualValue.fieldLocation.getPathToUseInRules());
+    return true;
+  }
+
   private boolean matchesAnIgnoredCollectionOrderInField(FieldLocation fieldLocation) {
     return ignoredCollectionOrderInFields.stream().anyMatch(fieldLocation::matches);
   }
@@ -803,6 +859,13 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   private String describeComparedFields() {
     return join(comparedFields.stream().map(FieldLocation::shortDescription).collect(toList()));
+  }
+
+  private String describeComparedFieldsOfTypes() {
+    List<String> typesDescription = comparedFieldsOfTypes.stream()
+                                                     .map(Class::getName)
+                                                     .collect(toList());
+    return join(typesDescription);
   }
 
   private String describeIgnoredCollectionOrderInFields() {
@@ -929,6 +992,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     private boolean ignoreAllActualEmptyOptionalFields;
     private boolean ignoreAllExpectedNullFields;
     private FieldLocation[] comparedFields = {};
+    private Class<?>[] comparedFieldsOfTypes = {};
     private Class<?>[] ignoredOverriddenEqualsForTypes = {};
     private String[] ignoredOverriddenEqualsForFields = {};
     private String[] ignoredOverriddenEqualsForFieldsMatchingRegexes = {};
@@ -1010,6 +1074,18 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
      */
     public Builder withComparedFields(String... fieldsToCompare) {
       this.comparedFields = Stream.of(fieldsToCompare).map(FieldLocation::new).toArray(FieldLocation[]::new);
+      return this;
+    }
+
+    /**
+     * Adds the given types to the set of fields from the object under test to compare in the recursive comparison.
+     * See {@link RecursiveComparisonAssert#comparingOnlyFieldsOfTypes(Class[])} (String...)} for examples.
+     *
+     * @param comparedFieldsOfTypesToCompare the fields of types of the object under test to compare.
+     * @return this builder.
+     */
+    public Builder withComparedFieldsOfTypes(Class<?>... comparedFieldsOfTypesToCompare) {
+      this.comparedFieldsOfTypes = comparedFieldsOfTypesToCompare;
       return this;
     }
 

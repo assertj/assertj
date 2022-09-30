@@ -271,6 +271,61 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
+   * Makes the recursive comparison to only compare given actual fields of types and their subfields (no other fields will be compared).
+   * <p>
+   * Specifying a field of type will make all its subfields to be compared, for example specifying {@code person} will lead to compare
+   * {@code person.name}, {@code person.address} and all other Person fields.<br>
+   * <p>
+   * {@code comparingOnlyFieldsOfTypes} can be combined with ignoring fields or compare only fields by name methods to restrict further the fields actually compared,
+   * the resulting compared fields = {specified compared fields of types} {@code -} {specified ignored fields}.<br>
+   * For example if the specified compared fields of types = {String.class, Integer.class, Double.class}, when there are fields String foo, Integer buzz and Double bar
+   * and the ignored fields = {"bar"} then only {"foo", "baz"} fields will be compared.
+   * <p>
+   * Usage example:
+   * <pre><code class='java'> public class Person {
+   *   String name;
+   *   double height;
+   *   Home home = new Home();
+   * }
+   *
+   * public class Home {
+   *   Address address = new Address();
+   * }
+   *
+   * public static class Address {
+   *   int number;
+   *   String street;
+   * }
+   *
+   * Person sherlock = new Person("Sherlock", 1.80);
+   * sherlock.home.address.street = "Baker Street";
+   * sherlock.home.address.number = 221;
+   *
+   * Person moriarty = new Person("Moriarty", 1.80);
+   * moriarty.home.address.street = "Butcher Street";
+   * moriarty.home.address.number = 221;
+   *
+   *
+   * // assertion succeeds as only fields height and home.address.number fields are not compared,
+   * // since they match compared types.
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .comparingOnlyFieldsOfTypes(Integer.class, Double.class)
+   *                     .isEqualTo(moriarty);
+   *
+   * // assertion fails as subfields of the home field home.address.street fields differ.
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .comparingOnlyFieldsOfTypes(Home.class)
+   *                     .isEqualTo(moriarty);</code></pre>
+   *
+   * @param fieldOfTypesToCompare the fields of types of the object under test to compare in the comparison.
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   */
+  public SELF comparingOnlyFieldsOfTypes(Class<?>... fieldOfTypesToCompare) {
+    recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(fieldOfTypesToCompare);
+    return myself;
+  }
+
+  /**
    * Makes the recursive comparison to ignore all <b>actual null fields</b> (but note that the expected object null fields are used in the comparison).
    * <p>
    * Example:
