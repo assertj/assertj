@@ -120,6 +120,16 @@ class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
+  void should_set_comparedFieldsOfTypes() {
+    // GIVEN
+    Class<?>[] values = { String.class, double.class };
+    // WHEN
+    RecursiveComparisonConfiguration configuration = configBuilder().withComparedFieldsOfTypes(values).build();
+    // THEN
+    then(configuration.getComparedTypes()).containsExactly(String.class, double.class);
+  }
+
+  @Test
   void should_set_ignoredFields() {
     // GIVEN
     String[] values = { "foo", "bar" };
