@@ -13,6 +13,7 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.util.Preconditions.checkArgument;
+import static org.assertj.core.util.Throwables.getStackTrace;
 
 import java.util.Objects;
 
@@ -45,9 +46,11 @@ public class ShouldHaveCause extends BasicErrorMessageFactory {
           "but type was:%n" +
           "  %s%n" +
           "and message was:%n" +
-          "  %s.",
+          "  %s.%n" +
+          "Throwable that failed the check:%n" +
+          "%s",
           expectedCause.getClass().getName(), expectedCause.getMessage(),
-          actualCause.getClass().getName(), actualCause.getMessage());
+          actualCause.getClass().getName(), actualCause.getMessage(), getStackTrace(actualCause));
   }
 
   private ShouldHaveCause(Throwable expectedCause) {
@@ -65,8 +68,10 @@ public class ShouldHaveCause extends BasicErrorMessageFactory {
           "Expecting a cause with type:%n" +
           "  %s%n" +
           "but type was:%n" +
-          "  %s.",
-          expectedCauseClass.getName(), actualCause.getClass().getName());
+          "  %s.%n" +
+          "Throwable that failed the check:%n" +
+          "%s",
+          expectedCauseClass.getName(), actualCause.getClass().getName(), getStackTrace(actualCause));
   }
 
   private ShouldHaveCause(Throwable actualCause, String expectedCauseMessage) {
@@ -74,7 +79,9 @@ public class ShouldHaveCause extends BasicErrorMessageFactory {
           "Expecting a cause with message:%n" +
           "  %s%n" +
           "but message was:%n" +
-          "  %s.",
-          expectedCauseMessage, actualCause.getMessage());
+          "  %s.%n" +
+          "Throwable that failed the check:%n" +
+          "%s",
+          expectedCauseMessage, actualCause.getMessage(), getStackTrace(actualCause));
   }
 }

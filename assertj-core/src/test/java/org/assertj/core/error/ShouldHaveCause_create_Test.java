@@ -16,6 +16,7 @@ import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveCause.shouldHaveCause;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.util.Throwables.getStackTrace;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,14 +44,16 @@ class ShouldHaveCause_create_Test {
     String message = shouldHaveCause(actual, expected).create();
     // THEN
     then(message).isEqualTo(format("%n" +
-      "Expecting a cause with type:%n" +
-      "  \"java.lang.IllegalStateException\"%n" +
-      "and message:%n" +
-      "  \"illegal state\"%n" +
-      "but type was:%n" +
-      "  \"java.lang.RuntimeException\"%n" +
-      "and message was:%n" +
-      "  \"Boom\"."));
+                                   "Expecting a cause with type:%n" +
+                                   "  \"java.lang.IllegalStateException\"%n" +
+                                   "and message:%n" +
+                                   "  \"illegal state\"%n" +
+                                   "but type was:%n" +
+                                   "  \"java.lang.RuntimeException\"%n" +
+                                   "and message was:%n" +
+                                   "  \"Boom\".%n" +
+                                   "Throwable that failed the check:%n" +
+                                   "\"%s\"", getStackTrace(actual)));
   }
 
   @Test
@@ -62,10 +65,12 @@ class ShouldHaveCause_create_Test {
     String message = shouldHaveCause(actual, expected).create();
     // THEN
     then(message).isEqualTo(format("%n" +
-      "Expecting a cause with message:%n" +
-      "  \"something went wrong\"%n" +
-      "but message was:%n" +
-      "  \"Boom\"."));
+                                   "Expecting a cause with message:%n" +
+                                   "  \"something went wrong\"%n" +
+                                   "but message was:%n" +
+                                   "  \"Boom\".%n" +
+                                   "Throwable that failed the check:%n" +
+                                   "\"%s\"", getStackTrace(actual)));
   }
 
   @Test
@@ -77,10 +82,12 @@ class ShouldHaveCause_create_Test {
     String message = shouldHaveCause(actual, expected).create();
     // THEN
     then(message).isEqualTo(format("%n" +
-      "Expecting a cause with type:%n" +
-      "  \"java.lang.IllegalStateException\"%n" +
-      "but type was:%n" +
-      "  \"java.lang.RuntimeException\"."));
+                                   "Expecting a cause with type:%n" +
+                                   "  \"java.lang.IllegalStateException\"%n" +
+                                   "but type was:%n" +
+                                   "  \"java.lang.RuntimeException\".%n" +
+                                   "Throwable that failed the check:%n" +
+                                   "\"%s\"", getStackTrace(actual)));
   }
 
   @Test
@@ -92,10 +99,10 @@ class ShouldHaveCause_create_Test {
     String message = shouldHaveCause(actual, expected).create();
     // THEN
     then(message).isEqualTo(format("%n" +
-      "Expecting a cause with type:%n" +
-      "  \"java.lang.IllegalStateException\"%n" +
-      "and message:%n" +
-      "  \"Boom\"%n" +
-      "but actualCause had no cause."));
+                                   "Expecting a cause with type:%n" +
+                                   "  \"java.lang.IllegalStateException\"%n" +
+                                   "and message:%n" +
+                                   "  \"Boom\"%n" +
+                                   "but actualCause had no cause."));
   }
 }
