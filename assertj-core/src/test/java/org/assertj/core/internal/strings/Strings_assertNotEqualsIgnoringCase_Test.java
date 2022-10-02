@@ -15,20 +15,19 @@ package org.assertj.core.internal.strings;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringCase.shouldNotBeEqualIgnoringCase;
 import static org.assertj.core.test.CharArrays.arrayOf;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
+import org.junitpioneer.jupiter.DefaultLocale;
 
 /**
- * Tests for
- * <code>{@link org.assertj.core.internal.Strings#assertNotEqualsIgnoringCase(org.assertj.core.api.AssertionInfo, CharSequence, CharSequence)}</code>
- * .
- *
  * @author Alexander Bischof
  */
 class Strings_assertNotEqualsIgnoringCase_Test extends StringsBaseTest {
@@ -127,4 +126,14 @@ class Strings_assertNotEqualsIgnoringCase_Test extends StringsBaseTest {
     assertThat(error).isInstanceOf(AssertionError.class);
     verifyFailureThrownWhenStringsAreNotEqual(info, "Yoda", "YODA");
   }
+
+  @Test
+  @DefaultLocale("tr-TR")
+  void should_fail_with_Turkish_default_locale() {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> strings.assertNotEqualsIgnoringCase(INFO, "Leia", "LEIA"));
+    // THEN
+    then(assertionError).hasMessage(shouldNotBeEqualIgnoringCase("Leia", "LEIA").create());
+  }
+
 }

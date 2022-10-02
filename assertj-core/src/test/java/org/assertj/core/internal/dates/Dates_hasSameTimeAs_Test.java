@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Natália Struharová
  */
-public class Dates_hasSameTimeAs_Test extends DatesBaseTest {
+class Dates_hasSameTimeAs_Test extends DatesBaseTest {
 
   @Test
   void should_pass_if_actual_has_same_time() {

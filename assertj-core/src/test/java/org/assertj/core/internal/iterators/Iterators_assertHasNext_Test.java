@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Natália Struharová
  */
-public class Iterators_assertHasNext_Test extends IteratorsBaseTest {
+class Iterators_assertHasNext_Test extends IteratorsBaseTest {
 
   @Test
   void should_pass_if_iterator_has_next() {

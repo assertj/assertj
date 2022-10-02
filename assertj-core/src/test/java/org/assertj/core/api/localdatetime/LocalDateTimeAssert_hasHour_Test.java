@@ -22,7 +22,7 @@ import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-public class LocalDateTimeAssert_hasHour_Test {
+class LocalDateTimeAssert_hasHour_Test {
   @Test
   void should_pass_if_actual_is_in_given_hour(){
     // GIVEN

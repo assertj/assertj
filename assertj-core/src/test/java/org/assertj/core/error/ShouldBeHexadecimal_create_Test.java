@@ -20,7 +20,7 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
-public class ShouldBeHexadecimal_create_Test {
+class ShouldBeHexadecimal_create_Test {
   @Test
   void should_create_error_message_for_special_character() {
     // WHEN

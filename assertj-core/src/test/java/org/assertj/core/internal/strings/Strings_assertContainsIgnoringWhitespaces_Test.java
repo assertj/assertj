@@ -36,7 +36,7 @@ import org.junit.jupiter.params.provider.ValueSource;
  *
  * @author Johannes Becker
  */
-public class Strings_assertContainsIgnoringWhitespaces_Test extends StringsBaseTest {
+class Strings_assertContainsIgnoringWhitespaces_Test extends StringsBaseTest {
 
   private static final WritableAssertionInfo INFO = someInfo();
 

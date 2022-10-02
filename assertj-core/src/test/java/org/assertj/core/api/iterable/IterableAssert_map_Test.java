@@ -26,7 +26,7 @@ import org.assertj.core.data.TolkienCharacter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class IterableAssert_map_Test {
+class IterableAssert_map_Test {
 
   private final List<TolkienCharacter> hobbits = new ArrayList<>();
 

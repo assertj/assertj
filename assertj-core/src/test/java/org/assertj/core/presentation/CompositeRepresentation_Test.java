@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-public class CompositeRepresentation_Test extends AbstractBaseRepresentationTest {
+class CompositeRepresentation_Test extends AbstractBaseRepresentationTest {
 
   @Test
   void should_use_representation_with_highest_priority() {

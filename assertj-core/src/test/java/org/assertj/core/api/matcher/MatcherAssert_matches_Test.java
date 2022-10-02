@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.Test;
 
-public class MatcherAssert_matches_Test {
+class MatcherAssert_matches_Test {
 
   @Test
   void should_fail_if_Matcher_is_null() {
