@@ -23,7 +23,7 @@ class CaseInsensitiveStringComparatorTest {
 
   @Test
   @DefaultLocale("tr-TR")
-  void should_work_with_turkish_locale() {
+  void should_work_with_Turkish_default_locale() {
     // WHEN
     int result = underTest.compare("i", "I");
     // THEN
