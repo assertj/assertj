@@ -2770,7 +2770,7 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
-   * Assertions entry point for {@link TemporalUnitOffset} with  with less than or equal condition
+   * Assertions entry point for {@link TemporalUnitOffset} with less than or equal condition
    * to use with isCloseTo temporal assertions.
    * <p>
    * Typical usage :
