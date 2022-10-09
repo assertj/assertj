@@ -28,7 +28,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 17
-#          cache: 'maven'
+          cache: 'maven'
       - name: Test
         # Note: arguments with a period or bang in them have to be single quoted to prevent
         # confusing the PowerShell instance on Windows runners.
@@ -60,7 +60,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 17
-#          cache: 'maven'
+          cache: 'maven'
       - name: Test with Sonar
         run: >
           ./mvnw -B -V --no-transfer-progress -e verify javadoc:javadoc sonar:sonar
