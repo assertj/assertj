@@ -20,7 +20,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 17
-#          cache: 'maven'
+          cache: 'maven'
 
       - name: Checkout `${{ github.base_ref }}` into subfolder
         uses: actions/checkout@v3
@@ -94,7 +94,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 17
-#          cache: 'maven'
+          cache: 'maven'
 
       - name: Compare with the latest release
         run: >
