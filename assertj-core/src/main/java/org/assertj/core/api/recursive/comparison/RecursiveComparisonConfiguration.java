@@ -79,8 +79,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   private TypeMessages typeMessages = new TypeMessages();
   private FieldMessages fieldMessages = new FieldMessages();
 
-  // parent paths to be used to detect compared fields of type
-  private Set<String> parentDualValuePathsComparedFieldsOfTypes = new LinkedHashSet<>();
+  // parent field locations to be used to detect compared fields of type
+  private Set<FieldLocation> fieldLocationOfComparedFieldsOfTypes = new LinkedHashSet<>();
 
   private RecursiveComparisonConfiguration(Builder builder) {
     super(builder);
@@ -836,7 +836,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   private boolean shouldBeComparedBasedOnFieldValue(DualValue dualValue) {
-    if (parentDualValuePathsComparedFieldsOfTypes.stream().anyMatch(path -> dualValue.fieldLocation.getPathToUseInRules().startsWith(path))) return matchFiledComparedByTypeAndStorePath(dualValue);
+    if (fieldLocationOfComparedFieldsOfTypes.stream().anyMatch(dualValue.fieldLocation::hasParent)) return matchFiledComparedByTypeAndStorePath(dualValue);
     if (dualValue.actual != null && comparedFieldsOfTypes.contains(dualValue.actual.getClass())) return matchFiledComparedByTypeAndStorePath(dualValue);
     if (dualValue.expected != null && comparedFieldsOfTypes.contains(dualValue.expected.getClass())) return matchFiledComparedByTypeAndStorePath(dualValue);
 
@@ -844,7 +844,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   private boolean matchFiledComparedByTypeAndStorePath(DualValue dualValue) {
-    parentDualValuePathsComparedFieldsOfTypes.add(dualValue.fieldLocation.getPathToUseInRules());
+    fieldLocationOfComparedFieldsOfTypes.add(dualValue.fieldLocation);
     return true;
   }
 
