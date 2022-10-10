@@ -308,7 +308,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * moriarty.home.address.number = 221;
    *
    *
-   * // assertion succeeds as only fields height and home.address.number fields are not compared,
+   * // assertion succeeds as only fields height and home.address.number fields are compared,
    * // since they match compared types.
    * assertThat(sherlock).usingRecursiveComparison()
    *                     .comparingOnlyFieldsOfTypes(Integer.class, Double.class)
