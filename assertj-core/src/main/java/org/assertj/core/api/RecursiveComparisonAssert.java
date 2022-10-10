@@ -275,6 +275,8 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * <p>
    * Specifying a field of type will make all its subfields to be compared, for example specifying {@code person} will lead to compare
    * {@code person.name}, {@code person.address} and all other Person fields.<br>
+   * Fields of types and their child fields are added to comparison if actual's field matches one of the given types.
+   * In case actual's field is null, expected's field will be checked to match one of the given types.
    * <p>
    * {@code comparingOnlyFieldsOfTypes} can be combined with ignoring fields or compare only fields by name methods to restrict further the fields actually compared,
    * the resulting compared fields = {specified compared fields of types} {@code -} {specified ignored fields}.<br>
