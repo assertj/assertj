@@ -1,6 +1,9 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
 
 jobs:
 
@@ -39,12 +42,12 @@ jobs:
 
       # Add test results to the PR.
       - name: Publish unit test results
-        uses: EnricoMi/publish-unit-test-result-action@v1
+        uses: EnricoMi/publish-unit-test-result-action@v2
         if: ${{ matrix.comment-test-results }}
         continue-on-error: true
         with:
           check_name: "JUnit test results"
-          files: "target/surefire-reports/TEST-*.xml"
+          junit_files: "assertj*/**/target/surefire-reports/TEST-*.xml"
 
   sonar:
     name: Sonar code analysis
