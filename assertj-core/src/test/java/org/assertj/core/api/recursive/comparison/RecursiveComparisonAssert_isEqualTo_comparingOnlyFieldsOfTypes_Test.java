@@ -111,8 +111,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
     compareRecursivelyFailsAsExpected(actual, expected);
 
     // THEN
-    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected,
-                                                              differences);
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, differences);
   }
 
   private static Stream<Arguments> failComparingTopLevelFields() {
