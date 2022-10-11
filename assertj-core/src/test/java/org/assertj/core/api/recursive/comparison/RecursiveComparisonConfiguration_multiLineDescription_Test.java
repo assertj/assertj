@@ -328,6 +328,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     recursiveComparisonConfiguration.setIgnoreAllActualEmptyOptionalFields(true);
     recursiveComparisonConfiguration.setIgnoreAllExpectedNullFields(true);
     recursiveComparisonConfiguration.compareOnlyFields("name", "address.number");
+    recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(String.class, Integer.class);
     recursiveComparisonConfiguration.ignoreFields("foo", "bar", "foo.bar");
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes("f.*", ".ba.", "..b%sr..");
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(UUID.class, ZonedDateTime.class);
@@ -351,6 +352,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
                "- all actual empty optional fields were ignored in the comparison (including Optional, OptionalInt, OptionalLong and OptionalDouble)%n" +
                "- all expected null fields were ignored in the comparison%n" +
                "- the comparison was performed on the following fields: name, address.number%n" +
+               "- the comparison was performed on any fields with types: java.lang.String, java.lang.Integer%n" +
                "- the following fields were ignored in the comparison: foo, bar, foo.bar%n" +
                "- the fields matching the following regexes were ignored in the comparison: f.*, .ba., ..b%%sr..%n"+
                "- the following types were ignored in the comparison: java.util.UUID, java.time.ZonedDateTime%n" +
@@ -383,6 +385,16 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     then(multiLineDescription).contains(format("- the comparison was performed on the following fields: foo, bar, foo.bar%n"));
+  }
+
+  @Test
+  void should_show_that_comparison_is_performed_on_given_fields_of_types() {
+    // GIVEN
+    recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(String.class, Integer.class);
+    // WHEN
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    then(multiLineDescription).contains(format("- the comparison was performed on any fields with types: java.lang.String, java.lang.Integer%n"));
   }
 
   // just to test the description does not fail when given a comparator with various String.format reserved flags

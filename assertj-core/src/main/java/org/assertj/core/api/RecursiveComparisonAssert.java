@@ -271,6 +271,64 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
+   * Makes the recursive comparison to only compare given actual fields of the specified types and their subfields (no other fields will be compared).
+   * <p>
+   * Specifying a field of type will make all its subfields to be compared, for example specifying the {@code Person} type will
+   * lead to compare {@code Person.name}, {@code Person.address} and all other {@code Person} fields.<br>
+   * Fields of types and their child fields are added to comparison if actual's field type matches one of the specified types.
+   * In case actual's field is null, expected's field type will be checked to match one of the given types (we assume actual and expected fields have the same type).
+   * <p>
+   * {@code comparingOnlyFieldsOfTypes} can be combined with {@link #comparingOnlyFields(String...)} to compare fields of the given types <b>or</b> names (union of both sets of fields).
+   * <p>
+   * {@code comparingOnlyFieldsOfTypes} can be also combined with ignoring fields or compare only fields by name methods to restrict further the fields actually compared,
+   * the resulting compared fields = {specified compared fields of types} {@code -} {specified ignored fields}.<br>
+   * For example if the specified compared fields of types = {@code {String.class, Integer.class, Double.class}}, when there are fields  String foo} ,{@code Integer buzz} and {@code Double bar}
+   * and the ignored fields = {"bar"} set with {@link RecursiveComparisonAssert#ignoringFields(String...)} that will remove {@code bar} field from comparison, then only {@code {foo, baz}} fields will be compared.
+   * <p>
+   * Usage example:
+   * <pre><code class='java'> public class Person {
+   *   String name;
+   *   double height;
+   *   Home home = new Home();
+   * }
+   *
+   * public class Home {
+   *   Address address = new Address();
+   * }
+   *
+   * public static class Address {
+   *   int number;
+   *   String street;
+   * }
+   *
+   * Person sherlock = new Person("Sherlock", 1.80);
+   * sherlock.home.address.street = "Baker Street";
+   * sherlock.home.address.number = 221;
+   *
+   * Person moriarty = new Person("Moriarty", 1.80);
+   * moriarty.home.address.street = "Butcher Street";
+   * moriarty.home.address.number = 221;
+   *
+   *
+   * // assertion succeeds as it only compared fields height and home.address.number since their types match compared types
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .comparingOnlyFieldsOfTypes(Integer.class, Double.class)
+   *                     .isEqualTo(moriarty);
+   *
+   * // assertion fails as home.address.street fields differ (Home fields and its subfields were compared)
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .comparingOnlyFieldsOfTypes(Home.class)
+   *                     .isEqualTo(moriarty);</code></pre>
+   *
+   * @param typesToCompare the types to compare in the recursive comparison.
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   */
+  public SELF comparingOnlyFieldsOfTypes(Class<?>... typesToCompare) {
+    recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(typesToCompare);
+    return myself;
+  }
+
+  /**
    * Makes the recursive comparison to ignore all <b>actual null fields</b> (but note that the expected object null fields are used in the comparison).
    * <p>
    * Example:
