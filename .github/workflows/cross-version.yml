@@ -1,9 +1,6 @@
 name: Cross-Version
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
+on: [push, pull_request]
 
 jobs:
 
@@ -12,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: [18, 19, 20]
+        java: [19, 20]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

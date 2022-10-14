@@ -1,9 +1,6 @@
 name: CI
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
+on: [push, pull_request]
 
 jobs:
 
@@ -40,7 +37,6 @@ jobs:
           '-Djansi.passthrough=true'
           '-Dstyle.color=always'
 
-      # Add test results to the PR.
       - name: Publish unit test results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: ${{ matrix.comment-test-results }}
