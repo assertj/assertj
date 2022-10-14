@@ -2,6 +2,12 @@ name: CI
 
 on: [push, pull_request]
 
+concurrency:
+  # Cancel concurrently-running workflow for push and pull_request events
+  # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
 jobs:
 
   test_os:
