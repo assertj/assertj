@@ -30,7 +30,7 @@
     <hamcrest.version>2.2</hamcrest.version>
     <!-- Plugin versions -->
     <bnd.version>6.3.1</bnd.version>
-    <cdg.pitest.version>0.2.0</cdg.pitest.version>
+    <cdg.pitest.version>1.0.1</cdg.pitest.version>
   </properties>
 
   <dependencyManagement>
