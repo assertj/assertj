@@ -9,15 +9,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: [17, 18-ea]
+        java: [19, 20]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup Java
-        uses: actions/setup-java@v2
+        uses: oracle-actions/setup-java@v1
         with:
-          distribution: 'zulu'
-          java-version: ${{ matrix.java }}
-          cache: 'maven'
+          website: jdk.java.net
+          release: ${{ matrix.java }}
+          version: latest
       - name: Test
-        run: ./mvnw -V --no-transfer-progress -e verify javadoc:javadoc
+        run: >
+          ./mvnw -B -V --no-transfer-progress -e verify javadoc:javadoc
+          -Djansi.passthrough=true
+          -Dstyle.color=always

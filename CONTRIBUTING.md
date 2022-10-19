@@ -5,15 +5,15 @@ Thank you for your interest in contributing to AssertJ!
 
 We appreciate your effort and to make sure that your pull request is easy to review, we ask you to note the following guidelines including legal contributor agreement:
 
-* Use JDK 11 or newer to build the project
-* Use **[AssertJ code Eclipse formatting preferences](src/ide-support/assertj-eclipse-formatter.xml)** (for IntelliJ IDEA users, you can import it with the 'Eclipse Code Formatter' Plugin)
+* Use JDK 17 or newer to build the project.
+* Use **[AssertJ code Eclipse formatting preferences](eclipse/assertj-eclipse-formatter.xml)** (for IntelliJ IDEA users, you can import it with the 'Eclipse Code Formatter' Plugin)
 * Write complete Javadocs for each assertion method and include a code example (succeeding and failing assertion(s)).
 * As we use JUnit 5, favor `package-private` visibility for both test classes and test methods.
 * Write one JUnit test class for each assertion method with the following naming convention: `<AssertClass>_<assertion>_Test`.
 * Write unit test assertions with AssertJ! Let's eat our own dog food.
-* Unit tests method naming convention is underscore-based (like python) and not camel-case, we find it is much readable for long test names!
-* Successful assertion unit test method names should start with: `should_pass_xxx` (if you find a better test name, use your best judgment and go for it!)
-* Failing assertion unit test method names should start with: `should_fail_xxx`. (if you find a better test name, use your best judgment and go for it!)
+* Unit tests method naming convention is underscore-based (like Python) and not camel-case, we find it is more readable for long test names!
+* Successful assertion unit test method names should start with: `should_pass_xxx` (if you find a better test name, use your best judgement and go for it!)
+* Failing assertion unit test method names should start with: `should_fail_xxx`. (if you find a better test name, use your best judgement and go for it!)
 * Put `GIVEN` `WHEN` `THEN` steps in each test, prefer `BDDAssertions.then` over `Assertions.assertThat` for assertions in the `THEN` step. Steps can be combined or omitted if a separate step does not provide much benefit to test readability, just ensure that the WHEN step (either single or combined) contains the test target.
 * Use `AssertionUtil.expectAssertionError` for tests expecting to get an `AssertionError` - see `OptionalAssert_containsInstanceOf_Test` below for an example.
 * Use static import when it makes the code more readable.
@@ -49,7 +49,7 @@ class OptionalAssert_containsInstanceOf_Test extends BaseTest {
 }
 ```
 
-It's ok not to follow some rules described above if you have a good reason not to (use your best judgement)
+It's ok not to follow some rules described above if you have a good reason not to (use your best judgement).
 
 [assertj-examples](https://github.com/assertj/assertj-examples) shows how to efficiently use AssertJ through fun unit test examples, it is a kind of living documentation.
 
@@ -59,7 +59,7 @@ We prefer integrating PR by squashing all the commits and rebase it to `main`, i
 
 ## Naming conventions with some examples:
 
-Here some of `ThrowableAssert` assertions: `hasMessage`, `hasNoCause`, `hasMessageContaining`, for each of them we have a test class, note the naming convention:
+Here are some of the `ThrowableAssert` assertions: `hasMessage`, `hasNoCause`, `hasMessageContaining`; for each of them we have a test class, note the naming convention:
 * `ThrowableAssert_hasMessage_Test`
 * `ThrowableAssert_hasNoCause_Test`
 * `ThrowableAssert_hasMessageContaining_Test`
@@ -136,6 +136,12 @@ Try to keep [binary compatibility](https://docs.oracle.com/javase/specs/jls/se8/
 
 Other changes could compromise binary compatibility.
 These are not automatically rejected, but we will carefully evaluate each of them to weigh all the pros and cons.
+
+## Using Gitpod
+
+To avoid setting up your local development environment, you can use [Gitpod](https://www.gitpod.io/) and develop directly in browser-based Visual Studio Code, or [JetBrains Client via JetBrains Gateway](https://www.gitpod.io/docs/ides-and-editors/jetbrains-gateway).
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/from-referrer/)
 
 ## Legal stuff:
 

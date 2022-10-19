@@ -23,26 +23,32 @@ jobs:
 
     steps:
       - name: Checkout project
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           # important to set a fetch depth of 2. By default the checkout action make no history available
           fetch-depth: 2
 
       - name: Setup Java
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: 11
+          java-version: 17
           cache: 'maven'
       - name: run pitest
         # pitest has been bound to a profile called pitest for normal running
         # we add config to analyse only changes made within a PR and treat surviving mutants as check errors
         # failWhenNoMutations is unset in the pom, as otherwise PRs that do not affect java code would fail
-        run: mvn -e -B -Ppitest -Dfeatures="+GIT(from[HEAD~1]), +gitci" test
+        run: >
+          mvn -B -e -Ppitest -Dfeatures="+GIT(from[HEAD~1]), +gitci" test
+          -Djansi.passthrough=true
+          -Dstyle.color=always
       - name: aggregate files
-        run: mvn -e -B -Ppitest pitest-git:aggregate
+        run: >
+          mvn -B -e -f assertj-core/pom.xml -Ppitest pitest-git:aggregate
+          -Djansi.passthrough=true
+          -Dstyle.color=always
       - name: upload results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: pitest
-          path: target/pit-reports-ci/
+          path: target/assertj-core/pit-reports-ci/
