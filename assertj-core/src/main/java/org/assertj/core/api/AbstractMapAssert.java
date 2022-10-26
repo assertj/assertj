@@ -26,7 +26,6 @@ import static org.assertj.core.util.IterableUtil.toCollection;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -34,8 +33,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.NavigableMap;
-import java.util.NavigableSet;
-import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -46,7 +43,6 @@ import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
-import org.assertj.core.internal.Immutables;
 import org.assertj.core.internal.Maps;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
@@ -74,9 +70,6 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
 
   @VisibleForTesting
   Maps maps = Maps.instance();
-
-  @VisibleForTesting
-  Immutables immutables = Immutables.instance();
 
   protected AbstractMapAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
@@ -1410,7 +1403,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
 
   /**
    * Verifies that the actual map is unmodifiable, i.e., throws an {@link UnsupportedOperationException} with
-   * any attempt to modify the collection.
+   * any attempt to modify the map.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
@@ -1422,6 +1415,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual collection is modifiable.
    * @see Collections#unmodifiableMap(Map)
+   *
+   * @since 3.24.0
    */
   @Beta
   public SELF isUnmodifiable() {
@@ -1432,24 +1427,44 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
 
   @SuppressWarnings("unchecked")
   private void assertIsUnmodifiable() {
-    immutables.expectUnsupportedOperationException(info, () -> actual.clear(), "Map.clear()");
-    immutables.expectUnsupportedOperationException(info, () -> actual.compute(null, (k, v) -> v), "Map.compute(null, (k, v) -> v)");
-    immutables.expectUnsupportedOperationException(info, () -> actual.computeIfAbsent(null, k -> null), "Map.computeIfAbsent(null, k -> null)");
-    immutables.expectUnsupportedOperationException(info, () -> actual.computeIfPresent(null, (k, v) -> v), "Map.computeIfPresent(null, (k, v) -> v)");
-    immutables.expectUnsupportedOperationException(info, () -> actual.merge(null, null, (v1, v2) -> v1), "Map.merge(null, null, (v1, v2) -> v1))");
-    immutables.expectUnsupportedOperationException(info, () -> actual.put(null, null), "Map.put(null, null)");
-    immutables.expectUnsupportedOperationException(info, () -> actual.putAll(new HashMap<>()), "Map.putAll(new HashMap<>())");
-    immutables.expectUnsupportedOperationException(info, () -> actual.putIfAbsent(null, null), "Map.putIfAbsent(null, null)");
-    immutables.expectUnsupportedOperationException(info, () -> actual.replace(null, null, null), "Map.replace(null, null, null)");
-    immutables.expectUnsupportedOperationException(info, () -> actual.replace(null, null), "Map.replace(null, null)");
-    immutables.expectUnsupportedOperationException(info, () -> actual.remove(null), "Map.remove(null)");
-    immutables.expectUnsupportedOperationException(info, () -> actual.remove(null, null), "Map.remove(null, null)");
-    immutables.expectUnsupportedOperationException(info, () -> actual.replaceAll((k, v) -> v), "Map.replaceAll((k, v) -> v)");
+    switch (actual.getClass().getName()) {
+      case "java.util.Collections$EmptyNavigableMap":
+      case "java.util.Collections$EmptyMap":
+      case "java.util.Collections$EmptySortedMap":
+      case "java.util.Collections$SingletonMap":
+        // unmodifiable by contract, although not all methods throw UnsupportedOperationException
+        return;
+    }
+
+    expectUnsupportedOperationException(() -> actual.clear(), "Map.clear()");
+    expectUnsupportedOperationException(() -> actual.compute(null, (k, v) -> v), "Map.compute(null, (k, v) -> v)");
+    expectUnsupportedOperationException(() -> actual.computeIfAbsent(null, k -> null), "Map.computeIfAbsent(null, k -> null)");
+    expectUnsupportedOperationException(() -> actual.computeIfPresent(null, (k, v) -> v), "Map.computeIfPresent(null, (k, v) -> v)");
+    expectUnsupportedOperationException(() -> actual.merge(null, null, (v1, v2) -> v1), "Map.merge(null, null, (v1, v2) -> v1))");
+    expectUnsupportedOperationException(() -> actual.put(null, null), "Map.put(null, null)");
+    expectUnsupportedOperationException(() -> actual.putAll(new HashMap<>()), "Map.putAll(new HashMap<>())");
+    expectUnsupportedOperationException(() -> actual.putIfAbsent(null, null), "Map.putIfAbsent(null, null)");
+    expectUnsupportedOperationException(() -> actual.replace(null, null, null), "Map.replace(null, null, null)");
+    expectUnsupportedOperationException(() -> actual.replace(null, null), "Map.replace(null, null)");
+    expectUnsupportedOperationException(() -> actual.remove(null), "Map.remove(null)");
+    expectUnsupportedOperationException(() -> actual.remove(null, null), "Map.remove(null, null)");
+    expectUnsupportedOperationException(() -> actual.replaceAll((k, v) -> v), "Map.replaceAll((k, v) -> v)");
 
     if (actual instanceof NavigableMap) {
       NavigableMap<K, V> navigableMap = (NavigableMap<K, V> ) actual;
-      immutables.expectUnsupportedOperationException(info, () -> navigableMap.pollFirstEntry(), "NavigableMap.pollFirstEntry()");
-      immutables.expectUnsupportedOperationException(info, () -> navigableMap.pollLastEntry(), "NavigableMap.pollLastEntry()");
+      expectUnsupportedOperationException(() -> navigableMap.pollFirstEntry(), "NavigableMap.pollFirstEntry()");
+      expectUnsupportedOperationException(() -> navigableMap.pollLastEntry(), "NavigableMap.pollLastEntry()");
+    }
+  }
+
+  private void expectUnsupportedOperationException(Runnable runnable, String method) {
+    try {
+      runnable.run();
+      throwAssertionError(shouldBeUnmodifiable(method));
+    } catch (UnsupportedOperationException e) {
+      // happy path
+    } catch (RuntimeException e) {
+      throwAssertionError(shouldBeUnmodifiable(method, e));
     }
   }
 
