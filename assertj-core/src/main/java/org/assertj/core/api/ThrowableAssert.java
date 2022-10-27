@@ -68,6 +68,7 @@ public class ThrowableAssert<ACTUAL extends Throwable> extends AbstractThrowable
   }
 
   @SuppressWarnings("unchecked")
+  @Deprecated(since = "3.23.11")
   public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(ThrowingCallable shouldRaiseThrowable,
                                                                              Class<THROWABLE> type) {
     Throwable throwable = catchThrowable(shouldRaiseThrowable);
@@ -75,6 +76,16 @@ public class ThrowableAssert<ACTUAL extends Throwable> extends AbstractThrowable
     // check exception type
     new ThrowableAssert(throwable).overridingErrorMessage(shouldBeInstance(throwable, type).create())
                                   .isInstanceOf(type);
+    return (THROWABLE) throwable;
+  }
+  @SuppressWarnings("unchecked")
+  public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(Class<THROWABLE> type,
+                                                                             ThrowingCallable shouldRaiseThrowable) {
+    Throwable throwable = catchThrowable(shouldRaiseThrowable);
+    if (throwable == null) return null;
+    // check exception type
+    new ThrowableAssert(throwable).overridingErrorMessage(shouldBeInstance(throwable, type).create())
+      .isInstanceOf(type);
     return (THROWABLE) throwable;
   }
 }

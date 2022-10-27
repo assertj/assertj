@@ -2877,11 +2877,16 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.9.0
    */
+  @Deprecated(since = "3.23.11")
   default <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(final ThrowingCallable shouldRaiseThrowable,
                                                                        final Class<THROWABLE> type) {
     return Assertions.catchThrowableOfType(shouldRaiseThrowable, type);
   }
 
+  default <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(final Class<THROWABLE> type,
+                                                                       final ThrowingCallable shouldRaiseThrowable) {
+    return Assertions.catchThrowableOfType(type, shouldRaiseThrowable);
+  }
   /**
    * Allows catching an instance of {@link Exception}.
    * <p>

@@ -1356,7 +1356,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * <p>
    * This caught {@link Throwable} can then be asserted.
    * <p>
-   * If you need to assert on the real type of Throwable caught (e.g. IOException), use {@link #catchThrowableOfType(ThrowingCallable, Class)}.
+   * If you need to assert on the real type of Throwable caught (e.g. IOException), use {@link #catchThrowableOfType(Class, ThrowingCallable)}.
    * <p>
    * Example:
    * <pre><code class='java'>{@literal @}Test
@@ -1371,7 +1371,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowableOfType(ThrowingCallable, Class)
+   * @see #catchThrowableOfType(Class, ThrowingCallable)
    */
   public static Throwable catchThrowable(ThrowingCallable shouldRaiseThrowable) {
     return AssertionsForClassTypes.catchThrowable(shouldRaiseThrowable);
@@ -1423,7 +1423,7 @@ public class Assertions implements InstanceOfAssertFactories {
 
   public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(Class<THROWABLE> type,
                                                                              ThrowingCallable shouldRaiseThrowable) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, type);
+    return AssertionsForClassTypes.catchThrowableOfType(type, shouldRaiseThrowable);
   }
   /**
    * Allows catching an instance of {@link Exception}.
