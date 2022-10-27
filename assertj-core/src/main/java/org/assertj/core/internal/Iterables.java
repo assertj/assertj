@@ -1161,13 +1161,13 @@ public class Iterables {
   }
 
   private AssertionError shouldContainExactlyWithIndexAssertionError(Iterable<?> actual, Object[] values,
-                                                                     List<IndexedDiff> indexedDiffs, AssertionInfo info) {
-    return failures.failure(info, shouldContainExactlyWithIndexes(actual, list(values), indexedDiffs, comparisonStrategy));
+                                                                                 List<IndexedDiff> indexedDiffs, AssertionInfo info) {
+    return failures.failure(info, shouldContainExactlyWithIndexes(actual, list(values), indexedDiffs, comparisonStrategy), actual, list(values));
   }
 
   private AssertionError shouldContainExactlyWithDiffAssertionError(IterableDiff<Object> diff, Iterable<?> actual,
                                                                     Object[] values, AssertionInfo info) {
-    return failures.failure(info, shouldContainExactly(actual, list(values), diff.missing, diff.unexpected, comparisonStrategy));
+    return failures.failure(info, shouldContainExactly(actual, list(values), diff.missing, diff.unexpected, comparisonStrategy), actual, list(values));
   }
 
   public <E> void assertAllSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {
