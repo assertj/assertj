@@ -27,7 +27,7 @@ import org.assertj.core.data.TolkienCharacter.Race;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class IterableAssert_map_with_throwing_extractor_Test {
+class IterableAssert_map_with_throwing_extractor_Test {
 
   private final List<TolkienCharacter> hobbits = new ArrayList<>();
   private final ThrowingExtractor<TolkienCharacter, String, Exception> nameThrowingExtractor = TolkienCharacter::getName;

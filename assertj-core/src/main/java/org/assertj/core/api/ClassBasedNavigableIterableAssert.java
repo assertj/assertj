@@ -59,7 +59,7 @@ public class ClassBasedNavigableIterableAssert<SELF extends ClassBasedNavigableI
       Constructor<?>[] declaredConstructors = assertClass.getDeclaredConstructors();
       // find a matching Assert constructor for E or one of its subclass.
       for (Constructor<?> constructor : declaredConstructors) {
-        if (constructor.getParameterTypes().length == 1 && constructor.getParameterTypes()[0].isAssignableFrom(clazz)) {
+        if (constructor.getParameterCount() == 1 && constructor.getParameterTypes()[0].isAssignableFrom(clazz)) {
           @SuppressWarnings("unchecked")
           ELEMENT_ASSERT newAssert = (ELEMENT_ASSERT) constructor.newInstance(value);
           return newAssert.as(description);

@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Natália Struharová
  */
-public class BooleanArrays_assertContainsSubsequence_Test extends BooleanArraysBaseTest {
+class BooleanArrays_assertContainsSubsequence_Test extends BooleanArraysBaseTest {
 
   @Override
   @BeforeEach

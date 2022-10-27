@@ -34,7 +34,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 /**
  * Tests for <code>{@link Strings#assertContainsIgnoringNewLines(AssertionInfo, CharSequence, CharSequence...)} </code>.
  */
-public class Strings_assertContainsIgnoringNewLines_Test extends StringsBaseTest {
+class Strings_assertContainsIgnoringNewLines_Test extends StringsBaseTest {
 
   private static final StandardComparisonStrategy STANDARD_COMPARISON = StandardComparisonStrategy.instance();
   private static final WritableAssertionInfo INFO = someInfo();

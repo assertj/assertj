@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.abstract_;
 
-import static org.assertj.core.api.Assertions.assertThatObject;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_SEQUENCE;

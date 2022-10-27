@@ -22,9 +22,7 @@ import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractAssertBaseTest;
 import org.assertj.core.api.AbstractLongAssert;
 import org.assertj.core.api.ConcreteAssert;
-import org.assertj.core.api.InstanceOfAssertFactory;
 import org.assertj.core.api.NavigationMethodBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**

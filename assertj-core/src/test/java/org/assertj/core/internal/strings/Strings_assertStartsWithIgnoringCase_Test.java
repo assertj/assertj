@@ -18,7 +18,6 @@ import static org.assertj.core.error.ShouldStartWithIgnoringCase.shouldStartWith
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
@@ -26,10 +25,8 @@ import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.assertj.core.util.StringHashCodeTestComparator;
 import org.junit.jupiter.api.Test;
+import org.junitpioneer.jupiter.DefaultLocale;
 
-/**
- * Tests for <code>{@link Strings#assertStartsWithIgnoringCase(AssertionInfo, CharSequence, CharSequence)}</code>.
- */
 class Strings_assertStartsWithIgnoringCase_Test extends StringsBaseTest {
 
   @Test
@@ -82,4 +79,12 @@ class Strings_assertStartsWithIgnoringCase_Test extends StringsBaseTest {
     // THEN
     then(assertionError).hasMessage(shouldStartWithIgnoringCase("Yoda", "Luke", hashCodeComparisonStrategy).create());
   }
+
+  @Test
+  @DefaultLocale("tr-TR")
+  void should_pass_with_Turkish_default_locale() {
+    // WHEN/THEN
+    strings.assertStartsWithIgnoringCase(INFO, "Leia", "LEI");
+  }
+
 }

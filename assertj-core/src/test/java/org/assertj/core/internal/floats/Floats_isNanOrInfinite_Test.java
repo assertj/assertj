@@ -25,7 +25,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class Floats_isNanOrInfinite_Test extends FloatsBaseTest {
+class Floats_isNanOrInfinite_Test extends FloatsBaseTest {
 
   @ParameterizedTest
   @MethodSource

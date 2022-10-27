@@ -23,7 +23,7 @@ import org.assertj.core.test.Jedi;
  *
  * @author Victor Wang
  */
-public class ObjectAssert_hasOnlyFields_Test extends ObjectAssertBaseTest {
+class ObjectAssert_hasOnlyFields_Test extends ObjectAssertBaseTest {
 
   public static final String FIELD_NAME = "name"; // field in org.assertj.core.test.Person
 

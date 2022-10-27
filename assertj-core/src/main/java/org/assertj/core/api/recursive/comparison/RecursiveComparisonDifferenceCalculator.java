@@ -750,20 +750,28 @@ public class RecursiveComparisonDifferenceCalculator {
     final Object expectedFieldValue = dualValue.expected;
     // check field comparators as they take precedence over type comparators
     Comparator fieldComparator = recursiveComparisonConfiguration.getComparatorForField(fieldName);
-    if (fieldComparator != null) return areEqualUsingComparator(actualFieldValue, expectedFieldValue, fieldComparator);
+    if (fieldComparator != null) return areEqualUsingComparator(actualFieldValue, expectedFieldValue, fieldComparator, fieldName);
     // check if a type comparators exist for the field type
     Class fieldType = actualFieldValue != null ? actualFieldValue.getClass() : expectedFieldValue.getClass();
     Comparator typeComparator = recursiveComparisonConfiguration.getComparatorForType(fieldType);
-    if (typeComparator != null) return areEqualUsingComparator(actualFieldValue, expectedFieldValue, typeComparator);
+    if (typeComparator != null) return areEqualUsingComparator(actualFieldValue, expectedFieldValue, typeComparator, fieldName);
     // default comparison using equals
     return deepEquals(actualFieldValue, expectedFieldValue);
   }
 
-  private static boolean areEqualUsingComparator(final Object actual, final Object expected, Comparator<Object> comparator) {
+  private static boolean areEqualUsingComparator(final Object actual, final Object expected, Comparator<Object> comparator,
+                                                 String fieldName) {
     try {
       return comparator.compare(actual, expected) == 0;
     } catch (ClassCastException e) {
       // this occurs when comparing field of different types, Person.id is an int and PersonDto.id is a long
+      // TODO maybe we should let the exception bubble up?
+      // assertion will fail with the current behavior and report other diff so it might be better to keep things this way
+      System.out.println(format("WARNING: Comparator was not suited to compare '%s' field values:%n" +
+                                "- actual field value  : %s%n" +
+                                "- expected field value: %s%n" +
+                                "- comparator used     : %s",
+                                fieldName, actual, expected, comparator));
       return false;
     }
   }

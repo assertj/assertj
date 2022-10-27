@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
  */
 class CharSequenceAssert_containsPatternSatisfying_String_Test {
   @Test
-  public void should_pass_if_string_contains_given_pattern_and_first_match_satisfies_assertion() {
+  void should_pass_if_string_contains_given_pattern_and_first_match_satisfies_assertion() {
     // GIVEN
     String pattern = ".o(.o)";
     // WHEN/THEN
@@ -37,7 +37,7 @@ class CharSequenceAssert_containsPatternSatisfying_String_Test {
   }
 
   @Test
-  public void should_fail_if_string_does_not_contain_given_pattern() {
+  void should_fail_if_string_does_not_contain_given_pattern() {
     // GIVEN
     String pattern = "(o.a)";
     // WHEN
@@ -48,7 +48,7 @@ class CharSequenceAssert_containsPatternSatisfying_String_Test {
   }
 
   @Test
-  public void should_pass_if_string_contains_given_pattern_but_match_does_not_satisfy_assertion() {
+  void should_pass_if_string_contains_given_pattern_but_match_does_not_satisfy_assertion() {
     // GIVEN
     String pattern = ".(a.)";
     // WHEN
