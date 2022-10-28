@@ -1263,6 +1263,7 @@ public class Java6Assertions {
   }
 
   /**
+   * @deprecated use {@link #catchThrowableOfType(Class, ThrowingCallable)} instead.
    * Allows catching a {@link Throwable} of a specific type.
    * <p>
    * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown {@code catchThrowableOfType} returns null,
@@ -1304,6 +1305,43 @@ public class Java6Assertions {
     return ThrowableAssert.catchThrowableOfType(shouldRaiseThrowable, type);
   }
 
+  /**
+   * Allows catching a {@link Throwable} of a specific type.
+   * <p>
+   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown {@code catchThrowableOfType} returns null,
+   * otherwise it checks that the caught {@link Throwable} has the specified type then casts it to it before returning it,
+   * making it convenient to perform subtype-specific assertions on the result.
+   * <p>
+   * Example:
+   * <pre><code class='java'> class CustomParseException extends Exception {
+   *   int line;
+   *   int column;
+   *
+   *   public CustomParseException(String msg, int l, int c) {
+   *     super(msg);
+   *     line = l;
+   *     column = c;
+   *   }
+   * }
+   *
+   * CustomParseException e = catchThrowableOfType(CustomParseException.class,
+   *                                               () -&gt; { throw new CustomParseException("boom!", 1, 5); });
+   * // assertions pass
+   * assertThat(e).hasMessageContaining("boom");
+   * assertThat(e.line).isEqualTo(1);
+   * assertThat(e.column).isEqualTo(5);
+   *
+   * // fails as CustomParseException is not a RuntimeException
+   * catchThrowableOfType(RuntimeException.class,
+   *                      () -&gt; { throw new CustomParseException("boom!", 1, 5); });</code></pre>
+   *
+   * @param <THROWABLE> the {@link Throwable} type.
+   * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
+   * @param type The type of exception that the code is expected to raise.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
+   * @since 3.23.11
+   */
   public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(Class<THROWABLE> type, ThrowingCallable shouldRaiseThrowable) {
     return ThrowableAssert.catchThrowableOfType(type, shouldRaiseThrowable);
   }

@@ -821,7 +821,7 @@ public class AssertionsForClassTypes {
    * <pre><code class='java'>assertThatNoException().isThrownBy(() -&gt; { System.out.println("OK"); });</code></pre>
    *
    * This method is more or less the same of {@code assertThatCode(...).doesNotThrowAnyException();} but in a more natural way.
-  
+
    * @return the created {@link NotThrownAssert}.
    * @since 3.17.0
    */
@@ -897,13 +897,14 @@ public class AssertionsForClassTypes {
    *
    * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see AssertionsForClassTypes#catchThrowableOfType(ThrowableAssert.ThrowingCallable, Class)
+   * @see AssertionsForClassTypes#catchThrowableOfType(Class, ThrowableAssert.ThrowingCallable)
    */
   public static Throwable catchThrowable(ThrowingCallable shouldRaiseThrowable) {
     return ThrowableAssert.catchThrowable(shouldRaiseThrowable);
   }
 
   /**
+   * @deprecated use {@link #catchThrowableOfType(Class, ThrowingCallable)} instead.
    * Allows catching a {@link Throwable} of a specific type.
    * <p>
    * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown {@code catchThrowableOfType} returns null,
@@ -946,7 +947,43 @@ public class AssertionsForClassTypes {
     return ThrowableAssert.catchThrowableOfType(shouldRaiseThrowable, type);
   }
 
-
+  /**
+   * Allows catching a {@link Throwable} of a specific type.
+   * <p>
+   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown {@code catchThrowableOfType} returns null,
+   * otherwise it checks that the caught {@link Throwable} has the specified type then casts it to it before returning it,
+   * making it convenient to perform subtype-specific assertions on the result.
+   * <p>
+   * Example:
+   * <pre><code class='java'> class CustomParseException extends Exception {
+   *   int line;
+   *   int column;
+   *
+   *   public CustomParseException(String msg, int l, int c) {
+   *     super(msg);
+   *     line = l;
+   *     column = c;
+   *   }
+   * }
+   *
+   * CustomParseException e = catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); },
+   *                                               CustomParseException.class);
+   * // assertions pass
+   * assertThat(e).hasMessageContaining("boom");
+   * assertThat(e.line).isEqualTo(1);
+   * assertThat(e.column).isEqualTo(5);
+   *
+   * // fails as CustomParseException is not a RuntimeException
+   * catchThrowableOfType(RuntimeException.class,
+   *                     () -&gt; { throw new CustomParseException("boom!", 1, 5); });</code></pre>
+   *
+   * @param <THROWABLE> the {@link Throwable} type.
+   * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
+   * @param type The type of exception that the code is expected to raise.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
+   * @since 3.23.11
+   */
   public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(Class<THROWABLE> type,
                                                                              ThrowingCallable shouldRaiseThrowable) {
     return ThrowableAssert.catchThrowableOfType(type, shouldRaiseThrowable);
