@@ -18,6 +18,7 @@ import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.recursive.comparison.ComparingFields.COMPARING_FIELDS;
 import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
 
 import java.lang.reflect.Method;
@@ -32,7 +33,6 @@ import java.util.Set;
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.objects.data.Person;
-import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.assertj.core.util.introspection.PropertySupport;
 import org.junit.jupiter.api.Test;
@@ -368,7 +368,6 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     }
   }
 
-  // Lightweight object for REST endpoint
   static class UserDTO {
     private String email;
 
@@ -384,11 +383,11 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
   // https://github.com/assertj/assertj/issues/2149
 
   @Test
-  void should_pass_with_field_based_introspection() {
+  void should_fail_with_field_based_introspection() {
     // GIVEN
     Values actual = new Values("A", "B");
     Values expected = new Values("A", "C");
-    recursiveComparisonConfiguration.setIntrospectionStrategy(new ComparingFields());
+    recursiveComparisonConfiguration.setIntrospectionStrategy(COMPARING_FIELDS);
 
     // WHEN
     compareRecursivelyFailsAsExpected(actual, expected);
@@ -401,25 +400,6 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     // then(actual).usingRecursiveComparison().isEqualTo(expected);
     // rationale is by default we get value by property first and field second which means that we call getValues(),
     // which returns the first element "A" of both actual and expected.
-  }
-
-  static class ComparingFields implements RecursiveComparisonIntrospectionStrategy {
-
-    @Override
-    public Set<String> getChildrenNodeNamesOf(Object node) {
-      return node == null ? new HashSet<>() : Objects.getFieldsNames(node.getClass());
-    }
-
-    @Override
-    public Object getChildNodeValue(String childNodeName, Object instance) {
-      return FieldSupport.comparison().fieldValue(childNodeName, Object.class, instance);
-    }
-
-    @Override
-    public String getDescription() {
-      return "comparing fields";
-    }
-
   }
 
   static class Values {
