@@ -37,7 +37,7 @@ class Paths_assertStartsWith_Test extends PathsBaseTest {
     // GIVEN
     Path other = createFile(tempDir.resolve("other"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertStartsWith(info, null, other));
+    AssertionError error = expectAssertionError(() -> underTest.assertStartsWith(INFO, null, other));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -47,7 +47,7 @@ class Paths_assertStartsWith_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertStartsWith(info, actual, null));
+    Throwable thrown = catchThrowable(() -> underTest.assertStartsWith(INFO, actual, null));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage("the expected start path should not be null");
@@ -61,7 +61,7 @@ class Paths_assertStartsWith_Test extends PathsBaseTest {
     IOException exception = new IOException("boom!");
     given(actual.toRealPath()).willThrow(exception);
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertStartsWith(info, actual, other));
+    Throwable thrown = catchThrowable(() -> underTest.assertStartsWith(INFO, actual, other));
     // THEN
     then(thrown).isInstanceOf(UncheckedIOException.class)
                 .hasCause(exception);
@@ -75,7 +75,7 @@ class Paths_assertStartsWith_Test extends PathsBaseTest {
     IOException exception = new IOException("boom!");
     given(other.toRealPath()).willThrow(exception);
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertStartsWith(info, actual, other));
+    Throwable thrown = catchThrowable(() -> underTest.assertStartsWith(INFO, actual, other));
     // THEN
     then(thrown).isInstanceOf(UncheckedIOException.class)
                 .hasCause(exception);
@@ -87,7 +87,7 @@ class Paths_assertStartsWith_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("actual"));
     Path other = createFile(tempDir.resolve("other"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertStartsWith(info, actual, other));
+    AssertionError error = expectAssertionError(() -> underTest.assertStartsWith(INFO, actual, other));
     // THEN
     then(error).hasMessage(shouldStartWith(actual, other).create());
   }
@@ -98,7 +98,7 @@ class Paths_assertStartsWith_Test extends PathsBaseTest {
     Path other = createDirectory(tempDir.resolve("other")).toRealPath();
     Path actual = createFile(other.resolve("actual")).toRealPath();
     // WHEN/THEN
-    paths.assertStartsWith(info, actual, other);
+    underTest.assertStartsWith(INFO, actual, other);
   }
 
   @Test
@@ -108,7 +108,7 @@ class Paths_assertStartsWith_Test extends PathsBaseTest {
     Path file = createFile(other.resolve("file"));
     Path actual = createSymbolicLink(tempDir.resolve("actual"), file);
     // WHEN/THEN
-    paths.assertStartsWith(info, actual, other);
+    underTest.assertStartsWith(INFO, actual, other);
   }
 
   @Test
@@ -118,7 +118,7 @@ class Paths_assertStartsWith_Test extends PathsBaseTest {
     Path other = createSymbolicLink(tempDir.resolve("other"), directory);
     Path actual = createFile(directory.resolve("actual"));
     // WHEN/THEN
-    paths.assertStartsWith(info, actual, other);
+    underTest.assertStartsWith(INFO, actual, other);
   }
 
 }

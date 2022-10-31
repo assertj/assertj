@@ -38,7 +38,7 @@ class Paths_assertHasExtension_Test extends PathsBaseTest {
     Path actual = null;
     String expected = "txt";
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasExtension(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasExtension(INFO, actual, expected));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -49,7 +49,7 @@ class Paths_assertHasExtension_Test extends PathsBaseTest {
     Path actual = tempDir.resolve("non-existent");
     String expected = "txt";
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasExtension(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasExtension(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -60,7 +60,7 @@ class Paths_assertHasExtension_Test extends PathsBaseTest {
     Path actual = createDirectory(tempDir.resolve("directory"));
     String expected = "txt";
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasExtension(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasExtension(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldBeRegularFile(actual).create());
   }
@@ -71,7 +71,7 @@ class Paths_assertHasExtension_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("file.txt"));
     String expected = null;
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasExtension(info, actual, expected));
+    Throwable thrown = catchThrowable(() -> underTest.assertHasExtension(INFO, actual, expected));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage("The expected extension should not be null.");
@@ -84,7 +84,7 @@ class Paths_assertHasExtension_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve(filename));
     String expected = "log";
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasExtension(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasExtension(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldHaveExtension(actual, expected).create());
   }
@@ -95,7 +95,7 @@ class Paths_assertHasExtension_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("file.txt"));
     String expected = "log";
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasExtension(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasExtension(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldHaveExtension(actual, "txt", expected).create());
   }
@@ -106,7 +106,7 @@ class Paths_assertHasExtension_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("file.txt"));
     String expected = "txt";
     // WHEN/THEN
-    paths.assertHasExtension(info, actual, expected);
+    underTest.assertHasExtension(INFO, actual, expected);
   }
 
 }

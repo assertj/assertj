@@ -41,7 +41,7 @@ class Paths_assertHasSameFileSystemAsPath_Test extends PathsBaseTest {
     // GIVEN
     Path expectedPath = mock(Path.class, withSettings().stubOnly());
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasSameFileSystemAs(info, null, expectedPath));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasSameFileSystemAs(INFO, null, expectedPath));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -51,7 +51,7 @@ class Paths_assertHasSameFileSystemAsPath_Test extends PathsBaseTest {
     // GIVEN
     Path actualPath = mock(Path.class, withSettings().stubOnly());
     // WHEN
-    Throwable error = catchThrowable(() -> paths.assertHasSameFileSystemAs(info, actualPath, null));
+    Throwable error = catchThrowable(() -> underTest.assertHasSameFileSystemAs(INFO, actualPath, null));
     // THEN
     then(error).isInstanceOf(NullPointerException.class)
                .hasMessage("The expected path should not be null");
@@ -67,7 +67,7 @@ class Paths_assertHasSameFileSystemAsPath_Test extends PathsBaseTest {
     given(expectedPath.getFileSystem()).willReturn(null);
 
     // WHEN
-    Throwable error = catchThrowable(() -> paths.assertHasSameFileSystemAs(info, actualPath, expectedPath));
+    Throwable error = catchThrowable(() -> underTest.assertHasSameFileSystemAs(INFO, actualPath, expectedPath));
     // THEN
     then(error).isInstanceOf(NullPointerException.class)
                .hasMessage("The expected file system should not be null");
@@ -82,7 +82,7 @@ class Paths_assertHasSameFileSystemAsPath_Test extends PathsBaseTest {
     FileSystem expectedFileSystem = mock(FileSystem.class, withSettings().stubOnly());
     given(expectedPath.getFileSystem()).willReturn(expectedFileSystem);
     // WHEN
-    Throwable error = catchThrowable(() -> paths.assertHasSameFileSystemAs(info, actualPath, expectedPath));
+    Throwable error = catchThrowable(() -> underTest.assertHasSameFileSystemAs(INFO, actualPath, expectedPath));
     // THEN
     then(error).isInstanceOf(NullPointerException.class)
                .hasMessage("The actual file system should not be null");
@@ -98,7 +98,7 @@ class Paths_assertHasSameFileSystemAsPath_Test extends PathsBaseTest {
     FileSystem expectedFileSystem = mock(FileSystem.class, withSettings().stubOnly());
     given(expectedPath.getFileSystem()).willReturn(expectedFileSystem);
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasSameFileSystemAs(info, actualPath, expectedPath));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasSameFileSystemAs(INFO, actualPath, expectedPath));
     // THEN
     then(error).hasMessage(shouldHaveSameFileSystemAs(actualPath, expectedPath).create())
                .isInstanceOf(AssertionFailedError.class)
@@ -116,6 +116,6 @@ class Paths_assertHasSameFileSystemAsPath_Test extends PathsBaseTest {
     Path expectedPath = mock(Path.class, withSettings().stubOnly());
     given(expectedPath.getFileSystem()).willReturn(actualFileSystem);
     // WHEN/THEN
-    paths.assertHasSameFileSystemAs(info, actualPath, expectedPath);
+    underTest.assertHasSameFileSystemAs(INFO, actualPath, expectedPath);
   }
 }

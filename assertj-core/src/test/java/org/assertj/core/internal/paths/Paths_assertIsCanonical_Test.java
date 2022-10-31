@@ -34,7 +34,7 @@ class Paths_assertIsCanonical_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsCanonical(info, null));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsCanonical(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -46,7 +46,7 @@ class Paths_assertIsCanonical_Test extends PathsBaseTest {
     IOException exception = new IOException("boom!");
     given(actual.toRealPath()).willThrow(exception);
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertIsCanonical(info, actual));
+    Throwable thrown = catchThrowable(() -> underTest.assertIsCanonical(INFO, actual));
     // THEN
     then(thrown).isInstanceOf(UncheckedIOException.class)
                 .hasCause(exception);
@@ -58,7 +58,7 @@ class Paths_assertIsCanonical_Test extends PathsBaseTest {
     Path file = createFile(tempDir.resolve("file"));
     Path actual = createSymbolicLink(tempDir.resolve("actual"), file);
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsCanonical(info, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsCanonical(INFO, actual));
     // THEN
     then(error).hasMessage(shouldBeCanonicalPath(actual).create());
   }
@@ -68,7 +68,7 @@ class Paths_assertIsCanonical_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual")).toRealPath();
     // WHEN/THEN
-    paths.assertIsCanonical(info, actual);
+    underTest.assertIsCanonical(INFO, actual);
   }
 
 }

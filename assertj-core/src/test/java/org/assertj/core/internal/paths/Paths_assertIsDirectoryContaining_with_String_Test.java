@@ -46,7 +46,7 @@ class Paths_assertIsDirectoryContaining_with_String_Test extends PathsBaseTest {
     Path actual = createDirectory(tempDir.resolve("actual"));
     String syntaxAndPattern = null;
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertIsDirectoryContaining(info, actual, syntaxAndPattern));
+    Throwable thrown = catchThrowable(() -> underTest.assertIsDirectoryContaining(INFO, actual, syntaxAndPattern));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage("The syntax and pattern should not be null");
@@ -58,7 +58,7 @@ class Paths_assertIsDirectoryContaining_with_String_Test extends PathsBaseTest {
     Path actual = null;
     String syntaxAndPattern = "glob:**";
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsDirectoryContaining(info, actual, syntaxAndPattern));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, syntaxAndPattern));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -69,7 +69,7 @@ class Paths_assertIsDirectoryContaining_with_String_Test extends PathsBaseTest {
     Path actual = tempDir.resolve("non-existent");
     String syntaxAndPattern = "glob:**";
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsDirectoryContaining(info, actual, syntaxAndPattern));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, syntaxAndPattern));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -80,7 +80,7 @@ class Paths_assertIsDirectoryContaining_with_String_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("file"));
     String syntaxAndPattern = "glob:**";
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsDirectoryContaining(info, actual, syntaxAndPattern));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, syntaxAndPattern));
     // THEN
     then(error).hasMessage(shouldBeDirectory(actual).create());
   }
@@ -93,7 +93,7 @@ class Paths_assertIsDirectoryContaining_with_String_Test extends PathsBaseTest {
     IOException cause = new IOException("boom!");
     willThrow(cause).given(nioFilesWrapper).newDirectoryStream(any(), any());
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertIsDirectoryContaining(info, actual, syntaxAndPattern));
+    Throwable thrown = catchThrowable(() -> underTest.assertIsDirectoryContaining(INFO, actual, syntaxAndPattern));
     // THEN
     then(thrown).isInstanceOf(UncheckedIOException.class)
                 .hasCause(cause);
@@ -105,7 +105,7 @@ class Paths_assertIsDirectoryContaining_with_String_Test extends PathsBaseTest {
     Path actual = createDirectory(tempDir.resolve("actual"));
     String syntaxAndPattern = "glob:**";
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsDirectoryContaining(info, actual, syntaxAndPattern));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, syntaxAndPattern));
     // THEN
     then(error).hasMessage(directoryShouldContain(actual, emptyList(), "the 'glob:**' pattern").create());
   }
@@ -123,7 +123,7 @@ class Paths_assertIsDirectoryContaining_with_String_Test extends PathsBaseTest {
     createDirectory(actual.resolve("directory"));
     createFile(actual.resolve("file"));
     // WHEN/THEN
-    paths.assertIsDirectoryContaining(info, actual, syntaxAndPattern);
+    underTest.assertIsDirectoryContaining(INFO, actual, syntaxAndPattern);
   }
 
   @ParameterizedTest
@@ -138,7 +138,7 @@ class Paths_assertIsDirectoryContaining_with_String_Test extends PathsBaseTest {
     Path actual = createDirectory(tempDir.resolve("actual"));
     Path directory = createDirectory(actual.resolve("directory"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsDirectoryContaining(info, actual, syntaxAndPattern));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, syntaxAndPattern));
     // THEN
     then(error).hasMessage(directoryShouldContain(actual, list(directory), "the '" + syntaxAndPattern + "' pattern").create());
   }
@@ -156,7 +156,7 @@ class Paths_assertIsDirectoryContaining_with_String_Test extends PathsBaseTest {
     Path directory = createDirectory(actual.resolve("directory"));
     createFile(directory.resolve("file"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsDirectoryContaining(info, actual, syntaxAndPattern));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, syntaxAndPattern));
     // THEN
     then(error).hasMessage(directoryShouldContain(actual, list(directory), "the '" + syntaxAndPattern + "' pattern").create());
   }

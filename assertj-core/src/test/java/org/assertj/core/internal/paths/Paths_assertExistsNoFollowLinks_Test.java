@@ -30,7 +30,7 @@ class Paths_assertExistsNoFollowLinks_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertExistsNoFollowLinks(info, null));
+    AssertionError error = expectAssertionError(() -> underTest.assertExistsNoFollowLinks(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -40,7 +40,7 @@ class Paths_assertExistsNoFollowLinks_Test extends PathsBaseTest {
     // GIVEN
     Path actual = tempDir.resolve("non-existent");
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertExistsNoFollowLinks(info, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertExistsNoFollowLinks(INFO, actual));
     // THEN
     then(error).hasMessage(shouldExistNoFollowLinks(actual).create());
   }
@@ -50,7 +50,7 @@ class Paths_assertExistsNoFollowLinks_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
     // WHEN/THEN
-    paths.assertExistsNoFollowLinks(info, actual);
+    underTest.assertExistsNoFollowLinks(INFO, actual);
   }
 
   @Test
@@ -59,7 +59,7 @@ class Paths_assertExistsNoFollowLinks_Test extends PathsBaseTest {
     Path target = createFile(tempDir.resolve("target"));
     Path actual = createSymbolicLink(tempDir.resolve("actual"), target);
     // WHEN/THEN
-    paths.assertExistsNoFollowLinks(info, actual);
+    underTest.assertExistsNoFollowLinks(INFO, actual);
   }
 
   @Test
@@ -68,7 +68,7 @@ class Paths_assertExistsNoFollowLinks_Test extends PathsBaseTest {
     Path target = tempDir.resolve("non-existent");
     Path actual = createSymbolicLink(tempDir.resolve("actual"), target);
     // WHEN/THEN
-    paths.assertExistsNoFollowLinks(info, actual);
+    underTest.assertExistsNoFollowLinks(INFO, actual);
   }
 
 }
