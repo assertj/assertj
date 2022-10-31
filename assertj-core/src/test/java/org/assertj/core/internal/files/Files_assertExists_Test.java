@@ -38,7 +38,7 @@ class Files_assertExists_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> files.assertExists(INFO, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertExists(INFO, actual));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -48,7 +48,7 @@ class Files_assertExists_Test extends FilesBaseTest {
     // GIVEN
     File actual = new File("xyz");
     // WHEN
-    expectAssertionError(() -> files.assertExists(INFO, actual));
+    expectAssertionError(() -> underTest.assertExists(INFO, actual));
     // THEN
     verify(failures).failure(INFO, shouldExist(actual));
   }
@@ -56,6 +56,6 @@ class Files_assertExists_Test extends FilesBaseTest {
   @Test
   void should_pass_if_actual_exists() {
     File actual = new File("src/test/resources/actual_file.txt");
-    files.assertExists(INFO, actual);
+    underTest.assertExists(INFO, actual);
   }
 }

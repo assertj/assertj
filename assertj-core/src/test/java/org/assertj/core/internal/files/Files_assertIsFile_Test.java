@@ -39,7 +39,7 @@ class Files_assertIsFile_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> files.assertIsFile(INFO, actual));
+    AssertionError assertionError = expectAssertionError(() -> underTest.assertIsFile(INFO, actual));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -49,7 +49,7 @@ class Files_assertIsFile_Test extends FilesBaseTest {
     // GIVEN
     File actual = new File("xyz");
     // WHEN
-    expectAssertionError(() -> files.assertIsFile(INFO, actual));
+    expectAssertionError(() -> underTest.assertIsFile(INFO, actual));
     // THEN
     verify(failures).failure(INFO, shouldBeFile(actual));
   }
@@ -59,6 +59,6 @@ class Files_assertIsFile_Test extends FilesBaseTest {
     // GIVEN
     File actual = newFile(tempDir.getAbsolutePath() + "/Test.java");
     // THEN
-    files.assertIsFile(INFO, actual);
+    underTest.assertIsFile(INFO, actual);
   }
 }
