@@ -52,7 +52,7 @@ class Files_assertIsDirectoryNotContaining_Predicate_Test extends FilesBaseTest 
     File actual = newFolder(tempDir.getAbsolutePath() + "/folder");
     newFile(actual.getAbsolutePath() + "/Test.class");
     // THEN
-    files.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE);
+    underTest.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE);
   }
 
   @Test
@@ -60,7 +60,7 @@ class Files_assertIsDirectoryNotContaining_Predicate_Test extends FilesBaseTest 
     // GIVEN
     File actual = newFolder(tempDir.getAbsolutePath() + "/folder");
     // THEN
-    files.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE);
+    underTest.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE);
   }
 
   @Test
@@ -68,7 +68,7 @@ class Files_assertIsDirectoryNotContaining_Predicate_Test extends FilesBaseTest 
     // GIVEN
     Predicate<File> filter = null;
     // THEN
-    assertThatNullPointerException().isThrownBy(() -> files.assertIsDirectoryNotContaining(INFO, null, filter))
+    assertThatNullPointerException().isThrownBy(() -> underTest.assertIsDirectoryNotContaining(INFO, null, filter))
                                     .withMessage("The files filter should not be null");
   }
 
@@ -77,7 +77,7 @@ class Files_assertIsDirectoryNotContaining_Predicate_Test extends FilesBaseTest 
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> files.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -87,7 +87,7 @@ class Files_assertIsDirectoryNotContaining_Predicate_Test extends FilesBaseTest 
     // GIVEN
     File actual = new File("xyz");
     // WHEN
-    expectAssertionError(() -> files.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE));
+    expectAssertionError(() -> underTest.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE));
     // THEN
     verify(failures).failure(INFO, shouldBeDirectory(actual));
   }
@@ -97,7 +97,7 @@ class Files_assertIsDirectoryNotContaining_Predicate_Test extends FilesBaseTest 
     // GIVEN
     File actual = newFile(tempDir.getAbsolutePath() + "/Test.java");
     // WHEN
-    expectAssertionError(() -> files.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE));
+    expectAssertionError(() -> underTest.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE));
     // THEN
     verify(failures).failure(INFO, shouldBeDirectory(actual));
   }
@@ -112,7 +112,7 @@ class Files_assertIsDirectoryNotContaining_Predicate_Test extends FilesBaseTest 
     given(actual.listFiles(any(FileFilter.class))).willReturn(null);
     mockPathMatcher(actual);
     // WHEN
-    Throwable error = catchThrowable(() -> files.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE));
+    Throwable error = catchThrowable(() -> underTest.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE));
     // THEN
     then(error).isInstanceOf(NullPointerException.class)
                .hasMessage("Directory listing should not be null");
@@ -125,7 +125,7 @@ class Files_assertIsDirectoryNotContaining_Predicate_Test extends FilesBaseTest 
     File file = newFile(actual.getAbsolutePath() + "/Test.java");
     List<File> items = list(file);
     // WHEN
-    expectAssertionError(() -> files.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE));
+    expectAssertionError(() -> underTest.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE));
     // THEN
     verify(failures).failure(INFO, directoryShouldNotContain(actual, items, "the given filter"));
   }
@@ -138,7 +138,7 @@ class Files_assertIsDirectoryNotContaining_Predicate_Test extends FilesBaseTest 
     File file2 = newFile(actual.getAbsolutePath() + "/Utils.java");
     List<File> items = list(file1, file2);
     // WHEN
-    expectAssertionError(() -> files.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE));
+    expectAssertionError(() -> underTest.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE));
     // THEN
     verify(failures).failure(INFO, directoryShouldNotContain(actual, items, "the given filter"));
   }
@@ -153,7 +153,7 @@ class Files_assertIsDirectoryNotContaining_Predicate_Test extends FilesBaseTest 
     newFile(actual.getAbsolutePath() + "/Utils.class");
     newFile(actual.getAbsolutePath() + "/application.yml");
     // WHEN
-    expectAssertionError(() -> files.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE));
+    expectAssertionError(() -> underTest.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE));
     // THEN
     verify(failures).failure(INFO, directoryShouldNotContain(actual, list(file1, file2), "the given filter"));
   }

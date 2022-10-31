@@ -57,7 +57,7 @@ class Files_assertHasBinaryContent_Test extends FilesBaseTest {
     // GIVEN
     byte[] expectedContent = null;
     // WHEN
-    NullPointerException npe = catchThrowableOfType(() -> files.assertHasBinaryContent(INFO, actual, expectedContent),
+    NullPointerException npe = catchThrowableOfType(() -> underTest.assertHasBinaryContent(INFO, actual, expectedContent),
                                                     NullPointerException.class);
     // THEN
     then(npe).hasMessage("The binary content to compare to should not be null");
@@ -68,7 +68,7 @@ class Files_assertHasBinaryContent_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> files.assertHasBinaryContent(INFO, actual, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasBinaryContent(INFO, actual, expected));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -78,7 +78,7 @@ class Files_assertHasBinaryContent_Test extends FilesBaseTest {
     // GIVEN
     File notAFile = new File("xyz");
     // WHEN
-    expectAssertionError(() -> files.assertHasBinaryContent(INFO, notAFile, expected));
+    expectAssertionError(() -> underTest.assertHasBinaryContent(INFO, notAFile, expected));
     // THEN
     verify(failures).failure(INFO, shouldBeFile(notAFile));
   }
@@ -99,7 +99,7 @@ class Files_assertHasBinaryContent_Test extends FilesBaseTest {
     IOException cause = new IOException();
     when(binaryDiff.diff(actual, expected)).thenThrow(cause);
     // THEN
-    UncheckedIOException uioe = catchThrowableOfType(() -> files.assertHasBinaryContent(INFO, actual, expected),
+    UncheckedIOException uioe = catchThrowableOfType(() -> underTest.assertHasBinaryContent(INFO, actual, expected),
                                                      UncheckedIOException.class);
     // THEN
     then(uioe).hasCause(cause);
@@ -116,6 +116,6 @@ class Files_assertHasBinaryContent_Test extends FilesBaseTest {
     // WHEN
     expectAssertionError(() -> unMockedFiles.assertHasBinaryContent(INFO, actual, expected));
     // THEN
-    verify(unMockedFailures).failure(INFO, shouldHaveBinaryContent(actual, diff));
+    verify(failures).failure(INFO, shouldHaveBinaryContent(actual, diff));
   }
 }

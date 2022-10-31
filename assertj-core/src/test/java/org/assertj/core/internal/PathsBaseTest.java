@@ -13,14 +13,16 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.test.TestData.someInfo;
+import static org.mockito.Mockito.mockingDetails;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.spy;
 
 import java.nio.file.Path;
 
 import org.assertj.core.api.AssertionInfo;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.io.TempDir;
 
 /**
@@ -48,7 +50,20 @@ public abstract class PathsBaseTest {
     underTest.binaryDiff = binaryDiff;
   }
 
-  @AfterEach
+  @AfterAll
+  static void removeSpies() {
+    underTest.nioFilesWrapper = getSpiedInstance(nioFilesWrapper);
+    underTest.failures = getSpiedInstance(failures);
+    underTest.diff = getSpiedInstance(diff);
+    underTest.binaryDiff = getSpiedInstance(binaryDiff);
+  }
+
+  @SuppressWarnings("unchecked")
+  private static <T> T getSpiedInstance(Object spy) {
+    return (T) mockingDetails(spy).getMockCreationSettings().getSpiedInstance();
+  }
+
+  @BeforeEach
   void resetSpies() {
     reset(nioFilesWrapper, failures, diff, binaryDiff);
   }

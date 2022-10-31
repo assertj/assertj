@@ -39,7 +39,7 @@ class Files_assertCanWrite_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> files.assertCanWrite(INFO, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertCanWrite(INFO, actual));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -49,7 +49,7 @@ class Files_assertCanWrite_Test extends FilesBaseTest {
     // GIVEN
     File actual = new File("xyz");
     // WHEN
-    expectAssertionError(() -> files.assertCanWrite(INFO, actual));
+    expectAssertionError(() -> underTest.assertCanWrite(INFO, actual));
     // THEN
     verify(failures).failure(INFO, shouldBeWritable(actual));
   }
@@ -57,7 +57,7 @@ class Files_assertCanWrite_Test extends FilesBaseTest {
   @Test
   void should_pass_if_actual_can_write() {
     File actual = newFile(tempDir.getAbsolutePath() + "to_write.txt");
-    files.assertCanWrite(INFO, actual);
+    underTest.assertCanWrite(INFO, actual);
   }
 
 }
