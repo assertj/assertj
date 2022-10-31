@@ -39,7 +39,7 @@ class Paths_assertIsNotEmptyDirectory_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsNotEmptyDirectory(info, null));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsNotEmptyDirectory(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -49,7 +49,7 @@ class Paths_assertIsNotEmptyDirectory_Test extends PathsBaseTest {
     // GIVEN
     Path actual = tempDir.resolve("non-existent");
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsNotEmptyDirectory(info, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsNotEmptyDirectory(INFO, actual));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -59,7 +59,7 @@ class Paths_assertIsNotEmptyDirectory_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createFile(tempDir.resolve("file"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsNotEmptyDirectory(info, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsNotEmptyDirectory(INFO, actual));
     // THEN
     then(error).hasMessage(shouldBeDirectory(actual).create());
   }
@@ -70,7 +70,7 @@ class Paths_assertIsNotEmptyDirectory_Test extends PathsBaseTest {
     Path actual = createDirectory(tempDir.resolve("actual"));
     createFile(actual.resolve("file"));
     // WHEN/THEN
-    paths.assertIsNotEmptyDirectory(info, actual);
+    underTest.assertIsNotEmptyDirectory(INFO, actual);
   }
 
   @Test
@@ -78,7 +78,7 @@ class Paths_assertIsNotEmptyDirectory_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createDirectory(tempDir.resolve("actual"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsNotEmptyDirectory(info, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsNotEmptyDirectory(INFO, actual));
     // THEN
     then(error).hasMessage(shouldNotBeEmpty(actual).create());
   }
@@ -90,7 +90,7 @@ class Paths_assertIsNotEmptyDirectory_Test extends PathsBaseTest {
     IOException cause = new IOException("boom!");
     willThrow(cause).given(nioFilesWrapper).newDirectoryStream(any(), any());
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertIsNotEmptyDirectory(info, actual));
+    Throwable thrown = catchThrowable(() -> underTest.assertIsNotEmptyDirectory(INFO, actual));
     // THEN
     then(thrown).isInstanceOf(UncheckedIOException.class)
                 .hasCause(cause);

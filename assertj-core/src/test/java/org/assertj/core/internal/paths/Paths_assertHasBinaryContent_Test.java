@@ -40,7 +40,7 @@ class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasBinaryContent(info, actual, null));
+    Throwable thrown = catchThrowable(() -> underTest.assertHasBinaryContent(INFO, actual, null));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage("The binary content to compare to should not be null");
@@ -51,7 +51,7 @@ class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
     // GIVEN
     byte[] expected = "expected".getBytes();
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasBinaryContent(info, null, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasBinaryContent(INFO, null, expected));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -62,7 +62,7 @@ class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
     Path actual = tempDir.resolve("non-existent");
     byte[] expected = "expected".getBytes();
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasBinaryContent(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasBinaryContent(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -75,7 +75,7 @@ class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
     actual.toFile().setReadable(false);
     byte[] expected = "expected".getBytes();
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasBinaryContent(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasBinaryContent(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldBeReadable(actual).create());
   }
@@ -86,7 +86,7 @@ class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
     Path actual = Files.write(tempDir.resolve("actual"), "Content".getBytes());
     byte[] expected = "Content".getBytes();
     // WHEN/THEN
-    paths.assertHasBinaryContent(info, actual, expected);
+    underTest.assertHasBinaryContent(INFO, actual, expected);
   }
 
   @Test
@@ -96,9 +96,9 @@ class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
     byte[] expected = "Another content".getBytes();
     BinaryDiffResult diff = binaryDiff.diff(actual, expected);
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasBinaryContent(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasBinaryContent(INFO, actual, expected));
     // THEN
-    then(error).hasMessage(shouldHaveBinaryContent(actual, diff).create(info.description(), info.representation()));
+    then(error).hasMessage(shouldHaveBinaryContent(actual, diff).create(INFO.description(), INFO.representation()));
   }
 
   @Test
@@ -109,7 +109,7 @@ class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
     IOException exception = new IOException("boom!");
     willThrow(exception).given(binaryDiff).diff(actual, expected);
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasBinaryContent(info, actual, expected));
+    Throwable thrown = catchThrowable(() -> underTest.assertHasBinaryContent(INFO, actual, expected));
     // THEN
     then(thrown).isInstanceOf(UncheckedIOException.class)
                 .hasMessage("Unable to verify binary contents of path:<%s>", actual)

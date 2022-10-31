@@ -45,7 +45,7 @@ class Paths_assertIsDirectoryNotContaining_with_String_Test extends PathsBaseTes
     Path actual = createDirectory(tempDir.resolve("actual"));
     String syntaxAndPattern = null;
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertIsDirectoryNotContaining(info, actual, syntaxAndPattern));
+    Throwable thrown = catchThrowable(() -> underTest.assertIsDirectoryNotContaining(INFO, actual, syntaxAndPattern));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage("The syntax and pattern should not be null");
@@ -57,7 +57,7 @@ class Paths_assertIsDirectoryNotContaining_with_String_Test extends PathsBaseTes
     Path actual = null;
     String syntaxAndPattern = "glob:**";
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsDirectoryNotContaining(info, actual, syntaxAndPattern));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectoryNotContaining(INFO, actual, syntaxAndPattern));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -68,7 +68,7 @@ class Paths_assertIsDirectoryNotContaining_with_String_Test extends PathsBaseTes
     Path actual = tempDir.resolve("non-existent");
     String syntaxAndPattern = "glob:**";
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsDirectoryNotContaining(info, actual, syntaxAndPattern));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectoryNotContaining(INFO, actual, syntaxAndPattern));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -79,7 +79,7 @@ class Paths_assertIsDirectoryNotContaining_with_String_Test extends PathsBaseTes
     Path actual = createFile(tempDir.resolve("file"));
     String syntaxAndPattern = "glob:**";
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsDirectoryNotContaining(info, actual, syntaxAndPattern));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectoryNotContaining(INFO, actual, syntaxAndPattern));
     // THEN
     then(error).hasMessage(shouldBeDirectory(actual).create());
   }
@@ -92,7 +92,7 @@ class Paths_assertIsDirectoryNotContaining_with_String_Test extends PathsBaseTes
     IOException cause = new IOException("boom!");
     willThrow(cause).given(nioFilesWrapper).newDirectoryStream(any(), any());
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertIsDirectoryNotContaining(info, actual, syntaxAndPattern));
+    Throwable thrown = catchThrowable(() -> underTest.assertIsDirectoryNotContaining(INFO, actual, syntaxAndPattern));
     // THEN
     then(thrown).isInstanceOf(UncheckedIOException.class)
                 .hasCause(cause);
@@ -104,7 +104,7 @@ class Paths_assertIsDirectoryNotContaining_with_String_Test extends PathsBaseTes
     Path actual = createDirectory(tempDir.resolve("actual"));
     String syntaxAndPattern = "glob:**";
     // WHEN/THEN
-    paths.assertIsDirectoryNotContaining(info, actual, syntaxAndPattern);
+    underTest.assertIsDirectoryNotContaining(INFO, actual, syntaxAndPattern);
   }
 
   @ParameterizedTest
@@ -119,7 +119,7 @@ class Paths_assertIsDirectoryNotContaining_with_String_Test extends PathsBaseTes
     Path actual = createDirectory(tempDir.resolve("actual"));
     Path file = createFile(actual.resolve("file"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsDirectoryNotContaining(info, actual, syntaxAndPattern));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectoryNotContaining(INFO, actual, syntaxAndPattern));
     // THEN
     then(error).hasMessage(directoryShouldNotContain(actual, list(file), "the '" + syntaxAndPattern + "' pattern").create());
   }
@@ -136,7 +136,7 @@ class Paths_assertIsDirectoryNotContaining_with_String_Test extends PathsBaseTes
     Path actual = createDirectory(tempDir.resolve("actual"));
     createDirectory(actual.resolve("directory"));
     // WHEN/THEN
-    paths.assertIsDirectoryNotContaining(info, actual, syntaxAndPattern);
+    underTest.assertIsDirectoryNotContaining(INFO, actual, syntaxAndPattern);
   }
 
   @ParameterizedTest
@@ -152,7 +152,7 @@ class Paths_assertIsDirectoryNotContaining_with_String_Test extends PathsBaseTes
     Path directory = createDirectory(actual.resolve("directory"));
     createFile(directory.resolve("file"));
     // WHEN/THEN
-    paths.assertIsDirectoryNotContaining(info, actual, syntaxAndPattern);
+    underTest.assertIsDirectoryNotContaining(INFO, actual, syntaxAndPattern);
   }
 
 }

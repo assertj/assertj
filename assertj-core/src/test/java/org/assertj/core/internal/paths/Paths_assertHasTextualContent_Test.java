@@ -49,7 +49,7 @@ class Paths_assertHasTextualContent_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasTextualContent(info, actual, null, CHARSET));
+    Throwable thrown = catchThrowable(() -> underTest.assertHasTextualContent(INFO, actual, null, CHARSET));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage("The text to compare to should not be null");
@@ -60,7 +60,7 @@ class Paths_assertHasTextualContent_Test extends PathsBaseTest {
     // GIVEN
     String expected = "expected";
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasTextualContent(info, null, expected, CHARSET));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasTextualContent(INFO, null, expected, CHARSET));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -71,7 +71,7 @@ class Paths_assertHasTextualContent_Test extends PathsBaseTest {
     Path actual = tempDir.resolve("non-existent");
     String expected = "expected";
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasTextualContent(info, actual, expected, CHARSET));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasTextualContent(INFO, actual, expected, CHARSET));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -84,7 +84,7 @@ class Paths_assertHasTextualContent_Test extends PathsBaseTest {
     actual.toFile().setReadable(false);
     String expected = "expected";
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasTextualContent(info, actual, expected, CHARSET));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasTextualContent(INFO, actual, expected, CHARSET));
     // THEN
     then(error).hasMessage(shouldBeReadable(actual).create());
   }
@@ -95,7 +95,7 @@ class Paths_assertHasTextualContent_Test extends PathsBaseTest {
     Path actual = Files.write(tempDir.resolve("actual"), "Content".getBytes(CHARSET));
     String expected = "Content";
     // WHEN/THEN
-    paths.assertHasTextualContent(info, actual, expected, CHARSET);
+    underTest.assertHasTextualContent(INFO, actual, expected, CHARSET);
   }
 
   @Test
@@ -105,9 +105,9 @@ class Paths_assertHasTextualContent_Test extends PathsBaseTest {
     String expected = "Another content";
     List<Delta<String>> diffs = diff.diff(actual, expected, CHARSET);
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasTextualContent(info, actual, expected, CHARSET));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasTextualContent(INFO, actual, expected, CHARSET));
     // THEN
-    then(error).hasMessage(shouldHaveContent(actual, CHARSET, diffs).create(info.description(), info.representation()));
+    then(error).hasMessage(shouldHaveContent(actual, CHARSET, diffs).create(INFO.description(), INFO.representation()));
   }
 
   @Test
@@ -118,7 +118,7 @@ class Paths_assertHasTextualContent_Test extends PathsBaseTest {
     IOException exception = new IOException("boom!");
     willThrow(exception).given(diff).diff(actual, expected, CHARSET);
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasTextualContent(info, actual, expected, CHARSET));
+    Throwable thrown = catchThrowable(() -> underTest.assertHasTextualContent(INFO, actual, expected, CHARSET));
     // THEN
     then(thrown).isInstanceOf(UncheckedIOException.class)
                 .hasMessage("Unable to verify text contents of path:<%s>", actual)

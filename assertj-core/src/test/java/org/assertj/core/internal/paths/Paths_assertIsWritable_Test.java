@@ -30,7 +30,7 @@ class Paths_assertIsWritable_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsWritable(info, null));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsWritable(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -40,7 +40,7 @@ class Paths_assertIsWritable_Test extends PathsBaseTest {
     // GIVEN
     Path actual = tempDir.resolve("non-existent");
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsWritable(info, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsWritable(INFO, actual));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -51,7 +51,7 @@ class Paths_assertIsWritable_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("actual"));
     actual.toFile().setWritable(false);
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsWritable(info, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsWritable(INFO, actual));
     // THEN
     then(error).hasMessage(shouldBeWritable(actual).create());
   }
@@ -61,7 +61,7 @@ class Paths_assertIsWritable_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
     // WHEN/THEN
-    paths.assertIsWritable(info, actual);
+    underTest.assertIsWritable(INFO, actual);
   }
 
 }

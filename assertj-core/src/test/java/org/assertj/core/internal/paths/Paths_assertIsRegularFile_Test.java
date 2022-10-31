@@ -31,7 +31,7 @@ class Paths_assertIsRegularFile_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsRegularFile(info, null));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsRegularFile(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -41,7 +41,7 @@ class Paths_assertIsRegularFile_Test extends PathsBaseTest {
     // GIVEN
     Path actual = tempDir.resolve("non-existent");
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsRegularFile(info, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsRegularFile(INFO, actual));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -51,7 +51,7 @@ class Paths_assertIsRegularFile_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createDirectory(tempDir.resolve("directory"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsRegularFile(info, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsRegularFile(INFO, actual));
     // THEN
     then(error).hasMessage(shouldBeRegularFile(actual).create());
   }
@@ -61,7 +61,7 @@ class Paths_assertIsRegularFile_Test extends PathsBaseTest {
     // GIVEN
     Path actual = Files.write(tempDir.resolve("actual"), "content".getBytes());
     // WHEN/THEN
-    paths.assertIsRegularFile(info, actual);
+    underTest.assertIsRegularFile(INFO, actual);
   }
 
 }

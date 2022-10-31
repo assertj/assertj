@@ -43,7 +43,7 @@ class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasSameBinaryContentAs(info, actual, null));
+    Throwable thrown = catchThrowable(() -> underTest.assertHasSameBinaryContentAs(INFO, actual, null));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage("The given Path to compare actual content to should not be null");
@@ -55,7 +55,7 @@ class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("actual"));
     Path expected = tempDir.resolve("non-existent");
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasSameBinaryContentAs(info, actual, expected));
+    Throwable thrown = catchThrowable(() -> underTest.assertHasSameBinaryContentAs(INFO, actual, expected));
     // THEN
     then(thrown).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("The given Path <%s> to compare actual content to should exist", expected);
@@ -69,7 +69,7 @@ class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
     Path expected = createFile(tempDir.resolve("expected"));
     expected.toFile().setReadable(false);
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasSameBinaryContentAs(info, actual, expected));
+    Throwable thrown = catchThrowable(() -> underTest.assertHasSameBinaryContentAs(INFO, actual, expected));
     // THEN
     then(thrown).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("The given Path <%s> to compare actual content to should be readable", expected);
@@ -80,7 +80,7 @@ class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
     // GIVEN
     Path expected = createFile(tempDir.resolve("expected"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasSameBinaryContentAs(info, null, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasSameBinaryContentAs(INFO, null, expected));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -91,7 +91,7 @@ class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
     Path actual = tempDir.resolve("non-existent");
     Path expected = createFile(tempDir.resolve("expected"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasSameBinaryContentAs(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasSameBinaryContentAs(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -104,7 +104,7 @@ class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
     actual.toFile().setReadable(false);
     Path expected = createFile(tempDir.resolve("expected"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasSameBinaryContentAs(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasSameBinaryContentAs(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldBeReadable(actual).create());
   }
@@ -122,7 +122,7 @@ class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
     Path actual = Files.write(tempDir.resolve("actual"), content.getBytes(actualCharset));
     Path expected = Files.write(tempDir.resolve("expected"), content.getBytes(expectedCharset));
     // WHEN/THEN
-    paths.assertHasSameBinaryContentAs(info, actual, expected);
+    underTest.assertHasSameBinaryContentAs(INFO, actual, expected);
   }
 
   @ParameterizedTest
@@ -139,9 +139,9 @@ class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
     Path expected = Files.write(tempDir.resolve("expected"), expectedContent.getBytes(expectedCharset));
     BinaryDiffResult diff = binaryDiff.diff(actual, expectedContent.getBytes(expectedCharset));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasSameBinaryContentAs(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasSameBinaryContentAs(INFO, actual, expected));
     // THEN
-    then(error).hasMessage(shouldHaveBinaryContent(actual, diff).create(info.description(), info.representation()));
+    then(error).hasMessage(shouldHaveBinaryContent(actual, diff).create(INFO.description(), INFO.representation()));
   }
 
   @Test
@@ -152,7 +152,7 @@ class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
     IOException exception = new IOException("boom!");
     willThrow(exception).given(binaryDiff).diff(actual, "Content".getBytes());
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasSameBinaryContentAs(info, actual, expected));
+    Throwable thrown = catchThrowable(() -> underTest.assertHasSameBinaryContentAs(INFO, actual, expected));
     // THEN
     then(thrown).isInstanceOf(UncheckedIOException.class)
                 .hasCause(exception);

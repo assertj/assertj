@@ -36,7 +36,7 @@ class Paths_assertHasNoExtension_Test extends PathsBaseTest {
     // GIVEN
     Path actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasNoExtension(info, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasNoExtension(INFO, actual));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -46,7 +46,7 @@ class Paths_assertHasNoExtension_Test extends PathsBaseTest {
     // GIVEN
     Path actual = tempDir.resolve("non-existent");
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasNoExtension(info, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasNoExtension(INFO, actual));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -56,7 +56,7 @@ class Paths_assertHasNoExtension_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createDirectory(tempDir.resolve("directory"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasNoExtension(info, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasNoExtension(INFO, actual));
     // THEN
     then(error).hasMessage(shouldBeRegularFile(actual).create());
   }
@@ -66,7 +66,7 @@ class Paths_assertHasNoExtension_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createFile(tempDir.resolve("file.txt"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasNoExtension(info, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasNoExtension(INFO, actual));
     // THEN
     then(error).hasMessage(shouldHaveNoExtension(actual, "txt").create());
   }
@@ -77,7 +77,7 @@ class Paths_assertHasNoExtension_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createFile(tempDir.resolve(filename));
     // WHEN/THEN
-    paths.assertHasNoExtension(info, actual);
+    underTest.assertHasNoExtension(INFO, actual);
   }
 
 }
