@@ -13,20 +13,16 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static java.util.Arrays.asList;
-import static java.util.Arrays.stream;
-import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.recursive.comparison.ComparingFields.COMPARING_FIELDS;
+import static org.assertj.core.api.recursive.comparison.ComparingProperties.COMPARING_PROPERTIES;
 import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -34,7 +30,6 @@ import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.objects.data.Person;
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.assertj.core.util.introspection.PropertySupport;
 import org.junit.jupiter.api.Test;
 
 import com.google.common.base.CaseFormat;
@@ -215,74 +210,14 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     // GIVEN
     Message actual = new HelloMessage();
     Message expected = new GenericMessage("hello");
-    ComparingProperties comparingProperties = new ComparingProperties();
     // WHEN/THEN
     then(actual).usingRecursiveComparison()
-                .withIntrospectionStrategy(comparingProperties)
+                .withIntrospectionStrategy(COMPARING_PROPERTIES)
                 .isEqualTo(expected);
 
     // note that the following assertion succeeds because the default behavior is to look for actual fields but not properties and
     // HelloMessage does not have fields
     // then(actual).usingRecursiveComparison().isEqualTo(expected);
-  }
-
-  static class ComparingProperties implements RecursiveComparisonIntrospectionStrategy {
-
-    static final String GET_PREFIX = "get";
-    static final String IS_PREFIX = "is";
-
-    @Override
-    public Set<String> getChildrenNodeNamesOf(Object node) {
-      return node == null ? new HashSet<>() : getPropertiesNames(node.getClass());
-    }
-
-    @Override
-    public Object getChildNodeValue(String childNodeName, Object instance) {
-      return PropertySupport.instance().propertyValueOf(childNodeName, Object.class, instance);
-    }
-
-    @Override
-    public String getDescription() {
-      return "comparing properties";
-    }
-
-    static Set<String> getPropertiesNames(Class<?> clazz) {
-      return gettersIncludingInheritedOf(clazz).stream()
-                                               .map(Method::getName)
-                                               .map(methodName -> toPropertyName(methodName))
-                                               .collect(toSet());
-    }
-
-    private static String toPropertyName(String methodName) {
-      String propertyWithCapitalLetter = methodName.startsWith(GET_PREFIX)
-          ? methodName.substring(GET_PREFIX.length())
-          : methodName.substring(IS_PREFIX.length());
-      return propertyWithCapitalLetter.toLowerCase().charAt(0) + propertyWithCapitalLetter.substring(1);
-    }
-
-    public static Set<Method> gettersIncludingInheritedOf(Class<?> clazz) {
-      Set<Method> getters = gettersOf(clazz);
-      // get fields declared in superClass
-      Class<?> superClass = clazz.getSuperclass();
-      while (superClass != null && !superClass.getName().startsWith("java.lang")) {
-        getters.addAll(gettersOf(superClass));
-        superClass = superClass.getSuperclass();
-      }
-      return getters;
-    }
-
-    private static Set<Method> gettersOf(Class<?> clazz) {
-      return stream(clazz.getDeclaredMethods()).filter(method -> !Modifier.isStatic(method.getModifiers()))
-                                               .filter(method -> method.getName().startsWith(GET_PREFIX)
-                                                                 || method.getName().startsWith(IS_PREFIX))
-                                               .collect(toCollection(LinkedHashSet::new));
-    }
-
-    private static boolean isGetters(Method method) {
-      boolean startsWithGet = method.getName().startsWith(GET_PREFIX);
-      return startsWithGet || (method.getName().startsWith(IS_PREFIX) && method.getReturnType().equals(Boolean.class));
-    }
-
   }
 
   interface Message {
@@ -353,10 +288,9 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     // GIVEN
     User user = new User();
     UserDTO userDto = new UserDTO(user);
-    ComparingProperties comparingProperties = new ComparingProperties();
     // WHEN/THEN
     then(user).usingRecursiveComparison()
-              .withIntrospectionStrategy(comparingProperties)
+              .withIntrospectionStrategy(COMPARING_PROPERTIES)
               .isEqualTo(userDto);
   }
 
