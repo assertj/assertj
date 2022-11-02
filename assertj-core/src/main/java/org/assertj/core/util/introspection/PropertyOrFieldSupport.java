@@ -28,6 +28,8 @@ public class PropertyOrFieldSupport {
   public static final PropertyOrFieldSupport EXTRACTION = new PropertyOrFieldSupport();
   public static final PropertyOrFieldSupport COMPARISON = new PropertyOrFieldSupport(PropertySupport.instance(),
                                                                                      FieldSupport.COMPARISON);
+  public static final PropertyOrFieldSupport COMPARISON_NORMALIZED = new PropertyOrFieldSupport(PropertySupport.instance(),
+                                                                                                FieldSupport.COMPARISON_NORMALIZED);
 
   PropertyOrFieldSupport() {
     this.propertySupport = PropertySupport.instance();

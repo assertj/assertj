@@ -19,6 +19,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.recursive.comparison.ComparingFields.COMPARING_FIELDS;
 import static org.assertj.core.api.recursive.comparison.ComparingProperties.COMPARING_PROPERTIES;
 import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
+import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON_NORMALIZED;
 
 import java.util.Collection;
 import java.util.Date;
@@ -192,21 +193,18 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     }
 
     static String toCamelCase(String name) {
-      return name.contains("_") ? CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name) : name;
-    }
-
-    static String toSnakeCase(String name) {
-      return CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name);
+      if (!name.contains("_")) {
+        return name;
+      }
+      if (name.startsWith("_")) {
+        return toCamelCase(name.substring(1));  // avoid _last_name -> LastName
+      }
+      return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name);
     }
 
     @Override
     public Object getChildNodeValue(String childNodeName, Object instance) {
-      try {
-        return COMPARISON.getSimpleValue(childNodeName, instance);
-      } catch (Exception e) {
-        // try snake case
-        return COMPARISON.getSimpleValue(toSnakeCase(childNodeName), instance);
-      }
+      return COMPARISON_NORMALIZED.getSimpleValue(childNodeName, instance);
     }
 
     @Override

@@ -36,7 +36,8 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public enum FieldSupport {
 
-  EXTRACTION(true), EXTRACTION_OF_PUBLIC_FIELD_ONLY(false), COMPARISON(true);
+  EXTRACTION(true), EXTRACTION_OF_PUBLIC_FIELD_ONLY(false), COMPARISON(true),
+  COMPARISON_NORMALIZED(true, new NormalizedFieldFindStrategy());
 
   private static final String CHAR = "char";
   private static final String BOOLEAN = "boolean";
@@ -51,7 +52,7 @@ public enum FieldSupport {
 
   private boolean allowUsingPrivateFields;
   
-  private FieldFindStrategy fieldFindStrategy;
+  private final FieldFindStrategy fieldFindStrategy;
 
   /**
    * Returns the instance dedicated to extraction of fields.
@@ -77,8 +78,12 @@ public enum FieldSupport {
    * @param allowUsingPrivateFields whether to read private fields or not.
    */
   FieldSupport(boolean allowUsingPrivateFields) {
+    this(allowUsingPrivateFields, new SimpleFieldFindStrategy());
+  }
+
+  FieldSupport(boolean allowUsingPrivateFields, FieldFindStrategy fieldFindStrategy) {
     this.allowUsingPrivateFields = allowUsingPrivateFields;
-    fieldFindStrategy = new SimpleFieldFindStrategy();
+    this.fieldFindStrategy = fieldFindStrategy;
   }
 
   @VisibleForTesting
