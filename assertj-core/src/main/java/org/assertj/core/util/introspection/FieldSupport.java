@@ -50,6 +50,8 @@ public enum FieldSupport {
   private static final String SEPARATOR = ".";
 
   private boolean allowUsingPrivateFields;
+  
+  private FieldFindStrategy fieldFindStrategy;
 
   /**
    * Returns the instance dedicated to extraction of fields.
@@ -76,6 +78,7 @@ public enum FieldSupport {
    */
   FieldSupport(boolean allowUsingPrivateFields) {
     this.allowUsingPrivateFields = allowUsingPrivateFields;
+    fieldFindStrategy = new SimpleFieldFindStrategy();
   }
 
   @VisibleForTesting
@@ -205,7 +208,7 @@ public enum FieldSupport {
   @SuppressWarnings("unchecked")
   private <T> T readSimpleField(String fieldName, Class<T> clazz, Object target) {
     try {
-      Object fieldValue = readField(target, fieldName, allowUsingPrivateFields);
+      Object fieldValue = readField(target, fieldName, allowUsingPrivateFields, fieldFindStrategy);
       if (clazz.isPrimitive()) {
         switch (clazz.getSimpleName()) {
         case BYTE:
