@@ -50,11 +50,12 @@ class BooleanArrays_assertContainsExactly_Test extends BooleanArraysBaseTest {
   @Test
   void should_fail_if_actual_contains_given_values_exactly_but_in_different_order() {
     AssertionInfo info = someInfo();
+    boolean[] expected = arrayOf(false, true);
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, arrayOf(false, true)));
+    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, elementsDifferAtIndex(true, false, 0));
+    verify(failures).failure(info, elementsDifferAtIndex(true, false, 0), asList(actual), asList(expected));
   }
 
   @Test
@@ -89,7 +90,7 @@ class BooleanArrays_assertContainsExactly_Test extends BooleanArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-                             shouldContainExactly(actual, asList(expected), newArrayList(true), newArrayList(false)));
+                             shouldContainExactly(actual, asList(expected), newArrayList(true), newArrayList(false)), asList(actual), asList(expected));
   }
 
   @Test
@@ -102,7 +103,7 @@ class BooleanArrays_assertContainsExactly_Test extends BooleanArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-                             shouldContainExactly(actual, asList(expected), newArrayList(), newArrayList(true)));
+                             shouldContainExactly(actual, asList(expected), newArrayList(), newArrayList(true)), asList(actual), asList(expected));
   }
 
 }

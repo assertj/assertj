@@ -39,8 +39,8 @@ import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubsetOf.shouldBeSubsetOf;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
-import static org.assertj.core.error.ShouldContainExactly.shouldContainExactlyWithIndexes;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
+import static org.assertj.core.error.ShouldContainExactly.shouldContainExactlyWithIndexes;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
@@ -1162,12 +1162,14 @@ public class Iterables {
 
   private AssertionError shouldContainExactlyWithIndexAssertionError(Iterable<?> actual, Object[] values,
                                                                      List<IndexedDiff> indexedDiffs, AssertionInfo info) {
-    return failures.failure(info, shouldContainExactlyWithIndexes(actual, list(values), indexedDiffs, comparisonStrategy));
+    return failures.failure(info, shouldContainExactlyWithIndexes(actual, list(values), indexedDiffs, comparisonStrategy), actual,
+                            list(values));
   }
 
   private AssertionError shouldContainExactlyWithDiffAssertionError(IterableDiff<Object> diff, Iterable<?> actual,
                                                                     Object[] values, AssertionInfo info) {
-    return failures.failure(info, shouldContainExactly(actual, list(values), diff.missing, diff.unexpected, comparisonStrategy));
+    return failures.failure(info, shouldContainExactly(actual, list(values), diff.missing, diff.unexpected, comparisonStrategy),
+                            actual, list(values));
   }
 
   public <E> void assertAllSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {
