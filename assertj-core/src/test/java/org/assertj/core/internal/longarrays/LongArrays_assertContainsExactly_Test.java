@@ -50,11 +50,12 @@ class LongArrays_assertContainsExactly_Test extends LongArraysBaseTest {
   @Test
   void should_fail_if_actual_contains_given_values_exactly_but_in_different_order() {
     AssertionInfo info = someInfo();
+    long[] expected = arrayOf(6L, 10L, 8L);
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, arrayOf(6L, 10L, 8L)));
+    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, elementsDifferAtIndex(8L, 10L, 1));
+    verify(failures).failure(info, elementsDifferAtIndex(8L, 10L, 1), asList(actual), asList(expected));
   }
 
   @Test
@@ -88,7 +89,7 @@ class LongArrays_assertContainsExactly_Test extends LongArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList(20L), newArrayList(10L)));
+                                                        newArrayList(20L), newArrayList(10L)), asList(actual), asList(expected));
   }
 
   @Test
@@ -100,7 +101,7 @@ class LongArrays_assertContainsExactly_Test extends LongArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList(10L), newArrayList()));
+                                                        newArrayList(10L), newArrayList()), asList(actual), asList(expected));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -120,7 +121,7 @@ class LongArrays_assertContainsExactly_Test extends LongArraysBaseTest {
     Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, elementsDifferAtIndex(8L, 10L, 1, absValueComparisonStrategy));
+    verify(failures).failure(info, elementsDifferAtIndex(8L, 10L, 1, absValueComparisonStrategy), asList(actual), asList(expected));
   }
 
   @Test
@@ -152,7 +153,7 @@ class LongArrays_assertContainsExactly_Test extends LongArraysBaseTest {
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
                                                         newArrayList(20L), newArrayList(10L),
-                                                        absValueComparisonStrategy));
+                                                        absValueComparisonStrategy), asList(actual), asList(expected));
   }
 
   @Test
@@ -165,7 +166,7 @@ class LongArrays_assertContainsExactly_Test extends LongArraysBaseTest {
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
                                                         newArrayList(10L), newArrayList(),
-                                                        absValueComparisonStrategy));
+                                                        absValueComparisonStrategy), asList(actual), asList(expected));
   }
 
 }

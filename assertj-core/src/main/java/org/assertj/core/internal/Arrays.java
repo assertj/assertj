@@ -74,6 +74,7 @@ import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.Arrays.prepend;
 import static org.assertj.core.util.Arrays.sizeOf;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
@@ -287,11 +288,11 @@ public class Arrays {
         Object actualElement = Array.get(actual, i);
         Object expectedElement = Array.get(values, i);
         if (!areEqual(actualElement, expectedElement))
-          throw failures.failure(info, elementsDifferAtIndex(actualElement, expectedElement, i, comparisonStrategy));
+          throw failures.failure(info, elementsDifferAtIndex(actualElement, expectedElement, i, comparisonStrategy), asList(actual), asList(values));
       }
       return;
     }
-    throw failures.failure(info, shouldContainExactly(actual, asList(values), diff.missing, diff.unexpected, comparisonStrategy));
+    throw failures.failure(info, shouldContainExactly(actual, asList(values), diff.missing, diff.unexpected, comparisonStrategy), asList(actual), asList(values));
   }
 
   void assertContainsExactlyInAnyOrder(AssertionInfo info, Failures failures, Object actual, Object values) {

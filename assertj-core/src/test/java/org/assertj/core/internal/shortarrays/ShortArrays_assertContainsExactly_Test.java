@@ -50,11 +50,12 @@ class ShortArrays_assertContainsExactly_Test extends ShortArraysBaseTest {
   @Test
   void should_fail_if_actual_contains_given_values_exactly_but_in_different_order() {
     AssertionInfo info = someInfo();
+    short[] expected = arrayOf(6, 10, 8);
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, arrayOf(6, 10, 8)));
+    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, elementsDifferAtIndex((short) 8, (short) 10, 1));
+    verify(failures).failure(info, elementsDifferAtIndex((short) 8, (short) 10, 1), asList(actual), asList(expected));
   }
 
   @Test
@@ -88,7 +89,7 @@ class ShortArrays_assertContainsExactly_Test extends ShortArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList((short) 20), newArrayList((short) 10)));
+                                                        newArrayList((short) 20), newArrayList((short) 10)),  asList(actual),  asList(expected));
   }
 
   @Test
@@ -100,7 +101,7 @@ class ShortArrays_assertContainsExactly_Test extends ShortArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList((short) 10), newArrayList()));
+                                                        newArrayList((short) 10), newArrayList()),  asList(actual),  asList(expected));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -120,7 +121,7 @@ class ShortArrays_assertContainsExactly_Test extends ShortArraysBaseTest {
     Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, elementsDifferAtIndex((short) 8, (short) 10, 1, absValueComparisonStrategy));
+    verify(failures).failure(info, elementsDifferAtIndex((short) 8, (short) 10, 1, absValueComparisonStrategy), asList(actual), asList(expected));
   }
 
   @Test
@@ -152,7 +153,7 @@ class ShortArrays_assertContainsExactly_Test extends ShortArraysBaseTest {
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
                                                         newArrayList((short) 20), newArrayList((short) 10),
-                                                        absValueComparisonStrategy));
+                                                        absValueComparisonStrategy),  asList(actual),  asList(expected));
   }
 
   @Test
@@ -165,7 +166,7 @@ class ShortArrays_assertContainsExactly_Test extends ShortArraysBaseTest {
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
                                                         newArrayList((short) 10), newArrayList(),
-                                                        absValueComparisonStrategy));
+                                                        absValueComparisonStrategy), asList(actual), asList(expected));
   }
 
 }

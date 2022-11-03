@@ -50,11 +50,12 @@ class CharArrays_assertContainsExactly_Test extends CharArraysBaseTest {
   @Test
   void should_fail_if_actual_contains_given_values_exactly_but_in_different_order() {
     AssertionInfo info = someInfo();
+    char[] expected = arrayOf('a', 'c', 'b');
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, arrayOf('a', 'c', 'b')));
+    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, elementsDifferAtIndex('b', 'c', 1));
+    verify(failures).failure(info, elementsDifferAtIndex('b', 'c', 1), asList(actual), asList(expected));
   }
 
   @Test
@@ -88,7 +89,7 @@ class CharArrays_assertContainsExactly_Test extends CharArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList('e'), newArrayList('c')));
+                                                        newArrayList('e'), newArrayList('c')), asList(actual), asList(expected));
   }
 
   @Test
@@ -100,7 +101,7 @@ class CharArrays_assertContainsExactly_Test extends CharArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList('c'), newArrayList()));
+                                                        newArrayList('c'), newArrayList()), asList(actual), asList(expected));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -120,7 +121,7 @@ class CharArrays_assertContainsExactly_Test extends CharArraysBaseTest {
     Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, elementsDifferAtIndex('b', 'c', 1, caseInsensitiveComparisonStrategy));
+    verify(failures).failure(info, elementsDifferAtIndex('b', 'c', 1, caseInsensitiveComparisonStrategy), asList(actual), asList(expected));
   }
 
   @Test
@@ -154,7 +155,7 @@ class CharArrays_assertContainsExactly_Test extends CharArraysBaseTest {
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
                              shouldContainExactly(actual, asList(expected), newArrayList('e'), newArrayList('c'),
-                                                        caseInsensitiveComparisonStrategy));
+                                                        caseInsensitiveComparisonStrategy), asList(actual), asList(expected));
   }
 
   @Test
@@ -167,7 +168,7 @@ class CharArrays_assertContainsExactly_Test extends CharArraysBaseTest {
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
                                                         newArrayList('c'), newArrayList(),
-                                                        caseInsensitiveComparisonStrategy));
+                                                        caseInsensitiveComparisonStrategy), asList(actual), asList(expected));
   }
 
 }

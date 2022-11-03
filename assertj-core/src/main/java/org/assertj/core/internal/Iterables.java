@@ -1161,7 +1161,7 @@ public class Iterables {
   }
 
   private AssertionError shouldContainExactlyWithIndexAssertionError(Iterable<?> actual, Object[] values,
-                                                                                 List<IndexedDiff> indexedDiffs, AssertionInfo info) {
+                                                                     List<IndexedDiff> indexedDiffs, AssertionInfo info) {
     return failures.failure(info, shouldContainExactlyWithIndexes(actual, list(values), indexedDiffs, comparisonStrategy), actual, list(values));
   }
 
