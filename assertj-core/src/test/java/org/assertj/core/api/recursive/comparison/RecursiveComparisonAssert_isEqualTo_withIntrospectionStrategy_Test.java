@@ -121,9 +121,11 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
   @Test
   void should_pass_with_the_snake_case_matching_camel_case_fields() {
     // GIVEN
-    Author martinFowler = new Author("Martin", "Fowler", 58, "+447975777666", "+441611234567");
+    Author martinFowler = new Author("Martin", "Fowler", 58, "+447975777666", "+441611234567",
+            "https://www.thoughtworks.com/profiles/leaders/martin-fowler");
     Book refactoring = new Book("Refactoring", martinFowler);
-    AuthorDto martinFowlerDto = new AuthorDto("Martin", "Fowler", 58, "+447975777666", "+441611234567");
+    AuthorDto martinFowlerDto = new AuthorDto("Martin", "Fowler", 58, "+447975777666", "+441611234567",
+            "https://www.thoughtworks.com/profiles/leaders/martin-fowler");
     BookDto refactoringDto = new BookDto("Refactoring", martinFowlerDto);
     RecursiveComparisonIntrospectionStrategy comparingSnakeOrCamelCaseFields = new ComparingSnakeOrCamelCaseFields();
 
@@ -139,13 +141,15 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     int age;
     String phoneNumber1;
     String phoneNumber2;
+    String profileURL;
 
-    Author(String firstName, String lastName, int age, String phoneNumber1, String phoneNumber2) {
+    Author(String firstName, String lastName, int age, String phoneNumber1, String phoneNumber2, String profileUrl) {
       this.firstName = firstName;
       this.lastName = lastName;
       this.age = age;
       this.phoneNumber1 = phoneNumber1;
       this.phoneNumber2 = phoneNumber2;
+      this.profileURL = profileUrl;
     }
   }
 
@@ -164,13 +168,15 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     int _age;
     String phone_number_1;
     String phone_number_2;
+    String profile_url;
 
-    AuthorDto(String firstName, String lastName, int age, String phoneNumber1, String phoneNumber2) {
+    AuthorDto(String firstName, String lastName, int age, String phoneNumber1, String phoneNumber2, String profileUrl) {
       this.first_name = firstName;
       this.last_name = lastName;
       this._age = age;
       this.phone_number_1 = phoneNumber1;
       this.phone_number_2 = phoneNumber2;
+      this.profile_url = profileUrl;
     }
   }
 
