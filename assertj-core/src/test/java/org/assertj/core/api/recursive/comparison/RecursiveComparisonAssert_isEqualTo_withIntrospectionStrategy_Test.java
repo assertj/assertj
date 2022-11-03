@@ -120,9 +120,9 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
   @Test
   void should_pass_with_the_snake_case_matching_camel_case_fields() {
     // GIVEN
-    Author martinFowler = new Author("Martin", "Fowler");
+    Author martinFowler = new Author("Martin", "Fowler", 58, "+447975777666", "+441611234567");
     Book refactoring = new Book("Refactoring", martinFowler);
-    AuthorDto martinFowlerDto = new AuthorDto("Martin", "Fowler");
+    AuthorDto martinFowlerDto = new AuthorDto("Martin", "Fowler", 58, "+447975777666", "+441611234567");
     BookDto refactoringDto = new BookDto("Refactoring", martinFowlerDto);
     RecursiveComparisonIntrospectionStrategy comparingSnakeOrCamelCaseFields = new ComparingSnakeOrCamelCaseFields();
 
@@ -135,10 +135,16 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
   static class Author {
     String firstName;
     String lastName;
+    int age;
+    String phoneNumber1;
+    String phoneNumber2;
 
-    Author(String firstName, String lastName) {
+    Author(String firstName, String lastName, int age, String phoneNumber1, String phoneNumber2) {
       this.firstName = firstName;
       this.lastName = lastName;
+      this.age = age;
+      this.phoneNumber1 = phoneNumber1;
+      this.phoneNumber2 = phoneNumber2;
     }
   }
 
@@ -154,10 +160,16 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
   static class AuthorDto {
     String first_name;
     String last_name;
+    int _age;
+    String phone_number_1;
+    String phone_number_2;
 
-    AuthorDto(String firstName, String lastName) {
+    AuthorDto(String firstName, String lastName, int age, String phoneNumber1, String phoneNumber2) {
       this.first_name = firstName;
       this.last_name = lastName;
+      this._age = age;
+      this.phone_number_1 = phoneNumber1;
+      this.phone_number_2 = phoneNumber2;
     }
   }
 
