@@ -31,9 +31,9 @@ import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.objects.data.Person;
 import org.assertj.core.util.introspection.IntrospectionError;
+import org.assertj.core.util.introspection.NormalizeStrategy;
+import org.assertj.core.util.introspection.PropertySupport;
 import org.junit.jupiter.api.Test;
-
-import com.google.common.base.CaseFormat;
 
 class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     extends RecursiveComparisonAssert_isEqualTo_BaseTest {
@@ -189,17 +189,7 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     public Set<String> getChildrenNodeNamesOf(Object node) {
       if (node == null) return new HashSet<>();
       Set<String> fieldsNames = Objects.getFieldsNames(node.getClass());
-      return fieldsNames.stream().map(ComparingSnakeOrCamelCaseFields::toCamelCase).collect(toSet());
-    }
-
-    static String toCamelCase(String name) {
-      if (!name.contains("_")) {
-        return name;
-      }
-      if (name.startsWith("_")) {
-        return toCamelCase(name.substring(1));  // avoid _last_name -> LastName
-      }
-      return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name);
+      return fieldsNames.stream().map(NormalizeStrategy::normalize).collect(toSet());
     }
 
     @Override

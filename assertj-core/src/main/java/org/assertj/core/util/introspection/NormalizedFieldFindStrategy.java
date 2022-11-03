@@ -2,13 +2,12 @@ package org.assertj.core.util.introspection;
 
 import static java.util.stream.Collectors.joining;
 import static org.assertj.core.util.Preconditions.checkArgument;
+import static org.assertj.core.util.introspection.NormalizeStrategy.normalize;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import com.google.common.base.CaseFormat;
 
 class NormalizedFieldFindStrategy implements FieldFindStrategy {
 
@@ -25,15 +24,5 @@ class NormalizedFieldFindStrategy implements FieldFindStrategy {
                   fieldName, acls,
                   matchingFields.stream().map(Field::getName).collect(joining(", ")));
     return matchingFields.get(0);
-  }
-
-  private String normalize(String name) {
-    if (!name.contains("_")) {
-      return name;
-    }
-    if (name.startsWith("_")) {
-      return normalize(name.substring(1));  // avoid _last_name -> LastName
-    }
-    return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name);
   }
 }
