@@ -1416,10 +1416,10 @@ public class Assertions implements InstanceOfAssertFactories {
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.9.0
    */
-  @Deprecated(since = "3.23.11")
+  @Deprecated
   public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(ThrowingCallable shouldRaiseThrowable,
                                                                              Class<THROWABLE> type) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, type);
+    return AssertionsForClassTypes.catchThrowableOfType(type, shouldRaiseThrowable);
   }
 
   /**

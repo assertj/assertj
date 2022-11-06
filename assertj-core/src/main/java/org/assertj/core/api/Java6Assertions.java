@@ -1300,9 +1300,9 @@ public class Java6Assertions {
    * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
    * @since 3.9.0
    */
-  @Deprecated(since = "3.23.11")
+  @Deprecated
   public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(ThrowingCallable shouldRaiseThrowable, Class<THROWABLE> type) {
-    return ThrowableAssert.catchThrowableOfType(shouldRaiseThrowable, type);
+    return ThrowableAssert.catchThrowableOfType(type, shouldRaiseThrowable);
   }
 
   /**
