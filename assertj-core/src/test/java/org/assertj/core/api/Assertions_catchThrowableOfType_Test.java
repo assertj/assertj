@@ -48,7 +48,7 @@ class Assertions_catchThrowableOfType_Test {
   @Test
   void catchThrowableOfType_should_fail_with_good_message_if_wrong_type() {
     // GIVEN
-    ThrowingCallable code = () -> catchThrowableOfType(raisingException("boom!!"), RuntimeException.class);
+    ThrowingCallable code = () -> catchThrowableOfType(RuntimeException.class, raisingException("boom!!"));
     // WHEN
     AssertionError assertionError = expectAssertionError(code);
     // THEN
