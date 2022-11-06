@@ -25,8 +25,10 @@ import java.util.OptionalLong;
 import java.util.function.BiPredicate;
 
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
+import org.assertj.core.api.recursive.comparison.DefaultRecursiveComparisonIntrospectionStrategy;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonIntrospectionStrategy;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -1451,6 +1453,24 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   @CheckReturnValue
   public SELF withErrorMessageForType(String message, Class<?> type) {
     recursiveComparisonConfiguration.registerErrorMessageForType(message, type);
+    return myself;
+  }
+
+  /**
+   * Defines how objects are introspected in the recursive comparison, that is:
+   * <ul>
+   *  <li>how to traverse the graph of nodes to compare</li>
+   *  <li>how to get a node value</li>
+   *  </ul>
+   * <p>
+   * Default to {@link DefaultRecursiveComparisonIntrospectionStrategy} that introspects all fields (including inherited ones).
+   *
+   * @param introspectionStrategy the {@link RecursiveComparisonIntrospectionStrategy} to use
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   */
+  @CheckReturnValue
+  public SELF withIntrospectionStrategy(RecursiveComparisonIntrospectionStrategy introspectionStrategy) {
+    recursiveComparisonConfiguration.setIntrospectionStrategy(introspectionStrategy);
     return myself;
   }
 

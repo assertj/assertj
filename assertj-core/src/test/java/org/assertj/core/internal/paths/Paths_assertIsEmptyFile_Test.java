@@ -36,7 +36,7 @@ class Paths_assertIsEmptyFile_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsEmptyFile(info, null));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsEmptyFile(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -46,7 +46,7 @@ class Paths_assertIsEmptyFile_Test extends PathsBaseTest {
     // GIVEN
     Path actual = tempDir.resolve("non-existent");
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsEmptyFile(info, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsEmptyFile(INFO, actual));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -56,7 +56,7 @@ class Paths_assertIsEmptyFile_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createDirectory(tempDir.resolve("directory"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsEmptyFile(info, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsEmptyFile(INFO, actual));
     // THEN
     then(error).hasMessage(shouldBeRegularFile(actual).create());
   }
@@ -66,7 +66,7 @@ class Paths_assertIsEmptyFile_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
     // WHEN/THEN
-    paths.assertIsEmptyFile(info, actual);
+    underTest.assertIsEmptyFile(INFO, actual);
   }
 
   @Test
@@ -74,7 +74,7 @@ class Paths_assertIsEmptyFile_Test extends PathsBaseTest {
     // GIVEN
     Path actual = Files.write(tempDir.resolve("actual"), "content".getBytes());
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsEmptyFile(info, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsEmptyFile(INFO, actual));
     // THEN
     then(error).hasMessage(shouldBeEmpty(actual).create());
   }
@@ -86,7 +86,7 @@ class Paths_assertIsEmptyFile_Test extends PathsBaseTest {
     IOException exception = new IOException("boom!");
     given(nioFilesWrapper.size(actual)).willThrow(exception);
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertIsEmptyFile(info, actual));
+    Throwable thrown = catchThrowable(() -> underTest.assertIsEmptyFile(INFO, actual));
     // THEN
     then(thrown).isInstanceOf(UncheckedIOException.class)
                 .hasCause(exception);

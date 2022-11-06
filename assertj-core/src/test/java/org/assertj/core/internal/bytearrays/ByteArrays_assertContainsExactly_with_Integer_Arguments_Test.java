@@ -25,6 +25,7 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.asList;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.junit.jupiter.params.shadow.com.univocity.parsers.common.ArgumentUtils.toByteArray;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -51,11 +52,12 @@ class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteA
   @Test
   void should_fail_if_actual_contains_given_values_exactly_but_in_different_order() {
     AssertionInfo info = someInfo();
+    int[] expected = IntArrays.arrayOf(6, 10, 8);
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, IntArrays.arrayOf(6, 10, 8)));
+    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, elementsDifferAtIndex((byte) 8, (byte) 10, 1));
+    verify(failures).failure(info, elementsDifferAtIndex((byte) 8, (byte) 10, 1), asList(actual), asList(toByteArray(expected)));
   }
 
   @Test
@@ -89,7 +91,7 @@ class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteA
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList((byte) 20), newArrayList((byte) 10)));
+                                                        newArrayList((byte) 20), newArrayList((byte) 10)), asList(actual), asList(expected));
   }
 
   @Test
@@ -101,7 +103,7 @@ class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteA
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList((byte) 10), newArrayList()));
+                                                        newArrayList((byte) 10), newArrayList()), asList(actual), asList(expected));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -116,11 +118,12 @@ class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteA
   @Test
   void should_pass_if_actual_contains_given_values_exactly_in_different_order_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
+    int[] expected = IntArrays.arrayOf(-6, 10, 8);
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, IntArrays.arrayOf(-6, 10, 8)));
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, elementsDifferAtIndex((byte) 8, (byte) 10, 1, absValueComparisonStrategy));
+    verify(failures).failure(info, elementsDifferAtIndex((byte) 8, (byte) 10, 1, absValueComparisonStrategy), asList(actual), asList(toByteArray(expected)));
   }
 
   @Test
@@ -152,7 +155,7 @@ class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteA
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
                                                         newArrayList((byte) 20), newArrayList((byte) 10),
-                                                        absValueComparisonStrategy));
+                                                        absValueComparisonStrategy), asList(actual), asList(expected));
   }
 
   @Test
@@ -165,7 +168,7 @@ class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteA
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
                                                         newArrayList((byte) 10), newArrayList(),
-                                                        absValueComparisonStrategy));
+                                                        absValueComparisonStrategy), asList(actual), asList(expected));
   }
 
 }

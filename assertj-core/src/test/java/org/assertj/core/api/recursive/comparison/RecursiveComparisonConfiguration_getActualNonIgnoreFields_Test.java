@@ -50,7 +50,7 @@ class RecursiveComparisonConfiguration_getActualFieldNamesToCompare_Test {
     person2.neighbour.home.address.number = 456;
     DualValue dualValue = new DualValue(list("people"), person1, person2);
     // WHEN
-    Set<String> fields = recursiveComparisonConfiguration.getActualFieldNamesToCompare(dualValue);
+    Set<String> fields = recursiveComparisonConfiguration.getActualChildrenNodeNamesToCompare(dualValue);
     // THEN
     then(fields).doesNotContain("number", "dateOfBirth", "name");
   }
@@ -71,7 +71,7 @@ class RecursiveComparisonConfiguration_getActualFieldNamesToCompare_Test {
     person2.neighbour.home.address.number = 456;
     DualValue dualValue = new DualValue(list(), person1, person2);
     // WHEN
-    Set<String> fields = recursiveComparisonConfiguration.getActualFieldNamesToCompare(dualValue);
+    Set<String> fields = recursiveComparisonConfiguration.getActualChildrenNodeNamesToCompare(dualValue);
     // THEN
     // "home.address" is not present since getActualFieldNamesToCompare look at the direct fields
     // it registers "home" because we need to compare "home.address",
@@ -87,7 +87,7 @@ class RecursiveComparisonConfiguration_getActualFieldNamesToCompare_Test {
     PersonDtoWithPersonNeighbour person2 = new PersonDtoWithPersonNeighbour("John");
     DualValue dualValue = new DualValue(list("people"), person2, person1);
     // WHEN
-    Set<String> fields = recursiveComparisonConfiguration.getActualFieldNamesToCompare(dualValue);
+    Set<String> fields = recursiveComparisonConfiguration.getActualChildrenNodeNamesToCompare(dualValue);
     // THEN
     then(fields).containsExactly("name");
   }

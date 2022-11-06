@@ -34,7 +34,7 @@ class Paths_assertHasFileName_Test extends PathsBaseTest {
     Path actual = null;
     String filename = "actual";
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasFileName(info, actual, filename));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasFileName(INFO, actual, filename));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -45,7 +45,7 @@ class Paths_assertHasFileName_Test extends PathsBaseTest {
     Path actual = tempDir.resolve("actual");
     String filename = null;
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasFileName(info, actual, filename));
+    Throwable thrown = catchThrowable(() -> underTest.assertHasFileName(INFO, actual, filename));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage("expected fileName should not be null");
@@ -57,7 +57,7 @@ class Paths_assertHasFileName_Test extends PathsBaseTest {
     Path actual = tempDir.resolve("actual");
     String filename = "filename";
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasFileName(info, null, filename));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasFileName(INFO, null, filename));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -68,7 +68,7 @@ class Paths_assertHasFileName_Test extends PathsBaseTest {
     Path actual = tempDir.resolve("actual");
     String filename = "actual";
     // WHEN/THEN
-    paths.assertHasFileName(info, actual, filename);
+    underTest.assertHasFileName(INFO, actual, filename);
   }
 
   @Test
@@ -77,7 +77,7 @@ class Paths_assertHasFileName_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("actual"));
     String filename = "actual";
     // WHEN/THEN
-    paths.assertHasFileName(info, actual, filename);
+    underTest.assertHasFileName(INFO, actual, filename);
   }
 
   @Test
@@ -86,7 +86,7 @@ class Paths_assertHasFileName_Test extends PathsBaseTest {
     Path actual = createDirectory(tempDir.resolve("actual"));
     String filename = "actual";
     // WHEN/THEN
-    paths.assertHasFileName(info, actual, filename);
+    underTest.assertHasFileName(INFO, actual, filename);
   }
 
   @Test
@@ -95,7 +95,7 @@ class Paths_assertHasFileName_Test extends PathsBaseTest {
     Path actual = createSymbolicLink(tempDir.resolve("actual"), tempDir);
     String filename = "actual";
     // WHEN/THEN
-    paths.assertHasFileName(info, actual, filename);
+    underTest.assertHasFileName(INFO, actual, filename);
   }
 
 }

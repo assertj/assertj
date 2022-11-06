@@ -60,7 +60,7 @@ class Files_assertHasContent_Test extends FilesBaseTest {
     // GIVEN
     String expectedContent = null;
     // WHEN
-    NullPointerException npe = catchThrowableOfType(() -> files.assertHasContent(INFO, actual, expectedContent, charset),
+    NullPointerException npe = catchThrowableOfType(() -> underTest.assertHasContent(INFO, actual, expectedContent, charset),
                                                     NullPointerException.class);
     // THEN
     then(npe).hasMessage("The text to compare to should not be null");
@@ -71,7 +71,7 @@ class Files_assertHasContent_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> files.assertHasContent(INFO, actual, expected, charset));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasContent(INFO, actual, expected, charset));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -81,7 +81,7 @@ class Files_assertHasContent_Test extends FilesBaseTest {
     // GIVEN
     File notAFile = new File("xyz");
     // WHEN
-    expectAssertionError(() -> files.assertHasContent(INFO, notAFile, expected, charset));
+    expectAssertionError(() -> underTest.assertHasContent(INFO, notAFile, expected, charset));
     // THEN
     verify(failures).failure(INFO, shouldBeFile(notAFile));
   }
@@ -89,7 +89,7 @@ class Files_assertHasContent_Test extends FilesBaseTest {
   @Test
   void should_pass_if_file_has_text_content() {
     String expected = "actual";
-    files.assertHasContent(INFO, actual, expected, charset);
+    underTest.assertHasContent(INFO, actual, expected, charset);
   }
 
   @Test
@@ -98,7 +98,7 @@ class Files_assertHasContent_Test extends FilesBaseTest {
     IOException cause = new IOException();
     when(diff.diff(actual, expected, charset)).thenThrow(cause);
     // WHEN
-    UncheckedIOException uioe = catchThrowableOfType(() -> files.assertHasContent(INFO, actual, expected, charset),
+    UncheckedIOException uioe = catchThrowableOfType(() -> underTest.assertHasContent(INFO, actual, expected, charset),
                                                      UncheckedIOException.class);
     // THEN
     then(uioe).hasCause(cause);
@@ -112,6 +112,6 @@ class Files_assertHasContent_Test extends FilesBaseTest {
     // WHEN
     expectAssertionError(() -> unMockedFiles.assertHasContent(INFO, actual, expected, charset));
     // THEN
-    verify(unMockedFailures).failure(INFO, shouldHaveContent(actual, charset, diffs));
+    verify(failures).failure(INFO, shouldHaveContent(actual, charset, diffs));
   }
 }

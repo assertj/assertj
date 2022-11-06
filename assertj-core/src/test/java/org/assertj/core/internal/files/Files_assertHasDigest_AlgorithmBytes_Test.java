@@ -57,7 +57,7 @@ class Files_assertHasDigest_AlgorithmBytes_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> files.assertHasDigest(INFO, actual, algorithm, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -67,7 +67,7 @@ class Files_assertHasDigest_AlgorithmBytes_Test extends FilesBaseTest {
     // GIVEN
     File actual = new File("xyz");
     // WHEN
-    expectAssertionError(() -> files.assertHasDigest(INFO, actual, algorithm, expected));
+    expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
     verify(failures).failure(INFO, shouldExist(actual));
   }
@@ -77,7 +77,7 @@ class Files_assertHasDigest_AlgorithmBytes_Test extends FilesBaseTest {
     // GIVEN
     File actual = newFolder(tempDir.getAbsolutePath() + "/tmp");
     // WHEN
-    expectAssertionError(() -> files.assertHasDigest(INFO, actual, algorithm, expected));
+    expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
     verify(failures).failure(INFO, shouldBeFile(actual));
   }
@@ -89,7 +89,7 @@ class Files_assertHasDigest_AlgorithmBytes_Test extends FilesBaseTest {
     File actual = newFile(tempDir.getAbsolutePath() + "/Test.java");
     actual.setReadable(false);
     // WHEN
-    expectAssertionError(() -> files.assertHasDigest(INFO, actual, algorithm, expected));
+    expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
     verify(failures).failure(INFO, shouldBeReadable(actual));
   }
@@ -99,7 +99,7 @@ class Files_assertHasDigest_AlgorithmBytes_Test extends FilesBaseTest {
     // GIVEN
     MessageDigest digest = null;
     // WHEN
-    NullPointerException npe = catchThrowableOfType(() -> files.assertHasDigest(INFO, actual, digest, expected),
+    NullPointerException npe = catchThrowableOfType(() -> underTest.assertHasDigest(INFO, actual, digest, expected),
                                                     NullPointerException.class);
     // THEN
     then(npe).hasMessage("The message digest algorithm should not be null");
@@ -110,7 +110,7 @@ class Files_assertHasDigest_AlgorithmBytes_Test extends FilesBaseTest {
     // GIVEN
     byte[] expected = null;
     // WHEN
-    NullPointerException npe = catchThrowableOfType(() -> files.assertHasDigest(INFO, actual, algorithm, expected),
+    NullPointerException npe = catchThrowableOfType(() -> underTest.assertHasDigest(INFO, actual, algorithm, expected),
                                                     NullPointerException.class);
     // THEN
     then(npe).hasMessage("The binary representation of digest to compare to should not be null");
@@ -123,7 +123,7 @@ class Files_assertHasDigest_AlgorithmBytes_Test extends FilesBaseTest {
     IOException cause = new IOException();
     given(nioFilesWrapper.newInputStream(any())).willThrow(cause);
     // WHEN
-    UncheckedIOException uioe = catchThrowableOfType(() -> files.assertHasDigest(INFO, actual, algorithm, expected),
+    UncheckedIOException uioe = catchThrowableOfType(() -> underTest.assertHasDigest(INFO, actual, algorithm, expected),
                                                      UncheckedIOException.class);
     // THEN
     then(uioe).hasCause(cause);
@@ -134,7 +134,8 @@ class Files_assertHasDigest_AlgorithmBytes_Test extends FilesBaseTest {
     // GIVEN
     String unknownDigestAlgorithm = "UnknownDigestAlgorithm";
     // WHEN
-    IllegalStateException ise = catchThrowableOfType(() -> files.assertHasDigest(INFO, actual, unknownDigestAlgorithm, expected),
+    IllegalStateException ise = catchThrowableOfType(() -> underTest.assertHasDigest(INFO, actual, unknownDigestAlgorithm,
+                                                                                     expected),
                                                      IllegalStateException.class);
     // THEN
     then(ise).hasMessage("Unable to find digest implementation for: <UnknownDigestAlgorithm>");
@@ -152,7 +153,7 @@ class Files_assertHasDigest_AlgorithmBytes_Test extends FilesBaseTest {
     // WHEN
     expectAssertionError(() -> unMockedFiles.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
-    verify(unMockedFailures).failure(INFO, shouldHaveDigest(actual, digestDiff));
+    verify(failures).failure(INFO, shouldHaveDigest(actual, digestDiff));
   }
 
   @Test

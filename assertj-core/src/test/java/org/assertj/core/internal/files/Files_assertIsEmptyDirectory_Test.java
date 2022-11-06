@@ -43,7 +43,7 @@ class Files_assertIsEmptyDirectory_Test extends FilesBaseTest {
     // GIVEN
     File actual = newFolder(tempDir.getAbsolutePath() + "/folder");
     // THEN
-    files.assertIsEmptyDirectory(INFO, actual);
+    underTest.assertIsEmptyDirectory(INFO, actual);
   }
 
   @Test
@@ -53,7 +53,7 @@ class Files_assertIsEmptyDirectory_Test extends FilesBaseTest {
     File file = newFile(actual.getAbsolutePath() + "/Test.java");
     List<File> items = list(file);
     // WHEN
-    expectAssertionError(() -> files.assertIsEmptyDirectory(INFO, actual));
+    expectAssertionError(() -> underTest.assertIsEmptyDirectory(INFO, actual));
     // THEN
     verify(failures).failure(INFO, shouldBeEmptyDirectory(actual, items));
   }
@@ -63,7 +63,7 @@ class Files_assertIsEmptyDirectory_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> files.assertIsEmptyDirectory(INFO, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsEmptyDirectory(INFO, actual));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -73,7 +73,7 @@ class Files_assertIsEmptyDirectory_Test extends FilesBaseTest {
     // GIVEN
     File actual = new File("xyz");
     // WHEN
-    expectAssertionError(() -> files.assertIsEmptyDirectory(INFO, actual));
+    expectAssertionError(() -> underTest.assertIsEmptyDirectory(INFO, actual));
     // THEN
     verify(failures).failure(INFO, shouldBeDirectory(actual));
   }
@@ -83,7 +83,7 @@ class Files_assertIsEmptyDirectory_Test extends FilesBaseTest {
     // GIVEN
     File actual = newFile(tempDir.getAbsolutePath() + "/Test.java");
     // WHEN
-    expectAssertionError(() -> files.assertIsEmptyDirectory(INFO, actual));
+    expectAssertionError(() -> underTest.assertIsEmptyDirectory(INFO, actual));
     // THEN
     verify(failures).failure(INFO, shouldBeDirectory(actual));
   }
@@ -97,7 +97,7 @@ class Files_assertIsEmptyDirectory_Test extends FilesBaseTest {
     given(actual.isDirectory()).willReturn(true);
     given(actual.listFiles(any(FileFilter.class))).willReturn(null);
     // WHEN
-    Throwable error = catchThrowableOfType(() -> files.assertIsEmptyDirectory(INFO, actual), NullPointerException.class);
+    Throwable error = catchThrowableOfType(() -> underTest.assertIsEmptyDirectory(INFO, actual), NullPointerException.class);
     // THEN
     then(error).hasMessage("Directory listing should not be null");
   }

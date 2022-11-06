@@ -38,7 +38,7 @@ class Files_assertCanRead_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> files.assertCanRead(INFO, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertCanRead(INFO, actual));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -48,7 +48,7 @@ class Files_assertCanRead_Test extends FilesBaseTest {
     // GIVEN
     File nonExistentFile = new File("xyz");
     // WHEN
-    expectAssertionError(() -> files.assertCanRead(INFO, nonExistentFile));
+    expectAssertionError(() -> underTest.assertCanRead(INFO, nonExistentFile));
     // THEN
     verify(failures).failure(INFO, shouldBeReadable(nonExistentFile));
   }
@@ -56,7 +56,7 @@ class Files_assertCanRead_Test extends FilesBaseTest {
   @Test
   void should_pass_if_actual_can_read() {
     File actual = new File("src/test/resources/actual_file.txt");
-    files.assertCanRead(INFO, actual);
+    underTest.assertCanRead(INFO, actual);
   }
 
 }

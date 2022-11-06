@@ -59,8 +59,8 @@ class Files_assertSameContentAs_Test extends FilesBaseTest {
 
   @Test
   void should_throw_error_if_expected_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> files.assertSameContentAs(INFO, actual, defaultCharset(),
-                                                                                null, defaultCharset()))
+    assertThatNullPointerException().isThrownBy(() -> underTest.assertSameContentAs(INFO, actual, defaultCharset(),
+                                                                                    null, defaultCharset()))
                                     .withMessage("The file to compare to should not be null");
   }
 
@@ -68,7 +68,7 @@ class Files_assertSameContentAs_Test extends FilesBaseTest {
   void should_throw_error_if_expected_is_not_file() {
     assertThatIllegalArgumentException().isThrownBy(() -> {
       File notAFile = new File("xyz");
-      files.assertSameContentAs(INFO, actual, defaultCharset(), notAFile, defaultCharset());
+      underTest.assertSameContentAs(INFO, actual, defaultCharset(), notAFile, defaultCharset());
     }).withMessage("Expected file:<'xyz'> should be an existing file");
   }
 
@@ -77,8 +77,8 @@ class Files_assertSameContentAs_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> files.assertSameContentAs(INFO, actual, defaultCharset(),
-                                                                                         expected, defaultCharset()));
+    AssertionError assertionError = expectAssertionError(() -> underTest.assertSameContentAs(INFO, actual, defaultCharset(),
+                                                                                             expected, defaultCharset()));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -89,7 +89,7 @@ class Files_assertSameContentAs_Test extends FilesBaseTest {
 
     File notAFile = new File("xyz");
     // WHEN
-    expectAssertionError(() -> files.assertSameContentAs(INFO, notAFile, defaultCharset(), expected, defaultCharset()));
+    expectAssertionError(() -> underTest.assertSameContentAs(INFO, notAFile, defaultCharset(), expected, defaultCharset()));
     // THEN
     verify(failures).failure(INFO, shouldBeFile(notAFile));
   }
@@ -106,10 +106,10 @@ class Files_assertSameContentAs_Test extends FilesBaseTest {
     IOException cause = new IOException();
     when(diff.diff(actual, defaultCharset(), expected, defaultCharset())).thenThrow(cause);
 
-    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> files.assertSameContentAs(INFO, actual,
-                                                                                                     defaultCharset(),
-                                                                                                     expected,
-                                                                                                     defaultCharset()))
+    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> underTest.assertSameContentAs(INFO, actual,
+                                                                                                         defaultCharset(),
+                                                                                                         expected,
+                                                                                                         defaultCharset()))
                                                          .withCause(cause);
   }
 
@@ -122,7 +122,7 @@ class Files_assertSameContentAs_Test extends FilesBaseTest {
     // WHEN
     expectAssertionError(() -> unMockedFiles.assertSameContentAs(INFO, actual, defaultCharset(), expected, defaultCharset()));
     // THEN
-    verify(unMockedFailures).failure(INFO, shouldHaveSameContent(actual, expected, diffs));
+    verify(failures).failure(INFO, shouldHaveSameContent(actual, expected, diffs));
   }
 
   @Test

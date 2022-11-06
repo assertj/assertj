@@ -41,7 +41,7 @@ class Files_assertHasName_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> files.assertHasName(INFO, actual, expectedName));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasName(INFO, actual, expectedName));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -51,7 +51,7 @@ class Files_assertHasName_Test extends FilesBaseTest {
     // GIVEN
     String expectedName = null;
     // WHEN
-    NullPointerException npe = catchThrowableOfType(() -> files.assertHasName(INFO, actual, expectedName),
+    NullPointerException npe = catchThrowableOfType(() -> underTest.assertHasName(INFO, actual, expectedName),
                                                     NullPointerException.class);
     // THEN
     then(npe).hasMessage("The expected name should not be null.");
@@ -62,7 +62,7 @@ class Files_assertHasName_Test extends FilesBaseTest {
     // GIVEN
     File actual = newFile(tempDir.getAbsolutePath() + "/not_expected.name");
     // WHEN
-    expectAssertionError(() -> files.assertHasName(INFO, actual, expectedName));
+    expectAssertionError(() -> underTest.assertHasName(INFO, actual, expectedName));
     // THEN
     verify(failures).failure(INFO, shouldHaveName(actual, expectedName));
   }
@@ -70,6 +70,6 @@ class Files_assertHasName_Test extends FilesBaseTest {
   @Test
   void should_pass_if_actual_has_expected_name() {
     File actual = newFile(tempDir.getAbsolutePath() + "/expected.name");
-    files.assertHasName(INFO, actual, expectedName);
+    underTest.assertHasName(INFO, actual, expectedName);
   }
 }

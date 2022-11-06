@@ -31,7 +31,7 @@ class Paths_assertIsDirectory_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsDirectory(info, null));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectory(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -41,7 +41,7 @@ class Paths_assertIsDirectory_Test extends PathsBaseTest {
     // GIVEN
     Path actual = tempDir.resolve("non-existent");
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsDirectory(info, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectory(INFO, actual));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -51,7 +51,7 @@ class Paths_assertIsDirectory_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createFile(tempDir.resolve("file"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsDirectory(info, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectory(INFO, actual));
     // THEN
     then(error).hasMessage(shouldBeDirectory(actual).create());
   }
@@ -61,7 +61,7 @@ class Paths_assertIsDirectory_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createDirectory(tempDir.resolve("actual"));
     // WHEN/THEN
-    paths.assertIsDirectory(info, actual);
+    underTest.assertIsDirectory(INFO, actual);
   }
 
 }

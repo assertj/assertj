@@ -47,7 +47,7 @@ class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasSameTextualContentAs(info, actual, CHARSET, null, CHARSET));
+    Throwable thrown = catchThrowable(() -> underTest.assertHasSameTextualContentAs(INFO, actual, CHARSET, null, CHARSET));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage("The given Path to compare actual content to should not be null");
@@ -59,7 +59,7 @@ class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("actual"));
     Path expected = tempDir.resolve("non-existent");
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasSameTextualContentAs(info, actual, CHARSET, expected, CHARSET));
+    Throwable thrown = catchThrowable(() -> underTest.assertHasSameTextualContentAs(INFO, actual, CHARSET, expected, CHARSET));
     // THEN
     then(thrown).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("The given Path <%s> to compare actual content to should exist", expected);
@@ -73,7 +73,7 @@ class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
     Path expected = createFile(tempDir.resolve("expected"));
     expected.toFile().setReadable(false);
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasSameTextualContentAs(info, actual, CHARSET, expected, CHARSET));
+    Throwable thrown = catchThrowable(() -> underTest.assertHasSameTextualContentAs(INFO, actual, CHARSET, expected, CHARSET));
     // THEN
     then(thrown).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("The given Path <%s> to compare actual content to should be readable", expected);
@@ -84,7 +84,7 @@ class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
     // GIVEN
     Path expected = createFile(tempDir.resolve("expected"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasSameTextualContentAs(info, null, CHARSET, expected,
+    AssertionError error = expectAssertionError(() -> underTest.assertHasSameTextualContentAs(INFO, null, CHARSET, expected,
                                                                                           CHARSET));
     // THEN
     then(error).hasMessage(actualIsNull());
@@ -96,7 +96,7 @@ class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
     Path actual = tempDir.resolve("non-existent");
     Path expected = createFile(tempDir.resolve("expected"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasSameTextualContentAs(info, actual, CHARSET, expected,
+    AssertionError error = expectAssertionError(() -> underTest.assertHasSameTextualContentAs(INFO, actual, CHARSET, expected,
                                                                                           CHARSET));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
@@ -110,7 +110,7 @@ class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
     actual.toFile().setReadable(false);
     Path expected = createFile(tempDir.resolve("expected"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasSameTextualContentAs(info, actual, CHARSET, expected,
+    AssertionError error = expectAssertionError(() -> underTest.assertHasSameTextualContentAs(INFO, actual, CHARSET, expected,
                                                                                           CHARSET));
     // THEN
     then(error).hasMessage(shouldBeReadable(actual).create());
@@ -130,7 +130,7 @@ class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
     Path actual = Files.write(tempDir.resolve("actual"), content.getBytes(actualCharset));
     Path expected = Files.write(tempDir.resolve("expected"), content.getBytes(expectedCharset));
     // WHEN/THEN
-    paths.assertHasSameTextualContentAs(info, actual, actualCharset, expected, expectedCharset);
+    underTest.assertHasSameTextualContentAs(INFO, actual, actualCharset, expected, expectedCharset);
   }
 
   @ParameterizedTest
@@ -146,10 +146,10 @@ class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
     Path expected = Files.write(tempDir.resolve("expected"), expectedContent.getBytes(expectedCharset));
     List<Delta<String>> diffs = diff.diff(actual, actualCharset, expected, expectedCharset);
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasSameTextualContentAs(info, actual, actualCharset,
+    AssertionError error = expectAssertionError(() -> underTest.assertHasSameTextualContentAs(INFO, actual, actualCharset,
                                                                                           expected, expectedCharset));
     // THEN
-    then(error).hasMessage(shouldHaveSameContent(actual, expected, diffs).create(info.description(), info.representation()));
+    then(error).hasMessage(shouldHaveSameContent(actual, expected, diffs).create(INFO.description(), INFO.representation()));
   }
 
   @Test
@@ -160,7 +160,7 @@ class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
     IOException exception = new IOException("boom!");
     willThrow(exception).given(diff).diff(actual, CHARSET, expected, CHARSET);
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasSameTextualContentAs(info, actual, CHARSET, expected, CHARSET));
+    Throwable thrown = catchThrowable(() -> underTest.assertHasSameTextualContentAs(INFO, actual, CHARSET, expected, CHARSET));
     // THEN
     then(thrown).isInstanceOf(UncheckedIOException.class)
                 .hasCause(exception);

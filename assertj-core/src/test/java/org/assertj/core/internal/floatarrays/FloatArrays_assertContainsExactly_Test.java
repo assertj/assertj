@@ -50,11 +50,12 @@ class FloatArrays_assertContainsExactly_Test extends FloatArraysBaseTest {
   @Test
   void should_fail_if_actual_contains_given_values_exactly_but_in_different_order() {
     AssertionInfo info = someInfo();
+    float[] expected = arrayOf(6f, 10f, 8f);
 
-    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, arrayOf(6f, 10f, 8f)));
+    Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, elementsDifferAtIndex(8f, 10f, 1));
+    verify(failures).failure(info, elementsDifferAtIndex(8f, 10f, 1), asList(actual), asList(expected));
   }
 
   @Test
@@ -88,7 +89,7 @@ class FloatArrays_assertContainsExactly_Test extends FloatArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList(20f), newArrayList(10f)));
+                                                        newArrayList(20f), newArrayList(10f)), asList(actual), asList(expected));
   }
 
   @Test
@@ -100,7 +101,7 @@ class FloatArrays_assertContainsExactly_Test extends FloatArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList(10f), newArrayList()));
+                                                        newArrayList(10f), newArrayList()), asList(actual), asList(expected));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -120,7 +121,7 @@ class FloatArrays_assertContainsExactly_Test extends FloatArraysBaseTest {
     Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, elementsDifferAtIndex(8f, 10f, 1, absValueComparisonStrategy));
+    verify(failures).failure(info, elementsDifferAtIndex(8f, 10f, 1, absValueComparisonStrategy), asList(actual), asList(expected));
   }
 
   @Test
@@ -152,7 +153,7 @@ class FloatArrays_assertContainsExactly_Test extends FloatArraysBaseTest {
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
                                                         newArrayList(20f), newArrayList(10f),
-                                                        absValueComparisonStrategy));
+                                                        absValueComparisonStrategy), asList(actual), asList(expected));
   }
 
   @Test
@@ -165,6 +166,6 @@ class FloatArrays_assertContainsExactly_Test extends FloatArraysBaseTest {
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
                                                         newArrayList(10f), newArrayList(),
-                                                        absValueComparisonStrategy));
+                                                        absValueComparisonStrategy), asList(actual), asList(expected));
   }
 }

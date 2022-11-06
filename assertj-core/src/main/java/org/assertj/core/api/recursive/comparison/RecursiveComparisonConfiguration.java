@@ -22,7 +22,6 @@ import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -37,7 +36,6 @@ import java.util.stream.Stream;
 
 import org.assertj.core.api.RecursiveComparisonAssert;
 import org.assertj.core.api.recursive.AbstractRecursiveOperationConfiguration;
-import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.internal.TypeMessages;
 import org.assertj.core.presentation.Representation;
@@ -47,6 +45,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   private static final boolean DEFAULT_IGNORE_ALL_OVERRIDDEN_EQUALS = true;
   public static final String INDENT_LEVEL_2 = "  -";
+  public static final DefaultRecursiveComparisonIntrospectionStrategy DEFAULT_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY = new DefaultRecursiveComparisonIntrospectionStrategy();
   private boolean strictTypeChecking = false;
 
   // fields to ignore section
@@ -81,7 +80,9 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   // track field locations of fields of type to compare, needed to compare child nodes
   // for example if we want to compare Person type, we must compare Person fields too event thought they are not of type Person
-  private Set<FieldLocation> fieldLocationOfFieldsOfTypesToCompare = new LinkedHashSet<>();
+  private final Set<FieldLocation> fieldLocationOfFieldsOfTypesToCompare = new LinkedHashSet<>();
+
+  private RecursiveComparisonIntrospectionStrategy introspectionStrategy = DEFAULT_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY;
 
   private RecursiveComparisonConfiguration(Builder builder) {
     super(builder);
@@ -102,6 +103,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     this.fieldComparators = builder.fieldComparators;
     this.fieldMessages = builder.fieldMessages;
     this.typeMessages = builder.typeMessages;
+    this.introspectionStrategy = builder.introspectionStrategy;
   }
 
   public RecursiveComparisonConfiguration() {
@@ -551,6 +553,21 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return fieldComparators.comparatorByFields();
   }
 
+  RecursiveComparisonIntrospectionStrategy getIntrospectionStrategy() {
+    return introspectionStrategy;
+  }
+
+  /**
+   * Defines how objects are introspected in the recursive comparison.
+   * <p>
+   * Default to {@link DefaultRecursiveComparisonIntrospectionStrategy}.
+   *
+   * @param introspectionStrategy the {@link RecursiveComparisonIntrospectionStrategy} to use
+   */
+  public void setIntrospectionStrategy(RecursiveComparisonIntrospectionStrategy introspectionStrategy) {
+    this.introspectionStrategy = introspectionStrategy;
+  }
+
   @Override
   public String toString() {
     return multiLineDescription(CONFIGURATION_PROVIDER.representation());
@@ -617,6 +634,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     describeTypeCheckingStrictness(description);
     describeRegisteredErrorMessagesForFields(description);
     describeRegisteredErrorMessagesForTypes(description);
+    describeIntrospectionStrategy(description);
     return description.toString();
   }
 
@@ -643,23 +661,31 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
                             || field.hasChild(comparedField); // ex: field "name" and "name.first" compared field
   }
 
-  Set<String> getActualFieldNamesToCompare(DualValue dualValue) {
-    Set<String> actualFieldsNames = Objects.getFieldsNames(dualValue.actual.getClass());
+  Set<String> getActualChildrenNodeNamesToCompare(DualValue dualValue) {
+    Set<String> actualChildrenNodeNames = getChildrenNodeNamesOf(dualValue.actual);
     // we are doing the same as shouldIgnore(DualValue dualValue) but in two steps for performance reasons:
-    // - we filter first ignored field by names that don't need building DualValues
-    // - then we filter field DualValues with the remaining criteria that need to get the field value
-    // DualValues are built introspecting fields which is expensive.
-    return actualFieldsNames.stream()
-                            // evaluate field name ignoring criteria
-                            .filter(fieldName -> !shouldIgnoreFieldBasedOnFieldLocation(dualValue.fieldLocation.field(fieldName)))
-                            .map(fieldName -> dualValueForField(dualValue, fieldName))
-                            // evaluate field value ignoring criteria
-                            .filter(fieldDualValue -> !shouldIgnoreFieldBasedOnFieldValue(fieldDualValue))
-                            .filter(this::shouldBeCompared)
-                            // back to field name
-                            .map(DualValue::getFieldName)
-                            .filter(fieldName -> !fieldName.isEmpty())
-                            .collect(toSet());
+    // - we filter first ignored nodes by names that don't need building DualValues
+    // - then we filter field DualValues with the remaining criteria that need to get the node value
+    // DualValues are built by introspecting node values which is expensive.
+    return actualChildrenNodeNames.stream()
+                                  // evaluate field name ignoring criteria on dualValue field location + field name
+                                  .filter(fieldName -> !shouldIgnoreFieldBasedOnFieldLocation(dualValue.fieldLocation.field(fieldName)))
+                                  .map(fieldName -> dualValueForField(dualValue, fieldName))
+                                  // evaluate field value ignoring criteria
+                                  .filter(fieldDualValue -> !shouldIgnoreFieldBasedOnFieldValue(fieldDualValue))
+                                  .filter(this::shouldBeCompared)
+                                  // back to field name
+                                  .map(DualValue::getFieldName)
+                                  .filter(fieldName -> !fieldName.isEmpty())
+                                  .collect(toSet());
+  }
+
+  Set<String> getChildrenNodeNamesOf(Object instance) {
+    return introspectionStrategy.getChildrenNodeNamesOf(instance);
+  }
+
+  Object getValue(String name, Object instance) {
+    return introspectionStrategy.getChildNodeValue(name, instance);
   }
 
   // non accessible stuff
@@ -674,12 +700,12 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return matchesAnIgnoredField(fieldLocation) || matchesAnIgnoredFieldRegex(fieldLocation);
   }
 
-  private static DualValue dualValueForField(DualValue parentDualValue, String fieldName) {
-    Object actualFieldValue = COMPARISON.getSimpleValue(fieldName, parentDualValue.actual);
+  private DualValue dualValueForField(DualValue parentDualValue, String fieldName) {
+    Object actualFieldValue = getValue(fieldName, parentDualValue.actual);
     // no guarantees we have a field in expected named as fieldName
     Object expectedFieldValue;
     try {
-      expectedFieldValue = COMPARISON.getSimpleValue(fieldName, parentDualValue.expected);
+      expectedFieldValue = getValue(fieldName, parentDualValue.expected);
     } catch (@SuppressWarnings("unused") Exception e) {
       // set the field to null to express it is absent, this not 100% accurate as the value could be null,
       // but it works to evaluate if dualValue should be ignored with matchesAnIgnoredFieldType
@@ -740,8 +766,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   protected void describeIgnoreAllActualEmptyOptionalFields(StringBuilder description) {
     if (ignoreAllActualEmptyOptionalFields)
-      description.append(format(
-        "- all actual empty optional fields were ignored in the comparison (including Optional, OptionalInt, OptionalLong and OptionalDouble)%n"));
+      description.append(format("- all actual empty optional fields were ignored in the comparison (including Optional, OptionalInt, OptionalLong and OptionalDouble)%n"));
   }
 
   private void describeIgnoreAllExpectedNullFields(StringBuilder description) {
@@ -750,8 +775,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   private void describeOverriddenEqualsMethodsUsage(StringBuilder description, Representation representation) {
     String header = ignoreAllOverriddenEquals
-      ? "- no overridden equals methods were used in the comparison (except for java types)"
-      : "- overridden equals methods were used in the comparison";
+        ? "- no overridden equals methods were used in the comparison (except for java types)"
+        : "- overridden equals methods were used in the comparison";
     description.append(header);
     if (isConfiguredToIgnoreSomeButNotAllOverriddenEqualsMethods()) {
       description.append(format(" except for:%n"));
@@ -796,9 +821,12 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   private void describeIgnoredCollectionOrderInFieldsMatchingRegexes(StringBuilder description) {
     if (!ignoredCollectionOrderInFieldsMatchingRegexes.isEmpty())
-      description.append(
-        format("- collection order was ignored in the fields matching the following regexes in the comparison: %s%n",
-               describeRegexes(ignoredCollectionOrderInFieldsMatchingRegexes)));
+      description.append(format("- collection order was ignored in the fields matching the following regexes in the comparison: %s%n",
+                                describeRegexes(ignoredCollectionOrderInFieldsMatchingRegexes)));
+  }
+
+  private void describeIntrospectionStrategy(StringBuilder description) {
+    description.append(format("- the introspection strategy used was: %s%n", introspectionStrategy.getDescription()));
   }
 
   private boolean matchesAnIgnoredOverriddenEqualsRegex(FieldLocation fieldLocation) {
@@ -840,7 +868,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   private boolean shouldBeComparedBasedOnFieldValue(DualValue dualValue) {
     // first check if the value has a parent of a type we need to compare, ex: we compare Person types and the value is
     // corresponds to one of the Person fields. If this is not the case, we check actual type against the types
-    // to compare, we use expected type in case actual was null as a best effort assuming expected has the same type as actual
+    // to compare, we use expected type in case actual was null assuming expected has the same type as actual
     if (fieldLocationOfFieldsOfTypesToCompare.stream().anyMatch(dualValue.fieldLocation::hasParent)
         || (dualValue.actual != null && comparedTypes.contains(dualValue.actual.getClass()))
         || (dualValue.expected != null && comparedTypes.contains(dualValue.expected.getClass()))) {
@@ -940,8 +968,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   private void describeTypeCheckingStrictness(StringBuilder description) {
     String str = strictTypeChecking
-      ? "- actual and expected objects and their fields were considered different when of incompatible types (i.e. expected type does not extend actual's type) even if all their fields match, for example a Person instance will never match a PersonDto (call strictTypeChecking(false) to change that behavior).%n"
-      : "- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).%n";
+        ? "- actual and expected objects and their fields were considered different when of incompatible types (i.e. expected type does not extend actual's type) even if all their fields match, for example a Person instance will never match a PersonDto (call strictTypeChecking(false) to change that behavior).%n"
+        : "- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).%n";
     description.append(format(str));
   }
 
@@ -984,7 +1012,6 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return new Builder();
   }
 
-
   /**
    * Builder to build {@link RecursiveComparisonConfiguration}.
    */
@@ -1006,6 +1033,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     private final FieldComparators fieldComparators = new FieldComparators();
     private final FieldMessages fieldMessages = new FieldMessages();
     private final TypeMessages typeMessages = new TypeMessages();
+
+    private RecursiveComparisonIntrospectionStrategy introspectionStrategy = DEFAULT_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY;
 
     private Builder() {
       super(Builder.class);
@@ -1357,6 +1386,19 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     @Override
     public Builder withIgnoredFieldsOfTypes(Class<?>... types) {
       return super.withIgnoredFieldsOfTypes(types);
+    }
+
+    /**
+     * Defines how objects are introspected in the recursive comparison.
+     * <p>
+     * Default to {@link DefaultRecursiveComparisonIntrospectionStrategy}.
+     *
+     * @param introspectionStrategy the {@link RecursiveComparisonIntrospectionStrategy} to use
+     * @return This builder.
+     */
+    public RecursiveComparisonConfiguration.Builder withIntrospectionStrategy(RecursiveComparisonIntrospectionStrategy introspectionStrategy) {
+      this.introspectionStrategy = introspectionStrategy;
+      return this;
     }
 
     public RecursiveComparisonConfiguration build() {

@@ -28,7 +28,7 @@ class Paths_assertIsRelative_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsRelative(info, null));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsRelative(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -38,7 +38,7 @@ class Paths_assertIsRelative_Test extends PathsBaseTest {
     // GIVEN
     Path actual = tempDir.getRoot().resolve("absolute");
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsRelative(info, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsRelative(INFO, actual));
     // THEN
     then(error).hasMessage(shouldBeRelativePath(actual).create());
   }
@@ -48,7 +48,7 @@ class Paths_assertIsRelative_Test extends PathsBaseTest {
     // GIVEN
     Path actual = Paths.get("relative");
     // WHEN/THEN
-    paths.assertIsRelative(info, actual);
+    underTest.assertIsRelative(INFO, actual);
   }
 
 }
