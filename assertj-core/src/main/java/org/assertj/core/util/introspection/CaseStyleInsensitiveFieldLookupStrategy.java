@@ -9,7 +9,10 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
-class NormalizedFieldFindStrategy implements FieldFindStrategy {
+/**
+ * Looks up fields by comparing their name previously converted into a common case style.
+ */
+class CaseStyleInsensitiveFieldLookupStrategy implements FieldLookupStrategy {
 
   @Override
   public Field findByName(Class<?> acls, String fieldName) throws NoSuchFieldException {

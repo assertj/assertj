@@ -38,12 +38,12 @@ class FieldUtils {
    * @param fieldName the field name to obtain
    * @param forceAccess whether to break scope restrictions using the <code>setAccessible</code> method.
    *          <code>False</code> will only match public fields.
-   * @param fieldFindStrategy
+   * @param fieldLookupStrategy
    * @return the Field object
    * @throws IllegalArgumentException if the class or field name is null
    * @throws IllegalAccessException if field exists but is not public
    */
-  static Field getField(final Class<?> cls, String fieldName, boolean forceAccess, FieldFindStrategy fieldFindStrategy) throws IllegalAccessException {
+  static Field getField(final Class<?> cls, String fieldName, boolean forceAccess, FieldLookupStrategy fieldLookupStrategy) throws IllegalAccessException {
     checkArgument(cls != null, "The class must not be null");
     checkArgument(fieldName != null, "The field name must not be null");
     // Sun Java 1.3 has a bugged implementation of getField hence we write the
@@ -62,7 +62,7 @@ class FieldUtils {
     // check up the superclass hierarchy
     for (Class<?> acls = cls; acls != null; acls = acls.getSuperclass()) {
       try {
-        Field field = fieldFindStrategy.findByName(acls, fieldName);
+        Field field = fieldLookupStrategy.findByName(acls, fieldName);
         if (!Modifier.isPublic(field.getModifiers())) {
           if (forceAccess) {
             field.setAccessible(true);
@@ -134,15 +134,15 @@ class FieldUtils {
    * @param fieldName the field name to obtain
    * @param forceAccess whether to break scope restrictions using the <code>setAccessible</code> method.
    *          <code>False</code> will only match public fields.
-   * @param fieldFindStrategy
+   * @param fieldLookupStrategy
    * @return the field value
    * @throws IllegalArgumentException if the class or field name is null or the field can not be found.
    * @throws IllegalAccessException if the named field is not made accessible
    */
-  static Object readField(Object target, String fieldName, boolean forceAccess, FieldFindStrategy fieldFindStrategy) throws IllegalAccessException {
+  static Object readField(Object target, String fieldName, boolean forceAccess, FieldLookupStrategy fieldLookupStrategy) throws IllegalAccessException {
     checkArgument(target != null, "target object must not be null");
     Class<?> cls = target.getClass();
-    Field field = getField(cls, fieldName, forceAccess, fieldFindStrategy);
+    Field field = getField(cls, fieldName, forceAccess, fieldLookupStrategy);
     checkArgument(field != null, "Cannot locate field %s on %s", fieldName, cls);
     checkArgument(!isStatic(field.getModifiers()), "Reading static field is not supported and field %s is static on %s",
                   fieldName, cls);

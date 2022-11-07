@@ -37,7 +37,7 @@ import org.assertj.core.util.VisibleForTesting;
 public enum FieldSupport {
 
   EXTRACTION(true), EXTRACTION_OF_PUBLIC_FIELD_ONLY(false), COMPARISON(true),
-  COMPARISON_NORMALIZED(true, new NormalizedFieldFindStrategy());
+  COMPARISON_NORMALIZED(true, new CaseStyleInsensitiveFieldLookupStrategy());
 
   private static final String CHAR = "char";
   private static final String BOOLEAN = "boolean";
@@ -52,7 +52,7 @@ public enum FieldSupport {
 
   private boolean allowUsingPrivateFields;
   
-  private final FieldFindStrategy fieldFindStrategy;
+  private final FieldLookupStrategy fieldLookupStrategy;
 
   /**
    * Returns the instance dedicated to extraction of fields.
@@ -78,12 +78,12 @@ public enum FieldSupport {
    * @param allowUsingPrivateFields whether to read private fields or not.
    */
   FieldSupport(boolean allowUsingPrivateFields) {
-    this(allowUsingPrivateFields, new SimpleFieldFindStrategy());
+    this(allowUsingPrivateFields, new SimpleFieldLookupStrategy());
   }
 
-  FieldSupport(boolean allowUsingPrivateFields, FieldFindStrategy fieldFindStrategy) {
+  FieldSupport(boolean allowUsingPrivateFields, FieldLookupStrategy fieldLookupStrategy) {
     this.allowUsingPrivateFields = allowUsingPrivateFields;
-    this.fieldFindStrategy = fieldFindStrategy;
+    this.fieldLookupStrategy = fieldLookupStrategy;
   }
 
   @VisibleForTesting
@@ -213,7 +213,7 @@ public enum FieldSupport {
   @SuppressWarnings("unchecked")
   private <T> T readSimpleField(String fieldName, Class<T> clazz, Object target) {
     try {
-      Object fieldValue = readField(target, fieldName, allowUsingPrivateFields, fieldFindStrategy);
+      Object fieldValue = readField(target, fieldName, allowUsingPrivateFields, fieldLookupStrategy);
       if (clazz.isPrimitive()) {
         switch (clazz.getSimpleName()) {
         case BYTE:
