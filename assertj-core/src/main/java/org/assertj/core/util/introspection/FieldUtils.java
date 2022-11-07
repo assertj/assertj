@@ -43,7 +43,8 @@ class FieldUtils {
    * @throws IllegalArgumentException if the class or field name is null
    * @throws IllegalAccessException if field exists but is not public
    */
-  static Field getField(final Class<?> cls, String fieldName, boolean forceAccess, FieldLookupStrategy fieldLookupStrategy) throws IllegalAccessException {
+  static Field getField(final Class<?> cls, String fieldName, boolean forceAccess,
+                        FieldLookupStrategy fieldLookupStrategy) throws IllegalAccessException {
     checkArgument(cls != null, "The class must not be null");
     checkArgument(fieldName != null, "The field name must not be null");
     // Sun Java 1.3 has a bugged implementation of getField hence we write the
@@ -139,11 +140,13 @@ class FieldUtils {
    * @throws IllegalArgumentException if the class or field name is null or the field can not be found.
    * @throws IllegalAccessException if the named field is not made accessible
    */
-  static Object readField(Object target, String fieldName, boolean forceAccess, FieldLookupStrategy fieldLookupStrategy) throws IllegalAccessException {
+  static Object readField(Object target, String fieldName, boolean forceAccess,
+                          FieldLookupStrategy fieldLookupStrategy) throws IllegalAccessException {
     checkArgument(target != null, "target object must not be null");
     Class<?> cls = target.getClass();
     Field field = getField(cls, fieldName, forceAccess, fieldLookupStrategy);
-    checkArgument(field != null, "Cannot locate field %s on %s", fieldName, cls);
+    checkArgument(field != null, "Cannot locate field %s on %s - the lookup strategy used was: %s",
+                  fieldName, cls, fieldLookupStrategy.getDescription());
     checkArgument(!isStatic(field.getModifiers()), "Reading static field is not supported and field %s is static on %s",
                   fieldName, cls);
     checkArgument(!field.isSynthetic(), "Reading synthetic field is not supported and field %s is", fieldName);

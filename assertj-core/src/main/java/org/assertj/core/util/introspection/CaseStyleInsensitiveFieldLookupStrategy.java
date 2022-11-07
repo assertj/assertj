@@ -27,4 +27,9 @@ class CaseStyleInsensitiveFieldLookupStrategy implements FieldLookupStrategy {
                   fieldName, acls, matchingFields.stream().map(Field::getName).collect(joining(", ")));
     return matchingFields.get(0);
   }
+
+  @Override
+  public String getDescription() {
+    return "field match even when defined with names in different case styles";
+  }
 }
