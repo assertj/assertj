@@ -15,8 +15,7 @@ class CaseFormatUtils {
 
   private static final String WORD_SEPARATOR_REGEX = "[ _-]";
 
-  private CaseFormatUtils() {
-  }
+  private CaseFormatUtils() {}
 
   /**
    * Converts an input string into camelCase.
@@ -32,23 +31,23 @@ class CaseFormatUtils {
   static String toCamelCase(String s) {
     List<String> words = extractWords(requireNonNull(s));
     return IntStream.range(0, words.size())
-            .mapToObj(i -> adjustWordCase(words.get(i), i > 0))
-            .collect(joining());
+                    .mapToObj(i -> adjustWordCase(words.get(i), i > 0))
+                    .collect(joining());
   }
 
   private static List<String> extractWords(String s) {
     String[] chunks = s.split(WORD_SEPARATOR_REGEX);
     return Arrays.stream(chunks)
-            .map(String::trim)
-            .filter(w -> !w.isEmpty())
-            .collect(toList());
+                 .map(String::trim)
+                 .filter(w -> !w.isEmpty())
+                 .collect(toList());
   }
 
   private static String adjustWordCase(String s, boolean firstLetterUpperCased) {
     String firstLetter = s.substring(0, 1);
     String trailingLetters = s.substring(1);
     return (firstLetterUpperCased ? firstLetter.toUpperCase() : firstLetter.toLowerCase()) +
-            (isAllCaps(s) ? trailingLetters.toLowerCase() : trailingLetters);
+           (isAllCaps(s) ? trailingLetters.toLowerCase() : trailingLetters);
   }
 
   private static boolean isAllCaps(String s) {
