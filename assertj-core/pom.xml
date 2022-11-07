@@ -112,6 +112,7 @@
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>31.1-jre</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>jakarta.ws.rs</groupId>

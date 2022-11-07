@@ -2,17 +2,12 @@ package org.assertj.core.util.introspection;
 
 import static java.lang.Character.isUpperCase;
 
-import com.google.common.base.CaseFormat;
-
 public class NormalizeStrategy {
   private NormalizeStrategy() {
   }
 
   public static String normalize(String name) {
-    if (name.startsWith("_")) {
-      return normalize(name.substring(1));  // avoid _last_name -> LastName
-    }
-    String camelCaseName = name.contains("_") ? CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name) : name;
+    String camelCaseName = CaseFormatUtils.toCamelCase(name);
     return normalizeAcronyms(camelCaseName);
   }
 
