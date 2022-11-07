@@ -17,7 +17,7 @@ class NormalizedFieldFindStrategy implements FieldFindStrategy {
                                        .filter(field -> normalize(field.getName()).equals(fieldName))
                                        .collect(Collectors.toList());
     if (matchingFields.isEmpty()) {
-      throw new NoSuchFieldException();
+      throw new NoSuchFieldException(fieldName);
     }
     checkArgument(matchingFields.size() == 1, "Reference to field %s"
                                               + " is ambiguous relative to %s; possible candidates are: %s",
