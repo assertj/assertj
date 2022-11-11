@@ -45,6 +45,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Jean-Christophe Gay
  * @author Valeriy Vyrva
  * @author Nikolaos Georgiou
+ * @author Rostyslav Ivankiv
  */
 public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> extends AbstractAssert<SELF, File> {
 
@@ -237,6 +238,31 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    */
   public SELF isReadable() {
     return canRead();
+  }
+
+  /**
+   * Verifies that the actual {@code File} can be executed.
+   *
+   * <p>
+   * Example:
+   * <pre><code class='java'> File tmpFile = java.nio.file.Files.createTempFile(&quot;executable_file&quot;, &quot;.sh&quot;).toFile();
+   *
+   * tmpFile.setExecutable(true);
+   * // assertions will pass
+   * assertThat(tmpFile).isExecutable();
+   *
+   * tmpFile.setExecutable(false);
+   * // assertions will fail
+   * assertThat(tmpFile).isExecutable();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} can not be executed.
+   * @since 3.24.0
+   */
+  public SELF isExecutable() {
+    files.assertIsExecutable(info, actual);
+    return myself;
   }
 
   /**
@@ -595,7 +621,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   }
 
   /**
-   * Verifies that the actual {@code File} can be modified by the application (alias of {@link #canWrite()}.
+   * Verifies that the actual {@code File} can be modified by the application (alias of {@link #canWrite()}).
    * <p>
    * Example:
    * <pre><code class='java'> File tmpFile = File.createTempFile(&quot;tmp&quot;, &quot;txt&quot;);
@@ -710,7 +736,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * // assertion will fail
    * assertThat(xFile).hasExtension(&quot;png&quot;);</code></pre>
    *
-   * @param expected the expected extension, it does not contains the {@code '.'}
+   * @param expected the expected extension, it does not contain the {@code '.'}
    * @return {@code this} assertion object.
    * @throws NullPointerException if the expected extension is {@code null}.
    * @throws AssertionError if the actual {@code File} is {@code null}.
@@ -832,7 +858,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws NullPointerException if the given digest is {@code null}.
    * @throws AssertionError       if the actual {@code File} is {@code null}.
    * @throws AssertionError       if the actual {@code File} does not exist.
-   * @throws AssertionError       if the actual {@code File} is not an file.
+   * @throws AssertionError       if the actual {@code File} is not a file.
    * @throws AssertionError       if the actual {@code File} is not readable.
    * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError       if the content of the tested {@code File}'s digest is not equal to the given one.
@@ -867,7 +893,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws NullPointerException if the given digest is {@code null}.
    * @throws AssertionError       if the actual {@code File} is {@code null}.
    * @throws AssertionError       if the actual {@code File} does not exist.
-   * @throws AssertionError       if the actual {@code File} is not an file.
+   * @throws AssertionError       if the actual {@code File} is not a file.
    * @throws AssertionError       if the actual {@code File} is not readable.
    * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError       if the content of the tested {@code File}'s digest is not equal to the given one.
@@ -902,7 +928,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws NullPointerException if the given digest is {@code null}.
    * @throws AssertionError       if the actual {@code File} is {@code null}.
    * @throws AssertionError       if the actual {@code File} does not exist.
-   * @throws AssertionError       if the actual {@code File} is not an file.
+   * @throws AssertionError       if the actual {@code File} is not a file.
    * @throws AssertionError       if the actual {@code File} is not readable.
    * @throws UncheckedIOException if any I/O error occurs.
    * @throws AssertionError       if the content of the tested {@code File}'s digest is not equal to the given one.
@@ -937,7 +963,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws NullPointerException if the given digest is {@code null}.
    * @throws AssertionError       if the actual {@code File} is {@code null}.
    * @throws AssertionError       if the actual {@code File} does not exist.
-   * @throws AssertionError       if the actual {@code File} is not an file.
+   * @throws AssertionError       if the actual {@code File} is not a file.
    * @throws AssertionError       if the actual {@code File} is not readable.
    * @throws UncheckedIOException if any I/O error occurs.
    * @throws AssertionError       if the content of the tested {@code File}'s digest is not equal to the given one.
@@ -1036,7 +1062,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * Verify that the actual {@code File} directory or any of its subdirectories (recursively) contains at least one file
    * matching the given {@code String} interpreted as a path matcher (as per {@link FileSystem#getPathMatcher(String)}).
    * <p>
-   * That methods performs the same assertion as {@link #isDirectoryContaining(String syntaxAndPattern)}  but recursively.
+   * That methods perform the same assertion as {@link #isDirectoryContaining(String syntaxAndPattern)}  but recursively.
    * <p>
    * Note that the actual {@link File} must exist and be a directory.
    * <p>
@@ -1081,7 +1107,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * Verify that the actual {@code File} directory or any of its subdirectories (recursively) contains at least one file
    * matching the given {@code Predicate<File>}.
    * <p>
-   * That methods performs the same assertion as {@link #isDirectoryContaining(Predicate filter)}  but recursively.
+   * That methods perform the same assertion as {@link #isDirectoryContaining(Predicate filter)}  but recursively.
    * <p>
    * Note that the actual {@link File} must exist and be a directory.
    * <p>
@@ -1242,7 +1268,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   }
 
   /**
-   * Verify that the actual {@code File} is a non empty directory.
+   * Verify that the actual {@code File} is a non-empty directory.
    * <p>
    * Note that the actual {@link File} must exist and be a directory.
    * <p>
@@ -1443,7 +1469,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
     return new FileSizeAssert(this);
   }
 
-  // this method was introduced to avoid to avoid double proxying in soft assertions for content()
+  // this method was introduced to avoid double proxying in soft assertions for content()
   private AbstractStringAssert<?> internalContent(Charset charset) {
     files.assertCanRead(info, actual);
     String fileContent = readFile(charset);
