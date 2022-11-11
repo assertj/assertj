@@ -241,7 +241,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   }
 
   /**
-   * Verifies that the actual {@code File} can be executed by the application (alias of {@link #canExecute()})
+   * Verifies that the actual {@code File} can be executed by the application
    *
    * <p>
    * Example:
@@ -258,11 +258,10 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} can not be executed by the application.
-   *
-   * @see #canExecute()
    */
   public SELF isExecutable() {
-    return canExecute();
+    files.assertIsExecutable(info, actual);
+    return myself;
   }
 
   /**
@@ -672,29 +671,6 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    */
   public SELF canRead() {
     files.assertCanRead(info, actual);
-    return myself;
-  }
-
-  /**
-   * Verifies that the actual {@code File} can be executed by the application.
-   * <p>
-   * Example:
-   * <pre><code class='java'> File tmpFile = java.nio.file.Files.createTempFile(&quot;executable_file&quot;, &quot;.sh&quot;).toFile();
-   *
-   * tmpFile.setExecutable(true);
-   * // assertions will pass
-   * assertThat(tmpFile).canExecute();
-   *
-   * tmpFile.setExecutable(false);
-   * // assertions will fail
-   * assertThat(tmpFile).canExecute();</code></pre>
-   *
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual {@code File} is {@code null}.
-   * @throws AssertionError if the actual {@code File} can not be executed by the application.
-   */
-  public SELF canExecute() {
-    files.assertCanExecute(info, actual);
     return myself;
   }
 

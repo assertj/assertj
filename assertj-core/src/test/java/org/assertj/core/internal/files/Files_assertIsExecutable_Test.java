@@ -26,18 +26,18 @@ import org.assertj.core.internal.FilesBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Files#assertCanExecute(AssertionInfo, File)}</code>.
+ * Tests for <code>{@link Files#assertIsExecutable(AssertionInfo, File)}</code>.
  *
  * @author Rostyslav Ivankiv
  */
-class Files_assertCanExecute_Test extends FilesBaseTest {
+class Files_assertIsExecutable_Test extends FilesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertCanExecute(INFO, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsExecutable(INFO, actual));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -47,7 +47,7 @@ class Files_assertCanExecute_Test extends FilesBaseTest {
     // GIVEN
     File nonExistentFile = new File("xyz");
     // WHEN
-    expectAssertionError(() -> underTest.assertCanExecute(INFO, nonExistentFile));
+    expectAssertionError(() -> underTest.assertIsExecutable(INFO, nonExistentFile));
     // THEN
     verify(failures).failure(INFO, shouldBeExecutable(nonExistentFile));
   }
@@ -55,7 +55,7 @@ class Files_assertCanExecute_Test extends FilesBaseTest {
   @Test
   void should_pass_if_actual_can_execute() {
     File actual = new File("src/test/resources/executable_file.sh");
-    underTest.assertCanExecute(INFO, actual);
+    underTest.assertIsExecutable(INFO, actual);
   }
 
 }

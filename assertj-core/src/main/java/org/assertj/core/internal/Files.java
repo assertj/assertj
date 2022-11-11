@@ -368,7 +368,7 @@ public class Files {
    * @throws AssertionError if the given file is {@code null}.
    * @throws AssertionError if the given file can not be executed.
    */
-  public void assertCanExecute(AssertionInfo info, File actual) {
+  public void assertIsExecutable(AssertionInfo info, File actual) {
     assertNotNull(info, actual);
     if (actual.canExecute()) return;
     throw failures.failure(info, shouldBeExecutable(actual));

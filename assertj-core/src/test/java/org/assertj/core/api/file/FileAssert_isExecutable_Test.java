@@ -26,7 +26,7 @@ class FileAssert_isExecutable_Test extends FileAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(files).assertCanExecute(getInfo(assertions), getActual(assertions));
+    verify(files).assertIsExecutable(getInfo(assertions), getActual(assertions));
   }
 
 }
