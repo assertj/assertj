@@ -73,7 +73,6 @@ class MapAssert_isUnmodifiable_Test {
                      arguments(new LinkedHashMap<>(), shouldBeUnmodifiable("Map.clear()")));
   }
 
-  // https://issues.apache.org/jira/browse/COLLECTIONS-xxx FIXME
   @Test
   void should_fail_with_commons_collections_UnmodifiableMap() {
     // GIVEN
@@ -84,7 +83,6 @@ class MapAssert_isUnmodifiable_Test {
     then(assertionError).hasMessage(shouldBeUnmodifiable("Map.compute(null, (k, v) -> v)").create());
   }
 
-  // https://issues.apache.org/jira/browse/COLLECTIONS-xxx FIXME
   @Test
   void should_fail_with_commons_collections_UnmodifiableSortedMap() {
     // GIVEN
