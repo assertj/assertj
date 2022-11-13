@@ -1843,7 +1843,7 @@ public class BDDAssertions extends Assertions {
    * <p>
    * This caught {@link Throwable} can then be asserted.
    * <p>
-   * If you need to assert on the real type of Throwable caught (e.g. IOException), use {@link #catchThrowableOfType(ThrowingCallable, Class)}.
+   * If you need to assert on the real type of Throwable caught (e.g. IOException), use {@link #catchThrowableOfType(Class, ThrowingCallable)}.
    * <p>
    * Example:
    * <pre><code class='java'>{@literal @}Test
@@ -1858,7 +1858,7 @@ public class BDDAssertions extends Assertions {
    *
    * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowableOfType(ThrowingCallable, Class)
+   * @see #catchThrowableOfType(Class, ThrowingCallable)
    *
    * @since 3.20.0
    */
@@ -1867,6 +1867,7 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * @deprecated use {@link #catchThrowableOfType(Class, ThrowingCallable)} instead.
    * Allows catching a {@link Throwable} of a specific type.
    * <p>
    * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null
@@ -1905,9 +1906,55 @@ public class BDDAssertions extends Assertions {
    *
    * @since 3.20.0
    */
+
+  @Deprecated
   public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(ThrowingCallable shouldRaiseThrowable,
                                                                              Class<THROWABLE> type) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, type);
+    return AssertionsForClassTypes.catchThrowableOfType(type, shouldRaiseThrowable);
+  }
+
+  /**
+   * Allows catching a {@link Throwable} of a specific type.
+   * <p>
+   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null
+   * otherwise it checks that the caught {@link Throwable} has the specified type and casts it making it convenient to perform subtype-specific assertions on it.
+   * <p>
+   * Example:
+   * <pre><code class='java'> class TextException extends Exception {
+   *   int line;
+   *   int column;
+   *
+   *   public TextException(String msg, int line, int column) {
+   *     super(msg);
+   *     this.line = line;
+   *     this.column = column;
+   *   }
+   * }
+   *
+   * TextException textException = catchThrowableOfType(TextException.class() ,
+   *                                                    -&gt; { throw new TextException("boom!", 1, 5); });
+   * // assertions succeed
+   * assertThat(textException).hasMessage("boom!");
+   * assertThat(textException.line).isEqualTo(1);
+   * assertThat(textException.column).isEqualTo(5);
+   *
+   * // succeeds as catchThrowableOfType returns null when the code does not thrown any exceptions
+   * assertThat(catchThrowableOfType(Exception.class, () -&gt; {})).isNull();
+   *
+   * // fails as TextException is not a RuntimeException
+   * catchThrowableOfType(() -&gt; { throw new TextException("boom!", 1, 5); }, RuntimeException.class);</code></pre>
+   *
+   * @param <THROWABLE> the {@link Throwable} type.
+   * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
+   * @param type The type of exception that the code is expected to raise.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @see #catchThrowable(ThrowingCallable)
+   *
+   * @since 3.23.11
+   */
+  public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(Class<THROWABLE> type,
+                                                                             ThrowingCallable shouldRaiseThrowable) {
+    return AssertionsForClassTypes.catchThrowableOfType(type, shouldRaiseThrowable);
   }
 
   /**
