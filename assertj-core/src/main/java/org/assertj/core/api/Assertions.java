@@ -1371,7 +1371,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowableOfType(ThrowingCallable, Class)
+   * @see #catchThrowableOfType(Class, ThrowingCallable)
    */
   public static Throwable catchThrowable(ThrowingCallable shouldRaiseThrowable) {
     return AssertionsForClassTypes.catchThrowable(shouldRaiseThrowable);
@@ -1379,6 +1379,7 @@ public class Assertions implements InstanceOfAssertFactories {
 
   /**
    * @deprecated use {@link #catchThrowableOfType(Class, ThrowingCallable)} instead.
+   * <p>
    * Allows catching a {@link Throwable} of a specific type.
    * <p>
    * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null

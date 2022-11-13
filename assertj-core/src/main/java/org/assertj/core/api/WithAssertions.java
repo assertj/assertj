@@ -2842,6 +2842,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
 
   /**
    * @deprecated use {@link #catchThrowableOfType(Class, ThrowingCallable)} instead.
+   * <p>
    * Allows catching a {@link Throwable} of a specific type.
    * <p>
    * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown {@code catchThrowableOfType} returns null,
