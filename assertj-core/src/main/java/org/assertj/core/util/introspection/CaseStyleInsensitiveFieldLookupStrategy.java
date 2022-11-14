@@ -2,8 +2,8 @@ package org.assertj.core.util.introspection;
 
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.recursive.comparison.ComparingSnakeOrCamelCaseFields.COMPARING_SNAKE_OR_CAMEL_CASE_FIELDS;
 import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.introspection.NormalizeStrategy.normalize;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -17,7 +17,8 @@ class CaseStyleInsensitiveFieldLookupStrategy implements FieldLookupStrategy {
   @Override
   public Field findByName(Class<?> acls, String fieldName) throws NoSuchFieldException {
     List<Field> matchingFields = Arrays.stream(acls.getDeclaredFields())
-                                       .filter(field -> normalize(field.getName()).equals(fieldName))
+                                       .filter(field -> COMPARING_SNAKE_OR_CAMEL_CASE_FIELDS.normalizeFieldName(field.getName())
+                                                                                            .equals(fieldName))
                                        .collect(toList());
     if (matchingFields.isEmpty()) {
       throw new NoSuchFieldException(fieldName);

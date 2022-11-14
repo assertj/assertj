@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 /**
  * Utility class for conversion between different case formats
  */
-class CaseFormatUtils {
+public class CaseFormatUtils {
 
   private static final String WORD_SEPARATOR_REGEX = "[ _-]";
 
@@ -28,7 +28,7 @@ class CaseFormatUtils {
    * @param s the string to be converted
    * @return the input string converted to camelCase
    */
-  static String toCamelCase(String s) {
+  public static String toCamelCase(String s) {
     List<String> words = extractWords(requireNonNull(s));
     return IntStream.range(0, words.size())
                     .mapToObj(i -> adjustWordCase(words.get(i), i > 0))

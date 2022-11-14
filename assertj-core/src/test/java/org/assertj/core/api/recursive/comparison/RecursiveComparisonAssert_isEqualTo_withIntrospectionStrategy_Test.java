@@ -19,7 +19,6 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.recursive.comparison.ComparingFields.COMPARING_FIELDS;
 import static org.assertj.core.api.recursive.comparison.ComparingProperties.COMPARING_PROPERTIES;
 import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
-import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON_NORMALIZED;
 
 import java.util.Collection;
 import java.util.Date;
@@ -31,8 +30,6 @@ import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.objects.data.Person;
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.assertj.core.util.introspection.NormalizeStrategy;
-import org.assertj.core.util.introspection.PropertySupport;
 import org.junit.jupiter.api.Test;
 
 class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
@@ -189,26 +186,7 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
       this.main_author = author;
     }
   }
-  static class ComparingSnakeOrCamelCaseFields implements RecursiveComparisonIntrospectionStrategy {
-
-    @Override
-    public Set<String> getChildrenNodeNamesOf(Object node) {
-      if (node == null) return new HashSet<>();
-      Set<String> fieldsNames = Objects.getFieldsNames(node.getClass());
-      return fieldsNames.stream().map(NormalizeStrategy::normalize).collect(toSet());
-    }
-
-    @Override
-    public Object getChildNodeValue(String childNodeName, Object instance) {
-      return COMPARISON_NORMALIZED.getSimpleValue(childNodeName, instance);
-    }
-
-    @Override
-    public String getDescription() {
-      return "comparing camel case and snake case fields";
-    }
-  }
-
+  
   // related to https://github.com/assertj/assertj/issues/2314 and https://github.com/assertj/assertj/issues/2108
 
   @Test
