@@ -24,6 +24,7 @@ import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Strings.formatIfArgs;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -963,9 +964,19 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   // in order to avoid compiler warning in user code
   protected SELF satisfiesAnyOfForProxy(Consumer<? super ACTUAL>[] assertionsGroups) throws AssertionError {
     checkArgument(stream(assertionsGroups).allMatch(java.util.Objects::nonNull), "No assertions group should be null");
-    if (stream(assertionsGroups).anyMatch(this::satisfiesAssertions)) return myself;
-    // none of the assertions group was met! let's report all the errors
-    List<AssertionError> assertionErrors = stream(assertionsGroups).map(this::catchAssertionError).collect(toList());
+
+    List<AssertionError> assertionErrors = new ArrayList<>();
+
+    for (Consumer<? super ACTUAL> assertionsGroup : assertionsGroups) {
+      Optional<AssertionError> maybeError = catchOptionalAssertionError(assertionsGroup);
+
+      if (maybeError.isPresent()) {
+        assertionErrors.add(maybeError.get());
+      } else {
+        return myself;
+      }
+    }
+
     throw multipleAssertionsError(assertionErrors);
   }
 
