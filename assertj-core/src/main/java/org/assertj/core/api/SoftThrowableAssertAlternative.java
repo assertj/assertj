@@ -18,7 +18,7 @@ import org.assertj.core.description.Description;
  * {@link ThrowableAssertAlternative} subclass used in soft assertions.
  * <p> 
  * Assertion methods for {@link java.lang.Throwable} similar to {@link ThrowableAssert} but with assertions methods named
- * differently to make testing code fluent (ex : <code>withMessage</code> instead of <code>hasMessage</code>.
+ * differently to make testing code fluent (ex : <code>withMessage</code> instead of <code>hasMessage</code>).
  * <pre><code class='java'> SoftAssertions softly = new SoftAssertions();
  * 
  * softly.assertThatExceptionOfType(IOException.class)
@@ -31,12 +31,12 @@ import org.assertj.core.description.Description;
  */
 public class SoftThrowableAssertAlternative<ACTUAL extends Throwable> extends ThrowableAssertAlternative<ACTUAL> {
 
-  private final ThrowableAssert<ACTUAL> proxyedThrowableAssert;
+  private final ThrowableAssert<ACTUAL> proxiedThrowableAssert;
 
   @SuppressWarnings("unchecked")
   public SoftThrowableAssertAlternative(final ACTUAL actual, SoftAssertionsProvider softAssertionsProvider) {
     super(actual);
-    proxyedThrowableAssert = softAssertionsProvider.proxy(ThrowableAssert.class, Throwable.class, actual);
+    proxiedThrowableAssert = softAssertionsProvider.proxy(ThrowableAssert.class, Throwable.class, actual);
   }
 
   @Override
@@ -47,6 +47,6 @@ public class SoftThrowableAssertAlternative<ACTUAL extends Throwable> extends Th
 
   @Override
   protected ThrowableAssert<ACTUAL> getDelegate() {
-    return proxyedThrowableAssert;
+    return proxiedThrowableAssert;
   }
 }

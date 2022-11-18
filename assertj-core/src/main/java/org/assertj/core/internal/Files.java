@@ -21,6 +21,7 @@ import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEmptyDirectory.shouldBeEmptyDirectory;
+import static org.assertj.core.error.ShouldBeExecutable.shouldBeExecutable;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldBeRelativePath.shouldBeRelativePath;
@@ -74,6 +75,7 @@ import org.assertj.core.util.diff.Delta;
  * @author Alex Ruiz
  * @author Olivier Demeijer
  * @author Valeriy Vyrva
+ * @author Rostyslav Ivankiv
  */
 public class Files {
 
@@ -357,6 +359,19 @@ public class Files {
     assertNotNull(info, actual);
     if (actual.canRead()) return;
     throw failures.failure(info, shouldBeReadable(actual));
+  }
+
+  /**
+   * Asserts that the given file can be executed by the application.
+   * @param info contains information about the assertion.
+   * @param actual the given file.
+   * @throws AssertionError if the given file is {@code null}.
+   * @throws AssertionError if the given file can not be executed.
+   */
+  public void assertIsExecutable(AssertionInfo info, File actual) {
+    assertNotNull(info, actual);
+    if (actual.canExecute()) return;
+    throw failures.failure(info, shouldBeExecutable(actual));
   }
 
   /**

@@ -120,7 +120,7 @@ class Iterables_assertContains_Test extends IterablesBaseTest {
     AssertionError error = expectAssertionError(() -> iterables.assertContains(info, actualSet, expected));
     // THEN
     then(error).hasMessageContaining("Expecting HashSet:");
-    verify(failures).failure(info, shouldContain(HashSet.class, newArrayList(actualSet), expected, newLinkedHashSet("Han"),
+    verify(failures).failure(info, shouldContain(HashSet.class, actualSet, expected, newLinkedHashSet("Han"),
                                                  StandardComparisonStrategy.instance()));
   }
 
