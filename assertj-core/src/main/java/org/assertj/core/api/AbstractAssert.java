@@ -866,13 +866,16 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   // in order to avoid compiler warning in user code
   protected SELF satisfiesForProxy(Consumer<? super ACTUAL>[] assertionsGroups) throws AssertionError {
     checkArgument(stream(assertionsGroups).allMatch(java.util.Objects::nonNull), "No assertions group should be null");
-    if (stream(assertionsGroups).allMatch(this::satisfiesAssertions)) return myself;
     // some assertions groups were not met! let's report all the errors
     List<AssertionError> assertionErrors = stream(assertionsGroups).map(this::catchOptionalAssertionError)
                                                                    .filter(Optional::isPresent)
                                                                    .map(Optional::get)
                                                                    .collect(toList());
-    throw multipleAssertionsError(assertionErrors);
+    if (assertionErrors.isEmpty()) {
+      return myself;
+    } else {
+      throw multipleAssertionsError(assertionErrors);
+    }
   }
 
   private Optional<AssertionError> catchOptionalAssertionError(Consumer<? super ACTUAL> assertions) {
