@@ -497,6 +497,14 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
+   * @see #hasMessageMatching(String)
+   */
+  public SELF hasMessageMatching(Pattern regex) {
+    throwables.assertHasMessageMatching(info, actual, regex);
+    return myself;
+  }
+
+  /**
    * Verifies that a sequence of the message of the actual {@code Throwable} matches with
    * the given regular expression (see {@link java.util.regex.Matcher#find()}).<br>
    * The {@link Pattern} used under the hood enables the {@link Pattern#DOTALL} mode.
