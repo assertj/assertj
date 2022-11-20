@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-parent-pom</artifactId>
+    <version>2.2.18</version>
+    <relativePath/>
+  </parent>
+
+  <artifactId>assertj-guava</artifactId>
+  <version>3.5.1-SNAPSHOT</version>
+
+  <name>AssertJ fluent assertions for Guava</name>
+  <description>Rich and fluent assertions for testing for Guava</description>
+  <url>${project.organization.url}#${project.artifactId}</url>
+
+  <scm>
+    <developerConnection>scm:git:https://github.com/assertj/assertj-guava.git</developerConnection>
+    <connection>scm:git:https://github.com/assertj/assertj-guava.git</connection>
+    <url>https://github.com/assertj/assertj-guava</url>
+    <tag>HEAD</tag>
+  </scm>
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/assertj/assertj-guava/issues</url>
+  </issueManagement>
+
+  <properties>
+    <assertj-core.version>3.23.1</assertj-core.version>
+    <bnd.version>6.3.1</bnd.version>
+    <guava.version>31.1-jre</guava.version>
+    <javadocAdditionalOptions>-html5 --allow-script-in-comments</javadocAdditionalOptions>
+    <maven.compiler.release>8</maven.compiler.release>
+  </properties>
+
+  <dependencies>
+    <!-- Compile -->
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${assertj-core.version}</version>
+    </dependency>
+    <!-- Provided -->
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.opentest4j</groupId>
+      <artifactId>opentest4j</artifactId>
+      <version>1.2.0</version>
+      <scope>provided</scope>
+      <optional>true</optional>
+    </dependency>
+    <!-- Test -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.github.siom79.japicmp</groupId>
+          <artifactId>japicmp-maven-plugin</artifactId>
+          <version>0.16.0</version>
+          <configuration>
+            <parameter>
+              <excludes>
+                <exclude>org.assertj.guava.internal</exclude>
+              </excludes>
+              <onlyBinaryIncompatible>true</onlyBinaryIncompatible>
+              <onlyModified>true</onlyModified>
+              <reportOnlyFilename>true</reportOnlyFilename>
+            </parameter>
+            <skipXmlReport>true</skipXmlReport>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-java-and-dependencies</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <bannedDependencies>
+                  <includes>
+                    <include>net.bytebuddy:byte-buddy</include>
+                    <include>org.assertj:assertj-core</include>
+                  </includes>
+                  <excludes>
+                    <exclude>org.assertj:assertj-guava</exclude>
+                    <exclude>*:*:*:jar:compile</exclude>
+                  </excludes>
+                </bannedDependencies>
+                <dependencyConvergence />
+                <requireJavaVersion>
+                  <version>[17,)</version>
+                </requireJavaVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>biz.aQute.bnd</groupId>
+        <artifactId>bnd-maven-plugin</artifactId>
+        <version>${bnd.version}</version>
+        <extensions>true</extensions>
+        <executions>
+          <execution>
+            <id>jar</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <bnd><![CDATA[
+               -exportcontents: \
+                  !org.assertj.guava.util.*,\
+                  org.assertj.guava.*
+                -noclassforname: true
+                -noextraheaders: true
+                -snapshot: SNAPSHOT
+                -removeheaders: Private-Package
+              ]]></bnd>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Resolve bundles for OSGi integration tests -->
+      <plugin>
+        <groupId>biz.aQute.bnd</groupId>
+        <artifactId>bnd-resolver-maven-plugin</artifactId>
+        <version>${bnd.version}</version>
+        <executions>
+          <execution>
+            <id>osgi-integration-resolving</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>resolve</goal>
+            </goals>
+            <configuration>
+              <bndruns>
+                <bndrun>verify.bndrun</bndrun>
+              </bndruns>
+              <bundles>
+                <bundle>target/${project.build.finalName}.jar</bundle>
+              </bundles>
+              <failOnChanges>false</failOnChanges>
+              <reportOptional>false</reportOptional>
+              <includeDependencyManagement>true</includeDependencyManagement>
+              <scopes>
+                <scope>provided</scope>
+                <scope>compile</scope>
+                <scope>runtime</scope>
+                <scope>test</scope>
+              </scopes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- generate jacoco report -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <!-- exclude deprecated classes -->
+            <exclude>org/assertj/guava/data/MapEntry*</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>net.alchim31.maven</groupId>
+        <artifactId>yuicompressor-maven-plugin</artifactId>
+        <version>1.5.1</version>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase> <!-- invoked by maven-javadoc-plugin -->
+            <goals>
+              <goal>compress</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <sourceDirectory>src/main/javadoc</sourceDirectory>
+          <outputDirectory>${project.build.directory}/javadoc-stylesheet</outputDirectory>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <!-- Explicitly set Javadoc locale to English -->
+          <locale>en_US</locale>
+          <!-- (1) CSS file location -->
+          <stylesheetfile>${project.build.directory}/javadoc-stylesheet/assertj-javadoc-min.css</stylesheetfile>
+          <!-- init Highlight -->
+          <additionalOptions>${javadocAdditionalOptions}</additionalOptions>
+          <links>
+            <link>https://javadoc.io/doc/com.google.guava/guava/${guava.version}</link>
+            <link>https://javadoc.io/doc/org.assertj/assertj-core/${assertj-core.version}</link>
+          </links>
+          <nohelp>true</nohelp>
+          <bottom><![CDATA[
+            <link rel="stylesheet" href="./assertj-javadoc.css"">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+            <script>hljs.highlightAll();</script>
+        ]]></bottom>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>japicmp-branch</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>com.github.siom79.japicmp</groupId>
+              <artifactId>japicmp-maven-plugin</artifactId>
+              <configuration>
+                <oldVersion>
+                  <file>
+                    <path>${japicmp.oldVersion.basedir}/target/${project.build.finalName}.${project.packaging}</path>
+                  </file>
+                </oldVersion>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+  </profiles>
+
+</project>
