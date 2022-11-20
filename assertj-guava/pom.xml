@@ -4,35 +4,21 @@
 
   <parent>
     <groupId>org.assertj</groupId>
-    <artifactId>assertj-parent-pom</artifactId>
-    <version>2.2.18</version>
-    <relativePath/>
+    <artifactId>assertj-parent</artifactId>
+    <version>3.24.0-SNAPSHOT</version>
+    <relativePath>../assertj-parent</relativePath>
   </parent>
 
   <artifactId>assertj-guava</artifactId>
-  <version>3.5.1-SNAPSHOT</version>
 
-  <name>AssertJ fluent assertions for Guava</name>
+  <name>AssertJ Guava</name>
   <description>Rich and fluent assertions for testing for Guava</description>
   <url>${project.organization.url}#${project.artifactId}</url>
 
-  <scm>
-    <developerConnection>scm:git:https://github.com/assertj/assertj-guava.git</developerConnection>
-    <connection>scm:git:https://github.com/assertj/assertj-guava.git</connection>
-    <url>https://github.com/assertj/assertj-guava</url>
-    <tag>HEAD</tag>
-  </scm>
-  <issueManagement>
-    <system>GitHub</system>
-    <url>https://github.com/assertj/assertj-guava/issues</url>
-  </issueManagement>
-
   <properties>
-    <assertj-core.version>3.23.1</assertj-core.version>
-    <bnd.version>6.3.1</bnd.version>
-    <guava.version>31.1-jre</guava.version>
     <javadocAdditionalOptions>-html5 --allow-script-in-comments</javadocAdditionalOptions>
-    <maven.compiler.release>8</maven.compiler.release>
+    <!-- Dependency versions -->
+    <guava.version>31.1-jre</guava.version>
   </properties>
 
   <dependencies>
@@ -40,7 +26,7 @@
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>${assertj-core.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <!-- Provided -->
     <dependency>
@@ -52,7 +38,6 @@
     <dependency>
       <groupId>org.opentest4j</groupId>
       <artifactId>opentest4j</artifactId>
-      <version>1.2.0</version>
       <scope>provided</scope>
       <optional>true</optional>
     </dependency>
@@ -119,7 +104,6 @@
       <plugin>
         <groupId>biz.aQute.bnd</groupId>
         <artifactId>bnd-maven-plugin</artifactId>
-        <version>${bnd.version}</version>
         <extensions>true</extensions>
         <executions>
           <execution>
@@ -145,7 +129,6 @@
       <plugin>
         <groupId>biz.aQute.bnd</groupId>
         <artifactId>bnd-resolver-maven-plugin</artifactId>
-        <version>${bnd.version}</version>
         <executions>
           <execution>
             <id>osgi-integration-resolving</id>
@@ -213,7 +196,7 @@
           <additionalOptions>${javadocAdditionalOptions}</additionalOptions>
           <links>
             <link>https://javadoc.io/doc/com.google.guava/guava/${guava.version}</link>
-            <link>https://javadoc.io/doc/org.assertj/assertj-core/${assertj-core.version}</link>
+            <link>https://javadoc.io/doc/org.assertj/assertj-core/${project.version}</link>
           </links>
           <nohelp>true</nohelp>
           <bottom><![CDATA[

@@ -18,7 +18,7 @@
     osgi.console=
 
 -runrequires: \
-    bnd.identity;id='${project.artifactId}-tests',\
+    bnd.identity;id='${project.artifactId}',\
     bnd.identity;id='junit-jupiter-engine',\
     bnd.identity;id='junit-platform-launcher'
 
@@ -31,7 +31,9 @@
 # AssertJ and/or its dependencies change.
 -runbundles: \
 	assertj-core;version='[3.24.0,3.24.1)',\
-	assertj-core-osgi-tests;version='[3.24.0,3.24.1)',\
+	assertj-guava;version='[3.24.0,3.24.1)',\
+	com.google.guava;version='[31.1.0,31.1.1)',\
+	com.google.guava.failureaccess;version='[1.0.1,1.0.2)',\
 	junit-jupiter-api;version='[5.9.1,5.9.2)',\
 	junit-jupiter-engine;version='[5.9.1,5.9.2)',\
 	junit-platform-commons;version='[1.9.1,1.9.2)',\
