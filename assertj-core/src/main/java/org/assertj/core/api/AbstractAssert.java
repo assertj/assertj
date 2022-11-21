@@ -21,6 +21,7 @@ import static org.assertj.core.error.ShouldMatch.shouldMatch;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Strings.formatIfArgs;
 
@@ -866,13 +867,14 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   // in order to avoid compiler warning in user code
   protected SELF satisfiesForProxy(Consumer<? super ACTUAL>[] assertionsGroups) throws AssertionError {
     checkArgument(stream(assertionsGroups).allMatch(java.util.Objects::nonNull), "No assertions group should be null");
-    if (stream(assertionsGroups).allMatch(this::satisfiesAssertions)) return myself;
-    // some assertions groups were not met! let's report all the errors
     List<AssertionError> assertionErrors = stream(assertionsGroups).map(this::catchOptionalAssertionError)
                                                                    .filter(Optional::isPresent)
                                                                    .map(Optional::get)
                                                                    .collect(toList());
-    throw multipleAssertionsError(assertionErrors);
+    if (!assertionErrors.isEmpty()) {
+      throw multipleAssertionsError(assertionErrors);
+    }
+    return myself;
   }
 
   private Optional<AssertionError> catchOptionalAssertionError(Consumer<? super ACTUAL> assertions) {
@@ -960,9 +962,15 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   // in order to avoid compiler warning in user code
   protected SELF satisfiesAnyOfForProxy(Consumer<? super ACTUAL>[] assertionsGroups) throws AssertionError {
     checkArgument(stream(assertionsGroups).allMatch(java.util.Objects::nonNull), "No assertions group should be null");
-    if (stream(assertionsGroups).anyMatch(this::satisfiesAssertions)) return myself;
-    // none of the assertions group was met! let's report all the errors
-    List<AssertionError> assertionErrors = stream(assertionsGroups).map(this::catchAssertionError).collect(toList());
+    // use a for loop over stream to return as soon as one assertion is met
+    List<AssertionError> assertionErrors = list();
+    for (Consumer<? super ACTUAL> assertionsGroup : assertionsGroups) {
+      Optional<AssertionError> maybeError = catchOptionalAssertionError(assertionsGroup);
+      if (!maybeError.isPresent()) {
+        return myself;
+      }
+      assertionErrors.add(maybeError.get());
+    }
     throw multipleAssertionsError(assertionErrors);
   }
 

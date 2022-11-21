@@ -17,8 +17,10 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenIllegalArgumentException;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
+import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.Test;
 
@@ -100,5 +102,20 @@ class AbstractAssert_satisfies_with_Consumers_Test {
     // WHEN/THEN
     thenIllegalArgumentException().isThrownBy(() -> assertThat(yoda).satisfies(nonNullRequirement, nullRequirement))
                                   .withMessage("No assertions group should be null");
+  }
+
+  @Test
+  void should_run_consumers_only_once() {
+    // GIVEN
+    AbstractAssert<?, ?> assertion = assertThat("actualValue");
+    AtomicInteger invocationCount = new AtomicInteger();
+    Consumer<Object> failingConsumer = s -> {
+      invocationCount.incrementAndGet();
+      assertThat(s).isEqualTo("anotherValue");
+    };
+    // WHEN
+    expectAssertionError(() -> assertion.satisfies(failingConsumer));
+    // THEN
+    then(invocationCount).hasValue(1);
   }
 }
