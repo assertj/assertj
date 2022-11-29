@@ -50,7 +50,8 @@ class Condition_describedAs_Description_Test {
 
   @Test
   void should_set_empty_description_if_description_is_null() {
-    condition.describedAs(null);
+    String message = null;
+    condition.describedAs(message);
     assertThat(condition.description.value()).isEmpty();
   }
 
