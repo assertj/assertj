@@ -32,8 +32,6 @@ import org.assertj.core.internal.objects.data.Person;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.Test;
 
-import com.google.common.base.CaseFormat;
-
 class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
@@ -120,9 +118,11 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
   @Test
   void should_pass_with_the_snake_case_matching_camel_case_fields() {
     // GIVEN
-    Author martinFowler = new Author("Martin", "Fowler");
+    Author martinFowler = new Author("Martin", "Fowler", 58, "+447975777666", "+441611234567",
+                                     "https://www.thoughtworks.com/profiles/leaders/martin-fowler");
     Book refactoring = new Book("Refactoring", martinFowler);
-    AuthorDto martinFowlerDto = new AuthorDto("Martin", "Fowler");
+    AuthorDto martinFowlerDto = new AuthorDto("Martin", "Fowler", 58, "+447975777666", "+441611234567",
+                                              "https://www.thoughtworks.com/profiles/leaders/martin-fowler");
     BookDto refactoringDto = new BookDto("Refactoring", martinFowlerDto);
     RecursiveComparisonIntrospectionStrategy comparingSnakeOrCamelCaseFields = new ComparingSnakeOrCamelCaseFields();
 
@@ -130,15 +130,26 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     then(refactoring).usingRecursiveComparison()
                      .withIntrospectionStrategy(comparingSnakeOrCamelCaseFields)
                      .isEqualTo(refactoringDto);
+    then(refactoringDto).usingRecursiveComparison()
+                        .withIntrospectionStrategy(comparingSnakeOrCamelCaseFields)
+                        .isEqualTo(refactoring);
   }
 
   static class Author {
     String firstName;
     String lastName;
+    int age;
+    String phoneNumber1;
+    String phoneNumber2;
+    String profileURL;
 
-    Author(String firstName, String lastName) {
+    Author(String firstName, String lastName, int age, String phoneNumber1, String phoneNumber2, String profileUrl) {
       this.firstName = firstName;
       this.lastName = lastName;
+      this.age = age;
+      this.phoneNumber1 = phoneNumber1;
+      this.phoneNumber2 = phoneNumber2;
+      this.profileURL = profileUrl;
     }
   }
 
@@ -154,10 +165,18 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
   static class AuthorDto {
     String first_name;
     String last_name;
+    int _age;
+    String phone_number_1;
+    String phone_number_2;
+    String profile_url;
 
-    AuthorDto(String firstName, String lastName) {
+    AuthorDto(String firstName, String lastName, int age, String phoneNumber1, String phoneNumber2, String profileUrl) {
       this.first_name = firstName;
       this.last_name = lastName;
+      this._age = age;
+      this.phone_number_1 = phoneNumber1;
+      this.phone_number_2 = phoneNumber2;
+      this.profile_url = profileUrl;
     }
   }
 
@@ -168,38 +187,6 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     BookDto(String title, AuthorDto author) {
       this.title = title;
       this.main_author = author;
-    }
-  }
-  static class ComparingSnakeOrCamelCaseFields implements RecursiveComparisonIntrospectionStrategy {
-
-    @Override
-    public Set<String> getChildrenNodeNamesOf(Object node) {
-      if (node == null) return new HashSet<>();
-      Set<String> fieldsNames = Objects.getFieldsNames(node.getClass());
-      return fieldsNames.stream().map(ComparingSnakeOrCamelCaseFields::toCamelCase).collect(toSet());
-    }
-
-    static String toCamelCase(String name) {
-      return name.contains("_") ? CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name) : name;
-    }
-
-    static String toSnakeCase(String name) {
-      return CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name);
-    }
-
-    @Override
-    public Object getChildNodeValue(String childNodeName, Object instance) {
-      try {
-        return COMPARISON.getSimpleValue(childNodeName, instance);
-      } catch (Exception e) {
-        // try snake case
-        return COMPARISON.getSimpleValue(toSnakeCase(childNodeName), instance);
-      }
-    }
-
-    @Override
-    public String getDescription() {
-      return "comparing camel case and snake case fields";
     }
   }
 
@@ -221,11 +208,12 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
   }
 
   interface Message {
+    @SuppressWarnings("unused")
     String getTemplate();
 
     boolean isEmpty();
   }
-  class HelloMessage implements Message {
+  static class HelloMessage implements Message {
     public final String getTemplate() {
       return "hello";
     }
@@ -237,7 +225,7 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
 
   }
 
-  class GenericMessage implements Message {
+  static class GenericMessage implements Message {
     String template;
     boolean empty;
 
@@ -273,8 +261,8 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     then(throwable).isInstanceOf(IntrospectionError.class);
   }
 
-  class Bean {
-    private String string = null;
+  static class Bean {
+    private final String string = null;
 
     public Optional<String> getString() {
       return Optional.of(string);
@@ -303,12 +291,13 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
   }
 
   static class UserDTO {
-    private String email;
+    private final String email;
 
     UserDTO(User user) {
       this.email = user.getEmail();
     }
 
+    @SuppressWarnings("unused")
     public String getEmail() {
       return email;
     }
@@ -345,6 +334,45 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
 
     public String getValues() {
       return values == null ? null : values.iterator().next();
+    }
+  }
+
+  static class ComparingLowercaseNormalizedFields extends ComparingNormalizedFields {
+
+    @Override
+    public String normalizeFieldName(String name) {
+      return name.toLowerCase();
+    }
+
+  }
+
+  @Test
+  void should_pass_with_lowercase_compared_fields() {
+    // GIVEN
+    Animal fox = new Animal("fox");
+    AnimalDto foxDto = new AnimalDto("fox");
+    // WHEN/THEN
+    then(fox).usingRecursiveComparison()
+             .withIntrospectionStrategy(new ComparingLowercaseNormalizedFields())
+             .isEqualTo(foxDto);
+    then(foxDto).usingRecursiveComparison()
+                .withIntrospectionStrategy(new ComparingLowercaseNormalizedFields())
+                .isEqualTo(fox);
+  }
+
+  static class Animal {
+    String raceName;
+
+    Animal(String raceName) {
+      this.raceName = raceName;
+    }
+  }
+
+  static class AnimalDto {
+    String racename;
+
+    AnimalDto(String racename) {
+      this.racename = racename;
     }
   }
 }
