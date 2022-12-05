@@ -90,6 +90,7 @@
   </developers>
 
   <modules>
+    <module>assertj-bom</module>
     <module>assertj-parent</module>
     <module>assertj-core</module>
     <module>assertj-guava</module>

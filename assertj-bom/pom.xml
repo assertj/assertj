@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-build</artifactId>
+    <version>3.24.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>assertj-bom</artifactId>
+  <packaging>pom</packaging>
+
+  <name>AssertJ (Bill of Materials)</name>
+  <description>This Bill of Materials POM can be used to ease dependency management when referencing multiple AssertJ artifacts using Gradle or Maven.</description>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-guava</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
+        <version>1.3.0</version>
+        <inherited>false</inherited>
+        <executions>
+          <execution>
+            <id>flatten</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>flatten</goal>
+            </goals>
+            <configuration>
+              <flattenMode>bom</flattenMode>
+              <pomElements>
+                <build>remove</build>
+                <dependencyManagement>resolve</dependencyManagement>
+                <properties>remove</properties>
+              </pomElements>
+            </configuration>
+          </execution>
+          <execution>
+            <id>flatten-clean</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
