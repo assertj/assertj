@@ -29,8 +29,7 @@
     <byte-buddy.version>1.12.19</byte-buddy.version>
     <hamcrest.version>2.2</hamcrest.version>
     <!-- Plugin versions -->
-    <bnd.version>6.3.1</bnd.version>
-    <cdg.pitest.version>1.0.1</cdg.pitest.version>
+    <cdg.pitest.version>1.0.3</cdg.pitest.version>
   </properties>
 
   <dependencyManagement>
@@ -105,7 +104,7 @@
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.14.0</version>
+      <version>2.14.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -123,7 +122,7 @@
     <dependency>
       <groupId>nl.jqno.equalsverifier</groupId>
       <artifactId>equalsverifier</artifactId>
-      <version>3.11.1</version>
+      <version>3.12.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -141,7 +140,7 @@
     <dependency>
       <groupId>org.hibernate.orm</groupId>
       <artifactId>hibernate-core</artifactId>
-      <version>6.1.5.Final</version>
+      <version>6.1.6.Final</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -153,7 +152,7 @@
     <dependency>
       <groupId>org.junit-pioneer</groupId>
       <artifactId>junit-pioneer</artifactId>
-      <version>1.9.0</version>
+      <version>1.9.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -392,7 +391,6 @@
       <plugin>
         <groupId>biz.aQute.bnd</groupId>
         <artifactId>bnd-maven-plugin</artifactId>
-        <version>${bnd.version}</version>
         <executions>
           <execution>
             <id>jar</id>
@@ -460,7 +458,7 @@
       <plugin>
         <groupId>org.pitest</groupId>
         <artifactId>pitest-maven</artifactId>
-        <version>1.9.11</version>
+        <version>1.10.3</version>
         <dependencies>
           <dependency>
             <groupId>org.pitest</groupId>

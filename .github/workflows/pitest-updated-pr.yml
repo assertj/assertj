@@ -43,6 +43,6 @@ jobs:
         # the code, but does mean the version here must be maintained. An alternative would be to checkout the code and use 
         # the github goal. This will work as long as the artifact is extracted to the maven target directory
         run: >
-          mvn -B -DrepoToken=${{ secrets.GITHUB_TOKEN }} com.groupcdg:pitest-github-maven-plugin:1.0.1:updatePR
+          mvn -B -DrepoToken=${{ secrets.GITHUB_TOKEN }} com.groupcdg:pitest-github-maven-plugin:1.0.3:updatePR
           -Djansi.passthrough=true
           -Dstyle.color=always
