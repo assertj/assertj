@@ -15,6 +15,8 @@ package org.assertj.core.api.throwable;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.util.Strings.escapePercent;
+import static org.assertj.core.util.Throwables.getStackTrace;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ThrowableAssert;
@@ -37,11 +39,16 @@ class ThrowableAssert_hasCause_Test extends ThrowableAssertBaseTest {
 
   @Test
   void should_fail_if_actual_and_expected_cause_have_different_types() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new IllegalArgumentException(new IllegalStateException())).hasCause(new NullPointerException()))
+    // GIVEN
+    Throwable actual = new IllegalArgumentException(new IllegalStateException());
+    // WHEN/THEN
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasCause(new NullPointerException()))
                                                    .withMessage(format("%n" +
                                                                        "Expecting a cause with type:%n" +
                                                                        "  \"java.lang.NullPointerException\"%n" +
                                                                        "but type was:%n" +
-                                                                       "  \"java.lang.IllegalStateException\"."));
+                                                                       "  \"java.lang.IllegalStateException\".%n%n" +
+                                                                       "Throwable that failed the check:%n"
+                                                                       + escapePercent(getStackTrace(actual))));
   }
 }
