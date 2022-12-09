@@ -95,9 +95,9 @@ public class Throwables {
       assertHasNoCause(info, actual);
       return;
     }
-    if (actualCause == null) throw failures.failure(info, shouldHaveCause(actualCause, expectedCause));
+    if (actualCause == null) throw failures.failure(info, shouldHaveCause(actual, expectedCause));
     if (!compareThrowable(actualCause, expectedCause))
-      throw failures.failure(info, shouldHaveCause(actualCause, expectedCause));
+      throw failures.failure(info, shouldHaveCause(actual, expectedCause));
   }
 
   /**

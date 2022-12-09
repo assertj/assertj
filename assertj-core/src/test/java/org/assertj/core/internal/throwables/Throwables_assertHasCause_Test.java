@@ -74,7 +74,7 @@ class Throwables_assertHasCause_Test extends ThrowablesBaseTest {
     expectAssertionError(() -> throwables.assertHasCause(INFO, throwable, expected));
 
     // THEN
-    verify(failures).failure(INFO, shouldHaveCause(cause, expected));
+    verify(failures).failure(INFO, shouldHaveCause(throwable, expected));
   }
 
   // @format:off
