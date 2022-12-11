@@ -55,17 +55,12 @@
         <plugin>
           <groupId>com.github.siom79.japicmp</groupId>
           <artifactId>japicmp-maven-plugin</artifactId>
-          <version>0.16.0</version>
           <configuration>
             <parameter>
               <excludes>
                 <exclude>org.assertj.guava.internal</exclude>
               </excludes>
-              <onlyBinaryIncompatible>true</onlyBinaryIncompatible>
-              <onlyModified>true</onlyModified>
-              <reportOnlyFilename>true</reportOnlyFilename>
             </parameter>
-            <skipXmlReport>true</skipXmlReport>
           </configuration>
         </plugin>
       </plugins>

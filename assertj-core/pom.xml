@@ -232,7 +232,6 @@
         <plugin>
           <groupId>com.github.siom79.japicmp</groupId>
           <artifactId>japicmp-maven-plugin</artifactId>
-          <version>0.17.1</version>
           <configuration>
             <dependencies>
               <dependency>
@@ -260,8 +259,6 @@
               <excludes>
                 <exclude>org.assertj.core.internal</exclude>
               </excludes>
-              <onlyBinaryIncompatible>true</onlyBinaryIncompatible>
-              <onlyModified>true</onlyModified>
               <overrideCompatibilityChangeParameters>
                 <!-- Unlikely that AssertJ users will encounter an IncompatibleClassChangeError (ref: JLS 13.5.6) -->
                 <overrideCompatibilityChangeParameter>
@@ -270,7 +267,6 @@
                   <sourceCompatible>true</sourceCompatible>
                 </overrideCompatibilityChangeParameter>
               </overrideCompatibilityChangeParameters>
-              <reportOnlyFilename>true</reportOnlyFilename>
             </parameter>
             <skipXmlReport>true</skipXmlReport>
           </configuration>
