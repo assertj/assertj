@@ -210,7 +210,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @param values the given iterable to search the actual value in.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given collection is {@code null}.
-   * @throws AssertionError if the actual value is not present in the given collection.
+   * @throws AssertionError if the actual value is not present in the given iterable.
    */
   SELF isIn(Iterable<?> values);
 
@@ -231,8 +231,8 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    *
    * @param values the given iterable to search the actual value in.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given collection is {@code null}.
-   * @throws AssertionError if the actual value is present in the given collection.
+   * @throws NullPointerException if the given iterable is {@code null}.
+   * @throws AssertionError if the actual value is present in the given iterable.
    */
   SELF isNotIn(Iterable<?> values);
 
