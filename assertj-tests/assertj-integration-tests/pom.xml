@@ -14,11 +14,22 @@
   <name>AssertJ Integration Tests</name>
 
   <modules>
-    <module>assertj-core-groovy</module>
     <module>assertj-core-junit4-with-opentest4j</module>
     <module>assertj-core-kotlin</module>
     <module>assertj-core-osgi</module>
     <module>assertj-core-testng-with-junit4</module>
   </modules>
+
+  <profiles>
+    <profile>
+      <id>it-groovy</id>
+      <activation>
+        <jdk>(,21)</jdk>
+      </activation>
+      <modules>
+        <module>assertj-core-groovy</module>
+      </modules>
+    </profile>
+  </profiles>
 
 </project>
