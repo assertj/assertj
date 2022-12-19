@@ -1550,7 +1550,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   SELF satisfiesExactlyInAnyOrder(ThrowingConsumer<? super ELEMENT>... allRequirements);
 
   /**
-   * Verifies that there is exactly one element of the iterable elements that satisfies the {@link Consumer}.
+   * Verifies that there is exactly one element in the iterable under tests that satisfies the {@link Consumer}.
    * <p>
    * Examples:
    * <pre><code class='java'> List&lt;String&gt; starWarsCharacterNames = list("Luke", "Leia", "Yoda");
@@ -1576,7 +1576,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   SELF satisfiesOnlyOnce(Consumer<? super ELEMENT> requirements);
 
   /**
-   * Verifies that there is exactly one element of the iterable elements that satisfies the {@link ThrowingConsumer}.
+   * Verifies that there is exactly one element in the iterable under tests that satisfies the {@link ThrowingConsumer}.
    * <p>
    * Examples:
    * <pre><code class='java'> List&lt;String&gt; starWarsCharacterNames = list("Luke", "Leia", "Yoda");

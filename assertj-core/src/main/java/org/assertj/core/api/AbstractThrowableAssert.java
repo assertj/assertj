@@ -497,6 +497,29 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
+   * Verifies that the message of the actual {@code Throwable} matches the given regular expression {@link Pattern}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable throwable = new IllegalArgumentException("wrong amount 123");
+   *
+   * // assertion will pass
+   * assertThat(throwable).hasMessageMatching(Pattern.compile("wrong amount [0-9]*"));
+   *
+   * // assertion will fail
+   * assertThat(throwable).hasMessageMatching(Pattern.compile("wrong amount [0-9]* euros"));</code></pre>
+   *
+   * @param regex the regular expression of value expected to be matched the actual {@code Throwable}'s message.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} does not match the given regular expression.
+   * @throws NullPointerException if the regex is null
+   */
+  public SELF hasMessageMatching(Pattern regex) {
+    throwables.assertHasMessageMatching(info, actual, regex);
+    return myself;
+  }
+
+  /**
    * Verifies that a sequence of the message of the actual {@code Throwable} matches with
    * the given regular expression (see {@link java.util.regex.Matcher#find()}).<br>
    * The {@link Pattern} used under the hood enables the {@link Pattern#DOTALL} mode.

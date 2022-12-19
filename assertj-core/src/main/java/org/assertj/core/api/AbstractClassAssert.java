@@ -66,7 +66,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
-   * Verifies that the actual {@code Class} is assignable to other {@code Class}
+   * Verifies that the {@code Class} under test is assignable to the given {@code Class}.
    * <p>
    * Example:
    * <pre><code class='java'> class Jedi {}

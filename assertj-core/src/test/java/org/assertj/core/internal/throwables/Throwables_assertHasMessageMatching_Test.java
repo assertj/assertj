@@ -23,6 +23,8 @@ import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.internal.ThrowablesBaseTest;
 import org.junit.jupiter.api.Test;
 
+import java.util.regex.Pattern;
+
 /**
  * Tests for <code>{@link ThrowableAssert#hasMessageMatching(String)}</code>.
  * 
@@ -57,7 +59,13 @@ class Throwables_assertHasMessageMatching_Test extends ThrowablesBaseTest {
 
   @Test
   void should_fail_if_given_regex_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> throwables.assertHasMessageMatching(someInfo(), actual, null))
+    assertThatNullPointerException().isThrownBy(() -> throwables.assertHasMessageMatching(someInfo(), actual, (String) null))
+                                    .withMessage("regex must not be null");
+  }
+
+  @Test
+  void should_fail_if_given_pattern_is_null() {
+    assertThatNullPointerException().isThrownBy(() -> throwables.assertHasMessageMatching(someInfo(), actual, (Pattern) null))
                                     .withMessage("regex must not be null");
   }
 

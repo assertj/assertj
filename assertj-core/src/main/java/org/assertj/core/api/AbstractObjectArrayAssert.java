@@ -3748,7 +3748,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Verifies that there is exactly one element of the array under test that satisfies the {@link Consumer}.
+   * Verifies that there is exactly one element in the array under test that satisfies the {@link Consumer}.
    * <p>
    * Examples:
    * <pre><code class='java'> String[] starWarsCharacterNames = {"Luke", "Leia", "Yoda"};
@@ -3776,7 +3776,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Verifies that there is exactly one element of the array under test that satisfies the {@link ThrowingConsumer}.
+   * Verifies that there is exactly one element in the array under test that satisfies the {@link ThrowingConsumer}.
    * <p>
    * Examples:
    * <pre><code class='java'> String[] starWarsCharacterNames = {"Luke", "Leia", "Yoda"};
