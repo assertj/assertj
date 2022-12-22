@@ -356,10 +356,11 @@ public class Comparables {
     // to fail when start = end with different precision, ex: [10.0, 10.00].
     boolean inclusiveBoundsCheck = inclusiveEnd && inclusiveStart && !isGreaterThan(start, end);
     boolean strictBoundsCheck = !inclusiveEnd && !inclusiveStart && isLessThan(start, end);
-    String operator = inclusiveEnd && inclusiveStart ? "less than" : "less than or equal to";
-    String boundsCheckErrorMessage = format("The end value <%s> must not be %s the start value <%s>%s!", end, operator, start,
-                                            (comparisonStrategy.isStandard() ? "" : " (using " + comparisonStrategy + ")"));
-    checkArgument(inclusiveBoundsCheck || strictBoundsCheck, boundsCheckErrorMessage);
+    checkArgument(inclusiveBoundsCheck || strictBoundsCheck, () -> {
+      String operator = inclusiveEnd && inclusiveStart ? "less than" : "less than or equal to";
+      return format("The end value <%s> must not be %s the start value <%s>%s!", end, operator, start,
+                    (comparisonStrategy.isStandard() ? "" : " (using " + comparisonStrategy + ")"));
+    });
   }
 
 }
