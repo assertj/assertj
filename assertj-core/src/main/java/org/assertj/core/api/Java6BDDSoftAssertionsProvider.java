@@ -212,17 +212,6 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
   }
 
   /**
-   * Creates a new instance of <code>{@link ClassLoaderAssert}</code> assumption.
-   *
-   * @param actual the actual value.
-   * @return the created assumption for assertion object.
-   * @since 3.24.0
-   */
-  default AbstractClassLoaderAssert<?> then(ClassLoader actual) {
-    return proxy(ClassLoaderAssert.class, ClassLoader.class, actual);
-  }
-
-  /**
    * Creates a new instance of <code>{@link CollectionAssert}</code>.
    *
    * @param <T> the type of elements.

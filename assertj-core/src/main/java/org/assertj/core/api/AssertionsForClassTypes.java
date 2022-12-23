@@ -309,17 +309,6 @@ public class AssertionsForClassTypes {
   }
 
   /**
-   * Creates a new instance of <code>{@link ClassLoaderAssert}</code>.
-   *
-   * @param actual the actual value.
-   * @return the created assertion object.
-   * @since 3.24.0
-   */
-  public static AbstractClassLoaderAssert<?> assertThat(ClassLoader actual) {
-    return new ClassLoaderAssert(actual);
-  }
-
-  /**
    * Creates a new instance of <code>{@link DoubleAssert}</code>.
    *
    * @param actual the actual value.
