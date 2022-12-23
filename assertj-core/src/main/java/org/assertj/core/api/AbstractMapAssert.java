@@ -1402,14 +1402,14 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   }
 
   /**
-   * Verifies that the actual map is unmodifiable, i.e., throws an {@link UnsupportedOperationException} with
+   * Verifies that the actual map is unmodifiable, i.e. throws an {@link UnsupportedOperationException} with
    * any attempt to modify the map.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeeds
    * assertThat(Collections.unmodifiableMap(new HashMap&lt;&gt;())).isUnmodifiable();
    *
-   * // assertions will fail
+   * // assertions fails
    * assertThat(new HashMap&lt;&gt;()).isUnmodifiable();</code></pre>
    *
    * @return {@code this} assertion object.

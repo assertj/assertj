@@ -455,10 +455,10 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * Examples:
    * <pre><code class='java'> Throwable throwableWithMessage = new IllegalArgumentException("wrong amount 123");
    *
-   * // assertion will pass
+   * // assertion succeeds
    * assertThat(throwableWithMessage).hasStackTraceContaining("%s", amount);
    *
-   * // assertion will fail
+   * // assertion fails
    * assertThat(throwableWithMessage).hasStackTraceContaining("%d", 456);</code></pre>
    *
    * @param description the description expected to be contained in the actual {@code Throwable}'s stack trace.
@@ -474,15 +474,15 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
-   * Verifies that the message of the actual {@code Throwable} matches the given regular expression.
+   * Verifies that the message of the {@code Throwable} under test matches the given regular expression.
    * <p>
    * Examples:
    * <pre><code class='java'> Throwable throwable = new IllegalArgumentException("wrong amount 123");
    *
-   * // assertion will pass
+   * // assertion succeeds
    * assertThat(throwable).hasMessageMatching("wrong amount [0-9]*");
    *
-   * // assertion will fail
+   * // assertion fails
    * assertThat(throwable).hasMessageMatching("wrong amount [0-9]* euros");</code></pre>
    *
    * @param regex the regular expression of value expected to be matched the actual {@code Throwable}'s message.
@@ -497,15 +497,15 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
-   * Verifies that the message of the actual {@code Throwable} matches the given regular expression {@link Pattern}.
+   * Verifies that the message of the {@code Throwable} under test matches the given regular expression {@link Pattern}.
    * <p>
    * Examples:
    * <pre><code class='java'> Throwable throwable = new IllegalArgumentException("wrong amount 123");
    *
-   * // assertion will pass
+   * // assertion succeeds
    * assertThat(throwable).hasMessageMatching(Pattern.compile("wrong amount [0-9]*"));
    *
-   * // assertion will fail
+   * // assertion fails
    * assertThat(throwable).hasMessageMatching(Pattern.compile("wrong amount [0-9]* euros"));</code></pre>
    *
    * @param regex the regular expression of value expected to be matched the actual {@code Throwable}'s message.

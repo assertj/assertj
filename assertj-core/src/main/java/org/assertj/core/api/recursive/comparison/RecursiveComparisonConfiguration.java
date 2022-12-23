@@ -1320,7 +1320,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
      * <p>
      * If registered regexes for different {@link BiPredicate} match a given field, the latest registered regexes {@link BiPredicate} wins.
      * <p>
-     * See {@link RecursiveComparisonAssert#withEqualsForFieldsMatchingRegexes(BiPredicate, String...)}  RecursiveComparisonAssert#withEqualsForFieldsMatchingRegexes(BiPredicate equals, String...fields)} for examples.
+     * See {@link RecursiveComparisonAssert#withEqualsForFieldsMatchingRegexes(BiPredicate, String...) RecursiveComparisonAssert#withEqualsForFieldsMatchingRegexes(BiPredicate equals, String...fields)} for examples.
      *
      * @param equals the {@link BiPredicate} to use to compare the fields matching the given regexes
      * @param regexes the regexes to match fields against

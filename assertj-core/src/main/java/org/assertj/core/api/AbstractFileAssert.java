@@ -241,18 +241,18 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   }
 
   /**
-   * Verifies that the actual {@code File} can be executed.
+   * Verifies that the actual {@code File} is executable.
    *
    * <p>
    * Example:
    * <pre><code class='java'> File tmpFile = java.nio.file.Files.createTempFile(&quot;executable_file&quot;, &quot;.sh&quot;).toFile();
    *
    * tmpFile.setExecutable(true);
-   * // assertions will pass
+   * // assertions succeeds
    * assertThat(tmpFile).isExecutable();
    *
    * tmpFile.setExecutable(false);
-   * // assertions will fail
+   * // assertions fails
    * assertThat(tmpFile).isExecutable();</code></pre>
    *
    * @return {@code this} assertion object.
