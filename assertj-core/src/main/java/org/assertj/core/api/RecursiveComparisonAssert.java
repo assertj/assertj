@@ -357,7 +357,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * <p>
    * {@code comparingOnlyFieldsOfTypes} can be also combined with ignoring fields or compare only fields by name methods to restrict further the fields actually compared,
    * the resulting compared fields = {specified compared fields of types} {@code -} {specified ignored fields}.<br>
-   * For example if the specified compared fields of types = {@code {String.class, Integer.class, Double.class}}, when there are fields  String foo, {@code Integer buzz} and {@code Double bar}
+   * For example if the specified compared fields of types = {@code {String.class, Integer.class, Double.class}}, when there are fields  String foo, {@code Integer baz} and {@code Double bar}
    * and the ignored fields = {"bar"} set with {@link RecursiveComparisonAssert#ignoringFields(String...)} that will remove {@code bar} field from comparison, then only {@code {foo, baz}} fields will be compared.
    * <p>
    * Usage example:
