@@ -37,7 +37,7 @@ class Paths_assertEndsWith_Test extends PathsBaseTest {
     // GIVEN
     Path other = tempDir.resolve("other");
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertEndsWith(info, null, other));
+    AssertionError error = expectAssertionError(() -> underTest.assertEndsWith(INFO, null, other));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -47,7 +47,7 @@ class Paths_assertEndsWith_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertEndsWith(info, actual, null));
+    Throwable thrown = catchThrowable(() -> underTest.assertEndsWith(INFO, actual, null));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage("the expected end path should not be null");
@@ -61,7 +61,7 @@ class Paths_assertEndsWith_Test extends PathsBaseTest {
     IOException exception = new IOException("boom!");
     given(actual.toRealPath()).willThrow(exception);
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertEndsWith(info, actual, other));
+    Throwable thrown = catchThrowable(() -> underTest.assertEndsWith(INFO, actual, other));
     // THEN
     then(thrown).isInstanceOf(UncheckedIOException.class)
                 .hasCause(exception);
@@ -73,7 +73,7 @@ class Paths_assertEndsWith_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("actual"));
     Path other = tempDir.resolve("other");
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertEndsWith(info, actual, other));
+    AssertionError error = expectAssertionError(() -> underTest.assertEndsWith(INFO, actual, other));
     // THEN
     then(error).hasMessage(shouldEndWith(actual, other).create());
   }
@@ -84,7 +84,7 @@ class Paths_assertEndsWith_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("actual"));
     Path other = Paths.get("actual");
     // WHEN/THEN
-    paths.assertEndsWith(info, actual, other);
+    underTest.assertEndsWith(INFO, actual, other);
   }
 
   @Test
@@ -94,7 +94,7 @@ class Paths_assertEndsWith_Test extends PathsBaseTest {
     Path actual = createSymbolicLink(tempDir.resolve("actual"), file);
     Path other = Paths.get("file");
     // WHEN/THEN
-    paths.assertEndsWith(info, actual, other);
+    underTest.assertEndsWith(INFO, actual, other);
   }
 
   @Test
@@ -103,7 +103,7 @@ class Paths_assertEndsWith_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("actual"));
     Path other = Paths.get("actual", "..", "actual", ".");
     // WHEN/THEN
-    paths.assertEndsWith(info, actual, other);
+    underTest.assertEndsWith(INFO, actual, other);
   }
 
 }

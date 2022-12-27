@@ -18,12 +18,10 @@ import static java.util.stream.Collectors.joining;
 import static org.assertj.core.api.recursive.comparison.ComparisonDifference.rootComparisonDifference;
 import static org.assertj.core.api.recursive.comparison.DualValue.DEFAULT_ORDERED_COLLECTION_TYPES;
 import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
-import static org.assertj.core.internal.Objects.getFieldsNames;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.IterableUtil.toCollection;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newHashSet;
-import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -117,25 +115,26 @@ public class RecursiveComparisonDifferenceCalculator {
       if (!visitedDualValues.contains(dualValue)) dualValuesToCompare.addFirst(dualValue);
     }
 
-    private void initDualValuesToCompare(Object actual, Object expected, FieldLocation fieldLocation) {
-      DualValue dualValue = new DualValue(fieldLocation, actual, expected);
-      boolean mustCompareFieldsRecursively = mustCompareFieldsRecursively(dualValue);
-      if (dualValue.hasNoNullValues() && mustCompareFieldsRecursively) {
+    private void initDualValuesToCompare(Object actual, Object expected, FieldLocation nodeLocation) {
+      DualValue dualValue = new DualValue(nodeLocation, actual, expected);
+      boolean mustCompareNodesRecursively = mustCompareNodesRecursively(dualValue);
+      if (dualValue.hasNoNullValues() && mustCompareNodesRecursively) {
         // disregard the equals method and start comparing fields
         // TODO should fail if actual and expected don't have the same fields to compare (taking into account ignored/compared
         // fields)
-        Set<String> actualFieldNamesToCompare = recursiveComparisonConfiguration.getActualFieldNamesToCompare(dualValue);
-        if (!actualFieldNamesToCompare.isEmpty()) {
+        Set<String> actualChildrenNodeNamesToCompare = recursiveComparisonConfiguration.getActualChildrenNodeNamesToCompare(dualValue);
+        if (!actualChildrenNodeNamesToCompare.isEmpty()) {
           // fields to ignore are evaluated when adding their corresponding dualValues to dualValuesToCompare which filters
           // ignored fields according to recursiveComparisonConfiguration
-          Set<String> expectedFieldsNames = getFieldsNames(expected.getClass());
-          if (expectedFieldsNames.containsAll(actualFieldNamesToCompare)) {
+          Set<String> expectedChildrenNodesNames = recursiveComparisonConfiguration.getChildrenNodeNamesOf(expected);
+          if (expectedChildrenNodesNames.containsAll(actualChildrenNodeNamesToCompare)) {
             // we compare actual fields vs expected, ignoring expected additional fields
-            for (String nonIgnoredActualFieldName : actualFieldNamesToCompare) {
-              DualValue fieldDualValue = new DualValue(fieldLocation.field(nonIgnoredActualFieldName),
-                                                       COMPARISON.getSimpleValue(nonIgnoredActualFieldName, actual),
-                                                       COMPARISON.getSimpleValue(nonIgnoredActualFieldName, expected));
-              dualValuesToCompare.addFirst(fieldDualValue);
+            for (String actualChildNodeName : actualChildrenNodeNamesToCompare) {
+              Object actualChildNodeValue = recursiveComparisonConfiguration.getValue(actualChildNodeName, actual);
+              Object expectedChildNodeValue = recursiveComparisonConfiguration.getValue(actualChildNodeName, expected);
+              DualValue childNodeDualValue = new DualValue(nodeLocation.field(actualChildNodeName), actualChildNodeValue,
+                                                           expectedChildNodeValue);
+              dualValuesToCompare.addFirst(childNodeDualValue);
             }
           } else {
             dualValuesToCompare.addFirst(dualValue);
@@ -146,7 +145,7 @@ public class RecursiveComparisonDifferenceCalculator {
       } else {
         dualValuesToCompare.addFirst(dualValue);
       }
-      // We need to remove already visited fields pair to avoid infinite recursion in case parent -> set{child} with child having
+      // We need to remove already visited nodes pair to avoid infinite recursion in case parent -> set{child} with child having
       // a reference back to its parent but only for complex types can have cycle, this is not the case for primitive or enums.
       // It occurs for unordered collection where we compare all possible combination of the collection elements recursively.
       // --
@@ -157,7 +156,7 @@ public class RecursiveComparisonDifferenceCalculator {
                                                                        .ifPresent(dualValuesToCompare::remove));
     }
 
-    private boolean mustCompareFieldsRecursively(DualValue dualValue) {
+    private boolean mustCompareNodesRecursively(DualValue dualValue) {
 
       return !recursiveComparisonConfiguration.hasCustomComparator(dualValue)
              && !shouldHonorEquals(dualValue, recursiveComparisonConfiguration)
@@ -322,28 +321,29 @@ public class RecursiveComparisonDifferenceCalculator {
         continue;
       }
 
-      Set<String> actualNonIgnoredFieldsNames = recursiveComparisonConfiguration.getActualFieldNamesToCompare(dualValue);
-      Set<String> expectedFieldsNames = getFieldsNames(expectedFieldClass);
-      // Check if expected has more fields than actual, in that case the additional fields are reported as difference
-      if (!expectedFieldsNames.containsAll(actualNonIgnoredFieldsNames)) {
-        // report missing fields in actual
-        Set<String> actualFieldsNamesNotInExpected = newHashSet(actualNonIgnoredFieldsNames);
-        actualFieldsNamesNotInExpected.removeAll(expectedFieldsNames);
-        String missingFields = actualFieldsNamesNotInExpected.toString();
+      Set<String> actualChildrenNodeNamesToCompare = recursiveComparisonConfiguration.getActualChildrenNodeNamesToCompare(dualValue);
+      Set<String> expectedChildrenNodesNames = recursiveComparisonConfiguration.getChildrenNodeNamesOf(expectedFieldValue);
+      // Check if expected has more children nodes than actual, in that case the additional nodes are reported as difference
+      if (!expectedChildrenNodesNames.containsAll(actualChildrenNodeNamesToCompare)) {
+        // report missing nodes in actual
+        Set<String> actualNodesNamesNotInExpected = newHashSet(actualChildrenNodeNamesToCompare);
+        actualNodesNamesNotInExpected.removeAll(expectedChildrenNodesNames);
+        String missingNodes = actualNodesNamesNotInExpected.toString();
         String expectedClassName = expectedFieldClass.getName();
         String actualClassName = actualFieldValueClass.getName();
-        String missingFieldsDescription = format(MISSING_FIELDS, actualClassName, expectedClassName,
-                                                 expectedFieldClass.getSimpleName(), actualFieldValueClass.getSimpleName(),
-                                                 missingFields);
-        comparisonState.addDifference(dualValue, missingFieldsDescription);
+        String missingNodesDescription = format(MISSING_FIELDS, actualClassName, expectedClassName,
+                                                expectedFieldClass.getSimpleName(), actualFieldValueClass.getSimpleName(),
+                                                missingNodes);
+        comparisonState.addDifference(dualValue, missingNodesDescription);
       } else { // TODO remove else to report more diff
-        // compare actual's fields against expected :
-        // - if actual has more fields than expected, the additional fields are ignored as expected is the reference
-        for (String actualFieldName : actualNonIgnoredFieldsNames) {
-          if (expectedFieldsNames.contains(actualFieldName)) {
-            DualValue newDualValue = new DualValue(dualValue.fieldLocation.field(actualFieldName),
-                                                   COMPARISON.getSimpleValue(actualFieldName, actualFieldValue),
-                                                   COMPARISON.getSimpleValue(actualFieldName, expectedFieldValue));
+        // compare actual's children nodes against expected:
+        // - if actual has more nodes than expected, the additional nodes are ignored as expected is the reference
+        for (String actualChildNodeName : actualChildrenNodeNamesToCompare) {
+          if (expectedChildrenNodesNames.contains(actualChildNodeName)) {
+            Object actualChildNodeValue = recursiveComparisonConfiguration.getValue(actualChildNodeName, actualFieldValue);
+            Object expectedChildNodeValue = recursiveComparisonConfiguration.getValue(actualChildNodeName, expectedFieldValue);
+            DualValue newDualValue = new DualValue(dualValue.fieldLocation.field(actualChildNodeName),
+                                                   actualChildNodeValue, expectedChildNodeValue);
             comparisonState.registerForComparison(newDualValue);
           }
         }

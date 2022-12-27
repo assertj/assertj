@@ -25,8 +25,11 @@ import java.util.OptionalLong;
 import java.util.function.BiPredicate;
 
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
+import org.assertj.core.api.recursive.comparison.DefaultRecursiveComparisonIntrospectionStrategy;
+import org.assertj.core.api.recursive.comparison.RecursiveComparator;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonIntrospectionStrategy;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -214,6 +217,78 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
+   * Verifies that the actual value is present in the given array of values, comparing values with the recursive comparison.
+   * <p>
+   * This assertion always fails if the given array of values is empty.
+   *
+   * @param values the given array to search the actual value in.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given array is {@code null}.
+   * @throws AssertionError if the actual value is not present in the given array.
+   */
+  @Override
+  public SELF isIn(Object... values) {
+    usingRecursiveComparator();
+    return super.isIn(values);
+  }
+
+  /**
+   * Verifies that the actual value is present in the given iterable, comparing values with the recursive comparison.
+   * <p>
+   * This assertion always fails if the given iterable is empty.
+   *
+   * @param values the given iterable to search the actual value in.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given iterable is {@code null}.
+   * @throws AssertionError if the actual value is not present in the given iterable.
+   */
+  @Override
+  public SELF isIn(Iterable<?> values) {
+    usingRecursiveComparator();
+    return super.isIn(values);
+  }
+
+  /**
+   * Verifies that the actual value is not present in the given array of values, comparing values with the recursive comparison.
+   * <p>
+   * This assertion always succeeds if the given array of values is empty.
+   *
+   * @param values the given array to search the actual value in.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given array is {@code null}.
+   * @throws AssertionError if the actual value is present in the given array.
+   */
+  @Override
+  public SELF isNotIn(Object... values) {
+    usingRecursiveComparator();
+    return super.isNotIn(values);
+  }
+
+  /**
+   * Verifies that the actual value is not present in the given iterable, comparing values with the recursive comparison..
+   * <p>
+   * This assertion always succeeds if the given iterable is empty.
+   *
+   * @param values the given iterable to search the actual value in.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given iterable is {@code null}.
+   * @throws AssertionError if the actual value is present in the given iterable.
+   */
+  @Override
+  public SELF isNotIn(Iterable<?> values) {
+    usingRecursiveComparator();
+    return super.isNotIn(values);
+  }
+
+  /**
+   * use a comparator performing a recursive comparison with the current recursiveComparisonConfiguration.
+   */
+  private void usingRecursiveComparator() {
+    RecursiveComparator recursiveComparator = new RecursiveComparator(recursiveComparisonConfiguration);
+    usingComparator(recursiveComparator, recursiveComparator.getDescription());
+  }
+
+  /**
    * Makes the recursive comparison to only compare given actual fields and their subfields (no other fields will be compared).
    * <p>
    * Specifying a field will make all its subfields to be compared, for example specifying {@code person} will lead to compare
@@ -282,7 +357,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * <p>
    * {@code comparingOnlyFieldsOfTypes} can be also combined with ignoring fields or compare only fields by name methods to restrict further the fields actually compared,
    * the resulting compared fields = {specified compared fields of types} {@code -} {specified ignored fields}.<br>
-   * For example if the specified compared fields of types = {@code {String.class, Integer.class, Double.class}}, when there are fields  String foo} ,{@code Integer buzz} and {@code Double bar}
+   * For example if the specified compared fields of types = {@code {String.class, Integer.class, Double.class}}, when there are fields  String foo, {@code Integer baz} and {@code Double bar}
    * and the ignored fields = {"bar"} set with {@link RecursiveComparisonAssert#ignoringFields(String...)} that will remove {@code bar} field from comparison, then only {@code {foo, baz}} fields will be compared.
    * <p>
    * Usage example:
@@ -1451,6 +1526,24 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   @CheckReturnValue
   public SELF withErrorMessageForType(String message, Class<?> type) {
     recursiveComparisonConfiguration.registerErrorMessageForType(message, type);
+    return myself;
+  }
+
+  /**
+   * Defines how objects are introspected in the recursive comparison, that is:
+   * <ul>
+   *  <li>how to traverse the graph of nodes to compare</li>
+   *  <li>how to get a node value</li>
+   *  </ul>
+   * <p>
+   * Default to {@link DefaultRecursiveComparisonIntrospectionStrategy} that introspects all fields (including inherited ones).
+   *
+   * @param introspectionStrategy the {@link RecursiveComparisonIntrospectionStrategy} to use
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   */
+  @CheckReturnValue
+  public SELF withIntrospectionStrategy(RecursiveComparisonIntrospectionStrategy introspectionStrategy) {
+    recursiveComparisonConfiguration.setIntrospectionStrategy(introspectionStrategy);
     return myself;
   }
 

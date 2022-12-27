@@ -39,7 +39,7 @@ class Files_assertIsEmptyFile_Test extends FilesBaseTest {
     // GIVEN
     File actual = newFile(tempDir.getAbsolutePath() + "/Test.java");
     // WHEN
-    files.assertIsEmptyFile(INFO, actual);
+    underTest.assertIsEmptyFile(INFO, actual);
     // THEN
     verifyNoInteractions(failures);
   }
@@ -49,7 +49,7 @@ class Files_assertIsEmptyFile_Test extends FilesBaseTest {
     // GIVEN
     File actual = new File("src/test/resources/actual_file.txt");
     // WHEN
-    expectAssertionError(() -> files.assertIsEmptyFile(INFO, actual));
+    expectAssertionError(() -> underTest.assertIsEmptyFile(INFO, actual));
     // THEN
     verify(failures).failure(INFO, shouldBeEmpty(actual));
   }
@@ -59,7 +59,7 @@ class Files_assertIsEmptyFile_Test extends FilesBaseTest {
     // GIVEN
     File actual = newFolder(tempDir.getAbsolutePath() + "/folder");
     // WHEN
-    expectAssertionError(() -> files.assertIsEmptyFile(INFO, actual));
+    expectAssertionError(() -> underTest.assertIsEmptyFile(INFO, actual));
     // THEN
     verify(failures).failure(INFO, shouldBeFile(actual));
   }
@@ -69,7 +69,7 @@ class Files_assertIsEmptyFile_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> files.assertIsEmptyFile(INFO, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsEmptyFile(INFO, actual));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

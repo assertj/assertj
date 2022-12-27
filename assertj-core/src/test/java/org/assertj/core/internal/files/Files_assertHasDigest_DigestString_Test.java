@@ -59,7 +59,7 @@ class Files_assertHasDigest_DigestString_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> files.assertHasDigest(INFO, actual, digest, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, digest, expected));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -69,7 +69,7 @@ class Files_assertHasDigest_DigestString_Test extends FilesBaseTest {
     // GIVEN
     File actual = new File("xyz");
     // WHEN
-    expectAssertionError(() -> files.assertHasDigest(INFO, actual, digest, expected));
+    expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, digest, expected));
     // THEN
     verify(failures).failure(INFO, shouldExist(actual));
   }
@@ -79,7 +79,7 @@ class Files_assertHasDigest_DigestString_Test extends FilesBaseTest {
     // GIVEN
     File actual = newFolder(tempDir.getAbsolutePath() + "/tmp");
     // WHEN
-    expectAssertionError(() -> files.assertHasDigest(INFO, actual, digest, expected));
+    expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, digest, expected));
     // THEN
     verify(failures).failure(INFO, shouldBeFile(actual));
   }
@@ -91,7 +91,7 @@ class Files_assertHasDigest_DigestString_Test extends FilesBaseTest {
     File actual = newFile(tempDir.getAbsolutePath() + "/Test.java");
     actual.setReadable(false);
     // WHEN
-    expectAssertionError(() -> files.assertHasDigest(INFO, actual, digest, expected));
+    expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, digest, expected));
     // THEN
     verify(failures).failure(INFO, shouldBeReadable(actual));
   }
@@ -101,7 +101,7 @@ class Files_assertHasDigest_DigestString_Test extends FilesBaseTest {
     // GIVEN
     MessageDigest digest = null;
     // WHEN
-    NullPointerException npe = catchThrowableOfType(() -> files.assertHasDigest(INFO, actual, digest, expected),
+    NullPointerException npe = catchThrowableOfType(() -> underTest.assertHasDigest(INFO, actual, digest, expected),
                                                     NullPointerException.class);
     // THEN
     then(npe).hasMessage("The message digest algorithm should not be null");
@@ -112,7 +112,7 @@ class Files_assertHasDigest_DigestString_Test extends FilesBaseTest {
     // GIVEN
     byte[] expected = null;
     // WHEN
-    NullPointerException npe = catchThrowableOfType(() -> files.assertHasDigest(INFO, actual, digest, expected),
+    NullPointerException npe = catchThrowableOfType(() -> underTest.assertHasDigest(INFO, actual, digest, expected),
                                                     NullPointerException.class);
     // THEN
     then(npe).hasMessage("The binary representation of digest to compare to should not be null");
@@ -125,7 +125,7 @@ class Files_assertHasDigest_DigestString_Test extends FilesBaseTest {
     IOException cause = new IOException();
     given(nioFilesWrapper.newInputStream(any())).willThrow(cause);
     // WHEN
-    Throwable error = catchThrowableOfType(() -> files.assertHasDigest(INFO, actual, digest, expected),
+    Throwable error = catchThrowableOfType(() -> underTest.assertHasDigest(INFO, actual, digest, expected),
                                            UncheckedIOException.class);
     // THEN
     then(error).hasCause(cause);
@@ -136,7 +136,7 @@ class Files_assertHasDigest_DigestString_Test extends FilesBaseTest {
     // GIVEN
     String unknownDigestAlgorithm = "UnknownDigestAlgorithm";
     // WHEN
-    Throwable error = catchThrowable(() -> files.assertHasDigest(INFO, actual, unknownDigestAlgorithm, expected));
+    Throwable error = catchThrowable(() -> underTest.assertHasDigest(INFO, actual, unknownDigestAlgorithm, expected));
     // THEN
     then(error).isInstanceOf(IllegalStateException.class)
                .hasMessage("Unable to find digest implementation for: <UnknownDigestAlgorithm>");
@@ -153,7 +153,7 @@ class Files_assertHasDigest_DigestString_Test extends FilesBaseTest {
     // WHEN
     expectAssertionError(() -> unMockedFiles.assertHasDigest(INFO, actual, digest, expected));
     // THEN
-    verify(unMockedFailures).failure(INFO, shouldHaveDigest(actual, digestDiff));
+    verify(failures).failure(INFO, shouldHaveDigest(actual, digestDiff));
   }
 
   @Test

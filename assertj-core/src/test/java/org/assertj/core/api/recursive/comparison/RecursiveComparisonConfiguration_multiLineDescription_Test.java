@@ -373,7 +373,8 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
                "  - bar.baz -> AlwaysDifferentComparator%n" +
                "  - foo -> AlwaysEqualComparator%n" +
                "- field comparators take precedence over type comparators.%n"+
-               "- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).%n"));
+               "- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).%n" +
+               "- the introspection strategy used was: DefaultRecursiveComparisonIntrospectionStrategy%n"));
     // @format:on
   }
 

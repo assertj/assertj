@@ -289,7 +289,7 @@ public class RecursiveAssertionAssert extends AbstractAssert<RecursiveAssertionA
   }
 
   /**
-   * Choose between running the {@link Predicate} in use over the primitive fields of an object in an object tree or not,
+   * Make the recursive assertion <b>not to run</b> the {@link Predicate} over the primitive fields of an object in an object graph,
    * by default asserting over primitives is <em>enabled</em>.
    * <p>
    * For example, consider the following class:

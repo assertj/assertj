@@ -34,7 +34,7 @@ class Paths_assertEndsWithRaw_Test extends PathsBaseTest {
     // GIVEN
     Path other = tempDir.resolve("other");
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertEndsWithRaw(info, null, other));
+    AssertionError error = expectAssertionError(() -> underTest.assertEndsWithRaw(INFO, null, other));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -44,7 +44,7 @@ class Paths_assertEndsWithRaw_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertEndsWithRaw(info, actual, null));
+    Throwable thrown = catchThrowable(() -> underTest.assertEndsWithRaw(INFO, actual, null));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage("the expected end path should not be null");
@@ -56,7 +56,7 @@ class Paths_assertEndsWithRaw_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("actual"));
     Path other = tempDir.resolve("other");
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertEndsWithRaw(info, actual, other));
+    AssertionError error = expectAssertionError(() -> underTest.assertEndsWithRaw(INFO, actual, other));
     // THEN
     then(error).hasMessage(shouldEndWith(actual, other).create());
   }
@@ -67,7 +67,7 @@ class Paths_assertEndsWithRaw_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("actual"));
     Path other = Paths.get("actual");
     // WHEN/THEN
-    paths.assertEndsWithRaw(info, actual, other);
+    underTest.assertEndsWithRaw(INFO, actual, other);
   }
 
   @Test
@@ -77,7 +77,7 @@ class Paths_assertEndsWithRaw_Test extends PathsBaseTest {
     Path actual = createSymbolicLink(tempDir.resolve("actual"), file);
     Path other = Paths.get("file");
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertEndsWithRaw(info, actual, other));
+    AssertionError error = expectAssertionError(() -> underTest.assertEndsWithRaw(INFO, actual, other));
     // THEN
     then(error).hasMessage(shouldEndWith(actual, other).create());
   }
@@ -88,7 +88,7 @@ class Paths_assertEndsWithRaw_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("actual"));
     Path other = Paths.get("actual", "..", "actual", ".");
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertEndsWithRaw(info, actual, other));
+    AssertionError error = expectAssertionError(() -> underTest.assertEndsWithRaw(INFO, actual, other));
     // THEN
     then(error).hasMessage(shouldEndWith(actual, other).create());
   }

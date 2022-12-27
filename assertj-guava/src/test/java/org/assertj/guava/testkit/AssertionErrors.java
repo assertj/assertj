@@ -10,35 +10,19 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.api;
+package org.assertj.guava.testkit;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.mockito.Mockito.mock;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
 
-import org.junit.jupiter.api.Test;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 
-/**
- * @author Ashley Scopes
- */
-class Assertions_assertThat_with_ClassLoader_Test {
+public class AssertionErrors {
 
-  private final ClassLoader actual = mock(ClassLoader.class);
-
-  @Test
-  void should_create_Assert() {
-    // WHEN
-    AbstractClassLoaderAssert<?> assertions = assertThat(actual);
-    // THEN
-    then(assertions).isNotNull();
-  }
-
-  @Test
-  void should_pass_actual() {
-    // WHEN
-    AbstractClassLoaderAssert<?> assertions = assertThat(actual);
-    // THEN
-    then(assertions).extracting("actual").isSameAs(actual);
+  public static AssertionError expectAssertionError(ThrowingCallable shouldRaiseAssertionError) {
+    AssertionError error = catchThrowableOfType(shouldRaiseAssertionError, AssertionError.class);
+    assertThat(error).as("The code under test should have raised an AssertionError").isNotNull();
+    return error;
   }
 
 }

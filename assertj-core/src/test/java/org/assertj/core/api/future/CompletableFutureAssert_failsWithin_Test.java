@@ -102,15 +102,14 @@ class CompletableFutureAssert_failsWithin_Test extends AbstractFutureTest {
     // GIVEN
     CompletableFuture<Void> completableFuture = new CompletableFuture<>();
     completableFuture.completeExceptionally(new RuntimeException("boom!"));
-    CompletableFuture<Void> future = completableFuture;
     // WHEN/THEN
-    then(future).failsWithin(1, MILLISECONDS)
-                .withThrowableOfType(ExecutionException.class)
-                .withMessageContaining("boom!");
-    then(future).failsWithin(Duration.ofMillis(1))
-                .withThrowableThat()
-                .isInstanceOf(ExecutionException.class)
-                .withMessageContaining("boom!");
+    then(completableFuture).failsWithin(1, MILLISECONDS)
+                           .withThrowableOfType(ExecutionException.class)
+                           .withMessageContaining("boom!");
+    then(completableFuture).failsWithin(Duration.ofMillis(1))
+                           .withThrowableThat()
+                           .isInstanceOf(ExecutionException.class)
+                           .withMessageContaining("boom!");
   }
 
   @Test

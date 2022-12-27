@@ -34,7 +34,7 @@ class Paths_assertHasNoParent_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasNoParent(info, null));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasNoParent(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -46,7 +46,7 @@ class Paths_assertHasNoParent_Test extends PathsBaseTest {
     IOException exception = new IOException("boom!");
     given(actual.toRealPath()).willThrow(exception);
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasNoParent(info, actual));
+    Throwable thrown = catchThrowable(() -> underTest.assertHasNoParent(INFO, actual));
     // THEN
     then(thrown).isInstanceOf(UncheckedIOException.class)
                 .hasCause(exception);
@@ -57,7 +57,7 @@ class Paths_assertHasNoParent_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual")).toRealPath();
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasNoParent(info, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasNoParent(INFO, actual));
     // THEN
     then(error).hasMessage(shouldHaveNoParent(actual).create());
   }
@@ -67,7 +67,7 @@ class Paths_assertHasNoParent_Test extends PathsBaseTest {
     // GIVEN
     Path actual = tempDir.getRoot();
     // WHEN/THEN
-    paths.assertHasNoParent(info, actual);
+    underTest.assertHasNoParent(INFO, actual);
   }
 
   @Test
@@ -76,7 +76,7 @@ class Paths_assertHasNoParent_Test extends PathsBaseTest {
     Path root = tempDir.getRoot();
     Path actual = createSymbolicLink(tempDir.resolve("actual"), root);
     // WHEN/THEN
-    paths.assertHasNoParent(info, actual);
+    underTest.assertHasNoParent(INFO, actual);
   }
 
 }

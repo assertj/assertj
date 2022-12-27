@@ -3061,11 +3061,11 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Date date2 = new Date(date1.getTime() + 100);
    *
    * // assertion succeeds
-   * assertThat(date1).isCloseTo(date2, 80)
+   * assertThat(date1).isCloseTo(date2, 101)
    *                  .isCloseTo(date2, 100);
    *
    * // assertion fails
-   * assertThat(date1).isCloseTo(date2, 101);</code></pre>
+   * assertThat(date1).isCloseTo(date2, 80);</code></pre>
    *
    * @param other the date to compare actual to
    * @param deltaInMilliseconds the delta used for date comparison, expressed in milliseconds

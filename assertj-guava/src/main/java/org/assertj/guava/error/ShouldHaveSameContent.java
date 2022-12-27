@@ -10,26 +10,21 @@
  *
  * Copyright 2012-2022 the original author or authors.
  */
-package org.assertj.core.api;
+package org.assertj.guava.error;
 
-/**
- * Assertion methods for {@link ClassLoader class loaders}.
- * <p>
- * To create a new instance of this class, invoke
- * <code>{@link Assertions#assertThat(ClassLoader)}</code></p>
- *
- * @author Ashley Scopes
- * @since 3.24.0
- */
-public class ClassLoaderAssert extends AbstractClassLoaderAssert<ClassLoaderAssert> {
+import org.assertj.core.error.BasicErrorMessageFactory;
+import org.assertj.core.error.ErrorMessageFactory;
 
-  /**
-   * Initialize this assertion.
-   *
-   * @param actual the classloader to perform assertions upon.
-   */
-  protected ClassLoaderAssert(ClassLoader actual) {
-    super(actual, ClassLoaderAssert.class);
+import com.google.common.io.ByteSource;
+
+public class ShouldHaveSameContent extends BasicErrorMessageFactory {
+
+  public static ErrorMessageFactory shouldHaveSameContent(ByteSource actual, ByteSource expected) {
+    return new ShouldHaveSameContent(actual, expected);
+  }
+
+  private ShouldHaveSameContent(ByteSource actual, ByteSource expected) {
+    super("%nexpected: %s%n but was: %s", expected, actual);
   }
 
 }

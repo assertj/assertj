@@ -354,17 +354,6 @@ public class Java6BDDAssertions {
   }
 
   /**
-   * Creates a new instance of <code>{@link org.assertj.core.api.ClassLoaderAssert}</code>
-   *
-   * @param actual the actual value.
-   * @return the created assertion object.
-   * @since 3.24.0
-   */
-  public static AbstractClassLoaderAssert<?> then(ClassLoader actual) {
-    return assertThat(actual);
-  }
-
-  /**
    * Creates a new instance of <code>{@link CollectionAssert}</code>.
    *
    * @param <T> the actual elements type

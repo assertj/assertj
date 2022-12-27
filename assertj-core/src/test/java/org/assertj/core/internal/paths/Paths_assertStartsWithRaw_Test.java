@@ -34,7 +34,7 @@ class Paths_assertStartsWithRaw_Test extends PathsBaseTest {
     // GIVEN
     Path other = createFile(tempDir.resolve("other"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertStartsWithRaw(info, null, other));
+    AssertionError error = expectAssertionError(() -> underTest.assertStartsWithRaw(INFO, null, other));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -44,7 +44,7 @@ class Paths_assertStartsWithRaw_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertStartsWithRaw(info, actual, null));
+    Throwable thrown = catchThrowable(() -> underTest.assertStartsWithRaw(INFO, actual, null));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage("the expected start path should not be null");
@@ -56,7 +56,7 @@ class Paths_assertStartsWithRaw_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("actual"));
     Path other = createFile(tempDir.resolve("other"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertStartsWithRaw(info, actual, other));
+    AssertionError error = expectAssertionError(() -> underTest.assertStartsWithRaw(INFO, actual, other));
     // THEN
     then(error).hasMessage(shouldStartWith(actual, other).create());
   }
@@ -67,7 +67,7 @@ class Paths_assertStartsWithRaw_Test extends PathsBaseTest {
     Path other = createDirectory(tempDir.resolve("other")).toRealPath();
     Path actual = createFile(other.resolve("actual")).toRealPath();
     // WHEN/THEN
-    paths.assertStartsWithRaw(info, actual, other);
+    underTest.assertStartsWithRaw(INFO, actual, other);
   }
 
   @Test
@@ -77,7 +77,7 @@ class Paths_assertStartsWithRaw_Test extends PathsBaseTest {
     Path file = createFile(other.resolve("file"));
     Path actual = createSymbolicLink(tempDir.resolve("actual"), file);
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertStartsWithRaw(info, actual, other));
+    AssertionError error = expectAssertionError(() -> underTest.assertStartsWithRaw(INFO, actual, other));
     // THEN
     then(error).hasMessage(shouldStartWith(actual, other).create());
   }
@@ -89,7 +89,7 @@ class Paths_assertStartsWithRaw_Test extends PathsBaseTest {
     Path other = createSymbolicLink(tempDir.resolve("other"), directory);
     Path actual = createFile(directory.resolve("actual"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertStartsWithRaw(info, actual, other));
+    AssertionError error = expectAssertionError(() -> underTest.assertStartsWithRaw(INFO, actual, other));
     // THEN
     then(error).hasMessage(shouldStartWith(actual, other).create());
   }

@@ -37,7 +37,7 @@ class Paths_assertHasParent_Test extends PathsBaseTest {
     // GIVEN
     Path expected = tempDir.resolve("expected");
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasParent(info, null, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasParent(INFO, null, expected));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -47,7 +47,7 @@ class Paths_assertHasParent_Test extends PathsBaseTest {
     // GIVEN
     Path actual = tempDir.resolve("actual");
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasParent(info, actual, null));
+    Throwable thrown = catchThrowable(() -> underTest.assertHasParent(INFO, actual, null));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage("expected parent path should not be null");
@@ -59,7 +59,7 @@ class Paths_assertHasParent_Test extends PathsBaseTest {
     Path actual = tempDir.getRoot();
     Path expected = tempDir.resolve("expected");
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasParent(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasParent(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldHaveParent(actual, expected).create());
   }
@@ -72,7 +72,7 @@ class Paths_assertHasParent_Test extends PathsBaseTest {
     IOException exception = new IOException("boom!");
     given(actual.toRealPath()).willThrow(exception);
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasParent(info, actual, expected));
+    Throwable thrown = catchThrowable(() -> underTest.assertHasParent(INFO, actual, expected));
     // THEN
     then(thrown).isInstanceOf(UncheckedIOException.class)
                 .hasCause(exception);
@@ -86,7 +86,7 @@ class Paths_assertHasParent_Test extends PathsBaseTest {
     IOException exception = new IOException("boom!");
     given(expected.toRealPath()).willThrow(exception);
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasParent(info, actual, expected));
+    Throwable thrown = catchThrowable(() -> underTest.assertHasParent(INFO, actual, expected));
     // THEN
     then(thrown).isInstanceOf(UncheckedIOException.class)
                 .hasCause(exception);
@@ -98,7 +98,7 @@ class Paths_assertHasParent_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("actual")).toRealPath();
     Path expected = createFile(tempDir.resolve("expected")).toRealPath();
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasParent(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasParent(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldHaveParent(actual, actual.getParent(), expected).create());
   }
@@ -109,7 +109,7 @@ class Paths_assertHasParent_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("actual")).toRealPath();
     Path expected = tempDir.toRealPath();
     // WHEN/THEN
-    paths.assertHasParent(info, actual, expected);
+    underTest.assertHasParent(INFO, actual, expected);
   }
 
   @Test
@@ -119,7 +119,7 @@ class Paths_assertHasParent_Test extends PathsBaseTest {
     Path file = createFile(expected.resolve("file"));
     Path actual = createSymbolicLink(tempDir.resolve("actual"), file);
     // WHEN/THEN
-    paths.assertHasParent(info, actual, expected);
+    underTest.assertHasParent(INFO, actual, expected);
   }
 
   @Test
@@ -129,7 +129,7 @@ class Paths_assertHasParent_Test extends PathsBaseTest {
     Path expected = createSymbolicLink(tempDir.resolve("expected"), directory);
     Path actual = createFile(directory.resolve("actual"));
     // WHEN/THEN
-    paths.assertHasParent(info, actual, expected);
+    underTest.assertHasParent(INFO, actual, expected);
   }
 
 }

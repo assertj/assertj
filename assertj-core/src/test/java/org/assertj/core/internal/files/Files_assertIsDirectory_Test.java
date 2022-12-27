@@ -39,7 +39,7 @@ class Files_assertIsDirectory_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> files.assertIsDirectory(INFO, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectory(INFO, actual));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -49,7 +49,7 @@ class Files_assertIsDirectory_Test extends FilesBaseTest {
     // GIVEN
     File actual = newFile(tempDir.getAbsolutePath() + "/file.txt");
     // WHEN
-    expectAssertionError(() -> files.assertIsDirectory(INFO, actual));
+    expectAssertionError(() -> underTest.assertIsDirectory(INFO, actual));
     // THEN
     verify(failures).failure(INFO, shouldBeDirectory(actual));
   }
@@ -57,6 +57,6 @@ class Files_assertIsDirectory_Test extends FilesBaseTest {
   @Test
   void should_pass_if_actual_is_directory() {
     File actual = tempDir;
-    files.assertIsDirectory(INFO, actual);
+    underTest.assertIsDirectory(INFO, actual);
   }
 }

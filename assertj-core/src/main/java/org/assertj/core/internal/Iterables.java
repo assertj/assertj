@@ -39,8 +39,8 @@ import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubsetOf.shouldBeSubsetOf;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
-import static org.assertj.core.error.ShouldContainExactly.shouldContainExactlyWithIndexes;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
+import static org.assertj.core.error.ShouldContainExactly.shouldContainExactlyWithIndexes;
 import static org.assertj.core.error.ShouldContainExactlyInAnyOrder.shouldContainExactlyInAnyOrder;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
@@ -87,6 +87,7 @@ import static org.assertj.core.util.Streams.stream;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
@@ -206,7 +207,7 @@ public class Iterables {
    * @param actual the given {@code Iterable}.
    * @param expectedSize the expected size of {@code actual}.
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
-   * @throws AssertionError if the number of elements in the given {@code Iterable} is different than the expected one.
+   * @throws AssertionError if the number of elements in the given {@code Iterable} is different from the expected one.
    */
   public void assertHasSize(AssertionInfo info, Iterable<?> actual, int expectedSize) {
     assertNotNull(info, actual);
@@ -343,10 +344,16 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not contain the given values.
    */
   public void assertContains(AssertionInfo info, Iterable<?> actual, Object[] values) {
-    final List<?> actualAsList = newArrayList(actual);
-    if (commonCheckThatIterableAssertionSucceeds(info, actualAsList, values)) return;
+    final Collection<?> actualAsCollection = ensureActualCanBeReadMultipleTimes(actual);
+    if (commonCheckThatIterableAssertionSucceeds(info, actualAsCollection, values)) return;
     // check for elements in values that are missing in actual.
-    assertIterableContainsGivenValues(actual.getClass(), actualAsList, values, info);
+    assertIterableContainsGivenValues(actual.getClass(), actualAsCollection, values, info);
+  }
+
+  private static Collection<?> ensureActualCanBeReadMultipleTimes(Iterable<?> actual) {
+    // ensure the assertion works for non-repeatable iterables, but avoid copy when actual is already a jdk Collection.
+    boolean isJdkCollection = actual instanceof Collection<?> && actual.getClass().getCanonicalName().startsWith("java");
+    return isJdkCollection ? (Collection<?>) actual : newArrayList(actual);
   }
 
   private void assertIterableContainsGivenValues(@SuppressWarnings("rawtypes") Class<? extends Iterable> clazz,
@@ -454,7 +461,7 @@ public class Iterables {
     assertNotNull(info, actual);
     // empty => no null elements => failure
     if (sizeOf(actual) == 0) throw failures.failure(info, shouldContainOnlyNulls(actual));
-    // look for any non null elements
+    // look for any non-null elements
     List<Object> nonNullElements = stream(actual).filter(java.util.Objects::nonNull).collect(toList());
     if (nonNullElements.size() > 0) throw failures.failure(info, shouldContainOnlyNulls(actual, nonNullElements));
   }
@@ -492,8 +499,8 @@ public class Iterables {
   }
 
   private class Lifo {
-    private int maxSize;
-    private LinkedList<Object> stack;
+    private final int maxSize;
+    private final LinkedList<Object> stack;
 
     Lifo(int maxSize) {
       this.maxSize = maxSize;
@@ -1013,8 +1020,7 @@ public class Iterables {
     }
   }
 
-  private <E> boolean conditionIsSatisfiedNTimes(Iterable<? extends E> actual, Condition<? super E> condition,
-                                                 int times) {
+  private <E> boolean conditionIsSatisfiedNTimes(Iterable<? extends E> actual, Condition<? super E> condition, int times) {
     List<E> satisfiesCondition = satisfiesCondition(actual, condition);
     return satisfiesCondition.size() == times;
   }
@@ -1162,12 +1168,14 @@ public class Iterables {
 
   private AssertionError shouldContainExactlyWithIndexAssertionError(Iterable<?> actual, Object[] values,
                                                                      List<IndexedDiff> indexedDiffs, AssertionInfo info) {
-    return failures.failure(info, shouldContainExactlyWithIndexes(actual, list(values), indexedDiffs, comparisonStrategy));
+    return failures.failure(info, shouldContainExactlyWithIndexes(actual, list(values), indexedDiffs, comparisonStrategy), actual,
+                            list(values));
   }
 
   private AssertionError shouldContainExactlyWithDiffAssertionError(IterableDiff<Object> diff, Iterable<?> actual,
                                                                     Object[] values, AssertionInfo info) {
-    return failures.failure(info, shouldContainExactly(actual, list(values), diff.missing, diff.unexpected, comparisonStrategy));
+    return failures.failure(info, shouldContainExactly(actual, list(values), diff.missing, diff.unexpected, comparisonStrategy),
+                            actual, list(values));
   }
 
   public <E> void assertAllSatisfy(AssertionInfo info, Iterable<? extends E> actual, Consumer<? super E> requirements) {

@@ -670,17 +670,6 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
-   * Creates a new instance of <code>{@link ClassLoaderAssert}</code>.
-   *
-   * @param actual the actual value.
-   * @return the created assertion object.
-   * @since 3.24.0
-   */
-  default AbstractClassLoaderAssert<?> assertThat(final ClassLoader actual) {
-    return Assertions.assertThat(actual);
-  }
-
-  /**
    * Creates a new instance of <code>{@link CharacterAssert}</code>.
    *
    * @param actual the actual value.

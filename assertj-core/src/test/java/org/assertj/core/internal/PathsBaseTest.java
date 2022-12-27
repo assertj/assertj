@@ -13,11 +13,15 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.test.TestData.someInfo;
+import static org.mockito.Mockito.mockingDetails;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.spy;
 
 import java.nio.file.Path;
 
 import org.assertj.core.api.AssertionInfo;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -26,29 +30,42 @@ import org.junit.jupiter.api.io.TempDir;
  */
 public abstract class PathsBaseTest {
 
+  protected static final AssertionInfo INFO = someInfo();
+
+  protected static Paths underTest = Paths.instance();
+
+  protected static NioFilesWrapper nioFilesWrapper = spy(underTest.nioFilesWrapper);
+  protected static Failures failures = spy(underTest.failures);
+  protected static Diff diff = spy(underTest.diff);
+  protected static BinaryDiff binaryDiff = spy(underTest.binaryDiff);
+
   @TempDir
   protected Path tempDir;
 
-  protected Failures failures;
-  protected Paths paths;
-  protected NioFilesWrapper nioFilesWrapper;
-  protected AssertionInfo info;
+  @BeforeAll
+  static void injectSpies() {
+    underTest.nioFilesWrapper = nioFilesWrapper;
+    underTest.failures = failures;
+    underTest.diff = diff;
+    underTest.binaryDiff = binaryDiff;
+  }
 
-  protected Diff diff;
-  protected BinaryDiff binaryDiff;
+  @AfterAll
+  static void removeSpies() {
+    underTest.nioFilesWrapper = getSpiedInstance(nioFilesWrapper);
+    underTest.failures = getSpiedInstance(failures);
+    underTest.diff = getSpiedInstance(diff);
+    underTest.binaryDiff = getSpiedInstance(binaryDiff);
+  }
+
+  @SuppressWarnings("unchecked")
+  private static <T> T getSpiedInstance(Object spy) {
+    return (T) mockingDetails(spy).getMockCreationSettings().getSpiedInstance();
+  }
 
   @BeforeEach
-  void setUp() {
-    paths = Paths.instance();
-    nioFilesWrapper = spy(paths.nioFilesWrapper);
-    paths.nioFilesWrapper = nioFilesWrapper;
-    failures = spy(paths.failures);
-    paths.failures = failures;
-    diff = spy(paths.diff);
-    paths.diff = diff;
-    binaryDiff = spy(paths.binaryDiff);
-    paths.binaryDiff = binaryDiff;
-    info = someInfo();
+  void resetSpies() {
+    reset(nioFilesWrapper, failures, diff, binaryDiff);
   }
 
 }

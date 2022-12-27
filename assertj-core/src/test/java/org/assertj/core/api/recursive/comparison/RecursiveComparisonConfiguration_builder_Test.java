@@ -18,6 +18,7 @@ import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 import static org.assertj.core.test.BiPredicates.STRING_EQUALS;
 
 import java.util.Comparator;
+import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.regex.Pattern;
 
@@ -352,6 +353,26 @@ class RecursiveComparisonConfiguration_builder_Test {
     // THEN
     then(configuration.hasCustomMessageForType(String.class)).isTrue();
     then(configuration.getMessageForType(String.class)).isEqualTo(message);
+  }
+
+  @Test
+  void should_set_introspection_strategy() {
+    // GIVEN
+    RecursiveComparisonIntrospectionStrategy myIntrospectionStrategy = new RecursiveComparisonIntrospectionStrategy() {
+      @Override
+      public Set<String> getChildrenNodeNamesOf(Object node) {
+        return null;
+      }
+
+      @Override
+      public Object getChildNodeValue(String childNodeName, Object instance) {
+        return null;
+      }
+    };
+    // WHEN
+    RecursiveComparisonConfiguration configuration = configBuilder().withIntrospectionStrategy(myIntrospectionStrategy).build();
+    // THEN
+    then(configuration.getIntrospectionStrategy()).isSameAs(myIntrospectionStrategy);
   }
 
   private static Builder configBuilder() {

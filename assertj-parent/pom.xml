@@ -26,16 +26,17 @@
     <!-- Dependency versions -->
     <junit.version>4.13.2</junit.version>
     <junit-jupiter.version>5.9.1</junit-jupiter.version>
-    <mockito.version>4.8.1</mockito.version>
+    <mockito.version>4.10.0</mockito.version>
     <opentest4j.version>1.2.0</opentest4j.version>
     <!-- Plugin versions -->
-    <bnd.version>6.3.1</bnd.version>
+    <bnd.version>6.4.0</bnd.version>
     <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
+    <japicmp-maven-plugin.version>0.17.1</japicmp-maven-plugin.version>
     <maven-clean-plugin.version>3.2.0</maven-clean-plugin.version>
     <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
     <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
     <maven-deploy-plugin.version>3.0.0</maven-deploy-plugin.version>
-    <maven-install-plugin.version>3.0.1</maven-install-plugin.version>
+    <maven-install-plugin.version>3.1.0</maven-install-plugin.version>
     <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
     <maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
     <maven-project-info-reports-plugin.version>3.4.1</maven-project-info-reports-plugin.version>
@@ -44,8 +45,8 @@
     <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
     <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
     <maven-surefire-report-plugin.version>2.22.2</maven-surefire-report-plugin.version>
-    <spotbugs-maven-plugin.version>4.7.2.1</spotbugs-maven-plugin.version>
-    <versions-maven-plugin.version>2.13.0</versions-maven-plugin.version>
+    <spotbugs-maven-plugin.version>4.7.3.0</spotbugs-maven-plugin.version>
+    <versions-maven-plugin.version>2.14.2</versions-maven-plugin.version>
   </properties>
 
   <dependencyManagement>
@@ -96,6 +97,19 @@
           <groupId>biz.aQute.bnd</groupId>
           <artifactId>bnd-testing-maven-plugin</artifactId>
           <version>${bnd.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>com.github.siom79.japicmp</groupId>
+          <artifactId>japicmp-maven-plugin</artifactId>
+          <version>${japicmp-maven-plugin.version}</version>
+          <configuration>
+            <parameter>
+              <onlyBinaryIncompatible>true</onlyBinaryIncompatible>
+              <onlyModified>true</onlyModified>
+              <reportOnlyFilename>true</reportOnlyFilename>
+            </parameter>
+            <skipXmlReport>true</skipXmlReport>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>com.github.spotbugs</groupId>

@@ -23,11 +23,15 @@ import org.assertj.core.api.Condition;
 import org.assertj.core.description.Description;
 
 /**
- * Building block to define a precise soft assertion about a complex object.
+ * Building block to define precise conditions on complex objects.
+ * <p>
  * It allows to create readable assertions and produces beautiful assertion error messages.
  * <p>
  * Example:
- * <pre><code class='java'> class Customer {
+ * <pre><code class='java'> import static org.assertj.core.condition.NestableCondition.nestable;
+ * import static org.assertj.core.condition.VerboseCondition.verboseCondition;
+ *
+ * class Customer {
  *    final String name;
  *    final Address address;
  *
@@ -90,7 +94,7 @@ import org.assertj.core.description.Description;
  *     )
  *   )
  * ); </code></pre>
- * which leads to an easy-to-read assertion error:
+ * leads to an easy-to-read assertion error:
  * <pre><code class='text'> Expecting actual:
  *   org.assertj.core.condition.Customer@27ff5d15
  * to be:

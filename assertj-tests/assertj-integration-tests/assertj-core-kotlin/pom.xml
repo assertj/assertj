@@ -13,7 +13,7 @@
   <name>AssertJ Core Integration Tests - Kotlin</name>
 
   <properties>
-    <kotlin.version>1.7.20</kotlin.version>
+    <kotlin.version>1.7.22</kotlin.version>
   </properties>
 
   <dependencies>

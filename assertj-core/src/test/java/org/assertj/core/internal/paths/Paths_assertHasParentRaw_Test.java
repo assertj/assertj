@@ -34,7 +34,7 @@ class Paths_assertHasParentRaw_Test extends PathsBaseTest {
     // GIVEN
     Path expected = tempDir.resolve("expected");
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasParentRaw(info, null, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasParentRaw(INFO, null, expected));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -44,7 +44,7 @@ class Paths_assertHasParentRaw_Test extends PathsBaseTest {
     // GIVEN
     Path actual = tempDir.resolve("actual");
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasParentRaw(info, actual, null));
+    Throwable thrown = catchThrowable(() -> underTest.assertHasParentRaw(INFO, actual, null));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage("expected parent path should not be null");
@@ -56,7 +56,7 @@ class Paths_assertHasParentRaw_Test extends PathsBaseTest {
     Path actual = tempDir.getRoot();
     Path expected = tempDir.resolve("expected");
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasParentRaw(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasParentRaw(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldHaveParent(actual, expected).create());
   }
@@ -67,7 +67,7 @@ class Paths_assertHasParentRaw_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("actual"));
     Path expected = createFile(tempDir.resolve("expected"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasParentRaw(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasParentRaw(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldHaveParent(actual, actual.getParent(), expected).create());
   }
@@ -78,7 +78,7 @@ class Paths_assertHasParentRaw_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("actual"));
     Path expected = tempDir;
     // WHEN
-    paths.assertHasParentRaw(info, actual, expected);
+    underTest.assertHasParentRaw(INFO, actual, expected);
   }
 
   @Test
@@ -88,7 +88,7 @@ class Paths_assertHasParentRaw_Test extends PathsBaseTest {
     Path file = createFile(expected.resolve("file"));
     Path actual = createSymbolicLink(tempDir.resolve("actual"), file);
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasParentRaw(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasParentRaw(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldHaveParent(actual, actual.getParent(), expected).create());
   }
@@ -100,7 +100,7 @@ class Paths_assertHasParentRaw_Test extends PathsBaseTest {
     Path expected = createSymbolicLink(tempDir.resolve("expected"), directory);
     Path actual = createFile(directory.resolve("actual"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasParentRaw(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasParentRaw(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldHaveParent(actual, actual.getParent(), expected).create());
   }

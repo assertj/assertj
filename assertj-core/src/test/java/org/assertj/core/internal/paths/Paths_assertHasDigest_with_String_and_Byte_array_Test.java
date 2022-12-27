@@ -51,7 +51,7 @@ class Paths_assertHasDigest_with_String_and_Byte_array_Test extends PathsBaseTes
     String algorithm = null;
     byte[] expected = {};
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasDigest(info, actual, algorithm, expected));
+    Throwable thrown = catchThrowable(() -> underTest.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage("The message digest algorithm should not be null");
@@ -64,7 +64,7 @@ class Paths_assertHasDigest_with_String_and_Byte_array_Test extends PathsBaseTes
     String algorithm = "invalid";
     byte[] expected = {};
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasDigest(info, actual, algorithm, expected));
+    Throwable thrown = catchThrowable(() -> underTest.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
     then(thrown).isInstanceOf(IllegalStateException.class)
                 .hasMessage("Unable to find digest implementation for: <invalid>")
@@ -78,7 +78,7 @@ class Paths_assertHasDigest_with_String_and_Byte_array_Test extends PathsBaseTes
     String algorithm = "MD5";
     byte[] expected = null;
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasDigest(info, actual, algorithm, expected));
+    Throwable thrown = catchThrowable(() -> underTest.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage("The binary representation of digest to compare to should not be null");
@@ -91,7 +91,7 @@ class Paths_assertHasDigest_with_String_and_Byte_array_Test extends PathsBaseTes
     String algorithm = "MD5";
     byte[] expected = {};
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasDigest(info, actual, algorithm, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -103,7 +103,7 @@ class Paths_assertHasDigest_with_String_and_Byte_array_Test extends PathsBaseTes
     String algorithm = "MD5";
     byte[] expected = {};
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasDigest(info, actual, algorithm, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -115,7 +115,7 @@ class Paths_assertHasDigest_with_String_and_Byte_array_Test extends PathsBaseTes
     String algorithm = "MD5";
     byte[] expected = {};
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasDigest(info, actual, algorithm, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
     then(error).hasMessage(shouldBeRegularFile(actual).create());
   }
@@ -129,7 +129,7 @@ class Paths_assertHasDigest_with_String_and_Byte_array_Test extends PathsBaseTes
     String algorithm = "MD5";
     byte[] expected = {};
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasDigest(info, actual, algorithm, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
     then(error).hasMessage(shouldBeReadable(actual).create());
   }
@@ -143,7 +143,7 @@ class Paths_assertHasDigest_with_String_and_Byte_array_Test extends PathsBaseTes
     IOException cause = new IOException("boom!");
     willThrow(cause).given(nioFilesWrapper).newInputStream(actual);
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasDigest(info, actual, algorithm, expected));
+    Throwable thrown = catchThrowable(() -> underTest.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
     then(thrown).isInstanceOf(UncheckedIOException.class)
                 .hasCause(cause);
@@ -157,7 +157,7 @@ class Paths_assertHasDigest_with_String_and_Byte_array_Test extends PathsBaseTes
     MessageDigest digest = MessageDigest.getInstance(algorithm);
     byte[] expected = digest.digest("Another content".getBytes());
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasDigest(info, actual, algorithm, expected));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
     then(error).hasMessage(shouldHaveDigest(actual, new DigestDiff(toHex(digest.digest(readAllBytes(actual))),
                                                                    toHex(expected),
@@ -171,7 +171,7 @@ class Paths_assertHasDigest_with_String_and_Byte_array_Test extends PathsBaseTes
     String algorithm = "MD5";
     byte[] expected = MessageDigest.getInstance(algorithm).digest(readAllBytes(actual));
     // WHEN/THEN
-    paths.assertHasDigest(info, actual, algorithm, expected);
+    underTest.assertHasDigest(INFO, actual, algorithm, expected);
   }
 
 }
