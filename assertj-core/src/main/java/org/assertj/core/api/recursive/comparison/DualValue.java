@@ -110,7 +110,8 @@ public final class DualValue {
 
   private static boolean isJavaType(Object o) {
     if (o == null) return false;
-    return o.getClass().getName().startsWith("java.");
+    String className = o.getClass().getName();
+    return className.startsWith("java.") || className.startsWith("sun.");
   }
 
   public boolean isExpectedFieldAnArray() {
@@ -302,7 +303,6 @@ public final class DualValue {
   public boolean isExpectedAContainer() {
     return isContainer(expected);
   }
-
 
   public boolean hasNoNullValues() {
     return actual != null && expected != null;

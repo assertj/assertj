@@ -14,7 +14,9 @@ package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicIntegerArray;
@@ -42,31 +44,32 @@ class RecursiveComparisonAssert_isEqualTo_with_java_types_Test extends Recursive
   }
 
   static Stream<Arguments> should_pass_when_comparing_java_types() {
-    return Stream.of(Arguments.of(new AtomicInteger(123), new AtomicInteger(123)),
-                     Arguments.of(new AtomicLong(123), new AtomicLong(123)),
-                     Arguments.of(new AtomicBoolean(true), new AtomicBoolean(true)),
-                     Arguments.of(new AtomicBoolean(Boolean.FALSE), new AtomicBoolean(Boolean.FALSE)),
-                     Arguments.of(new AtomicIntegerArray(new int[] { 1, 2, 3 }), new AtomicIntegerArray(new int[] { 1, 2, 3 })),
-                     Arguments.of(new AtomicLongArray(new long[] { 1, 2, 3 }), new AtomicLongArray(new long[] { 1, 2, 3 })),
-                     Arguments.of(new AtomicReference<>("test"), new AtomicReference<>("test")),
-                     Arguments.of(new AtomicReference<>(new Person("Joe")), new AtomicReference<>(new Person("Joe"))),
-                     Arguments.of(new AtomicReferenceArray<>(array("test")), new AtomicReferenceArray<>(array("test"))),
-                     Arguments.of(new Wrapper(new AtomicInteger(123)),
-                                  new Wrapper(new AtomicInteger(123))),
-                     Arguments.of(new Wrapper(new AtomicLong(123)),
-                                  new Wrapper(new AtomicLong(123))),
-                     Arguments.of(new Wrapper(new AtomicBoolean(true)),
-                                  new Wrapper(new AtomicBoolean(true))),
-                     Arguments.of(new Wrapper(new AtomicBoolean(Boolean.FALSE)),
-                                  new Wrapper(new AtomicBoolean(Boolean.FALSE))),
-                     Arguments.of(new Wrapper(new AtomicIntegerArray(new int[] { 1, 2, 3 })),
-                                  new Wrapper(new AtomicIntegerArray(new int[] { 1, 2, 3 }))),
-                     Arguments.of(new Wrapper(new AtomicLongArray(new long[] { 1, 2, 3 })),
-                                  new Wrapper(new AtomicLongArray(new long[] { 1, 2, 3 }))),
-                     Arguments.of(new Wrapper(new AtomicReference<>("test")),
-                                  new Wrapper(new AtomicReference<>("test"))),
-                     Arguments.of(new Wrapper(new AtomicReferenceArray<>(array("test"))),
-                                  new Wrapper(new AtomicReferenceArray<>(array("test")))));
+    return Stream.of(arguments(new AtomicInteger(123), new AtomicInteger(123)),
+                     arguments(new AtomicLong(123), new AtomicLong(123)),
+                     arguments(new AtomicBoolean(true), new AtomicBoolean(true)),
+                     arguments(new AtomicBoolean(Boolean.FALSE), new AtomicBoolean(Boolean.FALSE)),
+                     arguments(new AtomicIntegerArray(new int[] { 1, 2, 3 }), new AtomicIntegerArray(new int[] { 1, 2, 3 })),
+                     arguments(new AtomicLongArray(new long[] { 1, 2, 3 }), new AtomicLongArray(new long[] { 1, 2, 3 })),
+                     arguments(new AtomicReference<>("test"), new AtomicReference<>("test")),
+                     arguments(new AtomicReference<>(new Person("Joe")), new AtomicReference<>(new Person("Joe"))),
+                     arguments(new AtomicReferenceArray<>(array("test")), new AtomicReferenceArray<>(array("test"))),
+                     arguments(TimeZone.getTimeZone("UTC"), TimeZone.getTimeZone("UTC")),
+                     arguments(new Wrapper(new AtomicInteger(123)),
+                               new Wrapper(new AtomicInteger(123))),
+                     arguments(new Wrapper(new AtomicLong(123)),
+                               new Wrapper(new AtomicLong(123))),
+                     arguments(new Wrapper(new AtomicBoolean(true)),
+                               new Wrapper(new AtomicBoolean(true))),
+                     arguments(new Wrapper(new AtomicBoolean(Boolean.FALSE)),
+                               new Wrapper(new AtomicBoolean(Boolean.FALSE))),
+                     arguments(new Wrapper(new AtomicIntegerArray(new int[] { 1, 2, 3 })),
+                               new Wrapper(new AtomicIntegerArray(new int[] { 1, 2, 3 }))),
+                     arguments(new Wrapper(new AtomicLongArray(new long[] { 1, 2, 3 })),
+                               new Wrapper(new AtomicLongArray(new long[] { 1, 2, 3 }))),
+                     arguments(new Wrapper(new AtomicReference<>("test")),
+                               new Wrapper(new AtomicReference<>("test"))),
+                     arguments(new Wrapper(new AtomicReferenceArray<>(array("test"))),
+                               new Wrapper(new AtomicReferenceArray<>(array("test")))));
   }
 
   @Test
