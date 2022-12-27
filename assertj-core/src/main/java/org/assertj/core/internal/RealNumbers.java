@@ -28,11 +28,11 @@ import org.assertj.core.api.AssertionInfo;
  */
 public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> extends Numbers<NUMBER> {
 
-  public RealNumbers() {
+  protected RealNumbers() {
     super();
   }
 
-  public RealNumbers(ComparisonStrategy comparisonStrategy) {
+  protected RealNumbers(ComparisonStrategy comparisonStrategy) {
     super(comparisonStrategy);
   }
 
