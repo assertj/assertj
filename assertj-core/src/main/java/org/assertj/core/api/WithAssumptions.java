@@ -467,16 +467,6 @@ public interface WithAssumptions {
   }
 
   /**
-   * Creates a new instance of <code>{@link ClassLoaderAssert}</code> assumption.
-   *
-   * @param actual the actual value.
-   * @return the created assumption for assertion object.
-   */
-  default AbstractClassLoaderAssert<?> assertThat(final ClassLoader actual) {
-    return Assumptions.assumeThat(actual);
-  }
-
-  /**
    * Creates a new instance of <code>{@link CharacterAssert}</code> assumption.
    *
    * @param actual the actual value.

@@ -26,7 +26,7 @@
     <!-- Dependency versions -->
     <junit.version>4.13.2</junit.version>
     <junit-jupiter.version>5.9.1</junit-jupiter.version>
-    <mockito.version>4.10.0</mockito.version>
+    <mockito.version>4.11.0</mockito.version>
     <opentest4j.version>1.2.0</opentest4j.version>
     <!-- Plugin versions -->
     <bnd.version>6.4.0</bnd.version>
@@ -46,7 +46,7 @@
     <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
     <maven-surefire-report-plugin.version>2.22.2</maven-surefire-report-plugin.version>
     <spotbugs-maven-plugin.version>4.7.3.0</spotbugs-maven-plugin.version>
-    <versions-maven-plugin.version>2.14.1</versions-maven-plugin.version>
+    <versions-maven-plugin.version>2.14.2</versions-maven-plugin.version>
   </properties>
 
   <dependencyManagement>

@@ -1235,17 +1235,6 @@ public final class BDDAssumptions extends Assumptions {
   }
 
   /**
-   * Creates a new instance of <code>{@link ClassLoaderAssert}</code> assumption.
-   *
-   * @param actual the actual value.
-   * @return the created assumption for assertion object.
-   * @since 3.24.0
-   */
-  public static AbstractClassLoaderAssert<?> given(ClassLoader actual) {
-    return assumeThat(actual);
-  }
-
-  /**
    * Creates a new assumption's instance for an object value.
    * <p>
    * Examples:

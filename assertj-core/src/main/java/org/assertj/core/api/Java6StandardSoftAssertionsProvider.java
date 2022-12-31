@@ -208,17 +208,6 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   }
 
   /**
-   * Creates a new instance of <code>{@link ClassLoaderAssert}</code>.
-   *
-   * @param actual the actual value.
-   * @return the created assertion object.
-   * @since 3.24.0
-   */
-  default AbstractClassLoaderAssert<?> assertThat(ClassLoader actual) {
-    return proxy(ClassLoaderAssert.class, ClassLoader.class, actual);
-  }
-
-  /**
    * Creates a new instance of <code>{@link CollectionAssert}</code>.
    *
    * @param <T> the actual element's type.
