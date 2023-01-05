@@ -13,6 +13,7 @@
 
   <name>AssertJ (Bill of Materials)</name>
   <description>This Bill of Materials POM can be used to ease dependency management when referencing multiple AssertJ artifacts using Gradle or Maven.</description>
+  <url>${project.organization.url}</url>
 
   <dependencyManagement>
     <dependencies>

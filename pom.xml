@@ -9,6 +9,7 @@
 
   <name>AssertJ Build</name>
   <description>AssertJ Build</description>
+  <url>${project.organization.url}</url>
   <organization>
     <name>AssertJ</name>
     <url>https://assertj.github.io/doc/</url>
