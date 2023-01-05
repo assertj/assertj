@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent</artifactId>
-    <version>3.24.0-SNAPSHOT</version>
+    <version>3.24.0</version>
     <relativePath>../assertj-parent</relativePath>
   </parent>
 
@@ -222,7 +222,7 @@
                     </goals>
                   </pluginExecutionFilter>
                   <action>
-                    <ignore/>
+                    <ignore />
                   </action>
                 </pluginExecution>
               </pluginExecutions>
@@ -295,7 +295,7 @@
                     <exclude>*:*:*:jar:compile</exclude>
                   </excludes>
                 </bannedDependencies>
-                <dependencyConvergence/>
+                <dependencyConvergence />
                 <requireJavaVersion>
                   <version>[17,)</version>
                 </requireJavaVersion>
@@ -342,22 +342,19 @@
             These blocks are needed to show @DisplayName and @ParameterizedTest
             in reports with the provided names, as well as with console output.
           -->
-          <consoleOutputReporter
-            implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5ConsoleOutputReporter">
+          <consoleOutputReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5ConsoleOutputReporter">
             <!-- Set to true to suppress log output being included in Surefire output -->
             <disable>false</disable>
           </consoleOutputReporter>
 
-          <statelessTestsetInfoReporter
-            implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoReporter">
+          <statelessTestsetInfoReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoReporter">
             <disable>false</disable>
             <usePhrasedFileName>false</usePhrasedFileName>
             <usePhrasedClassNameInRunning>true</usePhrasedClassNameInRunning>
             <usePhrasedClassNameInTestCaseSummary>true</usePhrasedClassNameInTestCaseSummary>
           </statelessTestsetInfoReporter>
 
-          <statelessTestsetReporter
-            implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
+          <statelessTestsetReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
             <disable>false</disable>
             <usePhrasedFileName>false</usePhrasedFileName>
             <usePhrasedTestSuiteClassName>true</usePhrasedTestSuiteClassName>
