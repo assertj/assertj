@@ -66,4 +66,12 @@ class ObjectAssert_returns_Test extends ObjectAssertBaseTest {
                     .returns("YODA", from(Jedi::getName));
   }
 
+  @Test
+  void should_pass_with_null_expected_value() {
+    // GIVEN
+    Jedi yoda = new Jedi(null, "Green");
+    // WHEN/THEN
+    assertThat(yoda).returns(null, from(Jedi::getName));
+  }
+
 }

@@ -1102,7 +1102,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   public <T> SELF returns(T expected, Function<ACTUAL, T> from) {
     requireNonNull(from, "The given getter method/Function must not be null");
-    Objects objects = getComparatorBasedObjectAssertions(expected.getClass());
+    Objects objects = getComparatorBasedObjectAssertions(expected);
     objects.assertEqual(info, from.apply(actual), expected);
     return myself;
   }
@@ -1132,12 +1132,14 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   public <T> SELF doesNotReturn(T expected, Function<ACTUAL, T> from) {
     requireNonNull(from, "The given getter method/Function must not be null");
-    Objects objects = getComparatorBasedObjectAssertions(expected.getClass());
+    Objects objects = getComparatorBasedObjectAssertions(expected);
     objects.assertNotEqual(info, from.apply(actual), expected);
     return myself;
   }
 
-  private Objects getComparatorBasedObjectAssertions(Class<?> type) {
+  private Objects getComparatorBasedObjectAssertions(Object value) {
+    if (value == null) return objects;
+    Class<?> type = value.getClass();
     TypeComparators comparatorsByType = getComparatorsByType();
     if (comparatorsByType.hasComparatorForType(type)) {
       return new Objects(new ComparatorBasedComparisonStrategy(comparatorsByType.getComparatorForType(type)));

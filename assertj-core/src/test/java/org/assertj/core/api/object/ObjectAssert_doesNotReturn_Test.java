@@ -70,4 +70,12 @@ class ObjectAssert_doesNotReturn_Test extends ObjectAssertBaseTest {
                                                      new ComparatorBasedComparisonStrategy(CASE_INSENSITIVE_ORDER)).create());
   }
 
+  @Test
+  void should_pass_with_null_expected_value() {
+    // GIVEN
+    Jedi yoda = new Jedi("Yoda", "Green");
+    // WHEN/THEN
+    assertThat(yoda).doesNotReturn(null, from(Jedi::getName));
+  }
+
 }
