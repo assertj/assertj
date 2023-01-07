@@ -132,8 +132,9 @@
               <goal>resolve</goal>
             </goals>
             <configuration>
+              <outputBndrunDir>${project.build.directory}</outputBndrunDir>
               <bndruns>
-                <bndrun>verify.bndrun</bndrun>
+                <include>verify.bndrun</include>
               </bndruns>
               <bundles>
                 <bundle>target/${project.build.finalName}.jar</bundle>
