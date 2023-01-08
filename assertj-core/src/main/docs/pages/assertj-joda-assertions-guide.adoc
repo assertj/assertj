@@ -1,0 +1,233 @@
+[[assertj-joda-time-assertions-guide]]
+=== Assertions Guide
+
+This section describes the assertions provided by AssertJ Joda Time.
+
+In addition to specific type assertions, each type inherits assertions from http://www.javadoc.io/doc/org.assertj/assertj-core/latest/org/assertj/core/api/AbstractAssert.html[`org.assertj.core.api.AbstractAssert`].
+
+==== LocalDate
+
+[%autowidth]
+|===
+|Assertion |Description
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateAssert.html#hasYear-int-[`hasYear(int expectedYear)`]
+|Verifies that the year of the actual `LocalDate` is equal to the given year
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateAssert.html#hasMonthOfYear-int-[`hasMonthOfYear(int expectedMonthOfYear)`]
+|Verifies that the month of the actual `LocalDate` is equal to the given month
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateAssert.html#hasDayOfMonth-int-[`hasDayOfMonth(int expectedDayOfMonth)`]
+|Verifies that the day of month of the actual `LocalDate` is equal to the given day of month
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateAssert.html#isAfter-org.joda.time.LocalDate-[`isAfter(org.joda.time.LocalDate other)`]
+|Verifies that the actual `LocalDate` is strictly after the given one
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateAssert.html#isAfter-java.lang.String-[`isAfter(String localDateAsString)`]
+|Calls `isAfter(DateTime)` with a `LocalDate` built from the given `String` which must follow ISO8601 format `yyyy-MM-dd`
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateAssert.html#isAfterOrEqualTo-org.joda.time.LocalDate-[`isAfterOrEqualTo(org.joda.time.LocalDate other)`]
+|Verifies that the actual `LocalDate` is after or equals to the given one
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateAssert.html#isAfterOrEqualTo-java.lang.String-[`isAfterOrEqualTo(String localDateAsString)`]
+|Calls `isAfterOrEqualTo(DateTime)` with a `LocalDate` built from the given `String` which must follow ISO8601 format `yyyy-MM-dd`
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateAssert.html#isBefore-org.joda.time.LocalDate-[`isBefore(org.joda.time.LocalDate other)`]
+|Verifies that the actual `LocalDate` is strictly before the given one
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateAssert.html#isBefore-java.lang.String-[`isBefore(String localDateAsString)`]
+|Calls `isBefore(DateTime)` with a `LocalDate` built from the given `String` which must follow ISO8601 format `yyyy-MM-dd`
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateAssert.html#isBeforeOrEqualTo-org.joda.time.LocalDate-[`isBeforeOrEqualTo(org.joda.time.LocalDate other)`]
+|Verifies that the actual `LocalDate` is before or equals to the given one
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateAssert.html#isBeforeOrEqualTo-java.lang.String-[`isBeforeOrEqualTo(String localDateAsString)`]
+|Calls `isBeforeOrEqualTo(DateTime)` with a `LocalDate` built from the given `String` which must follow ISO8601 format `yyyy-MM-dd`
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateAssert.html#isEqualTo-java.lang.String-[`isEqualTo(String localDateAsString)`]
+|Calls `AbstractAssert.isEqualTo(Object)` passing a `LocalDate` built from the given `String` which must follow ISO8601 format `yyyy-MM-dd`
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateAssert.html#isIn-java.lang.String\...-[`isIn(String... dateTimesAsString)`]
+|Calls `isIn(DateTime...)` with DateTimes built from given Strings which must follow ISO8601 format `yyyy-MM-dd`
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateAssert.html#isNotEqualTo-java.lang.String-[`isNotEqualTo(String localDateAsString)`]
+|Calls `isNotEqualTo(DateTime)` with a `LocalDate` built from the given `String` which must follow ISO8601 format `yyyy-MM-dd`
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateAssert.html#isNotIn-java.lang.String\...-[`isNotIn(String... localDatesAsString)`]
+|Calls `isNotIn(org.joda.DateTime...)` with DateTime built from the given strings which must follow ISO8601 format `yyyy-MM-dd`
+
+|===
+
+==== LocalDateTime
+
+[%autowidth]
+|===
+|Assertion |Description
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateTimeAssert.html#hasDayOfMonth-int-[`hasDayOfMonth(int expectedDayOfMonth)`]
+|Verifies that the day of month of the actual `LocalDateTime` is equal to the given day of month
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateTimeAssert.html#hasHourOfDay-int-[`hasHourOfDay(int expectedHourOfDay)`]
+|Verifies that the hour of the actual `LocalDateTime` is equal to the given hour
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateTimeAssert.html#hasMillisOfSecond-int-[`hasMillisOfSecond(int expectedMillisOfSecond)`]
+|Verifies that the milliseconds of the actual `LocalDateTime` is equal to the given milliseconds
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateTimeAssert.html#hasMinuteOfHour-int-[`hasMinuteOfHour(int expectedMinuteOfHour)`]
+|Verifies that the minute of the actual `LocalDateTime` is equal to the given minute
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateTimeAssert.html#hasMonthOfYear-int-[`hasMonthOfYear(int expectedMonthOfYear)`]
+|Verifies that the month of the actual `LocalDateTime` is equal to the given month
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateTimeAssert.html#hasSecondOfMinute-int-[`hasSecondOfMinute(int expectedSecondOfMinute)`]
+|Verifies that the seconds of the actual `LocalDateTime` is equal to the given seconds
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateTimeAssert.html#hasYear-int-[`hasYear(int expectedYear)`]
+|Verifies that the year of the actual `LocalDateTime` is equal to the given year
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateTimeAssert.html#isAfter-org.joda.time.LocalDateTime-[`isAfter(org.joda.time.LocalDateTime other)`]
+|Verifies that the actual `LocalDateTime` is strictly after the given one
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateTimeAssert.html#isAfter-java.lang.String-[`isAfter(String localDateTimeAsString)`]
+|Calls `isAfter(DateTime)` with a `LocalDateTime` built from the given `String` which must follow http://joda-time.sourceforge.net/api-release/org/joda/time/format/ISODateTimeFormat.html#localDateOptionalTimeParser()[ISO DateTime format].
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateTimeAssert.html#isAfterOrEqualTo-org.joda.time.LocalDateTime-[`isAfterOrEqualTo(org.joda.time.LocalDateTime other)`]
+|Verifies that the actual `LocalDateTime` is after or equals to the given one
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateTimeAssert.html#isAfterOrEqualTo-java.lang.String-[`isAfterOrEqualTo(String localDateTimeAsString)`]
+|Calls `isAfterOrEqualTo(DateTime)` with a `LocalDateTime` built from the given `String` which must follow http://joda-time.sourceforge.net/api-release/org/joda/time/format/ISODateTimeFormat.html#localDateOptionalTimeParser()[ISO DateTime format].
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateTimeAssert.html#isBefore-org.joda.time.LocalDateTime-[`isBefore(org.joda.time.LocalDateTime other)`]
+|Verifies that the actual `LocalDateTime` is strictly before the given one
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateTimeAssert.html#isBefore-java.lang.String-[`isBefore(String localDateTimeAsString)`]
+|Calls `isBefore(DateTime)` with a `LocalDateTime` built from the given `String` which must follow http://joda-time.sourceforge.net/api-release/org/joda/time/format/ISODateTimeFormat.html#localDateOptionalTimeParser()[ISO DateTime format].
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateTimeAssert.html#isBeforeOrEqualTo-org.joda.time.LocalDateTime-[`isBeforeOrEqualTo(org.joda.time.LocalDateTime other)`]
+|Verifies that the actual `LocalDateTime` is before or equals to the given one
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateTimeAssert.html#isBeforeOrEqualTo-java.lang.String-[`isBeforeOrEqualTo(String localDateTimeAsString)`]
+|Calls `isBeforeOrEqualTo(DateTime)` with a `LocalDateTime` built from the given `String` which must follow http://joda-time.sourceforge.net/api-release/org/joda/time/format/ISODateTimeFormat.html#localDateOptionalTimeParser()[ISO DateTime format].
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateTimeAssert.html#isEqualTo-java.lang.String-[`isEqualTo(String localDateTimeAsString)`]
+|Calls `AbstractAssert.isEqualTo(Object)` passing a `LocalDateTime` built from the given `String` which must follow http://joda-time.sourceforge.net/api-release/org/joda/time/format/ISODateTimeFormat.html#localDateOptionalTimeParser()[ISO DateTime format].
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateTimeAssert.html#isEqualToIgnoringHours-org.joda.time.LocalDateTime-[`isEqualToIgnoringHours(org.joda.time.LocalDateTime other)`]
+|Verifies that actual and given `LocalDateTime` have same year, month and day fields (hour, minute, second and millisecond fields are ignored in comparison)
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateTimeAssert.html#isEqualToIgnoringMinutes-org.joda.time.LocalDateTime-[`isEqualToIgnoringMinutes(org.joda.time.LocalDateTime other)`]
+|Verifies that actual and given `LocalDateTime` have same year, month, day and hour fields (minute, second and millisecond fields are ignored in comparison)
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateTimeAssert.html#isEqualToIgnoringSeconds-org.joda.time.LocalDateTime-[`isEqualToIgnoringSeconds(org.joda.time.LocalDateTime other)`]
+|Verifies that actual and given `LocalDateTime` have same year, month, day, hour and minute fields (second and millisecond fields are ignored in comparison)
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateTimeAssert.html#isEqualToIgnoringMillis-org.joda.time.LocalDateTime-[`isEqualToIgnoringMillis(org.joda.time.LocalDateTime other)`]
+|Verifies that actual and given `LocalDateTime` have same year, month, day, hour, minute and second fields, (millisecond fields are ignored in comparison)
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateTimeAssert.html#isIn-java.lang.String\...-[`isIn(String... localDateTimesAsString)`]
+|Calls `isIn(DateTime...)` with DateTimes built from given Strings which must follow http://joda-time.sourceforge.net/api-release/org/joda/time/format/ISODateTimeFormat.html#localDateOptionalTimeParser()[ISO DateTime format]
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateTimeAssert.html#isNotEqualTo-java.lang.String-[`isNotEqualTo(String localDateTimeAsString)`]
+|Calls `isNotEqualTo(DateTime)` with a `LocalDateTime` built from the given `String` which must follow http://joda-time.sourceforge.net/api-release/org/joda/time/format/ISODateTimeFormat.html#localDateOptionalTimeParser()[ISO DateTime format]
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/LocalDateTimeAssert.html#isNotIn-java.lang.String\...-[`isNotIn(String... dateTimesAsString)`]
+|Calls `isNotIn(org.joda.DateTime...)` with DateTime built from the given strings which must follow http://joda-time.sourceforge.net/api-release/org/joda/time/format/ISODateTimeFormat.html#localDateOptionalTimeParser()[ISO DateTime format]
+
+
+|===
+
+==== DateTime
+
+[%autowidth]
+|===
+|Assertion |Description
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#hasDayOfMonth-int-[`hasDayOfMonth(int expectedDayOfMonth)`]
+|Verifies that the day of month of the actual `DateTime` is equal to the given day of month
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#hasHourOfDay-int-[`hasHourOfDay(int expectedHourOfDay)`]
+|Verifies that the hour of the actual `DateTime` is equal to the given hour
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#hasMillisOfSecond-int-[`hasMillisOfSecond(int expectedMillisOfSecond)`]
+|Verifies that the milliseconds of the actual `DateTime` is equal to the given milliseconds
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#hasMinuteOfHour-int-[`hasMinuteOfHour(int expectedMinuteOfHour)`]
+|Verifies that the minute of the actual `DateTime` is equal to the given minute
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#hasMonthOfYear-int-[`hasMonthOfYear(int expectedMonthOfYear)`]
+|Verifies that the month of the actual `DateTime` is equal to the given month
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#hasSecondOfMinute-int-[`hasSecondOfMinute(int expectedSecondOfMinute)`]
+|Verifies that the seconds of the actual `DateTime` is equal to the given seconds
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#hasYear-int-[`hasYear(int expectedYear)`]
+|Verifies that the year of the actual `DateTime` is equal to the given year
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#isAfter-org.joda.time.DateTime-[`isAfter(org.joda.time.DateTime other)`]
+|Verifies that the actual `DateTime` is strictly after the given one
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#isAfter-java.lang.String-[`isAfter(String dateTimeAsString)`]
+|Calls `isAfter(DateTime)` with a `DateTime` built from the given `String` which must follow http://joda-time.sourceforge.net/api-release/org/joda/time/format/ISODateTimeFormat.html#dateTimeParser()[ISO DateTime format].
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#isAfterOrEqualTo-org.joda.time.DateTime-[`isAfterOrEqualTo(org.joda.time.DateTime other)`]
+|Verifies that the actual `DateTime` is after or equals to the given one
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#isAfterOrEqualTo-java.lang.String-[`isAfterOrEqualTo(String dateTimeAsString)`]
+|Calls `isAfterOrEqualTo(DateTime)` with a `DateTime` built from the given `String` which must follow http://joda-time.sourceforge.net/api-release/org/joda/time/format/ISODateTimeFormat.html#dateTimeParser()[ISO DateTime format].
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#isBefore-org.joda.time.DateTime-[`isBefore(org.joda.time.DateTime other)`]
+|Verifies that the actual `DateTime` is strictly before the given one
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#isBefore-java.lang.String-[`isBefore(String dateTimeAsString)`]
+|Calls `isBefore(DateTime)` with a `DateTime` built from the given `String` which must follow http://joda-time.sourceforge.net/api-release/org/joda/time/format/ISODateTimeFormat.html#dateTimeParser()[ISO DateTime format].
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#isBeforeOrEqualTo-org.joda.time.DateTime-[`isBeforeOrEqualTo(org.joda.time.DateTime other)`]
+|Verifies that the actual `DateTime` is before or equals to the given one
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#isBeforeOrEqualTo-java.lang.String-[`isBeforeOrEqualTo(String dateTimeAsString)`]
+|Calls `isBeforeOrEqualTo(DateTime)` with a `DateTime` built from the given `String` which must follow http://joda-time.sourceforge.net/api-release/org/joda/time/format/ISODateTimeFormat.html#dateTimeParser()[ISO DateTime format].
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#isEqualTo-org.joda.time.DateTime-[`isEqualTo(org.joda.time.DateTime expected)`]
+|Verifies that the actual `DateTime` is equal to the given one in actual's DateTimeZone
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#isEqualTo-java.lang.String-[`isEqualTo(String dateTimeAsString)`]
+|Calls `isEqualTo(DateTime)` with a `DateTime` built from the given `String` which must follow http://joda-time.sourceforge.net/api-release/org/joda/time/format/ISODateTimeFormat.html#dateTimeParser()[ISO DateTime format].
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#isEqualToIgnoringHours-org.joda.time.DateTime-[`isEqualToIgnoringHours(org.joda.time.DateTime other)`]
+|Verifies that actual and given `DateTime` have same year, month and day fields (hour, minute, second and millisecond fields are ignored in comparison)
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#isEqualToIgnoringMinutes-org.joda.time.DateTime-[`isEqualToIgnoringMinutes(org.joda.time.DateTime other)`]
+|Verifies that actual and given `DateTime` have same year, month, day and hour fields (minute, second and millisecond fields are ignored in comparison)
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#isEqualToIgnoringSeconds-org.joda.time.DateTime-[`isEqualToIgnoringSeconds(org.joda.time.DateTime other)`]
+|Verifies that actual and given `DateTime` have same year, month, day, hour and minute fields (second and millisecond fields are ignored in comparison)
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#isEqualToIgnoringMillis-org.joda.time.DateTime-[`isEqualToIgnoringMillis(org.joda.time.DateTime other)`]
+|Verifies that actual and given `DateTime` have same year, month, day, hour, minute and second fields, (millisecond fields are ignored in comparison)
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#isIn-org.joda.time.DateTime\...-[`isIn(org.joda.time.DateTime... expected)`]
+|Verifies that the actual `DateTime` is equal to one of the given `DateTime` in the actual's DateTimeZone
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#isIn-java.lang.String\...-[`isIn(String... dateTimesAsString)`]
+|Calls `isIn(DateTime...)` with DateTimes built from given Strings which must follow http://joda-time.sourceforge.net/api-release/org/joda/time/format/ISODateTimeFormat.html#dateTimeParser()[ISO DateTime format]
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#isNotEqualTo-org.joda.time.DateTime-[`isNotEqualTo(org.joda.time.DateTime expected)`]
+|Verifies that the actual value is not equal to the given one in actual's DateTimeZone
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#isNotEqualTo-java.lang.String-[`isNotEqualTo(String dateTimeAsString)`]
+|Calls `isNotEqualTo(DateTime)` with a `DateTime` built from the given `String` which must follow http://joda-time.sourceforge.net/api-release/org/joda/time/format/ISODateTimeFormat.html#dateTimeParser()[ISO DateTime format]
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#isNotIn-org.joda.time.DateTime\...-[`isNotIn(org.joda.time.DateTime... expected)`]
+|Verifies that the actual `DateTime` is equal to one of the given `DateTime` in the actual's DateTimeZone
+
+|{assertj-joda-time-javadoc-root}org/assertj/jodatime/api/DateTimeAssert.html#isNotIn-java.lang.String\...-[`isNotIn(String... dateTimesAsString)`]
+|Calls `isNotIn(org.joda.DateTime...)` with DateTime built from the given strings which must follow http://joda-time.sourceforge.net/api-release/org/joda/time/format/ISODateTimeFormat.html#dateTimeParser()[ISO DateTime format]
+
+|===
+
+
+[[assertj-joda-time-javadoc]]
+=== Javadoc
+
+https://www.javadoc.io/doc/org.assertj/assertj-joda-time/ is the latest version of the javadoc.
+

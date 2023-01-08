@@ -1,0 +1,110 @@
+[[assertj-guava-quick-start]]
+=== Quick start
+
+This guide is for the AssertJ Guava module.
+
+[[assertj-guava-java-versions]]
+==== Supported Java versions
+
+AssertJ Guava requires Java 8 or higher.
+
+[[get-assertj-guava]]
+==== Get AssertJ Guava
+
+The AssertJ Guava artifact can be included directly using its link:#dependency-metadata-assertj-guava[dependency metadata] or indirectly via the link:#dependency-metadata-assertj-bom[_Bill of Materials_ POM].
+
+===== Maven
+
+[source,xml,indent=0,subs=attributes+]
+----
+<dependency>
+  <groupId>org.assertj</groupId>
+  <artifactId>assertj-guava</artifactId>
+  <version>{assertj-version}</version>
+  <scope>test</scope>
+</dependency>
+----
+
+===== Gradle
+
+[source,groovy,indent=0,subs=attributes+]
+----
+testImplementation("org.assertj:assertj-guava:{assertj-version}")
+----
+
+===== Other build tools
+
+Check this page to find the relevant https://central.sonatype.dev/artifact/org.assertj/assertj-guava/{assertj-version}[AssertJ Guava dependency declaration].
+
+==== Use Assertions class entry point
+
+The `org.assertj.guava.api.Assertions` class is the only class you need to start using AssertJ Guava.
+
+[source,java,indent=0]
+----
+import static org.assertj.guava.api.Assertions.assertThat;
+----
+
+==== Examples
+
+[source,java,indent=0]
+----
+import static org.assertj.guava.api.Assertions.assertThat;
+import static org.assertj.guava.api.Assertions.entry;
+
+// Multimap assertions
+Multimap<String, String> actual = ArrayListMultimap.create();
+actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
+actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+
+assertThat(actual).containsKeys("Lakers", "Spurs");
+assertThat(actual).contains(entry("Lakers", "Kobe Bryant"), entry("Spurs", "Tim Duncan"));
+
+// Multiset assertions
+Multiset<String> actual = HashMultiset.create();
+actual.add("shoes", 2);
+
+assertThat(actual).contains(2, "shoes");
+assertThat(actual).containsAtLeast(1, "shoes");
+assertThat(actual).containsAtMost(3, "shoes");
+
+// Range assertions
+Range<Integer> range = Range.closed(10, 12);
+
+assertThat(range).isNotEmpty()
+                 .contains(10, 11, 12)
+                 .hasClosedLowerBound()
+                 .hasLowerEndpointEqualTo(10)
+                 .hasUpperEndpointEqualTo(12);
+
+// Table assertions
+Table<Integer, String, String> bestMovies = HashBasedTable.create();
+
+bestMovies.put(1970, "Palme d'Or", "M.A.S.H");
+bestMovies.put(1994, "Palme d'Or", "Pulp Fiction");
+bestMovies.put(2008, "Palme d'Or", "Entre les murs");
+bestMovies.put(2000, "Best picture Oscar", "American Beauty");
+bestMovies.put(2011, "Goldener Bär", "A Separation");
+
+assertThat(bestMovies).hasRowCount(5).hasColumnCount(3).hasSize(5)
+                      .containsValues("American Beauty", "A Separation", "Pulp Fiction")
+                      .containsCell(1994, "Palme d'Or", "Pulp Fiction")
+                      .containsColumns("Palme d'Or", "Best picture Oscar", "Goldener Bär")
+                      .containsRows(1970, 1994, 2000, 2008, 2011);
+----
+
+Note that you can find more working examples in the assertj-examples project: https://github.com/assertj/assertj-examples/tree/main/assertions-examples/src/test/java/org/assertj/examples/guava.
+
+[[assertj-guava-ide]]
+==== IDE configuration
+
+You can configure your IDE so that when you start typing `as` and trigger code completion `assertThat` will show up in the suggested completions.
+
+Eclipse:
+. Go to : Window > Preferences > Java > Editor > Content Assist > Favorites > New Type
+. Enter : `org.assertj.guava.api.Assertions` and click OK
+. Check that you see `org.assertj.guava.api.Assertions.*` in Favorites.
+
+Intellij Idea: No special configuration is needed, just start typing `asser` and then invoke completion (Ctrl-Space) twice.
+
+

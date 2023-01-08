@@ -1,0 +1,272 @@
+[[assertj-core-quick-start]]
+=== Quick start
+
+This guide is for the AssertJ Core module.
+
+[[assertj-core-java-versions]]
+==== Supported Java Versions
+
+AssertJ Core requires Java 8 or higher.
+
+[[assertj-core-android]]
+===== Android Support
+
+AssertJ Core *does not officially support Android* but is compatible with Android API Level 26+, except for soft assertions and assumptions.
+
+[[get-assertj-core]]
+==== Get AssertJ Core
+
+The AssertJ Core artifact can be included directly using its link:#dependency-metadata-assertj-core[dependency metadata] or indirectly via the link:#dependency-metadata-assertj-bom[_Bill of Materials_ POM].
+
+===== Maven
+
+[source,xml,indent=0,subs=attributes+]
+----
+<dependency>
+  <groupId>org.assertj</groupId>
+  <artifactId>assertj-core</artifactId>
+  <version>{assertj-version}</version>
+  <scope>test</scope>
+</dependency>
+----
+
+===== Gradle
+
+[source,groovy,indent=0,subs=attributes+]
+----
+testImplementation("org.assertj:assertj-core:{assertj-version}")
+----
+
+===== Other build tools
+
+Check this page to find the relevant https://central.sonatype.dev/artifact/org.assertj/assertj-core/{assertj-version}[Assertj Core dependency declaration].
+
+===== Spring Boot
+
+https://spring.io/projects/spring-boot[Spring Boot] provides automatic support for managing the version of AssertJ Core used in your project.
+In addition, the `spring-boot-starter-test` artifact automatically includes testing libraries such as JUnit Jupiter, AssertJ, Mockito, etc.
+
+If you need to override the version of a dependency used in your Spring Boot application, you have to override the exact name of the https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#appendix.dependency-versions.properties[version property] defined in the BOM used by the Spring Boot plugin.
+For example, the name of the AssertJ Core version property in Spring Boot is `assertj.version`.
+The mechanism for changing a dependency version is documented for both https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/htmlsingle/#using.parent-pom[Maven] and https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/#managing-dependencies.dependency-management-plugin.customizing[Gradle].
+
+With Maven, you can override the AssertJ Core version by including the following in your `pom.xml` file.
+
+[source,xml,indent=0,subs=attributes+]
+----
+<properties>
+  <assertj.version>{assertj-version}</assertj.version>
+</properties>
+----
+
+With Gradle, you can override the AssertJ Core version by including the following in your `build.gradle` file.
+
+[source,groovy,indent=0,subs=attributes+]
+----
+ext['assertj.version'] = '{assertj-version}'
+----
+
+===== Binary Compatibility
+
+The table below shows the binary compatibility of each minor release with the previous ones, always considering the latest bugfix version.
+
+[cols="h,8*^"]
+|===
+| | 3.22.0 | 3.21.0 | 3.20.2 | 3.19.0 | 3.18.1 | 3.17.2 | 3.16.1 | 3.15.0
+
+|3.23.1
+|[green]#icon:check[]#
+|[red]#icon:times[]#
+|[red]#icon:times[]#
+|[red]#icon:times[]#
+|[red]#icon:times[]#
+|[red]#icon:times[]#
+|[red]#icon:times[]#
+|[red]#icon:times[]#
+
+|3.22.0
+|-
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.22.0-3.21.0.html, window=_blank]
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.22.0-3.20.2.html, window=_blank]
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.22.0-3.19.0.html, window=_blank]
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.22.0-3.18.1.html, window=_blank]
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.22.0-3.17.2.html, window=_blank]
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.22.0-3.16.1.html, window=_blank]
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.22.0-3.15.0.html, window=_blank]
+
+|3.21.0
+|-
+|-
+|[green]#icon:check[]#
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.21.0-3.19.0.html, window=_blank]
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.21.0-3.18.1.html, window=_blank]
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.21.0-3.17.2.html, window=_blank]
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.21.0-3.16.1.html, window=_blank]
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.21.0-3.15.0.html, window=_blank]
+
+|3.20.2
+|-
+|-
+|-
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.20.2-3.19.0.html, window=_blank]
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.20.2-3.18.1.html, window=_blank]
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.20.2-3.17.2.html, window=_blank]
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.20.2-3.16.1.html, window=_blank]
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.20.2-3.15.0.html, window=_blank]
+
+|3.19.0
+|-
+|-
+|-
+|-
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.19.0-3.18.1.html, window=_blank]
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.19.0-3.17.2.html, window=_blank]
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.19.0-3.16.1.html, window=_blank]
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.19.0-3.15.0.html, window=_blank]
+
+|3.18.1
+|-
+|-
+|-
+|-
+|-
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.18.1-3.17.2.html, window=_blank]
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.18.1-3.16.1.html, window=_blank]
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.18.1-3.15.0.html, window=_blank]
+
+|3.17.2
+|-
+|-
+|-
+|-
+|-
+|-
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.17.2-3.16.1.html, window=_blank]
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.17.2-3.15.0.html, window=_blank]
+
+|3.16.1
+|-
+|-
+|-
+|-
+|-
+|-
+|-
+|[red]#icon:times[]# icon:file-text[link=reports/assertj-core/japicmp-3.16.1-3.15.0.html, window=_blank]
+|===
+
+==== Use Assertions class entry point
+
+The `Assertions` class is the only class you need to start using AssertJ, it provides all the methods you need.
+
+Alternatively your test class can implement `WithAssertions` to access the same methods.
+
+One `Assertions` static import to rule them all ...
+
+[source,java,indent=0]
+----
+import static org.assertj.core.api.Assertions.*;
+----
+
+\... or many if you prefer:
+
+[source,java,indent=0]
+----
+import static org.assertj.core.api.Assertions.assertThat;  // main one
+import static org.assertj.core.api.Assertions.atIndex; // for List assertions
+import static org.assertj.core.api.Assertions.entry;  // for Map assertions
+import static org.assertj.core.api.Assertions.tuple; // when extracting several properties at once
+import static org.assertj.core.api.Assertions.fail; // use when writing exception tests
+import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown; // idem
+import static org.assertj.core.api.Assertions.filter; // for Iterable/Array assertions
+import static org.assertj.core.api.Assertions.offset; // for floating number assertions
+import static org.assertj.core.api.Assertions.anyOf; // use with Condition
+import static org.assertj.core.api.Assertions.contentOf; // use with File assertions
+----
+
+===== Alternative entry points
+
+AssertJ provides other entry points class, notably the `WithAssertions` interface and `BDDAssertions` for BDD style assertions that replace `assertThat` by `then`.
+
+`WithAssertions` example:
+[source,java]
+----
+import org.assertj.core.api.WithAssertions;
+
+public class WithAssertionsExamples extends AbstractAssertionsExamples implements WithAssertions {
+
+  // the data used are initialized in AbstractAssertionsExamples.
+
+  @Test
+  public void withAssertions_examples() {
+
+    // assertThat methods come from WithAssertions - no static import needed
+    assertThat(frodo.age).isEqualTo(33);
+    assertThat(frodo.getName()).isEqualTo("Frodo").isNotEqualTo("Frodon");
+
+    assertThat(frodo).isIn(fellowshipOfTheRing);
+    assertThat(frodo).isIn(sam, frodo, pippin);
+    assertThat(sauron).isNotIn(fellowshipOfTheRing);
+
+    assertThat(frodo).matches(p -> p.age > 30 && p.getRace() == HOBBIT);
+    assertThat(frodo.age).matches(p -> p > 30);
+  }
+}
+----
+
+`BDDAssertions` example:
+[source,java]
+----
+import static org.assertj.core.api.BDDAssertions.then;
+
+public class BDDAssertionsExamples extends AbstractAssertionsExamples {
+
+  // the data used are initialized in AbstractAssertionsExamples.
+
+  @Test
+  public void withAssertions_examples() {
+
+    // then methods come from BDDAssertions.then static 
+    then(frodo.age).isEqualTo(33);
+    then(frodo.getName()).isEqualTo("Frodo").isNotEqualTo("Frodon");
+
+    then(frodo).isIn(fellowshipOfTheRing);
+    then(frodo).isIn(sam, frodo, pippin);
+    then(sauron).isNotIn(fellowshipOfTheRing);
+
+    then(frodo).matches(p -> p.age > 30 && p.getRace() == HOBBIT);
+    then(frodo.age).matches(p -> p > 30);
+  }
+}
+----
+
+
+===== IDE configuration
+
+You can configure your IDE so that when you start typing `as` and trigger code completion `assertThat` will show up in the suggested completions.
+
+Eclipse:
+. Go to : Window > Preferences > Java > Editor > Content Assist > Favorites > New Type
+. Enter : `org.assertj.core.api.Assertions` and click OK
+. Check that you see `org.assertj.core.api.Assertions.*` in Favorites.
+
+Intellij Idea: No special configuration is needed, just start typing `asser` and then invoke completion (Ctrl-Space) twice.
+
+==== Use code completion
+
+Type `assertThat` followed by the object under test and a dot ... and any Java IDE code completion will show you all available assertions.
+
+[source,java,indent=0]
+----
+assertThat(objectUnderTest). # <1>
+----
+<1> Use IDE code completion after the dot.
+
+Example for String assertions:
+
+image::ide-completion.png[]
+
+[[assertj-core-javadoc-quickstart]]
+==== Javadoc
+
+http://www.javadoc.io/doc/org.assertj/assertj-core/ is the latest version of assertj core javadoc, each assertion is explained, most of them with code examples so be sure to check it if you want to know what a specific assertion does. 

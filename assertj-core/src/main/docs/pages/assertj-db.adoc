@@ -1,0 +1,49 @@
+[[assertj-db]]
+== AssertJ DB
+
+image::assertj-db_icon.png[]
+
+AssertJ-DB provides assertions to test data in a database.
+It requires Java 8 or later and can be used with either JUnit or TestNG.
+
+If you need additional assertions, please create a ticket in the https://github.com/assertj/assertj-db/issues?labels=&milestone=&page=1&state=open[AssertJ-DB issue tracker].
+
+AssertJ-DB is hosted on github : https://github.com/assertj/assertj-db[https://github.com/assertj/assertj-db].
+
+Big thanks to Joel Costigliola for his welcome, for his help and for having accepted to associate this project with a great project like AssertJ.
+
+_Régis Pouiller (AssertJ-DB creator)_
+
+include::assertj-db-quickstart.adoc[]
+
+include::assertj-db-concepts.adoc[]
+
+include::assertj-db-features.adoc[]
+
+
+=== Javadoc
+
+Latest javadoc release : https://www.javadoc.io/doc/org.assertj/assertj-db/latest/index.html[AssertJ DB javadoc].
+
+=== Examples
+
+Some implementations examples are visible at the {assertj-examples-repo}/tree/main/assertions-examples/src/test/java/org/assertj/examples/db[assertj-db-examples tests].
+They show what is possible with AssertJ DB Assertions with running code.
+You can clone the repository and run its tests !
+
+=== Mailing list
+
+If you have any questions, please use the https://groups.google.com/forum/?fromgroups=#!forum/assertj[AssertJ google group].
+
+=== Code and issue tracker
+
+AssertJ-DB is hosted on github : https://github.com/assertj/assertj-db[https://github.com/assertj/assertj-db].
+
+Please report bugs or missing features in the https://github.com/assertj/assertj-db/issues?labels=&milestone=&page=1&state=open[AssertJ-DB issue tracker].
+
+=== Contributing
+
+Thanks for your interest ! Please check our https://github.com/assertj/assertj-db/blob/main/CONTRIBUTING.md#contributing[contributor's guidelines].
+
+include::assertj-db-release-notes.adoc[]
+

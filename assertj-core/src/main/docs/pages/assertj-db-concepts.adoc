@@ -1,0 +1,1140 @@
+[[assertj-db-concepts]]
+=== Concepts
+
+* <<assertj-db-concepts-connection,Connection to the database>>
+** <<assertj-db-concepts-datasource,DataSource>>
+** <<assertj-db-concepts-source, Source>>
+** <<assertj-db-concepts-datasourcewithlettercase, DataSource with LetterCase>> [.small]#(since <<assertj-db-1-1-0-release-notes,1.1.0>>)#
+** <<assertj-db-concepts-sourcewithlettercase, Source with LetterCase>> [.small]#(since <<assertj-db-1-1-0-release-notes,1.1.0>>)#
+
+* <<assertj-db-concepts-elements, Elements of the database>>
+** <<assertj-db-concepts-table, Table>> [.small]#(modified in <<assertj-db-1-2-0-release-notes,1.2.0>>)#
+** <<assertj-db-concepts-request, Request>>
+** <<assertj-db-concepts-changes, Changes>>
+** <<assertj-db-concepts-change, Change>>
+** <<assertj-db-concepts-row, Row>>
+** <<assertj-db-concepts-column, Column>>
+** <<assertj-db-concepts-value, Value>>
+
+* <<assertj-db-concepts-type, Type>>
+** <<assertj-db-concepts-datatype, DataType>>
+** <<assertj-db-concepts-changetype, ChangeType>>
+** <<assertj-db-concepts-valuetype, ValueType>>
+** <<assertj-db-concepts-ordertype, OrderType>> [.small]#(since <<assertj-db-1-2-0-release-notes,1.2.0>>)#
+
+* <<assertj-db-concepts-navigation, Navigation>>
+** <<assertj-db-concepts-tableorrequestasroot, With a Table or a Request as root>>
+** <<assertj-db-concepts-changesasroot, With Changes as root>>
+
+* <<assertj-db-concepts-datevaluetimevaluedatetimevalue, DateValue, TimeValue and DateTimeValue>>
+
+* <<assertj-db-concepts-description, Default description>>
+
+* <<assertj-db-concepts-dblettercase, Letter Case of the database>> [.small]#(since <<assertj-db-1-1-0-release-notes,1.1.0>>)#
+** <<assertj-db-concepts-caseconversion, CaseConversion>>
+** <<assertj-db-concepts-casecomparison, CaseComparison>>
+** <<assertj-db-concepts-lettercase, lettercase>>
+
+* <<assertj-db-concepts-output, Output>> [.small]#(since <<assertj-db-1-1-0-release-notes,1.1.0>>)#
+** <<assertj-db-concepts-typeoutput, Type of output>>
+** <<assertj-db-concepts-destination, Destination>>
+
+For the examples below, suppose that the database contains these three tables :
+
+.MEMBERS
+|====
+|ID |NAME |FIRSTNAME |SURNAME |BIRTHDATE |SIZE
+
+|1 |'Hewson' |'Paul David' |'Bono' |05-10-60 |1.75
+|2 |'Evans' |'David Howell' |'The Edge' |08-08-61 |1.77
+|3 |'Clayton' |'Adam' | |03-13-60 |1.78
+|4 |'Mullen' |'Larry' | |10-31-61 |1.70
+|====
+
+.ALBUMS
+|====
+|ID |RELEASE |TITLE |NUMBEROFSONGS |DURATION |LIVE
+
+|1 |10-20-80 |'Boy' |12 |42:17 |
+|2 |10-12-81 |'October' |11 |41:08 |
+|3 |02-28-83 |'War' |10 |42:07 |
+|4 |11-07-83 |'Under a Blood Red Sky' |8 |33:25 |true
+|5 |10-01-84 |'The Unforgettable Fire' |10 |42:42 |
+|6 |06-10-85 |'Wide Awake in America' |4 |20:30 |true
+|7 |03-09-87 |'The Joshua Tree' |11 |50:11 |
+|8 |10-10-88 |'Rattle and Hum' |17 |72:27 |
+|9 |11-18-91 |'Achtung Baby' |12 |55:23 |
+|10 |07-06-93 |'Zooropa' |10 |51:15 |
+|11 |03-03-97 |'Pop' |12 |60:08 |
+|12 |10-30-00 |'All That You Can't Leave Behind' |11 |49:23 |
+|13 |11-22-04 |'How to Dismantle an Atomic Bomb' |11 |49:08 |
+|14 |03-02-09 |'No Line on the Horizon' |11 |53:44 |
+|15 |09-09-14 |'Songs of Innocence' |11 |48:11 |
+|====
+
+.GROUP
+|====
+|ID |NAME
+
+|1 |'U2'
+|2 |'Coldplay'
+|====
+
+[[assertj-db-concepts-connection]]
+==== Connection to the database
+
+To make assertions on a database, it is necessary to connect. For that, either to use a `DataSource`
+or a `Source`.
+
+[[assertj-db-concepts-datasource]]
+===== DataSource
+
+A http://docs.oracle.com/javase/6/docs/api/javax/sql/DataSource.html[DataSource] is the classic Java way
+to get a http://docs.oracle.com/javase/6/docs/api/java/sql/Connection.html[Connection] to a database.
+
+[[assertj-db-concepts-source]]
+===== Source
+
+A https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Source.html[Source] is a way
+to connect if you have not access to a DataSource or if you do not want to use one. It allows you
+to pass the necessary connection information as constructor parameters. Below is an example of using a Source
+to connect to H2 in memory database :
+
+[source,java]
+----
+Source source = new Source("jdbc:h2:mem:test", "sa", "");
+----
+
+[[assertj-db-concepts-datasourcewithlettercase]]
+===== DataSource with LetterCase
+
+Since <<assertj-db-1-1-0-release-notes,1.1.0>>
+
+A https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/DataSourceWithLetterCase.html[DataSourceWithLetterCase] is a
+      http://docs.oracle.com/javase/6/docs/api/javax/sql/DataSource.html[DataSource] which allows to indicate the
+      https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/LetterCase.html[LetterCase]
+for the tables, columns and primary keys.
+
+[source,java]
+----
+DataSource ds = new DataSourceWithLetterCase(dataSource,
+                                             tableLetterCase,
+                                             columnLetterCase,
+                                             pkLetterCase);
+----
+
+For more information, see the <<assertj-db-concepts-dblettercase,paragraph on LetterCase>>.
+
+[[assertj-db-concepts-sourcewithlettercase]]
+===== Source with LetterCase
+
+Since <<assertj-db-1-1-0-release-notes,1.1.0>>
+
+A https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/SourceWithLetterCase.html[SourceWithLetterCase] is a
+      https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Source.html[Source] which allows to indicate the
+      https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/LetterCase.html[LetterCase]
+for the tables, columns and primary keys.
+
+[source,java]
+----
+Source s = new SourceWithLetterCase("jdbc:h2:mem:test", "sa", "",
+                                    tableLetterCase,
+                                    columnLetterCase,
+                                    pkLetterCase);
+----
+
+For more information, see the <<assertj-db-concepts-dblettercase,paragraph on LetterCase>>.
+
+[[assertj-db-concepts-elements]]
+==== Elements of the database
+
+Here the elements on which it is possible to make assertions.
+
+Note that, there are only 3 root elements : https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Table.html[Table],
+      https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Request.html[Request]
+and https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Changes.html[Changes].
+
+That means that the other elements are components or sub components of a root element.
+
+A root element is an element on which the assertion start (in practice, the parameter of a `assertThat(...)` method).
+
+[[assertj-db-concepts-table]]
+===== Table
+
+A https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Table.html[Table] represents
+a table in the database.
+
+A https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Table.html[Table]
+needs a way to connect to the database (either a http://docs.oracle.com/javase/6/docs/api/javax/sql/DataSource.html[DataSource]
+or a https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Source.html[Source]) and a name (the two mandatory constructor parameters).
+
+[source,java]
+----
+// Get a DataSource
+DataSource dataSource = ...
+// Declare the "members" table by using a DataSource
+Table table1 = new Table(dataSource, "members");
+// Declare the "members" table by using a Source
+Table table2 = new Table(source, "members");
+----
+
+The two https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Table.html[Table]s above
+(`table1` and `table2`) are equivalent.
+
+.Representation of "table1" or "table2"
+|====
+|ID |NAME |FIRSTNAME |SURNAME |BIRTHDATE |SIZE
+
+|1 |'Hewson' |'Paul David' |'Bono' |05-10-60 |1.75
+|2 |'Evans' |'David Howell' |'The Edge' |08-08-61 |1.77
+|3 |'Clayton' |'Adam' | |03-13-60 |1.78
+|4 |'Mullen' |'Larry' | |10-31-61 |1.70
+|====
+
+For a https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Table.html[Table],
+it is possible to choose the columns to include and to exclude in the assertions.
+
+[source,java]
+----
+// Get the data of the "id" and "name" columns of the "members" table
+Table table3 = new Table(source, "members", new String[] { "id", "name" }, null);
+// Get the data of the "members" table but not of the "birthdate" column
+Table table4 = new Table(source, "members", null, new String[] { "birthdate" });
+// Get the data of the "name" column of the "members" table (because "id" is included and excluded)
+Table table5 = new Table(source, "members", new String[] { "id", "name" }, new String[] { "id" });
+----
+
+.Representation of "table3"
+|====
+|ID |NAME
+
+|1 |'Hewson'
+|2 |'Evans'
+|3 |'Clayton'
+|4 |'Mullen'
+|====
+
+.Representation of "table4"
+|====
+|ID |NAME |FIRSTNAME |SURNAME |SIZE
+
+|1 |'Hewson' |'Paul David' |'Bono' |1.75
+|2 |'Evans' |'David Howell' |'The Edge' |1.77
+|3 |'Clayton' |'Adam' | |1.78
+|4 |'Mullen' |'Larry' | |1.70
+|====
+
+.Representation of "table5"
+|====
+|NAME
+
+|'Hewson'
+|'Evans'
+|'Clayton'
+|'Mullen'
+|====
+
+Since version <<assertj-db-1-2-0-release-notes,1.2.0>>, there are the possibility to indicate delimiters (start delimiter and end delimiter) and `https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Table.Order.html[Order]`.
+
+The delimiters are usefull when the table name or column name is a reserved word or contains special characters (like space or '%').
+      `https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Table.Order.html[Order]` allows to choose the order of the `Row`.
+
+[source,java]
+----
+// The line code below throws SQLException because "group" is SQL reserved word
+Table table6 = new Table(source, "group");
+// Get the data of the "group" table by using "`" delimiter
+// That generates a request
+Table table7 = new Table(source, "group", '`', '`');
+
+// Get the data from "members" table and order on "name" column in ascending order
+Table table8 = new Table(source, "members", new Order[] {
+                                                        Order.asc("name")
+                                                      });
+----
+
+.Representation of "table7"
+|====
+|ID |NAME
+
+|1 |'U2'
+|2 |'Colplay'
+|====
+
+.Representation of "table8"
+|====
+|ID |NAME |FIRSTNAME |SURNAME |BIRTHDATE |SIZE
+
+|3 |'Clayton' |'Adam' | |03-13-60 |1.78
+|2 |'Evans' |'David Howell' |'The Edge' |08-08-61 |1.77
+|1 |'Hewson' |'Paul David' |'Bono' |05-10-60 |1.75
+|4 |'Mullen' |'Larry' | |10-31-61 |1.70
+|====
+
+[[assertj-db-concepts-request]]
+===== Request
+
+A https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Request.html[Request] represents
+a SQL request on the database.
+
+Like a https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Table.html[Table],
+a https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Request.html[Request]
+needs a way to connect to the database (either a http://docs.oracle.com/javase/6/docs/api/javax/sql/DataSource.html[DataSource]
+or a https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Source.html[Source]).
+
+[source,java]
+----
+// Get a DataSource
+DataSource dataSource = ...
+// Declare a request which gets the name and the firstname of the corresponding members
+// by using a Source
+Request request1 = new Request(source,
+                               "select name, firstname from members where id = 2 or id = 3");
+// Declare a request which gets the name and the firstname of the corresponding members
+// by using the DataSource
+Request request2 = new Request(dataSource,
+                               "select name, firstname from members where id = 2 or id = 3");
+----
+
+The two https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Request.html[Request]s above
+(`request1` and `request2`) are equivalent.
+
+.Representation of "request1" or "request2"
+|====
+|NAME |FIRSTNAME |SURNAME
+
+|'Evans' |'David Howell' |'The Edge'
+|'Clayton' |'Adam' |
+|====
+
+For a https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Request.html[Request],
+it is possible to use a simple SQL request or a SQL request with one or many parameters.
+
+[source,java]
+----
+// Declare a request which gets the name and the firstname of the members
+// and use "%e%" as a parameter
+Request request3 = new Request(dataSource,
+                               "select name, firstname from members " +
+                               "where name like ?;",
+                               "%e%");
+// Declare a request which gets the name and the firstname of the members
+// and use "%e%" and "%Paul%" as parameters
+Request request4 = new Request(dataSource,
+                               "select name, firstname from members " +
+                               "where name like ? and firstname like ?;",
+                               "%e%",
+                               "%Paul%");
+----
+
+.Representation of "request3"
+|====
+|NAME |FIRSTNAME |SURNAME
+
+|'Hewson' |'Paul David' |'Bono'
+|'Evans' |'David Howell' |'The Edge'
+|'Mullen' |'Larry' |
+|====
+
+.Representation of "request4"
+|====
+|NAME |FIRSTNAME |SURNAME
+
+|'Hewson' |'Paul David' |'Bono'
+|====
+
+[[assertj-db-concepts-changes]]
+===== Changes
+
+The https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Changes.html[Changes]
+are the differences of states in database between a `start point` and a `end point`.
+
+image::db-changes-concept.png[]
+
+Assume that there are these SQL statements between the start point and the end point.
+
+[source,java]
+----
+DELETE FROM ALBUMS WHERE ID = 15;
+INSERT INTO MEMBERS(ID, NAME, FIRSTNAME) VALUES(5, 'McGuiness', 'Paul');
+UPDATE MEMBERS SET SURNAME = 'Bono Vox' WHERE ID = 1;
+UPDATE ALBUMS SET NAME = 'Rattle & Hum', LIVE = true WHERE ID = 8;
+
+----
+
+[source,java]
+----
+// Get a DataSource
+DataSource dataSource = ...
+// The changes can be on a DataSource or on a Source
+Changes changes1 = new Changes(dataSource);
+Changes changes2 = new Changes(source);
+// The changes can also be on a Table or on a Request
+Changes changes3 = new Changes(table4);
+Changes changes4 = new Changes(request3);
+Changes changes5 = new Changes(request4);
+// The names of the columns used for the primary key are found in the metadata for a table
+// but for a request it can be important to set the primary key
+Changes changes6 = new Changes(request4).setPksName("name");
+----
+
+The two https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Changes.html[Changes] above
+(`changes1` and `changes2`) are equivalent.
+
+The two https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Changes.html[Changes] above
+(`changes4` and `changes5`) are also equivalent.
+
+The changes are ordered :
+
+*   First by the type of the change : creation, modification and after deletion
+*   After if it a change on a table by the name of the table
+*   To finish by the values of the primary key and if there are no primary key by the values of the row (for a modification)
+
+As indicated above, the primary key is used to order the changes.
+But more important, the primary key is used to determinate which rows at the same with modifications.
+
+In Representation of "changes4" or "changes5" the modification of first row of the table become a creation and deletion.
+
+.Representation of "changes1" or "changes2"
+[cols="1,2,3,4a"]
+|====
+|Creation |"MEMBERS" table |`5` as PK |
+!====
+!!ID !NAME !FIRSTNAME !SURNAME !BIRTHDATE !SIZE
+
+!At start point !!!!!!
+!At end point !5 !'McGuiness' !'Paul' !!!
+!====
+|Modification |"ALBUMS" table |`8` as PK |
+!====
+!!ID !RELEASE !TITLE !NUMBEROFSONGS !DURATION !LIVE
+
+!At start point !8 !10-10-88 !'Rattle and Hum' !17 !72:27 !
+!At end point !8 !10-10-88 !'Rattle & Hum' !17 !72:27 !true
+!====
+|Modification |"MEMBERS" table |`1` as PK |
+!====
+!!ID !NAME !FIRSTNAME !SURNAME !BIRTHDATE !SIZE
+
+!At start point !1 !'Hewson' !'Paul David' !'Bono' !05-10-60 !1.75
+!At end point !1 !'Hewson' !'Paul David' !'Bono Vox' !05-10-60 !1.75
+!====
+|Deletion |"ALBUMS" table |`15` as PK |
+!====
+!!ID !RELEASE !TITLE !NUMBEROFSONGS !DURATION !LIVE
+
+!At start point !15 !09-09-14   !'Songs of Innocence' !11 !48:11!
+!At end point !!!!!!
+!====
+|====
+
+.Representation of "changes3"
+[cols="1,2,3,4a"]
+|====
+|Creation |"MEMBERS" table |`5` as PK |
+!====
+!!ID !NAME !FIRSTNAME !SURNAME !SIZE
+
+!At start point !!!!!
+!At end point !5 !'McGuiness' !'Paul' ! !
+!====
+|Modification |"MEMBERS" table |`1` as PK |
+!====
+!!ID !NAME !FIRSTNAME !SURNAME !SIZE
+
+!At start point !1 !'Hewson' !'Paul David' !'Bono' !1.75
+!At end point !1 !'Hewson' !'Paul David' !'Bono Vox' !1.75
+!====
+|====
+
+.Representation of "changes4" or "changes5"
+[cols="1,2,3,4a"]
+|====
+|Creation | |No PK |
+!====
+!!NAME !FIRSTNAME !SURNAME
+
+!At start point !!!
+!At end point !'Hewson' !'Paul David' !'Bono Vox'
+!====
+|Creation | |No PK |
+!====
+!!NAME !FIRSTNAME !SURNAME
+
+!At start point !!!
+!At end point !'McGuiness' !'Paul' !
+!====
+|Deletion | |No PK |
+!====
+!!NAME !FIRSTNAME !SURNAME
+
+!At start point !!!
+!At end point !'Hewson' !'Paul David' !'Bono Vox'
+!====
+|====
+
+.Representation of "changes6"
+[cols="1,2,3,4a"]
+|====
+|Creation | |`'McGuiness'` as PK |
+!====
+!!NAME !FIRSTNAME !SURNAME
+
+!At start point !!!
+!At end point !'McGuiness' !'Paul' !
+!====
+|Modification | |`'Hewson'` as PK |
+!====
+!!NAME !FIRSTNAME !SURNAME
+
+!At start point !'Hewson' !'Paul David' !'Bono'
+!At end point !'Hewson' !'Paul David' !'Bono Vox'
+!====
+|====
+
+[[assertj-db-concepts-change]]
+===== Change
+
+A https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Change.html[Change]
+is an element of the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Changes.html[Changes].
+
+Below framed in red the first https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Change.html[Change]
+of "changes3".
+
+.Representation of "changes3"
+[cols="1,2,3,4a"]
+|====
+|Creation |"MEMBERS" table |`5` as PK |
+!====
+!!ID !NAME !FIRSTNAME !SURNAME !SIZE
+
+!At start point !!!!!
+!At end point !5 !'McGuiness' !'Paul' ! !
+!====
+|Modification |"MEMBERS" table |`1` as PK |
+!====
+!!ID !NAME !FIRSTNAME !SURNAME !SIZE
+
+!At start point !1 !'Hewson' !'Paul David' !'Bono' !1.75
+!At end point !1 !'Hewson' !'Paul David' !'Bono Vox' !1.75
+!====
+|====
+
+[[assertj-db-concepts-row]]
+===== Row
+
+A https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Row.html[Row]
+can represent a row of a https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Table.html[Table]
+, of a https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Request.html[Request] or
+of a https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Change.html[Change].
+
+Below framed in red the third https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Row.html[Row] of "table4".
+
+.Representation of "table4"
+|====
+|ID |NAME |FIRSTNAME |SURNAME |SIZE
+
+|1 |'Hewson' |'Paul David' |'Bono' |1.75
+|2 |'Evans' |'David Howell' |'The Edge' |1.77
+|3 |'Clayton' |'Adam' | |1.78
+|4 |'Mullen' |'Larry' | |1.70
+|====
+
+Below framed in red the second https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Row.html[Row] of "request3".
+
+.Representation of "request3"
+|====
+|NAME |FIRSTNAME |SURNAME
+
+|'Hewson' |'Paul David' |'Bono'
+|'Evans' |'David Howell' |'The Edge'
+|'Mullen' |'Larry' |
+|====
+
+Below framed in red the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Row.html[Row] at end point of
+the second https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Change.html[Change]
+of "changes3".
+
+.Representation of "changes3"
+[cols="1,2,3,4a"]
+|====
+|Creation |"MEMBERS" table |`5` as PK |
+!====
+!!ID !NAME !FIRSTNAME !SURNAME !SIZE
+
+!At start point !!!!!
+!At end point !5 !'McGuiness' !'Paul' ! !
+!====
+|Modification |"MEMBERS" table |`1` as PK |
+!====
+!!ID !NAME !FIRSTNAME !SURNAME !SIZE
+
+!At start point !1 !'Hewson' !'Paul David' !'Bono' !1.75
+!At end point !1 !'Hewson' !'Paul David' !'Bono Vox' !1.75
+!====
+|====
+
+[[assertj-db-concepts-column]]
+===== Column
+
+A https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Column.html[Column]
+can represent a column of a https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Table.html[Table]
+, of a https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Request.html[Request] or
+of a https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Change.html[Change].
+
+Below framed in red the second https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Column.html[Column] of "table4".
+
+.Representation of "table4"
+|====
+|ID |NAME |FIRSTNAME |SURNAME |SIZE
+
+|1 |'Hewson' |'Paul David' |'Bono' |1.75
+|2 |'Evans' |'David Howell' |'The Edge' |1.77
+|3 |'Clayton' |'Adam' | |1.78
+|4 |'Mullen' |'Larry' | |1.70
+|====
+
+Below framed in red the second https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Column.html[Column] of "request3".
+
+.Representation of "request3"
+|====
+|NAME |FIRSTNAME |SURNAME
+
+|'Hewson' |'Paul David' |'Bono'
+|'Evans' |'David Howell' |'The Edge'
+|'Mullen' |'Larry' |
+|====
+
+Below framed in red the fourth https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Column.html[Column] of
+the second https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Change.html[Change]
+of "changes3".
+
+.Representation of "changes3"
+[cols="1,2,3,4a"]
+|====
+|Creation |"MEMBERS" table |`5` as PK |
+!====
+!!ID !NAME !FIRSTNAME !SURNAME !SIZE
+
+!At start point !!!!!
+!At end point !5 !'McGuiness' !'Paul' ! !
+!====
+|Modification |"MEMBERS" table |`1` as PK |
+!====
+!!ID !NAME !FIRSTNAME !SURNAME !SIZE
+
+!At start point !1 !'Hewson' !'Paul David' !'Bono' !1.75
+!At end point !1 !'Hewson' !'Paul David' !'Bono Vox' !1.75
+!====
+|====
+
+[[assertj-db-concepts-value]]
+===== Value
+
+A value can be in a https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Row.html[Row]
+or in a https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Column.html[Column].
+
+Below framed in red (depending of the path) :
+
+*   the second value of the third https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Row.html[Row] of "table4"
+*   the third value of the second https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Column.html[Column] of "table4"
+
+.Representation of "table4"
+|====
+|ID |NAME |FIRSTNAME |SURNAME |SIZE
+
+|1 |'Hewson' |'Paul David' |'Bono' |1.75
+|2 |'Evans' |'David Howell' |'The Edge' |1.77
+|3 |'Clayton' |'Adam' | |1.78
+|4 |'Mullen' |'Larry' | |1.70
+|====
+
+Below framed in red (depending of the path) :
+
+*   the second value of the second https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Row.html[Row] of "request3"
+*   the second value of the second https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Column.html[Column] of "request3"
+
+.Representation of "request3"
+|====
+|NAME |FIRSTNAME |SURNAME
+
+|'Hewson' |'Paul David' |'Bono'
+|'Evans' |'David Howell' |'The Edge'
+|'Mullen' |'Larry' |
+|====
+
+Below framed in red (depending of the path) :
+
+*   the fourth value of the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Row.html[Row] at end point of
+the second https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Change.html[Change]
+of "changes3"
+*   the value at end point of the fourth https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Column.html[Column] of
+the second https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Change.html[Change]
+of "changes3"
+
+.Representation of "changes3"
+[cols="1,2,3,4a"]
+|====
+|Creation |"MEMBERS" table |`5` as PK |
+!====
+!!ID !NAME !FIRSTNAME !SURNAME !SIZE
+
+!At start point !!!!!
+!At end point !5 !'McGuiness' !'Paul' ! !
+!====
+|Modification |"MEMBERS" table |`1` as PK |
+!====
+!!ID !NAME !FIRSTNAME !SURNAME !SIZE
+
+!At start point !1 !'Hewson' !'Paul David' !'Bono' !1.75
+!At end point !1 !'Hewson' !'Paul David' !'Bono Vox' !1.75
+!====
+|====
+
+[[assertj-db-concepts-type]]
+==== Type
+
+[[assertj-db-concepts-datatype]]
+===== Data Type
+
+As see above there are three root elements of database, but only https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Table.html[Table] and https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Request.html[Request] are data elements.
+All the possible types of data are contained in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/DataType.html[DataType] enumeration.
+
+The type of the data can be :
+
+*   `https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/DataType.html#TABLE[TABLE]`
+*   `https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/DataType.html#REQUEST[REQUEST]`
+
+[[assertj-db-concepts-changetype]]
+===== Change Type
+
+The change can be a creation, a modification or a deletion.
+All the possible types of change are contained in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/ChangeType.html[ChangeType] enumeration.
+
+The type of the change depends of operation on database :
+
+*   `https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/ChangeType.html#CREATION[CREATION]` for a `insert` sql request
+*   `https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/ChangeType.html#MODIFICATION[MODIFICATION]` for a `update` sql request
+*   `https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/ChangeType.html#DELETION[DELETION]` for a `delete` sql request
+
+[[assertj-db-concepts-valuetype]]
+===== Value Type
+
+The value can be a date, a boolean or a text for example.
+All the possible types of value are contained in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/ValueType.html[ValueType] enumeration.
+
+The type of the value depends of class of the object given by `java.sql` when the data are got from database :
+
+*   `https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/ValueType.html#BYTES[BYTES]` for a array of bytes (`byte[]`)
+*   `https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/ValueType.html#BOOLEAN[BOOLEAN]` for a `java.lang.Boolean`
+*   `https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/ValueType.html#TEXT[TEXT]` for a `java.lang.String`
+*   `https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/ValueType.html#DATE[DATE]` for a `java.sql.Date`
+*   `https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/ValueType.html#TIME[TIME]` for a `java.sql.Time`
+*   `https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/ValueType.html#DATE_TIME[DATE_TIME]` for a `java.sql.Timestamp`
+*   `https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/ValueType.html#UUID[UUID]` for a `java.util.UUID` [.small]#(since <<assertj-db-1-1-0-release-notes,1.1.0>>)#
+*   `https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/ValueType.html#NUMBER[NUMBER]` for a `java.lang.Byte`,
+        `java.lang.Short`,        `java.lang.Integer`,        `java.lang.Long`,        `java.lang.Double`,        `java.lang.Float` or        `java.math.BigDecimal`
+*   `https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/ValueType.html#NOT_IDENTIFIED[NOT_IDENTIFIED]` for other cases (for example when the value is `null`)
+
+[[assertj-db-concepts-ordertype]]
+===== Order Type
+
+Since <<assertj-db-1-2-0-release-notes,1.2.0>>
+
+The order can be a ascending or descending.
+All the possible types of order are contained in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Table.Order.OrderType.html[Table.Order.OrderType] enumeration.
+
+The type of the order can be :
+
+*   `https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Table.Order.OrderType.html#ASC[ASC]` for an ascending order
+*   `https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Table.Order.OrderType.html#DESC[DESC]` for a descending order
+
+[[assertj-db-concepts-navigation]]
+==== Navigation
+
+The navigation offers the ability to chain assertions at different levels and instructions to go inside the sub-elements and return to root element.
+
+There are examples of the navigation in {assertj-examples-repo}/blob/main/assertions-examples/src/test/java/org/assertj/examples/db/NavigationExamples.java[NavigationExamples.java]
+
+[[assertj-db-concepts-tableorrequestasroot]]
+===== With a Table or a Request as root
+
+The `assertThat(...)` static method of `org.assertj.db.api.Assertions` allows to create a root assertion on a https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Table.html[Table].
+
+[source,java]
+----
+import static org.assertj.db.api.Assertions.assertThat;
+
+assertThat(table)...
+----
+
+or on a https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Request.html[Request].
+
+[source,java]
+----
+import static org.assertj.db.api.Assertions.assertThat;
+
+assertThat(request)...
+----
+
+From these root assertions, it is possible to navigate to the sub elements and return to the root element as in the picture below.
+
+[ditaa, target="db-navigation-with-table-or-request", shadows=false, transparent=true]
+....
+                                             origin
+                 instantiate+-----------+<-----------=+----------------------+
+                 +--------->|On a Column| instantiate |On a Value Of a Column|
+                 |          +-----+-----+=----------->+----------------------+
+                 :          origin:
++----------------+------+<--------+
+|On a Table Or a Request|
++----------------+------+<--------+
+                 :          origin:       origin
+                 |          +-----+--+<-----------=+-------------------+
+                 +--------->|On a Row| instantiate |On a Value Of a Row|
+                 instantiate+--------+=----------->+-------------------+
+....
+
+More details on this concept in assertj-db-features-highlight.html#tableorrequestasroot[feature highlight].
+
+[[assertj-db-concepts-changesasroot]]
+===== With Changes as root
+
+The `assertThat(...)` static method of `org.assertj.db.api.Assertions`
+allows to create a root assertion on https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Changes.html[Changes].
+
+[source,java]
+----
+import static org.assertj.db.api.Assertions.assertThat;
+
+assertThat(changes)...
+----
+
+From this root assertion, it is possible to navigate to the sub elements and return to the root element as in the picture below.
+
+[ditaa, target="db-navigation-with-changes", shadows=false, transparent=true]
+....
+                                                            origin
+                                instantiate+-----------+<-----------=+----------------------+
+                                +--------->|On a Column| instantiate |On a Value Of a Column|
+                                |          +-----+-----+=----------->+----------------------+
+                 origin         :          origin:
++-----------+<=-----------+-----+-----+<---------+
+|On Changes | instantiate |On a Change|
++-----------+=----------->+-----+-----+<---------+
+                                :          origin:       origin
+                                |          +-----+--+<-----------=+-------------------+
+                                +--------->|On a Row| instantiate |On a Value Of a Row|
+                                instantiate+--------+=----------->+-------------------+
+....
+
+
+More details on this concept in <<assertj-db-features-changesasroot,feature highlight>>.
+
+[[assertj-db-concepts-datevaluetimevaluedatetimevalue]]
+==== DateValue, TimeValue and DateTimeValue
+
+Since 2.0.0, AssertJ-DB baseline is Java 8. The preferred way to compare values with date, time and date/time is to use java.time.LocalDate, java.time.LocalTime, java.time.LocalDateTime directly.
+
+But for the backward compatibility, it's always possible to use AssertJ-DB DateValue utilities.
+
+So The https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/DateValue.html[DateValue],
+      https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/TimeValue.html[TimeValue] and
+      https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/DateTimeValue.html[DateTimeValue] classes are simpler but contains this kind of informations.
+
+There is 4 kinds of static methods to instantiate these values :
+
+* `of` which receives the informations as `int` parameters
+
+[source,java]
+----
+DateValue dateValue = DateValue.of(2007, 12, 23);
+
+// With hours and minutes only
+TimeValue timeValue1 = TimeValue.of(9, 1);
+// With seconds additional
+TimeValue timeValue2 = TimeValue.of(9, 1, 6);
+// With nanoseconds additional
+TimeValue timeValue3 = TimeValue.of(9, 1, 6, 3);
+
+// With date only (so hour is midnight)
+DateTimeValue dateTimeValue1 = DateTimeValue.of(dateValue);
+// With date and time
+DateTimeValue dateTimeValue2 = DateTimeValue.of(dateValue, timeValue1);
+----
+
+* `from` which receives the equivalent from `java.sql` package (`java.sql.Date`, `java.sql.Time` and      `java.sql.Timestamp`)
+or a `java.util.Calendar` [.small]#(since <<assertj-db-1-1-0-release-notes,1.1.0>>)#
+
+[source,java]
+----
+Date date = Date.valueOf("2007-12-23");
+DateValue dateValue = DateValue.from(date);
+
+Time time = Time.valueOf("09:01:06");
+TimeValue timeValue = TimeValue.from(time);
+
+Timestamp timestamp = Timestamp.valueOf("2007-12-23 09:01:06.000000003");
+DateTimeValue dateTimeValue = DateTimeValue.from(timestamp);
+
+// Since 1.1.0
+Calendar calendar = Calendar.getInstance();
+DateValue dateValueFromCal = DateValue.from(calendar);
+TimeValue timeValueFromCal = TimeValue.from(calendar);
+DateTimeValue dateTimeValueFromCal = DateTimeValue.from(calendar);
+----
+
+* `parse` which receives a `String` to represent the value (this method can throw a `ParseException`)
+
+[source,java]
+----
+DateValue dateValue = DateValue.parse("2007-12-23");
+
+// With hours and minutes only
+TimeValue timeValue1 = TimeValue.parse("09:01");
+// With seconds additional
+TimeValue timeValue2 = TimeValue.parse("09:01:06");
+// With nanoseconds additional
+TimeValue timeValue3 = TimeValue.parse("09:01:06.000000003");
+
+// With date only (so hour is midnight)
+DateTimeValue dateTimeValue1 = DateTimeValue.parse("2007-12-23");
+// With date and time (hours and minutes only)
+DateTimeValue dateTimeValue2 = DateTimeValue.parse("2007-12-23T09:01");
+// With date and time (seconds additional)
+DateTimeValue dateTimeValue2 = DateTimeValue.parse("2007-12-23T09:01:06");
+// With date and time (nanoseconds additional)
+DateTimeValue dateTimeValue2 = DateTimeValue.parse("2007-12-23T09:01:06.000000003");
+----
+
+*   `now` [.small]#(since <<assertj-db-1-1-0-release-notes,1.1.0>>)# which create an instance corresponding to the current moment.
+
+[source,java]
+----
+DateValue dateValue = DateValue.now();                   // The current date
+TimeValue timeValue = TimeValue.now();                   // The current time
+DateTimeValue dateTimeValue = DateTimeValue.now();       // The current date/time
+----
+
+All these static methods (except for `now` method) have equivalent constructors.
+
+[[assertj-db-concepts-description]]
+==== Default description
+
+In assertj, it is possible to add a description with the methods of the https://www.javadoc.io/doc/org.assertj/assertj-core/latest/org/assertj/core/api/Descriptable.html[Descriptable] interface.
+This description is used in the error message if the assertion fails.
+
+Due to the navigation, it is more complicated in asserj-db to know on which element an error is thrown.
+So to help the tester, there are default descriptions.
+
+For example :
+
+*   `"members table"` for an assertion on a table
+*   `"'select * from actor' request"` for an assertion on a request
+*   `"'select id, name, firstname, bi...' request"` for an assertion on a request with more text
+*   `"Row at index 0 of members table"` for an assertion on a row of a table
+*   `"Column at index 0 (column name : ID) of 'select * from members' request"` for an assertion on a column of a request
+*   `"Value at index 0 of Column at index 0 (column name : ID) of 'select * from members' request"` for an assertion on a value of a column of a request
+*   `"Value at index 0 (column name : ID) of Row at index 0 of 'select * from members' request"` for an assertion on a value of a row of a request
+*   `"Value at index 0 (column name : ID) of Row at end point of Change at index 0 (on table : MEMBERS and with primary key : [4]) of Changes on tables of 'sa/jdbc:h2:mem:test' source"`
+for an assertion on a value of the row at end point of a change on a table
+
+This default description can be replaced by the choice of the tester by using the methods of https://www.javadoc.io/doc/org.assertj/assertj-core/latest/org/assertj/core/api/Descriptable.html[Descriptable].
+
+[[assertj-db-concepts-dblettercase]]
+==== Letter Case of the database
+
+Since <<assertj-db-1-1-0-release-notes,1.1.0>>
+
+Databases have different letter cases for the name of the elements.
+For example, the name of the table can be upper case either the name is inputed in upper case or not. So this concept (and feature too) is here to manage these shades.
+
+It is possible to declare a https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/LetterCase.html[LetterCase]
+with a <<assertj-db-concepts-datasourcewithlettercase,DataSource with LetterCase>> or with a <<assertj-db-concepts-sourcewithlettercase,Source with LetterCase>>.
+
+The concept of https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/LetterCase.html[LetterCase] is composed of https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/CaseConversion.html[CaseConversion] and https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/CaseComparison.html[CaseComparison].
+
+[[assertj-db-concepts-caseconversion]]
+===== CaseConversion
+
+The https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/CaseConversion.html[CaseConversion] is used when getting a name with letter case from database : a table name, a column name or a primary key name.
+
+There are three conversions modes : https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/CaseConversions.html#UPPER[UPPER] which converts to upper case (`"Name"` becomes `"NAME"`), https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/CaseConversions.html#LOWER[LOWER] which converts to lower case (`"Name"` becomes `"name"`) and https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/CaseConversions.html#NO[NO] which keeps the case (`"Name"` remains `"Name"`).
+
+Each name (table, column and primary key) got from the database is converted using a https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/CaseConversion.html[CaseConversion].
+
+[[assertj-db-concepts-casecomparison]]
+===== CaseComparison
+
+The https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/CaseComparison.html[CaseComparison] is used when comparing something with letter case from database or with a parameter.
+
+There are two comparison modes : https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/CaseComparisons.html#IGNORE[IGNORE] which compares `String`s by ignoring the case (`"Name"` is considered equal to `"NAME"`) and https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/CaseComparisons.html#STRICT[STRICT] which compares `String`s strictly (`"Name"` is considered different from `"NAME"`).
+
+During navigation (e.g. from table to column) and assertion (e.g. on column name), the name are compared using a https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/CaseComparison.html[CaseComparison].
+
+[[assertj-db-concepts-lettercase]]
+===== LetterCase
+
+A https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/LetterCase.html[LetterCase] is created with the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/LetterCase.html#getLetterCase-org.assertj.db.type.lettercase.CaseConversion-org.assertj.db.type.lettercase.CaseComparison-[getLetterCase]
+static method which has a
+      https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/CaseConversion.html[CaseConversion] and a
+      https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/CaseComparison.html[CaseComparison] as parameters.
+
+[source,java]
+----
+LetterCase letterCase = LetterCase.getLetterCase(CaseConversions.NO, CaseComparisons.IGNORE)
+----
+
+In AssertJ-DB, there are three different uses of a https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/LetterCase.html[LetterCase] :
+the table name, the column name and the primary key name.
+That is the reason why the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/DataSourceWithLetterCase.html[DataSourceWithLetterCase]
+and the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/SourceWithLetterCase.html[SourceWithLetterCase] constructors
+have three https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/LetterCase.html[LetterCase] parameters.
+
+The https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/LetterCase.html[LetterCase] on the tables is used :
+
+*   to convert the table name : when a name is got from the database like for the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Table.html[Table]
+instantiation or for the table with changes found with https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Changes.html[Changes].
+*   to compare the table name : for the instantiation when the table is search in the database for https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Table.html[Table],
+for navigation (e.g. from changes to a change on a table) or for a assertion (like https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnDataType.html#isOnTable-java.lang.String-[isOnTable(String name)]).
+
+The https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/LetterCase.html[LetterCase] on the columns is used :
+
+*   to convert the column name : when a column name is got from the database for a table or a request
+*   to compare the column name : for the navigation (e.g. from a table to a column) or for a assertion (like https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnColumnName.html#hasColumnName-java.lang.String-[hasColumnName(String columnName)]).
+
+The https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/LetterCase.html[LetterCase] on the primary keys is used :
+
+*   to convert the primary key name : when a primary key name is got from the database for a table
+*   to compare the primary key name : for a assertion (like https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnPrimaryKey.html#hasPksNames-java.lang.String...-[hasPksNames(String... names)]).
+
+The different https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/LetterCase.html[LetterCase] are explictly indicated
+for https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/DataSourceWithLetterCase.html[DataSourceWithLetterCase]
+and https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/SourceWithLetterCase.html[SourceWithLetterCase]. But for
+      http://docs.oracle.com/javase/6/docs/api/javax/sql/DataSource.html[DataSource] and
+      https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Source.html[Source], there are https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/LetterCase.html[LetterCase]
+too but there are implicit :
+
+*   https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/CaseConversions.html#NO[NO] conversion
+and https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/CaseComparisons.html#IGNORE[IGNORE] comparison for table names
+*   https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/CaseConversions.html#UPPER[UPPER] conversion
+and https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/CaseComparisons.html#IGNORE[IGNORE] comparison for the column and primary key name
+
+In this example, The uses of https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Source.html[Source]
+and https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/SourceWithLetterCase.html[SourceWithLetterCase]
+are equivalent :
+
+[source,java]
+----
+Source source = new Source("jdbc:h2:mem:test", "sa", "");
+Table table = new Table(source, "members");
+
+LetterCase tableLetterCase = LetterCase.getLetterCase(CaseConversions.NO, CaseComparisons.IGNORE);
+LetterCase columnLetterCase = LetterCase.getLetterCase(CaseConversions.UPPER, CaseComparisons.IGNORE);
+LetterCase pkLetterCase = LetterCase.getLetterCase(CaseConversions.UPPER, CaseComparisons.IGNORE);
+Source sourceWithLC = new SourceWithLetterCase("jdbc:h2:mem:test", "sa", "",
+                                               tableLetterCase,
+                                               columnLetterCase,
+                                               pkLetterCase);
+Table tableWithLC = new Table(sourceWithLC, "members");
+----
+
+And in this example, the uses of http://docs.oracle.com/javase/6/docs/api/javax/sql/DataSource.html[DataSource]
+and https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/DataSourceWithLetterCase.html[DataSourceWithLetterCase]
+are equivalent :
+
+[source,java]
+----
+DataSource dataSource = .....
+Table table = new Table(dataSource, "members");
+
+LetterCase tableLetterCase = LetterCase.getLetterCase(CaseConversions.NO, CaseComparisons.IGNORE);
+LetterCase columnLetterCase = LetterCase.getLetterCase(CaseConversions.UPPER, CaseComparisons.IGNORE);
+LetterCase pkLetterCase = LetterCase.getLetterCase(CaseConversions.UPPER, CaseComparisons.IGNORE);
+DataSource dataSourceWithLC = new DataSourceWithLetterCase(dataSource,
+                                                           tableLetterCase,
+                                                           columnLetterCase,
+                                                           pkLetterCase);
+Table tableWithLC = new Table(dataSourceWithLC, "members");
+----
+
+Note that the letter case is extensible because the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/LetterCase.html#getLetterCase-org.assertj.db.type.lettercase.CaseConversion-org.assertj.db.type.lettercase.CaseComparison-[getLetterCase]
+static method's parameters are instances of the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/CaseConversion.html[CaseConversion]
+and the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/lettercase/CaseComparison.html[CaseComparison] interfaces.
+So this is not limited to the implementations in the corresponding enumerations.
+
+[[assertj-db-concepts-output]]
+==== Output
+
+Since <<assertj-db-1-1-0-release-notes,1.1.0>>
+
+It can be interesting to view the values on which an assertion is made (for example for debugging). The output allows that.
+
+This is a simple example :
+
+[source,java]
+----
+import static org.assertj.db.output.Outputs.output;
+
+Table table = new Table(dataSource, "members");
+
+// Output the content of the table in the console
+output(table).toConsole();
+----
+
+These lines give the result below :
+
+[source,java]
+----
+[MEMBERS table]
+|-----------|---------|-----------|-----------|--------------|-----------|-----------|-----------|
+|           |         | *         |           |              |           |           |           |
+|           | PRIMARY | ID        | NAME      | FIRSTNAME    | SURNAME   | BIRTHDATE | SIZE      |
+|           | KEY     | (NUMBER)  | (TEXT)    | (TEXT)       | (TEXT)    | (DATE)    | (NUMBER)  |
+|           |         | Index : 0 | Index : 1 | Index : 2    | Index : 3 | Index : 4 | Index : 5 |
+|-----------|---------|-----------|-----------|--------------|-----------|-----------|-----------|
+| Index : 0 | 1       | 1         | Hewson    | Paul David   | Bono      | 05-10-60  | 1.75      |
+| Index : 1 | 2       | 2         | Evans     | David Howell | The Edge  | 08-08-61  | 1.77      |
+| Index : 2 | 3       | 3         | Clayton   | Adam         |           | 03-13-60  | 1.78      |
+| Index : 4 | 4       | 4         | Mullen    | Larry        |           | 10-31-61  | 1.70      |
+|-----------|---------|-----------|-----------|--------------|-----------|-----------|-----------|
+----
+
+In the example above, the output is in plain text in the console. It is possible to change the type of the output and the destination.
+
+[[assertj-db-concepts-typeoutput]]
+===== Type of output
+
+There are two outputs already implemented :
+
+*   https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/output/impl/OutputType.html#PLAIN[PLAIN] : shown in the example above (the default output type)
+*   https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/output/impl/OutputType.html#HTML[HTML] : which represents the result as an HTML document
+
+[source,java]
+----
+// Change the output of the table to be HTML
+output(table).withType(OutputType.HTML).....;
+----
+
+Note that the type of output is extensible because the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/output/AbstractOutputter.html#withType-org.assertj.db.output.impl.Output-[withType(Output outputType)] method's parameter is an instance of the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/output/impl/Output.html[Output] interface.
+So this is not limited to the implementations in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/output/impl/OutputType.html[OutputType] enum.
+
+[[assertj-db-concepts-destination]]
+===== Destination
+
+The destination is the way to print the display. There are three destinations :
+
+*   the console (with the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/output/AbstractOutputter.html#toConsole--[toConsole()] method)
+*   a file (with the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/output/AbstractOutputter.html#toFile-java.lang.String-[toFile(String fileName)] method)
+*   a stream (with the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/output/AbstractOutputter.html#toStream-java.io.OutputStream-[toStream(OutputStream outputStream)] method)
+
+Note that with this last method the possibilities of destination are really flexible.
+
+These three methods are fluent. In this short example, the output is a plain text representation in the console and a html output in a file :
+
+[source,java]
+----
+// Display the content of the table with plain text in the console
+// and with HTML output in the file
+output(table).toConsole().withType(OutputType.HTML).toFile("test.html");
+----

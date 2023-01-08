@@ -1,0 +1,2539 @@
+<html>
+    <head>
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Comparing binary compatibility of assertj-core-3.17.2.jar against assertj-core-3.16.1.jar</title>
+        <style type="text/css">
+body {
+    font-family: Verdana;
+}
+.title {
+    font-weight: bold;
+}
+.new {
+    color: green;
+}
+.removed {
+    color: red;
+}
+.modified {
+    color: orange;
+}
+.unchanged {
+    color: black;
+}
+thead tr td {
+    font-weight: bold;
+}
+.toc {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    border: 1px solid #dcdcdc;
+    padding: 5px;
+    background: #ededed;
+    display: inline-block;
+}
+table {
+    border-collapse: collapse;
+}
+table tr td {
+    border: 1px solid black;
+    padding: 5px;
+}
+table thead {
+    background-color: #dee3e9;
+}
+table tbody tr td.matrix_layout {
+    background-color: #dee3e9;
+    font-weight: bold;
+}
+.class {
+    margin-bottom: 2em;
+    border: 1px solid #dcdcdc;
+    padding: 5px;
+    background: #ededed;
+    display: inline-block;
+}
+.class_compatibilityChanges {
+	margin-top: 1em;
+}
+
+.class_fileFormatVersion {
+	margin-top: 1em;
+}
+.class_superclass {
+    margin-top: 1em;
+}
+.class_interfaces {
+    margin-top: 1em;
+}
+.class_fields {
+    margin-top: 1em;
+}
+.class_serialVersionUid {
+    margin-top: 1em;
+}
+.class_constructors {
+    margin-top: 1em;
+}
+.class_methods {
+    margin-top: 1em;
+}
+.class_annotations {
+    margin-top: 1em;
+}
+.label {
+    font-weight: bold;
+}
+.label_class_member {
+    background-color: #4d7a97;
+    display: inline-block;
+    padding: 5px;
+}
+.toc_link {
+    margin-left: 10px;
+    font-size: 0.5em;
+}
+.modifier {
+    font-style: italic;
+}
+.method_return_type {
+
+}
+ul {
+    list-style-type: none;
+    padding: 0px 0px;
+}
+.meta-information {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    background: #ededed;
+    display: inline-block;
+}
+.warnings {
+    margin-top: 1em;
+    font-size: 0.75em;
+}
+.explanations {
+	margin-bottom: 2em;
+}
+
+</style>
+    </head>
+    <body>
+        <span class="title">Comparing binary compatibility of assertj-core-3.17.2.jar against assertj-core-3.16.1.jar</span>
+        <br>
+        <div class="meta-information">
+            <table>
+                <tr>
+                    <td>Old:</td><td>assertj-core-3.16.1.jar</td>
+                </tr>
+                <tr>
+                    <td>New:</td><td>assertj-core-3.17.2.jar</td>
+                </tr>
+                <tr>
+                    <td>Created:</td><td>2021-06-20T07:20:03.187+0200</td>
+                </tr>
+                <tr>
+                    <td>Access modifier filter:</td><td>PROTECTED</td>
+                </tr>
+                <tr>
+                    <td>Only modifications:</td><td>true</td>
+                </tr>
+                <tr>
+                    <td>Only binary incompatible modifications:</td><td>true</td>
+                </tr>
+                <tr>
+                    <td>Ignore missing classes:</td><td>false</td>
+                </tr>
+                <tr>
+                    <td>Includes:</td><td>all</td>
+                </tr>
+                <tr>
+                    <td>Excludes:</td><td>org.assertj.core.internal;org.assertj.core.internal</td>
+                </tr>
+                <tr>
+                    <td id="semver-label">Semantic Versioning:</td><td id="semver-version">1.0.0</td>
+                </tr>
+            </table>
+        </div>
+        <ul>
+            <li>
+                <a href="#toc">Classes</a>
+            </li>
+        </ul>
+            
+        <div class="toc" id="toc">
+            <span class="label">Classes:</span>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Status</td><td>Fully Qualified Name</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><a href="#org.assertj.core.api.BDDSoftAssertionsProvider">org.assertj.core.api.BDDSoftAssertionsProvider</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><a href="#org.assertj.core.api.ErrorCollector">org.assertj.core.api.ErrorCollector</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><a href="#org.assertj.core.api.InstanceOfAssertFactories">org.assertj.core.api.InstanceOfAssertFactories</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><a href="#org.assertj.core.api.Java6BDDSoftAssertionsProvider">org.assertj.core.api.Java6BDDSoftAssertionsProvider</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><a href="#org.assertj.core.api.Java6StandardSoftAssertionsProvider">org.assertj.core.api.Java6StandardSoftAssertionsProvider</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><a href="#org.assertj.core.api.recursive.comparison.FieldLocation">org.assertj.core.api.recursive.comparison.FieldLocation</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><a href="#org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration">org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><a href="#org.assertj.core.api.StandardSoftAssertionsProvider">org.assertj.core.api.StandardSoftAssertionsProvider</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><a href="#org.assertj.core.api.WithAssertions">org.assertj.core.api.WithAssertions</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><a href="#org.assertj.core.api.WithAssumptions">org.assertj.core.api.WithAssumptions</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><a href="#org.assertj.core.data.Index">org.assertj.core.data.Index</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><a href="#org.assertj.core.data.MapEntry">org.assertj.core.data.MapEntry</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><a href="#org.assertj.core.data.Offset">org.assertj.core.data.Offset</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><a href="#org.assertj.core.data.Percentage">org.assertj.core.data.Percentage</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><a href="#org.assertj.core.error.future.ShouldBeCompletedWithin">org.assertj.core.error.future.ShouldBeCompletedWithin</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="unchanged">UNCHANGED&nbsp;(!)</span></td><td><a href="#org.assertj.core.presentation.BinaryRepresentation">org.assertj.core.presentation.BinaryRepresentation</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="unchanged">UNCHANGED&nbsp;(!)</span></td><td><a href="#org.assertj.core.presentation.HexadecimalRepresentation">org.assertj.core.presentation.HexadecimalRepresentation</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><a href="#org.assertj.core.presentation.StandardRepresentation">org.assertj.core.presentation.StandardRepresentation</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="unchanged">UNCHANGED&nbsp;(!)</span></td><td><a href="#org.assertj.core.presentation.UnicodeRepresentation">org.assertj.core.presentation.UnicodeRepresentation</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="explanations">
+            <span>Binary incompatible changes are marked with (!) while source incompatible changes are marked with (*).</span>
+        </div>
+        <div>
+            <div>
+                <div class="class" id="org.assertj.core.api.BDDSoftAssertionsProvider">
+                    <div class="class_header">
+                        <span class="label"><a name="org.assertj.core.api.BDDSoftAssertionsProvider"></a><span class="modified">MODIFIED&nbsp;(!)</span><span class="">&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier">abstract&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged">interface</span>&nbsp;org.assertj.core.api.BDDSoftAssertionsProvider</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_compatibilityChanges">
+                        <span class="label_class_member">Compatibility Changes:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Change</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>METHOD_ABSTRACT_ADDED_IN_IMPLEMENTED_INTERFACE</td>
+                                </tr>
+                                <tr>
+                                    <td>METHOD_DEFAULT_ADDED_IN_IMPLEMENTED_INTERFACE</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces">
+                        <span class="label_class_member">Interfaces:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Interface</td><td>Compatibility Changes:</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="unchanged">UNCHANGED&nbsp;(!)</span></td><td>org.assertj.core.api.Java6BDDSoftAssertionsProvider</td><td>n.a.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods">
+                        <span class="label_class_member">Methods:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Modifier</td><td>Type</td><td>Method</td><td>Exceptions</td><td>Compatibility Changes:</td><td>Line Number</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.PeriodAssert</span></td><td>then(java.time.Period)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>207</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="class" id="org.assertj.core.api.ErrorCollector">
+                    <div class="class_header">
+                        <span class="label"><a name="org.assertj.core.api.ErrorCollector"></a><span class="modified">MODIFIED&nbsp;(!)</span><span class="">&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged">class</span>&nbsp;org.assertj.core.api.ErrorCollector</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces"></div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods">
+                        <span class="label_class_member">Methods:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Modifier</td><td>Type</td><td>Method</td><td>Exceptions</td><td>Compatibility Changes:</td><td>Line Number</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="modified modifier">package_protected
+						&nbsp;(&lt;-&nbsp;
+						public
+						)&nbsp;
+					</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier"></span></td><td><span class="unchanged method_return_type">void</span></td><td>addError(java.lang.AssertionError)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_LESS_ACCESSIBLE</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>82</td><td>84</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="removed">REMOVED&nbsp;(!)</span></td><td><span class="removed modifier"></span><span class="removed modifier">static&nbsp;</span><span class="removed modifier">protected&nbsp;</span><span class="removed modifier"></span><span class="removed modifier"></span><span class="removed modifier"></span></td><td><span class="removed method_return_type">void</span></td><td>collectAssertionError(java.lang.AssertionError,
+                                        <wbr></wbr>
+                                        org.assertj.core.api.ErrorCollector)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_REMOVED</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>77</td><td>n.a.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="class" id="org.assertj.core.api.InstanceOfAssertFactories">
+                    <div class="class_header">
+                        <span class="label"><a name="org.assertj.core.api.InstanceOfAssertFactories"></a><span class="modified">MODIFIED&nbsp;(!)</span><span class="">&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier">abstract&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged">interface</span>&nbsp;org.assertj.core.api.InstanceOfAssertFactories</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces"></div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods">
+                        <span class="label_class_member">Methods:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Modifier</td><td>Type</td><td>Method</td><td>Exceptions</td><td>Compatibility Changes:</td><td>Line Number</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier">static&nbsp;</span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.InstanceOfAssertFactory</span></td><td>array2D(java.lang.Class)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>449</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="class" id="org.assertj.core.api.Java6BDDSoftAssertionsProvider">
+                    <div class="class_header">
+                        <span class="label"><a name="org.assertj.core.api.Java6BDDSoftAssertionsProvider"></a><span class="modified">MODIFIED&nbsp;(!)</span><span class="">&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier">abstract&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged">interface</span>&nbsp;org.assertj.core.api.Java6BDDSoftAssertionsProvider</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_compatibilityChanges">
+                        <span class="label_class_member">Compatibility Changes:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Change</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>METHOD_ABSTRACT_ADDED_IN_IMPLEMENTED_INTERFACE</td>
+                                </tr>
+                                <tr>
+                                    <td>METHOD_DEFAULT_ADDED_IN_IMPLEMENTED_INTERFACE</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces"></div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods">
+                        <span class="label_class_member">Methods:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Modifier</td><td>Type</td><td>Method</td><td>Exceptions</td><td>Compatibility Changes:</td><td>Line Number</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Boolean2DArrayAssert</span></td><td>then(boolean[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>115</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Byte2DArrayAssert</span></td><td>then(byte[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>156</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Char2DArrayAssert</span></td><td>then(char[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>187</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Double2DArrayAssert</span></td><td>then(double[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>289</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Float2DArrayAssert</span></td><td>then(float[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>363</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Int2DArrayAssert</span></td><td>then(int[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>394</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Long2DArrayAssert</span></td><td>then(long[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>457</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Object2DArrayAssert</span></td><td>then(java.lang.Object[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>494</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Short2DArrayAssert</span></td><td>then(short[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>550</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="class" id="org.assertj.core.api.Java6StandardSoftAssertionsProvider">
+                    <div class="class_header">
+                        <span class="label"><a name="org.assertj.core.api.Java6StandardSoftAssertionsProvider"></a><span class="modified">MODIFIED&nbsp;(!)</span><span class="">&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier">abstract&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged">interface</span>&nbsp;org.assertj.core.api.Java6StandardSoftAssertionsProvider</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_compatibilityChanges">
+                        <span class="label_class_member">Compatibility Changes:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Change</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>METHOD_ABSTRACT_ADDED_IN_IMPLEMENTED_INTERFACE</td>
+                                </tr>
+                                <tr>
+                                    <td>METHOD_DEFAULT_ADDED_IN_IMPLEMENTED_INTERFACE</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces"></div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods">
+                        <span class="label_class_member">Methods:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Modifier</td><td>Type</td><td>Method</td><td>Exceptions</td><td>Compatibility Changes:</td><td>Line Number</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Boolean2DArrayAssert</span></td><td>assertThat(boolean[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>113</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Byte2DArrayAssert</span></td><td>assertThat(byte[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>154</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Char2DArrayAssert</span></td><td>assertThat(char[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>185</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Double2DArrayAssert</span></td><td>assertThat(double[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>289</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Float2DArrayAssert</span></td><td>assertThat(float[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>362</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Int2DArrayAssert</span></td><td>assertThat(int[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>393</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Long2DArrayAssert</span></td><td>assertThat(long[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>458</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Object2DArrayAssert</span></td><td>assertThat(java.lang.Object[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>495</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Short2DArrayAssert</span></td><td>assertThat(short[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>551</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="class" id="org.assertj.core.api.recursive.comparison.FieldLocation">
+                    <div class="class_header">
+                        <span class="label"><a name="org.assertj.core.api.recursive.comparison.FieldLocation"></a><span class="modified">MODIFIED&nbsp;(!)</span><span class="">&nbsp;</span><span class="modified modifier">final
+						&nbsp;(&lt;-&nbsp;
+						not_final
+						)&nbsp;
+					</span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged">class</span>&nbsp;org.assertj.core.api.recursive.comparison.FieldLocation</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_compatibilityChanges">
+                        <span class="label_class_member">Compatibility Changes:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Change</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>CLASS_NOW_FINAL</td>
+                                </tr>
+                                <tr>
+                                    <td>ANNOTATION_DEPRECATED_ADDED</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces"></div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods">
+                        <span class="label_class_member">Methods:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Modifier</td><td>Type</td><td>Method</td><td>Exceptions</td><td>Compatibility Changes:</td><td>Line Number</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="modified modifier">package_protected
+						&nbsp;(&lt;-&nbsp;
+						public
+						)&nbsp;
+					</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier"></span></td><td><span class="unchanged method_return_type">java.lang.String</span></td><td>getFieldPath()</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_LESS_ACCESSIBLE</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>51</td><td>38</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="modified modifier">package_protected
+						&nbsp;(&lt;-&nbsp;
+						public
+						)&nbsp;
+					</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier"></span></td><td><span class="unchanged method_return_type">boolean</span></td><td>matches(java.lang.String)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_LESS_ACCESSIBLE</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>60</td><td>65</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="class" id="org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration">
+                    <div class="class_header">
+                        <span class="label"><a name="org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration"></a><span class="modified">MODIFIED&nbsp;(!)</span><span class="">&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged">class</span>&nbsp;org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces"></div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods">
+                        <span class="label_class_member">Methods:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Modifier</td><td>Type</td><td>Method</td><td>Exceptions</td><td>Compatibility Changes:</td><td>Line Number</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="removed">REMOVED&nbsp;(!)</span></td><td><span class="removed modifier"></span><span class="removed modifier"></span><span class="removed modifier">public&nbsp;</span><span class="removed modifier"></span><span class="removed modifier"></span><span class="removed modifier"></span></td><td><span class="removed method_return_type">java.util.List</span></td><td>getIgnoredOverriddenEqualsRegexes()</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_REMOVED</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>380</td><td>n.a.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="class" id="org.assertj.core.api.StandardSoftAssertionsProvider">
+                    <div class="class_header">
+                        <span class="label"><a name="org.assertj.core.api.StandardSoftAssertionsProvider"></a><span class="modified">MODIFIED&nbsp;(!)</span><span class="">&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier">abstract&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged">interface</span>&nbsp;org.assertj.core.api.StandardSoftAssertionsProvider</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_compatibilityChanges">
+                        <span class="label_class_member">Compatibility Changes:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Change</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>METHOD_ABSTRACT_ADDED_IN_IMPLEMENTED_INTERFACE</td>
+                                </tr>
+                                <tr>
+                                    <td>METHOD_DEFAULT_ADDED_IN_IMPLEMENTED_INTERFACE</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces">
+                        <span class="label_class_member">Interfaces:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Interface</td><td>Compatibility Changes:</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="unchanged">UNCHANGED&nbsp;(!)</span></td><td>org.assertj.core.api.Java6StandardSoftAssertionsProvider</td><td>n.a.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods">
+                        <span class="label_class_member">Methods:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Modifier</td><td>Type</td><td>Method</td><td>Exceptions</td><td>Compatibility Changes:</td><td>Line Number</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.PeriodAssert</span></td><td>assertThat(java.time.Period)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>194</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="class" id="org.assertj.core.api.WithAssertions">
+                    <div class="class_header">
+                        <span class="label"><a name="org.assertj.core.api.WithAssertions"></a><span class="modified">MODIFIED&nbsp;(!)</span><span class="">&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier">abstract&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged">interface</span>&nbsp;org.assertj.core.api.WithAssertions</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_compatibilityChanges">
+                        <span class="label_class_member">Compatibility Changes:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Change</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>METHOD_DEFAULT_ADDED_IN_IMPLEMENTED_INTERFACE</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces">
+                        <span class="label_class_member">Interfaces:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Interface</td><td>Compatibility Changes:</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="unchanged">UNCHANGED&nbsp;(!)</span></td><td>org.assertj.core.api.InstanceOfAssertFactories</td><td>n.a.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods">
+                        <span class="label_class_member">Methods:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Modifier</td><td>Type</td><td>Method</td><td>Exceptions</td><td>Compatibility Changes:</td><td>Line Number</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Object2DArrayAssert</span></td><td>assertThat(java.lang.Object[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>257</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Long2DArrayAssert</span></td><td>assertThat(long[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>378</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Short2DArrayAssert</span></td><td>assertThat(short[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>644</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Char2DArrayAssert</span></td><td>assertThat(char[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>695</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Boolean2DArrayAssert</span></td><td>assertThat(boolean[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>856</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Byte2DArrayAssert</span></td><td>assertThat(byte[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>897</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Int2DArrayAssert</span></td><td>assertThat(int[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>981</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Float2DArrayAssert</span></td><td>assertThat(float[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>1002</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Double2DArrayAssert</span></td><td>assertThat(double[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>1279</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.AbstractPeriodAssert</span></td><td>assertThat(java.time.Period)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>2362</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.NotThrownAssert</span></td><td>assertThatNoException()</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>2628</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier">static&nbsp;</span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">void</span></td><td>setDescriptionConsumer(java.util.function.Consumer)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>2027</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier">static&nbsp;</span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">void</span></td><td>setPrintAssertionsDescription(boolean)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>2015</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="class" id="org.assertj.core.api.WithAssumptions">
+                    <div class="class_header">
+                        <span class="label"><a name="org.assertj.core.api.WithAssumptions"></a><span class="modified">MODIFIED&nbsp;(!)</span><span class="">&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier">abstract&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged">interface</span>&nbsp;org.assertj.core.api.WithAssumptions</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces"></div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods">
+                        <span class="label_class_member">Methods:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Modifier</td><td>Type</td><td>Method</td><td>Exceptions</td><td>Compatibility Changes:</td><td>Line Number</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Object2DArrayAssert</span></td><td>assumeThat(java.lang.Object[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>100</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Long2DArrayAssert</span></td><td>assumeThat(long[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>168</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Short2DArrayAssert</span></td><td>assumeThat(short[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>441</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Char2DArrayAssert</span></td><td>assumeThat(char[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>496</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Boolean2DArrayAssert</span></td><td>assumeThat(boolean[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>578</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Byte2DArrayAssert</span></td><td>assumeThat(byte[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>622</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Int2DArrayAssert</span></td><td>assumeThat(int[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>712</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Float2DArrayAssert</span></td><td>assumeThat(float[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>734</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.Double2DArrayAssert</span></td><td>assumeThat(double[])</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>868</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">org.assertj.core.api.AbstractPeriodAssert</span></td><td>assumeThat(java.time.Period)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>1017</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="class" id="org.assertj.core.data.Index">
+                    <div class="class_header">
+                        <span class="label"><a name="org.assertj.core.data.Index"></a><span class="modified">MODIFIED&nbsp;(!)</span><span class="">&nbsp;</span><span class="modified modifier">final
+						&nbsp;(&lt;-&nbsp;
+						not_final
+						)&nbsp;
+					</span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged">class</span>&nbsp;org.assertj.core.data.Index</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_compatibilityChanges">
+                        <span class="label_class_member">Compatibility Changes:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Change</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>CLASS_NOW_FINAL</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces"></div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods"></div>
+                </div>
+            </div>
+            <div>
+                <div class="class" id="org.assertj.core.data.MapEntry">
+                    <div class="class_header">
+                        <span class="label"><a name="org.assertj.core.data.MapEntry"></a><span class="modified">MODIFIED&nbsp;(!)</span><span class="">&nbsp;</span><span class="modified modifier">final
+						&nbsp;(&lt;-&nbsp;
+						not_final
+						)&nbsp;
+					</span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged">class</span>&nbsp;org.assertj.core.data.MapEntry</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_compatibilityChanges">
+                        <span class="label_class_member">Compatibility Changes:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Change</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>CLASS_NOW_FINAL</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces"></div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods"></div>
+                </div>
+            </div>
+            <div>
+                <div class="class" id="org.assertj.core.data.Offset">
+                    <div class="class_header">
+                        <span class="label"><a name="org.assertj.core.data.Offset"></a><span class="modified">MODIFIED&nbsp;(!)</span><span class="">&nbsp;</span><span class="modified modifier">final
+						&nbsp;(&lt;-&nbsp;
+						not_final
+						)&nbsp;
+					</span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged">class</span>&nbsp;org.assertj.core.data.Offset</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_compatibilityChanges">
+                        <span class="label_class_member">Compatibility Changes:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Change</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>CLASS_NOW_FINAL</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces"></div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods"></div>
+                </div>
+            </div>
+            <div>
+                <div class="class" id="org.assertj.core.data.Percentage">
+                    <div class="class_header">
+                        <span class="label"><a name="org.assertj.core.data.Percentage"></a><span class="modified">MODIFIED&nbsp;(!)</span><span class="">&nbsp;</span><span class="modified modifier">final
+						&nbsp;(&lt;-&nbsp;
+						not_final
+						)&nbsp;
+					</span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged">class</span>&nbsp;org.assertj.core.data.Percentage</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_compatibilityChanges">
+                        <span class="label_class_member">Compatibility Changes:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Change</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>CLASS_NOW_FINAL</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces"></div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods"></div>
+                </div>
+            </div>
+            <div>
+                <div class="class" id="org.assertj.core.error.future.ShouldBeCompletedWithin">
+                    <div class="class_header">
+                        <span class="label"><a name="org.assertj.core.error.future.ShouldBeCompletedWithin"></a><span class="modified">MODIFIED&nbsp;(!)</span><span class="">&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged">class</span>&nbsp;org.assertj.core.error.future.ShouldBeCompletedWithin</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces"></div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods">
+                        <span class="label_class_member">Methods:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Modifier</td><td>Type</td><td>Method</td><td>Exceptions</td><td>Compatibility Changes:</td><td>Line Number</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="removed">REMOVED&nbsp;(!)</span></td><td><span class="removed modifier"></span><span class="removed modifier">static&nbsp;</span><span class="removed modifier">public&nbsp;</span><span class="removed modifier"></span><span class="removed modifier"></span><span class="removed modifier"></span></td><td><span class="removed method_return_type">org.assertj.core.error.ErrorMessageFactory</span></td><td>shouldBeCompletedWithin(java.util.concurrent.CompletableFuture,
+                                        <wbr></wbr>
+                                        java.time.Duration,
+                                        <wbr></wbr>
+                                        java.lang.Exception)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_REMOVED</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>41</td><td>n.a.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="removed">REMOVED&nbsp;(!)</span></td><td><span class="removed modifier"></span><span class="removed modifier">static&nbsp;</span><span class="removed modifier">public&nbsp;</span><span class="removed modifier"></span><span class="removed modifier"></span><span class="removed modifier"></span></td><td><span class="removed method_return_type">org.assertj.core.error.ErrorMessageFactory</span></td><td>shouldBeCompletedWithin(java.util.concurrent.CompletableFuture,
+                                        <wbr></wbr>
+                                        long,
+                                        <wbr></wbr>
+                                        java.util.concurrent.TimeUnit,
+                                        <wbr></wbr>
+                                        java.lang.Exception)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_REMOVED</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>46</td><td>n.a.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="class" id="org.assertj.core.presentation.BinaryRepresentation">
+                    <div class="class_header">
+                        <span class="label"><a name="org.assertj.core.presentation.BinaryRepresentation"></a><span class="unchanged">UNCHANGED&nbsp;(!)</span><span class="">&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged">class</span>&nbsp;org.assertj.core.presentation.BinaryRepresentation</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_compatibilityChanges">
+                        <span class="label_class_member">Compatibility Changes:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Change</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>METHOD_REMOVED_IN_SUPERCLASS</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces"></div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods"></div>
+                </div>
+            </div>
+            <div>
+                <div class="class" id="org.assertj.core.presentation.HexadecimalRepresentation">
+                    <div class="class_header">
+                        <span class="label"><a name="org.assertj.core.presentation.HexadecimalRepresentation"></a><span class="unchanged">UNCHANGED&nbsp;(!)</span><span class="">&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged">class</span>&nbsp;org.assertj.core.presentation.HexadecimalRepresentation</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_compatibilityChanges">
+                        <span class="label_class_member">Compatibility Changes:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Change</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>METHOD_REMOVED_IN_SUPERCLASS</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces"></div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods"></div>
+                </div>
+            </div>
+            <div>
+                <div class="class" id="org.assertj.core.presentation.StandardRepresentation">
+                    <div class="class_header">
+                        <span class="label"><a name="org.assertj.core.presentation.StandardRepresentation"></a><span class="modified">MODIFIED&nbsp;(!)</span><span class="">&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged">class</span>&nbsp;org.assertj.core.presentation.StandardRepresentation</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces"></div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods">
+                        <span class="label_class_member">Methods:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Modifier</td><td>Type</td><td>Method</td><td>Exceptions</td><td>Compatibility Changes:</td><td>Line Number</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="removed">REMOVED&nbsp;(!)</span></td><td><span class="removed modifier"></span><span class="removed modifier"></span><span class="removed modifier">protected&nbsp;</span><span class="removed modifier"></span><span class="removed modifier"></span><span class="removed modifier"></span></td><td><span class="removed method_return_type">java.lang.String</span></td><td>format(java.lang.Object[],
+                                        <wbr></wbr>
+                                        java.lang.String,
+                                        <wbr></wbr>
+                                        java.lang.String,
+                                        <wbr></wbr>
+                                        java.util.Set)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_REMOVED</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>489</td><td>n.a.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="removed">REMOVED&nbsp;(!)</span></td><td><span class="removed modifier"></span><span class="removed modifier"></span><span class="removed modifier">public&nbsp;</span><span class="removed modifier"></span><span class="removed modifier"></span><span class="removed modifier"></span></td><td><span class="removed method_return_type">java.lang.String</span></td><td>format(java.lang.Iterable,
+                                        <wbr></wbr>
+                                        java.lang.String,
+                                        <wbr></wbr>
+                                        java.lang.String,
+                                        <wbr></wbr>
+                                        java.lang.String,
+                                        <wbr></wbr>
+                                        java.lang.String)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_REMOVED</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>544</td><td>n.a.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="removed">REMOVED&nbsp;(!)</span></td><td><span class="removed modifier"></span><span class="removed modifier"></span><span class="removed modifier">protected&nbsp;</span><span class="removed modifier"></span><span class="removed modifier"></span><span class="removed modifier"></span></td><td><span class="removed method_return_type">java.lang.String</span></td><td>multiLineFormat(java.lang.Object[],
+                                        <wbr></wbr>
+                                        java.util.Set)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_REMOVED</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>472</td><td>n.a.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="removed">REMOVED&nbsp;(!)</span></td><td><span class="removed modifier"></span><span class="removed modifier"></span><span class="removed modifier">protected&nbsp;</span><span class="removed modifier"></span><span class="removed modifier"></span><span class="removed modifier"></span></td><td><span class="removed method_return_type">java.lang.String</span></td><td>singleLineFormat(java.lang.Object[],
+                                        <wbr></wbr>
+                                        java.util.Set)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_REMOVED</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>476</td><td>n.a.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="removed">REMOVED&nbsp;(!)</span></td><td><span class="removed modifier"></span><span class="removed modifier"></span><span class="removed modifier">protected&nbsp;</span><span class="removed modifier"></span><span class="removed modifier"></span><span class="removed modifier"></span></td><td><span class="removed method_return_type">java.lang.String</span></td><td>toStringOf(java.util.concurrent.CompletableFuture)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_REMOVED</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>359</td><td>n.a.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="class" id="org.assertj.core.presentation.UnicodeRepresentation">
+                    <div class="class_header">
+                        <span class="label"><a name="org.assertj.core.presentation.UnicodeRepresentation"></a><span class="unchanged">UNCHANGED&nbsp;(!)</span><span class="">&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged">class</span>&nbsp;org.assertj.core.presentation.UnicodeRepresentation</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_compatibilityChanges">
+                        <span class="label_class_member">Compatibility Changes:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Change</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>METHOD_REMOVED_IN_SUPERCLASS</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces"></div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods"></div>
+                </div>
+            </div>
+        </div>
+        
+    </body>
+</html>

@@ -1,0 +1,33 @@
+[[user-guide]]
+= AssertJ - fluent assertions java library
+:favicon: ./images/favicon.png
+
+:icons: font
+:imagesdir: images
+:imagesoutdir: {outdir}/user-guide/images
+//
+// :docinfo2:
+//
+ifdef::backend-pdf[:imagesdir: {imagesoutdir}]
+//
+:sectnums:
+:toclevels: 4
+//
+
+include::../link-attributes.adoc[]
+
+include::assertj-overview.adoc[]
+
+include::assertj-core.adoc[]
+
+include::assertj-guava.adoc[]
+
+include::assertj-joda.adoc[]
+
+include::assertj-neo4j.adoc[]
+
+include::assertj-db.adoc[]
+
+include::assertj-swing.adoc[]
+
+include::assertj-appendix.adoc[]
