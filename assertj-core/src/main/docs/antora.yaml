@@ -1,5 +1,14 @@
+#name: component-b
+#title: Component B
+#version: 2.5
+#prerelease: -beta.1
+#nav:
+#  - modules/ROOT/nav.adoc
+#  - modules/module-one/nav.adoc
+
 name: assertj-core
 title: Assertj Core
-version: 3.24
+#version: '3.24.0'
+#start_page: inline-text-formatting.adoc
 nav:
-  - ROOT/nav.adoc
+  - modules/ROOT/nav.adoc
