@@ -624,7 +624,6 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} contains non-digit characters or is {@code null}.
    */
-  @Deprecated
   public SELF containsOnlyDigits() {
     strings.assertContainsOnlyDigits(info, actual);
     return myself;
