@@ -22,6 +22,7 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
+import java.security.KeyStore;
 import java.text.DateFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -1515,6 +1516,16 @@ public class BDDAssertions extends Assertions {
    * @since 3.15.0
    */
   public static AbstractDurationAssert<?> then(Duration actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.KeyStoreAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static KeyStoreAssert then(KeyStore actual) {
     return assertThat(actual);
   }
 

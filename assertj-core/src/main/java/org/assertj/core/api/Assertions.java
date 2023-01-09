@@ -25,6 +25,7 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
+import java.security.KeyStore;
 import java.text.DateFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -220,6 +221,16 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static DoublePredicateAssert assertThat(DoublePredicate actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link KeyStore}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static KeyStoreAssert assertThat(KeyStore actual) {
+    return new KeyStoreAssert(actual);
   }
 
   /**
