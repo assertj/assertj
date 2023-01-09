@@ -63,6 +63,12 @@ class NestableConditionFixtures {
     return nestable("customer", conditions);
   }
 
+  static Condition<ValueCustomer> value(Integer expected) {
+    return verboseCondition(valueCustomer -> expected.equals(valueCustomer.value),
+      "value: " + expected,
+      valueCustomer -> " but was " + valueCustomer.value);
+  }
+
   @SafeVarargs
   static Condition<Address> country(Condition<Country>... conditions) {
     return nestable("country", address -> address.country, conditions);
@@ -76,6 +82,15 @@ class Customer {
   Customer(Name name, Address address) {
     this.name = name;
     this.address = address;
+  }
+}
+
+class ValueCustomer extends Customer {
+  final Integer value;
+
+  ValueCustomer(Name name, Address address, Integer value) {
+    super(name, address);
+    this.value = value;
   }
 }
 

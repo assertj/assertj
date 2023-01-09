@@ -13,12 +13,16 @@
 package org.assertj.core.condition;
 
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.condition.NestableCondition.nestable;
 import static org.assertj.core.condition.NestableConditionFixtures.address;
 import static org.assertj.core.condition.NestableConditionFixtures.customer;
 import static org.assertj.core.condition.NestableConditionFixtures.first;
 import static org.assertj.core.condition.NestableConditionFixtures.firstLine;
 import static org.assertj.core.condition.NestableConditionFixtures.name;
 import static org.assertj.core.condition.NestableConditionFixtures.postcode;
+import static org.assertj.core.condition.NestableConditionFixtures.value;
+
+import java.util.function.Function;
 
 import org.assertj.core.api.Condition;
 import org.junit.jupiter.api.Test;
@@ -74,5 +78,36 @@ class NestableCondition_matches_Test {
 
     // THEN
     then(condition.matches(boris)).isFalse();
+  }
+
+  @Test
+  void should_accept_conditions_on_supertypes() {
+    // GIVEN
+    final ValueCustomer boris = new ValueCustomer(new Name("Boris", "Johnson"),
+                                                  new Address("10, Downing Street",
+                                                              "SW1A 2AA",
+                                                              new Country("United Kingdom")),
+                                                  12);
+    Condition<ValueCustomer> valueCustomer = nestable("value customer", name(
+                                                                         first("Boris")),
+                                                  value(12));
+
+    // THEN
+    then(valueCustomer.matches(boris)).isTrue();
+  }
+
+  @Test
+  void should_accept_extracting_function_from_supertype() {
+    // GIVEN
+    final ValueCustomer boris = new ValueCustomer(new Name("Boris", "Johnson"),
+      new Address("10, Downing Street",
+        "SW1A 2AA",
+        new Country("United Kingdom")),
+      12);
+    Function<Customer, Name> extractName = it -> it.name;
+    Condition<ValueCustomer> customerFirstName = nestable("customer name", extractName, first("Boris"));
+
+    // THEN
+    then(customerFirstName.matches(boris)).isTrue();
   }
 }
