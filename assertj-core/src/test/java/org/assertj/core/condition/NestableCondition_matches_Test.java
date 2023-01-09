@@ -88,9 +88,9 @@ class NestableCondition_matches_Test {
                                                               "SW1A 2AA",
                                                               new Country("United Kingdom")),
                                                   12);
-    Condition<ValueCustomer> valueCustomer = nestable("value customer", name(
-                                                                         first("Boris")),
-                                                  value(12));
+    Condition<ValueCustomer> valueCustomer = nestable("value customer",
+                                                      name(first("Boris")),
+                                                      value(12));
 
     // THEN
     then(valueCustomer.matches(boris)).isTrue();
@@ -99,10 +99,11 @@ class NestableCondition_matches_Test {
   @Test
   void should_accept_extracting_function_from_supertype() {
     // GIVEN
-    final ValueCustomer boris = new ValueCustomer(new Name("Boris", "Johnson"),
-      new Address("10, Downing Street",
-        "SW1A 2AA",
-        new Country("United Kingdom")),
+    final ValueCustomer boris = new ValueCustomer(
+                                                  new Name("Boris", "Johnson"),
+                                                  new Address("10, Downing Street",
+                                                              "SW1A 2AA",
+                                                              new Country("United Kingdom")),
       12);
     Function<Customer, Name> extractName = it -> it.name;
     Condition<ValueCustomer> customerFirstName = nestable("customer name", extractName, first("Boris"));
