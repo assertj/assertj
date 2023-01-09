@@ -104,7 +104,7 @@ class NestableCondition_matches_Test {
                                                   new Address("10, Downing Street",
                                                               "SW1A 2AA",
                                                               new Country("United Kingdom")),
-      12);
+                                                  12);
     Function<Customer, Name> extractName = it -> it.name;
     Condition<ValueCustomer> customerFirstName = nestable("customer name", extractName, first("Boris"));
 
