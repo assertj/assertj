@@ -13,8 +13,10 @@
 package org.assertj.core.internal;
 
 
+import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
+import org.assertj.core.api.AssertionInfo;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +32,7 @@ import org.junit.jupiter.api.BeforeEach;
  */
 public class ThrowablesBaseTest {
 
+  protected static final AssertionInfo INFO = someInfo();
   protected Failures failures;
   protected Throwables throwables;
   protected static Throwable actual;
