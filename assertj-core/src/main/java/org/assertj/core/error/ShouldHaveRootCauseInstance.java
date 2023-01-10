@@ -14,6 +14,9 @@ package org.assertj.core.error;
 
 import org.assertj.core.util.Throwables;
 
+import static org.assertj.core.util.Strings.escapePercent;
+import static org.assertj.core.util.Throwables.getStackTrace;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Throwable} have a root cause
  * instance of a certain type.
@@ -36,7 +39,8 @@ public class ShouldHaveRootCauseInstance extends BasicErrorMessageFactory {
   }
 
   private ShouldHaveRootCauseInstance(Throwable actual, Class<? extends Throwable> expectedCauseType) {
-    super("%nExpecting a throwable with root cause being an instance of:%n  %s%nbut was an instance of:%n  %s",
+    super("%nExpecting a throwable with root cause being an instance of:%n  %s%nbut was an instance of:%n  %s%n" +
+        "%nThrowable that failed the check:%n" + escapePercent(getStackTrace(actual)),
         expectedCauseType, Throwables.getRootCause(actual));
   }
 

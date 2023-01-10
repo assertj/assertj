@@ -19,10 +19,15 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldHaveRootCauseInstance.shouldHaveRootCauseInstance;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Strings.escapePercent;
+import static org.assertj.core.util.Throwables.getStackTrace;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.internal.ThrowablesBaseTest;
+import org.assertj.core.util.Throwables;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -78,6 +83,10 @@ class Throwables_assertHasRootCauseInstanceOf_Test extends ThrowablesBaseTest {
     Throwable error = catchThrowable(() -> throwables.assertHasRootCauseInstanceOf(info, throwableWithCause, expectedCauseType));
 
     assertThat(error).isInstanceOf(AssertionError.class);
+    assertEquals(error.getMessage(), new BasicErrorMessageFactory(
+      "%nExpecting a throwable with root cause being an instance of:%n  %s%nbut was an instance of:%n  %s%n" +
+      "%nThrowable that failed the check:%n" + escapePercent(getStackTrace(throwableWithCause)), expectedCauseType, Throwables.getRootCause(throwableWithCause)).create());
+
     verify(failures).failure(info, shouldHaveRootCauseInstance(throwableWithCause, expectedCauseType));
   }
 }
