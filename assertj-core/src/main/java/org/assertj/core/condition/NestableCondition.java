@@ -142,12 +142,12 @@ public class NestableCondition<ACTUAL, NESTED> extends Join<ACTUAL> {
     return new NestableCondition<ACTUAL, ACTUAL>(descriptionPrefix, stream(conditions));
   }
 
-  private NestableCondition(String descriptionPrefix, Stream<Condition<? super NESTED>> conditions, Function<? super ACTUAL, ? extends NESTED> extractor) {
+  private NestableCondition(String descriptionPrefix, Stream<? extends Condition<? super NESTED>> conditions, Function<? super ACTUAL, ? extends NESTED> extractor) {
     super(compose(conditions, extractor));
     this.descriptionPrefix = descriptionPrefix;
   }
 
-  private NestableCondition(String descriptionPrefix, Stream<Condition<? super ACTUAL>> conditions) {
+  private NestableCondition(String descriptionPrefix, Stream<? extends Condition<? super ACTUAL>> conditions) {
     super(conditions.collect(toList()));
     this.descriptionPrefix = descriptionPrefix;
   }
@@ -162,7 +162,7 @@ public class NestableCondition<ACTUAL, NESTED> extends Join<ACTUAL> {
     return descriptionPrefix;
   }
 
-  private static <ACTUAL, NESTED> List<Condition<? super ACTUAL>> compose(Stream<Condition<? super NESTED>> conditions,
+  private static <ACTUAL, NESTED> List<Condition<? super ACTUAL>> compose(Stream<? extends Condition<? super NESTED>> conditions,
                                                                   Function<? super ACTUAL, ? extends NESTED> extractor) {
     return conditions.map(condition -> compose(condition, extractor)).collect(toList());
   }
