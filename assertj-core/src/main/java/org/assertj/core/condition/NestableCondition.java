@@ -125,8 +125,8 @@ public class NestableCondition<ACTUAL, NESTED> extends Join<ACTUAL> {
    * @param <NESTED> the type of object nested into {@literal K}
    */
   @SafeVarargs
-  public static <ACTUAL, NESTED> Condition<ACTUAL> nestable(String descriptionPrefix, Function<ACTUAL, NESTED> extractor,
-                                                            Condition<NESTED>... conditions) {
+  public static <ACTUAL, NESTED> Condition<ACTUAL> nestable(String descriptionPrefix, Function<? super ACTUAL, ? extends NESTED> extractor,
+                                                            Condition<? super NESTED>... conditions) {
     return new NestableCondition<>(descriptionPrefix, stream(conditions), extractor);
   }
 
@@ -138,16 +138,16 @@ public class NestableCondition<ACTUAL, NESTED> extends Join<ACTUAL> {
    * @param <ACTUAL> the type of object the resulting condition accepts
    */
   @SafeVarargs
-  public static <ACTUAL> Condition<ACTUAL> nestable(String descriptionPrefix, Condition<ACTUAL>... conditions) {
-    return new NestableCondition<>(descriptionPrefix, stream(conditions));
+  public static <ACTUAL> Condition<ACTUAL> nestable(String descriptionPrefix, Condition<? super ACTUAL>... conditions) {
+    return new NestableCondition<ACTUAL, ACTUAL>(descriptionPrefix, stream(conditions));
   }
 
-  private NestableCondition(String descriptionPrefix, Stream<Condition<NESTED>> conditions, Function<ACTUAL, NESTED> extractor) {
+  private NestableCondition(String descriptionPrefix, Stream<? extends Condition<? super NESTED>> conditions, Function<? super ACTUAL, ? extends NESTED> extractor) {
     super(compose(conditions, extractor));
     this.descriptionPrefix = descriptionPrefix;
   }
 
-  private NestableCondition(String descriptionPrefix, Stream<Condition<ACTUAL>> conditions) {
+  private NestableCondition(String descriptionPrefix, Stream<? extends Condition<? super ACTUAL>> conditions) {
     super(conditions.collect(toList()));
     this.descriptionPrefix = descriptionPrefix;
   }
@@ -162,12 +162,12 @@ public class NestableCondition<ACTUAL, NESTED> extends Join<ACTUAL> {
     return descriptionPrefix;
   }
 
-  private static <ACTUAL, NESTED> List<Condition<ACTUAL>> compose(Stream<Condition<NESTED>> conditions,
-                                                                  Function<ACTUAL, NESTED> extractor) {
+  private static <ACTUAL, NESTED> List<Condition<? super ACTUAL>> compose(Stream<? extends Condition<? super NESTED>> conditions,
+                                                                  Function<? super ACTUAL, ? extends NESTED> extractor) {
     return conditions.map(condition -> compose(condition, extractor)).collect(toList());
   }
 
-  private static <ACTUAL, NESTED> Condition<ACTUAL> compose(Condition<NESTED> condition, Function<ACTUAL, NESTED> extractor) {
+  private static <ACTUAL, NESTED> Condition<ACTUAL> compose(Condition<? super NESTED> condition, Function<? super ACTUAL, ? extends NESTED> extractor) {
     return new Condition<ACTUAL>(condition.description()) {
       @Override
       public boolean matches(ACTUAL value) {
