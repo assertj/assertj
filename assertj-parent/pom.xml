@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-build</artifactId>
-    <version>3.24.2-SNAPSHOT</version>
+    <version>3.25.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>assertj-parent</artifactId>
@@ -25,7 +25,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- Dependency versions -->
     <junit.version>4.13.2</junit.version>
-    <junit-jupiter.version>5.9.1</junit-jupiter.version>
+    <junit-jupiter.version>5.9.2</junit-jupiter.version>
     <mockito.version>4.11.0</mockito.version>
     <opentest4j.version>1.2.0</opentest4j.version>
     <!-- Plugin versions -->
