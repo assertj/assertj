@@ -1,6 +1,5 @@
-name: component-b
-title: Component B
-version: '2.0'
+name: assertj-core
+title: assertj core
 nav:
 - modules/ROOT/nav.adoc
 - modules/module-one/nav.adoc
