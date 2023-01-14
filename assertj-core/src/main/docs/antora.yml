@@ -1,6 +1,6 @@
 name: assertj-core
-title: assertj core
-version: 3.24.0
+title: AssertJ
+version: 3.34.0
 nav:
 - modules/ROOT/nav.adoc
 - modules/module-one/nav.adoc

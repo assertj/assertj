@@ -13,24 +13,3 @@ The selector is on the task bar, located near the upper right corner of the page
 
 This page is sourced from the AsciiDoc file named [.path]_index.adoc_ that is located at [.path]_demo-component-b/docs/modules/ROOT/pages_.
 
-=== Why is this the home page of Component B?
-
-This page is automatically used as the start page of Component B because it is stored in the ROOT module and named [.path]_index.adoc_.
-
-=== Why is this the home page of the Antora Demo site?
-
-This page is used as the home page for the Antora Demo because it is assigned as the site `start_page` in the Demo site's playbook file [.path]_site.yml_.
-
-== Cross reference syntax to target this page
-
-To create a cross reference *to this page from another page in the ROOT module of Component B*, the xref syntax would be `\xref:index.adoc[]`.
-
-To create a cross reference *to this page from a page in Module One of Component B*, the xref syntax would be `\xref:ROOT:index.adoc[]`.
-
-=== Always target the latest version of this page
-
-To create a cross reference *to the latest version of this page from a page in Component A*, the xref syntax would be `\xref:component-b::index.adoc[]`.
-
-=== Target a specific version of this page
-
-To create a cross reference *to version 1.0 of this page from a page in Component A*, the xref syntax would be `\xref:1.0@component-b::index.adoc[]`.

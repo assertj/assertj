@@ -1,4 +1,0 @@
-[[assertj-swing]]
-== AssertJ Swing
-
-include::assertj-swing-release-notes.adoc[]
