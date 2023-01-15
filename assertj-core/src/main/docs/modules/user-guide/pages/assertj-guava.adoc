@@ -1,8 +1,0 @@
-[[assertj-guava]]
-== AssertJ Guava
-
-include::assertj-guava-quickstart.adoc[]
-
-include::assertj-guava-assertions-guide.adoc[]
-
-include::assertj-guava-release-notes.adoc[]
