@@ -4,7 +4,7 @@
 
 :icons: font
 :imagesdir: images
-:imagesoutdir: {outdir}/user-guide/images
+:imagesoutdir: ./images
 //
 // :docinfo2:
 //
