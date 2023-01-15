@@ -1,0 +1,528 @@
+<html>
+    <head>
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Comparing binary compatibility of assertj-core-3.18.1.jar against assertj-core-3.17.2.jar</title>
+        <style type="text/css">
+body {
+    font-family: Verdana;
+}
+.title {
+    font-weight: bold;
+}
+.new {
+    color: green;
+}
+.removed {
+    color: red;
+}
+.modified {
+    color: orange;
+}
+.unchanged {
+    color: black;
+}
+thead tr td {
+    font-weight: bold;
+}
+.toc {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    border: 1px solid #dcdcdc;
+    padding: 5px;
+    background: #ededed;
+    display: inline-block;
+}
+table {
+    border-collapse: collapse;
+}
+table tr td {
+    border: 1px solid black;
+    padding: 5px;
+}
+table thead {
+    background-color: #dee3e9;
+}
+table tbody tr td.matrix_layout {
+    background-color: #dee3e9;
+    font-weight: bold;
+}
+.class {
+    margin-bottom: 2em;
+    border: 1px solid #dcdcdc;
+    padding: 5px;
+    background: #ededed;
+    display: inline-block;
+}
+.class_compatibilityChanges {
+	margin-top: 1em;
+}
+
+.class_fileFormatVersion {
+	margin-top: 1em;
+}
+.class_superclass {
+    margin-top: 1em;
+}
+.class_interfaces {
+    margin-top: 1em;
+}
+.class_fields {
+    margin-top: 1em;
+}
+.class_serialVersionUid {
+    margin-top: 1em;
+}
+.class_constructors {
+    margin-top: 1em;
+}
+.class_methods {
+    margin-top: 1em;
+}
+.class_annotations {
+    margin-top: 1em;
+}
+.label {
+    font-weight: bold;
+}
+.label_class_member {
+    background-color: #4d7a97;
+    display: inline-block;
+    padding: 5px;
+}
+.toc_link {
+    margin-left: 10px;
+    font-size: 0.5em;
+}
+.modifier {
+    font-style: italic;
+}
+.method_return_type {
+
+}
+ul {
+    list-style-type: none;
+    padding: 0px 0px;
+}
+.meta-information {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    background: #ededed;
+    display: inline-block;
+}
+.warnings {
+    margin-top: 1em;
+    font-size: 0.75em;
+}
+.explanations {
+	margin-bottom: 2em;
+}
+
+</style>
+    </head>
+    <body>
+        <span class="title">Comparing binary compatibility of assertj-core-3.18.1.jar against assertj-core-3.17.2.jar</span>
+        <br>
+        <div class="meta-information">
+            <table>
+                <tr>
+                    <td>Old:</td><td>assertj-core-3.17.2.jar</td>
+                </tr>
+                <tr>
+                    <td>New:</td><td>assertj-core-3.18.1.jar</td>
+                </tr>
+                <tr>
+                    <td>Created:</td><td>2021-06-20T07:02:31.699+0200</td>
+                </tr>
+                <tr>
+                    <td>Access modifier filter:</td><td>PROTECTED</td>
+                </tr>
+                <tr>
+                    <td>Only modifications:</td><td>true</td>
+                </tr>
+                <tr>
+                    <td>Only binary incompatible modifications:</td><td>true</td>
+                </tr>
+                <tr>
+                    <td>Ignore missing classes:</td><td>false</td>
+                </tr>
+                <tr>
+                    <td>Includes:</td><td>all</td>
+                </tr>
+                <tr>
+                    <td>Excludes:</td><td>org.assertj.core.internal;org.assertj.core.internal</td>
+                </tr>
+                <tr>
+                    <td id="semver-label">Semantic Versioning:</td><td id="semver-version">1.0.0</td>
+                </tr>
+            </table>
+        </div>
+        <ul>
+            <li>
+                <a href="#toc">Classes</a>
+            </li>
+        </ul>
+            
+        <div class="toc" id="toc">
+            <span class="label">Classes:</span>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Status</td><td>Fully Qualified Name</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><a href="#org.assertj.core.api.AssertionErrorCollector">org.assertj.core.api.AssertionErrorCollector</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><a href="#org.assertj.core.api.ErrorCollector">org.assertj.core.api.ErrorCollector</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><a href="#org.assertj.core.api.WithAssertions">org.assertj.core.api.WithAssertions</a></td>
+                    </tr>
+                    <tr>
+                        <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><a href="#org.assertj.core.util.introspection.FieldUtils">org.assertj.core.util.introspection.FieldUtils</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="explanations">
+            <span>Binary incompatible changes are marked with (!) while source incompatible changes are marked with (*).</span>
+        </div>
+        <div>
+            <div>
+                <div class="class" id="org.assertj.core.api.AssertionErrorCollector">
+                    <div class="class_header">
+                        <span class="label"><a name="org.assertj.core.api.AssertionErrorCollector"></a><span class="modified">MODIFIED&nbsp;(!)</span><span class="">&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier">abstract&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged">interface</span>&nbsp;org.assertj.core.api.AssertionErrorCollector</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces"></div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods">
+                        <span class="label_class_member">Methods:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Modifier</td><td>Type</td><td>Method</td><td>Exceptions</td><td>Compatibility Changes:</td><td>Line Number</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">java.util.Optional</span></td><td>getDelegate()</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>31</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">void</span></td><td>setDelegate(org.assertj.core.api.AssertionErrorCollector)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>28</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="class" id="org.assertj.core.api.ErrorCollector">
+                    <div class="class_header">
+                        <span class="label"><a name="org.assertj.core.api.ErrorCollector"></a><span class="modified">MODIFIED&nbsp;(!)</span><span class="">&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged">class</span>&nbsp;org.assertj.core.api.ErrorCollector</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces"></div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors">
+                        <span class="label_class_member">Constructors:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Modifier</td><td>Constructor</td><td>Exceptions</td><td>Compatibility Changes:</td><td>Line Number</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="removed">REMOVED&nbsp;(!)</span></td><td><span class="removed modifier"></span><span class="removed modifier"></span><span class="removed modifier">public&nbsp;</span><span class="removed modifier"></span><span class="removed modifier"></span><span class="removed modifier"></span></td><td>ErrorCollector()</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>CONSTRUCTOR_REMOVED</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>30</td><td>n.a.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="class_methods">
+                        <span class="label_class_member">Methods:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Modifier</td><td>Type</td><td>Method</td><td>Exceptions</td><td>Compatibility Changes:</td><td>Line Number</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="removed">REMOVED&nbsp;(!)</span></td><td><span class="removed modifier"></span><span class="removed modifier"></span><span class="removed modifier">public&nbsp;</span><span class="removed modifier"></span><span class="removed modifier"></span><span class="removed modifier"></span></td><td><span class="removed method_return_type">java.util.List</span></td><td>errors()</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_REMOVED</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>92</td><td>n.a.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="removed">REMOVED&nbsp;(!)</span></td><td><span class="removed modifier"></span><span class="removed modifier"></span><span class="removed modifier">public&nbsp;</span><span class="removed modifier"></span><span class="removed modifier"></span><span class="removed modifier"></span></td><td><span class="removed method_return_type">boolean</span></td><td>wasSuccess()</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_REMOVED</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>96</td><td>n.a.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="class" id="org.assertj.core.api.WithAssertions">
+                    <div class="class_header">
+                        <span class="label"><a name="org.assertj.core.api.WithAssertions"></a><span class="modified">MODIFIED&nbsp;(!)</span><span class="">&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier">public&nbsp;</span><span class="unchanged modifier">abstract&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged">interface</span>&nbsp;org.assertj.core.api.WithAssertions</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces"></div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors"></div>
+                    <div class="class_methods">
+                        <span class="label_class_member">Methods:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Modifier</td><td>Type</td><td>Method</td><td>Exceptions</td><td>Compatibility Changes:</td><td>Line Number</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="new">NEW&nbsp;(!)</span></td><td><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier">public&nbsp;</span><span class="new modifier"></span><span class="new modifier"></span><span class="new modifier"></span></td><td><span class="new method_return_type">java.time.Duration</span></td><td>withMarginOf(java.time.Duration)</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>METHOD_NEW_DEFAULT</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>n.a.</td><td>1555</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="class" id="org.assertj.core.util.introspection.FieldUtils">
+                    <div class="class_header">
+                        <span class="label"><a name="org.assertj.core.util.introspection.FieldUtils"></a><span class="modified">MODIFIED&nbsp;(!)</span><span class="">&nbsp;</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="modified modifier">package_protected
+						&nbsp;(&lt;-&nbsp;
+						public
+						)&nbsp;
+					</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged">class</span>&nbsp;org.assertj.core.util.introspection.FieldUtils</span><a href="#toc" class="toc_link">top</a>
+                    </div>
+                    <div class="class_compatibilityChanges">
+                        <span class="label_class_member">Compatibility Changes:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Change</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>CLASS_NO_LONGER_PUBLIC</td>
+                                </tr>
+                                <tr>
+                                    <td>CLASS_LESS_ACCESSIBLE</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="class_superclass"></div>
+                    <div class="class_interfaces"></div>
+                    <div class="class_fields"></div>
+                    <div class="class_constructors">
+                        <span class="label_class_member">Constructors:</span>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Status</td><td>Modifier</td><td>Constructor</td><td>Exceptions</td><td>Compatibility Changes:</td><td>Line Number</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="modified">MODIFIED&nbsp;(!)</span></td><td><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="modified modifier">package_protected
+						&nbsp;(&lt;-&nbsp;
+						public
+						)&nbsp;
+					</span><span class="unchanged modifier"></span><span class="unchanged modifier"></span><span class="unchanged modifier"></span></td><td>FieldUtils()</td><td>n.a.</td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Change</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>CONSTRUCTOR_LESS_ACCESSIBLE</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td><td>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td>Old file</td><td>New file</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>30</td><td>30</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="class_methods"></div>
+                </div>
+            </div>
+        </div>
+        
+    </body>
+</html>

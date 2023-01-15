@@ -1,0 +1,1827 @@
+[[assertj-db-features]]
+=== Features highlight
+
+Before reading this page, it is recommended to be familiar with the <<assertj-db-concepts,concepts of AssertJ-DB>>.
+
+The purpose of this page is to show the different features of AssertJ-DB.
+
+* <<assertj-db-features-navigation,Navigation>>
+** <<assertj-db-features-tableorrequestasroot,With a Table or a Request as root>>
+*** <<assertj-db-features-tableorrequesttorow,To a Row>>
+*** <<assertj-db-features-tableorrequesttocolumn,To a Column>>
+*** <<assertj-db-features-tableorrequesttovalue,To a Value>>
+** <<assertj-db-features-changesasroot,With Changes as root>>
+*** <<assertj-db-features-changestochanges,To Changes>>
+*** <<assertj-db-features-changestochange,To a Change>>
+*** <<assertj-db-features-changestorow,To a Row>>
+*** <<assertj-db-features-changestocolumn,To a Column>>
+*** <<assertj-db-features-changestovalue,To a Value>>
+* <<assertj-db-features-assertions,Assertions>>
+** <<assertj-db-features-onchangetype,On the type of change>>
+** <<assertj-db-features-oncolumnequality,On the equality with the values of a column>>
+*** <<assertj-db-features-oncolumnequality-boolean,With Boolean>>
+*** <<assertj-db-features-oncolumnequality-bytes,With Bytes>>
+*** <<assertj-db-features-oncolumnequality-number,With Number>>
+*** <<assertj-db-features-oncolumnequality-date,With Date>>
+*** <<assertj-db-features-oncolumnequality-time,With Time>>
+*** <<assertj-db-features-oncolumnequality-datetime,With Date/Time>>
+*** <<assertj-db-features-oncolumnequality-string,With String>>
+*** <<assertj-db-features-oncolumnequality-uuid,With UUID>> [.small]#(since in <<assertj-db-1-1-0-release-notes,1.1.0>>)#
+*** <<assertj-db-features-oncolumnequality-character,With Character>> [.small]#(since in <<assertj-db-1-2-0-release-notes,1.2.0>>)#
+** <<assertj-db-features-oncolumnname,On the name of a column>>
+** <<assertj-db-features-oncolumnnullity,On the nullity of the values of a column>>
+** <<assertj-db-features-onrownullity,On the nullity of the values of a row>> [.small]#(since in <<assertj-db-1-2-0-release-notes,1.2.0>>)#
+** <<assertj-db-features-oncolumntype,On the type of column>>
+** <<assertj-db-features-oncolumnclass,On the class of column>> [.small]#(since in <<assertj-db-1-1-0-release-notes,1.1.0>>)#
+** <<assertj-db-features-oncolumncontent,On the content of column>> [.small]#(since in <<assertj-db-1-1-0-release-notes,1.1.0>>)#
+** <<assertj-db-features-ondatatype,On the type of data>>
+** <<assertj-db-features-onmodifiedcolumns,On the modified columns in a change>> [.small]#(modified in <<assertj-db-1-1-0-release-notes,1.1.0>>)#
+** <<assertj-db-features-onnumberchanges,On the number of changes>> [.small]#(modified in <<assertj-db-1-1-0-release-notes,1.1.0>>)#
+** <<assertj-db-features-onnumbercolumns,On the number of columns>> [.small]#(modified in <<assertj-db-1-1-0-release-notes,1.1.0>>)#
+** <<assertj-db-features-onnumberrows,On the number of rows>> [.small]#(modified in <<assertj-db-1-1-0-release-notes,1.1.0>> and <<assertj-db-1-2-0-release-notes,1.2.0>>)#
+** <<assertj-db-features-onprimarykeys,On the primary keys>>
+** <<assertj-db-features-onrowequality,On the equality with the values of a row>>
+** <<assertj-db-features-onrowexistence,On the existence of a row in a change>>
+** <<assertj-db-features-onvaluechronology,On the chronology of a value>>
+** <<assertj-db-features-onvaluecomparison,On the comparison with a value>>
+** <<assertj-db-features-onvaluecloseness,On the closeness of a value>> [.small]#(since in <<assertj-db-1-1-0-release-notes,1.1.0>>)#
+** <<assertj-db-features-onvaluequality,On the equality with a value>>
+*** <<assertj-db-features-onvaluequality-boolean,With Boolean>>
+*** <<assertj-db-features-onvaluequality-bytes,With Bytes>>
+*** <<assertj-db-features-onvaluequality-number,With Number>>
+*** <<assertj-db-features-onvaluequality-date,With Date>>
+*** <<assertj-db-features-onvaluequality-time,With Time>>
+*** <<assertj-db-features-onvaluequality-datetime,With Date/Time>>
+*** <<assertj-db-features-onvaluequality-string,With String>>
+*** <<assertj-db-features-onvaluequality-uuid,With UUID>> [.small]#(since in <<assertj-db-1-1-0-release-notes,1.1.0>>)#
+*** <<assertj-db-features-onvaluequality-character,With Character>> [.small]#(since in <<assertj-db-1-2-0-release-notes,1.2.0>>)#
+** <<assertj-db-features-onvaluenonquality,On the non equality with a value>>
+*** <<assertj-db-features-onvaluenonquality-boolean,With Boolean>>
+*** <<assertj-db-features-onvaluenonquality-bytes,With Bytes>>
+*** <<assertj-db-features-onvaluenonquality-number,With Number>>
+*** <<assertj-db-features-onvaluenonquality-date,With Date>>
+*** <<assertj-db-features-onvaluenonquality-time,With Time>>
+*** <<assertj-db-features-onvaluenonquality-datetime,With Date/Time>>
+*** <<assertj-db-features-onvaluenonquality-string,With String>>
+*** <<assertj-db-features-onvaluenonquality-uuid,With UUID>> [.small]#(since in <<assertj-db-1-1-0-release-notes,1.1.0>>)#
+*** <<assertj-db-features-onvaluenonquality-character,With Character>> [.small]#(since in <<assertj-db-1-2-0-release-notes,1.2.0>>)#
+** <<assertj-db-features-onvaluenullity,On the nullity of a value>>
+** <<assertj-db-features-onvaluetype,On the type of a value>>
+** <<assertj-db-features-onvalueclass,On the class of a value>> [.small]#(since in <<assertj-db-1-1-0-release-notes,1.1.0>>)#
+
+[[assertj-db-features-navigation]]
+==== Navigation
+
+[[assertj-db-features-tableorrequestasroot]]
+===== With a Table or a Request as root
+
+As shown in the <<assertj-db-concepts-tableorrequestasroot,concepts>> (to easily understand this chapter it is important to know the concepts of assertj-db),
+the `assertThat(...)` static method is used
+to begin an assertion
+on a https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Table.html[Table]
+or on a https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/type/Request.html[Request].
+
+The navigation from a table or from a request are similar, so in most of the examples below a table will be used :
+
+[source,java]
+----
+assertThat(tableOrRequest)...
+----
+
+If there is a difference if will be specified.
+
+All the navigation methods work from an origin point.
+That means that if the method is executed from another point,
+it is like the execution is from the point of view of the origin.
+
+There are some recurring points in the different navigation methods :
+
+*   a method without parameter which allows to navigate on the next element after the element reached on the last call
+(if it is the first call, navigate to the first element)
+*   a method with an `int` parameter (an index) which allows to navigate on the element which is
+at the corresponding index
+*   a method with an `String` parameter (a column name) which allows to navigate on the element corresponding
+at the column name
+
+[[assertj-db-features-tableorrequesttorow]]
+====== To a Row
+
+These methods are described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/navigation/ToRow.html[ToRow] interface.
+
+The `row()` method allows to navigate to the next row after the row reached on the last call.
+
+[source,java]
+----
+// If it is the first call, navigate to the first row
+assertThat(tableOrRequest).row()...
+// It is possible to chain the calls to navigate to the next row
+// after the first row (so the second row)
+assertThat(tableOrRequest).row().row()...
+----
+
+The `row(int index)` method with `index` as parameter
+allows to navigate to the row corresponding to row at the index.
+
+[source,java]
+----
+// Navigate to the row at index 2
+assertThat(tableOrRequest).row(2)...
+// It is possible to chain the calls to navigate to another row.
+// Here row at index 6
+assertThat(tableOrRequest).row(2).row(6)...
+// It is possible to combine the calls to navigate to the next row
+// after the row at index 2. Here row at index 3
+assertThat(tableOrRequest).row(2).row()...
+----
+
+This picture shows from where it is possible to navigate to a row.
+
+[ditaa, target="db-navigation-with-table-or-request-to-row", shadows=false, transparent=true]
+....
+                            +-----------+<--------+----------------------+
+                 +--------->|On a Column|         |On a Value Of a Column|
+                 |          +-----+-----+-------->+---------------------++
+                 |                |     :                               |
++----------------+------+<--------+     |                               |
+|On a Table Or a Request|        navigate to a row                      |
++----+-----------+------+<--------+     |                               |
+     :           |                |     v                               |
+     |           |          +-----+-----+<--------+-------------------+ |
+     |           +--------->|  On a Row |         |On a Value Of a Row| |
+     |                      +--+----+---+-------->+----------+--------+ |
+     |                      ^  ^    :   ^                    :          |
+     |  navigate to a row   |  |    |   |                    |          |
+     +----------------------+  +----+   +--------------------+----------+
+                         navigate to a row         navigate to a row
+....
+
+The origin point of the `row(...)` methods is the Table or the Request.
+So if the method is executed from a row, from a column or from a value
+it is like if the method was executed from the Table or the Request.
+
+When the position is on a row, it is possible to return to the origin.
+
+[source,java]
+----
+// Return to the table from a row of a table
+assertThat(table).row().returnToTable()...
+// Return to the request from a row of a request
+assertThat(request).row().returnToRequest()...
+----
+
+That also means that the two navigations below are equivalent.
+
+[source,java]
+----
+// Navigate to the first row
+// Return to the table from this row
+// Navigate to the next row
+assertThat(table).row().returnToTable().row()...
+// The same thing is done but the return to the table is implicit
+assertThat(table).row().row()...
+----
+
+[[assertj-db-features-tableorrequesttocolumn]]
+====== To a Column
+
+These methods are described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/navigation/ToColumn.html[ToColumn] interface.
+
+The `column()` method allows to navigate to the next column after the column reached on the last call.
+
+[source,java]
+----
+// If it is the first call, navigate to the first column
+assertThat(tableOrRequest).column()...
+// It is possible to chain the calls to navigate to the next column
+// after the first column (so the second column)
+assertThat(tableOrRequest).column().column()...
+----
+
+The `column(int index)` method with `index` as parameter
+allows to navigate to the column corresponding to column at the index.
+
+[source,java]
+----
+// Navigate to the column at index 2
+assertThat(tableOrRequest).column(2)...
+// It is possible to chain the calls to navigate to another column.
+// Here column at index 6
+assertThat(tableOrRequest).column(2).column(6)...
+// It is possible to combine the calls to navigate to the next column
+// after the column at index 2. Here column at index 3
+assertThat(tableOrRequest).column(2).column()...
+// It is possible to combine the calls with other navigation methods
+// Here first column
+assertThat(tableOrRequest).row(2).column()...
+// Here column at index 3
+assertThat(tableOrRequest).row(2).column(3)...
+// Here column at index 4 because the origin remember last navigation to a column
+assertThat(tableOrRequest).column(3).row(2).column()...
+----
+
+The `column(String columnName)` method with `columnName` as parameter
+allows to navigate to the column corresponding to the column with the column name.
+
+[source,java]
+----
+// Navigate to the column with the name "SURNAME"
+assertThat(tableOrRequest).column("surname")...
+// Like for the other methods, it is possible to chain the calls
+assertThat(tableOrRequest).column("surname").column().column(6).column("id")...
+----
+
+This picture shows from where it is possible to navigate to a column.
+
+[ditaa, target="db-navigation-with-table-or-request-to-column", shadows=false, transparent=true]
+....
+      navigate to a column  navigate to a column    navigate to a column
+     +----------------------+  +----+   +---------------------+-----------+
+     |                      |  |    |   |                     |           |
+     |                      v  v    :   v                     |           |
+     |                      +--+----+---+<--------+-----------+----------+|
+     |           +--------->|On a Column|         |On a Value Of a Column||
+     |           |          +-----+-----+-------->+---------------------++|
+     :           |                |     ^                                 |
++----+-----------+------+<--------+     |                                 |
+|On a Table Or a Request|        navigate to a column                     |
++----------------+------+<--------+     |                                 |
+                 |                |     :                                 |
+                 |          +-----+-----+<--------+-------------------+   |
+                 +--------->|  On a Row |         |On a Value Of a Row+-=-+
+                            +-----------+-------->+-------------------+
+....
+
+The origin point of the `column(...)` methods is the Table or the Request.
+So if the method is executed from a row, from a column or from a value
+it is like if the method was executed from the Table or The Request.
+
+When the position is on a column, it is possible to return to the origin.
+
+[source,java]
+----
+// Return to the table from a column of a table
+assertThat(table).column().returnToTable()...
+// Return to the request from a column of a request
+assertThat(request).column().returnToRequest()...
+----
+
+That also means that the two navigations below are equivalent.
+
+[source,java]
+----
+// Navigate to the first column
+// Return to the table from this column
+// Navigate to the next column
+assertThat(table).column().returnToTable().column()...
+// The same thing is done but the return to the table is implicit
+assertThat(table).column().column()...
+----
+
+[[assertj-db-features-tableorrequesttovalue]]
+====== To a Value
+
+These methods are described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/navigation/ToValue.html[ToValue]
+and the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/navigation/ToValueFromRow.html[ToValueFromRow] interfaces.
+
+The `value()` method allows to navigate to the next value after the value reached on the last call.
+
+[source,java]
+----
+// If it is the first call, navigate to the first value
+assertThat(tableOrRequest).row().value()...
+// It is possible to chain the calls to navigate to the next value
+// after the first value (so the second value)
+assertThat(tableOrRequest).column().value().value()...
+----
+
+The `value(int index)` method with `index` as parameter
+allows to navigate to the value corresponding to value at the index.
+
+[source,java]
+----
+// Navigate to the value at index 2
+assertThat(tableOrRequest).column().value(2)...
+// It is possible to chain the calls to navigate to another value.
+// Here value at index 6
+assertThat(tableOrRequest).row(4).value(2).value(6)...
+// It is possible to combine the calls to navigate to the next value
+// after the value at index 2. Here value at index 3
+assertThat(tableOrRequest).column(4).value(2).value()...
+// Here value at index 4 because the origin remember last navigation to a column
+assertThat(tableOrRequest).column().value(3).row(2).column(0).value()...
+----
+
+The `value(String columnName)` method with `columnName` as parameter (only available from a row)
+allows to navigate to the value of the column corresponding to the column with the column name.
+
+[source,java]
+----
+// Navigate to the value of the column with the name "SURNAME"
+assertThat(tableOrRequest).row().value("surname")...
+// Like for the other methods, it is possible to chain the calls
+assertThat(tableOrRequest).row().value("surname").value().value(6).value("id")...
+----
+
+This picture shows from where it is possible to navigate to a value.
+
+[ditaa, target="db-navigation-with-table-or-request-to-value", shadows=false, transparent=true]
+....
+                           +--------------------+
+                           |navigate to a value |
+                           :                    v
+                     +-----+-----+<--+----------+-----------+=--+
+                 +-->|On a Column|   |On a Value Of a Column|   |navigate to a value
+                 |   +-----+-----+-->+----------------------+<--+
+                 |         |
++----------------+------+<-+
+|On a Table Or a Request|
++----------------+------+<-+
+                 |         |
+                 |   +-----+-----+<--+-------------------+=--+
+                 +-->|  On a Row |   |On a Value Of a Row|   |navigate to a value
+                     +-----+-----+-->+----------+--------+<--+
+                           :                    ^
+                           |navigate to a value |
+                           +--------------------+
+....
+
+The origin point of the `value(...)` methods is the Row or the Column.
+So if the method is executed from a value
+it is like if the method was executed from the Row or The Column.
+
+When the position is on a value, it is possible to return to the origin.
+
+[source,java]
+----
+// Return to the column from a value
+assertThat(table).column().value().returnToColumn()...
+// Return to the row from a value
+assertThat(request).row().value().returnToRow()...
+----
+
+That also means that the two navigations below are equivalent.
+
+[source,java]
+----
+// Navigate to the first column
+// Navigate to the first value
+// Return to the column from this value
+// Navigate to the next value
+assertThat(table).column().value().returnToColumn().value()...
+// The same thing is done but the return to the column is implicit
+assertThat(table).column().value().value()...
+----
+
+[[assertj-db-features-changesasroot]]
+===== With Changes as root
+
+[[assertj-db-features-changestochanges]]
+====== To Changes
+
+These methods are described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/navigation/ToChanges.html[ToChanges] interface.
+
+The `ofCreation()` method allows to navigate to the changes of creation.
+
+[source,java]
+----
+// Navigate to the changes of creation
+assertThat(changes).ofCreation()...
+----
+
+The `ofCreationOnTable()` method with `tableName` as parameter
+allows to navigate to the changes of creation of a table.
+
+[source,java]
+----
+// Navigate to the changes of creation on the "members" table
+assertThat(changes).ofCreationOnTable("members")...
+----
+
+The `ofCreation()` method allows to navigate to the changes of modification.
+
+[source,java]
+----
+// Navigate to the changes of modification
+assertThat(changes).ofModification()...
+----
+
+The `ofModificationOnTable()` method with `tableName` as parameter
+allows to navigate to the changes of modification of a table.
+
+[source,java]
+----
+// Navigate to the changes of modification on the "members" table
+assertThat(changes).ofModificationOnTable("members")...
+----
+
+The `ofCreation()` method allows to navigate to the changes of deletion.
+
+[source,java]
+----
+// Navigate to the changes of deletion
+assertThat(changes).ofDeletion()...
+----
+
+The `ofDeletionOnTable()` method with `tableName` as parameter
+allows to navigate to the changes of deletion of a table.
+
+[source,java]
+----
+// Navigate to the changes of deletion on the "members" table
+assertThat(changes).ofDeletionOnTable("members")...
+----
+
+The `onTable(String tableName)` method with `tableName` as parameter
+allows to navigate to the changes of a table.
+
+[source,java]
+----
+// Navigate to all the changes on the "members" table
+assertThat(changes).onTable("members")...
+----
+
+The `ofAll()` method allows to navigate to all the changes.
+
+[source,java]
+----
+// Navigate to all the changes
+assertThat(changes).ofAll()...
+// The navigation can be chained
+assertThat(changes).ofCreation().ofAll()...
+----
+
+This picture shows from where it is possible to navigate to changes.
+
+[ditaa, target="db-navigation-with-changes-to-changes", shadows=false, transparent=true]
+....
+                       +--------------------------------+----------------------+
+                       |         navigate to changes    |                      :
+                       |                          +-----+-----+<---+-----------+----------+
+                       |navigate to changes   +-->|On a Column|    |On a Value Of a Column|
+                       +------------------+   |   +-----+-----+--->+----------------------+
+                       |                  |   |         |
+ navigate to changes   v                  :   |         |
+   +------------=+-----+-----+<-----+-----+---+-+<------+
+   |             |On Changes |      |On a Change|
+   +------------>+-----+-----+----->+---------+-+<------+
+                       ^                      |         |
+                       |                      |   +-----+--+<---+-------------------+
+                       |                      +-->|On a Row|    |On a Value Of a Row|
+                       |                          +-----+--+--->+-----------+-------+
+                       |         navigate to changes    :                   |
+                       +--------------------------------+-------------------+
+....
+
+The origin point of these methods is the Changes.
+So if the method is executed from a change, a column, a row or a value
+it is like if the method was executed from the Changes.
+
+[[assertj-db-features-changestochange]]
+====== To a Change
+
+These methods are described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/navigation/ToChange.html[ToChange] interface.
+
+The `change()` method allows to navigate to the next change after the change reached on the last call.
+
+[source,java]
+----
+// If it is the first call, navigate to the first change
+assertThat(changes).change()...
+// It is possible to chain the calls to navigate to the next change
+// after the first change (so the second change)
+assertThat(changes).change().change()...
+----
+
+The `change(int index)` method with `index` as parameter
+allows to navigate to the change corresponding to change at the index.
+
+[source,java]
+----
+// Navigate to the change at index 2
+assertThat(changes).change().change(2)...
+// It is possible to chain the calls to navigate to another change.
+// Here change at index 7
+assertThat(changes).change(6).change()...
+----
+
+The `changeOnTable(String tableName)` method with `tableName` as parameter
+allows to navigate to the next change corresponding to the table name after the change corresponding to the table name reached on the last call.
+
+[source,java]
+----
+// If it is the first call, navigate to the first change on "members" table
+assertThat(changes).changeOnTable("members")...
+// It is possible to chain the calls to navigate to the next change on the "members" table
+// after the first change on the "members" table (so the second change)
+assertThat(changes).changeOnTable("members").changeOnTable("members")...
+----
+
+The `changeOnTable(String tableName, int index)` method with `tableName` and `index` as parameters
+allows to navigate to the change corresponding to change on the table name at the index.
+
+[source,java]
+----
+// Navigate to the change at index 2 of "members" table
+assertThat(changes).changeOnTable("members").changeOnTable("members", 2)...
+// It is possible to chain the calls to navigate to another change.
+// Here change at index 7 of "members" table
+assertThat(changes).changeOnTable("members", 6).changeOnTable("members")...
+----
+
+There are 12 other methods which are derived from the 4 methods above :
+
+*   `changeOfCreation()`, `changeOfModification()` and `changeOfDeletion()`
+methods which allows to navigate to the next change of creation, modification and deletion like `change()` method
+
+[source,java]
+----
+// If it is the first call, navigate to the first change of creation
+assertThat(changes).changeOfCreation()...
+// Navigate to the the first change of creation
+// and after the second change of creation
+assertThat(changes).changeOfCreation().changeOfCreation()...
+----
+
+*   `changeOfCreation(int index)`, `changeOfModification(int index)` and `changeOfDeletion(int index)`
+methods with `index` as parameter which allows to navigate to the change of creation, modification and deletion corresponding to change of creation, modification and deletion at the index like `change(int index)` method
+
+[source,java]
+----
+// Navigate to the change of modification at index 2
+assertThat(changes).changeOfModification()
+                   .changeOfModification(2)...
+// It is possible to chain the calls
+// to navigate to another change of modification.
+// Here change of modification at index 5
+assertThat(changes).changeOfModification(4)
+                   .changeOfModification()...
+----
+
+*   `changeOfCreationOnTable(String tableName)`, `changeOfModificationOnTable(String tableName)` and `changeOfDeletionOnTable(String tableName)`
+methods with `tableName` as parameter which allows to navigate to the next change of creation, modification and deletion corresponding to the table name like `changeOnTable(String tableName)` method
+
+[source,java]
+----
+// If it is the first call, navigate
+// to the first change of creation on "members" table
+assertThat(changes).changeOfCreationOnTable("members")...
+// It is possible to chain the calls to navigate
+// to the next change of creation on the "members" table
+// after the first change of creation on the "members" table
+// (so the second change of creation)
+assertThat(changes).changeOfCreationOnTable("members")
+                   .changeOfCreationOnTable("members")...
+----
+
+*   `changeOfCreationOnTable(String tableName, int index)`, `changeOfModificationOnTable(String tableName, int index)` and `changeOfDeletionOnTable(String tableName, int index)`
+methods with `tableName` and `index` as parameters which allows to navigate to the next change of creation, modification and deletion corresponding to the table name and index like `changeOnTable(String tableName, int index)` method
+
+[source,java]
+----
+// Navigate to the change of deletion at index 2 of "members" table
+assertThat(changes).changeOfDeletionOnTable("members")
+                   .changeOfDeletionOnTable("members", 2)...
+// It is possible to chain the calls
+// to navigate to another change of deletion.
+// Here change of deletion at index 7 of "members" table
+assertThat(changes).changeOfDeletionOnTable("members", 6)
+                   .changeOfDeletionOnTable("members")...
+----
+
+The `changeOnTableWithPks(String tableName, Object... pksValues)` method
+allows to navigate to the change corresponding to the table and the primary keys.
+
+[source,java]
+----
+// Navigate to the change with primary key 1 of "members" table
+assertThat(changes).changeOnTableWithPks("members", 1)...
+// It is possible to chain the calls to navigate to the next change
+// after the change with primary key 1 of "members" table
+assertThat(changes).changeOnTableWithPks("members", 1).change()...
+----
+
+This picture shows from where it is possible to navigate to a change.
+
+[ditaa, target="db-navigation-with-changes-to-change", shadows=false, transparent=true]
+....
+                                    navigate to change
+                         +-------------+----------------------+
+                         |             |                      :
+      navigate to change |       +-----+-----+<---+-----------+----------+
+      +------------------+   +-->|On a Column|    |On a Value Of a Column|
+      |                  |   |   +-----+-----+--->+----------------------+
+      :                  v   |         |
++-----+-----+<-----+-----+---+-+<------+
+|On Changes |      |On a Change|
++-----------+----->+-----+---+-+<------+
+                   |     ^   |         |
+                   |     |   |   +-----+--+<---+-------------------+
+ navigate to change|     |   +-->|On a Row|    |On a Value Of a Row|
+                   |     |       +-----+--+--->+-----------+-------+
+                   |     |             :                   |
+                   +-----+-------------+-------------------+
+                                    navigate to change
+....
+
+The origin point of the `change(...)` methods is the current Changes
+and the origin point of other methods is the Changes of origin.
+So if the method is executed from a change, a column, a row or a value
+it is like if the method was executed from these origins.
+
+That means there is an important difference.
+
+[source,java]
+----
+// Navigate to the changes of deletion
+// Navigate to the first change of this changes of deletion
+assertThat(changes).ofDeletion().change()...
+// Navigate to the changes of deletion
+// Navigate to the first change of this changes of creation
+assertThat(changes).ofDeletion().changeOfCreation()...
+// This is equivalent to
+assertThat(changes).ofDeletion().ofAll().changeOfCreation()...
+----
+
+When the position is on a change, it is possible to return to the origin.
+
+[source,java]
+----
+// Return to the change from a column
+assertThat(changes).change().returnToChanges()...
+----
+
+That also means that the two navigations below are equivalent.
+
+[source,java]
+----
+// Navigate to the first change
+// Return to the changes
+// Navigate to the next change
+assertThat(changes).change().returnToChanges().change()...
+// The same thing is done but the return to the changes is implicit
+assertThat(changes).change().change()...
+----
+
+[[assertj-db-features-changestorow]]
+====== To a Row
+
+These methods are described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/navigation/ToRowFromChange.html[ToRowFromChange] interface.
+
+The `rowAtStartPoint()` and `rowAtEndPoint()` methods
+allows to navigate to the row at the start point and at the end point.
+
+[source,java]
+----
+// Navigate to the row at the start point
+assertThat(changes).change().rowAtStartPoint()...
+// Navigate to the row at the end point (note that the methods can be chained)
+assertThat(changes).change().rowAtStartPoint().rowAtEndPoint()...
+----
+
+This picture shows from where it is possible to navigate to a row.
+
+[ditaa, target="db-navigation-with-changes-to-row", shadows=false, transparent=true]
+....
+                             +-----------+<---+----------------------+
+                         +-->|On a Column|    |On a Value Of a Column|
+                         |   +-----+--+--+--->+--------------------+-+
+                         |         |  :                            :
++-----------+<-----+-----+-----+<--+  |                            |
+|On Changes |      |On a Change|  navigate to a row                |
++-----------+----->+-+---+-----+<--+  |                            |
+                     :   |         |  v                            |
+    navigate to a row|   |   +-----+--+<---+-------------------+   |
+                     |   +-->|On a Row|    |On a Value Of a Row|   |
+                     +------>++--+--+-+--->+-----------+-------+   |
+                              :  ^  ^                  |           |
+                              |  |  |                  |           |
+                              +--+  +------------------+-----------+
+                       navigate to a row      navigate to a row
+....
+
+The origin point of the `rowAtStartPoint()` and `rowAtEndPoint()` methods is the Change.
+So if the method is executed from a row, from a column or from a value
+it is like if the method was executed from the Change.
+
+When the position is on a row, it is possible to return to the origin.
+
+[source,java]
+----
+// Return to the change from a row
+assertThat(changes).change().rowAtStartPoint().returnToChange()...
+----
+
+That also means that the two navigations below are equivalent.
+
+[source,java]
+----
+// Navigate to the first change
+// Navigate to the row at start point
+// Return to the change from this column
+// Navigate to the row at end point
+assertThat(changes).change().rowAtStartPoint().returnToChange().rowAtEndPoint()...
+// The same thing is done but the return to the change is implicit
+assertThat(changes).change().rowAtStartPoint().rowAtEndPoint()...
+----
+
+[[assertj-db-features-changestocolumn]]
+====== To a Column
+
+These methods are described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/navigation/ToColumn.html[ToColumn]
+and https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/navigation/ToColumnFromChange.html[ToColumnFromChange] interfaces.
+
+The `column()` method allows to navigate to the next column after the column reached on the last call.
+
+[source,java]
+----
+// If it is the first call, navigate to the first column
+assertThat(changes).change().column()...
+// It is possible to chain the calls to navigate to the next column
+// after the first column (so the second column)
+assertThat(changes).change().column().column()...
+----
+
+The `column(int index)` method with `index` as parameter
+allows to navigate to the column corresponding to column at the index.
+
+[source,java]
+----
+// Navigate to the column at index 2
+assertThat(changes).change().column(2)...
+// It is possible to chain the calls to navigate to another column.
+// Here column at index 6
+assertThat(changes).change().column(2).column(6)...
+// It is possible to combine the calls to navigate to the next column
+// after the column at index 2. Here column at index 3
+assertThat(changes).change().column(2).column()...
+// It is possible to combine the calls with other navigation methods
+// Here first column
+assertThat(changes).change().rowAtStartPoint().column()...
+// Here column at index 3
+assertThat(changes).change().rowAtEndPoint().column(3)...
+// Here column at index 4 because the origin remember last navigation to a column
+assertThat(changes).change().column(3).rowAtEndPoint().column()...
+----
+
+The `column(String columnName)` method with `columnName` as parameter
+allows to navigate to the column corresponding to the column with the column name.
+
+[source,java]
+----
+// Navigate to the column with the name "SURNAME"
+assertThat(changes).change().column("surname")...
+// Like for the other methods, it is possible to chain the calls
+assertThat(changes).change().column("surname").column().column(6).column("id")...
+----
+
+The `columnAmongTheModifiedOnes()` method allows to navigate to the next column with modifications after the column reached on the last call.
+
+[source,java]
+----
+// If it is the first call, navigate to the first column with modifications
+assertThat(changes).change().columnAmongTheModifiedOnes()...
+// It is possible to chain the calls to navigate to the next column
+// after the first column (so the second column with modifications)
+assertThat(changes).change().columnAmongTheModifiedOnes()
+                            .columnAmongTheModifiedOnes()...
+----
+
+The `columnAmongTheModifiedOnes(int index)` method with `index` as parameter allows to navigate to the column with modifications corresponding to column at the index.
+
+[source,java]
+----
+// Navigate to the column at index 2 (the third column with modifications)
+assertThat(changes).change().columnAmongTheModifiedOnes(2)...
+// It is possible to chain the calls to navigate to another column.
+// Here column at index 0 (the first column with modifications)
+assertThat(changes).change().columnAmongTheModifiedOnes(2)
+                            .columnAmongTheModifiedOnes(0)...
+----
+
+The `columnAmongTheModifiedOnes(String columnName)` method with `columnName` as parameter
+allows to navigate to the column with modifications corresponding to the column with the column name.
+
+[source,java]
+----
+// Navigate to the column with modifications and the name "SURNAME"
+assertThat(changes).change().columnAmongTheModifiedOnes("surname")...
+// Like for the other methods, it is possible to chain the calls
+assertThat(changes).change().column("surname").columnAmongTheModifiedOnes()
+                            .column(6).columnAmongTheModifiedOnes("id")...
+----
+
+This picture shows from where it is possible to navigate to a column.
+
+[ditaa, target="db-navigation-with-changes-to-column", shadows=false, transparent=true]
+....
+                       navigate to a column     navigate to a column
+                               +---+    +-----------------+-----------+
+                               |   |    |                 |           |
+                               :   v    v                 |           |
+                     +------>+-+---+-----+<---+-----------+----------+|
+ navigate to a column|   +-->|On a Column|    |On a Value Of a Column||
+                     |   |   +-----+-----+--->+----------------------+|
+                     :   |         |  ^                               |
++-----------+<-----+-+---+-----+<--+  |                               |
+|On Changes |      |On a Change|  navigate to a column                |
++-----------+----->+-----+-----+<--+  |                               |
+                         |         |  :                               |
+                         |   +-----+--+<---+-------------------+      |
+                         +-->|On a Row|    |On a Value Of a Row|=-----+
+                             +--------+--->+-------------------+
+....
+
+The origin point of the `column(...)` methods is the Change.
+So if the method is executed from a row, from a column or from a value
+it is like if the method was executed from the Change.
+
+When the position is on a column, it is possible to return to the origin.
+
+[source,java]
+----
+// Return to the change from a column
+assertThat(changes).change().column().returnToChange()...
+----
+
+That also means that the two navigations below are equivalent.
+
+[source,java]
+----
+// Navigate to the first change
+// Navigate to the first column
+// Return to the change from this column
+// Navigate to the next column
+assertThat(changes).change().column().returnToChange().column()...
+// The same thing is done but the return to the change is implicit
+assertThat(changes).change().column().column()...
+----
+
+[[assertj-db-features-changestovalue]]
+====== To a Value
+
+These methods are described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/navigation/ToValue.html[ToValue],
+      https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/navigation/ToValueFromColumn.html[ToValueFromColumn]
+and https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/navigation/ToValueFromRow.html[ToValueFromRow] interfaces.
+
+This picture shows from where it is possible to navigate to a value.
+
+The `value()` method (only available from a row) allows to navigate to the next value after the value reached on the last call.
+
+[source,java]
+----
+// If it is the first call, navigate to the first value
+assertThat(changes).change().rowAtEndPoint().value()...
+// It is possible to chain the calls to navigate to the next value
+// after the first value (so the second value)
+assertThat(changes).change().rowAtEndPoint().value().value()...
+----
+
+The `value(int index)` method with `index` as parameter (only available from a row)
+allows to navigate to the value corresponding to value at the index.
+
+[source,java]
+----
+// Navigate to the value at index 2
+assertThat(changes).change().rowAtEndPoint().value(2)...
+// It is possible to chain the calls to navigate to another value.
+// Here value at index 6
+assertThat(changes).change().rowAtEndPoint().value(2).value(6)...
+// It is possible to combine the calls to navigate to the next value
+// after the value at index 2. Here value at index 3
+assertThat(changes).change().rowAtEndPoint().value(2).value()...
+// Here value at index 4 because the origin remember last navigation to the row
+assertThat(changes).change().rowAtEndPoint().value(3).column(2).rowAtEndPoint().value()...
+----
+
+The `value(String columnName)` method with `columnName` as parameter (only available from a row)
+allows to navigate to the value of the column corresponding to the column with the column name.
+
+[source,java]
+----
+// Navigate to the value of the column with the name "SURNAME"
+assertThat(changes).change().rowAtEndPoint().value("surname")...
+// Like for the other methods, it is possible to chain the calls
+assertThat(changes).change().rowAtEndPoint().value("surname").value().value(6).value("id")...
+----
+
+The `valueAtStartPoint()` and `valueAtEndPoint()` methods (only available from a column)
+allows to navigate to the value at the start point and at the end point.
+
+[source,java]
+----
+// Navigate to the value at the start point of the row
+assertThat(changes).change().column().valueAtStartPoint()...
+// Navigate to the value at the end point of the row (note that the methods can be chained)
+assertThat(changes).change().column().valueAtStartPoint().valueAtEndPoint()...
+----
+
+This picture shows from where it is possible to navigate to a value.
+
+[ditaa, target="db-navigation-with-changes-to-value", shadows=false, transparent=true]
+....
+                             +-------------------+
+                             |navigate to a value|
+                             :                   v
+                         +---+-------+<---+------+---------------+=-+
+                     +-->|On a Column|    |On a Value Of a Column|  |navigate to a value
+                     |   +-----+-----+--->+----------------------+<-+
+                     |         |
++-----------+<-+-----+-----+<--+
+|On Changes |  |On a Change|
++-----------+->+-----+-----+<--+
+                     |         |
+                     |   +-----+--+<---+-------------------+=-+
+                     +-->|On a Row|    |On a Value Of a Row|  |navigate to a value
+                         +---+----+--->+---------+---------+<-+
+                             :                   ^
+                             |navigate to a value|
+                             +-------------------+
+....
+
+The origin point of the `value(...)` methods is the Row or the Column.
+So if the method is executed from a value
+it is like if the method was executed from the Row or The Column.
+
+When the position is on a value, it is possible to return to the origin.
+
+[source,java]
+----
+// Return to the column from a value
+assertThat(changes).change().column().valueAtEndPoint().returnToColumn()...
+// Return to the row from a value
+assertThat(changes).change().rowAtEndPoint().value().returnToRow()...
+----
+
+That also means that the two navigations below are equivalent.
+
+[source,java]
+----
+// Navigate to the first change
+// Navigate to the row at end point
+// Navigate to the first value
+// Return to the column from this value
+// Navigate to the next value
+assertThat(changes).change().rowAtEndPoint().value().returnToRow().value()...
+// The same thing is done but the return to the row is implicit
+assertThat(changes).change().rowAtEndPoint().value().value()...
+----
+
+[[assertj-db-features-assertions]]
+==== Assertions
+
+[[assertj-db-features-onchangetype]]
+===== On the type of change
+
+These assertions are described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnChangeType.html[AssertOnChangeType] interface.
+
+These assertions allow to verify the type of a change (the concept of change of type is described <<assertj-db-concepts-changetype,here>>).
+
+[source,java]
+----
+// Verify that the first change is a change of creation
+assertThat(changes).change().isOfType(ChangeType.CREATION);
+----
+
+There are specific assertion methods for each type of change. For example, the assertion below is equivalent to the one above
+
+[source,java]
+----
+assertThat(changes).change().isCreation();
+----
+
+[[assertj-db-features-oncolumnequality]]
+===== On the equality with the values of a column
+
+These assertions are described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnColumnEquality.html[AssertOnColumnEquality]
+and the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnColumnOfChangeEquality.html[AssertOnColumnOfChangeEquality] interfaces.
+
+These assertion allow to verify the values of a column (the column of a table, of a request or of a change).
+
+[[assertj-db-features-oncolumnequality-boolean]]
+====== With Boolean
+
+[source,java]
+----
+// Verify that the values of the column "live" of the request
+// was equal to true, to false and after to true
+assertThat(request).column("live").hasValues(true, false, true);
+// Verify that the value of the first column of the first change
+// was false at start point and is true at end point
+assertThat(changes).change().column().hasValues(false, true);
+// Verify that the value of the third column of the first change
+// is not modified and is true
+assertThat(changes).change().column(2).hasValues(true);
+----
+
+[[assertj-db-features-oncolumnequality-bytes]]
+====== With Bytes
+
+[source,java]
+----
+// Get bytes from a file and from a resource in the classpath
+byte[] bytesFromFile = Assertions.bytesContentOf(file);
+byte[] bytesFromClassPath = Assertions.bytesContentFromClassPathOf(resource);
+// Verify that the values of the second column of the request
+// was equal to the bytes from the file, to null and to bytes from the resource 
+assertThat(request).column(1).hasValues(bytesFromFile, null, bytesFromClassPath);
+// Verify that the value of the first column of the first change
+// was equal to bytes from the file at start point and to bytes from the resource at end point
+assertThat(changes).change().column().hasValues(bytesFromFile, bytesFromClassPath);
+----
+
+[[assertj-db-features-oncolumnequality-number]]
+====== With Number
+
+[source,java]
+----
+// Verify that the values of the first column of the table
+// was equal to 5.9, 4 and 15000
+assertThat(table).column().hasValues(5.9, 4, new BigInteger("15000"));
+// Verify that the value of the first column of the first change
+// is not modified and is equal to 5
+assertThat(changes).change().column().hasValues(5);
+----
+
+[[assertj-db-features-oncolumnequality-date]]
+====== With Date
+
+[source,java]
+----
+// Verify that the values of the first column of the table
+// was equal to December 23rd 2007 and May 19th 1975 
+assertThat(table).column()
+            .hasValues(LocalDate.of(2007, 12, 23),
+                       LocalDate.of(1975, 5, 19));
+// Verify that the value of the first column of the first change
+// was equal December 23rd 2007 at start point
+// and is equal to May 19th 1975 at end point
+assertThat(changes).change().column()
+            .hasValues(LocalDate.parse("2007-12-23"),
+                       LocalDate.parse("1975-05-19"));
+----
+
+[[assertj-db-features-oncolumnequality-time]]
+====== With Time
+
+[source,java]
+----
+// Verify that the values of the first column of the table
+// was equal to 09:01am and 05:30:50pm 
+assertThat(table).column()
+            .hasValues(LocalTime.of(9, 1),
+                       LocalTime.of(17, 30, 50));
+// Verify that the value of the first column of the first change
+// was equal to 09:01am at start point
+// and is equal to 05:30:50pm at end point
+assertThat(changes).change().column()
+            .hasValues(LocalTime.parse("09:01"),
+                       LocalTime.parse("17:30:50"));
+----
+
+[[assertj-db-features-oncolumnequality-datetime]]
+====== With Date/Time
+
+[source,java]
+----
+// Verify that the values of the first column of the table
+// was equal to December 23rd 2007 09:01am and May 19th 1975 
+assertThat(table).column()
+            .hasValues(LocalDateTime.of(LocalDate.of(2007, 12, 23),
+                                        LocalTime.parse("09:01")),
+                       LocalDateTime.of(LocalDate.of(1975, 5, 19),
+                                        LocalTime.MIDNIGHT));
+// Verify that the value of the first column of the first change
+// was equal December 23rd 2007 09:01am at start point
+// and is equal to May 19th 1975 at end point
+assertThat(changes).change().column()
+            .hasValues(LocalDateTime.parse("2007-12-23T09:01"),
+                       LocalDateTime.parse("1975-05-19T00:00"));
+----
+
+[[assertj-db-features-oncolumnequality-string]]
+====== With String
+
+[source,java]
+----
+// Verify that values are equal to texts 
+assertThat(table).column("name")
+            .hasValues("Hewson",
+                       "Evans",
+                       "Clayton",
+                       "Mullen");
+// Verify that the value of the column "size" of the first change of modification
+// is not modified and is equal to 1.75 by parsing
+assertThat(changes).changeOfModification().column("size")
+            .hasValues("1.75");
+// Verify that values are equal to dates, times or dates/times by parsing 
+assertThat(table).column()
+            .hasValues("2007-12-23T09:01"),
+                       "1975-05-19");
+----
+
+[[assertj-db-features-oncolumnequality-uuid]]
+====== With UUID
+
+Since <<assertj-db-1-1-0-release-notes,1.1.0>>
+
+[source,java]
+----
+// Verify that the values of the first column of the table
+// was equal to 30B443AE-C0C9-4790-9BEC-CE1380808435, 0E2A1269-EFF0-4233-B87B-B53E8B6F164D
+// and 2B0D1BDD-909E-4362-BA10-C930BA82718D
+assertThat(table).column().hasValues(UUID.fromString("30B443AE-C0C9-4790-9BEC-CE1380808435"), 
+                                     UUID.fromString("0E2A1269-EFF0-4233-B87B-B53E8B6F164D"), 
+                                     UUID.fromString("2B0D1BDD-909E-4362-BA10-C930BA82718D"));
+// Verify that the value of the first column of the first change
+// is not modified and is equal to 399FFFCA-7874-4225-9903-E227C4E9DCC1
+assertThat(changes).change()
+                   .column().hasValues(UUID.fromString("399FFFCA-7874-4225-9903-E227C4E9DCC1"));
+----
+
+[[assertj-db-features-oncolumnequality-character]]
+====== With Character
+
+Since <<assertj-db-1-2-0-release-notes,1.2.0>>
+
+[source,java]
+----
+// Verify that the values of the first column of the table
+// was equal to 'T', 'e', 's' and 't' 
+assertThat(table).column().hasValues('T', 'e', 's', 't');
+// Verify that the value of the first column of the first change
+// is not modified and is equal to 'T'
+assertThat(changes).change().column().hasValues('T');
+----
+
+[[assertj-db-features-oncolumnname]]
+===== On the name of a column
+
+This assertion is described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnColumnName.html[AssertOnColumnName] interface.
+
+This assertion allows to verify the name of a column (the column of a table, of a request or of a change).
+
+[source,java]
+----
+// Verify that the fifth column of the table is called "firstname"
+assertThat(table).column(4).hasColumnName("firstname");
+// Verify that the third value of the second row of the request is in a column called "name"
+assertThat(request).row(1).value(2).hasColumnName("name");
+// Verify that the first column of the first change is called "id"
+assertThat(changes).change().column().hasColumnName("id");
+----
+
+[[assertj-db-features-oncolumnnullity]]
+===== On the nullity of the values of a column
+
+These assertions are described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnColumnNullity.html[AssertOnColumnNullity] interface.
+
+These assertion allows to verify the nullity of the values of a column (the column of a table or of a request).
+
+[source,java]
+----
+// Verify that the fifth column of the table has only null values
+assertThat(table).column(4).hasOnlyNullValues();
+// Verify that the column "name" has only not null values
+assertThat(request).column("name").hasOnlyNotNullValues();
+----
+
+[[assertj-db-features-onrownullity]]
+===== On the nullity of the values of a row
+
+Since <<assertj-db-1-2-0-release-notes,1.2.0>>
+
+These assertions are described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnRowNullity.html[AssertOnRowNullity] interface.
+
+These assertion allows to verify the nullity of the values of a row (the row of a table or of a request).
+
+[source,java]
+----
+// Verify that the fifth row of the table has only not null values
+assertThat(table).row(4).hasOnlyNotNullValues();
+// Verify that the first column has only not null values
+assertThat(request).row().hasOnlyNotNullValues();
+----
+
+[[assertj-db-features-oncolumntype]]
+===== On the type of column
+
+These assertions are described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnColumnType.html[AssertOnColumnType] interface.
+
+These assertions allow to verify the type of the values of a column (a column from a table, from a request or from a change).
+
+[source,java]
+----
+// Verify that the values of the column called "firstname"
+// of the table are a text (null values are considered as wrong)
+assertThat(table).column("firstname").isOfType(ValueType.TEXT, false);
+// The same verification (with the specific method)
+// on the third column of the request
+assertThat(request).column(2).isText(false);
+// Now the same verification again but with a lenience with null values
+// (the null values are not considered as wrong)
+assertThat(request).column(2).isText(true);
+// Verify that the values of the first column
+// of the first change is either a date or a number
+assertThat(changes).change().column()
+    .isOfAnyOfTypes(ValueType.DATE, ValueType.NUMBER);
+----
+
+[[assertj-db-features-oncolumnclass]]
+===== On the class of column
+
+Since <<assertj-db-1-1-0-release-notes,1.1.0>>
+
+This assertion is described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnColumnClass.html[AssertOnColumnClass] interface.
+
+This assertion allows to verify the class of the values of a column (a column from a table, from a request or from a change).
+
+[source,java]
+----
+// Verify that the values of the column called "firstname"
+// of the table are a String (null values are considered as wrong)
+assertThat(table).column("firstname").isOfClass(String.class, false);
+// Verify that the values of the first column
+// of the first change is a Locale (null values are considered as right)
+assertThat(changes).change().column().isOfClass(Locale.class, true);
+----
+
+[[assertj-db-features-oncolumncontent]]
+===== On the content of column
+
+Since <<assertj-db-1-1-0-release-notes,1.1.0>>
+
+These assertions are described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnColumnContent.html[AssertOnColumnContent] interface.
+
+These assertions allow to verify the content of a column (a column from a table or from a request).
+
+[source,java]
+----
+// Verify that the content of the column called "name"
+assertThat(table).column("name").containsValues("Hewson",
+                                                "Evans",
+                                                "Clayton",
+                                                "Mullen");
+// This second assertion is equivalent because the order of the values is not important
+assertThat(table).column("name").containsValues("Evans",
+                                                "Clayton", 
+                                                "Hewson", 
+                                                "Mullen");
+
+----
+
+[[assertj-db-features-ondatatype]]
+===== On the type of data
+
+These assertions are described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnDataType.html[AssertOnDataType] interface.
+
+These assertions allow to verify the type of the date on which is a change.
+
+[source,java]
+----
+// Verify that the change is on a table
+assertThat(changes).change().isOnDataType(DataType.TABLE);
+// The same verification (with the specific method)
+assertThat(changes).change().isOnTable();
+// Verify that the change is on the "members" table
+assertThat(changes).change().isOnTable("members");
+----
+
+[[assertj-db-features-onmodifiedcolumns]]
+===== On the modified columns in a change
+
+These assertions are described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnModifiedColumn.html[AssertOnModifiedColumn]
+and the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnModifiedColumns.html[AssertOnModifiedColumns] interfaces.
+
+These assertions allow to verify if a column of a change have been modified between the start point and the end point (see the <<assertj-db-concepts-changes,concept of changes>>).
+
+[source,java]
+----
+// Verify that first column of the change is not modified
+// and the second column is modified
+assertThat(changes).change().column().isNotModified().column().isModified();
+// Verify that there are 2 modified columns in the change
+assertThat(changes).change().hasNumberOfModifiedColumns(2);
+// Verify that the modified column in change are at index 1 and 2
+assertThat(changes).change().hasModifiedColumns(1, 2);
+// Verify that the modified column in change are "name" and "firstname"
+assertThat(changes).change().hasModifiedColumns("name", "firstname");
+----
+
+Since version <<assertj-db-1-1-0-release-notes,1.1.0>>, there are new assertions which allow to compare the number of modified columns between the start point and the end point.
+
+[source,java]
+----
+// Verify that the number of modified columns in the first change is more than 5 
+assertThat(changes).change().hasNumberOfModifiedColumnsGreaterThan(5);
+// Verify that the number of modified columns in the first change is at least 5
+assertThat(changes).change().hasNumberOfModifiedColumnsGreaterThanOrEqualTo(5);
+// Verify that the number of modified columns in the first change is less than 6
+assertThat(changes).change().hasNumberOfModifiedColumnsLessThan(6);
+// Verify that the number of modified columns in the first change is at most 6
+assertThat(changes).change().hasNumberOfModifiedColumnsLessThanOrEqualTo(6);
+----
+
+[[assertj-db-features-onnumberchanges]]
+===== On the number of changes
+
+This assertion is described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnNumberOfChanges.html[AssertOnNumberOfChanges] interface.
+
+This assertion allows to verify the number of changes.
+
+[source,java]
+----
+// Verify that there are 4 changes
+assertThat(changes).hasNumberOfChanges(4);
+----
+
+Since version <<assertj-db-1-1-0-release-notes,1.1.0>>, there are new assertions which allow to compare the number of changes between the start point and the end point.
+
+[source,java]
+----
+// Verify that the number of changes is more than 5 
+assertThat(changes).hasNumberOfChangesGreaterThan(5);
+// Verify that the number of changes is at least 5
+assertThat(changes).hasNumberOfChangesGreaterThanOrEqualTo(5);
+// Verify that the number of changes is less than 6
+assertThat(changes).hasNumberOfChangesLessThan(6);
+// Verify that the number of changes is at most 6
+assertThat(changes).hasNumberOfChangesLessThanOrEqualTo(6);
+----
+
+[[assertj-db-features-onnumbercolumns]]
+===== On the number of columns
+
+This assertion is described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnNumberOfColumns.html[AssertOnNumberOfColumns] interface.
+
+This assertion allows to verify the number of columns (columns from a table, from a request or from a change).
+
+[source,java]
+----
+// Verify that there are 6 columns in the table
+assertThat(table).hasNumberOfColumns(6);
+// Verify that there are 4 columns in the change
+assertThat(changes).change().hasNumberOfColumns(4);
+----
+
+Since version <<assertj-db-1-1-0-release-notes,1.1.0>>, there are new assertions which allow to compare the number of columns.
+
+[source,java]
+----
+// Verify that the number of columns is more than 5 
+assertThat(table).hasNumberOfColumnsGreaterThan(5);
+// Verify that the number of columns is at least 5
+assertThat(request).hasNumberOfColumnsGreaterThanOrEqualTo(5);
+// Verify that the number of columns is less than 6
+assertThat(changes).hasNumberOfColumnsLessThan(6);
+// Verify that the number of columns is at most 6
+assertThat(changes).hasNumberOfColumnsLessThanOrEqualTo(6);
+----
+
+[[assertj-db-features-onnumberrows]]
+===== On the number of rows
+
+This assertion is described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnNumberOfRows.html[AssertOnNumberOfRows] interface.
+
+This assertion allows to verify the number of rows (rows from a table or from a request).
+
+[source,java]
+----
+// Verify that there are 7 rows in the table
+assertThat(table).hasNumberOfRows(7);
+----
+
+Since version <<assertj-db-1-1-0-release-notes,1.1.0>>, there are new assertions which allow to compare the number of rows.
+
+[source,java]
+----
+// Verify that the number of rows is more than 5 
+assertThat(table).hasNumberOfRowsGreaterThan(5);
+// Verify that the number of rows is at least 5
+assertThat(request).hasNumberOfRowsGreaterThanOrEqualTo(5);
+// Verify that the number of rows is less than 6
+assertThat(changes).hasNumberOfRowsLessThan(6);
+// Verify that the number of rows is at most 6
+assertThat(changes).hasNumberOfRowsLessThanOrEqualTo(6);
+----
+
+Since version <<assertj-db-1-2-0-release-notes,1.2.0>>, there is a new assertion which allow to verify if rows are empty (equivalent to `hasNumberOfRows(0)`).
+
+[source,java]
+----
+// Verify that the table are empty 
+assertThat(table).isEmpty();
+----
+
+[[assertj-db-features-onprimarykeys]]
+===== On the primary keys
+
+These assertions are described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnPrimaryKey.html[AssertOnPrimaryKey] interface.
+
+These assertions allow to verify the names and the values of the columns which compose the primary keys of the rows from a change.
+
+[source,java]
+----
+// Verify that the columns of the primary keys are "id" and "name"
+assertThat(changes).change().hasPksNames("id", "name");
+// Verify that the values of the primary keys are 1 and "HEWSON"
+assertThat(changes).change().hasPksValues(1, "HEWSON");
+----
+
+[[assertj-db-features-onrowequality]]
+===== On the equality with the values of a row
+
+This assertion is described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnRowEquality.html[AssertOnRowEquality] interface.
+
+This assertion allow to verify the values of a row (the row of a table, of a request or of a change).
+
+[source,java]
+----
+// Verify the values of the row at index 1
+assertThat(table).row(1)
+                 .hasValues(2, 
+                            "Evans", 
+                            "David Howell", 
+                            "The Edge", 
+                            DateValue.of(1961, 8, 8), 
+                            1.77);
+// Verify the values of the row at end point
+assertThat(changes).change().rowAtEndPoint()
+                            .hasValues(5, 
+                                       "McGuiness", 
+                                       "Paul", 
+                                       null, 
+                                       "1951-06-17", 
+                                       null);
+----
+
+[[assertj-db-features-onrowexistence]]
+===== On the existence of a row in a change
+
+These assertions are described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnRowOfChangeExistence.html[AssertOnRowOfChangeExistence] interface.
+
+These assertions allow to verify that the row at start point or at end point of a change exists or not (for a creation, the row do not exist at start point and for a deletion it is the contrary : the row do not exist at end point).
+
+[source,java]
+----
+// Verify that row at start point exists
+assertThat(changes).change().rowAtStartPoint().exists();
+// Verify that the row at end point do not exist
+assertThat(changes).change().rowAtEndPoint().doesNotExist();
+----
+
+[[assertj-db-features-onvaluechronology]]
+===== On the chronology of a value
+
+These assertions are described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnValueChronology.html[AssertOnValueChronology] interface.
+
+These assertions allow to compare a value (the value of a table, of a request or of a change) to a date, a time or a date/time.
+
+[source,java]
+----
+// Compare the value with a date
+assertThat(table).row(1).value("birthdate")
+                        .isAfter(DateValue.of(1950, 8, 8));
+// Verify the value is between two dates/times
+assertThat(changes).change().column("release").valueAtEndPoint()
+                            .isAfterOrEqualTo(DateTimeValue.parse("2014-09-08T23:30"))
+                            .isBeforeOrEqualTo(DateTimeValue.parse("2014-09-09T05:30"));
+----
+
+[[assertj-db-features-onvaluecomparison]]
+===== On the comparison with a value
+
+These assertions are described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnValueComparison.html[AssertOnValueComparison] interface.
+
+These assertions allow to compare a value (the value of a table, of a request or of a change) to a number.
+
+[source,java]
+----
+// Compare the value with a number
+assertThat(table).row(1).value("size")
+                        .isGreaterThan(1.5);
+// Verify the value is between two numbers
+assertThat(changes).change().column("size").valueAtEndPoint()
+                            .isGreaterThanOrEqualTo(1.7)
+                            .isLessThanOrEqualTo(1.8);
+----
+
+[[assertj-db-features-onvaluecloseness]]
+===== On the closeness of a value
+
+Since <<assertj-db-1-1-0-release-notes,1.1.0>>
+
+These assertions are described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnValueCloseness.html[AssertOnValueCloseness] interface.
+
+These assertions allow to verify if a value (the value of a table, of a request or of a change) is close to another.
+
+[source,java]
+----
+// Verify if the value is close to 2 with a tolerance of 0.5
+// So the values between 1.5 and 2.5 are right
+assertThat(table).row(1).value("size")
+                        .isCloseTo(2, 0.5);
+// Verify the value is close to 05-10-1960 with a tolerance of two days
+assertThat(changes).change().column("birth").valueAtEndPoint()
+                            .isCloseTo(DateValue(1960, 5, 10),
+                                       DateValue(0, 0, 2));
+----
+
+[[assertj-db-features-onvaluequality]]
+===== On the equality with a value
+
+These assertions are described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnValueEquality.html[AssertOnValueEquality] interface.
+
+These assertion allow to verify that a value (the value of a table, of a request or of a change) is equal to another value (in parameter).
+
+[[assertj-db-features-onvaluequality-boolean]]
+====== With Boolean
+
+[source,java]
+----
+// Verify that the value is equal to true
+assertThat(table).row(3).value("live").isEqualTo(true);
+// Do the same thing with the specific method
+assertThat(table).row(3).value("live").isTrue();
+----
+
+[[assertj-db-features-onvaluequality-bytes]]
+====== With Bytes
+
+[source,java]
+----
+// Get bytes from a file
+byte[] bytesFromFile = Assertions.bytesContentOf(file);
+// Verify that the value at end point of the first column of the first change
+// is equal to bytes from the file
+assertThat(changes).change().column().valueAtStartPoint().isEqualTo(bytesFromFile);
+----
+
+[[assertj-db-features-onvaluequality-number]]
+====== With Number
+
+[source,java]
+----
+// Verify that the first value is equal to 1.77,
+// the second is equal to 50 and the last is equal to zero
+assertThat(request).column("size").value().isEqualTo(1.77)
+                                  .value().isEqualTo(50)
+                                  .value().isEqualTo(0).isZero();
+----
+
+[[assertj-db-features-onvaluequality-date]]
+====== With Date
+
+[source,java]
+----
+// Verify that values are equal to dates
+assertThat(changes).changeOfCreation()
+                       .rowAtEndPoint()
+                           .value("birthdate")
+                               .isEqualTo(LocalDate.of(1951, 6, 17))
+                   .changeOfModification()
+                       .column("birthdate")
+                           .isEqualTo()
+                               .isNotEqualTo(LocalDate.parse("1960-05-10"))
+                           .valueAtEndPoint()
+                               .isEqualTo(LocalDate.of(1960, 5, 10));
+----
+
+[[assertj-db-features-onvaluequality-time]]
+====== With Time
+
+[source,java]
+----
+// Verify that the value is equal to a time
+assertThat(table).row().value("duration").isEqualTo(LocalTime.of(9, 1));
+----
+
+[[assertj-db-features-onvaluequality-datetime]]
+====== With Date/Time
+
+[source,java]
+----
+// Verify that the value is equal to a date/time
+assertThat(request).column().value()
+                   .isEqualTo(LocalDateTime.of(2007, 12, 23,9, 1, 0))
+                   .isEqualTo(LocalDateTime.parse("2007-12-23T09:01"));
+----
+
+[[assertj-db-features-onvaluequality-string]]
+====== With String
+
+[source,java]
+----
+// Verify that the values are equal to numbers, texts and dates
+assertThat(table).row().value().isEqualTo("1")
+                       .value().isEqualTo("Hewson")
+                       .value().isEqualTo("Paul David")
+                       .value().isEqualTo("Bono")
+                       .value().isEqualTo("1960-05-10")
+                       .value().isEqualTo("1.75");
+----
+
+[[assertj-db-features-onvaluequality-uuid]]
+====== With UUID
+
+Since <<assertj-db-1-1-0-release-notes,1.1.0>>
+
+[source,java]
+----
+// Verify that the values are equal to UUID
+assertThat(table).column().value().isEqualTo(UUID.fromString("30B443AE-C0C9-4790-9BEC-CE1380808435"))
+                          .value().isEqualTo(UUID.fromString("0E2A1269-EFF0-4233-B87B-B53E8B6F164D"))
+                          .value().isEqualTo(UUID.fromString("2B0D1BDD-909E-4362-BA10-C930BA82718D"));
+----
+
+[[assertj-db-features-onvaluequality-character]]
+====== With Character
+
+Since <<assertj-db-1-2-0-release-notes,1.2.0>>
+
+[source,java]
+----
+// Verify that the values are equal to Character
+assertThat(table).column().value().isEqualTo('T')
+                          .value().isEqualTo('e')
+                          .value().isEqualTo('s')
+                          .value().isEqualTo('t');
+----
+
+[[assertj-db-features-onvaluenonquality]]
+===== On the non equality with a value
+
+These assertions are described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnValueNonEquality.html[AssertOnValueNonEquality] interface.
+
+These assertion allow to verify that a value (the value of a table, of a request or of a change) is not equal to another value (in parameter).
+
+[[assertj-db-features-onvaluenonquality-boolean]]
+====== With Boolean
+
+[source,java]
+----
+// Verify that the values (values "live" in the row at index 3 and index 5)
+// are not equal to false
+assertThat(table).row(3).value("live").isNotEqualTo(false)
+                 .row(5).value("live").isNotEqualTo(false);
+----
+
+[[assertj-db-features-onvaluenonquality-bytes]]
+====== With Bytes
+
+[source,java]
+----
+// Get bytes from a resource in the classpath
+byte[] bytesFromClassPath = Assertions.bytesContentFromClassPathOf(resource);
+// Verify that the value at end point of the first column of the first change
+// is not equal to bytes from the resource
+assertThat(changes).change().column().valueAtStartPoint().isNotEqualTo(bytesFromClassPath);
+----
+
+[[assertj-db-features-onvaluenonquality-number]]
+====== With Number
+
+[source,java]
+----
+// Verify that the first value is not equal to 1.78,
+// the second is not equal to 55 and the last is not equal to 15
+assertThat(request).column("size").value().isNotEqualTo(1.78)
+                                  .value().isNotEqualTo(55)
+                                  .value().isNotEqualTo(15);
+----
+
+[[assertj-db-features-onvaluenonquality-date]]
+====== With Date
+
+[source,java]
+----
+// Verify that values are not equal to dates
+assertThat(changes).changeOfCreation()
+                       .rowAtEndPoint()
+                           .value("birthdate")
+                               .isNotEqualTo(LocalDate.of(1951, 6, 17))
+                   .changeOfModification()
+                       .column("birthdate")
+                           .valueAtStartPoint()
+                               .isNotEqualTo(LocalDate.parse("1960-05-10"))
+                           .valueAtEndPoint()
+                               .isNotEqualTo(LocalDate.of(1960, 5, 10));
+----
+
+[[assertj-db-features-onvaluenonquality-time]]
+====== With Time
+
+[source,java]
+----
+// Verify that the value is equal to a time
+assertThat(table).row().value("duration").isNotEqualTo(LocalTime.of(9, 1));
+----
+
+[[assertj-db-features-onvaluenonquality-datetime]]
+====== With Date/Time
+
+[source,java]
+----
+// Verify that the value is not equal to a date/time
+assertThat(request).column().value()
+                   .isNotEqualTo(LocalDateTime.of(2015, 5, 26,22, 46)))
+                   .isNotEqualTo(LocalDateTime.parse("2015-05-26T22:46"));
+----
+
+[[assertj-db-features-onvaluenonquality-string]]
+====== With String
+
+[source,java]
+----
+// Verify that the values are not equal to numbers, texts and dates
+assertThat(table).row().value().isNotEqualTo("5")
+                       .value().isNotEqualTo("McGuiness")
+                       .value().isNotEqualTo("Paul")
+                       .value("birthdate").isNotEqualTo("1951-06-17");
+----
+
+[[assertj-db-features-onvaluenonquality-uuid]]
+====== With UUID
+
+Since <<assertj-db-1-1-0-release-notes,1.1.0>>
+
+[source,java]
+----
+// Verify that the values are not equal to UUID
+assertThat(table).column()
+                 .value().isNotEqualTo(UUID.fromString("30B443AE-C0C9-4790-9BEC-CE1380808435"))
+                 .value().isNotEqualTo(UUID.fromString("0E2A1269-EFF0-4233-B87B-B53E8B6F164D"))
+                 .value().isNotEqualTo(UUID.fromString("2B0D1BDD-909E-4362-BA10-C930BA82718D"));
+----
+
+[[assertj-db-features-onvaluenonquality-character]]
+====== With Character
+
+Since <<assertj-db-1-2-0-release-notes,1.2.0>>
+
+[source,java]
+----
+// Verify that the values are not equal to Character
+assertThat(table).column()
+                 .value().isNotEqualTo('T')
+                 .value().isNotEqualTo('e')
+                 .value().isNotEqualTo('s')
+                 .value().isNotEqualTo('t');
+----
+
+[[assertj-db-features-onvaluenullity]]
+===== On the nullity of a value
+
+These assertions are described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnValueNullity.html[AssertOnValueNullity] interface.
+
+These assertions allow to verify if a value (the value of a table, of a request or of a change) is null or not.
+
+[source,java]
+----
+// Verify that the value at index 1 is null and the next value is not null
+assertThat(table).column().value(1).isNull()
+                          .value().isNotNull();
+// Verify the value is not null
+assertThat(changes).change().rowAtStartPoint().value("live")
+                            .isNotNull();
+----
+
+[[assertj-db-features-onvaluetype]]
+===== On the type of a value
+
+These assertions are described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnValueType.html[AssertOnValueType] interface.
+
+This assertion allows to verify the type of a value (a value from a table, from a request or from changes).
+
+[source,java]
+----
+// Verify that the value of the column called "firstname"
+// of the fifth row of the table is a text
+assertThat(table).row(4).value("firstname").isOfType(ValueType.TEXT);
+// The same verification (with the specific method)
+// on the third value of the second row of the request
+assertThat(request).row(1).value(2).isText();
+// Verify that the value at start point of the first column
+// of the first change is either a date or a number
+assertThat(changes).change().column().valueAtStartPoint()
+    .isOfAnyOfTypes(ValueType.DATE, ValueType.NUMBER);
+----
+
+[[assertj-db-features-onvalueclass]]
+===== On the class of a value
+
+Since <<assertj-db-1-1-0-release-notes,1.1.0>>
+
+This assertion is described in the https://www.javadoc.io/doc/org.assertj/assertj-db/latest/org/assertj/db/api/assertions/AssertOnValueClass.html[AssertOnValueClass] interface.
+
+This assertion allows to verify the class of a value (a value from a table, from a request or from changes).
+
+[source,java]
+----
+// Verify that the value of the column called "firstname"
+// of the fifth row of the table is a String
+assertThat(table).row(4).value("firstname").isOfClass(String.class);
+// Verify that the value at start point of the first column
+// of the first change is a Locale
+assertThat(changes).change().column().valueAtStartPoint()
+    .isOfClass(Locale.class);
+----

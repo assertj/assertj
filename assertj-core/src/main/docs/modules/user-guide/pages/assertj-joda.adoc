@@ -1,0 +1,8 @@
+[[assertj-joda]]
+== AssertJ Joda
+
+include::assertj-joda-quickstart.adoc[]
+
+include::assertj-joda-assertions-guide.adoc[]
+
+include::assertj-joda-release-notes.adoc[]

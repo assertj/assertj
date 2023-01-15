@@ -1,0 +1,178 @@
+[[assertj-db-release-notes]]
+=== Release Notes
+
+Latest release notes:
+
+- link:#assertj-db-2-0-0-release-notes[AssertJ DB 2.0.2]
+- link:#assertj-db-2-0-0-release-notes[AssertJ DB 2.0.1]
+- link:#assertj-db-2-0-0-release-notes[AssertJ DB 2.0.0]
+- link:#assertj-db-1-3-0-release-notes[AssertJ DB 1.3.0]
+- link:#assertj-db-1-2-0-release-notes[AssertJ DB 1.2.0]
+- link:#assertj-db-1-1-1-release-notes[AssertJ DB 1.1.1]
+- link:#assertj-db-1-1-0-release-notes[AssertJ DB 1.1.0]
+- link:#assertj-db-1-0-1-release-notes[AssertJ DB 1.0.1]
+- link:#assertj-db-1-0-0-release-notes[AssertJ DB 1.0.0]
+
+[[assertj-db-2-0-2-release-notes]]
+==== AssertJ DB 2.0.2
+
+Release date : 2020-10-17
+
+[[assertj-db-2-0-2-contributors]]
+[.release-note-category]#icon:user[] Contributors#
+
+Thanks to @soezen for his contribution.
+
+[[assertj-db-2.0.2-fixed]]
+[.release-note-category]#icon:wrench[] Fixed#
+
+- https://github.com/assertj/assertj-db/issues/107[issue #107]: Fix SoftAssertions on changes
+
+[[assertj-db-2.0.2-chore]]
+[.release-note-category]#icon:cog[] Chore#
+
+- Upgrade to AssertJ Core 3.17.2
+- Upgrade to AssertJ Parent POM 2.2.8
+- Upgrade to ByteBuddy 1.10.17
+
+[[assertj-db-2-0-1-release-notes]]
+==== AssertJ DB 2.0.1
+
+Release date : 2020-10-07
+
+[[assertj-db-2-0-1-contributors]]
+[.release-note-category]#icon:user[] Contributors#
+
+Thanks to Yosuke Nishikawa ( @sciencesakura ) for his contribution.
+
+[[assertj-db-2.0.1-improvements]]
+[.release-note-category]#icon:arrow-circle-up[] Improvements#
+
+- Implement isNotEqualTo, isBefore, isBeforeOrEqualTo, isAfter, isAfterOrEqualTo for JSR-310 types
+
+[[assertj-db-2.0.1-fixed]]
+[.release-note-category]#icon:wrench[] Fixed#
+
+- Fix isEqualTo for JSR-310 types
+
+[[assertj-db-2-0-0-release-notes]]
+==== AssertJ DB 2.0.0
+
+Release date : 2020-07-06
+
+[[assertj-db-2-0-0-contributors]]
+[.release-note-category]#icon:user[] Contributors#
+
+Thanks to Yosuke Nishikawa ( @sciencesakura ), Pascal Schumacher and @sullis for their contributions.
+
+[[assertj-db-2.0.0-improvements]]
+[.release-note-category]#icon:arrow-circle-up[] Improvements#
+
+- Baseline upgrade to Java 8
+- Upgrade to AssertJ Core 3.16.1
+- Support JSR-310 types ( LocalDate, LocalTime, LocalDateTime )
+- Move from CGLIB to Bytebuddy for soft assertions
+
+[[assertj-db-2.0.0-breaking-changes]]
+[.release-note-category]#icon:exclamation-triangle[] Breaking changes#
+
+- Baseline upgrade to Java 8
+- Upgrade to AssertJ Core 3.16.1
+
+[[assertj-db-2.0.0-chore]]
+[.release-note-category]#icon:cog[] Chore#
+
+- Replace Travis by GitHub actions
+- Activate SonarCloud analysis
+
+[[assertj-db-1-3-0-release-notes]]
+==== AssertJ DB 1.3.0
+
+Release date : 2019-12-26
+
+[[assertj-db-1.3.0-improvements]]
+[.release-note-category]#icon:arrow-circle-up[] Improvements#
+
+- https://github.com/assertj/assertj-db/issues/58[issue #58]: Implement SoftAssertions
+- https://github.com/assertj/assertj-db/issues/57[issue #57]: Implement condition assertions
+- https://github.com/assertj/assertj-db/issues/12[issue #12]: Implement assertions on table existence
+
+[[assertj-db-1.3.0-fixed]]
+[.release-note-category]#icon:wrench[] Fixed#
+
+- https://github.com/assertj/assertj-db/issues/62[issue #62]: Fix close-to when tolerance exceed 60 seconds
+
+[[assertj-db-1-2-0-release-notes]]
+==== AssertJ DB 1.2.0
+
+Release date : 2017-05-08
+
+[[assertj-db-1.2.0-improvements]]
+[.release-note-category]#icon:arrow-circle-up[] Improvements#
+
+- https://github.com/assertj/assertj-db/issues/36[issue #36]: Add order on table (with ``Order``)
+- https://github.com/assertj/assertj-db/issues/41[issue #41]: Add ``BDDAssertions`` so you can use ``then()`` instead of ``assertThat()`` (https://github.com/PascalSchumacher[Pascal Schumacher])
+- https://github.com/assertj/assertj-db/issues/43[issue #43]: Add ``isEqualTo(Character)`` and ``isNotEqualTo(Character)`` for values. Add ``hasValues(Character...)`` and ``containsValues(Character...)`` for columns. Add ``hasValues(Character)`` and ``hasValues(Character, Character)`` for columns of changes
+- https://github.com/assertj/assertj-db/issues/45[issue #45]: Add support for testing that a row contains no Null values : ``hasOnlyNotNullValues()`` assertion method (https://github.com/fiery-phoenix[fiery-phoenix])
+- Add ``isEmpty()`` assertion method related to number of rows (https://github.com/fiery-phoenix[fiery-phoenix])
+
+[[assertj-db-1-2-0-fixed]]
+[.release-note-category]#icon:wrench[] Fixed#
+
+- https://github.com/assertj/assertj-db/issues/39[issue #39]: Add start delimiter and end delimiter for table name and column name (used to generate the request) in ``Table``
+- https://github.com/assertj/assertj-db/issues/49[issue #49]: ``NullPointerException`` while asserting no changes
+- https://github.com/assertj/assertj-db/issues/52[issue #52]: Fix about the outputs with column name and value with %
+
+[[assertj-db-1-1-1-release-notes]]
+==== AssertJ DB 1.1.1
+
+Release date : 2016-04-23
+
+[[assertj-db-1.1.1-fixed]]
+[.release-note-category]#icon:wrench[] Fixed#
+
+- https://github.com/assertj/assertj-db/issues/37[issue #37]: assertj-db 1.1.0 does not work with java 7
+
+[[assertj-db-1-1-0-release-notes]]
+==== AssertJ DB 1.1.0
+
+Release date : 2016-04-14
+
+[[assertj-db-1-1-0-improvements]]
+[.release-note-category]#icon:arrow-circle-up[] Improvements#
+
+- Add ``from(Calendar)`` and ``now()`` methods to ``DateValue``, ``TimeValue`` and ``DateTimeValue``
+- https://github.com/assertj/assertj-db/issues/9[issue #9]: Provide a way to view the data of a ``Table``, of a ``Request`` or of ``Changes`` with ``Outputs``
+- https://github.com/assertj/assertj-db/issues/15[issue #15]: Add support for ``UUID`` type columns (Otoniel Isidoro)
+- Add a ``isOfClass(Class)`` assertion method for value and column
+- https://github.com/assertj/assertj-db/issues/18[issue #18]: Add ``isCloseTo(...)`` methods for ``Number``, ``DateValue``, ``TimeValue`` and ``DateTimeValue``
+- https://github.com/assertj/assertj-db/issues/19[issue #19]: Add support for BLOBs and CLOBs
+- https://github.com/assertj/assertj-db/issues/22[issue #22]: Add ``isEqualTo(Object)`` for values. Add ``hasValues(Object...)`` for columns. Add ``hasValues(Object)`` and ``hasValues(Object, Object)`` for columns of changes
+- https://github.com/assertj/assertj-db/issues/25[issue #25]: Add ``containsValues(...)`` methods for columns
+- https://github.com/assertj/assertj-db/issues/29[issue #29]: Add ``hasNumberOfXXXGreaterThan(...)``, ``hasNumberOfXXXLessThan(...)``, ``hasNumberOfXXXGreaterThanOrEqualTo(...)`` and ``hasNumberOfXXXLessThanOrEqualTo(...)`` methods for the rows, columns, changes and modified columns
+- https://github.com/assertj/assertj-db/issues/34[issue #34]: Enhance exception message when column does not exist
+
+[[assertj-db-1.1.0-fixed]]
+[.release-note-category]#icon:wrench[] Fixed#
+
+- https://github.com/assertj/assertj-db/issues/21[issue #21]: Add possibility to pass a reference containing a ``null`` value like parameter to ``isEqualTo()`` and ``isNotEqualTo()``
+- https://github.com/assertj/assertj-db/issues/23[issue #23]: Fix support of ``Number``s (bug when the mapping is a ``Double`` instance)
+- https://github.com/assertj/assertj-db/issues/31[issue #31]: Fix detection of primary keys (caused by letter case) in some DBMS
+- https://github.com/assertj/assertj-db/issues/32[issue #32]: Fix SQL requests for DBMS with letter case different from upper case in the name of the DB elements
+
+[[assertj-db-1-0-1-release-notes]]
+==== AssertJ DB 1.0.1
+
+Release date : 2015-08-09
+
+[[assertj-db-1.0.1-fixed]]
+[.release-note-category]#icon:wrench[] Fixed#
+
+- https://github.com/assertj/assertj-db/issues/13[issue #13]: ``AbstractMethodError`` when creating a ``Table`` using a ``Datasource`` instead of a ``Source``
+
+[[assertj-db-1-0-0-release-notes]]
+==== AssertJ DB 1.0.0
+
+Release date : 2015-07-12
+
+First AssertJ DB release.

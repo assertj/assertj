@@ -1,0 +1,73 @@
+[[assertj-db-quickstart]]
+=== Quick start
+
+Suppose that the database contains this table *MEMBERS* :
+
+|====
+|ID |NAME |FIRSTNAME |SURNAME |BIRTHDATE |SIZE
+
+|1 |'Hewson' |'Paul David' |'Bono' |05-10-60 |1.75
+|2 |'Evans' |'David Howell' |'The Edge' |08-08-61 |1.77
+|3 |'Clayton' |'Adam' |&nbsp; |03-13-60 |1.78
+|4 |'Mullen' |'Larry' |&nbsp; |10-31-61 |1.70
+|====
+
+To quickly start using DataBase assertions, follow the steps below.
+
+[[assertj-db-quickstart-dependency]]
+==== Add the assertj-db dependency to your project
+
+===== Maven
+
+[source,xml,indent=0,subs=attributes+]
+----
+<dependency>
+  <groupId>org.assertj</groupId>
+  <artifactId>assertj-db</artifactId>
+  <version>{assertj-db-version}</version>
+  <scope>test</scope>
+</dependency>
+----
+
+===== Gradle
+
+For Gradle users (using the Maven Central Repository)
+
+[source,java,indent=0,subs=attributes+]
+----
+testCompile("org.assertj:assertj-db:{assertj-db-version}")
+----
+
+===== Other dependency management tool
+
+Check this page to find the relevant http://search.maven.org/#artifactdetails|org.assertj|assertj-db|1.3.0|bundle[assertj db dependency declaration].
+
+==== Statically import org.assertj.db.api.Assertions.assertThat
+
+\... and use your preferred IDE code completion after assertThat.
+
+Example from {assertj-examples-repo}/blob/main/assertions-examples/src/test/java/org/assertj/examples/db/TableAssertionExamples.java[TableAssertionExamples.java] :
+
+[source,java,indent=0]
+----
+include::{testDir}/example/db/TableAssertionExamples.java[tags=user_guide]
+----
+
+In this simple example you can see many `[concepts of AssertJ-DB] (the concepts are simple but I advice you to take the time to get to know them well) :
+
+* <<assertj-db-concepts-elements,the elements>> :
+** <<assertj-db-concepts-table,Table>> which represents a table in the database
+** <<assertj-db-concepts-column,Column>> which represents a column of the table
+** <<assertj-db-concepts-row,Row>> which represents a row of the table
+** <<assertj-db-concepts-value,Value>> which represents a value in a column or in a row
+* <<assertj-db-concepts-tableorrequestasroot,the navigation>> :
+** The first check, navigates from the table to the column called "name"
+(``column("name")`` moves the assertion to the column),
+from this column to the first value (the first call of ``value()`` moves to the first value)
+and after that to each value (each call of ``value()`` moves to the next value of the column).
+** The second check, navigates from the table to the row with index 1
+(``row(1)`` moves the assertion to the row),
+from this row to the first value
+and after that to each value (``value()`` calls have similar behavior for rows and columns).
+* <<assertj-db-concepts-datevaluetimevaluedatetimevalue,DateValue>> : Since 2.0.0, AssertJ-DB baseline is Java 8. The preferred way to compare values with date, time and date/time is to use java.time.LocalDate, java.time.LocalTime, java.time.LocalDateTime.
+But for the backward compatibility, it's always possible to use AssertJ-DB DateValue utilities.

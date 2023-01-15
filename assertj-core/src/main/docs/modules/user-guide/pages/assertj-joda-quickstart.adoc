@@ -1,0 +1,104 @@
+[[assertj-joda-time-quick-start]]
+=== Quick start
+
+This guide is for the AssertJ Joda Time module.
+
+[[get-assertj-joda-time]]
+==== Get assertj-joda-time library
+
+AssertJ Joda Time artifacts are in the Maven central repository. 
+
+[[assertj-joda-time-java-versions]]
+===== Supported Java versions
+
+AssertJ Joda Time major versions depend on different Java versions:
+
+* AssertJ Joda Time 2.x requires Java 8 or higher
+* AssertJ Joda Time 1.x requires Java 7 or higher
+
+===== Maven
+
+[source,xml,indent=0,subs=attributes+]
+----
+<dependency>
+  <groupId>org.assertj</groupId>
+  <artifactId>assertj-joda-time</artifactId>
+  <!-- use 1.1.0 for Java 7 projects -->
+  <version>{assertj-joda-time-version}</version>
+  <scope>test</scope>
+</dependency>
+----
+
+===== Gradle
+
+For Gradle users (using the Maven Central Repository)
+
+[source,java,indent=0,subs=attributes+]
+----
+testImplementation("org.assertj:assertj-joda-time:{assertj-joda-time-version}")
+----
+
+Or version 1.1.0 for Java 7 projects
+
+[source,java,indent=0]
+----
+testImplementation("org.assertj:assertj-joda-time:1.1.0")
+----
+
+===== Other build tools
+
+Check this page to find the relevant https://search.maven.org/artifact/org.assertj/assertj-joda-time/{assertj-joda-time-version}/bundle[assertj joda-time dependency declaration].
+
+==== Use Assertions class entry point
+
+The `org.assertj.jodatime.api.Assertions` class is the only class you need to start using AssertJ Joda Time.
+
+[source,java,indent=0]
+----
+import static org.assertj.jodatime.api.Assertions.assertThat;
+----
+
+==== Examples
+
+[source,java,indent=0]
+----
+assertThat(dateTime).isBefore(firstDateTime);
+assertThat(dateTime).isAfterOrEqualTo(secondDateTime);
+
+// you can use Strings in comparisons to avoid a conversion (we do that for you)
+assertThat(new DateTime("2000-01-01")).isEqualTo("2000-01-01");
+
+// compare DateTimes ignoring seconds and milliseconds in the comparison
+dateTime1 = new DateTime(2000, 1, 1, 23, 50, 0, 0, UTC);
+dateTime2 = new DateTime(2000, 1, 1, 23, 50, 10, 456, UTC);
+// assertion succeeds
+assertThat(dateTime1).isEqualToIgnoringSeconds(dateTime2);
+----
+
+For `DateTime` assertions, comparison is performed in the `DateTimeZone` of `DateTime` to test, consequently the following assertion passes:
+
+[source,java,indent=0]
+----
+DateTime utcTime = new DateTime(2013, 6, 10, 0, 0, DateTimeZone.UTC);
+DateTime cestTime = new DateTime(2013, 6, 10, 2, 0, DateTimeZone.forID("Europe/Berlin"));
+
+assertThat(utcTime).as("in UTC time").isEqualTo(cestTime);
+----
+
+You can compare `DateTime` to another `DateTime`, or `LocalDateTime` to `LocalDateTime`, but not `DateTime` to `LocalDateTime`, it doesn't make sense as one is timezone dependent and the other is not.
+
+Note that you can find more working examples in the https://github.com/assertj/assertj-examples/blob/main/assertions-examples/src/test/java/org/assertj/examples/JodaTimeAssertionsExamples.java[JodaTimeAssertionsExamples.java] class of the assertj-examples project.
+
+[[assertj-joda-time-ide]]
+==== IDE configuration
+
+You can configure your IDE so that when you start typing `as` and trigger code completion `assertThat` will show up in the suggested completions.
+
+Eclipse:
+. Go to : Window > Preferences > Java > Editor > Content Assist > Favorites > New Type
+. Enter : `org.assertj.jodatime.api.Assertions` and click OK
+. Check that you see `org.assertj.jodatime.api.Assertions.*` in Favorites.
+
+Intellij Idea: No special configuration is needed, just start typing `asser` and then invoke completion (Ctrl-Space) twice.
+
+
