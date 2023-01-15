@@ -12,11 +12,14 @@
  */
 package org.assertj.core.api.abstract_;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractAssertBaseTest;
 import org.assertj.core.api.ConcreteAssert;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link AbstractAssert#isNotEqualTo(Object)}</code>.
@@ -28,6 +31,25 @@ class AbstractAssert_isNotEqualTo_Test extends AbstractAssertBaseTest {
   @Override
   protected ConcreteAssert invoke_api_method() {
     return assertions.isNotEqualTo(Long.valueOf(8l));
+  }
+
+  @Test
+  void should_fail_because_called_on_assertion_directly() {
+    assertThatExceptionOfType(UnsupportedOperationException.class)
+      .isThrownBy(() -> assertThat(assertions).isNotEqualTo(assertions))
+      .withMessageContaining(
+        "Attempted to compare an assertion object to another assertion object using '.isNotEqualTo'. "
+          + "This is not supported. Perhaps you meant '.isNotSameAs' instead?");
+  }
+
+  @Test
+  void should_not_fail_when_equals_exceptions_is_deactivated() {
+    AbstractAssert.throwUnsupportedExceptionOnEquals = false;
+    try {
+      assertions.isNotEqualTo(new ConcreteAssert("potato"));
+    } finally {
+      AbstractAssert.throwUnsupportedExceptionOnEquals = true;
+    }
   }
 
   @Override
