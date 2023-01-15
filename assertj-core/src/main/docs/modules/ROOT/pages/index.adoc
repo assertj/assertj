@@ -1,4 +1,4 @@
-= Welcome to the AssertJ Docs!
+= Welcome to the AssertJ Docs
 
 This is the home page of the Antora Demo site.
 It is also the automatic start page for version *{page-component-version}* of Component B.
