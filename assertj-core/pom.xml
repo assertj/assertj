@@ -319,6 +319,9 @@
             </goals>
             <configuration>
               <release>9</release>
+              <compilerArgs>
+                <compilerArg>--module-version=${project.version}</compilerArg>
+              </compilerArgs>
               <compileSourceRoots>
                 <compileSourceRoot>${project.basedir}/src/main/java9</compileSourceRoot>
               </compileSourceRoots>
