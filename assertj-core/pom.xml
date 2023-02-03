@@ -29,7 +29,7 @@
     <byte-buddy.version>1.12.22</byte-buddy.version>
     <hamcrest.version>2.2</hamcrest.version>
     <!-- Plugin versions -->
-    <cdg.pitest.version>1.0.3</cdg.pitest.version>
+    <cdg.pitest.version>1.0.4</cdg.pitest.version>
   </properties>
 
   <dependencyManagement>
