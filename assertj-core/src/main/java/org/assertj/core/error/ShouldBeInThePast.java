@@ -12,16 +12,17 @@
  */
 package org.assertj.core.error;
 
+import java.time.temporal.Temporal;
 import java.util.Date;
 
 import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
 
-
 /**
- * Creates an error message indicating that an assertion that verifies that a {@link Date} is in the past failed.
+ * Creates an error message indicating that an assertion that verifies that a {@link Date} or a {@link Temporal} is in the past failed.
  * 
  * @author Joel Costigliola
+ * @author Stefan Bratanov
  */
 public class ShouldBeInThePast extends BasicErrorMessageFactory {
 
@@ -44,7 +45,20 @@ public class ShouldBeInThePast extends BasicErrorMessageFactory {
     return new ShouldBeInThePast(actual, StandardComparisonStrategy.instance());
   }
 
+  /**
+   * Creates a new <code>{@link ShouldBeInThePast}</code>.
+   * @param actual the actual value in the failed assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldBeInThePast(Temporal actual) {
+    return new ShouldBeInThePast(actual);
+  }
+
   private ShouldBeInThePast(Date actual, ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nto be in the past %s but was not.", actual, comparisonStrategy);
+  }
+
+  private ShouldBeInThePast(Temporal actual) {
+    super("%nExpecting actual:%n  %s%nto be in the past but was not.", actual);
   }
 }

@@ -1856,8 +1856,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Verifies that the actual {@code Date} is strictly in the future.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertion will fail
-   * assertThat(theTwoTowers.getReleaseDate()).isInTheFuture();</code></pre>
+   * <pre><code class='java'> Date now = new Date();
+   * // assertion succeeds:
+   * assertThat(new Date(now.getTime() + 1000)).isInTheFuture();</code></pre>
    *
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Date} is {@code null}.

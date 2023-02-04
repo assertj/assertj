@@ -12,16 +12,17 @@
  */
 package org.assertj.core.error;
 
+import java.time.temporal.Temporal;
 import java.util.Date;
 
 import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
 
-
 /**
- * Creates an error message indicating that an assertion that verifies that a {@link Date} is in the future failed.
+ * Creates an error message indicating that an assertion that verifies that a {@link Date} or a {@link Temporal} is in the future failed.
  * 
  * @author Joel Costigliola
+ * @author Stefan Bratanov
  */
 public class ShouldBeInTheFuture extends BasicErrorMessageFactory {
 
@@ -44,7 +45,20 @@ public class ShouldBeInTheFuture extends BasicErrorMessageFactory {
     return new ShouldBeInTheFuture(actual, StandardComparisonStrategy.instance());
   }
 
+  /**
+   * Creates a new <code>{@link ShouldBeInTheFuture}</code>.
+   * @param actual the actual value in the failed assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldBeInTheFuture(Temporal actual) {
+    return new ShouldBeInTheFuture(actual);
+  }
+
   private ShouldBeInTheFuture(Date actual, ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nto be in the future %s but was not.", actual, comparisonStrategy);
+  }
+
+  private ShouldBeInTheFuture(Temporal actual) {
+    super("%nExpecting actual:%n  %s%nto be in the future but was not.", actual);
   }
 }

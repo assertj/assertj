@@ -67,7 +67,9 @@ class Dates_assertIsInTheFuture_Test extends DatesBaseTest {
   @Test
   void should_pass_if_actual_is_in_the_future() {
     actual = parseDate("2111-01-01");
+    new Date(new Date().getTime() + 3600);
     dates.assertIsInTheFuture(someInfo(), actual);
+    dates.assertIsInTheFuture(someInfo(), new Date(new Date().getTime() + 1000));
   }
 
   @Test
