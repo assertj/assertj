@@ -526,9 +526,23 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   /** {@inheritDoc} */
   @Override
+  public SELF hasToString(String expectedStringTemplate, Object... args) {
+    requireNonNull(expectedStringTemplate, "The expectedStringTemplate must not be null");
+    return hasToString(String.format(expectedStringTemplate, args));
+  }
+
+  /** {@inheritDoc} */
+  @Override
   public SELF doesNotHaveToString(String otherToString) {
     objects.assertDoesNotHaveToString(info, actual, otherToString);
     return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public SELF doesNotHaveToString(String expectedStringTemplate, Object... args) {
+    requireNonNull(expectedStringTemplate, "The expectedStringTemplate must not be null");
+    return doesNotHaveToString(String.format(expectedStringTemplate, args));
   }
 
   /** {@inheritDoc} */
