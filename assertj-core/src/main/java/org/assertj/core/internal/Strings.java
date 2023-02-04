@@ -1409,9 +1409,4 @@ public class Strings {
     checkCharSequenceArrayDoesNotHaveNullElements(sequence);
   }
 
-  public void assertVisible(AssertionInfo info, CharSequence actual) {
-    assertNotNull(info, actual);
-    if (!Pattern.matches("\\p{Graph}*", actual)) throw failures.failure(info, shouldBeVisible(actual));
-  }
-
 }
