@@ -110,7 +110,16 @@ public final class DualValue {
 
   private static boolean isJavaType(Object o) {
     if (o == null) return false;
-    String className = o.getClass().getName();
+    Class<?> aClass = o.getClass();
+    while (aClass != null && !Object.class.equals(aClass)) {
+      String className = aClass.getName();
+      if (isInJavaPackageForbiddingIntrospection(className)) return true;
+      aClass = aClass.getSuperclass();
+    }
+    return false;
+  }
+
+  private static boolean isInJavaPackageForbiddingIntrospection(String className) {
     return className.startsWith("java.")
            || className.startsWith("javax.")
            || className.startsWith("sun.")

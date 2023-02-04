@@ -29,6 +29,7 @@ import static org.assertj.core.util.Maps.newHashMap;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.verify;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.nio.file.Path;
@@ -52,6 +53,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.mock.web.MockHttpServletResponse;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -464,8 +466,8 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
 
   @Test
   void issue_2475_example_should_succeed() {
-    then(issue2475Map()).usingRecursiveComparison()
-                        .isEqualTo(issue2475Map());
+    assertThat(issue2475Map()).usingRecursiveComparison()
+                              .isEqualTo(issue2475Map());
   }
 
   private static Map<String, List<String>> issue2475Map() {
@@ -564,12 +566,22 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
 
   private static Stream<Arguments> should_not_introspect_java_base_classes() throws Exception {
 
+    
+
     return Stream.of(arguments(DatatypeFactory.newInstance().newXMLGregorianCalendar(), 
                                DatatypeFactory.newInstance().newXMLGregorianCalendar(), 
                                "com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl"),
                      arguments(InetAddress.getByName("127.0.0.1"),
                                InetAddress.getByName("127.0.0.1"),
                                InetAddress.class.getName()));
+  }
+
+  @Test
+  void issue_2927_example_should_succeed() {
+    assertThat(new MockHttpServletResponse()).usingRecursiveComparison()
+                                             .withEqualsForType((b1, b2) -> b1.toString().equals(b2.toString()), ByteArrayOutputStream.class)
+                                             .ignoringFields("writer")
+                                             .isEqualTo(new MockHttpServletResponse());
   }
 
 }

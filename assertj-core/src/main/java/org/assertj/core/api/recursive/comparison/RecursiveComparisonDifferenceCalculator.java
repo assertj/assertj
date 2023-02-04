@@ -378,6 +378,7 @@ public class RecursiveComparisonDifferenceCalculator {
     // since java 17 we can't introspect java types and get their fields so by default we compare them with equals
     // unless for some container like java types: iterables, array, optional, atomic values where we take the contained values
     // through accessors and register them in the recursive comparison.
+    // this is also the case for type inheriting java types (except directly inheriting Object obviously)
     boolean shouldHonorJavaTypeEquals = dualValue.hasSomeJavaTypeValue() && !dualValue.isExpectedAContainer();
     return shouldHonorJavaTypeEquals || shouldHonorOverriddenEquals(dualValue, recursiveComparisonConfiguration);
   }
