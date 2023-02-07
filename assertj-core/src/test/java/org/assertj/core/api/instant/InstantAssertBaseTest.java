@@ -15,7 +15,9 @@ package org.assertj.core.api.instant;
 import java.time.Instant;
 
 public class InstantAssertBaseTest {
-  public static final Instant BEFORE = Instant.now().minusSeconds(1);
+
   public static final Instant REFERENCE = Instant.now();
-  public static final Instant AFTER = Instant.now().plusSeconds(1);
+  public static final Instant BEFORE = REFERENCE.minusSeconds(1);
+  public static final Instant AFTER = REFERENCE.plusSeconds(1);
+
 }

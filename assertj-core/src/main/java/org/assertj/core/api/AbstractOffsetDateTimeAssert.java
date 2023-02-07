@@ -20,6 +20,8 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringMinutes.shouldBeEqualI
 import static org.assertj.core.error.ShouldBeEqualIgnoringNanos.shouldBeEqualIgnoringNanos;
 import static org.assertj.core.error.ShouldBeEqualIgnoringSeconds.shouldBeEqualIgnoringSeconds;
 import static org.assertj.core.error.ShouldBeEqualIgnoringTimezone.shouldBeEqualIgnoringTimezone;
+import static org.assertj.core.error.ShouldBeInTheFuture.shouldBeInTheFuture;
+import static org.assertj.core.error.ShouldBeInThePast.shouldBeInThePast;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.OffsetDateTime;
@@ -446,7 +448,6 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
     return isEqualTo(parse(dateTimeAsString));
   }
 
-
   /**
    * Verifies that the actual {@code OffsetDateTime} is not equal to the given value according to the comparator in use.
    * <p>
@@ -744,6 +745,46 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
     if (!haveSameYearMonthAndDayOfMonth(actual, other)) {
       throw Failures.instance().failure(info, shouldBeEqualIgnoringHours(actual, other));
     }
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code OffsetDateTime} is strictly in the past.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds:
+   * assertThat(OffsetDateTime.now().minusMinutes(1)).isInThePast();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code OffsetDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code OffsetDateTime} is not in the past.
+   *
+   * @since 3.25.0
+   */
+  public SELF isInThePast() {
+    Objects.instance().assertNotNull(info, actual);
+    if (!actual.isBefore(OffsetDateTime.now(actual.getOffset())))
+      throw Failures.instance().failure(info, shouldBeInThePast(actual));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code OffsetDateTime} is strictly in the future.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds:
+   * assertThat(OffsetDateTime.now().plusMinutes(1)).isInTheFuture();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code OffsetDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code OffsetDateTime} is not in the future.
+   *
+   * @since 3.25.0
+   */
+  public SELF isInTheFuture() {
+    Objects.instance().assertNotNull(info, actual);
+    if (!actual.isAfter(OffsetDateTime.now(actual.getOffset())))
+      throw Failures.instance().failure(info, shouldBeInTheFuture(actual));
     return myself;
   }
 

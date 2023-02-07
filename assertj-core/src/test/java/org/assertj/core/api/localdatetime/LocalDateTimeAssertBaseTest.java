@@ -16,18 +16,18 @@ import java.time.LocalDateTime;
 
 import org.assertj.core.api.AbstractLocalDateTimeAssert;
 
-
 /**
  * 
  * Base test class for {@link AbstractLocalDateTimeAssert} tests.
  * 
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
+ * @author Stefan Bratanov
  */
 public class LocalDateTimeAssertBaseTest {
 
-  public static final LocalDateTime REFERENCE = LocalDateTime.of(2000, 12, 14, 0, 0);
-  public static final LocalDateTime BEFORE = LocalDateTime.of(2000, 12, 13, 23, 59, 59, 999);
-  public static final LocalDateTime AFTER = LocalDateTime.of(2000, 12, 14, 0, 0, 0, 1);
+  public static final LocalDateTime REFERENCE = LocalDateTime.now();
+  public static final LocalDateTime BEFORE = REFERENCE.minusMinutes(1);
+  public static final LocalDateTime AFTER = REFERENCE.plusMinutes(1);
 
 }
