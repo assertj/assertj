@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import static org.mockito.Mockito.mock;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 import org.assertj.core.internal.ChronoZonedDateTimeByInstantComparator;
@@ -22,9 +23,16 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 
 public abstract class AbstractZonedDateTimeAssertBaseTest extends TemporalAssertBaseTest<ZonedDateTimeAssert, ZonedDateTime> {
 
+  private static final ZoneId TOKYO_ZONE_ID = ZoneId.of("Asia/Tokyo");
+
   protected static final ZonedDateTime NOW = ZonedDateTime.now();
   protected static final ZonedDateTime YESTERDAY = NOW.minusDays(1);
   protected static final ZonedDateTime TOMORROW = NOW.plusDays(1);
+
+  protected static final ZonedDateTime NOW_WITH_DIFFERENT_ZONE = NOW.withZoneSameInstant(TOKYO_ZONE_ID);
+  protected static final ZonedDateTime YESTERDAY_WITH_DIFFERENT_ZONE = NOW_WITH_DIFFERENT_ZONE.minusDays(1);
+  protected static final ZonedDateTime TOMORROW_WITH_DIFFERENT_ZONE = NOW_WITH_DIFFERENT_ZONE.plusDays(1);
+
   protected static final ComparatorBasedComparisonStrategy COMPARISON_STRATEGY = comparisonStrategy();
 
   @Override

@@ -13,9 +13,12 @@
 package org.assertj.core.api.instant;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 public class InstantAssertBaseTest {
-  public static final Instant BEFORE = Instant.now().minusSeconds(1);
+
   public static final Instant REFERENCE = Instant.now();
-  public static final Instant AFTER = Instant.now().plusSeconds(1);
+  public static final Instant BEFORE = REFERENCE.minus(1, ChronoUnit.HOURS);
+  public static final Instant AFTER = REFERENCE.plus(1, ChronoUnit.HOURS);
+
 }

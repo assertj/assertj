@@ -16,6 +16,8 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringHours.shouldBeEqualIgn
 import static org.assertj.core.error.ShouldBeEqualIgnoringMinutes.shouldBeEqualIgnoringMinutes;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNanos.shouldBeEqualIgnoringNanos;
 import static org.assertj.core.error.ShouldBeEqualIgnoringSeconds.shouldBeEqualIgnoringSeconds;
+import static org.assertj.core.error.ShouldBeInTheFuture.shouldBeInTheFuture;
+import static org.assertj.core.error.ShouldBeInThePast.shouldBeInThePast;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.ZonedDateTime;
@@ -697,6 +699,46 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   public SELF isNotIn(String... dateTimesAsString) {
     checkIsNotNullAndNotEmpty(dateTimesAsString);
     return isNotIn(convertToDateTimeArray(dateTimesAsString));
+  }
+
+  /**
+   * Verifies that the actual {@code ZonedDateTime} is strictly in the past.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds:
+   * assertThat(ZonedDateTime.now().minusMinutes(1)).isInThePast();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code ZonedDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code ZonedDateTime} is not in the past.
+   *
+   * @since 3.25.0
+   */
+  public SELF isInThePast() {
+    Objects.instance().assertNotNull(info, actual);
+    if (!actual.isBefore(ZonedDateTime.now(actual.getZone())))
+      throw Failures.instance().failure(info, shouldBeInThePast(actual));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code ZonedDateTime} is strictly in the future.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds:
+   * assertThat(ZonedDateTime.now().plusMinutes(1)).isInTheFuture();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code ZonedDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code ZonedDateTime} is not in the future.
+   *
+   * @since 3.25.0
+   */
+  public SELF isInTheFuture() {
+    Objects.instance().assertNotNull(info, actual);
+    if (!actual.isAfter(ZonedDateTime.now(actual.getZone())))
+      throw Failures.instance().failure(info, shouldBeInTheFuture(actual));
+    return myself;
   }
 
   /**
