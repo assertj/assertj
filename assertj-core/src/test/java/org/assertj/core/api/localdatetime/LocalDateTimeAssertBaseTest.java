@@ -27,7 +27,7 @@ import org.assertj.core.api.AbstractLocalDateTimeAssert;
 public class LocalDateTimeAssertBaseTest {
 
   public static final LocalDateTime REFERENCE = LocalDateTime.now();
-  public static final LocalDateTime BEFORE = REFERENCE.minusMinutes(1);
-  public static final LocalDateTime AFTER = REFERENCE.plusMinutes(1);
+  public static final LocalDateTime BEFORE = REFERENCE.minusHours(1);
+  public static final LocalDateTime AFTER = REFERENCE.plusHours(1);
 
 }

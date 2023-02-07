@@ -26,12 +26,12 @@ public abstract class AbstractOffsetDateTimeAssertBaseTest extends TemporalAsser
   private static final ZoneOffset OFFSET = ZoneOffset.ofHours(3);
 
   protected static final OffsetDateTime REFERENCE = OffsetDateTime.now(ZoneOffset.UTC);
-  protected static final OffsetDateTime BEFORE = REFERENCE.minusMinutes(1);
-  protected static final OffsetDateTime AFTER = REFERENCE.plusMinutes(1);
+  protected static final OffsetDateTime BEFORE = REFERENCE.minusHours(1);
+  protected static final OffsetDateTime AFTER = REFERENCE.plusHours(1);
 
   protected static final OffsetDateTime REFERENCE_WITH_DIFFERENT_OFFSET = OffsetDateTime.now(OFFSET);
-  protected static final OffsetDateTime BEFORE_WITH_DIFFERENT_OFFSET = REFERENCE_WITH_DIFFERENT_OFFSET.minusMinutes(1);
-  protected static final OffsetDateTime AFTER_WITH_DIFFERENT_OFFSET = REFERENCE_WITH_DIFFERENT_OFFSET.plusMinutes(1);
+  protected static final OffsetDateTime BEFORE_WITH_DIFFERENT_OFFSET = REFERENCE_WITH_DIFFERENT_OFFSET.minusHours(1);
+  protected static final OffsetDateTime AFTER_WITH_DIFFERENT_OFFSET = REFERENCE_WITH_DIFFERENT_OFFSET.plusHours(1);
 
   protected static final ComparatorBasedComparisonStrategy COMPARISON_STRATEGY = comparisonStrategy();
 

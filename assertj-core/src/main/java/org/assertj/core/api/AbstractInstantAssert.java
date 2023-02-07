@@ -335,7 +335,7 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
    * <p>
    * Example:
    * <pre><code class='java'> // assertion succeeds:
-   * assertThat(Instant.now().minusSeconds(1)).isInThePast();</code></pre>
+   * assertThat(Instant.now().minusSeconds(60)).isInThePast();</code></pre>
    *
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Instant} is {@code null}.
@@ -354,7 +354,7 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
    * <p>
    * Example:
    * <pre><code class='java'> // assertion succeeds:
-   * assertThat(Instant.now().plusSeconds(1)).isInTheFuture();</code></pre>
+   * assertThat(Instant.now().plusSeconds(60)).isInTheFuture();</code></pre>
    *
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Instant} is {@code null}.
