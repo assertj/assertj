@@ -1932,7 +1932,7 @@ public class BDDAssertions extends Assertions {
    * assertThat(catchThrowableOfType(Exception.class, () -&gt; {})).isNull();
    *
    * // fails as TextException is not a RuntimeException
-   * catchThrowableOfType(() -&gt; { throw new TextException("boom!", 1, 5); }, RuntimeException.class);</code></pre>
+   * catchThrowableOfType(RuntimeException.class, () -&gt; { throw new TextException("boom!", 1, 5); });</code></pre>
    *
    * @param <THROWABLE> the {@link Throwable} type.
    * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
