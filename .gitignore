@@ -16,6 +16,7 @@ out
 #jEnv configuration
 .java-version
 dependency-reduced-pom.xml
+.flattened-pom.xml
 /bin/
 .mvn/wrapper/maven-wrapper.jar
 # macOS specific files

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -463,16 +463,6 @@ public interface WithAssumptions {
    * @since 2.9.0 / 3.9.0
    */
   default ClassAssert assumeThat(final Class<?> actual) {
-    return Assumptions.assumeThat(actual);
-  }
-
-  /**
-   * Creates a new instance of <code>{@link ClassLoaderAssert}</code> assumption.
-   *
-   * @param actual the actual value.
-   * @return the created assumption for assertion object.
-   */
-  default AbstractClassLoaderAssert<?> assertThat(final ClassLoader actual) {
     return Assumptions.assumeThat(actual);
   }
 

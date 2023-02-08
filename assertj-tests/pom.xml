@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent</artifactId>
-    <version>3.24.0-SNAPSHOT</version>
+    <version>3.25.0-SNAPSHOT</version>
     <relativePath>../assertj-parent</relativePath>
   </parent>
 
@@ -20,6 +20,7 @@
   </modules>
 
   <properties>
+    <gpg.skip>true</gpg.skip>
     <maven.install.skip>true</maven.install.skip>
     <maven.deploy.skip>true</maven.deploy.skip>
   </properties>
@@ -45,7 +46,7 @@
                     <exclude>*</exclude>
                   </excludes>
                 </bannedDependencies>
-                <dependencyConvergence/>
+                <dependencyConvergence />
               </rules>
             </configuration>
           </execution>

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -1856,8 +1856,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Verifies that the actual {@code Date} is strictly in the future.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertion will fail
-   * assertThat(theTwoTowers.getReleaseDate()).isInTheFuture();</code></pre>
+   * <pre><code class='java'> Date now = new Date();
+   * // assertion succeeds:
+   * assertThat(new Date(now.getTime() + 1000)).isInTheFuture();</code></pre>
    *
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Date} is {@code null}.
@@ -3061,11 +3062,11 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Date date2 = new Date(date1.getTime() + 100);
    *
    * // assertion succeeds
-   * assertThat(date1).isCloseTo(date2, 80)
+   * assertThat(date1).isCloseTo(date2, 101)
    *                  .isCloseTo(date2, 100);
    *
    * // assertion fails
-   * assertThat(date1).isCloseTo(date2, 101);</code></pre>
+   * assertThat(date1).isCloseTo(date2, 80);</code></pre>
    *
    * @param other the date to compare actual to
    * @param deltaInMilliseconds the delta used for date comparison, expressed in milliseconds

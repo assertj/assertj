@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -289,7 +289,7 @@ public class RecursiveAssertionAssert extends AbstractAssert<RecursiveAssertionA
   }
 
   /**
-   * Choose between running the {@link Predicate} in use over the primitive fields of an object in an object tree or not,
+   * Make the recursive assertion <b>not to run</b> the {@link Predicate} over the primitive fields of an object in an object graph,
    * by default asserting over primitives is <em>enabled</em>.
    * <p>
    * For example, consider the following class:

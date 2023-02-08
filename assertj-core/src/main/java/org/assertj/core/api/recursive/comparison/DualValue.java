@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -110,7 +110,11 @@ public final class DualValue {
 
   private static boolean isJavaType(Object o) {
     if (o == null) return false;
-    return o.getClass().getName().startsWith("java.");
+    String className = o.getClass().getName();
+    return className.startsWith("java.")
+           || className.startsWith("javax.")
+           || className.startsWith("sun.")
+           || className.startsWith("com.sun.");
   }
 
   public boolean isExpectedFieldAnArray() {
@@ -302,7 +306,6 @@ public final class DualValue {
   public boolean isExpectedAContainer() {
     return isContainer(expected);
   }
-
 
   public boolean hasNoNullValues() {
     return actual != null && expected != null;

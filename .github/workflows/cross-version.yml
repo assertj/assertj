@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: [19, 20]
+        java: [19, 20, 21]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -22,5 +22,6 @@ jobs:
       - name: Test
         run: >
           ./mvnw -B -V --no-transfer-progress -e verify javadoc:javadoc
+          -Djacoco.skip=true
           -Djansi.passthrough=true
           -Dstyle.color=always

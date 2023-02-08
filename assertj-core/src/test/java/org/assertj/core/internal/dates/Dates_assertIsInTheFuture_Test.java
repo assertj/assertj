@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.internal.dates;
 
@@ -67,7 +67,9 @@ class Dates_assertIsInTheFuture_Test extends DatesBaseTest {
   @Test
   void should_pass_if_actual_is_in_the_future() {
     actual = parseDate("2111-01-01");
+    new Date(new Date().getTime() + 3600);
     dates.assertIsInTheFuture(someInfo(), actual);
+    dates.assertIsInTheFuture(someInfo(), new Date(new Date().getTime() + 1000));
   }
 
   @Test

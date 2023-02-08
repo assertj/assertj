@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -455,10 +455,10 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * Examples:
    * <pre><code class='java'> Throwable throwableWithMessage = new IllegalArgumentException("wrong amount 123");
    *
-   * // assertion will pass
+   * // assertion succeeds
    * assertThat(throwableWithMessage).hasStackTraceContaining("%s", amount);
    *
-   * // assertion will fail
+   * // assertion fails
    * assertThat(throwableWithMessage).hasStackTraceContaining("%d", 456);</code></pre>
    *
    * @param description the description expected to be contained in the actual {@code Throwable}'s stack trace.
@@ -474,15 +474,15 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
-   * Verifies that the message of the actual {@code Throwable} matches the given regular expression.
+   * Verifies that the message of the {@code Throwable} under test matches the given regular expression.
    * <p>
    * Examples:
    * <pre><code class='java'> Throwable throwable = new IllegalArgumentException("wrong amount 123");
    *
-   * // assertion will pass
+   * // assertion succeeds
    * assertThat(throwable).hasMessageMatching("wrong amount [0-9]*");
    *
-   * // assertion will fail
+   * // assertion fails
    * assertThat(throwable).hasMessageMatching("wrong amount [0-9]* euros");</code></pre>
    *
    * @param regex the regular expression of value expected to be matched the actual {@code Throwable}'s message.
@@ -492,6 +492,29 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws NullPointerException if the regex is null
    */
   public SELF hasMessageMatching(String regex) {
+    throwables.assertHasMessageMatching(info, actual, regex);
+    return myself;
+  }
+
+  /**
+   * Verifies that the message of the {@code Throwable} under test matches the given regular expression {@link Pattern}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Throwable throwable = new IllegalArgumentException("wrong amount 123");
+   *
+   * // assertion succeeds
+   * assertThat(throwable).hasMessageMatching(Pattern.compile("wrong amount [0-9]*"));
+   *
+   * // assertion fails
+   * assertThat(throwable).hasMessageMatching(Pattern.compile("wrong amount [0-9]* euros"));</code></pre>
+   *
+   * @param regex the regular expression of value expected to be matched the actual {@code Throwable}'s message.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} does not match the given regular expression.
+   * @throws NullPointerException if the regex is null
+   */
+  public SELF hasMessageMatching(Pattern regex) {
     throwables.assertHasMessageMatching(info, actual, regex);
     return myself;
   }

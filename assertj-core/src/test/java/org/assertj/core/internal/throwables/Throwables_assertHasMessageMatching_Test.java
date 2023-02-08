@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.internal.throwables;
 
@@ -22,6 +22,8 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.internal.ThrowablesBaseTest;
 import org.junit.jupiter.api.Test;
+
+import java.util.regex.Pattern;
 
 /**
  * Tests for <code>{@link ThrowableAssert#hasMessageMatching(String)}</code>.
@@ -57,7 +59,13 @@ class Throwables_assertHasMessageMatching_Test extends ThrowablesBaseTest {
 
   @Test
   void should_fail_if_given_regex_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> throwables.assertHasMessageMatching(someInfo(), actual, null))
+    assertThatNullPointerException().isThrownBy(() -> throwables.assertHasMessageMatching(someInfo(), actual, (String) null))
+                                    .withMessage("regex must not be null");
+  }
+
+  @Test
+  void should_fail_if_given_pattern_is_null() {
+    assertThatNullPointerException().isThrownBy(() -> throwables.assertHasMessageMatching(someInfo(), actual, (Pattern) null))
                                     .withMessage("regex must not be null");
   }
 

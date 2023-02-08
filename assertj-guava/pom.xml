@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent</artifactId>
-    <version>3.24.0-SNAPSHOT</version>
+    <version>3.25.0-SNAPSHOT</version>
     <relativePath>../assertj-parent</relativePath>
   </parent>
 
@@ -55,17 +55,12 @@
         <plugin>
           <groupId>com.github.siom79.japicmp</groupId>
           <artifactId>japicmp-maven-plugin</artifactId>
-          <version>0.16.0</version>
           <configuration>
             <parameter>
               <excludes>
                 <exclude>org.assertj.guava.internal</exclude>
               </excludes>
-              <onlyBinaryIncompatible>true</onlyBinaryIncompatible>
-              <onlyModified>true</onlyModified>
-              <reportOnlyFilename>true</reportOnlyFilename>
             </parameter>
-            <skipXmlReport>true</skipXmlReport>
           </configuration>
         </plugin>
       </plugins>
@@ -137,8 +132,9 @@
               <goal>resolve</goal>
             </goals>
             <configuration>
+              <outputBndrunDir>${project.build.directory}</outputBndrunDir>
               <bndruns>
-                <bndrun>verify.bndrun</bndrun>
+                <include>verify.bndrun</include>
               </bndruns>
               <bundles>
                 <bundle>target/${project.build.finalName}.jar</bundle>
@@ -205,6 +201,10 @@
             <script>hljs.highlightAll();</script>
         ]]></bottom>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>

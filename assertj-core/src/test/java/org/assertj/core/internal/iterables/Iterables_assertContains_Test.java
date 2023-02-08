@@ -8,163 +8,162 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.internal.iterables;
 
+import static java.util.Collections.emptySet;
+import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.internal.iterables.SinglyIterableFactory.createSinglyIterable;
-import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.newArrayList;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Sets.set;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
-import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import com.google.common.collect.Sets;
 
 /**
- * Tests for <code>{@link Iterables#assertContains(AssertionInfo, Iterable, Object[])}</code>.
- *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
 class Iterables_assertContains_Test extends IterablesBaseTest {
 
   @Test
-  void should_pass_if_actual_contains_given_values() {
-    iterables.assertContains(someInfo(), actual, array("Luke"));
-  }
-
-  @Test
-  void should_pass_if_actual_contains_given_values_in_different_order() {
-    iterables.assertContains(someInfo(), actual, array("Leia", "Yoda"));
-  }
-
-  @Test
-  void should_pass_if_actual_contains_all_given_values() {
-    iterables.assertContains(someInfo(), actual, array("Luke", "Yoda"));
-  }
-
-  @Test
-  void should_pass_if_actual_contains_given_values_more_than_once() {
-    actual.addAll(newArrayList("Luke", "Luke"));
-    iterables.assertContains(someInfo(), actual, array("Luke"));
-  }
-
-  @Test
-  void should_pass_if_actual_contains_given_values_even_if_duplicated() {
-    iterables.assertContains(someInfo(), actual, array("Luke", "Luke"));
-  }
-
-  @Test
-  void should_pass_if_actual_and_given_values_are_empty() {
-    actual.clear();
-    iterables.assertContains(someInfo(), actual, array());
-  }
-
-  @Test
-  void should_pass_if_non_restartable_actual_contains_given_values() {
-    iterables.assertContains(someInfo(), createSinglyIterable(actual), array("Luke", "Yoda", "Leia"));
-  }
-
-  @Test
-  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContains(someInfo(), actual, emptyArray()));
-  }
-
-  @Test
-  void should_throw_error_if_array_of_values_to_look_for_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> iterables.assertContains(someInfo(), actual, null))
-                                    .withMessage(valuesToLookForIsNull());
-  }
-
-  @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContains(someInfo(), null, array("Yoda")))
-                                                   .withMessage(actualIsNull());
-  }
-
-  @Test
-  void should_fail_if_actual_does_not_contain_values() {
     // GIVEN
-    AssertionInfo info = someInfo();
-    Object[] expected = { "Han", "Luke" };
+    String[] values = array("Yoda");
     // WHEN
-    AssertionError error = expectAssertionError(() -> iterables.assertContains(info, actual, expected));
+    AssertionError assertionError = expectAssertionError(() -> iterables.assertContains(someInfo(), null, values));
     // THEN
-    then(error).hasMessageContaining("Expecting ArrayList:");
-    verify(failures).failure(info, shouldContain(actual, expected, newLinkedHashSet("Han")));
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_with_the_right_actual_type() {
+  void should_fail_if_given_values_array_is_null() {
     // GIVEN
-    AssertionInfo info = someInfo();
-    Object[] expected = { "Han", "Luke" };
-    Set<String> actualSet = new HashSet<>(actual);
+    String[] values = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> iterables.assertContains(info, actualSet, expected));
+    Throwable thrown = catchThrowable(() -> iterables.assertContains(someInfo(), actual, values));
     // THEN
-    then(error).hasMessageContaining("Expecting HashSet:");
-    verify(failures).failure(info, shouldContain(HashSet.class, actualSet, expected, newLinkedHashSet("Han"),
-                                                 StandardComparisonStrategy.instance()));
-  }
-
-  // ------------------------------------------------------------------------------------------------------------------
-  // tests using a custom comparison strategy
-  // ------------------------------------------------------------------------------------------------------------------
-
-  @Test
-  void should_pass_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), actual, array("LUKE"));
+    then(thrown).isInstanceOf(NullPointerException.class).hasMessage(valuesToLookForIsNull());
   }
 
   @Test
-  void should_pass_if_actual_contains_given_values_in_different_order_according_to_custom_comparison_strategy() {
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), actual, array("LEIA", "yODa"));
-  }
-
-  @Test
-  void should_pass_if_actual_contains_all_given_values_according_to_custom_comparison_strategy() {
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), actual, array("luke", "YODA"));
-  }
-
-  @Test
-  void should_pass_if_actual_contains_given_values_more_than_once_according_to_custom_comparison_strategy() {
-    actual.addAll(newArrayList("Luke", "Luke"));
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), actual, array("LUke"));
-  }
-
-  @Test
-  void should_pass_if_actual_contains_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), actual, array("LUke", "LuKe"));
-  }
-
-  @Test
-  void should_fail_if_actual_does_not_contain_values_according_to_custom_comparison_strategy() {
+  void should_fail_if_given_values_array_is_empty() {
     // GIVEN
-    AssertionInfo info = someInfo();
-    Object[] expected = { "Han", "Luke" };
+    String[] values = array();
     // WHEN
-    AssertionError error = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContains(info, actual,
-                                                                                                                    expected));
+    AssertionError assertionError = expectAssertionError(() -> iterables.assertContains(someInfo(), actual, values));
     // THEN
-    then(error).hasMessageContaining("Expecting ArrayList:");
-    verify(failures).failure(info, shouldContain(actual, expected, newLinkedHashSet("Han"), comparisonStrategy));
+    then(assertionError).isNotNull();
+  }
+
+  @ParameterizedTest
+  @MethodSource("successfulTestCases")
+  void should_pass(Iterable<String> actual, Object[] expected) {
+    // GIVEN
+    Iterables underTest = iterables;
+    // WHEN/THEN
+    assertThatNoException().as(actual.getClass().getName())
+                           .isThrownBy(() -> underTest.assertContains(info, actual, expected));
+  }
+
+  @ParameterizedTest
+  @MethodSource({
+      "successfulTestCases",
+      "caseInsensitiveSuccessfulTestCases"
+  })
+  void should_pass_with_case_insensitive_comparison_strategy(Iterable<String> actual, Object[] expected) {
+    // GIVEN
+    Iterables underTest = iterablesWithCaseInsensitiveComparisonStrategy;
+    // WHEN/THEN
+    assertThatNoException().as(actual.getClass().getName())
+                           .isThrownBy(() -> underTest.assertContains(info, actual, expected));
+  }
+
+  private static Stream<Arguments> successfulTestCases() {
+    return Stream.of(arguments(emptySet(), array()),
+                     arguments(list("Luke", "Yoda", "Leia"), array("Luke")),
+                     arguments(list("Luke", "Yoda", "Leia"), array("Leia", "Yoda")),
+                     arguments(list("Luke", "Yoda", "Leia"), array("Luke", "Yoda")),
+                     arguments(list("Luke", "Yoda", "Leia"), array("Luke", "Luke")),
+                     arguments(list("Luke", "Yoda", "Leia", "Luke", "Luke"), array("Luke")),
+                     arguments(createSinglyIterable(list("Luke", "Yoda", "Leia")), array("Luke", "Yoda", "Leia")),
+                     arguments(singleton("Luke"), array("Luke")),
+                     arguments(Sets.union(singleton("Luke"), singleton("Yoda")), array("Luke")));
+  }
+
+  private static Stream<Arguments> caseInsensitiveSuccessfulTestCases() {
+    return Stream.of(arguments(list("Luke", "Yoda", "Leia"), array("LUKE")),
+                     arguments(list("Luke", "Yoda", "Leia"), array("LEIA", "yODa")),
+                     arguments(list("Luke", "Yoda", "Leia"), array("luke", "YODA")),
+                     arguments(list("Luke", "Yoda", "Leia"), array("LUke", "LuKe")),
+                     arguments(list("Luke", "Luke"), array("LUke")));
+  }
+
+  @ParameterizedTest
+  @MethodSource("failureTestCases")
+  void should_fail(Iterable<String> actual, String[] expected, Set<String> notFound) {
+    // GIVEN
+    Iterables underTest = iterables;
+    // WHEN
+    assertThatExceptionOfType(AssertionError.class).as(actual.getClass().getName())
+                                                   .isThrownBy(() -> underTest.assertContains(info, actual, expected))
+                                                   // THEN
+                                                   .withMessage(shouldContain(actual, expected, notFound).create());
+  }
+
+  @ParameterizedTest
+  @MethodSource({
+      "failureTestCases",
+      "caseInsensitiveFailureTestCases"
+  })
+  void should_fail_with_case_insensitive_comparison_strategy(Iterable<String> actual, String[] expected, Set<String> notFound) {
+    // GIVEN
+    Iterables underTest = iterablesWithCaseInsensitiveComparisonStrategy;
+    // WHEN
+    assertThatExceptionOfType(AssertionError.class).as(actual.getClass().getName())
+                                                   .isThrownBy(() -> underTest.assertContains(info, actual, expected))
+                                                   // THEN
+                                                   .withMessage(shouldContain(actual, expected, notFound,
+                                                                              underTest.getComparisonStrategy()).create());
+  }
+
+  private static Stream<Arguments> failureTestCases() {
+    return Stream.of(arguments(set("Luke", "Yoda", "Leia"),
+                               array("Han", "Luke"),
+                               set("Han")),
+                     arguments(list("Luke", "Yoda", "Leia"),
+                               array("Han", "Luke"),
+                               set("Han")),
+                     arguments(Sets.union(singleton("Luke"), singleton("Yoda")),
+                               array("Han", "Luke"),
+                               set("Han")));
+  }
+
+  private static Stream<Arguments> caseInsensitiveFailureTestCases() {
+    return Stream.of(arguments(set("Luke", "Yoda", "Leia"),
+                               array("Han", "LUKE"),
+                               set("Han")));
   }
 
 }

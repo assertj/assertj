@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-integration-tests</artifactId>
-    <version>3.24.0-SNAPSHOT</version>
+    <version>3.25.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>assertj-core-osgi</artifactId>
@@ -21,7 +21,7 @@
       <dependency>
         <groupId>org.eclipse.platform</groupId>
         <artifactId>org.eclipse.osgi</artifactId>
-        <version>3.18.100</version>
+        <version>3.18.200</version>
         <scope>test</scope>
       </dependency>
     </dependencies>
@@ -75,8 +75,9 @@
               <goal>resolve</goal>
             </goals>
             <configuration>
+              <outputBndrunDir>${project.build.directory}</outputBndrunDir>
               <bndruns>
-                <bndrun>verify.bndrun</bndrun>
+                <include>verify.bndrun</include>
               </bndruns>
               <bundles>
                 <bundle>${osgi.bundle}</bundle>
@@ -105,8 +106,9 @@
               <goal>testing</goal>
             </goals>
             <configuration>
+              <bndrunDir>${project.build.directory}</bndrunDir>
               <bndruns>
-                <bndrun>verify.bndrun</bndrun>
+                <include>verify.bndrun</include>
               </bndruns>
               <bundles>
                 <bundle>${osgi.bundle}</bundle>

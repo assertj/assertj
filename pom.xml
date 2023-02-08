@@ -4,11 +4,12 @@
 
   <groupId>org.assertj</groupId>
   <artifactId>assertj-build</artifactId>
-  <version>3.24.0-SNAPSHOT</version>
+  <version>3.25.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>AssertJ Build</name>
   <description>AssertJ Build</description>
+  <url>${project.organization.url}</url>
   <organization>
     <name>AssertJ</name>
     <url>https://assertj.github.io/doc/</url>
@@ -90,6 +91,7 @@
   </developers>
 
   <modules>
+    <module>assertj-bom</module>
     <module>assertj-parent</module>
     <module>assertj-core</module>
     <module>assertj-guava</module>
@@ -120,7 +122,7 @@
   <properties>
     <!-- Plugin versions -->
     <license-maven-plugin.version>4.1</license-maven-plugin.version>
-    <maven-enforcer-plugin.version>3.1.0</maven-enforcer-plugin.version>
+    <maven-enforcer-plugin.version>3.2.1</maven-enforcer-plugin.version>
     <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
     <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
     <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
@@ -149,6 +151,12 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
           <version>${maven-release-plugin.version}</version>
+          <configuration>
+            <autoVersionSubmodules>true</autoVersionSubmodules>
+            <useReleaseProfile>false</useReleaseProfile>
+            <releaseProfiles>release</releaseProfiles>
+            <goals>deploy</goals>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.sonarsource.scanner.maven</groupId>
@@ -159,6 +167,12 @@
           <groupId>org.sonatype.plugins</groupId>
           <artifactId>nexus-staging-maven-plugin</artifactId>
           <version>${nexus-staging-maven-plugin.version}</version>
+          <extensions>true</extensions>
+          <configuration>
+            <serverId>ossrh</serverId>
+            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -182,7 +196,7 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
           <properties>
             <!-- Values to be substituted in template -->
             <inceptionYear>2012</inceptionYear>
-            <currentYear>2022</currentYear>
+            <currentYear>2023</currentYear>
           </properties>
           <strictCheck>true</strictCheck>
           <includes>
@@ -224,24 +238,9 @@ Copyright ${inceptionYear}-${currentYear} the original author or authors.
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <configuration>
-          <autoVersionSubmodules>true</autoVersionSubmodules>
-          <useReleaseProfile>false</useReleaseProfile>
-          <releaseProfiles>release</releaseProfiles>
-          <goals>deploy</goals>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>org.sonatype.plugins</groupId>
         <artifactId>nexus-staging-maven-plugin</artifactId>
-        <extensions>true</extensions>
-        <configuration>
-          <serverId>ossrh</serverId>
-          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-          <autoReleaseAfterClose>true</autoReleaseAfterClose>
-        </configuration>
+        <inherited>false</inherited>
       </plugin>
     </plugins>
   </build>

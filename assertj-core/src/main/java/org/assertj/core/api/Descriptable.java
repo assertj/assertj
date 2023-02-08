@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -90,7 +90,7 @@ public interface Descriptable<SELF> {
    * @throws IllegalStateException if the descriptionSupplier is {@code null} when evaluated.
    */
   default SELF as(final Supplier<String> descriptionSupplier) {
-    return describedAs(new LazyTextDescription(descriptionSupplier));
+    return describedAs(descriptionSupplier);
   }
 
   /**
@@ -129,6 +129,40 @@ public interface Descriptable<SELF> {
    */
   default SELF describedAs(String description, Object... args) {
     return describedAs(new TextDescription(description, args));
+  }
+
+  /**
+   * Lazily specifies the description of the assertion that is going to be called, the given description is <b>not</b> evaluated
+   * if the assertion succeeds.
+   * <p>
+   * The description must be set <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks
+   * the chained call by throwing an AssertionError.
+   * <p>
+   * Example :
+   * <pre><code class='java'> // set an incorrect age to Mr Frodo which we all know is 33 years old.
+   * frodo.setAge(50);
+   *
+   * // the lazy test description is <b>not</b> evaluated as the assertion succeeds
+   * assertThat(frodo.getAge()).as(() -&gt; &quot;check Frodo's age&quot;).isEqualTo(50);
+   *
+   * try
+   * {
+   *   // the lazy test description is evaluated as the assertion fails
+   *   assertThat(frodo.getAge()).as(() -&gt; &quot;check Frodo's age&quot;).isEqualTo(33);
+   * }
+   * catch (AssertionError e)
+   * {
+   *   assertThat(e).hasMessage(&quot;[check Frodo's age]\n
+   *                             expected: 33\n
+   *                              but was: 50&quot;);
+   * }</code></pre>
+   *
+   * @param descriptionSupplier the description {@link Supplier}.
+   * @return {@code this} object.
+   * @throws IllegalStateException if the descriptionSupplier is {@code null} when evaluated.
+   */
+  default SELF describedAs(final Supplier<String> descriptionSupplier) {
+    return describedAs(new LazyTextDescription(descriptionSupplier));
   }
 
   /**

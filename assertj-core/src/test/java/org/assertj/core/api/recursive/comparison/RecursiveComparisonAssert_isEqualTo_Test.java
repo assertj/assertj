@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -30,6 +30,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
@@ -38,6 +39,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import javax.xml.datatype.DatatypeFactory;
+
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
 import org.assertj.core.internal.objects.data.AlwaysEqualPerson;
 import org.assertj.core.internal.objects.data.FriendlyPerson;
@@ -45,7 +48,6 @@ import org.assertj.core.internal.objects.data.Giant;
 import org.assertj.core.internal.objects.data.Human;
 import org.assertj.core.internal.objects.data.Person;
 import org.assertj.core.util.DoubleComparator;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -54,7 +56,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@DisplayName("RecursiveComparisonAssert isEqualTo")
 class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
   @Test
@@ -484,8 +485,9 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
     return map;
   }
 
-  public static class Wrappers {
-    private List<Wrapper> values;
+  static class Wrappers {
+    @SuppressWarnings("unused")
+    private final List<Wrapper> values;
 
     public Wrappers(Wrapper a, Wrapper b) {
       this.values = list(a, b);
@@ -500,7 +502,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
     }
   }
   public static class Container {
-    private Path path;
+    private final Path path;
 
     public Container(String path) {
       this.path = Paths.get(path);
@@ -546,9 +548,28 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
       this.jobTitle = jobTitle;
     }
 
-    public enum JobTitle {
+    public enum JobTitle
+    {
       SOFTWARE_DEVELOPER, QA_ENGINEER
     }
+  }
+
+  // https://github.com/assertj/assertj/issues/2928
+  @ParameterizedTest(name = "class: {2}")
+  @MethodSource
+  void should_not_introspect_java_base_classes(Object actual, Object expected, @SuppressWarnings("unused")  String testDescription) {
+    assertThat(actual).usingRecursiveComparison()
+                      .isEqualTo(expected);
+  }
+
+  private static Stream<Arguments> should_not_introspect_java_base_classes() throws Exception {
+
+    return Stream.of(arguments(DatatypeFactory.newInstance().newXMLGregorianCalendar(), 
+                               DatatypeFactory.newInstance().newXMLGregorianCalendar(), 
+                               "com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl"),
+                     arguments(InetAddress.getByName("127.0.0.1"),
+                               InetAddress.getByName("127.0.0.1"),
+                               InetAddress.class.getName()));
   }
 
 }

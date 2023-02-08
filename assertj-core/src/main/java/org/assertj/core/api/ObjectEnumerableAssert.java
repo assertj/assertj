@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -1550,7 +1550,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   SELF satisfiesExactlyInAnyOrder(ThrowingConsumer<? super ELEMENT>... allRequirements);
 
   /**
-   * Verifies that there is exactly one element of the iterable elements that satisfies the {@link Consumer}.
+   * Verifies that there is exactly one element in the iterable under tests that satisfies the {@link Consumer}.
    * <p>
    * Examples:
    * <pre><code class='java'> List&lt;String&gt; starWarsCharacterNames = list("Luke", "Leia", "Yoda");
@@ -1576,7 +1576,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   SELF satisfiesOnlyOnce(Consumer<? super ELEMENT> requirements);
 
   /**
-   * Verifies that there is exactly one element of the iterable elements that satisfies the {@link ThrowingConsumer}.
+   * Verifies that there is exactly one element in the iterable under tests that satisfies the {@link ThrowingConsumer}.
    * <p>
    * Examples:
    * <pre><code class='java'> List&lt;String&gt; starWarsCharacterNames = list("Luke", "Leia", "Yoda");

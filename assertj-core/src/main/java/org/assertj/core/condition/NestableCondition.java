@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.condition;
 
@@ -23,11 +23,15 @@ import org.assertj.core.api.Condition;
 import org.assertj.core.description.Description;
 
 /**
- * Building block to define a precise soft assertion about a complex object.
+ * Building block to define precise conditions on complex objects.
+ * <p>
  * It allows to create readable assertions and produces beautiful assertion error messages.
  * <p>
  * Example:
- * <pre><code class='java'> class Customer {
+ * <pre><code class='java'> import static org.assertj.core.condition.NestableCondition.nestable;
+ * import static org.assertj.core.condition.VerboseCondition.verboseCondition;
+ *
+ * class Customer {
  *    final String name;
  *    final Address address;
  *
@@ -90,7 +94,7 @@ import org.assertj.core.description.Description;
  *     )
  *   )
  * ); </code></pre>
- * which leads to an easy-to-read assertion error:
+ * leads to an easy-to-read assertion error:
  * <pre><code class='text'> Expecting actual:
  *   org.assertj.core.condition.Customer@27ff5d15
  * to be:
@@ -121,8 +125,8 @@ public class NestableCondition<ACTUAL, NESTED> extends Join<ACTUAL> {
    * @param <NESTED> the type of object nested into {@literal K}
    */
   @SafeVarargs
-  public static <ACTUAL, NESTED> Condition<ACTUAL> nestable(String descriptionPrefix, Function<ACTUAL, NESTED> extractor,
-                                                            Condition<NESTED>... conditions) {
+  public static <ACTUAL, NESTED> Condition<ACTUAL> nestable(String descriptionPrefix, Function<? super ACTUAL, ? extends NESTED> extractor,
+                                                            Condition<? super NESTED>... conditions) {
     return new NestableCondition<>(descriptionPrefix, stream(conditions), extractor);
   }
 
@@ -134,16 +138,16 @@ public class NestableCondition<ACTUAL, NESTED> extends Join<ACTUAL> {
    * @param <ACTUAL> the type of object the resulting condition accepts
    */
   @SafeVarargs
-  public static <ACTUAL> Condition<ACTUAL> nestable(String descriptionPrefix, Condition<ACTUAL>... conditions) {
-    return new NestableCondition<>(descriptionPrefix, stream(conditions));
+  public static <ACTUAL> Condition<ACTUAL> nestable(String descriptionPrefix, Condition<? super ACTUAL>... conditions) {
+    return new NestableCondition<ACTUAL, ACTUAL>(descriptionPrefix, stream(conditions));
   }
 
-  private NestableCondition(String descriptionPrefix, Stream<Condition<NESTED>> conditions, Function<ACTUAL, NESTED> extractor) {
+  private NestableCondition(String descriptionPrefix, Stream<? extends Condition<? super NESTED>> conditions, Function<? super ACTUAL, ? extends NESTED> extractor) {
     super(compose(conditions, extractor));
     this.descriptionPrefix = descriptionPrefix;
   }
 
-  private NestableCondition(String descriptionPrefix, Stream<Condition<ACTUAL>> conditions) {
+  private NestableCondition(String descriptionPrefix, Stream<? extends Condition<? super ACTUAL>> conditions) {
     super(conditions.collect(toList()));
     this.descriptionPrefix = descriptionPrefix;
   }
@@ -158,13 +162,13 @@ public class NestableCondition<ACTUAL, NESTED> extends Join<ACTUAL> {
     return descriptionPrefix;
   }
 
-  private static <ACTUAL, NESTED> List<Condition<ACTUAL>> compose(Stream<Condition<NESTED>> conditions,
-                                                                  Function<ACTUAL, NESTED> extractor) {
+  private static <ACTUAL, NESTED> List<Condition<? super ACTUAL>> compose(Stream<? extends Condition<? super NESTED>> conditions,
+                                                                  Function<? super ACTUAL, ? extends NESTED> extractor) {
     return conditions.map(condition -> compose(condition, extractor)).collect(toList());
   }
 
-  private static <ACTUAL, NESTED> Condition<ACTUAL> compose(Condition<NESTED> condition, Function<ACTUAL, NESTED> extractor) {
-    return new Condition<ACTUAL>() {
+  private static <ACTUAL, NESTED> Condition<ACTUAL> compose(Condition<? super NESTED> condition, Function<? super ACTUAL, ? extends NESTED> extractor) {
+    return new Condition<ACTUAL>(condition.description()) {
       @Override
       public boolean matches(ACTUAL value) {
         return condition.matches(extractor.apply(value));
