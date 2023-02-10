@@ -15,10 +15,10 @@ package org.assertj.core.error;
 public class KeyStoreShouldContainAlias extends BasicErrorMessageFactory {
 
   public KeyStoreShouldContainAlias(String alias) {
-    super("Expected KeyStore to contain alias <%s>, but it did not", alias);
+    super("Expecting KeyStore to contain alias <%s>, but it did not", alias);
   }
 
-  public static KeyStoreShouldContainAlias shouldContainAlias(String alias) {
+  public static KeyStoreShouldContainAlias keystoreShouldContainAlias(String alias) {
     return new KeyStoreShouldContainAlias(alias);
   }
 }

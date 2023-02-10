@@ -20,13 +20,13 @@ import java.security.KeyStoreSpi;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import org.assertj.core.test.KeyStores;
-import static org.assertj.core.error.KeyStoreShouldContainAlias.shouldContainAlias;
+import static org.assertj.core.error.KeyStoreShouldContainAlias.keystoreShouldContainAlias;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class KeyStoreAssert_containsAlias_Test {
+class KeyStoreAssert_containsAlias_Test {
 
   @Test
   void should_fail_if_keystore_does_not_contain_alias() {
@@ -38,7 +38,7 @@ public class KeyStoreAssert_containsAlias_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).containsAlias("foo"));
     // THEN
-    then(assertionError).hasMessage(shouldContainAlias("foo").create());
+    then(assertionError).hasMessage(keystoreShouldContainAlias("foo").create());
   }
 
   @Test
@@ -51,5 +51,4 @@ public class KeyStoreAssert_containsAlias_Test {
     // WHEN/THEN
     then(actual).containsAlias("foo");
   }
-
 }

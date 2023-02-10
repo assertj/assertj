@@ -19,8 +19,8 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.assertj.core.error.KeyStoreShouldContainAlias.shouldContainAlias;
-import static org.assertj.core.error.KeyStoreShouldNotContainAlias.shouldNotContainAlias;
+import static org.assertj.core.error.KeyStoreShouldContainAlias.keystoreShouldContainAlias;
+import static org.assertj.core.error.KeyStoreShouldNotContainAlias.keystoreShouldNotContainAlias;
 
 public class KeyStoreAssert extends AbstractAssert<KeyStoreAssert, KeyStore> {
   public KeyStoreAssert(KeyStore keyStore) {
@@ -44,7 +44,7 @@ public class KeyStoreAssert extends AbstractAssert<KeyStoreAssert, KeyStore> {
     isNotNull();
 
     if (!doesContainAlias(actual, alias)) {
-      throwAssertionError(shouldContainAlias(alias));
+      throwAssertionError(keystoreShouldContainAlias(alias));
     }
 
     return this;
@@ -59,7 +59,7 @@ public class KeyStoreAssert extends AbstractAssert<KeyStoreAssert, KeyStore> {
     isNotNull();
 
     if (doesContainAlias(actual, alias)) {
-      throwAssertionError(shouldNotContainAlias(alias));
+      throwAssertionError(keystoreShouldNotContainAlias(alias));
     }
 
     return this;
@@ -70,7 +70,6 @@ public class KeyStoreAssert extends AbstractAssert<KeyStoreAssert, KeyStore> {
     try {
       doesContainAlias = keyStore.containsAlias(alias);
     } catch (KeyStoreException e) {
-      // FIXME is there a better unchecked exception type for this?
       throw new RuntimeException(e);
     }
     return doesContainAlias;
