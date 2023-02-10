@@ -473,6 +473,25 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
   SELF hasToString(String expectedToString);
 
   /**
+   * Verifies that actual {@code actual.toString()} is equal to the given {@code String} when
+   * {@link String#format formatted} with the given arguments.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Foo foo = new Foo();
+   * FooWrapper wrapper = new FooWrapper(foo);
+   *
+   * assertThat(wrapper).hasToString("FooWrapper[foo=%s]", foo); </code></pre>
+   *
+   * @param expectedStringTemplate the format string to use.
+   * @param args the arguments to interpolate into the format string.
+   * @return this assertion object.
+   * @throws AssertionError if {@code actual.toString()} result is not equal to the given {@code String}.
+   * @throws AssertionError if actual is {@code null}.
+   * @since 3.25.0
+   */
+  SELF hasToString(String expectedStringTemplate, Object... args);
+
+  /**
    * Verifies that actual {@code actual.toString()} is not equal to the given {@code String}.
    * <p>
    * Example :
@@ -489,6 +508,25 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @throws AssertionError if actual is {@code null}.
    */
   SELF doesNotHaveToString(String otherToString);
+
+  /**
+   * Verifies that actual {@code actual.toString()} is not equal to the given {@code String}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Foo foo = new Foo();
+   * Bar bar = new Bar();
+   * FooBarWrapper wrapper = new FooBarWrapper(bar);
+   *
+   * assertThat(wrapper).doesNotHaveToString("FooBarWrapper[%s]", foo);</code></pre>
+   *
+   * @param expectedStringTemplate the format string to use.
+   * @param args the arguments to interpolate into the format string.
+   * @return this assertion object.
+   * @throws AssertionError if {@code actual.toString()} result is equal to the given {@code String}.
+   * @throws AssertionError if actual is {@code null}.
+   * @since 3.25.0
+   */
+  SELF doesNotHaveToString(String expectedStringTemplate, Object... args);
 
   /**
    * Verifies that the actual value does not have the same class as the given object.

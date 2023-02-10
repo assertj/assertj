@@ -12,6 +12,9 @@
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.util.Strings.escapePercent;
+import static org.assertj.core.util.Throwables.getStackTrace;
+
 import org.assertj.core.util.Throwables;
 
 /**
@@ -30,20 +33,20 @@ public class ShouldHaveRootCauseExactlyInstance extends BasicErrorMessageFactory
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldHaveRootCauseExactlyInstance(Throwable actual,
-      Class<? extends Throwable> expectedCauseType) {
-    return Throwables.getRootCause(actual) == null ? new ShouldHaveRootCauseExactlyInstance(expectedCauseType)
+                                                                       Class<? extends Throwable> expectedCauseType) {
+    return Throwables.getRootCause(actual) == null
+        ? new ShouldHaveRootCauseExactlyInstance(expectedCauseType, actual)
         : new ShouldHaveRootCauseExactlyInstance(actual, expectedCauseType);
   }
 
   private ShouldHaveRootCauseExactlyInstance(Throwable actual, Class<? extends Throwable> expectedCauseType) {
-    super(
-        "%nExpecting a throwable with root cause being exactly an instance of:%n  %s%nbut was an instance of:%n  %s",
-        expectedCauseType, Throwables.getRootCause(actual));
+    super("%nExpecting a throwable with root cause being exactly an instance of:%n  %s%nbut was an instance of:%n  %s%n" +
+          "%nThrowable that failed the check:%n" + escapePercent(getStackTrace(actual)),
+          expectedCauseType, Throwables.getRootCause(actual).getClass());
   }
 
-  private ShouldHaveRootCauseExactlyInstance(Class<? extends Throwable> expectedCauseType) {
-    super(
-        "%nExpecting a throwable with root cause being exactly an instance of:%n  %s%nbut current throwable has no cause.",
-        expectedCauseType);
+  private ShouldHaveRootCauseExactlyInstance(Class<? extends Throwable> expectedCauseType, Throwable actual) {
+    super("%nExpecting a throwable with root cause being exactly an instance of:%n  %s%nbut current throwable has no cause." +
+          "%nThrowable that failed the check:%n" + escapePercent(getStackTrace(actual)), expectedCauseType);
   }
 }

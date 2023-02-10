@@ -111,7 +111,10 @@ public final class DualValue {
   private static boolean isJavaType(Object o) {
     if (o == null) return false;
     String className = o.getClass().getName();
-    return className.startsWith("java.") || className.startsWith("sun.");
+    return className.startsWith("java.")
+           || className.startsWith("javax.")
+           || className.startsWith("sun.")
+           || className.startsWith("com.sun.");
   }
 
   public boolean isExpectedFieldAnArray() {
