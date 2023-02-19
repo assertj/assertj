@@ -24,7 +24,9 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.OffsetTime;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.TemporalUnit;
 
+import org.assertj.core.data.TemporalOffset;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 
@@ -385,7 +387,10 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * @throws AssertionError if the actual {@code OffsetTime} is {@code null}.
    * @throws IllegalArgumentException if other {@code OffsetTime} is {@code null}.
    * @throws AssertionError if the actual {@code OffsetTime} is not equal with nanoseconds ignored.
+   * @deprecated Use {@link #isCloseTo(OffsetTime, TemporalOffset)} instead, although not exactly the same semantics, 
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isEqualToIgnoringNanos(OffsetTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertOffsetTimeParameterIsNotNull(other);
@@ -421,9 +426,11 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * @return this assertion object.
    * @throws AssertionError if the actual {@code OffsetTime} is {@code null}.
    * @throws IllegalArgumentException if other {@code OffsetTime} is {@code null}.
-   * @throws AssertionError if the actual {@code OffsetTime} is not equal with second and nanosecond fields
-   *           ignored.
+   * @throws AssertionError if the actual {@code OffsetTime} is not equal with second and nanosecond fields ignored.
+   * @deprecated Use {@link #isCloseTo(OffsetTime, TemporalOffset)} instead, although not exactly the same semantics, 
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isEqualToIgnoringSeconds(OffsetTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertOffsetTimeParameterIsNotNull(other);
@@ -626,6 +633,33 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
   }
 
   /**
+   * Verifies that the actual {@link OffsetTime} is close to the other according to the given {@link TemporalOffset}.
+   * <p>
+   * You can build the offset parameter using {@link Assertions#within(long, TemporalUnit)} or {@link Assertions#byLessThan(long, TemporalUnit)}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> OffsetTime oneAm = OffsetTime.parse("01:00:00+02:00");
+   *
+   * // assertion succeeds:
+   * assertThat(oneAm).isCloseTo(oneAm.plusHours(1), within(30, ChronoUnit.MINUTES));
+   *
+   * // assertion fails:
+   * assertThat(oneAm).isCloseTo(_07_42, within(10, ChronoUnit.SECONDS));</code></pre>
+   *
+   * @param other the offsetTime to compare actual to
+   * @param offset the offset used for comparison
+   * @return this assertion object
+   * @throws NullPointerException if {@code OffsetTime} or {@code TemporalOffset} parameter is {@code null}.
+   * @throws AssertionError if the actual {@code OffsetTime} is {@code null}.
+   * @throws AssertionError if the actual {@code OffsetTime} is not close to the given one within the provided offset.
+   */
+  @Override
+  public SELF isCloseTo(OffsetTime other, TemporalOffset<? super OffsetTime> offset) {
+    // overridden for javadoc
+    return super.isCloseTo(other, offset);
+  }
+
+  /**
    * {@inheritDoc}
    */
   @Override
@@ -639,8 +673,7 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    *
    * @param actual the actual OffsetTime. expected not be null
    * @param other the other OffsetTime. expected not be null
-   * @return true if both OffsetTime are in the same year, month and day of month, hour, minute and second, false
-   *         otherwise.
+   * @return true if both OffsetTime are in the same year, month and day of month, hour, minute and second, false otherwise.
    */
   private static boolean areEqualIgnoringNanos(OffsetTime actual, OffsetTime other) {
     return areEqualIgnoringSeconds(actual, other) && haveSameSecond(actual, other);

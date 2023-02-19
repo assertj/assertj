@@ -24,6 +24,7 @@ import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("deprecation")
 class LocalDateTimeAssert_isEqualToIgnoringHours_Test {
 
   private final LocalDateTime refLocalDateTime = LocalDateTime.of(2000, 1, 2, 0, 0, 0, 0);

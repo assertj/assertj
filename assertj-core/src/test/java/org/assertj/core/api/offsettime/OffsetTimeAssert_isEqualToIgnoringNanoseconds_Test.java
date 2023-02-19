@@ -24,6 +24,7 @@ import java.time.ZoneOffset;
 
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("deprecation")
 class OffsetTimeAssert_isEqualToIgnoringNanoseconds_Test {
 
   private final OffsetTime refOffsetTime = OffsetTime.of(0, 0, 1, 0, ZoneOffset.UTC);

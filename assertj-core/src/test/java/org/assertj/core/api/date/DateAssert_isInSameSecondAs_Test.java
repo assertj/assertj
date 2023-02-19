@@ -23,6 +23,7 @@ import org.assertj.core.api.DateAssert;
  *
  * @author Joel Costigliola
  */
+@SuppressWarnings("deprecation")
 class DateAssert_isInSameSecondAs_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override

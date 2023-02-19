@@ -29,6 +29,7 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalUnit;
 import java.util.Comparator;
 
+import org.assertj.core.data.TemporalOffset;
 import org.assertj.core.data.TemporalUnitOffset;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
@@ -411,6 +412,32 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
   }
 
   /**
+   * Verifies that the actual {@link OffsetDateTime} is close to the other according to the given {@link TemporalOffset}.
+   * <p>
+   * You can build the offset parameter using {@link Assertions#within(long, TemporalUnit)} or {@link Assertions#byLessThan(long, TemporalUnit)}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> OffsetDateTime offsetDateTime = OffsetDateTime.parse("2000-01-01T00:00:00Z");
+   *
+   * // assertions succeeds:
+   * assertThat(offsetDateTime).isCloseTo(offsetDateTime.plusHours(1), within(90, ChronoUnit.MINUTES));
+   *
+   * // assertions fails:
+   * assertThat(offsetDateTime).isCloseTo(offsetDateTime.plusHours(1), within(30, ChronoUnit.MINUTES));</code></pre>
+   * @param other the OffsetDateTime to compare actual to
+   * @param offset the offset used for comparison
+   * @return this assertion object
+   * @throws NullPointerException if {@code OffsetDateTime} or {@code TemporalOffset} parameter is {@code null}.
+   * @throws AssertionError if the actual {@code OffsetDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code OffsetDateTime} is not close to the given one for a provided offset.
+   */
+  @Override
+  public SELF isCloseTo(OffsetDateTime other, TemporalOffset<? super OffsetDateTime> offset) {
+    // overridden for javadoc
+    return super.isCloseTo(other, offset);
+  }
+
+  /**
    * Same assertion as {@link #isEqualTo(Object)} (where Object is expected to be {@link java.time.OffsetDateTime}) but
    * here you
    * pass {@link java.time.OffsetDateTime} String representation that must follow <a href=
@@ -594,7 +621,10 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * @throws AssertionError if the actual {@code OffsetDateTime} is {@code null}.
    * @throws IllegalArgumentException if other {@code OffsetDateTime} is {@code null}.
    * @throws AssertionError if the actual {@code OffsetDateTime} is are not equal with nanoseconds ignored.
+   * @deprecated Use {@link #isCloseTo(OffsetDateTime, TemporalOffset)} instead, although not exactly the same semantics, 
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isEqualToIgnoringNanos(OffsetDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertOffsetDateTimeParameterIsNotNull(other);
@@ -606,8 +636,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
 
   /**
    * Verifies that actual and given {@code OffsetDateTime} have same year, month, day, hour, minute, second and
-   * nanosecond fields,
-   * (timezone fields are ignored in comparison).
+   * nanosecond fields (timezone fields are ignored in comparison).
    * <p>
    * Code example :
    * <pre><code class='java'> // successful assertions
@@ -661,9 +690,11 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * @return this assertion object.
    * @throws AssertionError if the actual {@code OffsetDateTime} is {@code null}.
    * @throws IllegalArgumentException if other {@code OffsetDateTime} is {@code null}.
-   * @throws AssertionError if the actual {@code OffsetDateTime} is are not equal with second and nanosecond fields
-   *           ignored.
+   * @throws AssertionError if the actual {@code OffsetDateTime} is are not equal with second and nanosecond fields ignored.
+   * @deprecated Use {@link #isCloseTo(OffsetDateTime, TemporalOffset)} instead, although not exactly the same semantics, 
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isEqualToIgnoringSeconds(OffsetDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertOffsetDateTimeParameterIsNotNull(other);
@@ -686,9 +717,9 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * <p>
    * Code example :
    * <pre><code class='java'> // successful assertions
-   * OffsetDateTime OffsetDateTime1 = OffsetDateTime.of(2000, 1, 1, 23, 50, 0, 0, ZoneOffset.UTC);
-   * OffsetDateTime OffsetDateTime2 = OffsetDateTime.of(2000, 1, 1, 23, 00, 2, 7, ZoneOffset.UTC);
-   * assertThat(OffsetDateTime1).isEqualToIgnoringMinutes(OffsetDateTime2);
+   * OffsetDateTime offsetDateTime1 = OffsetDateTime.of(2000, 1, 1, 23, 50, 0, 0, ZoneOffset.UTC);
+   * OffsetDateTime offsetDateTime2 = OffsetDateTime.of(2000, 1, 1, 23, 00, 2, 7, ZoneOffset.UTC);
+   * assertThat(offsetDateTime1).isEqualToIgnoringMinutes(offsetDateTime2);
    *
    * // failing assertions (even if time difference is only 1ms)
    * OffsetDateTime OffsetDateTimeA = OffsetDateTime.of(2000, 1, 1, 01, 00, 00, 000, ZoneOffset.UTC);
@@ -699,9 +730,11 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * @return this assertion object.
    * @throws AssertionError if the actual {@code OffsetDateTime} is {@code null}.
    * @throws IllegalArgumentException if other {@code OffsetDateTime} is {@code null}.
-   * @throws AssertionError if the actual {@code OffsetDateTime} is are not equal ignoring minute, second and nanosecond
-   *           fields.
+   * @throws AssertionError if the actual {@code OffsetDateTime} is are not equal ignoring minute, second and nanosecond fields.
+   * @deprecated Use {@link #isCloseTo(OffsetDateTime, TemporalOffset)} instead, although not exactly the same semantics, 
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isEqualToIgnoringMinutes(OffsetDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertOffsetDateTimeParameterIsNotNull(other);
@@ -736,9 +769,11 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * @return this assertion object.
    * @throws AssertionError if the actual {@code OffsetDateTime} is {@code null}.
    * @throws IllegalArgumentException if other {@code OffsetDateTime} is {@code null}.
-   * @throws AssertionError if the actual {@code OffsetDateTime} is are not equal with second and nanosecond fields
-   *           ignored.
+   * @throws AssertionError if the actual {@code OffsetDateTime} is are not equal with hour, minute, second and nanosecond ignored.
+   * @deprecated Use {@link #isCloseTo(OffsetDateTime, TemporalOffset)} instead, although not exactly the same semantics, 
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isEqualToIgnoringHours(OffsetDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertOffsetDateTimeParameterIsNotNull(other);

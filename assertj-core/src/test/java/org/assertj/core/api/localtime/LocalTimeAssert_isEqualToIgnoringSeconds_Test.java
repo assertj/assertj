@@ -23,6 +23,7 @@ import java.time.LocalTime;
 
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("deprecation")
 class LocalTimeAssert_isEqualToIgnoringSeconds_Test {
 
   private final LocalTime refLocalTime = LocalTime.of(23, 51, 0, 0);

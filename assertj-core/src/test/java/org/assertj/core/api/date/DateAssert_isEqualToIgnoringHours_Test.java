@@ -24,6 +24,7 @@ import org.assertj.core.api.DateAssert;
  *
  * @author William Delanoue
  */
+@SuppressWarnings("deprecation")
 class DateAssert_isEqualToIgnoringHours_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override
