@@ -13,10 +13,14 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.error.ShouldBeAssignableTo.shouldBeAssignableTo;
+import static org.assertj.core.error.ShouldBeRecord.shouldBeRecord;
+import static org.assertj.core.error.ShouldBeRecord.shouldNotBeRecord;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.Arrays.array;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Objects;
 
 import org.assertj.core.internal.Classes;
@@ -209,6 +213,62 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   public SELF isNotAnnotation() {
     classes.assertIsNotAnnotation(info, actual);
     return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is a record.
+   * <p>
+   * Example:
+   * <pre><code class='java'> public record Jedi(String name) {}
+   *
+   * // this assertion succeeds:
+   * assertThat(Jedi.class).isRecord();
+   *
+   * // this assertion fails:
+   * assertThat(String.class).isRecord();</code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not a record.
+   */
+  public SELF isRecord() {
+    isNotNull();
+    if (!isRecord(actual)) throw assertionError(shouldBeRecord(actual));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is not a record.
+   * <p>
+   * Example:
+   * <pre><code class='java'> public record Jedi(String name) {}
+   *
+   * // this assertion succeeds:
+   * assertThat(String.class).isNotRecord();
+   *
+   * // this assertion fails:
+   * assertThat(Jedi.class).isNotRecord();</code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is a record.
+   */
+  public SELF isNotRecord() {
+    isNotNull();
+    if (isRecord(actual)) throw assertionError(shouldNotBeRecord(actual));
+    return myself;
+  }
+
+  private boolean isRecord(Class<?> actual) {
+    try {
+      Method isRecordMethod = Class.class.getMethod("isRecord");
+      return (boolean) isRecordMethod.invoke(actual);
+    } catch (NoSuchMethodException e) {
+      // Definitely not a record if we're running on a JVM that doesn't support records
+      return false;
+    } catch (InvocationTargetException | IllegalAccessException e) {
+      throw new IllegalStateException(e);
+    }
   }
 
   /**
