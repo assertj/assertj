@@ -178,10 +178,7 @@ public class AtomicReferenceAssert<V> extends AbstractAssert<AtomicReferenceAsse
    * @since 3.25.0
    */
   public AtomicReferenceAssert<V> hasNullValue() {
-    isNotNull();
-    V actualValue = actual.get();
-    objects.assertNull(info, actualValue);
-    return myself;
+    return hasValue(null);
   }
 
   /**
@@ -199,10 +196,7 @@ public class AtomicReferenceAssert<V> extends AbstractAssert<AtomicReferenceAsse
    * @since 3.25.0
    */
   public AtomicReferenceAssert<V> doesNotHaveNullValue() {
-    isNotNull();
-    V actualValue = actual.get();
-    objects.assertNotNull(info, actualValue);
-    return myself;
+    return doesNotHaveValue(null);
   }
 
 }

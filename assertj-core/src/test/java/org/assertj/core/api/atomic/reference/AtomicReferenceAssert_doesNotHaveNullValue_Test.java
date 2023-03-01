@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue;
 
 class AtomicReferenceAssert_doesNotHaveNullValue_Test {
 
@@ -32,7 +32,7 @@ class AtomicReferenceAssert_doesNotHaveNullValue_Test {
   void should_fail_when_actual_has_the_null_value() {
     AtomicReference<String> actual = new AtomicReference<>(null);
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).doesNotHaveNullValue())
-                                                   .withMessage(actualIsNull());
+                                                   .withMessage(shouldNotContainValue(actual, null).create());
   }
 
 }
