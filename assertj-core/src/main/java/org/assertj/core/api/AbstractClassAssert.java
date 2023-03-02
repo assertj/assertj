@@ -19,7 +19,6 @@ import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.Arrays.array;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
@@ -230,6 +229,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not a record.
+   *
+   * @since 3.25.0
    */
   public SELF isRecord() {
     isNotNull();
@@ -252,6 +253,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is a record.
+   *
+   * @since 3.25.0
    */
   public SELF isNotRecord() {
     isNotNull();
@@ -259,14 +262,14 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
     return myself;
   }
 
-  private boolean isRecord(Class<?> actual) {
+  private static boolean isRecord(Class<?> actual) {
     try {
-      Method isRecordMethod = Class.class.getMethod("isRecord");
-      return (boolean) isRecordMethod.invoke(actual);
+      Method isRecord = Class.class.getMethod("isRecord");
+      return (boolean) isRecord.invoke(actual);
     } catch (NoSuchMethodException e) {
       // Definitely not a record if we're running on a JVM that doesn't support records
       return false;
-    } catch (InvocationTargetException | IllegalAccessException e) {
+    } catch (ReflectiveOperationException e) {
       throw new IllegalStateException(e);
     }
   }

@@ -25,27 +25,30 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 /**
- * Tests for <code>{@link org.assertj.core.api.ClassAssert#isRecord()}</code>.
- *
  * @author Louis Morgan
  */
-public class ClassAssert_isRecord_Test {
+class ClassAssert_isRecord_Test {
 
   @Test
   void should_fail_if_actual_is_null() {
+    // GIVEN
     Class<?> actual = null;
+    // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isRecord());
+    // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
 
   @ParameterizedTest
   @ValueSource(classes = {
-    String.class,
-    ArrayList.class,
-    ValueSource.class
+      String.class,
+      ArrayList.class,
+      ValueSource.class
   })
   void should_fail_if_actual_is_not_a_record(Class<?> actual) {
+    // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isRecord());
+    // THEN
     then(assertionError).hasMessage(shouldBeRecord(actual).create());
   }
 
