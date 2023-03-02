@@ -12,27 +12,33 @@
  */
 package org.assertj.core.api.atomic.reference;
 
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldHaveValue.shouldHaveValue;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.error.ShouldHaveValue.shouldHaveValue;
+import org.junit.jupiter.api.Test;
 
 class AtomicReferenceAssert_hasNullValue_Test {
 
   @Test
   void should_pass_when_actual_has_the_null_value() {
+    // GIVEN
     AtomicReference<String> actual = new AtomicReference<>(null);
+    // WHEN/THEN
     assertThat(actual).hasNullValue();
   }
 
   @Test
   void should_fail_when_actual_does_not_have_the_null_value() {
+    // GIVEN
     AtomicReference<String> actual = new AtomicReference<>("foo");
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasNullValue())
-                                                   .withMessage(shouldHaveValue(actual, null).create());
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasNullValue());
+    // THEN
+    then(assertionError).hasMessage(shouldHaveValue(actual, null).create());
   }
 
 }
