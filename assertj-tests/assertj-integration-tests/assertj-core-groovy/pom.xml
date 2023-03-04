@@ -38,9 +38,13 @@
         <groupId>com.mycila</groupId>
         <artifactId>license-maven-plugin</artifactId>
         <configuration>
-          <includes>
-            <include>src/**/*.groovy</include>
-          </includes>
+          <licenseSets>
+            <licenseSet>
+              <includes>
+                <include>src/**/*.groovy</include>
+              </includes>
+            </licenseSet>
+          </licenseSets>
         </configuration>
       </plugin>
       <plugin>

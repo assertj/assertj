@@ -44,12 +44,15 @@
         <groupId>com.mycila</groupId>
         <artifactId>license-maven-plugin</artifactId>
         <configuration>
-          <includes>
-            <include>src/**/*.kt</include>
-          </includes>
+          <licenseSets>
+            <licenseSet>
+              <includes>
+                <include>src/**/*.kt</include>
+              </includes>
+            </licenseSet>
+          </licenseSets>
         </configuration>
       </plugin>
-
       <plugin>
         <groupId>org.jetbrains.kotlin</groupId>
         <artifactId>kotlin-maven-plugin</artifactId>
