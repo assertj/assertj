@@ -21,7 +21,7 @@
       <dependency>
         <groupId>org.eclipse.platform</groupId>
         <artifactId>org.eclipse.osgi</artifactId>
-        <version>3.18.200</version>
+        <version>3.18.300</version>
         <scope>test</scope>
       </dependency>
     </dependencies>
