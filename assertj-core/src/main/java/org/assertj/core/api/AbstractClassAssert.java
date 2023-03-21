@@ -15,12 +15,16 @@ package org.assertj.core.api;
 import static org.assertj.core.error.ShouldBeAssignableTo.shouldBeAssignableTo;
 import static org.assertj.core.error.ShouldBeRecord.shouldBeRecord;
 import static org.assertj.core.error.ShouldBeRecord.shouldNotBeRecord;
+import static org.assertj.core.error.ShouldHaveRecordComponents.shouldHaveNoRecordComponents;
+import static org.assertj.core.error.ShouldHaveRecordComponents.shouldHaveRecordComponents;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Objects;
+import java.util.Set;
 
 import org.assertj.core.internal.Classes;
 
@@ -269,6 +273,74 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
     } catch (NoSuchMethodException e) {
       // Definitely not a record if we're running on a JVM that doesn't support records
       return false;
+    } catch (ReflectiveOperationException e) {
+      throw new IllegalStateException(e);
+    }
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has the given record components
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class NotARecord {}
+   * public record EmptyRecord {}
+   * public record MyRecord(String recordComponentOne, String recordComponentTwo) {}
+   *
+   * // these assertions succeed:
+   * assertThat(EmptyRecord.class).hasRecordComponents();
+   * assertThat(MyRecord.class).hasRecordComponents("recordComponentOne");
+   * assertThat(MyRecord.class).hasRecordComponents("recordComponentOne", "recordComponentTwo");
+   *
+   * // these assertions fail:
+   * assertThat(NotARecord.class).hasRecordComponents();
+   * assertThat(EmptyRecord.class).hasRecordComponents("recordComponentOne");
+   * assertThat(MyRecord.class).hasRecordComponents();
+   * assertThat(MyRecord.class).hasRecordComponents("recordComponentOne", "unknownRecordComponent");</code></pre>
+   * <p>
+   * The assertion succeeds if no given record components are passed and the actual {@code Class} has no record components.
+   *
+   * @param names the record component names which must be in the class.
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not a record.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of the record component names.
+   *
+   * @since 3.25.0
+   */
+  public SELF hasRecordComponents(String... names) {
+    isNotNull();
+    isRecord();
+
+    Set<String> expectedRecordComponents = newLinkedHashSet(names);
+    Set<String> missingRecordComponents = newLinkedHashSet();
+    Set<String> actualRecordComponents = getRecordComponentNames(this.actual);
+
+    if (expectedRecordComponents.isEmpty() && !actualRecordComponents.isEmpty()) {
+      throw assertionError(shouldHaveNoRecordComponents(this.actual, actualRecordComponents));
+    }
+
+    for (String name : expectedRecordComponents) {
+      if (!actualRecordComponents.contains(name)) {
+        missingRecordComponents.add(name);
+      }
+    }
+    if (!missingRecordComponents.isEmpty()) {
+      throw assertionError(shouldHaveRecordComponents(this.actual, expectedRecordComponents, missingRecordComponents));
+    }
+
+    return myself;
+  }
+
+  private static Set<String> getRecordComponentNames(Class<?> actual) {
+    try {
+      Method getRecordComponents = Class.class.getMethod("getRecordComponents");
+      Object[] recordComponents = (Object[]) getRecordComponents.invoke(actual);
+      Set<String> recordComponentNames = newLinkedHashSet();
+      for (Object recordComponent : recordComponents) {
+        Method getName = recordComponent.getClass().getMethod("getName");
+        recordComponentNames.add((String) getName.invoke(recordComponent));
+      }
+      return recordComponentNames;
     } catch (ReflectiveOperationException e) {
       throw new IllegalStateException(e);
     }
