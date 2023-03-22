@@ -49,7 +49,7 @@ import com.google.common.collect.ImmutableMap;
 /**
  * @author dorzey
  */
-class Maps_assertDoesNotContainKeys_Test extends MapsBaseTest {
+class Maps_assertDoesNotContainKeys_with_Array_Test extends MapsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
@@ -179,5 +179,4 @@ class Maps_assertDoesNotContainKeys_Test extends MapsBaseTest {
                                                           array("Job", "Name"),
                                                           set("Job", "Name"))));
   }
-
 }

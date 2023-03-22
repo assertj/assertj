@@ -47,6 +47,14 @@ public final class ErrorMessages {
     return String.format("The %s to look for should not be null", placeholder);
   }
 
+  public static String valuesToLookForIsEmpty(String placeholder) {
+    return String.format("The %s to look for should not be empty", placeholder);
+  }
+
+  public static String valuesToLookForIsNull(String placeholder) {
+    return String.format("The %s to look for should not be null", placeholder);
+  }
+
   public static String entriesToLookForIsEmpty() {
     return "The array of entries to look for should not be empty";
   }

@@ -2018,9 +2018,11 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertThat(map).containsKeys("K1", "K2");
     softly.assertThat(map).containsOnly(entry("op", "OP"), entry("qr", "QR"));
     softly.assertThat(map).containsOnlyKeys("K3", "K4");
+    softly.assertThat(map).containsOnlyValues("V1", "V2");
     softly.assertThat(map).containsValues("V1", "V2");
     softly.assertThat(map).doesNotContain(entry("a", "1"), entry("abc", "ABC"));
     softly.assertThat(map).doesNotContainKeys("a", "b");
+    softly.assertThat(map).doesNotContainValues("1", "2");
     softly.assertThat(map)
           .as("extracting(\"a\", \"b\")")
           .overridingErrorMessage("error message")
@@ -2050,7 +2052,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
           .startsWith("456");
     // THEN
     List<Throwable> errors = softly.errorsCollected();
-    assertThat(errors).hasSize(17);
+    assertThat(errors).hasSize(19);
     assertThat(errors.get(0)).hasMessageContaining("\"abc\"=\"ABC\"");
     assertThat(errors.get(1)).hasMessageContaining("empty");
     assertThat(errors.get(2)).hasMessageContaining("gh")
@@ -2059,16 +2061,18 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(4)).hasMessageContaining("K2");
     assertThat(errors.get(5)).hasMessageContaining("OP");
     assertThat(errors.get(6)).hasMessageContaining("K4");
-    assertThat(errors.get(7)).hasMessageContaining("V2");
-    assertThat(errors.get(8)).hasMessageContaining("ABC");
-    assertThat(errors.get(9)).hasMessageContaining("b");
-    assertThat(errors.get(10)).hasMessage("[extracting(\"a\", \"b\")] error message");
-    assertThat(errors.get(11)).hasMessage("[flatExtracting(\"name\", \"job\", \"city\", \"rank\")] error message");
-    assertThat(errors.get(12)).hasMessage("[size()] error message");
-    assertThat(errors.get(13)).hasMessageContaining("\"a\"=\"1\"");
-    assertThat(errors.get(14)).hasMessageContaining("to contain only");
-    assertThat(errors.get(15)).hasMessage("[extracting(\"a\")] error message");
-    assertThat(errors.get(16)).hasMessage("[extracting(\"a\") as string] error message");
+    assertThat(errors.get(7)).hasMessageContaining("V1");
+    assertThat(errors.get(8)).hasMessageContaining("V2");
+    assertThat(errors.get(9)).hasMessageContaining("ABC");
+    assertThat(errors.get(10)).hasMessageContaining("b");
+    assertThat(errors.get(11)).hasMessageContaining("1");
+    assertThat(errors.get(12)).hasMessage("[extracting(\"a\", \"b\")] error message");
+    assertThat(errors.get(13)).hasMessage("[flatExtracting(\"name\", \"job\", \"city\", \"rank\")] error message");
+    assertThat(errors.get(14)).hasMessage("[size()] error message");
+    assertThat(errors.get(15)).hasMessageContaining("\"a\"=\"1\"");
+    assertThat(errors.get(16)).hasMessageContaining("to contain only");
+    assertThat(errors.get(17)).hasMessage("[extracting(\"a\")] error message");
+    assertThat(errors.get(18)).hasMessage("[extracting(\"a\") as string] error message");
   }
 
   @Test

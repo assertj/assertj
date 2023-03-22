@@ -46,7 +46,7 @@ import org.springframework.util.LinkedCaseInsensitiveMap;
  * Base class for {@link Maps} unit tests
  * <p>
  * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Maps} attributes appropriately.
- * 
+ *
  * @author Joel Costigliola
  */
 public class MapsBaseTest extends WithPlayerData {
@@ -113,4 +113,7 @@ public class MapsBaseTest extends WithPlayerData {
     return new String[0];
   }
 
+  protected static String[] emptyValues() {
+    return new String[0];
+  }
 }

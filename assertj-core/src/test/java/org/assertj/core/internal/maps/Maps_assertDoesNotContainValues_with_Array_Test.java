@@ -20,7 +20,8 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.error.ShouldContainValues.shouldContainValues;
+import static org.assertj.core.error.ShouldNotContainValues.shouldNotContainValues;
+import static org.assertj.core.internal.ErrorMessages.keysToLookForIsNull;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
@@ -44,18 +45,16 @@ import org.junit.jupiter.params.provider.MethodSource;
 import com.google.common.collect.ImmutableMap;
 
 /**
- * @author Nicolas François
- * @author Joel Costigliola
- * @author Alexander Bischof
+ * @author Ilya Koshaleu
  */
-class Maps_assertContainsValues_Test extends MapsBaseTest {
+class Maps_assertDoesNotContainValues_with_Array_Test extends MapsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
     // GIVEN
     String[] values = { "Yoda" };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> maps.assertContainsValues(someInfo(), null, values));
+    AssertionError assertionError = expectAssertionError(() -> maps.assertDoesNotContainValues(someInfo(), null, values));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -65,19 +64,9 @@ class Maps_assertContainsValues_Test extends MapsBaseTest {
     // GIVEN
     String[] values = null;
     // WHEN
-    Throwable thrown = catchThrowable(() -> maps.assertContainsValues(someInfo(), actual, values));
+    Throwable thrown = catchThrowable(() -> maps.assertDoesNotContainValues(someInfo(), actual, values));
     // THEN
-    then(thrown).isInstanceOf(NullPointerException.class).hasMessage("The array of values to look for should not be null");
-  }
-
-  @Test
-  void should_fail_if_given_values_array_is_empty() {
-    // GIVEN
-    String[] values = array();
-    // WHEN
-    Throwable thrown = catchThrowable(() -> maps.assertContainsValues(someInfo(), actual, values));
-    // THEN
-    then(thrown).isInstanceOf(IllegalArgumentException.class).hasMessage("The array of values to look for should not be empty");
+    then(thrown).isInstanceOf(NullPointerException.class).hasMessage(keysToLookForIsNull("array of values"));
   }
 
   @ParameterizedTest
@@ -88,29 +77,25 @@ class Maps_assertContainsValues_Test extends MapsBaseTest {
   void should_pass(Map<String, String> actual, String[] expected) {
     // WHEN/THEN
     assertThatNoException().as(actual.getClass().getName())
-                           .isThrownBy(() -> maps.assertContainsValues(info, actual, expected));
+                           .isThrownBy(() -> maps.assertDoesNotContainValues(info, actual, expected));
   }
 
   private static Stream<Arguments> unmodifiableMapsSuccessfulTestCases() {
-    return Stream.of(arguments(emptyMap(), emptyKeys()),
-                     arguments(singletonMap("name", "Yoda"), array("Yoda")),
-                     arguments(new SingletonMap<>("name", "Yoda"), array("Yoda")),
-                     arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))), array("Yoda", "Jedi")),
-                     arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))), array("Jedi", "Yoda")),
-                     arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), array("Yoda", "Jedi")),
-                     arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), array("Jedi", "Yoda")),
-                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"), array("Yoda", "Jedi")),
-                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"), array("Jedi", "Yoda")));
+    return Stream.of(arguments(emptyMap(), array("Yoda")),
+                     arguments(singletonMap("name", "Yoda"), array("green")),
+                     arguments(new SingletonMap<>("name", "Yoda"), array("green")),
+                     arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))), array("green", "many")),
+                     arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), array("green", "many")),
+                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"), array("green", "many")),
+                     // implementation not permitting null keys
+                     arguments(Jdk11.Map.of("name", "Yoda"), array((String) null)));
   }
 
   private static Stream<Arguments> modifiableMapsSuccessfulTestCases() {
     return Stream.of(MODIFIABLE_MAPS)
-                 .flatMap(supplier -> Stream.of(arguments(mapOf(supplier, entry("name", "Yoda"), entry("job", "Jedi")),
-                                                          array("Yoda")),
+                 .flatMap(supplier -> Stream.of(arguments(mapOf(supplier, entry("name", "Yoda")), array("green")),
                                                 arguments(mapOf(supplier, entry("name", "Yoda"), entry("job", "Jedi")),
-                                                          array("Yoda", "Jedi")),
-                                                arguments(mapOf(supplier, entry("name", "Yoda"), entry("job", "Jedi")),
-                                                          array("Jedi", "Yoda"))));
+                                                          array("green", "many"))));
   }
 
   @ParameterizedTest
@@ -121,43 +106,48 @@ class Maps_assertContainsValues_Test extends MapsBaseTest {
   void should_fail(Map<String, String> actual, String[] expected, Set<String> notFound) {
     // WHEN
     assertThatExceptionOfType(AssertionError.class).as(actual.getClass().getName())
-                                                   .isThrownBy(() -> maps.assertContainsValues(info, actual, expected))
+                                                   .isThrownBy(() -> maps.assertDoesNotContainValues(info, actual, expected))
                                                    // THEN
-                                                   .withMessage(shouldContainValues(actual, notFound).create());
+                                                   .withMessage(shouldNotContainValues(actual, notFound).create());
   }
 
   private static Stream<Arguments> unmodifiableMapsFailureTestCases() {
-    return Stream.of(arguments(emptyMap(),
+    return Stream.of(arguments(singletonMap("name", "Yoda"),
                                array("Yoda"),
                                set("Yoda")),
-                     arguments(singletonMap("name", "Yoda"),
-                               array("green"),
-                               set("green")),
                      arguments(new SingletonMap<>("name", "Yoda"),
-                               array("green"),
-                               set("green")),
+                               array("Yoda"),
+                               set("Yoda")),
                      arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))),
-                               array("Yoda", "green"),
-                               set("green")),
+                               array("Yoda", "Jedi"),
+                               set("Yoda", "Jedi")),
+                     arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))),
+                               array("Jedi", "Yoda"),
+                               set("Jedi", "Yoda")),
                      arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"),
-                               array("Yoda", "green"),
-                               set("green")),
+                               array("Yoda", "Jedi"),
+                               set("Yoda", "Jedi")),
+                     arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"),
+                               array("Jedi", "Yoda"),
+                               set("Jedi", "Yoda")),
                      arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"),
-                               array("Yoda", "green"),
-                               set("green")),
-                     arguments(Jdk11.Map.of("name", "Yoda"),
-                               array((String) null), // implementation not permitting null keys
-                               set((String) null)));
+                               array("Yoda", "Jedi"),
+                               set("Yoda", "Jedi")),
+                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"),
+                               array("Jedi", "Yoda"),
+                               set("Jedi", "Yoda")));
   }
 
   private static Stream<Arguments> modifiableMapsFailureTestCases() {
     return Stream.of(MODIFIABLE_MAPS)
-                 .flatMap(supplier -> Stream.of(arguments(mapOf(supplier, entry("name", "Yoda")),
-                                                          array("Yoda", "green"),
-                                                          set("green")),
+                 .flatMap(supplier -> Stream.of(arguments(mapOf(supplier, entry("name", "Yoda"), entry("job", "Jedi")),
+                                                          array("Yoda"),
+                                                          set("Yoda")),
                                                 arguments(mapOf(supplier, entry("name", "Yoda"), entry("job", "Jedi")),
-                                                          array("Yoda", "green"),
-                                                          set("green"))));
+                                                          array("Yoda", "Jedi"),
+                                                          set("Yoda", "Jedi")),
+                                                arguments(mapOf(supplier, entry("name", "Yoda"), entry("job", "Jedi")),
+                                                          array("Jedi", "Yoda"),
+                                                          set("Jedi", "Yoda"))));
   }
-
 }

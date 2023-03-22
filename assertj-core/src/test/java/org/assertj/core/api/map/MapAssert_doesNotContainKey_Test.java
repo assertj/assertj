@@ -33,6 +33,6 @@ class MapAssert_doesNotContainKey_Test extends MapAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(maps).assertDoesNotContainKeys(getInfo(assertions), getActual(assertions), array("key1"));
+    verify(maps).assertDoesNotContainKey(getInfo(assertions), getActual(assertions), "key1");
   }
 }

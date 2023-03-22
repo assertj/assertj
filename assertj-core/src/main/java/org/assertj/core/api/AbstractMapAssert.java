@@ -51,12 +51,11 @@ import org.assertj.core.util.VisibleForTesting;
  * Base class for all implementations of assertions for {@link Map}s.
  *
  * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
- *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
- *          for more details.
+ * target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
+ * for more details.
  * @param <ACTUAL> the type of the "actual" value.
  * @param <K> the type of keys in the map.
  * @param <V> the type of values in the map.
- *
  * @author David DIDIER
  * @author Yvonne Wang
  * @author Alex Ruiz
@@ -638,8 +637,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map is {@code null}.
    * @throws IllegalArgumentException if the given map is empty.
    * @throws AssertionError if the actual map does not contain the entries of the given map with same order, i.e
-   *           the actual map contains some or none of the entries of the given map, or the actual map contains more
-   *           entries than the entries of the given map or entries are the same but the order is not.
+   * the actual map contains some or none of the entries of the given map, or the actual map contains more
+   * entries than the entries of the given map or entries are the same but the order is not.
    * @since 3.12.0
    */
   public SELF containsExactlyEntriesOf(Map<? extends K, ? extends V> map) {
@@ -682,8 +681,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map is {@code null}.
    * @throws IllegalArgumentException if the given map is empty.
    * @throws AssertionError if the actual map does not contain the entries of the given map, i.e the actual map contains
-   *           some or none of the entries of the given map, or the actual map contains more entries than the entries of
-   *           the given map.
+   * some or none of the entries of the given map, or the actual map contains more entries than the entries of
+   * the given map.
    * @since 3.13.0
    */
   public SELF containsExactlyInAnyOrderEntriesOf(Map<? extends K, ? extends V> map) {
@@ -1044,7 +1043,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map does not contain the given key.
    */
   public SELF containsKey(K key) {
-    return containsKeys(key);
+    maps.assertContainsKey(info, actual, key);
+    return myself;
   }
 
   /**
@@ -1083,6 +1083,33 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   }
 
   /**
+   * Verifies that the actual map contains the given keys.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap&lt;&gt;();
+   * ringBearers.put(nenya, galadriel);
+   * ringBearers.put(narya, gandalf);
+   * ringBearers.put(oneRing, frodo);
+   *
+   * // assertions will pass
+   * assertThat(ringBearers).containsKeys(Arrays.asList(nenya, oneRing));
+   *
+   * // assertions will fail
+   * assertThat(ringBearers).containsKeys(Collections.singleton(vilya));
+   * assertThat(ringBearers).containsKeys(Arrays.asList(vilya, oneRing));</code></pre>
+   *
+   * @param keys the given keys
+   * @return {@code this} assertions object
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map does not contain the given key.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   */
+  public SELF containsKeys(Iterable<? extends K> keys) {
+    maps.assertContainsKeys(info, actual, omitPath(keys));
+    return myself;
+  }
+
+  /**
    * Verifies that the actual map does not contain the given key.
    * <p>
    * Examples:
@@ -1103,7 +1130,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map contains the given key.
    */
   public SELF doesNotContainKey(K key) {
-    return doesNotContainKeys(key);
+    maps.assertDoesNotContainKey(info, actual, key);
+    return myself;
   }
 
   /**
@@ -1141,6 +1169,32 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   }
 
   /**
+   * Verifies that the actual map does not contain any of the given keys.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; elvesRingBearers = new HashMap&lt;&gt;();
+   * elvesRingBearers.put(nenya, galadriel);
+   * elvesRingBearers.put(narya, gandalf);
+   * elvesRingBearers.put(vilya, elrond);
+   *
+   * // assertion will pass
+   * assertThat(elvesRingBearers).doesNotContainKeys(oneRing, someManRing);
+   *
+   * // assertions will fail
+   * assertThat(elvesRingBearers).doesNotContainKeys(Arrays.asList(vilya, nenya));
+   * assertThat(elvesRingBearers).doesNotContainKeys(Arrays.asList(vilya, oneRing));</code></pre>
+   *
+   * @param keys the given keys
+   * @return {@code this} assertions object
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map contains the given key.
+   */
+  public SELF doesNotContainKeys(Iterable<? extends K> keys) {
+    maps.assertDoesNotContainKeys(info, actual, omitPath(keys));
+    return myself;
+  }
+
+  /**
    * Verifies that the actual map contains only the given keys and nothing else, in any order.
    * <p>
    * The verification tries to honor the key comparison semantic of the underlying map implementation.
@@ -1165,7 +1219,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @return {@code this} assertions object
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain the given keys, i.e. the actual map contains some or none
-   *           of the given keys, or the actual map contains more entries than the given ones.
+   * of the given keys, or the actual map contains more entries than the given ones.
    * @throws IllegalArgumentException if the given argument is an empty array.
    */
   @SafeVarargs
@@ -1207,19 +1261,12 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @return {@code this} assertions object
    * @throws AssertionError if the actual map is {@code null} or empty.
    * @throws AssertionError if the actual map does not contain the given keys, i.e. the actual map contains some or none
-   *           of the given keys, or the actual map's keys contains keys not in the given ones.
+   * of the given keys, or the actual map's keys contains keys not in the given ones.
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @since 3.12.0
    */
-  @SuppressWarnings("unchecked")
   public SELF containsOnlyKeys(Iterable<? extends K> keys) {
-    if (keys instanceof Path) {
-      // do not treat Path as an Iterable
-      K path = (K) keys;
-      maps.assertContainsOnlyKeys(info, actual, singleton(path));
-    } else {
-      maps.assertContainsOnlyKeys(info, actual, keys);
-    }
+    maps.assertContainsOnlyKeys(info, actual, omitPath(keys));
     return myself;
   }
 
@@ -1285,6 +1332,33 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   }
 
   /**
+   * Verifies that the actual map contains the given values.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap&lt;&gt;();
+   * ringBearers.put(nenya, galadriel);
+   * ringBearers.put(narya, gandalf);
+   * ringBearers.put(vilya, elrond);
+   * ringBearers.put(oneRing, frodo);
+   *
+   * // assertion will pass
+   * assertThat(ringBearers).containsValues(Arrays.asList(frodo, galadriel));
+   *
+   * // assertions will fail
+   * assertThat(ringBearers).containsValues(Arrays.asList(sauron, aragorn));
+   * assertThat(ringBearers).containsValues(Arrays.asList(sauron, frodo));</code></pre>
+   *
+   * @param values the values to look for in the actual map.
+   * @return {@code this} assertions object
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map does not contain the given values.
+   */
+  public SELF containsValues(Iterable<? extends V> values) {
+    maps.assertContainsValues(info, actual, omitPath(values));
+    return myself;
+  }
+
+  /**
    * Verifies that the actual map does not contain the given value.
    * <p>
    * Examples:
@@ -1308,6 +1382,137 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   public SELF doesNotContainValue(V value) {
     maps.assertDoesNotContainValue(info, actual, value);
     return myself;
+  }
+
+  /**
+   * Verifies that the actual map does not contain any of the given values.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; elvesRingBearers = new HashMap&lt;&gt;();
+   * elvesRingBearers.put(nenya, galadriel);
+   * elvesRingBearers.put(narya, gandalf);
+   * elvesRingBearers.put(vilya, elrond);
+   *
+   * // assertion will pass
+   * assertThat(elvesRingBearers).doesNotContainValues(oneRing, someManRing);
+   *
+   * // assertions will fail
+   * assertThat(elvesRingBearers).doesNotContainValues(galadriel, elrond);
+   * assertThat(elvesRingBearers).doesNotContainValues(gandalf, oneRing);</code></pre>
+   *
+   * @param values the given values
+   * @return {@code this} assertions object
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map contains at least one of the given values.
+   */
+  @SafeVarargs
+  public final SELF doesNotContainValues(V... values) {
+    return doesNotContainValuesForProxy(values);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF doesNotContainValuesForProxy(V[] values) {
+    maps.assertDoesNotContainValues(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual map does not contain any of the given values.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; elvesRingBearers = new HashMap&lt;&gt;();
+   * elvesRingBearers.put(nenya, galadriel);
+   * elvesRingBearers.put(narya, gandalf);
+   * elvesRingBearers.put(vilya, elrond);
+   *
+   * // assertion will pass
+   * assertThat(elvesRingBearers).doesNotContainValues(oneRing, someManRing);
+   *
+   * // assertions will fail
+   * assertThat(elvesRingBearers).doesNotContainValues(Arrays.asList(galadriel, elrond));
+   * assertThat(elvesRingBearers).doesNotContainValues(Arrays.asList(gandalf, oneRing));</code></pre>
+   *
+   * @param values the given values
+   * @return {@code this} assertions object
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map contains at least one of the given values.
+   */
+  public SELF doesNotContainValues(Iterable<? extends V> values) {
+    maps.assertDoesNotContainValues(info, actual, omitPath(values));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual map contains only the given values and nothing else, in any order and ignoring duplicates (i.e.
+   * once a value is found, its duplicates are also considered found).
+   * <p>
+   * Examples :
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap&lt;&gt;();
+   * ringBearers.put(nenya, galadriel);
+   * ringBearers.put(narya, gandalf);
+   * ringBearers.put(vilya, frodo);
+   * ringBearers.put(oneRing, frodo);
+   *
+   * // assertion will pass
+   * assertThat(ringBearers).containsOnlyValues(galadriel, gandalf, frodo);
+   *
+   * // assertion will fail
+   * assertThat(ringBearers).containsOnlyValues(galadriel, frodo);</code></pre>
+   *
+   * @param values the given values that should be in the actual map.
+   * @return {@code this} assertions object
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map does not contain the given values, i.e. the actual map contains some or none
+   * of the given values, or the actual map contains more entries than the given ones.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   */
+  @SafeVarargs
+  public final SELF containsOnlyValues(V... values) {
+    return containsOnlyValuesForProxy(values);
+  }
+
+  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
+  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
+  // in order to avoid compiler warning in user code
+  protected SELF containsOnlyValuesForProxy(V[] values) {
+    maps.assertContainsOnlyValues(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual map contains only the given values and nothing else, in any order and ignoring duplicates (i.e.
+   * once a value is found, its duplicates are also considered found).
+   * <p>
+   * Examples :
+   * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = new HashMap&lt;&gt;();
+   * ringBearers.put(nenya, galadriel);
+   * ringBearers.put(narya, gandalf);
+   * ringBearers.put(vilya, frodo);
+   * ringBearers.put(oneRing, frodo);
+   *
+   * // assertion will pass
+   * assertThat(ringBearers).containsOnlyValues(Arrays.asList(galadriel, gandalf, frodo));
+   *
+   * // assertion will fail
+   * assertThat(ringBearers).containsOnlyValues(Arrays.asList(galadriel, frodo));</code></pre>
+   *
+   * @param values the given values that should be in the actual map.
+   * @return {@code this} assertions object
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map does not contain the given values, i.e. the actual map contains some or none
+   * of the given values, or the actual map contains more entries than the given ones.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   */
+  public SELF containsOnlyValues(Iterable<? extends V> values) {
+    maps.assertContainsOnlyValues(info, actual, omitPath(values));
+    return myself;
+  }
+
+  @SuppressWarnings("unchecked")
+  private static <T> Iterable<T> omitPath(Iterable<T> iterable) {
+    return (iterable instanceof Path) ? singleton((T) iterable) : iterable;
   }
 
   /**
@@ -1342,7 +1547,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual map does not contain the given entries, i.e. the actual map contains some or
-   *           none of the given entries, or the actual map contains more entries than the given ones.
+   * none of the given entries, or the actual map contains more entries than the given ones.
    */
   @SafeVarargs
   public final SELF containsOnly(Map.Entry<? extends K, ? extends V>... entries) {
@@ -1385,8 +1590,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map is {@code null}.
    * @throws IllegalArgumentException if the given entries array is empty.
    * @throws AssertionError if the actual map does not contain the given entries with same order, i.e. the actual map
-   *           contains some or none of the given entries, or the actual map contains more entries than the given ones
-   *           or entries are the same but the order is not.
+   * contains some or none of the given entries, or the actual map contains more entries than the given ones
+   * or entries are the same but the order is not.
    */
   @SafeVarargs
   public final SELF containsExactly(Map.Entry<? extends K, ? extends V>... entries) {
@@ -1471,8 +1676,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   /**
    * Do not use this method.
    *
-   * @deprecated Custom element Comparator is not supported for MapEntry comparison.
    * @throws UnsupportedOperationException if this method is called.
+   * @deprecated Custom element Comparator is not supported for MapEntry comparison.
    */
   @Override
   @Deprecated
@@ -1483,8 +1688,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   /**
    * Do not use this method.
    *
-   * @deprecated Custom element Comparator is not supported for MapEntry comparison.
    * @throws UnsupportedOperationException if this method is called.
+   * @deprecated Custom element Comparator is not supported for MapEntry comparison.
    */
   @Override
   @Deprecated
@@ -1730,7 +1935,6 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * @param keys the keys used to get values from the map under test
    * @return a new assertion object whose object under test is the array containing the extracted map values
-   *
    * @deprecated use {@link #extractingByKeys(Object[])} instead
    */
   @Deprecated
@@ -1806,7 +2010,6 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * @param key the key used to get value from the map under test
    * @return a new {@link ObjectAssert} instance whose object under test is the extracted map value
-   *
    * @since 3.13.0
    * @deprecated use {@link #extractingByKey(Object)} instead
    */
@@ -1836,9 +2039,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * @param key the key used to get value from the map under test
    * @return a new {@link ObjectAssert} instance whose object under test is the extracted map value
-   *
-   * @since 3.14.0
    * @see #extractingByKey(Object, InstanceOfAssertFactory)
+   * @since 3.14.0
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, V> extractingByKey(K key) {
@@ -1868,12 +2070,11 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * Nested keys are not yet supported, passing "name.first" won't get a value for "name" and then try to extract
    * "first" from the previously extracted value, instead it will simply look for a value under "name.first" key.
    *
-   * @param <ASSERT>      the type of the resulting {@code Assert}
-   * @param key           the key used to get value from the map under test
+   * @param <ASSERT> the type of the resulting {@code Assert}
+   * @param key the key used to get value from the map under test
    * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
    * @return a new narrowed {@link Assert} instance whose object under test is the extracted map value
    * @throws NullPointerException if the given factory is {@code null}
-   *
    * @since 3.14.0
    */
   @CheckReturnValue
@@ -1894,7 +2095,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * The extracted values are stored in a new list becoming the object under test.
    * <p>
    * Let's take a look at an example to make things clearer :
-   *  <pre><code class='java'> // Build a Map that associates family roles and name of the Simpson family
+   * <pre><code class='java'> // Build a Map that associates family roles and name of the Simpson family
    * Map&lt;String, CartoonCharacter&gt; characters = new HashMap&lt;&gt;();
    * characters.put(&quot;dad&quot;, new CartoonCharacter(&quot;Homer&quot;));
    * characters.put(&quot;mom&quot;, new CartoonCharacter(&quot;Marge&quot;));
@@ -1909,7 +2110,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @since 3.12.0
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extractingFromEntries(Function<? super Map.Entry<K, V>, Object> extractor) {
+  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extractingFromEntries(
+      Function<? super Map.Entry<K, V>, Object> extractor) {
     isNotNull();
     List<Object> extractedObjects = actual.entrySet().stream()
                                           .map(extractor)
@@ -1943,7 +2145,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *                                     tuple(&quot;mom&quot;, &quot;Marge&quot;),
    *                                     tuple(&quot;girl&quot;, &quot;Lisa&quot;),
    *                                     tuple(&quot;boy&quot;, &quot;Bart&quot;));</code></pre>
-   *
+   * <p>
    * Note that the order of extracted property/field values is consistent with the iteration order of the Iterable under
    * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values
    * order.
@@ -1954,18 +2156,22 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @CheckReturnValue
   @SafeVarargs
-  public final AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extractingFromEntries(Function<? super Map.Entry<K, V>, Object>... extractors) {
+  public final AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extractingFromEntries(
+      Function<? super Map.Entry<K, V>, Object>... extractors) {
     return extractingFromEntriesForProxy(extractors);
   }
 
   // This method is protected in order to be proxied for SoftAssertions / Assumptions.
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
-  protected AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extractingFromEntriesForProxy(Function<? super Map.Entry<K, V>, Object>[] extractors) {
+  protected AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extractingFromEntriesForProxy(
+      Function<? super Map.Entry<K, V>, Object>[] extractors) {
     isNotNull();
     // combine all extractors into one function
     Function<Map.Entry<K, V>, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
-                                                                                                  .map(extractor -> extractor.apply(objectToExtractValueFrom))
+                                                                                                  .map(
+                                                                                                      extractor -> extractor.apply(
+                                                                                                          objectToExtractValueFrom))
                                                                                                   .toArray());
     List<Tuple> extractedTuples = actual.entrySet().stream()
                                         .map(tupleExtractor)
@@ -2064,7 +2270,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * leonard.setName("Leonard Ofstater");
    * assertThat(doctors).usingRecursiveComparison()
    *                    .isEqualTo(people);</code></pre>
-   *
+   * <p>
    * A detailed documentation for the recursive comparison is available here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>.
    * <p>
    * The default recursive comparison behavior is {@link RecursiveComparisonConfiguration configured} as follows:
@@ -2095,12 +2301,13 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
 
   /**
    * Same as {@link #usingRecursiveComparison()} but allows to specify your own {@link RecursiveComparisonConfiguration}.
-   * @param recursiveComparisonConfiguration the {@link RecursiveComparisonConfiguration} used in the chained {@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion.
    *
+   * @param recursiveComparisonConfiguration the {@link RecursiveComparisonConfiguration} used in the chained {@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion.
    * @return a new {@link RecursiveComparisonAssert} instance built with the given {@link RecursiveComparisonConfiguration}.
    */
   @Override
-  public RecursiveComparisonAssert<?> usingRecursiveComparison(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+  public RecursiveComparisonAssert<?> usingRecursiveComparison(
+      RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     // overridden for javadoc and to make this method public
     return super.usingRecursiveComparison(recursiveComparisonConfiguration);
   }
@@ -2112,7 +2319,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * <p>The recursive algorithm employs cycle detection, so object graphs with cyclic references can safely be asserted over without causing looping.</p>
    *
-   * <p>This method enables recursive asserting using default configuration, which means all fields of all objects have the   
+   * <p>This method enables recursive asserting using default configuration, which means all fields of all objects have the
    * {@link java.util.function.Predicate} applied to them (including primitive fields), no fields are excluded, but:
    * <ul>
    *   <li>The recursion does not enter into Java Class Library types (java.*, javax.*)</li>
