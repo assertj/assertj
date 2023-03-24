@@ -122,7 +122,7 @@
 
   <properties>
     <!-- Plugin versions -->
-    <license-maven-plugin.version>4.1</license-maven-plugin.version>
+    <license-maven-plugin.version>4.2</license-maven-plugin.version>
     <maven-enforcer-plugin.version>3.2.1</maven-enforcer-plugin.version>
     <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
     <maven-release-plugin.version>3.0.0</maven-release-plugin.version>
