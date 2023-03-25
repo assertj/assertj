@@ -12,16 +12,16 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
-import org.assertj.core.api.recursive.comparison.ComparisonDifference;
-import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
-import org.assertj.tests.core.api.recursive.data.Address;
-import org.assertj.tests.core.api.recursive.data.Giant;
-import org.assertj.tests.core.api.recursive.data.Human;
-import org.assertj.tests.core.api.recursive.data.Person;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.data.MapEntry.entry;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Sets.newHashSet;
+import static org.assertj.tests.core.api.recursive.comparison.WithMap.withMap;
+import static org.assertj.tests.core.testkit.Maps.mapOf;
+import static org.assertj.tests.core.testkit.Maps.treeMapOf;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,20 +35,24 @@ import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.Lists.list;
-import static org.assertj.core.util.Sets.newHashSet;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
+import org.assertj.core.api.recursive.comparison.ComparisonDifference;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
+import org.assertj.core.data.MapEntry;
+import org.assertj.tests.core.api.recursive.data.Address;
+import org.assertj.tests.core.api.recursive.data.Giant;
+import org.assertj.tests.core.api.recursive.data.Human;
+import org.assertj.tests.core.api.recursive.data.Person;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 @SuppressWarnings("unused")
 class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
   @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
   @MethodSource("recursivelyEqualObjectsIgnoringActualNullValues")
-  void should_pass_when_actual_null_fields_are_ignored(Object actual, Object expected,
-                                                       @SuppressWarnings("unused") String testDescription) {
+  void should_pass_when_actual_null_fields_are_ignored(Object actual, Object expected, String testDescription) {
     assertThat(actual).usingRecursiveComparison()
                       .ignoringActualNullFields()
                       .isEqualTo(expected);
@@ -105,16 +109,16 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
   }
 
   @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
-  @MethodSource("recursivelyEqualObjectsIgnoringActualOptionalEmptyValues")
+  @MethodSource
   void should_pass_when_actual_empty_optional_fields_are_ignored(Object actual,
                                                                  Object expected,
-                                                                 @SuppressWarnings("unused") String testDescription) {
+                                                                 String testDescription) {
     assertThat(actual).usingRecursiveComparison()
                       .ignoringActualEmptyOptionalFields()
                       .isEqualTo(expected);
   }
 
-  private static Stream<Arguments> recursivelyEqualObjectsIgnoringActualOptionalEmptyValues() {
+  private static Stream<Arguments> should_pass_when_actual_empty_optional_fields_are_ignored() {
     Person person1 = new Person("John");
     person1.home.address.number = 1;
     person1.phone = Optional.empty();
@@ -202,7 +206,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
 
   @SuppressWarnings("unused")
   @ParameterizedTest(name = "{2}: actual={0} / expected={1} / ignored fields={3}")
-  @MethodSource("recursivelyEqualObjectsIgnoringGivenFields")
+  @MethodSource
   void should_pass_for_objects_with_the_same_data_when_given_fields_are_ignored(Object actual,
                                                                                 Object expected,
                                                                                 String testDescription,
@@ -212,13 +216,13 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
                       .isEqualTo(expected);
   }
 
-  private static Stream<Arguments> recursivelyEqualObjectsIgnoringGivenFields() {
+  private static Stream<Arguments> should_pass_for_objects_with_the_same_data_when_given_fields_are_ignored() {
     Person person1 = new Person("John");
     person1.home.address.number = 1;
 
-    Person giant1 = new Giant();
+    Giant giant1 = new Giant();
     giant1.name = "Giant John";
-    ((Giant) giant1).height = 3.1;
+    giant1.height = 3.1;
     giant1.home.address.number = 1;
 
     Person person2 = new Person("Jack");
@@ -278,6 +282,170 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
                                array("neighbour.neighbour.home.address.number", "neighbour.name")));
   }
 
+  @SuppressWarnings("unused")
+  @ParameterizedTest(name = "{2}: actual={0} / expected={1} / ignored fields={3}")
+  @MethodSource
+  void should_pass_for_maps_when_given_fields_are_ignored(Object actual,
+                                                          Object expected,
+                                                          String testDescription,
+                                                          String[] ignoredFields) {
+    assertThat(actual).usingRecursiveComparison()
+                      .ignoringFields(ignoredFields)
+                      .isEqualTo(expected);
+  }
+
+  private static Stream<Arguments> should_pass_for_maps_when_given_fields_are_ignored() {
+    MapEntry<String, Person> tim = entry("spurs", new Person("Tim Duncan"));
+    MapEntry<String, Person> manu = entry("spurs", new Person("Manu Ginobili"));
+    MapEntry<String, Person> kobe = entry("lakers", new Person("Kobe Bryant"));
+    MapEntry<String, String> firstNameJohn = entry("firstName", "John");
+    MapEntry<String, String> lastNameDoe = entry("lastName", "Doe");
+    MapEntry<String, String> lastNameWick = entry("lastName", "Wick");
+    return Stream.of(arguments(mapOf(firstNameJohn, lastNameDoe),
+                               mapOf(firstNameJohn, lastNameWick),
+                               "maps with same size, one common root field ignored", array("lastName")),
+                     arguments(mapOf(firstNameJohn, lastNameDoe),
+                               mapOf(firstNameJohn, lastNameDoe, entry("age", "25")),
+                               "maps of different size, one ignored field: 'age'", array("age")),
+                     arguments(mapOf(firstNameJohn, lastNameDoe),
+                               mapOf(firstNameJohn, lastNameWick, entry("age", "25")),
+                               "maps of different size, two ignored fields: 'age', 'lastName'", array("age", "lastName")),
+                     arguments(mapOf(firstNameJohn, lastNameDoe),
+                               mapOf(firstNameJohn, lastNameWick, entry("age", "25")),
+                               "maps of different size, all fields ignored", array("age", "lastName", "firstName")),
+                     arguments(withMap(mapOf(firstNameJohn, lastNameDoe)),
+                               withMap(mapOf(firstNameJohn, lastNameWick)),
+                               "maps with same size, one common inner field ignored", array("map.lastName")),
+                     arguments(withMap(mapOf(tim, kobe)),
+                               withMap(mapOf(manu, kobe)),
+                               "maps with same keys but the one where Person values differs is ignored",
+                               array("map.spurs")),
+                     arguments(treeMapOf(firstNameJohn, lastNameDoe),
+                               treeMapOf(firstNameJohn, lastNameWick),
+                               "ordered maps with same size, one common root field ignored", array("lastName")),
+                     arguments(treeMapOf(firstNameJohn, lastNameDoe),
+                               treeMapOf(firstNameJohn, lastNameDoe, entry("age", "25")),
+                               "ordered maps of different size, one ignored field: 'age'", array("age")),
+                     arguments(treeMapOf(firstNameJohn, lastNameDoe),
+                               treeMapOf(firstNameJohn, lastNameWick, entry("age", "25")),
+                               "ordered maps of different size, two ignored fields: 'age', 'lastName'", array("age", "lastName")),
+                     arguments(treeMapOf(firstNameJohn, lastNameDoe),
+                               treeMapOf(firstNameJohn, lastNameWick, entry("age", "25")),
+                               "ordered maps of different size, all fields ignored", array("age", "lastName", "firstName")),
+                     arguments(withMap(treeMapOf(firstNameJohn, lastNameDoe)),
+                               withMap(treeMapOf(firstNameJohn, lastNameWick)),
+                               "ordered maps with same size, one common inner field ignored", array("map.lastName")),
+                     arguments(withMap(treeMapOf(tim, kobe)),
+                               withMap(treeMapOf(manu, kobe)),
+                               "ordered maps with same keys but the one where Person values differs is ignored",
+                               array("map.spurs")));
+  }
+
+  @ParameterizedTest(name = "{2}: actual={0} / expected={1} / ignored fields regex={3}")
+  @MethodSource
+  void should_pass_for_maps_with_the_various_sizes_when_given_fields_are_ignored_by_regex(Object actual,
+                                                                                          Object expected,
+                                                                                          String testDescription,
+                                                                                          String regex) {
+    assertThat(actual).usingRecursiveComparison()
+                      .ignoringFieldsMatchingRegexes(regex)
+                      .isEqualTo(expected);
+  }
+
+  private static Stream<Arguments> should_pass_for_maps_with_the_various_sizes_when_given_fields_are_ignored_by_regex() {
+    MapEntry<String, Person> tim = entry("spurs", new Person("Tim Duncan"));
+    MapEntry<String, Person> manu = entry("spurs", new Person("Manu Ginobili"));
+    MapEntry<String, Person> kobe = entry("lakers", new Person("Kobe Bryant"));
+    MapEntry<String, String> firstNameJohn = entry("firstName", "John");
+    MapEntry<String, String> lastNameDoe = entry("lastName", "Doe");
+    MapEntry<String, String> lastNameWick = entry("lastName", "Wick");
+    return Stream.of(arguments(mapOf(firstNameJohn, lastNameDoe),
+                               mapOf(firstNameJohn, lastNameWick),
+                               "maps with same size, one common root field ignored", ".astNa.."),
+                     arguments(mapOf(firstNameJohn, lastNameDoe),
+                               mapOf(firstNameJohn, lastNameDoe, entry("age", "25")),
+                               "maps of different size, one ignored field: 'age'", "ag."),
+                     arguments(mapOf(firstNameJohn, lastNameDoe),
+                               mapOf(firstNameJohn, lastNameWick, entry("age", "25")),
+                               "maps of different size, two ignored fields: 'age', 'lastName'", "age|lastName"),
+                     arguments(mapOf(firstNameJohn, lastNameDoe),
+                               mapOf(firstNameJohn, lastNameWick, entry("age", "25")),
+                               "maps of different size, all fields ignored", "age|lastName|firstName"),
+                     arguments(withMap(mapOf(firstNameJohn, lastNameDoe)),
+                               withMap(mapOf(firstNameJohn, lastNameWick)),
+                               "maps with same size, one common inner field ignored", "map\\.last.*"),
+                     arguments(withMap(mapOf(tim, kobe)),
+                               withMap(mapOf(manu, kobe)),
+                               "maps with same keys but the one where Person values differs is ignored", "map\\.sp.*s"),
+                     arguments(treeMapOf(firstNameJohn, lastNameDoe),
+                               treeMapOf(firstNameJohn, lastNameWick),
+                               "ordered maps with same size, one common root field ignored", "last.*"),
+                     arguments(treeMapOf(firstNameJohn, lastNameDoe),
+                               treeMapOf(firstNameJohn, lastNameDoe, entry("age", "25")),
+                               "ordered maps of different size, one ignored field: 'age'", "a.e"),
+                     arguments(treeMapOf(firstNameJohn, lastNameDoe),
+                               treeMapOf(firstNameJohn, lastNameWick, entry("age", "25")),
+                               "ordered maps of different size, two ignored fields: 'age', 'lastName'", "age|lastName"),
+                     arguments(treeMapOf(firstNameJohn, lastNameDoe),
+                               treeMapOf(firstNameJohn, lastNameWick, entry("age", "25")),
+                               "ordered maps of different size, all fields ignored", "age|lastName|firstName"),
+                     arguments(withMap(treeMapOf(firstNameJohn, lastNameDoe)),
+                               withMap(treeMapOf(firstNameJohn, lastNameWick)),
+                               "ordered maps with same size, one common inner field ignored", "map\\.la..Name"),
+                     arguments(withMap(treeMapOf(tim, kobe)),
+                               withMap(treeMapOf(manu, kobe)),
+                               "maps with same keys but the one where Person values differs is ignored", "map\\.sp.*s"));
+  }
+
+  @ParameterizedTest(name = "{4}: actual={0} / expected={1} / ignored fields={2} / ignored fields={3}")
+  @MethodSource
+  void should_fail_as_ignored_field_is_not_matched_in_map(Object actual, Object expected, String[] ignoredFields,
+                                                          ComparisonDifference difference, String testDescription) {
+    // WHEN
+    recursiveComparisonConfiguration.ignoreFields(ignoredFields);
+    // THEN
+    compareRecursivelyFailsWithDifferences(actual, expected, difference);
+  }
+
+  private static Stream<Arguments> should_fail_as_ignored_field_is_not_matched_in_map() {
+    Object actual1 = withMap(mapOf(entry("firstName", "John"), entry("lastName", "Doe")));
+    Object expected1 = withMap(mapOf(entry("firstName", "John"), entry("lastName", "Wick")));
+    ComparisonDifference difference1 = javaTypeDiff("map.lastName", "Doe", "Wick");
+
+    Object actual2 = withMap(treeMapOf(entry("firstName", "John"), entry("lastName", "Doe")));
+    Object expected2 = withMap(treeMapOf(entry("firstName", "John"), entry("lastName", "Wick")));
+    ComparisonDifference difference2 = javaTypeDiff("map.lastName", "Doe", "Wick");
+
+    return Stream.of(
+                     arguments(actual1, expected1, array("lastName"), difference1,
+                               "unordered maps, ignored field is not matched"),
+                     arguments(actual2, expected2, array("lastName"), difference2, "ordered maps, ignored field is not matched"));
+  }
+
+  @ParameterizedTest(name = "{4}: actual={0} / expected={1} / ignored fields regex={2} / ignored fields={3}")
+  @MethodSource
+  void should_fail_as_ignored_field_by_regex_is_not_matched_in_map(Object actual, Object expected, String regex,
+                                                                   ComparisonDifference difference, String testDescription) {
+    // WHEN
+    recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes(regex);
+    // THEN
+    compareRecursivelyFailsWithDifferences(actual, expected, difference);
+  }
+
+  private static Stream<Arguments> should_fail_as_ignored_field_by_regex_is_not_matched_in_map() {
+    Object actual1 = withMap(mapOf(entry("firstName", "John"), entry("lastName", "Doe")));
+    Object expected1 = withMap(mapOf(entry("firstName", "John"), entry("lastName", "Wick")));
+    ComparisonDifference difference1 = javaTypeDiff("map.lastName", "Doe", "Wick");
+
+    Object actual2 = withMap(treeMapOf(entry("firstName", "John"), entry("lastName", "Doe")));
+    Object expected2 = withMap(treeMapOf(entry("firstName", "John"), entry("lastName", "Wick")));
+    ComparisonDifference difference2 = javaTypeDiff("map.lastName", "Doe", "Wick");
+
+    return Stream.of(
+                     arguments(actual1, expected1, ".ast.*", difference1, "unordered maps, ignored field is not matched"),
+                     arguments(actual2, expected2, ".ast.*", difference2, "ordered maps, ignored field is not matched"));
+  }
+
   @Test
   void should_fail_when_actual_differs_from_expected_even_when_some_fields_are_ignored() {
     // GIVEN
@@ -310,25 +478,24 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
     compareRecursivelyFailsWithDifferences(actual, expected, dateOfBirthDifference, neighbourNameDifference, numberDifference);
   }
 
-  @SuppressWarnings("unused")
   @ParameterizedTest(name = "{2}: actual={0} / expected={1} / ignored fields regex={3}")
-  @MethodSource("recursivelyEqualObjectsWhenFieldsMatchingGivenRegexesAreIgnored")
+  @MethodSource
   void should_pass_when_fields_matching_given_regexes_are_ignored(Object actual,
                                                                   Object expected,
                                                                   String testDescription,
-                                                                  List<String> ignoredFieldRegexes) {
+                                                                  String[] ignoredFieldRegexes) {
     assertThat(actual).usingRecursiveComparison()
-                      .ignoringFieldsMatchingRegexes(arrayOf(ignoredFieldRegexes))
+                      .ignoringFieldsMatchingRegexes(ignoredFieldRegexes)
                       .isEqualTo(expected);
   }
 
-  private static Stream<Arguments> recursivelyEqualObjectsWhenFieldsMatchingGivenRegexesAreIgnored() {
+  private static Stream<Arguments> should_pass_when_fields_matching_given_regexes_are_ignored() {
     Person person1 = new Person("John");
     person1.home.address.number = 1;
 
-    Person giant1 = new Giant();
+    Giant giant1 = new Giant();
     giant1.name = "Giant John";
-    ((Giant) giant1).height = 3.1;
+    giant1.height = 3.1;
     giant1.home.address.number = 1;
 
     Person person2 = new Person("Jack");
@@ -360,12 +527,12 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
     person8.neighbour.neighbour.home.address.number = 457;
 
     // @format:off
-    return Stream.of(arguments(person1, person2, "same data and type, except for one ignored field", list("nam.")),
-                     arguments(giant1, person1, "different type, same data except name and height which is not even a field from person1", list(".am.", "height")),
-                     arguments(person3, person4, "same data, different type, except for name and home.address.number", list(".*n.m.*")),
-                     arguments(person5, person6, "same data except for one subfield of an ignored field", list("home.*")),
-                     arguments(person7, person8, "same data except for one subfield of an ignored field", list("neighbour.*")),
-                     arguments(person7, person8, "should not stack overflow with regexes", list(".*neighbour[\\D]+", ".*update[\\D]+")));
+    return Stream.of(arguments(person1, person2, "same data and type, except for one ignored field", array("nam.")),
+                     arguments(giant1, person1, "different type, same data except name and height which is not even a field from person1", array(".am.", "height")),
+                     arguments(person3, person4, "same data, different type, except for name and home.address.number", array(".*n.m.*")),
+                     arguments(person5, person6, "same data except for one subfield of an ignored field", array("home.*")),
+                     arguments(person7, person8, "same data except for one subfield of an ignored field", array("neighbour.*")),
+                     arguments(person7, person8, "should not stack overflow with regexes", array(".*neighbour[\\D]+", ".*update[\\D]+")));
     // @format:on
   }
 
@@ -555,7 +722,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
   }
 
   @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
-  @MethodSource("recursivelyEqualObjectsIgnoringExpectedNullFields")
+  @MethodSource
   void should_pass_when_expected_null_fields_are_ignored(Object actual, Object expected,
                                                          @SuppressWarnings("unused") String testDescription) {
 
@@ -564,7 +731,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
                 .isEqualTo(expected);
   }
 
-  private static Stream<Arguments> recursivelyEqualObjectsIgnoringExpectedNullFields() {
+  private static Stream<Arguments> should_pass_when_expected_null_fields_are_ignored() {
     Person person1 = new Person("John");
     person1.home.address.number = 1;
 

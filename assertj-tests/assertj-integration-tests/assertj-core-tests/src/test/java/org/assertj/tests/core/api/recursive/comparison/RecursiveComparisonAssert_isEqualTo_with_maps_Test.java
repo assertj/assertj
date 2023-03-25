@@ -42,14 +42,14 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveCompar
   @Test
   void should_fail_when_comparing_actual_unsorted_with_expected_sorted_map() {
     WithMap<Long, Boolean> actual = new WithMap<>(new LinkedHashMap<>());
-    actual.group.put(1L, true);
-    actual.group.put(2L, false);
+    actual.map.put(1L, true);
+    actual.map.put(2L, false);
     WithMap<Long, Boolean> expected = new WithMap<>(new TreeMap<>());
-    expected.group.put(2L, false);
-    expected.group.put(1L, true);
+    expected.map.put(2L, false);
+    expected.map.put(1L, true);
 
     // WHEN/THEN
-    ComparisonDifference mapDifference = diff("group", actual.group, expected.group,
+    ComparisonDifference mapDifference = diff("map", actual.map, expected.map,
                                               "expected field is a sorted map but actual field is not (java.util.LinkedHashMap)");
     compareRecursivelyFailsWithDifferences(actual, expected, mapDifference);
   }
@@ -61,8 +61,8 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveCompar
     WithMap<String, Author> actual = new WithMap<>(authors1);
     WithMap<String, Author> expected = new WithMap<>(authors2);
     // THEN
-    assertThat(actual).usingRecursiveComparison()
-                      .isEqualTo(expected);
+    then(actual).usingRecursiveComparison()
+                .isEqualTo(expected);
   }
 
   static Stream<Arguments> sameMaps() {
@@ -110,35 +110,35 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveCompar
                                                             entry(georgeMartin.name, georgeMartin));
     Map<String, Author> singletonPratchettMap = singletonMap(pratchett.name, pratchett);
     Map<String, Author> singletonGeorgeMartinMap = singletonMap(georgeMartin.name, georgeMartin);
-    return Stream.of(Arguments.of(singletonPratchettMap, singletonGeorgeMartinMap, "group",
+    return Stream.of(Arguments.of(singletonPratchettMap, singletonGeorgeMartinMap, "map",
                                   singletonPratchettMap, singletonGeorgeMartinMap,
                                   format("The following keys were not found in the actual map value:%n  [George Martin]")),
-                     Arguments.of(nonSortedPratchettAndMartin, singletonPratchettMap, "group",
+                     Arguments.of(nonSortedPratchettAndMartin, singletonPratchettMap, "map",
                                   nonSortedPratchettAndMartin, singletonPratchettMap,
                                   "actual and expected values are maps of different size, actual size=2 when expected size=1"),
-                     Arguments.of(sortedMartinAndPratchett, sortedPratchettMap, "group",
+                     Arguments.of(sortedMartinAndPratchett, sortedPratchettMap, "map",
                                   sortedMartinAndPratchett, sortedPratchettMap,
                                   "actual and expected values are sorted maps of different size, actual size=2 when expected size=1"),
-                     Arguments.of(nonSortedPratchettAndMartin, sortedMartinAndPratchett, "group",
+                     Arguments.of(nonSortedPratchettAndMartin, sortedMartinAndPratchett, "map",
                                   nonSortedPratchettAndMartin, sortedMartinAndPratchett,
                                   "expected field is a sorted map but actual field is not (java.util.LinkedHashMap)"),
-                     Arguments.of(singletonMap(pratchett.name, none), singletonPratchettMap, "group.Terry Pratchett",
+                     Arguments.of(singletonMap(pratchett.name, none), singletonPratchettMap, "map.Terry Pratchett",
                                   none, pratchett, null),
-                     Arguments.of(singletonPratchettMap, singletonMap(georgeMartin.name, pratchett), "group",
+                     Arguments.of(singletonPratchettMap, singletonMap(georgeMartin.name, pratchett), "map",
                                   singletonPratchettMap, singletonMap(georgeMartin.name, pratchett),
                                   format("The following keys were not found in the actual map value:%n  [George Martin]")),
-                     Arguments.of(singletonPratchettMap, empty, "group",
+                     Arguments.of(singletonPratchettMap, empty, "map",
                                   singletonPratchettMap, empty,
                                   "actual and expected values are maps of different size, actual size=1 when expected size=0"));
   }
 
   @ParameterizedTest(name = "authors {0} / object {1} / path {2} / value 1 {3}/ value 2 {4}")
-  @MethodSource("mapWithNonMaps")
+  @MethodSource
   void should_fail_when_comparing_map_to_non_map(Object actualFieldValue, Map<String, Author> expectedFieldValue,
                                                  String path, Object value1, Object value2, String desc) {
     // GIVEN
     WithObject actual = new WithObject(actualFieldValue);
-    WithMap<String, Author> expected = new WithMap<>(expectedFieldValue);
+    WithObject expected = new WithObject(expectedFieldValue);
     // WHEN/THEN
     ComparisonDifference difference = desc == null ? diff(path, value1, value2) : diff(path, value1, value2, desc);
     compareRecursivelyFailsWithDifferences(actual, expected, difference);
@@ -155,7 +155,7 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveCompar
     then(assertionError).hasMessageContaining(format("The following keys were not found in the actual map value:%n  [c, d]"));
   }
 
-  static Stream<Arguments> mapWithNonMaps() {
+  static Stream<Arguments> should_fail_when_comparing_map_to_non_map() {
     Author pratchett = new Author("Terry Pratchett");
     Author georgeMartin = new Author("George Martin");
     Author none = null;
@@ -163,20 +163,6 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveCompar
     return Stream.of(Arguments.of(pratchett, mapOfTwoAuthors, "group", pratchett, mapOfTwoAuthors,
                                   "expected field is a map but actual field is not (org.assertj.tests.core.api.recursive.comparison.Author)"),
                      Arguments.of(none, mapOfTwoAuthors, "group", none, mapOfTwoAuthors, null));
-  }
-
-  public static class WithMap<K, V> {
-    public Map<K, V> group;
-
-    public WithMap(Map<K, V> map) {
-      this.group = map;
-    }
-
-    @Override
-    public String toString() {
-      return format("WithMap group=r%s", group);
-    }
-
   }
 
 }

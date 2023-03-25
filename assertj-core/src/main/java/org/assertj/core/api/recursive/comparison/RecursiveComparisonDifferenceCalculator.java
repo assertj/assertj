@@ -12,7 +12,19 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
-import org.assertj.core.internal.DeepDifference;
+import static java.lang.String.format;
+import static java.util.Objects.deepEquals;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+import static java.util.stream.StreamSupport.stream;
+import static org.assertj.core.api.recursive.comparison.ComparisonDifference.rootComparisonDifference;
+import static org.assertj.core.api.recursive.comparison.DualValue.DEFAULT_ORDERED_COLLECTION_TYPES;
+import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
+import static org.assertj.core.util.IterableUtil.sizeOf;
+import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Sets.newHashSet;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -34,20 +46,10 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicLongArray;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import static java.lang.String.format;
-import static java.util.Objects.deepEquals;
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.StreamSupport.stream;
-import static org.assertj.core.api.recursive.comparison.ComparisonDifference.rootComparisonDifference;
-import static org.assertj.core.api.recursive.comparison.DualValue.DEFAULT_ORDERED_COLLECTION_TYPES;
-import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
-import static org.assertj.core.util.IterableUtil.sizeOf;
-import static org.assertj.core.util.Lists.list;
-import static org.assertj.core.util.Sets.newHashSet;
+import org.assertj.core.internal.DeepDifference;
 
 /**
  * Based on {@link DeepDifference} but takes a {@link RecursiveComparisonConfiguration}, {@link DeepDifference}
@@ -620,9 +622,12 @@ public class RecursiveComparisonDifferenceCalculator {
       return;
     }
 
-    Map<?, ?> actualMap = (Map<?, ?>) dualValue.actual;
-    @SuppressWarnings("unchecked")
-    Map<K, V> expectedMap = (Map<K, V>) dualValue.expected;
+    Map<?, ?> actualMap = filterIgnoredFields((Map<?, ?>) dualValue.actual, dualValue.fieldLocation,
+                                              comparisonState.recursiveComparisonConfiguration);
+    Map<K, V> expectedMap = (Map<K, V>) filterIgnoredFields((Map<?, ?>) dualValue.expected,
+                                                            dualValue.fieldLocation,
+                                                            comparisonState.recursiveComparisonConfiguration);
+
     if (actualMap.size() != expectedMap.size()) {
       comparisonState.addDifference(dualValue, format(DIFFERENT_SIZE_ERROR, "sorted maps", actualMap.size(), expectedMap.size()));
       // no need to inspect entries, maps are not equal as they don't have the same size
@@ -649,8 +654,11 @@ public class RecursiveComparisonDifferenceCalculator {
       return;
     }
 
-    Map<?, ?> actualMap = (Map<?, ?>) dualValue.actual;
-    Map<?, ?> expectedMap = (Map<?, ?>) dualValue.expected;
+    Map<?, ?> actualMap = filterIgnoredFields((Map<?, ?>) dualValue.actual, dualValue.fieldLocation,
+                                              comparisonState.recursiveComparisonConfiguration);
+    Map<?, ?> expectedMap = filterIgnoredFields((Map<?, ?>) dualValue.expected, dualValue.fieldLocation,
+                                                comparisonState.recursiveComparisonConfiguration);
+
     if (actualMap.size() != expectedMap.size()) {
       comparisonState.addDifference(dualValue, format(DIFFERENT_SIZE_ERROR, "maps", actualMap.size(), expectedMap.size()));
       // no need to inspect entries, maps are not equal as they don't have the same size
@@ -669,6 +677,20 @@ public class RecursiveComparisonDifferenceCalculator {
       FieldLocation keyFieldLocation = keyFieldLocation(dualValue.fieldLocation, key);
       comparisonState.registerForComparison(new DualValue(keyFieldLocation, actualMap.get(key), expectedMap.get(key)));
     }
+  }
+
+  private static Map<?, ?> filterIgnoredFields(Map<?, ?> map, FieldLocation fieldLocation,
+                                               RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+    Set<String> ignoredFields = recursiveComparisonConfiguration.getIgnoredFields();
+    List<Pattern> ignoredFieldsRegexes = recursiveComparisonConfiguration.getIgnoredFieldsRegexes();
+    if (ignoredFields.isEmpty() && ignoredFieldsRegexes.isEmpty()) {
+      return map;
+    }
+    return map.entrySet().stream()
+              .filter(e -> !recursiveComparisonConfiguration.matchesAnIgnoredField(fieldLocation.field(e.getKey().toString())))
+              .filter(e -> !recursiveComparisonConfiguration.matchesAnIgnoredFieldRegex(fieldLocation.field(e.getKey()
+                                                                                                             .toString())))
+              .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
   private static FieldLocation keyFieldLocation(FieldLocation parentFieldLocation, Object key) {
