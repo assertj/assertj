@@ -15,6 +15,7 @@ package org.assertj.core.api.recursive.comparison;
 import static java.lang.String.format;
 import static java.util.Objects.deepEquals;
 import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toMap;
 import static org.assertj.core.api.recursive.comparison.ComparisonDifference.rootComparisonDifference;
 import static org.assertj.core.api.recursive.comparison.DualValue.DEFAULT_ORDERED_COLLECTION_TYPES;
 import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
@@ -44,7 +45,6 @@ import java.util.concurrent.atomic.AtomicLongArray;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.stream.Stream;
-
 import org.assertj.core.internal.DeepDifference;
 
 /**
@@ -506,9 +506,9 @@ public class RecursiveComparisonDifferenceCalculator {
       return;
     }
 
-    Map<?, ?> actualMap = (Map<?, ?>) dualValue.actual;
-    @SuppressWarnings("unchecked")
-    Map<K, V> expectedMap = (Map<K, V>) dualValue.expected;
+    Map<?, ?> actualMap = filterIgnoringFields((Map<?, ?>)dualValue.actual, comparisonState);
+    Map<K, V> expectedMap = (Map<K, V>) filterIgnoringFields((Map<?, ?>) dualValue.expected, comparisonState);
+
     if (actualMap.size() != expectedMap.size()) {
       comparisonState.addDifference(dualValue, format(DIFFERENT_SIZE_ERROR, "sorted maps", actualMap.size(), expectedMap.size()));
       // no need to inspect entries, maps are not equal as they don't have the same size
@@ -535,8 +535,10 @@ public class RecursiveComparisonDifferenceCalculator {
       return;
     }
 
-    Map<?, ?> actualMap = (Map<?, ?>) dualValue.actual;
-    Map<?, ?> expectedMap = (Map<?, ?>) dualValue.expected;
+    Set<String> ignoredFields = comparisonState.recursiveComparisonConfiguration.getIgnoredFields();
+    Map<?, ?> actualMap = filterIgnoringFields((Map<?, ?>) dualValue.actual, comparisonState);
+    Map<?, ?> expectedMap = filterIgnoringFields((Map<?, ?>) dualValue.expected, comparisonState);
+
     if (actualMap.size() != expectedMap.size()) {
       comparisonState.addDifference(dualValue, format(DIFFERENT_SIZE_ERROR, "maps", actualMap.size(), expectedMap.size()));
       // no need to inspect entries, maps are not equal as they don't have the same size
@@ -556,6 +558,15 @@ public class RecursiveComparisonDifferenceCalculator {
       comparisonState.registerForComparison(new DualValue(keyFieldLocation, actualMap.get(key), expectedMap.get(key)));
     }
   }
+
+  private static Map<?, ?> filterIgnoringFields(Map<?, ?> dualValue, ComparisonState comparisonState) {
+    Set<String> ignoredFields = comparisonState.recursiveComparisonConfiguration.getIgnoredFields();
+    if(ignoredFields.isEmpty()){
+      return dualValue;
+    }
+    return dualValue.entrySet()
+      .stream().filter(e -> !ignoredFields.contains(e.getKey()))
+      .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));}
 
   private static FieldLocation keyFieldLocation(FieldLocation parentFieldLocation, Object key) {
     return key == null ? parentFieldLocation : parentFieldLocation.field(key.toString());

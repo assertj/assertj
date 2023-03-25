@@ -13,20 +13,20 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.api.AssertionsForClassTypes.entry;import static org.assertj.core.test.Maps.mapOf;import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
-import org.assertj.core.internal.objects.data.Address;
+import org.assertj.core.data.MapEntry;import org.assertj.core.internal.objects.data.Address;
 import org.assertj.core.internal.objects.data.Giant;
 import org.assertj.core.internal.objects.data.Human;
 import org.assertj.core.internal.objects.data.Person;
@@ -279,6 +279,56 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
                                list("home")),
                      arguments(person7, person8, "same data except for one subfield of an ignored field",
                                list("neighbour.neighbour.home.address.number", "neighbour.name")));
+  }
+
+  @SuppressWarnings("unused")
+  @ParameterizedTest(name = "{2}: actual={0} / expected={1} / ignored fields={3}")
+  @MethodSource("recursivelyEqualMapsWithVariousSizesIgnoringGivenFields")
+  void should_pass_for_maps_with_the_various_sizes_when_given_fields_are_ignored(Object actual,
+                                                                                Object expected,
+                                                                                String testDescription,
+                                                                                List<String> ignoredFields) {
+    assertThat(actual).usingRecursiveComparison()
+      .ignoringFields(arrayOf(ignoredFields))
+      .isEqualTo(expected);
+  }
+
+  private static Stream<Arguments> recursivelyEqualMapsWithVariousSizesIgnoringGivenFields() {
+    return Stream.of(
+      arguments(mapOf(
+        entry("firstName", "John"),
+        entry("lastName", "Doe")
+      ), mapOf(
+        entry("firstName", "John"),
+        entry("lastName", "Wick")), "maps with same size, one common field ignored", list("lastName")),
+
+      arguments(mapOf(
+        entry("firstName", "John"),
+        entry("lastName", "Doe")
+      ), mapOf(
+        entry("firstName", "John"),
+        entry("lastName", "Doe"),
+        entry("age", "25")
+      ), "maps without same size, one ignored field 'age' added", list("age")),
+
+      arguments(mapOf(
+        entry("firstName", "John"),
+        entry("lastName", "Doe")
+      ), mapOf(
+        entry("firstName", "John"),
+        entry("lastName", "Wick"),
+        entry("age", "25")
+      ), "maps without same size, two ignored fields 'age', 'lastName' added", list("age", "lastName")),
+
+      arguments(mapOf(
+        entry("firstName", "John"),
+        entry("lastName", "Doe")
+      ), mapOf(
+        entry("firstName", "John"),
+        entry("lastName", "Wick"),
+        entry("age", "25")
+      ), "maps without same size, all field ignored", list("age", "lastName", "firstName"))
+    );
   }
 
   @Test
