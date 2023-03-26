@@ -322,6 +322,10 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   /**
    * Sets whether to ignore collection order in the comparison.
    * <p>
+   * <b>Important:</b> ignoring collection order has a high performance cost because each element of the actual collection must
+   * be compared to each element of the expected collection which is a O(n&sup2;) operation. For example with a collection of 100
+   * elements, the number of comparisons is 100x100 = 10 000!
+   * <p>
    * See {@link RecursiveComparisonAssert#ignoringCollectionOrder()} for code examples.
    *
    * @param ignoreCollectionOrder whether to ignore collection order in the comparison.
@@ -332,6 +336,10 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   /**
    * Adds the given fields to the list fields from the object under test to ignore collection order in the recursive comparison.
+   * <p>
+   * <b>Important:</b> ignoring collection order has a high performance cost because each element of the actual collection must
+   * be compared to each element of the expected collection which is a O(n&sup2;) operation. For example with a collection of 100
+   * elements, the number of comparisons is 100x100 = 10 000!
    * <p>
    * See {@link RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...) RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...)} for examples.
    *

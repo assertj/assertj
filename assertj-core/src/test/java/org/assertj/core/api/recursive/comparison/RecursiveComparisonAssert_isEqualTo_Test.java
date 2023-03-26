@@ -13,6 +13,7 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static java.lang.String.format;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -37,6 +38,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import javax.xml.datatype.DatatypeFactory;
@@ -48,6 +50,7 @@ import org.assertj.core.internal.objects.data.Giant;
 import org.assertj.core.internal.objects.data.Human;
 import org.assertj.core.internal.objects.data.Person;
 import org.assertj.core.util.DoubleComparator;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -548,8 +551,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
       this.jobTitle = jobTitle;
     }
 
-    public enum JobTitle
-    {
+    public enum JobTitle {
       SOFTWARE_DEVELOPER, QA_ENGINEER
     }
   }
@@ -557,19 +559,77 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
   // https://github.com/assertj/assertj/issues/2928
   @ParameterizedTest(name = "class: {2}")
   @MethodSource
-  void should_not_introspect_java_base_classes(Object actual, Object expected, @SuppressWarnings("unused")  String testDescription) {
+  void should_not_introspect_java_base_classes(Object actual, Object expected,
+                                               @SuppressWarnings("unused") String testDescription) {
     assertThat(actual).usingRecursiveComparison()
                       .isEqualTo(expected);
   }
 
   private static Stream<Arguments> should_not_introspect_java_base_classes() throws Exception {
 
-    return Stream.of(arguments(DatatypeFactory.newInstance().newXMLGregorianCalendar(), 
-                               DatatypeFactory.newInstance().newXMLGregorianCalendar(), 
+    return Stream.of(arguments(DatatypeFactory.newInstance().newXMLGregorianCalendar(),
+                               DatatypeFactory.newInstance().newXMLGregorianCalendar(),
                                "com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl"),
                      arguments(InetAddress.getByName("127.0.0.1"),
                                InetAddress.getByName("127.0.0.1"),
                                InetAddress.class.getName()));
   }
 
+  // https://github.com/assertj/assertj/issues/2979
+
+  static class Assignment {
+    String assignmentName;
+    String assignmentDescription;
+
+    Assignment(String assignmentName, String assignmentDescription) {
+      this.assignmentName = assignmentName;
+      this.assignmentDescription = assignmentDescription;
+    }
+  }
+
+  static class Owner {
+    String id;
+    String name;
+    List<Assignment> assignments;
+
+    Owner(String id, String name, List<Assignment> assignments) {
+      this.id = id;
+      this.name = name;
+      this.assignments = assignments;
+    }
+  }
+
+  public static List<Assignment> generateListOfAssignments(int size, String id) {
+    return IntStream.range(0, size)
+                    .mapToObj(i -> new Assignment(id, "Assignment " + id))
+                    .collect(toList());
+  }
+
+  public static List<Owner> generateListOfOwners(int noOfOwners, int noOfAssignments, String id) {
+    String ownerId = "owner" + id;
+    String ownerName = "TestOwner " + id;
+    return IntStream.range(0, noOfOwners)
+                    .mapToObj(i -> new Owner(ownerId, ownerName, generateListOfAssignments(noOfAssignments, id)))
+                    .collect(toList());
+  }
+
+  @Test
+  @Disabled("just to check performance of the recursive comparison when using big collections")
+  void performance_for_comparing_lots_of_similar_types() {
+    // 100 owners with 50 assignments each
+    List<Owner> actual = generateListOfOwners(50, 50, "1"); // 2500 assignment
+
+    // 100 different owners with 50 different assignments each
+    List<Owner> expected = generateListOfOwners(50, 50, "2"); // 2500 assignment
+
+    // Recursive comparison logic
+    RecursiveComparisonConfiguration config = new RecursiveComparisonConfiguration();
+    // when uncommented, test is slow as we compare recursively 2500x2500 elements
+    config.ignoreCollectionOrder(true);
+    // config.ignoreCollectionOrderInFields();
+    // config.setIntrospectionStrategy(ComparingFields.COMPARING_FIELDS);
+
+    new RecursiveComparisonDifferenceCalculator().determineDifferences(actual, expected, config);
+
+  }
 }
