@@ -35,7 +35,7 @@ class ClassAssert_hasRecordComponents_Test {
   })
   void should_fail_if_actual_is_not_a_record(Class<?> actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasRecordComponents());
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasRecordComponents("aRecordComponent"));
     // THEN
     then(assertionError).hasMessage(shouldBeRecord(actual).create());
   }

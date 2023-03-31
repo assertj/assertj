@@ -15,7 +15,6 @@ package org.assertj.core.api;
 import static org.assertj.core.error.ShouldBeAssignableTo.shouldBeAssignableTo;
 import static org.assertj.core.error.ShouldBeRecord.shouldBeRecord;
 import static org.assertj.core.error.ShouldBeRecord.shouldNotBeRecord;
-import static org.assertj.core.error.ShouldHaveRecordComponents.shouldHaveNoRecordComponents;
 import static org.assertj.core.error.ShouldHaveRecordComponents.shouldHaveRecordComponents;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.Arrays.array;
@@ -23,6 +22,7 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
@@ -283,23 +283,18 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * <p>
    * Example:
    * <pre><code class='java'> public class NotARecord {}
-   * public record EmptyRecord {}
    * public record MyRecord(String recordComponentOne, String recordComponentTwo) {}
    *
    * // these assertions succeed:
-   * assertThat(EmptyRecord.class).hasRecordComponents();
    * assertThat(MyRecord.class).hasRecordComponents("recordComponentOne");
    * assertThat(MyRecord.class).hasRecordComponents("recordComponentOne", "recordComponentTwo");
    *
    * // these assertions fail:
-   * assertThat(NotARecord.class).hasRecordComponents();
-   * assertThat(EmptyRecord.class).hasRecordComponents("recordComponentOne");
-   * assertThat(MyRecord.class).hasRecordComponents();
+   * assertThat(NotARecord.class).hasRecordComponents("recordComponentOne");
    * assertThat(MyRecord.class).hasRecordComponents("recordComponentOne", "unknownRecordComponent");</code></pre>
-   * <p>
-   * The assertion succeeds if no given record components are passed and the actual {@code Class} has no record components.
    *
-   * @param names the record component names which must be in the class.
+   * @param first the first record component name which must be in this class
+   * @param rest the remaining record component names which must be in this class
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not a record.
@@ -307,17 +302,17 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *
    * @since 3.25.0
    */
-  public SELF hasRecordComponents(String... names) {
+  public SELF hasRecordComponents(String first, String... rest) {
     isNotNull();
     isRecord();
 
-    Set<String> expectedRecordComponents = newLinkedHashSet(names);
+    Set<String> expectedRecordComponents = newLinkedHashSet();
+    expectedRecordComponents.add(first);
+    if (rest != null) {
+      Collections.addAll(expectedRecordComponents, rest);
+    }
     Set<String> missingRecordComponents = newLinkedHashSet();
     Set<String> actualRecordComponents = getRecordComponentNames(this.actual);
-
-    if (expectedRecordComponents.isEmpty() && !actualRecordComponents.isEmpty()) {
-      throw assertionError(shouldHaveNoRecordComponents(this.actual, actualRecordComponents));
-    }
 
     for (String name : expectedRecordComponents) {
       if (!actualRecordComponents.contains(name)) {

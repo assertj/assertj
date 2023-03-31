@@ -33,17 +33,6 @@ public class ShouldHaveRecordComponents extends BasicErrorMessageFactory {
     return new ShouldHaveRecordComponents(actual, expected, missing);
   }
 
-  /**
-   * Creates a new <code>{@link org.assertj.core.error.ShouldHaveRecordComponents}</code>
-   *
-   * @param actual the actual value in the failed assertion.
-   * @param actualRecordComponents the actual record components for this class
-   * @return the created {@code ErrorMessageFactory}.
-   */
-  public static ErrorMessageFactory shouldHaveNoRecordComponents(Class<?> actual, Set<String> actualRecordComponents) {
-    return new ShouldHaveRecordComponents(actual, actualRecordComponents);
-  }
-
   private ShouldHaveRecordComponents(Class<?> actual, Set<String> expected, Set<String> missing) {
     super("%nExpecting%n" +
       "  %s%n" +
@@ -53,10 +42,4 @@ public class ShouldHaveRecordComponents extends BasicErrorMessageFactory {
       "  %s", actual, expected, missing);
   }
 
-  private ShouldHaveRecordComponents(Class<?> actual, Set<String> actualRecordComponents) {
-    super("%nExpecting%n" +
-      "  %s%n" +
-      "not to have any record components, but it has the following:%n" +
-      "  %s", actual, actualRecordComponents);
-  }
 }
