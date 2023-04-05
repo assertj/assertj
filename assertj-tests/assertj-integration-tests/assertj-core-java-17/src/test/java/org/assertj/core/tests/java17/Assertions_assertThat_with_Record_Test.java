@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeRecord.shouldNotBeRecord;
 import static org.assertj.core.error.ShouldHaveRecordComponents.shouldHaveRecordComponents;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.assertj.core.util.Sets.set;
 
 import java.util.Set;
 
@@ -29,13 +29,13 @@ import org.junit.jupiter.api.Test;
 class Assertions_assertThat_with_Record_Test {
 
   @Test
-  void is_record_should_pass_if_actual_is_a_record() {
+  void isRecord_should_pass_if_actual_is_a_record() {
     // WHEN/THEN
     assertThat(MyRecord.class).isRecord();
   }
 
   @Test
-  void is_not_record_should_fail_if_actual_is_a_record() {
+  void isNotRecord_should_fail_if_actual_is_a_record() {
     // WHEN
     Throwable thrown = catchThrowable(() -> assertThat(MyRecord.class).isNotRecord());
     // THEN
@@ -44,27 +44,29 @@ class Assertions_assertThat_with_Record_Test {
   }
 
   @Test
-  void has_record_components_should_pass_if_class_has_record_component() {
+  void hasRecordComponents_should_pass_if_record_has_expected_component() {
     // WHEN/THEN
-    assertThat(MyRecord.class).hasRecordComponents("recordComponentOne");
+    assertThat(MyRecord.class).hasRecordComponents("componentOne");
   }
 
   @Test
-  void has_record_components_should_pass_if_class_has_record_components() {
+  void hasRecordComponents_should_pass_if_record_has_expected_components() {
     // WHEN/THEN
-    assertThat(MyRecord.class).hasRecordComponents("recordComponentOne", "recordComponentTwo");
+    assertThat(MyRecord.class).hasRecordComponents("componentOne", "componentTwo");
   }
 
   @Test
-  void has_record_components_should_fail_if_record_components_are_missing() {
+  void hasRecordComponents_should_fail_if_record_components_are_missing() {
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertThat(MyRecord.class).hasRecordComponents("recordComponentOne", "missing"));
+    Throwable thrown = catchThrowable(() -> assertThat(MyRecord.class).hasRecordComponents("componentOne", "missing"));
     // THEN
     then(thrown).isInstanceOf(AssertionError.class)
-      .hasMessage(shouldHaveRecordComponents(MyRecord.class, newLinkedHashSet("recordComponentOne", "missing"), Set.of("missing")).create());
+                .hasMessage(shouldHaveRecordComponents(MyRecord.class,
+                                                       set("componentOne", "missing"),
+                                                       Set.of("missing")).create());
   }
 
-  record MyRecord(String recordComponentOne, String recordComponentTwo) {
+  record MyRecord(String componentOne, String componentTwo) {
   }
 
 }

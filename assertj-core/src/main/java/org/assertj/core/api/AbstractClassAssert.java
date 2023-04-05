@@ -301,14 +301,17 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not a record.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of the record component names.
+   * @throws AssertionError if the actual {@code Class} doesn't contain all the record component names.
    *
    * @since 3.25.0
    */
   public SELF hasRecordComponents(String first, String... rest) {
-    isNotNull();
     isRecord();
+    assertHasRecordComponents(first, rest);
+    return myself;
+  }
 
+  private void assertHasRecordComponents(String first, String[] rest) {
     Set<String> expectedRecordComponents = newLinkedHashSet();
     expectedRecordComponents.add(first);
     if (rest != null) {
@@ -325,8 +328,6 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
     if (!missingRecordComponents.isEmpty()) {
       throw assertionError(shouldHaveRecordComponents(this.actual, expectedRecordComponents, missingRecordComponents));
     }
-
-    return myself;
   }
 
   private static Set<String> getRecordComponentNames(Class<?> actual) {

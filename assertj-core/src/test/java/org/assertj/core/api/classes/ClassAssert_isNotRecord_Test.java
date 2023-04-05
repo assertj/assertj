@@ -33,9 +33,9 @@ class ClassAssert_isNotRecord_Test {
     // GIVEN
     Class<?> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotRecord());
+    AssertionError error = expectAssertionError(() -> assertThat(actual).isNotRecord());
     // THEN
-    then(assertionError).hasMessage(shouldNotBeNull().create());
+    then(error).hasMessage(shouldNotBeNull().create());
   }
 
   @ParameterizedTest

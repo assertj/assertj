@@ -34,9 +34,9 @@ class ClassAssert_isRecord_Test {
     // GIVEN
     Class<?> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isRecord());
+    AssertionError error = expectAssertionError(() -> assertThat(actual).isRecord());
     // THEN
-    then(assertionError).hasMessage(shouldNotBeNull().create());
+    then(error).hasMessage(shouldNotBeNull().create());
   }
 
   @ParameterizedTest
@@ -47,9 +47,9 @@ class ClassAssert_isRecord_Test {
   })
   void should_fail_if_actual_is_not_a_record(Class<?> actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isRecord());
+    AssertionError error = expectAssertionError(() -> assertThat(actual).isRecord());
     // THEN
-    then(assertionError).hasMessage(shouldBeRecord(actual).create());
+    then(error).hasMessage(shouldBeRecord(actual).create());
   }
 
 }

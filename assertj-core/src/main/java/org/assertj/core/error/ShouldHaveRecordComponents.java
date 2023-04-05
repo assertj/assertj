@@ -15,14 +15,14 @@ package org.assertj.core.error;
 import java.util.Set;
 
 /**
- * Creates an error message indicating that an assertion that verifies that a class has record components.
+ * Creates an error message indicating that an assertion that verifies that a class has record components failed.
  *
  * @author Louis Morgan
  */
 public class ShouldHaveRecordComponents extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new <code>{@link org.assertj.core.error.ShouldHaveRecordComponents}</code>
+   * Creates a new <code>{@link ShouldHaveRecordComponents}</code>
    *
    * @param actual the actual value in the failed assertion.
    * @param expected expected record components for this class
@@ -35,11 +35,12 @@ public class ShouldHaveRecordComponents extends BasicErrorMessageFactory {
 
   private ShouldHaveRecordComponents(Class<?> actual, Set<String> expected, Set<String> missing) {
     super("%nExpecting%n" +
-      "  %s%n" +
-      "to have the following record components:%n" +
-      "  %s%n" +
-      "but it doesn't have:%n" +
-      "  %s", actual, expected, missing);
+          "  %s%n" +
+          "to have the following record components:%n" +
+          "  %s%n" +
+          "but it doesn't have:%n" +
+          "  %s",
+          actual, expected, missing);
   }
 
 }

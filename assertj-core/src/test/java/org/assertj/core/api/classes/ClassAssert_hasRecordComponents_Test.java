@@ -15,10 +15,12 @@ package org.assertj.core.api.classes;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeRecord.shouldBeRecord;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.ArrayList;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -26,6 +28,16 @@ import org.junit.jupiter.params.provider.ValueSource;
  * @author Louis Morgan
  */
 class ClassAssert_hasRecordComponents_Test {
+
+  @Test
+  void should_fail_if_actual_is_null() {
+    // GIVEN
+    Class<?> actual = null;
+    // WHEN
+    AssertionError error = expectAssertionError(() -> assertThat(actual).hasRecordComponents("component"));
+    // THEN
+    then(error).hasMessage(shouldNotBeNull().create());
+  }
 
   @ParameterizedTest
   @ValueSource(classes = {
@@ -35,9 +47,9 @@ class ClassAssert_hasRecordComponents_Test {
   })
   void should_fail_if_actual_is_not_a_record(Class<?> actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasRecordComponents("aRecordComponent"));
+    AssertionError error = expectAssertionError(() -> assertThat(actual).hasRecordComponents("component"));
     // THEN
-    then(assertionError).hasMessage(shouldBeRecord(actual).create());
+    then(error).hasMessage(shouldBeRecord(actual).create());
   }
 
 }
