@@ -14,12 +14,10 @@ package org.assertj.core.internal;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
-import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBePackagePrivate;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeProtected;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBePublic;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeStatic;
-import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeFinal;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeStatic;
 import static org.assertj.core.error.ShouldBeAbstract.shouldBeAbstract;
 import static org.assertj.core.error.ShouldBeAnnotation.shouldBeAnnotation;
@@ -171,19 +169,6 @@ public class Classes {
   }
 
   /**
-   * Verifies that the actual {@code Class} is final.
-   *
-   * @param info contains information about the assertion.
-   * @param actual the "actual" {@code Class}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} is not final.
-   */
-  public void assertIsFinal(AssertionInfo info, Class<?> actual) {
-    assertNotNull(info, actual);
-    if (!Modifier.isFinal(actual.getModifiers())) throw failures.failure(info, shouldBeFinal(actual));
-  }
-
-  /**
    * Verifies that the actual {@code Class} is public.
    *
    * @param info contains information about the assertion.
@@ -227,19 +212,6 @@ public class Classes {
     if (Modifier.isPublic(modifiers) || Modifier.isProtected(modifiers) || Modifier.isPrivate(modifiers)) {
       throw failures.failure(info, shouldBePackagePrivate(actual));
     }
-  }
-
-  /**
-   * Verifies that the actual {@code Class} is not final.
-   *
-   * @param info contains information about the assertion.
-   * @param actual the "actual" {@code Class}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} is final.
-   */
-  public void assertIsNotFinal(AssertionInfo info, Class<?> actual) {
-    assertNotNull(info, actual);
-    if (Modifier.isFinal(actual.getModifiers())) throw failures.failure(info, shouldNotBeFinal(actual));
   }
 
   /**

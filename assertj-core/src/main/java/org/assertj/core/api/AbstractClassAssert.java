@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeFinal;
 import static org.assertj.core.error.ShouldBeAssignableTo.shouldBeAssignableTo;
 import static org.assertj.core.error.ShouldBeRecord.shouldBeRecord;
 import static org.assertj.core.error.ShouldBeRecord.shouldNotBeRecord;
@@ -20,6 +22,7 @@ import static org.assertj.core.util.Arrays.array;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Objects;
 
 import org.assertj.core.internal.Classes;
@@ -291,8 +294,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} is not final.
    */
   public SELF isFinal() {
-    classes.assertIsFinal(info, actual);
+    isNotNull();
+    assertIsFinal();
     return myself;
+  }
+
+  private void assertIsFinal() {
+    if (!Modifier.isFinal(actual.getModifiers())) throw assertionError(shouldBeFinal(actual));
   }
 
   /**
@@ -312,8 +320,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} is final.
    */
   public SELF isNotFinal() {
-    classes.assertIsNotFinal(info, actual);
+    isNotNull();
+    assertIsNotFinal();
     return myself;
+  }
+
+  private void assertIsNotFinal() {
+    if (Modifier.isFinal(actual.getModifiers())) throw assertionError(shouldNotBeFinal(actual));
   }
 
   /**
