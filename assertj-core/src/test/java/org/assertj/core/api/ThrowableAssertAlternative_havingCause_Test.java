@@ -17,10 +17,8 @@ import static org.assertj.core.error.ShouldHaveCause.shouldHaveCause;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("ThrowableAssertAlternative havingCause")
 class ThrowableAssertAlternative_havingCause_Test {
 
   @Test

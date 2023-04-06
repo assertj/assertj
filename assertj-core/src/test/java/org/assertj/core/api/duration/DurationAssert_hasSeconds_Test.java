@@ -20,13 +20,11 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.time.Duration;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Filip Hrisafov
  */
-@DisplayName("DurationAssert hasSeconds")
 class DurationAssert_hasSeconds_Test {
 
   @Test

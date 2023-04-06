@@ -27,15 +27,8 @@ import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.NavigationMethodBaseTest;
 import org.assertj.core.api.ObjectAssert;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link MapAssert#extractingByKeys(Object[])}</code>.
- *
- * @author Stefano Cordio
- */
-@DisplayName("MapAssert extractingByKeys(KEY...)")
 class MapAssert_extractingByKeys_Test implements NavigationMethodBaseTest<MapAssert<Object, Object>> {
 
   private static final Object NAME = "name";

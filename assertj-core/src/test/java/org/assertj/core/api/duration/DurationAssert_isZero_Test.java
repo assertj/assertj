@@ -18,12 +18,10 @@ import java.time.Duration;
 
 import org.assertj.core.api.DurationAssert;
 import org.assertj.core.api.DurationBaseAssertTest;
-import org.junit.jupiter.api.DisplayName;
 
 /**
  * @author Filip Hrisafov
  */
-@DisplayName("DurationAssert isZero")
 class DurationAssert_isZero_Test extends DurationBaseAssertTest {
 
   @Override

@@ -19,14 +19,10 @@ import org.assertj.core.api.LongAssert;
 import org.assertj.core.api.LongAssertBaseTest;
 import org.assertj.core.internal.Longs;
 import org.assertj.core.internal.Objects;
-import org.junit.jupiter.api.DisplayName;
 
 /**
- * Tests for <code>{@link LongAssert#usingDefaultComparator()}</code>.
- *
  * @author Joel Costigliola
  */
-@DisplayName("LongAssert usingDefaultComparator")
 class LongAssert_usingDefaultComparator_Test extends LongAssertBaseTest {
 
   @Override

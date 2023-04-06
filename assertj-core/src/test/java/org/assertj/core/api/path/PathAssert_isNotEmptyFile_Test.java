@@ -16,14 +16,10 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 
 /**
- * Test for <code>{@link PathAssert#isNotEmptyFile()}</code>.
- *
  * @author Omar Morales
  */
-@DisplayName("PathAssert isNotEmptyFile")
 class PathAssert_isNotEmptyFile_Test extends PathAssertBaseTest {
 
   @Override

@@ -16,14 +16,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.StringAssert;
 import org.assertj.core.api.StringAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 
-/**
- * Tests for <code>{@link StringAssert#isBase64()}</code>.
- *
- * @author Stefano Cordio
- */
-@DisplayName("StringAssert isBase64")
 class StringAssert_isBase64_Test extends StringAssertBaseTest {
 
   @Override

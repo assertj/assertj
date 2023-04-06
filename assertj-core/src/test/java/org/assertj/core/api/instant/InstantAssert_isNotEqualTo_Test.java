@@ -20,10 +20,8 @@ import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThr
 import java.time.Instant;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("InstantAssert isNotEqualTo")
 class InstantAssert_isNotEqualTo_Test extends InstantAssertBaseTest {
 
   @Test
