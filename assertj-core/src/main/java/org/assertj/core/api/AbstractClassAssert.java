@@ -318,7 +318,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
       Collections.addAll(expectedRecordComponents, rest);
     }
     Set<String> missingRecordComponents = newLinkedHashSet();
-    Set<String> actualRecordComponents = getRecordComponentNames(this.actual);
+    Set<String> actualRecordComponents = getRecordComponentNames(actual);
 
     for (String name : expectedRecordComponents) {
       if (!actualRecordComponents.contains(name)) {
@@ -326,7 +326,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
       }
     }
     if (!missingRecordComponents.isEmpty()) {
-      throw assertionError(shouldHaveRecordComponents(this.actual, expectedRecordComponents, missingRecordComponents));
+      throw assertionError(shouldHaveRecordComponents(actual, expectedRecordComponents, missingRecordComponents));
     }
   }
 
