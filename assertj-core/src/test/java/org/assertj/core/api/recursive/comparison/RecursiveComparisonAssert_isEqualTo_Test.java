@@ -12,8 +12,8 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.google.common.collect.ImmutableSortedMap.of;import static java.lang.String.format;
+import static java.util.Collections.singletonMap;import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.recursive.comparison.Color.BLUE;
@@ -37,11 +37,11 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
+import java.util.SortedMap;import java.util.stream.Stream;
 
 import javax.xml.datatype.DatatypeFactory;
 
-import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
+import com.google.common.collect.Maps;import org.assertj.core.api.Assertions;import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
 import org.assertj.core.internal.objects.data.AlwaysEqualPerson;
 import org.assertj.core.internal.objects.data.FriendlyPerson;
 import org.assertj.core.internal.objects.data.Giant;
@@ -564,8 +564,8 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
 
   private static Stream<Arguments> should_not_introspect_java_base_classes() throws Exception {
 
-    return Stream.of(arguments(DatatypeFactory.newInstance().newXMLGregorianCalendar(), 
-                               DatatypeFactory.newInstance().newXMLGregorianCalendar(), 
+    return Stream.of(arguments(DatatypeFactory.newInstance().newXMLGregorianCalendar(),
+                               DatatypeFactory.newInstance().newXMLGregorianCalendar(),
                                "com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl"),
                      arguments(InetAddress.getByName("127.0.0.1"),
                                InetAddress.getByName("127.0.0.1"),
