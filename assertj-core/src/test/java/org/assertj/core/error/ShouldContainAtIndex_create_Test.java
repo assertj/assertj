@@ -25,8 +25,6 @@ import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link ShouldContainAtIndex#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
- *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */

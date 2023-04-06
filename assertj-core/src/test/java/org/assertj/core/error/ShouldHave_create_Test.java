@@ -25,8 +25,6 @@ import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link ShouldHave#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
- *
  * @author Yvonne Wang
  */
 class ShouldHave_create_Test {

@@ -23,15 +23,11 @@ import static org.mockito.Mockito.mock;
 
 import java.nio.file.Path;
 
-import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
-import org.assertj.core.presentation.Representation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for {@link ShouldExist#create(Description, Representation)}
- *
  * @author Yvonne Wang
  */
 class ShouldExist_create_Test {
