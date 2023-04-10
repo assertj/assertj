@@ -84,7 +84,7 @@ public final class FieldLocation implements Comparable<FieldLocation> {
 
   @Override
   public String toString() {
-    return String.format("FieldLocation [pathToUseInRules=%s, decomposedPath=%s]", pathToUseInRules, decomposedPath);
+    return String.format("<%s>", pathToUseInRules);
   }
 
   public String shortDescription() {

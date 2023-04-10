@@ -383,7 +383,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
 
   // issue #2434
   @Test
-  void should_treat_class_cast_expection_as_comparison_difference_when_comparing_lists() {
+  void should_treat_class_cast_exception_as_comparison_difference_when_comparing_lists() {
     // GIVEN
     Wrapper a = new Wrapper(Double.MAX_VALUE);
     Wrapper b = new Wrapper(Integer.MAX_VALUE);
@@ -396,7 +396,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
   }
 
   @Test
-  void should_report_class_cast_expection_as_comparison_difference() {
+  void should_report_class_cast_exception_as_comparison_difference() {
     // GIVEN
     Wrapper actual = new Wrapper(1.0);
     Wrapper expected = new Wrapper(5);
@@ -407,7 +407,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
   }
 
   @Test
-  void should_treat_class_cast_expection_as_comparison_difference_when_comparing_lists_with_specific_equals() {
+  void should_treat_class_cast_exception_as_comparison_difference_when_comparing_lists_with_specific_equals() {
     // GIVEN
     Wrapper a = new Wrapper(1.001);
     Wrapper b = new Wrapper(1);
@@ -421,7 +421,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
   }
 
   @Test
-  void should_treat_class_cast_expection_as_comparison_difference() {
+  void should_treat_class_cast_exception_as_comparison_difference() {
     // GIVEN
     Wrapper a = new Wrapper(Double.MAX_VALUE);
     Wrapper b = new Wrapper(Integer.MAX_VALUE);

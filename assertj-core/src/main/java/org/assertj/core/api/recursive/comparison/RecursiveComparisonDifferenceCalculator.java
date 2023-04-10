@@ -49,7 +49,7 @@ import org.assertj.core.internal.DeepDifference;
 
 /**
  * Based on {@link DeepDifference} but takes a {@link RecursiveComparisonConfiguration}, {@link DeepDifference}
- * being itself based on the deep equals implementation of https://github.com/jdereg/java-util
+ * being itself based on the deep equals implementation of <a href="https://github.com/jdereg/java-util">https://github.com/jdereg/java-util</a>
  *
  * @author John DeRegnaucourt (john@cedarsoftware.com)
  * @author Pascal Schumacher
@@ -69,23 +69,28 @@ public class RecursiveComparisonDifferenceCalculator {
 
   private static class ComparisonState {
     // Not using a Set as we want to precisely track visited values, a set would remove duplicates
-    List<DualValue> visitedDualValues;
+    VisitedDualValues visitedDualValues;
     List<ComparisonDifference> differences = new ArrayList<>();
     DualValueDeque dualValuesToCompare;
     RecursiveComparisonConfiguration recursiveComparisonConfiguration;
 
-    public ComparisonState(List<DualValue> visited, RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
-      this.visitedDualValues = visited;
+    public ComparisonState(VisitedDualValues visitedDualValues,
+                           RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+      this.visitedDualValues = visitedDualValues;
       this.dualValuesToCompare = new DualValueDeque(recursiveComparisonConfiguration);
       this.recursiveComparisonConfiguration = recursiveComparisonConfiguration;
     }
 
     void addDifference(DualValue dualValue) {
-      differences.add(new ComparisonDifference(dualValue, null, getCustomErrorMessage(dualValue)));
+      addDifference(dualValue, null);
     }
 
     void addDifference(DualValue dualValue, String description) {
-      differences.add(new ComparisonDifference(dualValue, description, getCustomErrorMessage(dualValue)));
+      String customErrorMessage = getCustomErrorMessage(dualValue);
+      ComparisonDifference comparisonDifference = new ComparisonDifference(dualValue, description, customErrorMessage);
+      differences.add(comparisonDifference);
+      // track the difference for the given dual values, in case we visit the same dual values again
+      visitedDualValues.registerComparisonDifference(dualValue, comparisonDifference);
     }
 
     void addKeyDifference(DualValue parentDualValue, Object actualKey, Object expectedKey) {
@@ -102,17 +107,11 @@ public class RecursiveComparisonDifferenceCalculator {
     }
 
     public DualValue pickDualValueToCompare() {
-      final DualValue dualValue = dualValuesToCompare.removeFirst();
-      if (dualValue.hasPotentialCyclingValues()) {
-        // visited dual values are here to avoid cycle, java types don't have cycle, there is no need to track them.
-        // moreover this would make should_fix_1854_minimal_test to fail (see the test for a detailed explanation)
-        visitedDualValues.add(dualValue);
-      }
-      return dualValue;
+      return dualValuesToCompare.removeFirst();
     }
 
     private void registerForComparison(DualValue dualValue) {
-      if (!visitedDualValues.contains(dualValue)) dualValuesToCompare.addFirst(dualValue);
+      dualValuesToCompare.addFirst(dualValue);
     }
 
     private void initDualValuesToCompare(Object actual, Object expected, FieldLocation nodeLocation) {
@@ -120,8 +119,7 @@ public class RecursiveComparisonDifferenceCalculator {
       boolean mustCompareNodesRecursively = mustCompareNodesRecursively(dualValue);
       if (dualValue.hasNoNullValues() && mustCompareNodesRecursively) {
         // disregard the equals method and start comparing fields
-        // TODO should fail if actual and expected don't have the same fields to compare (taking into account ignored/compared
-        // fields)
+        // TODO should fail if actual and expected don't have the same fields (taking into account ignored/compared fields)
         Set<String> actualChildrenNodeNamesToCompare = recursiveComparisonConfiguration.getActualChildrenNodeNamesToCompare(dualValue);
         if (!actualChildrenNodeNamesToCompare.isEmpty()) {
           // fields to ignore are evaluated when adding their corresponding dualValues to dualValuesToCompare which filters
@@ -134,30 +132,20 @@ public class RecursiveComparisonDifferenceCalculator {
               Object expectedChildNodeValue = recursiveComparisonConfiguration.getValue(actualChildNodeName, expected);
               DualValue childNodeDualValue = new DualValue(nodeLocation.field(actualChildNodeName), actualChildNodeValue,
                                                            expectedChildNodeValue);
-              dualValuesToCompare.addFirst(childNodeDualValue);
+              registerForComparison(childNodeDualValue);
             }
           } else {
-            dualValuesToCompare.addFirst(dualValue);
+            registerForComparison(dualValue);
           }
         } else {
-          dualValuesToCompare.addFirst(dualValue);
+          registerForComparison(dualValue);
         }
       } else {
-        dualValuesToCompare.addFirst(dualValue);
+        registerForComparison(dualValue);
       }
-      // We need to remove already visited nodes pair to avoid infinite recursion in case parent -> set{child} with child having
-      // a reference back to its parent but only for complex types can have cycle, this is not the case for primitive or enums.
-      // It occurs for unordered collection where we compare all possible combination of the collection elements recursively.
-      // --
-      // remove visited values one by one, DualValue.equals correctly compare respective actual and expected fields by reference
-      visitedDualValues.forEach(visitedDualValue -> dualValuesToCompare.stream()
-                                                                       .filter(dualValueToCompare -> dualValueToCompare.equals(visitedDualValue))
-                                                                       .findFirst()
-                                                                       .ifPresent(dualValuesToCompare::remove));
     }
 
     private boolean mustCompareNodesRecursively(DualValue dualValue) {
-
       return !recursiveComparisonConfiguration.hasCustomComparator(dualValue)
              && !shouldHonorEquals(dualValue, recursiveComparisonConfiguration)
              && dualValue.hasNoContainerValues();
@@ -203,20 +191,36 @@ public class RecursiveComparisonDifferenceCalculator {
     if (recursiveComparisonConfiguration.isInStrictTypeCheckingMode() && expectedTypeIsNotSubtypeOfActualType(actual, expected)) {
       return list(expectedAndActualTypeDifference(actual, expected));
     }
-    List<DualValue> visited = list();
-    return determineDifferences(actual, expected, rootFieldLocation(), visited, recursiveComparisonConfiguration);
+    return determineDifferences(actual, expected, rootFieldLocation(), new VisitedDualValues(), recursiveComparisonConfiguration);
   }
 
   // TODO keep track of ignored fields in an RecursiveComparisonExecution class ?
 
   private static List<ComparisonDifference> determineDifferences(Object actual, Object expected, FieldLocation fieldLocation,
-                                                                 List<DualValue> visited,
+                                                                 VisitedDualValues visitedDualValues,
                                                                  RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
-    ComparisonState comparisonState = new ComparisonState(visited, recursiveComparisonConfiguration);
+    ComparisonState comparisonState = new ComparisonState(visitedDualValues, recursiveComparisonConfiguration);
     comparisonState.initDualValuesToCompare(actual, expected, fieldLocation);
 
     while (comparisonState.hasDualValuesToCompare()) {
+
       final DualValue dualValue = comparisonState.pickDualValueToCompare();
+      // if we have already visited the dual value, no need to compute the comparison differences again, this also avoid cycles
+      Optional<List<ComparisonDifference>> comparisonDifferences = comparisonState.visitedDualValues.registeredComparisonDifferencesOf(dualValue);
+      if (comparisonDifferences.isPresent()) {
+        if (!comparisonDifferences.get().isEmpty()) {
+          comparisonState.addDifference(dualValue, "already visited node but now location is: " + dualValue.fieldLocation);
+        }
+        continue;
+      }
+
+      // first time we evaluate this dual value, perform the usual recursive comparison from there
+
+      if (dualValue.hasPotentialCyclingValues()) {
+        // visited dual values are tracked to avoid cycle, java types don't have cycle => no need to keep track of them.
+        // moreover this would make should_fix_1854_minimal_test to fail (see the test for a detailed explanation)
+        comparisonState.visitedDualValues.registerVisitedDualValue(dualValue);
+      }
 
       final Object actualFieldValue = dualValue.actual;
       final Object expectedFieldValue = dualValue.expected;
@@ -767,11 +771,11 @@ public class RecursiveComparisonDifferenceCalculator {
       // this occurs when comparing field of different types, Person.id is an int and PersonDto.id is a long
       // TODO maybe we should let the exception bubble up?
       // assertion will fail with the current behavior and report other diff so it might be better to keep things this way
-      System.out.println(format("WARNING: Comparator was not suited to compare '%s' field values:%n" +
-                                "- actual field value  : %s%n" +
-                                "- expected field value: %s%n" +
-                                "- comparator used     : %s",
-                                fieldName, actual, expected, comparator));
+      System.out.printf("WARNING: Comparator was not suited to compare '%s' field values:%n" +
+                        "- actual field value  : %s%n" +
+                        "- expected field value: %s%n" +
+                        "- comparator used     : %s%n",
+                        fieldName, actual, expected, comparator);
       return false;
     }
   }

@@ -68,10 +68,22 @@ public final class DualValue {
   public boolean equals(Object other) {
     if (!(other instanceof DualValue)) return false;
     DualValue that = (DualValue) other;
-    // it is critical to compare by reference when tracking visited dual values.
-    // see should_fix_1854_minimal_test for an explanation
-    // TODO add field location check?
-    return actual == that.actual && expected == that.expected;
+    return actual == that.actual && expected == that.expected && fieldLocation.equals(that.fieldLocation);
+  }
+
+  /**
+   * If we want to detect potential cycles in the recursive comparison, we need to check if an object has already been visited.
+   * <p>
+   * We must ignore the {@link FieldLocation} otherwise we would not find cycles. Let's take for example a {@code Person} class
+   * with a neighbor field. We have a cycle between the person instance and its neighbor instance, ex: Jack has Tim as neighbor
+   * and vice versa, when we navigate to Tim we find that its neighbor is Jack, we have already visited it but the location is
+   * different, Jack is both the root object and root.neighbor.neighbor (Jack=root, Tim=root.neighbor and Tim.neighbor=Jack)
+   *
+   * @param dualValue the {@link DualValue} to compare
+   * @return true if dual values references the same values (ignoring the field location)
+   */
+  public boolean sameValues(DualValue dualValue) {
+    return actual == dualValue.actual && expected == dualValue.expected;
   }
 
   @Override
