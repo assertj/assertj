@@ -92,6 +92,10 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
     return additionalInformation;
   }
 
+  public List<String> getDecomposedPath() {
+    return decomposedPath;
+  }
+
   @Override
   public String toString() {
     return additionalInformation.isPresent()
