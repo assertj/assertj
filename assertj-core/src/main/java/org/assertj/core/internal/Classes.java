@@ -16,7 +16,6 @@ import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBePackagePrivate;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeProtected;
-import static org.assertj.core.error.ClassModifierShouldBe.shouldBePublic;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeStatic;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeStatic;
 import static org.assertj.core.error.ShouldBeAbstract.shouldBeAbstract;
@@ -166,21 +165,6 @@ public class Classes {
   public void assertIsAnnotation(AssertionInfo info, Class<?> actual) {
     assertNotNull(info, actual);
     if (!actual.isAnnotation()) throw failures.failure(info, shouldBeAnnotation(actual));
-  }
-
-  /**
-   * Verifies that the actual {@code Class} is public.
-   *
-   * @param info contains information about the assertion.
-   * @param actual the "actual" {@code Class}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} is not public.
-   */
-  public void assertIsPublic(AssertionInfo info, Class<?> actual) {
-    assertNotNull(info, actual);
-    if (!Modifier.isPublic(actual.getModifiers())) {
-      throw failures.failure(info, shouldBePublic(actual));
-    }
   }
 
   /**

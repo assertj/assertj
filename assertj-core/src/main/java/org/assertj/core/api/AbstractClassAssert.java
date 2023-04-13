@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldBePublic;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeFinal;
 import static org.assertj.core.error.ShouldBeAssignableTo.shouldBeAssignableTo;
 import static org.assertj.core.error.ShouldBeRecord.shouldBeRecord;
@@ -417,8 +418,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 2.7.0 / 3.7.0
    */
   public SELF isPublic() {
-    classes.assertIsPublic(info, actual);
+    isNotNull();
+    assertIsPublic();
     return myself;
+  }
+
+  private void assertIsPublic() {
+    if (!Modifier.isPublic(actual.getModifiers())) throw assertionError(shouldBePublic(actual));
   }
 
   /**
