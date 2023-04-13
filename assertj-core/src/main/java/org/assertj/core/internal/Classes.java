@@ -14,7 +14,6 @@ package org.assertj.core.internal;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
-import static org.assertj.core.error.ClassModifierShouldBe.shouldBePackagePrivate;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeStatic;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeStatic;
 import static org.assertj.core.error.ShouldBeAbstract.shouldBeAbstract;
@@ -164,22 +163,6 @@ public class Classes {
   public void assertIsAnnotation(AssertionInfo info, Class<?> actual) {
     assertNotNull(info, actual);
     if (!actual.isAnnotation()) throw failures.failure(info, shouldBeAnnotation(actual));
-  }
-
-  /**
-   * Verifies that the actual {@code Class} is package-private.
-   *
-   * @param info contains information about the assertion.
-   * @param actual the "actual" {@code Class}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} is not package-private.
-   */
-  public void assertIsPackagePrivate(AssertionInfo info, Class<?> actual) {
-    assertNotNull(info, actual);
-    final int modifiers = actual.getModifiers();
-    if (Modifier.isPublic(modifiers) || Modifier.isProtected(modifiers) || Modifier.isPrivate(modifiers)) {
-      throw failures.failure(info, shouldBePackagePrivate(actual));
-    }
   }
 
   /**

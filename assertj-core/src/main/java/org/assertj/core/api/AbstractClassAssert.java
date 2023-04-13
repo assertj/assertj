@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldBePackagePrivate;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeProtected;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBePublic;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeFinal;
@@ -477,8 +478,16 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 3.15.0
    */
   public SELF isPackagePrivate() {
-    classes.assertIsPackagePrivate(info, actual);
+    isNotNull();
+    assertIsPackagePrivate();
     return myself;
+  }
+
+  private void assertIsPackagePrivate() {
+    final int modifiers = actual.getModifiers();
+    if (Modifier.isPublic(modifiers) || Modifier.isProtected(modifiers) || Modifier.isPrivate(modifiers)) {
+      throw assertionError(shouldBePackagePrivate(actual));
+    }
   }
 
   /**
