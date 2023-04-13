@@ -16,7 +16,9 @@ import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBePackagePrivate;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeProtected;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBePublic;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldBeStatic;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeFinal;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeStatic;
 import static org.assertj.core.error.ShouldBeAssignableTo.shouldBeAssignableTo;
 import static org.assertj.core.error.ShouldBeRecord.shouldBeRecord;
 import static org.assertj.core.error.ShouldBeRecord.shouldNotBeRecord;
@@ -510,8 +512,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 3.23.0
    */
   public SELF isStatic() {
-    classes.assertIsStatic(info, actual);
+    isNotNull();
+    assertIsStatic();
     return myself;
+  }
+
+  private void assertIsStatic() {
+    if (!Modifier.isStatic(actual.getModifiers())) throw assertionError(shouldBeStatic(actual));
   }
 
   /**
@@ -534,8 +541,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 3.23.0
    */
   public SELF isNotStatic() {
-    classes.assertIsNotStatic(info, actual);
+    isNotNull();
+    assertIsNotStatic();
     return myself;
+  }
+
+  private void assertIsNotStatic() {
+    if (Modifier.isStatic(actual.getModifiers())) throw assertionError(shouldNotBeStatic(actual));
   }
 
   /**
