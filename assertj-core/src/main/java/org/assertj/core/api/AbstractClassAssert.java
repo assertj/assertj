@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldBeProtected;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBePublic;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeFinal;
 import static org.assertj.core.error.ShouldBeAssignableTo.shouldBeAssignableTo;
@@ -447,8 +448,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 2.7.0 / 3.7.0
    */
   public SELF isProtected() {
-    classes.assertIsProtected(info, actual);
+    isNotNull();
+    assertIsProtected();
     return myself;
+  }
+
+  private void assertIsProtected() {
+    if (!Modifier.isProtected(actual.getModifiers())) throw assertionError(shouldBeProtected(actual));
   }
 
   /**

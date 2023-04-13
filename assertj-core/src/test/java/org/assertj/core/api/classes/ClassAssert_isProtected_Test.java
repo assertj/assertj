@@ -12,24 +12,45 @@
  */
 package org.assertj.core.api.classes;
 
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldBeProtected;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
-import org.assertj.core.api.ClassAssert;
-import org.assertj.core.api.ClassAssertBaseTest;
+import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link ClassAssert#isProtected()} ()}</code>.
- */
-class ClassAssert_isProtected_Test extends ClassAssertBaseTest {
+class ClassAssert_isProtected_Test {
 
-  @Override
-  protected ClassAssert invoke_api_method() {
-    return assertions.isProtected();
+  @Test
+  void should_fail_if_actual_is_null() {
+    // GIVEN
+    Class<?> actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isProtected());
+    // THEN
+    then(assertionError).hasMessage(shouldNotBeNull().create());
   }
 
-  @Override
-  protected void verify_internal_effects() {
-    verify(classes).assertIsProtected(getInfo(assertions), getActual(assertions));
+  @Test
+  void should_fail_if_actual_is_not_protected() {
+    // GIVEN
+    Class<?> actual = String.class;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isProtected());
+    // THEN
+    then(assertionError).hasMessage(shouldBeProtected(actual).create());
+  }
+
+  @Test
+  void should_pass_if_actual_is_protected() {
+    // GIVEN
+    Class<?> actual = ProtectedClass.class;
+    // WHEN/THEN
+    assertThat(actual).isProtected();
+  }
+
+  protected static class ProtectedClass {
   }
 
 }
