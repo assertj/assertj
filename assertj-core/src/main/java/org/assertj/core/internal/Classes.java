@@ -27,9 +27,7 @@ import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
 import static org.assertj.core.error.ShouldHaveMethods.shouldNotHaveMethods;
 import static org.assertj.core.error.ShouldHaveNoFields.shouldHaveNoDeclaredFields;
 import static org.assertj.core.error.ShouldHaveNoFields.shouldHaveNoPublicFields;
-import static org.assertj.core.error.ShouldHaveNoSuperclass.shouldHaveNoSuperclass;
 import static org.assertj.core.error.ShouldHavePackage.shouldHavePackage;
-import static org.assertj.core.error.ShouldHaveSuperclass.shouldHaveSuperclass;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.error.ShouldOnlyHaveFields.shouldOnlyHaveDeclaredFields;
 import static org.assertj.core.error.ShouldOnlyHaveFields.shouldOnlyHaveFields;
@@ -183,40 +181,6 @@ public class Classes {
     }
 
     if (!missing.isEmpty()) throw failures.failure(info, shouldHaveAnnotations(actual, expected, missing));
-  }
-
-  /**
-   * Verifies that the actual {@code Class} has the given class as direct {@code superclass}.
-   *
-   * @param info       contains information about the assertion.
-   * @param actual     the "actual" {@code Class}.
-   * @param superclass the direct superclass, which should not be null.
-   * @throws NullPointerException if {@code superclass} is {@code null}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} does not have the expected superclass.
-   */
-  public void assertHasSuperclass(AssertionInfo info, Class<?> actual, Class<?> superclass) {
-    assertNotNull(info, actual);
-    requireNonNull(superclass, shouldNotBeNull("superclass")::create);
-    Class<?> actualSuperclass = actual.getSuperclass();
-    if (actualSuperclass == null || !actualSuperclass.equals(superclass)) {
-      throw failures.failure(info, shouldHaveSuperclass(actual, superclass));
-    }
-  }
-
-  /**
-   * Verifies that the actual {@code Class} has no superclass.
-   *
-   * @param info       contains information about the assertion.
-   * @param actual     the "actual" {@code Class}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} has a superclass.
-   */
-  public void assertHasNoSuperclass(AssertionInfo info, Class<?> actual) {
-    assertNotNull(info, actual);
-    if (actual.getSuperclass() != null) {
-      throw failures.failure(info, shouldHaveNoSuperclass(actual));
-    }
   }
 
   /**

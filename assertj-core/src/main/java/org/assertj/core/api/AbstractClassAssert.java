@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBePackagePrivate;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeProtected;
@@ -22,7 +23,9 @@ import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeStatic;
 import static org.assertj.core.error.ShouldBeAssignableTo.shouldBeAssignableTo;
 import static org.assertj.core.error.ShouldBeRecord.shouldBeRecord;
 import static org.assertj.core.error.ShouldBeRecord.shouldNotBeRecord;
+import static org.assertj.core.error.ShouldHaveNoSuperclass.shouldHaveNoSuperclass;
 import static org.assertj.core.error.ShouldHaveRecordComponents.shouldHaveRecordComponents;
+import static org.assertj.core.error.ShouldHaveSuperclass.shouldHaveSuperclass;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -650,8 +653,17 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @see #hasNoSuperclass()
    */
   public SELF hasSuperclass(Class<?> superclass) {
-    classes.assertHasSuperclass(info, actual, superclass);
+    isNotNull();
+    assertHasSuperclass(superclass);
     return myself;
+  }
+
+  private void assertHasSuperclass(Class<?> superclass) {
+    requireNonNull(superclass, shouldNotBeNull("superclass")::create);
+    Class<?> actualSuperclass = actual.getSuperclass();
+    if (actualSuperclass == null || !actualSuperclass.equals(superclass)) {
+      throw assertionError(shouldHaveSuperclass(actual, superclass));
+    }
   }
 
   /**
@@ -681,8 +693,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @see #hasSuperclass(Class)
    */
   public SELF hasNoSuperclass() {
-    classes.assertHasNoSuperclass(info, actual);
+    isNotNull();
+    assertHasNoSuperclass();
     return myself;
+  }
+
+  private void assertHasNoSuperclass() {
+    if (actual.getSuperclass() != null) throw assertionError(shouldHaveNoSuperclass(actual));
   }
 
   /**
