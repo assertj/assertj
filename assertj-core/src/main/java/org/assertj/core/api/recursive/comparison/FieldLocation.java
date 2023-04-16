@@ -108,6 +108,12 @@ public final class FieldLocation implements Comparable<FieldLocation> {
     return decomposedPath.get(decomposedPath.size() - 1);
   }
 
+  public boolean isRoot() {
+    // root is the top level object compared or in case of the top level is a iterable/array the elements are considered as roots.
+    // we don't do it for optional it has a 'value' field so for the moment
+    return pathToUseInRules.isEmpty();
+  }
+
   public static FieldLocation rootFieldLocation() {
     return new FieldLocation(emptyList());
   }

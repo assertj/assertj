@@ -227,7 +227,6 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     Stream.of(fieldNamesToCompare).map(FieldLocation::new).forEach(comparedFields::add);
   }
 
-
   /**
    * Adds the given fields of types and their subfields to the set of fields from the object under test to compare (fields of other types will not be compared).
    * <p>
@@ -647,7 +646,9 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   boolean shouldIgnore(DualValue dualValue) {
-    return !shouldBeCompared(dualValue) || shouldIgnoreFieldBasedOnFieldLocation(dualValue.fieldLocation) || shouldIgnoreFieldBasedOnFieldValue(dualValue);
+    return !shouldBeCompared(dualValue)
+           || shouldIgnoreFieldBasedOnFieldLocation(dualValue.fieldLocation)
+           || shouldIgnoreFieldBasedOnFieldValue(dualValue);
   }
 
   private boolean shouldBeCompared(DualValue dualValue) {
@@ -664,7 +665,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     // a field f must be compared if any compared fields is f itself (obviously), a parent of f or a child of f.
     // - "name.first" must be compared if "name" is a compared field so will other "name" subfields like "name.last"
     // - "name" must be compared if "name.first" is a compared field otherwise "name" is ignored and "name.first" too
-    return comparedField -> field.matches(comparedField) // exact match
+    return comparedField -> field.isRoot() // always compare root!
+                            || field.matches(comparedField) // exact match
                             || field.hasParent(comparedField) // ex: field "name.first" and "name" compared field
                             || field.hasChild(comparedField); // ex: field "name" and "name.first" compared field
   }
