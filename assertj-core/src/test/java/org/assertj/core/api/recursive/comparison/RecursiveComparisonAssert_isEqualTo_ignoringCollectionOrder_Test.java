@@ -14,6 +14,7 @@ package org.assertj.core.api.recursive.comparison;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.recursive.comparison.RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test.Type.FIRST;
 import static org.assertj.core.api.recursive.comparison.RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test.Type.SECOND;
 import static org.assertj.core.internal.objects.data.FriendlyPerson.friend;
@@ -23,6 +24,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
@@ -408,6 +410,19 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     }
 
     @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      PersonWithInt that = (PersonWithInt) o;
+      return type == that.type && Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(name, type);
+    }
+
+    @Override
     public String toString() {
       return String.format("Person [name=%s, type=%s]", name, type);
     }
@@ -420,13 +435,12 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     List<PersonWithInt> persons = list(new PersonWithInt("name-1", 1),
                                        new PersonWithInt("name-2", 1),
                                        new PersonWithInt("name-2", 2));
-
     // WHEN/THEN
-    assertThat(persons).usingRecursiveComparison()
-                       .ignoringCollectionOrder()
-                       .isEqualTo(list(new PersonWithInt("name-2", 2),
-                                       new PersonWithInt("name-2", 1),
-                                       new PersonWithInt("name-1", 1)));
+    then(persons).usingRecursiveComparison()
+                 .ignoringCollectionOrder()
+                 .isEqualTo(list(new PersonWithInt("name-2", 2),
+                                 new PersonWithInt("name-2", 1),
+                                 new PersonWithInt("name-1", 1)));
   }
 
   // https://github.com/assertj/assertj/issues/2954
@@ -457,15 +471,16 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
 
   @Test
   void evaluating_visited_dual_values_should_check_location() {
+    // GIVEN
     Data d1 = new Data("111");
     Data d2 = new Data("222");
     DataStore dataStore1 = createDataStore(d1, d2);
     DataStore dataStore2 = createDataStore(d2, d1);
-
-    assertThat(dataStore1).usingRecursiveComparison()
-                          .withEqualsForType((data1, data2) -> data1.text.equals(data2.text), Data.class)
-                          .ignoringCollectionOrder()
-                          .isEqualTo(dataStore2);
+    // WHEN/THEN
+    then(dataStore1).usingRecursiveComparison()
+                    .withEqualsForType((data1, data2) -> data1.text.equals(data2.text), Data.class)
+                    .ignoringCollectionOrder()
+                    .isEqualTo(dataStore2);
   }
 
   private static DataStore createDataStore(Data d1, Data d2) {
