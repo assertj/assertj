@@ -14,12 +14,12 @@ package org.assertj.core.api.recursive.comparison;
 
 import static java.lang.String.format;
 import static java.util.Objects.deepEquals;
+import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.joining;
 import static org.assertj.core.api.recursive.comparison.ComparisonDifference.rootComparisonDifference;
 import static org.assertj.core.api.recursive.comparison.DualValue.DEFAULT_ORDERED_COLLECTION_TYPES;
 import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
 import static org.assertj.core.util.IterableUtil.sizeOf;
-import static org.assertj.core.util.IterableUtil.toCollection;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newHashSet;
 
@@ -30,9 +30,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -43,7 +43,9 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicLongArray;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.assertj.core.internal.DeepDifference;
 
@@ -440,8 +442,8 @@ public class RecursiveComparisonDifferenceCalculator {
     Iterator<?> expectedIterator = expectedCollection.iterator();
     int i = 0;
     for (Object element : actualCollection) {
-      FieldLocation elementFielLocation = dualValue.fieldLocation.field(format("[%d]", i));
-      DualValue elementDualValue = new DualValue(elementFielLocation, element, expectedIterator.next());
+      FieldLocation elementFieldLocation = dualValue.fieldLocation.field(format("[%d]", i));
+      DualValue elementDualValue = new DualValue(elementFieldLocation, element, expectedIterator.next());
       comparisonState.registerForComparison(elementDualValue);
       i++;
     }
@@ -467,39 +469,65 @@ public class RecursiveComparisonDifferenceCalculator {
       // no need to inspect elements, iterables are not equal as they don't have the same size
       return;
     }
-    // copy actual as we will remove elements found in expected
-    Collection<?> actualCopy = new LinkedList<>(toCollection(actual));
+    // group by hash code
+    Map<Integer, ? extends List<?>> actualByHashCode = StreamSupport.stream(actual.spliterator(), false)
+      .collect(groupingBy(Objects::hashCode, Collectors.toList()));
     List<Object> expectedElementsNotFound = list();
     for (Object expectedElement : expected) {
       boolean expectedElementMatched = false;
-      // compare recursively expectedElement to all remaining actual elements
-      Iterator<?> actualIterator = actualCopy.iterator();
-      while (actualIterator.hasNext()) {
-        Object actualElement = actualIterator.next();
-        // we need to get the currently visited dual values otherwise a cycle would cause an infinite recursion.
-        List<ComparisonDifference> differences = determineDifferences(actualElement, expectedElement, dualValue.fieldLocation,
-                                                                      comparisonState.visitedDualValues,
-                                                                      comparisonState.recursiveComparisonConfiguration);
-        if (differences.isEmpty()) {
-          // found an element in actual matching expectedElement, remove it as it can't be used to match other expected elements
-          actualIterator.remove();
-          expectedElementMatched = true;
-          // jump to next actual element check
-          break;
-        }
+      // First try recursively comparing expectedElement to actual elements with the same hash code.
+      Integer expectedHash = Objects.hashCode(expectedElement);
+      List<?> actualHashBucket = actualByHashCode.get(expectedHash);
+      if (actualHashBucket != null) {
+        Iterator<?> actualIterator = actualHashBucket.iterator();
+        expectedElementMatched = searchIterableForElement(actualIterator, expectedElement, dualValue, comparisonState);
       }
+      // It may be that expectedElement matches an actual element in a different hash bucket.
+      // To account for this, we check the other actual elements for matches. This may result in
+      // O(n^2) complexity in the worst case.
       if (!expectedElementMatched) {
-        expectedElementsNotFound.add(expectedElement);
+        for (Map.Entry<Integer, ? extends List<?>> entry : actualByHashCode.entrySet()) {
+          // avoid checking the same bucket twice
+          if (entry.getKey().equals(expectedHash)) {
+            continue;
+          }
+          Iterator<?> actualIterator = entry.getValue().iterator();
+          expectedElementMatched = searchIterableForElement(actualIterator, expectedElement, dualValue, comparisonState);
+          if (expectedElementMatched) {
+            break;
+          }
+        }
+        if (!expectedElementMatched) {
+          expectedElementsNotFound.add(expectedElement);
+        }
       }
     }
 
     if (!expectedElementsNotFound.isEmpty()) {
       String unmatched = format("The following expected elements were not matched in the actual %s:%n  %s",
-                                actual.getClass().getSimpleName(), expectedElementsNotFound);
+        actual.getClass().getSimpleName(), expectedElementsNotFound);
       comparisonState.addDifference(dualValue, unmatched);
       // TODO could improve the error by listing the actual elements not in expected but that would need
       // another double loop inverting actual and expected to find the actual elements not matched in expected
     }
+  }
+
+  private static boolean searchIterableForElement(Iterator<?> actualIterator, Object expectedElement,
+                                                  DualValue dualValue, ComparisonState comparisonState) {
+    while (actualIterator.hasNext()) {
+      Object actualElement = actualIterator.next();
+      // we need to get the currently visited dual values otherwise a cycle would cause an infinite recursion.
+      List<ComparisonDifference> differences = determineDifferences(actualElement, expectedElement,
+                                                                    dualValue.fieldLocation,
+                                                                    comparisonState.visitedDualValues,
+                                                                    comparisonState.recursiveComparisonConfiguration);
+      if (differences.isEmpty()) {
+        // found an element in actual matching expectedElement, remove it as it can't be used to match other expected elements
+        actualIterator.remove();
+        return true;
+      }
+    }
+    return false;
   }
 
   // TODO replace by ordered map
