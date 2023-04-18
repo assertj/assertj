@@ -20,6 +20,7 @@ import static org.assertj.core.error.ClassModifierShouldBe.shouldBePublic;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeStatic;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeFinal;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeStatic;
+import static org.assertj.core.error.ShouldBeAbstract.shouldBeAbstract;
 import static org.assertj.core.error.ShouldBeAssignableTo.shouldBeAssignableTo;
 import static org.assertj.core.error.ShouldBeInterface.shouldBeInterface;
 import static org.assertj.core.error.ShouldBeInterface.shouldNotBeInterface;
@@ -190,8 +191,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 3.12.0
    */
   public SELF isAbstract() {
-    classes.assertIsAbstract(info, actual);
+    isNotNull();
+    assertIsAbstract();
     return myself;
+  }
+
+  private void assertIsAbstract() {
+    if (!Modifier.isAbstract(actual.getModifiers())) throw assertionError(shouldBeAbstract(actual));
   }
 
   /**
