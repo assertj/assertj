@@ -12,26 +12,45 @@
  */
 package org.assertj.core.api.classes;
 
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeInterface.shouldBeInterface;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
-import org.assertj.core.api.ClassAssert;
-import org.assertj.core.api.ClassAssertBaseTest;
+import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link org.assertj.core.api.ClassAssert#isInterface()}</code>.
- * 
  * @author William Delanoue
  */
-class ClassAssert_isInterface_Test extends ClassAssertBaseTest {
+class ClassAssert_isInterface_Test {
 
-  @Override
-  protected ClassAssert invoke_api_method() {
-    return assertions.isInterface();
+  @Test
+  void should_fail_if_actual_is_null() {
+    // GIVEN
+    Class<?> actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isInterface());
+    // THEN
+    then(assertionError).hasMessage(shouldNotBeNull().create());
   }
 
-  @Override
-  protected void verify_internal_effects() {
-    verify(classes).assertIsInterface(getInfo(assertions), getActual(assertions));
+  @Test
+  void should_fail_if_actual_is_not_interface() {
+    // GIVEN
+    Class<?> actual = String.class;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isInterface());
+    // THEN
+    then(assertionError).hasMessage(shouldBeInterface(actual).create());
+  }
+
+  @Test
+  void should_pass_if_actual_is_interface() {
+    // GIVEN
+    Class<?> actual = CharSequence.class;
+    // WHEN/THEN
+    assertThat(actual).isInterface();
   }
 
 }

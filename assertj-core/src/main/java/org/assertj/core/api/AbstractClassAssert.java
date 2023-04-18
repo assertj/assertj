@@ -21,6 +21,8 @@ import static org.assertj.core.error.ClassModifierShouldBe.shouldBeStatic;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeFinal;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeStatic;
 import static org.assertj.core.error.ShouldBeAssignableTo.shouldBeAssignableTo;
+import static org.assertj.core.error.ShouldBeInterface.shouldBeInterface;
+import static org.assertj.core.error.ShouldBeInterface.shouldNotBeInterface;
 import static org.assertj.core.error.ShouldBeRecord.shouldBeRecord;
 import static org.assertj.core.error.ShouldBeRecord.shouldNotBeRecord;
 import static org.assertj.core.error.ShouldHaveNoSuperclass.shouldHaveNoSuperclass;
@@ -34,7 +36,6 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collections;
-import java.util.Objects;
 import java.util.Set;
 
 import org.assertj.core.internal.Classes;
@@ -112,7 +113,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   private void assertIsAssignableTo(Class<?> other) {
-    Objects.requireNonNull(other, shouldNotBeNull("other")::create);
+    requireNonNull(other, shouldNotBeNull("other")::create);
     if (!other.isAssignableFrom(actual)) throw assertionError(shouldBeAssignableTo(actual, other));
   }
 
@@ -134,8 +135,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} is not an interface.
    */
   public SELF isNotInterface() {
-    classes.assertIsNotInterface(info, actual);
+    isNotNull();
+    assertIsNotInterface();
     return myself;
+  }
+
+  private void assertIsNotInterface() {
+    if (actual.isInterface()) throw assertionError(shouldNotBeInterface(actual));
   }
 
   /**
@@ -156,8 +162,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} is not an interface.
    */
   public SELF isInterface() {
-    classes.assertIsInterface(info, actual);
+    isNotNull();
+    assertIsInterface();
     return myself;
+  }
+
+  private void assertIsInterface() {
+    if (!actual.isInterface()) throw assertionError(shouldBeInterface(actual));
   }
 
   /**
