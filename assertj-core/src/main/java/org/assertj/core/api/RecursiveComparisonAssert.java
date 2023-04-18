@@ -1704,6 +1704,43 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
     return myself;
   }
 
+  /**
+   * Allows the recursive comparison to compare an enum field against a String field and vice versa.
+   * <p>
+   * Example:
+   * <pre><code class='java'> LightString actual = new LightString("GREEN");
+   * Light expected = new Light(GREEN);
+   *
+   * // compares "GREEN" to GREEN
+   * assertThat(actual).usingRecursiveComparison()
+   *                   .withEnumStringComparison()
+   *                   .isEqualTo(expected);
+   *
+   * // compares GREEN to "GREEN"
+   * assertThat(expected).usingRecursiveComparison()
+   *                     .withEnumStringComparison()
+   *                     .isEqualTo(actual);</code></pre>
+   * where {@code Light} and {@code LightString} are defined as:
+   * <pre><code class='java'> class Light {
+   *   Color color;
+   *   Light(Color value) {
+   *     this.color = value;
+   *   }
+   * }
+   * 
+   * class LightString {
+   *   String color;
+   *   LightString(String value) {
+   *     this.color = value;
+   *   }
+   * }</code></pre>
+   */
+  @CheckReturnValue
+  public SELF withEnumStringComparison() {
+    recursiveComparisonConfiguration.allowComparingEnumAgainstString(true);
+    return myself;
+  }
+
   SELF withTypeComparators(TypeComparators typeComparators) {
     Optional.ofNullable(typeComparators)
             .map(TypeComparators::comparatorByTypes)

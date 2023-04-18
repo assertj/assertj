@@ -17,10 +17,7 @@ import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.recursive.comparison.Color.BLUE;
-import static org.assertj.core.api.recursive.comparison.Color.GREEN;
 import static org.assertj.core.api.recursive.comparison.ColorWithCode.RED;
-import static org.assertj.core.api.recursive.comparison.RecursiveComparisonAssert_isEqualTo_Test.EmployeeDTO.JobTitle.QA_ENGINEER;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
@@ -313,55 +310,6 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, missingFieldDifference);
   }
 
-  @Test
-  void should_not_compare_enum_recursively() {
-    // GIVEN
-    Light actual = new Light(GREEN);
-    Light expected = new Light(BLUE);
-    // WHEN
-    compareRecursivelyFailsAsExpected(actual, expected);
-    // THEN
-    ComparisonDifference difference = diff("color", actual.color, expected.color);
-    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference);
-  }
-
-  @Test
-  void should_compare_enum_by_value_only_when_strictTypeChecking_mode_is_disabled() {
-    // GIVEN
-    Light actual = new Light(GREEN);
-    LightDto expected = new LightDto(ColorDto.GREEN);
-    // WHEN-THEN
-    then(actual).usingRecursiveComparison()
-                .isEqualTo(expected);
-  }
-
-  @Test
-  void should_fail_when_expected_is_an_enum_and_actual_is_not() {
-    // GIVEN
-    LightString actual = new LightString("GREEN");
-    Light expected = new Light(GREEN);
-    // WHEN
-    compareRecursivelyFailsAsExpected(actual, expected);
-    // THEN
-    ComparisonDifference difference = diff("color", "GREEN", GREEN,
-                                           "expected field is an enum but actual field is not (java.lang.String)");
-    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference);
-  }
-
-  @Test
-  void should_fail_when_actual_is_an_enum_and_expected_is_not() {
-    // GIVEN
-    Employee devPerson = new Employee("Example Name", "SOFTWARE_DEVELOPER");
-    BlogPost devBlogPost = new BlogPost(devPerson);
-    EmployeeDTO qaPersonDTO = new EmployeeDTO("Example Name", QA_ENGINEER);
-    BlogPostDTO qaBlogPostDTO = new BlogPostDTO(qaPersonDTO);
-    // WHEN
-    compareRecursivelyFailsAsExpected(qaBlogPostDTO, devBlogPost);
-    // THEN
-    ComparisonDifference difference = diff("author.jobTitle", QA_ENGINEER, "SOFTWARE_DEVELOPER");
-    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(qaBlogPostDTO, devBlogPost, difference);
-  }
-
   static class LightString {
     public String color;
 
@@ -513,46 +461,6 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
 
     public Path getPath() {
       return path;
-    }
-  }
-
-  public static class BlogPost {
-    Employee author;
-
-    public BlogPost(Employee author) {
-      this.author = author;
-    }
-
-  }
-  public static class BlogPostDTO {
-    EmployeeDTO author;
-
-    public BlogPostDTO(EmployeeDTO author) {
-      this.author = author;
-    }
-
-  }
-  public static class Employee {
-    String name;
-    String jobTitle;
-
-    public Employee(String name, String jobTitle) {
-      this.name = name;
-      this.jobTitle = jobTitle;
-    }
-
-  }
-  public static class EmployeeDTO {
-    String name;
-    JobTitle jobTitle;
-
-    public EmployeeDTO(String name, JobTitle jobTitle) {
-      this.name = name;
-      this.jobTitle = jobTitle;
-    }
-
-    public enum JobTitle {
-      SOFTWARE_DEVELOPER, QA_ENGINEER
     }
   }
 

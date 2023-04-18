@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.recursive.comparison.Color.BLUE;
 import static org.assertj.core.api.recursive.comparison.Color.RED;
 import static org.assertj.core.util.Lists.list;
@@ -32,7 +32,7 @@ class DualValue_enumValues_Test {
     // WHEN
     boolean expectedFieldIsEnum = dualValue.isExpectedAnEnum();
     // THEN
-    assertThat(expectedFieldIsEnum).isTrue();
+    then(expectedFieldIsEnum).isTrue();
   }
 
   @Test
@@ -42,17 +42,17 @@ class DualValue_enumValues_Test {
     // WHEN
     boolean expectedFieldIsEnum = dualValue.isExpectedAnEnum();
     // THEN
-    assertThat(expectedFieldIsEnum).isFalse();
+    then(expectedFieldIsEnum).isFalse();
   }
 
   @Test
   void isExpectedAnEnum_should_return_false_when_expected_is_null() {
     // GIVEN
-    DualValue dualValue = new DualValue(PATH, null, "");
+    DualValue dualValue = new DualValue(PATH, RED, null);
     // WHEN
     boolean expectedFieldIsEnum = dualValue.isExpectedAnEnum();
     // THEN
-    assertThat(expectedFieldIsEnum).isFalse();
+    then(expectedFieldIsEnum).isFalse();
   }
 
   @Test
@@ -62,7 +62,7 @@ class DualValue_enumValues_Test {
     // WHEN
     boolean actualFieldIsEnum = dualValue.isActualAnEnum();
     // THEN
-    assertThat(actualFieldIsEnum).isTrue();
+    then(actualFieldIsEnum).isTrue();
   }
 
   @Test
@@ -72,7 +72,7 @@ class DualValue_enumValues_Test {
     // WHEN
     boolean actualFieldIsEnum = dualValue.isActualAnEnum();
     // THEN
-    assertThat(actualFieldIsEnum).isFalse();
+    then(actualFieldIsEnum).isFalse();
   }
 
   @Test
@@ -82,7 +82,7 @@ class DualValue_enumValues_Test {
     // WHEN
     boolean actualIsEnum = dualValue.isActualAnEnum();
     // THEN
-    assertThat(actualIsEnum).isFalse();
+    then(actualIsEnum).isFalse();
   }
 
 }

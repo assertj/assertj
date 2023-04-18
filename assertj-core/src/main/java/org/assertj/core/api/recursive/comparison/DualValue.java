@@ -303,7 +303,7 @@ public final class DualValue {
   }
 
   public boolean isExpectedAnEnum() {
-    return expected.getClass().isEnum();
+    return expected != null && expected.getClass().isEnum();
   }
 
   public boolean isActualAnEnum() {

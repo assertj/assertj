@@ -57,6 +57,7 @@ import org.assertj.core.internal.DeepDifference;
 public class RecursiveComparisonDifferenceCalculator {
 
   private static final String DIFFERENT_ACTUAL_AND_EXPECTED_FIELD_TYPES = "expected field is %s but actual field is not (%s)";
+  private static final String ACTUAL_IS_AN_ENUM_WHILE_EXPECTED_IS_NOT = "expected field is a %s but actual field is an enum";
   private static final String ACTUAL_NOT_ORDERED_COLLECTION = "expected field is an ordered collection but actual field is not (%s), ordered collections are: "
                                                               + describeOrderedCollectionTypes();
 
@@ -244,6 +245,10 @@ public class RecursiveComparisonDifferenceCalculator {
         compareAsEnums(dualValue, comparisonState, recursiveComparisonConfiguration);
         continue;
       }
+      if (dualValue.isActualAnEnum()) {
+        compareAsEnums(dualValue, comparisonState, recursiveComparisonConfiguration);
+        continue;
+      }
       // TODO move hasFieldTypesDifference check into each compareXXX
 
       if (dualValue.isExpectedFieldAnArray()) {
@@ -358,23 +363,44 @@ public class RecursiveComparisonDifferenceCalculator {
 
   // avoid comparing enum recursively since they contain static fields which are ignored in recursive comparison
   // this would make different field enum value to be considered the same!
-  private static void compareAsEnums(final DualValue dualValue,
-                                     ComparisonState comparisonState,
+  private static void compareAsEnums(final DualValue dualValue, ComparisonState comparisonState,
                                      RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     if (recursiveComparisonConfiguration.isInStrictTypeCheckingMode()) {
-      // we can use == for comparison which checks both actual and expected values and types are the same
+      // use == to check that both actual and expected values and types are the same
       if (dualValue.actual != dualValue.expected) comparisonState.addDifference(dualValue);
       return;
     }
-    if (!dualValue.isActualAnEnum()) {
-      comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an enum"));
+    if (dualValue.isActualAnEnum() && dualValue.isExpectedAnEnum()) {
+      Enum<?> expectedEnum = (Enum<?>) dualValue.expected;
+      Enum<?> actualEnum = (Enum<?>) dualValue.actual;
+      // we must only compare actual and expected enum by value but not by type
+      if (!actualEnum.name().equals(expectedEnum.name())) comparisonState.addDifference(dualValue);
       return;
     }
-    // both actual and expected are enums
-    Enum<?> actualEnum = (Enum<?>) dualValue.actual;
-    Enum<?> expectedEnum = (Enum<?>) dualValue.expected;
-    // we must only compare actual and expected enum by value but not by type
-    if (!actualEnum.name().equals(expectedEnum.name())) comparisonState.addDifference(dualValue);
+    if (!recursiveComparisonConfiguration.isComparingEnumAgainstStringAllowed()) {
+      // either actual or expected is not an enum, not ok as we haven't allowed comparing enums to strings fields
+      enumComparedToDifferentTypeError(dualValue, comparisonState);
+      return;
+    }
+    if (dualValue.isExpectedAnEnum() && dualValue.actual instanceof String) {
+      Enum<?> expectedEnum = (Enum<?>) dualValue.expected;
+      if (!expectedEnum.name().equals(dualValue.actual.toString())) comparisonState.addDifference(dualValue);
+      return;
+    }
+    if (dualValue.isActualAnEnum() && dualValue.expected instanceof String) {
+      Enum<?> actualEnum = (Enum<?>) dualValue.actual;
+      if (!actualEnum.name().equals(dualValue.expected.toString())) comparisonState.addDifference(dualValue);
+      return;
+    }
+    // either actual or expected is not an enum and the other type is not a string so invalid type
+    enumComparedToDifferentTypeError(dualValue, comparisonState);
+  }
+
+  private static void enumComparedToDifferentTypeError(DualValue dualValue, ComparisonState comparisonState) {
+    String typeErrorMessage = dualValue.isExpectedAnEnum()
+        ? differentTypeErrorMessage(dualValue, "an enum")
+        : format(ACTUAL_IS_AN_ENUM_WHILE_EXPECTED_IS_NOT, dualValue.expected.getClass().getCanonicalName());
+    comparisonState.addDifference(dualValue, typeErrorMessage);
   }
 
   private static boolean shouldHonorEquals(DualValue dualValue,

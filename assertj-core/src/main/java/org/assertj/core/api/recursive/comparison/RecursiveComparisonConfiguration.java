@@ -84,6 +84,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   private RecursiveComparisonIntrospectionStrategy introspectionStrategy = DEFAULT_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY;
 
+  private boolean compareEnumAgainstString = false;
+
   private RecursiveComparisonConfiguration(Builder builder) {
     super(builder);
     this.ignoreAllActualNullFields = builder.ignoreAllActualNullFields;
@@ -575,6 +577,21 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     this.introspectionStrategy = introspectionStrategy;
   }
 
+  /**
+   * Allows the recursive comparison to compare an enum field against a string field.
+   * <p>
+   * See {@link RecursiveComparisonAssert#withEnumStringComparison()} for code examples.
+   *
+   * @param compareEnumAgainstString whether to allow the recursive comparison to compare enum field against string field.
+   */
+  public void allowComparingEnumAgainstString(boolean compareEnumAgainstString) {
+    this.compareEnumAgainstString = compareEnumAgainstString;
+  }
+
+  public boolean isComparingEnumAgainstStringAllowed() {
+    return this.compareEnumAgainstString;
+  }
+
   @Override
   public String toString() {
     return multiLineDescription(CONFIGURATION_PROVIDER.representation());
@@ -585,11 +602,10 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return java.util.Objects.hash(fieldComparators, ignoreAllActualEmptyOptionalFields, ignoreAllActualNullFields,
                                   ignoreAllExpectedNullFields, ignoreAllOverriddenEquals, ignoreCollectionOrder,
                                   ignoredCollectionOrderInFields, ignoredCollectionOrderInFieldsMatchingRegexes,
-                                  getIgnoredFields(),
-                                  getIgnoredFieldsRegexes(), ignoredOverriddenEqualsForFields,
-                                  ignoredOverriddenEqualsForTypes,
-                                  ignoredOverriddenEqualsForFieldsMatchingRegexes, getIgnoredTypes(), strictTypeChecking,
-                                  typeComparators, comparedFields, comparedTypes, fieldMessages, typeMessages);
+                                  getIgnoredFields(), getIgnoredFieldsRegexes(), ignoredOverriddenEqualsForFields,
+                                  ignoredOverriddenEqualsForTypes, ignoredOverriddenEqualsForFieldsMatchingRegexes,
+                                  getIgnoredTypes(), strictTypeChecking, typeComparators, comparedFields, comparedTypes,
+                                  fieldMessages, typeMessages, compareEnumAgainstString);
   }
 
   @Override
@@ -642,6 +658,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     describeRegisteredErrorMessagesForFields(description);
     describeRegisteredErrorMessagesForTypes(description);
     describeIntrospectionStrategy(description);
+    describeCompareEnumAgainstString(description);
     return description.toString();
   }
 
@@ -839,6 +856,11 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     description.append(format("- the introspection strategy used was: %s%n", introspectionStrategy.getDescription()));
   }
 
+  private void describeCompareEnumAgainstString(StringBuilder description) {
+    if (compareEnumAgainstString)
+      description.append(format("- enums can be compared against strings (and vice versa), e.g. Color.RED and \"RED\" are considered equal%n"));
+  }
+
   private boolean matchesAnIgnoredOverriddenEqualsRegex(FieldLocation fieldLocation) {
     if (ignoredOverriddenEqualsForFieldsMatchingRegexes.isEmpty()) return false; // shortcut
     String pathToUseInRules = fieldLocation.getPathToUseInRules();
@@ -1021,6 +1043,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   public static Builder builder() {
     return new Builder();
   }
+
 
   /**
    * Builder to build {@link RecursiveComparisonConfiguration}.
