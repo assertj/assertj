@@ -12,12 +12,16 @@
  */
 package org.assertj.core.api;
 
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.IntStream.rangeClosed;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.MatcherShouldHaveGroup.shouldHaveGroup;
 import static org.assertj.core.error.MatcherShouldMatch.shouldMatch;
 
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 
 import org.assertj.core.internal.Failures;
-
 
 /**
  * Assertions for {@link java.util.regex.Matcher}
@@ -25,7 +29,7 @@ import org.assertj.core.internal.Failures;
  * @author Jiashu Zhang
  */
 public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<SELF>> extends
-  AbstractAssert<SELF, Matcher> {
+    AbstractAssert<SELF, Matcher> {
 
   protected AbstractMatcherAssert(Matcher actual, Class<?> selfType) {
     super(actual, selfType);
@@ -39,7 +43,7 @@ public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<S
    * Pattern pattern = Pattern.compile("a*");
    * Matcher matcher = pattern.matcher("aaa");
    * assertThat(matcher).matches();
-   * 
+   *
    * // Assertion fails:
    * Pattern pattern = Pattern.compile("a*");
    * Matcher matcher = pattern.matcher("abc");
@@ -56,5 +60,83 @@ public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<S
       throw Failures.instance().failure(info, shouldMatch(actual));
     }
     return myself;
+  }
+
+  /**
+   * Verifies that the {@link Matcher} under test matches, and has the specified group, and allows to perform assertions on the input subsequence captured by the given group
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Assertion succeeds
+   * Matcher matcher = Pattern.compile("Assert(.)").matcher("AssertJ");
+   * assertThat(matcher).group(1).isEqualTo("J");
+   *
+   * // Assertions fail
+   * Matcher matcher = Pattern.compile("Assert(.)").matcher("AssertJ");
+   * assertThat(matcher).group(1).isEqualTo("X");
+   * assertThat(matcher).group(2).isEqualTo("J");
+   * </code></pre>
+   *
+   * @param group The index of a capturing group
+   * @return a new {@link Assert} instance for assertions chaining on the captured subsequence
+   * @throws AssertionError if actual {@link Matcher} does not match or is null, or if the capture group does not exist
+   */
+  public AbstractStringAssert<?> group(int group) {
+    isNotNull();
+    matches();
+    return assertThat(extractGroup(() -> actual.group(group), group));
+  }
+
+  /**
+   * Verifies that the {@link Matcher} under test matches, and has the specified group, and allows to perform assertions on the input subsequence captured by the given group
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Assertion succeeds
+   * Matcher matcher = Pattern.compile("Assert(?&lt;g1&gt;.)").matcher("AssertJ");
+   * assertThat(matcher).group("g1").isEqualTo("J");
+   *
+   * // Assertions fail
+   * Matcher matcher = Pattern.compile("Assert(?&lt;g1&gt;.)").matcher("AssertJ");
+   * assertThat(matcher).group("g1").isEqualTo("X");
+   * assertThat(matcher).group("g2").isEqualTo("J");
+   * </code></pre>
+   *
+   * @param group The name of a named capturing group
+   * @return a new {@link Assert} instance for assertions chaining on the captured subsequence
+   * @throws AssertionError if actual {@link Matcher} does not match or is null, or if the capture group does not exist
+   */
+  public AbstractStringAssert<?> group(String group) {
+    isNotNull();
+    matches();
+    return assertThat(extractGroup(() -> actual.group(group), group));
+  }
+
+  /**
+   * Verifies that the {@link Matcher} under test matches, and allows to perform assertions on the list of input subsequences captured the regex groups
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Assertion succeeds
+   * Matcher matcher = Pattern.compile("(.+) the (.+)").matcher("Mack the Knife");
+   * assertThat(matcher).groups().containsExactly("Mack", "Knife");
+   *
+   * // Assertions fail
+   * Matcher matcher = Pattern.compile("No re(.+)ds").matcher("No refunds");
+   * assertThat(matcher).groups().doesNotContain("fun");
+   * </code></pre>
+   *
+   * @return a new {@link Assert} instance for assertions chaining on the list of capture subsequences
+   * @throws AssertionError if actual {@link Matcher} does not match or is null
+   */
+  public ListAssert<String> groups() {
+    isNotNull();
+    matches();
+    return assertThat(rangeClosed(1, actual.groupCount()).mapToObj(actual::group).collect(toList()));
+  }
+
+  private String extractGroup(Supplier<String> extractor, Object groupIdentifier) {
+    try {
+      return extractor.get();
+    } catch (IndexOutOfBoundsException | IllegalArgumentException e) {
+      throw Failures.instance().failure(info, shouldHaveGroup(actual, groupIdentifier));
+    }
   }
 }
