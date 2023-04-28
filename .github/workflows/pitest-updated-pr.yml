@@ -19,6 +19,9 @@ on:
     types:
       - completed
 
+env:
+  MAVEN_ARGS: -B -V -ntp -e -Djansi.passthrough=true -Dstyle.color=always
+
 jobs:
   pitest-update-pr:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
@@ -43,6 +46,4 @@ jobs:
         # the code, but does mean the version here must be maintained. An alternative would be to checkout the code and use 
         # the github goal. This will work as long as the artifact is extracted to the maven target directory
         run: >
-          mvn -B -DrepoToken=${{ secrets.GITHUB_TOKEN }} com.groupcdg:pitest-github-maven-plugin:1.0.8:updatePR
-          -Djansi.passthrough=true
-          -Dstyle.color=always
+          ./mvnw $MAVEN_ARGS -DrepoToken=${{ secrets.GITHUB_TOKEN }} com.groupcdg:pitest-github-maven-plugin:1.0.8:updatePR

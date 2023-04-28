@@ -15,6 +15,9 @@ name: Receive
 on:
   pull_request:
 
+env:
+  MAVEN_ARGS: -B -V -ntp -e -Djansi.passthrough=true -Dstyle.color=always
+
 jobs:
   store-pitest-feedback:
     # Only run on forked repos.
@@ -39,14 +42,10 @@ jobs:
         # we add config to analyse only changes made within a PR and treat surviving mutants as check errors
         # failWhenNoMutations is unset in the pom, as otherwise PRs that do not affect java code would fail
         run: >
-          mvn -B -e -Ppitest -Dfeatures="+GIT(from[HEAD~1]), +gitci" test
-          -Djansi.passthrough=true
-          -Dstyle.color=always
+          ./mvnw $MAVEN_ARGS -Ppitest -Dfeatures="+GIT(from[HEAD~1]), +gitci" test
       - name: aggregate files
         run: >
-          mvn -B -e -f assertj-core/pom.xml -Ppitest pitest-git:aggregate
-          -Djansi.passthrough=true
-          -Dstyle.color=always
+          ./mvnw $MAVEN_ARGS -f assertj-core/pom.xml -Ppitest pitest-git:aggregate
       - name: upload results
         uses: actions/upload-artifact@v3
         with:
