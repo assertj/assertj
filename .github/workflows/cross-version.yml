@@ -2,6 +2,9 @@ name: Cross-Version
 
 on: [push, pull_request]
 
+env:
+  MAVEN_ARGS: -B -V -ntp -e -Djansi.passthrough=true -Dstyle.color=always -Djacoco.skip=true
+
 jobs:
 
   test_java:
@@ -20,8 +23,4 @@ jobs:
           release: ${{ matrix.java }}
           version: latest
       - name: Test
-        run: >
-          ./mvnw -B -V --no-transfer-progress -e verify javadoc:javadoc
-          -Djacoco.skip=true
-          -Djansi.passthrough=true
-          -Dstyle.color=always
+        run: ./mvnw $MAVEN_ARGS verify javadoc:javadoc

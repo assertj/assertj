@@ -2,24 +2,17 @@ name: CI
 
 on: [push, pull_request]
 
+env:
+  MAVEN_ARGS: -B -V -ntp -e -Djansi.passthrough=true -Dstyle.color=always
+
 jobs:
 
   test_os:
     name: OS ${{ matrix.os }}
-    permissions:
-      # Needed for test reporting
-      checks: write
-      pull-requests: write
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - os: ubuntu-latest
-            comment-test-results: true
-          - os: macOS-latest
-            comment-test-results: false
-          - os: windows-latest
-            comment-test-results: false
+        os: [ubuntu-latest, macOS-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
@@ -30,20 +23,7 @@ jobs:
           java-version: 17
           cache: 'maven'
       - name: Test
-        # Note: arguments with a period or bang in them have to be single quoted to prevent
-        # confusing the PowerShell instance on Windows runners.
-        run: >
-          ./mvnw -B -V --no-transfer-progress -e verify javadoc:javadoc
-          '-Djansi.passthrough=true'
-          '-Dstyle.color=always'
-
-      - name: Publish unit test results
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        if: ${{ matrix.comment-test-results }}
-        continue-on-error: true
-        with:
-          check_name: "JUnit test results"
-          junit_files: "assertj*/**/target/surefire-reports/TEST-*.xml"
+        run: ./mvnw $MAVEN_ARGS verify javadoc:javadoc
 
   sonar:
     name: Sonar code analysis
@@ -62,12 +42,10 @@ jobs:
           cache: 'maven'
       - name: Test with Sonar
         run: >
-          ./mvnw -B -V --no-transfer-progress -e verify javadoc:javadoc sonar:sonar
+          ./mvnw $MAVEN_ARGS verify javadoc:javadoc sonar:sonar
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.organization=assertj
           -Dsonar.projectKey=joel-costigliola_assertj-core
-          -Djansi.passthrough=true
-          -Dstyle.color=always
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

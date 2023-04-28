@@ -8,6 +8,9 @@ on:
     paths:
       - 'assertj-core/**'
 
+env:
+  MAVEN_ARGS: -B -V -ntp -e -Djansi.passthrough=true -Dstyle.color=always -DskipTests
+
 jobs:
   verify-with-base:
     name: Verify with target branch
@@ -28,19 +31,12 @@ jobs:
           ref: ${{ github.base_ref }}
           path: ${{ github.run_id }}.${{ github.base_ref }}
       - name: Build `${{ github.base_ref }}`
-        run: >
-          ./mvnw -B -V --no-transfer-progress -e -f ${{ github.run_id }}.${{ github.base_ref }}/assertj-core/pom.xml package 
-          -DskipTests
-          -Djansi.passthrough=true
-          -Dstyle.color=always
+        run: ./mvnw $MAVEN_ARGS -f ${{ github.run_id }}.${{ github.base_ref }}/assertj-core/pom.xml package
       - name: Compare `${{ github.head_ref }}` with `${{ github.base_ref }}`
         run: >
-          ./mvnw -B -V --no-transfer-progress -e -f assertj-core/pom.xml -Pjapicmp-branch package japicmp:cmp
-          -DskipTests
+          ./mvnw $MAVEN_ARGS -f assertj-core/pom.xml -Pjapicmp-branch package japicmp:cmp
           -Djapicmp.breakBuildOnBinaryIncompatibleModifications=true
           -Djapicmp.oldVersion.basedir=${{ github.run_id }}.${{ github.base_ref }}/assertj-core
-          -Djansi.passthrough=true
-          -Dstyle.color=always
 
       - name: Add label
         if: failure()
@@ -96,11 +92,8 @@ jobs:
 
       - name: Compare with the latest release
         run: >
-          ./mvnw -B -V --no-transfer-progress -e -f assertj-core/pom.xml package japicmp:cmp
-          -DskipTests
+          ./mvnw $MAVEN_ARGS -f assertj-core/pom.xml package japicmp:cmp
           -Djapicmp.breakBuildOnBinaryIncompatibleModifications=true
-          -Djansi.passthrough=true
-          -Dstyle.color=always
 
       - name: Add label
         if: github.base_ref != null && failure()
