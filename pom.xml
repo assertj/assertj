@@ -121,8 +121,6 @@
   </distributionManagement>
 
   <properties>
-    <rootDirectory>${project.basedir}</rootDirectory>
-    <spotless.skip>true</spotless.skip>
     <!-- Plugin versions -->
     <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
     <license-maven-plugin.version>4.3</license-maven-plugin.version>
@@ -149,7 +147,7 @@
                 <include>src/test/java/**/*.java</include>
               </includes>
               <eclipse>
-                <file>${rootDirectory}/eclipse/assertj-eclipse-formatter.xml</file>
+                <file>${project.rootDirectory}/eclipse/assertj-eclipse-formatter.xml</file>
               </eclipse>
             </java>
           </configuration>

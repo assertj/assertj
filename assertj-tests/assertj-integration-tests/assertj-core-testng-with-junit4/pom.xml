@@ -12,11 +12,6 @@
 
   <name>AssertJ Core Integration Tests - TestNG with JUnit 4</name>
 
-  <properties>
-    <rootDirectory>${project.basedir}/../../../</rootDirectory>
-    <spotless.skip>false</spotless.skip>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>junit</groupId>

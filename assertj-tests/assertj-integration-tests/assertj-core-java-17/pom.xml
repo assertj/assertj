@@ -14,8 +14,6 @@
 
   <properties>
     <java.version>17</java.version>
-    <rootDirectory>${project.basedir}/../../../</rootDirectory>
-    <spotless.skip>false</spotless.skip>
   </properties>
 
   <dependencies>

@@ -17,8 +17,6 @@
 
   <properties>
     <javadocAdditionalOptions>-html5 --allow-script-in-comments</javadocAdditionalOptions>
-    <rootDirectory>${project.basedir}/../</rootDirectory>
-    <spotless.skip>false</spotless.skip>
     <!-- Dependency versions -->
     <guava.version>33.0.0-jre</guava.version>
   </properties>

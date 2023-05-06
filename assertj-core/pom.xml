@@ -25,8 +25,6 @@
       --add-opens=java.base/sun.nio.fs=ALL-UNNAMED
     </argLine>
     <javadocAdditionalOptions>-html5 --allow-script-in-comments</javadocAdditionalOptions>
-    <rootDirectory>${project.basedir}/../</rootDirectory>
-    <spotless.skip>false</spotless.skip>
     <!-- Dependency versions -->
     <byte-buddy.version>1.14.11</byte-buddy.version>
     <hamcrest.version>2.2</hamcrest.version>
