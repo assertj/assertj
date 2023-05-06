@@ -12,11 +12,6 @@
 
   <name>AssertJ Scripts Integration Tests</name>
 
-  <properties>
-    <rootDirectory>${project.basedir}/../../../</rootDirectory>
-    <spotless.skip>false</spotless.skip>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.assertj</groupId>
@@ -34,7 +29,7 @@
   <build>
     <resources>
       <resource>
-        <directory>${rootDirectory}/scripts</directory>
+        <directory>${project.rootDirectory}/scripts</directory>
       </resource>
     </resources>
   </build>

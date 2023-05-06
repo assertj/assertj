@@ -118,8 +118,6 @@
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <rootDirectory>${project.basedir}</rootDirectory>
-    <spotless.skip>true</spotless.skip>
     <!-- Plugin versions -->
     <central-publishing-maven-plugin.version>0.9.0</central-publishing-maven-plugin.version>
     <flatten-maven-plugin.version>1.7.3</flatten-maven-plugin.version>
@@ -157,7 +155,7 @@
               </includes>
               <eclipse>
                 <version>4.33</version>
-                <file>${rootDirectory}/eclipse/assertj-eclipse-formatter.xml</file>
+                <file>${project.rootDirectory}/eclipse/assertj-eclipse-formatter.xml</file>
               </eclipse>
             </java>
           </configuration>
@@ -226,7 +224,7 @@ limitations under the License.
               <additionalOption>-html5</additionalOption>
               <additionalOption>--allow-script-in-comments</additionalOption>
             </additionalOptions>
-            <javadocDirectory>${rootDirectory}/javadoc-theme</javadocDirectory>
+            <javadocDirectory>${project.rootDirectory}/javadoc-theme</javadocDirectory>
             <addStylesheets>
               <stylesheet>assertj-theme.css</stylesheet>
               <stylesheet>hljs-theme.css</stylesheet>
