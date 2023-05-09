@@ -207,7 +207,6 @@
           <version>${maven-jar-plugin.version}</version>
           <configuration>
             <archive>
-              <index>true</index>
               <manifest>
                 <addBuildEnvironmentEntries>true</addBuildEnvironmentEntries>
                 <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
