@@ -54,4 +54,10 @@ class ThrowableAssert_built_with_then_method_Test {
     }).withMessage(String.format("%nExpecting code to raise a throwable."));
   }
 
+  @Test
+  void should_fail_if_value_is_returned_by_callable_code() {
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      thenThrownBy(() -> 42);
+    }).withMessage(String.format("Expecting code to raise a throwable, but it returned [42] instead"));
+  }
 }
