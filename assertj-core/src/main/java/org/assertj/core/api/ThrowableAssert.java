@@ -33,6 +33,10 @@ public class ThrowableAssert<ACTUAL extends Throwable> extends AbstractThrowable
     void call() throws Throwable;
   }
 
+  public interface ThrowingCallableWithValue {
+    Object call() throws Throwable;
+  }
+
   public ThrowableAssert(ACTUAL actual) {
     super(actual, ThrowableAssert.class);
   }
