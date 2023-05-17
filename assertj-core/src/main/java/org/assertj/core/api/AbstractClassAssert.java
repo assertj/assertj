@@ -21,6 +21,8 @@ import static org.assertj.core.error.ClassModifierShouldBe.shouldBeStatic;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeFinal;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeStatic;
 import static org.assertj.core.error.ShouldBeAbstract.shouldBeAbstract;
+import static org.assertj.core.error.ShouldBeAnnotation.shouldBeAnnotation;
+import static org.assertj.core.error.ShouldBeAnnotation.shouldNotBeAnnotation;
 import static org.assertj.core.error.ShouldBeAssignableTo.shouldBeAssignableTo;
 import static org.assertj.core.error.ShouldBeInterface.shouldBeInterface;
 import static org.assertj.core.error.ShouldBeInterface.shouldNotBeInterface;
@@ -219,8 +221,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} is not an annotation.
    */
   public SELF isAnnotation() {
-    classes.assertIsAnnotation(info, actual);
+    isNotNull();
+    assertIsAnnotation();
     return myself;
+  }
+
+  private void assertIsAnnotation() {
+    if (!actual.isAnnotation()) throw assertionError(shouldBeAnnotation(actual));
   }
 
   /**
@@ -242,8 +249,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} is an annotation.
    */
   public SELF isNotAnnotation() {
-    classes.assertIsNotAnnotation(info, actual);
+    isNotNull();
+    assertIsNotAnnotation();
     return myself;
+  }
+
+  private void assertIsNotAnnotation() {
+    if (actual.isAnnotation()) throw assertionError(shouldNotBeAnnotation(actual));
   }
 
   /**
