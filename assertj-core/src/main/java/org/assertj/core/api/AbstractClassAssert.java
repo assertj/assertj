@@ -29,6 +29,7 @@ import static org.assertj.core.error.ShouldBeInterface.shouldNotBeInterface;
 import static org.assertj.core.error.ShouldBeRecord.shouldBeRecord;
 import static org.assertj.core.error.ShouldBeRecord.shouldNotBeRecord;
 import static org.assertj.core.error.ShouldHaveNoSuperclass.shouldHaveNoSuperclass;
+import static org.assertj.core.error.ShouldHavePackage.shouldHavePackage;
 import static org.assertj.core.error.ShouldHaveRecordComponents.shouldHaveRecordComponents;
 import static org.assertj.core.error.ShouldHaveSuperclass.shouldHaveSuperclass;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
@@ -981,16 +982,25 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * assertThat(MyClass.class).hasPackage("");
    * assertThat(MyClass.class).hasPackage("java.lang");</code></pre>
    *
-   * @param packageName the package name the class should have
+   * @param expected the package name the class should have
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} does not have the given package.
    *
    * @since 3.18.0
    */
-  public SELF hasPackage(String packageName) {
-    classes.assertHasPackage(info, actual, packageName);
+  public SELF hasPackage(String expected) {
+    isNotNull();
+    assertHasPackage(expected);
     return myself;
+  }
+
+  private void assertHasPackage(String packageName) {
+    requireNonNull(packageName, shouldNotBeNull("expected")::create);
+    Package actualPackage = actual.getPackage();
+    if (actualPackage == null || !actualPackage.getName().equals(packageName)) {
+      throw assertionError(shouldHavePackage(actual, packageName));
+    }
   }
 
   /**
@@ -1011,16 +1021,22 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * assertThat(MyClass.class).hasPackage(Package.getPackage(""));
    * assertThat(MyClass.class).hasPackage(Object.class.getPackage());</code></pre>
    *
-   * @param aPackage the package the class should have
+   * @param expected the package the class should have
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} does not have the given package.
    *
    * @since 3.18.0
    */
-  public SELF hasPackage(Package aPackage) {
-    classes.assertHasPackage(info, actual, aPackage);
+  public SELF hasPackage(Package expected) {
+    isNotNull();
+    assertHasPackage(expected);
     return myself;
+  }
+
+  private void assertHasPackage(Package expected) {
+    requireNonNull(expected, shouldNotBeNull("expected")::create);
+    if (!expected.equals(actual.getPackage())) throw assertionError(shouldHavePackage(actual, expected));
   }
 
 }
