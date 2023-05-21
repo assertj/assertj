@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -17,11 +17,12 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.test.AlwaysDifferentComparator.alwaysDifferent;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_TUPLE;
+import static org.assertj.core.test.BiPredicates.DOUBLE_EQUALS;
+import static org.assertj.core.test.BiPredicates.STRING_EQUALS;
 
 import java.time.ZonedDateTime;
 import java.util.Comparator;
 import java.util.UUID;
-import java.util.function.BiPredicate;
 
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.test.AlwaysEqualComparator;
@@ -34,9 +35,6 @@ import com.google.common.collect.Multimap;
 class RecursiveComparisonConfiguration_multiLineDescription_Test {
 
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
-
-  private static final BiPredicate<String, String> STRING_EQUALS = (String s1, String s2) -> s1.equalsIgnoreCase(s2);
-  private static final BiPredicate<Double, Double> DOUBLE_EQUALS = (Double d1, Double d2) -> Math.abs(d1 - d2) <= 0.01;
 
   @BeforeEach
   void setup() {
@@ -257,6 +255,22 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
+  void should_show_the_registered_comparator_for_regex_fields_alphabetically() {
+    // GIVEN
+    recursiveComparisonConfiguration.registerEqualsForFieldsMatchingRegexes(DOUBLE_EQUALS, ".*bar.*", ".*baz.*");
+    recursiveComparisonConfiguration.registerEqualsForFieldsMatchingRegexes(STRING_EQUALS, ".*zoo.*");
+    recursiveComparisonConfiguration.registerEqualsForFieldsMatchingRegexes(STRING_EQUALS, ".*foo.*");
+    // WHEN
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    then(multiLineDescription).containsSubsequence(format("- the fields matching these regexes were compared with the following comparators:%n"),
+                                                   "  - [.*bar.*, .*baz.*] -> ",
+                                                   "  - [.*foo.*] -> ",
+                                                   "  - [.*zoo.*] -> ");
+    System.out.println("multiLineDescription = " + multiLineDescription);
+  }
+
+  @Test
   void should_show_the_registered_bipredicate_comparator_for_specific_fields_alphabetically() {
     // GIVEN
     recursiveComparisonConfiguration.registerEqualsForFields(STRING_EQUALS, "foo");
@@ -267,6 +281,24 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     then(multiLineDescription).containsSubsequence(format("- these fields were compared with the following comparators:%n"),
                                                    "  - bar -> ",
                                                    "  - foo -> ");
+  }
+
+  @Test
+  void should_show_the_registered_bipredicate_comparator_and_the_precedence_message() {
+    // GIVEN
+    recursiveComparisonConfiguration.registerComparatorForFields(ALWAYS_EQUALS_TUPLE, "foo");
+    recursiveComparisonConfiguration.registerEqualsForFieldsMatchingRegexes(DOUBLE_EQUALS, ".*d");
+    recursiveComparisonConfiguration.registerEqualsForFieldsMatchingRegexes(STRING_EQUALS, ".*a", ".*c", ".*b");
+    // WHEN
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    then(multiLineDescription).containsSubsequence("- these fields were compared with the following comparators:",
+                                                   "  - foo -> ",
+                                                   "- the fields matching these regexes were compared with the following comparators:",
+                                                   "  - [.*a, .*c, .*b] -> ",
+                                                   "  - [.*d] -> ",
+                                                   "- field comparators take precedence over regex field matching comparators.",
+                                                   "- field comparators take precedence over type comparators.");
   }
 
   @Test
@@ -296,6 +328,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     recursiveComparisonConfiguration.setIgnoreAllActualEmptyOptionalFields(true);
     recursiveComparisonConfiguration.setIgnoreAllExpectedNullFields(true);
     recursiveComparisonConfiguration.compareOnlyFields("name", "address.number");
+    recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(String.class, Integer.class);
     recursiveComparisonConfiguration.ignoreFields("foo", "bar", "foo.bar");
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes("f.*", ".ba.", "..b%sr..");
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(UUID.class, ZonedDateTime.class);
@@ -310,6 +343,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     recursiveComparisonConfiguration.registerComparatorForType(AlwaysEqualComparator.ALWAYS_EQUALS_TUPLE, Tuple.class);
     recursiveComparisonConfiguration.registerComparatorForFields(ALWAYS_EQUALS_TUPLE, "foo");
     recursiveComparisonConfiguration.registerComparatorForFields(alwaysDifferent(), "bar.baz");
+    recursiveComparisonConfiguration.allowComparingEnumAgainstString(true);
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
@@ -319,6 +353,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
                "- all actual empty optional fields were ignored in the comparison (including Optional, OptionalInt, OptionalLong and OptionalDouble)%n" +
                "- all expected null fields were ignored in the comparison%n" +
                "- the comparison was performed on the following fields: name, address.number%n" +
+               "- the comparison was performed on any fields with types: java.lang.String, java.lang.Integer%n" +
                "- the following fields were ignored in the comparison: foo, bar, foo.bar%n" +
                "- the fields matching the following regexes were ignored in the comparison: f.*, .ba., ..b%%sr..%n"+
                "- the following types were ignored in the comparison: java.util.UUID, java.time.ZonedDateTime%n" +
@@ -339,7 +374,9 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
                "  - bar.baz -> AlwaysDifferentComparator%n" +
                "  - foo -> AlwaysEqualComparator%n" +
                "- field comparators take precedence over type comparators.%n"+
-               "- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).%n"));
+               "- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).%n" +
+               "- the introspection strategy used was: DefaultRecursiveComparisonIntrospectionStrategy%n"+
+               "- enums can be compared against strings (and vice versa), e.g. Color.RED and \"RED\" are considered equal%n"));
     // @format:on
   }
 
@@ -351,6 +388,26 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     then(multiLineDescription).contains(format("- the comparison was performed on the following fields: foo, bar, foo.bar%n"));
+  }
+
+  @Test
+  void should_show_that_comparison_is_performed_on_given_fields_of_types() {
+    // GIVEN
+    recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(String.class, Integer.class);
+    // WHEN
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    then(multiLineDescription).contains(format("- the comparison was performed on any fields with types: java.lang.String, java.lang.Integer%n"));
+  }
+
+  @Test
+  void should_show_that_enum_can_be_compared_to_string() {
+    // GIVEN
+    recursiveComparisonConfiguration.allowComparingEnumAgainstString(true);
+    // WHEN
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    then(multiLineDescription).contains(format("- enums can be compared against strings (and vice versa), e.g. Color.RED and \"RED\" are considered equal"));
   }
 
   // just to test the description does not fail when given a comparator with various String.format reserved flags
@@ -367,4 +424,5 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     }
 
   }
+
 }

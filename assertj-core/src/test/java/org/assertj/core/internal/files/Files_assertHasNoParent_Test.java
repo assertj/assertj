@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.internal.files;
 
@@ -37,7 +37,7 @@ class Files_assertHasNoParent_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> files.assertHasNoParent(INFO, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasNoParent(INFO, actual));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -47,7 +47,7 @@ class Files_assertHasNoParent_Test extends FilesBaseTest {
     // GIVEN
     File actual = new File("x/y/z");
     // WHEN
-    expectAssertionError(() -> files.assertHasNoParent(INFO, actual));
+    expectAssertionError(() -> underTest.assertHasNoParent(INFO, actual));
     // THEN
     verify(failures).failure(INFO, shouldHaveNoParent(actual));
   }
@@ -55,6 +55,6 @@ class Files_assertHasNoParent_Test extends FilesBaseTest {
   @Test
   void should_pass_if_actual_has_no_parent() {
     File actual = new File("xyz");
-    files.assertHasNoParent(INFO, actual);
+    underTest.assertHasNoParent(INFO, actual);
   }
 }

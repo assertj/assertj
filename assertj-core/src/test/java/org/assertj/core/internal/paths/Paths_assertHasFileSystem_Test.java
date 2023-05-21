@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.internal.paths;
 
@@ -42,7 +42,7 @@ class Paths_assertHasFileSystem_Test extends PathsBaseTest {
     // GIVEN
     FileSystem expectedFileSystem = mock(FileSystem.class, withSettings().stubOnly());
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasFileSystem(info, null, expectedFileSystem));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasFileSystem(INFO, null, expectedFileSystem));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -54,7 +54,7 @@ class Paths_assertHasFileSystem_Test extends PathsBaseTest {
     FileSystem actualFileSystem = mock(FileSystem.class, withSettings().stubOnly());
     given(actualPath.getFileSystem()).willReturn(actualFileSystem);
     // WHEN
-    Throwable error = catchThrowable(() -> paths.assertHasFileSystem(info, actualPath, null));
+    Throwable error = catchThrowable(() -> underTest.assertHasFileSystem(INFO, actualPath, null));
     // THEN
     then(error).isInstanceOf(NullPointerException.class)
                .hasMessage("The expected file system should not be null");
@@ -67,7 +67,7 @@ class Paths_assertHasFileSystem_Test extends PathsBaseTest {
     given(actualPath.getFileSystem()).willReturn(null);
     FileSystem expectedFileSystem = mock(FileSystem.class, withSettings().stubOnly());
     // WHEN
-    Throwable error = catchThrowable(() -> paths.assertHasFileSystem(info, actualPath, expectedFileSystem));
+    Throwable error = catchThrowable(() -> underTest.assertHasFileSystem(INFO, actualPath, expectedFileSystem));
     // THEN
     then(error).isInstanceOf(NullPointerException.class)
                .hasMessage("The actual file system should not be null");
@@ -81,7 +81,7 @@ class Paths_assertHasFileSystem_Test extends PathsBaseTest {
     given(actualPath.getFileSystem()).willReturn(actualFileSystem);
     FileSystem expectedFileSystem = mock(FileSystem.class, withSettings().stubOnly());
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasFileSystem(info, actualPath, expectedFileSystem));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasFileSystem(INFO, actualPath, expectedFileSystem));
     // THEN
     then(error).hasMessage(shouldHaveFileSystem(actualPath, expectedFileSystem).create())
                .isInstanceOf(AssertionFailedError.class)
@@ -97,6 +97,6 @@ class Paths_assertHasFileSystem_Test extends PathsBaseTest {
     FileSystem actualFileSystem = mock(FileSystem.class, withSettings().stubOnly());
     given(actualPath.getFileSystem()).willReturn(actualFileSystem);
     // WHEN/THEN
-    paths.assertHasFileSystem(info, actualPath, actualFileSystem);
+    underTest.assertHasFileSystem(INFO, actualPath, actualFileSystem);
   }
 }

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.internal.files;
 
@@ -39,7 +39,7 @@ class Files_assertIsRelative_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> files.assertIsRelative(INFO, actual));
+    AssertionError assertionError = expectAssertionError(() -> underTest.assertIsRelative(INFO, actual));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -49,7 +49,7 @@ class Files_assertIsRelative_Test extends FilesBaseTest {
     // GIVEN
     File actual = newFile(tempDir.getAbsolutePath() + "/Test.java");
     // WHEN
-    expectAssertionError(() -> files.assertIsRelative(INFO, actual));
+    expectAssertionError(() -> underTest.assertIsRelative(INFO, actual));
     // THEN
     verify(failures).failure(INFO, shouldBeRelativePath(actual));
   }
@@ -59,6 +59,6 @@ class Files_assertIsRelative_Test extends FilesBaseTest {
     // GIVEN
     File actual = new File("src/test/resources/actual_file.txt");
     // THEN
-    files.assertIsRelative(INFO, actual);
+    underTest.assertIsRelative(INFO, actual);
   }
 }

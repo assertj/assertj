@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -50,7 +50,8 @@ class Condition_describedAs_Description_Test {
 
   @Test
   void should_set_empty_description_if_description_is_null() {
-    condition.describedAs(null);
+    String message = null;
+    condition.describedAs(message);
     assertThat(condition.description.value()).isEmpty();
   }
 

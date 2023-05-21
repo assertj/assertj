@@ -8,27 +8,29 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static org.assertj.core.util.Preconditions.checkArgument;
+import static org.assertj.core.util.Strings.escapePercent;
+import static org.assertj.core.util.Throwables.getStackTrace;
 
 import java.util.Objects;
 
 public class ShouldHaveCause extends BasicErrorMessageFactory {
 
-  public static ErrorMessageFactory shouldHaveCause(Throwable actualCause, Throwable expectedCause) {
+  public static ErrorMessageFactory shouldHaveCause(Throwable actual, Throwable expectedCause) {
     checkArgument(expectedCause != null, "expected cause should not be null");
-    // actualCause has no cause
-    if (actualCause == null) return new ShouldHaveCause(expectedCause);
+    // actual has no cause
+    if (actual.getCause() == null) return new ShouldHaveCause(expectedCause);
     // same message => different type
-    if (Objects.equals(actualCause.getMessage(), expectedCause.getMessage()))
-      return new ShouldHaveCause(actualCause, expectedCause.getClass());
+    if (Objects.equals(actual.getCause().getMessage(), expectedCause.getMessage()))
+      return new ShouldHaveCause(actual, expectedCause.getClass());
     // same type => different message
-    if (Objects.equals(actualCause.getClass(), expectedCause.getClass()))
-      return new ShouldHaveCause(actualCause, expectedCause.getMessage());
-    return new ShouldHaveCause(actualCause, expectedCause);
+    if (Objects.equals(actual.getCause().getClass(), expectedCause.getClass()))
+      return new ShouldHaveCause(actual, expectedCause.getMessage());
+    return new ShouldHaveCause(actual, expectedCause);
   }
 
   public static ErrorMessageFactory shouldHaveCause(Throwable actualCause) {
@@ -36,7 +38,7 @@ public class ShouldHaveCause extends BasicErrorMessageFactory {
                                         actualCause);
   }
 
-  private ShouldHaveCause(Throwable actualCause, Throwable expectedCause) {
+  private ShouldHaveCause(Throwable actual, Throwable expectedCause) {
     super("%n" +
           "Expecting a cause with type:%n" +
           "  %s%n" +
@@ -45,9 +47,11 @@ public class ShouldHaveCause extends BasicErrorMessageFactory {
           "but type was:%n" +
           "  %s%n" +
           "and message was:%n" +
-          "  %s.",
+          "  %s.%n%n" +
+          "Throwable that failed the check:%n" +
+          escapePercent(getStackTrace(actual)),
           expectedCause.getClass().getName(), expectedCause.getMessage(),
-          actualCause.getClass().getName(), actualCause.getMessage());
+          actual.getCause().getClass().getName(), actual.getCause().getMessage());
   }
 
   private ShouldHaveCause(Throwable expectedCause) {
@@ -60,21 +64,25 @@ public class ShouldHaveCause extends BasicErrorMessageFactory {
           expectedCause.getClass().getName(), expectedCause.getMessage());
   }
 
-  private ShouldHaveCause(Throwable actualCause, Class<? extends Throwable> expectedCauseClass) {
+  private ShouldHaveCause(Throwable actual, Class<? extends Throwable> expectedCauseClass) {
     super("%n" +
           "Expecting a cause with type:%n" +
           "  %s%n" +
           "but type was:%n" +
-          "  %s.",
-          expectedCauseClass.getName(), actualCause.getClass().getName());
+          "  %s.%n%n" +
+          "Throwable that failed the check:%n" +
+          escapePercent(getStackTrace(actual)),
+          expectedCauseClass.getName(), actual.getCause().getClass().getName());
   }
 
-  private ShouldHaveCause(Throwable actualCause, String expectedCauseMessage) {
+  private ShouldHaveCause(Throwable actual, String expectedCauseMessage) {
     super("%n" +
           "Expecting a cause with message:%n" +
           "  %s%n" +
           "but message was:%n" +
-          "  %s.",
-          expectedCauseMessage, actualCause.getMessage());
+          "  %s.%n%n" +
+          "Throwable that failed the check:%n" +
+          escapePercent(getStackTrace(actual)),
+          expectedCauseMessage, actual.getCause().getMessage());
   }
 }

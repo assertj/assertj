@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -815,11 +815,11 @@ public class Objects {
   public static Set<Field> getDeclaredFieldsIncludingInherited(Class<?> clazz) {
     requireNonNull(clazz, "expecting Class parameter not to be null");
     Set<Field> declaredFields = getDeclaredFieldsIgnoringSyntheticAndStatic(clazz);
-    // get fields declared in superclass
-    Class<?> superclazz = clazz.getSuperclass();
-    while (superclazz != null && !superclazz.getName().startsWith("java.lang")) {
-      declaredFields.addAll(getDeclaredFieldsIgnoringSyntheticAndStatic(superclazz));
-      superclazz = superclazz.getSuperclass();
+    // get fields declared in superClass
+    Class<?> superClass = clazz.getSuperclass();
+    while (superClass != null && !superClass.getName().startsWith("java.lang")) {
+      declaredFields.addAll(getDeclaredFieldsIgnoringSyntheticAndStatic(superClass));
+      superClass = superClass.getSuperclass();
     }
     return declaredFields;
   }
@@ -842,8 +842,7 @@ public class Objects {
    * @return the declared fields of given class excluding any synthetic fields.
    */
   private static Set<Field> getDeclaredFieldsIgnoringSyntheticAndStatic(Class<?> clazz) {
-    return stream(clazz.getDeclaredFields()).filter(field -> !(field.isSynthetic()
-                                                               || Modifier.isStatic(field.getModifiers())))
+    return stream(clazz.getDeclaredFields()).filter(field -> !(field.isSynthetic() || Modifier.isStatic(field.getModifiers())))
                                             .collect(toCollection(LinkedHashSet::new));
   }
 

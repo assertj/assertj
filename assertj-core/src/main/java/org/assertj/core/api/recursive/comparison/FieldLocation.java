@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -84,7 +84,7 @@ public final class FieldLocation implements Comparable<FieldLocation> {
 
   @Override
   public String toString() {
-    return String.format("FieldLocation [pathToUseInRules=%s, decomposedPath=%s]", pathToUseInRules, decomposedPath);
+    return String.format("<%s>", pathToUseInRules);
   }
 
   public String shortDescription() {
@@ -106,6 +106,12 @@ public final class FieldLocation implements Comparable<FieldLocation> {
   public String getFieldName() {
     if (decomposedPath.isEmpty()) return "";
     return decomposedPath.get(decomposedPath.size() - 1);
+  }
+
+  public boolean isRoot() {
+    // root is the top level object compared or in case of the top level is a iterable/array the elements are considered as roots.
+    // we don't do it for optional it has a 'value' field so for the moment
+    return pathToUseInRules.isEmpty();
   }
 
   public static FieldLocation rootFieldLocation() {
@@ -132,7 +138,7 @@ public final class FieldLocation implements Comparable<FieldLocation> {
    * @return true if this has the given parent (direct or indirect), false otherwise.
    */
   public boolean hasParent(FieldLocation parent) {
-    // "." garantees that we compare path elements, this avoid making "name" a parent of "names"
+    // "." guarantees that we compare path elements, this avoids making "name" a parent of "names"
     return pathToUseInRules.startsWith(parent.pathToUseInRules + ".");
   }
 

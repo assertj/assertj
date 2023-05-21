@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api.localdatetime;
 
@@ -16,18 +16,18 @@ import java.time.LocalDateTime;
 
 import org.assertj.core.api.AbstractLocalDateTimeAssert;
 
-
 /**
  * 
  * Base test class for {@link AbstractLocalDateTimeAssert} tests.
  * 
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
+ * @author Stefan Bratanov
  */
 public class LocalDateTimeAssertBaseTest {
 
-  public static final LocalDateTime REFERENCE = LocalDateTime.of(2000, 12, 14, 0, 0);
-  public static final LocalDateTime BEFORE = LocalDateTime.of(2000, 12, 13, 23, 59, 59, 999);
-  public static final LocalDateTime AFTER = LocalDateTime.of(2000, 12, 14, 0, 0, 0, 1);
+  public static final LocalDateTime REFERENCE = LocalDateTime.now();
+  public static final LocalDateTime BEFORE = REFERENCE.minusHours(1);
+  public static final LocalDateTime AFTER = REFERENCE.plusHours(1);
 
 }

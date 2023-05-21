@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -455,17 +455,6 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static ClassAssert then(Class<?> actual) {
-    return assertThat(actual);
-  }
-
-  /**
-   * Creates a new instance of <code>{@link org.assertj.core.api.ClassLoaderAssert}</code>.
-   *
-   * @param actual the actual value.
-   * @return the created assertion object.
-   * @since 3.24.0
-   */
-  public static AbstractClassLoaderAssert<?> then(ClassLoader actual) {
     return assertThat(actual);
   }
 
@@ -2785,7 +2774,7 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
-   * Assertions entry point for {@link TemporalUnitOffset} with  with less than or equal condition
+   * Assertions entry point for {@link TemporalUnitOffset} with less than or equal condition
    * to use with isCloseTo temporal assertions.
    * <p>
    * Typical usage :

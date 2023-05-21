@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api.charsequence;
 
@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
  */
 class CharSequenceAssert_matchesSatisfying_String_Test {
   @Test
-  public void should_pass_if_string_matches_given_pattern_and_first_match_satisfies_assertion() {
+  void should_pass_if_string_matches_given_pattern_and_first_match_satisfies_assertion() {
     // GIVEN
     String pattern = "..(o.o)";
     // WHEN/THEN
@@ -37,7 +37,7 @@ class CharSequenceAssert_matchesSatisfying_String_Test {
   }
 
   @Test
-  public void should_fail_if_string_does_not_match_given_pattern() {
+  void should_fail_if_string_does_not_match_given_pattern() {
     // GIVEN
     String pattern = ".*(a).*";
     // WHEN
@@ -48,7 +48,7 @@ class CharSequenceAssert_matchesSatisfying_String_Test {
   }
 
   @Test
-  public void should_pass_if_string_matches_given_pattern_but_match_does_not_satisfy_assertion() {
+  void should_pass_if_string_matches_given_pattern_but_match_does_not_satisfy_assertion() {
     // GIVEN
     String pattern = ".*(a).*";
     // WHEN

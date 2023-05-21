@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -68,10 +68,22 @@ public final class DualValue {
   public boolean equals(Object other) {
     if (!(other instanceof DualValue)) return false;
     DualValue that = (DualValue) other;
-    // it is critical to compare by reference when tracking visited dual values.
-    // see should_fix_1854_minimal_test for an explanation
-    // TODO add field location check?
-    return actual == that.actual && expected == that.expected;
+    return actual == that.actual && expected == that.expected && fieldLocation.equals(that.fieldLocation);
+  }
+
+  /**
+   * If we want to detect potential cycles in the recursive comparison, we need to check if an object has already been visited.
+   * <p>
+   * We must ignore the {@link FieldLocation} otherwise we would not find cycles. Let's take for example a {@code Person} class
+   * with a neighbor field. We have a cycle between the person instance and its neighbor instance, ex: Jack has Tim as neighbor
+   * and vice versa, when we navigate to Tim we find that its neighbor is Jack, we have already visited it but the location is
+   * different, Jack is both the root object and root.neighbor.neighbor (Jack=root, Tim=root.neighbor and Tim.neighbor=Jack)
+   *
+   * @param dualValue the {@link DualValue} to compare
+   * @return true if dual values references the same values (ignoring the field location)
+   */
+  public boolean sameValues(DualValue dualValue) {
+    return actual == dualValue.actual && expected == dualValue.expected;
   }
 
   @Override
@@ -110,7 +122,11 @@ public final class DualValue {
 
   private static boolean isJavaType(Object o) {
     if (o == null) return false;
-    return o.getClass().getName().startsWith("java.");
+    String className = o.getClass().getName();
+    return className.startsWith("java.")
+           || className.startsWith("javax.")
+           || className.startsWith("sun.")
+           || className.startsWith("com.sun.");
   }
 
   public boolean isExpectedFieldAnArray() {
@@ -287,7 +303,7 @@ public final class DualValue {
   }
 
   public boolean isExpectedAnEnum() {
-    return expected.getClass().isEnum();
+    return expected != null && expected.getClass().isEnum();
   }
 
   public boolean isActualAnEnum() {
@@ -302,7 +318,6 @@ public final class DualValue {
   public boolean isExpectedAContainer() {
     return isContainer(expected);
   }
-
 
   public boolean hasNoNullValues() {
     return actual != null && expected != null;

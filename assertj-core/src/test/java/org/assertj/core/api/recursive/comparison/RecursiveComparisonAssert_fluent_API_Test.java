@@ -8,18 +8,21 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.test.AlwaysDifferentComparator.alwaysDifferent;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
 import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
+import static org.assertj.core.test.BiPredicates.DOUBLE_EQUALS;
+import static org.assertj.core.test.BiPredicates.STRING_EQUALS;
 
 import java.sql.Timestamp;
 import java.util.Comparator;
@@ -243,6 +246,23 @@ class RecursiveComparisonAssert_fluent_API_Test {
                                                             entry(field1, alwaysEqualComparator),
                                                             entry(field2, alwaysDifferentComparator));
     assertThat(configuration.comparatorByFields()).anyMatch(entry -> entry.getKey().equals(field4) && entry.getValue() != null);
+  }
+
+  @Test
+  void should_allow_to_register_comparators_by_regex_matching_fields() {
+    // WHEN
+    // @format:off
+    RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
+                                                                       .withEqualsForFieldsMatchingRegexes(STRING_EQUALS, ".*a", ".*b")
+                                                                       .withEqualsForFieldsMatchingRegexes(DOUBLE_EQUALS, ".*d", ".*e")
+                                                                       .getRecursiveComparisonConfiguration();
+    // @format:on
+    // THEN
+    FieldComparators fieldComparators = configuration.getFieldComparators();
+    then(fieldComparators.hasRegexFieldComparators()).isTrue();
+    then(fieldComparators.comparatorByRegexFields()).allMatch(entry -> entry.getValue() != null);
+    then(fieldComparators.comparatorByRegexFields()).anyMatch(entry -> entry.getKey().toString().equals("[.*a, .*b]"));
+    then(fieldComparators.comparatorByRegexFields()).anyMatch(entry -> entry.getKey().toString().equals("[.*d, .*e]"));
   }
 
   @Test

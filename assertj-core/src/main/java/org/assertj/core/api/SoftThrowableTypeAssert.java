@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -22,7 +22,7 @@ import org.assertj.core.util.CheckReturnValue;
  */
 public class SoftThrowableTypeAssert<T extends Throwable> extends ThrowableTypeAssert<T> {
 
-  private SoftAssertionsProvider softAssertionsProvider;
+  private final SoftAssertionsProvider softAssertionsProvider;
 
   /**
    * Default constructor.
@@ -38,6 +38,15 @@ public class SoftThrowableTypeAssert<T extends Throwable> extends ThrowableTypeA
   @Override
   protected ThrowableAssertAlternative<T> buildThrowableTypeAssert(T throwable) {
     return new SoftThrowableAssertAlternative<>(throwable, softAssertionsProvider);
+  }
+
+  @Override
+  protected void checkThrowableType(Throwable throwable) {
+    try {
+      super.checkThrowableType(throwable);
+    } catch (AssertionError error) {
+      this.softAssertionsProvider.collectAssertionError(error);
+    }
   }
 
   @Override

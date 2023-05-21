@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.internal.paths;
 
@@ -31,7 +31,7 @@ class Paths_assertIsAbsolute_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsAbsolute(info, null));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsAbsolute(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -42,7 +42,7 @@ class Paths_assertIsAbsolute_Test extends PathsBaseTest {
     // GIVEN
     Path actual = Paths.get("relative");
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsAbsolute(info, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsAbsolute(INFO, actual));
     // THEN
     then(error).hasMessage(shouldBeAbsolutePath(actual).create());
   }
@@ -57,7 +57,7 @@ class Paths_assertIsAbsolute_Test extends PathsBaseTest {
     // GIVEN
     Path actual = tempDir.getRoot().resolve("foo").resolve("bar");
     // WHEN/THEN
-    paths.assertIsAbsolute(info, actual);
+    underTest.assertIsAbsolute(INFO, actual);
   }
 
 }

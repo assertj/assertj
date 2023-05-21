@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -56,7 +56,7 @@ public class ClassBasedNavigableListAssert<SELF extends ClassBasedNavigableListA
       Constructor<?>[] declaredConstructors = assertClass.getDeclaredConstructors();
       // find a matching Assert constructor for E or one of its subclass.
       for (Constructor<?> constructor : declaredConstructors) {
-        if (constructor.getParameterTypes().length == 1 && constructor.getParameterTypes()[0].isAssignableFrom(clazz)) {
+        if (constructor.getParameterCount() == 1 && constructor.getParameterTypes()[0].isAssignableFrom(clazz)) {
           @SuppressWarnings("unchecked")
           ELEMENT_ASSERT newAssert = (ELEMENT_ASSERT) constructor.newInstance(value);
           return newAssert.as(description);

@@ -8,12 +8,19 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
+import static java.util.stream.Collectors.toList;
+import static org.assertj.core.data.MapEntry.entry;
+
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 /**
@@ -23,14 +30,27 @@ import java.util.stream.Stream;
  */
 public class FieldComparators extends FieldHolder<Comparator<?>> {
 
+  protected final LinkedList<ComparatorForPatterns> comparatorByPatterns = new LinkedList<>();
+
   /**
-   * Puts the {@code comparator} for the given {@code fieldLocation}.
+   * Registers the {@code comparator} for the given {@code fieldLocation}.
    *
-   * @param fieldLocation the FieldLocation where to apply the comparator
+   * @param fieldLocation the location where to apply the comparator
    * @param comparator the comparator itself
    */
   public void registerComparator(String fieldLocation, Comparator<?> comparator) {
     super.put(fieldLocation, comparator);
+  }
+
+  /**
+   * Registers the {@code comparator} for the given regexes field location.
+   *
+   * @param regexes the regexes field location where to apply the comparator
+   * @param comparator the comparator to use for the regexes
+   */
+  public void registerComparatorForFieldsMatchingRegexes(String[] regexes, Comparator<?> comparator) {
+    List<Pattern> patterns = Stream.of(regexes).map(Pattern::compile).collect(toList());
+    comparatorByPatterns.addFirst(new ComparatorForPatterns(patterns, comparator));
   }
 
   /**
@@ -41,7 +61,12 @@ public class FieldComparators extends FieldHolder<Comparator<?>> {
    */
   public boolean hasComparatorForField(String fieldLocation) {
     // TODO sanitize here?
-    return super.hasEntity(fieldLocation);
+    boolean hasComparatorForExactFieldLocation = super.hasEntity(fieldLocation);
+    // comparator for exact location takes precedence over the one with location matched by regexes
+    if (hasComparatorForExactFieldLocation) return true;
+    // no comparator for exact location, check if there is a regex that matches the field location
+    return comparatorByPatterns.stream()
+                               .anyMatch(comparatorForPatterns -> comparatorForPatterns.hasComparatorForField(fieldLocation));
   }
 
   /**
@@ -52,7 +77,14 @@ public class FieldComparators extends FieldHolder<Comparator<?>> {
    * @return a custom comparator or null
    */
   public Comparator<?> getComparatorForField(String fieldLocation) {
-    return super.get(fieldLocation);
+    Comparator<?> exactFieldLocationComparator = super.get(fieldLocation);
+    if (exactFieldLocationComparator != null) return exactFieldLocationComparator;
+    // no comparator for exact location, check if there is a regex that matches the field location
+    return comparatorByPatterns.stream()
+                               .map(comparatorForPatterns -> comparatorForPatterns.getComparatorForField(fieldLocation))
+                               .filter(comparator -> comparator != null)
+                               .findFirst()
+                               .orElse(null);
   }
 
   /**
@@ -62,5 +94,49 @@ public class FieldComparators extends FieldHolder<Comparator<?>> {
    */
   public Stream<Entry<String, Comparator<?>>> comparatorByFields() {
     return super.entryByField();
+  }
+
+  public Stream<Entry<List<Pattern>, Comparator<?>>> comparatorByRegexFields() {
+    return comparatorByPatterns.stream().map(comparatorForPatterns -> entry(comparatorForPatterns.fieldPatterns,
+                                                                            comparatorForPatterns.comparator));
+  }
+
+  @Override
+  public boolean isEmpty() {
+    return super.isEmpty() && comparatorByPatterns.isEmpty();
+  }
+
+  public boolean hasFieldComparators() {
+    return !super.isEmpty();
+  }
+
+  public boolean hasRegexFieldComparators() {
+    return !comparatorByPatterns.isEmpty();
+  }
+}
+
+/**
+ * Data structure holding the list of field patterns that will lead to use the given comparator.
+ */
+class ComparatorForPatterns {
+  final List<Pattern> fieldPatterns;
+  final Comparator<?> comparator;
+
+  ComparatorForPatterns(List<Pattern> fieldPatterns, Comparator<?> comparator) {
+    this.fieldPatterns = Collections.unmodifiableList(fieldPatterns);
+    this.comparator = comparator;
+  }
+
+  boolean hasComparatorForField(String fieldLocation) {
+    return fieldPatterns.stream().anyMatch(pattern -> pattern.matcher(fieldLocation).matches());
+  }
+
+  Comparator<?> getComparatorForField(String fieldLocation) {
+    return hasComparatorForField(fieldLocation) ? comparator : null;
+  }
+
+  @Override
+  public String toString() {
+    return String.format("ComparatorForPatterns[patterns=%s, comparator=%s]", this.fieldPatterns, this.comparator);
   }
 }

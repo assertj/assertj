@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api.offsetdatetime;
 
@@ -25,6 +25,7 @@ import java.time.OffsetDateTime;
 
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("deprecation")
 class OffsetDateTimeAssert_isEqualToIgnoringSeconds_Test {
 
   private final OffsetDateTime refOffsetDateTime = OffsetDateTime.of(2000, 1, 1, 23, 51, 0, 0, UTC);

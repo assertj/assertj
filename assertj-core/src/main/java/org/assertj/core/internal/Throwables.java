@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -95,9 +95,9 @@ public class Throwables {
       assertHasNoCause(info, actual);
       return;
     }
-    if (actualCause == null) throw failures.failure(info, shouldHaveCause(actualCause, expectedCause));
+    if (actualCause == null) throw failures.failure(info, shouldHaveCause(actual, expectedCause));
     if (!compareThrowable(actualCause, expectedCause))
-      throw failures.failure(info, shouldHaveCause(actualCause, expectedCause));
+      throw failures.failure(info, shouldHaveCause(actual, expectedCause));
   }
 
   /**
@@ -310,11 +310,19 @@ public class Throwables {
    * @throws AssertionError if the message of the actual {@code Throwable} does not match the given regular expression.
    * @throws NullPointerException if the regex is null
    */
-  public void assertHasMessageMatching(AssertionInfo info, Throwable actual, String regex) {
+  public void assertHasMessageMatching(AssertionInfo info, Throwable actual, Pattern regex) {
     requireNonNull(regex, "regex must not be null");
     assertNotNull(info, actual);
-    if (actual.getMessage() != null && actual.getMessage().matches(regex)) return;
-    throw failures.failure(info, shouldHaveMessageMatchingRegex(actual, regex));
+    if (actual.getMessage() != null && regex.matcher(actual.getMessage()).matches()) return;
+    throw failures.failure(info, shouldHaveMessageMatchingRegex(actual, regex.pattern()));
+  }
+
+  /**
+   * @see #assertHasMessageMatching(AssertionInfo, Throwable, Pattern)
+   */
+  public void assertHasMessageMatching(AssertionInfo info, Throwable actual, String regex) {
+    requireNonNull(regex, "regex must not be null");
+    assertHasMessageMatching(info, actual, Pattern.compile(regex));
   }
 
   /**
@@ -419,8 +427,7 @@ public class Throwables {
    * @throws AssertionError if the root cause of the actual {@code Throwable} is not <b>exactly</b> an instance of the
    *           given type.
    */
-  public void assertHasRootCauseExactlyInstanceOf(AssertionInfo info, Throwable actual,
-                                                  Class<? extends Throwable> type) {
+  public void assertHasRootCauseExactlyInstanceOf(AssertionInfo info, Throwable actual, Class<? extends Throwable> type) {
     assertNotNull(info, actual);
     checkTypeIsNotNull(type);
     Throwable rootCause = getRootCause(actual);

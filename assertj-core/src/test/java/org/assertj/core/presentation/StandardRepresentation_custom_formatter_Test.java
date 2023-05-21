@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.presentation;
 
@@ -68,4 +68,14 @@ class StandardRepresentation_custom_formatter_Test {
     assertThat(STANDARD_REPRESENTATION.toStringOf(intNumber)).isEqualTo("8");
   }
 
+  @Test
+  void should_return_null_when_registered_formatter_returns_null() {
+    // GIVEN
+    StandardRepresentation.registerFormatterForType(String.class, value -> null);
+    Object string = "abc";
+    // WHEN
+    String actual = STANDARD_REPRESENTATION.toStringOf(string);
+    // THEN
+    assertThat(actual).isNull();
+  }
 }

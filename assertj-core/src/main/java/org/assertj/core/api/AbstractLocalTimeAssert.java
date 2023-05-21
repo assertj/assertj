@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -26,6 +26,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 
+import org.assertj.core.data.TemporalOffset;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 
@@ -369,7 +370,10 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
    * @throws AssertionError if the actual {@code LocalTime} is {@code null}.
    * @throws IllegalArgumentException if other {@code LocalTime} is {@code null}.
    * @throws AssertionError if the actual {@code LocalTime} is are not equal with nanoseconds ignored.
+   * @deprecated Use {@link #isCloseTo(LocalTime, TemporalOffset)} instead, although not exactly the same semantics,
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isEqualToIgnoringNanos(LocalTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertLocalTimeParameterIsNotNull(other);
@@ -404,9 +408,11 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalTime} is {@code null}.
    * @throws IllegalArgumentException if other {@code LocalTime} is {@code null}.
-   * @throws AssertionError if the actual {@code LocalTime} is are not equal with second and nanosecond fields
-   *           ignored.
+   * @throws AssertionError if the actual {@code LocalTime} is are not equal with second and nanosecond fields ignored.
+   * @deprecated Use {@link #isCloseTo(LocalTime, TemporalOffset)} instead, although not exactly the same semantics,
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isEqualToIgnoringSeconds(LocalTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertLocalTimeParameterIsNotNull(other);
@@ -678,6 +684,12 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
       throw Failures.instance().failure(info, shouldHaveDateField(actual, "nano", nano));
     }
     return myself;
+  }
+
+  @Override
+  public SELF isCloseTo(LocalTime other, TemporalOffset<? super LocalTime> offset) {
+    // overridden for javadoc link
+    return super.isCloseTo(other, offset);
   }
 
   /**

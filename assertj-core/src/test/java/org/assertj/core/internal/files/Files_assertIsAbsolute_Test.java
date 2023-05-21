@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.internal.files;
 
@@ -38,7 +38,7 @@ class Files_assertIsAbsolute_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> files.assertIsAbsolute(INFO, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsAbsolute(INFO, actual));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -48,7 +48,7 @@ class Files_assertIsAbsolute_Test extends FilesBaseTest {
     // GIVEN
     File actual = new File("xyz");
     // WHEN
-    expectAssertionError(() -> files.assertIsAbsolute(INFO, actual));
+    expectAssertionError(() -> underTest.assertIsAbsolute(INFO, actual));
     // THEN
     verify(failures).failure(INFO, shouldBeAbsolutePath(actual));
   }
@@ -56,6 +56,6 @@ class Files_assertIsAbsolute_Test extends FilesBaseTest {
   @Test
   void should_pass_if_actual_is_absolute_path() {
     File actual = new File(tempDir.getAbsolutePath() + "/file.txt");
-    files.assertIsAbsolute(INFO, actual);
+    underTest.assertIsAbsolute(INFO, actual);
   }
 }

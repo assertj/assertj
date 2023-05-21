@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -61,19 +61,20 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
    * <pre><code class='java'> LocalTime _07_10 = LocalTime.of(7, 10);
    * LocalTime _07_42 = LocalTime.of(7, 42);
    *
-   * // assertions will pass
+   * // assertions succeed:
    * assertThat(_07_10).isCloseTo(_07_42, within(1, ChronoUnit.HOURS));
    * assertThat(_07_10).isCloseTo(_07_42, within(32, ChronoUnit.MINUTES));
    *
-   * // assertions will fail
+   * // assertions fail:
    * assertThat(_07_10).isCloseTo(_07_42, byLessThan(32, ChronoUnit.MINUTES));
    * assertThat(_07_10).isCloseTo(_07_42, within(10, ChronoUnit.SECONDS));</code></pre>
+   *
    * @param other the temporal to compare actual to
    * @param offset the offset used for comparison
    * @return this assertion object
    * @throws NullPointerException if {@code Temporal} or {@code TemporalOffset} parameter is {@code null}.
    * @throws AssertionError if the actual {@code Temporal} is {@code null}.
-   * @throws AssertionError if the actual {@code Temporal} is not close to the given for a provided offset.
+   * @throws AssertionError if the actual {@code Temporal} is not close to the given one for a provided offset.
    */
   public SELF isCloseTo(TEMPORAL other, TemporalOffset<? super TEMPORAL> offset) {
     Objects.instance().assertNotNull(info, actual);
@@ -101,7 +102,7 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
    * @throws AssertionError if the actual {@code Temporal} is {@code null}.
    * @throws NullPointerException if temporal string representation or {@code TemporalOffset} parameter is {@code null}.
    * @throws AssertionError if the actual {@code Temporal} is {@code null}.
-   * @throws AssertionError if the actual {@code Temporal} is not close to the given for a provided offset.
+   * @throws AssertionError if the actual {@code Temporal} is not close to the given within the provided offset.
    */
   public SELF isCloseTo(String otherAsString, TemporalOffset<? super TEMPORAL> offset) {
     requireNonNull(otherAsString, "The String representing of the temporal object to compare actual with should not be null");

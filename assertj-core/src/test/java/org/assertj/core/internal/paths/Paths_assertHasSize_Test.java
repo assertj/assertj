@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.internal.paths;
 
@@ -36,7 +36,7 @@ class Paths_assertHasSize_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasSize(info, null, 0L));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasSize(INFO, null, 0L));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -46,7 +46,7 @@ class Paths_assertHasSize_Test extends PathsBaseTest {
     // GIVEN
     Path actual = tempDir.resolve("non-existent");
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasSize(info, actual, 0L));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasSize(INFO, actual, 0L));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -56,7 +56,7 @@ class Paths_assertHasSize_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createDirectory(tempDir.resolve("directory"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasSize(info, actual, 0L));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasSize(INFO, actual, 0L));
     // THEN
     then(error).hasMessage(shouldBeRegularFile(actual).create());
   }
@@ -68,7 +68,7 @@ class Paths_assertHasSize_Test extends PathsBaseTest {
     IOException exception = new IOException("boom!");
     given(nioFilesWrapper.size(actual)).willThrow(exception);
     // WHEN
-    Throwable thrown = catchThrowable(() -> paths.assertHasSize(info, actual, 0L));
+    Throwable thrown = catchThrowable(() -> underTest.assertHasSize(INFO, actual, 0L));
     // THEN
     then(thrown).isInstanceOf(UncheckedIOException.class)
                 .hasCause(exception);
@@ -79,7 +79,7 @@ class Paths_assertHasSize_Test extends PathsBaseTest {
     // GIVEN
     Path actual = Files.write(tempDir.resolve("actual"), "content".getBytes());
     // WHEN/THEN
-    paths.assertHasSize(info, actual, 7L);
+    underTest.assertHasSize(INFO, actual, 7L);
   }
 
   @Test
@@ -87,7 +87,7 @@ class Paths_assertHasSize_Test extends PathsBaseTest {
     // GIVEN
     Path actual = Files.write(tempDir.resolve("actual"), "content".getBytes());
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertHasSize(info, actual, 6L));
+    AssertionError error = expectAssertionError(() -> underTest.assertHasSize(INFO, actual, 6L));
     // THEN
     then(error).hasMessage(shouldHaveSize(actual, 6L).create());
   }

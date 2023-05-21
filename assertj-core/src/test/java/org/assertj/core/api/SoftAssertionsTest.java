@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -2673,8 +2673,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
           .overridingErrorMessage("isLessThan")
           .isLessThan(4);
     // THEN
-    assertThat(softly.errorsCollected()).extracting(Throwable::getMessage)
-                                        .containsExactly("isGreaterThan", "isLessThan");
+    then(softly.errorsCollected()).extracting(Throwable::getMessage)
+                                  .containsExactly("isGreaterThan", "isLessThan");
   }
 
   @Test
@@ -2694,5 +2694,21 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertThatComparable(name3).isBetween(new Name("abc"), name4);
     softly.assertThatComparable(name3).isStrictlyBetween(new Name("abc"), name4);
   }
+
+  @Test
+  void soft_assertions_should_work_with_isThrownBy() {
+    // GIVEN
+    Consumer<String> runAssertions = input -> softly.assertThatExceptionOfType(Exception.class)
+                                                    .as("checking " + input)
+                                                    .isThrownBy(this::checkSomething);
+    // WHEN
+    Stream.of("A", "B").forEach(runAssertions);
+    // THEN
+    then(softly.errorsCollected()).extracting(Throwable::getMessage)
+                                  .containsExactly(format("[checking A] %nExpecting code to raise a throwable."),
+                                                   format("[checking B] %nExpecting code to raise a throwable."));
+  }
+
+  private void checkSomething() {}
 
 }

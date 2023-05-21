@@ -8,9 +8,12 @@ on:
     paths:
       - 'assertj-core/**'
 
+env:
+  MAVEN_ARGS: -B -V -ntp -e -Djansi.passthrough=true -Dstyle.color=always -DskipTests
+
 jobs:
   verify-with-base:
-    name: Verify with base ref
+    name: Verify with target branch
     runs-on: ubuntu-latest
     if: github.base_ref != null
 
@@ -20,7 +23,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 17
-#          cache: 'maven'
+          cache: 'maven'
 
       - name: Checkout `${{ github.base_ref }}` into subfolder
         uses: actions/checkout@v3
@@ -28,25 +31,16 @@ jobs:
           ref: ${{ github.base_ref }}
           path: ${{ github.run_id }}.${{ github.base_ref }}
       - name: Build `${{ github.base_ref }}`
-        run: >
-          ./mvnw -B -V --no-transfer-progress -e -f ${{ github.run_id }}.${{ github.base_ref }}/assertj-core/pom.xml package 
-          -DskipTests
-          -Djansi.passthrough=true
-          -Dstyle.color=always
+        run: ./mvnw $MAVEN_ARGS -f ${{ github.run_id }}.${{ github.base_ref }}/assertj-core/pom.xml package
       - name: Compare `${{ github.head_ref }}` with `${{ github.base_ref }}`
         run: >
-          ./mvnw -B -V --no-transfer-progress -e -f assertj-core/pom.xml -Pjapicmp-branch package japicmp:cmp
-          -DskipTests
+          ./mvnw $MAVEN_ARGS -f assertj-core/pom.xml -Pjapicmp-branch package japicmp:cmp
           -Djapicmp.breakBuildOnBinaryIncompatibleModifications=true
           -Djapicmp.oldVersion.basedir=${{ github.run_id }}.${{ github.base_ref }}/assertj-core
-          -Djansi.passthrough=true
-          -Dstyle.color=always
 
       - name: Add label
         if: failure()
         uses: actions/github-script@v6
-        # This will occur when the user running the CI job lacks permission to manipulate
-        # the resource with this integration.
         continue-on-error: true
         with:
           script: |
@@ -94,15 +88,12 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 17
-#          cache: 'maven'
+          cache: 'maven'
 
       - name: Compare with the latest release
         run: >
-          ./mvnw -B -V --no-transfer-progress -e -f assertj-core/pom.xml package japicmp:cmp
-          -DskipTests
+          ./mvnw $MAVEN_ARGS -f assertj-core/pom.xml package japicmp:cmp
           -Djapicmp.breakBuildOnBinaryIncompatibleModifications=true
-          -Djansi.passthrough=true
-          -Dstyle.color=always
 
       - name: Add label
         if: github.base_ref != null && failure()

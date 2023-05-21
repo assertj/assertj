@@ -6,6 +6,9 @@ updates:
       interval: "daily"
     labels:
       - "dependabot: Maven"
+    ignore:
+      - dependency-name: "spring-core"
+        versions: [ "6.x" ]
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:

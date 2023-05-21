@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.presentation;
 
@@ -32,6 +32,7 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -109,9 +110,18 @@ public class StandardRepresentation implements Representation {
   private static int maxElementsForPrinting = Configuration.MAX_ELEMENTS_FOR_PRINTING;
   private static int maxStackTraceElementsDisplayed = Configuration.MAX_STACKTRACE_ELEMENTS_DISPLAYED;
 
-  private static final Map<Class<?>, Function<?, String>> customFormatterByType = new HashMap<>();
+  private static final Map<Class<?>, Function<?, ? extends CharSequence>> customFormatterByType = new HashMap<>();
   private static final Class<?>[] TYPE_WITH_UNAMBIGUOUS_REPRESENTATION = { Date.class, LocalDateTime.class, ZonedDateTime.class,
       OffsetDateTime.class, Calendar.class };
+
+  // Iterable types that should be considered to be unsafe to dereference and iterate across (e.g. they may have
+  // visible side effects).
+  private static final Class<?>[] BLACKLISTED_ITERABLE_CLASSES = {
+    // DirectoryStream implementations can choose to only provide a single-use iterator once across their contents.
+    // This means we should not try to iterate across them in their representation as this can cause unwanted
+    // side effects in test cases.
+    DirectoryStream.class,
+  };
 
   protected enum GroupType {
     ITERABLE("iterable"), ARRAY("array");
@@ -242,7 +252,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof DeleteDelta<?>) return toStringOf((DeleteDelta<?>) object);
     // Only format Iterables that are not collections and have not overridden toString
     // ex: JsonNode is an Iterable that is best formatted with its own String
-    // Path is another example but we can deal with it specifically as it is part of the JDK.
+    // Path is another example, but we can deal with it specifically as it is part of the JDK.
     if (object instanceof Iterable<?> && !hasOverriddenToString(object.getClass())) return smartFormat((Iterable<?>) object);
     if (object instanceof AtomicInteger) return toStringOf((AtomicInteger) object);
     if (object instanceof AtomicBoolean) return toStringOf((AtomicBoolean) object);
@@ -308,7 +318,8 @@ public class StandardRepresentation implements Representation {
   @SuppressWarnings("unchecked")
   protected <T> String customFormat(T object) {
     if (object == null) return null;
-    return ((Function<T, String>) customFormatterByType.get(object.getClass())).apply(object);
+    CharSequence formatted = ((Function<T, ? extends CharSequence>) customFormatterByType.get(object.getClass())).apply(object);
+    return formatted != null ? formatted.toString() : null;
   }
 
   protected boolean hasCustomFormatterFor(Object object) {
@@ -548,13 +559,19 @@ public class StandardRepresentation implements Representation {
    * Returns the {@code String} representation of the given {@code Iterable}, or {@code null} if the given
    * {@code Iterable} is {@code null}.
    * <p>
-   * The {@code Iterable} will be formatted to a single line if it does not exceed 100 char, otherwise each elements
+   * The {@code Iterable} will be formatted to a single line if it does not exceed 100 char, otherwise each element
    * will be formatted on a new line with 4 space indentation.
    *
    * @param iterable the {@code Iterable} to format.
    * @return the {@code String} representation of the given {@code Iterable}.
    */
   protected String smartFormat(Iterable<?> iterable) {
+    for (Class<?> blacklistedClass : BLACKLISTED_ITERABLE_CLASSES) {
+      if (blacklistedClass.isInstance(iterable)) {
+        return fallbackToStringOf(iterable);
+      }
+    }
+
     String singleLineDescription = singleLineFormat(iterable, DEFAULT_START, DEFAULT_END);
     return doesDescriptionFitOnSingleLine(singleLineDescription) ? singleLineDescription : multiLineFormat(iterable);
   }

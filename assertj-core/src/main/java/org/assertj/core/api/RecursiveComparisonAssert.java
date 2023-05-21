@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -25,8 +25,11 @@ import java.util.OptionalLong;
 import java.util.function.BiPredicate;
 
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
+import org.assertj.core.api.recursive.comparison.DefaultRecursiveComparisonIntrospectionStrategy;
+import org.assertj.core.api.recursive.comparison.RecursiveComparator;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonIntrospectionStrategy;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -103,18 +106,18 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * <p>
    * Here is a basic example with a default {@link RecursiveComparisonConfiguration}, you can find other examples for each of the method changing the recursive comparison behavior
    * like {@link #ignoringFields(String...)}.
-   * <pre><code class='java'> public class Person {
+   * <pre><code class='java'> class Person {
    *   String name;
    *   double height;
    *   Home home = new Home();
    * }
    *
-   * public class Home {
+   * class Home {
    *   Address address = new Address();
    *   Date ownedSince;
    * }
    *
-   * public static class Address {
+   * class Address {
    *   int number;
    *   String street;
    * }
@@ -214,6 +217,225 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
+   * Verifies that the actual value is present in the given array of values, comparing values with the recursive comparison.
+   * <p>
+   * This assertion always fails if the given array of values is empty.
+   * <p>
+   * <strong>Example</strong>
+   * <p>
+   * <pre><code class='java'> class Person {
+   *   String name;
+   *   double height;
+   *   Home home = new Home();
+   * }
+   *
+   * class Home {
+   *   Address address = new Address();
+   *   Date ownedSince;
+   * }
+   *
+   * class Address {
+   *   int number;
+   *   String street;
+   * }
+   *
+   * Person sherlock = new Person("Sherlock", 1.80);
+   * sherlock.home.ownedSince = new Date(123);
+   * sherlock.home.address.street = "Baker Street";
+   * sherlock.home.address.number = 221;
+   *
+   * Person sherlock2 = new Person("Sherlock", 1.80);
+   * sherlock2.home.ownedSince = new Date(123);
+   * sherlock2.home.address.street = "Baker Street";
+   * sherlock2.home.address.number = 221;
+   *
+   * Person moriarty = new Person("Moriarty", 1.80);
+   * moriarty.home.ownedSince = new Date(123);
+   * moriarty.home.address.street = "Butcher Street";
+   * moriarty.home.address.number = 221;
+   *
+   * // assertion succeeds as sherlock and sherlock2 data are the same.
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .isIn(sherlock2, moriarty);</code></pre>
+   *
+   * @param values the given array to search the actual value in.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given array is {@code null}.
+   * @throws AssertionError if the actual value is not present in the given array.
+   */
+  @Override
+  public SELF isIn(Object... values) {
+    usingRecursiveComparator();
+    return super.isIn(values);
+  }
+
+  /**
+   * Verifies that the actual value is present in the given iterable, comparing values with the recursive comparison.
+   * <p>
+   * This assertion always fails if the given iterable is empty.
+   * <strong>Example</strong>
+   * <p>
+   * <pre><code class='java'> class Person {
+   *   String name;
+   *   double height;
+   *   Home home = new Home();
+   * }
+   *
+   * class Home {
+   *   Address address = new Address();
+   *   Date ownedSince;
+   * }
+   *
+   * class Address {
+   *   int number;
+   *   String street;
+   * }
+   *
+   * Person sherlock = new Person("Sherlock", 1.80);
+   * sherlock.home.ownedSince = new Date(123);
+   * sherlock.home.address.street = "Baker Street";
+   * sherlock.home.address.number = 221;
+   *
+   * Person sherlock2 = new Person("Sherlock", 1.80);
+   * sherlock2.home.ownedSince = new Date(123);
+   * sherlock2.home.address.street = "Baker Street";
+   * sherlock2.home.address.number = 221;
+   *
+   * Person moriarty = new Person("Moriarty", 1.80);
+   * moriarty.home.ownedSince = new Date(123);
+   * moriarty.home.address.street = "Butcher Street";
+   * moriarty.home.address.number = 221;
+   *
+   * // assertion succeeds as sherlock and sherlock2 data are the same.
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .isIn(Arrays.asList(sherlock2, moriarty));</code></pre>
+   *
+   * @param values the given iterable to search the actual value in.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given iterable is {@code null}.
+   * @throws AssertionError if the actual value is not present in the given iterable.
+   */
+  @Override
+  public SELF isIn(Iterable<?> values) {
+    usingRecursiveComparator();
+    return super.isIn(values);
+  }
+
+  /**
+   * Verifies that the actual value is not present in the given array of values, comparing values with the recursive comparison.
+   * <p>
+   * This assertion always succeeds if the given array of values is empty.
+   * <p>
+   * <strong>Example</strong>
+   * <p>
+   * <pre><code class='java'> class Person {
+   *   String name;
+   *   double height;
+   *   Home home = new Home();
+   * }
+   *
+   * class Home {
+   *   Address address = new Address();
+   *   Date ownedSince;
+   * }
+   *
+   * class Address {
+   *   int number;
+   *   String street;
+   * }
+   *
+   * Person sherlock = new Person("Sherlock", 1.80);
+   * sherlock.home.ownedSince = new Date(123);
+   * sherlock.home.address.street = "Baker Street";
+   * sherlock.home.address.number = 221;
+   *
+   * Person watson = new Person("Watson", 1.70);
+   * watson.home.ownedSince = new Date(123);
+   * watson.home.address.street = "Baker Street";
+   * watson.home.address.number = 221;
+   *
+   * Person moriarty = new Person("Moriarty", 1.80);
+   * moriarty.home.ownedSince = new Date(123);
+   * moriarty.home.address.street = "Butcher Street";
+   * moriarty.home.address.number = 221;
+   *
+   * // assertion succeeds as sherlock data is different from watson and moriarty
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .isNotIn(watson, moriarty);</code></pre>
+   *
+   * @param values the given array to search the actual value in.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given array is {@code null}.
+   * @throws AssertionError if the actual value is present in the given array.
+   */
+  @Override
+  public SELF isNotIn(Object... values) {
+    usingRecursiveComparator();
+    return super.isNotIn(values);
+  }
+
+  /**
+   * Verifies that the actual value is not present in the given iterable, comparing values with the recursive comparison..
+   * <p>
+   * This assertion always succeeds if the given iterable is empty.
+   * <p>
+   * <strong>Example</strong>
+   * <p>
+   * <pre><code class='java'> class Person {
+   *   String name;
+   *   double height;
+   *   Home home = new Home();
+   * }
+   *
+   * class Home {
+   *   Address address = new Address();
+   *   Date ownedSince;
+   * }
+   *
+   * class Address {
+   *   int number;
+   *   String street;
+   * }
+   *
+   * Person sherlock = new Person("Sherlock", 1.80);
+   * sherlock.home.ownedSince = new Date(123);
+   * sherlock.home.address.street = "Baker Street";
+   * sherlock.home.address.number = 221;
+   *
+   * Person watson = new Person("Watson", 1.70);
+   * watson.home.ownedSince = new Date(123);
+   * watson.home.address.street = "Baker Street";
+   * watson.home.address.number = 221;
+   *
+   * Person moriarty = new Person("Moriarty", 1.80);
+   * moriarty.home.ownedSince = new Date(123);
+   * moriarty.home.address.street = "Butcher Street";
+   * moriarty.home.address.number = 221;
+   *
+   * // assertion succeeds as sherlock data is different from watson and moriarty
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .isNotIn(Arrays.asList(watson, moriarty));</code></pre>
+   *
+   * @param values the given iterable to search the actual value in.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given iterable is {@code null}.
+   * @throws AssertionError if the actual value is present in the given iterable.
+   */
+  @Override
+  public SELF isNotIn(Iterable<?> values) {
+    usingRecursiveComparator();
+    return super.isNotIn(values);
+  }
+
+  /**
+   * use a comparator performing a recursive comparison with the current recursiveComparisonConfiguration.
+   */
+  private void usingRecursiveComparator() {
+    RecursiveComparator recursiveComparator = new RecursiveComparator(recursiveComparisonConfiguration);
+    usingComparator(recursiveComparator, recursiveComparator.getDescription());
+  }
+
+  /**
    * Makes the recursive comparison to only compare given actual fields and their subfields (no other fields will be compared).
    * <p>
    * Specifying a field will make all its subfields to be compared, for example specifying {@code person} will lead to compare
@@ -228,17 +450,17 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * and the ignored fields = {"bar"} then only {"foo", "baz"} fields will be compared.
    * <p>
    * Usage example:
-   * <pre><code class='java'> public class Person {
+   * <pre><code class='java'> class Person {
    *   String name;
    *   double height;
    *   Home home = new Home();
    * }
    *
-   * public class Home {
+   * class Home {
    *   Address address = new Address();
    * }
    *
-   * public static class Address {
+   * class Address {
    *   int number;
    *   String street;
    * }
@@ -250,7 +472,6 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * Person moriarty = new Person("Moriarty", 1.80);
    * moriarty.home.address.street = "Butcher Street";
    * moriarty.home.address.number = 221;
-   *
    *
    * // assertion succeeds as name and home.address.street fields are not compared.
    * assertThat(sherlock).usingRecursiveComparison()
@@ -271,20 +492,77 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
-   * Makes the recursive comparison to ignore all <b>actual null fields</b> (but note that the expected object null fields are used in the comparison).
+   * Makes the recursive comparison to only compare given actual fields of the specified types and their subfields (no other fields will be compared).
    * <p>
-   * Example:
-   * <pre><code class='java'> public class Person {
+   * Specifying a field of type will make all its subfields to be compared, for example specifying the {@code Person} type will
+   * lead to compare {@code Person.name}, {@code Person.address} and all other {@code Person} fields.<br>
+   * In case actual's field is null, expected's field type will be checked to match one of the given types (we assume actual and expected fields have the same type).
+   * <p>
+   * {@code ", "} can be combined with {@link #comparingOnlyFields(String...)} to compare fields of the given types <b>or</b> names (union of both sets of fields).
+   * <p>
+   * {@code ", "} can be also combined with ignoring fields or compare only fields by name methods to restrict further the fields actually compared,
+   * the resulting compared fields = {specified compared fields of types} {@code -} {specified ignored fields}.<br>
+   * For example if the specified compared fields of types = {@code {String.class, Integer.class, Double.class}}, when there are fields  String foo, {@code Integer baz} and {@code Double bar}
+   * and the ignored fields = {"bar"} set with {@link RecursiveComparisonAssert#ignoringFields(String...)} that will remove {@code bar} field from comparison, then only {@code {foo, baz}} fields will be compared.
+   * <p>
+   * Usage example:
+   * <pre><code class='java'> class Person {
    *   String name;
    *   double height;
    *   Home home = new Home();
    * }
    *
-   * public class Home {
+   * class Home {
    *   Address address = new Address();
    * }
    *
-   * public static class Address {
+   * class Address {
+   *   int number;
+   *   String street;
+   * }
+   *
+   * Person sherlock = new Person("Sherlock", 1.80);
+   * sherlock.home.address.street = "Baker Street";
+   * sherlock.home.address.number = 221;
+   *
+   * Person moriarty = new Person("Moriarty", 1.80);
+   * moriarty.home.address.street = "Butcher Street";
+   * moriarty.home.address.number = 221;
+   *
+   *
+   * // assertion succeeds as it only compared fields height and home.address.number since their types match compared types
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .", "(Integer.class, Double.class)
+   *                     .isEqualTo(moriarty);
+   *
+   * // assertion fails as home.address.street fields differ (Home fields and its subfields were compared)
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .", "(Home.class)
+   *                     .isEqualTo(moriarty);</code></pre>
+   *
+   * @param typesToCompare the types to compare in the recursive comparison.
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   */
+  public SELF comparingOnlyFieldsOfTypes(Class<?>... typesToCompare) {
+    recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(typesToCompare);
+    return myself;
+  }
+
+  /**
+   * Makes the recursive comparison to ignore all <b>actual null fields</b> (but note that the expected object null fields are used in the comparison).
+   * <p>
+   * Example:
+   * <pre><code class='java'> class Person {
+   *   String name;
+   *   double height;
+   *   Home home = new Home();
+   * }
+   *
+   * class Home {
+   *   Address address = new Address();
+   * }
+   *
+   * class Address {
    *   int number;
    *   String street;
    * }
@@ -320,7 +598,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * note that the expected object empty optional fields are not ignored, this only applies to actual's fields.
    * <p>
    * Example:
-   * <pre><code class='java'> public class Person {
+   * <pre><code class='java'> class Person {
    *   String name;
    *   OptionalInt age;
    *   OptionalLong id;
@@ -328,7 +606,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    *   Home home = new Home();
    * }
    *
-   * public class Home {
+   * class Home {
    *   String address;
    *   Optional&lt;String&gt; phone;
    * }
@@ -371,17 +649,17 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * Makes the recursive comparison to ignore all <b>expected null fields</b>.
    * <p>
    * Example:
-   * <pre><code class='java'> public class Person {
+   * <pre><code class='java'> class Person {
    *   String name;
    *   double height;
    *   Home home = new Home();
    * }
    *
-   * public class Home {
+   * class Home {
    *   Address address = new Address();
    * }
    *
-   * public static class Address {
+   * class Address {
    *   int number;
    *   String street;
    * }
@@ -418,17 +696,17 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * The given fieldNamesToIgnore are matched against field names, not field values.
    * <p>
    * Example:
-   * <pre><code class='java'> public class Person {
+   * <pre><code class='java'> class Person {
    *   String name;
    *   double height;
    *   Home home = new Home();
    * }
    *
-   * public class Home {
+   * class Home {
    *   Address address = new Address();
    * }
    *
-   * public static class Address {
+   * class Address {
    *   int number;
    *   String street;
    * }
@@ -467,17 +745,17 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * dots since they have a special meaning in regexes).
    * <p>
    * Example:
-   * <pre><code class='java'> public class Person {
+   * <pre><code class='java'> class Person {
    *   String name;
    *   double height;
    *   Home home = new Home();
    * }
    *
-   * public class Home {
+   * class Home {
    *   Address address = new Address();
    * }
    *
-   * public static class Address {
+   * class Address {
    *   int number;
    *   String street;
    * }
@@ -517,17 +795,17 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * in that case the corresponding expected field's type is evaluated instead but if strictTypeChecking mode is disabled then null fields are not ignored.
    * <p>
    * Example:
-   * <pre><code class='java'> public class Person {
+   * <pre><code class='java'> class Person {
    *   String name;
    *   double height;
    *   Home home = new Home();
    * }
    *
-   * public class Home {
+   * class Home {
    *   Address address = new Address();
    * }
    *
-   * public static class Address {
+   * class Address {
    *   int number;
    *   String street;
    * }
@@ -564,17 +842,17 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * Since 3.17.0 this is the default behavior for recursive comparisons, to revert to the previous behavior call {@link #usingOverriddenEquals()}.
    * <p>
    * Example:
-   * <pre><code class='java'> public class Person {
+   * <pre><code class='java'> class Person {
    *   String name;
    *   double height;
    *   Home home = new Home();
    * }
    *
-   * public class Home {
+   * class Home {
    *   Address address = new Address();
    * }
    *
-   * public static class Address {
+   * class Address {
    *   int number;
    *   String street;
    *
@@ -623,17 +901,17 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * This method instructs the recursive comparison to use overridden equals.
    * <p>
    * Example:
-   * <pre><code class='java'> public class Person {
+   * <pre><code class='java'> class Person {
    *   String name;
    *   double height;
    *   Home home = new Home();
    * }
    *
-   * public class Home {
+   * class Home {
    *   Address address = new Address();
    * }
    *
-   * public static class Address {
+   * class Address {
    *   int number;
    *   String street;
    *
@@ -682,17 +960,17 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * Nested fields can be specified by using dots like this: {@code home.address.street}
    * <p>
    * Example:
-   * <pre><code class='java'> public class Person {
+   * <pre><code class='java'> class Person {
    *   String name;
    *   double height;
    *   Home home = new Home();
    * }
    *
-   * public class Home {
+   * class Home {
    *   Address address = new Address();
    * }
    *
-   * public static class Address {
+   * class Address {
    *   int number;
    *   String street;
    *
@@ -745,17 +1023,17 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * Since 3.17.0 all overridden {@code equals} so this method is only relevant if you have called {@link #usingOverriddenEquals()} before.
    * <p>
    * Example:
-   * <pre><code class='java'> public class Person {
+   * <pre><code class='java'> class Person {
    *   String name;
    *   double height;
    *   Home home = new Home();
    * }
    *
-   * public class Home {
+   * class Home {
    *   Address address = new Address();
    * }
    *
-   * public static class Address {
+   * class Address {
    *   int number;
    *   String street;
    *
@@ -811,17 +1089,17 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * dots since they have a special meaning in regexes).
    * <p>
    * Example:
-   * <pre><code class='java'> public class Person {
+   * <pre><code class='java'> class Person {
    *   String name;
    *   double height;
    *   Home home = new Home();
    * }
    *
-   * public class Home {
+   * class Home {
    *   Address address = new Address();
    * }
    *
-   * public static class Address {
+   * class Address {
    *   int number;
    *   String street;
    *
@@ -866,8 +1144,12 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   /**
    * Makes the recursive comparison to ignore collection order in all fields in the object under test.
    * <p>
+   * <b>Important:</b> ignoring collection order has a high performance cost because each element of the actual collection must
+   * be compared to each element of the expected collection which is a O(n&sup2;) operation. For example with a collection of 100
+   * elements, the number of comparisons is 100x100 = 10 000!
+   * <p>
    * Example:
-   * <pre><code class='java'> public class Person {
+   * <pre><code class='java'> class Person {
    *   String name;
    *   List&lt;Person&gt; friends = new ArrayList&lt;&gt;();
    * }
@@ -900,8 +1182,12 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   /**
    * Makes the recursive comparison to ignore collection order in the object under test specified fields. Nested fields can be specified like this: {@code home.address.street}.
    * <p>
+   * <b>Important:</b> ignoring collection order has a high performance cost because each element of the actual collection must
+   * be compared to each element of the expected collection which is a O(n&sup2;) operation. For example with a collection of 100
+   * elements, the number of comparisons is 100x100 = 10 000!
+   * <p>
    * Example:
-   * <pre><code class='java'> public class Person {
+   * <pre><code class='java'> class Person {
    *   String name;
    *   List&lt;Person&gt; friends = new ArrayList&lt;&gt;();
    *   List&lt;Person&gt; enemies = new ArrayList&lt;&gt;();
@@ -944,8 +1230,12 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * Nested fields can be specified by using dots like this: {@code home\.address\.street} ({@code \} is used to escape
    * dots since they have a special meaning in regexes).
    * <p>
+   * <b>Important:</b> ignoring collection order has a high performance cost because each element of the actual collection must
+   * be compared to each element of the expected collection which is a O(n&sup2;) operation. For example with a collection of 100
+   * elements, the number of comparisons is 100x100 = 10 000!
+   * <p>
    * Example:
-   * <pre><code class='java'> public class Person {
+   * <pre><code class='java'> class Person {
    *   String name;
    *   List&lt;Person&gt; friends = new ArrayList&lt;&gt;();
    *   List&lt;Person&gt; enemies = new ArrayList&lt;&gt;();
@@ -987,7 +1277,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * Compatible means that the expected's type is the same or a subclass of actual's type.
    * <p>
    * Examples:
-   * <pre><code class='java'> public class Person {
+   * <pre><code class='java'> class Person {
    *   String name;
    *   double height;
    *   Person bestFriend;
@@ -1046,12 +1336,12 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
 
   /**
    * Allows to register a {@link BiPredicate} to compare fields with the given locations.
-   * A typical usage is for comparing double/float fields with a given precision.
+   * A typical usage is to compare double/float fields with a given precision.
    * <p>
    * BiPredicates specified with this method have precedence over the ones registered with {@link #withEqualsForType(BiPredicate, Class)}
    * or the comparators registered with {@link #withComparatorForType(Comparator, Class)}.
    * <p>
-   * Note that registering a {@link BiPredicate} for a given field will override the previously registered Comparator (if any).
+   * Note that registering a {@link BiPredicate} for a given field will override the previously registered one (if any).
    * <p>
    * The field locations must be specified from the root object,
    * for example if {@code Foo} has a {@code Bar} field which has an {@code id}, one can register to a comparator for Bar's {@code id} by calling:
@@ -1092,8 +1382,59 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
+   * Allows to register a {@link BiPredicate} to compare fields whose location matches the given regexes.
+   * A typical usage is to compare double/float fields with a given precision.
+   * <p>
+   * The fields are evaluated from the root object, for example if {@code Foo} has a {@code Bar} field and both have an {@code id} field,
+   * one can register a BiPredicate for Foo and Bar's {@code id} by calling:
+   * <pre><code class='java'> withEqualsForFieldsMatchingRegexes(idBiPredicate, ".*id")</code></pre>
+   * or
+   * <pre><code class='java'> withEqualsForFieldsMatchingRegexes(idBiPredicate, "foo.*id")</code></pre>
+   * <p>
+   * BiPredicates registered with this method have precedence over the ones registered with {@link #withEqualsForType(BiPredicate, Class)}
+   * or the comparators registered with {@link #withComparatorForType(Comparator, Class)} but don't have precedence over the
+   * ones registered with exact location match: {@link #withEqualsForFields(BiPredicate, String...)} or {@link #withComparatorForFields(Comparator, String...)}
+   * <p>
+   * If registered regexes for different {@link BiPredicate} match a given field, the latest registered regexes {@link BiPredicate} wins.
+   * <p>
+   * Example:
+   * <pre><code class='java'> class TolkienCharacter {
+   *   String name;
+   *   double height;
+   *   double weight;
+   * }
+   *
+   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2, 40);
+   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.3, 40.5);
+   * TolkienCharacter hugeFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.9, 45);
+   *
+   * BiPredicate&lt;Double, Double&gt; closeEnough = (d1, d2) -&gt; Math.abs(d1 - d2) &lt;= 0.5;
+   *
+   * // assertion succeeds
+   * assertThat(frodo).usingRecursiveComparison()
+   *                  .withEqualsForFieldsMatchingRegexes(closeEnough, &quot;.eight&quot;)
+   *                  .isEqualTo(tallerFrodo);
+   *
+   * // assertion fails
+   * assertThat(frodo).usingRecursiveComparison()
+   *                  .withEqualsForFieldsMatchingRegexes(closeEnough, &quot;.eight&quot;)
+   *                  .isEqualTo(hugeFrodo);</code></pre>
+   *
+   * @param equals the {@link BiPredicate} to use to compare the fields matching the given regexes
+   * @param regexes the regexes from the root object of the fields location the BiPredicate should be used for
+   *
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   * @throws NullPointerException if the given BiPredicate is null.
+   * @since 3.24.0
+   */
+  public SELF withEqualsForFieldsMatchingRegexes(BiPredicate<?, ?> equals, String... regexes) {
+    recursiveComparisonConfiguration.registerEqualsForFieldsMatchingRegexes(equals, regexes);
+    return myself;
+  }
+
+  /**
    * Allows to register a comparator to compare fields with the given locations.
-   * A typical usage is for comparing double/float fields with a given precision.
+   * A typical usage is to compare double/float fields with a given precision.
    * <p>
    * Comparators registered with this method have precedence over comparators registered with {@link #withComparatorForType(Comparator, Class)}
    * or {@link BiPredicate} registered with {@link #withEqualsForType(BiPredicate, Class)}.
@@ -1139,7 +1480,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
 
   /**
    * Allows to register a comparator to compare the fields with the given type.
-   * A typical usage is for comparing double/float fields with a given precision.
+   * A typical usage is to compare double/float fields with a given precision.
    * <p>
    * Comparators registered with this method have less precedence than comparators registered with {@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)}
    * or BiPredicate registered with {@link #withEqualsForFields(BiPredicate, String...) withEqualsForFields(BiPredicate, String...)}.
@@ -1183,7 +1524,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
 
   /**
    * Allows to register a {@link BiPredicate} to compare the fields with the given type.
-   * A typical usage is for comparing double/float fields with a given precision.
+   * A typical usage is to compare double/float fields with a given precision.
    * <p>
    * BiPredicates registered with this method have less precedence than the one registered  with {@link #withEqualsForFields(BiPredicate, String...) withEqualsForFields(BiPredicate, String...)}
    * or comparators registered with {@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)}.
@@ -1342,6 +1683,61 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   @CheckReturnValue
   public SELF withErrorMessageForType(String message, Class<?> type) {
     recursiveComparisonConfiguration.registerErrorMessageForType(message, type);
+    return myself;
+  }
+
+  /**
+   * Defines how objects are introspected in the recursive comparison, that is:
+   * <ul>
+   *  <li>how to traverse the graph of nodes to compare</li>
+   *  <li>how to get a node value</li>
+   *  </ul>
+   * <p>
+   * Default to {@link DefaultRecursiveComparisonIntrospectionStrategy} that introspects all fields (including inherited ones).
+   *
+   * @param introspectionStrategy the {@link RecursiveComparisonIntrospectionStrategy} to use
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   */
+  @CheckReturnValue
+  public SELF withIntrospectionStrategy(RecursiveComparisonIntrospectionStrategy introspectionStrategy) {
+    recursiveComparisonConfiguration.setIntrospectionStrategy(introspectionStrategy);
+    return myself;
+  }
+
+  /**
+   * Allows the recursive comparison to compare an enum field against a String field and vice versa.
+   * <p>
+   * Example:
+   * <pre><code class='java'> LightString actual = new LightString("GREEN");
+   * Light expected = new Light(GREEN);
+   *
+   * // compares "GREEN" to GREEN
+   * assertThat(actual).usingRecursiveComparison()
+   *                   .withEnumStringComparison()
+   *                   .isEqualTo(expected);
+   *
+   * // compares GREEN to "GREEN"
+   * assertThat(expected).usingRecursiveComparison()
+   *                     .withEnumStringComparison()
+   *                     .isEqualTo(actual);</code></pre>
+   * where {@code Light} and {@code LightString} are defined as:
+   * <pre><code class='java'> class Light {
+   *   Color color;
+   *   Light(Color value) {
+   *     this.color = value;
+   *   }
+   * }
+   * 
+   * class LightString {
+   *   String color;
+   *   LightString(String value) {
+   *     this.color = value;
+   *   }
+   * }</code></pre>
+   */
+  @CheckReturnValue
+  public SELF withEnumStringComparison() {
+    recursiveComparisonConfiguration.allowComparingEnumAgainstString(true);
     return myself;
   }
 

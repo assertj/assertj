@@ -8,12 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.util;
 
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
+
+import java.util.function.Supplier;
 
 import org.assertj.core.api.filter.FilterOperator;
 
@@ -111,7 +113,7 @@ public final class Preconditions {
     checkArgument(filterOperator != null, "The expected value should not be null.%n"
         + "If you were trying to filter on a null value, please use filteredOnNull(String propertyOrFieldName) instead");
   }
-  
+
   /**
    * Ensures the truth of an expression involving one or more parameters to the calling method.
    * <p>
@@ -127,6 +129,18 @@ public final class Preconditions {
    */
   public static void checkArgument(boolean expression, String errorMessageTemplate, Object... errorMessageArgs) {
     if (!expression) throw new IllegalArgumentException(format(errorMessageTemplate, errorMessageArgs));
+  }
+
+  /**
+   * Ensures the truth of an expression using a supplier to fetch the error message in case of a failure.
+   *
+   * @param expression a boolean expression
+   * @param errorMessage a supplier to build the error message in case of failure. Must not be null.
+   * @throws IllegalArgumentException if {@code expression} is false
+   * @throws NullPointerException if the check fails and {@code errorMessage} is null (don't let this happen).
+   */
+  public static void checkArgument(boolean expression, Supplier<String> errorMessage) {
+    if (!expression) throw new IllegalArgumentException(errorMessage.get());
   }
 
   /**

@@ -8,10 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.internal;
 
+import static java.lang.String.CASE_INSENSITIVE_ORDER;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.spy;
@@ -19,7 +20,6 @@ import static org.mockito.Mockito.spy;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
@@ -50,7 +50,7 @@ public class IterablesBaseTest {
     failures = spy(new Failures());
     iterables = new Iterables();
     iterables.failures = failures;
-    comparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
+    comparisonStrategy = new ComparatorBasedComparisonStrategy(CASE_INSENSITIVE_ORDER);
     iterablesWithCaseInsensitiveComparisonStrategy = new Iterables(comparisonStrategy);
     iterablesWithCaseInsensitiveComparisonStrategy.failures = failures;
     info = someInfo();

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.condition;
 
@@ -63,6 +63,12 @@ class NestableConditionFixtures {
     return nestable("customer", conditions);
   }
 
+  static Condition<ValueCustomer> value(Integer expected) {
+    return verboseCondition(valueCustomer -> expected.equals(valueCustomer.value),
+      "value: " + expected,
+      valueCustomer -> " but was " + valueCustomer.value);
+  }
+
   @SafeVarargs
   static Condition<Address> country(Condition<Country>... conditions) {
     return nestable("country", address -> address.country, conditions);
@@ -76,6 +82,15 @@ class Customer {
   Customer(Name name, Address address) {
     this.name = name;
     this.address = address;
+  }
+}
+
+class ValueCustomer extends Customer {
+  final Integer value;
+
+  ValueCustomer(Name name, Address address, Integer value) {
+    super(name, address);
+    this.value = value;
   }
 }
 

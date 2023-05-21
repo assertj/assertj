@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api.abstract_;
 
@@ -28,8 +28,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
+import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractAssertBaseTest;
 import org.assertj.core.api.ConcreteAssert;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -146,4 +148,18 @@ class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
     assertThat(assertionError).hasMessageContaining("fail empty");
   }
 
+  @Test
+  void should_run_consumers_only_once() {
+    // GIVEN
+    AbstractAssert<?, ?> assertion = assertThat("actualValue");
+    AtomicInteger invocationCount = new AtomicInteger();
+    Consumer<Object> failingConsumer = s -> {
+      invocationCount.incrementAndGet();
+      assertThat(s).isEqualTo("anotherValue");
+    };
+    // WHEN
+    expectAssertionError(() -> assertion.satisfiesAnyOf(failingConsumer));
+    // THEN
+    then(invocationCount).hasValue(1);
+  }
 }

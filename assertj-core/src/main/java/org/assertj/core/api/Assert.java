@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -210,7 +210,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @param values the given iterable to search the actual value in.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given collection is {@code null}.
-   * @throws AssertionError if the actual value is not present in the given collection.
+   * @throws AssertionError if the actual value is not present in the given iterable.
    */
   SELF isIn(Iterable<?> values);
 
@@ -231,8 +231,8 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    *
    * @param values the given iterable to search the actual value in.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given collection is {@code null}.
-   * @throws AssertionError if the actual value is present in the given collection.
+   * @throws NullPointerException if the given iterable is {@code null}.
+   * @throws AssertionError if the actual value is present in the given iterable.
    */
   SELF isNotIn(Iterable<?> values);
 
@@ -473,6 +473,25 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
   SELF hasToString(String expectedToString);
 
   /**
+   * Verifies that actual {@code actual.toString()} is equal to the given {@code String} when
+   * {@link String#format formatted} with the given arguments.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Foo foo = new Foo();
+   * FooWrapper wrapper = new FooWrapper(foo);
+   *
+   * assertThat(wrapper).hasToString("FooWrapper[foo=%s]", foo); </code></pre>
+   *
+   * @param expectedStringTemplate the format string to use.
+   * @param args the arguments to interpolate into the format string.
+   * @return this assertion object.
+   * @throws AssertionError if {@code actual.toString()} result is not equal to the given {@code String}.
+   * @throws AssertionError if actual is {@code null}.
+   * @since 3.25.0
+   */
+  SELF hasToString(String expectedStringTemplate, Object... args);
+
+  /**
    * Verifies that actual {@code actual.toString()} is not equal to the given {@code String}.
    * <p>
    * Example :
@@ -489,6 +508,25 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @throws AssertionError if actual is {@code null}.
    */
   SELF doesNotHaveToString(String otherToString);
+
+  /**
+   * Verifies that actual {@code actual.toString()} is not equal to the given {@code String}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Foo foo = new Foo();
+   * Bar bar = new Bar();
+   * FooBarWrapper wrapper = new FooBarWrapper(bar);
+   *
+   * assertThat(wrapper).doesNotHaveToString("FooBarWrapper[%s]", foo);</code></pre>
+   *
+   * @param expectedStringTemplate the format string to use.
+   * @param args the arguments to interpolate into the format string.
+   * @return this assertion object.
+   * @throws AssertionError if {@code actual.toString()} result is equal to the given {@code String}.
+   * @throws AssertionError if actual is {@code null}.
+   * @since 3.25.0
+   */
+  SELF doesNotHaveToString(String expectedStringTemplate, Object... args);
 
   /**
    * Verifies that the actual value does not have the same class as the given object.

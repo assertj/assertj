@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -305,14 +305,6 @@ public interface InstanceOfAssertFactories {
   @SuppressWarnings("rawtypes") // using Class instance
   InstanceOfAssertFactory<Class, ClassAssert> CLASS = new InstanceOfAssertFactory<>(Class.class,
                                                                                     Assertions::assertThat);
-
-  /**
-   * {@link InstanceOfAssertFactory} for a {@link ClassLoader}.
-   *
-   * @since 3.24.0
-   */
-  InstanceOfAssertFactory<ClassLoader, AbstractClassLoaderAssert<?>> CLASS_LOADER = new InstanceOfAssertFactory<>(ClassLoader.class,
-                                                                                                                  Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@code double} or its corresponding boxed type {@link Double}.

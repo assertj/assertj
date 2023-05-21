@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -57,10 +57,14 @@ public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<Th
    */
   public ThrowableAssertAlternative<T> isThrownBy(final ThrowingCallable throwingCallable) {
     Throwable throwable = ThrowableAssert.catchThrowable(throwingCallable);
-    assertThat(throwable).as(description).hasBeenThrown().isInstanceOf(expectedThrowableType);
+    checkThrowableType(throwable);
     @SuppressWarnings("unchecked")
     T castThrowable = (T) throwable;
     return buildThrowableTypeAssert(castThrowable).as(description);
+  }
+
+  protected void checkThrowableType(Throwable throwable) {
+    assertThat(throwable).as(description).hasBeenThrown().isInstanceOf(expectedThrowableType);
   }
 
   protected ThrowableAssertAlternative<T> buildThrowableTypeAssert(T throwable) {

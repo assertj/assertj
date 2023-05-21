@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.internal.paths;
 
@@ -32,7 +32,7 @@ class Paths_assertIsNormalized_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsNormalized(info, null));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsNormalized(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -46,7 +46,7 @@ class Paths_assertIsNormalized_Test extends PathsBaseTest {
   })
   void should_fail_on_unix_if_actual_is_not_normalized(Path actual) {
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsNormalized(info, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsNormalized(INFO, actual));
     // THEN
     then(error).hasMessage(shouldBeNormalized(actual).create());
   }
@@ -60,7 +60,7 @@ class Paths_assertIsNormalized_Test extends PathsBaseTest {
   })
   void should_fail_on_windows_if_actual_is_not_normalized(Path actual) {
     // WHEN
-    AssertionError error = expectAssertionError(() -> paths.assertIsNormalized(info, actual));
+    AssertionError error = expectAssertionError(() -> underTest.assertIsNormalized(INFO, actual));
     // THEN
     then(error).hasMessage(shouldBeNormalized(actual).create());
   }
@@ -74,7 +74,7 @@ class Paths_assertIsNormalized_Test extends PathsBaseTest {
   })
   void should_pass_on_unix_if_actual_is_normalized(Path actual) {
     // WHEN/THEN
-    paths.assertIsNormalized(info, actual);
+    underTest.assertIsNormalized(INFO, actual);
   }
 
   @ParameterizedTest
@@ -86,7 +86,7 @@ class Paths_assertIsNormalized_Test extends PathsBaseTest {
   })
   void should_pass_on_windows_if_actual_is_normalized(Path actual) {
     // WHEN/THEN
-    paths.assertIsNormalized(info, actual);
+    underTest.assertIsNormalized(INFO, actual);
   }
 
 }

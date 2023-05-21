@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api.charsequence;
 
@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
  */
 class CharSequenceAssert_containsPatternSatisfying_Pattern_Test {
   @Test
-  public void should_pass_if_string_contains_given_pattern_and_first_match_satisfies_assertion() {
+  void should_pass_if_string_contains_given_pattern_and_first_match_satisfies_assertion() {
     // GIVEN
     Pattern pattern = Pattern.compile(".o(.o)");
     // WHEN/THEN
@@ -38,7 +38,7 @@ class CharSequenceAssert_containsPatternSatisfying_Pattern_Test {
   }
 
   @Test
-  public void should_fail_if_string_does_not_contain_given_pattern() {
+  void should_fail_if_string_does_not_contain_given_pattern() {
     // GIVEN
     Pattern pattern = Pattern.compile("(o.a)");
     // WHEN
@@ -49,7 +49,7 @@ class CharSequenceAssert_containsPatternSatisfying_Pattern_Test {
   }
 
   @Test
-  public void should_pass_if_string_contains_given_pattern_but_match_does_not_satisfy_assertion() {
+  void should_pass_if_string_contains_given_pattern_but_match_does_not_satisfy_assertion() {
     // GIVEN
     Pattern pattern = Pattern.compile(".(a.)");
     // WHEN

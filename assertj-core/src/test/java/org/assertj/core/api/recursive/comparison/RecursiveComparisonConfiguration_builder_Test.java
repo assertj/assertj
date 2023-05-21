@@ -8,15 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
+import static org.assertj.core.test.BiPredicates.STRING_EQUALS;
 
 import java.util.Comparator;
+import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.regex.Pattern;
 
@@ -116,6 +118,16 @@ class RecursiveComparisonConfiguration_builder_Test {
     RecursiveComparisonConfiguration configuration = configBuilder().withComparedFields(values).build();
     // THEN
     then(configuration.getComparedFields()).containsExactly(new FieldLocation("foo"), new FieldLocation("bar"));
+  }
+
+  @Test
+  void should_set_comparedTypes() {
+    // GIVEN
+    Class<?>[] values = { String.class, double.class };
+    // WHEN
+    RecursiveComparisonConfiguration configuration = configBuilder().withComparedTypes(values).build();
+    // THEN
+    then(configuration.getComparedTypes()).containsExactly(String.class, double.class);
   }
 
   @Test
@@ -253,18 +265,45 @@ class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
+  void should_throw_NPE_if_given_BiPredicate_for_fields_matching_regexes_is_null() {
+    // GIVEN
+    BiPredicate<String, String> stringEquals = null;
+    // WHEN
+    Throwable throwable = catchThrowable(() -> configBuilder().withEqualsForFieldsMatchingRegexes(stringEquals, ".*id"));
+    // THEN
+    then(throwable).isInstanceOf(NullPointerException.class)
+                   .hasMessage("Expecting a non null BiPredicate");
+  }
+
+  @Test
   void should_set_equalsForField() {
     // GIVEN
     String nameLocation = "name";
     String titleLocation = "title";
-    BiPredicate<String, String> stringEquals = (String s1, String s2) -> s1.equalsIgnoreCase(s2);
     // WHEN
-    RecursiveComparisonConfiguration configuration = configBuilder().withEqualsForFields(stringEquals, nameLocation,
+    RecursiveComparisonConfiguration configuration = configBuilder().withEqualsForFields(STRING_EQUALS, nameLocation,
                                                                                          titleLocation)
                                                                     .build();
     // THEN
     then(configuration.hasComparatorForField(nameLocation)).isTrue();
     then(configuration.hasComparatorForField(titleLocation)).isTrue();
+  }
+
+  @Test
+  void should_set_equals_for_fields_matching_regexes() {
+    // GIVEN
+    String nameRegex = ".*name";
+    String titleRegex = ".*title";
+    // WHEN
+    RecursiveComparisonConfiguration configuration = configBuilder().withEqualsForFieldsMatchingRegexes(STRING_EQUALS, nameRegex,
+                                                                                                        titleRegex)
+                                                                    .build();
+    // THEN
+    then(configuration.hasComparatorForField("name")).isTrue();
+    then(configuration.hasComparatorForField("firstname")).isTrue();
+    then(configuration.hasComparatorForField("lastname")).isTrue();
+    then(configuration.hasComparatorForField("title")).isTrue();
+    then(configuration.hasComparatorForField("job.title")).isTrue();
   }
 
   @Test
@@ -281,11 +320,8 @@ class RecursiveComparisonConfiguration_builder_Test {
 
   @Test
   void should_set_equalsForType() {
-    // GIVEN
-    BiPredicate<String, String> stringEquals = (String s1, String s2) -> s1.equalsIgnoreCase(s2);
-
     // WHEN
-    RecursiveComparisonConfiguration configuration = configBuilder().withEqualsForType(stringEquals, String.class).build();
+    RecursiveComparisonConfiguration configuration = configBuilder().withEqualsForType(STRING_EQUALS, String.class).build();
     // THEN
     then(configuration.hasComparatorForType(String.class)).isTrue();
   }
@@ -317,6 +353,26 @@ class RecursiveComparisonConfiguration_builder_Test {
     // THEN
     then(configuration.hasCustomMessageForType(String.class)).isTrue();
     then(configuration.getMessageForType(String.class)).isEqualTo(message);
+  }
+
+  @Test
+  void should_set_introspection_strategy() {
+    // GIVEN
+    RecursiveComparisonIntrospectionStrategy myIntrospectionStrategy = new RecursiveComparisonIntrospectionStrategy() {
+      @Override
+      public Set<String> getChildrenNodeNamesOf(Object node) {
+        return null;
+      }
+
+      @Override
+      public Object getChildNodeValue(String childNodeName, Object instance) {
+        return null;
+      }
+    };
+    // WHEN
+    RecursiveComparisonConfiguration configuration = configBuilder().withIntrospectionStrategy(myIntrospectionStrategy).build();
+    // THEN
+    then(configuration.getIntrospectionStrategy()).isSameAs(myIntrospectionStrategy);
   }
 
   private static Builder configBuilder() {

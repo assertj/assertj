@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2022 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -208,7 +208,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if actual and given Date represented as String are not equal ignoring hours, minutes,
    *           seconds and milliseconds.
    * @throws AssertionError if the given date as String could not be converted to a Date.
+   * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isEqualToIgnoringHours(String dateAsString) {
     return isEqualToIgnoringHours(parse(dateAsString));
   }
@@ -224,7 +227,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @return this assertion object.
    * @throws AssertionError if actual {@code Date} and given {@code Instant} are not equal ignoring hours, minutes, seconds and milliseconds.
    * @since 3.19.0
+   * @deprecated Use {@link #isCloseTo(Instant, long)} instead, although not exactly the same semantics,
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isEqualToIgnoringHours(Instant instant) {
     return isEqualToIgnoringHours(Date.from(instant));
   }
@@ -248,7 +254,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if actual and given Date represented as String are not equal ignoring hours, minutes,
    *           seconds and milliseconds.
    * @throws AssertionError if the given date as String could not be converted to a Date.
+   * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isEqualToIgnoringHours(Date date) {
     dates.assertIsEqualWithPrecision(info, actual, date, HOURS);
     return myself;
@@ -299,7 +308,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if actual and given Date represented as String are not equal ignoring minutes, seconds and
    *           milliseconds.
    * @throws AssertionError if the given date as String could not be converted to a Date.
+   * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isEqualToIgnoringMinutes(String dateAsString) {
     return isEqualToIgnoringMinutes(parse(dateAsString));
   }
@@ -315,7 +327,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @return this assertion object.
    * @throws AssertionError if actual {@code Date} and given {@code Instant} are not equal ignoring minutes, seconds and milliseconds.
    * @since 3.19.0
+   * @deprecated Use {@link #isCloseTo(Instant, long)} instead, although not exactly the same semantics,
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isEqualToIgnoringMinutes(Instant instant) {
     return isEqualToIgnoringMinutes(Date.from(instant));
   }
@@ -340,7 +355,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if actual and given Date represented as String are not equal ignoring minutes, seconds and
    *           milliseconds.
    * @throws AssertionError if the given date as String could not be converted to a Date.
+   * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isEqualToIgnoringMinutes(Date date) {
     dates.assertIsEqualWithPrecision(info, actual, date, MINUTES);
     return myself;
@@ -393,7 +411,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if actual and given Date represented as String are not equal ignoring seconds and
    *           milliseconds.
    * @throws AssertionError if the given date as String could not be converted to a Date.
+   * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isEqualToIgnoringSeconds(String dateAsString) {
     return isEqualToIgnoringSeconds(parse(dateAsString));
   }
@@ -409,7 +430,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @return this assertion object.
    * @throws AssertionError if actual {@code Date} and given {@code Instant} are not equal ignoring seconds and milliseconds.
    * @since 3.19.0
+   * @deprecated Use {@link #isCloseTo(Instant, long)} instead, although not exactly the same semantics,
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isEqualToIgnoringSeconds(Instant instant) {
     return isEqualToIgnoringSeconds(Date.from(instant));
   }
@@ -434,7 +458,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if actual and given Date represented as String are not equal ignoring seconds and
    *           milliseconds.
    * @throws AssertionError if the given date as String could not be converted to a Date.
+   * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isEqualToIgnoringSeconds(Date date) {
     dates.assertIsEqualWithPrecision(info, actual, date, SECONDS);
     return myself;
@@ -485,7 +512,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @return this assertion object.
    * @throws AssertionError if actual and given Date represented as String are not equal ignoring milliseconds.
    * @throws AssertionError if the given date as String could not be converted to a Date.
+   * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isEqualToIgnoringMillis(String dateAsString) {
     return isEqualToIgnoringMillis(parse(dateAsString));
   }
@@ -501,7 +531,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @return this assertion object.
    * @throws AssertionError if actual {@code Date} and given {@code Instant} are not equal ignoring milliseconds.
    * @since 3.19.0
+   * @deprecated Use {@link #isCloseTo(Instant, long)} instead, although not exactly the same semantics,
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isEqualToIgnoringMillis(Instant instant) {
     return isEqualToIgnoringMillis(Date.from(instant));
   }
@@ -525,7 +558,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @return this assertion object.
    * @throws AssertionError if actual and given Date represented as String are not equal ignoring milliseconds.
    * @throws AssertionError if the given date as String could not be converted to a Date.
+   * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isEqualToIgnoringMillis(Date date) {
     dates.assertIsEqualWithPrecision(info, actual, date, MILLISECONDS);
     return myself;
@@ -1856,8 +1892,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Verifies that the actual {@code Date} is strictly in the future.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertion will fail
-   * assertThat(theTwoTowers.getReleaseDate()).isInTheFuture();</code></pre>
+   * <pre><code class='java'> Date now = new Date();
+   * // assertion succeeds:
+   * assertThat(new Date(now.getTime() + 1000)).isInTheFuture();</code></pre>
    *
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Date} is {@code null}.
@@ -2594,7 +2631,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws NullPointerException if {@code Date} parameter is {@code null}.
    * @throws AssertionError if the actual {@code Date} is {@code null}.
    * @throws AssertionError if actual and given {@code Date} are not in the same hour, day, month and year.
+   * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isInSameHourAs(Date other) {
     dates.assertIsInSameHourAs(info, actual, other);
     return myself;
@@ -2638,7 +2678,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws NullPointerException if dateAsString parameter is {@code null}.
    * @throws AssertionError if the actual {@code Date} is {@code null}.
    * @throws AssertionError if actual and given {@code Date} are not in the same hour.
+   * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isInSameHourAs(String dateAsString) {
     return isInSameHourAs(parse(dateAsString));
   }
@@ -2790,7 +2833,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws NullPointerException if {@code Date} parameter is {@code null}.
    * @throws AssertionError if the actual {@code Date} is {@code null}.
    * @throws AssertionError if actual and given {@code Date} are not in the same minute.
+   * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isInSameMinuteAs(Date other) {
     dates.assertIsInSameMinuteAs(info, actual, other);
     return myself;
@@ -2834,7 +2880,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws NullPointerException if dateAsString parameter is {@code null}.
    * @throws AssertionError if the actual {@code Date} is {@code null}.
    * @throws AssertionError if actual and given {@code Date} are not in the same minute.
+   * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isInSameMinuteAs(String dateAsString) {
     return isInSameMinuteAs(parse(dateAsString));
   }
@@ -3000,7 +3049,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws NullPointerException if {@code Date} parameter is {@code null}.
    * @throws AssertionError if the actual {@code Date} is {@code null}.
    * @throws AssertionError if actual and given {@code Date} are not in the same second.
+   * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isInSameSecondAs(Date other) {
     dates.assertIsInSameSecondAs(info, actual, other);
     return myself;
@@ -3041,7 +3093,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * @param dateAsString the given Date represented as String.
    * @return this assertion object.
+   * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isInSameSecondAs(String dateAsString) {
     return isInSameSecondAs(parse(dateAsString));
   }
@@ -3061,11 +3116,11 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Date date2 = new Date(date1.getTime() + 100);
    *
    * // assertion succeeds
-   * assertThat(date1).isCloseTo(date2, 80)
+   * assertThat(date1).isCloseTo(date2, 101)
    *                  .isCloseTo(date2, 100);
    *
    * // assertion fails
-   * assertThat(date1).isCloseTo(date2, 101);</code></pre>
+   * assertThat(date1).isCloseTo(date2, 80);</code></pre>
    *
    * @param other the date to compare actual to
    * @param deltaInMilliseconds the delta used for date comparison, expressed in milliseconds
