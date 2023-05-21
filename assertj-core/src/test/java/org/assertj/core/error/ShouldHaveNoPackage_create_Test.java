@@ -14,23 +14,23 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldHaveNoSuperclass.shouldHaveNoSuperclass;
+import static org.assertj.core.error.ShouldHaveNoPackage.shouldHaveNoPackage;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-class ShouldHaveNoSuperclass_create_Test {
+class ShouldHaveNoPackage_create_Test {
 
   @Test
   void should_create_error_message() {
     // WHEN
-    String message = shouldHaveNoSuperclass(String.class).create(new TestDescription("TEST"), STANDARD_REPRESENTATION);
+    String message = shouldHaveNoPackage(String.class).create(new TestDescription("TEST"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[TEST] %n" +
                                    "Expecting%n" +
                                    "  java.lang.String%n" +
-                                   "to have no superclass, but had:%n" +
+                                   "to have no package, but had:%n" +
                                    "  java.lang.Object"));
   }
 

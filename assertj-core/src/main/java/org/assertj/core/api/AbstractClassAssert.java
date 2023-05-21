@@ -28,6 +28,7 @@ import static org.assertj.core.error.ShouldBeInterface.shouldBeInterface;
 import static org.assertj.core.error.ShouldBeInterface.shouldNotBeInterface;
 import static org.assertj.core.error.ShouldBeRecord.shouldBeRecord;
 import static org.assertj.core.error.ShouldBeRecord.shouldNotBeRecord;
+import static org.assertj.core.error.ShouldHaveNoPackage.shouldHaveNoPackage;
 import static org.assertj.core.error.ShouldHaveNoSuperclass.shouldHaveNoSuperclass;
 import static org.assertj.core.error.ShouldHavePackage.shouldHavePackage;
 import static org.assertj.core.error.ShouldHaveRecordComponents.shouldHaveRecordComponents;
@@ -655,8 +656,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   /**
    * Verifies that the actual {@code Class} has the given class as direct superclass (as in {@link Class#getSuperclass()}).
    * <p>
-   * The {@code superclass} should always be not {@code null}, use {@link #hasNoSuperclass()} to verify the absence of
-   * the superclass.
+   * The expected {@code superclass} should always be not {@code null}. To verify the absence of the superclass, use
+   * {@link #hasNoSuperclass()}.
    * <p>
    * Example:
    * <pre><code class='java'> // this assertion succeeds:
@@ -967,7 +968,9 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} has the given package name (as in {@link Class#getPackage()}).
-   *
+   * <p>
+   * The expected package name should always be not {@code null}. To verify the absence of the package, use
+   * {@link #hasNoPackage()}. 
    * <p>
    * Example:
    * <pre><code class='java'> package one.two;
@@ -1005,7 +1008,9 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} has the given package (as in {@link Class#getPackage()}).
-   *
+   * <p>
+   * The expected package should always be not {@code null}. To verify the absence of the package, use
+   * {@link #hasNoPackage()}. 
    * <p>
    * Example:
    * <pre><code class='java'> package one.two;
@@ -1027,6 +1032,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} does not have the given package.
    *
    * @since 3.18.0
+   * @see #hasPackage(String)
+   * @see #hasNoPackage()
    */
   public SELF hasPackage(Package expected) {
     isNotNull();
@@ -1037,6 +1044,41 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   private void assertHasPackage(Package expected) {
     requireNonNull(expected, shouldNotBeNull("expected")::create);
     if (!expected.equals(actual.getPackage())) throw assertionError(shouldHavePackage(actual, expected));
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has no package (as in {@link Class#getPackage()}, when {@code null}
+   * is returned).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // this assertion succeeds as arrays have no package:
+   * assertThat(int[].class).hasNoPackage();
+   *
+   * // this assertion succeeds as primitive types have no package:
+   * assertThat(Integer.TYPE).hasNoPackage();
+   *
+   * // this assertion succeeds as void type has no package:
+   * assertThat(Void.TYPE).hasNoPackage();
+   *
+   * // this assertion fails as Object has java.lang as package:
+   * assertThat(Object.class).hasNoPackage();</code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} has a package.
+   *
+   * @since 3.25.0
+   * @see #hasPackage(Package)
+   * @see #hasPackage(String)
+   */
+  public SELF hasNoPackage() {
+    isNotNull();
+    assertHasNoPackage();
+    return myself;
+  }
+
+  private void assertHasNoPackage() {
+    if (actual.getPackage() != null) throw assertionError(shouldHaveNoPackage(actual));
   }
 
 }
