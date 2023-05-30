@@ -18,7 +18,7 @@
   <properties>
     <javadocAdditionalOptions>-html5 --allow-script-in-comments</javadocAdditionalOptions>
     <!-- Dependency versions -->
-    <guava.version>31.1-jre</guava.version>
+    <guava.version>32.0.0-jre</guava.version>
   </properties>
 
   <dependencies>
