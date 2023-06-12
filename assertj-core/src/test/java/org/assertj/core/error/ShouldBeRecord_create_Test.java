@@ -14,41 +14,37 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldHaveSuperclass.shouldHaveSuperclass;
+import static org.assertj.core.error.ShouldBeRecord.shouldBeRecord;
+import static org.assertj.core.error.ShouldBeRecord.shouldNotBeRecord;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
-class ShouldHaveSuperclass_create_Test {
+class ShouldBeRecord_create_Test {
 
   @Test
-  void should_create_error_message_if_actual_has_superclass() {
+  void should_create_error_message_with_shouldBeRecord() {
     // WHEN
-    String message = shouldHaveSuperclass(String.class, Integer.class).create(new TestDescription("TEST"),
-                                                                              STANDARD_REPRESENTATION);
+    String message = shouldBeRecord(String.class).create(new TestDescription("TEST"),
+                                                         STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[TEST] %n" +
                                    "Expecting%n" +
                                    "  java.lang.String%n" +
-                                   "to have superclass:%n" +
-                                   "  java.lang.Integer%n" +
-                                   "but had:%n" +
-                                   "  java.lang.Object"));
+                                   "to be a record"));
   }
 
   @Test
-  void should_create_error_message_if_actual_has_no_superclass() {
+  void should_create_error_message_with_shouldNotBeRecord() {
     // WHEN
-    String message = shouldHaveSuperclass(Object.class, Integer.class).create(new TestDescription("TEST"),
-                                                                              STANDARD_REPRESENTATION);
+    String message = shouldNotBeRecord(String.class).create(new TestDescription("TEST"),
+                                                            STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[TEST] %n" +
                                    "Expecting%n" +
-                                   "  java.lang.Object%n" +
-                                   "to have superclass:%n" +
-                                   "  java.lang.Integer%n" +
-                                   "but had none."));
+                                   "  java.lang.String%n" +
+                                   "not to be a record"));
   }
 
 }

@@ -28,6 +28,8 @@ import static org.assertj.core.error.ShouldBeInterface.shouldBeInterface;
 import static org.assertj.core.error.ShouldBeInterface.shouldNotBeInterface;
 import static org.assertj.core.error.ShouldBeRecord.shouldBeRecord;
 import static org.assertj.core.error.ShouldBeRecord.shouldNotBeRecord;
+import static org.assertj.core.error.ShouldBeSealed.shouldBeSealed;
+import static org.assertj.core.error.ShouldBeSealed.shouldNotBeSealed;
 import static org.assertj.core.error.ShouldHaveNoPackage.shouldHaveNoPackage;
 import static org.assertj.core.error.ShouldHaveNoSuperclass.shouldHaveNoSuperclass;
 import static org.assertj.core.error.ShouldHavePackage.shouldHavePackage;
@@ -280,8 +282,12 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    */
   public SELF isRecord() {
     isNotNull();
-    if (!isRecord(actual)) throw assertionError(shouldBeRecord(actual));
+    assertIsRecord();
     return myself;
+  }
+
+  private void assertIsRecord() {
+    if (!isRecord(actual)) throw assertionError(shouldBeRecord(actual));
   }
 
   /**
@@ -304,16 +310,20 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    */
   public SELF isNotRecord() {
     isNotNull();
-    if (isRecord(actual)) throw assertionError(shouldNotBeRecord(actual));
+    assertIsNotRecord();
     return myself;
   }
 
+  private void assertIsNotRecord() {
+    if (isRecord(actual)) throw assertionError(shouldNotBeRecord(actual));
+  }
+
+  // TODO https://github.com/assertj/assertj/issues/3079
   private static boolean isRecord(Class<?> actual) {
     try {
       Method isRecord = Class.class.getMethod("isRecord");
       return (boolean) isRecord.invoke(actual);
     } catch (NoSuchMethodException e) {
-      // Definitely not a record if we're running on a JVM that doesn't support records
       return false;
     } catch (ReflectiveOperationException e) {
       throw new IllegalStateException(e);
@@ -325,15 +335,16 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * <p>
    * Example:
    * <pre><code class='java'> public class NotARecord {}
-   * public record MyRecord(String recordComponentOne, String recordComponentTwo) {}
+   *
+   * public record MyRecord(String componentOne, String componentTwo) {}
    *
    * // these assertions succeed:
-   * assertThat(MyRecord.class).hasRecordComponents("recordComponentOne");
-   * assertThat(MyRecord.class).hasRecordComponents("recordComponentOne", "recordComponentTwo");
+   * assertThat(MyRecord.class).hasRecordComponents("componentOne");
+   * assertThat(MyRecord.class).hasRecordComponents("componentOne", "componentTwo");
    *
    * // these assertions fail:
-   * assertThat(NotARecord.class).hasRecordComponents("recordComponentOne");
-   * assertThat(MyRecord.class).hasRecordComponents("recordComponentOne", "unknownRecordComponent");</code></pre>
+   * assertThat(NotARecord.class).hasRecordComponents("componentOne");
+   * assertThat(MyRecord.class).hasRecordComponents("componentOne", "unknownComponent");</code></pre>
    *
    * @param first the first record component name which must be in this class
    * @param rest the remaining record component names which must be in this class
@@ -1079,6 +1090,78 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   private void assertHasNoPackage() {
     if (actual.getPackage() != null) throw assertionError(shouldHaveNoPackage(actual));
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is sealed.
+   * <p>
+   * Example:
+   * <pre><code class='java'> sealed class SealedClass permits NonSealedClass {}
+   *
+   * non-sealed class NonSealedClass extends SealedClass {}
+   *
+   * // this assertion succeeds:
+   * assertThat(SealedClass.class).isSealed();
+   *
+   * // this assertion fails:
+   * assertThat(NonSealedClass.class).isSealed();</code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not sealed.
+   *
+   * @since 3.25.0
+   */
+  public SELF isSealed() {
+    isNotNull();
+    assertIsSealed();
+    return myself;
+  }
+
+  private void assertIsSealed() {
+    if (!isSealed(actual)) throw assertionError(shouldBeSealed(actual));
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is not sealed.
+   * <p>
+   * Example:
+   * <pre><code class='java'> sealed class SealedClass permits NonSealedClass {}
+   *
+   * non-sealed class NonSealedClass extends SealedClass {}
+   *
+   * // this assertion succeeds:
+   * assertThat(NonSealedClass.class).isNotSealed();
+   *
+   * // this assertion fails:
+   * assertThat(SealedClass.class).isNotSealed();</code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is sealed.
+   *
+   * @since 3.25.0
+   */
+  public SELF isNotSealed() {
+    isNotNull();
+    assertIsNotSealed();
+    return myself;
+  }
+
+  private void assertIsNotSealed() {
+    if (isSealed(actual)) throw assertionError(shouldNotBeSealed(actual));
+  }
+
+  // TODO https://github.com/assertj/assertj/issues/3081
+  private static boolean isSealed(Class<?> actual) {
+    try {
+      Method isSealed = Class.class.getMethod("isSealed");
+      return (boolean) isSealed.invoke(actual);
+    } catch (NoSuchMethodException e) {
+      return false;
+    } catch (ReflectiveOperationException e) {
+      throw new IllegalStateException(e);
+    }
   }
 
 }

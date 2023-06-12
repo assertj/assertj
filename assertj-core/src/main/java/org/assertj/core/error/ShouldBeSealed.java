@@ -13,34 +13,32 @@
 package org.assertj.core.error;
 
 /**
- * Creates an error message indicating that an assertion that verifies that a class is (or not) a record.
- *
- * @author Louis Morgan
+ * Creates an error message indicating that an assertion that verifies that a class is (or not) sealed.
  */
-public class ShouldBeRecord extends BasicErrorMessageFactory {
+public class ShouldBeSealed extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new <code>{@link ShouldBeRecord}</code>.
+   * Creates a new <code>{@link ShouldBeSealed}</code>.
    *
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeRecord(Class<?> actual) {
-    return new ShouldBeRecord(actual, true);
+  public static ErrorMessageFactory shouldBeSealed(Class<?> actual) {
+    return new ShouldBeSealed(actual, true);
   }
 
   /**
-   * Creates a new <code>{@link ShouldBeRecord}</code>.
+   * Creates a new <code>{@link ShouldBeSealed}</code>.
    *
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotBeRecord(Class<?> actual) {
-    return new ShouldBeRecord(actual, false);
+  public static ErrorMessageFactory shouldNotBeSealed(Class<?> actual) {
+    return new ShouldBeSealed(actual, false);
   }
 
-  private ShouldBeRecord(Class<?> actual, boolean toBeOrNotToBe) {
-    super("%nExpecting%n  %s%n" + (toBeOrNotToBe ? "" : "not ") + "to be a record", actual);
+  private ShouldBeSealed(Class<?> actual, boolean toBeOrNotToBe) {
+    super("%nExpecting%n  %s%n" + (toBeOrNotToBe ? "" : "not ") + "to be sealed", actual);
   }
 
 }
