@@ -81,7 +81,7 @@ class Assertions_assertThat_with_Class_Test {
 
     @Test
     void isNotSealed_should_fail_if_actual_is_sealed() {
-      // WHEN/THEN
+      // WHEN
       Throwable thrown = catchThrowable(() -> assertThat(SealedClass.class).isNotSealed());
       // THEN
       then(thrown).isInstanceOf(AssertionError.class)
@@ -90,7 +90,7 @@ class Assertions_assertThat_with_Class_Test {
 
     @Test
     void isSealed_should_fail_if_actual_is_not_sealed() {
-      // WHEN/THEN
+      // WHEN
       Throwable thrown = catchThrowable(() -> assertThat(NonSealedClass.class).isSealed());
       // THEN
       then(thrown).isInstanceOf(AssertionError.class)
