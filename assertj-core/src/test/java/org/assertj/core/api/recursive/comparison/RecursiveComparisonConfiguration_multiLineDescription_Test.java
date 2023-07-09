@@ -108,7 +108,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    then(multiLineDescription).contains("- no overridden equals methods were used in the comparison (except for java types)");
+    then(multiLineDescription).contains("- no equals methods were used in the comparison EXCEPT for java JDK types since introspecting JDK types is forbidden in java 17+ (use withEqualsForType to register a specific way to compare a JDK type if you need it)");
   }
 
   @Test
@@ -122,7 +122,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     // @format:off
-    then(multiLineDescription).contains(format("- overridden equals methods were used in the comparison except for:%n" +
+    then(multiLineDescription).contains(format("- equals methods were used in the comparison except for:%n" +
                                                "  - the following fields: foo, bar, foo.bar%n" +
                                                "  - the following types: java.lang.String, com.google.common.collect.Multimap%n" +
                                                "  - the fields matching the following regexes: .*oo, .*ar%n"));
@@ -138,7 +138,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     // @format:off
-    then(multiLineDescription).contains(format("- overridden equals methods were used in the comparison except for:%n" +
+    then(multiLineDescription).contains(format("- equals methods were used in the comparison except for:%n" +
                                                "  - the fields matching the following regexes: foo, bar, foo.bar%n"));
     // @format:on
   }
@@ -152,7 +152,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     // @format:off
-    then(multiLineDescription).contains(format("- overridden equals methods were used in the comparison except for:%n" +
+    then(multiLineDescription).contains(format("- equals methods were used in the comparison except for:%n" +
                                                      "  - the following types: java.lang.String, com.google.common.collect.Multimap%n"));
     // @format:on
   }
@@ -165,7 +165,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    then(multiLineDescription).contains("- no overridden equals methods were used in the comparison (except for java types)")
+    then(multiLineDescription).contains("- no equals methods were used in the comparison EXCEPT for java JDK types since introspecting JDK types is forbidden in java 17+ (use withEqualsForType to register a specific way to compare a JDK type if you need it)")
                               .doesNotContain("java.lang.String", "com.google.common.collect.Multimap");
   }
 
@@ -179,7 +179,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // THEN
     // @format:off
     then(multiLineDescription).contains(format(
-               "- overridden equals methods were used in the comparison except for:%n" +
+               "- equals methods were used in the comparison except for:%n" +
                "  - the following fields: foo, baz, foo.baz%n"));
     // @format:on
   }
@@ -189,7 +189,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    then(multiLineDescription).contains("- no overridden equals methods were used in the comparison (except for java types)");
+    then(multiLineDescription).contains("- no equals methods were used in the comparison EXCEPT for java JDK types since introspecting JDK types is forbidden in java 17+ (use withEqualsForType to register a specific way to compare a JDK type if you need it)");
   }
 
   @Test
@@ -357,7 +357,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
                "- the following fields were ignored in the comparison: foo, bar, foo.bar%n" +
                "- the fields matching the following regexes were ignored in the comparison: f.*, .ba., ..b%%sr..%n"+
                "- the following types were ignored in the comparison: java.util.UUID, java.time.ZonedDateTime%n" +
-               "- overridden equals methods were used in the comparison except for:%n" +
+               "- equals methods were used in the comparison except for:%n" +
                "  - the following fields: foo, baz, foo.baz%n" +
                "  - the following types: java.lang.String, com.google.common.collect.Multimap%n" +
                "  - the fields matching the following regexes: .*oo, .ar, oo.ba%n" +
