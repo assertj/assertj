@@ -105,7 +105,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
   SELF isNotNull();
 
   /**
-   * Verifies that the actual value is the same as the given one, ie using == comparison.
+   * Verifies that the actual value is the same as the given one, i.e., using == comparison.
    * <p>
    * Example:
    * <pre><code class='java'> // Name is a class with first and last fields, two Names are equals if both first and last are equals.
@@ -127,7 +127,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
   SELF isSameAs(Object expected);
 
   /**
-   * Verifies that the actual value is not the same as the given one, ie using == comparison.
+   * Verifies that the actual value is not the same as the given one, i.e., using == comparison.
    * <p>
    * Example:
    * <pre><code class='java'> // Name is a class with first and last fields, two Names are equals if both first and last are equals.
