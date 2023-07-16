@@ -20,6 +20,8 @@ import static org.assertj.core.util.Strings.quote;
 
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
+import org.assertj.core.configuration.Configuration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -179,6 +181,28 @@ class StandardRepresentation_array_format_Test extends AbstractBaseRepresentatio
     String formatted = STANDARD_REPRESENTATION.formatArray(array);
     // THEN
     then(formatted).isEqualTo("[\"Hello\", null]");
+  }
+
+  @Test
+  void should_format_big_primitive_array() {
+    // GIVEN
+    int[] array = new int[1 << 28];
+    // WHEN
+    String formatted = STANDARD_REPRESENTATION.formatArray(array);
+    // THEN
+    then(formatted).contains("...");
+    then(StringUtils.countMatches(formatted, "0")).isEqualTo(Configuration.MAX_ELEMENTS_FOR_PRINTING);
+  }
+
+  @Test
+  void should_format_big_object_array() {
+    // GIVEN
+    Object[] array = new Object[1 << 28];
+    // WHEN
+    String formatted = STANDARD_REPRESENTATION.formatArray(array);
+    // THEN
+    then(formatted).contains("...");
+    then(StringUtils.countMatches(formatted, "null")).isEqualTo(Configuration.MAX_ELEMENTS_FOR_PRINTING);
   }
 
   @Test
