@@ -15,10 +15,14 @@ package org.assertj.core.presentation;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
+import java.util.AbstractMap;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
+import com.google.common.collect.ImmutableSet;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -85,5 +89,19 @@ class StandardRepresentation_map_format_Test extends AbstractBaseRepresentationT
     map.put('A', 1);
 
     assertThat(STANDARD_REPRESENTATION.toStringOf(map)).isEqualTo("{\"foo\"=3, false=2, 'A'=1}");
+  }
+
+  @Test
+  void should_formal_null_in_the_entry_set() {
+    Map<Integer, Integer> map = new AbstractMap<Integer, Integer>() {
+      @Override
+      public Set<Entry<Integer, Integer>> entrySet() {
+        Set <Entry<Integer, Integer>> entries = new HashSet<>();
+        entries.add(null);
+        return entries;
+      }
+    };
+
+    assertThat(STANDARD_REPRESENTATION.toStringOf(map)).isEqualTo("{null}");
   }
 }

@@ -498,7 +498,14 @@ public class StandardRepresentation implements Representation {
         builder.append(DEFAULT_MAX_ELEMENTS_EXCEEDED);
         return builder.append("}").toString();
       }
-      builder.append(format(map, entry.getKey())).append('=').append(format(map, entry.getValue()));
+
+      // the entry shouldn't be null in a valid map, but if it is, print it out gracefully instead of throwing a NPE
+      if (entry == null) {
+        builder.append("null");
+      } else {
+        builder.append(format(map, entry.getKey())).append('=').append(format(map, entry.getValue()));
+      }
+
       printedElements++;
       if (!entriesIterator.hasNext()) return builder.append("}").toString();
       builder.append(", ");
