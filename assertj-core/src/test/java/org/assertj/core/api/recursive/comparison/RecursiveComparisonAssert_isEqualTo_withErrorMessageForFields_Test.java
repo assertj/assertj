@@ -16,11 +16,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
+import java.util.List;
 import java.util.OptionalInt;
+import java.util.function.BiPredicate;
 
+import com.google.common.collect.ImmutableList;
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
 import org.assertj.core.internal.objects.data.Person;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class RecursiveComparisonAssert_isEqualTo_withErrorMessageForFields_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
@@ -69,4 +78,53 @@ class RecursiveComparisonAssert_isEqualTo_withErrorMessageForFields_Test extends
                         .hasMessageNotContainingAny(typeMessage);
   }
 
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  @Nested
+  @DisplayName("equalsForFieldsMatchingRegexes with error message determined by value type")
+  class EqualsForFieldsMatchingRegexMessages {
+    private final BiPredicate<String, String> alwaysFalse = (n1, n2) -> false;
+
+    /** Use the custom message whenever either the expected or the actual name is not null. */
+    List<Arguments> useCustomMessage() {
+      String customMessage = "custom message 1234";
+      return ImmutableList.<Arguments> builder()
+                          .add(Arguments.of(new Person("Alice"), new Person("Bob"), customMessage))
+                          .add(Arguments.of(new Person(null), new Person("Alice"), customMessage))
+                          .add(Arguments.of(new Person("Alice"), new Person(null), customMessage))
+                          .build();
+
+    }
+
+    @ParameterizedTest
+    @MethodSource("useCustomMessage")
+    void should_use_message_for_type_when_possible(final Person actual, final Person expected, final String customMessage) {
+      // WHEN
+      AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison()
+                                                                                   .withErrorMessageForType(customMessage,
+                                                                                                            String.class)
+                                                                                   .withEqualsForFieldsMatchingRegexes(
+                                                                                     alwaysFalse, "name")
+                                                                                   .isEqualTo(expected));
+      // THEN
+      then(assertionError).hasMessageContainingAll(customMessage, "name");
+    }
+
+    /** Use the default message when both the expected and actual names are null. */
+    @Test
+    void should_use_default_message_when_expected_and_actual_both_null() {
+      // GIVEN
+      Person actual = new Person(null);
+      Person expected = new Person(null);
+
+      // WHEN
+      AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison()
+                                                                                   .withErrorMessageForType(
+                                                                                     "custom message not used", String.class)
+                                                                                   .withEqualsForFieldsMatchingRegexes(
+                                                                                     alwaysFalse, "name")
+                                                                                   .isEqualTo(expected));
+      // THEN
+      then(assertionError).hasMessageContainingAll("field/property 'name' differ");
+    }
+  }
 }
