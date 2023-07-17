@@ -160,10 +160,18 @@ public class RecursiveComparisonDifferenceCalculator {
       if (recursiveComparisonConfiguration.hasCustomMessageForField(fieldName)) {
         return recursiveComparisonConfiguration.getMessageForField(fieldName);
       }
-      Class<?> fieldType = dualValue.actual != null ? dualValue.actual.getClass() : dualValue.expected.getClass();
-      if (recursiveComparisonConfiguration.hasCustomMessageForType(fieldType)) {
+
+      Class<?> fieldType = null;
+      if (dualValue.actual != null) {
+        fieldType = dualValue.actual.getClass();
+      } else if (dualValue.expected != null) {
+        fieldType = dualValue.expected.getClass();
+      }
+
+      if (fieldType != null && recursiveComparisonConfiguration.hasCustomMessageForType(fieldType)) {
         return recursiveComparisonConfiguration.getMessageForType(fieldType);
       }
+
       return null;
     }
   }
