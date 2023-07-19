@@ -105,11 +105,11 @@ class Short2DArrayAssert_isDeepEqualTo_Test {
     AssertionError assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
     // THEN
     ErrorMessageFactory subarraysShouldHaveSameSize = subarraysShouldHaveSameSize(actual, expected,
-      actualSubArrayWithDifference,
-      actualSubArrayWithDifference.length,
-      expectedSubArrayWithDifference,
-      expectedSubArrayWithDifference.length,
-      1);
+                                                                                  actualSubArrayWithDifference,
+                                                                                  actualSubArrayWithDifference.length,
+                                                                                  expectedSubArrayWithDifference,
+                                                                                  expectedSubArrayWithDifference.length,
+                                                                                  1);
     then(assertionError).hasMessage(subarraysShouldHaveSameSize.create());
   }
 

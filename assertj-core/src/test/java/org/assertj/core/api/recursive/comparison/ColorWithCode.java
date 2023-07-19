@@ -16,6 +16,7 @@ import static org.assertj.core.api.recursive.comparison.ColorWithCode.GREEN;
 
 enum ColorWithCode {
   RED {
+
     @Override
     String code() {
       return "#FF0000";

@@ -30,8 +30,9 @@ class ComparatorBasedComparisonStrategy_duplicatesFrom_Test extends AbstractTest
 
   @Test
   void should_return_existing_duplicates() {
-    Iterable<?> duplicates = caseInsensitiveComparisonStrategy.duplicatesFrom(newArrayList("Merry", "Frodo", "Merry", "Sam", "FrODO",
-        null, null));
+    Iterable<?> duplicates = caseInsensitiveComparisonStrategy.duplicatesFrom(newArrayList("Merry", "Frodo", "Merry", "Sam",
+                                                                                           "FrODO",
+                                                                                           null, null));
     assertThat(sizeOf(duplicates)).isEqualTo(3);
     assertThat(caseInsensitiveComparisonStrategy.iterableContains(duplicates, "frodo")).isTrue();
     assertThat(caseInsensitiveComparisonStrategy.iterableContains(duplicates, "MERRY")).isTrue();

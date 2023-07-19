@@ -27,7 +27,6 @@ import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.ComparablesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Comparables#assertGreaterThanOrEqualTo(AssertionInfo, Comparable, Comparable)}</code>.
  * 

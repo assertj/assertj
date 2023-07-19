@@ -605,11 +605,10 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
   public SELF hasHour(int hour) {
     Objects.instance().assertNotNull(info, actual);
     if (actual.getHour() != hour) {
-      throw Failures.instance().failure(info, shouldHaveDateField(actual,"hour", hour));
+      throw Failures.instance().failure(info, shouldHaveDateField(actual, "hour", hour));
     }
     return myself;
   }
-
 
   /**
    * Verifies that actual {@code LocalTime} is in the given minute.
@@ -631,7 +630,7 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
   public SELF hasMinute(int minute) {
     Objects.instance().assertNotNull(info, actual);
     if (actual.getMinute() != minute) {
-      throw Failures.instance().failure(info, shouldHaveDateField(actual,"minute", minute));
+      throw Failures.instance().failure(info, shouldHaveDateField(actual, "minute", minute));
     }
     return myself;
   }
@@ -656,7 +655,7 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
   public SELF hasSecond(int second) {
     Objects.instance().assertNotNull(info, actual);
     if (actual.getSecond() != second) {
-      throw Failures.instance().failure(info, shouldHaveDateField(actual,"second", second));
+      throw Failures.instance().failure(info, shouldHaveDateField(actual, "second", second));
     }
     return myself;
   }

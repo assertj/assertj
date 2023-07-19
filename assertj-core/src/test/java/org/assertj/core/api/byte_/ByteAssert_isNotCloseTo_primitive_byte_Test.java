@@ -26,8 +26,8 @@ import org.assertj.core.data.Offset;
  */
 class ByteAssert_isNotCloseTo_primitive_byte_Test extends ByteAssertBaseTest {
 
-  private final Offset<Byte> offset = offset((byte)5);
-  private final byte value = (byte)8;
+  private final Offset<Byte> offset = offset((byte) 5);
+  private final byte value = (byte) 8;
 
   @Override
   protected ByteAssert invoke_api_method() {

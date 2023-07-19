@@ -20,7 +20,6 @@ import java.util.List;
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link MapsAssert#hasSameSizeAs(Iterable)}</code>.
  * 

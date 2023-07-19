@@ -19,7 +19,6 @@ import org.assertj.core.api.ByteAssert;
 import org.assertj.core.api.ByteAssertBaseTest;
 import org.assertj.core.data.Offset;
 
-
 /**
  * Tests for <code>{@link org.assertj.core.api.ByteAssert#isCloseTo(Byte, org.assertj.core.data.Offset)}</code>.
  *
@@ -27,8 +26,8 @@ import org.assertj.core.data.Offset;
  */
 class ByteAssert_isCloseTo_byte_Test extends ByteAssertBaseTest {
 
-  private final Offset<Byte> offset = offset((byte)5);
-  private final Byte value = (byte)8;
+  private final Offset<Byte> offset = offset((byte) 5);
+  private final Byte value = (byte) 8;
 
   @Override
   protected ByteAssert invoke_api_method() {

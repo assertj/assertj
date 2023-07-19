@@ -30,7 +30,6 @@ import org.assertj.core.test.Person;
 import org.assertj.core.test.PersonCaseInsensitiveNameComparator;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Comparables#assertNotEqualByComparison(AssertionInfo, Comparable, Comparable)}</code>.
  * 
@@ -74,7 +73,9 @@ class Comparables_assertNotEqualByComparison_Test extends ComparablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparablesWithCustomComparisonStrategy.assertNotEqualByComparison(someInfo(), null, new Person("Yoda")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparablesWithCustomComparisonStrategy.assertNotEqualByComparison(someInfo(),
+                                                                                                                                        null,
+                                                                                                                                        new Person("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
@@ -90,7 +91,9 @@ class Comparables_assertNotEqualByComparison_Test extends ComparablesBaseTest {
   void should_fail_if_objects_are_equal_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> comparablesWithCustomComparisonStrategy.assertNotEqualByComparison(info, new Person("Yoda"), new Person("Yoda")));
+    Throwable error = catchThrowable(() -> comparablesWithCustomComparisonStrategy.assertNotEqualByComparison(info,
+                                                                                                              new Person("Yoda"),
+                                                                                                              new Person("Yoda")));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotBeEqual(new Person("Yoda"), new Person("Yoda")));

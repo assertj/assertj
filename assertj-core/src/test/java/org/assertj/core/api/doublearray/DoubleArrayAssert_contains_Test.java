@@ -21,7 +21,6 @@ import org.assertj.core.api.DoubleArrayAssert;
 import org.assertj.core.api.DoubleArrayAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link DoubleArrayAssert#contains(double...)}</code>.
  * 

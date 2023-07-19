@@ -4104,7 +4104,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   public RecursiveAssertionAssert usingRecursiveAssertion(RecursiveAssertionConfiguration recursiveAssertionConfiguration) {
     return super.usingRecursiveAssertion(recursiveAssertionConfiguration);
   }
-  
+
   /**
    * Verifies that the array under test contains a single element and allows to perform assertions on that element.
    * <p>

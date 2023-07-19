@@ -83,7 +83,8 @@ class Strings_assertDoesNotStartWithIgnoringCase_Test extends StringsBaseTest {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> strings.assertDoesNotStartWithIgnoringCase(INFO, "Leia", "LEI"));
     // THEN
-    then(assertionError).hasMessage(shouldNotStartWithIgnoringCase("Leia", "LEI", StandardComparisonStrategy.instance()).create());
+    then(assertionError).hasMessage(shouldNotStartWithIgnoringCase("Leia", "LEI",
+                                                                   StandardComparisonStrategy.instance()).create());
   }
 
 }

@@ -58,10 +58,10 @@ public class Maps {
   }
 
   public static <K, V> Map<K, V> newHashMap(K key, V value) {
-      Map<K, V> map = new HashMap<>();
-      map.put(key, value);
-      return map;
+    Map<K, V> map = new HashMap<>();
+    map.put(key, value);
+    return map;
   }
-  
+
   private Maps() {}
 }

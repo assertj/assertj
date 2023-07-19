@@ -26,7 +26,6 @@ import org.assertj.core.internal.Booleans;
 import org.assertj.core.internal.BooleansBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Booleans#assertEqual(AssertionInfo, Boolean, boolean)}</code>.
  * 

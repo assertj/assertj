@@ -22,7 +22,6 @@ import org.assertj.core.api.TestCondition;
 import org.assertj.core.data.Index;
 import org.junit.jupiter.api.BeforeAll;
 
-
 /**
  * Tests for <code>{@link ListAssert#is(Condition, Index)}</code>.
  * 

@@ -30,7 +30,6 @@ import org.assertj.core.internal.ByteArrays;
 import org.assertj.core.internal.ByteArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link ByteArrays#assertDoesNotContain(AssertionInfo, byte[], int, Index)}</code>.
  */
@@ -38,7 +37,8 @@ class ByteArrays_assertDoesNotContain_at_Index_with_Integer_Argument_Test extend
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), null, 8, someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), null, 8,
+                                                                                                 someIndex()))
                                                    .withMessage(actualIsNull());
   }
 
@@ -76,7 +76,10 @@ class ByteArrays_assertDoesNotContain_at_Index_with_Integer_Argument_Test extend
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, -8, someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(),
+                                                                                                                             null,
+                                                                                                                             -8,
+                                                                                                                             someIndex()))
                                                    .withMessage(actualIsNull());
   }
 

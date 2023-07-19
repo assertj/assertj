@@ -62,7 +62,7 @@ class StringAssert_asDouble_Test extends StringAssertBaseTest {
 
   @ParameterizedTest
   @NullSource
-  @ValueSource(strings = {"foo", "", "0xffg"})
+  @ValueSource(strings = { "foo", "", "0xffg" })
   void should_throw_AssertionError_when_null_or_not_numeric(String string) {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(string).asDouble());

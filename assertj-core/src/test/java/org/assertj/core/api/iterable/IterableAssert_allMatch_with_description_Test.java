@@ -38,6 +38,6 @@ class IterableAssert_allMatch_with_description_Test extends IterableAssertBaseTe
   @Override
   protected void verify_internal_effects() {
     verify(iterables)
-      .assertAllMatch(getInfo(assertions), getActual(assertions), predicate, new PredicateDescription("custom"));
+                     .assertAllMatch(getInfo(assertions), getActual(assertions), predicate, new PredicateDescription("custom"));
   }
 }

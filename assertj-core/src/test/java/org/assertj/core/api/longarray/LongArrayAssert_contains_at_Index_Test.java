@@ -19,7 +19,6 @@ import org.assertj.core.api.LongArrayAssert;
 import org.assertj.core.api.LongArrayAssertBaseTest;
 import org.assertj.core.data.Index;
 
-
 /**
  * Tests for <code>{@link LongArrayAssert#contains(long, Index)}</code>.
  * 

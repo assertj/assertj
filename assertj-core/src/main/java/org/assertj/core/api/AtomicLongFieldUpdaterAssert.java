@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-
 import java.util.concurrent.atomic.AtomicLongFieldUpdater;
 
 /**
@@ -25,7 +24,8 @@ import java.util.concurrent.atomic.AtomicLongFieldUpdater;
  * @author epeee
  * @since 2.7.0 / 3.7.0
  */
-public class AtomicLongFieldUpdaterAssert<OBJECT> extends AbstractAtomicFieldUpdaterAssert<AtomicLongFieldUpdaterAssert<OBJECT>, Long, AtomicLongFieldUpdater<OBJECT>, OBJECT> {
+public class AtomicLongFieldUpdaterAssert<OBJECT>
+    extends AbstractAtomicFieldUpdaterAssert<AtomicLongFieldUpdaterAssert<OBJECT>, Long, AtomicLongFieldUpdater<OBJECT>, OBJECT> {
 
   public AtomicLongFieldUpdaterAssert(AtomicLongFieldUpdater<OBJECT> actual) {
     super(actual, AtomicLongFieldUpdaterAssert.class, false);

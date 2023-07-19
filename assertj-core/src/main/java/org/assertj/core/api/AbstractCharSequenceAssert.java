@@ -1956,7 +1956,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual {@code CharSequence} is not alphabetic.
    * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
    */
-  public SELF isAlphabetic(){
+  public SELF isAlphabetic() {
     isNotNull();
     if (!Pattern.matches("\\p{Alpha}+", actual)) throwAssertionError(shouldBeAlphabetic(actual));
     return myself;
@@ -1982,7 +1982,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual {@code CharSequence} is not alphanumeric.
    * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
    */
-  public SELF isAlphanumeric(){
+  public SELF isAlphanumeric() {
     isNotNull();
     if (!Pattern.matches("\\p{Alnum}+", actual)) throwAssertionError(shouldBeAlphanumeric(actual));
     return myself;
@@ -2008,7 +2008,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual {@code CharSequence} is not ASCII.
    * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
    */
-  public SELF isASCII(){
+  public SELF isASCII() {
     isNotNull();
     if (!Pattern.matches("\\p{ASCII}+", actual)) throwAssertionError(shouldBeASCII(actual));
     return myself;
@@ -2034,7 +2034,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual {@code CharSequence} is not hexadecimal.
    * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
    */
-  public SELF isHexadecimal(){
+  public SELF isHexadecimal() {
     isNotNull();
     if (!Pattern.matches("\\p{XDigit}+", actual)) throwAssertionError(shouldBeHexadecimal(actual));
     return myself;
@@ -2061,7 +2061,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual {@code CharSequence} is not printable.
    * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
    */
-  public SELF isPrintable(){
+  public SELF isPrintable() {
     isNotNull();
     if (!Pattern.matches("\\p{Print}+", actual)) throwAssertionError(shouldBePrintable(actual));
     return myself;
@@ -2087,7 +2087,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual {@code CharSequence} is not visible.
    * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
    */
-  public SELF isVisible(){
+  public SELF isVisible() {
     isNotNull();
     if (!Pattern.matches("\\p{Graph}+", actual)) throwAssertionError(shouldBeVisible(actual));
     return myself;

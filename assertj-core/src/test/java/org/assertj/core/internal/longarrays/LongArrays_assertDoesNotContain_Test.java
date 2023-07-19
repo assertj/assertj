@@ -32,7 +32,6 @@ import org.assertj.core.internal.LongArrays;
 import org.assertj.core.internal.LongArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link LongArrays#assertDoesNotContain(AssertionInfo, long[], long[])}</code>.
  * 
@@ -60,7 +59,7 @@ class LongArrays_assertDoesNotContain_Test extends LongArraysBaseTest {
   @Test
   void should_throw_error_if_array_of_values_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), actual, null))
-                                                         .withMessage(valuesToLookForIsNull());
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
@@ -108,7 +107,9 @@ class LongArrays_assertDoesNotContain_Test extends LongArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, arrayOf(-8L)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(),
+                                                                                                                             null,
+                                                                                                                             arrayOf(-8L)))
                                                    .withMessage(actualIsNull());
   }
 

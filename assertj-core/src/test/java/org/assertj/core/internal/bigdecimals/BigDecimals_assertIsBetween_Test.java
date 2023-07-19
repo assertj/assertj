@@ -31,7 +31,6 @@ import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.BigDecimalsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link BigDecimals#assertIsBetween(AssertionInfo, BigDecimal, BigDecimal, BigDecimal)}</code>.
  * 

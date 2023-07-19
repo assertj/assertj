@@ -20,7 +20,6 @@ import java.util.List;
 import org.assertj.core.api.ByteArrayAssert;
 import org.assertj.core.api.ByteArrayAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link ByteArrayAssert#hasSameSizeAs(Iterable)}</code>.
  * 

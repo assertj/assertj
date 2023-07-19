@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link FileAssert#isAbsolute()}</code>.
  * 

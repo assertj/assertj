@@ -61,7 +61,9 @@ class Strings_assertDoesNotStartWith_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_starts_with_prefix_according_to_custom_comparison_strategy() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotStartWith(someInfo(), "Yoda", "yODA"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotStartWith(someInfo(),
+                                                                                                                                         "Yoda",
+                                                                                                                                         "yODA"))
                                                    .withMessage(shouldNotStartWith("Yoda", "yODA", comparisonStrategy).create());
   }
 

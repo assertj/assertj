@@ -26,7 +26,6 @@ import org.assertj.core.internal.DoubleArrays;
 import org.assertj.core.internal.DoubleArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link DoubleArrays#assertStartsWith(AssertionInfo, double[], double[])}</code>.
  * 
@@ -51,7 +50,7 @@ class DoubleArrays_assertStartsWith_Test extends DoubleArraysBaseTest {
     actual = emptyArray();
     arrays.assertStartsWith(someInfo(), actual, emptyArray());
   }
-  
+
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertStartsWith(someInfo(), actual, emptyArray()));
@@ -103,34 +102,47 @@ class DoubleArrays_assertStartsWith_Test extends DoubleArraysBaseTest {
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(),
+                                                                                                                         actual,
+                                                                                                                         emptyArray()));
   }
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), null, arrayOf(-8d)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(),
+                                                                                                                         null,
+                                                                                                                         arrayOf(-8d)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_sequence_is_bigger_than_actual_according_to_custom_comparison_strategy() {
     double[] sequence = { 6d, -8d, 10d, 12d, 20d, 22d };
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), actual, sequence))
-                                                   .withMessage(shouldStartWith(actual, sequence, absValueComparisonStrategy).create());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(),
+                                                                                                                         actual,
+                                                                                                                         sequence))
+                                                   .withMessage(shouldStartWith(actual, sequence,
+                                                                                absValueComparisonStrategy).create());
   }
 
   @Test
   void should_fail_if_actual_does_not_start_with_sequence_according_to_custom_comparison_strategy() {
     double[] sequence = { -8d, 10d };
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), actual, sequence))
-                                                   .withMessage(shouldStartWith(actual, sequence, absValueComparisonStrategy).create());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(),
+                                                                                                                         actual,
+                                                                                                                         sequence))
+                                                   .withMessage(shouldStartWith(actual, sequence,
+                                                                                absValueComparisonStrategy).create());
   }
 
   @Test
   void should_fail_if_actual_starts_with_first_elements_of_sequence_only_according_to_custom_comparison_strategy() {
     double[] sequence = { 6d, 20d };
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), actual, sequence))
-                                                   .withMessage(shouldStartWith(actual, sequence, absValueComparisonStrategy).create());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(),
+                                                                                                                         actual,
+                                                                                                                         sequence))
+                                                   .withMessage(shouldStartWith(actual, sequence,
+                                                                                absValueComparisonStrategy).create());
   }
 
   @Test

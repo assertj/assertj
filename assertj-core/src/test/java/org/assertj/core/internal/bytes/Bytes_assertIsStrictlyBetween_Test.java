@@ -27,7 +27,6 @@ import org.assertj.core.internal.Bytes;
 import org.assertj.core.internal.BytesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Bytes#assertIsStrictlyBetween(AssertionInfo, Byte, Byte, Byte)}</code>.
  * 
@@ -39,7 +38,7 @@ class Bytes_assertIsStrictlyBetween_Test extends BytesBaseTest {
   private static final Byte ONE = (byte) 1;
   private static final Byte TWO = (byte) 2;
   private static final Byte TEN = (byte) 10;
-  
+
   @Test
   void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsStrictlyBetween(someInfo(), null, ZERO, ONE))

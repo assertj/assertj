@@ -18,7 +18,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.BooleanArrayAssert;
 import org.assertj.core.api.BooleanArrayAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link BooleanArrayAssert#endsWith(boolean...)}</code>.
  * 

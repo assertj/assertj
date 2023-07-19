@@ -21,7 +21,6 @@ import org.assertj.core.internal.Floats;
 import org.assertj.core.internal.FloatsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Floats#assertIsNotNaN(AssertionInfo, Float)}</code>.
  * 
@@ -48,7 +47,8 @@ class Floats_assertIsNotNaN_Test extends FloatsBaseTest {
 
   @Test
   void should_fail_since_actual_is_equal_to_NaN_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsNotNaN(someInfo(), Float.NaN))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsNotNaN(someInfo(),
+                                                                                                                         Float.NaN))
                                                    .withMessage(format("%nExpecting actual:%n  NaNf%nnot to be equal to:%n  NaNf%n"));
   }
 }

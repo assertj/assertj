@@ -30,7 +30,6 @@ import org.assertj.core.internal.CharArrays;
 import org.assertj.core.internal.CharArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link CharArrays#assertContainsOnly(AssertionInfo, char[], char[])}</code>.
  * 
@@ -65,7 +64,7 @@ class CharArrays_assertContainsOnly_Test extends CharArraysBaseTest {
     actual = emptyArray();
     arrays.assertContainsOnly(someInfo(), actual, emptyArray());
   }
-  
+
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnly(someInfo(), actual, emptyArray()));
@@ -117,20 +116,24 @@ class CharArrays_assertContainsOnly_Test extends CharArraysBaseTest {
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(),
+                                                                                                                           actual,
+                                                                                                                           emptyArray()));
   }
 
   @Test
   void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(),
-                                                                                                                                 actual,
-                                                                                                                                 null))
-                                                         .withMessage(valuesToLookForIsNull());
+                                                                                                            actual,
+                                                                                                            null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), null, arrayOf('A')))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(),
+                                                                                                                           null,
+                                                                                                                           arrayOf('A')))
                                                    .withMessage(actualIsNull());
   }
 
@@ -143,6 +146,6 @@ class CharArrays_assertContainsOnly_Test extends CharArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainOnly(actual, expected, newArrayList('d'), newArrayList('c'),
-                                               caseInsensitiveComparisonStrategy));
+                                                     caseInsensitiveComparisonStrategy));
   }
 }

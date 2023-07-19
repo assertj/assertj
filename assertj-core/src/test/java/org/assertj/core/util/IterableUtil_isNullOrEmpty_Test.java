@@ -59,7 +59,7 @@ class IterableUtil_isNullOrEmpty_Test {
   private static class StringIterable implements Iterable<String> {
     private final List<String> elements;
 
-    StringIterable(String...elements) {
+    StringIterable(String... elements) {
       this.elements = Lists.newArrayList(elements);
     }
 

@@ -364,8 +364,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
 
   }
 
-  enum Type
-  {
+  enum Type {
     FIRST, SECOND,
   }
 

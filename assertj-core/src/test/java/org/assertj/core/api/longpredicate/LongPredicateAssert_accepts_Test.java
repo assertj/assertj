@@ -45,7 +45,8 @@ class LongPredicateAssert_accepts_Test extends LongPredicateAssertBaseTest {
     Predicate<Long> wrapPredicate = predicate::test;
     long expectedValue = 3;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).accepts(expectedValue))
-                                                   .withMessage(shouldAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
+                                                   .withMessage(shouldAccept(wrapPredicate, expectedValue,
+                                                                             PredicateDescription.GIVEN).create());
   }
 
   @Test
@@ -54,7 +55,8 @@ class LongPredicateAssert_accepts_Test extends LongPredicateAssertBaseTest {
     Predicate<Long> wrapPredicate = predicate::test;
     long expectedValue = 3;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).as("test").accepts(expectedValue))
-                                                   .withMessage("[test] " + shouldAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
+                                                   .withMessage("[test] " + shouldAccept(wrapPredicate, expectedValue,
+                                                                                         PredicateDescription.GIVEN).create());
   }
 
   @Test
@@ -64,13 +66,13 @@ class LongPredicateAssert_accepts_Test extends LongPredicateAssertBaseTest {
     assertThat(predicate).accepts(1);
   }
 
-
   @Test
   void should_fail_when_predicate_does_not_accept_values() {
     LongPredicate predicate = val -> val <= 2;
     long[] matchValues = new long[] { 1L, 2L, 3L };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).accepts(matchValues))
-                                                   .withMessage(elementsShouldMatch(matchValues, 3L, PredicateDescription.GIVEN).create());
+                                                   .withMessage(elementsShouldMatch(matchValues, 3L,
+                                                                                    PredicateDescription.GIVEN).create());
   }
 
   @Test

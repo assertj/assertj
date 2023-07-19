@@ -18,10 +18,10 @@ import static java.util.stream.Collectors.joining;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Lists.list;
+import static org.mockito.Mockito.RETURNS_SMART_NULLS;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.withSettings;
-import static org.mockito.Mockito.RETURNS_SMART_NULLS;
 
 import java.nio.file.DirectoryStream;
 import java.nio.file.SecureDirectoryStream;
@@ -33,11 +33,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.junit.jupiter.params.provider.ValueSource;
 
 class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresentationTest {
 
@@ -107,7 +107,7 @@ class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresenta
   }
 
   @ParameterizedTest(name = "Iterables derived from {0} should not be iterated across")
-  @ValueSource(classes = {DirectoryStream.class, SecureDirectoryStream.class})
+  @ValueSource(classes = { DirectoryStream.class, SecureDirectoryStream.class })
   <T extends Iterable<?>> void should_use_fallback_toString_if_iterable_is_blacklisted(Class<T> type) {
     // GIVEN
     String expectedToString = "defaultToString-" + UUID.randomUUID();

@@ -41,7 +41,7 @@ class IterableAssert_doesNotContainSubsequence_List_Test extends IterableAssertB
 
   @Override
   protected void verify_internal_effects() {
-	  verify(iterables).assertDoesNotContainSubsequence(getInfo(assertions), getActual(assertions), array("Luke", "Leia"));
+    verify(iterables).assertDoesNotContainSubsequence(getInfo(assertions), getActual(assertions), array("Luke", "Leia"));
   }
 
   @Test

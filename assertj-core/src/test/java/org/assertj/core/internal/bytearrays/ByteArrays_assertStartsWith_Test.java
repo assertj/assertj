@@ -29,7 +29,6 @@ import org.assertj.core.internal.ByteArrays;
 import org.assertj.core.internal.ByteArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link ByteArrays#assertStartsWith(AssertionInfo, byte[], byte[])}</code>.
  * 
@@ -54,7 +53,7 @@ class ByteArrays_assertStartsWith_Test extends ByteArraysBaseTest {
     actual = emptyArray();
     arrays.assertStartsWith(someInfo(), actual, emptyArray());
   }
-  
+
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertStartsWith(someInfo(), actual, emptyArray()));
@@ -111,17 +110,23 @@ class ByteArrays_assertStartsWith_Test extends ByteArraysBaseTest {
 
   @Test
   void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), actual, (byte[]) null)).withMessage(valuesToLookForIsNull());
+    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), actual,
+                                                                                                          (byte[]) null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(),
+                                                                                                                         actual,
+                                                                                                                         emptyArray()));
   }
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), null, arrayOf(-8)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(),
+                                                                                                                         null,
+                                                                                                                         arrayOf(-8)))
                                                    .withMessage(actualIsNull());
   }
 

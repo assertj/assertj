@@ -21,7 +21,6 @@ import org.assertj.core.api.BigIntegerAssert;
 import org.assertj.core.api.BigIntegerAssertBaseTest;
 import org.assertj.core.data.Offset;
 
-
 class BigIntegerAssert_isCloseTo_Test extends BigIntegerAssertBaseTest {
 
   private final BigInteger other = new BigInteger("6");

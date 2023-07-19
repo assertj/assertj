@@ -28,7 +28,6 @@ import org.assertj.core.internal.IntArrays;
 import org.assertj.core.internal.IntArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link IntArrays#assertDoesNotHaveDuplicates(AssertionInfo, int[])}</code>.
  * 
@@ -81,7 +80,8 @@ class IntArrays_assertDoesNotHaveDuplicates_Test extends IntArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(), null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(),
+                                                                                                                                    null))
                                                    .withMessage(actualIsNull());
   }
 

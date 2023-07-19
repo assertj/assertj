@@ -43,8 +43,7 @@ public abstract class AbstractRecursiveOperationConfiguration {
     ignoreFieldsOfTypes(builder.ignoredTypes);
   }
 
-  protected AbstractRecursiveOperationConfiguration() {
-  }
+  protected AbstractRecursiveOperationConfiguration() {}
 
   /**
    * Adds the given fields to the set of fields from the object under test to ignore in the recursive comparison.
@@ -145,7 +144,6 @@ public abstract class AbstractRecursiveOperationConfiguration {
   public Set<Class<?>> getIgnoredTypes() {
     return ignoredTypes;
   }
-
 
   protected void describeIgnoredFields(StringBuilder description) {
     if (!getIgnoredFields().isEmpty())

@@ -17,7 +17,7 @@ import static java.lang.Math.abs;
 import java.util.Comparator;
 
 public class AtPrecisionComparator<NUMBER extends Number> implements Comparator<NUMBER> {
-  
+
   private NUMBER precision;
 
   public AtPrecisionComparator(NUMBER precision) {

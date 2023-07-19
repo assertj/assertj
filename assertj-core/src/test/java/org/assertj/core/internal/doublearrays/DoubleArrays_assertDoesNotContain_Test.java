@@ -30,7 +30,6 @@ import org.assertj.core.internal.DoubleArrays;
 import org.assertj.core.internal.DoubleArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link DoubleArrays#assertDoesNotContain(AssertionInfo, double[], double[])}</code>.
  * 
@@ -76,7 +75,8 @@ class DoubleArrays_assertDoesNotContain_Test extends DoubleArraysBaseTest {
   void should_fail_if_actual_contains_given_values() {
     double[] expected = { 6d, 8d, 20d };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), actual, expected))
-                                                   .withMessage(shouldNotContain(actual, expected, newLinkedHashSet(6d, 8d)).create());
+                                                   .withMessage(shouldNotContain(actual, expected,
+                                                                                 newLinkedHashSet(6d, 8d)).create());
   }
 
   @Test
@@ -107,15 +107,18 @@ class DoubleArrays_assertDoesNotContain_Test extends DoubleArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, arrayOf(-8d)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(),
+                                                                                                                             null,
+                                                                                                                             arrayOf(-8d)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
     double[] expected = { 6d, -8d, 20d };
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> 
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, expected))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(),
+                                                                                                                             actual,
+                                                                                                                             expected))
                                                    .withMessage(format(shouldNotContain(actual, expected,
                                                                                         newLinkedHashSet(6d, -8d),
                                                                                         absValueComparisonStrategy).create()));

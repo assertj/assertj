@@ -24,7 +24,6 @@ import org.assertj.core.internal.Throwables;
 import org.assertj.core.internal.ThrowablesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Throwables#assertHasMessageStartingWith(AssertionInfo, Throwable, String)}</code>.
  * 
@@ -39,7 +38,8 @@ class Throwables_assertHasMessageStartingWith_Test extends ThrowablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasMessageStartingWith(someInfo(), null, "Throwable"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasMessageStartingWith(someInfo(), null,
+                                                                                                             "Throwable"))
                                                    .withMessage(actualIsNull());
   }
 

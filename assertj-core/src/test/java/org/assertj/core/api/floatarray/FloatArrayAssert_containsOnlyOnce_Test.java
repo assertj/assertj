@@ -41,15 +41,15 @@ class FloatArrayAssert_containsOnlyOnce_Test extends FloatArrayAssertBaseTest {
   @Test
   void should_pass_with_precision_specified_as_last_argument() {
     // GIVEN
-      float[] actual = arrayOf(1.0f, 2.0f, 3.0f);
-    // THEN 
+    float[] actual = arrayOf(1.0f, 2.0f, 3.0f);
+    // THEN
     assertThat(actual).containsOnlyOnce(arrayOf(0.91f, 2.0f, 3.09f), withPrecision(0.1f));
   }
 
   @Test
   void should_pass_with_precision_specified_in_comparator() {
     // GIVEN
-      float[] actual = arrayOf(1.0f, 2.0f, 3.0f);
+    float[] actual = arrayOf(1.0f, 2.0f, 3.0f);
     // THEN
     assertThat(actual).usingComparatorWithPrecision(0.1f)
                       .containsOnlyOnce(0.91f, 2.0f, 3.09f);

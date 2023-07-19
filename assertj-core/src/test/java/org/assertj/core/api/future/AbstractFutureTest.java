@@ -17,9 +17,9 @@ import static java.lang.String.format;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.platform.commons.logging.Logger;
@@ -66,9 +66,8 @@ abstract class AbstractFutureTest {
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
       logger.info(
-        ex,
-        () -> format("Thread %s [%s] threw an exception", thread.getName(), thread.getId())
-      );
+                  ex,
+                  () -> format("Thread %s [%s] threw an exception", thread.getName(), thread.getId()));
     }
   }
 }

@@ -22,7 +22,6 @@ import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Strings#assertHasSize(AssertionInfo, CharSequence, int)}</code>.
  * 
@@ -53,7 +52,9 @@ class Strings_assertHasSize_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertHasSize(someInfo(), null, 3))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertHasSize(someInfo(),
+                                                                                                                                null,
+                                                                                                                                3))
                                                    .withMessage(actualIsNull());
   }
 
@@ -62,7 +63,9 @@ class Strings_assertHasSize_Test extends StringsBaseTest {
     AssertionInfo info = someInfo();
     String actual = "Han";
 
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertHasSize(info, actual, 6))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertHasSize(info,
+                                                                                                                                actual,
+                                                                                                                                6))
                                                    .withMessage(shouldHaveSize(actual, actual.length(), 6).create());
   }
 

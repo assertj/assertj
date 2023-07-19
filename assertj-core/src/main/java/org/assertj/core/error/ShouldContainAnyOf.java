@@ -17,10 +17,10 @@ import org.assertj.core.internal.ComparisonStrategy;
 public class ShouldContainAnyOf extends BasicErrorMessageFactory {
 
   private static final String DEFAULT_FORMAT = "%nExpecting actual:%n" +
-                                              "  %s%n" +
-                                              "to contain at least one of the following elements:%n" +
-                                              "  %s%n" +
-                                              "but none were found";
+                                               "  %s%n" +
+                                               "to contain at least one of the following elements:%n" +
+                                               "  %s%n" +
+                                               "but none were found";
 
   private static final String FORMAT_WITH_COMPARISON_STRATEGY = DEFAULT_FORMAT + " %s";
 

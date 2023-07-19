@@ -120,8 +120,10 @@ class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends ObjectsBaseTe
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
 
-    Throwable error = catchThrowable(() -> objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, noFieldComparators(),
-      defaultTypeComparators(), "name", "lightSaberColor"));
+    Throwable error = catchThrowable(() -> objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other,
+                                                                                           noFieldComparators(),
+                                                                                           defaultTypeComparators(), "name",
+                                                                                           "lightSaberColor"));
 
     assertThat(error).isInstanceOf(AssertionError.class);
 
@@ -140,8 +142,10 @@ class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends ObjectsBaseTe
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Luke", "Green");
 
-    Throwable error = catchThrowable(() -> objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, noFieldComparators(),
-      defaultTypeComparators(), "name", "lightSaberColor"));
+    Throwable error = catchThrowable(() -> objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other,
+                                                                                           noFieldComparators(),
+                                                                                           defaultTypeComparators(), "name",
+                                                                                           "lightSaberColor"));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     List<Object> expected = newArrayList("Luke");

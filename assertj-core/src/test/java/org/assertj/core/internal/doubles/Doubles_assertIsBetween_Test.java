@@ -26,7 +26,6 @@ import org.assertj.core.internal.Doubles;
 import org.assertj.core.internal.DoublesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Doubles#assertIsBetween(AssertionInfo, Double, Double, Double)}</code>.
  * 
@@ -38,7 +37,7 @@ class Doubles_assertIsBetween_Test extends DoublesBaseTest {
   private static final Double ONE = 1D;
   private static final Double TWO = 2D;
   private static final Double TEN = 10D;
-  
+
   @Test
   void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsBetween(someInfo(), null, ZERO, ONE))

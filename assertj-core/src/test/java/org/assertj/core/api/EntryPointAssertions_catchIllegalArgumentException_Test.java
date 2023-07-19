@@ -39,7 +39,8 @@ class EntryPointAssertions_catchIllegalArgumentException_Test extends EntryPoint
   }
 
   private static Stream<Function<ThrowingCallable, IllegalArgumentException>> catchIllegalArgumentExceptions() {
-    return Stream.of(Assertions::catchIllegalArgumentException, BDDAssertions::catchIllegalArgumentException, withAssertions::catchIllegalArgumentException);
+    return Stream.of(Assertions::catchIllegalArgumentException, BDDAssertions::catchIllegalArgumentException,
+                     withAssertions::catchIllegalArgumentException);
   }
 
 }

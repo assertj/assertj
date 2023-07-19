@@ -19,7 +19,6 @@ import org.assertj.core.api.AtomicIntegerArrayAssert;
 import org.assertj.core.api.AtomicIntegerArrayAssertBaseTest;
 import org.assertj.core.data.Index;
 
-
 class AtomicIntegerArrayAssert_contains_at_Index_Test extends AtomicIntegerArrayAssertBaseTest {
   private final Index index = someIndex();
 

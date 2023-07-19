@@ -38,6 +38,7 @@ class ArrayWrapperList_wrap_Test {
 
   @Test
   void should_throw_error_if_parameter_is_not_array() {
-    assertThatIllegalArgumentException().isThrownBy(() -> ArrayWrapperList.wrap("Yoda")).withMessage("The object to wrap should be an array");
+    assertThatIllegalArgumentException().isThrownBy(() -> ArrayWrapperList.wrap("Yoda"))
+                                        .withMessage("The object to wrap should be an array");
   }
 }

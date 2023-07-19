@@ -26,4 +26,3 @@ public final class OtherStringTestComparatorWithAt implements Comparator<String>
     return "other String comparator with @";
   }
 }
-

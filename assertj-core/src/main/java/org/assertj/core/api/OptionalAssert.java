@@ -23,7 +23,7 @@ import java.util.Optional;
 public class OptionalAssert<VALUE> extends AbstractOptionalAssert<OptionalAssert<VALUE>, VALUE> {
 
   protected OptionalAssert(Optional<VALUE> actual) {
-	super(actual, OptionalAssert.class);
+    super(actual, OptionalAssert.class);
   }
 
 }

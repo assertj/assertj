@@ -33,7 +33,8 @@ class PredicateAssert_rejectsAllTest extends PredicateAssertBaseTest {
 
   @Test
   void should_fail_when_predicate_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Predicate<String>) null).rejectsAll(newArrayList("first", "second")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Predicate<String>) null).rejectsAll(newArrayList("first",
+                                                                                                                                  "second")))
                                                    .withMessage(actualIsNull());
   }
 

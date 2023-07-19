@@ -29,7 +29,6 @@ import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.BigDecimalsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link BigDecimals#assertLessThan(AssertionInfo, BigDecimal, bigdecimal)}</code>.
  * 
@@ -60,14 +59,14 @@ class BigDecimals_assertLessThan_Test extends BigDecimalsBaseTest {
 
   @Test
   void should_fail_if_actual_is_equal_to_other_by_comparison() {
-  	AssertionInfo info = someInfo();
+    AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> numbers.assertLessThan(info, TEN, new BigDecimal("10.00")));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-	  verify(failures).failure(info, shouldBeLess(TEN, new BigDecimal("10.00")));
+    verify(failures).failure(info, shouldBeLess(TEN, new BigDecimal("10.00")));
   }
-  
+
   @Test
   void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();

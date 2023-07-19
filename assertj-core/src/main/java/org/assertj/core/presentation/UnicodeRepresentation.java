@@ -20,7 +20,7 @@ import java.util.Formatter;
  * @author Mariusz Smykula
  */
 public class UnicodeRepresentation extends StandardRepresentation {
-  
+
   public static final UnicodeRepresentation UNICODE_REPRESENTATION = new UnicodeRepresentation();
 
   /**

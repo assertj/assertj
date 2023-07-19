@@ -16,7 +16,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 
 import java.io.File;
-import java.util.*;
+import java.util.AbstractMap;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -111,7 +116,7 @@ class StandardRepresentation_map_format_Test extends AbstractBaseRepresentationT
     Map<Integer, Integer> map = new AbstractMap<Integer, Integer>() {
       @Override
       public Set<Entry<Integer, Integer>> entrySet() {
-        Set <Entry<Integer, Integer>> entries = new HashSet<>();
+        Set<Entry<Integer, Integer>> entries = new HashSet<>();
         entries.add(null);
         return entries;
       }

@@ -254,6 +254,5 @@ public enum FieldSupport {
     // only read public field
     return isPublic(field.getModifiers());
   }
-  
 
 }

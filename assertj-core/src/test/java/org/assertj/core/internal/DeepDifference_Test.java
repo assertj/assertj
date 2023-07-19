@@ -327,7 +327,8 @@ class DeepDifference_Test {
     assertHaveNoDifferences(x, y, noFieldComparators(), defaultTypeComparators());
   }
 
-  private void assertHaveNoDifferences(Object x, Object y, Map<String, Comparator<?>> fieldComparators, TypeComparators typeComparators) {
+  private void assertHaveNoDifferences(Object x, Object y, Map<String, Comparator<?>> fieldComparators,
+                                       TypeComparators typeComparators) {
     assertThat(DeepDifference.determineDifferences(x, y, fieldComparators, typeComparators)).isEmpty();
   }
 
@@ -335,7 +336,8 @@ class DeepDifference_Test {
     assertHaveDifferences(x, y, noFieldComparators(), defaultTypeComparators());
   }
 
-  private void assertHaveDifferences(Object x, Object y, Map<String, Comparator<?>> fieldComparators, TypeComparators typeComparators) {
+  private void assertHaveDifferences(Object x, Object y, Map<String, Comparator<?>> fieldComparators,
+                                     TypeComparators typeComparators) {
     assertThat(DeepDifference.determineDifferences(x, y, fieldComparators, typeComparators)).isNotEmpty();
   }
 
@@ -364,8 +366,7 @@ class DeepDifference_Test {
     @SuppressWarnings("unused")
     int i;
 
-    public Class1() {
-    }
+    public Class1() {}
 
     public Class1(boolean b, double d, int i) {
       this.b = b;

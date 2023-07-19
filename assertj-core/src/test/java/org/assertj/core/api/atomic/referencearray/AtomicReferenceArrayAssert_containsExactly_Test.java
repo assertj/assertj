@@ -18,7 +18,7 @@ import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 
 class AtomicReferenceArrayAssert_containsExactly_Test extends AtomicReferenceArrayAssertBaseTest {
-  
+
   @Override
   protected AtomicReferenceArrayAssert<Object> invoke_api_method() {
     return assertions.containsExactly("Yoda", "Luke");
@@ -26,6 +26,6 @@ class AtomicReferenceArrayAssert_containsExactly_Test extends AtomicReferenceArr
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertContainsExactly(info(), internalArray(), new String[] {"Yoda", "Luke"});
+    verify(arrays).assertContainsExactly(info(), internalArray(), new String[] { "Yoda", "Luke" });
   }
 }

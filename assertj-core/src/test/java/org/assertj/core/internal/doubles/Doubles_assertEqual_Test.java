@@ -57,7 +57,8 @@ class Doubles_assertEqual_Test extends DoublesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertEqual(someInfo(), null, 8d))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertEqual(someInfo(),
+                                                                                                                       null, 8d))
                                                    .withMessage(actualIsNull());
   }
 
@@ -74,6 +75,6 @@ class Doubles_assertEqual_Test extends DoublesBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeEqual(6d, 8d, absValueComparisonStrategy,
-        new StandardRepresentation()));
+                                                 new StandardRepresentation()));
   }
 }

@@ -34,8 +34,8 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Alexander Bischof
  * @author Grzegorz Piwowarek
  */
-public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptionalDoubleAssert<SELF>> extends
-    AbstractAssert<SELF, OptionalDouble> {
+public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptionalDoubleAssert<SELF>>
+    extends AbstractAssert<SELF, OptionalDouble> {
 
   @VisibleForTesting
   Doubles doubles = Doubles.instance();
@@ -77,7 +77,7 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
   public SELF isNotPresent() {
     return isEmpty();
   }
-  
+
   /**
    * Verifies that the actual {@link java.util.OptionalDouble} is empty.
    * <p>
@@ -203,7 +203,8 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
     try {
       doubles.assertIsCloseToPercentage(info, actual.getAsDouble(), expectedValue, percentage);
     } catch (AssertionError assertionError) {
-      throwAssertionError(shouldHaveValueCloseToPercentage(actual, expectedValue, percentage, abs(expectedValue - actual.getAsDouble())));
+      throwAssertionError(shouldHaveValueCloseToPercentage(actual, expectedValue, percentage,
+                                                           abs(expectedValue - actual.getAsDouble())));
     }
     return myself;
   }

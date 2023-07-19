@@ -22,8 +22,8 @@ class Assertions_avoid_ambiguous_reference_compilation_error_Test {
   void should_not_report_ambiguous_reference_compilation_error() {
     // does not compile, explanation: https://stackoverflow.com/questions/29499847/ambiguous-method-in-java-8-why
     // Assertions.assertThat(getDate()).isEqualTo(getDate());
-    
-    // compiles since AssertionsForClassTypes does not provide assertThat for interfaces   
+
+    // compiles since AssertionsForClassTypes does not provide assertThat for interfaces
     AssertionsForClassTypes.assertThat(getDate()).isEqualTo(getDate());
   }
 

@@ -29,7 +29,6 @@ import org.assertj.core.internal.ComparablesBaseTest;
 import org.assertj.core.util.AbsValueComparator;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Comparables#assertEqualByComparison(AssertionInfo, Comparable, Comparable)}</code>.
  * 
@@ -75,7 +74,9 @@ class Comparables_assertEqualByComparison_Test extends ComparablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparablesWithCustomComparisonStrategy.assertEqualByComparison(someInfo(), null, BigDecimal.ONE))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparablesWithCustomComparisonStrategy.assertEqualByComparison(someInfo(),
+                                                                                                                                     null,
+                                                                                                                                     BigDecimal.ONE))
                                                    .withMessage(actualIsNull());
   }
 

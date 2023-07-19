@@ -37,6 +37,6 @@ class ByteArrayAssert_containsExactlyInAnyOrder_Test extends ByteArrayAssertBase
 
   @Test
   void invoke_api_like_user() {
-     assertThat(new byte[] { 1, 2, 2 }).containsExactlyInAnyOrder((byte) 2, (byte) 2, (byte) 1);
+    assertThat(new byte[] { 1, 2, 2 }).containsExactlyInAnyOrder((byte) 2, (byte) 2, (byte) 1);
   }
 }

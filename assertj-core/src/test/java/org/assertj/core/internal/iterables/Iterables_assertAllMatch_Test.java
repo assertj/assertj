@@ -68,7 +68,8 @@ class Iterables_assertAllMatch_Test extends IterablesBaseTest {
   void should_report_all_items_that_do_not_match() {
     List<String> actual = newArrayList("123", "1234", "12345");
 
-    Throwable error = catchThrowable(() -> iterables.assertAllMatch(someInfo(), actual, s -> s.length() <= 3, PredicateDescription.GIVEN));
+    Throwable error = catchThrowable(() -> iterables.assertAllMatch(someInfo(), actual, s -> s.length() <= 3,
+                                                                    PredicateDescription.GIVEN));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,

@@ -20,7 +20,6 @@ import java.util.List;
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link ObjectArrayAssert#doesNotContain(Object...)}</code>.
  * 

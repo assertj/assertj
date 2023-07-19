@@ -21,13 +21,12 @@ import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link ObjectArrayAssert#isSubsetOf(Object[])}</code>.
  */
 class ObjectArrayAssert_isSubsetOf_with_Array_Test extends ObjectArrayAssertBaseTest {
 
-  private final Object [] values = array("Yoda", "Luke");
+  private final Object[] values = array("Yoda", "Luke");
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {
@@ -38,7 +37,7 @@ class ObjectArrayAssert_isSubsetOf_with_Array_Test extends ObjectArrayAssertBase
   protected void verify_internal_effects() {
     verify(arrays).assertIsSubsetOf(getInfo(assertions), getActual(assertions), asList(values));
   }
-  
+
   @Test
   void invoke_api_like_user() {
     assertThat(array("Luke", "Yoda")).isSubsetOf("Yoda", "Luke", "Chewbacca");

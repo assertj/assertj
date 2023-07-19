@@ -27,7 +27,6 @@ import org.assertj.core.internal.MapsBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Maps#assertHasSameSizeAs(org.assertj.core.api.AssertionInfo, java.util.Map, Object[])}</code>.
  *

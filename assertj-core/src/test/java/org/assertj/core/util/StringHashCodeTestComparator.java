@@ -15,7 +15,7 @@ package org.assertj.core.util;
 import java.util.Comparator;
 
 public final class StringHashCodeTestComparator implements Comparator<String> {
-  
+
   @Override
   public int compare(String s1, String s2) {
     return s1.hashCode() - s2.hashCode();
@@ -26,4 +26,3 @@ public final class StringHashCodeTestComparator implements Comparator<String> {
     return "StringHashCodeTestComparator";
   }
 }
-

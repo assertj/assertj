@@ -18,7 +18,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
 
-
 public class WithPlayerData {
 
   protected static Player jordan;

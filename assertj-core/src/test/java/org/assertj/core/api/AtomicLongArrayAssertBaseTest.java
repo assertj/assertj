@@ -34,7 +34,7 @@ public abstract class AtomicLongArrayAssertBaseTest extends BaseTestTemplate<Ato
     arrays = mock(LongArrays.class);
     assertions.arrays = arrays;
   }
-  
+
   protected LongArrays getArrays(AtomicLongArrayAssert someAssertions) {
     return someAssertions.arrays;
   }

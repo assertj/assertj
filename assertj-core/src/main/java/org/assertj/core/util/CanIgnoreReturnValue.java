@@ -21,10 +21,10 @@ import java.lang.annotation.Target;
  * Annotation to skip "CheckReturnValue" check.
  */
 @Target({
-  ElementType.CONSTRUCTOR,
-  ElementType.METHOD,
-  ElementType.PACKAGE,
-  ElementType.TYPE,
+    ElementType.CONSTRUCTOR,
+    ElementType.METHOD,
+    ElementType.PACKAGE,
+    ElementType.TYPE,
 })
 @Retention(RetentionPolicy.CLASS)
 public @interface CanIgnoreReturnValue {

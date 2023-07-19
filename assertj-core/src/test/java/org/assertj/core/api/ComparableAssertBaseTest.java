@@ -16,9 +16,8 @@ import static org.mockito.Mockito.mock;
 
 import org.assertj.core.internal.Comparables;
 
-
-public abstract class ComparableAssertBaseTest<ASSERT extends AbstractComparableAssert<ASSERT, TYPE>,TYPE extends Comparable<? super TYPE>>
-  extends BaseTestTemplate<ASSERT, TYPE> {
+public abstract class ComparableAssertBaseTest<ASSERT extends AbstractComparableAssert<ASSERT, TYPE>, TYPE extends Comparable<? super TYPE>>
+    extends BaseTestTemplate<ASSERT, TYPE> {
 
   protected Comparables comparables;
 

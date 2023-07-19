@@ -23,7 +23,6 @@ import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 class Delta_equals_hashCode_Test {
 
   private Chunk<String> chunk;

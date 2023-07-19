@@ -38,7 +38,8 @@ class PredicateAssert_rejects_Test extends PredicateAssertBaseTest {
 
   @Test
   void should_fail_when_predicate_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Predicate<String>) null).rejects("first", "second"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Predicate<String>) null).rejects("first",
+                                                                                                                  "second"))
                                                    .withMessage(actualIsNull());
   }
 
@@ -53,7 +54,8 @@ class PredicateAssert_rejects_Test extends PredicateAssertBaseTest {
     Predicate<String> predicate = val -> val.equals("something");
     String expectedValue = "something";
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).rejects("something"))
-                                                   .withMessage(shouldNotAccept(predicate, expectedValue, PredicateDescription.GIVEN).create());
+                                                   .withMessage(shouldNotAccept(predicate, expectedValue,
+                                                                                PredicateDescription.GIVEN).create());
   }
 
   @Test
@@ -61,7 +63,8 @@ class PredicateAssert_rejects_Test extends PredicateAssertBaseTest {
     Predicate<String> predicate = val -> val.equals("something");
     String expectedValue = "something";
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).as("test").rejects("something"))
-                                                   .withMessage("[test] " + shouldNotAccept(predicate, expectedValue, PredicateDescription.GIVEN).create());
+                                                   .withMessage("[test] " + shouldNotAccept(predicate, expectedValue,
+                                                                                            PredicateDescription.GIVEN).create());
   }
 
   @Test

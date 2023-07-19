@@ -708,8 +708,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
   /**
    * Possible policies to use regarding optionals when recursively asserting over the fields of an object tree.
    */
-  public enum OptionalAssertionPolicy
-  {
+  public enum OptionalAssertionPolicy {
     /**
      * Apply the {@link Predicate} (recursively) to the value of the optional field but not the optional field.
      * <p>

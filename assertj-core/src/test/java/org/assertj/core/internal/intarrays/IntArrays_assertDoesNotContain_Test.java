@@ -32,7 +32,6 @@ import org.assertj.core.internal.IntArrays;
 import org.assertj.core.internal.IntArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link IntArrays#assertDoesNotContain(AssertionInfo, int[], int[])}</code>.
  * 
@@ -108,7 +107,9 @@ class IntArrays_assertDoesNotContain_Test extends IntArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, arrayOf(-8)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(),
+                                                                                                                             null,
+                                                                                                                             arrayOf(-8)))
                                                    .withMessage(actualIsNull());
   }
 

@@ -15,7 +15,6 @@ package org.assertj.core.error;
 import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
 
-
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Object} is before another one failed.
  *

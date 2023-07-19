@@ -37,7 +37,8 @@ public class ShouldContainExactlyInAnyOrder extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainExactlyInAnyOrder(Object actual, Object expected, Iterable<?> notFound,
-                                                                   Iterable<?> notExpected, ComparisonStrategy comparisonStrategy) {
+                                                                   Iterable<?> notExpected,
+                                                                   ComparisonStrategy comparisonStrategy) {
     if (isNullOrEmpty(notExpected)) {
       return new ShouldContainExactlyInAnyOrder(actual, expected, notFound, NOT_FOUND_ONLY, comparisonStrategy);
     }

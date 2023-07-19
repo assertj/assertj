@@ -68,7 +68,8 @@ class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTest {
 
   @Test
   void should_fail_if_arrays_have_different_sizes() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, array("Luke", "Yoda")));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual,
+                                                                                                  array("Luke", "Yoda")));
   }
 
   @Test
@@ -79,7 +80,8 @@ class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), null, array("Yoda")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), null,
+                                                                                                  array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
@@ -92,7 +94,8 @@ class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList("Han"), newArrayList("Leia")), asList(actual), asList(expected));
+                                                        newArrayList("Han"), newArrayList("Leia")),
+                             asList(actual), asList(expected));
   }
 
   @Test
@@ -117,7 +120,8 @@ class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTest {
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
                                                         newArrayList(), newArrayList("Luke"),
-                                                        StandardComparisonStrategy.instance()), asList(actual), asList(expected));
+                                                        StandardComparisonStrategy.instance()),
+                             asList(actual), asList(expected));
   }
 
   @Test
@@ -139,7 +143,8 @@ class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTest {
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
                                                         newArrayList("extra"), newArrayList(),
-                                                        StandardComparisonStrategy.instance()), asList(actual), asList(expected));
+                                                        StandardComparisonStrategy.instance()),
+                             asList(actual), asList(expected));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -162,7 +167,8 @@ class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTest {
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
                              shouldContainExactly(actual, asList(expected), newArrayList("Han"), newArrayList("Leia"),
-                                                  caseInsensitiveStringComparisonStrategy), asList(actual), asList(expected));
+                                                  caseInsensitiveStringComparisonStrategy),
+                             asList(actual), asList(expected));
   }
 
   @Test
@@ -173,7 +179,8 @@ class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTest {
     Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, elementsDifferAtIndex("Yoda", "Leia", 1, caseInsensitiveStringComparisonStrategy), asList(actual), asList(expected));
+    verify(failures).failure(info, elementsDifferAtIndex("Yoda", "Leia", 1, caseInsensitiveStringComparisonStrategy),
+                             asList(actual), asList(expected));
   }
 
   @Test
@@ -187,7 +194,8 @@ class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTest {
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
                              shouldContainExactly(actual, asList(expected), newArrayList(), newArrayList("Luke"),
-                                                  caseInsensitiveStringComparisonStrategy), asList(actual), asList(expected));
+                                                  caseInsensitiveStringComparisonStrategy),
+                             asList(actual), asList(expected));
   }
 
 }

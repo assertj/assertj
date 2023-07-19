@@ -66,12 +66,14 @@ class IntArrays_assertContainsExactly_Test extends IntArraysBaseTest {
 
   @Test
   void should_fail_if_arrays_have_different_sizes() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, arrayOf(6, 8)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual,
+                                                                                                  arrayOf(6, 8)));
   }
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual,
+                                                                                                  emptyArray()));
   }
 
   @Test
@@ -95,7 +97,8 @@ class IntArrays_assertContainsExactly_Test extends IntArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList(20), newArrayList(10)), asList(actual), asList(expected));
+                                                        newArrayList(20), newArrayList(10)),
+                             asList(actual), asList(expected));
   }
 
   @Test
@@ -107,7 +110,8 @@ class IntArrays_assertContainsExactly_Test extends IntArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList(10), newArrayList()), asList(actual), asList(expected));
+                                                        newArrayList(10), newArrayList()),
+                             asList(actual), asList(expected));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -124,7 +128,8 @@ class IntArrays_assertContainsExactly_Test extends IntArraysBaseTest {
     AssertionInfo info = someInfo();
     int[] expected = { -6, 10, 8 };
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, expected));
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual,
+                                                                                                    expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, elementsDifferAtIndex(8, 10, 1, absValueComparisonStrategy), asList(actual), asList(expected));
@@ -132,7 +137,9 @@ class IntArrays_assertContainsExactly_Test extends IntArraysBaseTest {
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(),
+                                                                                                                              actual,
+                                                                                                                              emptyArray()));
   }
 
   @Test
@@ -145,7 +152,9 @@ class IntArrays_assertContainsExactly_Test extends IntArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), null, arrayOf(-8)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(),
+                                                                                                                              null,
+                                                                                                                              arrayOf(-8)))
                                                    .withMessage(actualIsNull());
   }
 
@@ -159,7 +168,8 @@ class IntArrays_assertContainsExactly_Test extends IntArraysBaseTest {
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
                              shouldContainExactly(actual, asList(expected), newArrayList(20), newArrayList(10),
-                                                  absValueComparisonStrategy), asList(actual), asList(expected));
+                                                  absValueComparisonStrategy),
+                             asList(actual), asList(expected));
   }
 
   @Test
@@ -172,7 +182,8 @@ class IntArrays_assertContainsExactly_Test extends IntArraysBaseTest {
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
                                                         newArrayList(10), newArrayList(),
-                                                        absValueComparisonStrategy), asList(actual), asList(expected));
+                                                        absValueComparisonStrategy),
+                             asList(actual), asList(expected));
   }
 
 }

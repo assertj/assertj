@@ -29,7 +29,6 @@ import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.DatesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Dates#assertIsBefore(AssertionInfo, Date, Date)}</code>.
  * 
@@ -67,7 +66,8 @@ class Dates_assertIsBefore_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsBefore(someInfo(), null, parseDate("2010-01-01")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsBefore(someInfo(), null,
+                                                                                          parseDate("2010-01-01")))
                                                    .withMessage(actualIsNull());
   }
 
@@ -107,7 +107,9 @@ class Dates_assertIsBefore_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsBefore(someInfo(), null, parseDate("2010-01-01")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsBefore(someInfo(),
+                                                                                                                      null,
+                                                                                                                      parseDate("2010-01-01")))
                                                    .withMessage(actualIsNull());
   }
 

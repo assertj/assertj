@@ -26,17 +26,17 @@ class MatchPredicateTest implements WithAssertions {
 
   @BeforeEach
   public void setup() {
-	yoda = new Jedi("Yoda", "Green");
+    yoda = new Jedi("Yoda", "Green");
   }
 
   @Test
   void should_match_predicate() {
-	assertThat(yoda).matches(x -> x.lightSaberColor.equals("Green"));
+    assertThat(yoda).matches(x -> x.lightSaberColor.equals("Green"));
   }
 
   @Test
   void should_match_predicate_with_description_() {
-	assertThat(yoda).matches(x -> x.lightSaberColor.equals("Green"), "has green light saber");
+    assertThat(yoda).matches(x -> x.lightSaberColor.equals("Green"), "has green light saber");
   }
 
   @Test
@@ -73,20 +73,20 @@ class MatchPredicateTest implements WithAssertions {
   @Test
   void should_fail_if_given_predicate_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).matches(null))
-                                                         .withMessage(predicateIsNull());
+                                    .withMessage(predicateIsNull());
   }
 
   @Test
   void should_fail_if_given_predicate_with_description_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).matches(null,
-                                                                                                    "whatever ..."))
-                                                         .withMessage(predicateIsNull());
+                                                                               "whatever ..."))
+                                    .withMessage(predicateIsNull());
   }
-  
+
   @Test
   void should_fail_if_given_predicate_description_is_null() {
     assertThatNullPointerException().isThrownBy(() -> assertThat(yoda).matches(x -> x.lightSaberColor.equals("Green"),
-                                                                                                    null))
-                                                         .withMessage("The predicate description must not be null");
+                                                                               null))
+                                    .withMessage("The predicate description must not be null");
   }
 }

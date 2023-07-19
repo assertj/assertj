@@ -117,10 +117,10 @@ public class StandardRepresentation implements Representation {
   // Iterable types that should be considered to be unsafe to dereference and iterate across (e.g. they may have
   // visible side effects).
   private static final Class<?>[] BLACKLISTED_ITERABLE_CLASSES = {
-    // DirectoryStream implementations can choose to only provide a single-use iterator once across their contents.
-    // This means we should not try to iterate across them in their representation as this can cause unwanted
-    // side effects in test cases.
-    DirectoryStream.class,
+      // DirectoryStream implementations can choose to only provide a single-use iterator once across their contents.
+      // This means we should not try to iterate across them in their representation as this can cause unwanted
+      // side effects in test cases.
+      DirectoryStream.class,
   };
 
   protected enum GroupType {
@@ -135,6 +135,7 @@ public class StandardRepresentation implements Representation {
     public String description() {
       return description;
     }
+
   }
 
   /**

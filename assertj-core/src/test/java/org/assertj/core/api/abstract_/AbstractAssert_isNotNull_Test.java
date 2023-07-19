@@ -18,7 +18,6 @@ import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractAssertBaseTest;
 import org.assertj.core.api.ConcreteAssert;
 
-
 /**
  * Tests for <code>{@link AbstractAssert#isNotNull()}</code>.
  * 

@@ -20,7 +20,6 @@ import org.assertj.core.api.ByteArrayAssertBaseTest;
 import org.assertj.core.test.IntArrays;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link ByteArrayAssert#endsWith(int...)}</code>.
  */
@@ -38,6 +37,6 @@ class ByteArrayAssert_endsWith_with_Integer_Arguments_Test extends ByteArrayAsse
 
   @Test
   void invoke_api_like_user() {
-    assertThat(new byte[] { 1, 2, 3}).endsWith(2, 3);
+    assertThat(new byte[] { 1, 2, 3 }).endsWith(2, 3);
   }
 }

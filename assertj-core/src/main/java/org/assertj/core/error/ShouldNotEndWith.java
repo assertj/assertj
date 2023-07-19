@@ -32,7 +32,7 @@ public class ShouldNotEndWith extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotEndWith(Object actual, Object expected,
-      ComparisonStrategy comparisonStrategy) {
+                                                     ComparisonStrategy comparisonStrategy) {
     return new ShouldNotEndWith(actual, expected, comparisonStrategy);
   }
 

@@ -32,7 +32,7 @@ public class ShouldNotStartWith extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotStartWith(Object actual, Object expected,
-      ComparisonStrategy comparisonStrategy) {
+                                                       ComparisonStrategy comparisonStrategy) {
     return new ShouldNotStartWith(actual, expected, comparisonStrategy);
   }
 

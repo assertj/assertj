@@ -31,7 +31,8 @@ class LocalDateTimeAssert_isBetween_with_String_parameters_Test extends Abstract
 
   @Override
   protected void verify_internal_effects() {
-    verify(getComparables(assertions)).assertIsBetween(getInfo(assertions), getActual(assertions), YESTERDAY, TOMORROW, true, true);
+    verify(getComparables(assertions)).assertIsBetween(getInfo(assertions), getActual(assertions), YESTERDAY, TOMORROW, true,
+                                                       true);
   }
 
   @Test

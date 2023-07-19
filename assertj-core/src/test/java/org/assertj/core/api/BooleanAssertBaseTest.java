@@ -16,7 +16,6 @@ import static org.mockito.Mockito.mock;
 
 import org.assertj.core.internal.Booleans;
 
-
 /**
  * Base class for {@link BooleanAssert} tests.
  * 

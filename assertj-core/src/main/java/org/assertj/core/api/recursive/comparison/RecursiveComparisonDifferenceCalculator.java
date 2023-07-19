@@ -533,7 +533,7 @@ public class RecursiveComparisonDifferenceCalculator {
 
     if (!expectedElementsNotFound.isEmpty()) {
       String unmatched = format("The following expected elements were not matched in the actual %s:%n  %s",
-        actual.getClass().getSimpleName(), expectedElementsNotFound);
+                                actual.getClass().getSimpleName(), expectedElementsNotFound);
       comparisonState.addDifference(dualValue, unmatched);
       // TODO could improve the error by listing the actual elements not in expected but that would need
       // another double loop inverting actual and expected to find the actual elements not matched in expected

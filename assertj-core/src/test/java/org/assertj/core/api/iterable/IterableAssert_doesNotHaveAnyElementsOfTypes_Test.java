@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.iterable;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.newArrayList;
 

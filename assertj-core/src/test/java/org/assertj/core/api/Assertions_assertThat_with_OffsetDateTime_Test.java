@@ -26,22 +26,22 @@ import org.junit.jupiter.api.Test;
  */
 class Assertions_assertThat_with_OffsetDateTime_Test {
 
-    private OffsetDateTime actual;
+  private OffsetDateTime actual;
 
-    @BeforeEach
-    void before() {
-        actual = OffsetDateTime.now();
-    }
+  @BeforeEach
+  void before() {
+    actual = OffsetDateTime.now();
+  }
 
-    @Test
-    void should_create_Assert() {
-        AbstractOffsetDateTimeAssert<?> assertions = assertThat(actual);
-        assertThat(assertions).isNotNull();
-    }
+  @Test
+  void should_create_Assert() {
+    AbstractOffsetDateTimeAssert<?> assertions = assertThat(actual);
+    assertThat(assertions).isNotNull();
+  }
 
-    @Test
-    void should_pass_actual() {
-        AbstractOffsetDateTimeAssert<?> assertions = assertThat(actual);
-        assertThat(assertions.getActual()).isSameAs(actual);
-    }
+  @Test
+  void should_pass_actual() {
+    AbstractOffsetDateTimeAssert<?> assertions = assertThat(actual);
+    assertThat(assertions.getActual()).isSameAs(actual);
+  }
 }

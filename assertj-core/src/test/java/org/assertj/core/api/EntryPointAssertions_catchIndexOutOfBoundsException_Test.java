@@ -39,7 +39,8 @@ class EntryPointAssertions_catchIndexOutOfBoundsException_Test extends EntryPoin
   }
 
   private static Stream<Function<ThrowingCallable, IndexOutOfBoundsException>> catchIndexOutOfBoundsExceptions() {
-    return Stream.of(Assertions::catchIndexOutOfBoundsException, BDDAssertions::catchIndexOutOfBoundsException, withAssertions::catchIndexOutOfBoundsException);
+    return Stream.of(Assertions::catchIndexOutOfBoundsException, BDDAssertions::catchIndexOutOfBoundsException,
+                     withAssertions::catchIndexOutOfBoundsException);
   }
 
 }

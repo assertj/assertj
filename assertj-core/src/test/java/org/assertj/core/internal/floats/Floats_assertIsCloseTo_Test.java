@@ -240,5 +240,4 @@ class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
                                     .withMessage("The given number should not be null");
   }
 
-
 }

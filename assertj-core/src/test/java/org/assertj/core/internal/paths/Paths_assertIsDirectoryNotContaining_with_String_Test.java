@@ -110,9 +110,9 @@ class Paths_assertIsDirectoryNotContaining_with_String_Test extends PathsBaseTes
   @ParameterizedTest
   @ValueSource(strings = {
       "glob:**file",
-//    "glob:file",    // fails due to gh-2329
+      // "glob:file", // fails due to gh-2329
       "regex:.*file",
-//    "regex:file",   // fails due to gh-2329
+  // "regex:file", // fails due to gh-2329
   })
   void should_fail_if_actual_directly_contains_any_entries_matching_the_given_pattern(String syntaxAndPattern) throws IOException {
     // GIVEN

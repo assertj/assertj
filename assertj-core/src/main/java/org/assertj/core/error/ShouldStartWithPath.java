@@ -17,15 +17,15 @@ import java.nio.file.Path;
 import org.assertj.core.util.VisibleForTesting;
 
 public class ShouldStartWithPath extends BasicErrorMessageFactory {
-  
+
   @VisibleForTesting
   public static final String PATH_SHOULD_START_WITH = "%nExpected path:%n  %s%nto start with:%n  %s%nbut it did not.";
 
   public static ErrorMessageFactory shouldStartWith(final Path actual, final Path other) {
-	return new ShouldStartWithPath(actual, other);
+    return new ShouldStartWithPath(actual, other);
   }
 
   private ShouldStartWithPath(final Path actual, final Path other) {
-	super(PATH_SHOULD_START_WITH, actual, other);
+    super(PATH_SHOULD_START_WITH, actual, other);
   }
 }

@@ -35,9 +35,10 @@ class MapAssert_containsExactly_with_Java_Util_MapEntry_Test extends MapAssertBa
   protected void verify_internal_effects() {
     verify(maps).assertContainsExactly(getInfo(assertions), getActual(assertions), entries);
   }
-  
+
   @Test
   void invoke_api_like_user() {
-     assertThat(map("key1", "value1", "key2", "value2")).containsExactly(javaMapEntry("key1", "value1"), javaMapEntry("key2", "value2"));
+    assertThat(map("key1", "value1", "key2", "value2")).containsExactly(javaMapEntry("key1", "value1"),
+                                                                        javaMapEntry("key2", "value2"));
   }
 }

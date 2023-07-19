@@ -65,8 +65,8 @@ class NestableConditionFixtures {
 
   static Condition<ValueCustomer> value(Integer expected) {
     return verboseCondition(valueCustomer -> expected.equals(valueCustomer.value),
-      "value: " + expected,
-      valueCustomer -> " but was " + valueCustomer.value);
+                            "value: " + expected,
+                            valueCustomer -> " but was " + valueCustomer.value);
   }
 
   @SafeVarargs

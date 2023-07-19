@@ -16,7 +16,6 @@ import static org.mockito.Mockito.mock;
 
 import org.assertj.core.internal.Char2DArrays;
 
-
 /**
  * Base class for {@link Char2DArrayAssert} tests.
  *
@@ -36,7 +35,7 @@ public abstract class Char2DArrayAssertBaseTest extends BaseTestTemplate<Char2DA
     arrays = mock(Char2DArrays.class);
     assertions.char2dArrays = arrays;
   }
-  
+
   protected Char2DArrays getArrays(Char2DArrayAssert someAssertions) {
     return someAssertions.char2dArrays;
   }

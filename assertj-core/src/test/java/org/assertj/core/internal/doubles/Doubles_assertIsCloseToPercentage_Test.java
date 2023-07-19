@@ -41,13 +41,15 @@ class Doubles_assertIsCloseToPercentage_Test extends DoublesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseToPercentage(someInfo(), null, ONE, withPercentage(ONE)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseToPercentage(someInfo(), null, ONE,
+                                                                                                       withPercentage(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_expected_value_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> doubles.assertIsCloseToPercentage(someInfo(), ONE, null, withPercentage(ONE)));
+    assertThatNullPointerException().isThrownBy(() -> doubles.assertIsCloseToPercentage(someInfo(), ONE, null,
+                                                                                        withPercentage(ONE)));
   }
 
   @Test
@@ -57,16 +59,17 @@ class Doubles_assertIsCloseToPercentage_Test extends DoublesBaseTest {
 
   @Test
   void should_fail_if_percentage_is_negative() {
-    assertThatIllegalArgumentException().isThrownBy(() -> doubles.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1.0)));
+    assertThatIllegalArgumentException().isThrownBy(() -> doubles.assertIsCloseToPercentage(someInfo(), ONE, ZERO,
+                                                                                            withPercentage(-1.0)));
   }
 
   @ParameterizedTest
   @CsvSource({
-    "1, 1, 1",
-    "1, 2, 100",
-    "-1, -1, 1",
-    "-1, -2, 100",
-    "-1, 1, 200"
+      "1, 1, 1",
+      "1, 2, 100",
+      "-1, -1, 1",
+      "-1, -2, 100",
+      "-1, 1, 200"
   })
   void should_pass_if_difference_is_less_than_given_percentage(Double actual, Double other, Double percentage) {
     doubles.assertIsCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
@@ -74,12 +77,12 @@ class Doubles_assertIsCloseToPercentage_Test extends DoublesBaseTest {
 
   @ParameterizedTest
   @CsvSource({
-    "1, 1, 0",
-    "2, 1, 100",
-    "1, 2, 50",
-    "-1, -1, 0",
-    "-2, -1, 100",
-    "-1, -2, 50"
+      "1, 1, 0",
+      "2, 1, 100",
+      "1, 2, 50",
+      "-1, -1, 0",
+      "-2, -1, 100",
+      "-1, -2, 50"
   })
   void should_pass_if_difference_is_equal_to_given_percentage(Double actual, Double other, Double percentage) {
     doubles.assertIsCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
@@ -98,7 +101,8 @@ class Doubles_assertIsCloseToPercentage_Test extends DoublesBaseTest {
 
   @Test
   void should_fail_if_actual_is_NaN_and_expected_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseToPercentage(someInfo(), NaN, ONE, withPercentage(ONE)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseToPercentage(someInfo(), NaN, ONE,
+                                                                                                       withPercentage(ONE)));
   }
 
   @Test
@@ -108,7 +112,9 @@ class Doubles_assertIsCloseToPercentage_Test extends DoublesBaseTest {
 
   @Test
   void should_fail_if_actual_is_POSITIVE_INFINITY_and_expected_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseToPercentage(someInfo(), POSITIVE_INFINITY, ONE, withPercentage(ONE)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseToPercentage(someInfo(),
+                                                                                                       POSITIVE_INFINITY, ONE,
+                                                                                                       withPercentage(ONE)));
   }
 
   @Test
@@ -118,7 +124,9 @@ class Doubles_assertIsCloseToPercentage_Test extends DoublesBaseTest {
 
   @Test
   void should_fail_if_actual_is_NEGATIVE_INFINITY_and_expected_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseToPercentage(someInfo(), NEGATIVE_INFINITY, ONE, withPercentage(ONE)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseToPercentage(someInfo(),
+                                                                                                       NEGATIVE_INFINITY, ONE,
+                                                                                                       withPercentage(ONE)));
   }
 
   @Test
@@ -128,11 +136,17 @@ class Doubles_assertIsCloseToPercentage_Test extends DoublesBaseTest {
 
   @Test
   void should_fail_if_actual_is_POSITIVE_INFINITY_and_expected_is_NEGATIVE_INFINITY() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseToPercentage(someInfo(), POSITIVE_INFINITY, NEGATIVE_INFINITY, withPercentage(ONE)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseToPercentage(someInfo(),
+                                                                                                       POSITIVE_INFINITY,
+                                                                                                       NEGATIVE_INFINITY,
+                                                                                                       withPercentage(ONE)));
   }
 
   @Test
   void should_fail_if_actual_is_NEGATIVE_INFINITY_and_expected_is_POSITIVE_INFINITY() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseToPercentage(someInfo(), NEGATIVE_INFINITY, POSITIVE_INFINITY, withPercentage(ONE)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsCloseToPercentage(someInfo(),
+                                                                                                       NEGATIVE_INFINITY,
+                                                                                                       POSITIVE_INFINITY,
+                                                                                                       withPercentage(ONE)));
   }
 }

@@ -37,6 +37,6 @@ class BooleanArrayAssert_containsExactlyInAnyOrder_Test extends BooleanArrayAsse
 
   @Test
   void invoke_api_like_user() {
-     assertThat(new boolean[] { true, false, false }).containsExactlyInAnyOrder(false, false, true);
+    assertThat(new boolean[] { true, false, false }).containsExactlyInAnyOrder(false, false, true);
   }
 }

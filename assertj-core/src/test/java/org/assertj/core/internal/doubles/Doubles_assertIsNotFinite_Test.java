@@ -29,9 +29,9 @@ class Doubles_assertIsNotFinite_Test extends DoublesBaseTest {
 
   @ParameterizedTest
   @ValueSource(doubles = {
-    Double.POSITIVE_INFINITY,
-    Double.NEGATIVE_INFINITY,
-    Double.NaN
+      Double.POSITIVE_INFINITY,
+      Double.NEGATIVE_INFINITY,
+      Double.NaN
   })
   void should_succeed_when_actual_is_not_finite(double actual) {
     // WHEN/THEN
@@ -40,12 +40,12 @@ class Doubles_assertIsNotFinite_Test extends DoublesBaseTest {
 
   @ParameterizedTest
   @ValueSource(doubles = {
-    Double.MAX_VALUE,
-    Double.MIN_NORMAL,
-    Double.MIN_VALUE,
-    0.0,
-    1.0,
-    -1.0,
+      Double.MAX_VALUE,
+      Double.MIN_NORMAL,
+      Double.MIN_VALUE,
+      0.0,
+      1.0,
+      -1.0,
   })
   void should_fail_when_actual_is_finite(double actual) {
     // WHEN

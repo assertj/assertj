@@ -48,7 +48,8 @@ class ComparatorBasedComparisonStrategy_arrayContains_Test extends AbstractTest_
 
   @Test
   void should_fail_if_first_parameter_is_not_an_array() {
-    assertThatIllegalArgumentException().isThrownBy(() -> caseInsensitiveComparisonStrategy.arrayContains("not an array", "Pippin"));
+    assertThatIllegalArgumentException().isThrownBy(() -> caseInsensitiveComparisonStrategy.arrayContains("not an array",
+                                                                                                          "Pippin"));
   }
 
 }
