@@ -121,6 +121,7 @@
   </distributionManagement>
 
   <properties>
+    <rootDirectory>${project.basedir}</rootDirectory>
     <!-- Plugin versions -->
     <license-maven-plugin.version>4.2</license-maven-plugin.version>
     <maven-enforcer-plugin.version>3.3.0</maven-enforcer-plugin.version>
@@ -128,11 +129,35 @@
     <maven-release-plugin.version>3.0.1</maven-release-plugin.version>
     <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
     <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
+    <spotless-maven-plugin.version>2.37.0</spotless-maven-plugin.version>
   </properties>
 
   <build>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>com.diffplug.spotless</groupId>
+          <artifactId>spotless-maven-plugin</artifactId>
+          <version>${spotless-maven-plugin.version}</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>check</goal>
+              </goals>
+              <configuration>
+                <java>
+                  <includes>
+                    <include>src/main/java/**/*.java</include>
+                    <include>src/test/java/**/*.java</include>
+                  </includes>
+                  <eclipse>
+                    <file>${rootDirectory}/eclipse/assertj-eclipse-formatter.xml</file>
+                  </eclipse>
+                </java>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
         <plugin>
           <groupId>com.mycila</groupId>
           <artifactId>license-maven-plugin</artifactId>

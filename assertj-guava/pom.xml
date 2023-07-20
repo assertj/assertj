@@ -17,6 +17,7 @@
 
   <properties>
     <javadocAdditionalOptions>-html5 --allow-script-in-comments</javadocAdditionalOptions>
+    <rootDirectory>${project.basedir}/../</rootDirectory>
     <!-- Dependency versions -->
     <guava.version>32.1.1-jre</guava.version>
   </properties>
@@ -66,6 +67,10 @@
       </plugins>
     </pluginManagement>
     <plugins>
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
