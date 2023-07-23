@@ -318,16 +318,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
     if (isRecord(actual)) throw assertionError(shouldNotBeRecord(actual));
   }
 
-  // TODO https://github.com/assertj/assertj/issues/3079
   private static boolean isRecord(Class<?> actual) {
-    try {
-      Method isRecord = Class.class.getMethod("isRecord");
-      return (boolean) isRecord.invoke(actual);
-    } catch (NoSuchMethodException e) {
-      return false;
-    } catch (ReflectiveOperationException e) {
-      throw new IllegalStateException(e);
-    }
+    return actual.isRecord();
   }
 
   /**
