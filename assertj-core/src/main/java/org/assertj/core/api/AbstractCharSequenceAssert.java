@@ -1622,7 +1622,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * To be exact, the following rules are applied:
    * <ul>
    * <li>all leading and trailing whitespace of both actual and expected strings are ignored</li>
-   * <li>any remaining whitespace, appearing within either string, is collapsed to a single space before comparison</li>
+   * <li>any remaining whitespace (including non-breaking spaces), appearing within either string, is collapsed to a single space before comparison</li>
    * </ul>
    * <p>
    * Example:
@@ -1634,6 +1634,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *                              .isEqualToNormalizingWhitespace("  Game of   Thrones  ")
    *                              .isEqualToNormalizingWhitespace("Game of\tThrones")
    *                              .isEqualToNormalizingWhitespace("Game of Thrones");
+   *                              .isEqualToNormalizingWhitespace("Game\u00A0of Thrones");
    *
    * // assertions will fail
    * assertThat("Game of Thrones").isEqualToNormalizingWhitespace("Game ofThrones");

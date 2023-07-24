@@ -20,8 +20,10 @@ import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNul
 import static org.assertj.core.test.CharArrays.arrayOf;
 import static org.assertj.core.test.TestData.someInfo;
 
+import java.util.Arrays;
 import java.util.stream.Stream;
 
+import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -70,16 +72,25 @@ class Strings_assertEqualsNormalizingWhitespace_Test extends StringsBaseTest {
   }
 
   public static Stream<Arguments> equalNormalizingWhitespaceGenerator() {
-    return Stream.of(Arguments.of("my   foo bar", "my foo bar"),
-                     Arguments.of("  my foo bar  ", "my foo bar"),
-                     Arguments.of(" my\tfoo bar ", " my foo bar"),
-                     Arguments.of(" my foo    bar ", "my foo bar"),
-                     Arguments.of(" my foo    bar ", "  my foo bar   "),
-                     Arguments.of("       ", " "),
-                     Arguments.of(" my\tfoo bar ", new String(arrayOf(' ', 'm', 'y', ' ', 'f', 'o', 'o', ' ', 'b', 'a', 'r'))),
-                     Arguments.of(" my\tfoo bar ", " my\tfoo bar "),   // same
-                     Arguments.of(null, null),   // null
-                     Arguments.of(" \t \t", " "),
-                     Arguments.of(" abc", "abc "));
+    Stream<Arguments> regularWhiteSpaces = Stream.of(Arguments.of("my   foo bar", "my foo bar"),
+                                                     Arguments.of("  my foo bar  ", "my foo bar"),
+                                                     Arguments.of(" my\tfoo bar ", " my foo bar"),
+                                                     Arguments.of(" my foo    bar ", "my foo bar"),
+                                                     Arguments.of(" my foo    bar ", "  my foo bar   "),
+                                                     Arguments.of("       ", " "),
+                                                     Arguments.of(" my\tfoo bar ",
+                                                                  new String(arrayOf(' ', 'm', 'y', ' ', 'f', 'o', 'o', ' ', 'b',
+                                                                                     'a', 'r'))),
+                                                     Arguments.of(" my\tfoo bar ", " my\tfoo bar "),   // same
+                                                     Arguments.of(null, null),   // null
+                                                     Arguments.of(" \t \t", " "),
+                                                     Arguments.of(" abc", "abc "));
+
+    Stream<Arguments> nonBreakingSpaces = NON_BREAKING_SPACES
+                                                             .stream()
+                                                             .map(nonBreakingSpace -> Arguments.of("my" + nonBreakingSpace
+                                                                                                   + "foo bar", "my foo bar"));
+
+    return Stream.concat(regularWhiteSpaces, nonBreakingSpaces);
   }
 }

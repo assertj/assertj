@@ -12,8 +12,7 @@
  */
 package org.assertj.core.internal;
 
-import static java.lang.Character.isDigit;
-import static java.lang.Character.isWhitespace;
+import static java.lang.Character.*;
 import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.Locale.ROOT;
@@ -83,13 +82,7 @@ import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.StringReader;
 import java.text.Normalizer;
-import java.util.Base64;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -105,6 +98,16 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Michal Kordas
  */
 public class Strings {
+
+  private static final Set<Character> NON_BREAKING_SPACES;
+
+  static {
+    Set<Character> nonBreakingSpaces = new HashSet<>();
+    nonBreakingSpaces.add('\u00A0');
+    nonBreakingSpaces.add('\u2007');
+    nonBreakingSpaces.add('\u202F');
+    NON_BREAKING_SPACES = Collections.unmodifiableSet(nonBreakingSpaces);
+  }
 
   private static final String EMPTY_STRING = "";
   private static final Strings INSTANCE = new Strings();
@@ -385,7 +388,7 @@ public class Strings {
     boolean lastWasSpace = true;
     for (int i = 0; i < toNormalize.length(); i++) {
       char c = toNormalize.charAt(i);
-      if (isWhitespace(c)) {
+      if (isWhitespace(c) || NON_BREAKING_SPACES.contains(c)) {
         if (!lastWasSpace) result.append(' ');
         lastWasSpace = true;
       } else {
