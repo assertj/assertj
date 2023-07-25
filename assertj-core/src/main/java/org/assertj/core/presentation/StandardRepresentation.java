@@ -633,7 +633,7 @@ public class StandardRepresentation implements Representation {
     if (iterable == null) return null;
     Iterator<?> iterator = iterable.iterator();
     if (!iterator.hasNext()) return start + end;
-    List<String> representedElements = representElements(stream(iterable), start, end, elementSeparator, indentation, root);
+    List<String> representedElements = representElements(iterable, start, end, elementSeparator, indentation, root);
     return representGroup(representedElements, start, end, elementSeparator, indentation);
   }
 
@@ -652,10 +652,14 @@ public class StandardRepresentation implements Representation {
 
   // private methods
 
-  private List<String> representElements(Stream<?> elements, String start, String end, String elementSeparator,
+  private List<String> representElements(Iterable<?> elements, String start, String end, String elementSeparator,
                                          String indentation, Object root) {
-    return elements.map(element -> safeStringOf(element, start, end, elementSeparator, indentation, root))
-                   .collect(toList());
+    int capacity = maxElementsForPrinting / 2 + 1;
+    HeadTailAccumulator<Object> accumulator = new HeadTailAccumulator<>(capacity, capacity);
+    elements.forEach(accumulator::add);
+
+    return accumulator.toList().stream().map(element -> safeStringOf(element, start, end, elementSeparator, indentation, root))
+                       .collect(toList());
   }
 
   // this method only deals with max number of elements to display, the elements representation is already computed
