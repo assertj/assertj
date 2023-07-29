@@ -29,7 +29,6 @@ import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.DatesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Dates#assertIsInTheFuture(AssertionInfo, Date)}</code>.
  * 
@@ -67,7 +66,9 @@ class Dates_assertIsInTheFuture_Test extends DatesBaseTest {
   @Test
   void should_pass_if_actual_is_in_the_future() {
     actual = parseDate("2111-01-01");
+    new Date(new Date().getTime() + 3600);
     dates.assertIsInTheFuture(someInfo(), actual);
+    dates.assertIsInTheFuture(someInfo(), new Date(new Date().getTime() + 1000));
   }
 
   @Test
@@ -101,7 +102,8 @@ class Dates_assertIsInTheFuture_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInTheFuture(someInfo(), null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInTheFuture(someInfo(),
+                                                                                                                           null))
                                                    .withMessage(actualIsNull());
   }
 

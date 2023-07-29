@@ -17,8 +17,6 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 import java.lang.reflect.Array;
 import java.util.AbstractList;
 
-
-
 /**
  * A list-like wrapper for arrays. This class does not provide type-safety in order to handle both arrays of objects
  * and arrays of primitives.

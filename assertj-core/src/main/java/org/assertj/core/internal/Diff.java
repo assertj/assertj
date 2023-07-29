@@ -32,7 +32,6 @@ import org.assertj.core.util.diff.Delta;
 import org.assertj.core.util.diff.DiffUtils;
 import org.assertj.core.util.diff.Patch;
 
-
 /**
  * Compares the contents of two files, inputStreams or paths.
  * 
@@ -89,7 +88,7 @@ public class Diff {
     try {
       List<String> actualLines = linesFromBufferedReader(actual);
       List<String> expectedLines = linesFromBufferedReader(expected);
-      
+
       Patch<String> patch = DiffUtils.diff(expectedLines, actualLines);
       return unmodifiableList(patch.getDeltas());
     } finally {

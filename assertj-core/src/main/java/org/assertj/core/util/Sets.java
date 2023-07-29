@@ -27,7 +27,7 @@ import java.util.TreeSet;
 public final class Sets {
 
   /**
-   * Creates a <em>mutable</em> {@link HashSet} containing the given elements.
+   * Creates a <em>mutable</em> {@link LinkedHashSet} containing the given elements.
    *
    * @param <T> the generic type of the {@code HashSet} to create.
    * @param elements the elements to store in the {@code HashSet}.
@@ -116,6 +116,5 @@ public final class Sets {
     return set;
   }
 
-  private Sets() {
-  }
+  private Sets() {}
 }

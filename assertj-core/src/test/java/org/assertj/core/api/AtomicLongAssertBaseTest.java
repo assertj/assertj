@@ -18,7 +18,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.assertj.core.internal.Longs;
 
-
 public abstract class AtomicLongAssertBaseTest extends BaseTestTemplate<AtomicLongAssert, AtomicLong> {
   protected Longs longs;
 

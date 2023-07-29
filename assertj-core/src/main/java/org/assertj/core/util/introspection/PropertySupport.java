@@ -51,8 +51,7 @@ public class PropertySupport {
   }
 
   @VisibleForTesting
-  PropertySupport() {
-  }
+  PropertySupport() {}
 
   /**
    * Returns a <code>{@link List}</code> containing the values of the given property name, from the elements of the
@@ -207,12 +206,12 @@ public class PropertySupport {
   }
 
   public boolean publicGetterExistsFor(String fieldName, Object actual) {
-	try {
-	  getPropertyGetter(fieldName, actual);
+    try {
+      getPropertyGetter(fieldName, actual);
     } catch (IntrospectionError e) {
       return false;
     }
-	return true;
+    return true;
   }
 
 }

@@ -56,7 +56,7 @@ import org.assertj.core.util.CheckReturnValue;
 @Deprecated
 @CheckReturnValue
 // Deprecation is raised by JDK-17. IntelliJ thinks this is redundant when it is not.
-@SuppressWarnings({"DeprecatedIsStillUsed", "deprecation", "RedundantSuppression"})
+@SuppressWarnings({ "DeprecatedIsStillUsed", "deprecation", "RedundantSuppression" })
 public class Java6BDDAssertions {
 
   /**

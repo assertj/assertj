@@ -48,7 +48,8 @@ class Iterables_assertEndsWithFirstAndRest_Test extends IterablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertEndsWith(someInfo(), null, "Luke", array("Yoda")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertEndsWith(someInfo(), null, "Luke",
+                                                                                              array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
@@ -104,7 +105,8 @@ class Iterables_assertEndsWithFirstAndRest_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] sequence = { "LUKE", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertEndsWith(info, actual, "Yoda", sequence));
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertEndsWith(info, actual, "Yoda",
+                                                                                                         sequence));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldEndWith(actual, prepend("Yoda", sequence),
@@ -116,7 +118,8 @@ class Iterables_assertEndsWithFirstAndRest_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Han", "C-3PO" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertEndsWith(info, actual, "Yoda", sequence));
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertEndsWith(info, actual, "Yoda",
+                                                                                                         sequence));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldEndWith(actual, prepend("Yoda", sequence),
@@ -128,7 +131,8 @@ class Iterables_assertEndsWithFirstAndRest_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertEndsWith(info, actual, "Luke", sequence));
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertEndsWith(info, actual, "Luke",
+                                                                                                         sequence));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldEndWith(actual, prepend("Luke", sequence),

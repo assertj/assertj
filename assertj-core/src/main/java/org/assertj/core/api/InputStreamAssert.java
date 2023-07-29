@@ -14,7 +14,6 @@ package org.assertj.core.api;
 
 import java.io.InputStream;
 
-
 /**
  * Assertion methods for {@link InputStream}s.
  * <p>

@@ -34,8 +34,7 @@ import java.util.stream.Collectors;
  */
 public class URLs {
 
-  private URLs() {
-  }
+  private URLs() {}
 
   /**
    * Loads the text content of a URL into a character string.

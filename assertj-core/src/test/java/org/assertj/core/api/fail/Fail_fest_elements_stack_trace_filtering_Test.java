@@ -19,7 +19,6 @@ import static org.assertj.core.util.StackTraceUtils.hasStackTraceElementRelatedT
 import org.assertj.core.api.Fail;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Fail#setRemoveAssertJRelatedElementsFromStackTrace(boolean)}</code>.
  * 

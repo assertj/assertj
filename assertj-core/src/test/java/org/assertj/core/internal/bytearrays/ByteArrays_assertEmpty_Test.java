@@ -26,7 +26,6 @@ import org.assertj.core.internal.ByteArrays;
 import org.assertj.core.internal.ByteArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link ByteArrays#assertEmpty(AssertionInfo, byte[])}</code>.
  * 

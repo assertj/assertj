@@ -20,7 +20,6 @@ import org.assertj.core.api.TestCondition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link DoesNotHave#toString()}</code>.
  * 

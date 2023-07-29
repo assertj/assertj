@@ -25,7 +25,6 @@ import org.assertj.core.api.AssertionInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
-
 /**
  * Base class for {@link InputStreams} unit tests
  * <p>

@@ -39,13 +39,15 @@ class Strings_assertIsXmlEqualCase_Test extends StringsBaseTest {
   void should_pass_if_both_Strings_are_XML_equals() {
     String actual = "<rss version=\"2.0\"><channel>  <title>Java Tutorials and Examples 1</title>  <language>en-us</language></channel></rss>";
     String expected = String.format("<rss version=\"2.0\">%n"
-        + "<channel><title>Java Tutorials and Examples 1</title><language>en-us</language></channel>%n" + "</rss>");
+                                    + "<channel><title>Java Tutorials and Examples 1</title><language>en-us</language></channel>%n"
+                                    + "</rss>");
     strings.assertXmlEqualsTo(someInfo(), actual, expected);
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertXmlEqualsTo(someInfo(), null, "<jedi>yoda</jedi>"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertXmlEqualsTo(someInfo(), null,
+                                                                                               "<jedi>yoda</jedi>"))
                                                    .withMessage(actualIsNull());
   }
 
@@ -80,11 +82,12 @@ class Strings_assertIsXmlEqualCase_Test extends StringsBaseTest {
     String actual = "<rss version=\"2.0\"><channel><title>Java Tutorials</title></channel></rss>";
     String expected = "<rss version=\"2.0\"><channel><title>Java Tutorials and Examples</title></channel></rss>";
 
-    Throwable error = catchThrowable(() -> stringsWithCaseInsensitiveComparisonStrategy.assertXmlEqualsTo(someInfo(), actual, expected));
+    Throwable error = catchThrowable(() -> stringsWithCaseInsensitiveComparisonStrategy.assertXmlEqualsTo(someInfo(), actual,
+                                                                                                          expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeEqual(xmlPrettyFormat(actual), xmlPrettyFormat(expected),
-        info.representation()));
+                                                 info.representation()));
   }
 
 }

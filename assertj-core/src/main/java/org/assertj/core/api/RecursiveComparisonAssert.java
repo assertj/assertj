@@ -1144,6 +1144,10 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   /**
    * Makes the recursive comparison to ignore collection order in all fields in the object under test.
    * <p>
+   * <b>Important:</b> ignoring collection order has a high performance cost because each element of the actual collection must
+   * be compared to each element of the expected collection which is a O(n&sup2;) operation. For example with a collection of 100
+   * elements, the number of comparisons is 100x100 = 10 000!
+   * <p>
    * Example:
    * <pre><code class='java'> class Person {
    *   String name;
@@ -1177,6 +1181,10 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
 
   /**
    * Makes the recursive comparison to ignore collection order in the object under test specified fields. Nested fields can be specified like this: {@code home.address.street}.
+   * <p>
+   * <b>Important:</b> ignoring collection order has a high performance cost because each element of the actual collection must
+   * be compared to each element of the expected collection which is a O(n&sup2;) operation. For example with a collection of 100
+   * elements, the number of comparisons is 100x100 = 10 000!
    * <p>
    * Example:
    * <pre><code class='java'> class Person {
@@ -1221,6 +1229,10 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * <p>
    * Nested fields can be specified by using dots like this: {@code home\.address\.street} ({@code \} is used to escape
    * dots since they have a special meaning in regexes).
+   * <p>
+   * <b>Important:</b> ignoring collection order has a high performance cost because each element of the actual collection must
+   * be compared to each element of the expected collection which is a O(n&sup2;) operation. For example with a collection of 100
+   * elements, the number of comparisons is 100x100 = 10 000!
    * <p>
    * Example:
    * <pre><code class='java'> class Person {
@@ -1689,6 +1701,43 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   @CheckReturnValue
   public SELF withIntrospectionStrategy(RecursiveComparisonIntrospectionStrategy introspectionStrategy) {
     recursiveComparisonConfiguration.setIntrospectionStrategy(introspectionStrategy);
+    return myself;
+  }
+
+  /**
+   * Allows the recursive comparison to compare an enum field against a String field and vice versa.
+   * <p>
+   * Example:
+   * <pre><code class='java'> LightString actual = new LightString("GREEN");
+   * Light expected = new Light(GREEN);
+   *
+   * // compares "GREEN" to GREEN
+   * assertThat(actual).usingRecursiveComparison()
+   *                   .withEnumStringComparison()
+   *                   .isEqualTo(expected);
+   *
+   * // compares GREEN to "GREEN"
+   * assertThat(expected).usingRecursiveComparison()
+   *                     .withEnumStringComparison()
+   *                     .isEqualTo(actual);</code></pre>
+   * where {@code Light} and {@code LightString} are defined as:
+   * <pre><code class='java'> class Light {
+   *   Color color;
+   *   Light(Color value) {
+   *     this.color = value;
+   *   }
+   * }
+   * 
+   * class LightString {
+   *   String color;
+   *   LightString(String value) {
+   *     this.color = value;
+   *   }
+   * }</code></pre>
+   */
+  @CheckReturnValue
+  public SELF withEnumStringComparison() {
+    recursiveComparisonConfiguration.allowComparingEnumAgainstString(true);
     return myself;
   }
 

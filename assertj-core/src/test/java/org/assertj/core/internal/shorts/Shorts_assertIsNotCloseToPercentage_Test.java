@@ -40,13 +40,15 @@ class Shorts_assertIsNotCloseToPercentage_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertIsNotCloseToPercentage(someInfo(), null, ONE, withPercentage(ONE)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertIsNotCloseToPercentage(someInfo(), null, ONE,
+                                                                                                         withPercentage(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_expected_value_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> shorts.assertIsNotCloseToPercentage(someInfo(), ONE, null, withPercentage(ONE)));
+    assertThatNullPointerException().isThrownBy(() -> shorts.assertIsNotCloseToPercentage(someInfo(), ONE, null,
+                                                                                          withPercentage(ONE)));
   }
 
   @Test
@@ -56,16 +58,17 @@ class Shorts_assertIsNotCloseToPercentage_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_if_percentage_is_negative() {
-    assertThatIllegalArgumentException().isThrownBy(() -> shorts.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, withPercentage((short) -1)));
+    assertThatIllegalArgumentException().isThrownBy(() -> shorts.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO,
+                                                                                              withPercentage((short) -1)));
   }
 
   @ParameterizedTest
   @CsvSource({
-    "1, 2, 1",
-    "1, 11, 90",
-    "-1, -2, 1",
-    "-1, -11, 90",
-    "0, -1, 99"
+      "1, 2, 1",
+      "1, 11, 90",
+      "-1, -2, 1",
+      "-1, -11, 90",
+      "0, -1, 99"
   })
   void should_pass_if_difference_is_greater_than_given_percentage(Short actual, Short other, Short percentage) {
     shorts.assertIsNotCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
@@ -83,7 +86,8 @@ class Shorts_assertIsNotCloseToPercentage_Test extends ShortsBaseTest {
   void should_fail_if_difference_is_equal_to_given_percentage(Short actual, Short other, Short percentage) {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> shorts.assertIsNotCloseToPercentage(someInfo(), actual, other, withPercentage(percentage)));
+    Throwable error = catchThrowable(() -> shorts.assertIsNotCloseToPercentage(someInfo(), actual, other,
+                                                                               withPercentage(percentage)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotBeEqualWithinPercentage(actual, other, withPercentage(percentage),
@@ -94,10 +98,11 @@ class Shorts_assertIsNotCloseToPercentage_Test extends ShortsBaseTest {
   void should_fail_if_actual_is_too_close_to_expected_value() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> shorts.assertIsNotCloseToPercentage(someInfo(), ONE, TEN, withPercentage(ONE_HUNDRED)));
+    Throwable error = catchThrowable(() -> shorts.assertIsNotCloseToPercentage(someInfo(), ONE, TEN,
+                                                                               withPercentage(ONE_HUNDRED)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotBeEqualWithinPercentage(ONE, TEN, withinPercentage(100),
-      TEN - ONE));
+                                                                    TEN - ONE));
   }
 }

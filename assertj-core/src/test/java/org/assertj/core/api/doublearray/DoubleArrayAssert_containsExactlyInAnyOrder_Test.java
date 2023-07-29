@@ -37,7 +37,7 @@ class DoubleArrayAssert_containsExactlyInAnyOrder_Test extends DoubleArrayAssert
 
   @Test
   void invoke_api_like_user() {
-     assertThat(new double[] { 1.0, 2.0, 2.0 }).containsExactlyInAnyOrder(2.0, 2.0, 1.0);
+    assertThat(new double[] { 1.0, 2.0, 2.0 }).containsExactlyInAnyOrder(2.0, 2.0, 1.0);
   }
 
 }

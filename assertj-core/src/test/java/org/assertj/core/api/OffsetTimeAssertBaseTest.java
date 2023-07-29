@@ -18,7 +18,6 @@ import java.time.OffsetTime;
 
 import org.assertj.core.internal.Comparables;
 
-
 public abstract class OffsetTimeAssertBaseTest extends BaseTestTemplate<OffsetTimeAssert, OffsetTime> {
 
   protected Comparables comparables;

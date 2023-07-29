@@ -36,8 +36,7 @@ public class MessageFormatter {
   DescriptionFormatter descriptionFormatter = DescriptionFormatter.instance();
 
   @VisibleForTesting
-  MessageFormatter() {
-  }
+  MessageFormatter() {}
 
   /**
    * Interprets a printf-style format {@code String} for failed assertion messages. It is similar to

@@ -25,7 +25,6 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.internal.ByteArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 class ByteArrays_assertHasSameSizeAs_with_Iterable_Test extends ByteArraysBaseTest {
 
   @Test

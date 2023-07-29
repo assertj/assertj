@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.ByteAssert;
 import org.assertj.core.api.ByteAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link ByteAssert#isGreaterThanOrEqualTo(byte)}</code>.
  * 

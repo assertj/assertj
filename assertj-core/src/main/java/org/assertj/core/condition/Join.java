@@ -79,15 +79,14 @@ public abstract class Join<T> extends Condition<T> {
   public abstract String descriptionPrefix();
 
   /**
-   * method used to calculate the the subclass join description
+   * method used to calculate the subclass join description
    */
   private void calculateDescription() {
     List<Description> conditionsDescriptions = conditions.stream()
                                                          .map(Condition::description)
                                                          .collect(toList());
     String prefix = descriptionPrefix() + PREFIX_DELIMITER;
-    String suffix = SUFFIX_DELIMITER;
-    describedAs(new JoinDescription(prefix, suffix, conditionsDescriptions));
+    describedAs(new JoinDescription(prefix, SUFFIX_DELIMITER, conditionsDescriptions));
   }
 
   @Override
@@ -102,8 +101,7 @@ public abstract class Join<T> extends Condition<T> {
                                                          .map(condition -> condition.conditionDescriptionWithStatus(actual))
                                                          .collect(toList());
     String prefix = status(actual).label + " " + descriptionPrefix() + PREFIX_DELIMITER;
-    String suffix = SUFFIX_DELIMITER;
-    return new JoinDescription(prefix, suffix, descriptionsWithStatus);
+    return new JoinDescription(prefix, SUFFIX_DELIMITER, descriptionsWithStatus);
   }
 
   private static <T> T notNull(T condition) {

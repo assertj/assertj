@@ -3,6 +3,9 @@ name: Release
 on:
   workflow_dispatch:
 
+env:
+  MAVEN_ARGS: -B -V -ntp -e -Djansi.passthrough=true -Dstyle.color=always -Djacoco.skip=true
+
 jobs:
   release:
 
@@ -25,9 +28,7 @@ jobs:
         run: |
           git config user.name '${{ github.actor }}'
           git config user.email '${{ github.actor }}@users.noreply.github.com'
-          ./mvnw -B release:prepare release:perform -Dpassword=${{ secrets.GITHUB_TOKEN }} \
-              -Djansi.passthrough=true \
-              -Dstyle.color=always
+          ./mvnw $MAVEN_ARGS release:prepare release:perform -Dpassword=${{ secrets.GITHUB_TOKEN }}
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}

@@ -21,7 +21,6 @@ import java.nio.file.Path;
 
 import org.assertj.core.util.VisibleForTesting;
 
-
 /**
  * Compares the binary content of two inputStreams/paths.
  * 
@@ -45,8 +44,8 @@ public class BinaryDiff {
   @VisibleForTesting
   public BinaryDiffResult diff(InputStream actualStream, byte[] expected) throws IOException {
     try (InputStream expectedStream = new ByteArrayInputStream(expected)) {
-		  return diff(actualStream, expectedStream);
-	  }
+      return diff(actualStream, expectedStream);
+    }
   }
 
   @VisibleForTesting

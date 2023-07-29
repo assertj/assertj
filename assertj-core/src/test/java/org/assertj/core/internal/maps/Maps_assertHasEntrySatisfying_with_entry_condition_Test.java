@@ -34,21 +34,19 @@ import org.junit.jupiter.api.Test;
  */
 class Maps_assertHasEntrySatisfying_with_entry_condition_Test extends MapsBaseTest {
 
-  private Condition<Map.Entry<String, String>> greenColorCondition =
-      new Condition<Map.Entry<String, String>>("green color condition") {
-      @Override
-      public boolean matches(Map.Entry<String, String> entry) {
-        return entry.getKey().equals("color") && entry.getValue().equals("green");
-      }
-    };
+  private Condition<Map.Entry<String, String>> greenColorCondition = new Condition<Map.Entry<String, String>>("green color condition") {
+    @Override
+    public boolean matches(Map.Entry<String, String> entry) {
+      return entry.getKey().equals("color") && entry.getValue().equals("green");
+    }
+  };
 
-  private Condition<Map.Entry<String, String>> blackColorCondition =
-    new Condition<Map.Entry<String, String>>("black color condition") {
-      @Override
-      public boolean matches(Map.Entry<String, String> entry) {
-        return entry.getKey().equals("color") && entry.getValue().equals("black");
-      }
-    };
+  private Condition<Map.Entry<String, String>> blackColorCondition = new Condition<Map.Entry<String, String>>("black color condition") {
+    @Override
+    public boolean matches(Map.Entry<String, String> entry) {
+      return entry.getKey().equals("color") && entry.getValue().equals("black");
+    }
+  };
 
   @Test
   void should_fail_if_entry_condition_is_null() {
@@ -58,7 +56,8 @@ class Maps_assertHasEntrySatisfying_with_entry_condition_Test extends MapsBaseTe
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(someInfo(), null, greenColorCondition))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(someInfo(), null,
+                                                                                                   greenColorCondition))
                                                    .withMessage(actualIsNull());
   }
 

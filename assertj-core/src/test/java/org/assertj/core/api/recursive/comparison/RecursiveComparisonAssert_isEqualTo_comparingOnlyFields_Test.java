@@ -13,7 +13,9 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Sets.set;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.time.ZonedDateTime;
@@ -249,5 +251,47 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
     // THEN
     ComparisonDifference difference = diff("a", actual.a, expected.a);
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference);
+  }
+
+  @ParameterizedTest(name = "actual={0} / expected={1}")
+  @MethodSource
+  void should_fail_when_actual_is_a_container_whose_elements_differs_from_expected_on_compared_fields(Object actual,
+                                                                                                      Object expected,
+                                                                                                      ComparisonDifference difference) {
+    // GIVEN
+    recursiveComparisonConfiguration.compareOnlyFields("name", "subject");
+    // WHEN
+    compareRecursivelyFailsAsExpected(actual, expected);
+    // THEN
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference);
+  }
+
+  private static Stream<Arguments> should_fail_when_actual_is_a_container_whose_elements_differs_from_expected_on_compared_fields() {
+    Student john1 = new Student("John", "math", 1);
+    Student john2 = new Student("John", "math", 1);
+    Student rohit = new Student("Rohit", "english", 2);
+    Student rohyt = new Student("Rohyt", "english", 2);
+    ComparisonDifference difference = diff("[1].name", "Rohit", "Rohyt");
+    return Stream.of(arguments(list(john1, rohit), list(john2, rohyt), difference),
+                     arguments(array(john1, rohit), array(john2, rohyt), difference),
+                     arguments(set(john1, rohit), set(john2, rohyt), difference));
+
+  }
+
+  static class Student {
+    String name;
+    String subject;
+    int rollNo;
+
+    Student(String name, String subject, int rollNo) {
+      this.name = name;
+      this.subject = subject;
+      this.rollNo = rollNo;
+    }
+
+    @Override
+    public String toString() {
+      return String.format("Student[name=%s, subject=%s, rollNo=%s]", this.name, this.subject, this.rollNo);
+    }
   }
 }

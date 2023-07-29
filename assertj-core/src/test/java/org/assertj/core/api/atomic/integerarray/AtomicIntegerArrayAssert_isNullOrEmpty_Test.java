@@ -39,12 +39,11 @@ class AtomicIntegerArrayAssert_isNullOrEmpty_Test extends AtomicIntegerArrayAsse
   public void should_return_this() {
     // Disable this test because isNullOrEmpty is void
   }
-  
+
   @Test
   void should_pass_if_AtomicIntegerArray_is_null() {
     AtomicIntegerArray array = null;
     assertThat(array).isNullOrEmpty();
   }
-  
-  
+
 }

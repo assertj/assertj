@@ -41,7 +41,7 @@ public class RecursiveComparisonAssert_isEqualTo_usingOverriddenEquals_Test
                                                                                  .usingOverriddenEquals()
                                                                                  .isEqualTo(expected));
     // THEN
-    then(assertionError).hasMessageContaining("- overridden equals methods were used in the comparison");
+    then(assertionError).hasMessageContaining("- equals methods were used in the comparison");
   }
 
   private static Stream<Arguments> should_fail_when_using_overridden_equals() {

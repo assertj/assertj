@@ -51,7 +51,7 @@ class MultimapAssert_contains_Test extends MultimapAssertBaseTest {
     Throwable thrown = catchThrowable(() -> assertThat(actual).contains(entries));
     // THEN
     then(thrown).isInstanceOf(IllegalArgumentException.class)
-                   .hasMessage("The entries to look for should not be null");
+                .hasMessage("The entries to look for should not be null");
   }
 
   @Test

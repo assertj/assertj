@@ -108,7 +108,8 @@ class Bytes_assertIsNotCloseTo_Test extends BytesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsNotCloseTo(someInfo(), null, ONE,
+                                                                                              byLessThan(ONE)))
                                                    .withMessage(actualIsNull());
   }
 

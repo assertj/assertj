@@ -22,7 +22,6 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ObjectsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Objects#assertThat(AssertionInfo, Object).isNull()}</code>.
  * 

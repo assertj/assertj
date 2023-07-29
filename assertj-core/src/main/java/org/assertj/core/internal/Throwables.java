@@ -427,8 +427,7 @@ public class Throwables {
    * @throws AssertionError if the root cause of the actual {@code Throwable} is not <b>exactly</b> an instance of the
    *           given type.
    */
-  public void assertHasRootCauseExactlyInstanceOf(AssertionInfo info, Throwable actual,
-                                                  Class<? extends Throwable> type) {
+  public void assertHasRootCauseExactlyInstanceOf(AssertionInfo info, Throwable actual, Class<? extends Throwable> type) {
     assertNotNull(info, actual);
     checkTypeIsNotNull(type);
     Throwable rootCause = getRootCause(actual);

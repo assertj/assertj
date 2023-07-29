@@ -39,7 +39,8 @@ class EntryPointAssertions_catchRuntimeException_Test extends EntryPointAssertio
   }
 
   private static Stream<Function<ThrowingCallable, RuntimeException>> catchRuntimeExceptions() {
-    return Stream.of(Assertions::catchRuntimeException, BDDAssertions::catchRuntimeException, withAssertions::catchRuntimeException);
+    return Stream.of(Assertions::catchRuntimeException, BDDAssertions::catchRuntimeException,
+                     withAssertions::catchRuntimeException);
   }
 
 }

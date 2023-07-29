@@ -84,6 +84,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   private RecursiveComparisonIntrospectionStrategy introspectionStrategy = DEFAULT_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY;
 
+  private boolean compareEnumAgainstString = false;
+
   private RecursiveComparisonConfiguration(Builder builder) {
     super(builder);
     this.ignoreAllActualNullFields = builder.ignoreAllActualNullFields;
@@ -227,7 +229,6 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     Stream.of(fieldNamesToCompare).map(FieldLocation::new).forEach(comparedFields::add);
   }
 
-
   /**
    * Adds the given fields of types and their subfields to the set of fields from the object under test to compare (fields of other types will not be compared).
    * <p>
@@ -322,6 +323,10 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   /**
    * Sets whether to ignore collection order in the comparison.
    * <p>
+   * <b>Important:</b> ignoring collection order has a high performance cost because each element of the actual collection must
+   * be compared to each element of the expected collection which is a O(n&sup2;) operation. For example with a collection of 100
+   * elements, the number of comparisons is 100x100 = 10 000!
+   * <p>
    * See {@link RecursiveComparisonAssert#ignoringCollectionOrder()} for code examples.
    *
    * @param ignoreCollectionOrder whether to ignore collection order in the comparison.
@@ -332,6 +337,10 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   /**
    * Adds the given fields to the list fields from the object under test to ignore collection order in the recursive comparison.
+   * <p>
+   * <b>Important:</b> ignoring collection order has a high performance cost because each element of the actual collection must
+   * be compared to each element of the expected collection which is a O(n&sup2;) operation. For example with a collection of 100
+   * elements, the number of comparisons is 100x100 = 10 000!
    * <p>
    * See {@link RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...) RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...)} for examples.
    *
@@ -568,6 +577,21 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     this.introspectionStrategy = introspectionStrategy;
   }
 
+  /**
+   * Allows the recursive comparison to compare an enum field against a string field.
+   * <p>
+   * See {@link RecursiveComparisonAssert#withEnumStringComparison()} for code examples.
+   *
+   * @param compareEnumAgainstString whether to allow the recursive comparison to compare enum field against string field.
+   */
+  public void allowComparingEnumAgainstString(boolean compareEnumAgainstString) {
+    this.compareEnumAgainstString = compareEnumAgainstString;
+  }
+
+  public boolean isComparingEnumAgainstStringAllowed() {
+    return this.compareEnumAgainstString;
+  }
+
   @Override
   public String toString() {
     return multiLineDescription(CONFIGURATION_PROVIDER.representation());
@@ -578,11 +602,10 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return java.util.Objects.hash(fieldComparators, ignoreAllActualEmptyOptionalFields, ignoreAllActualNullFields,
                                   ignoreAllExpectedNullFields, ignoreAllOverriddenEquals, ignoreCollectionOrder,
                                   ignoredCollectionOrderInFields, ignoredCollectionOrderInFieldsMatchingRegexes,
-                                  getIgnoredFields(),
-                                  getIgnoredFieldsRegexes(), ignoredOverriddenEqualsForFields,
-                                  ignoredOverriddenEqualsForTypes,
-                                  ignoredOverriddenEqualsForFieldsMatchingRegexes, getIgnoredTypes(), strictTypeChecking,
-                                  typeComparators, comparedFields, comparedTypes, fieldMessages, typeMessages);
+                                  getIgnoredFields(), getIgnoredFieldsRegexes(), ignoredOverriddenEqualsForFields,
+                                  ignoredOverriddenEqualsForTypes, ignoredOverriddenEqualsForFieldsMatchingRegexes,
+                                  getIgnoredTypes(), strictTypeChecking, typeComparators, comparedFields, comparedTypes,
+                                  fieldMessages, typeMessages, compareEnumAgainstString);
   }
 
   @Override
@@ -635,11 +658,14 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     describeRegisteredErrorMessagesForFields(description);
     describeRegisteredErrorMessagesForTypes(description);
     describeIntrospectionStrategy(description);
+    describeCompareEnumAgainstString(description);
     return description.toString();
   }
 
   boolean shouldIgnore(DualValue dualValue) {
-    return !shouldBeCompared(dualValue) || shouldIgnoreFieldBasedOnFieldLocation(dualValue.fieldLocation) || shouldIgnoreFieldBasedOnFieldValue(dualValue);
+    return !shouldBeCompared(dualValue)
+           || shouldIgnoreFieldBasedOnFieldLocation(dualValue.fieldLocation)
+           || shouldIgnoreFieldBasedOnFieldValue(dualValue);
   }
 
   private boolean shouldBeCompared(DualValue dualValue) {
@@ -656,7 +682,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     // a field f must be compared if any compared fields is f itself (obviously), a parent of f or a child of f.
     // - "name.first" must be compared if "name" is a compared field so will other "name" subfields like "name.last"
     // - "name" must be compared if "name.first" is a compared field otherwise "name" is ignored and "name.first" too
-    return comparedField -> field.matches(comparedField) // exact match
+    return comparedField -> field.isRoot() // always compare root!
+                            || field.matches(comparedField) // exact match
                             || field.hasParent(comparedField) // ex: field "name.first" and "name" compared field
                             || field.hasChild(comparedField); // ex: field "name" and "name.first" compared field
   }
@@ -775,8 +802,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   private void describeOverriddenEqualsMethodsUsage(StringBuilder description, Representation representation) {
     String header = ignoreAllOverriddenEquals
-        ? "- no overridden equals methods were used in the comparison (except for java types)"
-        : "- overridden equals methods were used in the comparison";
+        ? "- no equals methods were used in the comparison EXCEPT for java JDK types since introspecting JDK types is forbidden in java 17+ (use withEqualsForType to register a specific way to compare a JDK type if you need it)"
+        : "- equals methods were used in the comparison";
     description.append(header);
     if (isConfiguredToIgnoreSomeButNotAllOverriddenEqualsMethods()) {
       description.append(format(" except for:%n"));
@@ -827,6 +854,11 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   private void describeIntrospectionStrategy(StringBuilder description) {
     description.append(format("- the introspection strategy used was: %s%n", introspectionStrategy.getDescription()));
+  }
+
+  private void describeCompareEnumAgainstString(StringBuilder description) {
+    if (compareEnumAgainstString)
+      description.append(format("- enums can be compared against strings (and vice versa), e.g. Color.RED and \"RED\" are considered equal%n"));
   }
 
   private boolean matchesAnIgnoredOverriddenEqualsRegex(FieldLocation fieldLocation) {

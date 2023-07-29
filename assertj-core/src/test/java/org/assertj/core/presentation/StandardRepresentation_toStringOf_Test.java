@@ -128,13 +128,15 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
 
   @Test
   void should_return_toString_of_local_Class_with_its_simple_name() {
-    class LocalClass {}
+    class LocalClass {
+    }
     assertThat(STANDARD_REPRESENTATION.toStringOf(LocalClass.class)).isEqualTo("local class LocalClass");
   }
 
   @Test
   void should_return_toString_of_local_Class_array_with_its_simple_name() {
-    class LocalClass {}
+    class LocalClass {
+    }
     assertThat(STANDARD_REPRESENTATION.toStringOf(LocalClass[].class)).isEqualTo("local class LocalClass[]");
   }
 
@@ -555,11 +557,14 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
 
   }
 
+  //@format:off FIXME the formatter profile shouldn't touch this method
   private static Stream<Arguments> durations() {
-    return Stream.of(arguments(Duration.of(1L, MILLIS), "0.001S"),
-                     arguments(Duration.of(1234L, MILLIS), "1.234S"),
-                     arguments(Duration.of(3_661_001L, MILLIS), "1H1M1.001S"));
+    return Stream.of(
+      arguments(Duration.of(1L, MILLIS), "0.001S"),
+      arguments(Duration.of(1234L, MILLIS), "1.234S"),
+      arguments(Duration.of(3_661_001L, MILLIS), "1H1M1.001S"));
   }
+  //@format:on
 
   private String toStringOf(Object o) {
     return STANDARD_REPRESENTATION.toStringOf(o);

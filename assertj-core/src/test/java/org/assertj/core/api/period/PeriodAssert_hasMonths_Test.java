@@ -20,13 +20,11 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.Period;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Hayden Meloche
  */
-@DisplayName("PeriodAssert hasMonths")
 class PeriodAssert_hasMonths_Test {
 
   @Test

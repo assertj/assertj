@@ -25,7 +25,6 @@ import org.assertj.core.internal.Floats;
 import org.assertj.core.internal.FloatsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Floats#assertGreaterThan(AssertionInfo, Float, float)}</code>.
  * 

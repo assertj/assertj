@@ -31,9 +31,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 /**
- * Tests for {@link ShouldHaveParent#shouldHaveParent(File, File)} and {@link
- * ShouldHaveParent#shouldHaveParent(Path, Path)}
- *
  * @author Jean-Christophe Gay
  * @author Francis Galiegue
  */

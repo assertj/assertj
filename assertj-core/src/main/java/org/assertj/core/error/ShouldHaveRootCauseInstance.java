@@ -12,6 +12,9 @@
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.util.Strings.escapePercent;
+import static org.assertj.core.util.Throwables.getStackTrace;
+
 import org.assertj.core.util.Throwables;
 
 /**
@@ -30,18 +33,20 @@ public class ShouldHaveRootCauseInstance extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldHaveRootCauseInstance(Throwable actual,
-      Class<? extends Throwable> expectedCauseType) {
-    return Throwables.getRootCause(actual) == null ? new ShouldHaveRootCauseInstance(expectedCauseType)
+                                                                Class<? extends Throwable> expectedCauseType) {
+    return Throwables.getRootCause(actual) == null
+        ? new ShouldHaveRootCauseInstance(expectedCauseType, actual)
         : new ShouldHaveRootCauseInstance(actual, expectedCauseType);
   }
 
   private ShouldHaveRootCauseInstance(Throwable actual, Class<? extends Throwable> expectedCauseType) {
-    super("%nExpecting a throwable with root cause being an instance of:%n  %s%nbut was an instance of:%n  %s",
-        expectedCauseType, Throwables.getRootCause(actual));
+    super("%nExpecting a throwable with root cause being an instance of:%n  %s%nbut was an instance of:%n  %s%n" +
+          "%nThrowable that failed the check:%n" + escapePercent(getStackTrace(actual)),
+          expectedCauseType, Throwables.getRootCause(actual).getClass());
   }
 
-  private ShouldHaveRootCauseInstance(Class<? extends Throwable> expectedCauseType) {
-    super("%nExpecting a throwable with root cause being an instance of:%n  %s%nbut current throwable has no cause.",
-        expectedCauseType);
+  private ShouldHaveRootCauseInstance(Class<? extends Throwable> expectedCauseType, Throwable actual) {
+    super("%nExpecting a throwable with root cause being an instance of:%n  %s%nbut current throwable has no cause." +
+          "%nThrowable that failed the check:%n" + escapePercent(getStackTrace(actual)), expectedCauseType);
   }
 }

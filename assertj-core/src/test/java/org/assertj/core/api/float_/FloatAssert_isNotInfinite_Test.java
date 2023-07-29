@@ -16,9 +16,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.FloatAssert;
 import org.assertj.core.api.FloatAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 
-@DisplayName("DoubleAssert isNotInfinite")
 class FloatAssert_isNotInfinite_Test extends FloatAssertBaseTest {
 
   @Override

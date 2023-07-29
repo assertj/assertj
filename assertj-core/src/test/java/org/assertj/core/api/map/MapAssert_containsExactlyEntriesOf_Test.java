@@ -42,7 +42,7 @@ class MapAssert_containsExactlyEntriesOf_Test extends MapAssertBaseTest {
     final MapEntry<String, String>[] entries = array(entry("key1", "value1"), entry("key2", "value2"));
     verify(maps).assertContainsExactly(getInfo(assertions), getActual(assertions), entries);
   }
-  
+
   @Test
   void invoke_api_like_user() {
     Map<String, String> actualMap = mapOf(entry("key1", "value1"), entry("key2", "value2"));

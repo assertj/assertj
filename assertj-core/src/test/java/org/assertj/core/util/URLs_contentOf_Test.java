@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Test;
  * Tests for {@link URLs#contentOf(File, Charset)} and {@link URLs#contentOf(File, String)}.
  *
  * @author Turbo87
+ * 
  * @author dorzey
  */
 class URLs_contentOf_Test {

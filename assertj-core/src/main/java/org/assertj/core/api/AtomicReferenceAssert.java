@@ -163,4 +163,39 @@ public class AtomicReferenceAssert<V> extends AbstractAssert<AtomicReferenceAsse
     return myself;
   }
 
+  /**
+   * Verifies that the atomic under test has the {@code null} value.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds
+   * assertThat(new AtomicReference(null)).hasNullValue();
+   *
+   * // assertion fails
+   * assertThat(new AtomicReference("foo")).hasNullValue();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the atomic under test does not have the null value.
+   * @since 3.25.0
+   */
+  public AtomicReferenceAssert<V> hasNullValue() {
+    return hasValue(null);
+  }
+
+  /**
+   * Verifies that the atomic under test does not have the {@code null} value.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds
+   * assertThat(new AtomicReference("foo")).doesNotHaveNullValue();
+   *
+   * // assertion fails
+   * assertThat(new AtomicReference(null)).doesNotHaveNullValue();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the atomic under test has the null value.
+   * @since 3.25.0
+   */
+  public AtomicReferenceAssert<V> doesNotHaveNullValue() {
+    return doesNotHaveValue(null);
+  }
 }

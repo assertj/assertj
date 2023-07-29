@@ -20,7 +20,7 @@ public class ConfigurationForTests extends Configuration {
   public boolean removeAssertJRelatedElementsFromStackTraceEnabled() {
     return !super.removeAssertJRelatedElementsFromStackTraceEnabled();
   }
-  
+
   @Override
   public int maxStackTraceElementsDisplayed() {
     return 10;

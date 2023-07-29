@@ -33,7 +33,7 @@ public class ShouldNotContainSubsequence extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotContainSubsequence(Object actual, Object subsequence,
-      ComparisonStrategy comparisonStrategy, int index) {
+                                                                ComparisonStrategy comparisonStrategy, int index) {
     return new ShouldNotContainSubsequence(actual, subsequence, comparisonStrategy, index);
   }
 

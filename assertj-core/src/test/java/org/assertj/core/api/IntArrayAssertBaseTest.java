@@ -17,7 +17,6 @@ import static org.mockito.Mockito.mock;
 
 import org.assertj.core.internal.IntArrays;
 
-
 /**
  * Base class for {@link IntArrayAssert} tests.
  * 
@@ -37,7 +36,7 @@ public abstract class IntArrayAssertBaseTest extends BaseTestTemplate<IntArrayAs
     arrays = mock(IntArrays.class);
     assertions.arrays = arrays;
   }
-  
+
   protected IntArrays getArrays(IntArrayAssert someAssertions) {
     return someAssertions.arrays;
   }

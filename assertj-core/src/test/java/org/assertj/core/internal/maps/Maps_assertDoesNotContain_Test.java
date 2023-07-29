@@ -35,7 +35,6 @@ import org.assertj.core.internal.Maps;
 import org.assertj.core.internal.MapsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Maps#assertDoesNotContain(AssertionInfo, Map, MapEntry[])}</code>.
  * 
@@ -65,7 +64,8 @@ class Maps_assertDoesNotContain_Test extends MapsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertDoesNotContain(someInfo(), null, array(entry("job", "Jedi"))))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertDoesNotContain(someInfo(), null,
+                                                                                               array(entry("job", "Jedi"))))
                                                    .withMessage(actualIsNull());
   }
 

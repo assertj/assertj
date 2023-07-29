@@ -23,7 +23,6 @@ import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Strings#assertNullOrEmpty(AssertionInfo, CharSequence)}</code>.
  * 

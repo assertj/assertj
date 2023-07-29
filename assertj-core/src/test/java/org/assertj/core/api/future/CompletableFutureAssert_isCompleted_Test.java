@@ -23,10 +23,8 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.util.concurrent.CompletableFuture;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("CompletableFutureAssert isCompleted")
 class CompletableFutureAssert_isCompleted_Test {
 
   @Test

@@ -32,12 +32,14 @@ public class ShouldHaveAnnotations extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldHaveAnnotations(Class<?> actual,
-      Collection<Class<? extends Annotation>> expected, Collection<Class<? extends Annotation>> missing) {
+                                                          Collection<Class<? extends Annotation>> expected,
+                                                          Collection<Class<? extends Annotation>> missing) {
     return new ShouldHaveAnnotations(actual, expected, missing);
   }
 
   private ShouldHaveAnnotations(Class<?> actual, Collection<Class<? extends Annotation>> expected,
-      Collection<Class<? extends Annotation>> missing) {
-    super("%nExpecting%n  %s%nto have annotations:%n  %s%nbut the following annotations were not found:%n  %s", actual, expected, missing);
+                                Collection<Class<? extends Annotation>> missing) {
+    super("%nExpecting%n  %s%nto have annotations:%n  %s%nbut the following annotations were not found:%n  %s", actual, expected,
+          missing);
   }
 }

@@ -34,8 +34,8 @@ class Objects_hashCodeFor_Test {
   }
 
   @Test
-  void should_return_hashCode_of_intarray(){
-    int[] intArray = new int[] { 1,2,3 };
+  void should_return_hashCode_of_intarray() {
+    int[] intArray = new int[] { 1, 2, 3 };
     assertThat(hashCodeFor(intArray)).isEqualTo(intArray.hashCode());
   }
 
@@ -49,6 +49,6 @@ class Objects_hashCodeFor_Test {
 
   @Test
   void should_return_zero_if_Object_is_null() {
-	assertThat(hashCodeFor(null)).isZero();
+    assertThat(hashCodeFor(null)).isZero();
   }
 }

@@ -26,6 +26,7 @@ import java.time.OffsetDateTime;
 
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("deprecation")
 class OffsetDateTimeAssert_isEqualToIgnoringHours_Test {
 
   private final OffsetDateTime refOffsetDateTime = of(2000, 1, 2, 0, 0, 0, 0, UTC);

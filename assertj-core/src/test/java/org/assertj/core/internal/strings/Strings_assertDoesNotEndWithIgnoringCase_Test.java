@@ -51,7 +51,7 @@ class Strings_assertDoesNotEndWithIgnoringCase_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    //WHEN
+    // WHEN
     AssertionError assertionError = expectAssertionError(() -> strings.assertDoesNotEndWithIgnoringCase(INFO, null, "Yoda"));
     // THEN
     then(assertionError).hasMessage(actualIsNull());

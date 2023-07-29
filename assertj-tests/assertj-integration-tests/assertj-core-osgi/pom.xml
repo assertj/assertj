@@ -14,6 +14,7 @@
 
   <properties>
     <osgi.bundle>${project.build.directory}/${project.build.finalName}-tests.jar</osgi.bundle>
+    <rootDirectory>${project.basedir}/../../../</rootDirectory>
   </properties>
 
   <dependencyManagement>
@@ -21,7 +22,7 @@
       <dependency>
         <groupId>org.eclipse.platform</groupId>
         <artifactId>org.eclipse.osgi</artifactId>
-        <version>3.18.200</version>
+        <version>3.18.400</version>
         <scope>test</scope>
       </dependency>
     </dependencies>
@@ -43,6 +44,10 @@
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+      </plugin>
       <plugin>
         <groupId>biz.aQute.bnd</groupId>
         <artifactId>bnd-maven-plugin</artifactId>

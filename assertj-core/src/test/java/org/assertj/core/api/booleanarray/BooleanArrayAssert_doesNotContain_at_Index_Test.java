@@ -19,7 +19,6 @@ import org.assertj.core.api.BooleanArrayAssert;
 import org.assertj.core.api.BooleanArrayAssertBaseTest;
 import org.assertj.core.data.Index;
 
-
 /**
  * Tests for <code>{@link BooleanArrayAssert#doesNotContain(boolean, Index)}</code>.
  * 

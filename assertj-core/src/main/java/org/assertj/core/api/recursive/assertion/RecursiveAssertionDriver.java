@@ -154,6 +154,9 @@ public class RecursiveAssertionDriver {
 
   private void recurseIntoCollection(Predicate<Object> predicate, Collection<?> collection, FieldLocation fieldLocation) {
     // TODO handle collection if needed by policy
+    if (collection == null) {
+      return; // no way to recursive into the collection, anyway the collection node has already been visited
+    }
     int index = 0;
     for (Object element : collection) {
       assertRecursively(predicate, element, safeGetClass(element), fieldLocation.field(format(INDEX_FORMAT, index)));
@@ -162,6 +165,9 @@ public class RecursiveAssertionDriver {
   }
 
   private void recurseIntoArray(Predicate<Object> predicate, Object node, Class<?> nodeType, FieldLocation fieldLocation) {
+    if (node == null) {
+      return; // no way to recursive into the array, anyway the array node has already been visited
+    }
     Class<?> arrayType = nodeType.getComponentType();
     Object[] array = Arrays.asObjectArray(node);
     for (int i = 0; i < array.length; i++) {
@@ -198,6 +204,9 @@ public class RecursiveAssertionDriver {
   private void recurseIntoMap(Predicate<Object> predicate, Map<?, ?> node, FieldLocation fieldLocation) {
     // If we are here, we can assume the policy is not MAP_OBJECT_ONLY
     // For both policies VALUES_ONLY and MAP_OBJECT_AND_ENTRIES we have to recurse over the values.
+    if (node == null) {
+      return; // no way to recursive into the map, anyway the map node has already been visited
+    }
     recurseIntoMapValues(predicate, node, fieldLocation);
     if (configuration.getMapAssertionPolicy() == MAP_OBJECT_AND_ENTRIES) {
       recurseIntoMapKeys(predicate, node, fieldLocation);

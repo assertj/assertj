@@ -173,7 +173,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     if (assertionError == null) {
       // error message was not overridden, build it.
       String description = MessageFormatter.instance().format(info.description(), info.representation(), "");
-      assertionError = new AssertionError(description + String.format(errorMessage, arguments));
+      assertionError = new AssertionError(description + format(errorMessage, arguments));
     }
     Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     removeCustomAssertRelatedElementsFromStackTraceIfNeeded(assertionError);
@@ -538,9 +538,23 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   /** {@inheritDoc} */
   @Override
+  public SELF hasToString(String expectedStringTemplate, Object... args) {
+    requireNonNull(expectedStringTemplate, "The expectedStringTemplate must not be null");
+    return hasToString(format(expectedStringTemplate, args));
+  }
+
+  /** {@inheritDoc} */
+  @Override
   public SELF doesNotHaveToString(String otherToString) {
     objects.assertDoesNotHaveToString(info, actual, otherToString);
     return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public SELF doesNotHaveToString(String expectedStringTemplate, Object... args) {
+    requireNonNull(expectedStringTemplate, "The expectedStringTemplate must not be null");
+    return doesNotHaveToString(format(expectedStringTemplate, args));
   }
 
   /** {@inheritDoc} */

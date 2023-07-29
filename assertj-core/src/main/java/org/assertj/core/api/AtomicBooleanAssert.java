@@ -93,7 +93,8 @@ public class AtomicBooleanAssert extends AbstractAssert<AtomicBooleanAssert, Ato
    */
   @Override
   @Deprecated
-  public AtomicBooleanAssert usingComparator(Comparator<? super AtomicBoolean> customComparator, String customComparatorDescription) {
+  public AtomicBooleanAssert usingComparator(Comparator<? super AtomicBoolean> customComparator,
+                                             String customComparatorDescription) {
     throw new UnsupportedOperationException("custom Comparator is not supported for AtomicBoolean comparison");
   }
 

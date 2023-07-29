@@ -12,12 +12,38 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Objects.requireNonNull;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldBePackagePrivate;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldBeProtected;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldBePublic;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldBeStatic;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeFinal;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeStatic;
+import static org.assertj.core.error.ShouldBeAbstract.shouldBeAbstract;
+import static org.assertj.core.error.ShouldBeAnnotation.shouldBeAnnotation;
+import static org.assertj.core.error.ShouldBeAnnotation.shouldNotBeAnnotation;
 import static org.assertj.core.error.ShouldBeAssignableTo.shouldBeAssignableTo;
+import static org.assertj.core.error.ShouldBeInterface.shouldBeInterface;
+import static org.assertj.core.error.ShouldBeInterface.shouldNotBeInterface;
+import static org.assertj.core.error.ShouldBeRecord.shouldBeRecord;
+import static org.assertj.core.error.ShouldBeRecord.shouldNotBeRecord;
+import static org.assertj.core.error.ShouldBeSealed.shouldBeSealed;
+import static org.assertj.core.error.ShouldBeSealed.shouldNotBeSealed;
+import static org.assertj.core.error.ShouldHaveNoPackage.shouldHaveNoPackage;
+import static org.assertj.core.error.ShouldHaveNoSuperclass.shouldHaveNoSuperclass;
+import static org.assertj.core.error.ShouldHavePackage.shouldHavePackage;
+import static org.assertj.core.error.ShouldHaveRecordComponents.shouldHaveRecordComponents;
+import static org.assertj.core.error.ShouldHaveSuperclass.shouldHaveSuperclass;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.lang.annotation.Annotation;
-import java.util.Objects;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Collections;
+import java.util.Set;
 
 import org.assertj.core.internal.Classes;
 
@@ -94,7 +120,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   private void assertIsAssignableTo(Class<?> other) {
-    Objects.requireNonNull(other, shouldNotBeNull("other")::create);
+    requireNonNull(other, shouldNotBeNull("other")::create);
     if (!other.isAssignableFrom(actual)) throw assertionError(shouldBeAssignableTo(actual, other));
   }
 
@@ -116,8 +142,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} is not an interface.
    */
   public SELF isNotInterface() {
-    classes.assertIsNotInterface(info, actual);
+    isNotNull();
+    assertIsNotInterface();
     return myself;
+  }
+
+  private void assertIsNotInterface() {
+    if (actual.isInterface()) throw assertionError(shouldNotBeInterface(actual));
   }
 
   /**
@@ -138,8 +169,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} is not an interface.
    */
   public SELF isInterface() {
-    classes.assertIsInterface(info, actual);
+    isNotNull();
+    assertIsInterface();
     return myself;
+  }
+
+  private void assertIsInterface() {
+    if (!actual.isInterface()) throw assertionError(shouldBeInterface(actual));
   }
 
   /**
@@ -161,8 +197,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 3.12.0
    */
   public SELF isAbstract() {
-    classes.assertIsAbstract(info, actual);
+    isNotNull();
+    assertIsAbstract();
     return myself;
+  }
+
+  private void assertIsAbstract() {
+    if (!Modifier.isAbstract(actual.getModifiers())) throw assertionError(shouldBeAbstract(actual));
   }
 
   /**
@@ -184,8 +225,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} is not an annotation.
    */
   public SELF isAnnotation() {
-    classes.assertIsAnnotation(info, actual);
+    isNotNull();
+    assertIsAnnotation();
     return myself;
+  }
+
+  private void assertIsAnnotation() {
+    if (!actual.isAnnotation()) throw assertionError(shouldBeAnnotation(actual));
   }
 
   /**
@@ -207,8 +253,146 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} is an annotation.
    */
   public SELF isNotAnnotation() {
-    classes.assertIsNotAnnotation(info, actual);
+    isNotNull();
+    assertIsNotAnnotation();
     return myself;
+  }
+
+  private void assertIsNotAnnotation() {
+    if (actual.isAnnotation()) throw assertionError(shouldNotBeAnnotation(actual));
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is a record.
+   * <p>
+   * Example:
+   * <pre><code class='java'> public record Jedi(String name) {}
+   *
+   * // this assertion succeeds:
+   * assertThat(Jedi.class).isRecord();
+   *
+   * // this assertion fails:
+   * assertThat(String.class).isRecord();</code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not a record.
+   *
+   * @since 3.25.0
+   */
+  public SELF isRecord() {
+    isNotNull();
+    assertIsRecord();
+    return myself;
+  }
+
+  private void assertIsRecord() {
+    if (!isRecord(actual)) throw assertionError(shouldBeRecord(actual));
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is not a record.
+   * <p>
+   * Example:
+   * <pre><code class='java'> public record Jedi(String name) {}
+   *
+   * // this assertion succeeds:
+   * assertThat(String.class).isNotRecord();
+   *
+   * // this assertion fails:
+   * assertThat(Jedi.class).isNotRecord();</code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is a record.
+   *
+   * @since 3.25.0
+   */
+  public SELF isNotRecord() {
+    isNotNull();
+    assertIsNotRecord();
+    return myself;
+  }
+
+  private void assertIsNotRecord() {
+    if (isRecord(actual)) throw assertionError(shouldNotBeRecord(actual));
+  }
+
+  // TODO https://github.com/assertj/assertj/issues/3079
+  private static boolean isRecord(Class<?> actual) {
+    try {
+      Method isRecord = Class.class.getMethod("isRecord");
+      return (boolean) isRecord.invoke(actual);
+    } catch (NoSuchMethodException e) {
+      return false;
+    } catch (ReflectiveOperationException e) {
+      throw new IllegalStateException(e);
+    }
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has the given record components
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class NotARecord {}
+   *
+   * public record MyRecord(String componentOne, String componentTwo) {}
+   *
+   * // these assertions succeed:
+   * assertThat(MyRecord.class).hasRecordComponents("componentOne");
+   * assertThat(MyRecord.class).hasRecordComponents("componentOne", "componentTwo");
+   *
+   * // these assertions fail:
+   * assertThat(NotARecord.class).hasRecordComponents("componentOne");
+   * assertThat(MyRecord.class).hasRecordComponents("componentOne", "unknownComponent");</code></pre>
+   *
+   * @param first the first record component name which must be in this class
+   * @param rest the remaining record component names which must be in this class
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not a record.
+   * @throws AssertionError if the actual {@code Class} doesn't contain all the record component names.
+   *
+   * @since 3.25.0
+   */
+  public SELF hasRecordComponents(String first, String... rest) {
+    isRecord();
+    assertHasRecordComponents(first, rest);
+    return myself;
+  }
+
+  private void assertHasRecordComponents(String first, String[] rest) {
+    Set<String> expectedRecordComponents = newLinkedHashSet();
+    expectedRecordComponents.add(first);
+    if (rest != null) {
+      Collections.addAll(expectedRecordComponents, rest);
+    }
+    Set<String> missingRecordComponents = newLinkedHashSet();
+    Set<String> actualRecordComponents = getRecordComponentNames(actual);
+
+    for (String name : expectedRecordComponents) {
+      if (!actualRecordComponents.contains(name)) {
+        missingRecordComponents.add(name);
+      }
+    }
+    if (!missingRecordComponents.isEmpty()) {
+      throw assertionError(shouldHaveRecordComponents(actual, expectedRecordComponents, missingRecordComponents));
+    }
+  }
+
+  private static Set<String> getRecordComponentNames(Class<?> actual) {
+    try {
+      Method getRecordComponents = Class.class.getMethod("getRecordComponents");
+      Object[] recordComponents = (Object[]) getRecordComponents.invoke(actual);
+      Set<String> recordComponentNames = newLinkedHashSet();
+      for (Object recordComponent : recordComponents) {
+        Method getName = recordComponent.getClass().getMethod("getName");
+        recordComponentNames.add((String) getName.invoke(recordComponent));
+      }
+      return recordComponentNames;
+    } catch (ReflectiveOperationException e) {
+      throw new IllegalStateException(e);
+    }
   }
 
   /**
@@ -228,8 +412,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} is not final.
    */
   public SELF isFinal() {
-    classes.assertIsFinal(info, actual);
+    isNotNull();
+    assertIsFinal();
     return myself;
+  }
+
+  private void assertIsFinal() {
+    if (!Modifier.isFinal(actual.getModifiers())) throw assertionError(shouldBeFinal(actual));
   }
 
   /**
@@ -249,8 +438,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} is final.
    */
   public SELF isNotFinal() {
-    classes.assertIsNotFinal(info, actual);
+    isNotNull();
+    assertIsNotFinal();
     return myself;
+  }
+
+  private void assertIsNotFinal() {
+    if (Modifier.isFinal(actual.getModifiers())) throw assertionError(shouldNotBeFinal(actual));
   }
 
   /**
@@ -273,8 +467,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 2.7.0 / 3.7.0
    */
   public SELF isPublic() {
-    classes.assertIsPublic(info, actual);
+    isNotNull();
+    assertIsPublic();
     return myself;
+  }
+
+  private void assertIsPublic() {
+    if (!Modifier.isPublic(actual.getModifiers())) throw assertionError(shouldBePublic(actual));
   }
 
   /**
@@ -297,8 +496,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 2.7.0 / 3.7.0
    */
   public SELF isProtected() {
-    classes.assertIsProtected(info, actual);
+    isNotNull();
+    assertIsProtected();
     return myself;
+  }
+
+  private void assertIsProtected() {
+    if (!Modifier.isProtected(actual.getModifiers())) throw assertionError(shouldBeProtected(actual));
   }
 
   /**
@@ -321,8 +525,16 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 3.15.0
    */
   public SELF isPackagePrivate() {
-    classes.assertIsPackagePrivate(info, actual);
+    isNotNull();
+    assertIsPackagePrivate();
     return myself;
+  }
+
+  private void assertIsPackagePrivate() {
+    final int modifiers = actual.getModifiers();
+    if (Modifier.isPublic(modifiers) || Modifier.isProtected(modifiers) || Modifier.isPrivate(modifiers)) {
+      throw assertionError(shouldBePackagePrivate(actual));
+    }
   }
 
   /**
@@ -345,8 +557,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 3.23.0
    */
   public SELF isStatic() {
-    classes.assertIsStatic(info, actual);
+    isNotNull();
+    assertIsStatic();
     return myself;
+  }
+
+  private void assertIsStatic() {
+    if (!Modifier.isStatic(actual.getModifiers())) throw assertionError(shouldBeStatic(actual));
   }
 
   /**
@@ -369,8 +586,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 3.23.0
    */
   public SELF isNotStatic() {
-    classes.assertIsNotStatic(info, actual);
+    isNotNull();
+    assertIsNotStatic();
     return myself;
+  }
+
+  private void assertIsNotStatic() {
+    if (Modifier.isStatic(actual.getModifiers())) throw assertionError(shouldNotBeStatic(actual));
   }
 
   /**
@@ -445,8 +667,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   /**
    * Verifies that the actual {@code Class} has the given class as direct superclass (as in {@link Class#getSuperclass()}).
    * <p>
-   * The {@code superclass} should always be not {@code null}, use {@link #hasNoSuperclass()} to verify the absence of
-   * the superclass.
+   * The expected {@code superclass} should always be not {@code null}. To verify the absence of the superclass, use
+   * {@link #hasNoSuperclass()}.
    * <p>
    * Example:
    * <pre><code class='java'> // this assertion succeeds:
@@ -473,8 +695,17 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @see #hasNoSuperclass()
    */
   public SELF hasSuperclass(Class<?> superclass) {
-    classes.assertHasSuperclass(info, actual, superclass);
+    isNotNull();
+    assertHasSuperclass(superclass);
     return myself;
+  }
+
+  private void assertHasSuperclass(Class<?> superclass) {
+    requireNonNull(superclass, shouldNotBeNull("superclass")::create);
+    Class<?> actualSuperclass = actual.getSuperclass();
+    if (actualSuperclass == null || !actualSuperclass.equals(superclass)) {
+      throw assertionError(shouldHaveSuperclass(actual, superclass));
+    }
   }
 
   /**
@@ -504,8 +735,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @see #hasSuperclass(Class)
    */
   public SELF hasNoSuperclass() {
-    classes.assertHasNoSuperclass(info, actual);
+    isNotNull();
+    assertHasNoSuperclass();
     return myself;
+  }
+
+  private void assertHasNoSuperclass() {
+    if (actual.getSuperclass() != null) throw assertionError(shouldHaveNoSuperclass(actual));
   }
 
   /**
@@ -743,7 +979,9 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   /**
    * Verifies that the actual {@code Class} has the given package name (as in {@link Class#getPackage()}).
-   *
+   * <p>
+   * The expected package name should always be not {@code null}. To verify the absence of the package, use
+   * {@link #hasNoPackage()}. 
    * <p>
    * Example:
    * <pre><code class='java'> package one.two;
@@ -758,21 +996,32 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * assertThat(MyClass.class).hasPackage("");
    * assertThat(MyClass.class).hasPackage("java.lang");</code></pre>
    *
-   * @param packageName the package name the class should have
+   * @param expected the package name the class should have
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} does not have the given package.
    *
    * @since 3.18.0
    */
-  public SELF hasPackage(String packageName) {
-    classes.assertHasPackage(info, actual, packageName);
+  public SELF hasPackage(String expected) {
+    isNotNull();
+    assertHasPackage(expected);
     return myself;
+  }
+
+  private void assertHasPackage(String packageName) {
+    requireNonNull(packageName, shouldNotBeNull("expected")::create);
+    Package actualPackage = actual.getPackage();
+    if (actualPackage == null || !actualPackage.getName().equals(packageName)) {
+      throw assertionError(shouldHavePackage(actual, packageName));
+    }
   }
 
   /**
    * Verifies that the actual {@code Class} has the given package (as in {@link Class#getPackage()}).
-   *
+   * <p>
+   * The expected package should always be not {@code null}. To verify the absence of the package, use
+   * {@link #hasNoPackage()}. 
    * <p>
    * Example:
    * <pre><code class='java'> package one.two;
@@ -788,16 +1037,131 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * assertThat(MyClass.class).hasPackage(Package.getPackage(""));
    * assertThat(MyClass.class).hasPackage(Object.class.getPackage());</code></pre>
    *
-   * @param aPackage the package the class should have
+   * @param expected the package the class should have
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} does not have the given package.
    *
    * @since 3.18.0
+   * @see #hasPackage(String)
+   * @see #hasNoPackage()
    */
-  public SELF hasPackage(Package aPackage) {
-    classes.assertHasPackage(info, actual, aPackage);
+  public SELF hasPackage(Package expected) {
+    isNotNull();
+    assertHasPackage(expected);
     return myself;
+  }
+
+  private void assertHasPackage(Package expected) {
+    requireNonNull(expected, shouldNotBeNull("expected")::create);
+    if (!expected.equals(actual.getPackage())) throw assertionError(shouldHavePackage(actual, expected));
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has no package (as in {@link Class#getPackage()}, when {@code null}
+   * is returned).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // this assertion succeeds as arrays have no package:
+   * assertThat(int[].class).hasNoPackage();
+   *
+   * // this assertion succeeds as primitive types have no package:
+   * assertThat(Integer.TYPE).hasNoPackage();
+   *
+   * // this assertion succeeds as void type has no package:
+   * assertThat(Void.TYPE).hasNoPackage();
+   *
+   * // this assertion fails as Object has java.lang as package:
+   * assertThat(Object.class).hasNoPackage();</code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} has a package.
+   *
+   * @since 3.25.0
+   * @see #hasPackage(Package)
+   * @see #hasPackage(String)
+   */
+  public SELF hasNoPackage() {
+    isNotNull();
+    assertHasNoPackage();
+    return myself;
+  }
+
+  private void assertHasNoPackage() {
+    if (actual.getPackage() != null) throw assertionError(shouldHaveNoPackage(actual));
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is sealed.
+   * <p>
+   * Example:
+   * <pre><code class='java'> sealed class SealedClass permits NonSealedClass {}
+   *
+   * non-sealed class NonSealedClass extends SealedClass {}
+   *
+   * // this assertion succeeds:
+   * assertThat(SealedClass.class).isSealed();
+   *
+   * // this assertion fails:
+   * assertThat(NonSealedClass.class).isSealed();</code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not sealed.
+   *
+   * @since 3.25.0
+   */
+  public SELF isSealed() {
+    isNotNull();
+    assertIsSealed();
+    return myself;
+  }
+
+  private void assertIsSealed() {
+    if (!isSealed(actual)) throw assertionError(shouldBeSealed(actual));
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is not sealed.
+   * <p>
+   * Example:
+   * <pre><code class='java'> sealed class SealedClass permits NonSealedClass {}
+   *
+   * non-sealed class NonSealedClass extends SealedClass {}
+   *
+   * // this assertion succeeds:
+   * assertThat(NonSealedClass.class).isNotSealed();
+   *
+   * // this assertion fails:
+   * assertThat(SealedClass.class).isNotSealed();</code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is sealed.
+   *
+   * @since 3.25.0
+   */
+  public SELF isNotSealed() {
+    isNotNull();
+    assertIsNotSealed();
+    return myself;
+  }
+
+  private void assertIsNotSealed() {
+    if (isSealed(actual)) throw assertionError(shouldNotBeSealed(actual));
+  }
+
+  // TODO https://github.com/assertj/assertj/issues/3081
+  private static boolean isSealed(Class<?> actual) {
+    try {
+      Method isSealed = Class.class.getMethod("isSealed");
+      return (boolean) isSealed.invoke(actual);
+    } catch (NoSuchMethodException e) {
+      return false;
+    } catch (ReflectiveOperationException e) {
+      throw new IllegalStateException(e);
+    }
   }
 
 }

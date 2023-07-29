@@ -25,7 +25,6 @@ import org.assertj.core.internal.Characters;
 import org.assertj.core.internal.CharactersBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Characters#assertLessThanOrEqualTo(AssertionInfo, Character, char)}</code>.
  * 
@@ -62,7 +61,9 @@ class Characters_assertLessThanOrEqualTo_Test extends CharactersBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_according_to_custom_comparison_strategy() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> charactersWithCaseInsensitiveComparisonStrategy.assertLessThanOrEqualTo(someInfo(), null, 'a'))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> charactersWithCaseInsensitiveComparisonStrategy.assertLessThanOrEqualTo(someInfo(),
+                                                                                                                                             null,
+                                                                                                                                             'a'))
                                                    .withMessage(actualIsNull());
   }
 
@@ -80,7 +81,8 @@ class Characters_assertLessThanOrEqualTo_Test extends CharactersBaseTest {
   void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> charactersWithCaseInsensitiveComparisonStrategy.assertLessThanOrEqualTo(info, 'B', 'a'));
+    Throwable error = catchThrowable(() -> charactersWithCaseInsensitiveComparisonStrategy.assertLessThanOrEqualTo(info, 'B',
+                                                                                                                   'a'));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeLessOrEqual('B', 'a', caseInsensitiveComparisonStrategy));

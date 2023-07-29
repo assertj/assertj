@@ -25,7 +25,6 @@ import org.assertj.core.internal.Characters;
 import org.assertj.core.internal.CharactersBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Characters#assertLowerCase(AssertionInfo, Character)}</code>.
  * 
@@ -57,7 +56,8 @@ class Characters_assertLowerCase_Test extends CharactersBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> charactersWithCaseInsensitiveComparisonStrategy.assertLowerCase(someInfo(), null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> charactersWithCaseInsensitiveComparisonStrategy.assertLowerCase(someInfo(),
+                                                                                                                                     null))
                                                    .withMessage(actualIsNull());
   }
 

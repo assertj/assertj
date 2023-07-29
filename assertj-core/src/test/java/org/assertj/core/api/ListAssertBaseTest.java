@@ -20,7 +20,6 @@ import java.util.List;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.Lists;
 
-
 /**
  * Base class for {@link ListAssert} tests.
  * 
@@ -49,6 +48,5 @@ public abstract class ListAssertBaseTest extends BaseTestTemplate<ListAssert<Str
   protected Iterables getIterables(ListAssert<String> assertions) {
     return assertions.iterables;
   }
-  
-  
+
 }

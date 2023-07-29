@@ -70,9 +70,8 @@ class FutureAssert_succeedsWithin_Test extends AbstractFutureTest {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(10, MILLISECONDS));
     // THEN
-    then(assertionError).hasMessageStartingWith(format("%nExpecting%n" +
-                                                       "  <CompletableFuture[Incomplete]>%n" +
-                                                       "to be completed within 10L Millis.%n"));
+    then(assertionError).hasMessageStartingWith(format("%nExpecting%n" + "  <CompletableFuture[Incomplete]>%n"
+                                                       + "to be completed within 10L Millis.%n"));
   }
 
   @Test

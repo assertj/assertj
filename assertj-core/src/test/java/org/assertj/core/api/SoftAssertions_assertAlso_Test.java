@@ -62,5 +62,4 @@ class SoftAssertions_assertAlso_Test extends BaseAssertionsTest {
     assertThat(softly.errorsCollected()).hasSize(3);
   }
 
-
 }

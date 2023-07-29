@@ -28,7 +28,6 @@ import org.assertj.core.test.Person;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Objects#assertHasSameClassAs(AssertionInfo, Object, Object)}</code>.
  * 
@@ -57,7 +56,8 @@ class Objects_assertHasSameClassAs_Test extends ObjectsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> objects.assertHasSameClassAs(someInfo(), null, new Person("Luke")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> objects.assertHasSameClassAs(someInfo(), null,
+                                                                                                  new Person("Luke")))
                                                    .withMessage(actualIsNull());
   }
 

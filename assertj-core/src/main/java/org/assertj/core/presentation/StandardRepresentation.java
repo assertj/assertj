@@ -13,8 +13,6 @@
 package org.assertj.core.presentation;
 
 import static java.lang.Integer.toHexString;
-import static java.lang.reflect.Array.get;
-import static java.lang.reflect.Array.getLength;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.Arrays.isArrayTypePrimitive;
@@ -32,6 +30,7 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -113,6 +112,15 @@ public class StandardRepresentation implements Representation {
   private static final Class<?>[] TYPE_WITH_UNAMBIGUOUS_REPRESENTATION = { Date.class, LocalDateTime.class, ZonedDateTime.class,
       OffsetDateTime.class, Calendar.class };
 
+  // Iterable types that should be considered to be unsafe to dereference and iterate across (e.g. they may have
+  // visible side effects).
+  private static final Class<?>[] BLACKLISTED_ITERABLE_CLASSES = {
+      // DirectoryStream implementations can choose to only provide a single-use iterator once across their contents.
+      // This means we should not try to iterate across them in their representation as this can cause unwanted
+      // side effects in test cases.
+      DirectoryStream.class,
+  };
+
   protected enum GroupType {
     ITERABLE("iterable"), ARRAY("array");
 
@@ -125,6 +133,7 @@ public class StandardRepresentation implements Representation {
     public String description() {
       return description;
     }
+
   }
 
   /**
@@ -242,7 +251,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof DeleteDelta<?>) return toStringOf((DeleteDelta<?>) object);
     // Only format Iterables that are not collections and have not overridden toString
     // ex: JsonNode is an Iterable that is best formatted with its own String
-    // Path is another example but we can deal with it specifically as it is part of the JDK.
+    // Path is another example, but we can deal with it specifically as it is part of the JDK.
     if (object instanceof Iterable<?> && !hasOverriddenToString(object.getClass())) return smartFormat((Iterable<?>) object);
     if (object instanceof AtomicInteger) return toStringOf((AtomicInteger) object);
     if (object instanceof AtomicBoolean) return toStringOf((AtomicBoolean) object);
@@ -488,7 +497,14 @@ public class StandardRepresentation implements Representation {
         builder.append(DEFAULT_MAX_ELEMENTS_EXCEEDED);
         return builder.append("}").toString();
       }
-      builder.append(format(map, entry.getKey())).append('=').append(format(map, entry.getValue()));
+
+      // the entry shouldn't be null in a valid map, but if it is, print it out gracefully instead of throwing a NPE
+      if (entry == null) {
+        builder.append("null");
+      } else {
+        builder.append(format(map, entry.getKey())).append('=').append(format(map, entry.getValue()));
+      }
+
       printedElements++;
       if (!entriesIterator.hasNext()) return builder.append("}").toString();
       builder.append(", ");
@@ -549,13 +565,19 @@ public class StandardRepresentation implements Representation {
    * Returns the {@code String} representation of the given {@code Iterable}, or {@code null} if the given
    * {@code Iterable} is {@code null}.
    * <p>
-   * The {@code Iterable} will be formatted to a single line if it does not exceed 100 char, otherwise each elements
+   * The {@code Iterable} will be formatted to a single line if it does not exceed 100 char, otherwise each element
    * will be formatted on a new line with 4 space indentation.
    *
    * @param iterable the {@code Iterable} to format.
    * @return the {@code String} representation of the given {@code Iterable}.
    */
   protected String smartFormat(Iterable<?> iterable) {
+    for (Class<?> blacklistedClass : BLACKLISTED_ITERABLE_CLASSES) {
+      if (blacklistedClass.isInstance(iterable)) {
+        return fallbackToStringOf(iterable);
+      }
+    }
+
     String singleLineDescription = singleLineFormat(iterable, DEFAULT_START, DEFAULT_END);
     return doesDescriptionFitOnSingleLine(singleLineDescription) ? singleLineDescription : multiLineFormat(iterable);
   }
@@ -579,8 +601,8 @@ public class StandardRepresentation implements Representation {
 
   protected String formatPrimitiveArray(Object o) {
     if (!isArrayTypePrimitive(o)) throw notAnArrayOfPrimitives(o);
-    Object[] array = toObjectArray(o);
-    return format(array, DEFAULT_START, DEFAULT_END, ELEMENT_SEPARATOR, INDENTATION_FOR_SINGLE_LINE, array);
+    List<Object> objects = new PrimitiveArrayList(o);
+    return format(objects, DEFAULT_START, DEFAULT_END, ELEMENT_SEPARATOR, INDENTATION_FOR_SINGLE_LINE, objects);
   }
 
   protected String multiLineFormat(Object[] array, Object root) {
@@ -594,7 +616,15 @@ public class StandardRepresentation implements Representation {
   protected String format(Object[] array, String start, String end, String elementSeparator, String indentation, Object root) {
     if (array == null) return null;
     // root is used to avoid infinite recursion in case one element refers to it.
-    List<String> representedElements = representElements(Stream.of(array), start, end, elementSeparator, indentation, root);
+    return format(java.util.Arrays.asList(array), start, end, elementSeparator, indentation, root);
+  }
+
+  protected String format(List<?> elements, String start, String end, String elementSeparator, String indentation,
+                          Object root) {
+    if (elements == null) return null;
+    if (elements.isEmpty()) return start + end;
+    List<String> representedElements = new TransformingList<>(elements, elem -> safeStringOf(elem, start, end, elementSeparator,
+                                                                                             indentation, root));
     return representGroup(representedElements, start, end, elementSeparator, indentation);
   }
 
@@ -603,7 +633,6 @@ public class StandardRepresentation implements Representation {
     if (iterable == null) return null;
     Iterator<?> iterator = iterable.iterator();
     if (!iterator.hasNext()) return start + end;
-    // alreadyVisited is used to avoid infinite recursion when one element is a container already visited
     List<String> representedElements = representElements(stream(iterable), start, end, elementSeparator, indentation, root);
     return representGroup(representedElements, start, end, elementSeparator, indentation);
   }
@@ -724,14 +753,4 @@ public class StandardRepresentation implements Representation {
   private String format(Map<?, ?> map, Object o) {
     return o == map ? "(this Map)" : toStringOf(o);
   }
-
-  private static Object[] toObjectArray(Object o) {
-    int length = getLength(o);
-    Object[] array = new Object[length];
-    for (int i = 0; i < length; i++) {
-      array[i] = get(o, i);
-    }
-    return array;
-  }
-
 }

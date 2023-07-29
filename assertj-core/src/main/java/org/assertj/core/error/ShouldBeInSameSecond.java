@@ -34,6 +34,7 @@ public class ShouldBeInSameSecond extends BasicErrorMessageFactory {
   }
 
   private ShouldBeInSameSecond(Date actual, Date other) {
-    super("%nExpecting actual:%n  %s%nto have same year, month, day, hour, minute and second fields values as:%n  %s", actual, other);
+    super("%nExpecting actual:%n  %s%nto have same year, month, day, hour, minute and second fields values as:%n  %s", actual,
+          other);
   }
 }

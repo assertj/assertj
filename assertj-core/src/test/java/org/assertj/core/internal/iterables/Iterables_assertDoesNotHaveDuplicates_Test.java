@@ -89,7 +89,7 @@ class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTest {
   @Test
   void should_fail_if_actual_contains_duplicates_array() {
     Collection<String[]> actual = newArrayList(array("Luke", "Yoda"), array("Luke", "Yoda"));
-    // duplicates is commented, because mockito is not smart enough to compare arrays contents 
+    // duplicates is commented, because mockito is not smart enough to compare arrays contents
     // Collection<String[]> duplicates = newLinkedHashSet();
     // duplicates.add(array("Luke", "Yoda"));
     Throwable error = catchThrowable(() -> iterables.assertDoesNotHaveDuplicates(someInfo(), actual));
@@ -114,20 +114,23 @@ class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTest {
     Collection<String> duplicates = newLinkedHashSet("LUKE", "yoda");
     actual.addAll(duplicates);
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotHaveDuplicates(info, actual));
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotHaveDuplicates(info,
+                                                                                                                      actual));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotHaveDuplicates(actual, duplicates, comparisonStrategy));
   }
-  
+
   @Test
   void should_pass_within_time_constraints_with_custom_comparison_strategy() {
-    List<String> generated = Stream.generate(() -> UUID.randomUUID().toString()).limit(GENERATED_OBJECTS_NUMBER).collect(toList());
+    List<String> generated = Stream.generate(() -> UUID.randomUUID().toString()).limit(GENERATED_OBJECTS_NUMBER)
+                                   .collect(toList());
     long time = System.currentTimeMillis();
     iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(), generated);
     // check that it takes less than 10 seconds, usually it takes 1000ms on an average computer
     // with the previous implementation, it would take minutes ...
-    System.out.println("Time elapsed in ms for assertDoesNotHaveDuplicates with custom comparison strategy : " + (System.currentTimeMillis() - time));
+    System.out.println("Time elapsed in ms for assertDoesNotHaveDuplicates with custom comparison strategy : "
+                       + (System.currentTimeMillis() - time));
     assertThat((System.currentTimeMillis() - time)).isLessThan(10000);
   }
 

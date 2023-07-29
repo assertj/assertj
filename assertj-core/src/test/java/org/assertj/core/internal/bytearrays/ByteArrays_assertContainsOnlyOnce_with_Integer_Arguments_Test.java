@@ -55,7 +55,8 @@ class ByteArrays_assertContainsOnlyOnce_with_Integer_Arguments_Test extends Byte
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-        shouldContainsOnlyOnce(actual, arrayOf(6, -8, 20), newLinkedHashSet((byte) 20), newLinkedHashSet((byte) 6, (byte) -8)));
+                             shouldContainsOnlyOnce(actual, arrayOf(6, -8, 20), newLinkedHashSet((byte) 20),
+                                                    newLinkedHashSet((byte) 6, (byte) -8)));
   }
 
   @Test
@@ -83,7 +84,8 @@ class ByteArrays_assertContainsOnlyOnce_with_Integer_Arguments_Test extends Byte
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), null, IntArrays.arrayOf(8)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), null,
+                                                                                                   IntArrays.arrayOf(8)))
                                                    .withMessage(actualIsNull());
   }
 
@@ -95,7 +97,7 @@ class ByteArrays_assertContainsOnlyOnce_with_Integer_Arguments_Test extends Byte
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-        shouldContainsOnlyOnce(actual, arrayOf(6, 8, 20), newLinkedHashSet((byte) 20), newLinkedHashSet()));
+                             shouldContainsOnlyOnce(actual, arrayOf(6, 8, 20), newLinkedHashSet((byte) 20), newLinkedHashSet()));
   }
 
   @Test
@@ -113,13 +115,16 @@ class ByteArrays_assertContainsOnlyOnce_with_Integer_Arguments_Test extends Byte
     AssertionInfo info = someInfo();
     actual = arrayOf(6, -8, 10, -6, -8, 10, -8);
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual, IntArrays.arrayOf(6, -8, 20)));
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual,
+                                                                                                     IntArrays.arrayOf(6, -8,
+                                                                                                                       20)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(
-        info,
-        shouldContainsOnlyOnce(actual, arrayOf(6, -8, 20), newLinkedHashSet((byte) 20), newLinkedHashSet((byte) 6, (byte) -8),
-            absValueComparisonStrategy));
+                             info,
+                             shouldContainsOnlyOnce(actual, arrayOf(6, -8, 20), newLinkedHashSet((byte) 20),
+                                                    newLinkedHashSet((byte) 6, (byte) -8),
+                                                    absValueComparisonStrategy));
   }
 
   @Test
@@ -129,17 +134,24 @@ class ByteArrays_assertContainsOnlyOnce_with_Integer_Arguments_Test extends Byte
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, IntArrays.emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(),
+                                                                                                                               actual,
+                                                                                                                               IntArrays.emptyArray()));
   }
 
   @Test
   void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, (int[]) null)).withMessage(valuesToLookForIsNull());
+    assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(),
+                                                                                                                actual,
+                                                                                                                (int[]) null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), null, IntArrays.arrayOf(-8)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(),
+                                                                                                                               null,
+                                                                                                                               IntArrays.arrayOf(-8)))
                                                    .withMessage(actualIsNull());
   }
 
@@ -147,12 +159,14 @@ class ByteArrays_assertContainsOnlyOnce_with_Integer_Arguments_Test extends Byte
   void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual, IntArrays.arrayOf(6, -8, 20)));
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(info, actual,
+                                                                                                     IntArrays.arrayOf(6, -8,
+                                                                                                                       20)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(
-        info,
-        shouldContainsOnlyOnce(actual, arrayOf(6, -8, 20), newLinkedHashSet((byte) 20), newLinkedHashSet(),
-            absValueComparisonStrategy));
+                             info,
+                             shouldContainsOnlyOnce(actual, arrayOf(6, -8, 20), newLinkedHashSet((byte) 20), newLinkedHashSet(),
+                                                    absValueComparisonStrategy));
   }
 }

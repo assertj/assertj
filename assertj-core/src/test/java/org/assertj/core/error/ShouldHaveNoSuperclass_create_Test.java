@@ -17,18 +17,9 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveNoSuperclass.shouldHaveNoSuperclass;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
-import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
-import org.assertj.core.presentation.Representation;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link ShouldHaveNoSuperclass#create(Description, Representation)}</code>.
- *
- * @author Stefano Cordio
- */
-@DisplayName("ShouldHaveNoSuperclass create")
 class ShouldHaveNoSuperclass_create_Test {
 
   @Test

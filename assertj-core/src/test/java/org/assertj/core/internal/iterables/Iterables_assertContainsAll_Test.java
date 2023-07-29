@@ -70,7 +70,8 @@ class Iterables_assertContainsAll_Test extends IterablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsAll(someInfo(), null, newArrayList("Yoda")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsAll(someInfo(), null,
+                                                                                                 newArrayList("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
@@ -120,7 +121,8 @@ class Iterables_assertContainsAll_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     List<String> expected = newArrayList("Han", "LUKE");
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAll(info, actual, expected));
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAll(info, actual,
+                                                                                                            expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContain(actual, expected.toArray(), newLinkedHashSet("Han"), comparisonStrategy));

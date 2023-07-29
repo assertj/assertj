@@ -12,26 +12,45 @@
  */
 package org.assertj.core.api.classes;
 
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeAnnotation.shouldNotBeAnnotation;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
-import org.assertj.core.api.ClassAssert;
-import org.assertj.core.api.ClassAssertBaseTest;
+import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link org.assertj.core.api.ClassAssert#isNotAnnotation()}</code>.
- * 
  * @author William Delanoue
  */
-class ClassAssert_isNotAnnotation_Test extends ClassAssertBaseTest {
+class ClassAssert_isNotAnnotation_Test {
 
-  @Override
-  protected ClassAssert invoke_api_method() {
-    return assertions.isNotAnnotation();
+  @Test
+  void should_fail_if_actual_is_null() {
+    // GIVEN
+    Class<?> actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotAnnotation());
+    // THEN
+    then(assertionError).hasMessage(shouldNotBeNull().create());
   }
 
-  @Override
-  protected void verify_internal_effects() {
-    verify(classes).assertIsNotAnnotation(getInfo(assertions), getActual(assertions));
+  @Test
+  void should_fail_if_actual_is_annotation() {
+    // GIVEN
+    Class<?> actual = Override.class;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotAnnotation());
+    // THEN
+    then(assertionError).hasMessage(shouldNotBeAnnotation(actual).create());
+  }
+
+  @Test
+  void should_pass_if_actual_is_not_annotation() {
+    // GIVEN
+    Class<?> actual = Object.class;
+    // WHEN/THEN
+    assertThat(actual).isNotAnnotation();
   }
 
 }

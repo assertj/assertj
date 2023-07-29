@@ -65,10 +65,10 @@ class PropertySupport_propertyValues_Test {
     List<Employee> list = newArrayList(null, null);
     Iterable<Integer> ages = PropertySupport.instance().propertyValues("ages", Integer.class, list);
     assertThat(ages).containsExactly(null, null);
-    
+
     list = newArrayList(yoda, luke, null, null);
     ages = PropertySupport.instance().propertyValues("age", Integer.class, list);
-    assertThat(ages).containsExactly(800, 26,null, null);
+    assertThat(ages).containsExactly(800, 26, null, null);
   }
 
   @Test
@@ -95,12 +95,15 @@ class PropertySupport_propertyValues_Test {
 
   @Test
   void should_throw_error_if_property_not_found() {
-    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> PropertySupport.instance().propertyValues("foo", Integer.class, employees));
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> PropertySupport.instance().propertyValues("foo",
+                                                                                                                   Integer.class,
+                                                                                                                   employees));
   }
 
   @Test
   void should_throw_error_if_property_name_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> PropertySupport.instance().propertyValueOf(null, Integer.class, employees));
+    assertThatIllegalArgumentException().isThrownBy(() -> PropertySupport.instance().propertyValueOf(null, Integer.class,
+                                                                                                     employees));
   }
 
   @Test
@@ -113,16 +116,16 @@ class PropertySupport_propertyValues_Test {
   void should_extract_nested_property() {
     String firstName = PropertySupport.instance().propertyValueOf("name.first", String.class, yoda);
     assertThat(firstName).isEqualTo("Yoda");
-    
+
     yoda.name.first = null;
     firstName = PropertySupport.instance().propertyValueOf("name.first", String.class, yoda);
     assertThat(firstName).isNull();
-    
+
     yoda.name = null;
     firstName = PropertySupport.instance().propertyValueOf("name.first", String.class, yoda);
     assertThat(firstName).isNull();
   }
-  
+
   @Test
   void should_return_properties_of_inner_class() {
     VehicleFactory vehicleFactory = new VehicleFactory();

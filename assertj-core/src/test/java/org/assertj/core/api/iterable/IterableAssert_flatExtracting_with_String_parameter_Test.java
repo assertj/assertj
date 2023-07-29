@@ -82,7 +82,8 @@ class IterableAssert_flatExtracting_with_String_parameter_Test {
 
   @Test
   void should_throw_exception_when_extracted_value_is_not_an_array_or_an_iterable() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(newArrayList(homer, fred)).flatExtracting("name")).withMessage("Flat extracting expects extracted values to be Iterables or arrays but was a String");
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(newArrayList(homer, fred)).flatExtracting("name"))
+                                        .withMessage("Flat extracting expects extracted values to be Iterables or arrays but was a String");
   }
 
   @SuppressWarnings("deprecation")

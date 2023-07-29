@@ -30,7 +30,6 @@ import org.assertj.core.internal.ByteArraysBaseTest;
 import org.assertj.core.test.IntArrays;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link ByteArrays#assertEndsWith(AssertionInfo, byte[], int[])}</code>.
  */
@@ -52,7 +51,7 @@ class ByteArrays_assertEndsWith_with_Integer_Arguments_Test extends ByteArraysBa
     actual = emptyArray();
     arrays.assertContains(someInfo(), actual, IntArrays.emptyArray());
   }
-  
+
   @Test
   void should_pass_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     arrays.assertEndsWith(someInfo(), actual, IntArrays.emptyArray());
@@ -60,7 +59,8 @@ class ByteArrays_assertEndsWith_with_Integer_Arguments_Test extends ByteArraysBa
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertEndsWith(someInfo(), null, IntArrays.arrayOf(8)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertEndsWith(someInfo(), null,
+                                                                                           IntArrays.arrayOf(8)))
                                                    .withMessage(actualIsNull());
   }
 
@@ -107,9 +107,9 @@ class ByteArrays_assertEndsWith_with_Integer_Arguments_Test extends ByteArraysBa
   @Test
   void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(),
-                                                                                                                             actual,
-                                                                                                                             (int[]) null))
-                                                         .withMessage(valuesToLookForIsNull());
+                                                                                                        actual,
+                                                                                                        (int[]) null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
@@ -119,7 +119,9 @@ class ByteArrays_assertEndsWith_with_Integer_Arguments_Test extends ByteArraysBa
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), null, IntArrays.arrayOf(-8)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(),
+                                                                                                                       null,
+                                                                                                                       IntArrays.arrayOf(-8)))
                                                    .withMessage(actualIsNull());
   }
 
@@ -127,7 +129,9 @@ class ByteArrays_assertEndsWith_with_Integer_Arguments_Test extends ByteArraysBa
   void should_fail_if_sequence_is_bigger_than_actual_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, IntArrays.arrayOf(6, -8, 10, 12, 20, 22)));
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertEndsWith(info, actual,
+                                                                                             IntArrays.arrayOf(6, -8, 10, 12, 20,
+                                                                                                               22)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldEndWith(actual, arrayOf(6, -8, 10, 12, 20, 22), absValueComparisonStrategy));
@@ -137,7 +141,8 @@ class ByteArrays_assertEndsWith_with_Integer_Arguments_Test extends ByteArraysBa
   void should_fail_if_actual_does_not_end_with_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, IntArrays.arrayOf(20, 22)));
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertEndsWith(info, actual,
+                                                                                             IntArrays.arrayOf(20, 22)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldEndWith(actual, arrayOf(20, 22), absValueComparisonStrategy));
@@ -147,7 +152,8 @@ class ByteArrays_assertEndsWith_with_Integer_Arguments_Test extends ByteArraysBa
   void should_fail_if_actual_ends_with_first_elements_of_sequence_only_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, IntArrays.arrayOf(6, 20, 22)));
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertEndsWith(info, actual,
+                                                                                             IntArrays.arrayOf(6, 20, 22)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldEndWith(actual, arrayOf(6, 20, 22), absValueComparisonStrategy));

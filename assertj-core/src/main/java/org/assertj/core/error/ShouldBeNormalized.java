@@ -26,10 +26,10 @@ public class ShouldBeNormalized extends BasicErrorMessageFactory {
   public static final String SHOULD_BE_NORMALIZED = "Expected path:%n  %s%nto be normalized.";
 
   private ShouldBeNormalized(Path actual) {
-	super(SHOULD_BE_NORMALIZED, actual);
+    super(SHOULD_BE_NORMALIZED, actual);
   }
 
   public static ErrorMessageFactory shouldBeNormalized(Path actual) {
-	return new ShouldBeNormalized(actual);
+    return new ShouldBeNormalized(actual);
   }
 }

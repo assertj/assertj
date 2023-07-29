@@ -10,6 +10,7 @@
   <name>AssertJ Build</name>
   <description>AssertJ Build</description>
   <url>${project.organization.url}</url>
+  <inceptionYear>2012</inceptionYear>
   <organization>
     <name>AssertJ</name>
     <url>https://assertj.github.io/doc/</url>
@@ -120,18 +121,43 @@
   </distributionManagement>
 
   <properties>
+    <rootDirectory>${project.basedir}</rootDirectory>
     <!-- Plugin versions -->
-    <license-maven-plugin.version>4.1</license-maven-plugin.version>
-    <maven-enforcer-plugin.version>3.1.0</maven-enforcer-plugin.version>
-    <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
-    <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+    <license-maven-plugin.version>4.2</license-maven-plugin.version>
+    <maven-enforcer-plugin.version>3.3.0</maven-enforcer-plugin.version>
+    <maven-gpg-plugin.version>3.1.0</maven-gpg-plugin.version>
+    <maven-release-plugin.version>3.0.1</maven-release-plugin.version>
     <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
     <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
+    <spotless-maven-plugin.version>2.38.0</spotless-maven-plugin.version>
   </properties>
 
   <build>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>com.diffplug.spotless</groupId>
+          <artifactId>spotless-maven-plugin</artifactId>
+          <version>${spotless-maven-plugin.version}</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>check</goal>
+              </goals>
+              <configuration>
+                <java>
+                  <includes>
+                    <include>src/main/java/**/*.java</include>
+                    <include>src/test/java/**/*.java</include>
+                  </includes>
+                  <eclipse>
+                    <file>${rootDirectory}/eclipse/assertj-eclipse-formatter.xml</file>
+                  </eclipse>
+                </java>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
         <plugin>
           <groupId>com.mycila</groupId>
           <artifactId>license-maven-plugin</artifactId>
@@ -180,8 +206,18 @@
       <plugin>
         <groupId>com.mycila</groupId>
         <artifactId>license-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
         <configuration>
-          <inlineHeader><![CDATA[
+          <errorMessage>Some files do not have the expected license header. Run license:format to update them.</errorMessage>
+          <licenseSets>
+            <licenseSet>
+              <inlineHeader><![CDATA[
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
 the License. You may obtain a copy of the License at
 
@@ -191,32 +227,21 @@ Unless required by applicable law or agreed to in writing, software distributed 
 an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 specific language governing permissions and limitations under the License.
 
-Copyright ${inceptionYear}-${currentYear} the original author or authors.
+Copyright ${project.inceptionYear}-${currentYear} the original author or authors.
           ]]></inlineHeader>
+              <includes>
+                <include>src/**/*.java</include>
+              </includes>
+              <excludes>
+                <exclude>src/ide-support/**</exclude>
+              </excludes>
+            </licenseSet>
+          </licenseSets>
           <properties>
-            <!-- Values to be substituted in template -->
-            <inceptionYear>2012</inceptionYear>
             <currentYear>2023</currentYear>
           </properties>
           <strictCheck>true</strictCheck>
-          <includes>
-            <include>src/**/*.java</include>
-          </includes>
-          <excludes>
-            <exclude>src/ide-support/**/*.*</exclude>
-          </excludes>
-          <mapping>
-            <java>SLASHSTAR_STYLE</java>
-          </mapping>
-          <errorMessage>Some files do not have the expected license header. Run license:format to update them.</errorMessage>
         </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

@@ -31,11 +31,11 @@ public class ShouldHaveName extends BasicErrorMessageFactory {
   private ShouldHaveName(File actual, String expectedName) {
     super(SHOULD_HAVE_NAME, actual, expectedName, actual.getName());
   }
-  
+
   public static ShouldHaveName shouldHaveName(Path actual, String expectedName) {
     return new ShouldHaveName(actual, expectedName);
   }
-  
+
   private ShouldHaveName(Path actual, String expectedName) {
     super(SHOULD_HAVE_NAME, actual, expectedName, actual.getFileName());
   }

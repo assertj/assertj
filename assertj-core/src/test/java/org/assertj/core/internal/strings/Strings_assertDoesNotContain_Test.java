@@ -37,7 +37,8 @@ class Strings_assertDoesNotContain_Test extends StringsBaseTest {
   @Test
   void should_fail_if_actual_contains_any_of_values() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotContain(someInfo(), "Yoda", "oda"))
-                                                   .withMessage(shouldNotContain("Yoda", "oda", StandardComparisonStrategy.instance()).create());
+                                                   .withMessage(shouldNotContain("Yoda", "oda",
+                                                                                 StandardComparisonStrategy.instance()).create());
   }
 
   @Test
@@ -81,7 +82,9 @@ class Strings_assertDoesNotContain_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_does_not_contain_sequence_according_to_custom_comparison_strategy() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(someInfo(), "Yoda", "yoda"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(someInfo(),
+                                                                                                                                       "Yoda",
+                                                                                                                                       "yoda"))
                                                    .withMessage(shouldNotContain("Yoda", "yoda", comparisonStrategy).create());
   }
 

@@ -30,7 +30,6 @@ import org.assertj.core.internal.CharArrays;
 import org.assertj.core.internal.CharArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link CharArrays#assertDoesNotContain(AssertionInfo, char[], char, Index)}</code>.
  * 
@@ -41,7 +40,8 @@ class CharArrays_assertDoesNotContain_at_Index_Test extends CharArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), null, 'a', someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), null, 'a',
+                                                                                                 someIndex()))
                                                    .withMessage(actualIsNull());
   }
 
@@ -79,7 +79,10 @@ class CharArrays_assertDoesNotContain_at_Index_Test extends CharArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, 'A', someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(),
+                                                                                                                             null,
+                                                                                                                             'A',
+                                                                                                                             someIndex()))
                                                    .withMessage(actualIsNull());
   }
 

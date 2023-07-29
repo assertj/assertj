@@ -42,7 +42,7 @@ class DoubleArrayAssert_containsOnlyOnce_Test extends DoubleArrayAssertBaseTest 
   void should_pass_with_precision_specified_as_last_argument() {
     // GIVEN
     double[] actual = arrayOf(1.0, 2.0);
-    // THEN 
+    // THEN
     assertThat(actual).containsOnlyOnce(arrayOf(1.01, 2.0), withPrecision(0.1));
   }
 

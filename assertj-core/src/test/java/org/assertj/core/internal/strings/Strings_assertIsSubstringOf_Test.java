@@ -43,13 +43,15 @@ class Strings_assertIsSubstringOf_Test extends StringsBaseTest {
   @Test
   void should_fail_if_actual_contains_given_string() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertIsSubstringOf(someInfo(), "Yoda", "oda"))
-                                                   .withMessage(shouldBeSubstring("Yoda", "oda", StandardComparisonStrategy.instance()).create());
+                                                   .withMessage(shouldBeSubstring("Yoda", "oda",
+                                                                                  StandardComparisonStrategy.instance()).create());
   }
 
   @Test
   void should_fail_if_actual_completely_different_from_given_string() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertIsSubstringOf(someInfo(), "Yoda", "Luke"))
-                                                   .withMessage(shouldBeSubstring("Yoda", "Luke", StandardComparisonStrategy.instance()).create());
+                                                   .withMessage(shouldBeSubstring("Yoda", "Luke",
+                                                                                  StandardComparisonStrategy.instance()).create());
   }
 
   @Test
@@ -73,7 +75,9 @@ class Strings_assertIsSubstringOf_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_is_not_a_substring_of_sequence_according_to_custom_comparison_strategy() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertIsSubstringOf(someInfo(), "Yoda", "Luke"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertIsSubstringOf(someInfo(),
+                                                                                                                                      "Yoda",
+                                                                                                                                      "Luke"))
                                                    .withMessage(shouldBeSubstring("Yoda", "Luke", comparisonStrategy).create());
   }
 

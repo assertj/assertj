@@ -235,7 +235,6 @@ public class Byte2DArrayAssert extends Abstract2DArrayAssert<Byte2DArrayAssert, 
     return myself;
   }
 
-
   /**
    * Verifies that the actual {@code byte[][]} has the same dimensions as the given array.
    * <p>

@@ -77,12 +77,12 @@ class NestableCondition_assertionMessage_Test {
 
     // THEN
     then(assertionError).hasMessageContaining(format("[✗] customer:[%n" +
-                                                       "   [✗] address:[%n" +
-                                                       "      [✓] first line: 10, Downing Street,%n" +
-                                                       "      [✗] country:[%n" +
-                                                       "         [✗] name: Gibraltar but was United Kingdom%n" +
-                                                       "      ]%n" +
-                                                       "   ]%n" +
-                                                       "]"));
+                                                     "   [✗] address:[%n" +
+                                                     "      [✓] first line: 10, Downing Street,%n" +
+                                                     "      [✗] country:[%n" +
+                                                     "         [✗] name: Gibraltar but was United Kingdom%n" +
+                                                     "      ]%n" +
+                                                     "   ]%n" +
+                                                     "]"));
   }
 }

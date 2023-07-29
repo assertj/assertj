@@ -22,7 +22,7 @@ import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 
-class LocalDateAsset_hasDayOfMonth_Test  {
+class LocalDateAsset_hasDayOfMonth_Test {
 
   @Test
   void should_pass_if_actual_is_on_given_day() {

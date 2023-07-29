@@ -25,6 +25,7 @@ import java.time.ZonedDateTime;
 
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("deprecation")
 class ZonedDateTimeAssert_isEqualToIgnoringNanoseconds_Test {
 
   private final ZonedDateTime refDatetime = ZonedDateTime.of(2000, 1, 1, 0, 0, 1, 0, UTC);

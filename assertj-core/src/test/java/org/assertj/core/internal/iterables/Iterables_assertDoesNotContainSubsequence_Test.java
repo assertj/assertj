@@ -63,7 +63,8 @@ class Iterables_assertDoesNotContainSubsequence_Test extends IterablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertDoesNotContainSubsequence(someInfo(), null, array("Yoda")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertDoesNotContainSubsequence(someInfo(), null,
+                                                                                                               array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 

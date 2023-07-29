@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.data.Percentage.withPercentage;
 
@@ -75,6 +76,7 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallableWithValue;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.filter.InFilter;
@@ -96,6 +98,7 @@ import org.assertj.core.data.TemporalUnitWithinOffset;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
+import org.assertj.core.internal.Failures;
 import org.assertj.core.presentation.BinaryRepresentation;
 import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.Representation;
@@ -169,7 +172,6 @@ public class Assertions implements InstanceOfAssertFactories {
   public static <T> PredicateAssert<T> assertThat(Predicate<T> actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
-
 
   /**
    * Create assertion for {@link Predicate}.
@@ -1211,6 +1213,26 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Similar to {@link #assertThatThrownBy(ThrowingCallable)}, but when the called code returns a value instead of
+   * throwing, the assertion error shows the returned value to help understand what went wrong.
+   *
+   * @param shouldRaiseThrowable The {@link ThrowingCallableWithValue} or lambda with the code that should raise the throwable.
+   * @return the created {@link ThrowableAssert}.
+   * @since 3.25.0
+   */
+  @CanIgnoreReturnValue
+  public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(
+                                                                                   ThrowingCallableWithValue shouldRaiseThrowable) {
+    Object value;
+    try {
+      value = shouldRaiseThrowable.call();
+    } catch (Throwable throwable) {
+      return assertThat(throwable);
+    }
+    throw Failures.instance().failure(format("Expecting code to raise a throwable, but it returned [%s] instead", value));
+  }
+
+  /**
    * Allows to capture and then assert on a {@link Throwable} like {@code assertThatThrownBy(ThrowingCallable)} but this method
    * let you set the assertion description the same way you do with {@link AbstractAssert#as(String, Object...) as(String, Object...)}.
    * <p>
@@ -1246,6 +1268,26 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable,
                                                                                    String description, Object... args) {
     return assertThat(catchThrowable(shouldRaiseThrowable)).as(description, args).hasBeenThrown();
+  }
+
+  /**
+   * Similar to {@link #assertThatThrownBy(ThrowingCallable, String, Object...)}, but when the called code returns a value
+   * instead of throwing, the assertion error shows the returned value to help understand what went wrong.
+   *
+   * @param shouldRaiseThrowable The {@link ThrowingCallableWithValue} or lambda with the code that should raise the throwable.
+   * @return the created {@link ThrowableAssert}.
+   * @since 3.25.0
+   */
+  @CanIgnoreReturnValue
+  public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallableWithValue shouldRaiseThrowable,
+                                                                                   String description, Object... args) {
+    Object value;
+    try {
+      value = shouldRaiseThrowable.call();
+    } catch (Throwable throwable) {
+      return assertThat(throwable).as(description, args);
+    }
+    throw Failures.instance().failure(format("Expecting code to raise a throwable, but it returned [%s] instead", value));
   }
 
   /**
@@ -1568,7 +1610,8 @@ public class Assertions implements InstanceOfAssertFactories {
    * @since 3.22.0
    */
   public static ReflectiveOperationException catchReflectiveOperationException(ThrowingCallable shouldRaiseReflectiveOperationException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseReflectiveOperationException, ReflectiveOperationException.class);
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseReflectiveOperationException,
+                                                        ReflectiveOperationException.class);
   }
 
   /**
@@ -1710,7 +1753,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @since 3.23.0
    */
-  public static ThrowableTypeAssert<Exception> assertThatException(){
+  public static ThrowableTypeAssert<Exception> assertThatException() {
     return assertThatExceptionOfType(Exception.class);
   }
 
@@ -1721,7 +1764,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @since 3.23.0
    */
-  public static ThrowableTypeAssert<RuntimeException> assertThatRuntimeException(){
+  public static ThrowableTypeAssert<RuntimeException> assertThatRuntimeException() {
     return assertThatExceptionOfType(RuntimeException.class);
   }
 
@@ -1732,7 +1775,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @since 3.23.0
    */
-  public static ThrowableTypeAssert<ReflectiveOperationException> assertThatReflectiveOperationException(){
+  public static ThrowableTypeAssert<ReflectiveOperationException> assertThatReflectiveOperationException() {
     return assertThatExceptionOfType(ReflectiveOperationException.class);
   }
 
@@ -1743,7 +1786,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @since 3.23.0
    */
-  public static ThrowableTypeAssert<IndexOutOfBoundsException> assertThatIndexOutOfBoundsException(){
+  public static ThrowableTypeAssert<IndexOutOfBoundsException> assertThatIndexOutOfBoundsException() {
     return assertThatExceptionOfType(IndexOutOfBoundsException.class);
   }
 
@@ -2287,6 +2330,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param unit the {@link TemporalUnit} of the offset
    * @return the created {@code Offset}.
    * @since 3.7.0
+   * @see #byLessThan(long, TemporalUnit)
    */
   public static TemporalUnitOffset within(long value, TemporalUnit unit) {
     return new TemporalUnitWithinOffset(value, unit);
@@ -2494,6 +2538,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param unit the {@link TemporalUnit} of the offset.
    * @return the created {@code Offset}.
    * @since 3.7.0
+   * @see #within(long, TemporalUnit) 
    */
   public static TemporalUnitOffset byLessThan(long value, TemporalUnit unit) {
     return new TemporalUnitLessThanOffset(value, unit);

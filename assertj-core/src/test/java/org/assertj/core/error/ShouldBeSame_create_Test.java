@@ -32,7 +32,8 @@ class ShouldBeSame_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"%s\"%nand:%n  \"%s\"%nto refer to the same object", "Yoda", "Luke"));
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"%s\"%nand:%n  \"%s\"%nto refer to the same object", "Yoda",
+                                   "Luke"));
   }
 
 }

@@ -23,8 +23,7 @@ public class UrlAssert extends AbstractUrlAssert<UrlAssert> {
    *
    * @param actual the url to test
    */
-  public UrlAssert(URL actual)
-  {
+  public UrlAssert(URL actual) {
     super(actual, UrlAssert.class);
   }
 }

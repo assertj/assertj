@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.GenericComparableAssert;
 import org.assertj.core.api.GenericComparableAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link org.assertj.core.api.GenericComparableAssert#isLessThanOrEqualTo(Comparable)}</code>.
  */

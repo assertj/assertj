@@ -16,11 +16,11 @@ public class ShouldHaveReference extends BasicErrorMessageFactory {
 
   private static final String SHOULD_HAVE_REFERENCE = "%nExpecting%n  %s%nto have reference:%n  %s%nbut had:%n  %s";
 
-  private <REF> ShouldHaveReference(Object  actual, REF actualReference, REF expectedReference) {
+  private <REF> ShouldHaveReference(Object actual, REF actualReference, REF expectedReference) {
     super(SHOULD_HAVE_REFERENCE, actual, expectedReference, actualReference);
   }
 
-  public static <REF> ErrorMessageFactory shouldHaveReference(Object  actual, REF actualReference, REF expectedReference) {
+  public static <REF> ErrorMessageFactory shouldHaveReference(Object actual, REF actualReference, REF expectedReference) {
     return new ShouldHaveReference(actual, actualReference, expectedReference);
   }
 }

@@ -30,7 +30,7 @@ public class ShouldBeInSameSecondWindow extends BasicErrorMessageFactory {
 
   private ShouldBeInSameSecondWindow(Date actual, Date other) {
     super("%nExpecting actual:%n  %s%nto be close to:%n  %s%nby less than one second (strictly) but difference was: "
-            + formatTimeDifference(actual, other), actual, other);
+          + formatTimeDifference(actual, other), actual, other);
   }
 
 }

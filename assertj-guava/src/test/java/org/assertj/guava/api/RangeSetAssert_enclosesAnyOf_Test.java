@@ -91,8 +91,8 @@ class RangeSetAssert_enclosesAnyOf_Test {
     // GIVEN
     RangeSet<Integer> actual = ImmutableRangeSet.of(closed(0, 100));
     Range<Integer>[] ranges = array(open(0, 10),
-                           open(50, 60),
-                           open(90, 110));
+                                    open(50, 60),
+                                    open(90, 110));
     // WHEN/THEN
     assertThat(actual).enclosesAnyOf(ranges);
   }

@@ -19,7 +19,6 @@ import org.assertj.core.api.ListAssert;
 import org.assertj.core.api.ListAssertBaseTest;
 import org.assertj.core.data.Index;
 
-
 /**
  * Tests for <code>{@link ListAssert#doesNotContain(Object, Index)}</code>.
  * 

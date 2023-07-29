@@ -18,7 +18,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.CharArrayAssert;
 import org.assertj.core.api.CharArrayAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link CharArrayAssert#contains(char...)}</code>.
  * 

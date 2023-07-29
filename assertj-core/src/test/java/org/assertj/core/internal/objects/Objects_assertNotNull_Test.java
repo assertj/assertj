@@ -23,7 +23,6 @@ import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.ObjectsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Objects#assertNotNull(AssertionInfo, Object)}</code>.
  * 

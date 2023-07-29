@@ -125,7 +125,6 @@ public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, in
     return myself;
   }
 
-
   /**
    * Verifies that the actual two-dimensional array has the given number of rows.
    * <p>

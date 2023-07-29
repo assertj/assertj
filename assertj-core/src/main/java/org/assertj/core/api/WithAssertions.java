@@ -3030,7 +3030,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @since 3.22.0
    */
   default ReflectiveOperationException catchReflectiveOperationException(ThrowingCallable shouldRaiseReflectiveOperationException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseReflectiveOperationException, ReflectiveOperationException.class);
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseReflectiveOperationException,
+                                                        ReflectiveOperationException.class);
   }
 
   /**

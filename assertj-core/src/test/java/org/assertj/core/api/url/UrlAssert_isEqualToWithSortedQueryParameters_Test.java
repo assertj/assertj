@@ -19,14 +19,10 @@ import java.net.URL;
 
 import org.assertj.core.api.UrlAssert;
 import org.assertj.core.api.UrlAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 
-/**
- * Test for <code>{@link org.assertj.core.api.UrlAssert#isEqualToWithSortedQueryParameters(URL)} </code>.
- */
-@DisplayName("UrlAssert isEqualToWithSortedQueryParameters")
 class UrlAssert_isEqualToWithSortedQueryParameters_Test extends UrlAssertBaseTest {
-  private URL expected = new URL("http://example.com?a=b&c=d#hello");
+
+  private final URL expected = new URL("http://example.com?a=b&c=d#hello");
 
   public UrlAssert_isEqualToWithSortedQueryParameters_Test() throws MalformedURLException {}
 

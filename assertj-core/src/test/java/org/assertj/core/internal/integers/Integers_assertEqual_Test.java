@@ -25,7 +25,6 @@ import org.assertj.core.internal.Integers;
 import org.assertj.core.internal.IntegersBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Integers#assertEqual(AssertionInfo, Integer, int)}</code>.
  * 
@@ -57,7 +56,8 @@ class Integers_assertEqual_Test extends IntegersBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integersWithAbsValueComparisonStrategy.assertEqual(someInfo(), null, 8))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integersWithAbsValueComparisonStrategy.assertEqual(someInfo(),
+                                                                                                                        null, 8))
                                                    .withMessage(actualIsNull());
   }
 

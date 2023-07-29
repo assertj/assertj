@@ -46,7 +46,8 @@ class BigIntegers_assertIsNotZero_Test extends BigIntegersBaseTest {
 
   @Test
   void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertIsNotZero(someInfo(), BigInteger.ZERO))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertIsNotZero(someInfo(),
+                                                                                                                             BigInteger.ZERO))
                                                    .withMessage(format("%nExpecting actual:%n  0%nnot to be equal to:%n  0%n"));
   }
 

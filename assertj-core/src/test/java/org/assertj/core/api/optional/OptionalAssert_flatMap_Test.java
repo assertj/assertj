@@ -24,7 +24,8 @@ import org.junit.jupiter.api.Test;
 class OptionalAssert_flatMap_Test {
 
   private static final Function<String, Optional<String>> UPPER_CASE_OPTIONAL_STRING = s -> (s == null)
-      ? Optional.empty() : Optional.of(s.toUpperCase());
+      ? Optional.empty()
+      : Optional.of(s.toUpperCase());
 
   @Test
   void should_fail_when_optional_is_null() {

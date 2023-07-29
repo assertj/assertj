@@ -59,7 +59,8 @@ class ClassLoadingStrategyFactory {
     } else if (ClassInjector.UsingLookup.isAvailable()) {
       try {
         return new ClassLoadingStrategyPair(assertClassLoader,
-            ClassLoadingStrategy.UsingLookup.of(PRIVATE_LOOKUP_IN.invoke(null, assertClass, LOOKUP)));
+                                            ClassLoadingStrategy.UsingLookup.of(PRIVATE_LOOKUP_IN.invoke(null, assertClass,
+                                                                                                         LOOKUP)));
       } catch (Exception e) {
         throw new IllegalStateException("Could not access package of " + assertClass, e);
       }

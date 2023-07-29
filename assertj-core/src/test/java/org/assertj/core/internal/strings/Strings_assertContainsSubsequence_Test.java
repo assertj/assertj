@@ -140,5 +140,4 @@ class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
     verify(failures).failure(INFO, shouldContainSubsequence(actual, subsequence, 1, comparisonStrategy));
   }
 
-
 }

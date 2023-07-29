@@ -47,7 +47,7 @@ class DoubleArrayAssert_containsExactly_Test extends DoubleArrayAssertBaseTest {
     assertThat(actual).containsExactly(arrayOf(1.01, 2.0), withPrecision(0.1));
     assertThat(actual).containsExactly(arrayOf(1.01, 2.0), withPrecision(0.1));
   }
-  
+
   @Test
   void should_pass_when_multiple_expected_values_are_the_same_according_to_the_given_precision() {
     // GIVEN
@@ -55,7 +55,7 @@ class DoubleArrayAssert_containsExactly_Test extends DoubleArrayAssertBaseTest {
     // THEN
     assertThat(actual).containsExactly(arrayOf(-1.7, -1.6, -1.4101), within(0.1));
   }
-  
+
   @Test
   void should_pass_with_precision_specified_in_comparator() {
     // GIVEN

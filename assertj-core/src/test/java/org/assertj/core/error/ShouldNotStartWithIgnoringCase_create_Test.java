@@ -44,7 +44,7 @@ class ShouldNotStartWithIgnoringCase_create_Test {
   void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotStartWithIgnoringCase("Gandalf the grey", "gandalf",
-                                             new ComparatorBasedComparisonStrategy(new OtherStringTestComparator()));
+                                                                 new ComparatorBasedComparisonStrategy(new OtherStringTestComparator()));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN

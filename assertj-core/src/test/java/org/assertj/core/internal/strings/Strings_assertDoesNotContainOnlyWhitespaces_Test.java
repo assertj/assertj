@@ -51,7 +51,8 @@ class Strings_assertDoesNotContainOnlyWhitespaces_Test extends StringsBaseTest {
   @ParameterizedTest
   @MethodSource("containsOnlyWhitespace")
   void should_fail_if_string_contains_only_whitespaces(String actual) {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotContainOnlyWhitespaces(someInfo(), actual))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotContainOnlyWhitespaces(someInfo(),
+                                                                                                                 actual))
                                                    .withMessage(shouldNotContainOnlyWhitespaces(actual).create());
   }
 }

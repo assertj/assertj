@@ -75,7 +75,9 @@ class Strings_assertStartsWithIgnoringCase_Test extends StringsBaseTest {
     // GIVEN
     ComparisonStrategy hashCodeComparisonStrategy = new ComparatorBasedComparisonStrategy(new StringHashCodeTestComparator());
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> new Strings(hashCodeComparisonStrategy).assertStartsWithIgnoringCase(INFO, "Yoda", "Luke"));
+    AssertionError assertionError = expectAssertionError(() -> new Strings(hashCodeComparisonStrategy).assertStartsWithIgnoringCase(INFO,
+                                                                                                                                    "Yoda",
+                                                                                                                                    "Luke"));
     // THEN
     then(assertionError).hasMessage(shouldStartWithIgnoringCase("Yoda", "Luke", hashCodeComparisonStrategy).create());
   }

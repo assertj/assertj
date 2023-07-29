@@ -27,7 +27,6 @@ import org.assertj.core.internal.Integers;
 import org.assertj.core.internal.IntegersBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Integers#assertIsStrictlyBetween(AssertionInfo, Integer, Integer, Integer)}</code>.
  * 
@@ -39,10 +38,11 @@ class Integers_assertIsStrictlyBetween_Test extends IntegersBaseTest {
   private static final Integer ONE = 1;
   private static final Integer TWO = 2;
   private static final Integer TEN = 10;
-  
+
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertIsStrictlyBetween(someInfo(), null, ZERO, ONE))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertIsStrictlyBetween(someInfo(), null, ZERO,
+                                                                                                      ONE))
                                                    .withMessage(actualIsNull());
   }
 

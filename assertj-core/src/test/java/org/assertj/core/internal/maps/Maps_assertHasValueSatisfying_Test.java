@@ -60,7 +60,6 @@ class Maps_assertHasValueSatisfying_Test extends MapsBaseTest {
                                                    .withMessage(actualIsNull());
   }
 
-
   @Test
   void should_fail_if_actual_does_not_contain_value_matching_condition() {
     AssertionInfo info = someInfo();

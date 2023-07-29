@@ -19,7 +19,7 @@ import java.util.regex.Matcher;
  *
  * @author Jiashu Zhang
  */
-public class MatcherAssert extends AbstractMatcherAssert<MatcherAssert>{
+public class MatcherAssert extends AbstractMatcherAssert<MatcherAssert> {
 
   protected MatcherAssert(Matcher actual) {
     super(actual, MatcherAssert.class);

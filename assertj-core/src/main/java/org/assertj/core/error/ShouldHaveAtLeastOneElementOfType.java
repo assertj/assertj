@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-
 /**
  * Creates an error message indicating that a group does not have an element of the given type.
  */

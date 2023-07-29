@@ -18,14 +18,22 @@ import static java.util.stream.Collectors.joining;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Lists.list;
+import static org.mockito.Mockito.RETURNS_SMART_NULLS;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.withSettings;
 
+import java.nio.file.DirectoryStream;
+import java.nio.file.SecureDirectoryStream;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -96,6 +104,23 @@ class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresenta
     // formattedAfterNewLine is built to show we align values on the first element.
     String formattedAfterNewLine = "  <" + formatted + ">";
     then(formattedAfterNewLine).isEqualTo(format(expectedDescription));
+  }
+
+  @ParameterizedTest(name = "Iterables derived from {0} should not be iterated across")
+  @ValueSource(classes = { DirectoryStream.class, SecureDirectoryStream.class })
+  <T extends Iterable<?>> void should_use_fallback_toString_if_iterable_is_blacklisted(Class<T> type) {
+    // GIVEN
+    String expectedToString = "defaultToString-" + UUID.randomUUID();
+    T iterable = mock(type, withSettings().name(expectedToString).defaultAnswer(RETURNS_SMART_NULLS));
+
+    // WHEN
+    String formatted = STANDARD_REPRESENTATION.smartFormat(iterable);
+
+    // THEN
+    then(formatted).isEqualTo(expectedToString);
+    // Mockito will not verify the toString call due to internal implementation details, but just
+    // pretend we are verifying that here. The test logic verifies this implicitly anyway.
+    verifyNoMoreInteractions(iterable);
   }
 
   private static Stream<Arguments> should_format_iterable_source() {

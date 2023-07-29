@@ -54,7 +54,7 @@ class FieldLocation_Test {
     // WHEN
     String result = underTest.toString();
     // THEN
-    then(result).isEqualTo("FieldLocation [pathToUseInRules=location, decomposedPath=[location]]");
+    then(result).isEqualTo("<location>");
   }
 
   @Test

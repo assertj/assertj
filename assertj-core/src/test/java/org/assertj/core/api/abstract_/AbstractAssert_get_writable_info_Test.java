@@ -18,7 +18,6 @@ import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.ConcreteAssert;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link AbstractAssert#getWClass()}</code>.
  * 

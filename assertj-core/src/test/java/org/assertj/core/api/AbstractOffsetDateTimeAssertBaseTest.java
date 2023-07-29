@@ -24,12 +24,15 @@ import org.assertj.core.internal.OffsetDateTimeByInstantComparator;
 public abstract class AbstractOffsetDateTimeAssertBaseTest extends TemporalAssertBaseTest<OffsetDateTimeAssert, OffsetDateTime> {
 
   private static final ZoneOffset OFFSET = ZoneOffset.ofHours(3);
-  protected static final OffsetDateTime REFERENCE = OffsetDateTime.of(2000, 12, 14, 0, 0, 0, 0, ZoneOffset.UTC);
-  protected static final OffsetDateTime BEFORE = OffsetDateTime.of(2000, 12, 13, 23, 59, 59, 999, ZoneOffset.UTC);
-  protected static final OffsetDateTime AFTER = OffsetDateTime.of(2000, 12, 14, 0, 0, 0, 1, ZoneOffset.UTC);
-  protected static final OffsetDateTime REFERENCE_WITH_DIFFERENT_OFFSET = OffsetDateTime.of(2000, 12, 14, 3, 0, 0, 0, OFFSET);
-  protected static final OffsetDateTime BEFORE_WITH_DIFFERENT_OFFSET = OffsetDateTime.of(2000, 12, 14, 2, 59, 59, 999, OFFSET);
-  protected static final OffsetDateTime AFTER_WITH_DIFFERENT_OFFSET = OffsetDateTime.of(2000, 12, 14, 3, 0, 0, 1, OFFSET);
+
+  protected static final OffsetDateTime REFERENCE = OffsetDateTime.now(ZoneOffset.UTC);
+  protected static final OffsetDateTime BEFORE = REFERENCE.minusHours(1);
+  protected static final OffsetDateTime AFTER = REFERENCE.plusHours(1);
+
+  protected static final OffsetDateTime REFERENCE_WITH_DIFFERENT_OFFSET = REFERENCE.withOffsetSameInstant(OFFSET);
+  protected static final OffsetDateTime BEFORE_WITH_DIFFERENT_OFFSET = REFERENCE_WITH_DIFFERENT_OFFSET.minusHours(1);
+  protected static final OffsetDateTime AFTER_WITH_DIFFERENT_OFFSET = REFERENCE_WITH_DIFFERENT_OFFSET.plusHours(1);
+
   protected static final ComparatorBasedComparisonStrategy COMPARISON_STRATEGY = comparisonStrategy();
 
   @Override

@@ -30,7 +30,6 @@ import org.assertj.core.internal.ObjectArraysBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link ObjectArrays#assertIsSorted(AssertionInfo, Object[])}</code>.
  * 
@@ -64,7 +63,8 @@ class ObjectArrays_assertIsSortedAccordingToComparator_Test extends ObjectArrays
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), null, comparator))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), null,
+                                                                                                                comparator))
                                                    .withMessage(actualIsNull());
   }
 
@@ -78,7 +78,8 @@ class ObjectArrays_assertIsSortedAccordingToComparator_Test extends ObjectArrays
     AssertionInfo info = someInfo();
     actual = array("Yoda", "Vador", "Leia", "Leia", "Luke");
 
-    Throwable error = catchThrowable(() -> arrays.assertIsSortedAccordingToComparator(info, actual, stringDescendingOrderComparator));
+    Throwable error = catchThrowable(() -> arrays.assertIsSortedAccordingToComparator(info, actual,
+                                                                                      stringDescendingOrderComparator));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(3, actual, stringDescendingOrderComparator));

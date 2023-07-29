@@ -19,6 +19,7 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
@@ -34,6 +35,6 @@ class MatcherShouldMatch_create_Test {
     String message = shouldMatch(actual).create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n"
-      + "Expecting %s to match.", actual));
+                                   + "Expecting %s to match.", actual));
   }
 }

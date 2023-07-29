@@ -30,12 +30,12 @@ class Floats_assertIsNotPositive_Test extends FloatsBaseTest {
 
   @Test
   void should_succeed_since_actual_is_not_positive() {
-	floats.assertIsNotPositive(someInfo(), -6f);
+    floats.assertIsNotPositive(someInfo(), -6f);
   }
 
   @Test
   void should_succeed_since_actual_is_zero() {
-	floats.assertIsNotPositive(someInfo(), 0f);
+    floats.assertIsNotPositive(someInfo(), 0f);
   }
 
   @Test
@@ -49,7 +49,8 @@ class Floats_assertIsNotPositive_Test extends FloatsBaseTest {
   @Test
   void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> floatsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), -1f));
+    AssertionError assertionError = expectAssertionError(() -> floatsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                                        -1f));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual(-1f, 0f, absValueComparisonStrategy).create());
   }
@@ -57,7 +58,8 @@ class Floats_assertIsNotPositive_Test extends FloatsBaseTest {
   @Test
   void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> floatsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), 1f));
+    AssertionError assertionError = expectAssertionError(() -> floatsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                                        1f));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual(1f, 0f, absValueComparisonStrategy).create());
   }

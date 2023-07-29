@@ -19,7 +19,6 @@ import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
 import org.assertj.core.data.Index;
 
-
 /**
  * Tests for <code>{@link ObjectArrayAssert#doesNotContain(Object, Index)}</code>.
  * 

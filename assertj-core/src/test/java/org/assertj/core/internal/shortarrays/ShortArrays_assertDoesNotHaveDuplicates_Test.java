@@ -28,7 +28,6 @@ import org.assertj.core.internal.ShortArrays;
 import org.assertj.core.internal.ShortArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link ShortArrays#assertDoesNotHaveDuplicates(AssertionInfo, short[])}</code>.
  * 
@@ -81,7 +80,8 @@ class ShortArrays_assertDoesNotHaveDuplicates_Test extends ShortArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(), null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(),
+                                                                                                                                    null))
                                                    .withMessage(actualIsNull());
   }
 
@@ -93,6 +93,7 @@ class ShortArrays_assertDoesNotHaveDuplicates_Test extends ShortArraysBaseTest {
     Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(info, actual));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotHaveDuplicates(actual, newLinkedHashSet((short) 6, (short) 8), absValueComparisonStrategy));
+    verify(failures).failure(info,
+                             shouldNotHaveDuplicates(actual, newLinkedHashSet((short) 6, (short) 8), absValueComparisonStrategy));
   }
 }

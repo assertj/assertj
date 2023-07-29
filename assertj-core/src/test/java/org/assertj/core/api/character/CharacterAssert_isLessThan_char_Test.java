@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.CharacterAssert;
 import org.assertj.core.api.CharacterAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link CharacterAssert#isLessThan(char)}</code>.
  * 

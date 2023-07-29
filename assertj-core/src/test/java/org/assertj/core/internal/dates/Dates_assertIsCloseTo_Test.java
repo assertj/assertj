@@ -30,7 +30,6 @@ import org.assertj.core.internal.DatesBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Dates#assertIsCloseTo(AssertionInfo, Date, Date, long)}</code>.
  * 
@@ -68,7 +67,8 @@ class Dates_assertIsCloseTo_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsCloseTo(someInfo(), null, parseDate("2010-01-01"), 10))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsCloseTo(someInfo(), null,
+                                                                                           parseDate("2010-01-01"), 10))
                                                    .withMessage(actualIsNull());
   }
 
@@ -97,7 +97,10 @@ class Dates_assertIsCloseTo_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsCloseTo(someInfo(), null, parseDate("2010-01-01"), 10))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsCloseTo(someInfo(),
+                                                                                                                       null,
+                                                                                                                       parseDate("2010-01-01"),
+                                                                                                                       10))
                                                    .withMessage(actualIsNull());
   }
 

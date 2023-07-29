@@ -32,7 +32,8 @@ import org.junit.jupiter.api.Test;
  *
  * @author Michael Grafl
  */
-class AtomicReferenceArrayAssert_satisfiesExactlyInAnyOrder_with_ThrowingConsumer_Test extends AtomicReferenceArrayAssertBaseTest {
+class AtomicReferenceArrayAssert_satisfiesExactlyInAnyOrder_with_ThrowingConsumer_Test
+    extends AtomicReferenceArrayAssertBaseTest {
 
   private ThrowingConsumer<Object>[] requirements = array(element -> assertThat(element).isNotNull());
 

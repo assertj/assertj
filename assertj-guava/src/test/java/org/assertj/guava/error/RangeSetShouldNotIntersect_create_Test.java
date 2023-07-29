@@ -38,8 +38,8 @@ public class RangeSetShouldNotIntersect_create_Test {
   void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotIntersect(of(closed(0, 10)),
-                                                      array(closed(2, 15), open(-5, 0)),
-                                                      iterable(closed(2, 15)));
+                                                     array(closed(2, 15), open(-5, 0)),
+                                                     iterable(closed(2, 15)));
     // WHEN
     String message = factory.create(new TextDescription("Test"), StandardRepresentation.STANDARD_REPRESENTATION);
     // THEN

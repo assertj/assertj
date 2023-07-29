@@ -28,8 +28,7 @@ class Doubles_isNanOrInfinite_Test extends DoublesBaseTest {
 
   @ParameterizedTest
   @MethodSource
-  void should_evaluate_as_NaN_or_infinity(double value)
-  {
+  void should_evaluate_as_NaN_or_infinity(double value) {
     // WHEN
     boolean isNanOrInfinite = doubles.isNanOrInfinite(value);
     // THEN

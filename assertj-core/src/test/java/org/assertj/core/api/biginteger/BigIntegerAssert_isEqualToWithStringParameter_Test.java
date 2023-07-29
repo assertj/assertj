@@ -19,7 +19,6 @@ import java.math.BigInteger;
 import org.assertj.core.api.BigIntegerAssert;
 import org.assertj.core.api.BigIntegerAssertBaseTest;
 
-
 class BigIntegerAssert_isEqualToWithStringParameter_Test extends BigIntegerAssertBaseTest {
 
   @Override

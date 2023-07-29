@@ -61,7 +61,7 @@ class Integers_assertIsOdd_Test extends IntegersBaseTest {
   void should_fail_since_actual_is_not_odd_whatever_custom_comparison_strategy_is(int actual) {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> integersWithAbsValueComparisonStrategy.assertIsOdd(someInfo(),
-            actual));
+                                                                                                                  actual));
     // THEN
     then(assertionError).hasMessage(shouldBeOdd(actual).create());
   }

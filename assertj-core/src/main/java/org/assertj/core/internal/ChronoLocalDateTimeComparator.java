@@ -22,8 +22,7 @@ public class ChronoLocalDateTimeComparator extends DescribableComparator<ChronoL
     return INSTANCE;
   }
 
-  private ChronoLocalDateTimeComparator() {
-  }
+  private ChronoLocalDateTimeComparator() {}
 
   @Override
   public String description() {

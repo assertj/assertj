@@ -32,7 +32,7 @@ class FloatArrays_assertHasSizeBetween_Test extends FloatArraysBaseTest {
   @Test
   void should_throw_illegal_argument_exception_if_lower_boundary_is_greater_than_higher_boundary() {
     assertThatIllegalArgumentException().isThrownBy(() -> arrays.assertHasSizeBetween(someInfo(), actual, 4, 2))
-                                                             .withMessage("The higher boundary <2> must be greater than the lower boundary <4>.");
+                                        .withMessage("The higher boundary <2> must be greater than the lower boundary <4>.");
   }
 
   @Test

@@ -57,7 +57,9 @@ class BigIntegers_assertNotEqual_Test extends BigIntegersBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertNotEqual(someInfo(), null, ONE))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertNotEqual(someInfo(),
+                                                                                                                            null,
+                                                                                                                            ONE))
                                                    .withMessage(actualIsNull());
   }
 

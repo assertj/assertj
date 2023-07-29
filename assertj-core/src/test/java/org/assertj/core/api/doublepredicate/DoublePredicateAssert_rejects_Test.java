@@ -41,6 +41,7 @@ class DoublePredicateAssert_rejects_Test extends DoublePredicateAssertBaseTest {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((DoublePredicate) null).rejects(1.0, 2.0, 3.0))
                                                    .withMessage(actualIsNull());
   }
+
   @Test
   void should_pass_when_predicate_does_not_accept_value() {
     DoublePredicate predicate = val -> val <= 2;
@@ -54,7 +55,8 @@ class DoublePredicateAssert_rejects_Test extends DoublePredicateAssertBaseTest {
     Predicate<Double> wrapPredicate = predicate::test;
     double expectedValue = 2.0;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).rejects(expectedValue))
-                                                   .withMessage(shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
+                                                   .withMessage(shouldNotAccept(wrapPredicate, expectedValue,
+                                                                                PredicateDescription.GIVEN).create());
   }
 
   @Test
@@ -63,7 +65,8 @@ class DoublePredicateAssert_rejects_Test extends DoublePredicateAssertBaseTest {
     Predicate<Double> wrapPredicate = predicate::test;
     double expectedValue = 2.0;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).as("test").rejects(expectedValue))
-                                                   .withMessage("[test] " + shouldNotAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
+                                                   .withMessage("[test] " + shouldNotAccept(wrapPredicate, expectedValue,
+                                                                                            PredicateDescription.GIVEN).create());
   }
 
   @Test
@@ -72,7 +75,8 @@ class DoublePredicateAssert_rejects_Test extends DoublePredicateAssertBaseTest {
     double[] matchValues = new double[] { 1.0, 2.0, 3.0 };
     List<Double> matchValuesList = DoubleStream.of(matchValues).boxed().collect(Collectors.toList());
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).rejects(matchValues))
-                                                   .withMessage(noElementsShouldMatch(matchValuesList, 1D, PredicateDescription.GIVEN).create());
+                                                   .withMessage(noElementsShouldMatch(matchValuesList, 1D,
+                                                                                      PredicateDescription.GIVEN).create());
   }
 
   @Test

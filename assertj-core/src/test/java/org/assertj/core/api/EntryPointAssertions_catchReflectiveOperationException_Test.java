@@ -39,7 +39,8 @@ class EntryPointAssertions_catchReflectiveOperationException_Test extends EntryP
   }
 
   private static Stream<Function<ThrowingCallable, ReflectiveOperationException>> catchReflectiveOperationExceptions() {
-    return Stream.of(Assertions::catchReflectiveOperationException, BDDAssertions::catchReflectiveOperationException, withAssertions::catchReflectiveOperationException);
+    return Stream.of(Assertions::catchReflectiveOperationException, BDDAssertions::catchReflectiveOperationException,
+                     withAssertions::catchReflectiveOperationException);
   }
 
 }

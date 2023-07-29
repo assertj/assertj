@@ -37,12 +37,12 @@ class ObjectArrays_assertDoesNotContainAnyElementsOf_Test extends ObjectArraysBa
 
   @Test
   void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable() {
-	arrays.assertDoesNotContainAnyElementsOf(someInfo(), actual, newArrayList("Han"));
+    arrays.assertDoesNotContainAnyElementsOf(someInfo(), actual, newArrayList("Han"));
   }
 
   @Test
   void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable_even_if_duplicated() {
-	arrays.assertDoesNotContainAnyElementsOf(someInfo(), actual, newArrayList("Han", "Han", "Anakin"));
+    arrays.assertDoesNotContainAnyElementsOf(someInfo(), actual, newArrayList("Han", "Han", "Anakin"));
   }
 
   @Test
@@ -61,7 +61,8 @@ class ObjectArrays_assertDoesNotContainAnyElementsOf_Test extends ObjectArraysBa
 
   @Test
   void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContainAnyElementsOf(someInfo(), null, newArrayList("Yoda")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContainAnyElementsOf(someInfo(), null,
+                                                                                                              newArrayList("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
@@ -73,7 +74,7 @@ class ObjectArrays_assertDoesNotContainAnyElementsOf_Test extends ObjectArraysBa
     Throwable error = catchThrowable(() -> arrays.assertDoesNotContainAnyElementsOf(info, actual, list));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-	  verify(failures).failure(info, shouldNotContain(actual, list.toArray(), newLinkedHashSet("Yoda")));
+    verify(failures).failure(info, shouldNotContain(actual, list.toArray(), newLinkedHashSet("Yoda")));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -82,13 +83,13 @@ class ObjectArrays_assertDoesNotContainAnyElementsOf_Test extends ObjectArraysBa
 
   @Test
   void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable_according_to_custom_comparison_strategy() {
-	arraysWithCustomComparisonStrategy.assertDoesNotContainAnyElementsOf(someInfo(), actual, newArrayList("Han"));
+    arraysWithCustomComparisonStrategy.assertDoesNotContainAnyElementsOf(someInfo(), actual, newArrayList("Han"));
   }
 
   @Test
   void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable_even_if_duplicated_according_to_custom_comparison_strategy() {
-	arraysWithCustomComparisonStrategy.assertDoesNotContainAnyElementsOf(someInfo(), actual,
-	                                                                     newArrayList("Han", "Han", "Anakin"));
+    arraysWithCustomComparisonStrategy.assertDoesNotContainAnyElementsOf(someInfo(), actual,
+                                                                         newArrayList("Han", "Han", "Anakin"));
   }
 
   @Test
@@ -96,10 +97,11 @@ class ObjectArrays_assertDoesNotContainAnyElementsOf_Test extends ObjectArraysBa
     AssertionInfo info = someInfo();
     List<String> expected = newArrayList("LuKe", "YODA", "Han");
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainAnyElementsOf(info, actual, expected));
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainAnyElementsOf(info, actual,
+                                                                                                                expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-	  verify(failures).failure(info, shouldNotContain(actual, expected.toArray(), newLinkedHashSet("LuKe", "YODA"),
-		                                              caseInsensitiveStringComparisonStrategy));
+    verify(failures).failure(info, shouldNotContain(actual, expected.toArray(), newLinkedHashSet("LuKe", "YODA"),
+                                                    caseInsensitiveStringComparisonStrategy));
   }
 }

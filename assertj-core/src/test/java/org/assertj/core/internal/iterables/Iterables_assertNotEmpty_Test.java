@@ -29,7 +29,6 @@ import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Iterables#assertNotEmpty(AssertionInfo, Collection)}</code>.
  * 
@@ -66,7 +65,8 @@ class Iterables_assertNotEmpty_Test extends IterablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertNotEmpty(someInfo(), null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertNotEmpty(someInfo(),
+                                                                                                                                   null))
                                                    .withMessage(actualIsNull());
   }
 

@@ -18,7 +18,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AtomicLongAssert;
 import org.assertj.core.api.AtomicLongAssertBaseTest;
 
-
 class AtomicLongAssert_hasValueCloseTo_withinPercentage_Test extends AtomicLongAssertBaseTest {
 
   @Override
