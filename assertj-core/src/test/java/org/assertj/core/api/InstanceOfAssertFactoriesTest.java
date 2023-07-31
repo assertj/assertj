@@ -45,6 +45,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.CLASS;
 import static org.assertj.core.api.InstanceOfAssertFactories.COLLECTION;
 import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETABLE_FUTURE;
 import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETION_STAGE;
+import static org.assertj.core.api.InstanceOfAssertFactories.CONSTRUCTOR;
 import static org.assertj.core.api.InstanceOfAssertFactories.DATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_2D_ARRAY;
@@ -52,6 +53,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.DURATION;
+import static org.assertj.core.api.InstanceOfAssertFactories.FIELD;
 import static org.assertj.core.api.InstanceOfAssertFactories.FILE;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT_2D_ARRAY;
@@ -77,6 +79,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.LONG_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.MAP;
+import static org.assertj.core.api.InstanceOfAssertFactories.METHOD;
 import static org.assertj.core.api.InstanceOfAssertFactories.OFFSET_DATE_TIME;
 import static org.assertj.core.api.InstanceOfAssertFactories.OFFSET_TIME;
 import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL;
@@ -126,6 +129,7 @@ import static org.mockito.Mockito.mock;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
@@ -1230,6 +1234,36 @@ class InstanceOfAssertFactoriesTest {
     AbstractComparableAssert<?, Integer> result = assertThat(value).asInstanceOf(comparable(Integer.class));
     // THEN
     result.isEqualByComparingTo(0);
+  }
+
+  @Test
+  void field_factory_should_allow_field_assertions() throws NoSuchFieldException {
+    // GIVEN
+    Object value = Math.class.getDeclaredField("PI");
+    // WHEN
+    AbstractFieldAssert<?> result = assertThat(value).asInstanceOf(FIELD);
+    // THEN
+    result.isPublic();
+  }
+
+  @Test
+  void method_factory_should_allow_method_assertions() throws NoSuchMethodException {
+    // GIVEN
+    Object value = Math.class.getDeclaredMethod("abs", long.class);
+    // WHEN
+    AbstractMethodAssert<?> result = assertThat(value).asInstanceOf(METHOD);
+    // THEN
+    result.isPublic();
+  }
+
+  @Test
+  void constructor_factory_should_allow_constructor_assertions() throws NoSuchMethodException {
+    // GIVEN
+    Object value = String.class.getDeclaredConstructor();
+    // WHEN
+    AbstractConstructorAssert<?, Constructor<?>> result = assertThat(value).asInstanceOf(CONSTRUCTOR);
+    // THEN
+    result.isPublic();
   }
 
   @SuppressWarnings("unused")

@@ -14,6 +14,9 @@ package org.assertj.core.api;
 
 import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
@@ -1008,4 +1011,21 @@ public interface InstanceOfAssertFactories {
     return new InstanceOfAssertFactory<>(comparableType, Assertions::assertThat);
   }
 
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link Field}.
+   */
+  InstanceOfAssertFactory<Field, AbstractFieldAssert<?>> FIELD = new InstanceOfAssertFactory<>(Field.class,
+                                                                                               Assertions::assertThat);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link Method}.
+   */
+  InstanceOfAssertFactory<Method, AbstractMethodAssert<?>> METHOD = new InstanceOfAssertFactory<>(Method.class,
+                                                                                                  Assertions::assertThat);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link Constructor}.
+   */
+  InstanceOfAssertFactory<Constructor, AbstractConstructorAssert<?, Constructor<?>>> CONSTRUCTOR = new InstanceOfAssertFactory<>(Constructor.class,
+                                                                                                                                 Assertions::assertThat);
 }

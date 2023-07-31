@@ -16,6 +16,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
@@ -3288,6 +3291,36 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @since 3.14.0
    */
   default <ELEMENT> SpliteratorAssert<ELEMENT> assertThat(final Spliterator<ELEMENT> actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link FieldAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default AbstractFieldAssert<?> assertThat(Field actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link MethodAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default AbstractMethodAssert<?> assertThat(Method actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ConstructorAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default AbstractConstructorAssert<?, Constructor<?>> assertThat(Constructor<?> actual) {
     return Assertions.assertThat(actual);
   }
 

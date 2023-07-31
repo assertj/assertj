@@ -12,13 +12,29 @@
  */
 package org.assertj.core.error;
 
+import java.lang.reflect.Executable;
+
+/**
+ * Creates an error message indicating that an assertion that verifies
+ * that a class or executable should be abstract failed.
+ *
+ * @author William Bakker
+ */
 public class ShouldBeAbstract extends BasicErrorMessageFactory {
 
   public static ErrorMessageFactory shouldBeAbstract(Class<?> actual) {
     return new ShouldBeAbstract(actual);
   }
 
+  public static ErrorMessageFactory shouldBeAbstract(Executable actual) {
+    return new ShouldBeAbstract(actual);
+  }
+
   private ShouldBeAbstract(Class<?> actual) {
+    super("%nExpecting actual:%n  %s%nto be abstract", actual);
+  }
+
+  private ShouldBeAbstract(Executable actual) {
     super("%nExpecting actual:%n  %s%nto be abstract", actual);
   }
 }

@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for
- * <code>{@link ShouldHaveAnnotations#shouldHaveAnnotations(Class, java.util.Collection, java.util.Collection)}}</code>
+ * <code>{@link ShouldHaveAnnotations#shouldHaveAnnotations(java.lang.reflect.AnnotatedElement, java.util.Collection, java.util.Collection)}}</code>
  *
  * @author William Delanoue
  */
