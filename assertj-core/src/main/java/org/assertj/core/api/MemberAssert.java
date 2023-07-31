@@ -24,7 +24,7 @@ public interface MemberAssert<SELF extends MemberAssert<SELF, ACTUAL>, ACTUAL ex
    * Verifies that the actual {@code Member} is public (has {@code public} modifier).
    * <p>
    * Example:
-   * <pre><code field='java'>  class Container {
+   * <pre><code class='java'>  class Container {
    *   public void publicMethod() {};
    *   protected void protectedMethod() {};
    *   void packagePrivateMethod() {};
@@ -49,7 +49,7 @@ public interface MemberAssert<SELF extends MemberAssert<SELF, ACTUAL>, ACTUAL ex
    * Verifies that the actual {@code Method} is protected (has {@code protected} modifier).
    * <p>
    * Example:
-   * <pre><code field='java'>  class Container {
+   * <pre><code class='java'>  class Container {
    *   public void publicMethod() {};
    *   protected void protectedMethod() {};
    *   void packagePrivateMethod() {};
@@ -74,7 +74,7 @@ public interface MemberAssert<SELF extends MemberAssert<SELF, ACTUAL>, ACTUAL ex
    * Verifies that the actual {@code Method} is package-private (has no modifier).
    * <p>
    * Example:
-   * <pre><code field='java'>  class Container {
+   * <pre><code class='java'>  class Container {
    *   public void publicMethod() {};
    *   protected void protectedMethod() {};
    *   void packagePrivateMethod() {};

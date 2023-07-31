@@ -41,7 +41,7 @@ public abstract class AbstractMethodAssert<SELF extends AbstractMethodAssert<SEL
    * Verifies that the actual {@code Method} is abstract (has {@code abstract} modifier).
    * <p>
    * Example:
-   * <pre><code method='java'>  // this assertion succeeds:
+   * <pre><code class='java'>  // this assertion succeeds:
    * assertThat(Number.class.getDeclaredMethod("intValue")).isAbstract();
    *
    * // this assertion fails:
@@ -67,7 +67,7 @@ public abstract class AbstractMethodAssert<SELF extends AbstractMethodAssert<SEL
    * Verifies that the actual {@code Method} is final (has {@code final} modifier).
    * <p>
    * Example:
-   * <pre><code method='java'>  // this assertion succeeds:
+   * <pre><code class='java'>  // this assertion succeeds:
    * assertThat(AtomicLong.class.getDeclaredMethod("get")).isFinal();
    *
    * // this assertion fails:
@@ -91,7 +91,7 @@ public abstract class AbstractMethodAssert<SELF extends AbstractMethodAssert<SEL
    * Verifies that the actual {@code Method} is not final (does not have {@code final} modifier).
    * <p>
    * Example:
-   * <pre><code method='java'>  // this assertion succeeds:
+   * <pre><code class='java'>  // this assertion succeeds:
    * assertThat(Math.class.getDeclaredMethod("abs", long.class)).isNotFinal();
    *
    * // this assertion fails:
@@ -115,7 +115,7 @@ public abstract class AbstractMethodAssert<SELF extends AbstractMethodAssert<SEL
    * Verifies that the actual {@code Method} is static (has {@code static} modifier).
    * <p>
    * Example:
-   * <pre><code method='java'>  // this assertion succeeds:
+   * <pre><code class='java'>  // this assertion succeeds:
    * assertThat(Math.class.getDeclaredMethod("abs", long.class)).isStatic();
    *
    * // this assertion fails:
@@ -140,7 +140,7 @@ public abstract class AbstractMethodAssert<SELF extends AbstractMethodAssert<SEL
    * Verifies that the actual {@code Method} is not static (does not have {@code static} modifier).
    * <p>
    * Example:
-   * <pre><code method='java'>  // this assertion succeeds:
+   * <pre><code class='java'>  // this assertion succeeds:
    * assertThat(AtomicLong.class.getDeclaredMethod("get")).isNotStatic();
    *
    * // this assertion fails:

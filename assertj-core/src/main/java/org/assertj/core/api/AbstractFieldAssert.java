@@ -82,7 +82,7 @@ public abstract class AbstractFieldAssert<SELF extends AbstractFieldAssert<SELF>
    * Verifies that the actual {@code Field} is final (has {@code final} modifier).
    * <p>
    * Example:
-   * <pre><code field='java'>  // this assertion succeeds:
+   * <pre><code class='java'>  // this assertion succeeds:
    * assertThat(Math.class.getDeclaredField("PI")).isFinal();
    *
    * // this assertion fails:
@@ -106,7 +106,7 @@ public abstract class AbstractFieldAssert<SELF extends AbstractFieldAssert<SELF>
    * Verifies that the actual {@code Field} is not final (does not have {@code final} modifier).
    * <p>
    * Example:
-   * <pre><code field='java'>  // this assertion succeeds:
+   * <pre><code class='java'>  // this assertion succeeds:
    * assertThat(AtomicLong.class.getDeclaredField("value")).isNotFinal();
    *
    * // this assertion fails:
@@ -130,7 +130,7 @@ public abstract class AbstractFieldAssert<SELF extends AbstractFieldAssert<SELF>
    * Verifies that the actual {@code Field} is static (has {@code static} modifier).
    * <p>
    * Example:
-   * <pre><code field='java'>  // this assertion succeeds:
+   * <pre><code class='java'>  // this assertion succeeds:
    * assertThat(Math.class.getDeclaredField("PI")).isStatic();
    *
    * // this assertion fails:
@@ -155,7 +155,7 @@ public abstract class AbstractFieldAssert<SELF extends AbstractFieldAssert<SELF>
    * Verifies that the actual {@code Field} is not static (does not have {@code static} modifier).
    * <p>
    * Example:
-   * <pre><code field='java'>  // this assertion succeeds:
+   * <pre><code class='java'>  // this assertion succeeds:
    * assertThat(AtomicLong.class.getDeclaredField("value")).isNotStatic();
    *
    * // this assertion fails:

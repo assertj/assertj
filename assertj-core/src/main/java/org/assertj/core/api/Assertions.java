@@ -313,7 +313,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * Creates a new instance of <code>{@link ConstructorAssert}</code> from the given {@link java.lang.reflect.Constructor}.
    *
    * Example:
-   * <pre><code class='java'> Constructor<?> constructor = Object.class.getDeclaredConstructor();
+   * <pre><code class='java'> Constructor constructor = Object.class.getDeclaredConstructor();
    * assertThat(constructor).isPublic(); </code></pre>
    *
    * @param actual the constructor to test.
