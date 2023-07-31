@@ -651,6 +651,16 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
   }
 
   /**
+   * Creates a new instance of <code>{@link CharSequenceAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default CharSequenceAssert thenCharSequence(CharSequence actual) {
+    return then(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link CharSequenceAssert}</code> from a {@link StringBuilder}.
    *
    * @param actual the actual value.

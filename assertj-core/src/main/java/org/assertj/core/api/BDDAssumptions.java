@@ -1119,6 +1119,35 @@ public final class BDDAssumptions extends Assumptions {
   }
 
   /**
+   * Creates a new assumption's instance for a {@link CharSequence} value.
+   * <p>
+   * Examples:
+   * <p>
+   * Executed test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_met_the_test_is_executed() {
+   *   givenCharSequence("Yoda").isNotEmpty();
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
+   * <p>
+   * Skipped test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_not_met_the_test_is_skipped() {
+   *   givenCharSequence("Yoda").isNullOrEmpty();
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
+   *
+   * @param actual the actual {@link CharSequence} value to be validated.
+   * @return the {@link AbstractCharSequenceAssert} assertion object to be used for assumptions.
+   * @since 3.14.0
+   */
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> givenCharSequence(CharSequence actual) {
+    return given(actual);
+  }
+
+  /**
    * Creates a new assumption's instance for a {@link String} value.
    * <p>
    * Examples:

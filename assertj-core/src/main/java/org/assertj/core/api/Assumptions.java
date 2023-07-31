@@ -340,6 +340,16 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link CharSequenceAssert}</code> assumption.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   */
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> assumeThatCharSequence(CharSequence actual) {
+    return assumeThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link CharSequenceAssert}</code> assumption from a {@link StringBuilder}.
    *
    * @param actual the actual value.

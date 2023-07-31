@@ -1002,6 +1002,16 @@ public class Java6Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link CharSequenceAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> assertThatCharSequence(CharSequence actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link CharSequenceAssert}</code> from a {@link StringBuilder}.
    *
    * @param actual the actual value.

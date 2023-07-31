@@ -874,6 +874,16 @@ public class Java6BDDAssertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.CharSequenceAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> thenCharSequence(CharSequence actual) {
+    return then(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link org.assertj.core.api.CharSequenceAssert}</code> from a {@link StringBuilder}.
    *
    * @param actual the actual value.

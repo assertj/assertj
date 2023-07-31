@@ -14,36 +14,9 @@ package org.assertj.core.tests.groovy
 
 import org.junit.jupiter.api.Test
 
-import static org.assertj.core.api.Assertions.assertThat
-import static org.assertj.core.api.Assertions.assertThatCharSequence
+import static org.assertj.core.api.BDDAssumptions.assumeThatCharSequence
 
-class Assertions_assertThat_with_Groovy_strings_Test {
-
-  @Test
-  void should_accept_triple_single_quoted_strings() {
-    // GIVEN
-    def actual = '''
-.*foo.*
-'''
-    // WHEN/THEN
-    assertThat(actual).isEqualTo("\n.*foo.*\n")
-  }
-
-  @Test
-  void should_accept_slashy_strings() {
-    // GIVEN
-    def actual = /.*foo.*/
-    // WHEN/THEN
-    assertThat(actual).isEqualTo(".*foo.*")
-  }
-
-  @Test
-  void should_accept_dollar_slashy_strings() {
-    // GIVEN
-    def actual = $/.*foo.*/$
-    // WHEN/THEN
-    assertThat(actual).isEqualTo(".*foo.*")
-  }
+class BDDAssumptions_assumeThatCharSequence_with_Groovy_strings_Test {
 
   @Test
   void should_accept_interpolated_expressions() {
@@ -51,7 +24,7 @@ class Assertions_assertThat_with_Groovy_strings_Test {
     def foo = "foo"
     def actual = /.*${foo}.*/
     // WHEN/THEN
-    assertThatCharSequence(actual).isEqualTo(/.*${foo}.*/)
+    assumeThatCharSequence(actual).isEqualTo(/.*${foo}.*/)
   }
 
 }
