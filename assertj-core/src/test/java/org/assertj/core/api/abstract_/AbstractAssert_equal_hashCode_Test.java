@@ -31,9 +31,8 @@ class AbstractAssert_equal_hashCode_Test {
   @Test
   @SuppressWarnings("deprecation")
   void should_fail_because_not_supported_operation() {
-    assertThatExceptionOfType(UnsupportedOperationException.class)
-        .isThrownBy(() -> assertions.equals("anotherString"))
-        .withMessageContaining("'equals' is not supported... maybe you intended to call 'isEqualTo'");
+    assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> assertions.equals("anotherString"))
+                                                                  .withMessageContaining("'equals' is not supported... maybe you intended to call 'isEqualTo'");
   }
 
   @Test

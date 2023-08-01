@@ -35,11 +35,9 @@ class AbstractAssert_isEqualTo_Test extends AbstractAssertBaseTest {
 
   @Test
   void should_fail_because_called_on_assertion_directly() {
-    assertThatExceptionOfType(UnsupportedOperationException.class)
-      .isThrownBy(() -> assertThat(assertions).isEqualTo(assertions))
-      .withMessageContaining(
-        "Attempted to compare an assertion object to another assertion object using '.isEqualTo'. "
-          + "This is not supported. Perhaps you meant '.isSameAs' instead?");
+    assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> assertThat(assertions).isEqualTo(assertions))
+                                                                  .withMessageContaining("Attempted to compare an assertion object to another assertion object using '.isEqualTo'. "
+                                                                                         + "This is not supported. Perhaps you meant '.isSameAs' instead?");
   }
 
   @Test

@@ -362,9 +362,8 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @Override
   public SELF isEqualTo(Object expected) {
     if (throwUnsupportedExceptionOnEquals && actual instanceof AbstractAssert<?, ?>) {
-      throw new UnsupportedOperationException(
-        "Attempted to compare an assertion object to another assertion object using '.isEqualTo'. "
-          + "This is not supported. Perhaps you meant '.isSameAs' instead?");
+      throw new UnsupportedOperationException("Attempted to compare an assertion object to another assertion object using '.isEqualTo'. "
+                                              + "This is not supported. Perhaps you meant '.isSameAs' instead?");
     }
 
     objects.assertEqual(info, actual, expected);
@@ -375,9 +374,8 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @Override
   public SELF isNotEqualTo(Object other) {
     if (throwUnsupportedExceptionOnEquals && actual instanceof AbstractAssert<?, ?>) {
-      throw new UnsupportedOperationException(
-        "Attempted to compare an assertion object to another assertion object using "
-          + "'.isNotEqualTo'. This is not supported. Perhaps you meant '.isNotSameAs' instead?");
+      throw new UnsupportedOperationException("Attempted to compare an assertion object to another assertion object using "
+                                              + "'.isNotEqualTo'. This is not supported. Perhaps you meant '.isNotSameAs' instead?");
     }
 
     objects.assertNotEqual(info, actual, other);
